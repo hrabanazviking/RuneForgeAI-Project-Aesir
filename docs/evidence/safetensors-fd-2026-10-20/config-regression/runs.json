@@ -1,0 +1,2596 @@
+[
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "2",
+      "1",
+      "8",
+      "1"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":2,\"fields_raw\":{},\"root_fields\":0,\"work_units\":8,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1",
+      "1",
+      "8",
+      "1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: input byte/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "2",
+      "1",
+      "7",
+      "1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: input byte/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "2",
+      "1",
+      "8",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a317d",
+      "7",
+      "1",
+      "29",
+      "2"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":7,\"fields_raw\":{\"a\":\"1\"},\"root_fields\":1,\"work_units\":29,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a317d",
+      "6",
+      "1",
+      "29",
+      "2"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: input byte/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a317d",
+      "7",
+      "1",
+      "28",
+      "2"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: root field/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a317d",
+      "7",
+      "1",
+      "29",
+      "1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: JSON nesting bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "2",
+      "70",
+      "3"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":17,\"fields_raw\":{\"a\":\"1\",\"b\":\"[2,3]\"},\"root_fields\":2,\"work_units\":70,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "16",
+      "2",
+      "70",
+      "3"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: input byte/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "2",
+      "69",
+      "3"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: root field/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "2",
+      "70",
+      "2"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: JSON nesting bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "1",
+      "70",
+      "3"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: root field/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "20",
+      "1",
+      "81",
+      "4"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":20,\"fields_raw\":{\"a\":\"{\\\"nested\\\":[1]}\"},\"root_fields\":1,\"work_units\":81,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "19",
+      "1",
+      "81",
+      "4"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: input byte/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "20",
+      "1",
+      "80",
+      "4"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: root field/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "20",
+      "1",
+      "81",
+      "3"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: JSON nesting bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "0",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "-1",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "0",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "-1",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "0",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "-1",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "65"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: positive policies and depth at most64 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b305d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":131,\"fields_raw\":{\"a\":\"[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[0]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]\"},\"root_fields\":1,\"work_units\":525,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b305d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: JSON nesting bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-28.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-28.json\",\"source_bytes\":8191,\"fields_raw\":{},\"root_fields\":0,\"work_units\":32764,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-29.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-29.json\",\"source_bytes\":8192,\"fields_raw\":{},\"root_fields\":0,\"work_units\":32768,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-30.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-30.json\",\"source_bytes\":8193,\"fields_raw\":{},\"root_fields\":0,\"work_units\":32772,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/missing.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceMetadataFile: open failed: 2\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: regular file with reported size required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config.fifo",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: regular file with reported size required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/oversize.json",
+      "2",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceMetadataFile: source exceeds byte bound\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/safetensors-fd-2026-10-20/config-regression/cleanup.strace",
+      "-e",
+      "trace=openat,close,statx,read,write,ioctl,mmap,munmap",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "cleanup",
+      "/tmp/aesir-source-config-75j3dnti/valid.json",
+      "/tmp/aesir-source-config-75j3dnti/invalid.json"
+    ],
+    "returncode": 0,
+    "stdout": "{\"cleanup_cycles\":40,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-37.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "5b5d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-39.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "74727565",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-41.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "227465787422",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-43.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: trailing data after JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d78",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: trailing data after JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-45.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a30317d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: leading zero in JSON number\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-47.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a2b317d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-49.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON number digits\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a2e317d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-51.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON number digits\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a7472756566616c73657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON object\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-53.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: bad escape in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a225c7544383030227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: lone surrogate in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-55.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: bad code point in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a22ff227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-57.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a22eda080227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-59.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a2200227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: control character in JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-61.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d00",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceConfig: trailing data after JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-63.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate skipped object key\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b2261223a7b2278223a302c2278223a317d7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate skipped object key\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-65.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate skipped object key\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-67.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-69.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-71.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c3867369",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-73.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c38673697222",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-75.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-77.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f0",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-79.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-81.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c8122",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON array\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-83.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-85.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-87.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f64",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-89.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-91.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f6469666965",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-93.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f64696669657222",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-95.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a74",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-97.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-99.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON object\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON array\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-101.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON object\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-103.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c2274",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-105.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c22746169",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-107.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unterminated JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c227461696c22",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-109.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c227461696c223a6e",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-111.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c227461696c223a6e756c",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-113.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON object\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-114.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-114.json\",\"source_bytes\":14,\"fields_raw\":{\"value\":\"true\"},\"root_fields\":1,\"work_units\":57,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-115.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-115.json\",\"source_bytes\":15,\"fields_raw\":{\"value\":\"false\"},\"root_fields\":1,\"work_units\":61,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-116.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-116.json\",\"source_bytes\":14,\"fields_raw\":{\"value\":\"null\"},\"root_fields\":1,\"work_units\":57,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-117.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-117.json\",\"source_bytes\":12,\"fields_raw\":{\"value\":\"[]\"},\"root_fields\":1,\"work_units\":49,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-118.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-118.json\",\"source_bytes\":11,\"fields_raw\":{\"value\":\"0\"},\"root_fields\":1,\"work_units\":45,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-119.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-119.json\",\"source_bytes\":18,\"fields_raw\":{\"value\":\"-1.25e+3\"},\"root_fields\":1,\"work_units\":73,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-120.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-120.json\",\"source_bytes\":24,\"fields_raw\":{\"value\":\"\\\"\\\\uDBFF\\\\uDFFF\\\"\"},\"root_fields\":1,\"work_units\":97,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-121.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-121.json\",\"source_bytes\":128,\"fields_raw\":{\"rope_scaling\":\"{ \\\"type\\\":\\\"future\\\", \\\"factor\\\":1.00e+02 }\",\"eps\":\"-0\",\"name\":\"\\\"\\\\u00c6\\\\u0000\\\"\",\"future\":\"[true, null, {\\\"a\\\":2}]\"},\"root_fields\":4,\"work_units\":516,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "207b2022726f70655f7363616c696e6722203a207b202274797065223a22667574757265222c2022666163746f72223a312e3030652b3032207d2c2022657073223a202d302c20226e616d65223a225c75303063365c7530303030222c2022667574757265223a5b747275652c206e756c6c2c207b2261223a327d5d207d200a",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":128,\"fields_raw\":{\"rope_scaling\":\"{ \\\"type\\\":\\\"future\\\", \\\"factor\\\":1.00e+02 }\",\"eps\":\"-0\",\"name\":\"\\\"\\\\u00c6\\\\u0000\\\"\",\"future\":\"[true, null, {\\\"a\\\":2}]\"},\"root_fields\":4,\"work_units\":516,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":2,\"fields_raw\":{},\"root_fields\":0,\"work_units\":8,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b22223a6e756c6c2c22c3867369725c7530303030f09f9c81223a22746578745c7530303030227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":40,\"fields_raw\":{\"\":\"null\",\"\u00c6sir\\u0000\ud83d\udf01\":\"\\\"text\\\\u0000\\\"\"},\"root_fields\":2,\"work_units\":162,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b226d6f64656c5f74797065223a6e756c6c2c2261726368697465637475726573223a312c22756e6b6e6f776e223a747275657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":52,\"fields_raw\":{\"model_type\":\"null\",\"architectures\":\"1\",\"unknown\":\"true\"},\"root_fields\":3,\"work_units\":211,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b226d6f64656c5f74797065223a22667574757265222c227469655f776f72645f656d62656464696e6773223a66616c73652c226e6f5f726f70655f6c6179657273223a5b312c305d2c22736c6964696e675f77696e646f77223a383139322c226d6c705f62696173223a747275652c22617474656e74696f6e5f62696173223a66616c73657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":135,\"fields_raw\":{\"model_type\":\"\\\"future\\\"\",\"tie_word_embeddings\":\"false\",\"no_rope_layers\":\"[1,0]\",\"sliding_window\":\"8192\",\"mlp_bias\":\"true\",\"attention_bias\":\"false\"},\"root_fields\":6,\"work_units\":546,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b226c61726765223a31303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030302c22736d616c6c223a31652d3130307d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":126,\"fields_raw\":{\"large\":\"10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\",\"small\":\"1e-100\"},\"root_fields\":2,\"work_units\":506,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a20202261726368697465637475726573223a205b0a2020202022536d6f6c4c4d33466f7243617573616c4c4d220a20205d2c0a202022617474656e74696f6e5f62696173223a2066616c73652c0a202022617474656e74696f6e5f64726f706f7574223a20302e302c0a202022626f735f746f6b656e5f6964223a203132383030302c0a202022656f735f746f6b656e5f6964223a203132383031322c0a20202268696464656e5f616374223a202273696c75222c0a20202268696464656e5f73697a65223a20323034382c0a202022696e697469616c697a65725f72616e6765223a20302e30322c0a202022696e7465726d6564696174655f73697a65223a2031313030382c0a2020226c617965725f7479706573223a205b0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e220a20205d2c0a2020226d61785f706f736974696f6e5f656d62656464696e6773223a2036353533362c0a2020226d61785f77696e646f775f6c6179657273223a2032382c0a2020226d6c705f62696173223a2066616c73652c0a2020226d6f64656c5f74797065223a2022736d6f6c6c6d33222c0a2020226e6f5f726f70655f6c617965725f696e74657276616c223a20342c0a2020226e6f5f726f70655f6c6179657273223a205b0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020300a20205d2c0a2020226e756d5f617474656e74696f6e5f6865616473223a2031362c0a2020226e756d5f68696464656e5f6c6179657273223a2033362c0a2020226e756d5f6b65795f76616c75655f6865616473223a20342c0a2020227061645f746f6b656e5f6964223a203132383030342c0a202022707265747261696e696e675f7470223a20322c0a202022726d735f6e6f726d5f657073223a2031652d30362c0a202022726f70655f7363616c696e67223a206e756c6c2c0a202022726f70655f7468657461223a20353030303030302e302c0a202022736c6964696e675f77696e646f77223a206e756c6c2c0a2020227469655f776f72645f656d62656464696e6773223a20747275652c0a202022746f7263685f6474797065223a202262666c6f61743136222c0a2020227472616e73666f726d6572735f76657273696f6e223a2022342e35342e302e64657630222c0a2020227573655f6361636865223a2066616c73652c0a2020227573655f736c6964696e675f77696e646f77223a2066616c73652c0a202022766f6361625f73697a65223a203132383235360a7d0a",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":1915,\"fields_raw\":{\"architectures\":\"[\\u000a    \\\"SmolLM3ForCausalLM\\\"\\u000a  ]\",\"attention_bias\":\"false\",\"attention_dropout\":\"0.0\",\"bos_token_id\":\"128000\",\"eos_token_id\":\"128012\",\"hidden_act\":\"\\\"silu\\\"\",\"hidden_size\":\"2048\",\"initializer_range\":\"0.02\",\"intermediate_size\":\"11008\",\"layer_types\":\"[\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\"\\u000a  ]\",\"max_position_embeddings\":\"65536\",\"max_window_layers\":\"28\",\"mlp_bias\":\"false\",\"model_type\":\"\\\"smollm3\\\"\",\"no_rope_layer_interval\":\"4\",\"no_rope_layers\":\"[\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0\\u000a  ]\",\"num_attention_heads\":\"16\",\"num_hidden_layers\":\"36\",\"num_key_value_heads\":\"4\",\"pad_token_id\":\"128004\",\"pretraining_tp\":\"2\",\"rms_norm_eps\":\"1e-06\",\"rope_scaling\":\"null\",\"rope_theta\":\"5000000.0\",\"sliding_window\":\"null\",\"tie_word_embeddings\":\"true\",\"torch_dtype\":\"\\\"bfloat16\\\"\",\"transformers_version\":\"\\\"4.54.0.dev0\\\"\",\"use_cache\":\"false\",\"use_sliding_window\":\"false\",\"vocab_size\":\"128256\"},\"root_fields\":31,\"work_units\":7691,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/safetensors-fd-2026-10-20/config-regression/ordinary-config.strace",
+      "-e",
+      "trace=openat,close,statx,read,write,ioctl,mmap,munmap",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-model-metadata-study/config.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-model-metadata-study/config.json\",\"source_bytes\":1915,\"fields_raw\":{\"architectures\":\"[\\u000a    \\\"SmolLM3ForCausalLM\\\"\\u000a  ]\",\"attention_bias\":\"false\",\"attention_dropout\":\"0.0\",\"bos_token_id\":\"128000\",\"eos_token_id\":\"128012\",\"hidden_act\":\"\\\"silu\\\"\",\"hidden_size\":\"2048\",\"initializer_range\":\"0.02\",\"intermediate_size\":\"11008\",\"layer_types\":\"[\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\",\\u000a    \\\"full_attention\\\"\\u000a  ]\",\"max_position_embeddings\":\"65536\",\"max_window_layers\":\"28\",\"mlp_bias\":\"false\",\"model_type\":\"\\\"smollm3\\\"\",\"no_rope_layer_interval\":\"4\",\"no_rope_layers\":\"[\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0,\\u000a    1,\\u000a    1,\\u000a    1,\\u000a    0\\u000a  ]\",\"num_attention_heads\":\"16\",\"num_hidden_layers\":\"36\",\"num_key_value_heads\":\"4\",\"pad_token_id\":\"128004\",\"pretraining_tp\":\"2\",\"rms_norm_eps\":\"1e-06\",\"rope_scaling\":\"null\",\"rope_theta\":\"5000000.0\",\"sliding_window\":\"null\",\"tie_word_embeddings\":\"true\",\"torch_dtype\":\"\\\"bfloat16\\\"\",\"transformers_version\":\"\\\"4.54.0.dev0\\\"\",\"use_cache\":\"false\",\"use_sliding_window\":\"false\",\"vocab_size\":\"128256\"},\"root_fields\":31,\"work_units\":7691,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":2,\"fields_raw\":{},\"root_fields\":0,\"work_units\":8,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-131.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-131.json\",\"source_bytes\":60,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"[\\u000a  1,\\u000a  {\\u000a   \\\"factor\\\": 1.25\\u000a  }\\u000a ]\"},\"root_fields\":1,\"work_units\":241,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d302d5c75303063365c7530303030223a202d320a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":64,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"null\",\"field-0-\u00c6\\u0000\":\"-2\"},\"root_fields\":2,\"work_units\":258,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a202020226669656c642d302dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a202020202020202020332c0a2020202020202020206e756c6c0a2020202020205d0a2020207d2c0a202020226669656c642d312dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a202020202020202020332c0a2020202020202020206e756c6c0a2020202020205d0a2020207d2c0a202020226669656c642d322dc3865c7530303030223a202d330a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":195,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         3,\\u000a         null\\u000a      ]\\u000a   }\",\"field-1-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         3,\\u000a         null\\u000a      ]\\u000a   }\",\"field-2-\u00c6\\u0000\":\"-3\"},\"root_fields\":3,\"work_units\":783,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d302d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d332d5c75303063365c7530303030223a20747275652c0a226669656c642d322d5c75303063365c7530303030223a202d342c0a226669656c642d312d5c75303063365c7530303030223a20747275650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":130,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-3-\u00c6\\u0000\":\"true\",\"field-2-\u00c6\\u0000\":\"-4\",\"field-1-\u00c6\\u0000\":\"true\"},\"root_fields\":4,\"work_units\":524,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-135.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-135.json\",\"source_bytes\":234,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"false\",\"field-2-\u00c6\\u0000\":\"[\\u000a  5,\\u000a  {\\u000a   \\\"factor\\\": 5.25\\u000a  }\\u000a ]\",\"field-1-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   5,\\u000a   null\\u000a  ]\\u000a }\",\"field-4-\u00c6\\u0000\":\"[\\u000a  5,\\u000a  {\\u000a   \\\"factor\\\": 5.25\\u000a  }\\u000a ]\",\"field-3-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\"},\"root_fields\":5,\"work_units\":941,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d342d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d352d5c75303063365c7530303030223a205b0a20202020362c0a202020207b0a20202020202022666163746f72223a20362e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a20747275650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":256,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"false\",\"field-4-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"null\",\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-5-\u00c6\\u0000\":\"[\\u000a    6,\\u000a    {\\u000a      \\\"factor\\\": 6.25\\u000a    }\\u000a  ]\",\"field-3-\u00c6\\u0000\":\"true\"},\"root_fields\":6,\"work_units\":1030,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-137.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-137.json\",\"source_bytes\":309,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         7,\\u000a         null\\u000a      ]\\u000a   }\",\"field-2-\u00c6\\u0000\":\"-7\",\"field-3-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-1-\u00c6\\u0000\":\"-7\",\"field-6-\u00c6\\u0000\":\"true\",\"field-4-\u00c6\\u0000\":\"-7\",\"field-5-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         7,\\u000a         null\\u000a      ]\\u000a   }\"},\"root_fields\":7,\"work_units\":1243,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d352d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d342d5c75303063365c7530303030223a20382c0a226669656c642d362d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a382c0a6e756c6c0a5d0a7d2c0a226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a226669656c642d322d5c75303063365c7530303030223a202d382c0a226669656c642d372d5c75303063365c7530303030223a20382c0a226669656c642d332d5c75303063365c7530303030223a2066616c73652c0a226669656c642d312d5c75303063365c7530303030223a205b0a382c0a7b0a22666163746f72223a20382e32350a7d0a5d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":278,\"fields_raw\":{\"field-5-\u00c6\\u0000\":\"null\",\"field-4-\u00c6\\u0000\":\"8\",\"field-6-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a8,\\u000anull\\u000a]\\u000a}\",\"field-0-\u00c6\\u0000\":\"false\",\"field-2-\u00c6\\u0000\":\"-8\",\"field-7-\u00c6\\u0000\":\"8\",\"field-3-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"[\\u000a8,\\u000a{\\u000a\\\"factor\\\": 8.25\\u000a}\\u000a]\"},\"root_fields\":8,\"work_units\":1120,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a20226669656c642d302dc3865c7530303030223a206e756c6c2c0a20226669656c642d342dc3865c7530303030223a2066616c73652c0a20226669656c642d322dc3865c7530303030223a206e756c6c2c0a20226669656c642d362dc3865c7530303030223a2066616c73652c0a20226669656c642d332dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d352dc3865c7530303030223a202d392c0a20226669656c642d372dc3865c7530303030223a2066616c73652c0a20226669656c642d382dc3865c7530303030223a206e756c6c2c0a20226669656c642d312dc3865c7530303030223a2022f09f9c81220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":250,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"null\",\"field-4-\u00c6\\u0000\":\"false\",\"field-2-\u00c6\\u0000\":\"null\",\"field-6-\u00c6\\u0000\":\"false\",\"field-3-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-5-\u00c6\\u0000\":\"-9\",\"field-7-\u00c6\\u0000\":\"false\",\"field-8-\u00c6\\u0000\":\"null\",\"field-1-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\"},\"root_fields\":9,\"work_units\":1009,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d342d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202031302c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d392d5c75303063365c7530303030223a20747275652c0a2020226669656c642d372d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d302d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a2031302c0a2020226669656c642d312d5c75303063365c7530303030223a2031302c0a2020226669656c642d362d5c75303063365c7530303030223a205b0a2020202031302c0a202020207b0a20202020202022666163746f72223a2031302e32350a202020207d0a20205d2c0a2020226669656c642d382d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d332d5c75303063365c7530303030223a205b0a2020202031302c0a202020207b0a20202020202022666163746f72223a2031302e32350a202020207d0a20205d2c0a2020226669656c642d352d5c75303063365c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":468,\"fields_raw\":{\"field-4-\u00c6\\u0000\":\"{\\u000a    \\\"nested\\\": [\\u000a      10,\\u000a      null\\u000a    ]\\u000a  }\",\"field-9-\u00c6\\u0000\":\"true\",\"field-7-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-0-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"10\",\"field-1-\u00c6\\u0000\":\"10\",\"field-6-\u00c6\\u0000\":\"[\\u000a    10,\\u000a    {\\u000a      \\\"factor\\\": 10.25\\u000a    }\\u000a  ]\",\"field-8-\u00c6\\u0000\":\"null\",\"field-3-\u00c6\\u0000\":\"[\\u000a    10,\\u000a    {\\u000a      \\\"factor\\\": 10.25\\u000a    }\\u000a  ]\",\"field-5-\u00c6\\u0000\":\"null\"},\"root_fields\":10,\"work_units\":1882,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-141.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-141.json\",\"source_bytes\":432,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"-11\",\"field-2-\u00c6\\u0000\":\"false\",\"field-6-\u00c6\\u0000\":\"11\",\"field-9-\u00c6\\u0000\":\"true\",\"field-7-\u00c6\\u0000\":\"[\\u000a      11,\\u000a      {\\u000a         \\\"factor\\\": 11.25\\u000a      }\\u000a   ]\",\"field-1-\u00c6\\u0000\":\"false\",\"field-10-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-8-\u00c6\\u0000\":\"true\",\"field-5-\u00c6\\u0000\":\"true\",\"field-4-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         11,\\u000a         null\\u000a      ]\\u000a   }\",\"field-3-\u00c6\\u0000\":\"false\"},\"root_fields\":11,\"work_units\":1739,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a226669656c642d342d5c75303063365c7530303030223a20747275652c0a226669656c642d382d5c75303063365c7530303030223a205b0a31322c0a7b0a22666163746f72223a2031322e32350a7d0a5d2c0a226669656c642d302d5c75303063365c7530303030223a202d31322c0a226669656c642d332d5c75303063365c7530303030223a2031322c0a226669656c642d31302d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a31322c0a6e756c6c0a5d0a7d2c0a226669656c642d312d5c75303063365c7530303030223a20747275652c0a226669656c642d392d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d362d5c75303063365c7530303030223a20747275652c0a226669656c642d352d5c75303063365c7530303030223a202d31322c0a226669656c642d372d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d322d5c75303063365c7530303030223a2031322c0a226669656c642d31312d5c75303063365c7530303030223a202d31320a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":422,\"fields_raw\":{\"field-4-\u00c6\\u0000\":\"true\",\"field-8-\u00c6\\u0000\":\"[\\u000a12,\\u000a{\\u000a\\\"factor\\\": 12.25\\u000a}\\u000a]\",\"field-0-\u00c6\\u0000\":\"-12\",\"field-3-\u00c6\\u0000\":\"12\",\"field-10-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a12,\\u000anull\\u000a]\\u000a}\",\"field-1-\u00c6\\u0000\":\"true\",\"field-9-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-6-\u00c6\\u0000\":\"true\",\"field-5-\u00c6\\u0000\":\"-12\",\"field-7-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"12\",\"field-11-\u00c6\\u0000\":\"-12\"},\"root_fields\":12,\"work_units\":1700,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-143.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-143.json\",\"source_bytes\":2,\"fields_raw\":{},\"root_fields\":0,\"work_units\":8,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a2031340a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":32,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"14\"},\"root_fields\":1,\"work_units\":129,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a202020226669656c642d312dc3865c7530303030223a202d31352c0a202020226669656c642d302dc3865c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":59,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"-15\",\"field-0-\u00c6\\u0000\":\"null\"},\"root_fields\":2,\"work_units\":238,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d312d5c75303063365c7530303030223a2031362c0a226669656c642d322d5c75303063365c7530303030223a202d31362c0a226669656c642d302d5c75303063365c7530303030223a2031360a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":87,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"16\",\"field-2-\u00c6\\u0000\":\"-16\",\"field-0-\u00c6\\u0000\":\"16\"},\"root_fields\":3,\"work_units\":351,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-147.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-147.json\",\"source_bytes\":176,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"[\\u000a  17,\\u000a  {\\u000a   \\\"factor\\\": 17.25\\u000a  }\\u000a ]\",\"field-0-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   17,\\u000a   null\\u000a  ]\\u000a }\",\"field-2-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-3-\u00c6\\u0000\":\"17\"},\"root_fields\":4,\"work_units\":708,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202031382c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d322d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d342d5c75303063365c7530303030223a205b0a2020202031382c0a202020207b0a20202020202022666163746f72223a2031382e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a20747275652c0a2020226669656c642d302d5c75303063365c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":249,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"{\\u000a    \\\"nested\\\": [\\u000a      18,\\u000a      null\\u000a    ]\\u000a  }\",\"field-2-\u00c6\\u0000\":\"null\",\"field-4-\u00c6\\u0000\":\"[\\u000a    18,\\u000a    {\\u000a      \\\"factor\\\": 18.25\\u000a    }\\u000a  ]\",\"field-3-\u00c6\\u0000\":\"true\",\"field-0-\u00c6\\u0000\":\"null\"},\"root_fields\":5,\"work_units\":1001,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-149.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-149.json\",\"source_bytes\":234,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"19\",\"field-5-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"false\",\"field-3-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         19,\\u000a         null\\u000a      ]\\u000a   }\",\"field-4-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"false\"},\"root_fields\":6,\"work_units\":942,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d322d5c75303063365c7530303030223a205b0a32302c0a7b0a22666163746f72223a2032302e32350a7d0a5d2c0a226669656c642d312d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a32302c0a6e756c6c0a5d0a7d2c0a226669656c642d342d5c75303063365c7530303030223a20747275652c0a226669656c642d352d5c75303063365c7530303030223a202d32302c0a226669656c642d302d5c75303063365c7530303030223a2032302c0a226669656c642d362d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a32302c0a6e756c6c0a5d0a7d2c0a226669656c642d332d5c75303063365c7530303030223a202d32300a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":275,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"[\\u000a20,\\u000a{\\u000a\\\"factor\\\": 20.25\\u000a}\\u000a]\",\"field-1-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a20,\\u000anull\\u000a]\\u000a}\",\"field-4-\u00c6\\u0000\":\"true\",\"field-5-\u00c6\\u0000\":\"-20\",\"field-0-\u00c6\\u0000\":\"20\",\"field-6-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a20,\\u000anull\\u000a]\\u000a}\",\"field-3-\u00c6\\u0000\":\"-20\"},\"root_fields\":7,\"work_units\":1107,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a20226669656c642d342dc3865c7530303030223a207b0a2020226e6573746564223a205b0a20202032312c0a2020206e756c6c0a20205d0a207d2c0a20226669656c642d362dc3865c7530303030223a2066616c73652c0a20226669656c642d332dc3865c7530303030223a207b0a2020226e6573746564223a205b0a20202032312c0a2020206e756c6c0a20205d0a207d2c0a20226669656c642d322dc3865c7530303030223a202d32312c0a20226669656c642d302dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d372dc3865c7530303030223a20747275652c0a20226669656c642d352dc3865c7530303030223a202d32312c0a20226669656c642d312dc3865c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":285,\"fields_raw\":{\"field-4-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   21,\\u000a   null\\u000a  ]\\u000a }\",\"field-6-\u00c6\\u0000\":\"false\",\"field-3-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   21,\\u000a   null\\u000a  ]\\u000a }\",\"field-2-\u00c6\\u0000\":\"-21\",\"field-0-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-7-\u00c6\\u0000\":\"true\",\"field-5-\u00c6\\u0000\":\"-21\",\"field-1-\u00c6\\u0000\":\"null\"},\"root_fields\":8,\"work_units\":1148,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d322d5c75303063365c7530303030223a20747275652c0a2020226669656c642d352d5c75303063365c7530303030223a205b0a2020202032322c0a202020207b0a20202020202022666163746f72223a2032322e32350a202020207d0a20205d2c0a2020226669656c642d342d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d382d5c75303063365c7530303030223a20747275652c0a2020226669656c642d362d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d302d5c75303063365c7530303030223a2032322c0a2020226669656c642d312d5c75303063365c7530303030223a202d32322c0a2020226669656c642d332d5c75303063365c7530303030223a205b0a2020202032322c0a202020207b0a20202020202022666163746f72223a2032322e32350a202020207d0a20205d2c0a2020226669656c642d372d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":376,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"true\",\"field-5-\u00c6\\u0000\":\"[\\u000a    22,\\u000a    {\\u000a      \\\"factor\\\": 22.25\\u000a    }\\u000a  ]\",\"field-4-\u00c6\\u0000\":\"false\",\"field-8-\u00c6\\u0000\":\"true\",\"field-6-\u00c6\\u0000\":\"false\",\"field-0-\u00c6\\u0000\":\"22\",\"field-1-\u00c6\\u0000\":\"-22\",\"field-3-\u00c6\\u0000\":\"[\\u000a    22,\\u000a    {\\u000a      \\\"factor\\\": 22.25\\u000a    }\\u000a  ]\",\"field-7-\u00c6\\u0000\":\"false\"},\"root_fields\":9,\"work_units\":1513,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-153.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-153.json\",\"source_bytes\":290,\"fields_raw\":{\"field-6-\u00c6\\u0000\":\"false\",\"field-8-\u00c6\\u0000\":\"-23\",\"field-3-\u00c6\\u0000\":\"-23\",\"field-0-\u00c6\\u0000\":\"-23\",\"field-1-\u00c6\\u0000\":\"true\",\"field-4-\u00c6\\u0000\":\"true\",\"field-9-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"null\",\"field-5-\u00c6\\u0000\":\"23\",\"field-7-\u00c6\\u0000\":\"true\"},\"root_fields\":10,\"work_units\":1170,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a226669656c642d31302d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d372d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d362d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d332d5c75303063365c7530303030223a205b0a32342c0a7b0a22666163746f72223a2032342e32350a7d0a5d2c0a226669656c642d392d5c75303063365c7530303030223a2032342c0a226669656c642d382d5c75303063365c7530303030223a20747275652c0a226669656c642d322d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d302d5c75303063365c7530303030223a202d32342c0a226669656c642d352d5c75303063365c7530303030223a202d32342c0a226669656c642d342d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a32342c0a6e756c6c0a5d0a7d2c0a226669656c642d312d5c75303063365c7530303030223a2032340a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":382,\"fields_raw\":{\"field-10-\u00c6\\u0000\":\"null\",\"field-7-\u00c6\\u0000\":\"null\",\"field-6-\u00c6\\u0000\":\"null\",\"field-3-\u00c6\\u0000\":\"[\\u000a24,\\u000a{\\u000a\\\"factor\\\": 24.25\\u000a}\\u000a]\",\"field-9-\u00c6\\u0000\":\"24\",\"field-8-\u00c6\\u0000\":\"true\",\"field-2-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-0-\u00c6\\u0000\":\"-24\",\"field-5-\u00c6\\u0000\":\"-24\",\"field-4-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a24,\\u000anull\\u000a]\\u000a}\",\"field-1-\u00c6\\u0000\":\"24\"},\"root_fields\":11,\"work_units\":1539,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-155.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-155.json\",\"source_bytes\":423,\"fields_raw\":{\"field-7-\u00c6\\u0000\":\"25\",\"field-5-\u00c6\\u0000\":\"-25\",\"field-0-\u00c6\\u0000\":\"null\",\"field-11-\u00c6\\u0000\":\"-25\",\"field-10-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   25,\\u000a   null\\u000a  ]\\u000a }\",\"field-6-\u00c6\\u0000\":\"true\",\"field-1-\u00c6\\u0000\":\"[\\u000a  25,\\u000a  {\\u000a   \\\"factor\\\": 25.25\\u000a  }\\u000a ]\",\"field-2-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-9-\u00c6\\u0000\":\"25\",\"field-3-\u00c6\\u0000\":\"[\\u000a  25,\\u000a  {\\u000a   \\\"factor\\\": 25.25\\u000a  }\\u000a ]\",\"field-4-\u00c6\\u0000\":\"true\",\"field-8-\u00c6\\u0000\":\"true\"},\"root_fields\":12,\"work_units\":1704,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":2,\"fields_raw\":{},\"root_fields\":0,\"work_units\":8,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a202020226669656c642d302dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a20202020202020202032372c0a2020202020202020206e756c6c0a2020202020205d0a2020207d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":86,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         27,\\u000a         null\\u000a      ]\\u000a   }\"},\"root_fields\":1,\"work_units\":345,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d302d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":73,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-0-\u00c6\\u0000\":\"false\"},\"root_fields\":2,\"work_units\":294,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-159.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-159.json\",\"source_bytes\":81,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"29\",\"field-1-\u00c6\\u0000\":\"false\",\"field-0-\u00c6\\u0000\":\"-29\"},\"root_fields\":3,\"work_units\":327,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a2020226669656c642d322d5c75303063365c7530303030223a202d33302c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d332d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202033302c0a2020202020206e756c6c0a202020205d0a20207d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":184,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"-30\",\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-0-\u00c6\\u0000\":\"false\",\"field-3-\u00c6\\u0000\":\"{\\u000a    \\\"nested\\\": [\\u000a      30,\\u000a      null\\u000a    ]\\u000a  }\"},\"root_fields\":4,\"work_units\":740,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-161.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-161.json\",\"source_bytes\":197,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         31,\\u000a         null\\u000a      ]\\u000a   }\",\"field-0-\u00c6\\u0000\":\"-31\",\"field-4-\u00c6\\u0000\":\"31\",\"field-3-\u00c6\\u0000\":\"null\",\"field-1-\u00c6\\u0000\":\"31\"},\"root_fields\":5,\"work_units\":793,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d312d5c75303063365c7530303030223a202d33322c0a226669656c642d322d5c75303063365c7530303030223a2033322c0a226669656c642d342d5c75303063365c7530303030223a202d33322c0a226669656c642d332d5c75303063365c7530303030223a202d33322c0a226669656c642d352d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a33322c0a6e756c6c0a5d0a7d2c0a226669656c642d302d5c75303063365c7530303030223a2033320a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":197,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"-32\",\"field-2-\u00c6\\u0000\":\"32\",\"field-4-\u00c6\\u0000\":\"-32\",\"field-3-\u00c6\\u0000\":\"-32\",\"field-5-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a32,\\u000anull\\u000a]\\u000a}\",\"field-0-\u00c6\\u0000\":\"32\"},\"root_fields\":6,\"work_units\":794,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a20226669656c642d322dc3865c7530303030223a206e756c6c2c0a20226669656c642d362dc3865c7530303030223a205b0a202033332c0a20207b0a20202022666163746f72223a2033332e32350a20207d0a205d2c0a20226669656c642d332dc3865c7530303030223a2066616c73652c0a20226669656c642d352dc3865c7530303030223a2066616c73652c0a20226669656c642d312dc3865c7530303030223a20747275652c0a20226669656c642d302dc3865c7530303030223a2033332c0a20226669656c642d342dc3865c7530303030223a2022f09f9c81220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":226,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"null\",\"field-6-\u00c6\\u0000\":\"[\\u000a  33,\\u000a  {\\u000a   \\\"factor\\\": 33.25\\u000a  }\\u000a ]\",\"field-3-\u00c6\\u0000\":\"false\",\"field-5-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"true\",\"field-0-\u00c6\\u0000\":\"33\",\"field-4-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\"},\"root_fields\":7,\"work_units\":911,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d332d5c75303063365c7530303030223a20747275652c0a2020226669656c642d352d5c75303063365c7530303030223a202d33342c0a2020226669656c642d322d5c75303063365c7530303030223a202d33342c0a2020226669656c642d302d5c75303063365c7530303030223a2033342c0a2020226669656c642d362d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d372d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d342d5c75303063365c7530303030223a202d33340a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":264,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"null\",\"field-3-\u00c6\\u0000\":\"true\",\"field-5-\u00c6\\u0000\":\"-34\",\"field-2-\u00c6\\u0000\":\"-34\",\"field-0-\u00c6\\u0000\":\"34\",\"field-6-\u00c6\\u0000\":\"false\",\"field-7-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-4-\u00c6\\u0000\":\"-34\"},\"root_fields\":8,\"work_units\":1064,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-165.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-165.json\",\"source_bytes\":320,\"fields_raw\":{\"field-6-\u00c6\\u0000\":\"true\",\"field-3-\u00c6\\u0000\":\"false\",\"field-2-\u00c6\\u0000\":\"false\",\"field-7-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-0-\u00c6\\u0000\":\"null\",\"field-4-\u00c6\\u0000\":\"true\",\"field-1-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         35,\\u000a         null\\u000a      ]\\u000a   }\",\"field-5-\u00c6\\u0000\":\"true\",\"field-8-\u00c6\\u0000\":\"35\"},\"root_fields\":9,\"work_units\":1289,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a226669656c642d372d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a33362c0a6e756c6c0a5d0a7d2c0a226669656c642d392d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d342d5c75303063365c7530303030223a205b0a33362c0a7b0a22666163746f72223a2033362e32350a7d0a5d2c0a226669656c642d352d5c75303063365c7530303030223a2066616c73652c0a226669656c642d332d5c75303063365c7530303030223a205b0a33362c0a7b0a22666163746f72223a2033362e32350a7d0a5d2c0a226669656c642d362d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d312d5c75303063365c7530303030223a2033362c0a226669656c642d322d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a33362c0a6e756c6c0a5d0a7d2c0a226669656c642d382d5c75303063365c7530303030223a2066616c73652c0a226669656c642d302d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":403,\"fields_raw\":{\"field-7-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a36,\\u000anull\\u000a]\\u000a}\",\"field-9-\u00c6\\u0000\":\"null\",\"field-4-\u00c6\\u0000\":\"[\\u000a36,\\u000a{\\u000a\\\"factor\\\": 36.25\\u000a}\\u000a]\",\"field-5-\u00c6\\u0000\":\"false\",\"field-3-\u00c6\\u0000\":\"[\\u000a36,\\u000a{\\u000a\\\"factor\\\": 36.25\\u000a}\\u000a]\",\"field-6-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-1-\u00c6\\u0000\":\"36\",\"field-2-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a36,\\u000anull\\u000a]\\u000a}\",\"field-8-\u00c6\\u0000\":\"false\",\"field-0-\u00c6\\u0000\":\"false\"},\"root_fields\":10,\"work_units\":1622,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-167.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-167.json\",\"source_bytes\":432,\"fields_raw\":{\"field-10-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   37,\\u000a   null\\u000a  ]\\u000a }\",\"field-2-\u00c6\\u0000\":\"37\",\"field-6-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   37,\\u000a   null\\u000a  ]\\u000a }\",\"field-5-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   37,\\u000a   null\\u000a  ]\\u000a }\",\"field-1-\u00c6\\u0000\":\"true\",\"field-4-\u00c6\\u0000\":\"null\",\"field-3-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   37,\\u000a   null\\u000a  ]\\u000a }\",\"field-7-\u00c6\\u0000\":\"false\",\"field-8-\u00c6\\u0000\":\"false\",\"field-0-\u00c6\\u0000\":\"-37\",\"field-9-\u00c6\\u0000\":\"false\"},\"root_fields\":11,\"work_units\":1739,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d322d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d392d5c75303063365c7530303030223a205b0a2020202033382c0a202020207b0a20202020202022666163746f72223a2033382e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d31302d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d342d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d352d5c75303063365c7530303030223a2033382c0a2020226669656c642d302d5c75303063365c7530303030223a2033382c0a2020226669656c642d362d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d372d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d31312d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d382d5c75303063365c7530303030223a205b0a2020202033382c0a202020207b0a20202020202022666163746f72223a2033382e32350a202020207d0a20205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":512,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-9-\u00c6\\u0000\":\"[\\u000a    38,\\u000a    {\\u000a      \\\"factor\\\": 38.25\\u000a    }\\u000a  ]\",\"field-3-\u00c6\\u0000\":\"false\",\"field-10-\u00c6\\u0000\":\"false\",\"field-4-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-5-\u00c6\\u0000\":\"38\",\"field-0-\u00c6\\u0000\":\"38\",\"field-6-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-7-\u00c6\\u0000\":\"null\",\"field-11-\u00c6\\u0000\":\"null\",\"field-8-\u00c6\\u0000\":\"[\\u000a    38,\\u000a    {\\u000a      \\\"factor\\\": 38.25\\u000a    }\\u000a  ]\"},\"root_fields\":12,\"work_units\":2060,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":2,\"fields_raw\":{},\"root_fields\":0,\"work_units\":8,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d302d5c75303063365c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":32,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"null\"},\"root_fields\":1,\"work_units\":129,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-171.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-171.json\",\"source_bytes\":57,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"-41\",\"field-0-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\"},\"root_fields\":2,\"work_units\":230,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a2034322c0a2020226669656c642d302d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":107,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"42\",\"field-0-\u00c6\\u0000\":\"false\"},\"root_fields\":3,\"work_units\":431,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-173.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-173.json\",\"source_bytes\":223,\"fields_raw\":{\"field-3-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         43,\\u000a         null\\u000a      ]\\u000a   }\",\"field-1-\u00c6\\u0000\":\"-43\",\"field-0-\u00c6\\u0000\":\"43\",\"field-2-\u00c6\\u0000\":\"[\\u000a      43,\\u000a      {\\u000a         \\\"factor\\\": 43.25\\u000a      }\\u000a   ]\"},\"root_fields\":4,\"work_units\":896,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d322d5c75303063365c7530303030223a2066616c73652c0a226669656c642d342d5c75303063365c7530303030223a205b0a34342c0a7b0a22666163746f72223a2034342e32350a7d0a5d2c0a226669656c642d332d5c75303063365c7530303030223a205b0a34342c0a7b0a22666163746f72223a2034342e32350a7d0a5d2c0a226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":210,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"false\",\"field-4-\u00c6\\u0000\":\"[\\u000a44,\\u000a{\\u000a\\\"factor\\\": 44.25\\u000a}\\u000a]\",\"field-3-\u00c6\\u0000\":\"[\\u000a44,\\u000a{\\u000a\\\"factor\\\": 44.25\\u000a}\\u000a]\",\"field-0-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\"},\"root_fields\":5,\"work_units\":845,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a20226669656c642d302dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d332dc3865c7530303030223a205b0a202034352c0a20207b0a20202022666163746f72223a2034352e32350a20207d0a205d2c0a20226669656c642d352dc3865c7530303030223a20747275652c0a20226669656c642d342dc3865c7530303030223a20747275652c0a20226669656c642d312dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d322dc3865c7530303030223a202d34350a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":200,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-3-\u00c6\\u0000\":\"[\\u000a  45,\\u000a  {\\u000a   \\\"factor\\\": 45.25\\u000a  }\\u000a ]\",\"field-5-\u00c6\\u0000\":\"true\",\"field-4-\u00c6\\u0000\":\"true\",\"field-1-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"-45\"},\"root_fields\":6,\"work_units\":806,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d352d5c75303063365c7530303030223a205b0a2020202034362c0a202020207b0a20202020202022666163746f72223a2034362e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202034362c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d312d5c75303063365c7530303030223a202d34362c0a2020226669656c642d362d5c75303063365c7530303030223a202d34362c0a2020226669656c642d322d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d342d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":322,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-5-\u00c6\\u0000\":\"[\\u000a    46,\\u000a    {\\u000a      \\\"factor\\\": 46.25\\u000a    }\\u000a  ]\",\"field-3-\u00c6\\u0000\":\"{\\u000a    \\\"nested\\\": [\\u000a      46,\\u000a      null\\u000a    ]\\u000a  }\",\"field-1-\u00c6\\u0000\":\"-46\",\"field-6-\u00c6\\u0000\":\"-46\",\"field-2-\u00c6\\u0000\":\"null\",\"field-4-\u00c6\\u0000\":\"false\"},\"root_fields\":7,\"work_units\":1295,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-177.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-177.json\",\"source_bytes\":342,\"fields_raw\":{\"field-3-\u00c6\\u0000\":\"-47\",\"field-0-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-4-\u00c6\\u0000\":\"[\\u000a      47,\\u000a      {\\u000a         \\\"factor\\\": 47.25\\u000a      }\\u000a   ]\",\"field-7-\u00c6\\u0000\":\"true\",\"field-5-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         47,\\u000a         null\\u000a      ]\\u000a   }\",\"field-2-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"-47\",\"field-6-\u00c6\\u0000\":\"-47\"},\"root_fields\":8,\"work_units\":1376,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a226669656c642d332d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d352d5c75303063365c7530303030223a202d34382c0a226669656c642d342d5c75303063365c7530303030223a20747275652c0a226669656c642d302d5c75303063365c7530303030223a2034382c0a226669656c642d362d5c75303063365c7530303030223a205b0a34382c0a7b0a22666163746f72223a2034382e32350a7d0a5d2c0a226669656c642d322d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a34382c0a6e756c6c0a5d0a7d2c0a226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d372d5c75303063365c7530303030223a205b0a34382c0a7b0a22666163746f72223a2034382e32350a7d0a5d2c0a226669656c642d382d5c75303063365c7530303030223a20225c75643833645c7564663031220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":357,\"fields_raw\":{\"field-3-\u00c6\\u0000\":\"null\",\"field-5-\u00c6\\u0000\":\"-48\",\"field-4-\u00c6\\u0000\":\"true\",\"field-0-\u00c6\\u0000\":\"48\",\"field-6-\u00c6\\u0000\":\"[\\u000a48,\\u000a{\\u000a\\\"factor\\\": 48.25\\u000a}\\u000a]\",\"field-2-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a48,\\u000anull\\u000a]\\u000a}\",\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-7-\u00c6\\u0000\":\"[\\u000a48,\\u000a{\\u000a\\\"factor\\\": 48.25\\u000a}\\u000a]\",\"field-8-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\"},\"root_fields\":9,\"work_units\":1437,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-179.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-179.json\",\"source_bytes\":340,\"fields_raw\":{\"field-7-\u00c6\\u0000\":\"false\",\"field-5-\u00c6\\u0000\":\"false\",\"field-8-\u00c6\\u0000\":\"[\\u000a  49,\\u000a  {\\u000a   \\\"factor\\\": 49.25\\u000a  }\\u000a ]\",\"field-6-\u00c6\\u0000\":\"null\",\"field-9-\u00c6\\u0000\":\"49\",\"field-3-\u00c6\\u0000\":\"null\",\"field-2-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"null\",\"field-0-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   49,\\u000a   null\\u000a  ]\\u000a }\",\"field-4-\u00c6\\u0000\":\"false\"},\"root_fields\":10,\"work_units\":1370,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a2035302c0a2020226669656c642d31302d5c75303063365c7530303030223a205b0a2020202035302c0a202020207b0a20202020202022666163746f72223a2035302e32350a202020207d0a20205d2c0a2020226669656c642d362d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202035302c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d372d5c75303063365c7530303030223a20747275652c0a2020226669656c642d342d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d392d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d352d5c75303063365c7530303030223a202d35302c0a2020226669656c642d332d5c75303063365c7530303030223a20747275652c0a2020226669656c642d382d5c75303063365c7530303030223a20225c75643833645c7564663031220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":469,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"50\",\"field-10-\u00c6\\u0000\":\"[\\u000a    50,\\u000a    {\\u000a      \\\"factor\\\": 50.25\\u000a    }\\u000a  ]\",\"field-6-\u00c6\\u0000\":\"{\\u000a    \\\"nested\\\": [\\u000a      50,\\u000a      null\\u000a    ]\\u000a  }\",\"field-7-\u00c6\\u0000\":\"true\",\"field-4-\u00c6\\u0000\":\"null\",\"field-1-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-2-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\",\"field-9-\u00c6\\u0000\":\"null\",\"field-5-\u00c6\\u0000\":\"-50\",\"field-3-\u00c6\\u0000\":\"true\",\"field-8-\u00c6\\u0000\":\"\\\"\\\\ud83d\\\\udf01\\\"\"},\"root_fields\":11,\"work_units\":1887,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a202020226669656c642d342dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a20202020202020202035312c0a2020202020202020206e756c6c0a2020202020205d0a2020207d2c0a202020226669656c642d322dc3865c7530303030223a202d35312c0a202020226669656c642d382dc3865c7530303030223a2066616c73652c0a202020226669656c642d312dc3865c7530303030223a2022f09f9c81222c0a202020226669656c642d352dc3865c7530303030223a2066616c73652c0a202020226669656c642d31312dc3865c7530303030223a205b0a20202020202035312c0a2020202020207b0a20202020202020202022666163746f72223a2035312e32350a2020202020207d0a2020205d2c0a202020226669656c642d31302dc3865c7530303030223a2022f09f9c81222c0a202020226669656c642d332dc3865c7530303030223a2035312c0a202020226669656c642d362dc3865c7530303030223a202d35312c0a202020226669656c642d302dc3865c7530303030223a206e756c6c2c0a202020226669656c642d372dc3865c7530303030223a2066616c73652c0a202020226669656c642d392dc3865c7530303030223a205b0a20202020202035312c0a2020202020207b0a20202020202020202022666163746f72223a2035312e32350a2020202020207d0a2020205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":516,\"fields_raw\":{\"field-4-\u00c6\\u0000\":\"{\\u000a      \\\"nested\\\": [\\u000a         51,\\u000a         null\\u000a      ]\\u000a   }\",\"field-2-\u00c6\\u0000\":\"-51\",\"field-8-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-5-\u00c6\\u0000\":\"false\",\"field-11-\u00c6\\u0000\":\"[\\u000a      51,\\u000a      {\\u000a         \\\"factor\\\": 51.25\\u000a      }\\u000a   ]\",\"field-10-\u00c6\\u0000\":\"\\\"\ud83d\udf01\\\"\",\"field-3-\u00c6\\u0000\":\"51\",\"field-6-\u00c6\\u0000\":\"-51\",\"field-0-\u00c6\\u0000\":\"null\",\"field-7-\u00c6\\u0000\":\"false\",\"field-9-\u00c6\\u0000\":\"[\\u000a      51,\\u000a      {\\u000a         \\\"factor\\\": 51.25\\u000a      }\\u000a   ]\"},\"root_fields\":12,\"work_units\":2076,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":2,\"fields_raw\":{},\"root_fields\":0,\"work_units\":8,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-183.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-183.json\",\"source_bytes\":62,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"[\\u000a  53,\\u000a  {\\u000a   \\\"factor\\\": 53.25\\u000a  }\\u000a ]\"},\"root_fields\":1,\"work_units\":249,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d312d5c75303063365c7530303030223a205b0a2020202035342c0a202020207b0a20202020202022666163746f72223a2035342e32350a202020207d0a20205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":109,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"null\",\"field-1-\u00c6\\u0000\":\"[\\u000a    54,\\u000a    {\\u000a      \\\"factor\\\": 54.25\\u000a    }\\u000a  ]\"},\"root_fields\":2,\"work_units\":438,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-185.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-185.json\",\"source_bytes\":195,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"null\",\"field-1-\u00c6\\u0000\":\"[\\u000a      55,\\u000a      {\\u000a         \\\"factor\\\": 55.25\\u000a      }\\u000a   ]\",\"field-2-\u00c6\\u0000\":\"[\\u000a      55,\\u000a      {\\u000a         \\\"factor\\\": 55.25\\u000a      }\\u000a   ]\"},\"root_fields\":3,\"work_units\":783,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a226669656c642d302d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d332d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d312d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a35362c0a6e756c6c0a5d0a7d2c0a226669656c642d322d5c75303063365c7530303030223a2035360a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":142,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"null\",\"field-3-\u00c6\\u0000\":\"null\",\"field-1-\u00c6\\u0000\":\"{\\u000a\\\"nested\\\": [\\u000a56,\\u000anull\\u000a]\\u000a}\",\"field-2-\u00c6\\u0000\":\"56\"},\"root_fields\":4,\"work_units\":572,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "ownership",
+      "7b0a20226669656c642d322dc3865c7530303030223a207b0a2020226e6573746564223a205b0a20202035372c0a2020206e756c6c0a20205d0a207d2c0a20226669656c642d332dc3865c7530303030223a2066616c73652c0a20226669656c642d312dc3865c7530303030223a206e756c6c2c0a20226669656c642d342dc3865c7530303030223a205b0a202035372c0a20207b0a20202022666163746f72223a2035372e32350a20207d0a205d2c0a20226669656c642d302dc3865c7530303030223a205b0a202035372c0a20207b0a20202022666163746f72223a2035372e32350a20207d0a205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":237,\"fields_raw\":{\"field-2-\u00c6\\u0000\":\"{\\u000a  \\\"nested\\\": [\\u000a   57,\\u000a   null\\u000a  ]\\u000a }\",\"field-3-\u00c6\\u0000\":\"false\",\"field-1-\u00c6\\u0000\":\"null\",\"field-4-\u00c6\\u0000\":\"[\\u000a  57,\\u000a  {\\u000a   \\\"factor\\\": 57.25\\u000a  }\\u000a ]\",\"field-0-\u00c6\\u0000\":\"[\\u000a  57,\\u000a  {\\u000a   \\\"factor\\\": 57.25\\u000a  }\\u000a ]\"},\"root_fields\":5,\"work_units\":953,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config-api",
+      "bytes",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202035382c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d352d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d332d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202035382c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d322d5c75303063365c7530303030223a2035382c0a2020226669656c642d302d5c75303063365c7530303030223a205b0a2020202035382c0a202020207b0a20202020202022666163746f72223a2035382e32350a202020207d0a20205d2c0a2020226669656c642d342d5c75303063365c7530303030223a202d35380a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"\",\"source_bytes\":323,\"fields_raw\":{\"field-1-\u00c6\\u0000\":\"{\\u000a    \\\"nested\\\": [\\u000a      58,\\u000a      null\\u000a    ]\\u000a  }\",\"field-5-\u00c6\\u0000\":\"false\",\"field-3-\u00c6\\u0000\":\"{\\u000a    \\\"nested\\\": [\\u000a      58,\\u000a      null\\u000a    ]\\u000a  }\",\"field-2-\u00c6\\u0000\":\"58\",\"field-0-\u00c6\\u0000\":\"[\\u000a    58,\\u000a    {\\u000a      \\\"factor\\\": 58.25\\u000a    }\\u000a  ]\",\"field-4-\u00c6\\u0000\":\"-58\"},\"root_fields\":6,\"work_units\":1298,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/fd-config",
+      "/tmp/aesir-source-config-75j3dnti/config-189.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"ordinary_source_configuration\",\"source_path\":\"/tmp/aesir-source-config-75j3dnti/config-189.json\",\"source_bytes\":256,\"fields_raw\":{\"field-0-\u00c6\\u0000\":\"null\",\"field-6-\u00c6\\u0000\":\"false\",\"field-2-\u00c6\\u0000\":\"59\",\"field-3-\u00c6\\u0000\":\"59\",\"field-5-\u00c6\\u0000\":\"true\",\"field-4-\u00c6\\u0000\":\"[\\u000a      59,\\u000a      {\\u000a         \\\"factor\\\": 59.25\\u000a      }\\u000a   ]\",\"field-1-\u00c6\\u0000\":\"false\"},\"root_fields\":7,\"work_units\":1031,\"tensors_loaded\":false,\"shards_opened\":false,\"semantic_adapter_verified\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  }
+]

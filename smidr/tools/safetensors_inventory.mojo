@@ -1,6 +1,6 @@
 # Host source metadata only, no value conversion or model evaluation.
 from std.sys import argv
-from smidr.safetensors_inventory import read_safetensors_inventory
+from smidr.safetensors_inventory import read_safetensors_inventory, SafetensorsInventory
 from smidr.tools.program_integrity import _integer
 from smidr.tools.hrpc_frame import _to_hex
 from hailbru.errors import herror
@@ -19,6 +19,10 @@ def main() raises:
         raise herror("BadArgs", "expected path/header/tensors/rank/work/depth bounds")
     var inventory = read_safetensors_inventory(args[1], _integer(args[2]), _integer(args[3]),
         _integer(args[4]), _integer(args[5]), _integer(args[6]))
+    print(describe_safetensors_inventory(inventory))
+
+
+def describe_safetensors_inventory(inventory: SafetensorsInventory) raises -> String:
     var text = String("{\"source_bytes\":") + String(inventory.source_bytes) + ",\"data_offset\":" + String(inventory.data_offset) + ",\"tensors\":["
     for i in range(len(inventory.tensors)):
         if i > 0:
@@ -37,4 +41,4 @@ def main() raises:
             text += ","
         first = False
         text += "[\"" + _string_hex(key) + "\",\"" + _string_hex(inventory.metadata[key]) + "\"]"
-    print(text + "],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}")
+    return text + "],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}"

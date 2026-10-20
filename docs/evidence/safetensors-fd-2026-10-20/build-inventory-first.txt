@@ -1,0 +1,11 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/safetensors_inventory.mojo:3:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/safetensors_inventory.mojo:3:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/armvegr/safetensors.mojo:689:19: error: field 'decoder.descs' destroyed out of the middle of a value, preventing the overall value from being destroyed
+    decoder.decode(data)
+                  ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/safetensors_inventory.mojo:3:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/safetensors_inventory.mojo:3:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/armvegr/safetensors.mojo:814:36: error: field 'header.descs' destroyed out of the middle of a value, preventing the overall value from being destroyed
+        var header = _decode_header(self.map.unsafe_offset(8), self.header_size,
+                                   ^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to run the pass manager

@@ -256,3 +256,22 @@ owner fd/architecture or close borrowed descriptors. File can outlive root.
 Next parser must consume the same transferred fd, closing on every path.
 Actual independent admission/transfer/cleanup evidence and policy limits:
 `docs/HAILO10H_MOJO_MODEL_ROOT.md`. No tensor parser or execution claim.
+
+
+`safetensors_fd.mojo` exposes `SafetensorsFdPolicy(header_bytes,tensors,rank,
+work,depth,read_bytes)` and `read_safetensors_owned_fd(fd,policy)`. The function
+consumes exclusive ownership on entry, including invalid-policy/host/read/parse
+errors. Actual regular TYPE/SIZE is checked on the same fd; positional reads
+copy only8-byte prefix+bounded declared header, never payload or a pathname
+reopen. Full extent is rechecked, then native close must succeed before return.
+Positive policies/depth at most64 apply; read_bytes includes the prefix, work
+is the existing descriptor-count guard, not a total instruction/deadline cap.
+Currently verified ARM64 Linux. Returned SafetensorsInventory owns copied
+metadata after fd close and carries no mapping. Caller retains original label/
+descriptive path separately for shard binding; no immutable identity follows.
+`safetensors_inventory_from_header(header)` copies a validated, unmodified
+SafetensorsHeader projection; it is not a validator for arbitrary mutated fields.
+Existing path inventory/static constants retain separate full-map behavior.
+Diagnostic format is shared through `describe_safetensors_inventory`.
+Exact equivalence/read/cleanup/regression limits:
+`docs/HAILO10H_MOJO_SAFETENSORS_FD.md`.

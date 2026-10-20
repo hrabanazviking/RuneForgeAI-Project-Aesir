@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_safetensors_owned_fd.md`. Full controlling scope:
+slice: `TASK_hailo10h_shard_collection.md`. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -51,6 +51,7 @@ verify, publish and advance each bounded work slice.
 | Ordinary shard-index metadata | Verified source metadata and exact file admission | `HAILO10H_MOJO_SOURCE_INDEX.md`;37 methods/1289 calls including rebuilt consumers and5 extra header probes. Original names/labels/raw metadata, limits, cleanup and strict JSON; no shard opens or execution. Ordinary config loading follows. |
 | Ordinary configuration values | Verified source metadata | `HAILO10H_MOJO_SOURCE_CONFIG.md`;16 methods/706 calls retain31 real fixture fields and all raw modifiers. Semantic adapters and shard binding remain open; owned root/fd admission follows. |
 | Beneath-root regular shard descriptors | Verified actual filesystem ownership | `HAILO10H_MOJO_MODEL_ROOT.md`;21 methods/783 calls including77 real admission/transfer/fault/cleanup calls and rebuilt readers. Same-fd parser integration and full shard matching remain open. |
+| Same-descriptor safetensors headers | Verified actual owned source metadata | `HAILO10H_MOJO_SAFETENSORS_FD.md`;53 methods/1916 calls including365 new and1551 rebuilt regressions. No source payload read/mmap; exact indexed multi-shard binding follows. |
 | Physical resource placement / backend lowering | Open | Establish actual widths, layouts, weight conversion, workspace, hardware budgets and program encoding; hypotheses cannot admit inference. |
 | Public context-action byte codec | Verified host primitive | `HAILO10H_MOJO_CONTEXT_ACTIONS.md`; four public record types, owned values, exact field widths and 244 native calls against independent struct and C++ header oracles. No numerical program or upload. |
 | Configuration upload/activation endpoint | Public program receiver mapped; physical original upload open | `HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md`; matching driver rejects NNC firmware controls on the Pi SoC path. hRPC action 2 accepts separate compiled-program bytes, followed by configure/activate lifecycles. Original metadata/lifecycle codec is verified as host bytes; active `TASK_hailo10h_program_delivery.md` continues container/CCW facts. Actual upload, raw-context endpoint and numerical encoding remain open. |

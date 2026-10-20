@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 97 |
+| `verified` | 98 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **142** |
+| **Total** | **143** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3131,3 +3131,20 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   program or source-model execution. Other-host support remains implementation.
 - **Next acceptance gate:** `TASK_hailo10h_safetensors_owned_fd.md`, then
   automatic exact multi-shard source index binding and complete model semantics.
+
+
+### AES-SOURCE-004 — Owned same-descriptor safetensors header inventory
+
+- **Status:** `verified`
+- **Owner:** shared `armvegr.safetensors` header decoder, original
+  `smidr/safetensors_fd.mojo`, syscall gateway and native root/fd inspector.
+- **Executable evidence:** `docs/HAILO10H_MOJO_SAFETENSORS_FD.md` and
+  `docs/evidence/safetensors-fd-2026-10-20/`;53 methods/1916 native calls,
+  including365 new and1551 rebuilt regressions,54 complete baseline fixtures.
+- **Evidence boundary:** Native ARM64 metadata/descriptor ownership only; no
+  source payload mmap/read/evaluation in the new fd route, immutable identity,
+  hardware fit, architecture adapter or numerical Hailo model execution claim.
+  Legacy mapped constant cleanup/concurrency limits remain separately recorded.
+- **Next acceptance gate:** `TASK_hailo10h_shard_collection.md` and
+  `docs/HAILO10H_INDEXED_SHARD_COLLECTION_DESIGN.md`, then full semantic/backend
+  integration toward the fixed broad-model target.

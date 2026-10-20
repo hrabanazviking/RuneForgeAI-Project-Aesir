@@ -448,111 +448,62 @@ def _f16_from_bits_exact(w: UInt16) -> Float16:
     return v
 
 
-struct SafetensorsLoader:
-    """mmap-backed safetensors header parser + FP16 tensor loader."""
-    var fd: Int32
+@fieldwise_init
+struct SafetensorsHeader(Movable):
     var file_size: Int64
-    var map: Pointer[UInt8, MutUntrackedOrigin]
     var header_size: Int64
     var descs: List[STTensorDesc]
-    var opened: Bool
     var metadata: Dict[String, String]
-    var header_bound: Int
+
+
+def _header_policies(header: Int, tensors: Int, rank: Int, work: Int, depth: Int) raises:
+    if header <= 0 or tensors <= 0 or rank <= 0 or work <= 0 or depth <= 0 or depth > 64:
+        raise Error("safetensors: positive header/tensor/rank/work/depth policies required, depth at most64")
+
+
+def _header_extent(raw: UInt64, file_size: Int64, header_bound: Int) raises -> Int64:
+    if header_bound <= 0 or file_size < 8:
+        raise Error("safetensors: invalid header policy or full file extent")
+    if raw < 2 or raw > UInt64(header_bound):
+        raise Error("safetensors: header length outside explicit bound")
+    var size = Int64(raw)
+    if size > file_size - 8:
+        raise Error("safetensors: truncated file or out-of-range header")
+    return size
+
+
+def safetensors_header_length(prefix: List[UInt8], file_size: Int64, header_bound: Int) raises -> Int:
+    if len(prefix) != 8:
+        raise Error("safetensors: exact eight-byte prefix required")
+    var raw = UInt64(0)
+    for i in range(8):
+        raw |= UInt64(prefix[i]) << UInt64(i * 8)
+    return Int(_header_extent(raw, file_size, header_bound))
+
+
+struct _SafetensorsHeaderDecoder(Movable):
+    var file_size: Int64
+    var header_size: Int64
+    var descs: List[STTensorDesc]
+    var metadata: Dict[String, String]
     var tensor_bound: Int
     var rank_bound: Int
     var work_bound: Int
     var depth_bound: Int
 
-    def __init__(out self):
-        self.fd = Int32(-1)
-        self.file_size = Int64(0)
-        self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=1)
-        self.header_size = Int64(0)
+    def __init__(out self, file_size: Int64, header_size: Int64,
+                 tensors: Int, rank: Int, work: Int, depth: Int):
+        self.file_size = file_size
+        self.header_size = header_size
         self.descs = List[STTensorDesc]()
-        self.opened = False
         self.metadata = Dict[String, String]()
-        self.header_bound = 100000000
-        self.tensor_bound = 100000
-        self.rank_bound = 64
-        self.work_bound = 100000000
-        self.depth_bound = 64
+        self.tensor_bound = tensors
+        self.rank_bound = rank
+        self.work_bound = work
+        self.depth_bound = depth
 
-    def _req(self, offset: Int64, byte_count: Int64) raises:
-        if not self.opened:
-            raise Error("safetensors: live mapped source required")
-        if offset < 0 or byte_count < 0:
-            raise Error("safetensors: negative byte range")
-        if offset > self.file_size or byte_count > self.file_size - offset:
-            raise Error("safetensors: truncated file or out-of-range offset")
-
-    def _u64(self, offset: Int64) raises -> UInt64:
-        self._req(offset, 8)
-        var v = UInt64(0)
-        for i in range(8):
-            v |= UInt64(self.map.unsafe_offset(Int(offset) + i).unsafe_load()) << UInt64(8 * i)
-        return v
-
-    def open(mut self, path: String, header_bound: Int = 100000000,
-             tensor_bound: Int = 100000, rank_bound: Int = 64,
-             work_bound: Int = 100000000, depth_bound: Int = 64) raises:
-        if self.opened:
-            raise Error("safetensors: already open")
-        if header_bound <= 0 or tensor_bound <= 0 or rank_bound <= 0 or work_bound <= 0 or depth_bound <= 0:
-            raise Error("safetensors: explicit policy bounds must be positive")
-        if depth_bound > 64:
-            raise Error("safetensors: recursive skip depth exceeds current host stack policy 64")
-        self.header_bound = header_bound
-        self.tensor_bound = tensor_bound
-        self.rank_bound = rank_bound
-        self.work_bound = work_bound
-        self.depth_bound = depth_bound
-        self.descs.clear()
-        self.metadata.clear()
-        self.file_size = 0
-        self.header_size = 0
-        var path_bytes = List[Int8]()
-        var source = path.as_bytes()
-        if len(source) == 0 or len(source) >= 4096 or "\0" in path:
-            raise Error("safetensors: path must contain 1..4095 non-NUL bytes")
-        for i in range(len(source)):
-            path_bytes.append(Int8(source[i]))
-        path_bytes.append(0)
-        self.fd = external_call["open64", Int32](
-            path_bytes.unsafe_ptr(), Int32(526336), Int32(0)
-        )
-        _ = path_bytes
-        if self.fd < 0:
-            raise Error("safetensors: failed to open " + path)
-        var size = external_call["lseek", Int64](self.fd, Int64(0), Int32(2))
-        if size < 0:
-            self.close()
-            raise Error("safetensors: cannot seek " + path)
-        self.file_size = size
-        if self.file_size < 8:
-            self.close()
-            raise Error("safetensors: file smaller than the 8-byte header prefix")
-        var addr = external_call["mmap", Int](
-            Int(0), Int(self.file_size), Int32(1), Int32(2), self.fd, Int64(0)
-        )
-        if addr == -1:
-            self.close()
-            raise Error("safetensors: mmap failed on " + path)
-        self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
-        self.opened = True
-        try:
-            self._parse_header()
-        except e:
-            self.close()
-            raise e
-
-    def _parse_header(mut self) raises:
-        var raw_size = self._u64(0)
-        if raw_size < 2 or raw_size > UInt64(self.header_bound):
-            raise Error("safetensors: header length outside explicit bound")
-        var n = Int64(raw_size)
-        self._req(8, n)
-        self.header_size = n
-        var parser = JsonParser(self.map.unsafe_offset(8), Int(n), self.depth_bound)
+    def decode(mut self, data: Pointer[UInt8, MutUntrackedOrigin]) raises:
+        var parser = JsonParser(data, Int(self.header_size), self.depth_bound)
         if parser._peek() != 123:
             raise Error("safetensors: header must begin with object byte")
         parser.expect(123)
@@ -690,7 +641,7 @@ struct SafetensorsLoader:
         self.descs.append(desc.copy())
 
     def _validate_descs(mut self) raises:
-        var base = Int64(8) + self.header_size  # _req already established this sum
+        var base = Int64(8) + self.header_size  # Checked prefix/header admission already established this sum
         var payload = self.file_size - base
         var covered = Int64(0)
         for i in range(len(self.descs)):
@@ -729,6 +680,141 @@ struct SafetensorsLoader:
                         raise Error("safetensors: overlapping data offsets")
         if covered != payload:
             raise Error("safetensors: data buffer has holes or unindexed trailing bytes")
+
+
+def _decode_header(data: Pointer[UInt8, MutUntrackedOrigin], size: Int64,
+                   file_size: Int64, tensors: Int, rank: Int,
+                   work: Int, depth: Int) raises -> SafetensorsHeader:
+    var decoder = _SafetensorsHeaderDecoder(file_size, size, tensors, rank, work, depth)
+    decoder.decode(data)
+    return SafetensorsHeader(file_size, size, decoder.descs.copy(), decoder.metadata.copy())
+
+
+def decode_safetensors_header(data: List[UInt8], file_size: Int64,
+                              header_bound: Int, tensor_bound: Int,
+                              rank_bound: Int, work_bound: Int,
+                              depth_bound: Int) raises -> SafetensorsHeader:
+    _header_policies(header_bound, tensor_bound, rank_bound, work_bound, depth_bound)
+    if len(data) < 8:
+        raise Error("safetensors: truncated header prefix")
+    var raw = UInt64(0)
+    for i in range(8):
+        raw |= UInt64(data[i]) << UInt64(i * 8)
+    var size = _header_extent(raw, file_size, header_bound)
+    if Int64(len(data) - 8) != size:
+        raise Error("safetensors: expected exact prefix plus header bytes")
+    var pointer = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=Int(data.unsafe_ptr()))
+    var result = _decode_header(pointer.unsafe_offset(8), size, file_size,
+                                tensor_bound, rank_bound, work_bound, depth_bound)
+    _ = data  # Retain backing bytes through every untracked decoder use.
+    return result^
+
+
+struct SafetensorsLoader:
+    """mmap-backed safetensors header parser + FP16 tensor loader."""
+    var fd: Int32
+    var file_size: Int64
+    var map: Pointer[UInt8, MutUntrackedOrigin]
+    var header_size: Int64
+    var descs: List[STTensorDesc]
+    var opened: Bool
+    var metadata: Dict[String, String]
+    var header_bound: Int
+    var tensor_bound: Int
+    var rank_bound: Int
+    var work_bound: Int
+    var depth_bound: Int
+
+    def __init__(out self):
+        self.fd = Int32(-1)
+        self.file_size = Int64(0)
+        self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=1)
+        self.header_size = Int64(0)
+        self.descs = List[STTensorDesc]()
+        self.opened = False
+        self.metadata = Dict[String, String]()
+        self.header_bound = 100000000
+        self.tensor_bound = 100000
+        self.rank_bound = 64
+        self.work_bound = 100000000
+        self.depth_bound = 64
+
+    def _req(self, offset: Int64, byte_count: Int64) raises:
+        if not self.opened:
+            raise Error("safetensors: live mapped source required")
+        if offset < 0 or byte_count < 0:
+            raise Error("safetensors: negative byte range")
+        if offset > self.file_size or byte_count > self.file_size - offset:
+            raise Error("safetensors: truncated file or out-of-range offset")
+
+    def _u64(self, offset: Int64) raises -> UInt64:
+        self._req(offset, 8)
+        var v = UInt64(0)
+        for i in range(8):
+            v |= UInt64(self.map.unsafe_offset(Int(offset) + i).unsafe_load()) << UInt64(8 * i)
+        return v
+
+    def open(mut self, path: String, header_bound: Int = 100000000,
+             tensor_bound: Int = 100000, rank_bound: Int = 64,
+             work_bound: Int = 100000000, depth_bound: Int = 64) raises:
+        if self.opened:
+            raise Error("safetensors: already open")
+        if header_bound <= 0 or tensor_bound <= 0 or rank_bound <= 0 or work_bound <= 0 or depth_bound <= 0:
+            raise Error("safetensors: explicit policy bounds must be positive")
+        if depth_bound > 64:
+            raise Error("safetensors: recursive skip depth exceeds current host stack policy 64")
+        self.header_bound = header_bound
+        self.tensor_bound = tensor_bound
+        self.rank_bound = rank_bound
+        self.work_bound = work_bound
+        self.depth_bound = depth_bound
+        self.descs.clear()
+        self.metadata.clear()
+        self.file_size = 0
+        self.header_size = 0
+        var path_bytes = List[Int8]()
+        var source = path.as_bytes()
+        if len(source) == 0 or len(source) >= 4096 or "\0" in path:
+            raise Error("safetensors: path must contain 1..4095 non-NUL bytes")
+        for i in range(len(source)):
+            path_bytes.append(Int8(source[i]))
+        path_bytes.append(0)
+        self.fd = external_call["open64", Int32](
+            path_bytes.unsafe_ptr(), Int32(526336), Int32(0)
+        )
+        _ = path_bytes
+        if self.fd < 0:
+            raise Error("safetensors: failed to open " + path)
+        var size = external_call["lseek", Int64](self.fd, Int64(0), Int32(2))
+        if size < 0:
+            self.close()
+            raise Error("safetensors: cannot seek " + path)
+        self.file_size = size
+        if self.file_size < 8:
+            self.close()
+            raise Error("safetensors: file smaller than the 8-byte header prefix")
+        var addr = external_call["mmap", Int](
+            Int(0), Int(self.file_size), Int32(1), Int32(2), self.fd, Int64(0)
+        )
+        if addr == -1:
+            self.close()
+            raise Error("safetensors: mmap failed on " + path)
+        self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
+        self.opened = True
+        try:
+            self._parse_header()
+        except e:
+            self.close()
+            raise e
+
+    def _parse_header(mut self) raises:
+        var raw_size = self._u64(0)
+        self.header_size = _header_extent(raw_size, self.file_size, self.header_bound)
+        self._req(8, self.header_size)
+        var header = _decode_header(self.map.unsafe_offset(8), self.header_size,
+            self.file_size, self.tensor_bound, self.rank_bound, self.work_bound, self.depth_bound)
+        self.descs = header.descs.copy()
+        self.metadata = header.metadata.copy()
 
     # -- query / load ------------------------------------------------------
 

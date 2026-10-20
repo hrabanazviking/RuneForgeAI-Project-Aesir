@@ -1,6 +1,6 @@
 # Metadata-only adapter over the existing project reader; no tensor conversion.
 from std.collections import Dict
-from armvegr.safetensors import SafetensorsLoader
+from armvegr.safetensors import SafetensorsLoader, STTensorDesc, SafetensorsHeader
 
 
 @fieldwise_init
@@ -27,14 +27,23 @@ def read_safetensors_inventory(path: String, header_bound: Int, tensor_bound: In
     var source = SafetensorsLoader()
     source.open(path, header_bound, tensor_bound, rank_bound, work_bound, depth_bound)
     try:
-        var tensors = List[SafetensorsTensor]()
-        for tensor in source.descs:
-            tensors.append(SafetensorsTensor(tensor.name, tensor.dtype, tensor.shape.copy(),
-                tensor.element_count(), tensor.data_start, tensor.data_end - tensor.data_start))
-        var result = SafetensorsInventory(source.file_size, source.header_size + 8,
-                                          tensors^, source.metadata.copy())
+        var result = _project_inventory(source.file_size, source.header_size,
+            source.descs, source.metadata)
         source.close()
         return result^
     except e:
         source.close()
         raise e
+
+
+def _project_inventory(file_size: Int64, header_size: Int64,
+                       descs: List[STTensorDesc], metadata: Dict[String, String]) raises -> SafetensorsInventory:
+    var tensors = List[SafetensorsTensor]()
+    for tensor in descs:
+        tensors.append(SafetensorsTensor(tensor.name, tensor.dtype, tensor.shape.copy(),
+            tensor.element_count(), tensor.data_start, tensor.data_end - tensor.data_start))
+    return SafetensorsInventory(file_size, header_size + 8, tensors^, metadata.copy())
+
+
+def safetensors_inventory_from_header(header: SafetensorsHeader) raises -> SafetensorsInventory:
+    return _project_inventory(header.file_size, header.header_size, header.descs, header.metadata)

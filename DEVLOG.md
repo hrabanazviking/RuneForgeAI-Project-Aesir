@@ -1,3 +1,19 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): same-fd owned headers
+
+- Factored existing original descriptor/metadata/coverage grammar behind owned
+  prefix/header APIs; existing mapped loader delegates, static constants remain
+  full-map consumers. No partial buffer masquerades as a mapped tensor source.
+- Connected actual root fd transfer to checked positional prefix/header reads,
+  regular type/size recheck, owned inventory and native close on every path.
+  Five methods/365 calls pass,54 complete frozen-baseline comparisons, read-only
+  sparse20 MB proof, offset/path replacement,40 cycles and13 fault modes.
+- Six rebuilt consumers48 methods/1551 calls pass; full slice53/1916. Initial
+  aggregate field-move compile failures and historical legacy warning retained.
+  Receipt: `docs/HAILO10H_MOJO_SAFETENSORS_FD.md`.
+- Next published collection design connects actual JSON/shard fds to exact
+  index/name/label and tagged storage matching. Complete semantic/config and
+  numerical Hailo execution remain open under the unchanged broad target.
+
 ## 2026-10-20 — Codex (Cartographer, Architect, Scribe): same-fd header audit
 
 - Root admission9c5103f is on both remote branches with exact tree/head/clean

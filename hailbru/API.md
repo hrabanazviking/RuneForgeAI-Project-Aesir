@@ -242,3 +242,16 @@ BENEATH|NO_MAGICLINKS and readonly/nonblocking/CLOEXEC, mode0, no unsafe fallbac
 Caller owns returned fd and maps errno; regular TYPE/SIZE is separately checked.
 ABI facts: `docs/HAILO10H_MODEL_ROOT_ADMISSION_DESIGN.md`; physical file-owner
 acceptance: `docs/HAILO10H_MOJO_MODEL_ROOT.md`. No device interaction.
+
+
+### Positional metadata read and native descriptor close
+
+`os_pread_metadata(arch,fd,buffer,size,offset)` raises for unsupported/currently
+unimplemented hosts or invalid fd/range, otherwise returns raw pread64 count/-1.
+The checked ABI is ARM64 syscall67. The caller supplies valid writable buffer
+extent and preserves its owner. It does not change the fd position.
+`os_close_descriptor(fd)` returns native libc close status, independent of any
+caller architecture string, and refuses negative or greater-than-C-int fd
+integers without truncation. Ownership callers disarm before handling close
+errors and do not retry Linux close. All operations remain in this gateway.
+Facts/design: `docs/HAILO10H_SAFETENSORS_OWNED_FD_DESIGN.md`.

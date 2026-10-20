@@ -34,9 +34,11 @@
   `docs/HAILO10H_MOJO_SOURCE_CONFIG.md`. Full modifiers retained, semantics open.
 - [x] Actual beneath-root regular shard descriptors:21 methods/783 calls;
   `docs/HAILO10H_MOJO_MODEL_ROOT.md`. No tensor/header/model execution claim.
-- [ ] Active: `TASK_hailo10h_safetensors_owned_fd.md` under checked shard
-  collection. Consume the admitted fd without path reopen, then exact index/
-  tensor matching; full semantics and numerical encoding/placement remain open.
+- [x] Same-fd safetensors owned header decoder/inventory:53 methods/1916 calls;
+  `docs/HAILO10H_MOJO_SAFETENSORS_FD.md`. Header bytes only, no source mmap.
+- [ ] Active: `TASK_hailo10h_shard_collection.md` and published collection design.
+  Connect actual JSON/shard fds and exact index/name/label/span matching; complete
+  semantics and numerical device encoding/placement/execution remain open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

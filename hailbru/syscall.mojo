@@ -756,3 +756,19 @@ def os_open_beneath(arch: String, directory: Int64, label: String) raises -> Int
     _ = how
     path.unsafe_free()
     return fd
+
+
+# Positional metadata reads: installed/verified ARM64 pread64 ABI.
+def os_pread_metadata(arch: String, fd: Int64,
+                      buf: Pointer[UInt8, MutUntrackedOrigin],
+                      size: Int64, offset: Int64) raises -> Int64:
+    if arch != "aarch64" or fd < 0 or fd > 2147483647 or size < 0 or offset < 0:
+        raise Error("SourceFd: invalid positional-read host/fd/range")
+    return syscall6(67, fd, Int64(Int(buf)), size, offset, 0, 0)
+
+
+def os_close_descriptor(fd: Int64) -> Int64:
+    # Linux fd is a signed native C int; never truncate another integer to it.
+    if fd < 0 or fd > 2147483647:
+        return -1
+    return Int64(external_call["close", Int32](Int32(fd)))

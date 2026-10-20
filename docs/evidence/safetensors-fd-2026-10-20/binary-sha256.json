@@ -1,0 +1,18 @@
+{
+  "safetensors-fd": "42259cd0f029093587e3228f8f2f35807013b3ec4cac1b287a20aa53f7aa8e84",
+  "safetensors-fd-api": "6ec3a94aa9c7dd1c60454a8b5ab7c5214d6bbfc02b27e652d43ab877ca5ec70e",
+  "fd-safe-inventory": "94d772eac4871487046feec67d04420aabff1443be180d976e16b3e6ee196c18",
+  "owned-fd-baseline-inventory": "1d3a0c82719367c27fc1cfcd571fb758d6d2ba595edecf80c3238acd4042dc0d",
+  "fd-safe-api": "5adaecb4fdc886c27e597e44d18a46e5c3b8588d28bed300711918f079eba123",
+  "fd-constants": "3982fcb098f8fb64a1bff2968ac880a5289fdf6087bde99b8f4985b48cc54352",
+  "fd-constants-api": "1f0d84e0a0f7b0957748fc97c72779a5a9f7c2083e756aab8ee98e9423834044",
+  "fd-storage": "fd6e3de2794a0b6c88504f90911e10ee21931b1a03d3e6ebf3ce9149bb126b89",
+  "fd-storage-api": "c38fffabf40cbf6ccdb052e40c8e4d1f5ac7a60e3631458c10e756064321e2b7",
+  "fd-legacy": "583b00db27c756a2f40693c9df3ea0ba0903739cc03f0a3c2da193a1219a33da",
+  "fd-index": "0542a6a25fd6d695e8fea91b585a171b9064a29a77f61d648f5cc24b35255c26",
+  "fd-index-api": "67b4b32e6ddb7da7621bc1cb68bee737f8d0cc628ac06ecee723c63978d47000",
+  "fd-config": "31806966c9c29e58aab0a2fc0662d354b8166ba82c746d8dc7cbad340d4f01a2",
+  "fd-config-api": "23978f8a08bb8d61c5ab86f03582241f2ac948bf53ed3055cca5a7ac0031bd70",
+  "fd-root": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5",
+  "fd-root-api": "a83e68d0f61b7e9f4399a39c2f756dc7954c27b576430c98ffad5ec46028a04a"
+}

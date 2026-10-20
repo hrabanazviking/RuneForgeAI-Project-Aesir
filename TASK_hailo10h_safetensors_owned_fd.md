@@ -36,3 +36,8 @@ This fulfills the explicit changed-representation design option above; the
 legacy mapped constant route retains its documented behavior/limits. No new
 munmap is needed by the fd reader. Inject actual read/close failures there,
 while existing mapped-reader regressions preserve its separate evidence.
+
+
+Implementation receipt: `docs/HAILO10H_MOJO_SAFETENSORS_FD.md`;53 methods/1916
+native calls pass. Owned header metadata is verified, not model execution.
+Continue `docs/HAILO10H_INDEXED_SHARD_COLLECTION_DESIGN.md` under the parent.

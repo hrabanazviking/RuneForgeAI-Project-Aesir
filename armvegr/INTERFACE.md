@@ -30,3 +30,29 @@ rules and exact trailing-whitespace/EOF handling. Errors from reused grammar
 retain the historical `safetensors:` prefix. SMIÐR's source index is the first
 additional consumer; the ordinary configuration reader also reuses this API; its borrowed-byte API pins the List through both passes.
 Evidence and limits: `docs/HAILO10H_MOJO_SOURCE_INDEX.md` from repository root.
+
+
+## Owned safetensors header metadata
+
+`SafetensorsHeader(file_size,header_size,descs,metadata)` is a move-only owned
+metadata result, with existing STTensorDesc dtype0 F16/1 BF16/2 F32 and full
+source axes. No fd, mapping or tensor values are included.
+`safetensors_header_length(prefix,file_size,header_bound)` requires exactly8
+prefix bytes and validates declared length>=2 within bound and full file extent.
+`decode_safetensors_header(data,file_size,header,tensors,rank,work,depth)`
+borrows exactly prefix+declared-header bytes, applies positive policies and the
+existing strict object/descriptor/metadata/coverage grammar, and returns copied
+owned fields. The byte owner is retained through all raw-pointer use. Extra
+payload or missing header bytes in this metadata buffer refuse. Full file size
+is a separately supplied descriptive extent; the pure decoder does not verify
+it on disk. Work remains the existing4*tensor_count squared admission policy;
+header/rank/depth bounds separately govern other metadata. Known schema parsing
+retains historical nesting behavior; depth applies to recursive skipped values.
+
+The mapped `SafetensorsLoader` delegates header decoding to that same original
+implementation and preserves its complete mapping/static constant contract.
+Its legacy close still ignores syscall failures; this refactor does not certify
+new cleanup or immutable-source behavior. Metadata-only buffers are never
+presented as live full-file maps. Callers must not mutate returned fields and
+then treat their earlier validation as applying to the mutated values.
+Evidence: `docs/HAILO10H_MOJO_SAFETENSORS_FD.md`.

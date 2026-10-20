@@ -1,0 +1,42 @@
+{
+  "methods": 53,
+  "native_calls": 1916,
+  "groups": {
+    "fd": {
+      "calls": 365,
+      "accepted": 226,
+      "refused": 139
+    },
+    "inventory-regression": {
+      "calls": 219,
+      "refused": 110,
+      "accepted": 109
+    },
+    "constants-regression": {
+      "calls": 97,
+      "accepted": 77,
+      "refused": 20
+    },
+    "storage-regression": {
+      "calls": 452,
+      "refused": 85,
+      "accepted": 367
+    },
+    "index-regression": {
+      "calls": 516,
+      "accepted": 175,
+      "refused": 341
+    },
+    "config-regression": {
+      "calls": 190,
+      "accepted": 85,
+      "refused": 105
+    },
+    "root-regression": {
+      "calls": 77,
+      "accepted": 16,
+      "refused": 61
+    }
+  },
+  "execution_tested": false
+}
