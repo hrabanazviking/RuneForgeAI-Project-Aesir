@@ -1,0 +1,838 @@
+[
+  {
+    "path": "CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "LICENSE-3RD-PARTY.md",
+    "state": "modified"
+  },
+  {
+    "path": "cmake/external/libusb.cmake",
+    "state": "modified"
+  },
+  {
+    "path": "cmake/external/montserrat_fonts.cmake",
+    "state": "added"
+  },
+  {
+    "path": "cmake/external/slint.cmake",
+    "state": "added"
+  },
+  {
+    "path": "common/compiler_extensions_compat.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/device_measurements.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/device_measurements.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/filesystem.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/filesystem_common.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/fork_support.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/genai/session_wrapper/session_wrapper.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/genai/session_wrapper/session_wrapper.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/named_mutex.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/os/posix/linux/event_os_specific.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/os/posix/named_mutex.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/os/windows/named_mutex.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/os/windows/string_conversion.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/shared_memory_buffer.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/socket.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "common/timeouts.hpp",
+    "state": "added"
+  },
+  {
+    "path": "common/usb_loader_protocol.h.in",
+    "state": "added"
+  },
+  {
+    "path": "common/utils.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "drivers/common/hailo_ioctl_common.h",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/inference_manager.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/inference_manager.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/llm/llm_server.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/llm/llm_server.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/llm/post_process.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/llm/pre_process.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/vlm/pre_process.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/vlm/pre_process.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/vlm/vlm_server.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/genai/vlm/vlm_server.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/hailort_server.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/hailort_server.sh",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/usb/hailort_usb_setup.sh",
+    "state": "modified"
+  },
+  {
+    "path": "hailort_server/usb/usb_functionfs_configure.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/fw_control_command.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/hailo_monitor/integrated_monitor.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/hailo_monitor/integrated_monitor.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/logs_command.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/logs_command.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/memory_requirements_command.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/parse_hef_command.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/parse_hef_command.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/io_wrappers.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/live_stats.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/live_stats.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/measurement_live_track.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/measurement_live_track.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/network_live_track.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/network_live_track.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/network_runner.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/run2_command.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run2/run2_command.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hailortcli/run_command.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/client.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/server_resource_manager.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_control_protocol.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_device/aio_context.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_device/aio_context.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_device/usb_device_side.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_device/usb_event_loop.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_device/usb_event_loop.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_host/libusb_event_thread.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_host/usb_host_side.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_host/usb_host_side.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc/session_internal/usb/usb_host/usb_transfer_queue.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc_protocol/rpc.proto",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc_protocol/serializer.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "hrpc_protocol/serializer.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailopp/examples/hailopp/hailopp_mot17_demo/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailopp/src/hailotracker/eigen_wrapper.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/common.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/common.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailo_allocator.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailo_allocator.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailo_dmabuf_allocator.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailo_dmabuf_allocator.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailodevicestats.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailodevicestats.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailonet.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailonet.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/gsthailoplugin.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/hailo_events/hailo_events.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/hailo_events/hailo_events.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/hailo_output_info.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/include/hailo_gst.h",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/metadata/hailo_buffer_flag_meta.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/metadata/hailo_buffer_flag_meta.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/metadata/tensor_meta.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/metadata/tensor_meta.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/network_group_handle.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/network_group_handle.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/os/linux/dma_buf_allocator_wrapper.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/os/linux/dma_buf_allocator_wrapper.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/os/windows/dma_buf_allocator_wrapper.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/os/windows/dma_buf_allocator_wrapper.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/sync_gst_hailorecv.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/sync_gst_hailorecv.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/sync_gst_hailosend.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/sync_gst_hailosend.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/sync_gsthailonet.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/sync_gsthailonet.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/gstreamer/gst-hailo/timeouts.hpp",
+    "state": "added"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/.gitignore",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/hailo_platform/__init__.py",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/hailo_platform/genai/__init__.py",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/hailo_platform/pyhailort/pyhailort.py",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/hailo_tutorials/notebooks/HRT_3_LLM_Tutorial.ipynb",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/hailo_tutorials/notebooks/HRT_4_VLM_Tutorial.ipynb",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/pyproject.toml",
+    "state": "added"
+  },
+  {
+    "path": "libhailort/bindings/python/platform/setup.py",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/src/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/bindings/python/src/pyhailort.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/README.md",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/common/common.h",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/common/hailo_thread.h",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/data_quantization_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/infer_pipeline_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/multi_device_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/multi_network_vstream_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/notification_callback_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/power_measurement_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/raw_async_streams_single_thread_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/raw_async_streams_single_thread_example/raw_async_streams_single_thread_example.c",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/raw_streams_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/switch_network_groups_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/switch_network_groups_manually_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/c/vstreams_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/async_infer_advanced_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/async_infer_advanced_example/async_infer_advanced_example.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/async_infer_basic_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/async_infer_basic_example/async_infer_basic_example.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/multi_model_inference_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/multi_model_inference_example/multi_model_inference_example.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/multi_process_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/multi_process_example/multi_process_example.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/notification_callback_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/cpp/power_measurement_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/chat_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/chat_example/README.md",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/chat_example/chat.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/chat_raw_prompt_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/chat_raw_prompt_example/chat_raw_prompt.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/speech2text_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/vlm_example/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/examples/genai/vlm_example/vlm_example.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/include/hailo/device.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/include/hailo/event.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/include/hailo/hailort.h",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/include/hailo/hailort_common.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/include/hailo/platform.h",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/include/hailo/quantization.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/Config.cmake.in",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/common/status_event.hpp",
+    "state": "added"
+  },
+  {
+    "path": "libhailort/src/core_op/resource_manager/cache_manager.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/core_op/resource_manager/cache_manager.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/core_op/resource_manager/config_buffer.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/core_op/resource_manager/resource_manager.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/core_op/resource_manager/resource_manager.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/core_op/resource_manager/resource_manager_builder.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device/device_hrpc_client.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device/device_hrpc_client.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/control.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/control.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/control_protocol.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/control_protocol.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/device.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/device_internal.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/device_internal.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/usb/usb_utils.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/usb/usb_utils_libusb.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/device_common/usb/usb_utils_nolibusb.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/genai/llm/llm.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/genai/llm/minja_wrapper/minja_wrapper.cmake",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/genai/llm/minja_wrapper/minja_wrapper_internal.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/genai/vlm/vlm.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/hef/hef.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/hef/hef_internal.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/hef/memory_requirements_calculator.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/hef/memory_requirements_calculator.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/net_flow/ops/yolov5_seg_post_process.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/net_flow/pipeline/configured_infer_model_hrpc_client.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/net_flow/pipeline/infer_model.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/net_flow/pipeline/infer_model_internal.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/net_flow/pipeline/pipeline.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/os/posix/linux/event.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/os/windows/osdep.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/utils/logger_fetcher.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/utils/logger_fetcher.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdevice/scheduler/scheduler_base.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/driver/hailort_driver.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/driver/hailort_driver.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/integrated/integrated_device.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/integrated/integrated_device.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/legacy_pcie/legacy_pcie_device.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/memory/dma_able_buffer.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/vdma_device.cpp",
+    "state": "modified"
+  },
+  {
+    "path": "libhailort/src/vdma/vdma_device.hpp",
+    "state": "modified"
+  },
+  {
+    "path": "prepare_externals/CMakeLists.txt",
+    "state": "modified"
+  },
+  {
+    "path": "scripts/download_hefs.cmd",
+    "state": "modified"
+  },
+  {
+    "path": "scripts/download_hefs.sh",
+    "state": "modified"
+  },
+  {
+    "path": "scripts/install_usb.ps1",
+    "state": "added"
+  },
+  {
+    "path": "scripts/uninstall_usb.ps1",
+    "state": "added"
+  }
+]

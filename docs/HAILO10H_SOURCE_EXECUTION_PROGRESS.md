@@ -62,5 +62,8 @@ execution. Old catalog-selection work orders must not resume.
 Latest numerical/configuration leads: `HAILO10H_NUMERICAL_ENCODING_LEADS_2026-10-20.md`.
 Action4 codec passes8/83; outer integrity passes11/2072. Owned envelope
 construction passes8/194; public release delta study follows under
-`TASK_hailo10h_public_encoding_delta.md`. Architectural
+`TASK_hailo10h_public_encoding_delta.md`. Results are now recorded in
+`HAILO10H_PUBLIC_ENCODING_DELTA_2026-10-20.md`; no new numerical ISA was found
+in that delta. Next native input work is the safetensors inventory contract,
+while actual encoding/configuration/placement/transport work remains open. Architectural
 patents are not a device ISA.

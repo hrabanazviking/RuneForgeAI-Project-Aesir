@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Researcher, Auditor, Scribe): pinned public interface delta
+
+- Compared v5.3/v5.4 public schemas and relevant control/CCW/transfer boundaries
+  after the MIT license. Program/context schemas are byte-identical; no new
+  numerical instruction encoding was established by this bounded delta.
+- Recorded sparse offset/extent sizing, exact descriptor padding and explicit
+  CCW-ready failure ordering; newer direct-control packing must not be mixed
+  into the installed older path. No runtime/driver/firmware/device changed.
+- `docs/HAILO10H_PUBLIC_ENCODING_DELTA_2026-10-20.md` and pinned hashes preserve
+  facts. Continue actual encoding gaps plus the published native safetensors
+  inventory audit/format contract toward broader ordinary-source input.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original owned program envelope
 
 - Connected original header/layout and Mojo XXH3 into independent owned outer

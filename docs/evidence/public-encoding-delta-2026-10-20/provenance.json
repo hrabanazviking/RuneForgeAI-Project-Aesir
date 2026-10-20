@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-20",
+  "old_commit": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "new_commit": "f51959034a8a49b7ee53cd0034a161faa30352ba",
+  "new_tag": "v5.4.0",
+  "license": "MIT, read before study; common headers declare the same MIT license",
+  "license_sha256": "b7f9de8a9180e5e47f14a34c8291778bd543e144afbf21ddfd191e0b057da4d7",
+  "archive_sha256": "3511074e8df8b814ee02a8018ab78d55126c5f045ef275997189dddaf78ca8fc",
+  "installed_stack_changed": false,
+  "external_implementation_copied": false,
+  "device_access": false,
+  "files": [
+    {
+      "path": "common/include/context_switch_defs.h",
+      "old_sha256": "fa8fa9f979e58285ad52ba6287a613e61324f297a3f283306acdc217cd46568b",
+      "new_sha256": "fa8fa9f979e58285ad52ba6287a613e61324f297a3f283306acdc217cd46568b",
+      "identical": true
+    },
+    {
+      "path": "common/include/control_protocol.h",
+      "old_sha256": "a10865db05e18eb14891b4f68d11cee2934c54695e9263d802f4e75df14a2445",
+      "new_sha256": "b34e42db0548c5075e03595b4c56f52db6266f74f1dc56dd530857e0a46e2ab9",
+      "identical": false
+    },
+    {
+      "path": "hailort/libhailort/hef.proto",
+      "old_sha256": "e58753d4c33791beee096482cc4fce8b5023b48bc04c7910798fa7b063e149fb",
+      "new_sha256": "e58753d4c33791beee096482cc4fce8b5023b48bc04c7910798fa7b063e149fb",
+      "identical": true
+    },
+    {
+      "path": "hailort/libhailort/src/hef/context_switch_actions.hpp",
+      "old_sha256": "f037969fff29301d7f2d41504ae8e7a5b73b758f5fa371d0b889ba627c90d22d",
+      "new_sha256": "f037969fff29301d7f2d41504ae8e7a5b73b758f5fa371d0b889ba627c90d22d",
+      "identical": true
+    },
+    {
+      "path": "hailort/libhailort/src/hef/context_switch_actions.cpp",
+      "old_sha256": "a79e8db446d719fd51375482b1cf47f9ec6016cccf2165e5a437acab4362e5cc",
+      "new_sha256": "a79e8db446d719fd51375482b1cf47f9ec6016cccf2165e5a437acab4362e5cc",
+      "identical": true
+    },
+    {
+      "path": "hailort/libhailort/src/core_op/resource_manager/config_buffer.hpp",
+      "old_sha256": "4ca79a5cdbcf9252538b306fd27d0b4b63d373eb5257777768aa1124f4358afc",
+      "new_sha256": "4ca79a5cdbcf9252538b306fd27d0b4b63d373eb5257777768aa1124f4358afc",
+      "identical": true
+    },
+    {
+      "path": "hailort/libhailort/src/core_op/resource_manager/config_buffer.cpp",
+      "old_sha256": "1a0f541998b575f625521fcea7f94bb4af7e95585ff5b44d27f081c86b13173d",
+      "new_sha256": "e4f8d16b79a0d2c51c56716baf9d3d40447dc92f8b0bb4948bc5423bdae4f640",
+      "identical": false
+    },
+    {
+      "path": "hailort/hrpc_protocol/rpc.proto",
+      "old_sha256": "c44ec3a28d075bae5f814f99491a4f1de0c3cbd026721243e8876c67b5da9225",
+      "new_sha256": "281aa7ae0fc75bfb2539a302349a3244758d4974d7c1323e865556d4ac4c5d78",
+      "identical": false
+    },
+    {
+      "path": "hailort/hrpc_protocol/serializer.hpp",
+      "old_sha256": "e02cdb188ac543edd2a4b746c50399b6a74ad8ef1eb230ba5431ae47fccd3a87",
+      "new_sha256": "e12acc534b6173271cf9988eeb8216e02d2fa8bcd9b20d1a33cd930524a25ba1",
+      "identical": false
+    },
+    {
+      "path": "hailort/libhailort/src/hef/hef.cpp",
+      "old_sha256": "3dd18a8b8094dc4f6bdf84e69ac728426116ec4046275d0b6564737b58b1fde4",
+      "new_sha256": "04108802d891ac32c213d3df820521c61fbcebcd4155c01ddccbdb8c4b55c6e0",
+      "identical": false
+    },
+    {
+      "path": "hailort/libhailort/src/hef/hef_internal.hpp",
+      "old_sha256": "68483779a9b6a4ed40f1b75259c25ae5ca8f1597cb734fbaf0e0dc608c9f8099",
+      "new_sha256": "27437cd394caa04446cc61778eab5a284fe62e5b8c7be17740f74453dd88a819",
+      "identical": false
+    },
+    {
+      "path": "hailort/libhailort/src/core_op/resource_manager/resource_manager.cpp",
+      "old_sha256": "35228993f4f6a36a9990b278b6b7beded4873cc46d42de9bab8842d8e23ee618",
+      "new_sha256": "3ef0531f3fa4e002b62b9699f874baa334c61d3df5859ead4d7924e7057de8b9",
+      "identical": false
+    },
+    {
+      "path": "hailort/hailort_server/genai/llm/llm_server.cpp",
+      "old_sha256": "1587b3d52db26720c565b9bbed1d6bd48806cf523070579b81cc6328a69f859d",
+      "new_sha256": "4a780859edeb4688abdf7e094361e9683c48022d56cfed502ae94c826053493c",
+      "identical": false
+    },
+    {
+      "path": "hailort/libhailort/src/device/device_hrpc_client.hpp",
+      "old_sha256": "995eecac503dd626cac912b9a00e0d3c8148d70fc3e6a6c0816f1638b8a1ab48",
+      "new_sha256": "494b3a42bf5bcbba7d6ed812f786dcd72b16b36e7e0aa1532b786a5c95fe7b8c",
+      "identical": false
+    },
+    {
+      "path": "hailort/libhailort/src/device_common/control_protocol.cpp",
+      "old_sha256": "b27164217278261ba8ad1bd47057e48b2ecd7e640671777e6bad27d338501240",
+      "new_sha256": "971b9efc8f792c160a59131eb25c9c493d9004c5f8b14d56be6db8402dee0dff",
+      "identical": false
+    }
+  ]
+}

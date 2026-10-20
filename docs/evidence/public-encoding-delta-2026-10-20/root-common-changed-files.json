@@ -1,0 +1,6 @@
+[
+  "common/include/byte_order.h",
+  "common/include/control_protocol.h",
+  "common/include/firmware_status.h",
+  "common/include/status.h"
+]
