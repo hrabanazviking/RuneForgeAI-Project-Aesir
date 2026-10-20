@@ -87,6 +87,31 @@ struct SocRpcStorage(Movable):
         _ = driver.request("buffer-sync", data)
         self.cpu_owned = not for_device
 
+    def _require_cpu(self) raises:
+        if self.address == 0 or not self.cpu_owned:
+            raise herror("SocStorageState", "CPU byte access requires explicitly CPU-owned storage")
+
+    def write_message(mut self, data: List[UInt8]) raises:
+        self._require_cpu()
+        if len(data) > Int(SOC_RPC_STORAGE_SIZE):
+            raise herror("SocStorageBounds", "message exceeds the owned 2068-byte logical extent")
+        var bytes = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=Int(self.address))
+        # Clear the whole logical message, including bytes from prior messages.
+        for index in range(Int(SOC_RPC_STORAGE_SIZE)):
+            bytes[unsafe_offset=index] = data[index] if index < len(data) else UInt8(0)
+
+    def read_bytes(self, count: Int) raises -> List[UInt8]:
+        self._require_cpu()
+        if count < 0 or count > Int(SOC_RPC_STORAGE_SIZE):
+            raise herror("SocStorageBounds", "read exceeds the owned logical message extent")
+        var bytes = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=Int(self.address))
+        var result = List[UInt8]()
+        result.reserve(count)
+        for index in range(count):
+            result.append(bytes[unsafe_offset=index])
+        # Owned copy: no reference into mapped storage escapes this accessor.
+        return result^
+
     def zeroed(self) raises -> Bool:
         if self.address == 0 or not self.cpu_owned:
             raise herror("SocStorageState", "CPU read requires explicitly CPU-owned storage")

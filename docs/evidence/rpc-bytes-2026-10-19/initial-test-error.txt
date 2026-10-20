@@ -1,0 +1,17 @@
+test_full_range_and_seeded_bytes_are_exact_with_zeroed_padding (__main__.OwnedBytes.test_full_range_and_seeded_bytes_are_exact_with_zeroed_padding) ... ok
+test_independent_protobuf_requests_and_frame_headers (__main__.OwnedBytes.test_independent_protobuf_requests_and_frame_headers) ... ok
+test_oversized_message_refused (__main__.OwnedBytes.test_oversized_message_refused) ... FAIL
+test_refusals_and_independent_copies (__main__.OwnedBytes.test_refusals_and_independent_copies) ... ok
+
+======================================================================
+FAIL: test_oversized_message_refused (__main__.OwnedBytes.test_oversized_message_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_storage_bytes.py", line 61, in test_oversized_message_refused
+    self.assertIn("SocStorageBounds", result.stdout + result.stderr)
+AssertionError: 'SocStorageBounds' not found in 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcHex]: expected at most 2068 complete hexadecimal byte pairs\n'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.269s
+
+FAILED (failures=1)
