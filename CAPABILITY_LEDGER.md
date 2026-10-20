@@ -2785,3 +2785,14 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** no model/layer math or device submission; physical precision,
   expanded resource qualification, CCWs and numerical hardware proof remain
   open. Source constants are references, not converted device allocations.
+
+### Checked expanded-graph storage — 2026-10-19
+
+- **Status:** `verified` for explicit hypothetical byte-volume accounting.
+- **Owner:** `smidr/expanded_storage.mojo`, native storage inspector.
+- **Evidence:** `docs/HAILO10H_MOJO_EXPANDED_STORAGE.md`; seven methods/88
+  native calls, exact independent interval oracle, separate predicate/real
+  timelines, 54 invalid graph/policy/arithmetic refusals and returned ownership.
+- **Boundary:** no model math, actual device allocation/fit, physical placement
+  or executable program. Source constants/views do not duplicate allocation;
+  actual conversion, precision, budgets and hardware acceptance remain open.

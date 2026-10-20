@@ -321,3 +321,12 @@ graph and primitive recipes. No external implementation study or copied/
 translated source. Independent symbolic edge/interval checks, malformed graph
 refusals and returned ownership pass without model/layer/numerical execution
 or device access. Receipt: `docs/HAILO10H_MOJO_EXPANDED_GRAPH.md`.
+
+### 2026-10-19 — Expanded graph storage validation/accounting
+
+Original Mojo typed graph checks and separate real/predicate event accounting
+use the project's graph and existing checked/source-size helpers. No external
+implementation study/copy/translation. Independent brute-force interval checks,
+malformed graph/policy/arithmetic refusals and returned ownership pass; no
+numerical model operation or device access. Receipt:
+`docs/HAILO10H_MOJO_EXPANDED_STORAGE.md`.

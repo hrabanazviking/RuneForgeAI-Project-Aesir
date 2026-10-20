@@ -65,3 +65,12 @@ global IDs and recomputes lifetimes. All weight constants are explicit and
 deduplicated; predicates/index values and KV aliases are explicit. This is IR,
 not device lowering or storage qualification. Complete conventions/evidence:
 `docs/HAILO10H_MOJO_EXPANDED_GRAPH.md`.
+
+`expanded_storage.mojo` exposes `ExpandedStorageAssumptions`,
+`ExpandedStorageEstimate`, `validate_expanded_storage_graph` and
+`estimate_expanded_storage`. Predicate width and all other byte assumptions,
+aggregate pools/budget and provenance are explicit. Source constants/KV views
+are not duplicate allocations. Exact global last uses and typed roles are
+validated before checked event accounting. This remains a hypothetical live
+byte volume, never hardware fit/admission. Evidence and complete limits:
+`docs/HAILO10H_MOJO_EXPANDED_STORAGE.md`.
