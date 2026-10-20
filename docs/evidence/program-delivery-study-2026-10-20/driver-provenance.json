@@ -1,0 +1,45 @@
+[
+  {
+    "repo": "hailort-drivers",
+    "revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "path": "linux/pcie/src/fops.c",
+    "sha256": "c9ecf4fda35c6956c9322865f9b19727dee811990e1ba87d125101c464e51c78",
+    "installed_identical": true
+  },
+  {
+    "repo": "hailort-drivers",
+    "revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "path": "linux/pcie/src/nnc.c",
+    "sha256": "e3c85e20ee039121c2ccfdbd0a9013803cb8a147f42681a73d3b8c8c076e34c6",
+    "installed_identical": true
+  },
+  {
+    "repo": "hailort-drivers",
+    "revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "path": "linux/pcie/src/soc.c",
+    "sha256": "450c95e77c11d69bc37521a1eee1d12af98de893d3e9f65960cb71fa1612505e",
+    "installed_identical": true
+  },
+  {
+    "repo": "hailort-drivers",
+    "revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "path": "common/hailo_ioctl_common.h",
+    "sha256": "a2731314f4676cb140b970043d53cc06d57da90ea46344ccd44a3c491aede26b",
+    "installed_identical": true
+  },
+  {
+    "repo": "hailort-drivers",
+    "revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "path": "LICENSE",
+    "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505",
+    "installed_identical": null
+  },
+  {
+    "repo": "hailort-drivers",
+    "revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "path": "common/pcie_common.c",
+    "sha256": "911797b12137cfdffa5ba156af5c77ea0c9b634c7f376bd8b0380f93cc310187",
+    "installed_identical": true,
+    "license": "MIT SPDX, existing root Hailo MIT license read"
+  }
+]

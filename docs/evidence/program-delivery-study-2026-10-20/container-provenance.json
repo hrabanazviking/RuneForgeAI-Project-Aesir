@@ -1,0 +1,14 @@
+[
+  {
+    "repo": "hailort",
+    "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+    "path": "hailort/libhailort/hef.proto",
+    "sha256": "e58753d4c33791beee096482cc4fce8b5023b48bc04c7910798fa7b063e149fb"
+  },
+  {
+    "repo": "hailort",
+    "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+    "path": "hailort/libhailort/src/hef/hef.cpp",
+    "sha256": "3dd18a8b8094dc4f6bdf84e69ac728426116ec4046275d0b6564737b58b1fde4"
+  }
+]
