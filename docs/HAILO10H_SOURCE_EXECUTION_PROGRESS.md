@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_configure_rpc_codec.md`. Full controlling scope:
+slice: `TASK_hailo10h_program_integrity.md`. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -47,6 +47,7 @@ verify, publish and advance each bounded work slice.
 | Public context-action byte codec | Verified host primitive | `HAILO10H_MOJO_CONTEXT_ACTIONS.md`; four public record types, owned values, exact field widths and 244 native calls against independent struct and C++ header oracles. No numerical program or upload. |
 | Configuration upload/activation endpoint | Public program receiver mapped; physical original upload open | `HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md`; matching driver rejects NNC firmware controls on the Pi SoC path. hRPC action 2 accepts separate compiled-program bytes, followed by configure/activate lifecycles. Original metadata/lifecycle codec is verified as host bytes; active `TASK_hailo10h_program_delivery.md` continues container/CCW facts. Actual upload, raw-context endpoint and numerical encoding remain open. |
 | Original program metadata/lifecycle codec | Verified host wire primitive | `HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`; eight methods/140 calls against generated public-schema protobuf, ten device codec regressions pass. No program transfer or activation. |
+| Original configure/stream codec | Verified host wire primitive | `HAILO10H_MOJO_CONFIGURE_RPC_CODEC.md`; eight methods/83 calls, exact public-schema fields/raw float words/NMS sentinels/body limits/strict replies. Program/device regressions pass. No hardware configure or resource ownership. |
 | Original compiled-program structure | Verified header/layout primitive | `HAILO10H_MOJO_PROGRAM_HEADER.md`; eight methods/151 native calls, independent exact bytes/section arithmetic, overflow/extents/ownership. No checksum/complete program. Public numerical compilation interface leads are recorded in `HAILO10H_PUBLIC_LLM_COMPILER_INTERFACES.md`; source-bound cache address scenario is independently verified. Active parent `TASK_hailo10h_program_delivery.md` continues actual configuration/CCW discovery. |
 | Outside-compiler first primitive source experiment | Withdrawn by owner clarification | `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`; unpublished prototype preserved outside production tree. Continue native source-bound tiling under `TASK_hailo10h_native_matrix_tiles.md`; no external compiler prerequisite. |
 | Executable compute-context generation | Open | Learn and emit actual CCW operation/register/configuration/scheduling data and establish upload/activation, then prove the first operation on hardware. |
@@ -57,4 +58,5 @@ owner's requested model scope or make host-only primitives count as device
 execution. Old catalog-selection work orders must not resume.
 
 Latest numerical/configuration leads: `HAILO10H_NUMERICAL_ENCODING_LEADS_2026-10-20.md`.
-Action4 codec is contracted next; architectural patents are not a device ISA.
+Action4 codec now passes8/83; original program integrity is next. Architectural
+patents are not a device ISA.

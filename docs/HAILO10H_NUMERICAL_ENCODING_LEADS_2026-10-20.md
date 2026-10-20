@@ -30,7 +30,7 @@ The searches are bounded evidence, not a claim that no other public source exist
 
 The frozen MIT HailoRT5.3.0 pin
 `d503417f2a0db186a838390fb08690c4ea0f415e` defines a complete action4 body and
-receiver mapping. Public [rpc.proto](https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hrpc_protocol/rpc.proto)
+receiver mapping. Public [rpc.proto](https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/hrpc_protocol/rpc.proto)
 provides these fields:
 
 | Request field | Wire meaning |

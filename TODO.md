@@ -9,7 +9,9 @@
 - [x] Source weight byte tiles: five methods/286 native calls,88368 byte checks.
 - [x] Original Q5/Q6 components: seven methods/88 calls,94416 component checks.
 - [x] Numerical source lead study: LCU/configuration descriptions, no actual ISA.
-- [ ] Active: `TASK_hailo10h_configure_rpc_codec.md`, original action4 bytes.
+- [x] Original configure/stream codec: eight methods/83 calls; program/device
+  regressions pass. Host bytes only, no device configuration or model inference.
+- [ ] Active: `TASK_hailo10h_program_integrity.md`, original output checksums.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

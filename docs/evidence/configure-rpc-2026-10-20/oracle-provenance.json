@@ -1,0 +1,11 @@
+{
+  "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "schema_sha256": "c44ec3a28d075bae5f814f99491a4f1de0c3cbd026721243e8876c67b5da9225",
+  "enum_header_sha256": "e02cdb188ac543edd2a4b746c50399b6a74ad8ef1eb230ba5431ae47fccd3a87",
+  "descriptor_sha256": "a933b568e4393cbd7a5008abc608193d550ad304cc72851d6a7484132bf63754",
+  "protoc": "libprotoc 3.21.12",
+  "protobuf_runtime": "6.33.6",
+  "licenses": "HailoRT MIT and installed protobuf BSD-3-Clause already read before oracle use",
+  "action_id": 4,
+  "scope": "generated public-schema wire oracle only; no external implementation copied or shipped"
+}

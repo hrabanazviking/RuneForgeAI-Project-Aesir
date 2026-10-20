@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original configure RPC
+
+- Added owned action4 configure/stream fields and typed handle/queue replies.
+  Plain streams explicitly retain non-NMS -1 sentinels; no option is dropped.
+  Strict body, UTF-8/name, UInt16-batch, handle, duplicate/wire/status checks.
+- Final warning-free build and eight methods/83 native calls pass:36 accept,
+  47 refuse; all fields/raw float bits match the frozen protobuf oracle.
+  Program regression8/140 and device10 methods pass after native rebuilds.
+- Receipt: `docs/HAILO10H_MOJO_CONFIGURE_RPC_CODEC.md`. No device/resource/
+  model operation performed; no full hosted CI pass claimed. Publish and advance
+  original program integrity while actual numerical encoding remains open.
+
 ## 2026-10-20 — Codex (Researcher, Auditor, Scribe): numerical encoding leads
 
 - Studied two public Hailo patent descriptions for LCU/configuration/integrity

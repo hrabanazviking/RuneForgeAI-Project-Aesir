@@ -2971,3 +2971,15 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Boundary:** no production floating model arithmetic, immutable source proof,
   device packing/precision, placement or numerical hardware execution. Active
   `TASK_hailo10h_numerical_encoding_sources.md` targets actual backend gaps.
+
+### Original configure/stream parameter wire values — 2026-10-20
+
+- **Status:** `verified` as host action4 construction/reply inspection only.
+- **Owner:** original `hailbru/hrpc_configure.mojo`, native SMIÐR diagnostic.
+- **Evidence:** `docs/HAILO10H_MOJO_CONFIGURE_RPC_CODEC.md`; eight methods/83
+  calls (36 accept,47 refuse), exact frozen-schema packets, all fields/sentinels,
+  bounds/ownership/UTF-8/raw words and strict reply checks. Rebuilt program8/140
+  and device10-method regressions pass. No device/syscall/model request occurs.
+- **Boundary:** no physical handle ownership, program transfer/configure,
+  precision/placement, numerical CCWs or hardware execution. Original program
+  integrity follows under `TASK_hailo10h_program_integrity.md`.

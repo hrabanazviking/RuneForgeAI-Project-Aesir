@@ -1,0 +1,19 @@
+{
+  "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "schema_sha256": "c44ec3a28d075bae5f814f99491a4f1de0c3cbd026721243e8876c67b5da9225",
+  "enum_header_sha256": "e02cdb188ac543edd2a4b746c50399b6a74ad8ef1eb230ba5431ae47fccd3a87",
+  "descriptor_sha256": "a933b568e4393cbd7a5008abc608193d550ad304cc72851d6a7484132bf63754",
+  "protoc": "libprotoc 3.21.12",
+  "runtime": "google.protobuf 6.33.6; BSD-3-Clause license inspected before use",
+  "source_license": "HailoRT MIT, read before source/schema use; external/generated files stay outside Git",
+  "enum_check": "pinned header declaration lexical enum oracle; no external implementation copying",
+  "cpp_header_oracle": "not built: internal header depends on unavailable full HailoRT source include graph; descriptor plus frozen enum declaration used",
+  "actions": {
+    "VDEVICE__CREATE_INFER_MODEL": 2,
+    "INFER_MODEL__DESTROY": 3,
+    "CONFIGURED_INFER_MODEL__DESTROY": 5,
+    "CONFIGURED_INFER_MODEL__ACTIVATE": 10,
+    "CONFIGURED_INFER_MODEL__DEACTIVATE": 11,
+    "CONFIGURED_INFER_MODEL__SHUTDOWN": 12
+  }
+}

@@ -24,7 +24,9 @@
 are integrated into main at `1edae4f`. Original lazy source-bound matrix
 schedules pass seven methods/860 native calls and preserve head-split shapes,
 packed source identities and explicit workspace scenarios. These are internal
-compiler structures. Active next contract: `TASK_hailo10h_source_weight_tiles.md`.
+compiler structures. Subsequent source byte tiles, Q5/Q6 component readers and action4 configure
+codec now have independent host evidence. Active next contract:
+`TASK_hailo10h_program_integrity.md`.
 Numerical hardware encoding, precision/packing/placement and source-model
 execution remain open. Main hosted CI fails at historical master compilation.
 

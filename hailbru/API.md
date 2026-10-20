@@ -205,3 +205,17 @@ All return owned values and open no device. These do not acquire/own actual
 server resources, prove numerical program validity or admit hardware execution.
 Wire conventions, tests and physical gates:
 `docs/HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`.
+
+## Original configure/stream wire values (`hailbru.hrpc_configure`)
+
+`HrpcInferStream` and `HrpcConfigureParams` own field values/lists.
+`plain_infer_stream(name,order,kind)` supplies explicit non-NMS unset sentinels.
+`configure_request(message_id,params)` returns an owned action4 HrpcFrame;
+`configure_reply(frame,message_id)` returns typed handle/queue metadata.
+Nonempty UTF-8 names, per-direction uniqueness, batch UInt16 range, valid
+handles, pinned body bounds and strict reply wire/correlation/status checks
+apply. Raw uint32 format/power/latency and fixed32 float words are metadata,
+not device precision/capability admission. No device/resource owner or submission
+consumer exists in this codec. Exact evidence and remaining physical gates:
+`docs/HAILO10H_MOJO_CONFIGURE_RPC_CODEC.md`. New error: `BadConfigureRpc`;
+shared framing/protobuf/program-handle/reply errors retain their prior codes.

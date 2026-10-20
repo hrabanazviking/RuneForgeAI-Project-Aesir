@@ -1,0 +1,500 @@
+[
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a4a0000001100000004000000010000000a020801120208021a200a0b746f6b656e732df09f8c8b10ffffffff0f2dffffffff38ffffffff0f401f221c0a096c6f676974732dc3a91001180325ffffffff30ffffffff0f40092802\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a5c0000001100000004000000010000000a020801120208021a290a0b746f6b656e732df09f8c8b10feffffff0f180125000000802d01000000300138ffffffff0f402022230a096c6f676974732dc3a91001180325010000002d0000008030ffffffff0f3801400928024001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a5a0000001100000004000000010000000a020801120208021a290a0b746f6b656e732df09f8c8b10fdffffff0f180225000080bf2d4523817f300238ffffffff0f402122230a096c6f676974732dc3a910011803254523817f2d000080bf30ffffffff0f380240092802\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a5c0000001100000004000000010000000a020801120208021a290a0b746f6b656e732df09f8c8b10fcffffff0f1803250000003f2d4523c17f300338ffffffff0f402222230a096c6f676974732dc3a910011803254523c17f2d0000003f30ffffffff0f3803400928024001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a580000001100000004000000010000000a020801120208021a270a0b746f6b656e732df09f8c8b10fbffffff0f250000807f2d000080ff300438ffffffff0f402322230a096c6f676974732dc3a91001180325000080ff2d0000807f30ffffffff0f380440092802\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a5c0000001100000004000000010000000a020801120208021a290a0b746f6b656e732df09f8c8b10faffffff0f180125000080ff2d0000807f300538ffffffff0f402422230a096c6f676974732dc3a910011803250000807f2d000080ff30ffffffff0f3805400928024001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a5a0000001100000004000000010000000a020801120208021a290a0b746f6b656e732df09f8c8b10f9ffffff0f1802254523c17f2d0000003f300638ffffffff0f402522230a096c6f676974732dc3a910011803250000003f2d4523c17f30ffffffff0f380640092802\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a5c0000001100000004000000010000000a020801120208021a290a0b746f6b656e732df09f8c8b10f8ffffff0f1803254523817f2d000080bf300738ffffffff0f402622230a096c6f676974732dc3a91001180325000080bf2d4523817f30ffffffff0f3807400928024001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a580000001100000004000000010000000a020801120208021a270a0b746f6b656e732df09f8c8b10f7ffffff0f25010000002d00000080300838ffffffff0f402722230a096c6f676974732dc3a91001180325000000802d0100000030ffffffff0f380840092802\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a520000001100000004000000010000000a020801120208021a240a0b746f6b656e732df09f8c8b10f6ffffff0f180125ffffffff300938ffffffff0f4028221e0a096c6f676974732dc3a9100118032dffffffff30ffffffff0f3809400928024001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a040000000000000004000000010000000a001200\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a100000001100000004000000010000000a020801120208092801300138034001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a22000000ffffffff04000000010000000a0608feffffff0f120608feffffff0f28ffff0330ffffffff0f38ffffffff0f4001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramRpc]: invalid object handle sentinel\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramRpc]: invalid object handle sentinel\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: batch exceeds public UInt16 API range\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt32\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt32\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt32\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt32\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a000800001100000004000000010000000a0012001af90f0af60f78787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: configuration exceeds pinned body bound\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: configuration exceeds pinned body bound\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a000800001100000004000000010000000a0012001af90f0af60fc3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9c3a9\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: configuration exceeds pinned body bound\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 stream name\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 stream name\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 continuation\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 scalar\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 scalar\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 scalar\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 scalar\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 stream name\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: truncated UTF-8 stream name\n"
+  },
+  {
+    "mode": "raw-name",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 stream name\n"
+  },
+  {
+    "mode": "bad-utf8",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: invalid UTF-8 stream name\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":0,\"async_queue_size\":0,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":0,\"async_queue_size\":0,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":0,\"async_queue_size\":0,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":0,\"async_queue_size\":0,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":0,\"async_queue_size\":0,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":1,\"async_queue_size\":64,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":1,\"async_queue_size\":64,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":1,\"async_queue_size\":64,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":1,\"async_queue_size\":64,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":1,\"async_queue_size\":64,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":4294967294,\"async_queue_size\":4294967295,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":4294967294,\"async_queue_size\":4294967295,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":4294967294,\"async_queue_size\":4294967295,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":4294967294,\"async_queue_size\":4294967295,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":4294967294,\"async_queue_size\":4294967295,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":0,\"async_queue_size\":3,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "reply",
+    "returncode": 0,
+    "stdout": "{\"handle\":0,\"async_queue_size\":0,\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a520000001100000004000000010000000a0012001a240a06746f6b656e7325000080bf2d000080bf30ffffffff0f38ffffffff0f40ffffffff0f22240a066c6f6769747325000080bf2d000080bf30ffffffff0f38ffffffff0f40ffffffff0f4001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "ownership",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a310000001100000004000000010000000a00120208011a250a036100621005180325000080bf2d000080bf30ffffffff0f38ffffffff0f40ffffffff0f38014001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "plain",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a6c0000001100000004000000010000000a00120208011a2d0a0be8be93e585a52df09f8c8b1007180325000080bf2d000080bf30ffffffff0f38ffffffff0f40ffffffff0f222f0a0dd0b2d18bd185d0bed0b42dc3a91007180325000080bf2d000080bf30ffffffff0f38ffffffff0f40ffffffff0f300138034001\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: duplicate stream name in one direction\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: duplicate stream name in one direction\n"
+  },
+  {
+    "mode": "request",
+    "returncode": 0,
+    "stdout": "{\"packet_hex\":\"3244558a4c0000001100000004000000010000000a0012001a220a0473616d6525000080bf2d000080bf30ffffffff0f38ffffffff0f40ffffffff0f22220a0473616d6525000080bf2d000080bf30ffffffff0f38ffffffff0f40ffffffff0f\",\"device_access\":false,\"configured_on_device\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "request",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: stream name must be nonempty\n"
+  },
+  {
+    "mode": "many",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: stream list exceeds frame capacity\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: missing configured handle message\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: expected a varint field\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: expected a length-delimited field\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: truncated varint\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: duplicate known configure reply field\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: duplicate configured handle scalar\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadConfigureRpc]: duplicate known configure reply field\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: expected a varint field\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: invalid protobuf field key\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: unsupported protobuf wire type\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: truncated varint\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: truncated length-delimited field\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: field exceeds UInt32\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: field exceeds UInt32\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramRpc]: invalid object handle sentinel\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: varint exceeds UInt64\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcProtobuf]: invalid protobuf field key\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[RpcReplyMismatch]: reply ID/action does not match the request\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[RpcReplyMismatch]: reply ID/action does not match the request\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[RpcRemoteFailure]: device returned status 1\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[RpcRemoteFailure]: device returned status 4294967295\n"
+  },
+  {
+    "mode": "reply",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcHex]: expected at most 2068 complete hexadecimal byte pairs\n"
+  }
+]

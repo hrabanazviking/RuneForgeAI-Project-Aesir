@@ -1,0 +1,27 @@
+{
+  "toolchain": "Mojo1.1.0 (8189361e)",
+  "final_build": "warning-free; unused initializations removed before final complete rerun",
+  "methods": 8,
+  "native_calls": 83,
+  "accepted": 36,
+  "refused": 47,
+  "program_regression": {
+    "methods": 8,
+    "native_calls": 140,
+    "result": "pass, native rebuilt"
+  },
+  "device_regression": {
+    "methods": 10,
+    "result": "pass, native rebuilt"
+  },
+  "device_access": false,
+  "program_transferred": false,
+  "configured_on_device": false,
+  "model_math": false,
+  "full_ci": "not claimed; historical master compile failure remains",
+  "binary_sha256": "bfb15491e4a5107f3ce080d00f00bcae5fbd304ce772d14aa43861852f200686",
+  "production_sha256": {
+    "hailbru/hrpc_configure.mojo": "93819449865ea1520e9494fdee2e32c99b8ec1e4b27304d08a9f669f2bfdec52",
+    "smidr/tools/hrpc_configure.mojo": "db9e00a683bf7c44a5c9e4f7090f48b6bbf900323115624e9b460375e2c47360"
+  }
+}
