@@ -51,3 +51,8 @@ native calls and is published at `2134a37`. The next audit in
 `docs/HAILO10H_SOURCE_STORAGE_PROVENANCE_AUDIT.md` establishes current GGUF rank
 loss and public config/index facts. Preserve exact admitted GGUF source axes
 before tagged storage integration; do not infer source rank from row count.
+
+2026-10-20 next phase: exact GGUF source axes are verified and published at
+`42f3360`. `TASK_hailo10h_tagged_source_storage.md` narrows the next owned
+format/dtype/full-shape/original-name/backing-file storage boundary, with existing
+consumer ABI and actual semantic migration kept explicit.

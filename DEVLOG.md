@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Architect, Cartographer, Scribe): tagged storage implementation contract
+
+- Completed/published exact GGUF source axes at `42f3360`, both remote branches
+  and clean checkouts verified. Continued the source storage consumer audit.
+- Published `TASK_hailo10h_tagged_source_storage.md`: owned container/dtype tags,
+  original axes/names/backing-file spans, checked format-specific arithmetic,
+  parser reuse and native inspector. Existing implicit-copy GGUF consumers need
+  complete explicit migration before safetensors enters semantic compilation.
+- Config/index/alias/orientation/rotary and numerical Hailo backend gaps remain
+  required implementation work toward broad ordinary-model support. No target
+  reduction, model forward or device operation occurred.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): exact GGUF source axes
 
 - Preserved declared one/two-dimensional source axes in the existing parser;
