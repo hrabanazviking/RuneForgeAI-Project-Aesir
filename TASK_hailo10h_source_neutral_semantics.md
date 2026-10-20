@@ -39,3 +39,9 @@ device numerical encoding. Continue actual Hailo instruction/configuration,
 precision/packing/placement/upload/activation/result/cleanup research and code
 where field evidence permits. Publish each verified slice and advance
 without routine owner prompts; the fixed broad ordinary-model target remains.
+
+2026-10-20 narrowing: `docs/HAILO10H_SOURCE_NEUTRAL_SEMANTIC_AUDIT.md`
+records current format coupling and the first implementation contract: extract
+owned typed decoder parameters and a compatible mathematical graph builder.
+Storage remains explicitly GGUF-specific in that phase; tagged storage and
+ordinary config/index/name facts must precede the safetensors semantic adapter.

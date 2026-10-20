@@ -1,3 +1,13 @@
+## 2026-10-20 — Codex (Auditor, Scribe): semantic frontend dependency contract
+
+- Audited actual PackedGGUF/config/source-kind dependencies across semantic,
+  expanded storage, matrix and source byte readers. Safetensors metadata/static
+  windows remain separate; no full frontend or hardware execution is claimed.
+- Published the narrowed owned decoder-parameter/compatible graph-builder
+  contract in `docs/HAILO10H_SOURCE_NEUTRAL_SEMANTIC_AUDIT.md`, with exact graph/
+  lifetime/binding regressions required and format tags/config/name mappings
+  kept as necessary subsequent work. No device/model operation occurred.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary safetensors static words
 
 - Connected bounded source windows to the existing live metadata owner, exact

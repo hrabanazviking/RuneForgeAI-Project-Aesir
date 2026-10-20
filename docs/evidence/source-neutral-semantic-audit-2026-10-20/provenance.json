@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-20",
+  "baseline_commit": "8d134c0aec9e34ec59fa206d3ac6704cb6a1bcb5",
+  "source": "existing project implementation only; no external model implementation inspected",
+  "scope": "static dependency audit and narrowed next implementation contract",
+  "device_access": false,
+  "model_evaluated": false,
+  "sha256": {
+    "smidr/semantic_plan.mojo": "eb2f79734a2e869d79cfa422c369829e5310223a1a3c2d2db5481a6c73b6aca2",
+    "smidr/source_inventory.mojo": "738ade2ce6d6b45c7caab6dadc5b68ce620ccc2b2d4885fbda3ce657f9e0e46c",
+    "smidr/matrix_tiles.mojo": "1e595bdfae558ec86ef8fb522a2a555684e7aa44c8ec96ff523995c0bdab61f2",
+    "smidr/expanded_storage.mojo": "4163ab922e72695746da424e9bdbbba60af5126e1e4856c7b49e72a0e652ff63",
+    "smidr/source_weight_tiles.mojo": "6d6f7e8d18a60d24183059b32be81c86e89641f1b0f994423b1ff2d8fefaca13",
+    "smidr/safetensors_inventory.mojo": "613c8327958a1dacb890ed24434c9b2397cb77710f0a3fc7acac89e4c18dca71",
+    "smidr/safetensors_constants.mojo": "0856ebf35f9eaefd56460e6da3d8fc252318381989cbeac9aae72dac93c48cbc"
+  }
+}
