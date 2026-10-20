@@ -2949,3 +2949,14 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Boundary:** no model arithmetic, immutable source certificate, device packing,
   precision/placement, numerical CCWs, hardware fit or execution. Source byte
   streaming is next under `TASK_hailo10h_source_weight_tiles.md`.
+
+### Native source weight byte tiles — 2026-10-20
+
+- **Status:** `verified` as bounded read-only source storage only.
+- **Owner:** original `smidr/source_weight_tiles.mojo`, consumes matrix schedules.
+- **Evidence:** `docs/HAILO10H_MOJO_SOURCE_WEIGHT_TILES.md`; five methods/286
+  native calls (256 accept,30 refuse),88368 independent byte checks across six
+  source kinds, packed block/row tails, explicit bounds and destroyed owners.
+- **Boundary:** no model evaluation, immutable identity, device packing/precision,
+  placement, numerical CCWs or hardware execution. Original Q5/Q6 component
+  decoding follows under `TASK_hailo10h_q5q6_source_constants.md`.

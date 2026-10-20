@@ -114,3 +114,12 @@ binding and explicit workspace assumptions. Tile origins are logical element
 indices, not packed file/device byte addresses. This is mathematical scheduling,
 not numerical hardware code or hardware admission. Exact traversal, checks,
 independent evidence and remaining gates: `docs/HAILO10H_MOJO_MATRIX_TILES.md`.
+
+`source_weight_tiles.mojo` exposes owned `SourceWeightSpan`, move-only
+`SourceWeightTile` and `read_source_weight_tile(source,schedule,index,bound)`.
+The live source binding must match the checked schedule. Minimal complete
+packed-block spans and copied source bytes retain prefix/suffix metadata and
+survive source/schedule destruction. The aggregate bound covers payload only.
+This is source byte streaming, not immutable identity/device packing/compute.
+Exact ownership, byte-oracle evidence and limitations:
+`docs/HAILO10H_MOJO_SOURCE_WEIGHT_TILES.md`.

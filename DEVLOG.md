@@ -1,3 +1,17 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): source weight byte tiles
+
+- Connected lazy matrix rectangles to live source mappings with exact binding
+  comparison, minimal packed-block spans, explicit prefix/suffix and owned bytes.
+  Payload bound and all row/tensor/file extents are checked before copying.
+- Two warning-free builds and five methods/286 calls pass:256 accept,30 refuse;
+  88368 independent byte checks over six source kinds and ownership/bounds faults.
+  No model arithmetic or device access. Source hashes remain unchanged.
+- Receipt: `docs/HAILO10H_MOJO_SOURCE_WEIGHT_TILES.md`. Publish and advance to
+  the contracted original Q5/Q6 source component readers; actual numerical
+  hardware encoding, packing/placement and program execution remain open.
+- Main and Hailo were synchronized at73a12e4 after the matrix slice. The
+  integration ancestry remains intact; historical CI compilation failure remains.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): native matrix schedules
 
 - Original source-bound M/N/C tile pass preserves source bindings, head-split

@@ -6,7 +6,8 @@
   static constant readers, hypothetical storage/cache and lazy matrix schedules.
 - [x] Native matrix schedule acceptance: seven methods/860 calls; mathematical
   structure only. `docs/HAILO10H_MOJO_MATRIX_TILES.md`.
-- [ ] Active: `TASK_hailo10h_source_weight_tiles.md`, actual bounded source spans.
+- [x] Source weight byte tiles: five methods/286 native calls,88368 byte checks.
+- [ ] Active: `TASK_hailo10h_q5q6_source_constants.md`, original source components.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.
   No CPU/CUDA/cloud LLM inference, outside compiler or specially compiled model
