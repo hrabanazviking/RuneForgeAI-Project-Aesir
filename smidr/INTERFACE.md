@@ -50,3 +50,10 @@ IR; untouched source operation IDs remain named. No production arithmetic is
 evaluated. Exact source bindings/scalar bits, local reference conventions,
 shape/lifetime evidence and unresolved device/precision/storage gates are in
 `docs/HAILO10H_MOJO_PRIMITIVE_RECIPES.md`.
+
+The primitive pass additionally expands last-axis softmax. Every recipe now
+carries runtime preconditions; masked -infinity is allowed only with at least
+one finite value per row and no NaN/+infinity. They are obligations, not already
+validated runtime data. Current regression/softmax evidence:
+`docs/HAILO10H_MOJO_SOFTMAX_RECIPE.md`. Expanded graph/storage integration is
+contracted in `TASK_hailo10h_expanded_graph.md`.

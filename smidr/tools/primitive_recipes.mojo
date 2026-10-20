@@ -21,6 +21,12 @@ def main() raises:
         var recipe = lowered.recipes[i].copy()
         text += "{\"source_operation\":" + String(recipe.source_operation) + ",\"source_input\":" + String(recipe.source_input) + ",\"source_output\":" + String(recipe.source_output)
         text += ",\"kind\":" + _quote(recipe.kind) + ",\"weight_name\":" + _quote(recipe.weight_name) + ",\"divisor\":" + String(recipe.divisor) + ",\"epsilon_bits\":" + String(recipe.epsilon_bits)
+        text += ",\"runtime_preconditions\":["
+        for j in range(len(recipe.runtime_preconditions)):
+            if j != 0:
+                text += ","
+            text += _quote(recipe.runtime_preconditions[j])
+        text += "]"
         if recipe.weight_name.byte_length() != 0:
             text += ",\"weight\":{\"file_offset\":" + String(recipe.weight.file_offset) + ",\"columns\":" + String(recipe.weight.columns) + ",\"rows\":" + String(recipe.weight.rows)
             text += ",\"source_kind\":" + String(recipe.weight.source_kind) + ",\"byte_count\":" + String(recipe.weight.byte_count) + "}"

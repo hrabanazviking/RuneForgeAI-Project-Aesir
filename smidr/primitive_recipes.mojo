@@ -30,6 +30,7 @@ struct PrimitiveRecipe(Copyable, Movable):
     var weight: SourceTensorBinding
     var divisor: Int
     var epsilon_bits: UInt32
+    var runtime_preconditions: List[String]
     var values: List[RecipeValue]
     var operations: List[RecipeOperation]
     var result: Int
@@ -44,6 +45,7 @@ struct PrimitiveRecipe(Copyable, Movable):
         self.weight = SourceTensorBinding(0, 0, 0, 0, 0)
         self.divisor = 0
         self.epsilon_bits = 0
+        self.runtime_preconditions = ["finite_inputs"]
         self.values = List[RecipeValue]()
         self.operations = List[RecipeOperation]()
         self.result = -1
@@ -82,7 +84,7 @@ def lower_primitive_recipes(plan: SemanticPlan) raises -> PrimitiveRecipes:
     var lowered = PrimitiveRecipes()
     for index in range(len(plan.operations)):
         var operation = plan.operations[index].copy()
-        if operation.kind != "rms_norm" and operation.kind != "silu":
+        if operation.kind != "rms_norm" and operation.kind != "silu" and operation.kind != "softmax":
             lowered.remaining_source_operations.append(index)
             continue
         if len(operation.inputs) != 1 or operation.inputs[0] < 0 or operation.inputs[0] >= len(plan.tensors) or operation.output < 0 or operation.output >= len(plan.tensors):
@@ -123,6 +125,17 @@ def lower_primitive_recipes(plan: SemanticPlan) raises -> PrimitiveRecipes:
             var inv = recipe.emit("reciprocal_sqrt", [adjusted], [input.shape[0], 1])
             var norm = recipe.emit("multiply_row_scale", [x, inv], input.shape.copy())
             recipe.result = recipe.emit("multiply_source_vector", [norm, w], input.shape.copy())
+        elif operation.kind == "softmax":
+            if operation.weight.byte_length() != 0:
+                raise Error("PrimitiveRecipe: softmax has an unexpected source weight")
+            recipe.runtime_preconditions = ["no_nan_or_positive_infinity", "at_least_one_finite_value_per_last_axis_row", "negative_infinity_mask_values_allowed"]
+            var row_shape = input.shape.copy()
+            row_shape[len(row_shape) - 1] = 1
+            var maximum = recipe.emit("reduce_max_last", [x], row_shape.copy())
+            var shifted = recipe.emit("subtract_last_axis", [x, maximum], input.shape.copy())
+            var e = recipe.emit("exp", [shifted], input.shape.copy())
+            var summed = recipe.emit("reduce_sum_last", [e], row_shape.copy())
+            recipe.result = recipe.emit("divide_last_axis", [e, summed], input.shape.copy())
         else:
             if operation.weight.byte_length() != 0:
                 raise Error("PrimitiveRecipe: SiLU has an unexpected source weight")

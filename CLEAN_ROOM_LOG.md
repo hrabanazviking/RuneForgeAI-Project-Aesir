@@ -304,3 +304,12 @@ text/figure copied. Exact graph/scalar/lifetime checks and tiny synthetic
 primitive-only Decimal oracles pass. No numerical production kernel, source
 model/layer forward or device program is executed. Receipt:
 `docs/HAILO10H_MOJO_PRIMITIVE_RECIPES.md`.
+
+### 2026-10-19 — Original stable softmax recipe
+
+Original mathematical max-shift identity expressed in Mojo IR with explicit
+source/local dependencies and runtime preconditions. No external implementation
+study/copy/translation. Independent tiny Decimal probability fixtures verify
+mathematics only; no model/attention/layer forward or device submission. Prior
+RMSNorm/SiLU evidence is retained. Receipt:
+`docs/HAILO10H_MOJO_SOFTMAX_RECIPE.md`.

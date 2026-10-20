@@ -12,11 +12,14 @@ def main() raises:
     var plan = read_dense_semantic_plan(args[1], 2, 0, 16)
     var norm = -1
     var silu = -1
+    var softmax = -1
     for i in range(len(plan.operations)):
         if plan.operations[i].kind == "rms_norm" and norm == -1:
             norm = i
         if plan.operations[i].kind == "silu":
             silu = i
+        if plan.operations[i].kind == "softmax":
+            softmax = i
     var mode = args[2]
     var input_id = plan.operations[norm].inputs[0]
     var output_id = plan.operations[norm].output
@@ -60,6 +63,12 @@ def main() raises:
         plan.rms_epsilon = bitcast[DType.float32](UInt32(0x7fc00000))
     elif mode == "silu_weight":
         plan.operations[silu].weight = name
+    elif mode == "softmax_weight":
+        plan.operations[softmax].weight = name
+    elif mode == "softmax_shape":
+        plan.tensors[plan.operations[softmax].output].shape[2] += 1
+    elif mode == "softmax_lifetime":
+        plan.tensors[plan.operations[softmax].inputs[0]].last_use = softmax - 1
     else:
         raise Error("unknown test case")
     var recipes = lower_primitive_recipes(plan)

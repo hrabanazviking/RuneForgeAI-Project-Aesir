@@ -2762,3 +2762,14 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** no CPU model/layer forward, Hailo program, device precision or
   numerical hardware acceptance. Expanded storage and backend encoding remain
   open. Unexpanded operations are explicitly named.
+
+### Stable last-axis softmax recipe — 2026-10-19
+
+- **Status:** `verified` as mathematical compiler expansion only.
+- **Owner:** original `smidr/primitive_recipes.mojo` pass.
+- **Evidence:** `docs/HAILO10H_MOJO_SOFTMAX_RECIPE.md`; seven methods/44
+  native calls, five isolated primitive Decimal fixtures, RMSNorm/SiLU
+  regressions and exact source/shape/domain/lifetime checks.
+- **Boundary:** explicit runtime preconditions have not been enforced on
+  device. No model/layer forward, executable Hailo program or device numerical
+  tolerance is certified. Expanded storage/placement/program gates remain.

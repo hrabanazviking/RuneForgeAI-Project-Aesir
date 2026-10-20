@@ -19,11 +19,18 @@ NORM=['multiply','reduce_sum_last','divide_by_width','add_epsilon',
       'reciprocal_sqrt','multiply_row_scale','multiply_source_vector']
 SILU=['abs','negate','exp','add_one','reciprocal','multiply',
       'compare_nonnegative','select','multiply']
+SOFTMAX=['reduce_max_last','subtract_last_axis','exp','reduce_sum_last','divide_last_axis']
 
 
 def evaluate_tiny(recipe,x,weights=None):
     """Test-only interpreter of ONE isolated primitive, synthetic numbers only."""
     values=[list(x)]
+    if recipe['kind']=='softmax':
+        width=recipe['values'][0]['shape'][-1]
+        for offset in range(0,len(x),width):
+            row=x[offset:offset+width]
+            if any(math.isnan(v) or v==math.inf for v in row) or not any(math.isfinite(v) for v in row):
+                raise ValueError('softmax runtime precondition is unmet')
     if recipe['kind']=='rms_norm':
         values.append(list(weights))
     for op in recipe['operations']:
@@ -31,8 +38,17 @@ def evaluate_tiny(recipe,x,weights=None):
         kind=op['kind']
         if kind=='multiply': out=[a*b for a,b in zip(*arrays)]
         elif kind=='reduce_sum_last':
-            width=recipe['divisor']
+            width=recipe['values'][op['inputs'][0]]['shape'][-1]
             out=[sum(arrays[0][i:i+width]) for i in range(0,len(arrays[0]),width)]
+        elif kind=='reduce_max_last':
+            width=recipe['values'][op['inputs'][0]]['shape'][-1]
+            out=[max(arrays[0][i:i+width]) for i in range(0,len(arrays[0]),width)]
+        elif kind=='subtract_last_axis':
+            width=recipe['values'][op['inputs'][0]]['shape'][-1]
+            out=[v-arrays[1][i//width] for i,v in enumerate(arrays[0])]
+        elif kind=='divide_last_axis':
+            width=recipe['values'][op['inputs'][0]]['shape'][-1]
+            out=[v/arrays[1][i//width] for i,v in enumerate(arrays[0])]
         elif kind=='divide_by_width': out=[a/recipe['divisor'] for a in arrays[0]]
         elif kind=='add_epsilon':
             epsilon=struct.unpack('<f',struct.pack('<I',recipe['epsilon_bits']))[0]
@@ -108,7 +124,7 @@ class PrimitiveRecipes(unittest.TestCase):
         for flag in ('executable_program','device_execution_verified','source_fingerprint_verified','lowered_storage_recomputed'):
             self.assertIs(data[flag],False)
         self.assertTrue(data['unresolved_gates'])
-        targets=[i for i,op in enumerate(graph['operations']) if op['kind'] in ('rms_norm','silu')]
+        targets=[i for i,op in enumerate(graph['operations']) if op['kind'] in ('rms_norm','silu','softmax')]
         self.assertEqual([r['source_operation'] for r in data['recipes']],targets)
         self.assertEqual(data['remaining_source_operations'],
             [{'id':i,'kind':op['kind']} for i,op in enumerate(graph['operations']) if i not in targets])
@@ -118,9 +134,9 @@ class PrimitiveRecipes(unittest.TestCase):
             self.assertEqual(r['source_input'],original['inputs'][0])
             self.assertEqual(r['source_output'],original['output'])
             self.assertEqual(r['values'][0]['shape'],shape)
-            kinds=NORM if r['kind']=='rms_norm' else SILU
+            kinds=NORM if r['kind']=='rms_norm' else SILU if r['kind']=='silu' else SOFTMAX
             self.assertEqual([op['kind'] for op in r['operations']],kinds)
-            edges=[[0,0],[2],[3],[4],[5],[0,6],[7,1]] if r['kind']=='rms_norm' else [[0],[1],[2],[3],[4],[3,5],[0],[7,5,6],[0,8]]
+            edges=[[0,0],[2],[3],[4],[5],[0,6],[7,1]] if r['kind']=='rms_norm' else [[0],[1],[2],[3],[4],[3,5],[0],[7,5,6],[0,8]] if r['kind']=='silu' else [[0],[0,1],[2],[3],[3,4]]
             self.assertEqual([op['inputs'] for op in r['operations']],edges)
             if r['kind']=='rms_norm':
                 self.assertEqual(r['weight_name'],original['weight'])
@@ -134,7 +150,14 @@ class PrimitiveRecipes(unittest.TestCase):
                 self.assertEqual(r['weight_name'],'')
                 self.assertEqual(r['divisor'],0)
                 self.assertEqual(r['epsilon_bits'],0)
-                self.assertTrue(all(v['shape']==shape for v in r['values']))
+                if r['kind']=='softmax':
+                    row_shape=[*shape[:-1],1]
+                    self.assertEqual([v['shape'] for v in r['values']],[shape,row_shape,shape,shape,row_shape,shape])
+                    self.assertEqual(r['runtime_preconditions'],['no_nan_or_positive_infinity','at_least_one_finite_value_per_last_axis_row','negative_infinity_mask_values_allowed'])
+                else:
+                    self.assertTrue(all(v['shape']==shape for v in r['values']))
+            if r['kind']!='softmax':
+                self.assertEqual(r['runtime_preconditions'],['finite_inputs'])
             uses={i:[] for i in range(len(r['values']))}
             for step,op in enumerate(r['operations']):
                 self.assertEqual(r['values'][op['output']]['producer'],step)
@@ -152,8 +175,8 @@ class PrimitiveRecipes(unittest.TestCase):
         for layers in (1,2):
             for session in ((2,0,16),(1,7,16),(3,4,16)):
                 data,_=self.accepts(dense_fixture(layers=layers,tied=True,value=3),session)
-                self.assertEqual(len(data['recipes']),3*layers+1)
-                self.assertEqual(sum(len(r['operations']) for r in data['recipes']),23*layers+7)
+                self.assertEqual(len(data['recipes']),4*layers+1)
+                self.assertEqual(sum(len(r['operations']) for r in data['recipes']),28*layers+7)
 
     def test_exact_epsilon_and_source_kind_binding(self):
         for epsilon in (0.00003125,0.0003):
@@ -194,7 +217,8 @@ class PrimitiveRecipes(unittest.TestCase):
         source=self.root/'api.gguf'; source.write_bytes(dense_fixture()[0])
         modes=['input_count','negative_input','bad_output','forward_input','producer_mismatch',
                'short_lifetime','shape_mismatch','wrong_product','missing_weight','weight_shape',
-               'weight_extent','zero_epsilon','nan_epsilon','silu_weight']
+               'weight_extent','zero_epsilon','nan_epsilon','silu_weight',
+               'softmax_weight','softmax_shape','softmax_lifetime']
         for mode in modes:
             result=self.run_child([self.api,str(source),mode],source,'api_refusal:'+mode)
             self.assertNotEqual(result.returncode,0)
@@ -203,6 +227,40 @@ class PrimitiveRecipes(unittest.TestCase):
         result=self.run_child([self.api,str(source),'ownership'],source,'ownership')
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertEqual(result.stdout.strip(),'owned-recipe-values-pass')
+
+    def test_isolated_masked_softmax_against_direct_decimal_definition(self):
+        data,_=self.accepts(session=(2,3,16))
+        recipe=next(r for r in data['recipes'] if r['kind']=='softmax')
+        rows=[[1000.,1001.,999.,-math.inf,-1000.],
+              [-1000.,-1000.,-1000.,-math.inf,-math.inf],
+              [0.,0.,0.,0.,0.],[-math.inf,-math.inf,3.,-math.inf,-math.inf],
+              [-3.,-2.,-1.,0.,1.],[1000.,-1000.,-math.inf,0.,1000.],
+              [-1000.,-999.,-998.,-997.,-996.],[10000.]*5]
+        x=[v for row in rows for v in row]
+        actual=evaluate_tiny(recipe,x)
+        with localcontext() as ctx:
+            ctx.prec=80
+            expected=[]
+            for row in rows:
+                # Direct high-precision exp(x)/sum(exp(x)), no max subtraction.
+                exps=[Decimal.from_float(v).exp() for v in row]
+                total=sum(exps)
+                expected.extend(float(v/total) for v in exps)
+        for a,b in zip(actual,expected):
+            self.assertTrue(0<=a<=1)
+            self.assertTrue(math.isclose(a,b,rel_tol=3e-15,abs_tol=1e-300),(a,b))
+        for offset in range(0,len(x),5):
+            self.assertTrue(math.isclose(sum(actual[offset:offset+5]),1.,abs_tol=2e-15))
+        for i,v in enumerate(x):
+            if v==-math.inf:
+                self.assertEqual(actual[i],0.)
+        self.math_records.append({'primitive':'softmax','input':[str(v) for v in x],
+                                  'actual':actual,'decimal_reference':expected})
+        # The test interpreter enforces the declared preconditions; production
+        # receives no runtime values and emits no enforcement claim.
+        for bad in ([math.nan]*40,[math.inf]*40,[-math.inf]*40):
+            with self.assertRaisesRegex(ValueError,'runtime precondition'):
+                evaluate_tiny(recipe,bad)
 
     def test_read_only_no_model_execution(self):
         self.accepts(trace=True)
