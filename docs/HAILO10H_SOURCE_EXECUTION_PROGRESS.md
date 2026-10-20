@@ -17,7 +17,8 @@ verify, publish and advance each bounded work slice.
 | Reference DMA interface observation | Verified reference facts | `HAILO10H_DMA_OBSERVATION.md`: actual 2068-byte submissions, positive descriptor-count returns, request status 1, complete mapping tuples. Not independent Mojo exchange. |
 | Driver transfer-result handling | Verified host/API correction | `HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`; positive count 5 preserved, errno/error distinctions checked, all rebuilt driver/connection lifecycle tests pass. |
 | USERPTR mapping / sync ABI | Verified host byte primitive | `HAILO10H_MOJO_DMA_STORAGE_ABI.md`; fifteen ioctl values, twelve methods including 40 new C-object buffer comparisons. |
-| Owned user DMA / completion | In progress | `TASK_hailo10h_dma_observation.md`: bounded read-only reference observation, exact sizes/cache/completion facts, owned deadlines and storage before typed RPC transfer. |
+| Owned RPC host storage | Verified physical mapping/lifetime primitive | `HAILO10H_MOJO_DMA_STORAGE_OWNER.md`; two actual USERPTR mappings, explicit sync, 32 child runs including eleven injected pre-effect faults and two post-effect malformed map replies. No transfer. |
+| Bounded DMA completion / transfer | In progress | `TASK_hailo10h_dma_observation.md`: owned wait deadline/cancellation before launch and correlated typed RPC. |
 | Independent Mojo read-only device round-trip | Pending session work | Must identify the actual device with response correlation and complete cleanup. |
 | Source-model compiler representation / resource planning | Existing parsers; compiler connection open | Connect real source metadata/tensors to owned lowering inputs and resource estimates. |
 | Executable compute-context generation | Open | Learn and emit real operation/configuration/scheduling data, then prove the first operation on hardware. |

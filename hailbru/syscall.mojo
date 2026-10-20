@@ -633,3 +633,11 @@ def proc_getenv(arch: String, name: String) raises -> String:
             return val
         i = j + 1
     return ""
+
+
+
+def os_page_size() raises -> Int64:
+    var size = Int64(external_call["getpagesize", Int32]())
+    if size < 4096 or size > 1048576 or (size & (size - 1)) != 0:
+        raise Error("HailbruError[OsError]: unsupported host page size")
+    return size

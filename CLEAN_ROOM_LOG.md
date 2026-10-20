@@ -181,3 +181,14 @@ original-tuple unmap identity, sync handle/range rules and context lifetime.
 No implementation copied or translated. Independently authored Mojo codecs
 are checked against actual C objects from the installed-header test oracle.
 See `docs/HAILO10H_MOJO_DMA_STORAGE_ABI.md`. No physical transfer is claimed.
+
+### 2026-10-19 — Native owned RPC storage
+
+Used the already recorded installed UAPI/driver interface facts for original
+USERPTR tuple lifetime, map output, sync selector/ranges and file finalization.
+The new Mojo ownership policy is independently authored; no vendor code was
+copied or translated. Actual anonymous allocation, driver map/sync/unmap and
+post-effect malformed reply evidence use the installed driver and strace.
+The discarded preload experiment is test research outside production; raw
+syscall observation supplies the qualified fault. No DMA transfer was launched.
+Receipt: `docs/HAILO10H_MOJO_DMA_STORAGE_OWNER.md`.

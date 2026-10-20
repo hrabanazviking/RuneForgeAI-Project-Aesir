@@ -1,5 +1,6 @@
-# Owned descriptor/connection lifecycle. This slice submits no user DMA buffers.
+# Owned descriptor/connection lifecycle and optional RPC storage; no launch yet.
 from hailbru.errors import herror
+from hailbru.soc_storage import SocRpcStorage
 from hailbru.soc_driver import SocDriver, open_soc_driver
 from hailbru.soc_abi import (
     soc_desc_create, soc_desc_reply, soc_desc_release, soc_connect,
@@ -11,6 +12,8 @@ comptime SOC_SESSION_DESC_COUNT = UInt64(65536)
 
 
 struct SocSession(Movable):
+    var input_storage: SocRpcStorage
+    var output_storage: SocRpcStorage
     var driver: SocDriver
     var input_handle: UInt64
     var output_handle: UInt64
@@ -21,6 +24,8 @@ struct SocSession(Movable):
     var page_size: UInt64
 
     def __init__(out self):
+        self.input_storage = SocRpcStorage()
+        self.output_storage = SocRpcStorage()
         self.driver = SocDriver()
         self.input_handle = SOC_INVALID_HANDLE
         self.output_handle = SOC_INVALID_HANDLE
@@ -40,6 +45,16 @@ struct SocSession(Movable):
         if not self.connected or self.driver.fd < 0:
             raise herror("SocSessionClosed", "assigned PCIe connection is closed")
 
+    def allocate_rpc_storage(mut self) raises:
+        self.require_open()
+        if self.input_storage.address != 0 or self.output_storage.address != 0:
+            raise herror("SocStorageState", "RPC storage already allocated")
+        # Every partial allocation/map remains attached to this session for cleanup.
+        self.input_storage.allocate(self.driver.arch, 1)
+        self.input_storage.map(self.driver)
+        self.output_storage.allocate(self.driver.arch, 2)
+        self.output_storage.map(self.driver)
+
     def close(mut self) raises:
         if self.driver.fd < 0:
             return
@@ -56,6 +71,18 @@ struct SocSession(Movable):
         # An uncertain connect/close must finalize its entire file context.
         # Never release descriptors explicitly while its channels may be active.
         if release_explicitly:
+            # No waiter or launch exists in this storage-only slice. Channels have
+            # stopped above; mapping/storage cleanup remains ordered before lists.
+            for index in range(2):
+                try:
+                    if index == 0:
+                        if self.output_storage.mapped:
+                            self.output_storage.unmap(self.driver)
+                    else:
+                        if self.input_storage.mapped:
+                            self.input_storage.unmap(self.driver)
+                except error:
+                    failures += "; " + String(error)
             if self.output_handle != SOC_INVALID_HANDLE:
                 var data = soc_desc_release(self.output_handle)
                 try:
@@ -71,6 +98,18 @@ struct SocSession(Movable):
         try:
             # File-context cleanup finalizes channels before remaining lists.
             self.driver.close()
+        except error:
+            failures += "; " + String(error)
+        # File-context finalization is the fallback for uncertain map/unmap.
+        # Host memory is retained until after the driver fd has been closed.
+        self.output_storage.context_finalized()
+        self.input_storage.context_finalized()
+        try:
+            self.output_storage.release()
+        except error:
+            failures += "; " + String(error)
+        try:
+            self.input_storage.release()
         except error:
             failures += "; " + String(error)
         self.connected = False

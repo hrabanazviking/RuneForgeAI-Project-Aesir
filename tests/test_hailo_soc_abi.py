@@ -62,6 +62,10 @@ class NativeSocAbi(unittest.TestCase):
     def test_buffer_mapping_and_sync_bytes_match_installed_c(self):
         self.assertEqual(self.layout["hailo_vdma_buffer_params"], 32)
         self.assertEqual(self.layout["hailo_vdma_buffer_sync_params"], 28)
+        for name, offsets in (("hailo_vdma_buffer_params", {"addr_or_fd": 0, "size": 8, "direction": 16, "type": 20, "mapped_handle": 24}),
+                              ("hailo_vdma_buffer_sync_params", {"handle": 0, "sync_type": 8, "offset": 12, "count": 20})):
+            for field, offset in offsets.items():
+                self.assertEqual(self.layout[name + "." + field], offset)
         generator = random.Random(0xD0A)
         for direction in (1, 2):
             for address, size in ((16384, 2068), (1, 1),
