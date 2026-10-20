@@ -90,3 +90,10 @@ unsigned q/scale/min factors in exact source order under an explicit host bound.
 No floating model arithmetic or device packing is performed. Schema, external
 static reference evidence and remaining identity/device gates:
 `docs/HAILO10H_MOJO_SOURCE_Q4K_CONSTANTS.md`.
+
+`program_header.mojo` exposes value `ProgramHeaderV3` / `ProgramSectionLayout`,
+owned 56-byte big-endian encode/decode and `layout_program_sections` with checked
+UInt64 sums, explicit positive host bound and exact total extent. Hash fields
+are unverified integers; no full container, checksum, device target/CCW or
+execution admission is provided. Evidence/remaining gates:
+`docs/HAILO10H_MOJO_PROGRAM_HEADER.md`.

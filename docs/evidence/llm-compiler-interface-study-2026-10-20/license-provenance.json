@@ -1,0 +1,6 @@
+{
+  "repository": "l-nmch/hailo-10h-llm-compiler",
+  "revision": "c870419f7d6315e1277e06a9fa5eadd955b8e1af",
+  "license_sha256": "b88d9d476640d02a0fddb97e6ee3b4d0e4f78f245b4f9a5251a8972d93664a37",
+  "scope": "interface facts study only; no implementation copying/translation or code execution"
+}

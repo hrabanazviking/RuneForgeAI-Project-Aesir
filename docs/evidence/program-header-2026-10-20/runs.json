@@ -1,0 +1,2002 @@
+[
+  {
+    "arguments": [
+      "encode",
+      "-1",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt32\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "-1",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "-1",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt32\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "-1",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "-1",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "-1",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "-1",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "4294967296",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt32\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "4294967296",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt32\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "18446744073709551616",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "18446744073709551616",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "18446744073709551616",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "18446744073709551616",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "18446744073709551616",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "18446744073709551616"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "unknown"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: invalid header codec mode/arguments\n"
+  },
+  {
+    "arguments": [
+      "encode"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: invalid header codec mode/arguments\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "00"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: invalid header codec mode/arguments\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "3691636735",
+      "181510849200716",
+      "655166742",
+      "497087263356",
+      "10337321852686776550",
+      "17682941959171054733",
+      "182011628100863",
+      "182011628100863"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003dc09e7ff8f758b749e4738e60000a51549b0824c270d0d1600000073bcb5b27cf5666e060c3d9c8d0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3691636735,\"residue_hash\":10337321852686776550,\"ccw_bytes_with_padding\":181510849200716,\"padding_bytes\":655166742,\"additional_bytes\":497087263356,\"protobuf_hash\":17682941959171054733,\"protobuf_offset\":56,\"padding_offset\":3691636791,\"ccw_offset\":4346803533,\"ccw_bytes\":181510194033974,\"additional_offset\":181514540837507,\"total_bytes\":182011628100863,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003dc09e7ff8f758b749e4738e60000a51549b0824c270d0d1600000073bcb5b27cf5666e060c3d9c8d0000000000000000",
+      "182011628100863",
+      "182011628100863"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003dc09e7ff8f758b749e4738e60000a51549b0824c270d0d1600000073bcb5b27cf5666e060c3d9c8d0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3691636735,\"residue_hash\":10337321852686776550,\"ccw_bytes_with_padding\":181510849200716,\"padding_bytes\":655166742,\"additional_bytes\":497087263356,\"protobuf_hash\":17682941959171054733,\"protobuf_offset\":56,\"padding_offset\":3691636791,\"ccw_offset\":4346803533,\"ccw_bytes\":181510194033974,\"additional_offset\":181514540837507,\"total_bytes\":182011628100863,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "523199872",
+      "276733182668246",
+      "3108390227",
+      "560604000163",
+      "8079968837464411835",
+      "5503957266184324820",
+      "277294309868337",
+      "277294309868337"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000031f2f65807021d0d9214acebb0000fbaff70cedd6b946455300000082869a2fa34c61fbf8edd8c6d40000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":523199872,\"residue_hash\":8079968837464411835,\"ccw_bytes_with_padding\":276733182668246,\"padding_bytes\":3108390227,\"additional_bytes\":560604000163,\"protobuf_hash\":5503957266184324820,\"protobuf_offset\":56,\"padding_offset\":523199928,\"ccw_offset\":3631590155,\"ccw_bytes\":276730074278019,\"additional_offset\":276733705868174,\"total_bytes\":277294309868337,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000031f2f65807021d0d9214acebb0000fbaff70cedd6b946455300000082869a2fa34c61fbf8edd8c6d40000000000000000",
+      "277294309868337",
+      "277294309868337"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000031f2f65807021d0d9214acebb0000fbaff70cedd6b946455300000082869a2fa34c61fbf8edd8c6d40000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":523199872,\"residue_hash\":8079968837464411835,\"ccw_bytes_with_padding\":276733182668246,\"padding_bytes\":3108390227,\"additional_bytes\":560604000163,\"protobuf_hash\":5503957266184324820,\"protobuf_offset\":56,\"padding_offset\":523199928,\"ccw_offset\":3631590155,\"ccw_bytes\":276730074278019,\"additional_offset\":276733705868174,\"total_bytes\":277294309868337,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1274986090",
+      "81055668379928",
+      "542493551",
+      "255891376174",
+      "17519878436438968636",
+      "14197869043550249101",
+      "81312834742248",
+      "81312834742248"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000034bfebe6af3231c9d17f8893c000049b83e5221182055cb6f0000003b9450882ec508f6abec53e08d0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1274986090,\"residue_hash\":17519878436438968636,\"ccw_bytes_with_padding\":81055668379928,\"padding_bytes\":542493551,\"additional_bytes\":255891376174,\"protobuf_hash\":14197869043550249101,\"protobuf_offset\":56,\"padding_offset\":1274986146,\"ccw_offset\":1817479697,\"ccw_bytes\":81055125886377,\"additional_offset\":81056943366074,\"total_bytes\":81312834742248,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000034bfebe6af3231c9d17f8893c000049b83e5221182055cb6f0000003b9450882ec508f6abec53e08d0000000000000000",
+      "81312834742248",
+      "81312834742248"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000034bfebe6af3231c9d17f8893c000049b83e5221182055cb6f0000003b9450882ec508f6abec53e08d0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1274986090,\"residue_hash\":17519878436438968636,\"ccw_bytes_with_padding\":81055668379928,\"padding_bytes\":542493551,\"additional_bytes\":255891376174,\"protobuf_hash\":14197869043550249101,\"protobuf_offset\":56,\"padding_offset\":1274986146,\"ccw_offset\":1817479697,\"ccw_bytes\":81055125886377,\"additional_offset\":81056943366074,\"total_bytes\":81312834742248,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2874264913",
+      "184430165032935",
+      "2776039453",
+      "467719701584",
+      "17331354143573853260",
+      "15479937150309887279",
+      "184900758999488",
+      "184900758999488"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003ab51cd51f08556c4a436c44c0000a7bcfe78ffe7a577001d0000006ce6444450d6d3c8d26d97ed2f0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2874264913,\"residue_hash\":17331354143573853260,\"ccw_bytes_with_padding\":184430165032935,\"padding_bytes\":2776039453,\"additional_bytes\":467719701584,\"protobuf_hash\":15479937150309887279,\"protobuf_offset\":56,\"padding_offset\":2874264969,\"ccw_offset\":5650304422,\"ccw_bytes\":184427388993482,\"additional_offset\":184433039297904,\"total_bytes\":184900758999488,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003ab51cd51f08556c4a436c44c0000a7bcfe78ffe7a577001d0000006ce6444450d6d3c8d26d97ed2f0000000000000000",
+      "184900758999488",
+      "184900758999488"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003ab51cd51f08556c4a436c44c0000a7bcfe78ffe7a577001d0000006ce6444450d6d3c8d26d97ed2f0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2874264913,\"residue_hash\":17331354143573853260,\"ccw_bytes_with_padding\":184430165032935,\"padding_bytes\":2776039453,\"additional_bytes\":467719701584,\"protobuf_hash\":15479937150309887279,\"protobuf_offset\":56,\"padding_offset\":2874264969,\"ccw_offset\":5650304422,\"ccw_bytes\":184427388993482,\"additional_offset\":184433039297904,\"total_bytes\":184900758999488,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1212750739",
+      "883448166217",
+      "1192073136",
+      "392792969490",
+      "6552443775813520818",
+      "12773225853037777282",
+      "1277453886502",
+      "1277453886502"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000348491b935aeef4e5d4158db2000000cdb19d3749470d97b00000005b74491112b1439d3ce62711820000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1212750739,\"residue_hash\":6552443775813520818,\"ccw_bytes_with_padding\":883448166217,\"padding_bytes\":1192073136,\"additional_bytes\":392792969490,\"protobuf_hash\":12773225853037777282,\"protobuf_offset\":56,\"padding_offset\":1212750795,\"ccw_offset\":2404823931,\"ccw_bytes\":882256093081,\"additional_offset\":884660917012,\"total_bytes\":1277453886502,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000348491b935aeef4e5d4158db2000000cdb19d3749470d97b00000005b74491112b1439d3ce62711820000000000000000",
+      "1277453886502",
+      "1277453886502"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000348491b935aeef4e5d4158db2000000cdb19d3749470d97b00000005b74491112b1439d3ce62711820000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1212750739,\"residue_hash\":6552443775813520818,\"ccw_bytes_with_padding\":883448166217,\"padding_bytes\":1192073136,\"additional_bytes\":392792969490,\"protobuf_hash\":12773225853037777282,\"protobuf_offset\":56,\"padding_offset\":1212750795,\"ccw_offset\":2404823931,\"ccw_bytes\":882256093081,\"additional_offset\":884660917012,\"total_bytes\":1277453886502,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "850089658",
+      "95875128724186",
+      "1875936508",
+      "199311130114",
+      "11731989127916214193",
+      "3583518142739901650",
+      "96075289944014",
+      "96075289944014"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000332ab56baa2d065f3fe30d7b100005732aafd8ada6fd084fc0000002e67de7e0231bb36c3b82decd20000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":850089658,\"residue_hash\":11731989127916214193,\"ccw_bytes_with_padding\":95875128724186,\"padding_bytes\":1875936508,\"additional_bytes\":199311130114,\"protobuf_hash\":3583518142739901650,\"protobuf_offset\":56,\"padding_offset\":850089714,\"ccw_offset\":2726026222,\"ccw_bytes\":95873252787678,\"additional_offset\":95875978813900,\"total_bytes\":96075289944014,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000332ab56baa2d065f3fe30d7b100005732aafd8ada6fd084fc0000002e67de7e0231bb36c3b82decd20000000000000000",
+      "96075289944014",
+      "96075289944014"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000332ab56baa2d065f3fe30d7b100005732aafd8ada6fd084fc0000002e67de7e0231bb36c3b82decd20000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":850089658,\"residue_hash\":11731989127916214193,\"ccw_bytes_with_padding\":95875128724186,\"padding_bytes\":1875936508,\"additional_bytes\":199311130114,\"protobuf_hash\":3583518142739901650,\"protobuf_offset\":56,\"padding_offset\":850089714,\"ccw_offset\":2726026222,\"ccw_bytes\":95873252787678,\"additional_offset\":95875978813900,\"total_bytes\":96075289944014,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2037819781",
+      "167410730319722",
+      "1257691017",
+      "1014648460371",
+      "3982227841540024663",
+      "189015155272836310",
+      "168427416599930",
+      "168427416599930"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000037976a9853743b71f85a9e95700009842591cbf6a4af6d789000000ec3dc2d453029f84484333e4d60000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2037819781,\"residue_hash\":3982227841540024663,\"ccw_bytes_with_padding\":167410730319722,\"padding_bytes\":1257691017,\"additional_bytes\":1014648460371,\"protobuf_hash\":189015155272836310,\"protobuf_offset\":56,\"padding_offset\":2037819837,\"ccw_offset\":3295510854,\"ccw_bytes\":167409472628705,\"additional_offset\":167412768139559,\"total_bytes\":168427416599930,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000037976a9853743b71f85a9e95700009842591cbf6a4af6d789000000ec3dc2d453029f84484333e4d60000000000000000",
+      "168427416599930",
+      "168427416599930"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000037976a9853743b71f85a9e95700009842591cbf6a4af6d789000000ec3dc2d453029f84484333e4d60000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2037819781,\"residue_hash\":3982227841540024663,\"ccw_bytes_with_padding\":167410730319722,\"padding_bytes\":1257691017,\"additional_bytes\":1014648460371,\"protobuf_hash\":189015155272836310,\"protobuf_offset\":56,\"padding_offset\":2037819837,\"ccw_offset\":3295510854,\"ccw_bytes\":167409472628705,\"additional_offset\":167412768139559,\"total_bytes\":168427416599930,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2385295369",
+      "129347386676866",
+      "192454953",
+      "655636858011",
+      "320894331640696038",
+      "17604653733983050420",
+      "130005408830302",
+      "130005408830302"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000038e2cb80904740bb1c7e14ce6000075a4090916820b78a12900000098a700849bf4504b4c2fd05ab40000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2385295369,\"residue_hash\":320894331640696038,\"ccw_bytes_with_padding\":129347386676866,\"padding_bytes\":192454953,\"additional_bytes\":655636858011,\"protobuf_hash\":17604653733983050420,\"protobuf_offset\":56,\"padding_offset\":2385295425,\"ccw_offset\":2577750378,\"ccw_bytes\":129347194221913,\"additional_offset\":129349771972291,\"total_bytes\":130005408830302,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000038e2cb80904740bb1c7e14ce6000075a4090916820b78a12900000098a700849bf4504b4c2fd05ab40000000000000000",
+      "130005408830302",
+      "130005408830302"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000038e2cb80904740bb1c7e14ce6000075a4090916820b78a12900000098a700849bf4504b4c2fd05ab40000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2385295369,\"residue_hash\":320894331640696038,\"ccw_bytes_with_padding\":129347386676866,\"padding_bytes\":192454953,\"additional_bytes\":655636858011,\"protobuf_hash\":17604653733983050420,\"protobuf_offset\":56,\"padding_offset\":2385295425,\"ccw_offset\":2577750378,\"ccw_bytes\":129347194221913,\"additional_offset\":129349771972291,\"total_bytes\":130005408830302,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "3702899473",
+      "256828910828865",
+      "3133815734",
+      "1081942485932",
+      "12230831297510757280",
+      "13867357445069684343",
+      "257914556214326",
+      "257914556214326"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003dcb5c311a9bca4436bdbd3a00000e995a3ff7d41baca3bb6000000fbe8cc2bacc072c01fb6bf3e770000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3702899473,\"residue_hash\":12230831297510757280,\"ccw_bytes_with_padding\":256828910828865,\"padding_bytes\":3133815734,\"additional_bytes\":1081942485932,\"protobuf_hash\":13867357445069684343,\"protobuf_offset\":56,\"padding_offset\":3702899529,\"ccw_offset\":6836715263,\"ccw_bytes\":256825777013131,\"additional_offset\":256832613728394,\"total_bytes\":257914556214326,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003dcb5c311a9bca4436bdbd3a00000e995a3ff7d41baca3bb6000000fbe8cc2bacc072c01fb6bf3e770000000000000000",
+      "257914556214326",
+      "257914556214326"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003dcb5c311a9bca4436bdbd3a00000e995a3ff7d41baca3bb6000000fbe8cc2bacc072c01fb6bf3e770000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3702899473,\"residue_hash\":12230831297510757280,\"ccw_bytes_with_padding\":256828910828865,\"padding_bytes\":3133815734,\"additional_bytes\":1081942485932,\"protobuf_hash\":13867357445069684343,\"protobuf_offset\":56,\"padding_offset\":3702899529,\"ccw_offset\":6836715263,\"ccw_bytes\":256825777013131,\"additional_offset\":256832613728394,\"total_bytes\":257914556214326,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "3243013207",
+      "146445620216253",
+      "297827831",
+      "291266322700",
+      "5155254854866828711",
+      "3843054469947162244",
+      "146740129552216",
+      "146740129552216"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003c14c7457478b24fa0ef1fda700008531072c01bd11c07df700000043d0d3610c355545add5ad7e840000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3243013207,\"residue_hash\":5155254854866828711,\"ccw_bytes_with_padding\":146445620216253,\"padding_bytes\":297827831,\"additional_bytes\":291266322700,\"protobuf_hash\":3843054469947162244,\"protobuf_offset\":56,\"padding_offset\":3243013263,\"ccw_offset\":3540841094,\"ccw_bytes\":146445322388422,\"additional_offset\":146448863229516,\"total_bytes\":146740129552216,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003c14c7457478b24fa0ef1fda700008531072c01bd11c07df700000043d0d3610c355545add5ad7e840000000000000000",
+      "146740129552216",
+      "146740129552216"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003c14c7457478b24fa0ef1fda700008531072c01bd11c07df700000043d0d3610c355545add5ad7e840000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3243013207,\"residue_hash\":5155254854866828711,\"ccw_bytes_with_padding\":146445620216253,\"padding_bytes\":297827831,\"additional_bytes\":291266322700,\"protobuf_hash\":3843054469947162244,\"protobuf_offset\":56,\"padding_offset\":3243013263,\"ccw_offset\":3540841094,\"ccw_bytes\":146445322388422,\"additional_offset\":146448863229516,\"total_bytes\":146740129552216,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "143332221",
+      "203947741125121",
+      "3935972174",
+      "892707219075",
+      "13758605882996111908",
+      "17732892543794244195",
+      "204840591676473",
+      "204840591676473"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003088b137dbef0632784953a240000b97d48a99a01ea9a2b4e000000cfd97f2683f617e3d0d1076a630000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":143332221,\"residue_hash\":13758605882996111908,\"ccw_bytes_with_padding\":203947741125121,\"padding_bytes\":3935972174,\"additional_bytes\":892707219075,\"protobuf_hash\":17732892543794244195,\"protobuf_offset\":56,\"padding_offset\":143332277,\"ccw_offset\":4079304451,\"ccw_bytes\":203943805152947,\"additional_offset\":203947884457398,\"total_bytes\":204840591676473,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003088b137dbef0632784953a240000b97d48a99a01ea9a2b4e000000cfd97f2683f617e3d0d1076a630000000000000000",
+      "204840591676473",
+      "204840591676473"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003088b137dbef0632784953a240000b97d48a99a01ea9a2b4e000000cfd97f2683f617e3d0d1076a630000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":143332221,\"residue_hash\":13758605882996111908,\"ccw_bytes_with_padding\":203947741125121,\"padding_bytes\":3935972174,\"additional_bytes\":892707219075,\"protobuf_hash\":17732892543794244195,\"protobuf_offset\":56,\"padding_offset\":143332277,\"ccw_offset\":4079304451,\"ccw_bytes\":203943805152947,\"additional_offset\":203947884457398,\"total_bytes\":204840591676473,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2995234701",
+      "264246095675028",
+      "3401482148",
+      "181090823649",
+      "13911657684384982789",
+      "4124570313785870247",
+      "264430181733434",
+      "264430181733434"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003b287a78dc11022f4f299a7050000f05496aa7e94cabe7fa40000002a29daade1393d6ad8f45407a70000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2995234701,\"residue_hash\":13911657684384982789,\"ccw_bytes_with_padding\":264246095675028,\"padding_bytes\":3401482148,\"additional_bytes\":181090823649,\"protobuf_hash\":4124570313785870247,\"protobuf_offset\":56,\"padding_offset\":2995234757,\"ccw_offset\":6396716905,\"ccw_bytes\":264242694192880,\"additional_offset\":264249090909785,\"total_bytes\":264430181733434,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003b287a78dc11022f4f299a7050000f05496aa7e94cabe7fa40000002a29daade1393d6ad8f45407a70000000000000000",
+      "264430181733434",
+      "264430181733434"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003b287a78dc11022f4f299a7050000f05496aa7e94cabe7fa40000002a29daade1393d6ad8f45407a70000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2995234701,\"residue_hash\":13911657684384982789,\"ccw_bytes_with_padding\":264246095675028,\"padding_bytes\":3401482148,\"additional_bytes\":181090823649,\"protobuf_hash\":4124570313785870247,\"protobuf_offset\":56,\"padding_offset\":2995234757,\"ccw_offset\":6396716905,\"ccw_bytes\":264242694192880,\"additional_offset\":264249090909785,\"total_bytes\":264430181733434,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2082687949",
+      "130080641434359",
+      "1199309831",
+      "217313290805",
+      "10624007444244315695",
+      "7952928593177711782",
+      "130300037413169",
+      "130300037413169"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000037c234bcd93700e7b6d49be2f0000764ec26cc2f7477c04070000003298e1aa356e5e7a6b486794a60000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2082687949,\"residue_hash\":10624007444244315695,\"ccw_bytes_with_padding\":130080641434359,\"padding_bytes\":1199309831,\"additional_bytes\":217313290805,\"protobuf_hash\":7952928593177711782,\"protobuf_offset\":56,\"padding_offset\":2082688005,\"ccw_offset\":3281997836,\"ccw_bytes\":130079442124528,\"additional_offset\":130082724122364,\"total_bytes\":130300037413169,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000037c234bcd93700e7b6d49be2f0000764ec26cc2f7477c04070000003298e1aa356e5e7a6b486794a60000000000000000",
+      "130300037413169",
+      "130300037413169"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000037c234bcd93700e7b6d49be2f0000764ec26cc2f7477c04070000003298e1aa356e5e7a6b486794a60000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2082687949,\"residue_hash\":10624007444244315695,\"ccw_bytes_with_padding\":130080641434359,\"padding_bytes\":1199309831,\"additional_bytes\":217313290805,\"protobuf_hash\":7952928593177711782,\"protobuf_offset\":56,\"padding_offset\":2082688005,\"ccw_offset\":3281997836,\"ccw_bytes\":130079442124528,\"additional_offset\":130082724122364,\"total_bytes\":130300037413169,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1242262934",
+      "180290636051150",
+      "209811302",
+      "706099456428",
+      "2194722916807227796",
+      "3365770679473880297",
+      "180997977770568",
+      "180997977770568"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000034a0b6d961e7538dd5cb439940000a3f92f5172ce0c817766000000a466cea9ac2eb59e99b1773ce90000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1242262934,\"residue_hash\":2194722916807227796,\"ccw_bytes_with_padding\":180290636051150,\"padding_bytes\":209811302,\"additional_bytes\":706099456428,\"protobuf_hash\":3365770679473880297,\"protobuf_offset\":56,\"padding_offset\":1242262990,\"ccw_offset\":1452074292,\"ccw_bytes\":180290426239848,\"additional_offset\":180291878314140,\"total_bytes\":180997977770568,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000034a0b6d961e7538dd5cb439940000a3f92f5172ce0c817766000000a466cea9ac2eb59e99b1773ce90000000000000000",
+      "180997977770568",
+      "180997977770568"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000034a0b6d961e7538dd5cb439940000a3f92f5172ce0c817766000000a466cea9ac2eb59e99b1773ce90000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1242262934,\"residue_hash\":2194722916807227796,\"ccw_bytes_with_padding\":180290636051150,\"padding_bytes\":209811302,\"additional_bytes\":706099456428,\"protobuf_hash\":3365770679473880297,\"protobuf_offset\":56,\"padding_offset\":1242262990,\"ccw_offset\":1452074292,\"ccw_bytes\":180290426239848,\"additional_offset\":180291878314140,\"total_bytes\":180997977770568,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "435184296",
+      "178668204470200",
+      "3734937991",
+      "842771411723",
+      "11664200548092839605",
+      "11448075954115223169",
+      "179511411066275",
+      "179511411066275"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000319f062a8a1df909951fd86b50000a27f6edc2fb8de9ea187000000c43917330b9edfbc6cfeba9e810000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":435184296,\"residue_hash\":11664200548092839605,\"ccw_bytes_with_padding\":178668204470200,\"padding_bytes\":3734937991,\"additional_bytes\":842771411723,\"protobuf_hash\":11448075954115223169,\"protobuf_offset\":56,\"padding_offset\":435184352,\"ccw_offset\":4170122343,\"ccw_bytes\":178664469532209,\"additional_offset\":178668639654552,\"total_bytes\":179511411066275,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000319f062a8a1df909951fd86b50000a27f6edc2fb8de9ea187000000c43917330b9edfbc6cfeba9e810000000000000000",
+      "179511411066275",
+      "179511411066275"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000319f062a8a1df909951fd86b50000a27f6edc2fb8de9ea187000000c43917330b9edfbc6cfeba9e810000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":435184296,\"residue_hash\":11664200548092839605,\"ccw_bytes_with_padding\":178668204470200,\"padding_bytes\":3734937991,\"additional_bytes\":842771411723,\"protobuf_hash\":11448075954115223169,\"protobuf_offset\":56,\"padding_offset\":435184352,\"ccw_offset\":4170122343,\"ccw_bytes\":178664469532209,\"additional_offset\":178668639654552,\"total_bytes\":179511411066275,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "3235098438",
+      "113216611551864",
+      "760353464",
+      "401854557289",
+      "8892335922399067015",
+      "954787404289420801",
+      "113621701207647",
+      "113621701207647"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003c0d3af467b67ec68660abb87000066f84bea0a782d5212b80000005d9065ec690d401615e4b02e010000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3235098438,\"residue_hash\":8892335922399067015,\"ccw_bytes_with_padding\":113216611551864,\"padding_bytes\":760353464,\"additional_bytes\":401854557289,\"protobuf_hash\":954787404289420801,\"protobuf_offset\":56,\"padding_offset\":3235098494,\"ccw_offset\":3995451958,\"ccw_bytes\":113215851198400,\"additional_offset\":113219846650358,\"total_bytes\":113621701207647,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003c0d3af467b67ec68660abb87000066f84bea0a782d5212b80000005d9065ec690d401615e4b02e010000000000000000",
+      "113621701207647",
+      "113621701207647"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003c0d3af467b67ec68660abb87000066f84bea0a782d5212b80000005d9065ec690d401615e4b02e010000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3235098438,\"residue_hash\":8892335922399067015,\"ccw_bytes_with_padding\":113216611551864,\"padding_bytes\":760353464,\"additional_bytes\":401854557289,\"protobuf_hash\":954787404289420801,\"protobuf_offset\":56,\"padding_offset\":3235098494,\"ccw_offset\":3995451958,\"ccw_bytes\":113215851198400,\"additional_offset\":113219846650358,\"total_bytes\":113621701207647,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "3617238712",
+      "80717860355599",
+      "797090877",
+      "1039651445235",
+      "956384119457738660",
+      "9953034595797361835",
+      "81761129039602",
+      "81761129039602"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003d79aaeb80d45c24a1d1a6fa4000049699764be0f2f82a43d000000f2100e19f38a20483b3face4ab0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3617238712,\"residue_hash\":956384119457738660,\"ccw_bytes_with_padding\":80717860355599,\"padding_bytes\":797090877,\"additional_bytes\":1039651445235,\"protobuf_hash\":9953034595797361835,\"protobuf_offset\":56,\"padding_offset\":3617238768,\"ccw_offset\":4414329645,\"ccw_bytes\":80717063264722,\"additional_offset\":80721477594367,\"total_bytes\":81761129039602,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003d79aaeb80d45c24a1d1a6fa4000049699764be0f2f82a43d000000f2100e19f38a20483b3face4ab0000000000000000",
+      "81761129039602",
+      "81761129039602"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003d79aaeb80d45c24a1d1a6fa4000049699764be0f2f82a43d000000f2100e19f38a20483b3face4ab0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3617238712,\"residue_hash\":956384119457738660,\"ccw_bytes_with_padding\":80717860355599,\"padding_bytes\":797090877,\"additional_bytes\":1039651445235,\"protobuf_hash\":9953034595797361835,\"protobuf_offset\":56,\"padding_offset\":3617238768,\"ccw_offset\":4414329645,\"ccw_bytes\":80717063264722,\"additional_offset\":80721477594367,\"total_bytes\":81761129039602,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2183909128",
+      "178089782078511",
+      "1483136062",
+      "1083046176146",
+      "4341807215812161935",
+      "8298696854240444748",
+      "179175012163841",
+      "179175012163841"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003822bcf083c4132a8adb6318f0000a1f8c232ec2f5866dc3e000000fc2a952592732ae4d20fa7414c0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2183909128,\"residue_hash\":4341807215812161935,\"ccw_bytes_with_padding\":178089782078511,\"padding_bytes\":1483136062,\"additional_bytes\":1083046176146,\"protobuf_hash\":8298696854240444748,\"protobuf_offset\":56,\"padding_offset\":2183909184,\"ccw_offset\":3667045246,\"ccw_bytes\":178088298942449,\"additional_offset\":178091965987695,\"total_bytes\":179175012163841,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003822bcf083c4132a8adb6318f0000a1f8c232ec2f5866dc3e000000fc2a952592732ae4d20fa7414c0000000000000000",
+      "179175012163841",
+      "179175012163841"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003822bcf083c4132a8adb6318f0000a1f8c232ec2f5866dc3e000000fc2a952592732ae4d20fa7414c0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2183909128,\"residue_hash\":4341807215812161935,\"ccw_bytes_with_padding\":178089782078511,\"padding_bytes\":1483136062,\"additional_bytes\":1083046176146,\"protobuf_hash\":8298696854240444748,\"protobuf_offset\":56,\"padding_offset\":2183909184,\"ccw_offset\":3667045246,\"ccw_bytes\":178088298942449,\"additional_offset\":178091965987695,\"total_bytes\":179175012163841,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2882157761",
+      "205575020677705",
+      "2681822469",
+      "677867931773",
+      "8127916994069743266",
+      "17857846771789675949",
+      "206255770767295",
+      "206255770767295"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003abca3cc170cc29714b6346a20000baf82a150a499fd95d050000009dd413c87df7d3d10625e13dad0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2882157761,\"residue_hash\":8127916994069743266,\"ccw_bytes_with_padding\":205575020677705,\"padding_bytes\":2681822469,\"additional_bytes\":677867931773,\"protobuf_hash\":17857846771789675949,\"protobuf_offset\":56,\"padding_offset\":2882157817,\"ccw_offset\":5563980286,\"ccw_bytes\":205572338855236,\"additional_offset\":205577902835522,\"total_bytes\":206255770767295,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003abca3cc170cc29714b6346a20000baf82a150a499fd95d050000009dd413c87df7d3d10625e13dad0000000000000000",
+      "206255770767295",
+      "206255770767295"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003abca3cc170cc29714b6346a20000baf82a150a499fd95d050000009dd413c87df7d3d10625e13dad0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2882157761,\"residue_hash\":8127916994069743266,\"ccw_bytes_with_padding\":205575020677705,\"padding_bytes\":2681822469,\"additional_bytes\":677867931773,\"protobuf_hash\":17857846771789675949,\"protobuf_offset\":56,\"padding_offset\":2882157817,\"ccw_offset\":5563980286,\"ccw_bytes\":205572338855236,\"additional_offset\":205577902835522,\"total_bytes\":206255770767295,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1792479183",
+      "159979693902892",
+      "2819634905",
+      "1046387930201",
+      "3896423317360939764",
+      "8811961387204848164",
+      "161027874312332",
+      "161027874312332"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000036ad70fcf3612e05cedd912f4000091802cd38c2ca81036d9000000f3a194b4597a4a6031a2cdaa240000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1792479183,\"residue_hash\":3896423317360939764,\"ccw_bytes_with_padding\":159979693902892,\"padding_bytes\":2819634905,\"additional_bytes\":1046387930201,\"protobuf_hash\":8811961387204848164,\"protobuf_offset\":56,\"padding_offset\":1792479239,\"ccw_offset\":4612114144,\"ccw_bytes\":159976874267987,\"additional_offset\":159981486382131,\"total_bytes\":161027874312332,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000036ad70fcf3612e05cedd912f4000091802cd38c2ca81036d9000000f3a194b4597a4a6031a2cdaa240000000000000000",
+      "161027874312332",
+      "161027874312332"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000036ad70fcf3612e05cedd912f4000091802cd38c2ca81036d9000000f3a194b4597a4a6031a2cdaa240000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1792479183,\"residue_hash\":3896423317360939764,\"ccw_bytes_with_padding\":159979693902892,\"padding_bytes\":2819634905,\"additional_bytes\":1046387930201,\"protobuf_hash\":8811961387204848164,\"protobuf_offset\":56,\"padding_offset\":1792479239,\"ccw_offset\":4612114144,\"ccw_bytes\":159976874267987,\"additional_offset\":159981486382131,\"total_bytes\":161027874312332,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "236271396",
+      "271200596493845",
+      "1989365187",
+      "691344545621",
+      "13827330253161218017",
+      "1349860176241763711",
+      "271892177310918",
+      "271892177310918"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000030e153724bfe48b9adbafbfe10000f6a7cf37861576934dc3000000a0f758975512bbaaadad56257f0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":236271396,\"residue_hash\":13827330253161218017,\"ccw_bytes_with_padding\":271200596493845,\"padding_bytes\":1989365187,\"additional_bytes\":691344545621,\"protobuf_hash\":1349860176241763711,\"protobuf_offset\":56,\"padding_offset\":236271452,\"ccw_offset\":2225636639,\"ccw_bytes\":271198607128658,\"additional_offset\":271200832765297,\"total_bytes\":271892177310918,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000030e153724bfe48b9adbafbfe10000f6a7cf37861576934dc3000000a0f758975512bbaaadad56257f0000000000000000",
+      "271892177310918",
+      "271892177310918"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000030e153724bfe48b9adbafbfe10000f6a7cf37861576934dc3000000a0f758975512bbaaadad56257f0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":236271396,\"residue_hash\":13827330253161218017,\"ccw_bytes_with_padding\":271200596493845,\"padding_bytes\":1989365187,\"additional_bytes\":691344545621,\"protobuf_hash\":1349860176241763711,\"protobuf_offset\":56,\"padding_offset\":236271452,\"ccw_offset\":2225636639,\"ccw_bytes\":271198607128658,\"additional_offset\":271200832765297,\"total_bytes\":271892177310918,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "3306260212",
+      "170523288816944",
+      "489482799",
+      "493082647749",
+      "2726454328823739299",
+      "9900428432002489463",
+      "171019677724961",
+      "171019677724961"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003c51186f425d64fc445dd73a300009b170c0e4d301d2cea2f00000072ce041cc58965633445af9c770000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3306260212,\"residue_hash\":2726454328823739299,\"ccw_bytes_with_padding\":170523288816944,\"padding_bytes\":489482799,\"additional_bytes\":493082647749,\"protobuf_hash\":9900428432002489463,\"protobuf_offset\":56,\"padding_offset\":3306260268,\"ccw_offset\":3795743067,\"ccw_bytes\":170522799334145,\"additional_offset\":170526595077212,\"total_bytes\":171019677724961,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003c51186f425d64fc445dd73a300009b170c0e4d301d2cea2f00000072ce041cc58965633445af9c770000000000000000",
+      "171019677724961",
+      "171019677724961"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003c51186f425d64fc445dd73a300009b170c0e4d301d2cea2f00000072ce041cc58965633445af9c770000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3306260212,\"residue_hash\":2726454328823739299,\"ccw_bytes_with_padding\":170523288816944,\"padding_bytes\":489482799,\"additional_bytes\":493082647749,\"protobuf_hash\":9900428432002489463,\"protobuf_offset\":56,\"padding_offset\":3306260268,\"ccw_offset\":3795743067,\"ccw_bytes\":170522799334145,\"additional_offset\":170526595077212,\"total_bytes\":171019677724961,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "2099148654",
+      "178640767759886",
+      "1144311163",
+      "291242721858",
+      "10104242694341520113",
+      "2599762753424080147",
+      "178934109630454",
+      "178934109630454"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000037d1e776e8c397b32288feaf10000a2790b81360e4434cd7b00000043cf6b4242241436733a223d130000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2099148654,\"residue_hash\":10104242694341520113,\"ccw_bytes_with_padding\":178640767759886,\"padding_bytes\":1144311163,\"additional_bytes\":291242721858,\"protobuf_hash\":2599762753424080147,\"protobuf_offset\":56,\"padding_offset\":2099148710,\"ccw_offset\":3243459873,\"ccw_bytes\":178639623448723,\"additional_offset\":178642866908596,\"total_bytes\":178934109630454,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000037d1e776e8c397b32288feaf10000a2790b81360e4434cd7b00000043cf6b4242241436733a223d130000000000000000",
+      "178934109630454",
+      "178934109630454"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000037d1e776e8c397b32288feaf10000a2790b81360e4434cd7b00000043cf6b4242241436733a223d130000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":2099148654,\"residue_hash\":10104242694341520113,\"ccw_bytes_with_padding\":178640767759886,\"padding_bytes\":1144311163,\"additional_bytes\":291242721858,\"protobuf_hash\":2599762753424080147,\"protobuf_offset\":56,\"padding_offset\":2099148710,\"ccw_offset\":3243459873,\"ccw_bytes\":178639623448723,\"additional_offset\":178642866908596,\"total_bytes\":178934109630454,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "398698587",
+      "231881600181751",
+      "4122990475",
+      "285225407518",
+      "14470033664759708135",
+      "13772735388627776099",
+      "232167224287912",
+      "232167224287912"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000317c3a85bc8cfe2f3dbf239e70000d2e52468a5f7f5bfd78b0000004268c2541ebf2295dd689c32630000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":398698587,\"residue_hash\":14470033664759708135,\"ccw_bytes_with_padding\":231881600181751,\"padding_bytes\":4122990475,\"additional_bytes\":285225407518,\"protobuf_hash\":13772735388627776099,\"protobuf_offset\":56,\"padding_offset\":398698643,\"ccw_offset\":4521689118,\"ccw_bytes\":231877477191276,\"additional_offset\":231881998880394,\"total_bytes\":232167224287912,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000317c3a85bc8cfe2f3dbf239e70000d2e52468a5f7f5bfd78b0000004268c2541ebf2295dd689c32630000000000000000",
+      "232167224287912",
+      "232167224287912"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000317c3a85bc8cfe2f3dbf239e70000d2e52468a5f7f5bfd78b0000004268c2541ebf2295dd689c32630000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":398698587,\"residue_hash\":14470033664759708135,\"ccw_bytes_with_padding\":231881600181751,\"padding_bytes\":4122990475,\"additional_bytes\":285225407518,\"protobuf_hash\":13772735388627776099,\"protobuf_offset\":56,\"padding_offset\":398698643,\"ccw_offset\":4521689118,\"ccw_bytes\":231877477191276,\"additional_offset\":231881998880394,\"total_bytes\":232167224287912,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "4078545078",
+      "137643916108507",
+      "1437134252",
+      "771917325926",
+      "11930183260361632875",
+      "8382684603661341738",
+      "138419911979567",
+      "138419911979567"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003f319a8b6a59086776b2aac6b00007d2fb8b9a2db55a8edac000000b3b9dba6667455473bd15ed42a0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":4078545078,\"residue_hash\":11930183260361632875,\"ccw_bytes_with_padding\":137643916108507,\"padding_bytes\":1437134252,\"additional_bytes\":771917325926,\"protobuf_hash\":8382684603661341738,\"protobuf_offset\":56,\"padding_offset\":4078545134,\"ccw_offset\":5515679386,\"ccw_bytes\":137642478974255,\"additional_offset\":137647994653641,\"total_bytes\":138419911979567,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003f319a8b6a59086776b2aac6b00007d2fb8b9a2db55a8edac000000b3b9dba6667455473bd15ed42a0000000000000000",
+      "138419911979567",
+      "138419911979567"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003f319a8b6a59086776b2aac6b00007d2fb8b9a2db55a8edac000000b3b9dba6667455473bd15ed42a0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":4078545078,\"residue_hash\":11930183260361632875,\"ccw_bytes_with_padding\":137643916108507,\"padding_bytes\":1437134252,\"additional_bytes\":771917325926,\"protobuf_hash\":8382684603661341738,\"protobuf_offset\":56,\"padding_offset\":4078545134,\"ccw_offset\":5515679386,\"ccw_bytes\":137642478974255,\"additional_offset\":137647994653641,\"total_bytes\":138419911979567,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1848040283",
+      "107371317053035",
+      "299614556",
+      "539100375828",
+      "277660516983479585",
+      "2452230577822156161",
+      "107912265469202",
+      "107912265469202"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000036e26db5b03da72c4e2f39d21000061a75536466b11dbc15c0000007d84e2eb14220812b7d270c5810000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1848040283,\"residue_hash\":277660516983479585,\"ccw_bytes_with_padding\":107371317053035,\"padding_bytes\":299614556,\"additional_bytes\":539100375828,\"protobuf_hash\":2452230577822156161,\"protobuf_offset\":56,\"padding_offset\":1848040339,\"ccw_offset\":2147654895,\"ccw_bytes\":107371017438479,\"additional_offset\":107373165093374,\"total_bytes\":107912265469202,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000036e26db5b03da72c4e2f39d21000061a75536466b11dbc15c0000007d84e2eb14220812b7d270c5810000000000000000",
+      "107912265469202",
+      "107912265469202"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000036e26db5b03da72c4e2f39d21000061a75536466b11dbc15c0000007d84e2eb14220812b7d270c5810000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1848040283,\"residue_hash\":277660516983479585,\"ccw_bytes_with_padding\":107371317053035,\"padding_bytes\":299614556,\"additional_bytes\":539100375828,\"protobuf_hash\":2452230577822156161,\"protobuf_offset\":56,\"padding_offset\":1848040339,\"ccw_offset\":2147654895,\"ccw_bytes\":107371017438479,\"additional_offset\":107373165093374,\"total_bytes\":107912265469202,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "3119115439",
+      "272856175695039",
+      "557599876",
+      "935239619211",
+      "14480791014613882699",
+      "12675934224832309750",
+      "273794534429745",
+      "273794534429745"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003b9e9ecafc8f61ab48cba974b0000f829476d54bf213c4c84000000d9c0a0128bafe9f7047b58a9f60000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3119115439,\"residue_hash\":14480791014613882699,\"ccw_bytes_with_padding\":272856175695039,\"padding_bytes\":557599876,\"additional_bytes\":935239619211,\"protobuf_hash\":12675934224832309750,\"protobuf_offset\":56,\"padding_offset\":3119115495,\"ccw_offset\":3676715371,\"ccw_bytes\":272855618095163,\"additional_offset\":272859294810534,\"total_bytes\":273794534429745,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003b9e9ecafc8f61ab48cba974b0000f829476d54bf213c4c84000000d9c0a0128bafe9f7047b58a9f60000000000000000",
+      "273794534429745",
+      "273794534429745"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003b9e9ecafc8f61ab48cba974b0000f829476d54bf213c4c84000000d9c0a0128bafe9f7047b58a9f60000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3119115439,\"residue_hash\":14480791014613882699,\"ccw_bytes_with_padding\":272856175695039,\"padding_bytes\":557599876,\"additional_bytes\":935239619211,\"protobuf_hash\":12675934224832309750,\"protobuf_offset\":56,\"padding_offset\":3119115495,\"ccw_offset\":3676715371,\"ccw_bytes\":272855618095163,\"additional_offset\":272859294810534,\"total_bytes\":273794534429745,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "3089153838",
+      "258163930369664",
+      "268055729",
+      "105718118610",
+      "12913666659411400784",
+      "3309612991875633919",
+      "258272737642168",
+      "258272737642168"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003b820bf2eb3368f683e0598500000eacc795d0e800ffa34b1000000189d4a78d22dee1b7b24c3d2ff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3089153838,\"residue_hash\":12913666659411400784,\"ccw_bytes_with_padding\":258163930369664,\"padding_bytes\":268055729,\"additional_bytes\":105718118610,\"protobuf_hash\":3309612991875633919,\"protobuf_offset\":56,\"padding_offset\":3089153894,\"ccw_offset\":3357209623,\"ccw_bytes\":258163662313935,\"additional_offset\":258167019523558,\"total_bytes\":258272737642168,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003b820bf2eb3368f683e0598500000eacc795d0e800ffa34b1000000189d4a78d22dee1b7b24c3d2ff0000000000000000",
+      "258272737642168",
+      "258272737642168"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003b820bf2eb3368f683e0598500000eacc795d0e800ffa34b1000000189d4a78d22dee1b7b24c3d2ff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":3089153838,\"residue_hash\":12913666659411400784,\"ccw_bytes_with_padding\":258163930369664,\"padding_bytes\":268055729,\"additional_bytes\":105718118610,\"protobuf_hash\":3309612991875633919,\"protobuf_offset\":56,\"padding_offset\":3089153894,\"ccw_offset\":3357209623,\"ccw_bytes\":258163662313935,\"additional_offset\":258167019523558,\"total_bytes\":258272737642168,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "840742781",
+      "261800821947725",
+      "2725323284",
+      "716246730565",
+      "7549626838476268930",
+      "17250929318135212143",
+      "262517909421127",
+      "262517909421127"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003321cb77d68c5a99c262225820000ee1b40fe7d4da2712214000000a6c3a1c745ef679cd0c4d2286f0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":840742781,\"residue_hash\":7549626838476268930,\"ccw_bytes_with_padding\":261800821947725,\"padding_bytes\":2725323284,\"additional_bytes\":716246730565,\"protobuf_hash\":17250929318135212143,\"protobuf_offset\":56,\"padding_offset\":840742837,\"ccw_offset\":3566066121,\"ccw_bytes\":261798096624441,\"additional_offset\":261801662690562,\"total_bytes\":262517909421127,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003321cb77d68c5a99c262225820000ee1b40fe7d4da2712214000000a6c3a1c745ef679cd0c4d2286f0000000000000000",
+      "262517909421127",
+      "262517909421127"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003321cb77d68c5a99c262225820000ee1b40fe7d4da2712214000000a6c3a1c745ef679cd0c4d2286f0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":840742781,\"residue_hash\":7549626838476268930,\"ccw_bytes_with_padding\":261800821947725,\"padding_bytes\":2725323284,\"additional_bytes\":716246730565,\"protobuf_hash\":17250929318135212143,\"protobuf_offset\":56,\"padding_offset\":840742837,\"ccw_offset\":3566066121,\"ccw_bytes\":261798096624441,\"additional_offset\":261801662690562,\"total_bytes\":262517909421127,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1289771388",
+      "138460822731620",
+      "3751580807",
+      "322211290625",
+      "4836112960229588084",
+      "192481831299353576",
+      "138784323793689",
+      "138784323793689"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000034ce0597c431d531d5025bc7400007dedec277b64df9c94870000004b054a1e0102abd534ac508be80000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1289771388,\"residue_hash\":4836112960229588084,\"ccw_bytes_with_padding\":138460822731620,\"padding_bytes\":3751580807,\"additional_bytes\":322211290625,\"protobuf_hash\":192481831299353576,\"protobuf_offset\":56,\"padding_offset\":1289771444,\"ccw_offset\":5041352251,\"ccw_bytes\":138457071150813,\"additional_offset\":138462112503064,\"total_bytes\":138784323793689,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000034ce0597c431d531d5025bc7400007dedec277b64df9c94870000004b054a1e0102abd534ac508be80000000000000000",
+      "138784323793689",
+      "138784323793689"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000034ce0597c431d531d5025bc7400007dedec277b64df9c94870000004b054a1e0102abd534ac508be80000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1289771388,\"residue_hash\":4836112960229588084,\"ccw_bytes_with_padding\":138460822731620,\"padding_bytes\":3751580807,\"additional_bytes\":322211290625,\"protobuf_hash\":192481831299353576,\"protobuf_offset\":56,\"padding_offset\":1289771444,\"ccw_offset\":5041352251,\"ccw_bytes\":138457071150813,\"additional_offset\":138462112503064,\"total_bytes\":138784323793689,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1784955944",
+      "166505828039685",
+      "2164337192",
+      "887267110275",
+      "6088605497747882493",
+      "650131155336654369",
+      "167394880105960",
+      "167394880105960"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000036a644428547f1270fec0c1fd0000976fa8bbbc0581012a28000000ce953dad830905bad75b416e210000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1784955944,\"residue_hash\":6088605497747882493,\"ccw_bytes_with_padding\":166505828039685,\"padding_bytes\":2164337192,\"additional_bytes\":887267110275,\"protobuf_hash\":650131155336654369,\"protobuf_offset\":56,\"padding_offset\":1784956000,\"ccw_offset\":3949293192,\"ccw_bytes\":166503663702493,\"additional_offset\":166507612995685,\"total_bytes\":167394880105960,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000036a644428547f1270fec0c1fd0000976fa8bbbc0581012a28000000ce953dad830905bad75b416e210000000000000000",
+      "167394880105960",
+      "167394880105960"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000036a644428547f1270fec0c1fd0000976fa8bbbc0581012a28000000ce953dad830905bad75b416e210000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1784955944,\"residue_hash\":6088605497747882493,\"ccw_bytes_with_padding\":166505828039685,\"padding_bytes\":2164337192,\"additional_bytes\":887267110275,\"protobuf_hash\":650131155336654369,\"protobuf_offset\":56,\"padding_offset\":1784956000,\"ccw_offset\":3949293192,\"ccw_bytes\":166503663702493,\"additional_offset\":166507612995685,\"total_bytes\":167394880105960,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1905609715",
+      "228147550794139",
+      "3265655293",
+      "989717484844",
+      "3069255364061759895",
+      "1847319608941033893",
+      "229139173888754",
+      "229139173888754"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000371954bf32a982f7df3dd09970000cf7fbdb8b19bc2a5f1fd000000e66fc2552c19a2ff65958b39a50000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1905609715,\"residue_hash\":3069255364061759895,\"ccw_bytes_with_padding\":228147550794139,\"padding_bytes\":3265655293,\"additional_bytes\":989717484844,\"protobuf_hash\":1847319608941033893,\"protobuf_offset\":56,\"padding_offset\":1905609771,\"ccw_offset\":5171265064,\"ccw_bytes\":228144285138846,\"additional_offset\":228149456403910,\"total_bytes\":229139173888754,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000371954bf32a982f7df3dd09970000cf7fbdb8b19bc2a5f1fd000000e66fc2552c19a2ff65958b39a50000000000000000",
+      "229139173888754",
+      "229139173888754"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000371954bf32a982f7df3dd09970000cf7fbdb8b19bc2a5f1fd000000e66fc2552c19a2ff65958b39a50000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1905609715,\"residue_hash\":3069255364061759895,\"ccw_bytes_with_padding\":228147550794139,\"padding_bytes\":3265655293,\"additional_bytes\":989717484844,\"protobuf_hash\":1847319608941033893,\"protobuf_offset\":56,\"padding_offset\":1905609771,\"ccw_offset\":5171265064,\"ccw_bytes\":228144285138846,\"additional_offset\":228149456403910,\"total_bytes\":229139173888754,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "56",
+      "56"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":0,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"ccw_bytes\":0,\"additional_offset\":56,\"total_bytes\":56,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "56",
+      "56"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":0,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"ccw_bytes\":0,\"additional_offset\":56,\"total_bytes\":56,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "17",
+      "17",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615",
+      "73",
+      "73"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000000ffffffffffffffff0000000000000011000000110000000000000000ffffffffffffffff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":18446744073709551615,\"ccw_bytes_with_padding\":17,\"padding_bytes\":17,\"additional_bytes\":0,\"protobuf_hash\":18446744073709551615,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":73,\"ccw_bytes\":0,\"additional_offset\":73,\"total_bytes\":73,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000000ffffffffffffffff0000000000000011000000110000000000000000ffffffffffffffff0000000000000000",
+      "73",
+      "73"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000000ffffffffffffffff0000000000000011000000110000000000000000ffffffffffffffff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":18446744073709551615,\"ccw_bytes_with_padding\":17,\"padding_bytes\":17,\"additional_bytes\":0,\"protobuf_hash\":18446744073709551615,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":73,\"ccw_bytes\":0,\"additional_offset\":73,\"total_bytes\":73,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "18446744073709551615",
+      "57",
+      "57"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000030000000100000000000000000000000000000000000000000000000000000000ffffffffffffffff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":0,\"protobuf_hash\":18446744073709551615,\"protobuf_offset\":56,\"padding_offset\":57,\"ccw_offset\":57,\"ccw_bytes\":0,\"additional_offset\":57,\"total_bytes\":57,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546000000030000000100000000000000000000000000000000000000000000000000000000ffffffffffffffff0000000000000000",
+      "57",
+      "57"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"01484546000000030000000100000000000000000000000000000000000000000000000000000000ffffffffffffffff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":1,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":0,\"protobuf_hash\":18446744073709551615,\"protobuf_offset\":56,\"padding_offset\":57,\"ccw_offset\":57,\"ccw_bytes\":0,\"additional_offset\":57,\"total_bytes\":57,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "19",
+      "18446744073709551615",
+      "0",
+      "75",
+      "75"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000000ffffffffffffffff000000000000000000000000000000000000001300000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":18446744073709551615,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":19,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"ccw_bytes\":0,\"additional_offset\":56,\"total_bytes\":75,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000000ffffffffffffffff000000000000000000000000000000000000001300000000000000000000000000000000",
+      "75",
+      "75"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000000ffffffffffffffff000000000000000000000000000000000000001300000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":18446744073709551615,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":19,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"ccw_bytes\":0,\"additional_offset\":56,\"total_bytes\":75,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "4294967295",
+      "4294967295",
+      "4294967295",
+      "4294967295",
+      "18446744073709551615",
+      "18446744073709551615",
+      "12884901941",
+      "12884901941"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003ffffffffffffffffffffffff00000000ffffffffffffffff00000000ffffffffffffffffffffffff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":4294967295,\"residue_hash\":18446744073709551615,\"ccw_bytes_with_padding\":4294967295,\"padding_bytes\":4294967295,\"additional_bytes\":4294967295,\"protobuf_hash\":18446744073709551615,\"protobuf_offset\":56,\"padding_offset\":4294967351,\"ccw_offset\":8589934646,\"ccw_bytes\":0,\"additional_offset\":8589934646,\"total_bytes\":12884901941,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003ffffffffffffffffffffffff00000000ffffffffffffffff00000000ffffffffffffffffffffffff0000000000000000",
+      "12884901941",
+      "12884901941"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003ffffffffffffffffffffffff00000000ffffffffffffffff00000000ffffffffffffffffffffffff0000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":4294967295,\"residue_hash\":18446744073709551615,\"ccw_bytes_with_padding\":4294967295,\"padding_bytes\":4294967295,\"additional_bytes\":4294967295,\"protobuf_hash\":18446744073709551615,\"protobuf_offset\":56,\"padding_offset\":4294967351,\"ccw_offset\":8589934646,\"ccw_bytes\":0,\"additional_offset\":8589934646,\"total_bytes\":12884901941,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "18446744073709551559",
+      "4294967295",
+      "0",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003000000000000000000000000ffffffffffffffc7ffffffff000000000000000000000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":0,\"ccw_bytes_with_padding\":18446744073709551559,\"padding_bytes\":4294967295,\"additional_bytes\":0,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":4294967351,\"ccw_bytes\":18446744069414584264,\"additional_offset\":18446744073709551615,\"total_bytes\":18446744073709551615,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003000000000000000000000000ffffffffffffffc7ffffffff000000000000000000000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003000000000000000000000000ffffffffffffffc7ffffffff000000000000000000000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":0,\"ccw_bytes_with_padding\":18446744073709551559,\"padding_bytes\":4294967295,\"additional_bytes\":0,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":4294967351,\"ccw_bytes\":18446744069414584264,\"additional_offset\":18446744073709551615,\"total_bytes\":18446744073709551615,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "18446744073709551559",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003000000000000000000000000000000000000000000000000ffffffffffffffc700000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":18446744073709551559,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"ccw_bytes\":0,\"additional_offset\":56,\"total_bytes\":18446744073709551615,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003000000000000000000000000000000000000000000000000ffffffffffffffc700000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003000000000000000000000000000000000000000000000000ffffffffffffffc700000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":0,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":18446744073709551559,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"ccw_bytes\":0,\"additional_offset\":56,\"total_bytes\":18446744073709551615,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "4294967295",
+      "0",
+      "0",
+      "18446744069414584264",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003ffffffff0000000000000000000000000000000000000000fffffffeffffffc800000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":4294967295,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":18446744069414584264,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":4294967351,\"ccw_offset\":4294967351,\"ccw_bytes\":0,\"additional_offset\":4294967351,\"total_bytes\":18446744073709551615,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003ffffffff0000000000000000000000000000000000000000fffffffeffffffc800000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"0148454600000003ffffffff0000000000000000000000000000000000000000fffffffeffffffc800000000000000000000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":4294967295,\"residue_hash\":0,\"ccw_bytes_with_padding\":0,\"padding_bytes\":0,\"additional_bytes\":18446744069414584264,\"protobuf_hash\":0,\"protobuf_offset\":56,\"padding_offset\":4294967351,\"ccw_offset\":4294967351,\"ccw_bytes\":0,\"additional_offset\":4294967351,\"total_bytes\":18446744073709551615,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":17,\"residue_hash\":123,\"ccw_bytes_with_padding\":32,\"padding_bytes\":7,\"additional_bytes\":5,\"protobuf_hash\":456,\"protobuf_offset\":56,\"padding_offset\":73,\"ccw_offset\":80,\"ccw_bytes\":25,\"additional_offset\":105,\"total_bytes\":110,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "18446744073709551615",
+      "110"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":17,\"residue_hash\":123,\"ccw_bytes_with_padding\":32,\"padding_bytes\":7,\"additional_bytes\":5,\"protobuf_hash\":456,\"protobuf_offset\":56,\"padding_offset\":73,\"ccw_offset\":80,\"ccw_bytes\":25,\"additional_offset\":105,\"total_bytes\":110,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "0",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: explicit positive host buffer bound required\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "0",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: explicit positive host buffer bound required\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "109",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "109",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "18446744073709551615",
+      "109"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "18446744073709551615",
+      "109"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "18446744073709551615",
+      "111"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "18446744073709551615",
+      "111"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "18446744073709551615",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "18446744073709551615",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "1",
+      "0",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: padding exceeds CCW section including padding\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: padding exceeds CCW section including padding\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "1",
+      "2",
+      "0",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: padding exceeds CCW section including padding\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003000000000000000000000000000000000000000100000002000000000000000000000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: padding exceeds CCW section including padding\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "4294967295",
+      "18446744073709551615",
+      "0",
+      "0",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003ffffffff0000000000000000ffffffffffffffff00000000000000000000000000000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "18446744073709551615",
+      "0",
+      "0",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003000000000000000000000000ffffffffffffffff00000000000000000000000000000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "0",
+      "18446744073709551559",
+      "0",
+      "1",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003000000000000000000000000ffffffffffffffc700000000000000000000000100000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "4294967295",
+      "0",
+      "0",
+      "18446744073709551615",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003ffffffff0000000000000000000000000000000000000000ffffffffffffffff00000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "4294967295",
+      "18446744073709551559",
+      "0",
+      "0",
+      "0",
+      "0",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0148454600000003ffffffff0000000000000000ffffffffffffffc700000000000000000000000000000000000000000000000000000000",
+      "18446744073709551615",
+      "18446744073709551615"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "004845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014945460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014844460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845470000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80100000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80001000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000010000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000100000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000001000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000010000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000100",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000001",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: reserved bytes must be zero in this original-output profile\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000000000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000100000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000200000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000400000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "01484546ffffffff00000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: expected exactly 56 header bytes\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c800000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: expected exactly 56 header bytes\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c8000000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: expected exactly 56 header bytes\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "014845460000000300000011",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: expected exactly 56 header bytes\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "464548010000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: wrong magic or unsupported outer version\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "0",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcHex]: expected at most 2068 complete hexadecimal byte pairs\n"
+  },
+  {
+    "arguments": [
+      "decode",
+      "gg",
+      "110",
+      "110"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcHex]: frame must contain only hexadecimal pairs\n"
+  },
+  {
+    "arguments": [
+      "encode",
+      "17",
+      "32",
+      "7",
+      "5",
+      "123",
+      "456",
+      "110",
+      "110"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":17,\"residue_hash\":123,\"ccw_bytes_with_padding\":32,\"padding_bytes\":7,\"additional_bytes\":5,\"protobuf_hash\":456,\"protobuf_offset\":56,\"padding_offset\":73,\"ccw_offset\":80,\"ccw_bytes\":25,\"additional_offset\":105,\"total_bytes\":110,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header_hex\":\"014845460000000300000011000000000000007b000000000000002000000007000000000000000500000000000001c80000000000000000\",\"schema_version\":1,\"outer_version\":3,\"protobuf_bytes\":17,\"residue_hash\":123,\"ccw_bytes_with_padding\":32,\"padding_bytes\":7,\"additional_bytes\":5,\"protobuf_hash\":456,\"protobuf_offset\":56,\"padding_offset\":73,\"ccw_offset\":80,\"ccw_bytes\":25,\"additional_offset\":105,\"total_bytes\":110,\"payload_integrity_verified\":false,\"complete_program\":false,\"execution_tested\":false,\"device_access\":false}\n",
+    "stderr": ""
+  }
+]

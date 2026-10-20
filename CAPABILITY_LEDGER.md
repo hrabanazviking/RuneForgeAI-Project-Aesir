@@ -2834,3 +2834,16 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   or physical handle ownership. Numerical CCWs, container metadata, original
   immutable program delivery, configure/cleanup and first hardware result remain
   open under `TASK_hailo10h_program_delivery.md`.
+
+### Original program outer header/layout — 2026-10-20
+
+- **Status:** `verified` as synthetic output header/section arithmetic only.
+- **Owner:** original `smidr/program_header.mojo`, field facts published first.
+- **Evidence:** `docs/HAILO10H_MOJO_PROGRAM_HEADER.md`; eight methods/151 native
+  calls (84 accepted, 67 refused), complete independent big-endian struct bytes,
+  section origins/lengths/extents/overflow and returned ownership. Initial test
+  error-name assertion failure is retained; final suite passes.
+- **Boundary:** no checksum, full container, source/hardware target admission,
+  numerical CCWs, model/program file input, device upload or execution. Active
+  `TASK_hailo10h_llm_compile_interfaces.md` investigates public source compiler
+  interface leads toward the actual numerical backend gap.
