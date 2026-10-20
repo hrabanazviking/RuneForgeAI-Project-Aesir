@@ -5,6 +5,7 @@ from hailbru.soc_abi import (
     soc_ioctl, soc_desc_create, soc_desc_release, soc_connect, soc_close,
     soc_channel_masks, soc_transfer, soc_properties_json, soc_driver_info_json,
     soc_interrupts_json, soc_connect_reply, soc_desc_reply,
+    soc_buffer, soc_buffer_reply, soc_buffer_sync,
 )
 from smidr.tools.hrpc_frame import _from_hex, _to_hex
 
@@ -38,13 +39,21 @@ def main() raises:
     var mode = args[1]
     if mode == "ioctls" and len(args) == 2:
         print("{")
-        var operations: List[String] = ["properties", "driver-info", "desc-create", "desc-release", "connect", "close", "enable-channels", "disable-channels", "interrupts", "transfer", "prepare-transfer", "cancel-prepared"]
+        var operations: List[String] = ["properties", "driver-info", "desc-create", "desc-release", "connect", "close", "enable-channels", "disable-channels", "interrupts", "transfer", "prepare-transfer", "cancel-prepared", "buffer-map", "buffer-unmap", "buffer-sync"]
         for index in range(len(operations)):
             print("\"" + operations[index] + "\":" + String(soc_ioctl(operations[index])) + (String(",") if index + 1 < len(operations) else String("")))
         print("}")
         return
     var data = List[UInt8]()
-    if mode == "desc-create" and len(args) == 5:
+    if mode == "buffer" and len(args) == 5:
+        data = soc_buffer(_uint64(args[2]), _uint64(args[3]), _uint64(args[4]))
+    elif mode == "buffer-reply" and len(args) == 6:
+        var handle = soc_buffer_reply(_from_hex(args[2]), _uint64(args[3]), _uint64(args[4]), _uint64(args[5]))
+        print(String(handle))
+        return
+    elif mode == "buffer-sync" and len(args) == 7:
+        data = soc_buffer_sync(_uint64(args[2]), _boolean(args[3]), _uint64(args[4]), _uint64(args[5]), _uint64(args[6]))
+    elif mode == "desc-create" and len(args) == 5:
         data = soc_desc_create(_uint64(args[2]), _uint64(args[3]), _boolean(args[4]))
     elif mode == "desc-release" and len(args) == 3:
         data = soc_desc_release(_uint64(args[2]))

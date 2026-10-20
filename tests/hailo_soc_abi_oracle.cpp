@@ -44,6 +44,13 @@ int main(int argc, char **argv) {
 #define SIZE(T) item(#T, sizeof(T))
 #define OFF(T, F) item(#T "." #F, offsetof(T, F))
 #define IO(N) item(#N, N)
+        SIZE(hailo_vdma_buffer_params); OFF(hailo_vdma_buffer_params, addr_or_fd);
+        OFF(hailo_vdma_buffer_params, size); OFF(hailo_vdma_buffer_params, direction);
+        OFF(hailo_vdma_buffer_params, type); OFF(hailo_vdma_buffer_params, mapped_handle);
+        SIZE(hailo_vdma_buffer_sync_params); OFF(hailo_vdma_buffer_sync_params, handle);
+        OFF(hailo_vdma_buffer_sync_params, sync_type); OFF(hailo_vdma_buffer_sync_params, offset);
+        OFF(hailo_vdma_buffer_sync_params, count);
+        IO(HAILO_VDMA_BUFFER_MAP); IO(HAILO_VDMA_BUFFER_UNMAP); IO(HAILO_VDMA_BUFFER_SYNC);
         SIZE(hailo_device_properties); SIZE(hailo_driver_info);
         OFF(hailo_device_properties, board_type); OFF(hailo_device_properties, dma_type);
         OFF(hailo_device_properties, dma_engines_count); OFF(hailo_device_properties, is_fw_loaded);
@@ -67,6 +74,15 @@ int main(int argc, char **argv) {
         IO(HAILO_VDMA_ENABLE_CHANNELS); IO(HAILO_VDMA_DISABLE_CHANNELS); IO(HAILO_VDMA_INTERRUPTS_WAIT);
         IO(HAILO_VDMA_LAUNCH_TRANSFER); IO(HAILO_VDMA_PREPARE_TRANSFER); IO(HAILO_VDMA_CANCEL_PREPARED_TRANSFER);
         std::cout << "}\n";
+    } else if (mode == "buffer" && argc == 5) {
+        hailo_vdma_buffer_params p{};
+        p.addr_or_fd = n(2); p.size = n(3);
+        p.direction = static_cast<hailo_dma_data_direction>(n(4));
+        p.type = HAILO_DMA_USER_PTR_BUFFER; bytes(p);
+    } else if (mode == "buffer-sync" && argc == 7) {
+        hailo_vdma_buffer_sync_params p{};
+        p.handle = n(2); p.sync_type = static_cast<hailo_vdma_buffer_sync_type>(n(3));
+        p.offset = n(4); p.count = n(5); bytes(p);
     } else if (mode == "desc-create" && argc == 5) {
         hailo_desc_list_create_params p{};
         p.desc_count = n(2); p.desc_page_size = n(3); p.is_circular = n(4); bytes(p);

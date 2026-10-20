@@ -171,3 +171,13 @@ installed `hailo/hailort.h` status declaration. Extracted exact sizes, result
 semantics, request status and unmap keys into the observation receipt before
 the next production implementation. No model/inference or kernel changes.
 See `docs/HAILO10H_DMA_OBSERVATION.md`.
+
+### 2026-10-19 — USERPTR map/unmap/cache-sync interface
+
+Continued study under the previously read installed UAPI dual license and
+installed driver's recorded license: `common/hailo_ioctl_common.h`,
+`linux/vdma/ioctl.c` and `memory.c`. Extracted packed field/enum/ioctl facts,
+original-tuple unmap identity, sync handle/range rules and context lifetime.
+No implementation copied or translated. Independently authored Mojo codecs
+are checked against actual C objects from the installed-header test oracle.
+See `docs/HAILO10H_MOJO_DMA_STORAGE_ABI.md`. No physical transfer is claimed.
