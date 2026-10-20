@@ -1,0 +1,19 @@
+{
+  "toolchain": "Mojo1.1.0 (8189361e)",
+  "builds": "two warning-free",
+  "methods": 7,
+  "native_calls": 88,
+  "accepted": 40,
+  "refused": 48,
+  "component_checks": 94416,
+  "static_external_exact_binary32_checks": 8192,
+  "production_floating_model_math": false,
+  "device_access": false,
+  "external_compiler": false,
+  "device_weight_packing_verified": false,
+  "immutable_source_verified": false,
+  "production_sha256": {
+    "smidr/source_q5q6_constants.mojo": "37feacde75095c450ce80e772da06836f25b384edddf22b759a615dcf48c4f98",
+    "smidr/tools/source_q5q6_constants.mojo": "174ccf3915d9caab12319cffb3370bd5fa743bf2287619634e8c119d9ede24d7"
+  }
+}

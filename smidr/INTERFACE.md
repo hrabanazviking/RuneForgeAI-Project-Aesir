@@ -123,3 +123,11 @@ survive source/schedule destruction. The aggregate bound covers payload only.
 This is source byte streaming, not immutable identity/device packing/compute.
 Exact ownership, byte-oracle evidence and limitations:
 `docs/HAILO10H_MOJO_SOURCE_WEIGHT_TILES.md`.
+
+`source_q5q6_constants.mojo` exposes owned Q5K/Q6K component/window values,
+`read_q5k_constants` / `read_q6k_constants` over a live PackedGGUF owner and
+path wrappers returning copied values after mapping destruction. Q5 affine
+factors and Q6 centered/signed factors retain raw half words and exact binary32
+representation bits. Explicit bounds apply; no floating model math or device
+format/admission is performed. Schema, independent/static-oracle evidence and
+remaining gates: `docs/HAILO10H_MOJO_SOURCE_Q5Q6_CONSTANTS.md`.

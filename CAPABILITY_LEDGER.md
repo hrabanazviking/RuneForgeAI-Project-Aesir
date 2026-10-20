@@ -2960,3 +2960,14 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Boundary:** no model evaluation, immutable identity, device packing/precision,
   placement, numerical CCWs or hardware execution. Original Q5/Q6 component
   decoding follows under `TASK_hailo10h_q5q6_source_constants.md`.
+
+### Original Q5_K/Q6_K source components — 2026-10-20
+
+- **Status:** `verified` as bounded static source representation only.
+- **Owner:** original `smidr/source_q5q6_constants.mojo`; schema published first.
+- **Evidence:** `docs/HAILO10H_MOJO_SOURCE_Q5Q6_CONSTANTS.md`; seven methods/88
+  native calls (40 accept,48 refuse),94416 exact component comparisons and8192
+  exact binary32 static reference checks. Bounds/ownership/read-only gates pass.
+- **Boundary:** no production floating model arithmetic, immutable source proof,
+  device packing/precision, placement or numerical hardware execution. Active
+  `TASK_hailo10h_numerical_encoding_sources.md` targets actual backend gaps.

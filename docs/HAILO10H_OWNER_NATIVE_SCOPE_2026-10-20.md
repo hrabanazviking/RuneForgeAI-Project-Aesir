@@ -38,11 +38,13 @@ requirements. Unknown CCWs cannot be replaced with invented opcodes or passed
 to a device. Public specifications and isolated independent test oracles may
 inform original code; external implementations must not be copied/translated.
 
-Active implementation: `TASK_hailo10h_native_matrix_tiles.md`, consuming the
-existing source-bound linear graph directly. It develops bounded internal
-contraction schedules without an outside compiler or user-prepared model.
-Actual numerical encoding, physical placement, upload/activation and first
-hardware result/cleanup remain explicit work toward the same broad goal.
+Native matrix schedules, source weight byte tiles and original Q5/Q6 static
+source components are now independently verified at their host-only boundaries.
+Current work follows `HAILO10H_SOURCE_EXECUTION_PROGRESS.md`, with actual numerical
+encoding/original-program leads contracted in
+`TASK_hailo10h_numerical_encoding_sources.md`. Physical numerical encoding,
+placement, upload/activation and first hardware result/cleanup remain required
+work toward the same broad goal.
 
 All LLM execution stays on Hailo-10H. Host parsing, Aesir-owned internal
 compilation and orchestration remain permitted; CPU/CUDA/cloud LLM inference

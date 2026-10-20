@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original Q5/Q6 source components
+
+- Added bounded owned Q5 affine/Q6 centered components from the published field
+  descriptors, preserving half bits and exact binary32 representations. Original
+  Aesir readers evaluate only integer source fields; no device/model math.
+- Two warning-free builds and seven methods/88 calls pass:40 accept,48 refuse;
+  94416 exact component comparisons and8192 exact static reference constants.
+  All factor domains, boundary/special words, owner/bounds faults pass.
+- Receipt: `docs/HAILO10H_MOJO_SOURCE_Q5Q6_CONSTANTS.md`. Publish and return to
+  actual numerical encoding/original-program leads under the next contract.
+  Source representation components do not complete the broad hardware target.
+
 ## 2026-10-20 — Codex (Researcher, Auditor, Scribe): Q5/Q6 source field facts
 
 - Rechecked frozen MIT license/source/reference hashes, then published Q5_K
