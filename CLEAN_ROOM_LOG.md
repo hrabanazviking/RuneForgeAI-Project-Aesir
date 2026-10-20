@@ -234,3 +234,14 @@ lifecycles, pre-create submission failures, timeout and post-destroy cleanup.
 No model/inference or kernel/firmware/binding/reset change. Private identifiers
 and RPC bodies are omitted from published output. Receipt:
 `docs/HAILO10H_MOJO_NATIVE_RPC.md`.
+
+### 2026-10-19 — Source tensor inventory and GGUF string boundary
+
+Reused the project's own PackedGGUF/GGUFSeer parsing and ownership APIs without
+backend registry or inference calls. Read ggml MIT license at frozen commit
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0`; consulted only its GGUF specification
+for length-prefixed UTF-8 facts (spec SHA-256 recorded in the receipt). No ggml
+implementation/header/runtime is copied, translated or linked. Current public
+Mojo String API supplies validating byte construction. Original Mojo projection
+and independent Python struct-packed fixtures prove descriptors and string
+identity, not inference. Receipt: `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md`.

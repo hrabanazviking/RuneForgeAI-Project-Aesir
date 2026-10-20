@@ -1,0 +1,6 @@
+--- Testing GGUFSeer validation (The Runecaster's Vision) ---
+GGUFSeer malformed-model rejection & FAILED state transition: PASS
+--- Testing GGUFState Machine Discriminants ---
+GGUFState Machine Discriminants: PASS
+--- Testing GGMLType Constants ---
+GGMLType: PASS

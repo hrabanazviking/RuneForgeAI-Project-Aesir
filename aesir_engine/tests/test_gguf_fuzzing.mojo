@@ -1,6 +1,7 @@
 # tests/test_gguf_fuzzing.mojo
 # GGUF Binary Parser Security Fuzzing Harness & Boundary Validation
 
+from std.collections import Array
 from loader.gguf import GGUFSeer
 from core.mimir_well import MimirWell
 
@@ -9,7 +10,7 @@ def test_corrupt_gguf_header_rejection() raises:
     var well = MimirWell(1024 * 1024)
 
     # 1. Invalid Magic Byte Stream
-    var invalid_magic_bytes = InlineArray[UInt8, 24](fill=0)
+    var invalid_magic_bytes = Array[UInt8, 24](fill=0)
     invalid_magic_bytes[0] = 0x42 # 'B'
     invalid_magic_bytes[1] = 0x41 # 'A'
     invalid_magic_bytes[2] = 0x44 # 'D'

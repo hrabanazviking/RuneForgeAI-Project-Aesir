@@ -240,3 +240,9 @@ The installed 5.3.0 driver UAPI header (SPDX
 installed header; this repository ships no copy. Production Mojo contains
 independently authored codecs using interface facts, without driver source or
 oracle linkage. See `docs/HAILO10H_MOJO_SOC_ABI.md` and `CLEAN_ROOM_LOG.md`.
+
+GGUF format documentation was consulted at ggml commit
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` under its MIT license (license read).
+Only public format facts inform the source-inventory/string validation checks;
+no ggml implementation, header or runtime is copied, translated or bundled by
+this slice. See `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` and `CLEAN_ROOM_LOG.md`.

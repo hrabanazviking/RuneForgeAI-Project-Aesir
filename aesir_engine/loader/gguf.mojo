@@ -250,11 +250,13 @@ struct GGUFSeer:
     def _read_string(self, offset: Int) raises -> String:
         var string_length = Int(self._read_u64(offset))
         self._require_range(offset + 8, string_length)
-        var bytes = List[Int8]()
+        var bytes = List[UInt8]()
+        bytes.reserve(string_length)
         for index in range(string_length):
-            bytes.append(self.mmap_ptr.unsafe_offset(offset + 8 + index).unsafe_load())
-        bytes.append(0)
-        return String(unsafe_from_utf8_ptr=bytes.unsafe_ptr())
+            bytes.append(UInt8(self.mmap_ptr.unsafe_offset(offset + 8 + index).unsafe_load()))
+        # GGUF strings are length-prefixed UTF-8, not C strings. Preserve embedded
+        # NULs and reject malformed UTF-8 instead of trusting an unsafe pointer.
+        return String(from_utf8=bytes)
 
     def _string_end(self, offset: Int) raises -> Int:
         var string_length = Int(self._read_u64(offset))

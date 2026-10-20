@@ -201,3 +201,13 @@ Unicode Llama 3 segmentation pattern, GPT-2 byte encoding, whole-segment lookup
 and ranked BPE. Plain input cannot inject control IDs. `append_header`,
 `append_message` and `decode(token, decoder)` own chat framing and streaming
 UTF-8. The Unicode 16 category table is generated at build time.
+
+## GGUF string preservation — 2026-10-19
+
+`GGUFSeer._read_string()` treats its field as length-prefixed UTF-8. It copies
+exactly the declared bytes through the validating Mojo String constructor,
+preserves embedded NUL characters in metadata/tensor names and raises on
+malformed UTF-8. This does not change file-path NUL rejection. SMIÐR's source
+inventory consumes parsed descriptors without invoking an inference backend;
+its parser coverage is distinct from hardware execution support. Evidence:
+`docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` from the repository root.
