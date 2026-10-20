@@ -1,0 +1,54 @@
+{
+  "1-facts.json": {
+    "bytes": 242,
+    "sha256": "6fd2f6f280f1a0e010d431b03da60816848a05a14d917bb03c6d060d4c813535"
+  },
+  "1-header.json": {
+    "bytes": 7800,
+    "sha256": "ce09ebf71dcf9f4e0937b76532d39a8b1257c5e74b9329071ccebbe191cf6a57"
+  },
+  "public-interface-facts.json": {
+    "bytes": 912,
+    "sha256": "305d8e4d1b384e5f5325bc8ee1a30dc7bbdbecbe21494b7620cea9f6fafb9535"
+  },
+  "model-license-provenance.json": {
+    "bytes": 567,
+    "sha256": "35696c1430b700e7ad7f61e161132a322895713a9baf2450cd3b262aee1318e1"
+  },
+  "0-header.json": {
+    "bytes": 29944,
+    "sha256": "cdd0dc0377bd070ab35957191d16615409ed881e469c55532c2d288037ea15ba"
+  },
+  "initial-document-403.txt": {
+    "bytes": 1492,
+    "sha256": "34624930d1d93fc25cb3fd2691bc67087ecbdf51f9cfd6510909336042a1378f"
+  },
+  "pytorch-LICENSE": {
+    "bytes": 3464,
+    "sha256": "a8a2c6b67cf8a597ffaa5c82380a6bd1b82629c0417e00673d8013d662eb500a"
+  },
+  "config-index-provenance.json": {
+    "bytes": 485,
+    "sha256": "8d29a8255c41596374dc016b2fa11c2548b10a9232fcda7ed3a03865674a945d"
+  },
+  "shape-checks.json": {
+    "bytes": 6218,
+    "sha256": "d8d9cfe707bb5f058efb4e3a7a398f9f64de45afa2b39a80c3120deb9ea5d561"
+  },
+  "range-provenance.json": {
+    "bytes": 1185,
+    "sha256": "bdbcab6a6a78c902797632f10e8a2cd6df40d927a790e3df2fc89cb242a7a36d"
+  },
+  "document-provenance.json": {
+    "bytes": 977,
+    "sha256": "089bea2ff5b0274c8c72e3a532aca27ead17bb20f2ff358dc98a0da14c9036e5"
+  },
+  "0-facts.json": {
+    "bytes": 244,
+    "sha256": "d1e14e779696f393a15145b42aabf8534909104d9f8d1903c05c4664c7b3c8eb"
+  },
+  "research-rerun-log.txt": {
+    "bytes": 162,
+    "sha256": "aa822be92b08568c102ed790ef3418a9670c92c945a2e26ec93c8bcc876a9628"
+  }
+}

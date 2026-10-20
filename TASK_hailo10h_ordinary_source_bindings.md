@@ -32,3 +32,8 @@ execution stays on Hailo-10H. No CPU/CUDA/cloud model/layer/attention forward,
 inference proxy, DFC, vendor artifact or external compilation machine dependency.
 Continue actual numerical Hailo encoding/configuration/precision/packing/
 placement/upload/activation/result/cleanup. Never invent undocumented opcodes.
+
+2026-10-20 primary-interface/range study: all326 actual source header names/
+BF16 spans/shape roles match the pinned config/index using37760 metadata bytes,
+no payload or model execution. Exact adapter/ownership/bounds contract is in
+`docs/HAILO10H_ORDINARY_PROJECTION_BINDING_DESIGN.md`; publish before code.

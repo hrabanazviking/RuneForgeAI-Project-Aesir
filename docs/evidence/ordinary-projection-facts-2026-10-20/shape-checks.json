@@ -1,0 +1,322 @@
+{
+  "repository": "HuggingFaceTB/SmolLM3-3B",
+  "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "tensor_count": 326,
+  "payload_bytes_from_headers": 6150197248,
+  "source_payload_downloaded": false,
+  "full_source_identity_verified": false,
+  "execution_tested": false,
+  "declared_tie": true,
+  "lm_head_present": false,
+  "output_binding_candidate": "model.embed_tokens.weight based on explicit tie declaration; not absence alone",
+  "embedding_shape": [
+    128256,
+    2048
+  ],
+  "normalization_shape": [
+    2048
+  ],
+  "ffn_gate_up_shape": [
+    11008,
+    2048
+  ],
+  "ffn_down_shape": [
+    2048,
+    11008
+  ],
+  "per_layer": [
+    {
+      "layer": 0,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 1,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 2,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 3,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 4,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 5,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 6,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 7,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 8,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 9,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 10,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 11,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 12,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 13,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 14,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 15,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 16,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 17,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 18,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 19,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 20,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 21,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 22,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 23,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 24,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 25,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 26,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 27,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 28,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 29,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 30,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 31,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 32,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 33,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 34,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    },
+    {
+      "layer": 35,
+      "key_dim": 128,
+      "value_dim": 128,
+      "query_rows": 2048,
+      "key_rows": 512,
+      "value_rows": 512
+    }
+  ],
+  "unresolved": [
+    "rotary_component_pairing",
+    "complete_architecture_modifiers",
+    "numerical_hailo_encoding_and_execution"
+  ]
+}

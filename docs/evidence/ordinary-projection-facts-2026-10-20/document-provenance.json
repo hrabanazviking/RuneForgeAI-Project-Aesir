@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/pytorch/pytorch/v2.8.0/LICENSE",
+    "bytes": 3464,
+    "sha256": "a8a2c6b67cf8a597ffaa5c82380a6bd1b82629c0417e00673d8013d662eb500a",
+    "kind": "license reviewed before public API documentation"
+  },
+  {
+    "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.Linear.html",
+    "error": "HTTPError",
+    "detail": "HTTP Error 403: Forbidden",
+    "kind": "direct document retrieval failure; public web tool available"
+  },
+  {
+    "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.Embedding.html",
+    "error": "HTTPError",
+    "detail": "HTTP Error 403: Forbidden",
+    "kind": "direct document retrieval failure; public web tool available"
+  },
+  {
+    "url": "https://huggingface.co/docs/transformers/v4.57.1/en/main_classes/configuration",
+    "bytes": 401884,
+    "sha256": "a9b59d5f369ce8ba33e88d9205def90209d23062fe67861768bc4458bc3e84df",
+    "kind": "public interface documentation only"
+  }
+]

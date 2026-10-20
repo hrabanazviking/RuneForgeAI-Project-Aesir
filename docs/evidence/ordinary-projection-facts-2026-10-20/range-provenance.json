@@ -1,0 +1,42 @@
+[
+  {
+    "label": "model-00001-of-00002.safetensors",
+    "begin": 0,
+    "end": 7,
+    "status": 206,
+    "total_file_bytes": 4966315264,
+    "downloaded_bytes": 8,
+    "sha256": "2a38ddefe3e24d5d54499cb65fbd059b8484906e73997ad1741fdcf1f20a2dc0",
+    "redirect_host": "us.aws.cdn.hf.co"
+  },
+  {
+    "label": "model-00001-of-00002.safetensors",
+    "begin": 8,
+    "end": 29951,
+    "status": 206,
+    "total_file_bytes": 4966315264,
+    "downloaded_bytes": 29944,
+    "sha256": "cdd0dc0377bd070ab35957191d16615409ed881e469c55532c2d288037ea15ba",
+    "redirect_host": "us.aws.cdn.hf.co"
+  },
+  {
+    "label": "model-00002-of-00002.safetensors",
+    "begin": 0,
+    "end": 7,
+    "status": 206,
+    "total_file_bytes": 1183919744,
+    "downloaded_bytes": 8,
+    "sha256": "9a84c4f535a8e7827eb7e3d468e6520386c95acb66e17da19577f085c7bebffc",
+    "redirect_host": "us.aws.cdn.hf.co"
+  },
+  {
+    "label": "model-00002-of-00002.safetensors",
+    "begin": 8,
+    "end": 7807,
+    "status": 206,
+    "total_file_bytes": 1183919744,
+    "downloaded_bytes": 7800,
+    "sha256": "ce09ebf71dcf9f4e0937b76532d39a8b1257c5e74b9329071ccebbe191cf6a57",
+    "redirect_host": "us.aws.cdn.hf.co"
+  }
+]

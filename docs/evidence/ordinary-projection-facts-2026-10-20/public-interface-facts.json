@@ -1,0 +1,20 @@
+{
+  "sources": [
+    {
+      "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.Linear.html",
+      "fact": "weight axes are output features then input features; bias has output-feature extent",
+      "direct_download": "403; retrieved through public web tool"
+    },
+    {
+      "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.Embedding.html",
+      "fact": "weight axes are vocabulary count then embedding width",
+      "direct_download": "403; retrieved through public web tool"
+    },
+    {
+      "url": "https://huggingface.co/docs/transformers/v4.57.1/en/main_classes/configuration#transformers.PretrainedConfig",
+      "fact": "tie_word_embeddings expresses tying input and output word embeddings; declaration has default true; inheritance/override semantics still require a checked adapter"
+    }
+  ],
+  "external_implementation_downloaded": false,
+  "framework_imported": false
+}

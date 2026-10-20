@@ -1,0 +1,2 @@
+model-00001-of-00002.safetensors header 29944 tensors 258 remote_total 4966315264
+model-00002-of-00002.safetensors header 7800 tensors 68 remote_total 1183919744

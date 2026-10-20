@@ -4,3 +4,7 @@ aesir_engine/tests/fixtures/gemma4_tokenizer.json text eol=lf
 aesir_engine/tests/fixtures/llama3_tokenizer.json text eol=lf
 aesir_engine/tests/fixtures/stheno_roleplay_20.txt text eol=lf
 docs/evidence/stheno-roleplay-20.md text eol=lf
+
+# Preserve exact ordinary safetensors JSON header padding as observed bytes.
+docs/evidence/ordinary-projection-facts-2026-10-20/0-header.json -text whitespace=-blank-at-eol
+docs/evidence/ordinary-projection-facts-2026-10-20/1-header.json -text whitespace=-blank-at-eol
