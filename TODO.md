@@ -43,8 +43,10 @@
 - [x] Tagged per-file/full-axis bindings across current semantic consumers:
   94 methods/2559 native calls,108 complete frozen consumer comparisons;
   `docs/HAILO10H_MOJO_SEMANTIC_STORAGE.md`. Compiler metadata/structure only.
-- [ ] Active: `TASK_hailo10h_ordinary_semantic_adapter.md`, actual ordinary
-  configuration/architecture/alias/rotary facts and native graph adapter, then
+- [x] Public per-layer rotary meaning confirmed without model execution:
+  pinned config27 rotary/9 NoPE layers; docs/HAILO10H_ORDINARY_LAYER_SEMANTICS.md.
+- [ ] Active: `TASK_hailo10h_decoder_layer_intent.md` under the ordinary adapter:
+  owned layer/window/raw modifier intent, then actual graph/alias integration,
   broad operator coverage and actual numerical Hailo execution.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original

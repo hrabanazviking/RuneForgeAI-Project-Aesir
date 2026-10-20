@@ -31,3 +31,8 @@ are not numerical source-model execution. Continue actual Hailo arithmetic
 encoding, precision/packing/placement/configuration/upload/activation/results/
 cleanup work under the numerical contracts. Commit/publish each verified slice,
 verify remote branches and automatically advance toward the fixed broad target.
+
+2026-10-20 first narrowing: docs/HAILO10H_ORDINARY_LAYER_SEMANTICS.md
+records licensed public mask facts and the exact owned decoder-layer intent API.
+Implement TASK_hailo10h_decoder_layer_intent.md next, then integrate the actual
+ordinary graph/aliases/modifiers and numerical backend under the same target.

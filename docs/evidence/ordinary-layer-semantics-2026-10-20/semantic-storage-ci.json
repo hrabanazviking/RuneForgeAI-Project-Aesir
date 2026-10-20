@@ -1,0 +1,245 @@
+{
+  "sha": "c15405266a0f8a6d4986a4290a4fbe4b14354b22",
+  "jobs": {
+    "jobs": [
+      {
+        "id": 118805813971,
+        "name": "test-and-verify",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 39474201334,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout Code",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Pixi",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Compile Historical Master Without CPU Model Execution",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 4
+          },
+          {
+            "name": "Verify Merged Host Text and Tool Descriptors",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 5
+          },
+          {
+            "name": "Build Native CLI",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 6
+          },
+          {
+            "name": "Prove Native Private Key Publication",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7
+          },
+          {
+            "name": "Prove Restart-Safe Native Model Catalog",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8
+          },
+          {
+            "name": "Prove Catalog Commit Crash Atomicity",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9
+          },
+          {
+            "name": "Prove Resumable Download Inode Safety",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10
+          },
+          {
+            "name": "Prove Offline Diagnostic Text and JSON Contracts",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11
+          },
+          {
+            "name": "Prove Preference Diagnosis and Explicit Repair",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12
+          },
+          {
+            "name": "Prove Home Launcher PTY and Redirected Input",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 13
+          },
+          {
+            "name": "Prove CLI Help and Unsupported Command Contract",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 14
+          },
+          {
+            "name": "Prove Service Sampling Flag Admission",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 15
+          },
+          {
+            "name": "Prove Performance Evidence Fails Closed",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 16
+          },
+          {
+            "name": "Prove Provider Measurement and Full-Logit Evidence Contracts",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 17
+          },
+          {
+            "name": "Prove Owned CUDA Trace Evidence Admission",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18
+          },
+          {
+            "name": "Prove Matrix Primitive Evidence Admission",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19
+          },
+          {
+            "name": "Prove Turing MMA Evidence Admission",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 20
+          },
+          {
+            "name": "Prove Duplicate Recipe Rejection Preserves Catalog",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 21
+          },
+          {
+            "name": "Prove Native Config Recipe and CLI Settings Precedence",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 22
+          },
+          {
+            "name": "Prove Offline Build and Launch Plumbing",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 23
+          },
+          {
+            "name": "Prove Offline Preparation Manifest Contracts",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 24
+          },
+          {
+            "name": "Prove Named Conversation Library Contracts",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 25
+          },
+          {
+            "name": "Prove Conversation Autosave Crash Recovery",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 26
+          },
+          {
+            "name": "Prove WSL Bridge and Desktop Export Contracts",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 27
+          },
+          {
+            "name": "Prove PowerShell Launch Contracts Without Requiring WSL",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 28
+          },
+          {
+            "name": "Prove Special-File Admission Fails Closed",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 29
+          },
+          {
+            "name": "Compile Opt-In CUDA Probes Without Claiming GPU Execution",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 30
+          },
+          {
+            "name": "Prove Fail-Closed Test Semantics",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 31
+          },
+          {
+            "name": "Prove Repository Artifact Prevention",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 32
+          },
+          {
+            "name": "Prove Fixture Provenance Policy",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 33
+          },
+          {
+            "name": "Check Repository Consistency",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 34
+          },
+          {
+            "name": "Check Published Native Stheno Conversation",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 35
+          },
+          {
+            "name": "Post Setup Pixi",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 69
+          },
+          {
+            "name": "Post Checkout Code",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 70
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 71
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "license_revision": "8cb5963cc22174954e7dca2c0a3320b7dc2f4edc",
+  "license_sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+  "sources": [
+    {
+      "url": "https://huggingface.co/docs/transformers/v4.57.1/en/model_doc/smollm3",
+      "bytes": 436472,
+      "sha256": "f29d5597063e53403870c5aa19119a2e5e18402edf8d42b1ae26e179a379343e",
+      "kind": "versioned rendered public declaration; snapshot hash, not immutable raw source"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/huggingface/transformers/8cb5963cc22174954e7dca2c0a3320b7dc2f4edc/docs/source/en/model_doc/smollm3.md",
+      "bytes": 5782,
+      "sha256": "d49f2850a74c98edf2ca9ac2e7dd4a61ae1d0e3419a798f27346dcae15cb3c48",
+      "kind": "pinned documentation, no implementation"
+    }
+  ]
+}

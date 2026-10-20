@@ -1,0 +1,24 @@
+{
+  "declaration_assertions": [
+    "nope_mask_direction",
+    "interval_fallback",
+    "projection_bias",
+    "full_layers"
+  ],
+  "all_passed": true,
+  "config_fields_preserved": [
+    "use_cache",
+    "tie_word_embeddings",
+    "pretraining_tp",
+    "attention_bias",
+    "mlp_bias",
+    "layer_types",
+    "rope_scaling",
+    "rope_theta",
+    "sliding_window",
+    "max_window_layers"
+  ],
+  "configuration_only": true,
+  "model_forward_executed": false,
+  "external_compiler_used": false
+}
