@@ -301,3 +301,14 @@ result owns values after every file/root is closed, no payload read/mmap or mode
 execution. Mutation invalidates earlier validation. Initial format/dtype/host
 coverage is explicit implementation work, not permanent model eligibility.
 Receipt: `docs/HAILO10H_MOJO_SHARD_COLLECTION.md`.
+
+
+`read_unindexed_source_collection(root,weight_label,config_label,root_policy,
+config_policy,fd_policy,collection_policy)` returns owned SourceUnindexedCollection
+with config, one actual SourceShardFile, tensor count, metadata/payload/work.
+No index record/file is required or synthesized. Metadata bytes = config + source
+prefix/header; work = metadata bytes + one label + tensors + sum(ranks). Existing
+positive policies and no-payload/no-map fd ownership apply. Shared helpers preserve
+indexed API/output; original source namespace is not semantic aliasing. Inspector
+index presence/binding and semantic/identity/fit/execution flags remain false.
+Receipt: `docs/HAILO10H_MOJO_UNINDEXED_SOURCE.md`.

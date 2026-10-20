@@ -1,0 +1,22 @@
+{
+  "unindexed-source": "11d0b97b4d6732e065bff4a91cde2f4e60df4f9fe9b94554b006332b27843c4e",
+  "unindexed-source-api": "891c0bc563b341073d256e9f5abaa34bcecc744de734bc40e716afe16a0ad557",
+  "unindexed-current-indexed": "ec844d2ad657a6060253ee98373bce350760ae4e21166f0565dcf5fb8523628f",
+  "unindexed-indexed-api": "b461b0f76ef7e5d2d8a7edb89c2d4d81df79fbec2c7d763b5c17889304fc037d",
+  "unindexed-baseline-collection": "6c6b4bd66a97d933777b9aa22c33584c67328160ba3aa9fa59bb2fb4aa4b4a83",
+  "safetensors-fd": "42259cd0f029093587e3228f8f2f35807013b3ec4cac1b287a20aa53f7aa8e84",
+  "safetensors-fd-api": "6ec3a94aa9c7dd1c60454a8b5ab7c5214d6bbfc02b27e652d43ab877ca5ec70e",
+  "fd-safe-inventory": "94d772eac4871487046feec67d04420aabff1443be180d976e16b3e6ee196c18",
+  "fd-safe-api": "5adaecb4fdc886c27e597e44d18a46e5c3b8588d28bed300711918f079eba123",
+  "fd-constants": "3982fcb098f8fb64a1bff2968ac880a5289fdf6087bde99b8f4985b48cc54352",
+  "fd-constants-api": "1f0d84e0a0f7b0957748fc97c72779a5a9f7c2083e756aab8ee98e9423834044",
+  "fd-legacy": "583b00db27c756a2f40693c9df3ea0ba0903739cc03f0a3c2da193a1219a33da",
+  "collection-storage": "b1d45f9a4c57827bafc1975ff69cfc418f902eacd45c7eb429cbf09d9111db03",
+  "collection-storage-api": "26e6ef3b0b550574cc61bea530a7e7c39ecf079310a9ba9e889d2b76f9d1edc9",
+  "collection-index": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a",
+  "collection-index-api": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94",
+  "collection-config": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a",
+  "collection-config-api": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f",
+  "fd-root": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5",
+  "fd-root-api": "a83e68d0f61b7e9f4399a39c2f756dc7954c27b576430c98ffad5ec46028a04a"
+}

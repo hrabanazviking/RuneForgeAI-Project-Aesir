@@ -38,9 +38,11 @@
   `docs/HAILO10H_MOJO_SAFETENSORS_FD.md`. Header bytes only, no source mmap.
 - [x] Actual indexed source collection/name/label/span matching:58 methods/2121
   calls; `docs/HAILO10H_MOJO_SHARD_COLLECTION.md`. Metadata binding only.
-- [ ] Active: `TASK_hailo10h_unindexed_source_collection.md`, ordinary single
-  weight file/config without an index prerequisite. Complete semantic/architecture
-  and numerical device encoding/placement/execution remain required.
+- [x] Ordinary unindexed weight/config loading:62 methods/2299 calls;
+  `docs/HAILO10H_MOJO_UNINDEXED_SOURCE.md`. No phantom index or model execution.
+- [ ] Active: `TASK_hailo10h_semantic_storage_migration.md`, complete tagged
+  per-file/full-axis semantic bindings and affected consumers, then exact ordinary
+  config/architecture and actual numerical Hailo execution.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

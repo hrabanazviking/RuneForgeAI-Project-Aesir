@@ -33,3 +33,8 @@ config adapter integration and actual numerical Hailo encoding/execution.
 
 Concrete published-first design:
 `docs/HAILO10H_UNINDEXED_SOURCE_COLLECTION_DESIGN.md`.
+
+
+Implementation receipt: `docs/HAILO10H_MOJO_UNINDEXED_SOURCE.md`;62 methods/2299
+native calls including regressions. Ordinary input metadata is verified, not
+model execution. Next: `TASK_hailo10h_semantic_storage_migration.md`.

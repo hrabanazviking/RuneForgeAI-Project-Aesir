@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 99 |
+| `verified` | 100 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **144** |
+| **Total** | **145** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3164,3 +3164,19 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   is a current loader slice, not a permanent model prerequisite or target change.
 - **Next acceptance gate:** `TASK_hailo10h_unindexed_source_collection.md`,
   complete tagged semantic storage/config adapters and actual Hailo backend.
+
+
+### AES-SOURCE-006 — Ordinary unindexed weight/config metadata loading
+
+- **Status:** `verified`
+- **Owner:** original read_unindexed_source_collection and shared SMIÐR
+  config/shard fd/checked-storage helpers, distinct owned result and inspector.
+- **Executable evidence:** `docs/HAILO10H_MOJO_UNINDEXED_SOURCE.md` and
+  `docs/evidence/unindexed-source-2026-10-20/`;62 methods/2299 native calls,
+  comprising178 new,205 rebuilt indexed and1916 shared regressions;33 complete
+  frozen-indexed comparisons and actual descriptor/cleanup traces.
+- **Evidence boundary:** Actual ARM64 ordinary input metadata only, absent index
+  reported honestly. No payload evaluation, immutable identity, architecture
+  equivalence, physical fit, executable Hailo program or LLM execution claim.
+- **Next acceptance gate:** `TASK_hailo10h_semantic_storage_migration.md`, then
+  exact ordinary config/architecture adapters and the actual numerical backend.

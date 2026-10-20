@@ -1,3 +1,21 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary unindexed source
+
+- Indexed collectionf69b498 published/verified on both branches, then automatically
+  added direct ordinary weight/config loading with explicit absent-index provenance.
+  Shared config/shard/policy helpers preserve existing indexed behavior/output.
+- Four methods/178 native calls pass,33 complete frozen indexed comparisons,
+  unchanged raw config/tagged storage, ownership, no index attempt/payload/map,
+  exact policies,20 cleanup cycles and late read/size/close faults on both files.
+- Indexed rebuilt5/205 and unchanged readers53/1916 pass; full62/2299. All new
+  builds warning-free, no failed run. Receipt: `docs/HAILO10H_MOJO_UNINDEXED_SOURCE.md`.
+- Consistency remains10631 diagnostics:534 baseline plus10097 execution-evidence
+  paths, no new source path/ledger count issue; no full repository pass claimed.
+- Returned to semantic source audit: graph/expanded/matrix/storage/weight-tile
+  consumers still use global GGUF extents or packed_row_bytes on bare kind IDs.
+  Next migration contract requires complete tagged/per-file/full-axis bindings,
+  every affected consumer and frozen GGUF compatibility before ordinary adapters.
+  Numerical Hailo execution remains open; broad target is unchanged.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): actual indexed shards
 
 - Published/verified same-fd headers1a74c1b on both branches, then automatically
