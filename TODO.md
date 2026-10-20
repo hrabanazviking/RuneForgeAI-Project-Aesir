@@ -30,10 +30,11 @@
 - [x] Owned ordinary shard-index metadata and exact bounded file admission:
   37 methods/1289 native calls including rebuilt consumers and5 extra probes;
   `docs/HAILO10H_MOJO_SOURCE_INDEX.md`. No shard resolution or model execution.
-- [ ] Active: `TASK_hailo10h_source_config_metadata.md`, owned ordinary config
-  raw values without architecture defaults. Shard/name/orientation/rotary
-  semantics and complete storage migration follow; actual numerical encoding/
-  placement/transport remains open.
+- [x] Owned ordinary configuration raw values:16 methods/706 native calls;
+  `docs/HAILO10H_MOJO_SOURCE_CONFIG.md`. Full modifiers retained, semantics open.
+- [ ] Active: `TASK_hailo10h_model_root_admission.md` under checked shard
+  collection. Same-fd regular shard admission precedes actual index/tensor
+  matching; full semantics and numerical encoding/placement remain open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

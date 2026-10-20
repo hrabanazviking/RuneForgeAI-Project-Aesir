@@ -28,5 +28,5 @@ Returned strings own storage and survive byte-owner destruction. A whole-documen
 consumer must enforce positive byte/work/nesting policies, top-level/schema
 rules and exact trailing-whitespace/EOF handling. Errors from reused grammar
 retain the historical `safetensors:` prefix. SMIÐR's source index is the first
-additional consumer; its borrowed-byte API pins the List through both passes.
+additional consumer; the ordinary configuration reader also reuses this API; its borrowed-byte API pins the List through both passes.
 Evidence and limits: `docs/HAILO10H_MOJO_SOURCE_INDEX.md` from repository root.

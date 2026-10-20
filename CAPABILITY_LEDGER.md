@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 95 |
+| `verified` | 96 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **140** |
+| **Total** | **141** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3101,3 +3101,18 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   equivalence, hardware fit, numerical device program or source-model execution.
 - **Next acceptance gate:** `TASK_hailo10h_source_config_metadata.md`, then
   checked shard/semantic integration and numerical Hailo backend implementation.
+
+
+### AES-SOURCE-002 — Owned ordinary configuration raw values
+
+- **Status:** `verified`
+- **Owner:** `smidr/source_config.mojo`; existing shared JSON cursor and exact
+  regular-file byte owner. Native inspector and direct ownership probe consume it.
+- **Executable evidence:** `docs/HAILO10H_MOJO_SOURCE_CONFIG.md` and
+  `docs/evidence/source-config-2026-10-20/`;16 methods/706 native calls,
+  comprising190 config calls and516 index regression calls.
+- **Evidence boundary:** Configuration metadata only, native Linux ARM64.
+  Preserves unknown/raw modifiers without interpreting source architecture,
+  loading shards/tensors, certifying immutable identity/fit or model execution.
+- **Next acceptance gate:** `TASK_hailo10h_shard_collection.md`, beginning with
+  owned model-root regular-fd admission, then same-fd parsing and exact binding.

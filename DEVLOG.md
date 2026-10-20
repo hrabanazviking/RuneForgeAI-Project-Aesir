@@ -1,3 +1,19 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary config values
+
+- Index d39d481 published/verified on both remote branches; both clean checkouts
+  agree. Hosted runs39460369145/39460354407 fail historical master compilation;
+  later gates skip, preserving the repository limitation.
+- Implemented original Mojo config byte/file readers and inspector, preserving
+  every root field/raw JSON modifier without architecture defaults. Six methods/
+  190 calls pass; index regression10/516 brings the slice to16/706.
+- New builds warning-free. First cleanup harness run reused its valid pathname;
+  fixed fixture naming, retained failure/trace and unchanged production code.
+  Receipt: `docs/HAILO10H_MOJO_SOURCE_CONFIG.md`.
+- Audited existing safetensors open64/lseek/mmap ownership: path reopen cannot
+  consume root-admitted fd. Next published contracts cover owned model-root
+  admission then same-fd parser transfer and automatic checked shard collection.
+  Full architecture semantics and numerical Hailo execution remain required.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): owned ordinary index
 
 - Implemented original Mojo shard-index metadata and exact bounded regular-file

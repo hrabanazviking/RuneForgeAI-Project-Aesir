@@ -1,0 +1,13 @@
+{
+  "methods": 16,
+  "native_calls": 706,
+  "new": {
+    "accepted": 85,
+    "refused": 105
+  },
+  "index_regression": {
+    "accepted": 175,
+    "refused": 341
+  },
+  "execution_tested": false
+}

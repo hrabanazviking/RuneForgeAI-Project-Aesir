@@ -228,3 +228,15 @@ Labels are strings and are never opened/resolved. No architecture, shape,
 immutable identity, hardware fit or execution follows from index metadata.
 Shared cursor ownership contract: `armvegr/INTERFACE.md`. Full independent
 boundary evidence: `docs/HAILO10H_MOJO_SOURCE_INDEX.md`.
+
+
+`source_config.mojo` exposes `SourceConfigPolicy(bytes,fields,work,depth)` and
+move-only `SourceConfiguration(source_path,source_bytes,fields,work_units)`.
+`parse_source_config(data,policy)` borrows bytes and returns owned original root
+names/raw validated JSON values with an empty path. `read_source_config` uses
+the exact regular-file owner and attaches the path. Root must be an object;
+empty objects and arbitrary field types are retained without defaults. Positive
+policies/depth at most64 and exact EOF apply; logical work is4*bytes+root fields.
+Whole-document validation precedes field collection. No semantic interpretation,
+model code, shard/tensor loading, immutable identity, hardware fit or execution
+is certified. Receipt: `docs/HAILO10H_MOJO_SOURCE_CONFIG.md`.
