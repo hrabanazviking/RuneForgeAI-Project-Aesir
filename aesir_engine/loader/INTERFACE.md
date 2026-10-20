@@ -211,3 +211,11 @@ malformed UTF-8. This does not change file-path NUL rejection. SMIÐR's source
 inventory consumes parsed descriptors without invoking an inference backend;
 its parser coverage is distinct from hardware execution support. Evidence:
 `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` from the repository root.
+
+## Bounded half-word source read — 2026-10-19
+
+The internal GGUFSeer `_read_u16` checks an active mapping and an exact two-byte
+range before a little-endian load. SMIÐR's static constant reader consumes it
+without exporting the file pointer. Exhaustive source half/BF16 representation
+and boundary/closed-owner evidence:
+`docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`. This adds no model execution path.

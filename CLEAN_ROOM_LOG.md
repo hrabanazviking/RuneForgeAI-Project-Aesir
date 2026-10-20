@@ -330,3 +330,12 @@ implementation study/copy/translation. Independent brute-force interval checks,
 malformed graph/policy/arithmetic refusals and returned ownership pass; no
 numerical model operation or device access. Receipt:
 `docs/HAILO10H_MOJO_EXPANDED_STORAGE.md`.
+
+### 2026-10-19 — Original floating constant representation reader
+
+Public Python struct and Google BF16 documentation supplies representation
+format facts; no external implementation source is studied, copied, translated
+or linked. Original integer Mojo field expansion preserves payload placement
+without floating evaluation. Python struct/value-based exhaustive oracles use
+synthetic static constants only, never model/layer arithmetic or device access.
+Receipt: `docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`.

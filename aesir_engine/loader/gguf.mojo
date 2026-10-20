@@ -217,6 +217,13 @@ struct GGUFSeer:
         if offset > Int(self.file_size) or byte_count > Int(self.file_size) - offset:
             raise Error("GGUF is truncated or contains an out-of-range offset")
 
+    def _read_u16(self, offset: Int) raises -> UInt16:
+        if not self.is_mapped:
+            raise Error("GGUF source is not mapped")
+        self._require_range(offset, 2)
+        var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()
+        return UInt16(ptr.unsafe_load()) | (UInt16(ptr.unsafe_offset(1).unsafe_load()) << 8)
+
     def _read_u32(self, offset: Int) raises -> UInt32:
         self._require_range(offset, 4)
         var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()

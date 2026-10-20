@@ -2796,3 +2796,14 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** no model math, actual device allocation/fit, physical placement
   or executable program. Source constants/views do not duplicate allocation;
   actual conversion, precision, budgets and hardware acceptance remain open.
+
+### Floating source constant representation — 2026-10-19
+
+- **Status:** `verified` as bounded static source representation decoding.
+- **Owner:** `smidr/source_float_constants.mojo`, loader half-word helper.
+- **Evidence:** `docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`; six methods/64
+  native calls, exhaustive F16/BF16 patterns, F32 payload preservation, 24
+  refusals and returned ownership; rebuilt inventory/storage regressions pass.
+- **Boundary:** no host model arithmetic, source identity certificate, selected
+  device weight format or execution. Packed quantized source constants and
+  actual compiler/backend/program/hardware gates remain open.

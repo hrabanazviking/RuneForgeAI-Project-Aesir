@@ -74,3 +74,11 @@ are not duplicate allocations. Exact global last uses and typed roles are
 validated before checked event accounting. This remains a hypothetical live
 byte volume, never hardware fit/admission. Evidence and complete limits:
 `docs/HAILO10H_MOJO_EXPANDED_STORAGE.md`.
+
+`source_float_constants.mojo` exposes move-only `FloatingConstantWindow`,
+integer half/BF16-to-binary32 bit conversion, `read_floating_constants` over a
+live PackedGGUF owner with an explicit host bound, and a path wrapper returning
+only copied bindings/bits. This is source representation decoding, not device
+precision/packing or numerical inference. Payload rules, exhaustive 16-bit
+pattern evidence and identity/concurrency limits:
+`docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`.
