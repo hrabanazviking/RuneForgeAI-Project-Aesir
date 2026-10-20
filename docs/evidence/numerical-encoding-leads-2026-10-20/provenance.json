@@ -1,0 +1,21 @@
+{
+  "hailort_revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "license": "MIT; previously gated, root license rechecked before continued format/interface study",
+  "source_sha256": {
+    "rpc.proto": "c44ec3a28d075bae5f814f99491a4f1de0c3cbd026721243e8876c67b5da9225",
+    "serializer.hpp": "e02cdb188ac543edd2a4b746c50399b6a74ad8ef1eb230ba5431ae47fccd3a87",
+    "hailort.h": "df41786c6856a0ffaa435d4808d7592b997af6e64969d6f9619c22074378ecd4",
+    "hailort_server.cpp": "80b8c3c66b976f1cd2f62f52b0b23b8c996d1d3d58241619848b1023ee660668",
+    "nms_post_process.hpp": "e273033b6ae14a4300706383902ef50e3d3a5653493f3a6c4fcc43e2cd006140"
+  },
+  "patent_documents": [
+    "US11237894B1",
+    "US11514291B2"
+  ],
+  "patent_scope": "architectural descriptions; no Hailo-10H opcode, address, CRC polynomial or ISA claim established",
+  "read_only": true,
+  "device_access": false,
+  "external_compiler": false,
+  "standalone_compiler_found": false,
+  "implementation_copied_or_translated": false
+}

@@ -1,3 +1,14 @@
+## 2026-10-20 — Codex (Researcher, Auditor, Scribe): numerical encoding leads
+
+- Studied two public Hailo patent descriptions for LCU/configuration/integrity
+  architecture. No Hailo-10H instruction encoding, address map or CRC polynomial
+  was established; no guessed device instructions or writes were made.
+- Mapped action4 public configure schema/receiver and the non-NMS -1 sentinel
+  requirement,16-bit batch zero-auto and host-only FLOAT32 format meaning.
+- Record: `docs/HAILO10H_NUMERICAL_ENCODING_LEADS_2026-10-20.md`; next published
+  contract is original configure/stream protobuf values, without hardware claims.
+  Numerical compiler/program execution remains open under the same broad target.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original Q5/Q6 source components
 
 - Added bounded owned Q5 affine/Q6 centered components from the published field

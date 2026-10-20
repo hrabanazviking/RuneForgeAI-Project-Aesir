@@ -8,7 +8,9 @@
   structure only. `docs/HAILO10H_MOJO_MATRIX_TILES.md`.
 - [x] Source weight byte tiles: five methods/286 native calls,88368 byte checks.
 - [x] Original Q5/Q6 components: seven methods/88 calls,94416 component checks.
-- [ ] Active: `TASK_hailo10h_numerical_encoding_sources.md`, actual backend gaps.
+- [x] Numerical source lead study: LCU/configuration descriptions, no actual ISA.
+- [ ] Active: `TASK_hailo10h_configure_rpc_codec.md`, original action4 bytes.
+- [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.
   No CPU/CUDA/cloud LLM inference, outside compiler or specially compiled model
