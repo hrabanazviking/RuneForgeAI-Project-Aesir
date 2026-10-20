@@ -1,0 +1,16 @@
+........F.
+======================================================================
+FAIL: test_strict_utf8_escape_nul_and_metadata_string_map (__main__.SafetensorsInventory.test_strict_utf8_escape_nul_and_metadata_string_map)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_safetensors_inventory.py", line 187, in test_strict_utf8_escape_nul_and_metadata_string_map
+    self.refused(self.invoke(raw_file('{"__metadata__":'+value+'}')))
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_safetensors_inventory.py", line 97, in refused
+    self.assertNotEqual(result.returncode,0)
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.031s
+
+FAILED (failures=1)
+Native outcomes: {'refused': 95, 'accepted': 104}

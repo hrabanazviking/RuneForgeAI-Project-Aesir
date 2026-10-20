@@ -3010,3 +3010,18 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Boundary:** no executable protobuf/CCW semantics, hardware alignment/target/
   precision/placement, firmware CRC, program transfer/configure or execution.
   Continue `TASK_hailo10h_public_encoding_delta.md` toward actual backend gaps.
+
+
+### Ordinary safetensors source inventory — 2026-10-20
+
+- **Status:** `verified` as bounded host source metadata only.
+- **Owner:** original `smidr/safetensors_inventory.mojo` over the repaired existing
+  project `armvegr/safetensors.mojo` reader; facts/audit published first.
+- **Evidence:** `docs/HAILO10H_MOJO_SAFETENSORS_INVENTORY.md`; eleven methods/219
+  native calls (109 accept,110 refuse), pinned isolated format oracle, Unicode/
+  NUL/full axes/scalars/empties,60 seeded collections, strict bounds/overflow/
+  coverage and cleanup/ownership. Five legacy header-only calls pass.
+- **Boundary:** F16/BF16/F32 inventory only; no tensor conversion or model/device
+  execution, immutable source certificate, shard/config/architecture mapping,
+  physical precision/packing/placement or executable numerical instructions.
+  Static weight windows follow under `TASK_hailo10h_safetensors_constants.md`.

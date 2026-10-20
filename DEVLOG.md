@@ -1,3 +1,18 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary safetensors inventory
+
+- Repaired the existing project reader's UTF-8/NUL/JSON/shape/offset/coverage
+  checks and added explicit parse/rank/count/work/depth policies and reset/close
+  state. No competing parser, value conversion or CPU inference path added.
+- Connected owned full-rank tensor descriptors and metadata into SMIÐR, closing
+  the source before returning. Eleven methods/219 native calls pass (109 accept,
+  110 refuse), including pinned format oracle,60 seeded collections, three API
+  cleanup/reopen processes and five unchanged legacy header-only calls.
+- `docs/HAILO10H_MOJO_SAFETENSORS_INVENTORY.md` preserves failed test-assertion
+  evidence and the legacy conversion-body compile warning. No model/device
+  runs or full CI pass claimed. Continue static source windows while actual
+  numerical compiler/physical execution and wider dtype/shard/architecture
+  support remain required toward the fixed broad ordinary-model target.
+
 ## 2026-10-20 — Codex (Researcher, Auditor, Scribe): pinned public interface delta
 
 - Compared v5.3/v5.4 public schemas and relevant control/CCW/transfer boundaries

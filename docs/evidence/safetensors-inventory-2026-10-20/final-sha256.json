@@ -1,0 +1,10 @@
+{
+  "armvegr/safetensors.mojo": "10ca27b39c2b2b7f7e9ea6be0ffe1e11064f2edf1df8d7b79ddda5fcad12d1c7",
+  "smidr/safetensors_inventory.mojo": "613c8327958a1dacb890ed24434c9b2397cb77710f0a3fc7acac89e4c18dca71",
+  "smidr/tools/safetensors_inventory.mojo": "ed9a3cfd6cde0cbf696fac90296de7d93fe752bc3a45334650d8d845fb6f9f64",
+  "tests/hailo_safetensors_inventory_api.mojo": "b9a577f9222503d840327d4c80e0bc3b0434122960d6bedecafd5ffbc80f4032",
+  "tests/test_hailo_safetensors_inventory.py": "083fd757ac6b107469a419d9281be100fce78b50b994aa63f6413ad060093de0",
+  "../safetensors-inventory": "b306b3982376571ea2fd5d25ddde43f317f2f987b863fcf696f6de8a8744db3f",
+  "../safetensors-inventory-api": "b6543a53d044ffe94aa15a2ee87b52b347c1a293cffa1e1ee37709d8b530cf78",
+  "../safetensors-header-regression": "0041588052b043020243996c7f6583a5dd51928f4f291bc1e60caad64c68bcc9"
+}

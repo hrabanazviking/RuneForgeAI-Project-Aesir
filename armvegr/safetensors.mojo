@@ -29,6 +29,7 @@
 #   the implementation is bit-exact against the independent integer-arithmetic
 #   reference on all 65536 BF16 bit patterns (H044 evidence).
 
+from std.collections import Dict
 from std.ffi import external_call
 from std.memory import Pointer
 from std.memory.alloc import unsafe_alloc
@@ -52,10 +53,19 @@ struct STTensorDesc(Copyable, Movable):
         self.data_start = -1
         self.data_end = -1
 
-    def element_count(self) -> Int64:
+    def element_count(self) raises -> Int64:
+        # Empty axes make the mathematical product zero before any multiply.
+        for dim in self.shape:
+            if dim < 0:
+                raise Error("safetensors: negative shape dimension")
+        for dim in self.shape:
+            if dim == 0:
+                return 0
         var n = Int64(1)
-        for i in range(len(self.shape)):
-            n *= Int64(self.shape[i])
+        for dim in self.shape:
+            if n > Int64(9223372036854775807) // Int64(dim):
+                raise Error("safetensors: shape product overflows Int64")
+            n *= Int64(dim)
         return n
 
 
@@ -64,11 +74,13 @@ struct JsonParser:
     var buf: Pointer[UInt8, MutUntrackedOrigin]
     var n: Int
     var pos: Int
+    var max_depth: Int
 
-    def __init__(out self, buf: Pointer[UInt8, MutUntrackedOrigin], n: Int):
+    def __init__(out self, buf: Pointer[UInt8, MutUntrackedOrigin], n: Int, max_depth: Int = 64):
         self.buf = buf
         self.n = n
         self.pos = 0
+        self.max_depth = max_depth
 
     def _peek(self) -> UInt8:
         if self.pos >= self.n:
@@ -98,30 +110,30 @@ struct JsonParser:
             return Int(c - UInt8(65)) + 10
         raise Error("safetensors: bad \\u escape in JSON header")
 
-    def _append_utf8(mut self, mut dst: List[Int8], cp: Int) raises:
+    def _append_utf8(mut self, mut dst: List[UInt8], cp: Int) raises:
         if cp < 0 or cp > 1114111 or (cp >= 55296 and cp <= 57343):
             raise Error("safetensors: bad code point in JSON header")
         if cp < 128:
-            dst.append(Int8(cp))
+            dst.append(UInt8(cp))
         elif cp < 2048:
-            dst.append(Int8(0xC0 | (cp >> 6)))
-            dst.append(Int8(0x80 | (cp & 63)))
+            dst.append(UInt8(0xC0 | (cp >> 6)))
+            dst.append(UInt8(0x80 | (cp & 63)))
         elif cp < 65536:
-            dst.append(Int8(0xE0 | (cp >> 12)))
-            dst.append(Int8(0x80 | ((cp >> 6) & 63)))
-            dst.append(Int8(0x80 | (cp & 63)))
+            dst.append(UInt8(0xE0 | (cp >> 12)))
+            dst.append(UInt8(0x80 | ((cp >> 6) & 63)))
+            dst.append(UInt8(0x80 | (cp & 63)))
         else:
-            dst.append(Int8(0xF0 | (cp >> 18)))
-            dst.append(Int8(0x80 | ((cp >> 12) & 63)))
-            dst.append(Int8(0x80 | ((cp >> 6) & 63)))
-            dst.append(Int8(0x80 | (cp & 63)))
+            dst.append(UInt8(0xF0 | (cp >> 18)))
+            dst.append(UInt8(0x80 | ((cp >> 12) & 63)))
+            dst.append(UInt8(0x80 | ((cp >> 6) & 63)))
+            dst.append(UInt8(0x80 | (cp & 63)))
 
     def parse_string(mut self) raises -> String:
         self.skip_ws()
         if self._peek() != UInt8(34):
             raise Error("safetensors: expected JSON string")
         self.pos += 1
-        var out = List[Int8]()
+        var out = List[UInt8]()
         while True:
             if self.pos >= self.n:
                 raise Error("safetensors: unterminated JSON string")
@@ -180,9 +192,8 @@ struct JsonParser:
             elif c < UInt8(32):
                 raise Error("safetensors: control character in JSON string")
             else:
-                out.append(Int8(c))
-        out.append(0)
-        return String(unsafe_from_utf8_ptr=out.unsafe_ptr())
+                out.append(c)
+        return String(from_utf8=out)
 
     def parse_int(mut self) raises -> Int64:
         self.skip_ws()
@@ -192,6 +203,7 @@ struct JsonParser:
             self.pos += 1
         var v = Int64(0)
         var digits = 0
+        var leading_zero = self._peek() == UInt8(48)
         while self.pos < self.n:
             var c = self._peek()
             if c < UInt8(48) or c > UInt8(57):
@@ -202,12 +214,25 @@ struct JsonParser:
             v = v * Int64(10) + Int64(c - UInt8(48))
             self.pos += 1
             digits += 1
+        if digits > 1 and leading_zero:
+            raise Error("safetensors: leading zero in JSON integer")
         if digits == 0:
             raise Error("safetensors: expected JSON integer")
         return -v if neg else v
 
+    def parse_size(mut self) raises -> Int64:
+        self.skip_ws()
+        if self._peek() == UInt8(45):
+            raise Error("safetensors: unsigned shape/offset required")
+        return self.parse_int()
+
     def skip_value(mut self) raises:
-        """Skip one JSON value (used for __metadata__ and unknown fields)."""
+        self._skip_value(0)
+
+    def _skip_value(mut self, depth: Int) raises:
+        """Validate and skip one bounded unknown-field JSON value."""
+        if depth >= self.max_depth:
+            raise Error("safetensors: JSON nesting bound exceeded")
         self.skip_ws()
         var c = self._peek()
         if c == UInt8(34):
@@ -218,10 +243,14 @@ struct JsonParser:
             if self._peek() == UInt8(125):
                 self.pos += 1
                 return
+            var fields = Dict[String, Bool]()
             while True:
-                _ = self.parse_string()
+                var key = self.parse_string()
+                if key in fields:
+                    raise Error("safetensors: duplicate skipped object key")
+                fields[key] = True
                 self.expect(UInt8(58))
-                self.skip_value()
+                self._skip_value(depth + 1)
                 self.skip_ws()
                 var d = self._peek()
                 if d == UInt8(44):
@@ -238,7 +267,7 @@ struct JsonParser:
                 self.pos += 1
                 return
             while True:
-                self.skip_value()
+                self._skip_value(depth + 1)
                 self.skip_ws()
                 var d = self._peek()
                 if d == UInt8(44):
@@ -265,22 +294,31 @@ struct JsonParser:
                 raise Error("safetensors: malformed JSON literal")
             self.pos += 1
 
+    def _number_digits(mut self) raises:
+        var start = self.pos
+        while self.pos < self.n and self._peek() >= 48 and self._peek() <= 57:
+            self.pos += 1
+        if self.pos == start:
+            raise Error("safetensors: expected JSON number digits")
+
     def parse_number_raw(mut self) raises:
-        # Consume a JSON number without interpreting it (for skipped values).
         self.skip_ws()
-        while self.pos < self.n:
-            var c = self._peek()
-            if (
-                (c >= UInt8(48) and c <= UInt8(57))
-                or c == UInt8(45)
-                or c == UInt8(43)
-                or c == UInt8(46)
-                or c == UInt8(101)
-                or c == UInt8(69)
-            ):
+        if self._peek() == 45:
+            self.pos += 1
+        if self._peek() == 48:
+            self.pos += 1
+            if self._peek() >= 48 and self._peek() <= 57:
+                raise Error("safetensors: leading zero in JSON number")
+        else:
+            self._number_digits()
+        if self._peek() == 46:
+            self.pos += 1
+            self._number_digits()
+        if self._peek() == 101 or self._peek() == 69:
+            self.pos += 1
+            if self._peek() == 43 or self._peek() == 45:
                 self.pos += 1
-            else:
-                break
+            self._number_digits()
 
 
 def bf16_to_fp16_rne(src: Pointer[UInt16, MutUntrackedOrigin], dst: Pointer[Float16, MutUntrackedOrigin], n: Int):
@@ -392,6 +430,12 @@ struct SafetensorsLoader:
     var header_size: Int64
     var descs: List[STTensorDesc]
     var opened: Bool
+    var metadata: Dict[String, String]
+    var header_bound: Int
+    var tensor_bound: Int
+    var rank_bound: Int
+    var work_bound: Int
+    var depth_bound: Int
 
     def __init__(out self):
         self.fd = Int32(-1)
@@ -400,8 +444,16 @@ struct SafetensorsLoader:
         self.header_size = Int64(0)
         self.descs = List[STTensorDesc]()
         self.opened = False
+        self.metadata = Dict[String, String]()
+        self.header_bound = 100000000
+        self.tensor_bound = 100000
+        self.rank_bound = 64
+        self.work_bound = 100000000
+        self.depth_bound = 64
 
     def _req(self, offset: Int64, byte_count: Int64) raises:
+        if not self.opened:
+            raise Error("safetensors: live mapped source required")
         if offset < 0 or byte_count < 0:
             raise Error("safetensors: negative byte range")
         if offset > self.file_size or byte_count > self.file_size - offset:
@@ -414,9 +466,24 @@ struct SafetensorsLoader:
             v |= UInt64(self.map.unsafe_offset(Int(offset) + i).unsafe_load()) << UInt64(8 * i)
         return v
 
-    def open(mut self, path: String) raises:
+    def open(mut self, path: String, header_bound: Int = 100000000,
+             tensor_bound: Int = 100000, rank_bound: Int = 64,
+             work_bound: Int = 100000000, depth_bound: Int = 64) raises:
         if self.opened:
             raise Error("safetensors: already open")
+        if header_bound <= 0 or tensor_bound <= 0 or rank_bound <= 0 or work_bound <= 0 or depth_bound <= 0:
+            raise Error("safetensors: explicit policy bounds must be positive")
+        if depth_bound > 64:
+            raise Error("safetensors: recursive skip depth exceeds current host stack policy 64")
+        self.header_bound = header_bound
+        self.tensor_bound = tensor_bound
+        self.rank_bound = rank_bound
+        self.work_bound = work_bound
+        self.depth_bound = depth_bound
+        self.descs.clear()
+        self.metadata.clear()
+        self.file_size = 0
+        self.header_size = 0
         var path_bytes = List[Int8]()
         var source = path.as_bytes()
         if len(source) == 0 or len(source) >= 4096 or "\0" in path:
@@ -432,83 +499,102 @@ struct SafetensorsLoader:
             raise Error("safetensors: failed to open " + path)
         var size = external_call["lseek", Int64](self.fd, Int64(0), Int32(2))
         if size < 0:
-            _ = external_call["close", Int32](self.fd)
-            self.fd = Int32(-1)
+            self.close()
             raise Error("safetensors: cannot seek " + path)
         self.file_size = size
         if self.file_size < 8:
-            _ = external_call["close", Int32](self.fd)
-            self.fd = Int32(-1)
+            self.close()
             raise Error("safetensors: file smaller than the 8-byte header prefix")
         var addr = external_call["mmap", Int](
             Int(0), Int(self.file_size), Int32(1), Int32(2), self.fd, Int64(0)
         )
         if addr == -1:
-            _ = external_call["close", Int32](self.fd)
-            self.fd = Int32(-1)
+            self.close()
             raise Error("safetensors: mmap failed on " + path)
         self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
+        self.opened = True
         try:
             self._parse_header()
         except e:
-            _ = external_call["munmap", Int32](self.map, Int(self.file_size))
-            _ = external_call["close", Int32](self.fd)
-            self.fd = Int32(-1)
-            self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=1)
+            self.close()
             raise e
-        self.opened = True
 
     def _parse_header(mut self) raises:
-        var n = Int64(self._u64(0))
-        if n < 2:
-            raise Error("safetensors: header JSON too small")
+        var raw_size = self._u64(0)
+        if raw_size < 2 or raw_size > UInt64(self.header_bound):
+            raise Error("safetensors: header length outside explicit bound")
+        var n = Int64(raw_size)
         self._req(8, n)
         self.header_size = n
-        var parser = JsonParser(
-            self.map.unsafe_offset(8), Int(n)
-        )
-        parser.expect(UInt8(123))  # {
+        var parser = JsonParser(self.map.unsafe_offset(8), Int(n), self.depth_bound)
+        if parser._peek() != 123:
+            raise Error("safetensors: header must begin with object byte")
+        parser.expect(123)
+        parser.skip_ws()
         var seen_meta = False
-        while True:
-            parser.skip_ws()
-            if parser._peek() == UInt8(125):
-                parser.pos += 1
-                break
-            var key = parser.parse_string()
-            parser.expect(UInt8(58))  # :
-            if key == "__metadata__":
-                if seen_meta:
-                    raise Error("safetensors: duplicate __metadata__")
-                seen_meta = True
-                parser.skip_value()
-            else:
-                self._parse_tensor_desc(key, parser)
-            parser.skip_ws()
-            var d = parser._peek()
-            if d == UInt8(44):
-                parser.pos += 1
-            elif d == UInt8(125):
-                parser.pos += 1
-                break
-            else:
-                raise Error("safetensors: malformed header object")
+        if parser._peek() == 125:
+            parser.pos += 1
+        else:
+            while True:
+                var key = parser.parse_string()
+                parser.expect(58)
+                if key == "__metadata__":
+                    if seen_meta:
+                        raise Error("safetensors: duplicate __metadata__")
+                    seen_meta = True
+                    self._parse_metadata(parser)
+                else:
+                    self._parse_tensor_desc(key, parser)
+                parser.skip_ws()
+                if parser._peek() == 44:
+                    parser.pos += 1
+                elif parser._peek() == 125:
+                    parser.pos += 1
+                    break
+                else:
+                    raise Error("safetensors: malformed header object")
         parser.skip_ws()
         if parser.pos != parser.n:
             raise Error("safetensors: trailing bytes after header JSON")
         self._validate_descs()
 
+    def _parse_metadata(mut self, mut parser: JsonParser) raises:
+        parser.expect(123)
+        parser.skip_ws()
+        if parser._peek() == 125:
+            parser.pos += 1
+            return
+        while True:
+            var key = parser.parse_string()
+            if key in self.metadata:
+                raise Error("safetensors: duplicate metadata key")
+            parser.expect(58)
+            self.metadata[key] = parser.parse_string()
+            parser.skip_ws()
+            if parser._peek() == 44:
+                parser.pos += 1
+            elif parser._peek() == 125:
+                parser.pos += 1
+                return
+            else:
+                raise Error("safetensors: malformed metadata string map")
+
     def _parse_tensor_desc(mut self, name: String, mut parser: JsonParser) raises:
+        var proposed = len(self.descs) + 1
+        if proposed > self.tensor_bound or proposed > (self.work_bound // 4) // proposed:
+            raise Error("safetensors: tensor count or descriptor work bound exceeded")
         parser.expect(UInt8(123))
         var dtype = UInt8(255)
         var shape = List[Int]()
         var off0 = Int64(-1)
         var off1 = Int64(-1)
+        var fields = Dict[String, Bool]()
         while True:
             parser.skip_ws()
-            if parser._peek() == UInt8(125):
-                parser.pos += 1
-                break
             var fkey = parser.parse_string()
+            if fkey in fields:
+                raise Error("safetensors: duplicate tensor descriptor field")
+            fields[fkey] = True
             parser.expect(UInt8(58))
             if fkey == "dtype":
                 var ds = parser.parse_string()
@@ -525,11 +611,11 @@ struct SafetensorsLoader:
                 parser.skip_ws()
                 if parser._peek() != UInt8(93):
                     while True:
-                        var dim = parser.parse_int()
+                        var dim = parser.parse_size()
                         if dim < 0:
                             raise Error("safetensors: negative shape dimension")
-                        if dim > Int64(1) << 40:
-                            raise Error("safetensors: absurd shape dimension")
+                        if len(shape) >= self.rank_bound:
+                            raise Error("safetensors: rank bound exceeded")
                         shape.append(Int(dim))
                         parser.skip_ws()
                         var dd = parser._peek()
@@ -544,9 +630,9 @@ struct SafetensorsLoader:
                     parser.pos += 1
             elif fkey == "data_offsets":
                 parser.expect(UInt8(91))
-                off0 = parser.parse_int()
+                off0 = parser.parse_size()
                 parser.expect(UInt8(44))
-                off1 = parser.parse_int()
+                off1 = parser.parse_size()
                 parser.expect(UInt8(93))
             else:
                 parser.skip_value()
@@ -559,6 +645,8 @@ struct SafetensorsLoader:
                 break
             else:
                 raise Error("safetensors: malformed tensor descriptor")
+        if "shape" not in fields or "data_offsets" not in fields:
+            raise Error("safetensors: missing required descriptor field")
         if dtype == UInt8(255):
             raise Error("safetensors: tensor descriptor missing dtype: " + name)
         if off0 < 0 or off1 < 0 or off1 < off0:
@@ -576,29 +664,45 @@ struct SafetensorsLoader:
         self.descs.append(desc.copy())
 
     def _validate_descs(mut self) raises:
-        var base = Int64(8) + self.header_size
+        var base = Int64(8) + self.header_size  # _req already established this sum
+        var payload = self.file_size - base
+        var covered = Int64(0)
         for i in range(len(self.descs)):
             ref d = self.descs[i]
             var n = d.element_count()
             var bpe = Int64(2)
             if d.dtype == UInt8(2):
-                bpe = Int64(4)
-            if n > (Int64(9223372036854775807) // bpe):
-                raise Error("safetensors: tensor byte size overflows: " + d.name)
-            if Int64(d.data_end) - Int64(d.data_start) != n * bpe:
-                raise Error("safetensors: data_offsets size mismatch for " + d.name)
-            d.data_start = Int(Int64(d.data_start) + base)
-            d.data_end = Int(Int64(d.data_end) + base)
-            self._req(Int64(d.data_start), Int64(d.data_end) - Int64(d.data_start))
-        # overlap check (sort-free O(n^2); n is small)
+                bpe = 4
+            if n > Int64(9223372036854775807) // bpe:
+                raise Error("safetensors: tensor byte size overflows")
+            var begin = Int64(d.data_start)
+            var end = Int64(d.data_end)
+            if begin < 0 or begin > end or end > payload:
+                raise Error("safetensors: relative tensor extent outside payload")
+            if end - begin != n * bpe:
+                raise Error("safetensors: data_offsets size mismatch")
+            if end - begin > payload - covered:
+                raise Error("safetensors: aggregate tensor bytes exceed payload")
+            covered += end - begin
+            d.data_start = Int(base + begin)
+            d.data_end = Int(base + end)
         for i in range(len(self.descs)):
-            for j in range(i + 1, len(self.descs)):
-                var a0 = self.descs[i].data_start
-                var a1 = self.descs[i].data_end
-                var b0 = self.descs[j].data_start
-                var b1 = self.descs[j].data_end
-                if a0 < b1 and b0 < a1:
-                    raise Error("safetensors: overlapping data offsets")
+            ref a = self.descs[i]
+            if a.data_start == a.data_end:
+                var boundary = a.data_start == Int(base)
+                for j in range(len(self.descs)):
+                    ref b = self.descs[j]
+                    if b.data_start < b.data_end and a.data_start == b.data_end:
+                        boundary = True
+                if not boundary:
+                    raise Error("safetensors: empty tensor is not at a data boundary")
+            else:
+                for j in range(i + 1, len(self.descs)):
+                    ref b = self.descs[j]
+                    if b.data_start < b.data_end and a.data_start < b.data_end and b.data_start < a.data_end:
+                        raise Error("safetensors: overlapping data offsets")
+        if covered != payload:
+            raise Error("safetensors: data buffer has holes or unindexed trailing bytes")
 
     # -- query / load ------------------------------------------------------
 
@@ -617,6 +721,8 @@ struct SafetensorsLoader:
         dst: Pointer[Float16, MutUntrackedOrigin],
     ) raises:
         """Load tensor `name` into `dst` as FP16 (must hold element_count)."""
+        if not self.opened:
+            raise Error("safetensors: live mapped source required")
         var idx = self.find(name)
         ref d = self.descs[idx]
         var n = Int(d.element_count())
@@ -635,9 +741,15 @@ struct SafetensorsLoader:
     def close(mut self):
         if self.opened:
             _ = external_call["munmap", Int32](self.map, Int(self.file_size))
+        if self.fd >= 0:
             _ = external_call["close", Int32](self.fd)
-            self.fd = Int32(-1)
-            self.opened = False
+        self.fd = Int32(-1)
+        self.opened = False
+        self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=1)
+        self.file_size = 0
+        self.header_size = 0
+        self.descs.clear()
+        self.metadata.clear()
 
 
 def safetensors_version() -> String:

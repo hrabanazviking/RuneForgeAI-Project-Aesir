@@ -16,8 +16,10 @@
 - [x] Owned outer envelope: eight methods/194 native calls; complete synthetic
   byte output only, no executable metadata/CCW/hardware claim.
 - [x] Public v5.4 delta: pinned schema/control/transfer facts; no numerical ISA.
-- [ ] Active: `TASK_hailo10h_safetensors_inventory.md`, ordinary-source input
-  inventory audit/format facts, with actual encoding/configuration gaps open.
+- [x] Ordinary safetensors inventory: eleven methods/219 native calls; owned
+  metadata only, no tensor/model execution or immutable source identity.
+- [ ] Active: `TASK_hailo10h_safetensors_constants.md`, static source windows,
+  with actual encoding/configuration/placement/transport gaps still open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

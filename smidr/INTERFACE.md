@@ -151,3 +151,19 @@ explicit padding and computed checksums; it validates its selected domain.
 These are opaque outer bytes, not executable protobuf/CCW validation or hardware
 alignment/target/placement/admission. Receipt and ownership/complete-byte oracle:
 `docs/HAILO10H_MOJO_PROGRAM_ENVELOPE.md`.
+
+`safetensors_inventory.mojo` exposes owned `SafetensorsTensor` values (name,
+source dtype, full shape, elements, file offset/count), move-only
+`SafetensorsInventory` (source/data extent, tensors, metadata) and
+`read_safetensors_inventory(path,header_bound,tensor_bound,rank_bound,work_bound,depth_bound)`.
+It reuses the repaired project `armvegr.safetensors.SafetensorsLoader` metadata
+parser and closes mappings before returning copied values. Source dtype IDs
+are 0 F16,1 BF16,2 F32; they are distinct from GGUF IDs. It performs no value
+loading/conversion or inference and does not fabricate model architecture.
+The reader's default `open(path)` remains usable; all optional bounds must be
+positive, depth is currently at most64 for recursive unknown-field skipping,
+and the descriptor-work policy bounds4*n*n before appending tensor n. `close`
+now clears descriptors/metadata/extents; copy desired values before closing.
+Other dtypes/shards/semantic mapping/immutable identity and numerical execution
+remain work. Exact policies, tests and limits:
+`docs/HAILO10H_MOJO_SAFETENSORS_INVENTORY.md`.
