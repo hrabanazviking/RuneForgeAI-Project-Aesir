@@ -1,0 +1,11 @@
+{
+  "configuration_cases": 31,
+  "torch_installed_in_pinned_environment": false,
+  "torch_imported": false,
+  "model_instantiated": false,
+  "model_module_imported": false,
+  "weights_loaded": false,
+  "network_requested": false,
+  "device_access": false,
+  "installed_5_7_probe_isolation_failed": true
+}

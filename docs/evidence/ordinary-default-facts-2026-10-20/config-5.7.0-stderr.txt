@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/../ordinary-modifier-study/config_probe.py", line 25, in <module>
+    assert 'torch' not in sys.modules,'metadata-only oracle unexpectedly imported torch'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: metadata-only oracle unexpectedly imported torch

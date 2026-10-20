@@ -1,0 +1,7 @@
+{
+  "package": "transformers",
+  "version": "4.57.1",
+  "license_sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+  "matches_previously_reviewed_full_license": true,
+  "torch_available": false
+}

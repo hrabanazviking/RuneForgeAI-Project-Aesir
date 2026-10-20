@@ -1,0 +1,30 @@
+Using Python 3.11.2 environment at: /home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv
+Resolved 18 packages in 868ms
+Downloading hf-xet (3.8MiB)
+Downloading numpy (13.6MiB)
+Downloading transformers (11.4MiB)
+Downloading tokenizers (3.1MiB)
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Prepared 18 packages in 2.39s
+Installed 18 packages in 43ms
+ + certifi==2026.10.19
+ + charset-normalizer==3.5.2
+ + filelock==4.2.4
+ + fsspec==2026.9.0
+ + hf-xet==1.7.0
+ + huggingface-hub==0.36.0
+ + idna==3.20
+ + numpy==1.26.4
+ + packaging==26.3
+ + pyyaml==6.0.3
+ + regex==2026.9.29
+ + requests==2.34.2
+ + safetensors==0.7.0
+ + tokenizers==0.22.1
+ + tqdm==4.70.1
+ + transformers==4.57.1
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0

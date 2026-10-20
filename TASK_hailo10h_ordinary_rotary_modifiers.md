@@ -31,3 +31,8 @@ placement/transport/program upload/activation/results/cleanup work. Do not inven
 opcodes or count a host graph, header or historical compiled smoke as source-model
 execution. Commit/publish each verified slice, verify both remote heads and
 advance automatically. No DFC, outside compiler/machine or user conversion.
+
+2026-10-20 pinned configuration-only oracle resolves omitted/null layer/KV/tie
+semantics without a model or Torch in its environment. Implement the narrowed
+TASK_hailo10h_ordinary_defaults.md first under its exact published contract,
+then return to pairing/modifiers and original mathematical operation lowering.
