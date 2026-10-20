@@ -1,3 +1,9 @@
+> **WITHDRAWN — owner clarification 2026-10-20:** Aesir must own broad
+> model loading/execution without outside model compilers or specially compiled
+> model prerequisites. This experiment is historical only. Active native work:
+> `TASK_hailo10h_native_matrix_tiles.md`; owner scope:
+> `docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
+
 # Mojo-authored first arithmetic compiler input
 
 Date: 2026-10-20. Contract before implementation.

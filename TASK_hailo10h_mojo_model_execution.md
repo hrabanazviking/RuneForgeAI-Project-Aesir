@@ -16,6 +16,16 @@ No further vendor catalog selection is authorized as a substitute for that
 goal. Preserve those artifacts and evidence without building the roadmap
 around their restriction.
 
+## Owner clarification — 2026-10-20
+
+Broad model support is 100% the fixed target. Aesir must accept ordinary,
+unmodified source-model files and own all necessary internal translation in
+Mojo. No special model precompilation, DFC/outside compiler or external compile
+host may become a prerequisite. Missing coverage is implementation work, not
+a permanent eligibility rule. See
+`docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`; active native slice:
+`TASK_hailo10h_native_matrix_tiles.md`.
+
 ## Immediate work
 
 1. Inspect the existing Mojo loaders, model representation, compute lowering,

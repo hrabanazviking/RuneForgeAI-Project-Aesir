@@ -1,0 +1,9 @@
+{
+  "id": "aesir-hailo-roadmap-continuation",
+  "kind": "heartbeat",
+  "status": "ACTIVE",
+  "rrule": "FREQ=MINUTELY;INTERVAL=15",
+  "target_thread_id": "01a15429-f7d6-72e3-9270-131f2495d14c",
+  "prompt_sha256": "71844fd8ac953e3e5bea4376eb876ec8045d79caf04553745dbe996e8ce5dffa",
+  "latest_scope_verified": true
+}

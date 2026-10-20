@@ -1,3 +1,10 @@
+> **OWNER CLARIFICATION — 2026-10-20:** Broad model support is 100% the target.
+> Aesir must load ordinary model files and own internal translation/execution in
+> Mojo. No outside model compiler, external compile host or specially compiled
+> model prerequisite. Missing formats/architectures/operators are implementation
+> work, never permanent eligibility restrictions. Controlling scope:
+> `docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
+
 > **OWNER TARGET CORRECTION — 2026-10-19:** Project Aesir must implement the
 > Mojo path needed to run source models that fit the Hailo-10H hardware. The
 > owner explicitly rejects limiting the product to compatible vendor-precompiled

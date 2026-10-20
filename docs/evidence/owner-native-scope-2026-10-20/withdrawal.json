@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-20",
+  "reason": "Owner requires broad ordinary-model support owned by Aesir; no outside model compiler or special model compilation prerequisite. External-compiler source-fixture route withdrawn.",
+  "preserved_files_sha256": {
+    "smidr/primitive_source.mojo": "a848ea94ec27ae9d6587696b51b48db96c6b623795884e77e8258a39e0630855",
+    "smidr/tools/primitive_source.mojo": "ab4f05d1364af23e1b4a4e3c5bb8c2f3d04fbe7852874c78d998846a27d5e918",
+    "unverified_native_binary": "7c4513b4a0de3fd67f2f1aef5684057d1fef6990f2eb6bbefd9b50d857feaf44"
+  },
+  "status": "prototype built but not accepted/tested/published as production; no compiler invocation, device action or model forward",
+  "test_environment": "isolated test-only ONNX environment created outside repository before correction; not a production requirement"
+}

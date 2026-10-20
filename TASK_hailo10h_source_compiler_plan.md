@@ -1,3 +1,8 @@
+> **Controlling owner clarification — 2026-10-20:** broad model support,
+> ordinary model files, Aesir-owned internal Mojo translation, no outside model
+> compiler or specially compiled artifact prerequisite. See
+> `docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
+
 # Source-model compiler plan and executable-program gap
 
 Date: 2026-10-19. Contract before implementation.

@@ -4,6 +4,12 @@ The owner's fixed target is Aesir in Mojo running source models that fit the
 Hailo-10H hardware. Only the owner may change it. The precompiled-only branch
 interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 
+Latest owner clarification (2026-10-20): **broad model support is 100% the
+target**. Aesir must own loading/internal translation of ordinary model files;
+no outside compiler or specially precompiled model prerequisite. Active native
+slice: `TASK_hailo10h_native_matrix_tiles.md`. Full controlling scope:
+`HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 
@@ -39,7 +45,7 @@ verify, publish and advance each bounded work slice.
 | Configuration upload/activation endpoint | Public program receiver mapped; physical original upload open | `HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md`; matching driver rejects NNC firmware controls on the Pi SoC path. hRPC action 2 accepts separate compiled-program bytes, followed by configure/activate lifecycles. Original metadata/lifecycle codec is verified as host bytes; active `TASK_hailo10h_program_delivery.md` continues container/CCW facts. Actual upload, raw-context endpoint and numerical encoding remain open. |
 | Original program metadata/lifecycle codec | Verified host wire primitive | `HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`; eight methods/140 calls against generated public-schema protobuf, ten device codec regressions pass. No program transfer or activation. |
 | Original compiled-program structure | Verified header/layout primitive | `HAILO10H_MOJO_PROGRAM_HEADER.md`; eight methods/151 native calls, independent exact bytes/section arithmetic, overflow/extents/ownership. No checksum/complete program. Public numerical compilation interface leads are recorded in `HAILO10H_PUBLIC_LLM_COMPILER_INTERFACES.md`; source-bound cache address scenario is independently verified. Active parent `TASK_hailo10h_program_delivery.md` continues actual configuration/CCW discovery. |
-| Original first primitive compiler input | Contract published; implementation active | `TASK_hailo10h_first_primitive_source.md`; emit a Mojo-authored ONNX Add fixture and validate source format. Licensed compilation resource and every actual program/hardware gate remain open. |
+| Outside-compiler first primitive source experiment | Withdrawn by owner clarification | `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`; unpublished prototype preserved outside production tree. Continue native source-bound tiling under `TASK_hailo10h_native_matrix_tiles.md`; no external compiler prerequisite. |
 | Executable compute-context generation | Open | Learn and emit actual CCW operation/register/configuration/scheduling data and establish upload/activation, then prove the first operation on hardware. |
 | Source-model execution and architecture breadth | Open | Earn complete model, format, quantization, memory, numerical and lifecycle gates toward the same broad target. |
 
