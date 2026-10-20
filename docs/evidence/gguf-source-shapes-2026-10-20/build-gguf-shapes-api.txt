@@ -1,0 +1,115 @@
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:18:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]][0] = 777
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:18:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]][0] = 777
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:23:33: error: no matching method in call to 'pop'
+        _ = source.tensor_shapes.pop(args[2])
+            ~~~~~~~~~~~~~~~~~~~~^~~~
+Mojo/stdlib/std/collections/dict.mojo:1392:1: note: candidate not viable: missing required argument: 'default'
+def pop(mut self, key: K, var default: V) -> V where conforms_to(K, Deinitable) and conforms_to(V, Deinitable)    # note - synthetic signature
+^
+Mojo/stdlib/std/collections/dict.mojo:1441:1: note: candidate not viable: value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+def pop(mut self, ref key: K) -> V where conforms_to(K, Deinitable)    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:23:42: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        _ = source.tensor_shapes.pop(args[2])
+                                         ^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:25:27: error: no matching method in call to 'pop'
+        _ = source.tensors.pop(args[2])
+            ~~~~~~~~~~~~~~^~~~
+Mojo/stdlib/std/collections/dict.mojo:1392:1: note: candidate not viable: missing required argument: 'default'
+def pop(mut self, key: K, var default: V) -> V where conforms_to(K, Deinitable) and conforms_to(V, Deinitable)    # note - synthetic signature
+^
+Mojo/stdlib/std/collections/dict.mojo:1441:1: note: candidate not viable: value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+def pop(mut self, ref key: K) -> V where conforms_to(K, Deinitable)    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:25:36: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        _ = source.tensors.pop(args[2])
+                                   ^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:27:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]].clear()
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:27:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]].clear()
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:29:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]].append(1)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:29:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]].append(1)
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:30:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]].append(1)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:30:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]].append(1)
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:32:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]][0] += 1
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:32:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]][0] += 1
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:34:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]] = List[Int](original[0], 999)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:34:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]] = List[Int](original[0], 999)
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:36:28: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensors[args[2]].rows = 2
+        ~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:36:28: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensors[args[2]].rows = 2
+                           ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:37:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]] = List[Int](original[0])
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:37:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]] = List[Int](original[0])
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:39:28: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensors[args[2]].columns = 0
+        ~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:39:28: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensors[args[2]].columns = 0
+                           ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:40:34: error: invalid call to '__getitem__': value passed to 'key' cannot be converted from 'StringSpan[ImmStaticOrigin]' to ref 'String'
+        source.tensor_shapes[args[2]][0] = 0
+        ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_gguf_shapes_api.mojo:40:34: note: operand element type 'StringSpan[ImmStaticOrigin]' doesn't match expected element type 'String'
+        source.tensor_shapes[args[2]][0] = 0
+                                 ^
+Mojo/stdlib/std/collections/dict.mojo:892:1: note: function declared here
+def __getitem__(ref self, ref key: K) -> ref[V["value"]] V    # note - synthetic signature
+^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module

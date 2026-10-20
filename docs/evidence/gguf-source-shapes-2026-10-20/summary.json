@@ -1,0 +1,25 @@
+{
+  "shapes": {
+    "calls": 104,
+    "accepted": 56,
+    "refused": 48
+  },
+  "inventory": {
+    "calls": 16,
+    "accepted": 8,
+    "refused": 8
+  },
+  "semantic": {
+    "calls": 56,
+    "accepted": 14,
+    "refused": 42
+  },
+  "typed": {
+    "calls": 493,
+    "accepted": 243,
+    "refused": 250
+  },
+  "total_calls": 669,
+  "test_methods": 28,
+  "execution_tested": false
+}

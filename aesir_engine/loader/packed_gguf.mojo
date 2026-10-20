@@ -39,6 +39,7 @@ struct PackedGGUF:
     var fields: Dict[String, Int]
     var field_types: Dict[String, Int]
     var tensors: Dict[String, PackedTensor]
+    var tensor_shapes: Dict[String, List[Int]]
     var data_offset: Int
 
     def __init__(out self, path: String) raises:
@@ -46,6 +47,7 @@ struct PackedGGUF:
         self.fields = Dict[String, Int]()
         self.field_types = Dict[String, Int]()
         self.tensors = Dict[String, PackedTensor]()
+        self.tensor_shapes = Dict[String, List[Int]]()
         self.data_offset = 0
         self.source._open_and_map()
         self.source._parse_header()
@@ -81,6 +83,10 @@ struct PackedGGUF:
             if dims == 2:
                 rows = Int(self.source._read_u64(cursor))
                 cursor += 8
+            var declared_shape = List[Int]()
+            declared_shape.append(columns)
+            if dims == 2:
+                declared_shape.append(rows)
             var kind = Int(self.source._read_u32(cursor))
             var relative = Int(self.source._read_u64(cursor + 4))
             cursor += 12
@@ -90,6 +96,7 @@ struct PackedGGUF:
             if name in self.tensors:
                 raise Error("Packed GGUF: duplicate tensor " + name)
             self.tensors[name] = PackedTensor(relative, columns, rows, kind, byte_count)
+            self.tensor_shapes[name] = declared_shape^
             names.append(name)
         self.data_offset = (cursor + alignment - 1) // alignment * alignment
         for name in names:
@@ -104,6 +111,18 @@ struct PackedGGUF:
                 var b = self.tensors[names[j]]
                 if a.offset < b.offset + b.byte_count and b.offset < a.offset + a.byte_count:
                     raise Error("Packed GGUF: overlapping tensors")
+
+    def tensor_shape(self, name: String) raises -> List[Int]:
+        """Copy exact admitted GGUF axes, without inferring rank from row count."""
+        if name not in self.tensors or name not in self.tensor_shapes:
+            raise Error("Packed GGUF: missing source shape " + name)
+        var tensor = self.tensors[name]
+        var shape = self.tensor_shapes[name].copy()
+        if len(shape) < 1 or len(shape) > 2 or shape[0] != tensor.columns or tensor.columns <= 0 or tensor.rows <= 0:
+            raise Error("Packed GGUF: inconsistent source shape " + name)
+        if (len(shape) == 1 and tensor.rows != 1) or (len(shape) == 2 and shape[1] != tensor.rows):
+            raise Error("Packed GGUF: inconsistent source shape " + name)
+        return shape^
 
     def _integer_value(self, key: String, kind: Int, offset: Int) raises -> Int:
         if kind == 4:

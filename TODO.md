@@ -23,8 +23,9 @@
 - [x] Owned typed decoder configuration and compatible graph builder:54 methods/
   1933 native calls including30 complete pre-refactor graph comparisons.
   `docs/HAILO10H_MOJO_TYPED_DECODER.md`; no model/device execution.
-- [ ] Active: `TASK_hailo10h_source_neutral_semantics.md`, preserve exact GGUF
-  source ranks first (`docs/HAILO10H_SOURCE_STORAGE_PROVENANCE_AUDIT.md`), then tagged full-shape
+- [x] Exact declared GGUF source axes retained:28 methods/669 native calls;
+  `docs/HAILO10H_MOJO_GGUF_SOURCE_SHAPES.md`. Vectors differ from one-row matrices.
+- [ ] Active: `TASK_hailo10h_source_neutral_semantics.md`, tagged full-shape
   storage/name provenance and ordinary config/index facts before safetensors
   semantic integration; actual numerical encoding/placement/transport stays open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.

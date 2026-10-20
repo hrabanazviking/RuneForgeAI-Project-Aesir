@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): exact GGUF source axes
+
+- Preserved declared one/two-dimensional source axes in the existing parser;
+  copied lookup distinguishes vectors from one-row matrices and rejects missing
+  or inconsistent mutable descriptor/index state. Existing packed ABI unchanged.
+- New6 methods/104 calls pass; rebuilt inventory/semantic/typed regressions add
+  22 methods/565 calls including30 complete frozen-baseline graph comparisons.
+  Initial test-API compilation errors are retained; final builds warning-free.
+- `docs/HAILO10H_MOJO_GGUF_SOURCE_SHAPES.md` records28/669 and the metadata-only
+  boundary. Continue tagged source storage/name/backing-file provenance and
+  ordinary configuration/index integration; numerical device execution is open.
+
 ## 2026-10-20 — Codex (Cartographer, Auditor, Scribe): source storage rank/provenance audit
 
 - Found exact `[N]` versus `[N,1]` rank loss in the existing PackedGGUF value

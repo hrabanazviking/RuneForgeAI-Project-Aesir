@@ -1,0 +1,9 @@
+{
+  "gguf-shapes": "704bc37fc56561d1fd68c3fcf41c4b9e955812c6219e7e26e1ad6e9cbcf2a255",
+  "gguf-shapes-api": "9b2565f5ede2aee8e3a90f82dde373143d23fdccfb3f55f802c11426b4882de8",
+  "gguf-shape-inventory": "5aabdb06b5c37dfb8117e49a9d45da9d55d68d3c89de50104091317839e72583",
+  "gguf-shape-semantic": "21e7bbbafc6188fcd749013568ce75b3d38cf53672e63565d9e28872b82cf747",
+  "gguf-shape-typed": "d8386b9f4b7ab3e52671a24b0325a263a83fab4ce8b8d49c81f72f072eeb3120",
+  "gguf-shape-typed-api": "d21a28f19686ea526343fd102e4310961706c11f7a86da38bbdd5cb958a62a34",
+  "semantic-plan-before-typed": "74eea76b3d596f841098ddf04a81f9910bfcc622698fd5e66d71e44dbf1775cd"
+}

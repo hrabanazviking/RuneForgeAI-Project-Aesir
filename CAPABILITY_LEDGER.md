@@ -3055,3 +3055,18 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   shard semantic integration, immutable file identity, physical precision/layout,
   actual numerical instructions or Hailo model execution is certified. Continue
   tagged storage/name/config facts toward the unchanged broad target.
+
+
+### Exact admitted GGUF source axes — 2026-10-20
+
+- **Status:** `verified` as copied source-shape metadata for current loader ranks.
+- **Owner:** existing `aesir_engine/loader/packed_gguf.mojo` parser and public
+  `tensor_shape` lookup; consumers are the source-shape inspector and API probe.
+- **Evidence:** `docs/HAILO10H_MOJO_GGUF_SOURCE_SHAPES.md`;6 methods/104 native
+  calls (56 accept,48 refuse), explicit-rank independent fixtures, six source
+  kinds,35 seeded collections, ownership/mutable-state/refusal/read-only checks.
+  Three rebuilt regressions pass22 methods/565 calls, including30 complete
+  graph comparisons with the pre-refactor binary.
+- **Boundary:** current one/two-rank descriptive metadata only, no immutable
+  backing-file identity, semantic/physical layout or model execution. Tagged
+  storage/config/name integration and numerical Hailo execution remain open.

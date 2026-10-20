@@ -274,3 +274,16 @@ range before a little-endian load. SMIÐR's static constant reader consumes it
 without exporting the file pointer. Exhaustive source half/BF16 representation
 and boundary/closed-owner evidence:
 `docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`. This adds no model execution path.
+
+## Exact packed source axes — 2026-10-20
+
+`PackedGGUF.tensor_shape(name) raises -> List[Int]` returns an independent copy
+of the exact admitted one/two-dimensional GGUF source axes. The owned
+`tensor_shapes` index is populated during the existing directory parse. Rank-one
+`[N]` and rank-two `[N,1]` remain distinct; no transpose or inference from rows
+occurs. Lookup requires a matching current descriptor and raises on missing or
+inconsistent mutable index state. Returned values survive mutation and mapping
+closure. Existing PackedTensor fields/constructor and storage arithmetic remain
+compatible. This is descriptive source provenance, not immutable identity,
+physical layout, arbitrary-rank support or execution. Evidence:
+`docs/HAILO10H_MOJO_GGUF_SOURCE_SHAPES.md` from the repository root.
