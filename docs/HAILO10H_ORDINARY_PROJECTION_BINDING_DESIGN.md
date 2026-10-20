@@ -91,7 +91,10 @@ Admit file/tensor counts before scanning/cloning; require enough actual tensor
 evidence for9*layers+2 using subtraction/division before alias-table allocation.
 Reserve9*layers+3 expected alias slots. Projection work charges128 units per
 slot,8 per actual tensor,1 per file, provenance UTF-8 bytes once per file, every
-actual original-name/source-path byte and each file-path byte. Check every sum/
+actual original-name/source-path byte and each file-path byte. Additionally
+charge every original per-file metadata entry and all UTF-8 key/value bytes
+before iterating/copying that metadata map; the old storage validator does not
+bound arbitrary retained metadata on mutable caller snapshots. Check every sum/
 product before growth. The128 slot reserve covers both generated fixed-schema
 names including maximal signed-Int layer digits. Existing source/storage/
 architecture policies separately bound their own validation passes. This is a
@@ -117,3 +120,12 @@ numerical Hailo lowering/configuration/precision/packing/placement/upload/
 activation/results/cleanup. Broad support remains100% the target. No external
 compiler/DFC, special user conversion or vendor-precompiled artifact prerequisite;
 all LLM execution stays on Hailo-10H.
+
+
+### Final pre-code ownership narrowing
+
+The original SourceStorageInventory validator bounds tensor/rank/span work but
+not its arbitrary metadata map. The binding adapter's own projection work must
+therefore charge metadata entry count before iteration and key/value bytes
+before copying. This closes an audited ownership/accounting gap while retaining
+all source metadata. No implementation preceded this narrowing.
