@@ -77,3 +77,23 @@ full broad support. No outside compiler, special source conversion, vendor
 artifact prerequisite, guessed CCW or model inference proxy. After publication,
 automatically implement exact indexed multi-shard aggregation under
 `TASK_hailo10h_shard_collection.md` and continue semantic/numerical Hailo work.
+
+## Descriptor offset and cleanup refinement, before code
+
+Use positional pread64 for the new header owner, not current-offset read. This
+ensures exact prefix/header offsets even if a transferred descriptor position
+was changed before entry. Installed licensed Linux UAPI plus an isolated C
+oracle confirm ARM64 pread64 syscall67, off_t8 and int4; facts at
+`evidence/safetensors-fd-facts-2026-10-20/`. No external parser is involved.
+New positional wrapper initially admits the verified ARM64 ABI only; other-host
+coverage remains work. Native libc close through the syscall gateway handles a
+consumed descriptor independently of any caller-supplied architecture string;
+reject invalid fd integers rather than truncating them to another live fd.
+This permits cleanup even when host detection/policy admission fails. No unsafe
+wrong-architecture close syscall or retry after Linux close failure is allowed.
+
+The new metadata owner obtains actual host architecture, statx type/size and
+prefix/header through that same fd; no descriptive path is reopened. Copy the
+pre-refactor inventory binary before shared decoder edits and retain its hash
+for complete output comparisons. Positional I/O does not change immutable-
+identity limits or turn header-only metadata into a full-file tensor map.
