@@ -3025,3 +3025,18 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   execution, immutable source certificate, shard/config/architecture mapping,
   physical precision/packing/placement or executable numerical instructions.
   Static weight windows follow under `TASK_hailo10h_safetensors_constants.md`.
+
+
+### Ordinary safetensors static source windows — 2026-10-20
+
+- **Status:** `verified` as bounded static source representation only.
+- **Owner:** original `smidr/safetensors_constants.mojo`, uses the existing live
+  source owner and original Aesir integer representation helpers.
+- **Evidence:** `docs/HAILO10H_MOJO_SAFETENSORS_CONSTANTS.md`; nine methods/97
+  native calls (77 accept,20 refuse),264204 exact raw/expanded words, exhaustive
+  F16/BF16 spaces, F32 special payloads, scalar/empty/full-rank/tail windows,
+  ownership/refusals/read-only and error-path close. Reader11/219 regression.
+- **Boundary:** no immutable source identity, dtype/shard/config/architecture
+  semantic integration, device precision/packing/placement, numerical CCWs or
+  hardware execution. Source-neutral mathematical input connection follows
+  `TASK_hailo10h_source_neutral_semantics.md`; the broad target is unchanged.

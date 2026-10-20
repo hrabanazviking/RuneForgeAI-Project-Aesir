@@ -31,6 +31,7 @@ verify, publish and advance each bounded work slice.
 | Owned DMA transfer / typed RPC | Verified physical message exchange | `HAILO10H_MOJO_NATIVE_RPC.md`; actual USERPTR submissions, exact counts, both completions, synchronized reply bytes and correlation; no model/compute. |
 | Independent Mojo read-only device round-trip | Verified on Hailo-10H without HailoRT linkage | `HAILO10H_MOJO_NATIVE_RPC.md`; five methods/36 child runs, repeated create/identify/destroy, timeout and failure cleanup with fresh-session recovery. |
 | Ordinary safetensors source inventory | Verified compiler input metadata | `HAILO10H_MOJO_SAFETENSORS_INVENTORY.md`; eleven methods/219 calls, repaired existing parser, full axes/scalar/empty/Unicode/NUL/bounds/coverage/cleanup. Initial F16/BF16/F32 metadata only; shard/config/semantics/immutable identity and device execution remain open. |
+| Ordinary safetensors static constants | Verified source representation | `HAILO10H_MOJO_SAFETENSORS_CONSTANTS.md`; nine methods/97 calls,264204 exact raw/expanded words, exhaustive16-bit spaces, ownership/window/error-path cleanup. Source-neutral semantics and device precision/packing/execution remain open. |
 | Source tensor inventory | Verified compiler input snapshot | `HAILO10H_MOJO_SOURCE_INVENTORY.md`; original typed descriptors, exact source extents, no backend registry restriction, UTF-8/NUL preservation; six methods/16 fixture runs, no execution. |
 | Semantic operation graph | Verified compiler structure | `HAILO10H_MOJO_SEMANTIC_PLAN.md`; typed operations, exact source bindings, distinct Q/K/V shapes, residual and persistent-KV lifetimes; nine methods/56 child runs. No numerical lowering or execution. |
 | Storage arithmetic | Verified hypothetical compiler scenario | `HAILO10H_MOJO_STORAGE_ESTIMATE.md`; explicit policy/budget provenance, alias-aware timeline and overflow checks; seven methods/61 native calls. Not placed memory or hardware fit. |
@@ -65,6 +66,7 @@ Action4 codec passes8/83; outer integrity passes11/2072. Owned envelope
 construction passes8/194; public release delta study follows under
 `TASK_hailo10h_public_encoding_delta.md`. Results are now recorded in
 `HAILO10H_PUBLIC_ENCODING_DELTA_2026-10-20.md`; no new numerical ISA was found
-in that delta. Safetensors inventory now passes11/219; next input work is static source windows,
+in that delta. Safetensors inventory passes11/219 and static words9/97; next input work is
+source-neutral semantic config/binding/provenance,
 while actual encoding/configuration/placement/transport work remains open. Architectural
 patents are not a device ISA.

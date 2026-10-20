@@ -1,0 +1,8 @@
+{
+  "smidr/safetensors_constants.mojo": "0856ebf35f9eaefd56460e6da3d8fc252318381989cbeac9aae72dac93c48cbc",
+  "smidr/tools/safetensors_constants.mojo": "bb3cb0088913e475d00c828b670cd6c657fcf44fed47d836ab2384b7b07d694f",
+  "tests/hailo_safetensors_constants_api.mojo": "b6cb54fcdf9418c8481bdbacdfb07fa9614594a57a6b31a2e34de49b4acfce23",
+  "tests/test_hailo_safetensors_constants.py": "fc3647d864cf0a476dff0ac10a6122aaadb3204c85a5bc832611115116f0498a",
+  "../safetensors-constants": "5b4731d6ec81d61ce9e74a2de139b8c8647aa6949ca97799329277b385f1652c",
+  "../safetensors-constants-api": "4824804463e79243f9d769d57c54651a868875cf3a596df2e0b98740f24c3dbd"
+}

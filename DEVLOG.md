@@ -1,3 +1,17 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary safetensors static words
+
+- Connected bounded source windows to the existing live metadata owner, exact
+  raw F32/F16/BF16 words and original integer binary32 expansion. Full shapes,
+  names/spans and independent owned results survive mapping destruction.
+- Nine methods/97 native calls pass (77 accept,20 refuse),264204 exact word
+  checks including both exhaustive16-bit spaces, F32 payloads, flat row-major
+  scalar/empty/tails,17 expected API refusals and ownership/error-path cleanup.
+  Reader regression11/219 passes. Failed compile logs are preserved.
+- `docs/HAILO10H_MOJO_SAFETENSORS_CONSTANTS.md` records the representation-only
+  boundary: no model/layer/attention math, physical precision/packing, numerical
+  program or device execution. Publish and advance source-neutral semantic
+  input/config/provenance work while actual numerical encoding remains open.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary safetensors inventory
 
 - Repaired the existing project reader's UTF-8/NUL/JSON/shape/offset/coverage

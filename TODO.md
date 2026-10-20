@@ -18,8 +18,11 @@
 - [x] Public v5.4 delta: pinned schema/control/transfer facts; no numerical ISA.
 - [x] Ordinary safetensors inventory: eleven methods/219 native calls; owned
   metadata only, no tensor/model execution or immutable source identity.
-- [ ] Active: `TASK_hailo10h_safetensors_constants.md`, static source windows,
-  with actual encoding/configuration/placement/transport gaps still open.
+- [x] Ordinary safetensors static words: nine methods/97 native calls and
+  264204 exact word checks; reader11/219 regression. No model/device math.
+- [ ] Active: `TASK_hailo10h_source_neutral_semantics.md`, typed frontend
+  config/binding/provenance connection; actual encoding/configuration/placement/
+  transport gaps remain open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

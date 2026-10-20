@@ -1,0 +1,2996 @@
+[
+  {
+    "input_sha256": "865e4df6724b57642ab76b84267ef0b203ad4ce8520bb6031146da20a7a8a663",
+    "input_bytes": 117,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate tensor name x\n"
+  },
+  {
+    "input_sha256": "25f6e4059be61bb3e937cc9865463a2c699c6015ee662c7bc4ac73c54ad3bf94",
+    "input_bytes": 47,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate __metadata__\n"
+  },
+  {
+    "input_sha256": "dcee284aefa9c410850a6ac715e2f1baeae53358ab16b93c21fbbd0bc564ef95",
+    "input_bytes": 78,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate tensor descriptor field\n"
+  },
+  {
+    "input_sha256": "7a66884c1d3dc09d8db0c1a0730ded5722b7d72c56275a71d1733ab6fd1e844f",
+    "input_bytes": 76,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate tensor descriptor field\n"
+  },
+  {
+    "input_sha256": "55668dd973f29f4b9431166cf7fb38f565dc04d38af26738ada11a99e43c1188",
+    "input_bytes": 85,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate tensor descriptor field\n"
+  },
+  {
+    "input_sha256": "70fc8473021fb62c12714514ceca6115a6d121807a8b4cf0b8df9c49c9e6c855",
+    "input_bytes": 84,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate tensor descriptor field\n"
+  },
+  {
+    "input_sha256": "bdfa4686b2bef0e835920a9daae3edc4bf8f0e88f8a48ab742c0a19e9e96db1e",
+    "input_bytes": 86,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate skipped object key\n"
+  },
+  {
+    "input_sha256": "3032cb2b9e56c82bb34b4f3fcd555225e70a3ea974fdaa8a3783f8ecdfa9f234",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "c7f49faececd7a8e96e1ecccc9dc1639d7ea64a81c78ff764869409be385eedc",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "200dfa39b21298e0519a5113725bd1bd57951b96283e7e812b975ccf35e8ffc9",
+    "input_bytes": 18,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "340c2898f84b0772323a957068dea2d02f6cfcfe41da2a9e1e1e07fb8f73e1b4",
+    "input_bytes": 12,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header must begin with object byte\n"
+  },
+  {
+    "input_sha256": "2f259e282885ba212acffd9353759cfd31d830b17b48e161b53b1cea416b38d2",
+    "input_bytes": 14,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header must begin with object byte\n"
+  },
+  {
+    "input_sha256": "59b76071ccb9a4f01c9f03618397808f838f4951508ad44632e8bf65150e2317",
+    "input_bytes": 118,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "01a6b842d0d417f28ac03be3e218ea0e98e23f5be2503cf45d64fed635515b22",
+    "input_bytes": 50,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: tensor descriptor missing dtype: x\n"
+  },
+  {
+    "input_sha256": "a58f4178045f3c1f59838cda6b8cf2c34196b141f81a127cccb99f0e85a9c079",
+    "input_bytes": 52,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: missing required descriptor field\n"
+  },
+  {
+    "input_sha256": "6be8325add09994dc231c95247597344dc3b0a0b7d20ba683b36a763efbb4a1c",
+    "input_bytes": 43,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: missing required descriptor field\n"
+  },
+  {
+    "input_sha256": "79e41db3b6029492d0b432ea26a6f3c066ed930421624c2c821c069cd5abd41f",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: leading zero in JSON integer\n"
+  },
+  {
+    "input_sha256": "15be5f4fccbe111f9f068bd6005643f7a924039c122ba281afa7f155207e3cca",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "input_sha256": "271e79e11893d9eb4f7c8ac6129d56cfd96006b509f06eeff0d192b57aa3e72d",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unsigned shape/offset required\n"
+  },
+  {
+    "input_sha256": "afd91b4c6050bd0605c2647f764d89f509c48831b5ff31933c1b40b41e90b35b",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unsigned shape/offset required\n"
+  },
+  {
+    "input_sha256": "fc7e2a6ac6928a277bfc6d6016dc17c42263cd34025276d91e1f32532bb4fb0e",
+    "input_bytes": 66,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed shape array\n"
+  },
+  {
+    "input_sha256": "4fad5c342d09e5050bad7afeef2a12f675785225153dd59d813a58646de931f2",
+    "input_bytes": 66,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed shape array\n"
+  },
+  {
+    "input_sha256": "4dd8c91ae4d040f845b9ae841b7c850ccafab47ce81c3e25570471734dbd5df5",
+    "input_bytes": 67,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "input_sha256": "4acb1a3d1e7b344a2bc8f0eaf84daac746344355eea3eb456ab29fa1cdcc3e31",
+    "input_bytes": 67,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "input_sha256": "fa24c1174a1e9462ff216a05efb75b1cca1993b56a998fa7c6324663590ef125",
+    "input_bytes": 82,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: integer overflow in JSON header\n"
+  },
+  {
+    "input_sha256": "0adf966fed491633b99c7f0d6e43bd48c5069fa9d366c24fea6aa5f48c992908",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "input_sha256": "cd0ced5556202577806f6ef1d16cc125b39917ddb596107e3272d9911ed0a88a",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "input_sha256": "30a474d64bb0a3d7ac568bd1e1f99f82e2c81121890d0bbbbd4099c0fcb533cf",
+    "input_bytes": 67,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      2,
+      16,
+      1
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":135,\"data_offset\":119,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":6,\"offset\":119,\"bytes\":12,\"shape\":[2,3]},{\"name_utf8_hex\":\"79\",\"dtype\":2,\"elements\":1,\"offset\":131,\"bytes\":4,\"shape\":[]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      110,
+      2,
+      2,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header length outside explicit bound\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      1,
+      2,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: tensor count or descriptor work bound exceeded\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      1,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: rank bound exceeded\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      2,
+      15,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: tensor count or descriptor work bound exceeded\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      0,
+      2,
+      2,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: explicit policy bounds must be positive\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      0,
+      2,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: explicit policy bounds must be positive\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      0,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: explicit policy bounds must be positive\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      2,
+      0,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: explicit policy bounds must be positive\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      2,
+      16,
+      0
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: explicit policy bounds must be positive\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      2,
+      16,
+      65
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: recursive skip depth exceeds current host stack policy 64\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      -1,
+      2,
+      2,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      -1,
+      2,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      -1,
+      16,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      2,
+      -1,
+      1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "input_sha256": "39467a6d71da430dfd598316fd9611be4523ef57ab673f7fd78c0e1b2caf7371",
+    "input_bytes": 135,
+    "bounds": [
+      111,
+      2,
+      2,
+      16,
+      -1
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt64\n"
+  },
+  {
+    "input_sha256": "dbb461c5cbeb50802c8aa81b1f730d805c298b1efa74b4c1308c0f919ea687cf",
+    "input_bytes": 155,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":155,\"data_offset\":153,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":0,\"elements\":1,\"offset\":153,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "7f406c85f39a1aa20a05432e7a3f49a5ae828206e626d27df4f6621311136bfc",
+    "input_bytes": 154,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":154,\"data_offset\":154,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":0,\"elements\":0,\"offset\":154,\"bytes\":0,\"shape\":[0]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "340111f46bc6477607f670b4bc86690a3bdc87639428a24c199d990a49f8ef4f",
+    "input_bytes": 156,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":156,\"data_offset\":154,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":0,\"elements\":1,\"offset\":154,\"bytes\":2,\"shape\":[1]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "daf43fca3d1abb1638be1f7583c238337ddd8ca9861cd767a3c3391eab66c3d3",
+    "input_bytes": 169,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":169,\"data_offset\":157,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":0,\"elements\":6,\"offset\":157,\"bytes\":12,\"shape\":[2,3]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "be77b029cd72c8928ad911653f359e1f2e80920d5d8276876d231001e477621d",
+    "input_bytes": 173,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":173,\"data_offset\":161,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":0,\"elements\":6,\"offset\":161,\"bytes\":12,\"shape\":[1,2,1,3]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "d021142052c96c256d7873403cb404226fa54e25ec5520341c8368fae2cc3124",
+    "input_bytes": 194,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":194,\"data_offset\":194,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":0,\"elements\":0,\"offset\":194,\"bytes\":0,\"shape\":[0,9223372036854775807,9223372036854775807]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "0113c14d6267e00250a9cd92e94c41d652ba3689b55f50f3afd6ab72306594ec",
+    "input_bytes": 194,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":194,\"data_offset\":194,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":0,\"elements\":0,\"offset\":194,\"bytes\":0,\"shape\":[9223372036854775807,0,9223372036854775807]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "ae8a1ff8ca1001cda12b1fb917074518b8da2b2f32b876080e5c0bb36b41870e",
+    "input_bytes": 156,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":156,\"data_offset\":154,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":1,\"elements\":1,\"offset\":154,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "0c79fc6f64f919d2bc512c40439799cdfbd6c84487072531f775757fe198499e",
+    "input_bytes": 155,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":155,\"data_offset\":155,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":1,\"elements\":0,\"offset\":155,\"bytes\":0,\"shape\":[0]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "f7759cb96696a094db2500a944082d727e7c508570934e5bf58d8cae5a39f62f",
+    "input_bytes": 157,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":157,\"data_offset\":155,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":1,\"elements\":1,\"offset\":155,\"bytes\":2,\"shape\":[1]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "126c5a4d207817bc16fb53cbdd5e054fd2ec86285d76768fb88d707c6f293187",
+    "input_bytes": 170,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":170,\"data_offset\":158,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":1,\"elements\":6,\"offset\":158,\"bytes\":12,\"shape\":[2,3]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "770b1358e796a151fadefc0d5abb07ea7d11a593fb493864557f9046067399d4",
+    "input_bytes": 174,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":174,\"data_offset\":162,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":1,\"elements\":6,\"offset\":162,\"bytes\":12,\"shape\":[1,2,1,3]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "26145632765f42c16575b29922ba9f3a5d0e18a0da3746998e28b548432aea3c",
+    "input_bytes": 195,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":195,\"data_offset\":195,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":1,\"elements\":0,\"offset\":195,\"bytes\":0,\"shape\":[0,9223372036854775807,9223372036854775807]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "722cb86dbd3398d7d6edcbce56689b78948f5fbc46193fd6fe2242d774758079",
+    "input_bytes": 195,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":195,\"data_offset\":195,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":1,\"elements\":0,\"offset\":195,\"bytes\":0,\"shape\":[9223372036854775807,0,9223372036854775807]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "06fa949816d81fb2f4bda98e6562d5485d355a7a8a355bc9afec9e6c056cacdb",
+    "input_bytes": 157,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":157,\"data_offset\":153,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":2,\"elements\":1,\"offset\":153,\"bytes\":4,\"shape\":[]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "262086650d7d770dc0f92246a0c25fff5df8759597dd340baeb1182b13bca692",
+    "input_bytes": 154,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":154,\"data_offset\":154,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":2,\"elements\":0,\"offset\":154,\"bytes\":0,\"shape\":[0]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "4c544551b425fb72f5d73793d88aa7a4f6679c652a8aac4b72de4f064f42b0ac",
+    "input_bytes": 158,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":158,\"data_offset\":154,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":2,\"elements\":1,\"offset\":154,\"bytes\":4,\"shape\":[1]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "89aa8b9de9755b7a0cfe988d7e28ee4c0c279a6ed0342b7e99c88ecf64ea3dd1",
+    "input_bytes": 181,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":181,\"data_offset\":157,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":2,\"elements\":6,\"offset\":157,\"bytes\":24,\"shape\":[2,3]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "7e8e01a8d2f9ed9096526a3eec161e4cc7f6f7747e09bb8f284fbb553e61caca",
+    "input_bytes": 185,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":185,\"data_offset\":161,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":2,\"elements\":6,\"offset\":161,\"bytes\":24,\"shape\":[1,2,1,3]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "b8f21eef4cb288519d8426bd65a9673dd5da712d27590a295845d9beae82a7ba",
+    "input_bytes": 194,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":194,\"data_offset\":194,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":2,\"elements\":0,\"offset\":194,\"bytes\":0,\"shape\":[0,9223372036854775807,9223372036854775807]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "d286099d792b861904e1a8e511323bef8f1b6c8083c7fc107207700a46e23334",
+    "input_bytes": 194,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":194,\"data_offset\":194,\"tensors\":[{\"name_utf8_hex\":\"c39ec3b37200f09f90a6\",\"dtype\":2,\"elements\":0,\"offset\":194,\"bytes\":0,\"shape\":[9223372036854775807,0,9223372036854775807]}],\"metadata\":[[\"610062\",\"76c3a46c7565f09f90a6\"],[\"\",\"\"],[\"666f726d6174\",\"7074\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "738ca7dfe4a155d6f5f2a68a68458cc8865a7902ab8b0eb9692cd568bcf1454b",
+    "input_bytes": 27,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":27,\"data_offset\":27,\"tensors\":[],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "411a485216e432ece6b9af94fa32154cf79a2a56d4f81266baa50063f45092bd",
+    "input_bytes": 10,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":10,\"data_offset\":10,\"tensors\":[],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "e8f92c2613db7b47a6b28fb5f54ee498e87a11dc2fac2ded8939cf1a9673f7a2",
+    "input_bytes": 184,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":184,\"data_offset\":176,\"tensors\":[{\"name_utf8_hex\":\"6c61746572\",\"dtype\":1,\"elements\":2,\"offset\":180,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"656d707479\",\"dtype\":0,\"elements\":0,\"offset\":180,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"\",\"dtype\":2,\"elements\":1,\"offset\":176,\"bytes\":4,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "input_bytes": 0,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: file smaller than the 8-byte header prefix\n"
+  },
+  {
+    "input_sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "input_bytes": 1,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: file smaller than the 8-byte header prefix\n"
+  },
+  {
+    "input_sha256": "2558a34d4d20964ca1d272ab26ccce9511d880579593cd4c9e01ab91ed00f325",
+    "input_bytes": 7,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: file smaller than the 8-byte header prefix\n"
+  },
+  {
+    "input_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+    "input_bytes": 8,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header length outside explicit bound\n"
+  },
+  {
+    "input_sha256": "adcc128f22190c20ed729c3761590562a2087891889854b9d7c7fd61dd2bc769",
+    "input_bytes": 9,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header length outside explicit bound\n"
+  },
+  {
+    "input_sha256": "e6ad6c9a3a3b7658c35bacf6553fcb8ffe34387534a648fe18f875b8f7a86ddb",
+    "input_bytes": 8,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header length outside explicit bound\n"
+  },
+  {
+    "input_sha256": "12a3ae445661ce5dee78d0650d33362dec29c4f82af05e7e57fb595bbbacf0ca",
+    "input_bytes": 8,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header length outside explicit bound\n"
+  },
+  {
+    "input_sha256": "3b9f0a25395bd7d56840ddf75e88e9a3c77d61235e0df9e2d614f5e25a442a43",
+    "input_bytes": 10,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: truncated file or out-of-range offset\n"
+  },
+  {
+    "input_sha256": "1437c55de27a12d29e2c45f54962b34d4ffa9be1bac1057d173b6032fc64a9cf",
+    "input_bytes": 11,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: header must begin with object byte\n"
+  },
+  {
+    "input_sha256": "5ae4f95a1331665aa26c5f327d569a5eef48bb8a4665015973508371ecf20629",
+    "input_bytes": 11,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: trailing bytes after header JSON\n"
+  },
+  {
+    "input_sha256": "01844828647997852011f2ab107e74df2d0c70c6220640afd38afea84eb4219a",
+    "input_bytes": 11,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: trailing bytes after header JSON\n"
+  },
+  {
+    "input_sha256": "411a485216e432ece6b9af94fa32154cf79a2a56d4f81266baa50063f45092bd",
+    "input_bytes": 10,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":10,\"data_offset\":10,\"tensors\":[],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "1e4c2ed055bc5574ae10934cfa1941129a4d507170289ffd20b83819206c950e",
+    "input_bytes": 11,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":11,\"data_offset\":11,\"tensors\":[],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "7adc9b07c16ac9f46baace2b8d7aefeca9f3c91628fdc1cd423f8dc0f921625c",
+    "input_bytes": 15,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":15,\"data_offset\":15,\"tensors\":[],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "legacy-header-only",
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F16 shape=2,3 start=108 end=120\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "mode": "legacy-header-only",
+    "returncode": 0,
+    "stdout": "name=legacy dtype=BF16 shape=2,3 start=109 end=121\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "mode": "legacy-header-only",
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F32 shape=2,3 start=108 end=132\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "mode": "legacy-header-only",
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F16 shape= start=104 end=106\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "mode": "legacy-header-only",
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F32 shape=0 start=105 end=105\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "mode": "api-owner",
+    "returncode": 0,
+    "stdout": "{\"ownership_checked\":true,\"cleanup_cycles\":20,\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "api-owner",
+    "returncode": 0,
+    "stdout": "{\"ownership_checked\":true,\"cleanup_cycles\":20,\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "api-owner",
+    "returncode": 0,
+    "stdout": "{\"ownership_checked\":true,\"cleanup_cycles\":20,\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "338efd7c3a57c7632514d883a4b271d02312834ac023082e7eecec5391f2c002",
+    "input_bytes": 89,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":89,\"data_offset\":65,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":2,\"elements\":6,\"offset\":65,\"bytes\":24,\"shape\":[2,3]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "mode": "fifo",
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: cannot seek /tmp/aesir-native-safetensors-qp05_r3u/not-a-model\n"
+  },
+  {
+    "input_sha256": "f39c6f2c8166cbbe38764b1c0bd6c2a5b1066344cf98bc703b5010ee1b69782c",
+    "input_bytes": 493,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":493,\"data_offset\":441,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":0,\"offset\":493,\"bytes\":0,\"shape\":[1,0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":3,\"offset\":481,\"bytes\":12,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":12,\"offset\":457,\"bytes\":24,\"shape\":[2,3,2]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":457,\"bytes\":0,\"shape\":[3,1,0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":2,\"offset\":453,\"bytes\":4,\"shape\":[1,2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":6,\"offset\":441,\"bytes\":12,\"shape\":[2,1,1,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "e1c835511eb7ab48c527c02a3d15f009603c04cb31d60e8120ab2513f78d0d7a",
+    "input_bytes": 194,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":194,\"data_offset\":182,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":194,\"bytes\":0,\"shape\":[1,0,2,0]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":3,\"offset\":182,\"bytes\":12,\"shape\":[3,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "370eb81df4daf96f00429e113e8a4befdc32f841b84892b92e8bb80175b1738f",
+    "input_bytes": 761,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":761,\"data_offset\":699,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":1,\"elements\":0,\"offset\":761,\"bytes\":0,\"shape\":[3,3,0]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":0,\"elements\":1,\"offset\":759,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":0,\"offset\":759,\"bytes\":0,\"shape\":[0,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":0,\"offset\":759,\"bytes\":0,\"shape\":[3,0]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":18,\"offset\":723,\"bytes\":36,\"shape\":[3,3,2]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":0,\"offset\":723,\"bytes\":0,\"shape\":[3,2,1,0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":9,\"offset\":705,\"bytes\":18,\"shape\":[3,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":0,\"offset\":705,\"bytes\":0,\"shape\":[3,0,3,3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":3,\"offset\":699,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":0,\"offset\":699,\"bytes\":0,\"shape\":[0,2,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "8781036315d508c3f9aaa68fdf742660f53ce2b5fed2daedefb3c47b81bb65c5",
+    "input_bytes": 281,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":281,\"data_offset\":245,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":6,\"offset\":245,\"bytes\":12,\"shape\":[3,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":6,\"offset\":257,\"bytes\":24,\"shape\":[2,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":281,\"bytes\":0,\"shape\":[1,0,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "7f3cfae119b8789e0ef56c9b47dbe05aa8a0ca7fdc0271fc0f93055979bfd43a",
+    "input_bytes": 116,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":116,\"data_offset\":110,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":3,\"offset\":110,\"bytes\":6,\"shape\":[3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "86eaa472db184e2535d1aeed585827a53495010434502b39404284fc7998b5a6",
+    "input_bytes": 524,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":524,\"data_offset\":508,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":0,\"offset\":524,\"bytes\":0,\"shape\":[3,1,0,3]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":0,\"offset\":524,\"bytes\":0,\"shape\":[0,0,1,0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":0,\"offset\":524,\"bytes\":0,\"shape\":[3,0,3,3]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":6,\"offset\":512,\"bytes\":12,\"shape\":[2,1,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":512,\"bytes\":0,\"shape\":[1,0,3,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":1,\"offset\":510,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":1,\"offset\":508,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "fde0f0cd33f3d534637fa083a3440e657e263a7369221c0d46b0d77e048d3e0a",
+    "input_bytes": 633,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":633,\"data_offset\":575,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":12,\"offset\":575,\"bytes\":24,\"shape\":[3,1,2,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":12,\"offset\":599,\"bytes\":24,\"shape\":[2,3,1,2]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":623,\"bytes\":0,\"shape\":[0,0,2,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":0,\"offset\":623,\"bytes\":0,\"shape\":[3,1,0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":4,\"offset\":623,\"bytes\":8,\"shape\":[2,1,1,2]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":0,\"offset\":631,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":0,\"offset\":631,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":1,\"offset\":631,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "a6c4153b81b182b26fbc2f7b8ce4ea240f9e8539d53b28a38a4abac01a4bccac",
+    "input_bytes": 589,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":589,\"data_offset\":559,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":6,\"offset\":577,\"bytes\":12,\"shape\":[1,1,3,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":1,\"offset\":575,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":1,\"offset\":571,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":0,\"offset\":571,\"bytes\":0,\"shape\":[0,1,2,2]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":0,\"offset\":571,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":571,\"bytes\":0,\"shape\":[3,0,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":2,\"offset\":563,\"bytes\":8,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":1,\"offset\":559,\"bytes\":4,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "e6044337583da5f53e536d656e0e3a0499d465358cb29ea7cca8e887b315bb2e",
+    "input_bytes": 177,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":177,\"data_offset\":173,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":2,\"offset\":173,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":173,\"bytes\":0,\"shape\":[3,0,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "6971dab17d2aff0128678b8b1d781d0e5724c474178246a2673bde262b2df1d6",
+    "input_bytes": 364,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":364,\"data_offset\":356,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":1,\"offset\":356,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":1,\"offset\":360,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":362,\"bytes\":0,\"shape\":[0,1,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":1,\"offset\":362,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":0,\"offset\":364,\"bytes\":0,\"shape\":[1,1,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "9850a4f7b83df8620d7ecca98a066d656411156df764b7ed0c4b87364aefa932",
+    "input_bytes": 361,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":361,\"data_offset\":357,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":1,\"offset\":357,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":1,\"offset\":359,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":0,\"offset\":361,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":0,\"offset\":361,\"bytes\":0,\"shape\":[0,2,3,2]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":0,\"offset\":361,\"bytes\":0,\"shape\":[0,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "a65eb6007522ff0f217a0bd6d35bb57db2ac2b21597d5aaa61775d071e0ae722",
+    "input_bytes": 247,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":247,\"data_offset\":237,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":2,\"offset\":239,\"bytes\":8,\"shape\":[2,1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":1,\"offset\":237,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":0,\"offset\":237,\"bytes\":0,\"shape\":[1,1,0,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "2891d10177bb8d9078f1b1e33257f12e582bbcf42314aa61ef90278d5bfadb10",
+    "input_bytes": 245,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":245,\"data_offset\":229,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":2,\"offset\":241,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":3,\"offset\":229,\"bytes\":12,\"shape\":[3,1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":229,\"bytes\":0,\"shape\":[0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "ee2e42a7ec554b2d93e5768e4315f120c65e2df91fc244efea792dc0b9953b55",
+    "input_bytes": 897,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":897,\"data_offset\":815,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":3,\"offset\":815,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":821,\"bytes\":0,\"shape\":[0,0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":1,\"offset\":821,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":1,\"offset\":823,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":0,\"offset\":827,\"bytes\":0,\"shape\":[0,1]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":0,\"offset\":827,\"bytes\":0,\"shape\":[1,0,1,3]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":0,\"offset\":827,\"bytes\":0,\"shape\":[1,2,0,3]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":2,\"elements\":4,\"offset\":827,\"bytes\":16,\"shape\":[2,2]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":2,\"elements\":12,\"offset\":843,\"bytes\":48,\"shape\":[2,2,3]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":1,\"elements\":1,\"offset\":891,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":1,\"elements\":2,\"offset\":893,\"bytes\":4,\"shape\":[2,1]},{\"name_utf8_hex\":\"7765696768745f3131\",\"dtype\":1,\"elements\":0,\"offset\":897,\"bytes\":0,\"shape\":[1,0,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "67395903a7f5e3b7cc72080272c6666f8c6ce2588c55597a77cc3274936d0e58",
+    "input_bytes": 491,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":491,\"data_offset\":483,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":483,\"bytes\":0,\"shape\":[0,3,1,0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":483,\"bytes\":0,\"shape\":[2,0,1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":483,\"bytes\":0,\"shape\":[2,0,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":1,\"offset\":483,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":0,\"offset\":485,\"bytes\":0,\"shape\":[0,2]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":1,\"offset\":485,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":1,\"offset\":487,\"bytes\":4,\"shape\":[1,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "ab2bf16f70d7c1251f1aa579acf0b0ef52cf7910653333587aca55ce864af8e9",
+    "input_bytes": 837,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":837,\"data_offset\":809,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f3131\",\"dtype\":0,\"elements\":1,\"offset\":835,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":0,\"elements\":0,\"offset\":835,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":0,\"elements\":0,\"offset\":835,\"bytes\":0,\"shape\":[2,0,2,1]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":4,\"offset\":827,\"bytes\":8,\"shape\":[1,1,2,2]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":0,\"offset\":827,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":0,\"offset\":827,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":3,\"offset\":815,\"bytes\":12,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":2,\"offset\":811,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":1,\"offset\":809,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":809,\"bytes\":0,\"shape\":[0,3,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":0,\"offset\":809,\"bytes\":0,\"shape\":[2,0,1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":0,\"offset\":809,\"bytes\":0,\"shape\":[0,0,1,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "b8cb97e05f1530bf554e0ec804114e20b3648bffb1d735b0b544d63eb666f29b",
+    "input_bytes": 384,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":384,\"data_offset\":364,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":1,\"offset\":382,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":3,\"offset\":376,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":376,\"bytes\":0,\"shape\":[2,0,3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":2,\"offset\":368,\"bytes\":8,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":1,\"offset\":364,\"bytes\":4,\"shape\":[1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "be678bd9c1244f54a5cc2aedfdbe67ecd494e038007755959f1acfdd640629a6",
+    "input_bytes": 786,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":786,\"data_offset\":748,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":0,\"elements\":2,\"offset\":782,\"bytes\":4,\"shape\":[1,1,2]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":0,\"elements\":1,\"offset\":780,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":0,\"elements\":3,\"offset\":774,\"bytes\":6,\"shape\":[1,3]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":0,\"offset\":774,\"bytes\":0,\"shape\":[0,0]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":1,\"offset\":772,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":0,\"offset\":772,\"bytes\":0,\"shape\":[1,3,0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":1,\"offset\":768,\"bytes\":4,\"shape\":[1,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":0,\"offset\":768,\"bytes\":0,\"shape\":[3,1,0,0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":1,\"offset\":764,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":2,\"offset\":760,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":3,\"offset\":748,\"bytes\":12,\"shape\":[3,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "91102dd4fac4954cbfc5ed8fa36b2f91fde20ffb74dc8d53ef6fcedbd73b4aab",
+    "input_bytes": 133,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":133,\"data_offset\":115,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":9,\"offset\":115,\"bytes\":18,\"shape\":[3,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "44722261e89af1c407f86959f1dde8be805d5626cb811250a808cb4bc1211a5f",
+    "input_bytes": 573,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":573,\"data_offset\":553,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":0,\"offset\":573,\"bytes\":0,\"shape\":[0,1,3,3]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":0,\"offset\":573,\"bytes\":0,\"shape\":[2,0,3]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":2,\"offset\":569,\"bytes\":4,\"shape\":[1,2]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":1,\"offset\":565,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":1,\"offset\":563,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":1,\"offset\":561,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":0,\"offset\":561,\"bytes\":0,\"shape\":[1,0,1,3]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":2,\"offset\":553,\"bytes\":8,\"shape\":[2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "9067225776e11e2b4e1569e2a7db231586b139fea21707a7955aa96bd33fe360",
+    "input_bytes": 685,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":685,\"data_offset\":627,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":6,\"offset\":627,\"bytes\":24,\"shape\":[2,3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":1,\"offset\":651,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":1,\"offset\":653,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":1,\"offset\":655,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":6,\"offset\":657,\"bytes\":12,\"shape\":[1,3,2]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":1,\"offset\":669,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":1,\"elements\":6,\"offset\":673,\"bytes\":12,\"shape\":[1,3,2]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":0,\"offset\":685,\"bytes\":0,\"shape\":[3,3,0,0]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":0,\"offset\":685,\"bytes\":0,\"shape\":[0,1,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "780f717368415b788e8dbf56f59f1ab1c3858bec87730d36d5f9fc2787cc4564",
+    "input_bytes": 933,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":933,\"data_offset\":791,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":1,\"elements\":0,\"offset\":933,\"bytes\":0,\"shape\":[0,3,1,3]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":0,\"elements\":1,\"offset\":931,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":4,\"offset\":923,\"bytes\":8,\"shape\":[1,2,2,1]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":2,\"elements\":0,\"offset\":923,\"bytes\":0,\"shape\":[0,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":36,\"offset\":851,\"bytes\":72,\"shape\":[3,2,2,3]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":0,\"offset\":851,\"bytes\":0,\"shape\":[3,0,3,3]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":0,\"offset\":851,\"bytes\":0,\"shape\":[3,0,1,0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":4,\"offset\":835,\"bytes\":16,\"shape\":[2,2]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":4,\"offset\":827,\"bytes\":8,\"shape\":[1,2,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":0,\"offset\":827,\"bytes\":0,\"shape\":[3,0,2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":18,\"offset\":791,\"bytes\":36,\"shape\":[3,1,2,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "736537e1c8ac08d18a71a887ef0822b541ff1e05c538bd36a67593293db703c2",
+    "input_bytes": 450,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":450,\"data_offset\":430,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":2,\"offset\":446,\"bytes\":4,\"shape\":[1,2,1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":1,\"offset\":442,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":1,\"offset\":440,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":1,\"offset\":438,\"bytes\":2,\"shape\":[1,1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":2,\"offset\":430,\"bytes\":8,\"shape\":[1,2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":0,\"offset\":430,\"bytes\":0,\"shape\":[0,2,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "6847940511fa3ace5b938d1854737a56cc69b21c94bcfb3c185cbc24cdadfd91",
+    "input_bytes": 174,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":174,\"data_offset\":174,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":174,\"bytes\":0,\"shape\":[0,1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":174,\"bytes\":0,\"shape\":[0,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "a7a5aa0cdabf10921a19c6fe5413c55d07e25e0cb5f3c26c21fa5cc66b82ac0e",
+    "input_bytes": 117,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":117,\"data_offset\":113,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":2,\"offset\":113,\"bytes\":4,\"shape\":[1,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "932885e99909f6db9f7c0a2d356f29698fbfd3c70acc8d0b14f1b5147f723ff3",
+    "input_bytes": 600,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":600,\"data_offset\":560,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":1,\"offset\":598,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":2,\"offset\":594,\"bytes\":4,\"shape\":[2,1]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":1,\"offset\":592,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":1,\"offset\":590,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":3,\"offset\":584,\"bytes\":6,\"shape\":[3,1,1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":0,\"offset\":584,\"bytes\":0,\"shape\":[0,2,0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":0,\"offset\":584,\"bytes\":0,\"shape\":[0,0,2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":6,\"offset\":560,\"bytes\":24,\"shape\":[1,3,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "8b08f13d8abf7eb4d36854bcb76d3f169073769b681f2c0e5fe71a3ac954f5ab",
+    "input_bytes": 172,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":172,\"data_offset\":170,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":172,\"bytes\":0,\"shape\":[1,0,2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":1,\"offset\":170,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "db66202940f1746ef217f7873fb8891525652779794582ddc61dad96e4a47632",
+    "input_bytes": 802,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":802,\"data_offset\":744,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":1,\"offset\":744,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":1,\"offset\":748,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":752,\"bytes\":0,\"shape\":[0,0,3,3]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":4,\"offset\":752,\"bytes\":8,\"shape\":[2,2]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":1,\"offset\":760,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":0,\"offset\":762,\"bytes\":0,\"shape\":[0,1,3,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":6,\"offset\":762,\"bytes\":24,\"shape\":[3,2,1]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":2,\"elements\":0,\"offset\":786,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":2,\"offset\":786,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":2,\"elements\":1,\"offset\":790,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":0,\"elements\":4,\"offset\":794,\"bytes\":8,\"shape\":[2,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "344b0d4dc28a8d0e290fc1a5d03d4acec9b507bc2aaf192ec25202b85354fd00",
+    "input_bytes": 377,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":377,\"data_offset\":357,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":1,\"offset\":373,\"bytes\":4,\"shape\":[1,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":6,\"offset\":361,\"bytes\":12,\"shape\":[2,1,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":361,\"bytes\":0,\"shape\":[1,0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":1,\"offset\":357,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":357,\"bytes\":0,\"shape\":[0,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "6a54d5d3dbd93e0a7b84656165416a055d2882a16dc5b78ddbfd329f672a6ee3",
+    "input_bytes": 117,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":117,\"data_offset\":117,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":0,\"offset\":117,\"bytes\":0,\"shape\":[1,0,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "132c46cf39b15d41a92f0a3ab26a84c2cfac0f3c914ea71ead0a6e169b1fc7b3",
+    "input_bytes": 892,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":892,\"data_offset\":820,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":1,\"offset\":820,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":4,\"offset\":822,\"bytes\":8,\"shape\":[2,2,1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":1,\"offset\":830,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":1,\"offset\":834,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":4,\"offset\":838,\"bytes\":8,\"shape\":[2,2]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":12,\"offset\":846,\"bytes\":24,\"shape\":[2,1,2,3]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":1,\"elements\":6,\"offset\":870,\"bytes\":12,\"shape\":[2,3]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":3,\"offset\":882,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":2,\"elements\":0,\"offset\":888,\"bytes\":0,\"shape\":[0,2,0]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":1,\"elements\":2,\"offset\":888,\"bytes\":4,\"shape\":[2,1]},{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":0,\"elements\":0,\"offset\":892,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f3131\",\"dtype\":1,\"elements\":0,\"offset\":892,\"bytes\":0,\"shape\":[2,0,2,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "479c3247623ad7deb397029ec0da7f4170f3955474dd476cc9b730439737ea7b",
+    "input_bytes": 373,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":373,\"data_offset\":359,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":1,\"offset\":371,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":0,\"offset\":371,\"bytes\":0,\"shape\":[0,0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":1,\"offset\":369,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":4,\"offset\":361,\"bytes\":8,\"shape\":[2,1,2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":1,\"offset\":359,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "6b0fd5dcd7da034860d6556ecd9492d952932806db7d92e7eff114cbc8987233",
+    "input_bytes": 683,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":683,\"data_offset\":521,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":2,\"offset\":521,\"bytes\":4,\"shape\":[1,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":12,\"offset\":525,\"bytes\":24,\"shape\":[3,2,2]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":18,\"offset\":549,\"bytes\":72,\"shape\":[2,3,3,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":4,\"offset\":621,\"bytes\":16,\"shape\":[2,1,2]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":9,\"offset\":637,\"bytes\":18,\"shape\":[3,3]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":12,\"offset\":655,\"bytes\":24,\"shape\":[2,3,1,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":2,\"offset\":679,\"bytes\":4,\"shape\":[2,1,1,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "e08883806b556ba10b8d1ce2544f78651c8df1503a20da48665367dd92f0d4ba",
+    "input_bytes": 583,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":583,\"data_offset\":555,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":2,\"offset\":579,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":1,\"elements\":0,\"offset\":579,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":1,\"offset\":577,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":0,\"offset\":577,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":0,\"offset\":577,\"bytes\":0,\"shape\":[0,3,1,0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":3,\"offset\":571,\"bytes\":6,\"shape\":[3,1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":571,\"bytes\":0,\"shape\":[0,1,1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":4,\"offset\":555,\"bytes\":16,\"shape\":[2,2,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "69b1775ac01675c646cbb28769cbee63aa7231de2d0dcf316c6bcdf1cf69668b",
+    "input_bytes": 307,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":307,\"data_offset\":307,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":0,\"offset\":307,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":307,\"bytes\":0,\"shape\":[0,3,1,3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":0,\"offset\":307,\"bytes\":0,\"shape\":[0,1,3,2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":307,\"bytes\":0,\"shape\":[2,3,2,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "2d06303b1d9205926a2d67d19a0883eca1e6029b028bf0a34144bf29f38f5656",
+    "input_bytes": 237,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":237,\"data_offset\":231,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":0,\"offset\":231,\"bytes\":0,\"shape\":[0,0,1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":1,\"offset\":231,\"bytes\":4,\"shape\":[1,1,1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":1,\"offset\":235,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "c0ccf2cc7ef211cc39c62dd9f4594b2cebfa53e7be9380175f5b54449e41dd6f",
+    "input_bytes": 736,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":736,\"data_offset\":676,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":0,\"offset\":676,\"bytes\":0,\"shape\":[0,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":676,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":2,\"offset\":676,\"bytes\":4,\"shape\":[2,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":1,\"offset\":680,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":0,\"offset\":684,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":2,\"offset\":684,\"bytes\":8,\"shape\":[1,2,1]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":0,\"offset\":692,\"bytes\":0,\"shape\":[0,3,2]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":2,\"elements\":9,\"offset\":692,\"bytes\":36,\"shape\":[1,3,3]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":2,\"elements\":2,\"offset\":728,\"bytes\":8,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":0,\"elements\":0,\"offset\":736,\"bytes\":0,\"shape\":[3,3,1,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "9accf1739c9b67bfb5b5651d295cf234443da52e8a7fa4abe5f30d451440e10a",
+    "input_bytes": 823,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":823,\"data_offset\":793,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":1,\"offset\":793,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":2,\"offset\":795,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":799,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":0,\"offset\":799,\"bytes\":0,\"shape\":[0,3]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":3,\"offset\":799,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":2,\"offset\":805,\"bytes\":4,\"shape\":[1,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":0,\"offset\":809,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":3,\"offset\":809,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":0,\"offset\":815,\"bytes\":0,\"shape\":[0,3]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":0,\"elements\":1,\"offset\":815,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":2,\"elements\":1,\"offset\":817,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f3131\",\"dtype\":1,\"elements\":1,\"offset\":821,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "b8a046f43b43f6b0b97573550ecf374ced61e4f11a18e6573c2a47caaad341ba",
+    "input_bytes": 392,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":392,\"data_offset\":366,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":2,\"offset\":388,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":9,\"offset\":370,\"bytes\":18,\"shape\":[1,3,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":1,\"offset\":366,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":0,\"offset\":366,\"bytes\":0,\"shape\":[1,1,0,0]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":0,\"offset\":366,\"bytes\":0,\"shape\":[0,1,1,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "a76ce9d575e33c8c2184741efc87674c0c057b0ff26533b8d51ce7891bca8cc2",
+    "input_bytes": 330,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":330,\"data_offset\":312,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":2,\"offset\":326,\"bytes\":4,\"shape\":[1,2,1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":1,\"offset\":324,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":0,\"offset\":324,\"bytes\":0,\"shape\":[3,2,0]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":6,\"offset\":312,\"bytes\":12,\"shape\":[3,1,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "b686ea7326267c8ad4a48e8ff8f351e77230ac4be815fd7c7f94b5b805bcc2d4",
+    "input_bytes": 389,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":389,\"data_offset\":367,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":1,\"offset\":387,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":0,\"offset\":387,\"bytes\":0,\"shape\":[3,0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":0,\"offset\":387,\"bytes\":0,\"shape\":[0,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":2,\"offset\":379,\"bytes\":8,\"shape\":[2,1,1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":3,\"offset\":367,\"bytes\":12,\"shape\":[3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "fe278c708df5a281494bd96a9eb99f30f3473407c21b0ffdff244840f943e3dd",
+    "input_bytes": 658,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":658,\"data_offset\":558,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":2,\"offset\":654,\"bytes\":4,\"shape\":[1,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":12,\"offset\":606,\"bytes\":48,\"shape\":[2,2,3]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":18,\"offset\":570,\"bytes\":36,\"shape\":[3,2,1,3]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":0,\"offset\":570,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":0,\"offset\":570,\"bytes\":0,\"shape\":[0,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":3,\"offset\":564,\"bytes\":6,\"shape\":[1,3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":2,\"offset\":560,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":1,\"offset\":558,\"bytes\":2,\"shape\":[1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "ca6a096df142f8d75251f9d42935f25782c797aaa6c54691ed16d1fda5c9cf72",
+    "input_bytes": 497,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":497,\"data_offset\":481,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":0,\"offset\":497,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":0,\"offset\":497,\"bytes\":0,\"shape\":[0,0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":3,\"offset\":491,\"bytes\":6,\"shape\":[1,1,3]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":2,\"offset\":487,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":487,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":1,\"offset\":483,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":1,\"offset\":481,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "c8e5f0bc644bada40de7a7f67b3151d97c9b20d7eec1907dcbd6910e1cf03027",
+    "input_bytes": 810,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":810,\"data_offset\":752,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":2,\"offset\":752,\"bytes\":4,\"shape\":[1,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":756,\"bytes\":0,\"shape\":[1,0,1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":0,\"offset\":756,\"bytes\":0,\"shape\":[3,3,0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":1,\"offset\":756,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":1,\"offset\":758,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":8,\"offset\":762,\"bytes\":16,\"shape\":[2,2,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":0,\"elements\":9,\"offset\":778,\"bytes\":18,\"shape\":[3,1,3]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":0,\"offset\":796,\"bytes\":0,\"shape\":[0,1]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":1,\"offset\":796,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":2,\"elements\":3,\"offset\":798,\"bytes\":12,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":1,\"elements\":0,\"offset\":810,\"bytes\":0,\"shape\":[2,2,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "c7c9a02c904f1e8966de4526ccec2264d374003373503aa4f2febd57c76004cb",
+    "input_bytes": 445,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":445,\"data_offset\":421,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":3,\"offset\":439,\"bytes\":6,\"shape\":[3,1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":1,\"offset\":437,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":1,\"offset\":435,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":1,\"offset\":433,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":2,\"offset\":429,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":2,\"offset\":421,\"bytes\":8,\"shape\":[2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "f38732802a022a8bda82fd2938e018b983cec21f352e3536867c9fb8ca1368c5",
+    "input_bytes": 678,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":678,\"data_offset\":616,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":2,\"elements\":3,\"offset\":666,\"bytes\":12,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":4,\"offset\":658,\"bytes\":8,\"shape\":[2,2]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":1,\"offset\":654,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":4,\"offset\":646,\"bytes\":8,\"shape\":[2,2,1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":6,\"offset\":634,\"bytes\":12,\"shape\":[2,3,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":3,\"offset\":622,\"bytes\":12,\"shape\":[3,1]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":622,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":3,\"offset\":616,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":616,\"bytes\":0,\"shape\":[0,0]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "75fde85cd80d86f7d0412a4baf334674d12613ea5105f4091d3ba21e31900381",
+    "input_bytes": 634,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":634,\"data_offset\":562,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":3,\"offset\":562,\"bytes\":12,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":9,\"offset\":574,\"bytes\":18,\"shape\":[3,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":3,\"offset\":592,\"bytes\":6,\"shape\":[3,1]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":0,\"offset\":598,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":4,\"offset\":598,\"bytes\":8,\"shape\":[2,2]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":3,\"offset\":606,\"bytes\":12,\"shape\":[1,3]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":4,\"offset\":618,\"bytes\":16,\"shape\":[2,2,1]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":0,\"offset\":634,\"bytes\":0,\"shape\":[0,2,3,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "7a966029e3b96457d8ba8fcbd90cc6e6dd7c96095b9febe372ccafc675eb2af2",
+    "input_bytes": 241,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":241,\"data_offset\":231,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":2,\"offset\":233,\"bytes\":8,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":0,\"offset\":233,\"bytes\":0,\"shape\":[0,2,0]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":1,\"offset\":231,\"bytes\":2,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "d4c0184c582488e04555c6ef8116c4193e7c7e9cbf4e9011e38a22fd902a7b9f",
+    "input_bytes": 373,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":373,\"data_offset\":363,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":0,\"offset\":373,\"bytes\":0,\"shape\":[0,3,3,0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":0,\"elements\":1,\"offset\":371,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":0,\"offset\":371,\"bytes\":0,\"shape\":[2,0,0,0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":1,\"offset\":369,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":3,\"offset\":363,\"bytes\":6,\"shape\":[1,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "9b4072c52ff5f5342a3f7de94af335a1ccfd40d842138de5e27ac34b9148b8b5",
+    "input_bytes": 618,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":618,\"data_offset\":604,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":604,\"bytes\":0,\"shape\":[0,3,0,1]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":0,\"offset\":604,\"bytes\":0,\"shape\":[0,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":1,\"offset\":604,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":0,\"offset\":606,\"bytes\":0,\"shape\":[1,2,2,0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":1,\"elements\":1,\"offset\":606,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":2,\"elements\":0,\"offset\":608,\"bytes\":0,\"shape\":[0]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":1,\"elements\":1,\"offset\":608,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":2,\"elements\":1,\"offset\":610,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":2,\"offset\":614,\"bytes\":4,\"shape\":[1,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "fe64a70baa1dde870f7903591021cd096fa8207a22b4815103513ca763bcb99f",
+    "input_bytes": 470,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":470,\"data_offset\":432,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":1,\"offset\":468,\"bytes\":2,\"shape\":[1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":2,\"offset\":460,\"bytes\":8,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":2,\"elements\":1,\"offset\":456,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":456,\"bytes\":0,\"shape\":[0,3]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":3,\"offset\":444,\"bytes\":12,\"shape\":[3,1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":3,\"offset\":432,\"bytes\":12,\"shape\":[3,1,1]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "8cf370af2c060b789594b03b656b41df73a75fffb18c8bf31d9a67247cdeffef",
+    "input_bytes": 324,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":324,\"data_offset\":304,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":2,\"offset\":320,\"bytes\":4,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":2,\"elements\":1,\"offset\":316,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":0,\"offset\":316,\"bytes\":0,\"shape\":[3,1,0,3]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":6,\"offset\":304,\"bytes\":12,\"shape\":[3,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "75a18ff713476313a00d9c7c30bb817ba190513bc9e0bc1935110e54bc3ad12a",
+    "input_bytes": 288,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":288,\"data_offset\":240,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":18,\"offset\":252,\"bytes\":36,\"shape\":[3,3,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":3,\"offset\":240,\"bytes\":12,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":0,\"offset\":240,\"bytes\":0,\"shape\":[3,0,0,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "8f20a0b0ca18cd1ba32da547892baf7a0e56525519e51b1fcd3d9f6e6ace33cc",
+    "input_bytes": 656,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":656,\"data_offset\":630,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":0,\"offset\":630,\"bytes\":0,\"shape\":[0,3,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":1,\"elements\":0,\"offset\":630,\"bytes\":0,\"shape\":[1,2,2,0]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":0,\"elements\":3,\"offset\":630,\"bytes\":6,\"shape\":[1,3]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":0,\"offset\":636,\"bytes\":0,\"shape\":[1,0,3,1]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":2,\"elements\":1,\"offset\":636,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":0,\"elements\":0,\"offset\":640,\"bytes\":0,\"shape\":[1,0,1,3]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":2,\"offset\":640,\"bytes\":8,\"shape\":[2]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":1,\"elements\":2,\"offset\":648,\"bytes\":4,\"shape\":[2,1]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":1,\"elements\":2,\"offset\":652,\"bytes\":4,\"shape\":[2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "004aa123591bcb1bd39c275a4d45780d9b1879e0be8fd42af1d3e891ec25cd46",
+    "input_bytes": 393,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":393,\"data_offset\":303,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":3,\"offset\":387,\"bytes\":6,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":36,\"offset\":315,\"bytes\":72,\"shape\":[3,2,3,2]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":1,\"offset\":311,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":2,\"offset\":303,\"bytes\":8,\"shape\":[1,2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "6b51c2450c8075749eff170e9a39803621ff72bdd8f7c34faeb8c38faa265765",
+    "input_bytes": 924,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":924,\"data_offset\":832,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f3131\",\"dtype\":1,\"elements\":9,\"offset\":906,\"bytes\":18,\"shape\":[3,3]},{\"name_utf8_hex\":\"7765696768745f3130\",\"dtype\":0,\"elements\":0,\"offset\":906,\"bytes\":0,\"shape\":[0,2,2]},{\"name_utf8_hex\":\"7765696768745f39\",\"dtype\":0,\"elements\":0,\"offset\":906,\"bytes\":0,\"shape\":[1,0,0]},{\"name_utf8_hex\":\"7765696768745f38\",\"dtype\":0,\"elements\":0,\"offset\":906,\"bytes\":0,\"shape\":[3,2,0]},{\"name_utf8_hex\":\"7765696768745f37\",\"dtype\":0,\"elements\":1,\"offset\":904,\"bytes\":2,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f36\",\"dtype\":2,\"elements\":3,\"offset\":892,\"bytes\":12,\"shape\":[3]},{\"name_utf8_hex\":\"7765696768745f35\",\"dtype\":1,\"elements\":0,\"offset\":892,\"bytes\":0,\"shape\":[0,3,0]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":12,\"offset\":868,\"bytes\":24,\"shape\":[2,2,3]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":3,\"offset\":862,\"bytes\":6,\"shape\":[1,1,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":862,\"bytes\":0,\"shape\":[2,0]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":0,\"elements\":6,\"offset\":850,\"bytes\":12,\"shape\":[2,3,1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":1,\"elements\":9,\"offset\":832,\"bytes\":18,\"shape\":[3,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "42c7c964fd4fe731614bcc8515939f0cbd55676bf1f5ab0720d79d90295f09b1",
+    "input_bytes": 296,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":296,\"data_offset\":188,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":9,\"offset\":260,\"bytes\":36,\"shape\":[3,3,1,1]},{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":18,\"offset\":188,\"bytes\":72,\"shape\":[1,2,3,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "b3bab60b0182fbe01514d4e495f4e9179b559ef883418851c2cd26c0cb2fc1d6",
+    "input_bytes": 413,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":413,\"data_offset\":369,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":1,\"offset\":369,\"bytes\":4,\"shape\":[]},{\"name_utf8_hex\":\"7765696768745f31\",\"dtype\":2,\"elements\":9,\"offset\":373,\"bytes\":36,\"shape\":[3,3]},{\"name_utf8_hex\":\"7765696768745f32\",\"dtype\":1,\"elements\":0,\"offset\":409,\"bytes\":0,\"shape\":[3,0]},{\"name_utf8_hex\":\"7765696768745f33\",\"dtype\":1,\"elements\":0,\"offset\":409,\"bytes\":0,\"shape\":[2,0,3,2]},{\"name_utf8_hex\":\"7765696768745f34\",\"dtype\":0,\"elements\":2,\"offset\":409,\"bytes\":4,\"shape\":[2]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "a6b68542334a73b8e40263ef770bb62b57dd89350502b7d5ffd56cf4c131301b",
+    "input_bytes": 114,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":114,\"data_offset\":110,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":2,\"elements\":1,\"offset\":110,\"bytes\":4,\"shape\":[]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "709803aefb213b6999f66bc5d3f309511f6412caf30386bb06d89d840e45b495",
+    "input_bytes": 275,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":275,\"data_offset\":113,\"tensors\":[{\"name_utf8_hex\":\"7765696768745f30\",\"dtype\":0,\"elements\":81,\"offset\":113,\"bytes\":162,\"shape\":[3,3,3,3]}],\"metadata\":[[\"6e6f7465\",\"6f726967696e616c\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "9fedf9159c6b981b4d1a1d51884a5a1a1d4fd509a28cc664dcda60a6b7094ad0",
+    "input_bytes": 82,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: shape product overflows Int64\n"
+  },
+  {
+    "input_sha256": "a4563c3f4537e1cbc36dc5d1f547da3533684b9ff854be98904def3533e19e83",
+    "input_bytes": 80,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: tensor byte size overflows\n"
+  },
+  {
+    "input_sha256": "e2a8e233c364de97bb3675e0c6a2f73ab23d1890b09af8fc5481ed0c3c0f7389",
+    "input_bytes": 98,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: relative tensor extent outside payload\n"
+  },
+  {
+    "input_sha256": "07ebbc945b53dcce7bd37704ed2fc6562c3f7f6431b5673cf7b5aabfb00dda02",
+    "input_bytes": 80,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: relative tensor extent outside payload\n"
+  },
+  {
+    "input_sha256": "32c821658416e692f73e3ddb4cfbfca70e81c581ea065e96f7f1fd1bac42eff5",
+    "input_bytes": 64,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: bad data_offsets for x\n"
+  },
+  {
+    "input_sha256": "a7eecbc932a387b9552f61561d01d4678861a1627a5abe781665cba74925d355",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: data buffer has holes or unindexed trailing bytes\n"
+  },
+  {
+    "input_sha256": "1869062ae538876eb2066eeb6f098cca42efe1266c2aaf46a441af9641ee6441",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: data buffer has holes or unindexed trailing bytes\n"
+  },
+  {
+    "input_sha256": "243d02095d8a3646de6d17fe3d9580295995f1dabba5b4ccde36751852420528",
+    "input_bytes": 63,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: relative tensor extent outside payload\n"
+  },
+  {
+    "input_sha256": "1f430d8c1a01880d5eef4b6e11a49591f12a70d5a55d98eb05c48e77f28d4235",
+    "input_bytes": 62,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: relative tensor extent outside payload\n"
+  },
+  {
+    "input_sha256": "f8b689f806548376483316aafb6c81b60833c87a8c8b3152a9d643eae99b98a6",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unsigned shape/offset required\n"
+  },
+  {
+    "input_sha256": "d06c95feac8828448f8ba2cc2cd3374f8975a6c7dece7f1a6583268296c90be5",
+    "input_bytes": 63,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: unsupported dtype I8\n"
+  },
+  {
+    "input_sha256": "dd186b3bb0e27d75ef21bd10b4db75ac406cee82d9bf9d394da61e32154ae6c5",
+    "input_bytes": 138,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: overlapping data offsets\n"
+  },
+  {
+    "input_sha256": "3a0c989d2d6d881ff955f1428fe521ac81399300e2c0560cb1303e531ca84605",
+    "input_bytes": 143,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":143,\"data_offset\":139,\"tensors\":[{\"name_utf8_hex\":\"776569676874\",\"dtype\":2,\"elements\":1,\"offset\":139,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"656d707479\",\"dtype\":2,\"elements\":0,\"offset\":139,\"bytes\":0,\"shape\":[0]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "e0f9c3bd4b39ad1a678a7e2ea728a6deaef8d81abc7506f03ad79254eabb4bb3",
+    "input_bytes": 143,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: empty tensor is not at a data boundary\n"
+  },
+  {
+    "input_sha256": "b9f6db2244564c7268b3711a881cf33f10b813f2c1e7ecfa3af2bf861ffd2cd1",
+    "input_bytes": 143,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: empty tensor is not at a data boundary\n"
+  },
+  {
+    "input_sha256": "102f214bbe738be9e5d44f4a5cb25c5276113cc6e66b5ef53ce148d3efe688de",
+    "input_bytes": 143,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: empty tensor is not at a data boundary\n"
+  },
+  {
+    "input_sha256": "d0dfba6bc982b9b08a3577b155fb09407ec8d0eb457c6ac2e2a95c32b6949464",
+    "input_bytes": 143,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":143,\"data_offset\":139,\"tensors\":[{\"name_utf8_hex\":\"776569676874\",\"dtype\":2,\"elements\":1,\"offset\":139,\"bytes\":4,\"shape\":[1]},{\"name_utf8_hex\":\"656d707479\",\"dtype\":2,\"elements\":0,\"offset\":143,\"bytes\":0,\"shape\":[0]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "7d434b97b4f9dfc5edebd111c5a09e1c9c754f3943d87a82e959303dc1efe64d",
+    "input_bytes": 64,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "1e52edf8009a143d7fb09d13cd1aa9129f541ff32ca5a4563eab3955035dc558",
+    "input_bytes": 34,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "b5769eedbdc06e6b45c836695af4efc6ad76b052034039527678cb9e344cdd32",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "5f791f4b15e0a17eb58537d4eea3ea54e3c8c0f918539850f55e5eddee0a0a54",
+    "input_bytes": 35,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "7e52040a3c07647744c14305709677b2e648a958404b617e321e2c1be0769d09",
+    "input_bytes": 66,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "f9e8dae6bb842a04e385fd2348324605bb9ac7b0f67f32a7d028b5060ec25060",
+    "input_bytes": 36,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "65969bf7ca0a256b919018de8e04cf434f74aa41176fd3102f7fef28fb9a4ec0",
+    "input_bytes": 66,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "376f64ca29d574da96c90a4aa084e5bf77d51c07a7b8c1d34287f7b3c64615e2",
+    "input_bytes": 36,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "92db2976ad5bbe6df7018f5a27d63329adfe1937d8f3593ea86660b85f6ca89c",
+    "input_bytes": 67,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "3d51efc71fe303e63ae5099bd761d77dcdcc255dc0b5bcafc815d2701a91b490",
+    "input_bytes": 37,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "0e188e1882bf6951465b57585a1d1f8eb608cd7a823ce589558c1ee3c33b3a34",
+    "input_bytes": 64,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "825364899fe9848d07844c89c7aa8211e4bca5dc5b068d88933ac86b0c875480",
+    "input_bytes": 34,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "6c9bcec5d1c6ed45656ff4f07e6d630eaa374ef0d053fb78d8d740db97787c4b",
+    "input_bytes": 65,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "4e4b3b6d83d90ee2712282f85e1ecff27b21dcd4ddd4368dd47c41de582059b0",
+    "input_bytes": 35,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "input_sha256": "64cf31bb8305073d83f95e85a71ce39a0ba17197d9e8f6db7217954a3331a98d",
+    "input_bytes": 35,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "808ebfbcb524d9ef5d1ed24770c261553a3eb59b91063fbe680dc103b0bd8666",
+    "input_bytes": 29,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "input_sha256": "7afd141cde0c1bf5585617baf658c7bc1007fa326f7c755c28e92e1f057c9ae8",
+    "input_bytes": 35,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "678a98cd5aee478ce7a23f9baf9789dca213e8a81fe962a15a8cd53164eeae8e",
+    "input_bytes": 29,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "input_sha256": "a12a1dcec545b5de614cc5204a5808f3b843ff0b0da790887f6f1953f787d26f",
+    "input_bytes": 32,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "287c67d02fae710cfe9d99ef9e3e51bed15e96aae8a3bbb7cf4554e98f039bb5",
+    "input_bytes": 26,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "input_sha256": "00695985c71d4dc9245896e7b56754be8da81243a3b525525a6dd71f2068685d",
+    "input_bytes": 33,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "734929225ce04c539152a5a777bd40d22f865d384f8b61418e2a17287b2ecce8",
+    "input_bytes": 27,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON header\n"
+  },
+  {
+    "input_sha256": "6117e623a2c755dd5b3b73e8b57fc944e3a772962111bb5a75eb3f4479847124",
+    "input_bytes": 33,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "4626d8aa714e23f0bb9f3b0a4dc6ec724d8612afa7f08b306726936303916888",
+    "input_bytes": 42,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: duplicate metadata key\n"
+  },
+  {
+    "input_sha256": "41a5dce96fc1dbb6c4471c278a789852db1829b9620cffdf206691719bc7ed6d",
+    "input_bytes": 35,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "30b1e3c5b158619ba676dfe867fb091e41afd5e2e9f03b819b7ca242aec2558b",
+    "input_bytes": 39,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: lone surrogate in JSON header\n"
+  },
+  {
+    "input_sha256": "237716d73fcf8752cf2cb5e832d6f2c6bef366d8c6deb4342fc178c4b3d9ed61",
+    "input_bytes": 39,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: bad code point in JSON header\n"
+  },
+  {
+    "input_sha256": "4e1590f0aff1cf763fad60974de1105cf7ea1f7a83a58366e6991f9c0fbf6c88",
+    "input_bytes": 45,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: bad low surrogate\n"
+  },
+  {
+    "input_sha256": "21655dd0188c1f3853880d4345c2db07f04a7e43b8039efd7a920cc99394c88d",
+    "input_bytes": 37,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: bad escape in JSON header\n"
+  },
+  {
+    "input_sha256": "7de0e6c1db7168ca16388f8c3b84739997b5b67af3e6eea763c3696e98ac30f5",
+    "input_bytes": 44,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: control character in JSON string\n"
+  },
+  {
+    "input_sha256": "3cd856eec812b0e8e1ade650b785a314bbf151e2793e9537aaaa2c3e5e0d49d7",
+    "input_bytes": 115,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":115,\"data_offset\":113,\"tensors\":[{\"name_utf8_hex\":\"615c2262\",\"dtype\":1,\"elements\":1,\"offset\":113,\"bytes\":2,\"shape\":[1]}],\"metadata\":[[\"657363617065\",\"080c0a0d0900\"]],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "32c5f5ce324b574cb42baef945c6bb29b0125b8874cd734425895f1a5b69f4c2",
+    "input_bytes": 77,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":77,\"data_offset\":75,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":75,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "b6b34498cc85297b431b81ab2c8bc0c7c6591f8047a5a99d15b2db4ef9439957",
+    "input_bytes": 78,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":78,\"data_offset\":76,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":76,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "a6a8a5d2c7ad48b8b3d54772458bb16f87e470a33023ffe5007dfdb46bb4644e",
+    "input_bytes": 77,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":77,\"data_offset\":75,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":75,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "fafff64ce53276558c4c2e17aad30a0571ede113889315bd9d16ec84427d8673",
+    "input_bytes": 74,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":74,\"data_offset\":72,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":72,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "6079d3081d8ee2bf3bd63c90c7b14227a07d2687b9d00b1f4b67a5f4096ba63d",
+    "input_bytes": 75,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":75,\"data_offset\":73,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":73,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "9f65218a1eb25e3ecea6ffe49fc673357d0308ed5538a16aa18639f64d3fa28e",
+    "input_bytes": 77,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":77,\"data_offset\":75,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":75,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "2c5ae835348ff183eea092c87ed98c71360a815e3564c8afb7931b08536b6579",
+    "input_bytes": 77,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":77,\"data_offset\":75,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":75,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "cebd5d7a218b85037febbb0a3a5300437da3843a3abad478c1bad8669b423ea9",
+    "input_bytes": 91,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":91,\"data_offset\":89,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":89,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "2c6134b1bf2980e1545d636e89a1211b7f0e0f1cdc137bed1eeff63e4d116e90",
+    "input_bytes": 74,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON number digits\n"
+  },
+  {
+    "input_sha256": "f0a7592a18968aba9675e587bbe99fabeb981ffcc169e901f5f74b00988006cd",
+    "input_bytes": 75,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON number digits\n"
+  },
+  {
+    "input_sha256": "6967709d9d82cc8360b1592b20f26259ab81382d1dc14fd467720e6f281327cd",
+    "input_bytes": 75,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON number digits\n"
+  },
+  {
+    "input_sha256": "829713c25c392b46aff217a51fb785e8ff624fbb959b11227f3f0832a7e3c406",
+    "input_bytes": 76,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON number digits\n"
+  },
+  {
+    "input_sha256": "34074badd5e65ea40950617f7047244edf3f73b44f2c7ef3442614e83a7abbc8",
+    "input_bytes": 75,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: leading zero in JSON number\n"
+  },
+  {
+    "input_sha256": "bf1cb5f7ceb521fa0b348224c0d5558b2d0ab107ddc24b27be6ef4885b1bd1fb",
+    "input_bytes": 76,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed tensor descriptor\n"
+  },
+  {
+    "input_sha256": "7d73b31be2caaf961fc6270b9d88822d701bfca846530a2e8f6b40512fdafa71",
+    "input_bytes": 75,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "input_sha256": "4189de3acbd3fd9221cc399f1e3ea51471ede39651b7b9dbf055aba15b018620",
+    "input_bytes": 77,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n"
+  },
+  {
+    "input_sha256": "7593bb04445f56e39b3a9c7755cb2c6435c1c997c1dbb0e329cb1edb08eb3e7f",
+    "input_bytes": 81,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      32
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "input_sha256": "3136d5896c2e68322def2c3d433a543f0d10c2f7af3ba686345ee3c968a14449",
+    "input_bytes": 90,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      9
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":90,\"data_offset\":88,\"tensors\":[{\"name_utf8_hex\":\"78\",\"dtype\":0,\"elements\":1,\"offset\":88,\"bytes\":2,\"shape\":[1]}],\"metadata\":[],\"device_access\":false,\"tensor_values_loaded\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "input_sha256": "3136d5896c2e68322def2c3d433a543f0d10c2f7af3ba686345ee3c968a14449",
+    "input_bytes": 90,
+    "bounds": [
+      65536,
+      64,
+      32,
+      16384,
+      8
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: JSON nesting bound exceeded\n"
+  }
+]

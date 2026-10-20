@@ -167,3 +167,14 @@ now clears descriptors/metadata/extents; copy desired values before closing.
 Other dtypes/shards/semantic mapping/immutable identity and numerical execution
 remain work. Exact policies, tests and limits:
 `docs/HAILO10H_MOJO_SAFETENSORS_INVENTORY.md`.
+
+`safetensors_constants.mojo` exposes owned `SafetensorsConstantWindow` and
+`read_safetensors_constants(source,name,first,count,element_bound)` over a live
+existing SafetensorsLoader. The path wrapper `read_safetensors_constant_window`
+also accepts all five positive parser policies and closes on success/error.
+Windows retain full-rank source bindings/provenance, raw source words and exact
+binary32 representation words. Zero-length valid windows are supported. F32
+words retain all bits, F16/BF16 reuse integer bit expansion; no floating model
+math/value-loader/activation/device packing occurs. Source dtype IDs remain
+0 F16,1 BF16,2 F32. Evidence and limits:
+`docs/HAILO10H_MOJO_SAFETENSORS_CONSTANTS.md`.
