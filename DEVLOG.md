@@ -1,3 +1,19 @@
+## 2026-10-20 — Codex: explicit decoder graph and cache policy
+
+- Implemented the published232fdad contract: independently owned explicit layer/
+  output policy, source-neutral typed graph builder and compatible GGUF wrapper.
+  NoPE omits both rotary nodes; direct checked key projections write the cache.
+- Cache migration checks output identity, projections/normalization/positions,
+  producer dependencies, aliases and exact writer/input/view lifetimes.
+- New5 methods/152 calls (81 accept/71 expected refusals),40 complete independent
+  graph comparisons; rebuilt14 suites94/2559,108 complete frozen outputs. Full
+  99/2711 passes; initial compile failures and initial successes preserved.
+- Actual safetensors tags/shards and owned ordinary intent connect through
+  explicit synthetic recipes; full source config is retained. No whole ordinary
+  adapter, device numerical execution, fit or broad model completion claim.
+- Continue actual ordinary architecture intent/modifiers and the numerical Hailo
+  compiler/configuration/execution path automatically. Broad target unchanged.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary unindexed source
 
 - Indexed collectionf69b498 published/verified on both branches, then automatically

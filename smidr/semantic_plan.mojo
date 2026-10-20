@@ -30,6 +30,32 @@ struct DenseDecoderParameters(Copyable, Movable):
 
 
 @fieldwise_init
+struct DecoderGraphPolicy(Copyable, Movable):
+    """Explicit mathematical choices, not a source architecture certification."""
+    var rope_enabled: List[Int]
+    var output_weight: String
+    var provenance: String
+
+
+def validate_decoder_graph_policy(policy: DecoderGraphPolicy,
+                                  source: SourceTensorInventory, layers: Int,
+                                  hidden: Int, vocabulary: Int) raises:
+    # Check bounds before any caller-owned list/string is copied.
+    if layers <= 0 or layers > len(source.bindings) // 9 or len(policy.rope_enabled) != layers or layers > source.policy.tensors:
+        raise Error("SemanticPlan: explicit rotary policy length exceeds layer evidence")
+    var limit = source.policy.work
+    if limit <= 0 or layers > limit or policy.provenance.byte_length() == 0 or policy.provenance.byte_length() > limit - layers:
+        raise Error("SemanticPlan: explicit bounded decoder provenance required")
+    var remaining = limit - layers - policy.provenance.byte_length()
+    if policy.output_weight.byte_length() == 0 or policy.output_weight.byte_length() > remaining:
+        raise Error("SemanticPlan: explicit bounded output weight required")
+    for flag in policy.rope_enabled:
+        if flag != 0 and flag != 1:
+            raise Error("SemanticPlan: rotary policy entries must be zero or one")
+    validate_source_weight(source, policy.output_weight, hidden, vocabulary, False)
+
+
+@fieldwise_init
 struct SemanticTensor(Copyable, Movable):
     var name: String
     var shape: List[Int]
@@ -69,6 +95,7 @@ struct SemanticPlan(Movable):
     var rms_epsilon: Float32
     var source_layout: String
     var logits: Int
+    var decoder_policy: DecoderGraphPolicy
 
     def __init__(out self, var source: SourceTensorInventory):
         self.source = source^
@@ -91,6 +118,7 @@ struct SemanticPlan(Movable):
         self.rms_epsilon = 0
         self.source_layout = String("")
         self.logits = -1
+        self.decoder_policy = DecoderGraphPolicy(List[Int](), "", "")
 
     def tensor(mut self, name: String, var shape: List[Int], producer: Int = -1,
                persistent: Bool = False, alias_of: Int = -1) raises -> Int:
@@ -250,14 +278,17 @@ def validate_dense_decoder_parameters(parameters: DenseDecoderParameters,
         raise Error("SemanticPlan: vocabulary metadata and embedding disagree")
 
 
-def build_dense_semantic_plan(var source: SourceTensorInventory,
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
                               parameters: DenseDecoderParameters,
+                              policy: DecoderGraphPolicy,
                               query_tokens: Int, past_tokens: Int,
                               context_capacity: Int) raises -> SemanticPlan:
-    """Build the current dense graph from values; tagged storage is checked before the current GGUF recipe."""
-    validate_dense_gguf_inventory(source)
+    """Build an explicitly selected mathematical recipe from tagged values."""
+    validate_source_inventory(source)
     validate_dense_decoder_parameters(parameters, source, query_tokens, past_tokens, context_capacity)
+    validate_decoder_graph_policy(policy, source, parameters.layers, parameters.hidden, parameters.vocabulary)
     var plan = SemanticPlan(source^)
+    plan.decoder_policy = policy.copy()
     plan.layers = parameters.layers
     plan.hidden = parameters.hidden
     plan.feed_forward = parameters.feed_forward
@@ -280,7 +311,7 @@ def build_dense_semantic_plan(var source: SourceTensorInventory,
     var total = past_tokens + query_tokens
     plan.weight("token_embd.weight", plan.hidden, plan.vocabulary)
     plan.weight("output_norm.weight", plan.hidden, 1, True)
-    var output_weight = String("output.weight") if "output.weight" in plan.source.bindings else String("token_embd.weight")
+    var output_weight = policy.output_weight
     plan.weight(output_weight, plan.hidden, plan.vocabulary)
     var tokens = plan.tensor("tokens", [query_tokens])
     var positions = plan.tensor("positions", [query_tokens])
@@ -301,8 +332,9 @@ def build_dense_semantic_plan(var source: SourceTensorInventory,
         var q = plan.emit("linear", p + "q", [norm], [query_tokens, plan.heads, plan.key_dim], p + "attn_q.weight")
         var k = plan.emit("linear", p + "k", [norm], [query_tokens, plan.kv_heads, plan.key_dim], p + "attn_k.weight")
         var v = plan.emit("linear", p + "v", [norm], [query_tokens, plan.kv_heads, plan.value_dim], p + "attn_v.weight")
-        q = plan.emit("rope_query", p + "q_rotary", [q, positions], [query_tokens, plan.heads, plan.key_dim])
-        k = plan.emit("rope_key", p + "k_rotary", [k, positions], [query_tokens, plan.kv_heads, plan.key_dim])
+        if policy.rope_enabled[layer] == 1:
+            q = plan.emit("rope_query", p + "q_rotary", [q, positions], [query_tokens, plan.heads, plan.key_dim])
+            k = plan.emit("rope_key", p + "k_rotary", [k, positions], [query_tokens, plan.kv_heads, plan.key_dim])
         var cache_k = plan.tensor(p + "key_cache", [context_capacity, plan.kv_heads, plan.key_dim], -1, True)
         var cache_v = plan.tensor(p + "value_cache", [context_capacity, plan.kv_heads, plan.value_dim], -1, True)
         var keys_view = plan.emit("kv_append_keys", p + "keys_view", [cache_k, k], [total, plan.kv_heads, plan.key_dim], "", cache_k)
@@ -334,6 +366,23 @@ def build_dense_semantic_plan(var source: SourceTensorInventory,
             plan.tensors[i].last_use = end
     return plan^
 
+
+
+def build_dense_semantic_plan(var source: SourceTensorInventory,
+                              parameters: DenseDecoderParameters,
+                              query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    """Historical GGUF recipe and output selection, with unchanged graph fields."""
+    validate_dense_gguf_inventory(source)
+    validate_dense_decoder_parameters(parameters, source, query_tokens, past_tokens, context_capacity)
+    if parameters.layers > source.policy.tensors or parameters.layers > source.policy.work:
+        raise Error("SemanticPlan: rotary policy exceeds admitted source bounds")
+    var flags = List[Int]()
+    for _ in range(parameters.layers):
+        flags.append(1)
+    var output = String("output.weight") if "output.weight" in source.bindings else String("token_embd.weight")
+    var policy = DecoderGraphPolicy(flags^, output, "historical GGUF dense recipe")
+    return build_decoder_semantic_plan(source^, parameters, policy, query_tokens, past_tokens, context_capacity)
 
 
 def read_dense_semantic_plan(path: String, query_tokens: Int,

@@ -45,3 +45,10 @@ remote heads and automatically continue toward the unchanged broad-model target.
 land together. The current graph/cache structural baseline remains unchanged
 by the preceding decoder-layer intent module and is already verified by its
 saved source/binary manifests; freeze it explicitly before new edits.
+
+
+2026-10-20 completed: original typed policy/NoPE graph and direct/rotary cache
+migration verified99 methods/2711 calls,40 new complete graph and108 frozen
+consumer comparisons. Receipt: docs/HAILO10H_MOJO_DECODER_GRAPH_POLICY.md.
+Next automatic contract: TASK_hailo10h_decoder_architecture_intent.md.
+Numerical Hailo/source-model execution remains open; target unchanged.

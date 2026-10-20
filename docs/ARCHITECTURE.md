@@ -1,3 +1,13 @@
+## Explicit Hailo decoder graph policy — 2026-10-20
+
+The source compiler separates typed mathematical parameters, tagged source
+storage and owned explicit layer/output policy. The generic builder conditionally
+emits rotary operations; cache planning uses the same validated policy for real
+direct/rotary writers and checked dependency/lifetime ownership. Existing GGUF
+wrappers preserve their historical recipe/output schema. Evidence and boundaries:
+[decoder policy](HAILO10H_MOJO_DECODER_GRAPH_POLICY.md). Actual ordinary semantic
+adaptation and numerical Hailo code/configuration/execution remain open.
+
 # Project Aesir: Target Architecture and Implemented Shapes
 
 ## Bifröst second-brain boundary — 2026-10-01

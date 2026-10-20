@@ -1,0 +1,9 @@
+{
+  "revision": "a05c9922613c6a2230dbb1d0de679519ecafb4f0",
+  "library_sha256": "45bd8cc3f12159e7b219a95d185be74a2ad83789045e6359acf49523aee23328",
+  "blocks": 16,
+  "constants": 4096,
+  "exact_binary32_match": true,
+  "bits_sha256": "fc5526f3ecf0a61253bcbcbee6624cdfe02893140f972a7cf9260a35e49ac11a",
+  "scope": "synthetic static constant dequantization only; no context/graph/model/forward"
+}

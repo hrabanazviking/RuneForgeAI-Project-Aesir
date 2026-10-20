@@ -1,0 +1,158 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "tagged-semantic-plan",
+    "returncode": 0,
+    "sha256": "d8b33fc5ad62419bc2501b8f4a011ebcacb90a08e2b7d67f3b9b168f34ab13ec"
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "tagged-typed-api",
+    "returncode": 0,
+    "sha256": "cc45038d538b2838a3a741ae6f8321340959a3bdf9f23e3147e45090f711344f"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "tagged-expanded-graph",
+    "returncode": 0,
+    "sha256": "47394c5920d98bba19501a0dd6da484eff552ed90220850c2549dfa4ede39309"
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "tagged-expanded-api",
+    "returncode": 0,
+    "sha256": "5ea4611d09b1bade1171921344e39488b0ab3718c0c5445f0b8577d4d99c636b"
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "tagged-expanded-storage",
+    "returncode": 0,
+    "sha256": "e21c0b724642de7e0aedde7a9c85a5699cbc7d4feae31195f3359495263af0aa"
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "tagged-expanded-storage-api",
+    "returncode": 0,
+    "sha256": "844d5e5ebeb20eff9c661603c43e98b5d236da4b246c4f1305b97fc73786224b"
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "tagged-matrix-tiles",
+    "returncode": 0,
+    "sha256": "93d5655b138cf065cc0a9fccd75111d0903ebb89dde80e92db061e707962551a"
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "tagged-matrix-api",
+    "returncode": 0,
+    "sha256": "33081e69185907a20adfe7bbf6bd66320c42f97959d9cd9a7fe589500415e666"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "tagged-primitive-recipes",
+    "returncode": 0,
+    "sha256": "c39c3e0a14838712ab0ba14c8f16bd5547e214a8ea787966e8be9cf68270b96b"
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "tagged-primitive-api",
+    "returncode": 0,
+    "sha256": "3cb37b0f2ab5061415cef1c034ad1d8d628264329dbb24511bde389a3234d54d"
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "tagged-cache-layout",
+    "returncode": 0,
+    "sha256": "0b9ca0a8ec508603b67b65f5d88b40a841f45976371820591b4902128bbc7c5b"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "tagged-cache-api",
+    "returncode": 0,
+    "sha256": "12a31a9885cc128713a6f51d31ffcfed348e1ed687db287c738be13d7cc099e6"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "tagged-source-weight-tiles",
+    "returncode": 0,
+    "sha256": "a4aa7155c7fe7d70c1467095446c6da0a33c329f9a15d4ac5e97a27d086cc267"
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "tagged-source-weight-api",
+    "returncode": 0,
+    "sha256": "d052f5fa0ca54530add38489997c1c4113b578ab473d06b8347f59afea0f73db"
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "tagged-storage-estimate",
+    "returncode": 0,
+    "sha256": "28e12b41410ea1dca4545b2d290f09b1dcd1d7632be85793a29c0715fddd397d"
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "tagged-storage-api",
+    "returncode": 0,
+    "sha256": "09a64f7c132d935bfc8d89d16efaf12caf503321c5dafe36e7511ed15601c1ef"
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "tagged-source-inventory",
+    "returncode": 0,
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "tagged-typed-decoder",
+    "returncode": 0,
+    "sha256": "923adbce6eccd2ed6660a98ba0fc4bc662caf36fac0348d1c95d21f5e41c2a47"
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "tagged-semantic-storage",
+    "returncode": 0,
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "tagged-semantic-storage-api",
+    "returncode": 0,
+    "sha256": "28f9e421cfd752d147214a8a583f7964787c8398e5abc1cb661ff19757e7abbb"
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "tagged-float-constants",
+    "returncode": 0,
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "tagged-float-api",
+    "returncode": 0,
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "tagged-q4k-constants",
+    "returncode": 0,
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "tagged-q4k-api",
+    "returncode": 0,
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "tagged-q5q6-constants",
+    "returncode": 0,
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "tagged-q5q6-api",
+    "returncode": 0,
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  }
+]

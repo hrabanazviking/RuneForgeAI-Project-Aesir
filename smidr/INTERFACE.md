@@ -353,3 +353,17 @@ This is metadata/semantic intent, not complete architecture, immutable identity,
 physical layout/fit or LLM execution. Other schema/operation coverage remains
 required broad-model work. Inspector decoder_layers takes separate config[4]
 and layer[3] policies. Receipt: docs/HAILO10H_MOJO_DECODER_LAYERS.md.
+
+
+## Explicit decoder graph policy — 2026-10-20
+
+DecoderGraphPolicy(rope_enabled,output_weight,provenance) and
+build_decoder_semantic_plan expose an owned source-neutral typed mathematical
+recipe. Exact bounded layer flags and explicit checked output identity are
+mandatory. Zero flags omit rotary nodes and use actual Q/K projections. The
+GGUF build_dense/read_dense wrappers preserve historical outputs. Complete
+cache planning validates this policy and direct/rotary key writers, checked
+normalization/projection/position inputs, aliases and exact lifetimes. General
+standalone SemanticPlan construction retains an empty policy placeholder.
+See `docs/HAILO10H_MOJO_DECODER_GRAPH_POLICY.md`; actual ordinary architecture/
+layout/modifier adaptation and numerical Hailo execution remain open.

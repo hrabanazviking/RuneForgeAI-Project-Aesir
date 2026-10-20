@@ -1,7 +1,7 @@
 # Original explicit cache address scenario. No allocation, cache data or math.
 from std.collections import Dict
 from smidr.source_inventory import validate_source_inventory, validate_source_weight
-from smidr.semantic_plan import SemanticPlan, checked_product
+from smidr.semantic_plan import SemanticPlan, checked_product, validate_decoder_graph_policy
 from smidr.storage_estimate import checked_sum
 
 
@@ -59,6 +59,19 @@ def _shape(plan: SemanticPlan, index: Int, slots: Int, dimension: Int) raises:
         raise Error("CacheLayout: cache-related logical [slot, head, component] shape mismatch")
 
 
+def _lifetime(plan: SemanticPlan, index: Int) raises:
+    var tensor = plan.tensors[index].copy()
+    var last = tensor.producer
+    for step in range(len(plan.operations)):
+        for input_id in plan.operations[step].inputs:
+            if input_id == index:
+                if step <= tensor.producer:
+                    raise Error("CacheLayout: writer/input used before production")
+                last = step
+    if tensor.last_use != last:
+        raise Error("CacheLayout: writer/input lifetime mismatch")
+
+
 def _projection(plan: SemanticPlan, name: String, rows: Int) raises:
     if name not in plan.source.bindings or name not in plan.used_weights:
         raise Error("CacheLayout: missing consumed source projection binding")
@@ -74,6 +87,14 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
         raise Error("CacheLayout: invalid source hidden dimension")
     if plan.layers <= 0 or plan.layers > len(plan.tensors) // 2 or len(plan.operations) == 0 or plan.context_capacity <= 0 or plan.query_tokens <= 0 or plan.past_tokens < 0 or plan.past_tokens > plan.context_capacity or plan.query_tokens > plan.context_capacity - plan.past_tokens or plan.heads <= 0 or plan.kv_heads <= 0 or plan.heads % plan.kv_heads != 0:
         raise Error("CacheLayout: invalid source cache/session dimensions")
+    validate_decoder_graph_policy(plan.decoder_policy, plan.source, plan.layers, plan.hidden, plan.vocabulary)
+    if plan.logits < 0 or plan.logits >= len(plan.tensors):
+        raise Error("CacheLayout: missing decoder output")
+    var logits = plan.tensors[plan.logits].copy()
+    if logits.producer < 0 or logits.producer >= len(plan.operations) or plan.operations[logits.producer].output != plan.logits or plan.operations[logits.producer].weight != plan.decoder_policy.output_weight:
+        raise Error("CacheLayout: explicit output policy disagrees with graph")
+    if plan.operations[logits.producer].kind != "linear" or plan.decoder_policy.output_weight not in plan.used_weights or not plan.used_weights[plan.decoder_policy.output_weight] or len(logits.shape) != 2 or logits.shape[0] != plan.query_tokens or logits.shape[1] != plan.vocabulary or logits.elements != checked_product(plan.query_tokens, plan.vocabulary):
+        raise Error("CacheLayout: invalid explicit decoder output binding/shape")
     var key_elements = checked_product(plan.kv_heads, plan.key_dim)
     var value_elements = checked_product(plan.kv_heads, plan.value_dim)
     var key_bytes = checked_product(key_elements, policy.key_width)
@@ -97,6 +118,8 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
     var cursor = 0
     for layer in range(plan.layers):
         var p = String("blk.") + String(layer) + "."
+        if plan.decoder_policy.rope_enabled[layer] == 0 and (p + "k_rotary" in names or p + "q_rotary" in names):
+            raise Error("CacheLayout: NoPE policy disagrees with rotary tensors")
         _projection(plan, p + "attn_k.weight", key_elements)
         _projection(plan, p + "attn_v.weight", value_elements)
         for side in range(2):
@@ -104,7 +127,8 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
             var kind = String("key") if is_key else String("value")
             var base_name = p + kind + "_cache"
             var view_name = p + (String("keys_view") if is_key else String("values_view"))
-            var writer_name = p + (String("k_rotary") if is_key else String("v"))
+            var rotary_key = is_key and plan.decoder_policy.rope_enabled[layer] == 1
+            var writer_name = p + ((String("k_rotary") if rotary_key else String("k")) if is_key else String("v"))
             if base_name not in names or view_name not in names or writer_name not in names:
                 raise Error("CacheLayout: missing named source cache/view/writer")
             var base_id = names[base_name]
@@ -125,23 +149,41 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
             if append.inputs[0] != base_id or append.inputs[1] != writer_id:
                 raise Error("CacheLayout: cache append input identity mismatch")
             var writer_op = plan.operations[writer.producer].copy()
-            if writer_op.output != writer_id or writer_op.kind != (String("rope_key") if is_key else String("linear")):
+            if writer_op.output != writer_id or writer_op.kind != (String("rope_key") if rotary_key else String("linear")):
                 raise Error("CacheLayout: invalid cache writer identity")
             if not is_key and writer_op.weight != p + "attn_v.weight":
                 raise Error("CacheLayout: value projection source mismatch")
-            if is_key:
-                if p + "k" not in names or "positions" not in names or len(writer_op.inputs) != 2:
+            var projection_id = writer_id
+            if rotary_key:
+                if p + "k" not in names or "positions" not in names or len(writer_op.inputs) != 2 or writer_op.weight != "":
                     raise Error("CacheLayout: missing key projection/position inputs")
-                var key_id = names[p + "k"]
-                if writer_op.inputs[0] != key_id or writer_op.inputs[1] != names["positions"]:
+                projection_id = names[p + "k"]
+                var position_id = names["positions"]
+                if writer_op.inputs[0] != projection_id or writer_op.inputs[1] != position_id:
                     raise Error("CacheLayout: rotary key input identity mismatch")
-                _shape(plan, key_id, plan.query_tokens, dimension)
-                var key = plan.tensors[key_id].copy()
-                if key.producer < 0 or key.producer >= writer.producer or key.persistent or key.alias_of != -1:
-                    raise Error("CacheLayout: invalid key projection producer")
-                var key_op = plan.operations[key.producer].copy()
-                if key_op.output != key_id or key_op.kind != "linear" or key_op.weight != p + "attn_k.weight":
-                    raise Error("CacheLayout: key projection source mismatch")
+                var positions = plan.tensors[position_id].copy()
+                if len(positions.shape) != 1 or positions.shape[0] != plan.query_tokens or positions.elements != plan.query_tokens or positions.producer != -1 or positions.persistent or positions.alias_of != -1:
+                    raise Error("CacheLayout: invalid rotary positions")
+                _lifetime(plan, position_id)
+            _shape(plan, projection_id, plan.query_tokens, dimension)
+            var projection = plan.tensors[projection_id].copy()
+            if projection.producer < 0 or projection.producer >= view.producer or projection.persistent or projection.alias_of != -1 or (rotary_key and projection.producer >= writer.producer):
+                raise Error("CacheLayout: invalid projection producer")
+            var projection_op = plan.operations[projection.producer].copy()
+            var projection_weight = p + (String("attn_k.weight") if is_key else String("attn_v.weight"))
+            if projection_op.output != projection_id or projection_op.kind != "linear" or projection_op.weight != projection_weight or len(projection_op.inputs) != 1 or p + "attn_norm" not in names:
+                raise Error("CacheLayout: projection source mismatch")
+            var norm_id = names[p + "attn_norm"]
+            if projection_op.inputs[0] != norm_id:
+                raise Error("CacheLayout: projection dependency mismatch")
+            var norm = plan.tensors[norm_id].copy()
+            if len(norm.shape) != 2 or norm.shape[0] != plan.query_tokens or norm.shape[1] != plan.hidden or norm.elements != checked_product(plan.query_tokens, plan.hidden) or norm.producer < 0 or norm.producer >= projection.producer or norm.persistent or norm.alias_of != -1:
+                raise Error("CacheLayout: invalid projection input shape/dependency")
+            var norm_op = plan.operations[norm.producer].copy()
+            if norm_op.output != norm_id or norm_op.kind != "rms_norm" or norm_op.weight != p + "attn_norm.weight":
+                raise Error("CacheLayout: invalid projection normalization identity")
+            _lifetime(plan, writer_id)
+            _lifetime(plan, projection_id)
             var last = view.producer
             for step in range(len(plan.operations)):
                 for input_id in plan.operations[step].inputs:

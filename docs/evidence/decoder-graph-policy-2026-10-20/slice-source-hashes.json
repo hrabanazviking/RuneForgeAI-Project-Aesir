@@ -1,0 +1,7 @@
+{
+  "smidr/semantic_plan.mojo": "f45021a8b9e1a2351b40f3767e426f94b42d321dbbc5dcac40d38e953693be82",
+  "smidr/cache_layout.mojo": "b8d3eb014cf538be8e17105f0a1df1069483a086dfe00da09c3bd481f82e0ece",
+  "smidr/tools/decoder_graph_policy.mojo": "f0650d050047111d2ad396a2a7b02452bdd5e77e79e7da1b6aef92e52c055443",
+  "tests/hailo_decoder_graph_policy_api.mojo": "bd7f0d048a084fb3ea85bf0d627343517fa660d7f242409ca0960fa1a4dbc9f5",
+  "tests/test_hailo_decoder_graph_policy.py": "2a5f6cbb0a97c1c43444edfb309d0f81908f5d412e02e150efd19fde71293610"
+}

@@ -1,0 +1,8 @@
+{
+  "baseline": 12480,
+  "current": 13507,
+  "new_receipt_path_diagnostics": 1027,
+  "removed": 0,
+  "new_nonreceipt_diagnostics": 0,
+  "normalization": "DEVLOG preexisting line number shifted by new entry"
+}

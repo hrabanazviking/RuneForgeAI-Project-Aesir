@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 102 |
+| `verified` | 103 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **147** |
+| **Total** | **148** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3214,3 +3214,20 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   architectures and operations remain required implementation work.
 - **Next acceptance gate:** `TASK_hailo10h_decoder_graph_policy.md`, actual
   ordinary architecture/alias/modifier semantics and numerical Hailo execution.
+
+
+### AES-SOURCE-009 — Explicit typed decoder graph and cache policy
+
+- **Status:** `verified`
+- **Owner:** original smidr.semantic_plan and cache_layout; owned typed policy,
+  conditional rotary graph construction and actual direct/rotary cache writers.
+- **Executable evidence:** `docs/HAILO10H_MOJO_DECODER_GRAPH_POLICY.md` and
+  `docs/evidence/decoder-graph-policy-2026-10-20/`;99 methods/2711 calls,
+  40 new complete graph and108 complete frozen consumer comparisons.
+- **Evidence boundary:** Checked tagged source compiler structures, explicit
+  per-layer/output policy, recalculated lifetimes/mappings/schedules and
+  hypothetical cache addresses. No complete ordinary architecture/config/
+  alias/layout/modifier adapter, physical fit, numerical device program or
+  source-model execution. Missing coverage remains implementation work.
+- **Next acceptance gate:** `TASK_hailo10h_decoder_architecture_intent.md`,
+  actual ordinary architecture semantics and numerical Hailo execution.

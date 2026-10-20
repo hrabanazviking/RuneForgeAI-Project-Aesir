@@ -1,0 +1,26 @@
+[
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../graph-policy-final/tagged-cache-layout",
+    "returncode": 0,
+    "sha256": "0b9ca0a8ec508603b67b65f5d88b40a841f45976371820591b4902128bbc7c5b"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../graph-policy-final/tagged-cache-api",
+    "returncode": 0,
+    "sha256": "12a31a9885cc128713a6f51d31ffcfed348e1ed687db287c738be13d7cc099e6"
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../graph-policy-inspector",
+    "returncode": 0,
+    "sha256": "a03c0a758b6d2df84c159b747413ff7bf1410ba4c1f7712c82ba99447139c116"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../graph-policy-api",
+    "returncode": 0,
+    "sha256": "1791679ebc33401601e39532d77fc75fabb660bbc43aca593042216f3fe6a057"
+  }
+]

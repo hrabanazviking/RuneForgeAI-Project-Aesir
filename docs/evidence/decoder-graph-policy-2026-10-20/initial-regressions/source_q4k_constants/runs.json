@@ -1,0 +1,1430 @@
+[
+  {
+    "scope": "constant_window",
+    "source_sha256": "2c88f94db4fd0655d88029111122d87d0e337a43f79fa0fd74f848f7cf8d05ce",
+    "returncode": 0,
+    "stdout_sha256": "03e49c94725e047a403b2ca4d00df683d6e9ac5cd27b343f64e8a709b73295f0",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 32,
+        "source_kind": 12,
+        "byte_count": 9216
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "count": 4096,
+    "component_sha256": "4bd1e70bd61b3a88786599c91932cf85d380e8d44e2e8b8449daf4afefbd99c7",
+    "first_component": {
+      "d_bits": 12288,
+      "dmin_bits": 13312,
+      "d_binary32_bits": 1040187392,
+      "dmin_binary32_bits": 1048576000,
+      "q": 0,
+      "scale_factor": 0,
+      "min_factor": 63
+    },
+    "last_component": {
+      "d_bits": 12303,
+      "dmin_bits": 13342,
+      "d_binary32_bits": 1040310272,
+      "dmin_binary32_bits": 1048821760,
+      "q": 8,
+      "scale_factor": 0,
+      "min_factor": 61
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "2c88f94db4fd0655d88029111122d87d0e337a43f79fa0fd74f848f7cf8d05ce",
+    "returncode": 0,
+    "stdout_sha256": "10062de4155bd0aa0e3b27b563ae57d09174331d2ab0cdff83ad618c0fe77c63",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 32,
+        "source_kind": 12,
+        "byte_count": 9216
+      },
+      "first": 4096,
+      "host_window_limit": 4096
+    },
+    "count": 4096,
+    "component_sha256": "2a836cc9b5cdedd1d3da71a2e73620ff6fbab9243b414771c2a7abd21223eb83",
+    "first_component": {
+      "d_bits": 12304,
+      "dmin_bits": 13344,
+      "d_binary32_bits": 1040318464,
+      "dmin_binary32_bits": 1048838144,
+      "q": 0,
+      "scale_factor": 16,
+      "min_factor": 47
+    },
+    "last_component": {
+      "d_bits": 12319,
+      "dmin_bits": 13374,
+      "d_binary32_bits": 1040441344,
+      "dmin_binary32_bits": 1049083904,
+      "q": 8,
+      "scale_factor": 16,
+      "min_factor": 45
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "2c88f94db4fd0655d88029111122d87d0e337a43f79fa0fd74f848f7cf8d05ce",
+    "returncode": 0,
+    "stdout_sha256": "40bfb2bf4b5dee9bcfda76bf7acdff64d79da3f7a811e032ed08c375d6493b91",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 32,
+        "source_kind": 12,
+        "byte_count": 9216
+      },
+      "first": 8192,
+      "host_window_limit": 4096
+    },
+    "count": 4096,
+    "component_sha256": "de8708097cb7cc6bde2a1aea1be9c51cc828d3729b010c171c6cfca28a7aa034",
+    "first_component": {
+      "d_bits": 12320,
+      "dmin_bits": 13376,
+      "d_binary32_bits": 1040449536,
+      "dmin_binary32_bits": 1049100288,
+      "q": 0,
+      "scale_factor": 32,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 12335,
+      "dmin_bits": 13406,
+      "d_binary32_bits": 1040572416,
+      "dmin_binary32_bits": 1049346048,
+      "q": 8,
+      "scale_factor": 32,
+      "min_factor": 29
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "2c88f94db4fd0655d88029111122d87d0e337a43f79fa0fd74f848f7cf8d05ce",
+    "returncode": 0,
+    "stdout_sha256": "157c23dc91ca61103896d5c95863ac4816aa73ff1931a0b44e2b3bad15f372a2",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 32,
+        "source_kind": 12,
+        "byte_count": 9216
+      },
+      "first": 12288,
+      "host_window_limit": 4096
+    },
+    "count": 4096,
+    "component_sha256": "f70737c003ad34070713b7726f39998d0d961877b355bdde582f625cb6fe246a",
+    "first_component": {
+      "d_bits": 12336,
+      "dmin_bits": 13408,
+      "d_binary32_bits": 1040580608,
+      "dmin_binary32_bits": 1049362432,
+      "q": 0,
+      "scale_factor": 48,
+      "min_factor": 15
+    },
+    "last_component": {
+      "d_bits": 12351,
+      "dmin_bits": 13438,
+      "d_binary32_bits": 1040703488,
+      "dmin_binary32_bits": 1049608192,
+      "q": 8,
+      "scale_factor": 48,
+      "min_factor": 13
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "4d106d6e197a1f7c74918d1ded2acde43763f279071dfec5a8932751b7871a96",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "ad8afd7ce22d0131d8dcd45ef9f9430aab398784cb46a3d5031cd1945805e5dc",
+    "first_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 0,
+      "scale_factor": 0,
+      "min_factor": 63
+    },
+    "last_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 0,
+      "scale_factor": 0,
+      "min_factor": 63
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "7c842730a0d58ac0604d9ac54ca44540e3742e9d7e452cf66aedfa2daad0c57b",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 31,
+      "host_window_limit": 4096
+    },
+    "count": 2,
+    "component_sha256": "8fee7fc2bdb98e5f927b6529f4303d5d193c74769c09f1f4fe11f270755017e0",
+    "first_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 15,
+      "scale_factor": 0,
+      "min_factor": 63
+    },
+    "last_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 0,
+      "scale_factor": 1,
+      "min_factor": 47
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "e8d1f2adfcf8bcd6f4df235123a7b309bcff72e9398606bd4fa12dd4e73ea0d7",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 63,
+      "host_window_limit": 4096
+    },
+    "count": 2,
+    "component_sha256": "43d20d470e300c10aa579d5130a57ef1adcad8121e70059d7dbc9b12632b3dfa",
+    "first_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 15,
+      "scale_factor": 1,
+      "min_factor": 47
+    },
+    "last_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 0,
+      "scale_factor": 15,
+      "min_factor": 32
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "80321784d9a8071842b42558fdad41970832be3709dae93af98fc1a9797a640b",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 127,
+      "host_window_limit": 4096
+    },
+    "count": 3,
+    "component_sha256": "e5b404eae637f1ca6f2e1903d4d1d092bb6d7b6f6a0eb15b30cc0cef9a00cd21",
+    "first_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 15,
+      "scale_factor": 16,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 1,
+      "scale_factor": 31,
+      "min_factor": 16
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "c705c200442f61d2faff14c64b133df3e12e4995fa5790bfa9fdeea839281400",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 2,
+    "component_sha256": "3fcb007cc51f6d8de6f2f7203584f1652218ea8b72a2d3bd2ccbd6fe18bd60e2",
+    "first_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 15,
+      "scale_factor": 63,
+      "min_factor": 0
+    },
+    "last_component": {
+      "d_bits": 15361,
+      "dmin_bits": 14337,
+      "d_binary32_bits": 1065361408,
+      "dmin_binary32_bits": 1056972800,
+      "q": 1,
+      "scale_factor": 0,
+      "min_factor": 63
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "207143ab2a4fd4456d1b4d26bbd415ed8b098c28d742f5b468239707f2b35d5c",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 510,
+      "host_window_limit": 4096
+    },
+    "count": 5,
+    "component_sha256": "75b20e1899eefbfeb6b35da15e399f270d672b71fc8cc8b7382055abbf6e34cc",
+    "first_component": {
+      "d_bits": 15361,
+      "dmin_bits": 14337,
+      "d_binary32_bits": 1065361408,
+      "dmin_binary32_bits": 1056972800,
+      "q": 15,
+      "scale_factor": 63,
+      "min_factor": 0
+    },
+    "last_component": {
+      "d_bits": 15362,
+      "dmin_bits": 14338,
+      "d_binary32_bits": 1065369600,
+      "dmin_binary32_bits": 1056980992,
+      "q": 4,
+      "scale_factor": 0,
+      "min_factor": 63
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "f96919da124b38759a5f64beaa5c0e27fce8f8415a3b55b5f7534dec9f19d6a1",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 1023,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "14487d8141ccf989e4414b14b09b64ebaaff114e131f8d30fbb291b7799ef1b8",
+    "first_component": {
+      "d_bits": 15363,
+      "dmin_bits": 14339,
+      "d_binary32_bits": 1065377792,
+      "dmin_binary32_bits": 1056989184,
+      "q": 2,
+      "scale_factor": 63,
+      "min_factor": 0
+    },
+    "last_component": {
+      "d_bits": 15363,
+      "dmin_bits": 14339,
+      "d_binary32_bits": 1065377792,
+      "dmin_binary32_bits": 1056989184,
+      "q": 2,
+      "scale_factor": 63,
+      "min_factor": 0
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e3446193ccf81e8cd27f728a7f4c1da85e3553a7c8a8fd2e107db61aa0765c78",
+    "returncode": 0,
+    "stdout_sha256": "341927bd49f1de301d9a71b7fe3f0223605c2be8c9ccd62ff95278614bbb6e66",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 2,
+        "source_kind": 12,
+        "byte_count": 576
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "count": 1024,
+    "component_sha256": "2b1d2e161e5ccca371bbc65e737bd0a233929ec4a584346c2c5484c2b0d9ab43",
+    "first_component": {
+      "d_bits": 15360,
+      "dmin_bits": 14336,
+      "d_binary32_bits": 1065353216,
+      "dmin_binary32_bits": 1056964608,
+      "q": 0,
+      "scale_factor": 0,
+      "min_factor": 63
+    },
+    "last_component": {
+      "d_bits": 15363,
+      "dmin_bits": 14339,
+      "d_binary32_bits": 1065377792,
+      "dmin_binary32_bits": 1056989184,
+      "q": 2,
+      "scale_factor": 63,
+      "min_factor": 0
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "c74230702e2a4689684d2fe9e498da827578f23668eba20d54a39856ce589528",
+    "returncode": 0,
+    "stdout_sha256": "f1be7ffc28ce6bfa9fa1c7ccc7db8d97990e4e3f7a587751c5e692273be47382",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 16,
+        "source_kind": 12,
+        "byte_count": 4608
+      },
+      "first": 2048,
+      "host_window_limit": 4096
+    },
+    "count": 4096,
+    "component_sha256": "8796299b64d5c87ec29f088bd2b124642263330733761d4725442817421f6ec7",
+    "first_component": {
+      "d_bits": 14336,
+      "dmin_bits": 13312,
+      "d_binary32_bits": 1056964608,
+      "dmin_binary32_bits": 1048576000,
+      "q": 0,
+      "scale_factor": 5,
+      "min_factor": 17
+    },
+    "last_component": {
+      "d_bits": 14336,
+      "dmin_bits": 13312,
+      "d_binary32_bits": 1056964608,
+      "dmin_binary32_bits": 1048576000,
+      "q": 15,
+      "scale_factor": 5,
+      "min_factor": 17
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "c74230702e2a4689684d2fe9e498da827578f23668eba20d54a39856ce589528",
+    "returncode": 0,
+    "stdout_sha256": "f1be7ffc28ce6bfa9fa1c7ccc7db8d97990e4e3f7a587751c5e692273be47382",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 16,
+        "source_kind": 12,
+        "byte_count": 4608
+      },
+      "first": 2048,
+      "host_window_limit": 4096
+    },
+    "count": 4096,
+    "component_sha256": "8796299b64d5c87ec29f088bd2b124642263330733761d4725442817421f6ec7",
+    "first_component": {
+      "d_bits": 14336,
+      "dmin_bits": 13312,
+      "d_binary32_bits": 1056964608,
+      "dmin_binary32_bits": 1048576000,
+      "q": 0,
+      "scale_factor": 5,
+      "min_factor": 17
+    },
+    "last_component": {
+      "d_bits": 14336,
+      "dmin_bits": 13312,
+      "d_binary32_bits": 1056964608,
+      "dmin_binary32_bits": 1048576000,
+      "q": 15,
+      "scale_factor": 5,
+      "min_factor": 17
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "c74230702e2a4689684d2fe9e498da827578f23668eba20d54a39856ce589528",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: source mapping is closed\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SemanticPlan: invalid or overflowing positive shape product\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SemanticPlan: invalid or overflowing positive shape product\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: K-quant row is not block aligned\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: requires Q4_K source kind 12\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "ownership",
+    "source_sha256": "a19b78862f054a9de87d23da530af5bd27d6f91fd2d083b4a66f0d07bd18e1fc",
+    "returncode": 0,
+    "stdout_sha256": "d19b7568e8b912332be3d12a434fa67c5a7b8b97d8ba3a46f744747f962cee58",
+    "stderr": "",
+    "stdout": "owned-q4k-constants-pass\n"
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "3cbb31f198c7bcd19ddf7a135c0ab9ca4d63a061783994e94e87681231d79d0a",
+    "returncode": 0,
+    "stdout_sha256": "94ad10955d66412acf7e266a46373accd26037ddfda23caf6ba9271acbc125a0",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 512,
+        "rows": 8,
+        "source_kind": 12,
+        "byte_count": 2304
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "count": 4096,
+    "component_sha256": "e775450e672468b5191e883f689eae7fbef9a2e4f91544d0cbf602490bd118ef",
+    "first_component": {
+      "d_bits": 13312,
+      "dmin_bits": 12288,
+      "d_binary32_bits": 1048576000,
+      "dmin_binary32_bits": 1040187392,
+      "q": 2,
+      "scale_factor": 43,
+      "min_factor": 61
+    },
+    "last_component": {
+      "d_bits": 13567,
+      "dmin_bits": 12483,
+      "d_binary32_bits": 1050664960,
+      "dmin_binary32_bits": 1041784832,
+      "q": 7,
+      "scale_factor": 56,
+      "min_factor": 33
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "508bcd3057d7dc3fbc54c887c4308a8b98d6cf9f7867b8626e1c04279faf82dc",
+    "returncode": 0,
+    "stdout_sha256": "6676cc7189bbc2155447265725c6704ab72bc908fd4ae407d21a113c13f94300",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 250,
+      "host_window_limit": 4096
+    },
+    "count": 6,
+    "component_sha256": "61e22895117bc0b846b4389d4ab9d35593d484de81c9984b10357d11707cb1de",
+    "first_component": {
+      "d_bits": 14336,
+      "dmin_bits": 13312,
+      "d_binary32_bits": 1056964608,
+      "dmin_binary32_bits": 1048576000,
+      "q": 10,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 14336,
+      "dmin_bits": 13312,
+      "d_binary32_bits": 1056964608,
+      "dmin_binary32_bits": 1048576000,
+      "q": 15,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e22a19f9f9c501f851c1b3eef6692c5f68be696af8cb62a5e8c093a2873fd693",
+    "returncode": 0,
+    "stdout_sha256": "e203393d4816c40d2a6240eac86ccf217a9a52a01141d06ec1fd47230d614d5b",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "99f939465afcf191190e46f8feb19f32ad6a43bc68444a29c764c19aeade643a",
+    "first_component": {
+      "d_bits": 0,
+      "dmin_bits": 65535,
+      "d_binary32_bits": 0,
+      "dmin_binary32_bits": 4294959104,
+      "q": 0,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 0,
+      "dmin_bits": 65535,
+      "d_binary32_bits": 0,
+      "dmin_binary32_bits": 4294959104,
+      "q": 0,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "3d6ebe403a11db94d42eade75156573870d9b8cddd4612d846714cc31bd00d5d",
+    "returncode": 0,
+    "stdout_sha256": "39b5a1caf7e850526eaef42cd7192f9ae83a86e1e3c6d55ac0e3eae3efe8038c",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "8a30f829b2b618f862889d2b57ef5ff6e8856d674420134dea78bba04c5a31de",
+    "first_component": {
+      "d_bits": 32768,
+      "dmin_bits": 32257,
+      "d_binary32_bits": 2147483648,
+      "dmin_binary32_bits": 2143297536,
+      "q": 1,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 32768,
+      "dmin_bits": 32257,
+      "d_binary32_bits": 2147483648,
+      "dmin_binary32_bits": 2143297536,
+      "q": 1,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "90f8a58964e11357ae2b202ae1bd7eb2a2624f1218b963081ecb475a20183e8d",
+    "returncode": 0,
+    "stdout_sha256": "c81017d67f2b7a6e2f742cec39ecaa25cc453997164a447a4abaa6e917bec7d4",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "878cff4512a0005f02208e5d04e311e15390dbef71f1b6471307cdb7eb2219ef",
+    "first_component": {
+      "d_bits": 1,
+      "dmin_bits": 31745,
+      "d_binary32_bits": 864026624,
+      "dmin_binary32_bits": 2139103232,
+      "q": 2,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 1,
+      "dmin_bits": 31745,
+      "d_binary32_bits": 864026624,
+      "dmin_binary32_bits": 2139103232,
+      "q": 2,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9e672e4c1d021cd4f2c58e0d285583056e29f02e5125d44b511a322cc2074606",
+    "returncode": 0,
+    "stdout_sha256": "dfa1d8efde88bce9efa1dd5d19b9c03db2e29c0350ffbc308e15111af196a356",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "fcb7f6db54adc26fbc9b1c3f6b91310e952a94b63059ee3292c98a4ce0574c4b",
+    "first_component": {
+      "d_bits": 1023,
+      "dmin_bits": 64512,
+      "d_binary32_bits": 947896320,
+      "dmin_binary32_bits": 4286578688,
+      "q": 3,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 1023,
+      "dmin_bits": 64512,
+      "d_binary32_bits": 947896320,
+      "dmin_binary32_bits": 4286578688,
+      "q": 3,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "6724bf8e5c568cf30016084871326c8242da2186c5bb0969b5d8a085d82aaecb",
+    "returncode": 0,
+    "stdout_sha256": "5556cce3852520f7b0ca2545784a1c0bf7331c4462a59602cbd310e81912e935",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "4d8bb6dabe2ce320fffb2103a0f957caef85318d58f58ce2e1f602f0186c7163",
+    "first_component": {
+      "d_bits": 1024,
+      "dmin_bits": 31744,
+      "d_binary32_bits": 947912704,
+      "dmin_binary32_bits": 2139095040,
+      "q": 4,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 1024,
+      "dmin_bits": 31744,
+      "d_binary32_bits": 947912704,
+      "dmin_binary32_bits": 2139095040,
+      "q": 4,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5daa1cee71680f76e17bbe580320f19c85d833996c44ee4a14b67abaa9023014",
+    "returncode": 0,
+    "stdout_sha256": "df45f00c3ee7742d45d146f80b12cc44f89c5314a0bb7200b7c4305f4f66b954",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "7034827f3af0f86e5d7a7e7f5748b61fadd590b30226963adf30c9b41c355bab",
+    "first_component": {
+      "d_bits": 31743,
+      "dmin_bits": 31743,
+      "d_binary32_bits": 1199562752,
+      "dmin_binary32_bits": 1199562752,
+      "q": 5,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 31743,
+      "dmin_bits": 31743,
+      "d_binary32_bits": 1199562752,
+      "dmin_binary32_bits": 1199562752,
+      "q": 5,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1f67d2bab2caa597bbf91795eed8becc445aee24bd53097871267c5bfe605ffc",
+    "returncode": 0,
+    "stdout_sha256": "e3340345c60cd2f8d3b51b85ca3cffb4f51981cff25077f4b5e100f75f112231",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "0c7f67e5afda9a78169e6ec5cd1077aee55200025432fbc26d4af4cfe697b2a1",
+    "first_component": {
+      "d_bits": 31744,
+      "dmin_bits": 1024,
+      "d_binary32_bits": 2139095040,
+      "dmin_binary32_bits": 947912704,
+      "q": 6,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 31744,
+      "dmin_bits": 1024,
+      "d_binary32_bits": 2139095040,
+      "dmin_binary32_bits": 947912704,
+      "q": 6,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ffd86c7f565176903266aa74cd4eec9929e5d72a1883307ea205bd69608820e2",
+    "returncode": 0,
+    "stdout_sha256": "c2364479b7f587a6a38d579b0b2855f526255e7fc4cc5e0a43ed03fd48bde52b",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "71eeda00ac24e01a2207ff4af44159929e6d6f0a7185758947fbb29e124302cf",
+    "first_component": {
+      "d_bits": 64512,
+      "dmin_bits": 1023,
+      "d_binary32_bits": 4286578688,
+      "dmin_binary32_bits": 947896320,
+      "q": 7,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 64512,
+      "dmin_bits": 1023,
+      "d_binary32_bits": 4286578688,
+      "dmin_binary32_bits": 947896320,
+      "q": 7,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "74657ac20d07e6598dda6ae7306e5988dbdce1811ea8467e8445dbe45dcdc4ae",
+    "returncode": 0,
+    "stdout_sha256": "29b7d1933ecc43108d2f1a3387447710e6f27be05e99752452f0054ac5e39631",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "c5fb02a2f24e836da47eb68fc1ccfd7105a1ac127addde1846940f2551192e32",
+    "first_component": {
+      "d_bits": 31745,
+      "dmin_bits": 1,
+      "d_binary32_bits": 2139103232,
+      "dmin_binary32_bits": 864026624,
+      "q": 8,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 31745,
+      "dmin_bits": 1,
+      "d_binary32_bits": 2139103232,
+      "dmin_binary32_bits": 864026624,
+      "q": 8,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "86cc20754a0c0efce3425542632e420999edf72644f6de8227459a723ab04ed1",
+    "returncode": 0,
+    "stdout_sha256": "a1471f802ad0b882b58eb7bebae6df8e198774d42db786a684491c3e3badb11f",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "6013c2b57f87a27287cf0181566012c5730943d3385ede32e7bf81af6fbd7a0c",
+    "first_component": {
+      "d_bits": 32257,
+      "dmin_bits": 32768,
+      "d_binary32_bits": 2143297536,
+      "dmin_binary32_bits": 2147483648,
+      "q": 9,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 32257,
+      "dmin_bits": 32768,
+      "d_binary32_bits": 2143297536,
+      "dmin_binary32_bits": 2147483648,
+      "q": 9,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "cb56f3e225408396becaa6324e2929700ac8d1b9baf4178783469af31dd2a910",
+    "returncode": 0,
+    "stdout_sha256": "71304b41f3ae09cb2b139bb44d030b7f98f564ec9ab26a7e0fcad9db7ff67e9f",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_q4k_constant_window",
+      "representation": "source_affine_components",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 1,
+        "source_kind": 12,
+        "byte_count": 144
+      },
+      "first": 255,
+      "host_window_limit": 4096
+    },
+    "count": 1,
+    "component_sha256": "fa3fe96cc29a70e3a24abb8a158e0038c1bce6eea4cd21af899fb238e94e6e01",
+    "first_component": {
+      "d_bits": 65535,
+      "dmin_bits": 0,
+      "d_binary32_bits": 4294959104,
+      "dmin_binary32_bits": 0,
+      "q": 10,
+      "scale_factor": 63,
+      "min_factor": 31
+    },
+    "last_component": {
+      "d_bits": 65535,
+      "dmin_bits": 0,
+      "d_binary32_bits": 4294959104,
+      "dmin_binary32_bits": 0,
+      "q": 10,
+      "scale_factor": 63,
+      "min_factor": 31
+    }
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "1ae8c1db97fb079275e854f4101945735832f7d227e2ce160e28f3efd0c5e007",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: missing tensor missing.weight\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "04057db9c2c87f9ce193fcc095dfd86be703c44c912c2a9578d0d4a33718992c",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: requires Q4_K source kind 12\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "6bdbd025ba19cde01736578387817c81ff88a117d4a050717b4279713835a19b",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: requires Q4_K source kind 12\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "187b040bf6f9008e4919be633140a70e272f990a45ed29107b2688710376fb35",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: requires Q4_K source kind 12\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e28be0d6f01b23c66c24be05d104c3540f6429d35b044d673539611add783383",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: requires Q4_K source kind 12\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e8ccbc2a5789bfae0d435b93c69d6cbaf9efdd62be27bcbc8b076bf1eb5ce411",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceQ4KConstants: requires Q4_K source kind 12\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "599d7f252e7962d6a6f6eb95cb9fe4a0490dcc5146323e1c523d71c7d5c1e2fd",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF is truncated or contains an out-of-range offset\n",
+    "stdout": ""
+  }
+]

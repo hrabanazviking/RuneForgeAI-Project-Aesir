@@ -1,0 +1,13 @@
+{
+  "new_methods": 5,
+  "new_native_calls": 152,
+  "new_accepted": 81,
+  "new_expected_refusals": 71,
+  "complete_new_graph_comparisons": 40,
+  "regression_methods": 94,
+  "regression_native_calls": 2559,
+  "complete_frozen_consumer_comparisons": 108,
+  "total_methods": 99,
+  "total_native_calls": 2711,
+  "device_execution": false
+}

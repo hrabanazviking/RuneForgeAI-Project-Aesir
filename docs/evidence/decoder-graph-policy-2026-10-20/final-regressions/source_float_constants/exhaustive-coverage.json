@@ -1,0 +1,20 @@
+[
+  {
+    "source_kind": 1,
+    "patterns": 65536,
+    "classification_counts": {
+      "finite": 63488,
+      "infinity": 2,
+      "nan": 2046
+    }
+  },
+  {
+    "source_kind": 30,
+    "patterns": 65536,
+    "classification_counts": {
+      "finite": 65280,
+      "infinity": 2,
+      "nan": 254
+    }
+  }
+]

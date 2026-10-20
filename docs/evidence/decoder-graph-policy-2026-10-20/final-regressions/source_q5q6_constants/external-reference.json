@@ -1,0 +1,19 @@
+{
+  "revision": "a05c9922613c6a2230dbb1d0de679519ecafb4f0",
+  "library_sha256": "45bd8cc3f12159e7b219a95d185be74a2ad83789045e6359acf49523aee23328",
+  "checks": [
+    {
+      "kind": 13,
+      "constants": 4096,
+      "exact_binary32_match": true,
+      "bits_sha256": "06d23e266209e2522da833d2d8b0c7ddd968bca52e5820f911ca5a5d0ea4c330"
+    },
+    {
+      "kind": 14,
+      "constants": 4096,
+      "exact_binary32_match": true,
+      "bits_sha256": "b1e973dba3e5ee2ec9fe22db65e181aa14f8d3365d130c9f8c788505c189b06b"
+    }
+  ],
+  "scope": "isolated synthetic static constants; no context, graph, model, backend or forward API"
+}
