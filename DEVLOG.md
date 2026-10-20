@@ -1,3 +1,17 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): tagged ordinary-source storage
+
+- Connected existing GGUF/safetensors readers to owned full-shape/name/path/
+  container/dtype/span catalogs and a native inspector. Original namespaces,
+  axis orders, scalar/empty semantics and safetensors metadata remain explicit.
+- New7 methods/452 native calls pass (367 accept,85 refuse); five regressions
+  add39 methods/888 calls. Complete slice46/1340, including format projection,
+  independent sort/arithmetic, ownership, provenance, bounds/overflow/cleanup.
+- `docs/HAILO10H_MOJO_TAGGED_SOURCE_STORAGE.md` records legacy GGUF parser-work
+  limits, false execution/identity/fit flags and unconnected config/shard/model
+  semantics. Failed compile/argument evidence retained; final builds clean.
+- Continue ordinary config/index/name facts and complete semantic migration,
+  alongside actual numerical Hailo encoding/configuration/placement/execution.
+
 ## 2026-10-20 — Codex (Architect, Cartographer, Scribe): tagged storage implementation contract
 
 - Completed/published exact GGUF source axes at `42f3360`, both remote branches

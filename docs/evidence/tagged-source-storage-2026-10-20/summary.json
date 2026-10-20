@@ -1,0 +1,35 @@
+{
+  "catalog": {
+    "calls": 452,
+    "accepted": 367,
+    "refused": 85
+  },
+  "inventory-regression": {
+    "calls": 16,
+    "accepted": 8,
+    "refused": 8
+  },
+  "shapes-regression": {
+    "calls": 104,
+    "accepted": 56,
+    "refused": 48
+  },
+  "semantic-regression": {
+    "calls": 56,
+    "accepted": 14,
+    "refused": 42
+  },
+  "typed-regression": {
+    "calls": 493,
+    "accepted": 243,
+    "refused": 250
+  },
+  "safetensors-regression": {
+    "calls": 219,
+    "accepted": 109,
+    "refused": 110
+  },
+  "total_calls": 1340,
+  "test_methods": 46,
+  "execution_tested": false
+}

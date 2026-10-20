@@ -1,0 +1,4 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/source_storage.mojo:3:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/source_storage.mojo:63:21: warning: assignment to 'width' was never used; assign to '_' instead?
+        var width = 0
+                    ^

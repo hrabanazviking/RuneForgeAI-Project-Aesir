@@ -1,0 +1,841 @@
+[
+  {
+    "source_sha256": "39ef85b531da39cb6747b118f61a9dac3637919cd43baadd8fbae80b33892d2a",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "4997d528f641213148a610135194e0f47e29c6b492662b0aada9cc9df0246745",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "a848135d52fb7a6e7e60cb027486a0fe6e3323b267b380630ac8deb480ec914a",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "91387e80a1ae78445e177f206d277c140dc88c840c06d693a399960078ccbb0c",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "457a420d47dfeaa2970ef3fb45677fea5124b267bf4adf270f824bf2d399e548",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "5709b9c23e0afb986aab06737bfe71e9b071d839dd60059e1996594d77f55e4e",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "d87ba0cd5dcb52209560da1163d4982567d498ed4929a50b6141f935f59dab0e",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "1128ed40f99e218a0359f499736872b2de032448b47e6fc6daa701df78f384a4",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "9991bda1429808ae34359656867e312b7aeb51df0443ff208cae5606915a3231",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "e34a5ae4fa29310bd9b39f3b8fb2ec81835bb2db3f99ab0f79d619f6f7031ad1",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "9f02199d74f7f96f07935c6b75a173be0ce6b95e9c4e5f08a9e60bd8255711e8",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "9a02c0f17d258affb180d71730a057c4d84aabcfc5ecfa9871c78d868229073a",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[256,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "736255cfff9e3876d42e306122e05fadb0dc59cf1b705791fa214bfa7c8b9f81",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: only dense vectors/matrices supported: a\n"
+  },
+  {
+    "source_sha256": "7323196111d163bf2dc3ae2b5afedaa4fb8408190e286e198581de2babb0f170",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: only dense vectors/matrices supported: a\n"
+  },
+  {
+    "source_sha256": "776493f7b0b694f5524336c277a2c4e11d08c3a4c62864ea964962aaab45e70e",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: only dense vectors/matrices supported: a\n"
+  },
+  {
+    "source_sha256": "96dbc05df608bf55cbb8022f2f632e128cf661f43e7381367f714b68608b3a35",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: only dense vectors/matrices supported: a\n"
+  },
+  {
+    "source_sha256": "a585e2b7ca88715768633982d8ccdbc2e32b1b33e6c919a6f17c0b027deb4738",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: invalid row width\n"
+  },
+  {
+    "source_sha256": "a23a88a734b1ac4f2cb07cb22bc676d283f83b586d47a254c74f71d358fd0b6e",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: invalid row width\n"
+  },
+  {
+    "source_sha256": "7d226fff6dafe06436599b554d55c3df7590bcf95a52a3de389103f89f1b6355",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: invalid tensor extent: a\n"
+  },
+  {
+    "source_sha256": "b1eac4f438a3f186602d8a967702e3b48188a9cb0e8a433930a0d3610ea1432d",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: invalid row width\n"
+  },
+  {
+    "source_sha256": "1520fab1b879e459c92a1291f667cde4bc24b13d4fb231e0f37ebd9410bdcfc5",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: invalid tensor extent: a\n"
+  },
+  {
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF file is smaller than the v3 header\n"
+  },
+  {
+    "source_sha256": "b83633aa785344791618f2fddf131b010ea04912a60430760b070bad293f65bd",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF file is smaller than the v3 header\n"
+  },
+  {
+    "source_sha256": "0791faf34f5dbce0690c7633501376f25bcb4c955dbc63c4e3b69e4404deaaeb",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF file is smaller than the v3 header\n"
+  },
+  {
+    "source_sha256": "6a3f42ddcdcd388d660c5b7276b41ff634b3e79ce1bcf91513dab6e9483da484",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF is truncated or contains an out-of-range offset\n"
+  },
+  {
+    "source_sha256": "b383169931be4b946752beca330c4da67117390fe5db06e5d102fce9f314f8fb",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF is truncated or contains an out-of-range offset\n"
+  },
+  {
+    "source_sha256": "3f1630f5a7dc0878d58dd51db5fb8dd5dea96e781ece4d709a2508888dca3183",
+    "api": null,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: duplicate tensor a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout": "[8]\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout": "[8,1]\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "9eac617c45e3db69143bb570c953766f9cb69c496374d2eecfb66a3775cba3bc",
+    "api": [
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout": "[1,8]\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "ca639d9ab40639b435dcc63384ecfe78556989d0873eb3c33102a3bcb3d47186",
+    "api": [
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout": "[8,3]\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "db6f9504f42f5ae336270ed4ceea06997987663bee25f6e5b9702f60468355cb",
+    "api": [
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: inconsistent source shape a\n"
+  },
+  {
+    "source_sha256": "4ec08b0364e985d9ab5d54e7db526d4e0e678a6e745ebdf63c567d388282a6b9",
+    "api": [
+      "absent",
+      "ownership"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: missing source shape absent\n"
+  },
+  {
+    "source_sha256": "175f346d9c20b620c4308a4ddafc6ddfb33a8551779c509888ec1b45ec6642c9",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector\":[1],\"matrix_one_row\":[1,1],\"matrix_one_column\":[1,1],\"matrix\":[1,3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "09414fe8e3a17b9c587149ca6ef2f33e48b3d12f3da2fc31eff3ed4264812a8e",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector\":[2],\"matrix_one_row\":[2,1],\"matrix_one_column\":[1,2],\"matrix\":[2,3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "85788b43b66b619692b6e03041f2026c1931afe3058a061847aa13fe458b0b99",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector\":[8],\"matrix_one_row\":[8,1],\"matrix_one_column\":[1,8],\"matrix\":[8,3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "c62ba85cbde729489b015254e1d9d80ab1a6551304b6856878898906cb844f13",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector\":[256],\"matrix_one_row\":[256,1],\"matrix_one_column\":[1,256],\"matrix\":[256,3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "fa0146373899dc71209f7a3fc5e227bc771f8e4d5d89f1a00a98ed50a4583121",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"a\":[8],\"b\":[8,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "4165fb311e70d0a5f8a3359a1bf40782d42ac79b9ffed99ca8d35184f3198293",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix1\":[64,2],\"vector_\u00c6sir12\":[13,1],\"vector_\u00c6sir0\":[41,4],\"name\\u0000suffix9\":[28],\"vector_\u00c6sir8\":[12,2],\"quote\\\"\\\\\\u000a14\":[52,2],\"name\\u0000suffix13\":[25,4],\"name\\u0000suffix5\":[21,3],\"\u77e9\u9635\ud83d\ude807\":[57,3],\"vector_\u00c6sir4\":[28,1],\"quote\\\"\\\\\\u000a2\":[42,1],\"quote\\\"\\\\\\u000a10\":[22],\"\u77e9\u9635\ud83d\ude8011\":[18,1],\"\u77e9\u9635\ud83d\ude803\":[55,2],\"quote\\\"\\\\\\u000a6\":[53]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "c74eaa88763108c203cbe7f610e471f404df195f23b540347bf8177c357cf92a",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[3,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "eec79d83934b1d0598a132aedc0e59de5e46c9c9f86e0baf2603adea301950d0",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[45,1],\"quote\\\"\\\\\\u000a2\":[64,3],\"vector_\u00c6sir4\":[57],\"\u77e9\u9635\ud83d\ude803\":[47],\"name\\u0000suffix1\":[23]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "efb989c68eb9f1576a687844068e1e283f05dc2be51962461c6498b41266538a",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix5\":[64],\"quote\\\"\\\\\\u000a2\":[49],\"\u77e9\u9635\ud83d\ude803\":[29],\"vector_\u00c6sir0\":[57,3],\"name\\u0000suffix1\":[63,1],\"vector_\u00c6sir4\":[1],\"quote\\\"\\\\\\u000a6\":[6],\"\u77e9\u9635\ud83d\ude807\":[7]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "5b50c235ea4740598a086f7947b5cb79d96ede5c2c2109cee37d0b10bf103090",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir4\":[57,3],\"quote\\\"\\\\\\u000a2\":[56,2],\"quote\\\"\\\\\\u000a6\":[28],\"\u77e9\u9635\ud83d\ude803\":[40,2],\"vector_\u00c6sir0\":[28],\"name\\u0000suffix1\":[27,3],\"name\\u0000suffix5\":[60]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "82571888f464e84bfd016d6af077a4a84a6051c6beee61cc3f075678ec8b6ca8",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir4\":[30,3],\"name\\u0000suffix9\":[43,4],\"\u77e9\u9635\ud83d\ude803\":[9,1],\"quote\\\"\\\\\\u000a6\":[34,3],\"quote\\\"\\\\\\u000a10\":[10],\"vector_\u00c6sir8\":[44,2],\"\u77e9\u9635\ud83d\ude807\":[23,4],\"\u77e9\u9635\ud83d\ude8011\":[52,4],\"name\\u0000suffix5\":[46,1],\"name\\u0000suffix1\":[22],\"vector_\u00c6sir0\":[60,4],\"quote\\\"\\\\\\u000a2\":[21,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "66a78e7c707ee678e7d8ce20f36b65d1283cc47ae786a212cf1e37f9749608df",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[55,1],\"quote\\\"\\\\\\u000a6\":[38],\"\u77e9\u9635\ud83d\ude8011\":[48,4],\"name\\u0000suffix9\":[24],\"vector_\u00c6sir12\":[45],\"\u77e9\u9635\ud83d\ude807\":[40],\"quote\\\"\\\\\\u000a2\":[46],\"name\\u0000suffix5\":[52,3],\"\u77e9\u9635\ud83d\ude803\":[38,2],\"vector_\u00c6sir4\":[10],\"name\\u0000suffix1\":[39,1],\"vector_\u00c6sir8\":[13,3],\"quote\\\"\\\\\\u000a10\":[62,3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "b49405ac8a657e3e9a4116a9840b556e43f0b28be1b855b8808042933a71e7e6",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"\u77e9\u9635\ud83d\ude803\":[61],\"name\\u0000suffix1\":[59],\"quote\\\"\\\\\\u000a2\":[49,2],\"vector_\u00c6sir0\":[9],\"vector_\u00c6sir4\":[55]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "f82d9aee85259c005af8001646e9a2e1637077a83dcbfb1ad4ee9329d68175fa",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"quote\\\"\\\\\\u000a2\":[57],\"vector_\u00c6sir0\":[11],\"name\\u0000suffix1\":[64],\"\u77e9\u9635\ud83d\ude803\":[45,3],\"vector_\u00c6sir4\":[21]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "b78eb47297bc86b96ffc7eedb763fad6e5f59293935c3a98cbb4e59deac7a951",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix5\":[21],\"vector_\u00c6sir0\":[23],\"\u77e9\u9635\ud83d\ude803\":[4],\"vector_\u00c6sir4\":[30],\"quote\\\"\\\\\\u000a2\":[19],\"name\\u0000suffix1\":[35,4]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "5a55873c1ea90a75301db3750b2cd130bdd1c8ae285cef7baed5edefb2f92fe0",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"\u77e9\u9635\ud83d\ude807\":[7],\"vector_\u00c6sir0\":[53],\"\u77e9\u9635\ud83d\ude803\":[25,1],\"name\\u0000suffix5\":[58,2],\"quote\\\"\\\\\\u000a2\":[40,3],\"vector_\u00c6sir4\":[42,1],\"quote\\\"\\\\\\u000a6\":[54,3],\"name\\u0000suffix1\":[18,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "f9ddbf0ba28b50b05eff28ec2a0de5c77ddfded15e95c25df1a0f2e8bac4b2af",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"quote\\\"\\\\\\u000a6\":[8,2],\"name\\u0000suffix5\":[59,1],\"quote\\\"\\\\\\u000a10\":[8],\"\u77e9\u9635\ud83d\ude8011\":[49],\"quote\\\"\\\\\\u000a2\":[32,4],\"name\\u0000suffix9\":[63],\"vector_\u00c6sir8\":[3,1],\"\u77e9\u9635\ud83d\ude803\":[14],\"name\\u0000suffix1\":[8,3],\"vector_\u00c6sir12\":[54,4],\"vector_\u00c6sir4\":[4,1],\"vector_\u00c6sir0\":[10],\"\u77e9\u9635\ud83d\ude807\":[12,2]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "0f813141a7995c1baed34e6cca64ba4d7ecb98f18f190de3f430b63683f0a12d",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[54],\"name\\u0000suffix1\":[55,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "b6ec4bb038282a2c4b407737d49adc6b117710f40b999003dc727a3924ad002d",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir4\":[5,1],\"quote\\\"\\\\\\u000a2\":[33],\"name\\u0000suffix5\":[59,3],\"vector_\u00c6sir0\":[42,3],\"name\\u0000suffix1\":[37],\"\u77e9\u9635\ud83d\ude803\":[47,2]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "1ff727f7f851824f3b49ee04b053042725c810dd3e19088de7d90127a1c8aeca",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix1\":[33,2],\"vector_\u00c6sir4\":[63],\"vector_\u00c6sir0\":[62,2],\"\u77e9\u9635\ud83d\ude803\":[23,4],\"quote\\\"\\\\\\u000a2\":[47,2]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "51279aa1628b1b29d8e518d47e8890ed0bc6f916eaf19a3124980f36fa8ba9e6",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"\u77e9\u9635\ud83d\ude803\":[5,4],\"quote\\\"\\\\\\u000a2\":[4],\"name\\u0000suffix1\":[25,1],\"quote\\\"\\\\\\u000a6\":[20,4],\"vector_\u00c6sir0\":[43,2],\"vector_\u00c6sir4\":[2,3],\"vector_\u00c6sir8\":[14,3],\"name\\u0000suffix9\":[28,3],\"name\\u0000suffix5\":[44,1],\"\u77e9\u9635\ud83d\ude807\":[57]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "09037260a90c4a7912c2ed36ec960b36cbc1938c86e02c7edebd1354451295dc",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix1\":[60,3],\"vector_\u00c6sir0\":[55,1],\"quote\\\"\\\\\\u000a2\":[6,3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "c4f7e8216159475cd51c5e440c7969d1a8a8ccf0fa2ce87755dcb4dcf5c07ce0",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix9\":[10],\"quote\\\"\\\\\\u000a6\":[27,1],\"vector_\u00c6sir16\":[51,2],\"\u77e9\u9635\ud83d\ude807\":[61,1],\"vector_\u00c6sir8\":[21,2],\"quote\\\"\\\\\\u000a10\":[48],\"name\\u0000suffix5\":[61],\"\u77e9\u9635\ud83d\ude8015\":[53,1],\"quote\\\"\\\\\\u000a14\":[27,1],\"quote\\\"\\\\\\u000a2\":[34,2],\"name\\u0000suffix13\":[23,3],\"name\\u0000suffix1\":[62,4],\"\u77e9\u9635\ud83d\ude8011\":[25],\"vector_\u00c6sir0\":[37],\"\u77e9\u9635\ud83d\ude803\":[45],\"vector_\u00c6sir12\":[42,4],\"vector_\u00c6sir4\":[57]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "33465c1fdf8d0f48011593a94c8cfd07551770466f20521d2a836d35ec58fd2b",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"quote\\\"\\\\\\u000a10\":[8],\"\u77e9\u9635\ud83d\ude803\":[15,3],\"quote\\\"\\\\\\u000a2\":[21,4],\"name\\u0000suffix5\":[31,1],\"name\\u0000suffix1\":[43],\"vector_\u00c6sir8\":[14,4],\"vector_\u00c6sir4\":[36],\"quote\\\"\\\\\\u000a6\":[64],\"\u77e9\u9635\ud83d\ude807\":[64],\"vector_\u00c6sir0\":[6],\"name\\u0000suffix9\":[19]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "08b21c56751fd1920e05c0a4be846150a3ce89918fe953019dd3dfd354764de4",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[50]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "6a3c906d99c1fd19f1d2fe529fb0643a0ac8f9c74465a56027169e96851ebd0c",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"\u77e9\u9635\ud83d\ude807\":[54,4],\"\u77e9\u9635\ud83d\ude803\":[22,1],\"vector_\u00c6sir12\":[57,4],\"quote\\\"\\\\\\u000a6\":[22,3],\"quote\\\"\\\\\\u000a14\":[2],\"quote\\\"\\\\\\u000a10\":[46,4],\"quote\\\"\\\\\\u000a2\":[14],\"name\\u0000suffix9\":[37],\"vector_\u00c6sir4\":[29,1],\"name\\u0000suffix1\":[2],\"vector_\u00c6sir16\":[10],\"\u77e9\u9635\ud83d\ude8011\":[37,2],\"name\\u0000suffix13\":[29],\"vector_\u00c6sir0\":[34,4],\"name\\u0000suffix5\":[24,1],\"\u77e9\u9635\ud83d\ude8015\":[56],\"vector_\u00c6sir8\":[5,2]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "bb44016d7451566b963d2961334fdce82cc808de7eb0ab3f33ffb92f8594a2c4",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix13\":[36],\"name\\u0000suffix9\":[50],\"quote\\\"\\\\\\u000a2\":[55,1],\"vector_\u00c6sir4\":[51,4],\"vector_\u00c6sir12\":[16],\"name\\u0000suffix5\":[63,1],\"quote\\\"\\\\\\u000a6\":[22],\"\u77e9\u9635\ud83d\ude807\":[12],\"\u77e9\u9635\ud83d\ude8011\":[19],\"vector_\u00c6sir0\":[50],\"name\\u0000suffix1\":[1],\"vector_\u00c6sir8\":[53,2],\"\u77e9\u9635\ud83d\ude803\":[61],\"quote\\\"\\\\\\u000a10\":[38,4]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "69896fca9aab5d3815fa24da6ce8659e44484e0bb2e312f3b19a4f23b9db19d7",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir4\":[61,1],\"name\\u0000suffix1\":[19,3],\"vector_\u00c6sir0\":[16,1],\"vector_\u00c6sir12\":[26],\"quote\\\"\\\\\\u000a10\":[24],\"name\\u0000suffix9\":[34],\"\u77e9\u9635\ud83d\ude807\":[57,3],\"\u77e9\u9635\ud83d\ude8015\":[61,1],\"\u77e9\u9635\ud83d\ude8011\":[10,2],\"name\\u0000suffix13\":[24,1],\"name\\u0000suffix5\":[33,1],\"\u77e9\u9635\ud83d\ude803\":[25],\"quote\\\"\\\\\\u000a2\":[34,4],\"quote\\\"\\\\\\u000a14\":[44],\"quote\\\"\\\\\\u000a6\":[16,4],\"vector_\u00c6sir8\":[52,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "ff39e6b47fe761a1b692ecff054e577ab99f9ccee4140151ed293667907fe4d1",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix5\":[41],\"vector_\u00c6sir4\":[1,4],\"name\\u0000suffix1\":[46],\"\u77e9\u9635\ud83d\ude807\":[49,3],\"name\\u0000suffix9\":[6,4],\"vector_\u00c6sir8\":[29,1],\"\u77e9\u9635\ud83d\ude803\":[59,3],\"name\\u0000suffix13\":[26,1],\"vector_\u00c6sir12\":[13,3],\"\u77e9\u9635\ud83d\ude8011\":[3,2],\"vector_\u00c6sir0\":[36],\"quote\\\"\\\\\\u000a10\":[53],\"quote\\\"\\\\\\u000a2\":[13],\"quote\\\"\\\\\\u000a6\":[50]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "da8a9cca6e1c2094576b0f47b1ca9815c6aea4f7829cdb945999e7afe24f273f",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix13\":[22,2],\"\u77e9\u9635\ud83d\ude803\":[43,1],\"\u77e9\u9635\ud83d\ude8011\":[58,3],\"name\\u0000suffix1\":[38],\"\u77e9\u9635\ud83d\ude807\":[15,1],\"quote\\\"\\\\\\u000a10\":[4,1],\"vector_\u00c6sir12\":[34],\"vector_\u00c6sir4\":[31,3],\"name\\u0000suffix5\":[61],\"quote\\\"\\\\\\u000a14\":[47],\"quote\\\"\\\\\\u000a6\":[40,4],\"quote\\\"\\\\\\u000a2\":[14,2],\"vector_\u00c6sir8\":[7],\"name\\u0000suffix9\":[63,1],\"vector_\u00c6sir0\":[38,2]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "31709ec5618ce9c6d4f3469d1211925f9fe60856067bfa835d65ce69dacfcae1",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix1\":[34,2],\"quote\\\"\\\\\\u000a2\":[14],\"vector_\u00c6sir0\":[51]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "f5d68a0a12ac4dc4b7863703fb464df34f4dd8e4e2a715ddcac26c8642f0886f",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[50],\"\u77e9\u9635\ud83d\ude803\":[18,3],\"name\\u0000suffix5\":[48,3],\"quote\\\"\\\\\\u000a2\":[15],\"quote\\\"\\\\\\u000a6\":[58,1],\"vector_\u00c6sir4\":[25,3],\"name\\u0000suffix1\":[11,1]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "e18f343a22a724b4429f8888f663d178558e627fae060a7972b82c56590529d3",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix5\":[64],\"quote\\\"\\\\\\u000a2\":[56],\"vector_\u00c6sir0\":[18,2],\"quote\\\"\\\\\\u000a10\":[52,3],\"name\\u0000suffix9\":[18],\"vector_\u00c6sir8\":[21,4],\"quote\\\"\\\\\\u000a14\":[10,4],\"vector_\u00c6sir4\":[40],\"\u77e9\u9635\ud83d\ude807\":[31],\"name\\u0000suffix13\":[2],\"name\\u0000suffix1\":[7,2],\"\u77e9\u9635\ud83d\ude803\":[40,3],\"quote\\\"\\\\\\u000a6\":[60,1],\"\u77e9\u9635\ud83d\ude8011\":[10],\"vector_\u00c6sir12\":[3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "1abe8dbe4ebd5314162eefc4c167a0f0f7c616f49a66b54fb8a7efae9b341bd1",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[60],\"name\\u0000suffix1\":[33],\"quote\\\"\\\\\\u000a2\":[27,2]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "7fc60dfcbdba97c423d768c1a79e7d45a478ec77050a475a4f1021601e8bcf89",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir12\":[49],\"vector_\u00c6sir16\":[59],\"name\\u0000suffix9\":[48,2],\"vector_\u00c6sir8\":[19,4],\"name\\u0000suffix5\":[16,2],\"vector_\u00c6sir0\":[7,3],\"quote\\\"\\\\\\u000a10\":[23],\"quote\\\"\\\\\\u000a14\":[44,3],\"\u77e9\u9635\ud83d\ude8015\":[57,2],\"quote\\\"\\\\\\u000a6\":[51],\"\u77e9\u9635\ud83d\ude803\":[55,3],\"\u77e9\u9635\ud83d\ude8011\":[60],\"name\\u0000suffix13\":[35,1],\"name\\u0000suffix1\":[63],\"vector_\u00c6sir4\":[53],\"quote\\\"\\\\\\u000a2\":[37],\"\u77e9\u9635\ud83d\ude807\":[52]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "690f51565660e69e38e3cfa505f744663cf9fefd116f3e411d5ae8d4b9e11f37",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix1\":[60],\"name\\u0000suffix5\":[3],\"vector_\u00c6sir0\":[16,3],\"\u77e9\u9635\ud83d\ude803\":[51],\"vector_\u00c6sir4\":[40],\"quote\\\"\\\\\\u000a2\":[34]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "17ff9fc0719e7721b4689fe91b29fbcad0286dcef12630ee9ff249cc9335d026",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir8\":[37],\"quote\\\"\\\\\\u000a6\":[59,4],\"quote\\\"\\\\\\u000a2\":[64,2],\"\u77e9\u9635\ud83d\ude807\":[17,1],\"name\\u0000suffix5\":[26],\"\u77e9\u9635\ud83d\ude803\":[49,2],\"name\\u0000suffix9\":[27,4],\"name\\u0000suffix1\":[47,4],\"vector_\u00c6sir0\":[13,3],\"vector_\u00c6sir4\":[3,3]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "15caef2ec7a350ca89394dd6605e59485154a3f961cbeeb5643532a0001cf2db",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir0\":[37,2]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "53792b4e8855af3ccac64159fe7f1eff4df869daa7b9b791fc99b66d5eaa952c",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"name\\u0000suffix1\":[48,1],\"vector_\u00c6sir4\":[40,1],\"\u77e9\u9635\ud83d\ude807\":[25,1],\"name\\u0000suffix5\":[34,1],\"vector_\u00c6sir0\":[50,4],\"quote\\\"\\\\\\u000a6\":[44],\"\u77e9\u9635\ud83d\ude803\":[46,3],\"quote\\\"\\\\\\u000a2\":[28]}}\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "4e675fcf82104e8f1fe2d513ae074d67b5011fd0ee35718401fcdda8b700f65e",
+    "api": null,
+    "returncode": 0,
+    "stdout": "{\"execution_tested\":false,\"shapes\":{\"vector_\u00c6sir4\":[48],\"name\\u0000suffix5\":[54,2],\"vector_\u00c6sir0\":[42,4],\"name\\u0000suffix1\":[56,1],\"\u77e9\u9635\ud83d\ude807\":[35],\"quote\\\"\\\\\\u000a2\":[29,1],\"name\\u0000suffix9\":[63],\"vector_\u00c6sir8\":[54,4],\"\u77e9\u9635\ud83d\ude803\":[56,4],\"quote\\\"\\\\\\u000a6\":[62]}}\n",
+    "stderr": ""
+  }
+]

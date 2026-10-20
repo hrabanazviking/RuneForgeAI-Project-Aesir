@@ -25,9 +25,11 @@
   `docs/HAILO10H_MOJO_TYPED_DECODER.md`; no model/device execution.
 - [x] Exact declared GGUF source axes retained:28 methods/669 native calls;
   `docs/HAILO10H_MOJO_GGUF_SOURCE_SHAPES.md`. Vectors differ from one-row matrices.
-- [ ] Active: `TASK_hailo10h_tagged_source_storage.md`, tagged full-shape
-  storage/name/file provenance; ordinary config/index facts before safetensors
-  semantic integration; actual numerical encoding/placement/transport stays open.
+- [x] Tagged source storage/name/path/axes/dtype provenance:46 methods/1340
+  native calls; `docs/HAILO10H_MOJO_TAGGED_SOURCE_STORAGE.md`. Metadata only.
+- [ ] Active: `TASK_hailo10h_source_neutral_semantics.md`, ordinary config/index/
+  alias/orientation facts and complete semantic storage migration. Actual
+  numerical encoding/placement/transport remains open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

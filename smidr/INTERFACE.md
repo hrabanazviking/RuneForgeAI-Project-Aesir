@@ -192,3 +192,19 @@ math/session inputs. Existing storage remains GGUF-specific; safetensors dtype
 integers must not be passed as GGUF kinds. The graph and unresolved gates remain
 compatible. Exact independent complete-graph, ownership and regression evidence:
 `docs/HAILO10H_MOJO_TYPED_DECODER.md`.
+
+`source_storage.mojo` exposes owned `SourceStorageTensor` and move-only
+`SourceStorageInventory` with container/dtype tags, original names/paths/full
+axes/order/elements/spans, file/data extents and safetensors metadata.
+`source_storage_bytes(tensor)` checks container-specific byte arithmetic;
+`validate_source_storage(inventory,tensor_bound,rank_bound,work_bound)` checks
+mutable descriptive consistency, sorted spans/coverage and explicit policies.
+`gguf_source_storage(live_source,tensor_bound,rank_bound,work_bound)` projects
+existing descriptors; `read_gguf_source_storage` owns/closes its parser.
+`read_safetensors_source_storage(path,header,tensors,rank,work,depth)` applies
+existing parser policies, then projects copied values after source close.
+New work units are n*(2*ceil(log2(n))+3)+sum(ranks); GGUF parser admission/work
+still occurs before projection. These values are not a file identity, semantic
+alias, physical layout or execution certificate. Existing graph storage remains
+GGUF-specific. Schema, exact cross-format projection/ownership/bounds evidence
+and remaining integration: `docs/HAILO10H_MOJO_TAGGED_SOURCE_STORAGE.md`.

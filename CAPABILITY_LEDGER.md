@@ -3070,3 +3070,19 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Boundary:** current one/two-rank descriptive metadata only, no immutable
   backing-file identity, semantic/physical layout or model execution. Tagged
   storage/config/name integration and numerical Hailo execution remain open.
+
+
+### Tagged ordinary-source storage provenance — 2026-10-20
+
+- **Status:** `verified` as owned tagged file-storage metadata and byte arithmetic.
+- **Owner:** original `smidr/source_storage.mojo`, reuses existing parsers and
+  exact GGUF shape lookup; native inspector consumes the owned projection.
+- **Evidence:** `docs/HAILO10H_MOJO_TAGGED_SOURCE_STORAGE.md`;7 methods/452 calls
+  (367 accept,85 refuse), exact independent per-format fields/bytes, fifty
+  seeded collections, source namespace collision, full axes/scalars/empties,
+  ownership/closed-owner/policy/overflow/span/sort/cleanup. Five regressions pass
+  39 methods/888 calls; full slice46/1340. Final new builds warning-free.
+- **Boundary:** metadata only. GGUF parser admission/work precedes new projection
+  bounds; mutable paths/descriptors are not immutable identity. Complete semantic
+  storage migration/config/index/name/rotary integration, physical encoding and
+  original Hailo model execution remain open toward unchanged broad support.

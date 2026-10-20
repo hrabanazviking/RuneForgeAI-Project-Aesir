@@ -1,0 +1,4 @@
+usage: test_hailo_safetensors_inventory.py [-h] --binary BINARY --api API
+                                           --legacy LEGACY --strace STRACE
+                                           --evidence EVIDENCE
+test_hailo_safetensors_inventory.py: error: the following arguments are required: --legacy

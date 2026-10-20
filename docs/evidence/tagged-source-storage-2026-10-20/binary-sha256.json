@@ -1,0 +1,14 @@
+{
+  "source-storage": "8521b29bfed8df9965272189949283f62ed054fbff7f1521a927a3f8446c53ad",
+  "source-storage-api": "cfc8a598e9fefb931a5910378ba0933ee90048d02c8839a0b2a54f4a7301db63",
+  "tagged-safe-inventory": "b306b3982376571ea2fd5d25ddde43f317f2f987b863fcf696f6de8a8744db3f",
+  "tagged-safe-api": "b6543a53d044ffe94aa15a2ee87b52b347c1a293cffa1e1ee37709d8b530cf78",
+  "gguf-shape-inventory": "5aabdb06b5c37dfb8117e49a9d45da9d55d68d3c89de50104091317839e72583",
+  "gguf-shapes": "704bc37fc56561d1fd68c3fcf41c4b9e955812c6219e7e26e1ad6e9cbcf2a255",
+  "gguf-shapes-api": "9b2565f5ede2aee8e3a90f82dde373143d23fdccfb3f55f802c11426b4882de8",
+  "gguf-shape-semantic": "21e7bbbafc6188fcd749013568ce75b3d38cf53672e63565d9e28872b82cf747",
+  "gguf-shape-typed": "d8386b9f4b7ab3e52671a24b0325a263a83fab4ce8b8d49c81f72f072eeb3120",
+  "gguf-shape-typed-api": "d21a28f19686ea526343fd102e4310961706c11f7a86da38bbdd5cb958a62a34",
+  "safetensors-header-regression": "0041588052b043020243996c7f6583a5dd51928f4f291bc1e60caad64c68bcc9",
+  "semantic-plan-before-typed": "74eea76b3d596f841098ddf04a81f9910bfcc622698fd5e66d71e44dbf1775cd"
+}
