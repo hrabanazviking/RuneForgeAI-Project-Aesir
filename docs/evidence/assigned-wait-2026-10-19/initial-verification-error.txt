@@ -1,0 +1,78 @@
+test_clock_failure_disables_and_joins_before_unwind (__main__.AssignedWait.test_clock_failure_disables_and_joins_before_unwind) ... ERROR
+test_close_failure_after_join_retains_pages_until_file_finalization (__main__.AssignedWait.test_close_failure_after_join_retains_pages_until_file_finalization) ... ERROR
+test_eight_fresh_assigned_channel_timeouts_and_cleanup (__main__.AssignedWait.test_eight_fresh_assigned_channel_timeouts_and_cleanup) ... ERROR
+test_enable_failure_unwinds_armed_interrupt_state (__main__.AssignedWait.test_enable_failure_unwinds_armed_interrupt_state) ... ERROR
+test_first_disable_failure_retries_then_joins_before_cleanup (__main__.AssignedWait.test_first_disable_failure_retries_then_joins_before_cleanup) ... ERROR
+test_persistent_disable_failure_exits_without_unsafe_destructors (__main__.AssignedWait.test_persistent_disable_failure_exits_without_unsafe_destructors) ... ERROR
+
+======================================================================
+ERROR: test_clock_failure_disables_and_joins_before_unwind (__main__.AssignedWait.test_clock_failure_disables_and_joins_before_unwind)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 129, in test_clock_failure_disables_and_joins_before_unwind
+    self.clean("after-clock-failure")
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 95, in clean
+    self.assertEqual(data["owned_mask"].bit_count(), 2)
+                     ~~~~^^^^^^^^^^^^^^
+KeyError: 'owned_mask'
+
+======================================================================
+ERROR: test_close_failure_after_join_retains_pages_until_file_finalization (__main__.AssignedWait.test_close_failure_after_join_retains_pages_until_file_finalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 136, in test_close_failure_after_join_retains_pages_until_file_finalization
+    self.clean("after-close-failure")
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 95, in clean
+    self.assertEqual(data["owned_mask"].bit_count(), 2)
+                     ~~~~^^^^^^^^^^^^^^
+KeyError: 'owned_mask'
+
+======================================================================
+ERROR: test_eight_fresh_assigned_channel_timeouts_and_cleanup (__main__.AssignedWait.test_eight_fresh_assigned_channel_timeouts_and_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 108, in test_eight_fresh_assigned_channel_timeouts_and_cleanup
+    self.clean("normal-" + str(i))
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 95, in clean
+    self.assertEqual(data["owned_mask"].bit_count(), 2)
+                     ~~~~^^^^^^^^^^^^^^
+KeyError: 'owned_mask'
+
+======================================================================
+ERROR: test_enable_failure_unwinds_armed_interrupt_state (__main__.AssignedWait.test_enable_failure_unwinds_armed_interrupt_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 122, in test_enable_failure_unwinds_armed_interrupt_state
+    self.clean("after-enable-failure")
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 95, in clean
+    self.assertEqual(data["owned_mask"].bit_count(), 2)
+                     ~~~~^^^^^^^^^^^^^^
+KeyError: 'owned_mask'
+
+======================================================================
+ERROR: test_first_disable_failure_retries_then_joins_before_cleanup (__main__.AssignedWait.test_first_disable_failure_retries_then_joins_before_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 113, in test_first_disable_failure_retries_then_joins_before_cleanup
+    _, elapsed = self.clean("disable-retry", "inject=ioctl:error=EIO:when=9", attempts=2)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 95, in clean
+    self.assertEqual(data["owned_mask"].bit_count(), 2)
+                     ~~~~^^^^^^^^^^^^^^
+KeyError: 'owned_mask'
+
+======================================================================
+ERROR: test_persistent_disable_failure_exits_without_unsafe_destructors (__main__.AssignedWait.test_persistent_disable_failure_exits_without_unsafe_destructors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 144, in test_persistent_disable_failure_exits_without_unsafe_destructors
+    self.clean("after-disable-terminal")
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_wait.py", line 95, in clean
+    self.assertEqual(data["owned_mask"].bit_count(), 2)
+                     ~~~~^^^^^^^^^^^^^^
+KeyError: 'owned_mask'
+
+----------------------------------------------------------------------
+Ran 6 tests in 4.285s
+
+FAILED (errors=6)

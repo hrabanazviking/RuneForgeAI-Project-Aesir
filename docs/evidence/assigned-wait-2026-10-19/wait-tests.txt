@@ -1,0 +1,11 @@
+test_clock_failure_disables_and_joins_before_unwind (__main__.AssignedWait.test_clock_failure_disables_and_joins_before_unwind) ... ok
+test_close_failure_after_join_retains_pages_until_file_finalization (__main__.AssignedWait.test_close_failure_after_join_retains_pages_until_file_finalization) ... ok
+test_eight_fresh_assigned_channel_timeouts_and_cleanup (__main__.AssignedWait.test_eight_fresh_assigned_channel_timeouts_and_cleanup) ... ok
+test_enable_failure_unwinds_armed_interrupt_state (__main__.AssignedWait.test_enable_failure_unwinds_armed_interrupt_state) ... ok
+test_first_disable_failure_retries_then_joins_before_cleanup (__main__.AssignedWait.test_first_disable_failure_retries_then_joins_before_cleanup) ... ok
+test_persistent_disable_failure_exits_without_unsafe_destructors (__main__.AssignedWait.test_persistent_disable_failure_exits_without_unsafe_destructors) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 4.256s
+
+OK

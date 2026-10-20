@@ -1,0 +1,14 @@
+test_callback_and_visibility_after_join_32_fresh_runs (__main__.BlockingWorker.test_callback_and_visibility_after_join_32_fresh_runs) ... ok
+test_clock_error_keeps_owner_until_rescue_wake_and_join (__main__.BlockingWorker.test_clock_error_keeps_owner_until_rescue_wake_and_join) ... ok
+test_duplicate_start_and_invalid_deadline_preserve_worker (__main__.BlockingWorker.test_duplicate_start_and_invalid_deadline_preserve_worker) ... ok
+test_exception_rescues_blocked_worker_before_scope_exit (__main__.BlockingWorker.test_exception_rescues_blocked_worker_before_scope_exit) ... ok
+test_failed_native_start_closes_pipe_without_live_worker (__main__.BlockingWorker.test_failed_native_start_closes_pipe_without_live_worker) ... ok
+test_installed_pthread_and_time_abi (__main__.BlockingWorker.test_installed_pthread_and_time_abi) ... ok
+test_timeout_retains_live_owner_then_wake_join_and_cleanup (__main__.BlockingWorker.test_timeout_retains_live_owner_then_wake_join_and_cleanup) ... ok
+test_unrecoverable_live_destructor_fails_closed_whole_process (__main__.BlockingWorker.test_unrecoverable_live_destructor_fails_closed_whole_process) ... ok
+test_worker_captures_its_own_syscall_errno (__main__.BlockingWorker.test_worker_captures_its_own_syscall_errno) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.217s
+
+OK

@@ -202,3 +202,14 @@ extracted ABI facts, independently checked with system-header C++ oracle.
 No libc/runtime implementation is copied or translated. Original Mojo callback
 and ownership policy, actual host deadlines and terminal invariant evidence:
 `docs/HAILO10H_MOJO_BOUNDED_WORKER.md`. No device was opened by this proof.
+
+### 2026-10-19 — Assigned interrupt disable/join ownership
+
+Continued previously licensed installed-driver interface study in
+`linux/vdma/ioctl.c` and `vdma.c`: per-file enabled/interrupted masks,
+interruptible wait, disable wakeup and semaphore release during wait. No
+implementation copied or translated. Original Mojo session cancellation uses
+only assigned channel masks and the independently owned pthread worker.
+Actual empty-channel deadlines, retry, terminal invariant and subsequent fresh
+sessions are recorded in `docs/HAILO10H_MOJO_ASSIGNED_WAIT.md`. No DMA launch,
+inference, kernel, firmware, binding or reset operation was performed.
