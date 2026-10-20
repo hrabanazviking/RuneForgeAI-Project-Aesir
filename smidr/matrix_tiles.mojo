@@ -1,8 +1,8 @@
 # Original lazy contraction schedules. No numerical evaluation or device code.
 from smidr.semantic_plan import SemanticPlan, checked_product
-from smidr.source_inventory import SourceTensorBinding
+from smidr.source_inventory import SourceTensorBinding, SourceFileExtent, validate_source_binding, validate_source_weight, validate_source_inventory
 from smidr.storage_estimate import checked_sum, aligned_bytes
-from loader.packed_gguf import packed_row_bytes
+from smidr.source_storage import SourceStorageTensor
 
 
 @fieldwise_init
@@ -27,6 +27,7 @@ struct MatrixSchedule(Copyable, Movable):
     var binding: SourceTensorBinding
     var source_bytes: Int
     var data_offset: Int
+    var storage: SourceStorageTensor
     var input_shape: List[Int]
     var output_shape: List[Int]
     var m: Int
@@ -100,9 +101,10 @@ def validate_matrix_schedule(schedule: MatrixSchedule) raises:
     var b = schedule.binding
     if b.columns != schedule.c or b.rows != schedule.n:
         raise Error("MatrixTiles: source matrix shape mismatch")
-    var source_extent = checked_product(packed_row_bytes(b.source_kind, b.columns), b.rows)
-    if schedule.data_offset < 0 or schedule.data_offset > schedule.source_bytes or b.file_offset < schedule.data_offset or b.file_offset > schedule.source_bytes or b.byte_count != source_extent or b.byte_count > schedule.source_bytes - b.file_offset:
-        raise Error("MatrixTiles: source matrix byte extent mismatch")
+    validate_source_binding(b, schedule.storage,
+        SourceFileExtent(schedule.storage.source_format, schedule.source_bytes, schedule.data_offset))
+    if schedule.storage.source_format == "safetensors" and len(schedule.storage.source_shape) != 2:
+        raise Error("MatrixTiles: matrix source rank required")
     # Prove every relative scalar and assumed dense byte span representable.
     _ = checked_product(checked_product(schedule.m, schedule.c), p.input_width)
     _ = checked_product(checked_product(schedule.n, schedule.c), p.weight_width)
@@ -145,6 +147,7 @@ def matrix_tile_count(schedule: MatrixSchedule) raises -> Int:
 
 def plan_matrix_contraction(plan: SemanticPlan, operation: Int,
                             policy: MatrixTilePolicy) raises -> MatrixSchedule:
+    validate_source_inventory(plan.source)
     if operation < 0 or operation >= len(plan.operations):
         raise Error("MatrixTiles: operation index outside source graph")
     var op = plan.operations[operation].copy()
@@ -164,8 +167,11 @@ def plan_matrix_contraction(plan: SemanticPlan, operation: Int,
     var c = x.shape[len(x.shape) - 1]
     var m = x.elements // c
     var binding = plan.source.bindings[op.weight]
+    validate_source_weight(plan.source, op.weight, c, binding.rows, False)
+    var storage = plan.source.storage[op.weight].copy()
+    var extent = plan.source.files[storage.source_path].copy()
     var schedule = MatrixSchedule(operation, input, op.output, op.weight, binding,
-        plan.source.source_bytes, plan.source.data_offset, x.shape.copy(),
+        extent.source_bytes, extent.data_offset, storage^, x.shape.copy(),
         y.shape.copy(), m, binding.rows, c, policy.copy())
     validate_matrix_schedule(schedule)
     return schedule^

@@ -1,5 +1,6 @@
 # Original source-to-global mathematical IR integration; never execution.
 from std.collections import Dict
+from smidr.source_inventory import validate_source_weight
 from smidr.semantic_plan import SemanticPlan, checked_product
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
 
@@ -77,8 +78,7 @@ struct ExpandedGraph(Movable):
         if name not in self.source.source.bindings:
             raise Error("ExpandedGraph: missing source weight binding")
         var binding = self.source.source.bindings[name]
-        if binding.columns <= 0 or binding.rows <= 0 or binding.file_offset < self.source.source.data_offset or binding.file_offset > self.source.source.source_bytes or binding.byte_count <= 0 or binding.byte_count > self.source.source.source_bytes - binding.file_offset:
-            raise Error("ExpandedGraph: invalid source weight extent")
+        validate_source_weight(self.source.source, name, binding.columns, binding.rows, vector)
         var shape: List[Int]
         if vector:
             if binding.rows != 1:

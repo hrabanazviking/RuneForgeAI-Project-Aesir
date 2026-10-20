@@ -1,0 +1,16 @@
+..F..
+======================================================================
+FAIL: test_native_mutation_refusals_and_returned_ownership (__main__.ExpandedGraph.test_native_mutation_refusals_and_returned_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_expanded_graph.py", line 186, in test_native_mutation_refusals_and_returned_ownership
+    self.assertTrue('ExpandedGraph:' in result.stderr or 'PrimitiveRecipe:' in result.stderr,result.stderr)
+AssertionError: False is not true : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceInventory: logical projection differs from tagged source
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.742s
+
+FAILED (failures=1)
+Native child scopes: {'expanded': 10, 'source': 10, 'recipes': 10, 'api_refusal:bad_output': 1, 'api_refusal:duplicate_output': 1, 'api_refusal:unmapped_input': 1, 'api_refusal:short_index_lifetime': 1, 'api_refusal:index_shape': 1, 'api_refusal:external_domain': 1, 'api_refusal:persistent_lifetime': 1, 'api_refusal:alias_self': 1, 'api_refusal:alias_extent': 1, 'api_refusal:bad_weight': 1, 'api_refusal:weight_extent': 1, 'expanded_repeat': 1}

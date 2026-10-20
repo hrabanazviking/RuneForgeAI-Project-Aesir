@@ -1,0 +1,16 @@
+...F...
+======================================================================
+FAIL: test_malformed_graph_refusals_and_returned_owner (__main__.ExpandedStorage.test_malformed_graph_refusals_and_returned_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_expanded_storage.py", line 164, in test_malformed_graph_refusals_and_returned_owner
+    self.assertTrue(any(prefix in result.stderr for prefix in ('ExpandedStorage:','Packed GGUF:','SemanticPlan:')),result.stderr)
+AssertionError: False is not true : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceInventory: logical projection differs from tagged source
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.789s
+
+FAILED (failures=1)
+Native child scopes: {'expanded_storage': 41, 'expanded_graph': 9, 'api_refusal': 15}

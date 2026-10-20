@@ -1,6 +1,6 @@
 # Original explicit cache address scenario. No allocation, cache data or math.
 from std.collections import Dict
-from loader.packed_gguf import packed_row_bytes
+from smidr.source_inventory import validate_source_inventory, validate_source_weight
 from smidr.semantic_plan import SemanticPlan, checked_product
 from smidr.storage_estimate import checked_sum
 
@@ -64,16 +64,14 @@ def _projection(plan: SemanticPlan, name: String, rows: Int) raises:
         raise Error("CacheLayout: missing consumed source projection binding")
     if not plan.used_weights[name]:
         raise Error("CacheLayout: projection is not marked consumed")
-    var b = plan.source.bindings[name]
-    var bytes = checked_product(packed_row_bytes(b.source_kind, b.columns), b.rows)
-    if b.columns != plan.hidden or b.rows != rows or b.byte_count != bytes or b.file_offset < plan.source.data_offset or b.file_offset > plan.source.source_bytes or b.byte_count > plan.source.source_bytes - b.file_offset:
-        raise Error("CacheLayout: source projection binding shape/extent mismatch")
+    validate_source_weight(plan.source, name, plan.hidden, rows, False)
 
 
 def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises -> CacheLayout:
     _policy(policy)
-    if plan.hidden <= 0 or plan.source.source_bytes <= 0 or plan.source.data_offset < 0 or plan.source.data_offset > plan.source.source_bytes:
-        raise Error("CacheLayout: invalid source inventory extent/dimension")
+    validate_source_inventory(plan.source)
+    if plan.hidden <= 0:
+        raise Error("CacheLayout: invalid source hidden dimension")
     if plan.layers <= 0 or plan.layers > len(plan.tensors) // 2 or len(plan.operations) == 0 or plan.context_capacity <= 0 or plan.query_tokens <= 0 or plan.past_tokens < 0 or plan.past_tokens > plan.context_capacity or plan.query_tokens > plan.context_capacity - plan.past_tokens or plan.heads <= 0 or plan.kv_heads <= 0 or plan.heads % plan.kv_heads != 0:
         raise Error("CacheLayout: invalid source cache/session dimensions")
     var key_elements = checked_product(plan.kv_heads, plan.key_dim)

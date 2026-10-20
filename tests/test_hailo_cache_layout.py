@@ -86,7 +86,7 @@ class CacheAddresses(unittest.TestCase):
     def refused(self,*args,**kwargs):
         result=self.invoke(*args,**kwargs)
         self.assertNotEqual(result.returncode,0);self.assertEqual(result.stdout,'')
-        self.assertTrue(any(s in result.stderr for s in ('CacheLayout:','SemanticPlan:','StorageEstimate:','GGUF')),result.stderr)
+        self.assertTrue(any(s in result.stderr for s in ("SourceInventory:", "CacheLayout:", "SemanticPlan:", "StorageEstimate:", "GGUF")),result.stderr)
 
     def test_exhaustive_small_relative_addresses_with_distinct_dimensions(self):
         for layers,heads,kv,key,value,capacity in ((1,4,2,2,2,16),(2,6,3,4,3,8),(3,3,1,6,1,7),(2,4,4,2,5,6)):
@@ -132,7 +132,7 @@ class CacheAddresses(unittest.TestCase):
         for mode in modes:
             result=self.run_child([self.api,str(path),mode],path,'api_refusal:'+mode)
             self.assertNotEqual(result.returncode,0,mode);self.assertEqual(result.stdout,'')
-            self.assertTrue(any(s in result.stderr for s in ('CacheLayout:','SemanticPlan:','StorageEstimate:','GGUF')),result.stderr)
+            self.assertTrue(any(s in result.stderr for s in ("SourceInventory:", "CacheLayout:", "SemanticPlan:", "StorageEstimate:", "GGUF")),result.stderr)
         result=self.run_child([self.api,str(path),'ownership'],path,'ownership')
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertEqual(result.stdout.strip(),'owned-cache-layout-pass')

@@ -2,7 +2,7 @@
 from smidr.expanded_graph import ExpandedGraph
 from smidr.semantic_plan import checked_product
 from smidr.storage_estimate import aligned_bytes, checked_sum
-from loader.packed_gguf import packed_row_bytes
+from smidr.source_inventory import validate_source_inventory, validate_source_weight
 
 
 @fieldwise_init
@@ -39,8 +39,7 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
         raise Error("ExpandedStorage: missing graph/export")
     if len(graph.source_values) != len(graph.source.tensors) or len(graph.weight_values) != len(graph.source.source.bindings):
         raise Error("ExpandedStorage: incomplete source/constant mapping")
-    if graph.source.source.data_offset < 0 or graph.source.source.data_offset > graph.source.source.source_bytes:
-        raise Error("ExpandedStorage: invalid source extent")
+    validate_source_inventory(graph.source.source)
     var last = List[Int]()
     var produced = List[Bool]()
     var constant_count = 0
@@ -60,10 +59,8 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
             if value.domain != "real" or value.producer != -1 or value.alias_of != -1 or value.source_tensor != -1 or value.source_weight not in graph.weight_values or graph.weight_values[value.source_weight] != i or value.source_weight not in graph.source.source.bindings:
                 raise Error("ExpandedStorage: invalid source constant role/mapping")
             var binding = graph.source.source.bindings[value.source_weight]
-            if binding.file_offset < graph.source.source.data_offset or binding.file_offset > graph.source.source.source_bytes or binding.byte_count <= 0 or binding.byte_count > graph.source.source.source_bytes - binding.file_offset:
-                raise Error("ExpandedStorage: source constant extent is outside source")
-            if checked_product(packed_row_bytes(binding.source_kind, binding.columns), binding.rows) != binding.byte_count:
-                raise Error("ExpandedStorage: source packed byte count mismatch")
+            validate_source_weight(graph.source.source, value.source_weight,
+                binding.columns, binding.rows, len(value.shape) == 1)
             var shape_ok = False
             if len(value.shape) == 1:
                 shape_ok = binding.rows == 1 and value.shape[0] == binding.columns

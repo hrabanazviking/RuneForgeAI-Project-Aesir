@@ -40,9 +40,12 @@
   calls; `docs/HAILO10H_MOJO_SHARD_COLLECTION.md`. Metadata binding only.
 - [x] Ordinary unindexed weight/config loading:62 methods/2299 calls;
   `docs/HAILO10H_MOJO_UNINDEXED_SOURCE.md`. No phantom index or model execution.
-- [ ] Active: `TASK_hailo10h_semantic_storage_migration.md`, complete tagged
-  per-file/full-axis semantic bindings and affected consumers, then exact ordinary
-  config/architecture and actual numerical Hailo execution.
+- [x] Tagged per-file/full-axis bindings across current semantic consumers:
+  94 methods/2559 native calls,108 complete frozen consumer comparisons;
+  `docs/HAILO10H_MOJO_SEMANTIC_STORAGE.md`. Compiler metadata/structure only.
+- [ ] Active: `TASK_hailo10h_ordinary_semantic_adapter.md`, actual ordinary
+  configuration/architecture/alias/rotary facts and native graph adapter, then
+  broad operator coverage and actual numerical Hailo execution.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

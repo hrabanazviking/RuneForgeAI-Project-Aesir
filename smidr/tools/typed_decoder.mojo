@@ -1,9 +1,10 @@
 # Typed mathematical graph inspector; synthetic descriptors, never model math.
 from std.sys import argv
+from smidr.source_storage import SourceStorageTensor
 from std.memory import bitcast
 from smidr.tools.hrpc_device import _uint32
 from loader.packed_gguf import PackedGGUF
-from smidr.source_inventory import SourceTensorInventory, SourceTensorBinding, inventory_from_source
+from smidr.source_inventory import SourceTensorInventory, SourceTensorBinding, SourceFileExtent, inventory_from_source
 from smidr.semantic_plan import (
     DenseDecoderParameters, SemanticPlan, gguf_dense_decoder_parameters,
     build_dense_semantic_plan, checked_product,
@@ -116,13 +117,17 @@ def _inventory(mut inventory: SourceTensorInventory, mode: String) raises:
 def _add(mut s: SourceTensorInventory, name: String, columns: Int, rows: Int) raises:
     var size = checked_product(checked_product(columns, rows), 4)
     s.bindings[name] = SourceTensorBinding(s.source_bytes, columns, rows, 0, size)
+    s.storage[name] = SourceStorageTensor("gguf", 0, name, "synthetic.gguf",
+        [columns, rows], "gguf_fastest_axis_first", columns * rows, s.source_bytes, size)
     s.source_bytes += size
+    s.files["synthetic.gguf"] = SourceFileExtent("gguf", s.source_bytes, 64)
     s.weight_bytes += size
 
 
 def _synthetic() raises -> _Inputs:
     var inventory = SourceTensorInventory()
     inventory.architecture = "llama"
+    inventory.alias_provenance = "explicit synthetic GGUF identity bindings"
     inventory.data_offset = 64
     inventory.source_bytes = 64
     _add(inventory, "token_embd.weight", 8, 10)

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 100 |
+| `verified` | 101 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **145** |
+| **Total** | **146** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3180,3 +3180,20 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   equivalence, physical fit, executable Hailo program or LLM execution claim.
 - **Next acceptance gate:** `TASK_hailo10h_semantic_storage_migration.md`, then
   exact ordinary config/architecture adapters and the actual numerical backend.
+
+
+### AES-SOURCE-007 — Tagged semantic storage and checked operation views
+
+- **Status:** `verified`
+- **Owner:** original SMIÐR tagged source inventory/aliases, per-file extents,
+  source-bound graph/recipe/storage/cache/schedule/live-byte consumers.
+- **Executable evidence:** `docs/HAILO10H_MOJO_SEMANTIC_STORAGE.md` and
+  `docs/evidence/semantic-storage-2026-10-20/`;94 methods/2559 native calls,
+  including312 new-suite calls and108 complete frozen output comparisons.
+- **Evidence boundary:** Owned tagged metadata and compiler structure only;
+  current one/two-axis views, explicit dtype namespaces, real collection inputs
+  and synthetic ordinary operation structures. No complete ordinary architecture
+  adapter, immutable identity, physical placement/fit, numerical device program
+  or LLM execution. Missing formats/ranks/operations remain implementation work.
+- **Next acceptance gate:** `TASK_hailo10h_ordinary_semantic_adapter.md`, broad
+  architecture/modifier semantics and the actual numerical Hailo backend.

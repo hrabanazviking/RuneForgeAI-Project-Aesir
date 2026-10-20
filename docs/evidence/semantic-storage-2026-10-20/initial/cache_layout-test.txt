@@ -1,0 +1,16 @@
+.....F
+======================================================================
+FAIL: test_source_bound_graph_and_returned_layout_refusals (__main__.CacheAddresses.test_source_bound_graph_and_returned_layout_refusals)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_cache_layout.py", line 135, in test_source_bound_graph_and_returned_layout_refusals
+    self.assertTrue(any(s in result.stderr for s in ('CacheLayout:','SemanticPlan:','StorageEstimate:','GGUF')),result.stderr)
+AssertionError: False is not true : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceInventory: logical axes differ from tagged source
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.447s
+
+FAILED (failures=1)
+Native outcomes: {'refused': 49, 'accepted': 17}

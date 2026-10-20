@@ -1,0 +1,18 @@
+..F....
+======================================================================
+FAIL: test_malformed_graph_bindings_and_changed_snapshot (__main__.MatrixTiles.test_malformed_graph_bindings_and_changed_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_matrix_tiles.py", line 155, in test_malformed_graph_bindings_and_changed_snapshot
+    self.refused(self.api_call(mode=mode))
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_matrix_tiles.py", line 65, in refused
+    self.assertTrue(any(prefix in result.stderr for prefix in ("MatrixTiles:", "SemanticPlan:", "StorageEstimate:", "GGUF")), result.stderr)
+AssertionError: False is not true : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceInventory: logical axes differ from tagged source
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 13.329s
+
+FAILED (failures=1)
+Native outcomes: {'accepted': 799, 'refused': 41} coordinate checks: 6672

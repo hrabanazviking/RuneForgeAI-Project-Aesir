@@ -1,0 +1,1666 @@
+[
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "611a515c82547fecd6c0fa7fe5b43d227169c6b5fb899984e5fa1eaab095dea4",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "9a46792a48d8e4282690ec1491211d552e9bb4675c6a7b101f073ed65ad48102",
+    "first_bits": [
+      0,
+      864026624,
+      872415232,
+      876609536
+    ],
+    "last_bits": [
+      973045760,
+      973053952,
+      973062144,
+      973070336
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "71beb2d680b2a32bd5d95b68b17e43a93d4d4bd25688d5b5df150c9c888d577a",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 4096,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "32fb15b1614b175aa267e4c8d115d9fb38547d44ee726e383ddc6dcb784b988e",
+    "first_bits": [
+      973078528,
+      973086720,
+      973094912,
+      973103104
+    ],
+    "last_bits": [
+      1006600192,
+      1006608384,
+      1006616576,
+      1006624768
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "2c72d509e5f90e23241713312be8c657655b72d3378f2a6656f349b5c9ec3488",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 8192,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "0c1c1228097b57cab5594341f29083e68b70abecf76a3f7d5fe77e5e3a52d39d",
+    "first_bits": [
+      1006632960,
+      1006641152,
+      1006649344,
+      1006657536
+    ],
+    "last_bits": [
+      1040154624,
+      1040162816,
+      1040171008,
+      1040179200
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "388d8f423a19b0e51e35e0cc92b64cf5bd35d333a752d4c44027ff10961651b2",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 12288,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "c6e96b6a54e228181b85cceab64455d39ae2b9c84bf6768aec7f2714cd04fb26",
+    "first_bits": [
+      1040187392,
+      1040195584,
+      1040203776,
+      1040211968
+    ],
+    "last_bits": [
+      1073709056,
+      1073717248,
+      1073725440,
+      1073733632
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "56654d0f93e240716e3774d3eb9c46ccdfd585751fda40fc1fbfdbe8496d4ffd",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 16384,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "7e66949d8dcf0db415b38bdf39d02ef95ca9046a47b8008a9802f93e05972408",
+    "first_bits": [
+      1073741824,
+      1073750016,
+      1073758208,
+      1073766400
+    ],
+    "last_bits": [
+      1107263488,
+      1107271680,
+      1107279872,
+      1107288064
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "65feaa3afec41709cae5daf93f3260f4c1728bd99a989df3cf3e5c346bca6ef3",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 20480,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "5499a7e2c7668dc776d7a51c8187954d4758e902289f2820c7e8ac2e0f50e074",
+    "first_bits": [
+      1107296256,
+      1107304448,
+      1107312640,
+      1107320832
+    ],
+    "last_bits": [
+      1140817920,
+      1140826112,
+      1140834304,
+      1140842496
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "6cb0fc97a19b7632acb49a37d3578a50a94d2eaca727288657b05955710ce561",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 24576,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "e5b44882f812a834506cc8803bae4ebcc0288d23bd35df33ca9e951f462458d4",
+    "first_bits": [
+      1140850688,
+      1140858880,
+      1140867072,
+      1140875264
+    ],
+    "last_bits": [
+      1174372352,
+      1174380544,
+      1174388736,
+      1174396928
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "b2efbe032d500946d4b6529cbfe9bfcb17177ce39905577a224dd085a080b0af",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 28672,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "11828a49e0ebf89d2ec3fba6e7d99cc584737efd5902a8ddd4c9f2769caf530d",
+    "first_bits": [
+      1174405120,
+      1174413312,
+      1174421504,
+      1174429696
+    ],
+    "last_bits": [
+      2147450880,
+      2147459072,
+      2147467264,
+      2147475456
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "ed450971be6d618c8386569094501f52fd0eb35a93f300dc5d8be196adf90c47",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 32768,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "a46e9cfe32e7af0d91b8d15baeb8e5717f6d120d32aa136f1a748061af8b82a0",
+    "first_bits": [
+      2147483648,
+      3011510272,
+      3019898880,
+      3024093184
+    ],
+    "last_bits": [
+      3120529408,
+      3120537600,
+      3120545792,
+      3120553984
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "75ca90282c7d997f14e597818d4c2c4cd3b6c81f692b2b8291b1d990d7abfb05",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 36864,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "9b5992009d75a4ee1448f00d1d768f1f16a06c0d21a1c5448e1948f20a0f072b",
+    "first_bits": [
+      3120562176,
+      3120570368,
+      3120578560,
+      3120586752
+    ],
+    "last_bits": [
+      3154083840,
+      3154092032,
+      3154100224,
+      3154108416
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "b59942c33c8204afc1d8132c16e1a9f5fa7f6a85009cef5b9b9bf6d2b581ff4c",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 40960,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "90b43eafafa56541d5e99d7ae4b7abc3fc89d009225adc8488b468a8b162ff15",
+    "first_bits": [
+      3154116608,
+      3154124800,
+      3154132992,
+      3154141184
+    ],
+    "last_bits": [
+      3187638272,
+      3187646464,
+      3187654656,
+      3187662848
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "5a7eed755d9cf703ab5ecf1f0dbd83b131d079a85ca0207a1e166ff1ad884556",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 45056,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "2c2f5664d0f37d5351deb505519bf4c7ccf0548182612e6f984dd0d7b44ccfcb",
+    "first_bits": [
+      3187671040,
+      3187679232,
+      3187687424,
+      3187695616
+    ],
+    "last_bits": [
+      3221192704,
+      3221200896,
+      3221209088,
+      3221217280
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "0b1e3845201abfe07e2138a2ce0ea41a7946bc1681a03298d55e3d6dca81f267",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 49152,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "f3c801791d3fbcfb8038ceb57809fa5b8b584f60caad3a04049eb2b81997da1f",
+    "first_bits": [
+      3221225472,
+      3221233664,
+      3221241856,
+      3221250048
+    ],
+    "last_bits": [
+      3254747136,
+      3254755328,
+      3254763520,
+      3254771712
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "561b7b07209f33c69e020061d7fa54b64e92612e7561eaaeee6a049a25bea622",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 53248,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "f05ba7c88ac67067aea82c68bbd062d78aa908a9a18a00e6f8840ff4746018be",
+    "first_bits": [
+      3254779904,
+      3254788096,
+      3254796288,
+      3254804480
+    ],
+    "last_bits": [
+      3288301568,
+      3288309760,
+      3288317952,
+      3288326144
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "1ff89b43d94e66403148f691a15b4a20ffe0eeafcabb2b2d5693a73982e33a57",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 57344,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "e188bdea0eab9acb1162b353abc04599a00260a180ff84f79000d97faf5c1e59",
+    "first_bits": [
+      3288334336,
+      3288342528,
+      3288350720,
+      3288358912
+    ],
+    "last_bits": [
+      3321856000,
+      3321864192,
+      3321872384,
+      3321880576
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "ccf62344491ced2bbbc4ba93f0f0c035ee6c53dbb67246c168b7a455ea6e2907",
+    "returncode": 0,
+    "stdout_sha256": "18c036c4409cd3dc5f7f5815ee2bf28359e527a2fd42a38bd867317ad25ffcdf",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 1,
+        "byte_count": 131072
+      },
+      "first": 61440,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "a385b841f26a53ba82964edad015fdbec7127201048feb3b81968b50a7e9ce8e",
+    "first_bits": [
+      3321888768,
+      3321896960,
+      3321905152,
+      3321913344
+    ],
+    "last_bits": [
+      4294934528,
+      4294942720,
+      4294950912,
+      4294959104
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "a8362786343368433eecfd31a0f7fe62fdfea9a1aa918ac720365a065b08152d",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "8c4da7af4f869783b47994f2aa9f41ab9e09a1a47e69ad2d85fa8b7f1de4eb65",
+    "first_bits": [
+      0,
+      65536,
+      131072,
+      196608
+    ],
+    "last_bits": [
+      268173312,
+      268238848,
+      268304384,
+      268369920
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "1a70f0b41a18125fdea1fe97a524d46c78a8f56779e24472c7f7a989a53fd36b",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 4096,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "609cea44937207704f173968bb519ed173278746f8a864f4873bea29b2adacee",
+    "first_bits": [
+      268435456,
+      268500992,
+      268566528,
+      268632064
+    ],
+    "last_bits": [
+      536608768,
+      536674304,
+      536739840,
+      536805376
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "03e897c5bb58536b465e92130038e62f7f4bdda96e9d8f4e11746f95186e12ab",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 8192,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "e6f05f87078e6ddc1294c21bedce93d8cac19082b5f2be2d885c312f8a5dea39",
+    "first_bits": [
+      536870912,
+      536936448,
+      537001984,
+      537067520
+    ],
+    "last_bits": [
+      805044224,
+      805109760,
+      805175296,
+      805240832
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "ec60972e0b549e4aee31b89285d28a3364cf56992d76120f95df10256ce72fa7",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 12288,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "4e68f7b36daa403645633179750ba0a48599bb2aa109280fa71c6b694be3c21c",
+    "first_bits": [
+      805306368,
+      805371904,
+      805437440,
+      805502976
+    ],
+    "last_bits": [
+      1073479680,
+      1073545216,
+      1073610752,
+      1073676288
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "85919364460d4c5d51e3b47a0843eb471a5643b9845aa2ffa8abeac364d284f5",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 16384,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "7db4b759ecc8986bdd69a199d0a571fe7004ec1d281e86255b801dd8c8dc6f8f",
+    "first_bits": [
+      1073741824,
+      1073807360,
+      1073872896,
+      1073938432
+    ],
+    "last_bits": [
+      1341915136,
+      1341980672,
+      1342046208,
+      1342111744
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "509e4a7c4a7ca8eafed0caadb410c0ecd68400ea67b2ec5d4e800a62c371bdfd",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 20480,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "ff5f18971c08ef23756bfac4fb676a8b6128a9eb2b8b93692f10c152321071c5",
+    "first_bits": [
+      1342177280,
+      1342242816,
+      1342308352,
+      1342373888
+    ],
+    "last_bits": [
+      1610350592,
+      1610416128,
+      1610481664,
+      1610547200
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "6cee3207dcb33f461453dcf2106f0884ad0ca7d7de8cd8803a5b0024312c6a2b",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 24576,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "0965237d498b7ad40d44a2343d0cea5377f5ab78c180060108b32b681eab81fc",
+    "first_bits": [
+      1610612736,
+      1610678272,
+      1610743808,
+      1610809344
+    ],
+    "last_bits": [
+      1878786048,
+      1878851584,
+      1878917120,
+      1878982656
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "ac68c7ba4e24a5e8c8dce55f3f7d888de30cb074511ea3206f044f694a90001f",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 28672,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "051a76e21172d0a72b1cad7c14745460fde8acd578a058e6382e001bf8adbda8",
+    "first_bits": [
+      1879048192,
+      1879113728,
+      1879179264,
+      1879244800
+    ],
+    "last_bits": [
+      2147221504,
+      2147287040,
+      2147352576,
+      2147418112
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "b07a2807fc17c8c592afd8ac58b2078d853a9591e2d0caccbbe5282e12f64f2f",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 32768,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "5e1a290a29747c323c65cd3240a0d74b2b1d3a5169e98188d5ad1431f41d5c88",
+    "first_bits": [
+      2147483648,
+      2147549184,
+      2147614720,
+      2147680256
+    ],
+    "last_bits": [
+      2415656960,
+      2415722496,
+      2415788032,
+      2415853568
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "6a948e5277885ecee08fd5efd59ee33fd0738b506a2ede2f8f198214acb3857f",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 36864,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "b2bd6fa4a9c1fa482d01c577ebc5a7f546c93d19e89e0461eace9f0651f560e1",
+    "first_bits": [
+      2415919104,
+      2415984640,
+      2416050176,
+      2416115712
+    ],
+    "last_bits": [
+      2684092416,
+      2684157952,
+      2684223488,
+      2684289024
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "d6cd00112cacfaa14f28507cf0d64acc9c4ac07a60444f5aef9e18f2c7f76090",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 40960,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "48ebbb5cad12fbe7e8a050b23e2da7a75e29a02ab78659e0a451d18b22ec1da1",
+    "first_bits": [
+      2684354560,
+      2684420096,
+      2684485632,
+      2684551168
+    ],
+    "last_bits": [
+      2952527872,
+      2952593408,
+      2952658944,
+      2952724480
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "79cf53fca7b4f98c1e4ab6ee3d1caf716166e6bddcc3d225f5350eeee41c5fe7",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 45056,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "b7981f2fc3b40f0b0d1905c03ce958e2763e12f80959875b44a08fa4b3a48899",
+    "first_bits": [
+      2952790016,
+      2952855552,
+      2952921088,
+      2952986624
+    ],
+    "last_bits": [
+      3220963328,
+      3221028864,
+      3221094400,
+      3221159936
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "cb5c30f347fd7accc644cc338431a11fae077a86d0ed8c395bed63f8900afab9",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 49152,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "0af1a08d83e8498ccf5f5b0b2b493d76d329242478ca1bc7e20ab42a53399159",
+    "first_bits": [
+      3221225472,
+      3221291008,
+      3221356544,
+      3221422080
+    ],
+    "last_bits": [
+      3489398784,
+      3489464320,
+      3489529856,
+      3489595392
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "37b23f70bef002d928db2b26bfd6800689c08b6a5f351077fb2676458ca18c85",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 53248,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "f36d616e07149f7c8533ab6d1559ff498b8191d791ba5c8e59be3665c870a053",
+    "first_bits": [
+      3489660928,
+      3489726464,
+      3489792000,
+      3489857536
+    ],
+    "last_bits": [
+      3757834240,
+      3757899776,
+      3757965312,
+      3758030848
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "0b2ec300bf038d676606e5b03a47b7790157563357030d7c34934ea075f27f3e",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 57344,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "881b1ac235505b4d6ad9c4777093ab20875b60aadfef5957d2a68308e84e4a23",
+    "first_bits": [
+      3758096384,
+      3758161920,
+      3758227456,
+      3758292992
+    ],
+    "last_bits": [
+      4026269696,
+      4026335232,
+      4026400768,
+      4026466304
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "9d0402109105bcc8c643543fbe44e75c49e2240200b9b045fa3913ff4e3f79b3",
+    "returncode": 0,
+    "stdout_sha256": "1b5ae50d24eede1e4dc6825474cb02aa3d085a0c9c2c96b50233964dda0f723d",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 256,
+        "rows": 256,
+        "source_kind": 30,
+        "byte_count": 131072
+      },
+      "first": 61440,
+      "host_window_limit": 4096
+    },
+    "element_count": 4096,
+    "bits_le_sha256": "d1a87927b57b9899388034ddf8fd1c375860be8e6335481073b12bee106a04f1",
+    "first_bits": [
+      4026531840,
+      4026597376,
+      4026662912,
+      4026728448
+    ],
+    "last_bits": [
+      4294705152,
+      4294770688,
+      4294836224,
+      4294901760
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "86efda37952894d2742f27468020b7d0b4966ed2319eee0527ab99c1610f5612",
+    "returncode": 0,
+    "stdout_sha256": "2285e3e4bfcfe1747d4e16eeb9831f8498dfd4fdfddc86fcaf9383f9e588daf1",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 16,
+        "rows": 16,
+        "source_kind": 0,
+        "byte_count": 1024
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "element_count": 256,
+    "bits_le_sha256": "169266357fb305728254c6aa96bab115b054acabc7555d6d36bbea16d1dadcc3",
+    "first_bits": [
+      0,
+      2147483648,
+      1,
+      8388607
+    ],
+    "last_bits": [
+      431831048,
+      2376508688,
+      1698636754,
+      9548369
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "49d62d68becd41d659a163436fd5bb19d395ea712808da12726df6c898f24f72",
+    "returncode": 0,
+    "stdout_sha256": "15b3be1ea8b5ddefd82475d99f3d431dbef4dd70cd6946158f53df6f1608e208",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 4,
+        "rows": 3,
+        "source_kind": 1,
+        "byte_count": 24
+      },
+      "first": 3,
+      "host_window_limit": 4096
+    },
+    "element_count": 7,
+    "bits_le_sha256": "ccff52785f56345f6d6330a4b2a2c3cac8f676294437233df62c16b1d21c42db",
+    "first_bits": [
+      947896320,
+      947912704,
+      1065353216,
+      1199562752
+    ],
+    "last_bits": [
+      1199562752,
+      2139095040,
+      2139103232,
+      4286578688
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "49d62d68becd41d659a163436fd5bb19d395ea712808da12726df6c898f24f72",
+    "returncode": 0,
+    "stdout_sha256": "c3320bb5ed3811953f126ad403796ac5c97298de1e65e261196e1b456d1a1ff9",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 4,
+        "rows": 3,
+        "source_kind": 1,
+        "byte_count": 24
+      },
+      "first": 11,
+      "host_window_limit": 4096
+    },
+    "element_count": 1,
+    "bits_le_sha256": "41aaf68ccb5e1ebdee35f751ff95b904858b7c29b048134a78c0dd05baaa151a",
+    "first_bits": [
+      4294959104
+    ],
+    "last_bits": [
+      4294959104
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "c9892872fed3c01ad8baf8f036eaa62ccea199b799e3b928c170d7adf5b52fcd",
+    "returncode": 0,
+    "stdout_sha256": "dc21b5a50c9da5d339c2a373184f6d5fbfd7965648ee945daa22fef74433116b",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 4,
+        "rows": 3,
+        "source_kind": 30,
+        "byte_count": 24
+      },
+      "first": 3,
+      "host_window_limit": 4096
+    },
+    "element_count": 7,
+    "bits_le_sha256": "f963b822141e5745ee6a858665a729bff86ea4adbd9c5fba57319b3db2276727",
+    "first_bits": [
+      67043328,
+      67108864,
+      1006632960,
+      2080309248
+    ],
+    "last_bits": [
+      2080309248,
+      2080374784,
+      2080440320,
+      4227858432
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "c9892872fed3c01ad8baf8f036eaa62ccea199b799e3b928c170d7adf5b52fcd",
+    "returncode": 0,
+    "stdout_sha256": "169c0a9a879656b8a4672a7f989e3ea91fc93340a4514a87c831d1bc8ad8ab6f",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 4,
+        "rows": 3,
+        "source_kind": 30,
+        "byte_count": 24
+      },
+      "first": 11,
+      "host_window_limit": 4096
+    },
+    "element_count": 1,
+    "bits_le_sha256": "b7d1b3a1104cc86b1cea310793cf777002db0517281d135a02de079b0ea87c23",
+    "first_bits": [
+      4294901760
+    ],
+    "last_bits": [
+      4294901760
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "02eb612bbcd79f05bd90f51fee74f7360cc5a853bcea6390be5565be2e9cb5dd",
+    "returncode": 0,
+    "stdout_sha256": "dca8db72c37a0bc7398b9d607560cd9183cefd5156f8296ba01f6435b6a33743",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 1,
+        "rows": 1,
+        "source_kind": 1,
+        "byte_count": 2
+      },
+      "first": 0,
+      "host_window_limit": 4096
+    },
+    "element_count": 1,
+    "bits_le_sha256": "a536cb0f8e707b8bb56629a0ab5ca3bbd72b09bc9b71dd7145710c2a7c3b690b",
+    "first_bits": [
+      1051369472
+    ],
+    "last_bits": [
+      1051369472
+    ]
+  },
+  {
+    "scope": "api_refusal:closed",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: source mapping is closed\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:byte_count",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:offset",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:metadata_offset",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: tensor source extent mismatch\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:negative_shape",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SemanticPlan: invalid or overflowing positive shape product\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:overflow_shape",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SemanticPlan: invalid or overflowing positive shape product\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:kind",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: packed source conversion unresolved for kind 99\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:limit",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:u16_negative",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF contains a negative byte range\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:u16_tail",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF is truncated or contains an out-of-range offset\n",
+    "stdout": ""
+  },
+  {
+    "scope": "api_refusal:u16_closed",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF source is not mapped\n",
+    "stdout": ""
+  },
+  {
+    "scope": "ownership",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 0,
+    "stdout_sha256": "66a72c7825fee926b0ce5f647fe748d85fa199605b31201e32ed137b1134fb32",
+    "stderr": "",
+    "stdout": "owned-source-constants-pass\n"
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 0,
+    "stdout_sha256": "2fc0aaffdf141940af7980b3a46fb29aa2de11fbfbd97cf9cc219caf725fa2aa",
+    "stderr": "",
+    "window": {
+      "schema_version": 1,
+      "scope": "source_floating_constant_window",
+      "representation": "ieee_binary32_bits",
+      "device_weight_format": false,
+      "source_fingerprint_verified": false,
+      "execution_tested": false,
+      "binding": {
+        "file_offset": 192,
+        "columns": 4,
+        "rows": 3,
+        "source_kind": 1,
+        "byte_count": 24
+      },
+      "first": 3,
+      "host_window_limit": 4096
+    },
+    "element_count": 6,
+    "bits_le_sha256": "f46913286d895f62d646314f400fc3d7a543cf34eb4ae56df87f43dc4582a36b",
+    "first_bits": [
+      1065353216,
+      1065353216,
+      1065353216,
+      1065353216
+    ],
+    "last_bits": [
+      1065353216,
+      1065353216,
+      1065353216,
+      1065353216
+    ]
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: invalid element window or explicit host bound\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5261f885dac30c2e382c22cb1b13d50550d552b1170f0be0d2cdf4e996fd7724",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: missing tensor missing.weight\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "5e7e54f0f6d921a871da291b219f7219c6219e9ebb4c82617a7d0e5defd89c60",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: packed source conversion unresolved for kind 12\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e28be0d6f01b23c66c24be05d104c3540f6429d35b044d673539611add783383",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: packed source conversion unresolved for kind 13\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "e8ccbc2a5789bfae0d435b93c69d6cbaf9efdd62be27bcbc8b076bf1eb5ce411",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceFloatConstants: packed source conversion unresolved for kind 14\n",
+    "stdout": ""
+  },
+  {
+    "scope": "constant_window",
+    "source_sha256": "0523b0d6d0b5ea44b4c220ea56fdb150fad17a7a72894425fd2933b6864e1898",
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF is truncated or contains an out-of-range offset\n",
+    "stdout": ""
+  }
+]

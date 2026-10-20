@@ -1,8 +1,8 @@
 # Original source graph construction. No numerical kernels or device program.
 from std.collections import Dict
 from std.math import isfinite
-from loader.packed_gguf import PackedGGUF, packed_row_bytes
-from smidr.source_inventory import SourceTensorInventory, inventory_from_source
+from loader.packed_gguf import PackedGGUF
+from smidr.source_inventory import SourceTensorInventory, inventory_from_source, validate_source_inventory, validate_source_weight
 
 
 def checked_product(a: Int, b: Int) raises -> Int:
@@ -102,12 +102,8 @@ struct SemanticPlan(Movable):
                                           producer, persistent, alias_of))
         return index
 
-    def weight(mut self, name: String, columns: Int, rows: Int = 1) raises:
-        if name not in self.source.bindings:
-            raise Error("SemanticPlan: missing source weight " + name)
-        var binding = self.source.bindings[name]
-        if binding.columns != columns or binding.rows != rows:
-            raise Error("SemanticPlan: source weight shape mismatch " + name)
+    def weight(mut self, name: String, columns: Int, rows: Int = 1, vector: Bool = False) raises:
+        validate_source_weight(self.source, name, columns, rows, vector)
         self.used_weights[name] = True
 
     def emit(mut self, kind: String, name: String, var inputs: List[Int],
@@ -221,24 +217,10 @@ def validate_dense_gguf_inventory(source: SourceTensorInventory) raises:
     """Recheck mutable GGUF descriptors, not backing-file identity or device fit."""
     if source.architecture != "llama":
         raise Error("SemanticPlan: architecture semantic importer unresolved: " + source.architecture)
-    if len(source.bindings) == 0 or source.source_bytes <= 0 or source.data_offset < 0 or source.data_offset > source.source_bytes:
-        raise Error("SemanticPlan: invalid descriptive source extent")
-    var total = 0
-    var starts = List[Int]()
-    var ends = List[Int]()
-    for name in source.bindings:
-        var binding = source.bindings[name]
-        var size = checked_product(packed_row_bytes(binding.source_kind, binding.columns), binding.rows)
-        if binding.file_offset < source.data_offset or binding.file_offset > source.source_bytes or binding.byte_count != size or size > source.source_bytes - binding.file_offset:
-            raise Error("SemanticPlan: source binding shape/byte extent mismatch")
-        if total > 9223372036854775807 - size:
-            raise Error("SemanticPlan: aggregate weight bytes overflow")
-        total += size
-        starts.append(binding.file_offset)
-        ends.append(binding.file_offset + size)
-    if total != source.weight_bytes:
-        raise Error("SemanticPlan: aggregate weight byte count mismatch")
-    _check_disjoint_spans(starts, ends)
+    validate_source_inventory(source)
+    for name in source.storage:
+        if source.storage[name].source_format != "gguf":
+            raise Error("SemanticPlan: ordinary configuration adapter remains unresolved")
 
 
 def validate_dense_decoder_parameters(parameters: DenseDecoderParameters,
@@ -272,7 +254,7 @@ def build_dense_semantic_plan(var source: SourceTensorInventory,
                               parameters: DenseDecoderParameters,
                               query_tokens: Int, past_tokens: Int,
                               context_capacity: Int) raises -> SemanticPlan:
-    """Build the current dense graph from values; storage stays GGUF-specific."""
+    """Build the current dense graph from values; tagged storage is checked before the current GGUF recipe."""
     validate_dense_gguf_inventory(source)
     validate_dense_decoder_parameters(parameters, source, query_tokens, past_tokens, context_capacity)
     var plan = SemanticPlan(source^)
@@ -297,7 +279,7 @@ def build_dense_semantic_plan(var source: SourceTensorInventory,
     var attended_width = checked_product(plan.heads, plan.value_dim)
     var total = past_tokens + query_tokens
     plan.weight("token_embd.weight", plan.hidden, plan.vocabulary)
-    plan.weight("output_norm.weight", plan.hidden)
+    plan.weight("output_norm.weight", plan.hidden, 1, True)
     var output_weight = String("output.weight") if "output.weight" in plan.source.bindings else String("token_embd.weight")
     plan.weight(output_weight, plan.hidden, plan.vocabulary)
     var tokens = plan.tensor("tokens", [query_tokens])
@@ -305,8 +287,8 @@ def build_dense_semantic_plan(var source: SourceTensorInventory,
     var x = plan.emit("embedding_gather", "embedding", [tokens], [query_tokens, plan.hidden], "token_embd.weight")
     for layer in range(plan.layers):
         var p = String("blk.") + String(layer) + "."
-        plan.weight(p + "attn_norm.weight", plan.hidden)
-        plan.weight(p + "ffn_norm.weight", plan.hidden)
+        plan.weight(p + "attn_norm.weight", plan.hidden, 1, True)
+        plan.weight(p + "ffn_norm.weight", plan.hidden, 1, True)
         plan.weight(p + "attn_q.weight", plan.hidden, query_width)
         plan.weight(p + "attn_k.weight", plan.hidden, key_width)
         plan.weight(p + "attn_v.weight", plan.hidden, value_width)

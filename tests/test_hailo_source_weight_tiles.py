@@ -97,7 +97,7 @@ class SourceWeightTiles(unittest.TestCase):
         result = run[0]
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(result.stdout, "")
-        self.assertTrue(any(prefix in result.stderr for prefix in ("SourceWeightTiles:", "MatrixTiles:", "SemanticPlan:", "StorageEstimate:", "GGUF")), result.stderr)
+        self.assertTrue(any(prefix in result.stderr for prefix in ("SourceInventory:", "SourceWeightTiles:", "MatrixTiles:", "SemanticPlan:", "StorageEstimate:", "GGUF")), result.stderr)
 
     def test_all_current_source_kinds_partial_blocks_rows_and_tails(self):
         for kind in (0, 1, 30, 12, 13, 14):

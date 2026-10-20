@@ -1,7 +1,8 @@
 # Test-only structural graph mutations. No tensor payload or numerical model.
 from std.sys import argv
+from smidr.source_storage import SourceStorageTensor
 from smidr.semantic_plan import SemanticPlan, checked_product
-from smidr.source_inventory import SourceTensorInventory, SourceTensorBinding
+from smidr.source_inventory import SourceTensorInventory, SourceTensorBinding, SourceFileExtent
 from smidr.matrix_tiles import MatrixSchedule, MatrixTilePolicy, plan_matrix_contraction
 from smidr.tools.matrix_tiles import describe_matrix_schedule
 
@@ -16,6 +17,10 @@ def _schedule(m: Int, n: Int, c: Int, tm: Int, tn: Int, tc: Int,
         raise Error("MatrixTiles: test source extent overflow")
     source.source_bytes = source.weight_bytes + 64
     source.bindings["weights"] = SourceTensorBinding(64, c, n, 1, source.weight_bytes)
+    source.storage["weights"] = SourceStorageTensor("gguf", 1, "weights", "synthetic.gguf",
+        [c, n], "gguf_fastest_axis_first", c * n, 64, source.weight_bytes)
+    source.files["synthetic.gguf"] = SourceFileExtent("gguf", source.source_bytes, 64)
+    source.alias_provenance = "explicit synthetic matrix identity binding"
     var plan = SemanticPlan(source^)
     var input = plan.tensor("input", [m, c])
     plan.weight("weights", c, n)

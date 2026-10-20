@@ -1,6 +1,7 @@
 # Original source byte streaming. No dequantization, model math or device code.
 from loader.packed_gguf import PackedGGUF, packed_row_bytes
-from smidr.source_inventory import SourceTensorBinding
+from smidr.source_inventory import SourceTensorBinding, SourceFileExtent
+from smidr.source_storage import SourceStorageTensor
 from smidr.semantic_plan import checked_product
 from smidr.storage_estimate import checked_sum
 from smidr.matrix_tiles import MatrixSchedule, matrix_tile
@@ -22,6 +23,8 @@ struct SourceWeightSpan(Copyable, Movable):
 struct SourceWeightTile(Movable):
     var weight_name: String
     var binding: SourceTensorBinding
+    var storage: SourceStorageTensor
+    var extent: SourceFileExtent
     var first_column: Int
     var column_count: Int
     var first_row: Int
@@ -39,9 +42,18 @@ def read_source_weight_tile(source: PackedGGUF, schedule: MatrixSchedule,
     var tile = matrix_tile(schedule, tile_index)
     if host_byte_bound <= 0:
         raise Error("SourceWeightTiles: explicit positive host byte bound required")
-    if Int(source.source.file_size) != schedule.source_bytes or source.data_offset != schedule.data_offset or schedule.weight_name not in source.tensors:
+    var storage = schedule.storage.copy()
+    if storage.source_format != "gguf" or storage.source_path != source.source.file_path:
+        raise Error("SourceWeightTiles: actual GGUF owner/path required for GGUF byte reader")
+    if Int(source.source.file_size) != schedule.source_bytes or source.data_offset != schedule.data_offset or storage.original_name not in source.tensors:
         raise Error("SourceWeightTiles: source mapping/weight differs from schedule")
-    var actual = source.tensors[schedule.weight_name]
+    var axes = source.tensor_shape(storage.original_name)
+    if len(axes) != len(storage.source_shape):
+        raise Error("SourceWeightTiles: live original source rank differs")
+    for i in range(len(axes)):
+        if axes[i] != storage.source_shape[i]:
+            raise Error("SourceWeightTiles: live original source axes differ")
+    var actual = source.tensors[storage.original_name]
     var binding = schedule.binding
     if actual.offset != binding.file_offset or actual.columns != binding.columns or actual.rows != binding.rows or actual.kind != binding.source_kind or actual.byte_count != binding.byte_count:
         raise Error("SourceWeightTiles: live source binding differs from schedule")
@@ -91,5 +103,6 @@ def read_source_weight_tile(source: PackedGGUF, schedule: MatrixSchedule,
             var pair = source.source._read_u16(cursor)
             payload.append(UInt8(pair & 255))
             payload.append(UInt8(pair >> 8))
-    return SourceWeightTile(schedule.weight_name, binding, tile.contraction,
+    return SourceWeightTile(schedule.weight_name, binding, storage^,
+        SourceFileExtent("gguf", schedule.source_bytes, schedule.data_offset), tile.contraction,
         tile.contractions, tile.output, tile.outputs, spans^, payload^)

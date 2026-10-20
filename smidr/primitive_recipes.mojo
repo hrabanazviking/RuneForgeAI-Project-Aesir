@@ -1,8 +1,9 @@
 # Mathematical compiler IR only. No numerical host kernel or device program.
 from std.math import isfinite
+from smidr.source_storage import SourceStorageTensor
 from std.memory import bitcast
 from smidr.semantic_plan import SemanticPlan, checked_product
-from smidr.source_inventory import SourceTensorBinding
+from smidr.source_inventory import SourceTensorBinding, SourceFileExtent, validate_source_weight, validate_source_inventory
 
 
 @fieldwise_init
@@ -28,6 +29,8 @@ struct PrimitiveRecipe(Copyable, Movable):
     var kind: String
     var weight_name: String
     var weight: SourceTensorBinding
+    var weight_storage: SourceStorageTensor
+    var weight_extent: SourceFileExtent
     var divisor: Int
     var epsilon_bits: UInt32
     var runtime_preconditions: List[String]
@@ -43,6 +46,8 @@ struct PrimitiveRecipe(Copyable, Movable):
         self.kind = kind
         self.weight_name = String("")
         self.weight = SourceTensorBinding(0, 0, 0, 0, 0)
+        self.weight_storage = SourceStorageTensor("", 0, "", "", List[Int](), "", 0, 0, 0)
+        self.weight_extent = SourceFileExtent("", 0, 0)
         self.divisor = 0
         self.epsilon_bits = 0
         self.runtime_preconditions = ["finite_inputs"]
@@ -81,6 +86,7 @@ struct PrimitiveRecipes(Movable):
 
 
 def lower_primitive_recipes(plan: SemanticPlan) raises -> PrimitiveRecipes:
+    validate_source_inventory(plan.source)
     var lowered = PrimitiveRecipes()
     for index in range(len(plan.operations)):
         var operation = plan.operations[index].copy()
@@ -111,10 +117,11 @@ def lower_primitive_recipes(plan: SemanticPlan) raises -> PrimitiveRecipes:
             if operation.weight not in plan.source.bindings:
                 raise Error("PrimitiveRecipe: normalization source weight is missing")
             var weight = plan.source.bindings[operation.weight]
-            if weight.columns != width or weight.rows != 1 or weight.file_offset < plan.source.data_offset or weight.file_offset > plan.source.source_bytes or weight.byte_count <= 0 or weight.byte_count > plan.source.source_bytes - weight.file_offset:
-                raise Error("PrimitiveRecipe: normalization source weight shape/extent mismatch")
+            validate_source_weight(plan.source, operation.weight, width, 1, True)
             recipe.weight_name = operation.weight
             recipe.weight = weight
+            recipe.weight_storage = plan.source.storage[operation.weight].copy()
+            recipe.weight_extent = plan.source.files[recipe.weight_storage.source_path].copy()
             recipe.divisor = width
             recipe.epsilon_bits = bitcast[DType.uint32](plan.rms_epsilon)
             var w = recipe.value([width])

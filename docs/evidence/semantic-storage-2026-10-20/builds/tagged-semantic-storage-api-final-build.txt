@@ -1,0 +1,9 @@
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_semantic_storage_api.mojo:36:5: error: function instantiation failed
+def main() raises:
+    ^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_semantic_storage_api.mojo:55:36: note: call expansion failed with parameter value(s): (...)
+            for shard in collection.shards:
+                                   ^
+Mojo/stdlib/std/collections/list.mojo:751:9: note: function instantiation failed
+Mojo/stdlib/std/collections/list.mojo:758:9: note: constraint failed: List iteration requires the element to be `Copyable`.
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to run the pass manager

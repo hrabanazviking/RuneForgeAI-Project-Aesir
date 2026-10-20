@@ -40,3 +40,10 @@ After this binding migration, implement ordinary architecture/config adapters
 from established licensed facts, including all modifiers, and continue actual
 numerical Hailo encoding/configuration/precision/packing/placement/upload/
 activation/results/cleanup. Host graphs and resource fit are not model execution.
+
+2026-10-20 acceptance: the design was published at37fddac before code. All
+current source-bound consumers now use tagged per-file/full-axis checks;26 final
+executables build and94 methods/2559 native calls pass, including108 complete
+frozen output comparisons. Receipt: docs/HAILO10H_MOJO_SEMANTIC_STORAGE.md.
+Next automatic contract: TASK_hailo10h_ordinary_semantic_adapter.md. Broad
+architecture/rank/dtype and numerical Hailo work remains open under the same target.

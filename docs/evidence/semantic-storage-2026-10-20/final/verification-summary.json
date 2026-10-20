@@ -1,0 +1,132 @@
+{
+  "suites": [
+    {
+      "suite": "source_inventory",
+      "methods": 6,
+      "calls": 16,
+      "accepted": 8,
+      "refused": 8,
+      "records": "../semantic-storage-verification/source_inventory/fixture-runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "semantic_plan",
+      "methods": 9,
+      "calls": 56,
+      "accepted": 14,
+      "refused": 42,
+      "records": "../semantic-storage-verification/semantic_plan/fixture-runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "typed_decoder",
+      "methods": 7,
+      "calls": 493,
+      "accepted": 243,
+      "refused": 250,
+      "records": "../semantic-storage-verification/typed_decoder/fixture-runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "storage_estimate",
+      "methods": 7,
+      "calls": 61,
+      "accepted": 32,
+      "refused": 29,
+      "records": "../semantic-storage-verification/storage_estimate/fixture-runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "primitive_recipes",
+      "methods": 7,
+      "calls": 44,
+      "accepted": 27,
+      "refused": 17,
+      "records": "../semantic-storage-verification/primitive_recipes/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "expanded_graph",
+      "methods": 5,
+      "calls": 45,
+      "accepted": 32,
+      "refused": 13,
+      "records": "../semantic-storage-verification/expanded_graph/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "expanded_storage",
+      "methods": 7,
+      "calls": 88,
+      "accepted": 34,
+      "refused": 54,
+      "records": "../semantic-storage-verification/expanded_storage/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "matrix_tiles",
+      "methods": 7,
+      "calls": 860,
+      "accepted": 799,
+      "refused": 61,
+      "records": "../semantic-storage-verification/matrix_tiles/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "source_weight_tiles",
+      "methods": 5,
+      "calls": 286,
+      "accepted": 256,
+      "refused": 30,
+      "records": "../semantic-storage-verification/source_weight_tiles/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "cache_layout",
+      "methods": 6,
+      "calls": 89,
+      "accepted": 18,
+      "refused": 71,
+      "records": "../semantic-storage-verification/cache_layout/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "source_float_constants",
+      "methods": 6,
+      "calls": 64,
+      "accepted": 40,
+      "refused": 24,
+      "records": "../semantic-storage-verification/source_float_constants/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "source_q4k_constants",
+      "methods": 8,
+      "calls": 57,
+      "accepted": 28,
+      "refused": 29,
+      "records": "../semantic-storage-verification/source_q4k_constants/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "source_q5q6_constants",
+      "methods": 7,
+      "calls": 88,
+      "accepted": 40,
+      "refused": 48,
+      "records": "../semantic-storage-verification/source_q5q6_constants/runs.json",
+      "returncode": 0
+    },
+    {
+      "suite": "semantic_storage",
+      "methods": 7,
+      "calls": 312,
+      "accepted": 270,
+      "refused": 42,
+      "records": "../semantic-storage-verification/semantic_storage/runs.json",
+      "returncode": 0
+    }
+  ],
+  "methods": 94,
+  "calls": 2559
+}

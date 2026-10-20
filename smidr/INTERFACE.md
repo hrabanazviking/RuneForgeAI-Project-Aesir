@@ -312,3 +312,26 @@ positive policies and no-payload/no-map fd ownership apply. Shared helpers prese
 indexed API/output; original source namespace is not semantic aliasing. Inspector
 index presence/binding and semantic/identity/fit/execution flags remain false.
 Receipt: `docs/HAILO10H_MOJO_UNINDEXED_SOURCE.md`.
+
+
+Tagged semantic migration: SourceTensorBinding retains its five-integer logical
+projection ABI for compatible GGUF diagnostics and explicitly GGUF static
+readers. It is never a standalone admissible semantic reference. The inventory
+owns storage[canonical_name]:SourceStorageTensor, files[path]:SourceFileExtent
+(source_format,source_bytes,data_offset), alias_provenance and a configurable
+SourceSemanticPolicy(files,tensors,rank,work), defaults4096/1048576/64/134217728.
+append_source_storage consumes explicit complete one-to-one aliases as borrowed
+values and copies original tagged facts; discard its mutable destination after
+any error. validate_source_inventory checks paired keys, per-file bounds/names/
+spans/coverage and totals; validate_source_weight adds operation shape/role;
+validate_source_binding checks one tagged projection/file declaration. Metadata
+work=n*(files+2*ceil(log2(n))+5)+files+sum(ranks). Current operation views are
+rank1/2, positive dimensions; broader views remain work, full source facts stay
+in source_storage. Safetensors vectors and one-row matrices have distinct roles;
+GGUF keeps historical singleton views and exact source axes. Multi-file summary
+data_offset=-1, source_bytes=sum(file sizes), never a flat address space.
+MatrixSchedule, PrimitiveRecipe and SourceWeightTile retain owned tagged
+provenance; live byte access still requires its format-specific actual owner.
+No immutable identity, architecture equivalence, physical fit or execution is
+certified. Inspector: smidr/tools/semantic_storage.mojo. Receipt:
+docs/HAILO10H_MOJO_SEMANTIC_STORAGE.md.

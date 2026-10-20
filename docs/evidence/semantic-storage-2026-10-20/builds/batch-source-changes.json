@@ -1,0 +1,10 @@
+{
+  "smidr/cache_layout.mojo": {
+    "before": "c56a4e2f14b105539670f3c45f8c8f6824ddb56b2915ad7b03e88c9aec6505e2",
+    "after": "9eded6fa92bc5afd7b98d500c6bfaf843f672b6573b984e2a970c5822b90c00a"
+  },
+  "tests/hailo_semantic_storage_api.mojo": {
+    "before": "165673c526957eb5ac3aeb37eec03b028402d549081d5c799402688f899b6c16",
+    "after": "814b5e81d891c1d2f966e119f20626bb12000bd120a7870880d028fa854bb4ef"
+  }
+}

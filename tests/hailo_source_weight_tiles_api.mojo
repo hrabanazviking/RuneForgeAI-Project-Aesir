@@ -22,7 +22,7 @@ def _window(path: String, mode: String) raises -> SourceWeightTile:
     elif mode == "live_data":
         source.data_offset += 1
     elif mode == "live_missing":
-        schedule.weight_name = String("missing")
+        schedule.storage.original_name = String("missing")
     elif mode == "live_offset":
         source.tensors[name].offset += 2
     elif mode == "live_columns":

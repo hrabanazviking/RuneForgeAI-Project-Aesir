@@ -1,0 +1,4 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/cache_layout.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/cache_layout.mojo:67:33: warning: assignment to 'b' was never used; assign to '_' instead?
+    var b = plan.source.bindings[name]
+                                ^

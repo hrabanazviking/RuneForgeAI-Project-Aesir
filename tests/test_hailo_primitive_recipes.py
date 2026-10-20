@@ -223,7 +223,7 @@ class PrimitiveRecipes(unittest.TestCase):
             result=self.run_child([self.api,str(source),mode],source,'api_refusal:'+mode)
             self.assertNotEqual(result.returncode,0)
             self.assertEqual(result.stdout,'')
-            self.assertIn('PrimitiveRecipe:',result.stderr)
+            self.assertTrue(any(prefix in result.stderr for prefix in ("SourceInventory:", "PrimitiveRecipe:")), result.stderr)
         result=self.run_child([self.api,str(source),'ownership'],source,'ownership')
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertEqual(result.stdout.strip(),'owned-recipe-values-pass')

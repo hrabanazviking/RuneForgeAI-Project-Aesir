@@ -62,7 +62,7 @@ class MatrixTiles(unittest.TestCase):
     def refused(self, result):
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(result.stdout, "")
-        self.assertTrue(any(prefix in result.stderr for prefix in ("MatrixTiles:", "SemanticPlan:", "StorageEstimate:", "GGUF")), result.stderr)
+        self.assertTrue(any(prefix in result.stderr for prefix in ("SourceInventory:", "MatrixTiles:", "SemanticPlan:", "StorageEstimate:", "GGUF")), result.stderr)
 
     def api_call(self, dims=(3, 4, 5), tiles=(2, 3, 2), mode="accept", selection="enumerate"):
         return self.invoke([self.api, *map(str, (*dims, *tiles)), mode, selection],

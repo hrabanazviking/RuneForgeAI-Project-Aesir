@@ -1,0 +1,14 @@
+....F..
+======================================================================
+FAIL: test_malformed_source_graph_refusals_and_owned_snapshot (__main__.PrimitiveRecipes.test_malformed_source_graph_refusals_and_owned_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_primitive_recipes.py", line 226, in test_malformed_source_graph_refusals_and_owned_snapshot
+    self.assertIn('PrimitiveRecipe:',result.stderr)
+AssertionError: 'PrimitiveRecipe:' not found in 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical axes differ from tagged source\n'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.795s
+
+FAILED (failures=1)
+Native child scopes: {'recipes': 13, 'source_graph': 13, 'api_refusal:input_count': 1, 'api_refusal:negative_input': 1, 'api_refusal:bad_output': 1, 'api_refusal:forward_input': 1, 'api_refusal:producer_mismatch': 1, 'api_refusal:short_lifetime': 1, 'api_refusal:shape_mismatch': 1, 'api_refusal:wrong_product': 1, 'api_refusal:missing_weight': 1, 'api_refusal:weight_shape': 1}

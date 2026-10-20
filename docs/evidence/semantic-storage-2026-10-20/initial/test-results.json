@@ -1,0 +1,244 @@
+[
+  {
+    "suite": "source_inventory",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_source_inventory.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-source-inventory",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/source_inventory"
+    ]
+  },
+  {
+    "suite": "semantic_plan",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_semantic_plan.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-semantic-plan",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/semantic_plan"
+    ]
+  },
+  {
+    "suite": "typed_decoder",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_typed_decoder.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-semantic-plan",
+      "--baseline",
+      "../semantic-storage-baseline/semantic-plan",
+      "--typed",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-typed-decoder",
+      "--api",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-typed-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/typed_decoder"
+    ]
+  },
+  {
+    "suite": "storage_estimate",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_storage_estimate.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-storage-estimate",
+      "--graph-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-semantic-plan",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-storage-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/storage_estimate"
+    ]
+  },
+  {
+    "suite": "primitive_recipes",
+    "returncode": 1,
+    "command": [
+      "python3",
+      "tests/test_hailo_primitive_recipes.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-primitive-recipes",
+      "--graph-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-semantic-plan",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-primitive-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/primitive_recipes"
+    ]
+  },
+  {
+    "suite": "expanded_graph",
+    "returncode": 1,
+    "command": [
+      "python3",
+      "tests/test_hailo_expanded_graph.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-expanded-graph",
+      "--source-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-semantic-plan",
+      "--recipe-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-primitive-recipes",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-expanded-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/expanded_graph"
+    ]
+  },
+  {
+    "suite": "expanded_storage",
+    "returncode": 1,
+    "command": [
+      "python3",
+      "tests/test_hailo_expanded_storage.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-expanded-storage",
+      "--graph-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-expanded-graph",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-expanded-storage-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/expanded_storage"
+    ]
+  },
+  {
+    "suite": "matrix_tiles",
+    "returncode": 1,
+    "command": [
+      "python3",
+      "tests/test_hailo_matrix_tiles.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-matrix-tiles",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-matrix-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/matrix_tiles"
+    ]
+  },
+  {
+    "suite": "source_weight_tiles",
+    "returncode": 1,
+    "command": [
+      "python3",
+      "tests/test_hailo_source_weight_tiles.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-source-weight-tiles",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-source-weight-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/source_weight_tiles"
+    ]
+  },
+  {
+    "suite": "cache_layout",
+    "returncode": 1,
+    "command": [
+      "python3",
+      "tests/test_hailo_cache_layout.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-cache-layout",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-cache-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/cache_layout"
+    ]
+  },
+  {
+    "suite": "source_float_constants",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_source_float_constants.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-float-constants",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-float-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/source_float_constants"
+    ]
+  },
+  {
+    "suite": "source_q4k_constants",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_source_q4k_constants.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-q4k-constants",
+      "--reference-library",
+      "../ggml-format-study/build/src/libggml-base.so",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-q4k-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/source_q4k_constants"
+    ]
+  },
+  {
+    "suite": "source_q5q6_constants",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_source_q5q6_constants.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-q5q6-constants",
+      "--reference-library",
+      "../ggml-format-study/build/src/libggml-base.so",
+      "--api-binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-q5q6-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/source_q5q6_constants"
+    ]
+  },
+  {
+    "suite": "semantic_storage",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_semantic_storage.py",
+      "--binary",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-semantic-storage",
+      "--api",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final/tagged-semantic-storage-api",
+      "--binaries",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-final",
+      "--baseline",
+      "../semantic-storage-baseline",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/semantic-storage-verification/semantic_storage"
+    ]
+  }
+]

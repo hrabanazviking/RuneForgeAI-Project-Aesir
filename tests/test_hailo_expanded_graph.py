@@ -183,7 +183,7 @@ class ExpandedGraph(unittest.TestCase):
             result=self.run_child([self.api,str(source),mode],source,'api_refusal:'+mode)
             self.assertNotEqual(result.returncode,0,mode)
             self.assertEqual(result.stdout,'')
-            self.assertTrue('ExpandedGraph:' in result.stderr or 'PrimitiveRecipe:' in result.stderr,result.stderr)
+            self.assertTrue(any(prefix in result.stderr for prefix in ("SourceInventory:", "ExpandedGraph:", "PrimitiveRecipe:")), result.stderr)
         result=self.run_child([self.api,str(source),'ownership'],source,'ownership')
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertEqual(result.stdout.strip(),'owned-expanded-graph-pass')
