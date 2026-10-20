@@ -1,0 +1,18 @@
+{
+  "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "license": "HailoRT MIT read before study; interface facts only",
+  "files": [
+    {
+      "path": "hailort/hailort_server/genai/llm/llm_server.cpp",
+      "sha256": "1587b3d52db26720c565b9bbed1d6bd48806cf523070579b81cc6328a69f859d"
+    },
+    {
+      "path": "hailort/libhailort/src/core_op/resource_manager/cache_manager.cpp",
+      "sha256": "41bd26de329fee766d257e63ec02d6120c826850d9c285f585e06e90d35589d8"
+    },
+    {
+      "path": "hailort/libhailort/src/core_op/resource_manager/cache_manager.hpp",
+      "sha256": "922a6c5fadda0d0f39c10dddcb8d09addae979a288e96c99a9ea9e2fac5c7d83"
+    }
+  ]
+}
