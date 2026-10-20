@@ -1,0 +1,9 @@
+{
+  "repository": "HuggingFaceTB/SmolLM3-3B",
+  "revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "license_declaration": "apache-2.0",
+  "license_file_in_pinned_repository": false,
+  "license_review": "Apache-2.0 full terms previously read in the pinned Transformers license; model card declaration reviewed before config/index bodies",
+  "model_card_url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B/resolve/a07cc9a04f16550a088caea529712d1d335b0ac1/README.md",
+  "model_card_sha256": "24f16f90b883af3618425a589783a944356a7fc2e3cfa69b579c9ff06963e178"
+}

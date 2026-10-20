@@ -1,3 +1,17 @@
+## 2026-10-20 — Codex (Researcher, Cartographer, Scribe): ordinary shard-index frontier
+
+- Tagged storage `c7ce976` is published on both branches with46 methods/1340
+  passing calls. Hosted run39425860513 fails historical master compilation;
+  later gates skip. Full numerical model execution remains open.
+- Inspected license declaration before two pinned ordinary JSON metadata files;
+  index326 names/two file labels and config per-layer rotary modifiers are
+  recorded without reading shard payloads or model implementation. Matching
+  weight names do not prove existing recipe equivalence.
+- Audited existing JSON cursor and cap-truncating/byte-character file helpers.
+  Published `TASK_hailo10h_source_index_metadata.md` for a strict owned index
+  reader and bounded regular-file admission before implementation. Continue
+  actual config/shard/semantic and numerical backend work automatically.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): tagged ordinary-source storage
 
 - Connected existing GGUF/safetensors readers to owned full-shape/name/path/

@@ -1,0 +1,39 @@
+{
+  "repository_revision": "a07cc9a04f16550a088caea529712d1d335b0ac1",
+  "tensor_names": 326,
+  "shard_labels": [
+    "model-00001-of-00002.safetensors",
+    "model-00002-of-00002.safetensors"
+  ],
+  "index_metadata": {
+    "total_parameters": 3075098624,
+    "total_size": 6150197248
+  },
+  "numbered_layers": 36,
+  "uniform_suffixes": [
+    "input_layernorm.weight",
+    "mlp.down_proj.weight",
+    "mlp.gate_proj.weight",
+    "mlp.up_proj.weight",
+    "post_attention_layernorm.weight",
+    "self_attn.k_proj.weight",
+    "self_attn.o_proj.weight",
+    "self_attn.q_proj.weight",
+    "self_attn.v_proj.weight"
+  ],
+  "global_names": [
+    "model.embed_tokens.weight",
+    "model.norm.weight"
+  ],
+  "config_model_type": "smollm3",
+  "config_modifier_fields": [
+    "no_rope_layer_interval",
+    "no_rope_layers",
+    "layer_types",
+    "pretraining_tp",
+    "use_cache",
+    "use_sliding_window",
+    "sliding_window"
+  ],
+  "observation": "Python JSON structural inspection only; no native parser/model/device claim"
+}
