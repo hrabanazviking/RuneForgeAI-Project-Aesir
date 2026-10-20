@@ -1,3 +1,18 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original program integrity
+
+- Published exact version-3 checksum ranges and the full unseeded XXH3-64
+  specification contract before original implementation. No external algorithm
+  implementation copied or production hash library dependency introduced.
+- Added bounded byte-window hashing and exact-extent selected-domain validation.
+  Protobuf-only results explicitly leave remaining payload integrity unchecked.
+- Eleven focused methods/2072 native calls pass (1977 accept,95 refuse), with
+  known vectors, pinned isolated oracle, all short/medium lengths, boundaries,
+  8 MiB vectors, limb/carry checks, tampering and signed bounds. Header8/151
+  regression passes. Evidence/failed build history are preserved in the receipt
+  `docs/HAILO10H_MOJO_PROGRAM_INTEGRITY.md`. No device/model operation occurs.
+- Publish and continue owned envelope construction; actual numerical program
+  generation/placement/activation and broad model execution remain open.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original configure RPC
 
 - Added owned action4 configure/stream fields and typed handle/queue replies.

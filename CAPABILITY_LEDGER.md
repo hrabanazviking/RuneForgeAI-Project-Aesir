@@ -2983,3 +2983,17 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Boundary:** no physical handle ownership, program transfer/configure,
   precision/placement, numerical CCWs or hardware execution. Original program
   integrity follows under `TASK_hailo10h_program_integrity.md`.
+
+
+### Original program outer integrity — 2026-10-20
+
+- **Status:** `verified` as host byte-window hashing and selected-domain checking.
+- **Owner:** original `smidr/program_integrity.mojo`; facts published first.
+- **Evidence:** `docs/HAILO10H_MOJO_PROGRAM_INTEGRITY.md`; eleven methods/2072
+  native calls (1977 accept,95 refuse), pinned isolated XXH3 oracle, literal
+  vectors, all small/medium lengths, block/8 MiB/bounds/tamper/ownership checks;
+  independent header regression8/151 passes. No external production hash link.
+- **Boundary:** protobuf-only checks do not verify remaining payload. Neither
+  branch verifies executable metadata, numerical CCWs, device CRC, physical
+  placement/precision, target compatibility or execution. Owned output-envelope
+  connection follows under `TASK_hailo10h_program_envelope.md`.

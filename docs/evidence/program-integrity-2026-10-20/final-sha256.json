@@ -1,0 +1,6 @@
+{
+  "smidr/program_integrity.mojo": "15a02ae565862ef3c07283309504f57f63e1194a5b0922f1a60094a254752795",
+  "smidr/tools/program_integrity.mojo": "3d60dec6ef02ffc6f3287698c19542e3877eb030fbe0e3902c0683a2d83656e7",
+  "tests/test_hailo_program_integrity.py": "f11f13d1f63cc684d7125a564f44836d2a6cef51ab9451037dac204e67a8879a",
+  "../program-integrity": "50ce189c6a6e001dd4441cd7cf3a158d3a6137f819276e7c2649c2f7a84f576b"
+}

@@ -11,7 +11,9 @@
 - [x] Numerical source lead study: LCU/configuration descriptions, no actual ISA.
 - [x] Original configure/stream codec: eight methods/83 calls; program/device
   regressions pass. Host bytes only, no device configuration or model inference.
-- [ ] Active: `TASK_hailo10h_program_integrity.md`, original output checksums.
+- [x] Original outer integrity: eleven methods/2072 native calls; header8/151
+  regression. Selected-domain host checks only, no executable/device claim.
+- [ ] Active: `TASK_hailo10h_program_envelope.md`, owned output construction.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

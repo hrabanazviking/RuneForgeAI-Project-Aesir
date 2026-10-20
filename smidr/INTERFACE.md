@@ -131,3 +131,13 @@ factors and Q6 centered/signed factors retain raw half words and exact binary32
 representation bits. Explicit bounds apply; no floating model math or device
 format/admission is performed. Schema, independent/static-oracle evidence and
 remaining gates: `docs/HAILO10H_MOJO_SOURCE_Q5Q6_CONSTANTS.md`.
+
+`program_integrity.mojo` exposes `xxh3_64_window(data,offset,count,work_bound)`
+for borrowed bounded byte windows and scalar `ProgramIntegrityResult` values
+from `validate_program_integrity(data,host_buffer_limit)`. The latter checks
+exact version-3 section extents and the header-selected protobuf-only or full
+residue checksum. It never authenticates an unselected domain or validates
+executable metadata, numerical CCWs or hardware compatibility. Default unseeded
+XXH3-64 is implemented in Mojo with fixed-size hash state and no external hash
+runtime. Facts, independent vectors/oracle and limitations:
+`docs/HAILO10H_MOJO_PROGRAM_INTEGRITY.md`.
