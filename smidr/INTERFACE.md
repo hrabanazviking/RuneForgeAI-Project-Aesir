@@ -82,3 +82,11 @@ only copied bindings/bits. This is source representation decoding, not device
 precision/packing or numerical inference. Payload rules, exhaustive 16-bit
 pattern evidence and identity/concurrency limits:
 `docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`.
+
+`source_q4k_constants.mojo` exposes move-only `Q4KConstantWindow`, value
+`Q4KConstant`, `read_q4k_constants` over a live PackedGGUF owner and an owned
+path wrapper. Return source d/dmin bits, binary32 representation bits and
+unsigned q/scale/min factors in exact source order under an explicit host bound.
+No floating model arithmetic or device packing is performed. Schema, external
+static reference evidence and remaining identity/device gates:
+`docs/HAILO10H_MOJO_SOURCE_Q4K_CONSTANTS.md`.

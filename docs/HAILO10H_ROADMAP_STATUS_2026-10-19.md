@@ -12,7 +12,7 @@ to resume work on this Pi. Capability claims remain bounded by their receipts.
 
 | Roadmap / branch | Current recorded status |
 |---|---|
-| Hailo-only 200 slices, `docs/cross-cutting-hailo-mission` | Active Pi campaign. Existing implementation receipts covered 133–138 despite unchecked rows. Those rows are reconciled; 139–140 are implemented and physically accepted in this continuation. Next: 141, first-model format and compatibility evidence. |
+| Hailo-only 200 slices, `docs/cross-cutting-hailo-mission` | Active Pi campaign. Existing implementation receipts covered 133–138 despite unchecked rows. Those rows are reconciled; 139–140 are implemented and physically accepted in this continuation. Slice 141 is recorded; catalog selection at 142 is withdrawn. Active work: Mojo source compiler and original program delivery, tracked in `HAILO10H_SOURCE_EXECUTION_PROGRESS.md`. |
 | Historical MIMISBRUNNR | Closed 2026-10-11 after the raw mailbox wall held. Delivered a CPU fallback; that direction is superseded for the current owner-approved Hailo-only mission. Its completion is not Hailo compute completion. |
 | AES500, `docs/cross-cutting-500-slice-roadmap` | Separate broad development backlog. Latest branch head inspected was `e83b00a`, constructor-interface evidence for AES500-003. The file also contains other completed program receipts through the 080 range and pending release/hosted-CI gates; numbering is not a contiguous completion counter. |
 | Speed-lead roadmap | Optional CUDA fixture and numerical/ownership evidence exists. General 2×/3× provider lead, broader runtime admission and production gates remain open. This CUDA program is not the execution target for the Pi campaign. |
@@ -37,9 +37,14 @@ loss, reset and generation after reset. Twelve boundary/lifecycle checks and
 the Mojo exception-cleanup probe pass. Strict word-only recall remains a
 quality limitation and is preserved in the transcript.
 
-Next: continue slices 141–150 with model-format inventory, authoritative
-artifact/license/revision/tokenizer metadata, runtime compatibility, and the
-Hailo operation coverage boundary. Overall campaign release remains open.
+Current continuation (2026-10-20): the fixed source-model objective supersedes
+the earlier catalog-selection sequence. Independent native Mojo control RPC,
+source inventory/semantic graph, numerical recipe IR, expanded storage and
+floating/Q4_K source constant readers now have bounded evidence. Actual device
+precision/layout, numerical CCWs, program delivery/activation and source-model
+execution remain open. Continue `TASK_hailo10h_program_delivery.md`; use
+`HAILO10H_SOURCE_EXECUTION_PROGRESS.md` for the current frontier. Overall
+campaign release remains open.
 
 Hosted integration remains open: the slice-139 push workflow fails in the
 historical master suite because four backend-validation test calls omit the

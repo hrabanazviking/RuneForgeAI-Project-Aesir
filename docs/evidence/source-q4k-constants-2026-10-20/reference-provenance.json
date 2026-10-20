@@ -1,0 +1,24 @@
+{
+  "revision": "a05c9922613c6a2230dbb1d0de679519ecafb4f0",
+  "archive_sha256": "c36f8ae9c99cf933839aff890db7af1ae73baf8d2b34d6cfb7b4c4b030b1be9e",
+  "skipped_nonregular_members": [
+    "ggml-a05c9922613c6a2230dbb1d0de679519ecafb4f0/.pi/SYSTEM.md"
+  ],
+  "purpose": "test-only static Q4_K constant reference, no model inference",
+  "license": "MIT, root LICENSE read before use",
+  "build": {
+    "command": "cmake -DGGML_BUILD_TESTS=OFF -DGGML_BUILD_EXAMPLES=OFF -DGGML_CPU=OFF -DGGML_OPENMP=OFF -DGGML_NATIVE=OFF -DBUILD_SHARED_LIBS=ON; build target ggml-base -j2",
+    "cpu_backend": false,
+    "openmp": false,
+    "tests_examples": false,
+    "external_fetches": false,
+    "compiler": "cc (Debian 12.2.0-14+deb12u1) 12.2.0"
+  },
+  "dependencies": {
+    "ggml-base": "MIT root license retained outside production tree",
+    "system_libc_libm_loader": "installed glibc; LGPL-2.1-or-later and included component notices; distro copyright inspected",
+    "system_libstdc++_libgcc": "installed GCC runtimes; GPL-3 with GCC Runtime Library Exception and component notices; distro copyright inspected",
+    "redistribution": "reference binaries/sources not committed or shipped; synthetic test output/provenance only"
+  },
+  "library_sha256": "45bd8cc3f12159e7b219a95d185be74a2ad83789045e6359acf49523aee23328"
+}

@@ -2807,3 +2807,15 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** no host model arithmetic, source identity certificate, selected
   device weight format or execution. Packed quantized source constants and
   actual compiler/backend/program/hardware gates remain open.
+
+### Packed Q4_K source affine constants — 2026-10-20
+
+- **Status:** `verified` as bounded static source representation decoding.
+- **Owner:** original `smidr/source_q4k_constants.mojo`, schema published first.
+- **Evidence:** `docs/HAILO10H_MOJO_SOURCE_Q4K_CONSTANTS.md`; eight methods/57
+  native calls (28 accepted, 29 refused), all group-factor/nibble values and
+  exact pinned external reference on 4096 synthetic constants; floating-format
+  exhaustive regression passes. Production has no ggml dependency.
+- **Boundary:** no model/layer forward, device precision/layout, source identity
+  certificate or execution. Original numerical CCWs, program delivery and
+  activation remain open; active `TASK_hailo10h_program_delivery.md`.
