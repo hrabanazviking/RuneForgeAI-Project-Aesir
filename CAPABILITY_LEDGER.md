@@ -2727,3 +2727,15 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** first incremental dense-decoder importer, not a permanent
   architecture limit. Layout/RoPE/quantization/numerical recipes, resource
   qualification and executable program generation/execution remain open.
+
+### Checked source-graph storage scenario — 2026-10-19
+
+- **Status:** `verified` for hypothetical host compiler arithmetic only.
+- **Owner:** `smidr/storage_estimate.mojo`; explicit widths/alignment, aggregate
+  device-weight/workspace bytes, budget and provenance required.
+- **Evidence:** `docs/HAILO10H_MOJO_STORAGE_ESTIMATE.md`; seven independent
+  methods/61 native calls, exact brute-force interval oracle and malformed
+  policy/graph/arithmetic refusals. No device or numerical model execution.
+- **Boundary:** the comparison is not hardware fit or inference admission.
+  Actual conversion, precision, placement, physical budget and program costs
+  remain unresolved; all corresponding proof flags remain false.

@@ -26,7 +26,8 @@ verify, publish and advance each bounded work slice.
 | Independent Mojo read-only device round-trip | Verified on Hailo-10H without HailoRT linkage | `HAILO10H_MOJO_NATIVE_RPC.md`; five methods/36 child runs, repeated create/identify/destroy, timeout and failure cleanup with fresh-session recovery. |
 | Source tensor inventory | Verified compiler input snapshot | `HAILO10H_MOJO_SOURCE_INVENTORY.md`; original typed descriptors, exact source extents, no backend registry restriction, UTF-8/NUL preservation; six methods/16 fixture runs, no execution. |
 | Semantic operation graph | Verified compiler structure | `HAILO10H_MOJO_SEMANTIC_PLAN.md`; typed operations, exact source bindings, distinct Q/K/V shapes, residual and persistent-KV lifetimes; nine methods/56 child runs. No numerical lowering or execution. |
-| Storage/resource planning | Next active compiler gate | Apply checked storage/lifetime arithmetic with explicit policy/budget provenance; no assumed device capacity or precision. |
+| Storage arithmetic | Verified hypothetical compiler scenario | `HAILO10H_MOJO_STORAGE_ESTIMATE.md`; explicit policy/budget provenance, alias-aware timeline and overflow checks; seven methods/61 native calls. Not placed memory or hardware fit. |
+| Physical resource placement / numerical lowering | Open | Establish actual widths, layouts, weight conversion, workspace, hardware budgets and program encoding; hypotheses cannot admit inference. |
 | Executable compute-context generation | Open | Learn and emit real operation/configuration/scheduling data, then prove the first operation on hardware. |
 | Source-model execution and architecture breadth | Open | Earn complete model, format, quantization, memory, numerical and lifecycle gates toward the same broad target. |
 

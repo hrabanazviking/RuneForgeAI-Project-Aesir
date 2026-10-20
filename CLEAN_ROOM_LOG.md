@@ -256,3 +256,12 @@ or execution path is used. Original Mojo graph/ownership/lifetime construction
 and independent synthetic structural oracles copy or translate no external
 implementation. No source-model forward or device program is executed.
 Receipt: `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md`.
+
+### 2026-10-19 — Original storage lifetime arithmetic
+
+Original Mojo interval-event accounting consumes the project's typed graph.
+Independent Python brute-force interval scans and test-only native graph
+mutations verify byte arithmetic without external implementation study, model
+forward or device access. Supplied assumptions are labelled hypothetical; no
+precision, available hardware memory or executable program is inferred.
+Receipt: `docs/HAILO10H_MOJO_STORAGE_ESTIMATE.md`.

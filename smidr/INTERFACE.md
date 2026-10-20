@@ -27,3 +27,11 @@ certificates. Do not pass their JSON or legacy COMPUTE_UNKNOWN/SMIDR-CFG
 payloads to a device as compute. Evidence and complete limitations:
 `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` and
 `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md`.
+
+`storage_estimate.mojo` exposes `StorageAssumptions`, `StorageEstimate`, checked
+byte arithmetic and `estimate_storage(plan, policy)`. The policy must explicitly
+supply widths/alignment, aggregate device-weight/workspace bytes, budget and
+provenance. Owning tensors are counted once; persistent aliases own zero bytes.
+The returned timeline/peak is aggregate live byte volume, not a placed arena or
+hardware fit certificate. There is no inference admission or allocation path.
+See `docs/HAILO10H_MOJO_STORAGE_ESTIMATE.md` for exact interpretation and proof.
