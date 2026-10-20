@@ -1,0 +1,53 @@
+[
+  {
+    "source_sha256": "55ccb2210ab54737d486864fb8d1664b65dd979a48782fe8efc8e42d708cc446",
+    "dtype": "F16",
+    "shape": [
+      2,
+      3
+    ],
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F16 shape=2,3 start=108 end=120\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "2285ca8a67077ea30294c16d03802fbf1c64d9219cfcd5f9325bb95e60cdd2fe",
+    "dtype": "BF16",
+    "shape": [
+      2,
+      3
+    ],
+    "returncode": 0,
+    "stdout": "name=legacy dtype=BF16 shape=2,3 start=109 end=121\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "1ca3ad174e4363a75f84576a3606904b7229f8c1715963c1a4aa02aed22e7f50",
+    "dtype": "F32",
+    "shape": [
+      2,
+      3
+    ],
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F32 shape=2,3 start=108 end=132\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "20d1906bf3758ad11759200e602c84b54df8c4e3b5eb32a8da28c92479d71829",
+    "dtype": "F16",
+    "shape": [],
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F16 shape= start=104 end=106\nST-CHECK-DONE\n",
+    "stderr": ""
+  },
+  {
+    "source_sha256": "c2015d9dd9ab6b83d3aa763db398c5f4d53ff0882592d70cf91292d64721a49b",
+    "dtype": "F32",
+    "shape": [
+      0
+    ],
+    "returncode": 0,
+    "stdout": "name=legacy dtype=F32 shape=0 start=105 end=105\nST-CHECK-DONE\n",
+    "stderr": ""
+  }
+]

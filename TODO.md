@@ -27,10 +27,13 @@
   `docs/HAILO10H_MOJO_GGUF_SOURCE_SHAPES.md`. Vectors differ from one-row matrices.
 - [x] Tagged source storage/name/path/axes/dtype provenance:46 methods/1340
   native calls; `docs/HAILO10H_MOJO_TAGGED_SOURCE_STORAGE.md`. Metadata only.
-- [ ] Active: `TASK_hailo10h_source_index_metadata.md`, strict owned ordinary
-  shard-index metadata and bounded file admission. Config/alias/orientation/
-  rotary semantics and complete storage migration follow; actual numerical
-  encoding/placement/transport remains open.
+- [x] Owned ordinary shard-index metadata and exact bounded file admission:
+  37 methods/1289 native calls including rebuilt consumers and5 extra probes;
+  `docs/HAILO10H_MOJO_SOURCE_INDEX.md`. No shard resolution or model execution.
+- [ ] Active: `TASK_hailo10h_source_config_metadata.md`, owned ordinary config
+  raw values without architecture defaults. Shard/name/orientation/rotary
+  semantics and complete storage migration follow; actual numerical encoding/
+  placement/transport remains open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

@@ -1,0 +1,4 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_source_index_api.mojo:6:
+./smidr/source_index.mojo:94:25: warning: assignment to 'raw' was never used; assign to '_' instead?
+        var raw = String("")
+                        ^

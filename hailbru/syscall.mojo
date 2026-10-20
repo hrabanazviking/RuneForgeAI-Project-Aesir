@@ -332,6 +332,31 @@ def os_fd_rdev(arch: String, fd: Int64) raises -> Tuple[UInt32, UInt32]:
     return (major, minor)
 
 
+def os_fd_regular_size(arch: String, fd: Int64) raises -> Int64:
+    """Checked Linux statx TYPE/SIZE for an already opened regular descriptor."""
+    if arch != "aarch64" and arch != "x86_64":
+        raise Error("HailbruError[OsError]: unsupported statx host architecture")
+    var data = List[UInt8](length=256, fill=0)
+    var path: List[Int8] = [0]
+    var result = syscall6(sc_nr(arch, "statx"), fd, Int64(Int(path.unsafe_ptr())),
+                          0x1000, 0x201, Int64(Int(data.unsafe_ptr())), 0)
+    _ = path
+    if result != 0:
+        raise Error("HailbruError[OsError]: statx regular fd failed: " + String(errno_now()))
+    var mask = UInt32(0)
+    var size = UInt64(0)
+    for i in range(4):
+        mask |= UInt32(data[i]) << UInt32(8 * i)
+    var mode = UInt16(data[28]) | (UInt16(data[29]) << 8)
+    for i in range(8):
+        size |= UInt64(data[40 + i]) << UInt64(8 * i)
+    if (mask & 0x201) != 0x201 or (mode & 0xF000) != 0x8000:
+        raise Error("HailbruError[OsError]: regular file with reported size required")
+    if size > UInt64(9223372036854775807):
+        raise Error("HailbruError[OsError]: source size exceeds host range")
+    return Int64(size)
+
+
 def os_readlinkat(
     arch: String,
     path: String,

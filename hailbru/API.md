@@ -219,3 +219,14 @@ not device precision/capability admission. No device/resource owner or submissio
 consumer exists in this codec. Exact evidence and remaining physical gates:
 `docs/HAILO10H_MOJO_CONFIGURE_RPC_CODEC.md`. New error: `BadConfigureRpc`;
 shared framing/protobuf/program-handle/reply errors retain their prior codes.
+
+## Regular source-file size query — 2026-10-20
+
+`syscall.os_fd_regular_size(arch,fd) raises -> Int64` queries an already open
+Linux descriptor with statx TYPE|SIZE. It checks returned mask, regular file
+mode and signed host size range using fixed public UAPI offsets. Runtime arch
+must be `aarch64` or `x86_64`; ARM64 physical file tests are recorded. It does not
+open/close the caller's descriptor or establish immutable identity. SMIÐR's new
+bounded metadata reader consumes it; device queries/ABI remain unchanged.
+Facts/C layout oracle: `docs/HAILO10H_SOURCE_INDEX_READER_DESIGN.md`. Native
+read/fault/cleanup evidence: `docs/HAILO10H_MOJO_SOURCE_INDEX.md`.

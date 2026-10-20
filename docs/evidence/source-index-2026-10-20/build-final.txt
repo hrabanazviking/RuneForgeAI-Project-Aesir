@@ -1,0 +1,10 @@
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/source_index.mojo:4:
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/source_index.mojo:6:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/source_metadata_file.mojo:37:20: error: invalid call to '__gt__': value passed to 'rhs' cannot be converted from 'Int' to 'Int64'
+            if n > want:
+               ~~~~^~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/source_index.mojo:2:
+Mojo/stdlib/std/simd.mojo:1467:1: note: function declared here
+def __gt__(self, rhs: Self) -> Bool    # note - synthetic signature
+^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module

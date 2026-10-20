@@ -1,0 +1,26 @@
+{
+  "index": {
+    "calls": 516,
+    "accepted": 175,
+    "refused": 341
+  },
+  "safetensors-regression": {
+    "calls": 219,
+    "accepted": 109,
+    "refused": 110
+  },
+  "constants-regression": {
+    "calls": 97,
+    "accepted": 77,
+    "refused": 20
+  },
+  "storage-regression": {
+    "calls": 452,
+    "accepted": 367,
+    "refused": 85
+  },
+  "legacy_extra_calls": 5,
+  "total_calls": 1289,
+  "unittest_methods": 37,
+  "execution_tested": false
+}

@@ -1,0 +1,32 @@
+# ARMVEGR shared metadata cursor interface
+
+This section documents the existing `safetensors.mojo` JSON byte cursor and its
+2026-10-20 shared metadata methods. It does not promote historical CPU inference
+or conversion routes to authorized runtime capabilities. Existing CPU inference
+guards remain unchanged; the owner requires all LLM execution on Hailo-10H.
+
+`JsonParser(buf,n,max_depth=64)` borrows exactly n readable bytes. The caller
+must establish the actual extent and keep its owner alive through every cursor
+operation; the untracked pointer does not retain an owning List or mmap. Use
+an explicit owner lifetime extension after the last cursor use when needed.
+Cursor state begins at0. Existing `skip_ws`, `expect`, `parse_string`,
+`parse_int`, `parse_size`, `parse_number_raw`, `skip_value` and their existing
+safetensors grammar/refusals remain unchanged.
+
+New shared methods:
+
+- `peek() raises -> UInt8`: checked0..n cursor lookahead; returns0 at end.
+- `copy_raw_span(first,end) raises -> String`: copies checked[first,end) bytes
+  through strict UTF-8 construction. Empty spans are valid. It does not by
+  itself certify JSON syntax or whole-input validity.
+- `parse_raw_value() raises -> String`: validates/skips one JSON value with
+  depth policy1..64 and copies its exact text, excluding outer whitespace.
+  Nested duplicate keys and malformed strings/numbers/values refuse through
+  the existing grammar. It does not require EOF; the consumer must check it.
+
+Returned strings own storage and survive byte-owner destruction. A whole-document
+consumer must enforce positive byte/work/nesting policies, top-level/schema
+rules and exact trailing-whitespace/EOF handling. Errors from reused grammar
+retain the historical `safetensors:` prefix. SMIÐR's source index is the first
+additional consumer; its borrowed-byte API pins the List through both passes.
+Evidence and limits: `docs/HAILO10H_MOJO_SOURCE_INDEX.md` from repository root.

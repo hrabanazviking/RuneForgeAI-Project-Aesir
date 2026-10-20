@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 94 |
+| `verified` | 95 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **139** |
+| **Total** | **140** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3086,3 +3086,18 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   bounds; mutable paths/descriptors are not immutable identity. Complete semantic
   storage migration/config/index/name/rotary integration, physical encoding and
   original Hailo model execution remain open toward unchanged broad support.
+
+
+### AES-SOURCE-001 — Owned ordinary shard-index metadata
+
+- **Status:** `verified`
+- **Owner:** `smidr/source_index.mojo`, `smidr/source_metadata_file.mojo`;
+  shared bounded JSON cursor and Linux regular-fd size interface.
+- **Executable evidence:** `docs/HAILO10H_MOJO_SOURCE_INDEX.md` and
+  `docs/evidence/source-index-2026-10-20/`;37 methods/1289 native calls,
+  including516 index calls,768 rebuilt consumer calls and5 extra header probes.
+- **Evidence boundary:** Metadata and exact file bytes only, Linux ARM64.
+  No shard resolution, immutable source identity, configuration/architecture
+  equivalence, hardware fit, numerical device program or source-model execution.
+- **Next acceptance gate:** `TASK_hailo10h_source_config_metadata.md`, then
+  checked shard/semantic integration and numerical Hailo backend implementation.

@@ -87,6 +87,32 @@ struct JsonParser:
             return UInt8(0)
         return self.buf.unsafe_offset(self.pos).unsafe_load()
 
+    def peek(self) raises -> UInt8:
+        """Shared bounded cursor lookahead; caller keeps borrowed bytes alive."""
+        if self.n < 0 or self.pos < 0 or self.pos > self.n:
+            raise Error("safetensors: invalid shared JSON cursor position")
+        return self._peek()
+
+    def copy_raw_span(self, first: Int, end: Int) raises -> String:
+        """Copy checked UTF-8 bytes; this method alone does not validate JSON."""
+        if first < 0 or end < first or end > self.n:
+            raise Error("safetensors: invalid raw JSON byte span")
+        var bytes = List[UInt8]()
+        bytes.reserve(end - first)
+        for i in range(first, end):
+            bytes.append(self.buf.unsafe_offset(i).unsafe_load())
+        return String(from_utf8=bytes^)
+
+    def parse_raw_value(mut self) raises -> String:
+        """Validate one bounded JSON value and copy its exact non-outer-WS text."""
+        _ = self.peek()
+        if self.max_depth <= 0 or self.max_depth > 64:
+            raise Error("safetensors: shared JSON depth must be1..64")
+        self.skip_ws()
+        var first = self.pos
+        self.skip_value()
+        return self.copy_raw_span(first, self.pos)
+
     def skip_ws(mut self) raises:
         while self.pos < self.n:
             var c = self._peek()

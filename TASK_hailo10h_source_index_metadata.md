@@ -51,3 +51,8 @@ forward, outside compiler, special conversion, vendor artifact prerequisite,
 guessed register/opcode, device write/reset or firmware/kernel change. Publish
 verified original implementation, then automatically continue configuration,
 shard storage/semantic migration and actual numerical Hailo execution work.
+
+
+Implementation receipt: `docs/HAILO10H_MOJO_SOURCE_INDEX.md`;37 methods/1289
+native calls pass. This bounded index slice is complete; model execution remains
+open. Next: `TASK_hailo10h_source_config_metadata.md`.

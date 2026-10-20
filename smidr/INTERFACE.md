@@ -208,3 +208,23 @@ still occurs before projection. These values are not a file identity, semantic
 alias, physical layout or execution certificate. Existing graph storage remains
 GGUF-specific. Schema, exact cross-format projection/ownership/bounds evidence
 and remaining integration: `docs/HAILO10H_MOJO_TAGGED_SOURCE_STORAGE.md`.
+
+`source_metadata_file.read_source_metadata_bytes(path,byte_bound)` returns an
+owned exact byte list from a read-only/nonblocking regular Linux file. One fd
+is used for initial size, short-read loop/one-byte lookahead and final size;
+oversize, early EOF, extra bytes, errors and changed extent refuse with cleanup.
+It does not mmap or authenticate same-size concurrent rewrites.
+
+`source_index.mojo` exposes owned `SourceIndexPolicy(bytes,tensors,fields,work,depth)`
+and move-only `SourceShardIndex`: source path/extent, original weight_map labels,
+raw validated metadata/unknown-root JSON values, metadata presence, declared
+integer total_size (or-1 absent), and policy usage. `parse_source_index(data,policy)`
+borrows bounded bytes and returns independent values with an empty source path;
+`read_source_index(path,policy)` uses the exact file reader and attaches the path.
+Policies are positive, depth at most64. Work units are4*input bytes plus root,
+direct metadata and weight-map members. A complete JSON/duplicate/depth/EOF pass
+precedes schema-count checks; byte/work admission precedes both passes.
+Labels are strings and are never opened/resolved. No architecture, shape,
+immutable identity, hardware fit or execution follows from index metadata.
+Shared cursor ownership contract: `armvegr/INTERFACE.md`. Full independent
+boundary evidence: `docs/HAILO10H_MOJO_SOURCE_INDEX.md`.

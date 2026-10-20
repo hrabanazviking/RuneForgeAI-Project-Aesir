@@ -1,3 +1,20 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): owned ordinary index
+
+- Implemented original Mojo shard-index metadata and exact bounded regular-file
+  reads through the published JSON cursor and syscall interfaces. Preserves
+  names/labels/raw metadata without opening shard labels or guessing semantics.
+- Ten new methods/516 native calls pass; rebuilt consumers and5 extra header
+  commands bring the slice to37 methods/1289 calls. All failed initial compiles
+  and harness assertions remain recorded, including raw-pointer owner lifetime.
+- Final new builds are warning-free; historical header warning is retained.
+  Consistency checker reports534 issues, byte-identical to clean c491733
+  baseline output before documentation/staging. Staged native JSON receipts add
+  2444 machine-path diagnostics; production code has no new path violation.
+  Ledger entry/summary counts are synchronized; no repository pass claimed.
+- Receipt: `docs/HAILO10H_MOJO_SOURCE_INDEX.md`. Advance automatically to
+  `TASK_hailo10h_source_config_metadata.md`, then shard/semantic integration;
+  actual numerical configuration and broad Hailo model execution remain open.
+
 ## 2026-10-20 — Codex (Researcher, Cartographer, Scribe): ordinary shard-index frontier
 
 - Tagged storage `c7ce976` is published on both branches with46 methods/1340

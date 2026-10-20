@@ -1,0 +1,22 @@
+.....F..F
+======================================================================
+FAIL: test_real_file_faults_short_reads_and_cleanup_trace (__main__.SourceIndex.test_real_file_faults_short_reads_and_cleanup_trace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_source_index.py", line 226, in test_real_file_faults_short_reads_and_cleanup_trace
+    self.assertTrue(any("close(" in x for x in source_lines),mode)
+AssertionError: False is not true : short
+
+======================================================================
+FAIL: test_shared_raw_span_checks (__main__.SourceIndex.test_shared_raw_span_checks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_source_index.py", line 245, in test_shared_raw_span_checks
+    self.assertEqual(bytes.fromhex(result.stdout.strip()),raw[first:end])
+AssertionError: b'\x00\x00\x00\x00\x00\x00\x00\x00": [1,true]} ' != b' {"\xc3\x86sir": [1,true]} '
+
+----------------------------------------------------------------------
+Ran 9 tests in 4.813s
+
+FAILED (failures=2)
+Native outcomes: {'accepted': 167, 'refused': 320}
