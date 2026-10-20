@@ -54,5 +54,9 @@ long syscall(long nr,...) {
         if (!strcmp(mode,"extra_count")) return c+1;
         if (!strcmp(mode,"short") && c>3) c=3;
     }
-    return actual(nr,a,b,c,d,e,f);
+    long rc=actual(nr,a,b,c,d,e,f);
+    if (nr==SYS_pread64 && !strcmp(mode,"extra") && rc==0 && c>0) {
+        ((unsigned char *)b)[0]=32;return 1;
+    }
+    return rc;
 }

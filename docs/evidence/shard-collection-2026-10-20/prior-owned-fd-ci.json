@@ -1,0 +1,21 @@
+{
+  "sha": "1a74c1bca83ce4ac33c1f7cbbcf9f0a5722f50e8",
+  "runs": [
+    {
+      "id": 39465225955,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/actions/runs/39465225955"
+    },
+    {
+      "id": 39465189745,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/actions/runs/39465189745"
+    }
+  ],
+  "failed_step": [
+    "Compile Historical Master Without CPU Model Execution"
+  ],
+  "later_steps": "skipped"
+}

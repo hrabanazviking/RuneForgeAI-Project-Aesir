@@ -36,9 +36,11 @@
   `docs/HAILO10H_MOJO_MODEL_ROOT.md`. No tensor/header/model execution claim.
 - [x] Same-fd safetensors owned header decoder/inventory:53 methods/1916 calls;
   `docs/HAILO10H_MOJO_SAFETENSORS_FD.md`. Header bytes only, no source mmap.
-- [ ] Active: `TASK_hailo10h_shard_collection.md` and published collection design.
-  Connect actual JSON/shard fds and exact index/name/label/span matching; complete
-  semantics and numerical device encoding/placement/execution remain open.
+- [x] Actual indexed source collection/name/label/span matching:58 methods/2121
+  calls; `docs/HAILO10H_MOJO_SHARD_COLLECTION.md`. Metadata binding only.
+- [ ] Active: `TASK_hailo10h_unindexed_source_collection.md`, ordinary single
+  weight file/config without an index prerequisite. Complete semantic/architecture
+  and numerical device encoding/placement/execution remain required.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

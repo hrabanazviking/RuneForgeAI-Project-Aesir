@@ -1,7 +1,7 @@
 # Original source storage metadata. No value conversion or model execution.
 from std.collections import Dict
 from loader.packed_gguf import PackedGGUF, packed_row_bytes
-from smidr.safetensors_inventory import read_safetensors_inventory
+from smidr.safetensors_inventory import read_safetensors_inventory, SafetensorsInventory
 
 
 @fieldwise_init
@@ -213,6 +213,12 @@ def read_safetensors_source_storage(path: String, header_bound: Int,
     # parser policies apply before constructing the tagged value projection.
     var source = read_safetensors_inventory(path, header_bound, tensor_bound,
                                            rank_bound, work_bound, depth_bound)
+    return safetensors_source_storage(source, path, tensor_bound, rank_bound, work_bound)
+
+
+def safetensors_source_storage(source: SafetensorsInventory, path: String,
+                               tensor_bound: Int, rank_bound: Int,
+                               work_bound: Int) raises -> SourceStorageInventory:
     var work = _descriptor_work(len(source.tensors), tensor_bound, work_bound)
     var tensors = List[SourceStorageTensor]()
     tensors.reserve(len(source.tensors))

@@ -1,3 +1,21 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): actual indexed shards
+
+- Published/verified same-fd headers1a74c1b on both branches, then automatically
+  connected root-admitted config/index JSON fds and distinct real shard headers
+  to owned tagged storage with exact original index/name/label matching.
+- Added whole-file owned fd byte reads sharing existing exact read arithmetic;
+  preserved current path callers/fault behavior. Factored existing tagged
+  projection instead of reopening descriptive shard paths.
+- New5 methods/205 calls pass; seven regressions53/1916 pass, full58/2121.
+  Seeded collections, per-shard metadata/raw modifiers, totals/policies, sparse
+  header-only predecessor, Unicode/NUL names,14 I/O fault modes and20 repeated
+  late-error/valid cycles are recorded. All new/rebuilt logs warning-free.
+- Full consistency remains8564 diagnostics:534 baseline plus8030 literal
+  evidence paths, no new source path/ledger count issue. No repository pass.
+- Receipt: `docs/HAILO10H_MOJO_SHARD_COLLECTION.md`. Next ordinary unindexed
+  input contract avoids any user-generated index requirement; full semantic/
+  architecture and numerical Hailo execution remain open under fixed scope.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): same-fd owned headers
 
 - Factored existing original descriptor/metadata/coverage grammar behind owned

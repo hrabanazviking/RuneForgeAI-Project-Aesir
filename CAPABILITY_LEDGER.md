@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 98 |
+| `verified` | 99 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **143** |
+| **Total** | **144** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3148,3 +3148,19 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Next acceptance gate:** `TASK_hailo10h_shard_collection.md` and
   `docs/HAILO10H_INDEXED_SHARD_COLLECTION_DESIGN.md`, then full semantic/backend
   integration toward the fixed broad-model target.
+
+
+### AES-SOURCE-005 — Actual indexed source-file tensor binding
+
+- **Status:** `verified`
+- **Owner:** original `smidr/shard_collection.mojo`, owned root/JSON/header
+  descriptor readers, existing strict parsers and tagged-storage projection.
+- **Executable evidence:** `docs/HAILO10H_MOJO_SHARD_COLLECTION.md` and
+  `docs/evidence/shard-collection-2026-10-20/`;58 methods/2121 native calls,
+  comprising205 new and1916 regression calls, actual multi-file reads/cleanup.
+- **Evidence boundary:** Checked ARM64 source metadata binding at load time;
+  no immutable identity, payload evaluation, semantic architecture equivalence,
+  physical layout/fit, numerical device program or LLM execution. Indexed format
+  is a current loader slice, not a permanent model prerequisite or target change.
+- **Next acceptance gate:** `TASK_hailo10h_unindexed_source_collection.md`,
+  complete tagged semantic storage/config adapters and actual Hailo backend.

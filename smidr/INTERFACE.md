@@ -275,3 +275,29 @@ Existing path inventory/static constants retain separate full-map behavior.
 Diagnostic format is shared through `describe_safetensors_inventory`.
 Exact equivalence/read/cleanup/regression limits:
 `docs/HAILO10H_MOJO_SAFETENSORS_FD.md`.
+
+
+`source_metadata_file.read_source_metadata_owned_fd(fd,byte_bound)` consumes
+exclusive ownership on entry, returns exact owned regular-file bytes with
+positional short reads/lookahead/size recheck and native close on success/error.
+Positive byte bound, representable size+1 and ARM64 positional ABI apply. No
+format/UTF-8/JSON interpretation occurs here. Existing path reader retains
+current-offset syscall read/close while sharing exact read arithmetic.
+`safetensors_source_storage(inventory,path,tensors,rank,work)` is the shared
+owned tagged-storage projection/validator; path is descriptive, not immutable
+identity. The ordinary path reader delegates to it after source close.
+
+`shard_collection.mojo` exposes move-only SourceShardFile/SourceShardCollection,
+ShardCollectionPolicy(shards,tensors,metadata_bytes,payload_bytes,work) and
+read_indexed_shard_collection(root,index_label,config_label,root_policy,
+index_policy,config_policy,fd_policy,collection_policy). It opens actual root
+JSON/shard fds, preserves exact source metadata and verifies every original
+name against its indexed label, missing/extra/global duplicate names and optional
+payload total_size. Shard metadata remains separate. Aggregate metadata bytes
+include both JSON files and all shard prefixes/headers; work = metadata bytes
++ indexed names + distinct labels + actual tensors + sum(ranks). All policies
+are positive and checked; remaining read/count caps apply before growth. The
+result owns values after every file/root is closed, no payload read/mmap or model
+execution. Mutation invalidates earlier validation. Initial format/dtype/host
+coverage is explicit implementation work, not permanent model eligibility.
+Receipt: `docs/HAILO10H_MOJO_SHARD_COLLECTION.md`.

@@ -34,3 +34,9 @@ representation only; no CPU/CUDA/cloud model forward or model weight downloads.
 Do not invent numerical opcodes, silently erase architecture modifiers or count
 collection metadata as source-model execution. Continue semantic migration and
 actual Hailo numerical encoding/configuration/transport/results automatically.
+
+
+Implementation receipt: `docs/HAILO10H_MOJO_SHARD_COLLECTION.md`;58 methods/2121
+native calls including regressions. Actual indexed metadata binding is verified;
+source-model execution remains open. Next ordinary single-file input:
+`TASK_hailo10h_unindexed_source_collection.md`, then full semantic/backend work.

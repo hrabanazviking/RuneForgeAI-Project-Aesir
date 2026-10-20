@@ -4,6 +4,7 @@ from std.origin import MutUntrackedOrigin
 from hailbru.syscall import (
     os_host_architecture, os_openat, os_close, os_read,
     os_fd_regular_size, O_RDONLY, O_CLOEXEC, errno_now,
+    os_pread_metadata, os_close_descriptor,
 )
 
 
@@ -22,23 +23,8 @@ def read_source_metadata_bytes(path: String, byte_bound: Int) raises -> List[UIn
         var size = Int(os_fd_regular_size(arch, fd))
         if size > byte_bound or size >= 9223372036854775807:
             raise Error("SourceMetadataFile: source exceeds byte bound")
-        var bytes = List[UInt8]()
-        bytes.reserve(Int(size) + 1)
-        var chunk = List[UInt8](length=8192, fill=0)
-        var target = Int(size) + 1
-        while len(bytes) < target:
-            var want = min(8192, target - len(bytes))
-            var n = os_read(arch, fd, Pointer[UInt8, MutUntrackedOrigin](
-                unsafe_from_address=Int(chunk.unsafe_ptr())), Int64(want))
-            if n < 0:
-                raise Error("SourceMetadataFile: read failed: " + String(errno_now()))
-            if n == 0:
-                break
-            if n > Int64(want):
-                raise Error("SourceMetadataFile: invalid read count")
-            for i in range(Int(n)):
-                bytes.append(chunk[i])
-        if len(bytes) != size or Int(os_fd_regular_size(arch, fd)) != size:
+        var bytes = _regular_bytes(arch, fd, size, False)
+        if Int(os_fd_regular_size(arch, fd)) != size:
             raise Error("SourceMetadataFile: source extent changed during read")
         var result = os_close(arch, fd)
         fd = -1
@@ -49,3 +35,58 @@ def read_source_metadata_bytes(path: String, byte_bound: Int) raises -> List[UIn
         if fd >= 0:
             _ = os_close(arch, fd)
         raise e
+
+
+def read_source_metadata_owned_fd(owned_fd: Int64, byte_bound: Int) raises -> List[UInt8]:
+    # Exclusive ownership is consumed on entry, including bad policy/host errors.
+    var fd = owned_fd
+    try:
+        if fd < 0 or fd > 2147483647 or byte_bound <= 0:
+            raise Error("SourceMetadataFile: invalid owned descriptor or byte bound")
+        var arch = os_host_architecture()
+        if arch != "aarch64":
+            raise Error("SourceMetadataFile: positional owned reader currently requires ARM64 Linux")
+        var size = Int(os_fd_regular_size(arch, fd))
+        if size > byte_bound or size >= 9223372036854775807:
+            raise Error("SourceMetadataFile: source exceeds byte/lookahead extent bound")
+        var data = _regular_bytes(arch, fd, size, True)
+        if os_fd_regular_size(arch, fd) != Int64(size):
+            raise Error("SourceMetadataFile: exact owned source extent changed")
+        var closed = os_close_descriptor(fd)
+        fd = -1
+        if closed != 0:
+            raise Error("SourceMetadataFile: owned descriptor close failed")
+        return data^
+    except e:
+        if fd >= 0:
+            _ = os_close_descriptor(fd)
+        raise e
+
+
+def _regular_bytes(arch: String, fd: Int64, size: Int,
+                    positional: Bool) raises -> List[UInt8]:
+    if size < 0 or size >= 9223372036854775807:
+        raise Error("SourceMetadataFile: invalid exact-read/lookahead size")
+    var data = List[UInt8]()
+    data.reserve(size + 1)
+    var chunk = List[UInt8](length=8192, fill=0)
+    var target = size + 1
+    while len(data) < target:
+        var want = min(8192, target - len(data))
+        var pointer = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=Int(chunk.unsafe_ptr()))
+        var n: Int64
+        if positional:
+            n = os_pread_metadata(arch, fd, pointer, Int64(want), Int64(len(data)))
+        else:
+            n = os_read(arch, fd, pointer, Int64(want))
+        if n < 0:
+            raise Error("SourceMetadataFile: read failed: " + String(errno_now()))
+        if n == 0:
+            break
+        if n > Int64(want):
+            raise Error("SourceMetadataFile: invalid read count")
+        for i in range(Int(n)):
+            data.append(chunk[i])
+    if len(data) != size:
+        raise Error("SourceMetadataFile: source extent changed during read")
+    return data^
