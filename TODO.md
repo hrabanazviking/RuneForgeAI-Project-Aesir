@@ -1,3 +1,17 @@
+## 2026-10-20 — Current native source-model frontier
+
+- [x] Merge all current original remote/local committed branch heads into main;
+  remote integration `1edae4f` and exact tree/ancestry verified.
+- [x] Independent native control RPC and source semantic/expanded graph;
+  static constant readers, hypothetical storage/cache and lazy matrix schedules.
+- [x] Native matrix schedule acceptance: seven methods/860 calls; mathematical
+  structure only. `docs/HAILO10H_MOJO_MATRIX_TILES.md`.
+- [ ] Active: `TASK_hailo10h_source_weight_tiles.md`, actual bounded source spans.
+- [ ] Actual device numerical encoding, precision/packing/placement, original
+  program upload/activation/result/cleanup and broad architecture/format support.
+  No CPU/CUDA/cloud LLM inference, outside compiler or specially compiled model
+  prerequisite. `docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md` controls scope.
+
 ## Owner target authority — 2026-10-19
 
 - Fixed target: Project Aesir in Mojo must provide the source-model execution

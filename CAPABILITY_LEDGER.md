@@ -2938,3 +2938,14 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
 - **Boundary:** no actual dtype/layout/placement, immutable source identity,
   cache/ring data mutation, host model math or hardware execution. Actual
   numerical configuration remains open under the program-delivery parent.
+
+### Source-bound native contraction tiles — 2026-10-20
+
+- **Status:** `verified` as lazy host mathematical scheduling only.
+- **Owner:** original `smidr/matrix_tiles.mojo`, selected semantic linear ops.
+- **Evidence:** `docs/HAILO10H_MOJO_MATRIX_TILES.md`; seven methods/860 native
+  calls (799 accept,61 refuse), all729 small shape/tile domains and6672 exact
+  coordinate checks; source formats/head splits/tails/ownership/refusals pass.
+- **Boundary:** no model arithmetic, immutable source certificate, device packing,
+  precision/placement, numerical CCWs, hardware fit or execution. Source byte
+  streaming is next under `TASK_hailo10h_source_weight_tiles.md`.

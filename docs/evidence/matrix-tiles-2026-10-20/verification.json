@@ -1,0 +1,19 @@
+{
+  "toolchain": "Mojo 1.1.0 (8189361e)",
+  "builds": "two, warning-free",
+  "methods": 7,
+  "native_calls": 860,
+  "accepted": 799,
+  "refused": 61,
+  "exhaustive_small_domains": 729,
+  "coordinate_checks": 6672,
+  "device_access": false,
+  "model_math": false,
+  "external_compiler": false,
+  "execution_verified": false,
+  "full_ci": "not passed; main hosted CI fails at historical master compilation",
+  "production_sha256": {
+    "smidr/matrix_tiles.mojo": "1e595bdfae558ec86ef8fb522a2a555684e7aa44c8ec96ff523995c0bdab61f2",
+    "smidr/tools/matrix_tiles.mojo": "8366f3127a0eaddd2939eac92cf96fdaf6b0cc2bb8847f2d8adc3a7519f946af"
+  }
+}

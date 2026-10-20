@@ -20,6 +20,14 @@
 
 **Source compiler frontier (2026-10-19):** the independent Mojo device RPC round-trip is physically verified without HailoRT linkage. Source inventory and the first typed dense-decoder semantic graph now pass bounded structural checks. The graph preserves source bindings, query/KV and key/value widths, tied weights and lifetimes. Explicit hypothetical storage accounting now passes independent lifetime/overflow checks; actual device resource qualification, numerical recipes/lowering, executable program generation/upload and source-model execution remain open. RMSNorm/SiLU/softmax mathematical recipes now integrate into a global graph with explicit constants/predicates and recalculated lifetimes. Expanded-schedule storage is independently checked under explicit byte/pool/budget assumptions; it does not certify hardware fit. Four public context-action record codecs match independent Python/C++ oracles; this supplies no CCW math encoding or raw-context upload endpoint. See `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md`, `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md` and the source-execution progress table.
 
+**Native frontier update (2026-10-20):** all current original branch histories
+are integrated into main at `1edae4f`. Original lazy source-bound matrix
+schedules pass seven methods/860 native calls and preserve head-split shapes,
+packed source identities and explicit workspace scenarios. These are internal
+compiler structures. Active next contract: `TASK_hailo10h_source_weight_tiles.md`.
+Numerical hardware encoding, precision/packing/placement and source-model
+execution remain open. Main hosted CI fails at historical master compilation.
+
 **Execution model:** 20 phases × 10 slices = exactly 200 slices. Every model operation must execute on Hailo-10H. Host CPU may perform ordinary application orchestration, tokenization, request handling, and I/O; it may not execute, shadow, serve, or fall back to LLM inference. Implement the Mojo-owned source-model import, lowering, device-program generation and execution needed for the owner's fixed target. The existing vendor-precompiled GenAI route is historical integration evidence and cannot define completion or supported-model scope. Do not route inference through Hailo-Ollama, another service, CPU, CUDA, or cloud. When a gate fails, keep working through bounded diagnostics, version/model alternatives supported by Hailo, and implementation fixes; record temporary blockers without converting them into terminal project decisions.
 
 **Slice execution:** Work through the numbered slices in order, completing the action and leaving a reviewable artifact, verified behavior, or evidence-backed decision. Build Æsir as the Mojo owner of the source-model-to-Hailo execution path; close the actual compiler, operation, configuration and transport gaps without substituting a catalog-only product. Keep the runtime boundary in-process; Hailo-Ollama is not the target.

@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_native_matrix_tiles.md`. Full controlling scope:
+slice: `TASK_hailo10h_source_weight_tiles.md`. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -40,6 +40,7 @@ verify, publish and advance each bounded work slice.
 | Floating source constants | Verified source representation reader | `HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`; bounded owned F32/F16/BF16 windows; six methods/64 native calls, all 131,072 16-bit patterns, source inventory/storage regressions. Not device format or execution. |
 | Q4_K source constants | Verified source affine component reader | `HAILO10H_MOJO_SOURCE_Q4K_CONSTANTS.md`; eight methods/57 native calls, full group-factor/nibble coverage and exact external reference on 4096 synthetic constants. Not device precision or execution. |
 | Source-bound cache address scenarios | Verified hypothetical relative addressing | `HAILO10H_MOJO_CACHE_LAYOUT.md`; six methods/89 calls, 3353 independent element-offset checks, source/alias/policy/index/ownership refusals. No physical layout/ring mutation/execution. |
+| Native source-bound matrix schedules | Verified mathematical scheduling | `HAILO10H_MOJO_MATRIX_TILES.md`; seven methods/860 native calls,729 small domains/6672 coordinates, lazy tails/source binding/head splits/ownership/overflow. Actual packed source tile reads are next; no device numerical program. |
 | Physical resource placement / backend lowering | Open | Establish actual widths, layouts, weight conversion, workspace, hardware budgets and program encoding; hypotheses cannot admit inference. |
 | Public context-action byte codec | Verified host primitive | `HAILO10H_MOJO_CONTEXT_ACTIONS.md`; four public record types, owned values, exact field widths and 244 native calls against independent struct and C++ header oracles. No numerical program or upload. |
 | Configuration upload/activation endpoint | Public program receiver mapped; physical original upload open | `HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md`; matching driver rejects NNC firmware controls on the Pi SoC path. hRPC action 2 accepts separate compiled-program bytes, followed by configure/activate lifecycles. Original metadata/lifecycle codec is verified as host bytes; active `TASK_hailo10h_program_delivery.md` continues container/CCW facts. Actual upload, raw-context endpoint and numerical encoding remain open. |

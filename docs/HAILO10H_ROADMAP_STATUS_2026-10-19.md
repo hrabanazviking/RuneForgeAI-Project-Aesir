@@ -1,3 +1,10 @@
+> **2026-10-20 integration update:** owner requested all current branches into
+> main. `1edae4f` includes AES500, latest Hailo, consistency and old local C7
+> history, with exact remote tree/ancestry verified. This supersedes the older
+> branch-separation paragraph below. Native matrix schedules now pass7/860;
+> active next contract is `TASK_hailo10h_source_weight_tiles.md`. Full device
+> numerical execution remains open; hosted CI failed at master compilation.
+
 > **OWNER TARGET CORRECTION — 2026-10-19:** Project Aesir must implement the
 > Mojo path needed to run source models that fit the Hailo-10H hardware. The
 > owner explicitly rejects limiting the product to compatible vendor-precompiled

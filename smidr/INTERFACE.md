@@ -105,3 +105,12 @@ row addresses are checked under caller-supplied widths, strides, alignment, pool
 and provenance. No physical layout, allocation, ring mutation, cache data or
 execution is admitted. Exact scope/evidence:
 `docs/HAILO10H_MOJO_CACHE_LAYOUT.md`.
+
+`matrix_tiles.mojo` exposes owned `MatrixTilePolicy`, `MatrixSchedule`,
+`MatrixTile`, `plan_matrix_contraction`, `validate_matrix_schedule`,
+`matrix_workspace_bytes`, `matrix_tile_count` and lazy `matrix_tile`.
+Source-bound M/N/C contractions retain logical head splits, packed source
+binding and explicit workspace assumptions. Tile origins are logical element
+indices, not packed file/device byte addresses. This is mathematical scheduling,
+not numerical hardware code or hardware admission. Exact traversal, checks,
+independent evidence and remaining gates: `docs/HAILO10H_MOJO_MATRIX_TILES.md`.

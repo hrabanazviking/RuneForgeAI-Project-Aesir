@@ -1,3 +1,17 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): native matrix schedules
+
+- Original source-bound M/N/C tile pass preserves source bindings, head-split
+  shapes and IDs; lazy clipped rectangles retain an accumulator across C slices.
+  Explicit aligned workspace/width/provenance assumptions and overflow checks.
+- Both warning-free builds and seven methods/860 native calls pass: 799 accept,
+  61 refuse; all729 small domains,6672 coordinate checks, multiple source kinds,
+  graph/policy/index/overflow/ownership checks and read-only no-device trace.
+- Receipt: `docs/HAILO10H_MOJO_MATRIX_TILES.md`. No host model math or physical
+  numerical execution. Next published contract: source weight byte tiles.
+- Main integration 1edae4f is remote-verified with all original source heads.
+  Hosted CI failed at historical master compilation; no full CI pass claimed.
+  Broad ordinary-model target and Hailo-only execution remain fixed.
+
 ## 2026-10-20 — Codex (Cartographer, Forge Worker, Auditor, Scribe): branch integration
 
 - Owner explicitly requested all current branches merged into main. Combined
