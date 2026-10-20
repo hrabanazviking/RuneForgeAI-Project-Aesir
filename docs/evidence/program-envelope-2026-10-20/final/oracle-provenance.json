@@ -1,0 +1,8 @@
+{
+  "version_number": 801,
+  "library_sha256": "eba22de3de8f35b9871675e08b74ee43275e5fa3992d4b8c22ae394b5f184031",
+  "license_sha256": "a123c93b07e781919ae996276ac02bb1c8b19dfde88176cd1240ab277c14a4ce",
+  "license": "BSD-2-Clause",
+  "scope": "isolated test-only XXH3 and independent big endian struct",
+  "production_dependency": false
+}

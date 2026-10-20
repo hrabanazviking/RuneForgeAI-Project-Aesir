@@ -1,0 +1,1114 @@
+[
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000002d06800538d394c2000000000000000000000000000000000000000000000000000000000000000000000000\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":56,\"total_bytes\":56,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000002d06800538d394c200000000000000000000000000000000000000002d06800538d394c20000000000000000\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":56,\"total_bytes\":56,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000eb5d658bb22f286b000000000000000300000003000000000000000000000000000000000000000000000000000000\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000eb5d658bb22f286b00000000000000030000000300000000000000002d06800538d394c20000000000000000000000\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000cc0c0d78d79743f0000000000000000000000000000000000000000300000000000000000000000000000000474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":56,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000cc0c0d78d79743f000000000000000000000000000000000000000032d06800538d394c20000000000000000474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":56,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000ab112ffcdfd4bba1000000000000000300000003000000000000000300000000000000000000000000000000000000474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000ab112ffcdfd4bba100000000000000030000000300000000000000032d06800538d394c20000000000000000000000474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000f2c0ab30f1e3f3c10000000000000003000000000000000000000000000000000000000000000000000000001f2021\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":59,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000f2c0ab30f1e3f3c100000000000000030000000000000000000000002d06800538d394c200000000000000001f2021\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":59,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000568e92f544c485050000000000000006000000030000000000000000000000000000000000000000000000000000001f2021\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000568e92f544c4850500000000000000060000000300000000000000002d06800538d394c200000000000000000000001f2021\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000000059c8c4e6c06bda580000000000000003000000000000000000000003000000000000000000000000000000001f2021474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":59,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000000059c8c4e6c06bda5800000000000000030000000000000000000000032d06800538d394c200000000000000001f2021474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":59,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000002f4012f4e53afb7a0000000000000006000000030000000000000003000000000000000000000000000000000000001f2021474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000002f4012f4e53afb7a00000000000000060000000300000000000000032d06800538d394c200000000000000000000001f2021474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000035f4299fc161c9cbb000000000000000000000000000000000000000000000000000000000000000000000000000102\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000035f4299fc161c9cbb00000000000000000000000000000000000000005f4299fc161c9cbb0000000000000000000102\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":59,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003350d71c50be00599000000000000000300000003000000000000000000000000000000000000000000000000000102000000\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":62,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003350d71c50be0059900000000000000030000000300000000000000005f4299fc161c9cbb0000000000000000000102000000\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":62,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000031cc6b9bfe6b130c0000000000000000000000000000000000000000300000000000000000000000000000000000102474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000031cc6b9bfe6b130c000000000000000000000000000000000000000035f4299fc161c9cbb0000000000000000000102474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":59,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000032dec60ef392cefdc000000000000000300000003000000000000000300000000000000000000000000000000000102000000474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":62,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000032dec60ef392cefdc00000000000000030000000300000000000000035f4299fc161c9cbb0000000000000000000102000000474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":62,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003669185be851aacec0000000000000003000000000000000000000000000000000000000000000000000000000001021f2021\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003669185be851aacec00000000000000030000000000000000000000005f4299fc161c9cbb00000000000000000001021f2021\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":62,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003bddf88bb793823cd0000000000000006000000030000000000000000000000000000000000000000000000000001020000001f2021\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":65,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003bddf88bb793823cd00000000000000060000000300000000000000005f4299fc161c9cbb00000000000000000001020000001f2021\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":65,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003e6e63d621c5678c70000000000000003000000000000000000000003000000000000000000000000000000000001021f2021474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003e6e63d621c5678c700000000000000030000000000000000000000035f4299fc161c9cbb00000000000000000001021f2021474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":59,\"additional_offset\":62,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003c79d240f708b6eae0000000000000006000000030000000000000003000000000000000000000000000000000001020000001f2021474849\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":65,\"total_bytes\":68,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003c79d240f708b6eae00000000000000060000000300000000000000035f4299fc161c9cbb00000000000000000001020000001f2021474849\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":65,\"total_bytes\":68,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000000178614dd592df4c740000000000000001000000010000000000000000000000000000000000000000000000003500\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":57,\"ccw_offset\":58,\"additional_offset\":58,\"total_bytes\":58,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000001ccba2b464dc11384000000000000000100000001000000000000000053d8cf8c5176a8a700000000000000005b00\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":57,\"ccw_offset\":58,\"additional_offset\":58,\"total_bytes\":58,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000000340261d116152d1ba0000000000000004000000030000000000000000000000000000000000000000000000001f705400000021\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":63,\"total_bytes\":63,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003c8c6eca0c30bcc1b000000000000000400000003000000000000000091a83b45e7ff543800000000000000007f688900000058\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":62,\"additional_offset\":63,\"total_bytes\":63,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000043ad74e4bc7403c41000000000000000500000004000000000000000000000000000000000000000000000000ed62dbf400000000a0\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":60,\"ccw_offset\":64,\"additional_offset\":65,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000004f2319edd7ebcd6d200000000000000050000000400000000000000002c1af45a93dbee680000000000000000d413330c00000000d0\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":60,\"ccw_offset\":64,\"additional_offset\":65,\"total_bytes\":65,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000008f854ba2e4e8e3d12000000000000000a000000080000000000000001000000000000000000000000000000000d12b7b8b07efe9f0000000000000000c0a996\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":64,\"ccw_offset\":72,\"additional_offset\":74,\"total_bytes\":75,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000008d0b7d3c5c23b7eb6000000000000000a000000080000000000000001c0a41c5ac79c47720000000000000000ca49a0f54653899f0000000000000000b8a126\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":64,\"ccw_offset\":72,\"additional_offset\":74,\"total_bytes\":75,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000009d5a448e6a92f9feb000000000000000c00000009000000000000000100000000000000000000000000000000234b32014b28590e92000000000000000000b875ba3f\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":65,\"ccw_offset\":74,\"additional_offset\":77,\"total_bytes\":78,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000009051953fd191634bf000000000000000c0000000900000000000000019d3c7c5a470ebde70000000000000000fc096a7001d6d45bc6000000000000000000d3a6d3e8\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":65,\"ccw_offset\":74,\"additional_offset\":77,\"total_bytes\":78,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000010524c2ccf80f67cb6000000000000001500000010000000000000000200000000000000000000000000000000a0dba343e86bd8be21461d7c5fe4449b000000000000000000000000000000005f8236dd20cea9\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":72,\"ccw_offset\":88,\"additional_offset\":93,\"total_bytes\":95,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000100bc064ec3130618d0000000000000015000000100000000000000002cfc7c681eeb4240500000000000000007bfdd5e720a90c117e2509de858ca63600000000000000000000000000000000c67eb04398c135\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":72,\"ccw_offset\":88,\"additional_offset\":93,\"total_bytes\":95,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000011b5d2f0cd882d027e000000000000000500000000000000000000000200000000000000000000000000000000cd069e73aa2802ce0e1845787e1ae60cf492171d6a68cf3d\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":73,\"ccw_offset\":73,\"additional_offset\":78,\"total_bytes\":80,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000113e1d183439280f080000000000000005000000000000000000000002a9cb31850c1286b50000000000000000356326f2e94112b6db8d2c8911367a3c9b909e181e2bb1e7\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":73,\"ccw_offset\":73,\"additional_offset\":78,\"total_bytes\":80,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000001ff51fa79d8c392b2900000000000000180000000e000000000000000400000000000000000000000000000000a194259c434f5c6e3bf1281b17aaf70b260b8d52662141fea2e3a96077f6b1000000000000000000000000000084aec5126b16cfde387496b9f81e\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":87,\"ccw_offset\":101,\"additional_offset\":111,\"total_bytes\":115,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000001fd3a5cd794116d2bf00000000000000180000000e0000000000000004b0744c220eb8a2ee0000000000000000e60bd9ee4c01636b97dcfb5eda95398ec352f8703d6541063e213f8aa66a7e000000000000000000000000000044535dc1880de72b569098aeae0d\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":87,\"ccw_offset\":101,\"additional_offset\":111,\"total_bytes\":115,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000203c65ca0c3779918500000000000000190000000f000000000000000400000000000000000000000000000000bea0960a58e45fa82208c00b0a2ed115439eaebfff4554d0cd328bb8179d3fea00000000000000000000000000000012732a4007ab2798fae1dbd8ab26\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":88,\"ccw_offset\":103,\"additional_offset\":113,\"total_bytes\":117,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000020f4a3c85a81967ef200000000000000190000000f00000000000000048719e4d6b370867700000000000000008f6d79d1dd5c4333526d78b170957e89f91224e02fcb9f70585c593e600df9de000000000000000000000000000000222e4dbf8be414160eb095571855\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":88,\"ccw_offset\":103,\"additional_offset\":113,\"total_bytes\":117,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000021169a4fe1d1005ff9000000000000001b00000010000000000000000400000000000000000000000000000000ebd7c38fc47b23192d66a463ba18aff4b376fe2f7cd43b7fdd81a6b53da69f1b0d0000000000000000000000000000000028ef669d0bed0a7f88aa21f222d96c\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":89,\"ccw_offset\":105,\"additional_offset\":116,\"total_bytes\":120,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000021c6f557aa66d0b598000000000000001b0000001000000000000000041141ff2f4237090c00000000000000000ba20d0d2f0835d45ae2c82f14dd89f1a8c65202034caacfc6fd0ce4cd54123f0900000000000000000000000000000000d7dc3ade0b7f81dce93ef42ab35aaa\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":89,\"ccw_offset\":105,\"additional_offset\":116,\"total_bytes\":120,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000003f545c40abed48d03100000000000000210000000c000000000000000900000000000000000000000000000000cc1a9854b4cd85a92335d228940d2d74dee8a3c39236a18b4278626deebbceb16b592d7d76f870026a7dd0e136fe237fafa4a49199bdd5dc818b294b303607000000000000000000000000479e11efa6143f24981260cae6d31cb6e62f19a651319c440d6f75fe00db\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":119,\"ccw_offset\":131,\"additional_offset\":152,\"total_bytes\":161,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000003fa055704aa74b40ab00000000000000210000000c00000000000000094969dae9d1f73bfa000000000000000078083bda80abc2bcd0ecd9f8550aaf022e9ce0b1b6ce49f32d1375a364defee4326eff07071fc8748b13914c351865d5e743d4832400bbe88eaf6bed9bf59c00000000000000000000000091717c8b0808c1e656961e742e750aec2c3594b7c0dbbb95939b10b3f6ef\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":119,\"ccw_offset\":131,\"additional_offset\":152,\"total_bytes\":161,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000040e55cfdc005bffa7600000000000000220000000d000000000000000900000000000000000000000000000000bbb21806aaf81143bc8d5cdb20f328c6946459c74ff55848449a4b1a39344fa280ab6bf2b89b756bcd7d699f740bc55cbfa0f33cdef5f8928d6de888bc188e22000000000000000000000000008726acd55dbc3f27da7a42be7415d6db0daf2e7e07be8e11df07490f266e\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":120,\"ccw_offset\":133,\"additional_offset\":154,\"total_bytes\":163,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000409e7a71091c4369ea00000000000000220000000d00000000000000097df6991d8d7a3f550000000000000000b77342510b2e293f63da93c7de6c50381b4cbf9d5bfd99d5b1515a7bc8277af75ccf7b6eab5a6c285556bef2479e18da43ffedae61773f2503675bd3416dac1b00000000000000000000000000ef59e3b39a773141c1f6b5281b9fb80c60124db1f370be8e14bcf7695856\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":120,\"ccw_offset\":133,\"additional_offset\":154,\"total_bytes\":163,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000041f02f9fda1efe4da800000000000000230000000e0000000000000009000000000000000000000000000000002dc985a04a4cbcce2e32f1d181f5e11dd9ece6968871dfa85559c05a66e7e13684472c6eda9ccc353aef0b2e98d565c8ec85801bcbdc5befef0622fe49da4b5433000000000000000000000000000055c97fa0015aeb554c635aa52b75ec0ebbdb45144fa147133f187b12498f\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":121,\"ccw_offset\":135,\"additional_offset\":156,\"total_bytes\":165,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000410cf9aa2ce9e2ea1400000000000000230000000e00000000000000098ac32653bf54a66f0000000000000000d903d9cdfcf12d178e634a76407804f5ba6682772a897cd5609356c4187c296217e7926b48649b76c353b681f9c80d0be01df2d53fd96d7ad4f59464eb00fa03b700000000000000000000000000009c31e111d93c92646d4089207867e2869e0412e03dfe83e764d9a6ecd462\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":121,\"ccw_offset\":135,\"additional_offset\":156,\"total_bytes\":165,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000007ff384123a8760857700000000000000320000000800000000000000120000000000000000000000000000000049858195ed46cc327118ea06c38dd8a3014c7ac2e2dcfe50dfdd75bdfde209c29a3610d85fd14997d6ec3ed6e6bb3c63ea62f7e6feeeaa8102917d575645821424ea384365b0f26144f52aad3b13cb7b3e1a14c0ea70df4e64a90ee853a6f4cc95e5a934f280c4eb5580164f027b110fde5deea65c691cd618f978c736ff290000000000000000e9467d5856c770c2dc97d0a3286ef19a53b76a62a25b874d7e8c8a432a98b6b3159b5cbe6e70427ca3995156a1d7e72c610e17df1d8b098b59c61955\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":183,\"ccw_offset\":191,\"additional_offset\":233,\"total_bytes\":251,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000007fdb16101c26d4aed00000000000000032000000080000000000000012afbb2d1a6490a1820000000000000000fdafaf36eb1e1f6a17bc11cbf1bcd28c56f8c6a200f72cb40a1729bea136b68b8117a27e2646dfc70e4406c55a3f68805cd395c2a86aaa871b218fe30abb4c67141dee20ea496a5ccd91ca63a93784082199d865689e593ecfea19be14817670c25b78f6bb8b88e9954bdbf7c7f68a1fef2c0a7809444902f3dcd65dffbc1d0000000000000000758d59da3735bb9357cc4815f69484c105eb4d355040a51a9f2f0ab43a4e9bb65764134607b9087524c6696178ac1816a430ac0a4a1dd9fc351e0984\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":183,\"ccw_offset\":191,\"additional_offset\":233,\"total_bytes\":251,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000807359ad9c18eede43000000000000003300000009000000000000001200000000000000000000000000000000f8cf078aefa923ed6efc376f779680eed2f76ee9a42567bb501be61318a11ac83486236d713d51d2acc05c22efa9abb35239594e49713ce8c96275c07a6005af7b8b30cb2fe2fac400e4dc0d1b3cf8ba675782e8a0fb0b9799153e4ea2d62a232c9abe6ef2530b35c270d5a547eeeb1b6c48f0f54296a0990bc8250664bd8fca000000000000000000033916c3707aea04dd90c3bc019a81d843c748d3035afc1d620d128b05890d89ee578897ad2653aad1d7817494e0d70fa23c967fff46cbc07c23912a\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":184,\"ccw_offset\":193,\"additional_offset\":235,\"total_bytes\":253,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000801c40ddb4ab6b80060000000000000033000000090000000000000012fe4eabbe98a89a1b00000000000000001839b3c596b05e0ce9c9a7b1cc4db52cafcbb7c782cdedffe40494f556a20a60d70560607e0c614dbbd9a210c0da1a5dff964ff711acef6047182c4bf72e9a761881c9b3cef8d30f0ac1488e8fbe3a05b484820f6f8c1fc7bed9e91d38b546756b802e659f1fbf4828103b434d89b3e3bea25311e93fb796adf031aaaa297b09000000000000000000cf3759ee672c2bba680433aff6eb8b6d900b71c1a6bf23ca2835c2360fe6e053a1c6d79bbac4f63c02187737d85bc22507fcff3a16efc287b806a5db\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":184,\"ccw_offset\":193,\"additional_offset\":235,\"total_bytes\":253,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000811111bba10a66a97200000000000000350000000a000000000000001200000000000000000000000000000000b2d5ad387d4c5b7fd71d706512e6a83e01d3468f3084aa9da663cdef2dc2259378f9f1ad39c694fe6bc15af16f1293a89a5e20e5cd8d0c664bb8ca5e3fa55ff13c4e77be99147032153979204203dc09370612780959a86fc223b580816208f9babb5917ba2f257da3f0b1953c850d50b70f8d2b6657cd8d6bff9889904a6d8a5900000000000000000000292192afade92a79de8cc1a12286c7a4aff0bb3f3dfb1a90ad129695ead2e5d6ca0868480f337aa2ac9ccc8a0347c41cd262d42ca6bfd4112de6be4b19\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":185,\"ccw_offset\":195,\"additional_offset\":238,\"total_bytes\":256,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000081898c375899c3e42800000000000000350000000a000000000000001240c968f97573dd1900000000000000009d8c725e3666738a45d26023d42d943b8666ddbb980da1600fc353a9076f376bcee09b3ec2788239e3f0bd9d3cd3133f28aa1cf61b27b33166c9872d3aa297b550813bc1590e132e8b7ac2d24245c299dd56a8fed7f648f1625b75c0171d7a65337ccc1387c397e57c510f38b03c06c5655cb9941e3afb6582d58833c7d35824a800000000000000000000825e6c100951cbe4804dd8f19808f22a88f3811c34b99189ff01fe0a64eb502a249f33c565bf8eebf06aa248ef225bd7417ee540c45354f040102ce292\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":185,\"ccw_offset\":195,\"additional_offset\":238,\"total_bytes\":256,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000ef246000a4ad6d7a27000000000000005000000001000000000000002200000000000000000000000000000000baddf4d4e9c73b889b378c0182e08fb854aa32a5708da32e20bfbe4786c1e329683478086d68568c5e332676ef2e68bf9f1a56b70b9394fb9da277cb6b7b5609cd357e704b7a43454bfdb5f6c97022724672215a89cc70bc369cbfa49dc3d98601c27cb8b3d5c6a671f3d7fea2686d311c70003c6e59e7bc0bafd3dc18b717083a79e7864e056182c5bc5b346659281575dc214b07a14a7f2d9984560861d1806706072aa20877a9b54ca18e69f069d31d298e905406f79242735d9e6257a7554751b23cea817cd1f64fe2177635059a8a3f5ce5c33d4dde869715e492fea50e6cee468947fb844f4e35190a199b0f0041614807fe204ef567d42387981d0a4ea1f4f5f593915a3c809f8c7f3ed291c66d428abb3a3c0565159bff90bd6066a7c5cec15baf0667a7f186f265a1c1b60f1591f23bc746569b5b87512efdb61559847237ce27ccc664296d0748da86f1e1b61ecfe3cf436f9e9e43370e2266481fa1\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":295,\"ccw_offset\":296,\"additional_offset\":375,\"total_bytes\":409,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000efca76969f1eede9850000000000000050000000010000000000000022ad6a0583a8d1850400000000000000004b0be7df0e416bf341293890c9654ee0ad3b38d9b425d0e61241abdd7bf883a39e473dec0b70fb4a7984fc909bb3b00c5e880af37f03665b27ad5b8cc75cb2a353741dcffe01fc739056aecb25adb80f669ed37c7a28092e9af2c3cdaa5cb3431cbc07b6a99388718913f944ec0c5062fed9b8c3e7fc759bb67b3d692ad0797d6ea39f6ede2acfbdb41f493e8b515679f4f4bc8e8622c5eef151520bb90ac23340eb500facb1ddf51b815094e8ecfb1ba33a4fbba6730d63cfb01d34489567cf88a5c8d579a880cd8592d368f844f4bbc6a4bbb725e86af703554809f30b776fbfea45ff5f1836c864085d40bb2b4500c3d75f5e481134b8b428a88a5a4f7b8aab5404a9af03d51bed1dbc5b746337b6292c7c9c1081368e548dfcffddc43e96021b39df6e391e085daa2b91cf0e439d81f0dadaf48ca2fce6c9dab98b38f183df22ee0bd5191998bccb280d289f328bbfb7ff7baf75eda8e1bcfd716fc8e0f002\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":295,\"ccw_offset\":296,\"additional_offset\":375,\"total_bytes\":409,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000f05ce9ef10364d61b00000000000000052000000020000000000000022000000000000000000000000000000004a0f7862b039b53a19254d2c2e67aaeddbcd028c52a680739e652805fb588e67d6740f3478d0781a192a4899cd5295946f30f1d915af91d86089444d571c8bdeb6acdd924581f5e33f1abc64b3d40296c8728a217722efb6590e5989e6907e3e377692f097fa175fc2dc73e1607f7a92a4e153e8f943063bfa3da5d1905cf8fa12efcbdabb5b66d1fe76d0a94b4f43e72fe2b61acce5f8f4e90cb87827d947572e5f797a6ac63b83057ea613fd1c7638f8765a881c82223906d1eac6afac11708f8b9dec84c3d34cb18401d863c80213fe450052e86e9c31d596cfa30c46fd63285a283558371bb9c15e5649e523438e000063472ad7c85c18c7593917b586c31339fb22b8c722bec503c499985c908bb6850c822f5b65cd51303ea3acaec130d1aae1790d7c9d7825e09c10cb49dbaaaecd25275c5f7410144725ef2098c4546f3173db923c8d7aaf8f0a08be40a14ab0c8e2e9d1fbe2ff53e71b51bfd4319d965768ba\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":296,\"ccw_offset\":298,\"additional_offset\":378,\"total_bytes\":412,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000f047347533e8eacb48000000000000005200000002000000000000002232d53adf5813321500000000000000002a97962a00dd0da69d227ab9ebc3eeba675c323052c4c3e77a5e37664084f604c533d13be3f81bafd91c2e263136bc32c6922135a2a49c301c1d66089542573184be65c1eee3f7ec8c11d06b73e00b6a652a13d1b019ee4635e27661d9e87bcc31e7e397b7feef1b3e846d13724299dcae0048250b4551992055988cc50636eb5aff6da5bc031c35ad9fa07d42ca496a63d7158cb7eb5c5b9e08d8c2855f9f9243c56020452ea8ea040fd77686419bc0e5369e3ed55955ef03eedd44774181cb9d85978957f84906b9e0ce618c0e5ffc78a7977a70820715f7991bea0041cb488c2095215cbefc844e0f17891f23fb5a00000d876993aca9f59f72549f6ea86febf4ff6c94a6131c1f4d3a039bcc3173979fe7fa2720489a0293050dcb55cc9e23b817944106179df13455736230cc36d3682e10e972af2d89a08df956baa8096fa806c55520728a033cde46191a85af996a7bf5af058107fb190c019987e7a4b0cca3d6\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":296,\"ccw_offset\":298,\"additional_offset\":378,\"total_bytes\":412,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000f10b8f62799d6e13e30000000000000053000000030000000000000022000000000000000000000000000000001d14dcebdd9741dfd23c57c14b3e73b378b6acbfeb65f3379078f2aa78340f49583cb9dad610d3787c9da37a1e593e92f7c873576cdadd20c031e61d697c251c9ab25fb1016648dae454a39ac96a06d3e41bb398022cc4b1bcab28ad8f9c10a7171b38a2aaf16fc1ba993a2680546672f119963161381bf84ed380b016491050f20363d0481ad5350d8befff549a96b76c81ec631f11fc3d2849423bc26849bda95c1fa3f59fbfbfe849cfe578cb124f3f1152fb36f0ec474948c58f720e737ad3aee6f300fdce66ec257579a39860d54ba051e206d7aee727ee479db99d9fa1d82d5be67cc261fa4801092c56ef58ceab000000dc3bb5387000f799868fe446cf1ff4d660632015e406df25e1e35e92f801e6f50144ce7ff08b2aa8d643eb4855cedec9e2c1370492334f79c3513039a4b7e2e8ebc77eebe078bd617850fc79674018b94da06afc899665935fe00785be19b866a4a536c0904822c4c6bfafc56be6245b319a\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":297,\"ccw_offset\":300,\"additional_offset\":380,\"total_bytes\":414,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000f12fc8e1da2afcce750000000000000053000000030000000000000022a86996f6cc58fc21000000000000000094fbe2431e682572d4e0bc9df900d04d5cbac2533bce30a0be02a141a99a02a81646f8578d5c9c3ca70568c023f5733e133e2430422b9744223dee82171858e8d672b41bcfe7b4b769f43129ebb50dbe8e36f9a094486d8bf2846961480f6d91ffcfe53869dee0385889dfb35e9f9b5862823b2454d72dfb005474bce001c4ad1ab11df5e67407c6b127c414223de2d4fcfac6f871595766eafb5af8c092c16660b954988cc3a693b17efe05f555d5793cdc5b77f67912e6430dd8f4af3c493d702d8907c6af253816caf2701acf82d3b6dd27ec21e5a34ea4f3b935314f546ea7cd3869a794e0ac1d9f7f6b18cecd7d0e000000fc41a6b0ca17f3d5d910f2e49d17d9053616ddc038390fe9dbd71752604e7e28e5ceaeaf89734ce08ac4babc98d84bf9f635ff27a11e366e051de78262490f32a02d2453a53ecbb5774be92eb4e6a71321c65b7c25baf288a3826e7882e8246749872ad8a41adcf65978c1f81ec82d723d80\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":297,\"ccw_offset\":300,\"additional_offset\":380,\"total_bytes\":414,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000ff2d16519583fb600200000000000000550000000000000000000000240000000000000000000000000000000047974ca43cd8f0ee9b53f9c51161b622744bd083294a9d51b9502b3d4b0a2d2f9fb03d96a001884322a13b85c9653cebc7607aa157b04c954abe6b48191d75e5e173f3bb87ca30a23f1a8a9a53aa12afc6087c1a94b634a9edb061d3b1095b9303ef2293b3309d099a4e50ce2d97e1ab139327d7a00a35f4535cd49739c86a46d59dbc951c6a8338e2e8f60ee95cb195abd79da73a4497d80a1441861335d2eab93ebe5b8605d06017b2d82c2c2a08611e4741cbb0b05ce17eb9c3832af9624540fc090fedca58500f0f3c7e4251aa820c4e46ceb2e7c61fa9ba7706dde015f68ecae36b843301606312259a1886c4fca2c93f1bef09cb3494bd767f5a5e070c9d807f3be2197e2ba918ed250951a0e1daadeddac012e4cd88bb63d93530bdb1ac5383e1efbbea8086094f9b01494c5c416a2fbd67e870a76d34f1243ecf4e60c35c89e03bef1812878db1035c6632fe46f7c1c4d02a8b03a0143655f70c7b5fc6e9a2afb1d850e9fc386f4a85dfb67105f94e05ee67dae8\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":311,\"ccw_offset\":311,\"additional_offset\":396,\"total_bytes\":432,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000ff9546119a1ffcca020000000000000055000000000000000000000024e42afa355de6de1500000000000000009a57085951af7bc9d4d71eee11efc1bcd83aadf1d7db37696fd2c35979e7e38e6d910dc0c4da9188532e8da210d3c326b049f4fdb1cd0f66685a835fd275e0c81278bd87873bb98c9022a0bc939443a21d986e2d07fc78a4e68f2b6adb2cc25eb4665fd85a0e7aa76d7a313b189b20db378ff2f7cb8254d73030e4df557e162268fde8b209c3a316107b3a6ed0fa7800ad83af778ac47a355229a6ea69fb238538f1bf59765e1d65d9ecc88cbca04200b412a0591badf8bea1ad150769520c984f923a7a18cd8b81135a5bdd37dfaae134ed27e5f6847fe79497645ad1facb595f7684bdfc70fe7366dc95176fba27c1cf3d9084cd8444967ebc6cd71a4d36f7b431f1aecd19b267e59fa895898aa7b0b3ac06a6507be01d7358bf555792180c6f4e464208b752b32bc4f9c6ddf35a392caa16a8c6af2127a011a6c37ab11f49ade2d6b6f25b79e28bd1287aade1f5c0cca8f01624db395318d05bddc9e4c5e04353fe3f7645de024c22a55d8ab8efec3c43054bf7bd6de0\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":311,\"ccw_offset\":311,\"additional_offset\":396,\"total_bytes\":432,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000100c417c9c21621fc38000000000000005600000001000000000000002400000000000000000000000000000000f1e1a7a59b293743bd426816f05b43de704c6ca1332676c4fe81d74762eac910c1ef876987546e53b6a7740ff5cac87945485bde61dfbc7d872b62344e9db2e2f1360cfd51ddc7b1f3fbe82471c692f9d25d05d4f187ed17cae74a419a53a5893a5404b6df2cb231fae6d188f10907e430a0022bac7af8487ddfd2021335a9226a1236374f0c74a44a14799b6de1d3701617da35956c2a4f9ba1186fd08f0e3d5115168cd1183d9e0627d97c4b936161405fc2ed2fadb9d1c2268d5f40d03afbee9eb8506e41736dda92ac00628e5a8513917e949a17c99380ad411e56781443453c3be4553397649b2e9354fcfdf47022d9395a1d2664f388651d666b8b0b3f00fd89808f489692c837995ba43213ee9c012cdf1983ed94eaa38eb1cc69c8b2d705c5ab5dc3aab93fab379ce2205d4059621d0ae5658bdad299fb0131633b98d250639e8336aa6f37e8d40fe214a5e401049e1792676fd9a5446f8698c445e3d4c99dc94500dcf2b33dd093b467568c6ed2d09bb93848d173ef\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":312,\"ccw_offset\":313,\"additional_offset\":398,\"total_bytes\":434,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000100bd4d199049a002820000000000000056000000010000000000000024a7ee6306d38ad8d200000000000000003f21020023969732369257ff5df8d568bc97f1d07335bc641e60f4d4dc645c71f4f220d050a3d3f6abe7864da80ea06a48e0cb87d086f6193a694efb158179fa890f0d7540a2e4d5f2615fcf734b1bf9bb92243edd0c44b908e42405f22e648914b3492e08d0c71b9e240f3ddef725e17f3b42d1c3ecdba56ec47f292d5f6e9b19a90dfbd63cd898d70bb27adc50ce6cec2c1608e96adddd747be0c1414da2710ed7ec984480e5925a7239f35c49886c2f70b535ad4ba985f2998f7b54994e0ba4049d1649c9f08d8176c1db61126beb142a19cd7b2a158e3589ada5d836e16ede8a91482ee1c0fb5fce435ab9346b2177b8f9262846c4dbb933bec51f86c56b009ae922fc9587313aa10096220f6cb06af47b10e42300ff2e1f2ffd4c64696d7d08e6b9f9c059e908bf9ace41d2c048b424ebed3bb1f1dec5030ca67ac69d1330f9896b46c3a66331663322c62714220fe52e9a62151a1e262fd630bd10c7c9ae6b22413cc8f6564d69e0cf65af094125460f697251cbbfbafb\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":312,\"ccw_offset\":313,\"additional_offset\":398,\"total_bytes\":434,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000010128c7de5ba710232100000000000000570000000200000000000000240000000000000000000000000000000097ffbda9d15276ddfb909c82597aa97d7891798902d1cb36505aaf66851d66c9f19d4e0e376fa24cdf54df15f364efabd0583e404f4498d518b98f02783182f8765a947f43c4812a1595b897eab382652b0048eca7850c124ce4221899526c4fa0056b77a9afbddbb38cfb82ac8a14c3dc881ffec3ee75e7eb82ba1ddda1657d67a88f6fc52ae76031cd897fc95e56a44fb202411c56364df354216e7959f7668ccc8bf76f299d1d1c08332a7cdaccd4b9ac6c99edff98d9300d984ca35574445150e57de2051314d7a8687bdaf10f534967bae1f02e48bc658814b97168051259468229a203a631a37f860eddd9cd982c258ea55b79146fa55c9890c42eda42d60000a31e42cf9e3b3b2bfc16d551397a080caafc4959e843b8303bb052e994a9d7f9e369814819d41c12f6ffdc5abd550c23b4e9d6760d18aa5e6bcdf5adf87bae24d4d00a73415737d19cd66625d6fc84bacb2ae622e7dae59caafeefeea4e7f1c60395f2e353f912a8097e045f0d90eb9776e58456479cde5a19\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":313,\"ccw_offset\":315,\"additional_offset\":400,\"total_bytes\":436,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000101e6f6fe91f42226550000000000000057000000020000000000000024513319223a05723100000000000000001d000b1c51211b2496092b136f68ac7564bcf7bf02ff8d2b227b1a62572a05e7f1cbd58d6640530f9c85924f44f6fa135807ca3886c8f059042679cb9486107579e3640f5fc89ef7e5b32c186f3d664c2aa2435afed2caa131c7ea6b1aae7c3286b340135ee7ce74f1bfd9a3a60f63e90a6aee6f1975be59af6cd74aa8d48782a68d3cf2dd5367a0b146f4e05cc222db6a8a94bd4269c12b37548ba04994c002396d3bdc50f4b17a4ffb885447982d592cd6288d7c2d7c082b14accd992126abbd0096b83397ff3f2ad1308fc9b8290d3b08966123d85b5fdd789cc67ad85ea3f6cff3f7b9010e3e98674bf5cf2ae6250c2017156e5c2286b692e5cbf28e1fa358000000980731de60ceeb1bf0e82cff69eb3a4e248e8c82a72a58e4321fce211622263f93d43463cfdff27d98197cdddd57b2a2ec38f9ee1d530b4f69b120b077cabb82e39a608fc0db6fe4f4f7844c57e96ebca0d90d718c8cc1a62f2cd591f9d4a4b99aaff8074c06b3697cb52eb4da50ada50f7cc9f6ad1bc3e2\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":313,\"ccw_offset\":315,\"additional_offset\":400,\"total_bytes\":436,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000003ff086aa0672abc765b0000000000000158000000030000000000000092000000000000000000000000000000005c03b7acbb93461339cc5345531f4e6286d4754a7b1e5c3ced264349e962c1c4446b0ee144a445742e95a6a07fef73beb6e4b6f6ee982ff6894a07ed9229de2ef4d0e6d9e4f55a1a811891403c087caeaf1ce552b7395ed19b8459c27fa02e2d21674073b4019c6687835094d3017974155858fc6378c652ba6e63441164b2502e51f37533b0173afac9488f65a12ffc50502d4d66572b768d3c29f5bdaae643d99919840f434e47c0703b2c602b1e20ede89c8f2886b22a47949d9d152f0c42e1e2f022907984bc4cd2a0a05e009d3f5de7f9e178ebe29b0bd47e9d359015ae89dc0ed941e1d6959c615d552691511febd431564a56c78d323e46fcd0891c7a4c116562a74c292cffd041e018976ee8f2a208522b38fc9293631245c76fb5afb9d4357ac884a493f9421ee0170a576c155af934475440a7e96c3320e99ebc9af52da3db6dbe86818b6493106e346d2e898bc7d1717b6b61cecf73083c52d0d9f2555976bd7d4097c0228f0058870d7ed2bf271ccaab47d99bf5082bfbca4f37d10af1d7c2333dcdac7e9da1e37150bc0050383bbbc38a3f5bb5bf8912079c16cbae4a1317ec2ccdf4f0f955028844fc6daeb285589be9f11a201ba344c7301386b0811ba962a9317995c54f54e0e0fe60ac861ab4e31d96493152495a90851c153720702f9ba62ed135bc9fe4ec6b004182e5f54d7b071cd0683b9044cb9e77d0b798f7423b3bad771fda52b627c8f798e18a0fd0bfd36dd5677378c9e3637a1f14fdbbd70a8e96ed7737f780c3656efb097b8bec3ebc57208c811cd4d00e543bb1a819b4842d7ffe382f8ac183bd654cb27714a56d6c401a89d4a31ef88376f23fc60a07e9944e360613b6a4760a1654a023c0f591ad5b5ed53f7f2fb51d890781d5921c00cf9540d4f91241f7d55c9a12090e2a70b894442aeb4ee2a9840859fc753142ccaf01c1e18003ba013fa52a43196f04de064a02358b9f3e0678e0c29431f584c494e73e141e0cddc85735ae56903b3c53d0e149918284f3eb3bfcf39fec144198af51b193fbc0a0cbee8c030130c0201df3fab4fa94ec2f85f5f4d85814fd9486bb11990b17bb54056f944587be0682bc21d484e6497ec417714cca0385955c55156972831dd9c3d7882fb4efdb2380f0386aac42ac18de2dc731dfe385f27c0cc7420940f8f22be7f61b71a5f0f0d66274048d4042f7580eed3eec8e0f4ef5abcd3935a819de5a5cfa5b7e9a3e6ac6077f4207a09fe5b2afb454350f70bfbe965201aa533c828b3c0f3f5d0873a972f55cd78daac5e34252b0757b918a7d714c883ea06132d56281c911bf020d70e28cfa5d75ad1fd5e70209b9112408ea92af5a78003a1d117ab19376f860e9f669346798798511c62ee9f627cbf90c5cf7eb8d61f5479b32a4198222f49ab6f09a5f83487f4bd6d8811b970000001c88d86fdf04934c3b037e5b3fd3008c22f1795ba099a3196bbd26df56590416b4bb8555639bc2ff2b86db83765c38ddf424661cbf09246c03cf93a7b7f9673404a457bd64227a088faae5194b5f7125a31edc5e25e7c721655ecf6e5d8342d0239da950c0fbf81ae28bd3bc4b5564be15aa8768f7abb7d1bd2dbf1ee2ef702c5a0c99be8157088f10057bcf22423f7b7d692bd1b05540ccf9921dacf9460686b1c997c3697d48a2a221e7e761ea0c94dc4c51646aff092d7bc149e543ffbcded0ad4d69da0ec46925fc543d80fe3657909061d3bafbbb4e732656ee66f943330dbfb6db9ae8d883bf2fa2950bcd835a6a15fed251368a3ad9beaeb4193ebba51f23bff50ea032cd6ea5e6f61fed1c738404febfa05d8b0c095fa719c7718e3f6e226942d87bf67470542a1944211566f299c1bbfd8745bdd1dcd227c6af13979c07a2223ffe83682d7f51cacaaf449773c2c175c2cb91da319088527b634e9f0d69203f8153281182c13070477a0a875ab795596f7b44e3391b099ba4f92066c03d78fd4c1f62b8d3e4bb07cde8ccd02e170a41c656e2edbefbde52c860bf3bcdd84e935543d3d4ef4958af57f0b96bb6851bd8adb0e7e3863a8cb4cc997af9ee6b5348e1e4691c3ce9df3c52867413d63f0e31297fc75ee5203bb167295037e1959e349438ce\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":1079,\"ccw_offset\":1082,\"additional_offset\":1423,\"total_bytes\":1569,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000003ffae6aed1de5423dab0000000000000158000000030000000000000092dcd5ca55854abbaa00000000000000008b30dfe5ead783581079238d9e1de6700e8547655da02c491f54774e2c10f16c4e1686ada9209a22a0238428421766ca36cd7b4a508ea6aeacead371bb687efb3f7f2a2697824c4d7419c10475d08a641d703f29946444ca05baa520a0dc2fcb19a819c8992d2763ae234104d2612bc9cdcd630d8874e8fcdcb40702a47fd829b6585d47e8fe93021bddddbdf10ada5b386b7edc0c1ca378a61feb3e0c7882b6730464c7fc6bb95e0c67b886e261107e6737c4decfad4f13397bc11ef3b0e46c71db1b8efc1fb037a830f56aa632734890ac9e21c09722b85a0fcf1b4d29c80f97a6cff27206bb365eab53abea5e6d22b3c53d2dbe56eaba48be050fc58c88a8d74e78ddbc149ed2e6cd075ca9e1a2b758eb80361d15f2a21ec30f7bf3f1a7fa8987d50f27957d29a22494de7f957e0d3c91008ed0827e28d6a19446181f08d584f2e61a633dd817355d6e29e499ffdf0462cc442d243c6fba6c8724aa75875f64b4e73dd114d29ba8f34b5aac1b4198c0e2d57af06834e336cb2b3fe6176c90ef7e7fe2bb378cd5d0ae07e9ee1ad51018535669bb09eca21a085b3c69d9a7f888ffc6a83b60c73ec36cdc880c5a2c816dea361f272d0dc2605e28fc043ab6d716aa91cc3b6bba380b407a3ce563932de2e17768b5bdcc406f0e82906d983ae2c9eb15c35c1e4f8821e1d26ec4c2b4f5a56320b124e062dc96fa1b9f825f99e5c42fef02b28c33aeb039f2184d4e745dd4b224bd8e295a0339d8b50a48fb5084c6b32146f9a02831e535905046625691c8c252e252a9c19e19534582dc5fb6d0e82fa0f5e6583938d5e87f8d7379f4fe8b7b1675774bd37a7ff1c43e328473dd6dd4adecdfa1125f70686f5a9af856ab84891fb7302af63d565a3342b7b9726711db113b266cf98be28b62ff06e5151d166a4c4eb1ff5e13d16976301d0847577ffc4a53bd15c33f00a9c93f7c53bc9f32cfacfc49ecd08f2ddd3ab86bb2c2acaabdbdfa2311f46fd2d597f1163769030376709255a94a61af3214b22502900899d28eee05090fc197c793458310b7675c5d130a44a654fb24c1bd4b97bf70ea69607a39ed99cc8f845acf474295fac2c9397a59a4a6aa0390eea5c40360da21552368b889c6c75cc8c737f1d112aef883c24ea454dc1fe4ccac35a661bc54b3eeacb75d15106933c43e57de735b0af76b835704c50f7c409335108a516d7d4b86b60dd5c4e909b5ad9f0e53c3cf74a610e13fcbfa6231a42d69bc6fed4b560c870d3b60ea19369dbcab573d900a5079c6b6b42c337ae5d25e613291f7ce37e54cfaa01b15edcb2fdd697c21ad5954b9efb43631df6f587cc56cb11c9cadb78513ea46f862ffacb1dd6cb8094ea9d6ac5e0e89dffddd150fef8f1f105825a8b38eba1aad5628157a938abc9a8ea8d269679ff6dc2d43c37439718b77df1df2000000686f5db269e23ea2a66864035b43a3c9185b6e08b809932ed550265250f6bf984a839603bf8b69c04fad970e09e9c345e32927d08363a0379efce300c6b4dbac97db2b87ddbcd35fb88aa88d343850031cb0974284c3296d576ce5c7b6bcfd6ed5bd6750c3bf71a853c83dcf63c697412310671c72885956308f9b545b4b74e278a4c1b03ac9c74f2c056ec942120146ebba5e3fa3cc71c52f4f56c812c0ffe0455cf3cf2c01e33df52c3269141cc1a613ea38c283825daf83eb3f09b877f4cb13f598c7806dbb2e3555fb5c9d030a720cfacd4c68aa435ecd5d847918ac9ef05d691c46cc9e51159c51f37d910f65786c1c684cac513e662b16a1ad57f1a941ea94081e889bfc917c99cc06efcbd55524ecca18e02bf89095a2651764bd4fda7443065312f72ea513becf793c1ca1fb86c0f848b393e075d6f683143cf1e14593294fa734c74db102381cf0abd411cdfb43c6158c6fee2df50cd2206d2d963395d96ce953a9264003c9e07edfb880cb630927ecc9ec6400243b7d7e363ecf09ff4cba10a5a0ddab28c8ffe8106b7c9a671443c339f5a4867a127ec08032900ca414eb40ac49996cdf5ad68058b4f427a3ea97852a3f64cd9a67d737cebb1a151fb72042a50fed44547c62b74db9e40dbe16756bde623d33b8106ff157c623e26e3325bc82f013\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":1079,\"ccw_offset\":1082,\"additional_offset\":1423,\"total_bytes\":1569,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000400c2918dd9d10aaba50000000000000159000000040000000000000092000000000000000000000000000000004e83a5ceb2d8417a54c3308926a5c03ca1869cff05134f7f760fb7c303cd87f6ceccc3b8988286db252f83ad1e669dd0a0a6c9efba4fd16c34c7b8932ef673de6f8c51bbdeaced3611c6c9d49aa243bd5493784d083a6ca24e6889754da65c2db514131077b6c20b2800a10be5e65813004bb087db5d4281bc4651cc56388531562011640b3e1bac9e0ce65045ddc866863fb4f0593dfbc2ac54b2d454f19a41b64d44d21a1c0f4d8c5d2f40d410f61e85a059370b41a73a089f579467dabc1c89e8e04bda503ca5fce89522d76a8d0de684ef7f2f6dc991b16cf974be8d0ae6e07dab7bb663de27171cc9f71e82048cb525b1183fb96421468752d04cc1261fab3a093c7956ab25806c8a909b93585d7ba6d1cff006bbed9ffc4cbea56a7907fc32aeacb47094a5282f9f5309015b99229d8a96a99c31ea05e7ef593c78864416f529135f583f2771d7c316ca36895d446df7334338cb52c3b51a87d9f545e3b574c4b59e3babd7741dc900f50c562c3bc98ee4b75e3cc7be1337907b10f862572d061f8654660476c28c6dd869757433cda1da3dfbfa1d03a17ec105cee3e2fd0a650d940acb7a4954d0178dff768190a3f06512f2bd38ec1b067f6d0db268041c2eb99ae66d6999fcc36f40214021935def27182f7f19e8374c040fd96aa3f60f27da85ba6783ec4a0dd0455b5e4176386561d67b98b723cea6b137dfbc574d4d8d293498236a7f588f80bbeb68bb71867af60e3054c05c78634facb464b71347337239bb4d1581d708e47e113bb09d31ab29f18b10de12c10a7ad9147dee4741631073b68d738a353180d0dd7d3ec12af3b36048bbd08d463210390df23231aaed848c6055fccbb0a0b5ebb04e145dbb76c0655f19879d798485b134c717063b83b1d7f9b27a59d634ef1b56dfa82ce48b0408b83eab52c71520ced1b8c709d05d781cdc8db6254dd908dc1bdcd64ecefa820c1cff12cb9610570d36007ff6dc627032ce6fb252d0103436f200541b8dfcbfc10ea543a90ebfa24917f55c841bd8e374a28b3d3f136d38efa0ad7a1b93d330bb75731e457182b640e0f623865bf02ee3d0e83207dd151004f33f063cce7c3c045efb1438472e0b39723e05c9e2f50b0f07512f68cb90791110fe057dd0d105d900d65e7c3f7ed29453a2383c389b396ddb8ba68f003a9e86ab78bc51968aff82dab720066acc0a049e9ba97d5a52bca73bc108070b60183c5d576c47cf9a704197a9d873f378f03de99cb1cd70109cd72855def3989e1f902a975b2e3574f538da72f3d15edf94f9bfcac3c52b6275eac28ad09969ba56a2d1b5631e407474d0d852f23a15ceb2f1dedcd2881da7f06898270f21d27fa93709ffc09ab822d5fa9cd7abd9c7db994d2675e8de11afb7391e7adeba4087bb60d56511e6efdab00a1337909353a7c136c6f8fe000000000e0562a8f571862b63ede05801f5a0acfb1fb3f39307599b3f76abbf052c16fb8c4f2dfa647699765c06e1dd5cae396249dc7cef21a63894dc8fab9169a6ff4e488681affb2fda2788ce9da7409f60ad2f440fd0caf8f08f3a57c52fc65e46fd2fbaa28715eb214a62d865d062cbdcfb13031c6c50425471ee73a7317ec3754cd1857305ca2a5a201c6b744ee8e0b695987ce65d7f47560be6d3a2c8d5311c628969b16edbeacf5422bd346b013825e5579f500a3ef67df452bc22ed561db8cab150a8b33efe09c974029182a4be2c177830b1753401c7c92130cec1ba1a8cb5408a10f265ddc17f1fb1c24bdd1cf68dbd39fbf6aea451a95c9dda9e8074064b02d6b661e450c3cb63b75938a6cd53cf2d12b0434cdb4f6d9adf843090e83fd6ae9dd9d60bc69ac027265c9a367ef98c674018e74750a0c6c88a30f927a370fd57f46779bbfc06a2f93d3d825298aaefe69d592da70be74f007df6e3e65a96c8fe1bb7a5100cdb59f42cbfcc97487e075fe54f1bcc41bd80e5a001b0b5424d89163e1d9b62d1a5f01c09cc6b078ae29ad56dccc8da716d4dfe41ff9e97ca91b8c77ea6c1bf6f83f6fbd706e657ffe86bbdf7b66b8bcb43c51a15d9fc0001032c52012f190d9379d1e4623d199c48bababf2ab4cdfe4a702826e2515ffde7b2b9416b1b1965a773\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":1080,\"ccw_offset\":1084,\"additional_offset\":1425,\"total_bytes\":1571,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000400652941df4c89042b0000000000000159000000040000000000000092df6af17caf72428c000000000000000098e0f24eb5a82cde4831ed8c51e726484fbe19cb2e1b8f368e7d293fb7c3cdac6b8bf1834320c5ec0c8a9786ef053da70dcf90e3996fc3ab79e61b19cf5606b506ac9addd881370c9bf03354da92116c7ba1b05d1e331770b7df7afd1fadff5411ac2b10fd4dfa43a6af55d35267c20eeea1895e8464b81c4d10e3498b7e67f48a1e5f5d2ff3bd8ce964884378491563b8bd797007cb96c02666754142329c7ba0b3f83a568d1092250907d6f6a5bcecfb0df998769f29f66c6c72435089e9a373293af1d0d77fd9b6fd43c3adedeb2da0d05e275ce171b71d49da2bd0d824f16b0bd37d841e668f225fb3825babc78b17a86ab9dfb8ede12e28f00827e7409633aca715b7be3994e2b987c0d21fc0c050ef335bcd479f880e9f0c0db9be29713a13a7863c7bdbb0233241cafb35bdb07a364504d8fb2b5380ec08e5090200d8593928132b6705058547e0b4600646190ee9ac1f2f4610799ef2b14d5110fd9af9c8b5918153920ac00b90c1e72f4b265c9fb3a7e75850f6f6b5541bd75e38927a6b6f555f78a91a28512402d49fb37abb925c5ac9577e509e9a241076db0d684d22a8086cfec2ea7405898a9e179d9da341247db1f3aa8ce26a881596bc8b4e7f1d8710a98e1b23ee838ff5323fdf1e7b944158ebd8a56dc7d1da95e4d15b4f19e63958fe2016be0cb5413a6c7d0a571d4c85f458769ad105f701bf0965c0ce12918f29c0ce2bfd3f7f5a1fb111452f9000c4365db1b5647f6e35782dc8506b39d317c4ead660f17028b0e163cd3ca22292eb2310959932b6307d32c838120e1cc9f723b9b6f8e7bec7dea8eba3b4e91a596ab9f2d51d3241c182935b25855d4419f3b5082b43cddde0a0fe87fd4e822b0c5e1484f55a10259721d15a6a79be0faa53732a118ea06802b4ce0c11c3e6b9e5a2498e3ecd34141453bda3e8122cdca745e9a8141a26570ed5360e76e626966e6218bf8bd91ee5a5ac07106d43b6b30df454fcf7f224aa7e7d0afe023d5721be12bd221ddb9bec8ee5da2460fa489ba4091806d52242ec2584ea7ec687e12c9262684a4f34e28a67d39ed3b1e7a79b3f20390ec39b5a2c8268fda1a61c84353b7d8ee71663bd4ad73a131474ab273c7fdf0ef96423907ffda21a621aeb86cb59439028d9cb80d465da86ba7c391a6e7c84f2e8d77fabffd5d7a7842c5a43082ebe4b13606ca270c8e839eb9adf307422b292311e07897f7d71d1ae511b57934e173cb1d1b9a626a252915ddd2cba38a583803f25295f4e6a295f4571859347c910abb9f0d1c6b8561676da3856d04102c32d6e6c7361d68087d531dba424b231058de1e370d08caaa91b4c1348d2f50f8f6ea9cfa5b8b7f7fafa69159710ef5d247a30fefc95bfa9b553b3d0bfd83ad22d95668ab530f1ab55768e9b37d86983564ae919bdc64819056e4cc1549c000000008dfd3a10ca93e2682cba68a62c94a24665e1c6e688d6c72d28c81123afed95bc1b6dd50fd5b4b869a1d1493a5d9a38d5e72fb50882bab02302d9cb8fd060315b7c92daf3fd1d217d467ce13ca1603a5cc4f1ae3479d0408e1ae37b01b96ff070c5ba43fd098544674042428dfe10e2e361a098740abfa2cd0f97bcb31be6894eeeeaa87591d849f760f1437ba2445418943d70c8ae05b9828b1131bdb01cdaf3ff2648fa368d7057939dbb4c8c4a07bcb88adeb2f4d8bb215410ef55c6c2ad5689335f24292e44beffc25abad9492259f68c21e08a85fb91d829e194af5996c4ee162e43db3b9b85fecd7d1b14c2d0ca6afbb5983986f341273ef0046d57cb1e10208fe4809be21e0603a524c73ca34cf904af8a027b88cc6488d5957e853fb3ea59a6cf163ae7ba175aa695ef91305c527194f4b47d4454f4d6bae43534bf4483a5512490ef97fb7067747dc807d02e3f8a6ff2b9c0173e9af5cfd5cf4bbb34520d6752202020d6ab52e04acce00f00e09ad672ef2bec48d116b32f3278d4e69d052578baf5ab4d0dae16d98dda0afa1b36b9febf57ae0cfff15b6219dcce45076b6fcebcec058517b72da0dd2605ac3b5bc6a439e79ad63337d29aa77d07729c5804a57d656a31c2c6b02f818b446f872df9cdb6dff4fb448f4ffe88b8f6ebaf11e8f4a5083d\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":1080,\"ccw_offset\":1084,\"additional_offset\":1425,\"total_bytes\":1571,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000004016ea6f3ddf6cc8d0b000000000000015a0000000500000000000000920000000000000000000000000000000033dbe12e920e32ae19116427bf5f8f81193a52931dd7f7cf50cf1e3d3246fa20715d26b6baff724756db6c6f391c3d2a8938fd5ec992a93c7e6f42bb89ebbba4c4220aaeea8c06531cc6c9b915a0eb33c642d13239a840c6a7fac5f1155eae3fe5210892cd09fa9416b95f7c5337a0cec82eee2248916f6658e5bb16d4f8976270e2e5e3dd29733b359d9fdd93c732beb858c1a860ca588e77e54297c47881573982148c05936b7dbf805046bb7efc5db31108dc2c7884a784a2758d32e03d3d37253f47c6e31ced50a817577dc7deec5843a197b7bfced6fbc52a45daa554f66936e03e902ccc81ab61124af575bdc37cd5794097773addc5134bd348dfb4de9f4bf0a5f41a5f3ba3e9b7c8d679e25845fbb6fa05507983841f27781b91f1ff59d97d7e52bd28004cb7bd8908d19788c19838744e124d780fb29466140607cf7bc5ee3b7220d25a9e628838095c5ce0ccb6aebd442802ec5efa12ac53e3c83cf4003d8a439d9d1dce3c9aab57ef608740e470119e25874d03e98d780df1ac1a542aa5bc43523e7d080107a5f394adaa2205e706588a5ae4e09f0aadf98091e8e992273fa46a19ef96d8e66fc160ea139c1b337fb0f0807c29300b281ba33e373edde1a75f13f83a07bc9ff8333a355b9ca12b22528651875de19ed24e66992189553bca0b75d79677c52a6f2581bbaa0e87d4f21ffad3a3151dce7ee5400d7ec571e761b3a684d92aa06c113e1f8ccfb4bd4fe9fd8a51436d7f4ee680528b7daf550235336c93de39d03f37d21c6c0591bb73fd1fa927f4b339be9d31b14abf4fb88101ff54fd15b0cc2bbbca51ccaf607fb2ce1006252b50ead1d1a3fa121aaee9050f0f26e3c7f7e3c2af9b4b2aa0a6856b4b2acfba0d5d5ea26340b2913b7989f168b35a55149da707f8d7f803096a2d27828082912b9e4f73a03f44b64f344fedf78b937815780c81a09c464865b53b42e61146c8235a64a786715483f07c2c4c275c8061af8e5ecc42be538f20fee642201ce4e1b9d8e0db8643b897b70d71cd2eab8ba71049029f6c9a76543991503016e0042e449fcf7cec6fe4cbf53837c44ed18b10d363b7a5ea8eef5842fdc96642cb6f538d168461d51a2a31ee5875b787d2cd38cb97fdb2ce2d151f9aface2ca9c26b4e69a4e25a86b70c6ecfc67aa70dac9f27993898b334000d6fd4a34c057fbfc80285c7deb6ecb56ef5a9a1239992b1b9c3fb794757b84030c9f638c904796430168dbe83c03b6ff6b8282881e762feaa01cab67d24f8dd2f5b41a7929f8bee6bd7336aa983d78526f34cc9ebf3aca249e7dea4e02d250837a8ec25a0e23caa18f7b82fab55f0e449cba8d710b9dc8da19ec4d685b9e90f499d8066755922731c2f8d2413c92841797e663289590f5a732bfed4e52370522cfaa46b934dbe266a7b74194efe08d34ce5873200000000003610d2a83fdb60cf6fb385d6d8e78300785e0180ab41fe7ac2cb9620ec566252cf129784d5c033421e7ac93cf25380bd1d04f838d910b774223e89499199e909f009d6107140590d09c3e0caaa2314aa8b5579007538cd2e29a31e80ff22a346283c04239a0ba250ecfa9a25591fd722577f44b04bce0df0ea4fb613e0886d32550ed5417908349ee3cd545d86a1c81cd3a64e6471c5b05688d609824094a68286310a8cc5187b69f492fb88522914efc53b0641a1142de7f6d796aceb4041fb26777bd7521139d4d1540c9afc60780d680605f8e4044a8695032b80cf801429ecc32a36da8e7577f9d7ede067072a034823b02c73b1b398322411f777eaf5fffc8471563127ff7e38d222e118fe53f18b8fdd317e9de26c351ed8db772d08952793c0cdcbe79a10df0220f45ba9ccadda5fb9206f33198e88a48b3a57df5a4b89696f777cafe4c396f2f33cec7752a0c9c76bcabb1f29d672e908c1c440a144833ed1538357108fff159745eca089ce01eea11de588143eac14d02b54f8504ffb5e3fe3df89139ad7138c9f422eb787f305025f964510832ade7e09742600434be8db6dd58e5bc4ee886675d6f186ea81bf43c4ce9d9f1d1a967d7870ea0aa6e2d9a24651aa7942cf1bdb8cedce8be192bb73dbb6bad91a017298cabc1bd43a5dcb545431261f\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":1081,\"ccw_offset\":1086,\"additional_offset\":1427,\"total_bytes\":1573,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000401dd167080b51a7fcd000000000000015a000000050000000000000092b62646fe5293bd390000000000000000bec45dbdbd49ab34e27af751fb58e34472ca4ea800e4b90f73fe2a875316e4737503a9c4334817caaec5f6268920a600c51d23ad2ec75ac57b56e7ec8ad263d724ef92eaddaba65e797537e1db08d285e711685aa9554e308135bd81d9d65182068a9bed3d0c11fb001ffc34bb8a0b21a5cba4b938f307ceab5eb41a2a571d56c7000e03c1a2c6a7edb24ecdeb28b43fffef6bea62d5bd4b85847c389aa44d01b8768ec49103c95174a4fe7569d673f659a9f40584bda4c5cd37e369d39889929c0d309e0814f5305d4d46007c3f0804bd2ad8481dad311069684dbfd7afb64bb8d9d3b1b1d3e144cf0dbcdbcb91cdf697a7d1ffcd12e098deb776ba10fda3e5913056256acbfa78a4c9d0e448c350a27cc5c1f115115b91df149a1ddcce7bc817863abf571beb7b5ef642dd96b4fc397e8b7cfa477700eb0f99e8691921097e9bb195b6f189bfdd4903cd599637ff8a76388e7bac7066f9a0e81906c4f87d18f82f7be7000e08d660a62a42627625740403f7347092802a3c02f2a8e7a691eeb359cba338b6d1b00a9ef431feee2bfce4f8956982964ce5a34bcdf1b1f3e6fabd80509447ada500b05acd37ce274166d9374ac6c79ff4276ab9b59778522f4c3751b2c1d6ed8e6c426855282b2ac6570e024ef7d1663defcc85a3e2fcfdef856ef68e4b8da4692a8afa81bd76ff4b03f6cd02519480b80711970060540e3ea6117d1a494f90a704498d4fa3ea0d3da57ab46405d09bbca4e4604affcd1ae082b1bf750ccebe817479fce65ee8e32cdde91d5d43a7221f1a4585921abc3778baeb6ab1aae89658ed9f37519add0726036913395eb0ba8970f7c95243e1f419f1bf93317b4095f5cdec04bce0dc80b06a42aa9882b1cc1eeda47547374b50af38bb148aeb3b38002a3fdaa8aa4fc990f56a51262f96a235b1eee93f6d32a61dd0a9d13eb52a64e1c1c3413ac2377deb064b8b07e81c3b8242fb6a05a45a13a93e985a5117a39867b8865e23e753c7ac5437cd80169fe75134a00b3a3e30ad5d2174acfee115db331a017bf2a91b7677ca4671f00e82a9d6720e5d953c5b724f1947bb5dbc21ae5624c5b61cb8b2f01d1cda8acb63f8b00c554103adfebf05b05a2a9528a2d17112e7ddd1b4def4b4f8cdd74829c5cfefc73ebfa8d239aa8bd95917110a96616c5d11756d8075618677e6e13f4dbf0c6186d82d2c08c0521577ec7c3afd4782cc1cec285d20ff831c5c48c3929fcaaef63b9bba1c16f7e4e1c1c091802c41b7af30598f156aae520a75b148ffc1e8beeac4e79dcf7b722014822258ea18979808e6dbc162592076cebfd4ff6da3922b39ddeb6e64dcec45a365698e465d3b11abb3aaba9ec3b147dd2dd4e7e37222959520c6edebb222010e6a5dc7b235847e98487464c4bf50fb72bb4a9e6b53df839dccef94f7ff1bf23595289100000000006e2cfcf418ab990439805f010adcbfcf7d69d11513f08a62494155be3cf197c8875adb1bc527e80c70df44db4c0a5a5c534f611459d6478c08b657c7d17355bebc22ec5e7cb6f14c20d8d07c80ded4d5925cf814ce5ffec12bb090479053cd9a4accaadc9d8ef265adfffc5f22f3345c0c08e44df0198f948594f94f15641ba5b1c25f68807c1ac8cb40ea282351f9f403ac434908a0c59537a1aa48667b9f28477b9b3bc151b51628e16401c7266ff7d76b1dbff9567628b0f8a788a17a290c186a987c97acdfa9e4728a48bf09c057e88e555eaba5f2ae9afdca525f0339d10a2aab0a5b18cea004d40443ccd7adce34d71b5b600250b27400aa75bcc32ef56f1dea20c66cbff842ad29323f8741dfce919f63832cc77e1e1d16bf00c9ccf9715c305efe713f9f7ef68dad80a0d772377d80a5b165a2f5da8858bb7124d2d3272bc3104082a710b6596a49ff53155fe2e944bffb084f468ceb846e12e41e61102df737dbdca5204acb76b5a3bbd59b6025c072859b6717a00fa6f6d27304dffafc7f36e99c86a38868caf936227aa05a2e99d059a3e109436f034d0f15ac5ec0027da9b4eb8036ed701d07ed4b787393e4872c4c7d2979d5f22bb9ac339304e0360bbac58c5b725d880d5926077fd301a5d3580bed44c03d6c898c7f7acd982a5b3f36a6d4d3\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":1081,\"ccw_offset\":1086,\"additional_offset\":1427,\"total_bytes\":1573,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 6393,
+    "stdout_sha256": "3fff4c1290b55806564810a48609bc16977a6b4ea690ef763eebcafd77858f67"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 6394,
+    "stdout_sha256": "8a6440587a045b68506f3730532e4b6020bb75b42ef6239e684c2b5a4633bde0"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 6399,
+    "stdout_sha256": "30624921c47914a84f069087c9d271b17de3c89cb30304cf803fb42257c8ba13"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 6400,
+    "stdout_sha256": "adac5484365d23ee9c3cb9d35bf8e157005922318e1d2ecfa92b86b565dfb760"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 24549,
+    "stdout_sha256": "780e5ac47160a5ae4f3dfce55be1b75322bda6ff9893e9ef4c62d23f0144be6e"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 24550,
+    "stdout_sha256": "edbbaf562c1e0111dc4e9ffeed196ce6bd61800844d023b50b73eb0747ccff1e"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 97097,
+    "stdout_sha256": "988e3b1ef62a564be3de38f06d44ab6667aa33497d891c0129b4b90e80ebd409"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout_bytes": 97098,
+    "stdout_sha256": "fe1f44ff2246cebd73410ae5eb724f047de2317e4cedf482c10404b52f285ffe"
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: explicit positive host buffer bound required\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003fd4f7ac4c1c393fe0000000000000009000000050000000000000002000000000000000000000000000000000102030000000000040506070809\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":64,\"additional_offset\":68,\"total_bytes\":70,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: explicit positive host buffer bound required\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003fd4f7ac4c1c393fe0000000000000009000000050000000000000002ebce9b7632ae733b00000000000000000102030000000000040506070809\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":64,\"additional_offset\":68,\"total_bytes\":70,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: expected a decimal UInt32\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt32\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt32\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: explicit protobuf-only or full-residue mode required\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: explicit protobuf-only or full-residue mode required\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: explicit protobuf-only or full-residue mode required\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: diagnostic output bound exceeds 256 KiB\n",
+    "stdout": ""
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000000805f31b6e771078a400000000000000200000000b000000000000000a0000000000000000000000000000000070726f746f62756600000000000000000000006f70617175652d73796e7468657469632d646174616164646974696f6e616c\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":64,\"ccw_offset\":75,\"additional_offset\":96,\"total_bytes\":106,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "ownership",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003fd4f7ac4c1c393fe0000000000000009000000050000000000000002000000000000000000000000000000000102030000000000040506070809\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":64,\"additional_offset\":68,\"total_bytes\":70,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000003fd4f7ac4c1c393fe0000000000000009000000050000000000000002000000000000000000000000000000000102030000000000040506070809\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":59,\"ccw_offset\":64,\"additional_offset\":68,\"total_bytes\":70,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000099e7fd7f96f6e9788a000000000000010b0000002400000000000000441bd3564038bdf50700000000000000009db5d64d31bc315c097e53900c4b9c003213a512b89387aa6c3e86152418ff0d8eaa88b737d0a12dd599869792c52ea63a2e7ab729a05477392188d36dc698236eea7b3781838d62f5d208937f158854b08341e35a8594303809babb47d1a8359e9a34be0d9cee397ec77dc438f11900e210230fd6ae0cf1d5dbf31641072b7c7ab8d1cf56f446fb6d761580fc736a74e1314a31ac00527f7000000000000000000000000000000000000000000000000000000000000000000000000017a31ca8c94e060e4c1136393216db002e7ef8a9c4f1f8d037f18cc4f7bde431f94fb3bb0dad8c4ed378e0aa48a41e5ce2e5cc487abdebceebec618715fd1a08685e2ca7e1c55c510059d6c2c7a5312f7505a33c78edb2ebf60cc2746a3bb9efc231c7fb012a26a7d10c1e6d963174af5c78a0e45f72dab6603279eeb3b09e446c3c69afd6e217b1733fc508ef1f58d651d6fa7b6eb45b9db7dcd9c08d46bc4c65ffbb65a3aececdfacc31cf6881829231c9c30956032465046182adb76d30b8d2e3ee174c93d8f7fc26878b1079b5b47459ae2e90b98e8b7a588b597bb8cfb05f3afa4508f3641269510d397085eee02fa50f92a5bbd9fc62004b6b9fbd69764897023b91a65b362c15b44dbae896b13ded4c10820217493878a1b4368bd064f4b82bfdcdc8e812868b2c\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":209,\"ccw_offset\":245,\"additional_offset\":476,\"total_bytes\":544,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000e54d8e3377587267f4000000000000010500000057000000000000002a88d0a1135957c2770000000000000000051e43cae3f90ba253e0751f07c1961785152ee7f574cd4db265af0e100fdaf28894869ae1ef6d402aede5c79b49407661a806a8008c1e9bbbb1ac3cf4db7e1f7eaaaf0386fe111f32a846e0732c9e7b37770ed3f5b411e3209f877b8fe9afcdeb4bfb3cc4d3ea528b94f16c63334c0f0deb0c047f3c404e5ed8705682739bf3f3be6259b66c6bac5247576edca3995eda418c7249e8ae6a6408eb18f001ffc4eac7fad64f84bea863749dbfaa4d04800a4339cb5383771c9336926d96d20ab8926d777007ee19410338063fd1d61c2848a0a06257aac4f234e7aa79e8922b7a932183684c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000371b7747895590fb553a241ceac9c8b65b79c2d161bd612aeda2df139c83483409537319f45d13da289ade3829c19a5c801892b67516ce958b49eca42bfe2aae2b2f20264b3cf027c54a284c14f2a738b791d4288ab96acd2088a2d27d7af6cb34c626da5f0ec1654fc921cef4042ea0581df1946a01403191882f825ffb54055b2240b8e57064ddb202d858fa0b96e16e82e37ad8e9fca445c7aa272864546a0861f8b85b96b179a3bab4f36e3c0811a1e7f3fb200854f3be1ea9d9dbb449581ee4aa14024bf092b200b4eda78a2c98d9bf871f8dae0198\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":285,\"ccw_offset\":372,\"additional_offset\":546,\"total_bytes\":588,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000adb4cae9db5be04cd0000000000000013b0000008200000000000000cc00000000000000000000000000000000a2ad99d9f4b53a080e93447bf8de0d13ab4528ad9932dc87de738dbc7a8ec0a94c8fb365601f4aa5a7aaf0b32e0f140c6f018cfd71b9b401eb17e7e4d06aeb71c2490e1ea1f43d7e19c5eea5ad2ca1da59f931815ef4e5ac5480138d048440221193c4b05d695260e5a88de7d20f2baa59366b524f7c8b33fcf48ae6498669ff1d581f55e064cc7f05415c6d98538dc02401e51688b4ab94a860b740fcfe2e774d7bb17890a7b6083a858cd8d700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000d96083a39d3d28c233af2605af6b212d79eebcfa00e639e085a7aa48602030efe2179a564590ec027fd93df1d71e1f376a7be49e3c6b796d1ebf0bc93df98dea6ef6911bfbe3fb1e49ddc97cccc05e53eb4586ba43443d60defdf3f47c6abb1a9a93365511e5f26b35c57c8b2a1ae182d2f80243e21a512857aa41ea732540f41283c5f7b043765a7b9c197b67c704e4ffee66c77700dcbc8cf2a4eb69986529cf7a1c840628abfb5db8784e2bb58159293b8bae0a651c878fa2a1355aaf73e7ed885a3fb2a407a7f068b838b9a92773c668d1c6300f406f2517cc7b6e6f3134bfbc4fecd19659ad8c2251d236e9e10c7919c15f52b6104b2d8c944591588fde798d24e87873f5c8255e82692462c005464949764bdd765b183372b31db10b76e7a617c83e4554698b1e79c77390205a511f7ed67ecc679751f079971f3ef366bf20a4d39a94858a03f04c789ec9fee991f0bca7e708d39b7f66e0d6c5d14ff250b1f222a644b54b75089b26540ddf38129cb4e0b74ddfd9025ee9b9b61c69190b4e4979d0\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":229,\"ccw_offset\":359,\"additional_offset\":544,\"total_bytes\":748,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000cd06558d46c5b2e9d600000000000001480000005b00000000000000239f3d4ee3b2f8322b000000000000000057e7641bb557c9c9211e5a06999fe85c43974f4b20ae4bded54d4063c490f4fdb13d4d38a0edad83ebe10705f6fb65303c713da9f02cab772688cd1c4470b18df227dde68d01a621ab5cc5a095cd90ce8f8ea035bb628afbcb68e339df2335b75e6d32ac6e4142daadefa6f51baeebebc5b31fa0a95df89b854f2801ad9c277dcd67837d91ba0fa20cc8f6db0d22a3251ac54dcae0815b5418248fa0447bb8b56622c0caa6a1fa53ca93e9440a8da8de9dafa56a0e3defd040203e19d48d18df8c60184653287c5ab3bb330519000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009505059d1db8def65f1e8550e69da0e84b0bf2fa8a4a9c40dcb691b0b1499aaf82b26dbc5d09ff8ed9091f0daee608581ae14289a72479acb7a01efb383332c4ee7599c318d81eb29b1c589d1b9b59f5a55205d26f421dfe2901ac0d46f5ac17ee221344269972388e53ed50b681cfd4c56328f59e7eb5d13802e36f5bbd69daa2a5b2e4848b430b8bebe5ba0369cb2719fa62a05a273ccbad01424e7502fcd653dce07a0a8fff78dcd234ab940028cea8ae3e8a4ef31684d87e9f2c2ac1135a92cad9f52b1dc9d77c4c8bac20097738ca9ca33bbe48a05799c40db9f265905a6efd5ea5bb11043d16f6f98f967581f0649da3cae1eef793275015e904d6f1d6cd34df90891c2fc846f7c27169748294\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":261,\"ccw_offset\":352,\"additional_offset\":589,\"total_bytes\":624,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000001b5b0094b9f9ca17fe00000000000000c900000036000000000000003142c9ab7d84160e050000000000000000fe03dc00dadbbe916f1aca1e2668a2e0ed829292472742791e5c83000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e68f8e3e4b5a8f30ca02c0449b9607ff033ef323e3d7b36b52e638a186d3b1b0d82f78af658c9d0ad166bac968a754a78e3d219c9eb8fdff904964f76c39ac70ebde732a9a34bb7bc03c35301c42c0d7bccd1702100162918d2c8658feec04c821371cfcf6b9a445553cb62809f21e88eb35a2b8a7a53dfd9dec1db4808e2e8543b002d0c2df95baa75510e3b1108d14bac87abcd36f430c9d076dafce8a7a1065b7096760baaea248875be10b7ea5f51488d274680887bc80fbf313a6a1363a1dba8276\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":83,\"ccw_offset\":137,\"additional_offset\":284,\"total_bytes\":333,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000ba1965b3748222daed00000000000001c7000000e200000000000000bd00000000000000000000000000000000a8680951f3d77ee431b1dbc5f3c0f985c180f6465ddedddf001fbb0bb83821dd9e0aeefa9b2480b693f8dec8babbbda5a2ae2efdaad8869eb8116b5a696e66fa76b4a43480a61ba1bd52dcd239f375ede74a26bf273997315d4fd3de74686950c657db5d78d72016ffb891ffc6c92f6dc7a2f986ecf77a773d5e8435e761c4afde875deda307c5bc63de643b68391d24d1f21f2eeb82f5ddda7aa5d5063343131c85b6c3429d1409d8b503b6cb044f16b92b9dbb7ea5a29afcf900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000702a02a4bfbea38dd9f768783bf94720a7d8a57f401917a6d23775b3f5b01af5ce8cb80c69962c4d2fda3b632c36f797f1c86840a9be5b9dffcd3729c2110cbc72c35790fff399e1796546b34586b5aaf85084a0783a075d8e76e4def48789a0060bb1cbb167b3a0d85285337ba9d9d7ded5d32970ba0ed8ff3a24cd92692be52dba2847b8a071b2c9d89173048c4b53dbadb2852600eee635c538ce7c2d66890bc27c7176fb10e5d7fe5250af56525ff42502fb57e01727a73b55bd1b89a39c5743e5232b1435ff8e6b346676ffc95af926ee233ebdd462b103d74569139279b0787143d5b1043b539b403248992cd2a81caaba3b42bad0af948103a678ffbfb2f9946ef7c23a61c204072ed8d179ac6de6d7d69905f01488d667c03174250adebc94aa529d2c9e169a2b7b2381543854a8fdb8c0ef2f0f5961129528cb95db097f5b525aba47d68e9834408393fa8e60ed5d2ea68344eb267ab513c04001b6fd7fa69899d63f3300da3487f28378799865bd796319589a6490365b70e7c0215ddebb5aeff0fe52e424a70e739b8f5eb9130918581e511ab8e1abd0948e16098a7e\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":242,\"ccw_offset\":468,\"additional_offset\":697,\"total_bytes\":886,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000004e030b7926925d1018000000000000017a0000008600000000000000becc7663ffb69443b200000000000000007223e6c559c60e4183bd26823553bbeca46a2241944fe74c107c6bdb050fd4de5974bbe7cf487159e0ebff8275bbdcf67d66ab0a5f7378524df007b51f40ea933eac6298fb67a1d3e62433cbbbc800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003f504c39643221b1f695d713792c8b56af35faee5904ab2b8658fdfacf1f982ff483c4d1c375846fbb7efe68b35516446892106c49de3c612b404ae3632e446f7a73efefe5707aabc6763a1c4e1dc838562b794714bde594578e5291a62d2ccb83df5b1b1e2cf3f0c214c5bb1c554515bcc43562167160cda088cbc2d3fbf556315164101b88bf7d7f5192b3fa49441a85c6aaed63ee9918ba82045d748310560b46a47ba90a7a12877078d0c0855e34ca26c926d779c7693fbe818800df74700c99864fcd5dd7d850aa437f19cbdd5ebdd04172d5853ca325aa157b42597b6a5fe3a01e133a3f9de50eb7c0c6af01879816d7aba4d7fd4de26ab224ca9dada0f0b6cbc15e60086f0a6e86f672264f18e84bea97ee769023453900165dd13ac714c7dab95c30d5cef63137c032f8efe29613bf0de3d414243c9befb4650d325fc192c12acea3b4372bfafe7275bcb7255f240efb413953d5acc4a6fcaaaa7b66caf1926465e74c3688ec7c511f0568618394dec4d91a0ffce62d163307810d50bef21e9173edf7656238cd242d5ce687ffa0c9dbc82dd3bb1bc7ceba436c58c7a5f2b534f647201e4ccf75ca9d3da9601de7\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":134,\"ccw_offset\":268,\"additional_offset\":512,\"total_bytes\":702,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000c788d39bb018c5d902000000000000009d0000003300000000000000e6464b90ea0179529a0000000000000000de1c6626c5b755adf3152330d48784e112466b0523d781d0102cdea441220083beed01865038c6170bdac3170278c25a6b31a864c6454b5ee1cde8d94611601a1a189a2c6a5118fdad53f50c0cfdb083919a6cacfe633bdf95c2d8075627dfd97b668e1fa265ada3b21c369f388e3ed5eab816f5c06489dd8b9a344e8d609050c879f6ed2e4af1e56c3518bcca78d393febf0fb51eb8c478b1dfd3c12350fd2d8d0439e0c4a870245907deac1a945f233be2c6e7ff7b980d61741bb25a8c259e66512592725a55000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a2fb46f5c95e962f999775a8a71686d3ea76acdf7b803317c1fde0b82bbb3469518ba7cc40c00dfab9825387fb7cda15f3f061b6c71032fdf772a39d80388a045b9807e3fe10b597bcbffe76aec19e94df2e30d21386a69b26d78da181ff1f47873f77a53004efe674e5fffa5b0581fb7640df1840ae6bc2efe17c8c7c566aedc127c8ca1cd31143511ec84d6ef5ba82c1bd6d3e452d9dfd534dad0ef53004555f206403312b90c0e962c7fca16ea83aa56f5666e8da11cd79834b6ed8ab1e3b2f39ffe87a7781bb805a482e284bd5a203d2d47e4be6762682d4897a9653086381bc085254a0ec1b11d14628bc1650f12fc27eb8d094fd4d41021e2d4d8b02dce90c6e355cd033f3497df28f17b7b2c8b656795f31c3a4acfca50a5b3ae34ae4d87df82364f26413e978b1d3923cdd990b2aff6ac1292601c290fd61bb654aeadbfb91186951af65483faba1f2cc0f67\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":255,\"ccw_offset\":306,\"additional_offset\":412,\"total_bytes\":642,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000021602df457f2e30e6300000000000000d3000000940000000000000005000000000000000000000000000000002e3f78a6923e2c30497bac6122b3ff20afb29dfdc8a053b17f123681bb7531b5d8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ed49a6a129904edd46e2d2869395c602b7650a07c0efe9f930f422736f8a6b728123e0c5c9d24c977757ed202fcbc98078783cc664c3109e52ab35029aaa9126dc7e3c7\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":89,\"ccw_offset\":237,\"additional_offset\":300,\"total_bytes\":305,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000062eac27a3f1a149f5200000000000000c3000000720000000000000095000000000000000000000000000000009a322be7ac502875e5cd8d1c048d40a695e94b75c48a3465150e0dff7ff2e94f240b831dfe3fd70d995a20e2d226b179b7202e2ab41b3065ed4aa5d1c3a0b8f0fc3ccff39d3372aad1c1a935cf871d8e641ed15b1e7a6fe3e2d54c39478648c9c0f90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008112781e03774fc11ae0c23464f5863cb0f2bde05316dd1de1a0157de599e53dfe90445a6ad3567d51a824b27611e6a1a8b2e418b94712b6c09da9175e0218398fc5503b4f2e2cfe7905a11a87a2a8b17455c9375510d70c44839f99eb178c8b6e1b1d9f063adabb972342224dcf915a5c456291bc8ffa16f92f49159e62af0294d23a3ad2c257376bafa48b4ef3bc7df67a576544c6fb44aa505fcb3d2ba63e2753bc79b6d1a47d5fa3015ae3841b5afc725e88d60450bd453df7c3ad335a3310a0eba9fb1a456261a07379e33119cf61a6855ec757d9fe2fe84018777cc290dbd6c8185e98\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":154,\"ccw_offset\":268,\"additional_offset\":349,\"total_bytes\":498,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000004e1dd1368067dcdcf80000000000000102000000490000000000000030f113cdc9f15b4b930000000000000000c117464325faebd06576e06cec75d614c58f4a34dbdbb0ec0fbcbd5dae1365418c379ee3c55a467b0393cc18d7096559ae18dffabd1759c0727f0d07499d97a6e69e16e4e28e27b8b3485780cd2c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000cf80d34929cf42e46d9f54d634159dd162f796e5427dd36987c8ba0716a60cb3351d26ece1910c66dc4952b64cc13c589cccc63d0a8304c1da6963fa5ca7483eb8bef6ed6396ba2bf97153b73e86e8048a1a3e00a5b1d0b893f457149afbfdf3d90ad503c0ff253cc19a17f6ece507ed1aca0e7066405adaad80ccd70f4f557ada30331493f8bb72f6d60e74c46da5013f44adc0ee71942b0ec1e5d9568c5271b97243608339b825c62fde718ffcb0a4d8bef52bcb98178d56121f60f42b4616f1d02642023225c48c9c65d17c31ec703f75227f9e86101905cf10d60f16b12c4eed77aa0caa9745de\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":134,\"ccw_offset\":207,\"additional_offset\":392,\"total_bytes\":440,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000fcbe15dd96351a428500000000000000b0000000140000000000000079000000000000000000000000000000006bdbc45a2beb000dbee3d9fd7d01a0d6a0b8901bbcc1f74b7cc9e29e6606fab42c61f9e76a084a7b861ee063ed305ce7a50b3f3ddbbd2521d8e1ea3298747f4ef37f4b1b7f239f53c3b7c475fa044352ceb13e06cb1e906b3bc845ef12bf88cc62b6e35d92bea0d8ba726ccfeab29d391906a19bd3d9bc824bf62a68fafb1985900dd3e5ffed03ed0714506854fb0f63a2b93cdca4c537968416b4fa6b1935dd0ccdc1a6f9c3a31a354fce612ab6a28e162ef8e9eaa1c572b024ffee1d8fc207e2fec803ca54f60299ae844dd1861a7de6a1923417c8fe73e2dc167ea81f28b2bde4d928d48360c754c94814b008fa7c3edccf09e762fb581fd747520000000000000000000000000000000000000000baba727c2e098d8ae1a29b67f5a2ace9b6bf97d054b4ee6b355ffaf4d5fcf356ef7404ca76ffe0a723a9aba679224cc7f871c0bf546aec15a6ae642e0e3630ef9ff289a84fdd54b16afd0c68439f0a4a025175f009d3477c56cf10ad25457f3aadf75faa9e803ba77ac9951a723033e4c507c5aa95af4d6e5511f3497e76575aa7596afa130d3deb13947ec8574f83cda1e516842fcc6534039c2529181576e648144a051a1eef28a07fc58cca369fdb3b71fd0327cf25289525756aa0e6121ea6b9576fe521b217ebcdccd4ae3ab3408271bf9c70f6a5e74c7802f0667817b69a573a50a29046fb1e9a2d654d858c0325453bc76fa0ebed811576468375e97203da809999861800faac10fc8851e2380a2ccb6b5c\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":308,\"ccw_offset\":328,\"additional_offset\":484,\"total_bytes\":605,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000b3e8e2bcaf0774b5c900000000000000f80000004600000000000000b17634c78e33385aff00000000000000001cbcf72305b0b40ec81aa667073651a290d6eabf3e1aea038111b66f58d52ef738f9ab43a6c85617c547dba88551eeffb44ea2869af4c8dbc9714ce5ab1913749c2c9e684620ae0b8a177e833c9263ca299b8ff428550508fc62762c41f28939b157bbf4b0c12a70043371cf0069979c0b07fa1abb637ad4f3aee084eb624992ca0c4bfb0535c8fc55ddf3b83f2b1f9850e2af2a1e43b7679dc79980497b7678442265f24d28589c636888f1ffa1e7bb18641500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f58b58956f6afbd3447c42a410a8e452f2ede9557a583fa5f66f1743455e39c13387f3edb6d3e04f9e6bcabdc33e46ef8721377e588d37465ae1cc9c5ef312d522aa22c9df5bc39f77b5365765bc2b977469e95fcb5377d381ea66e132ff5bbdf8f57a6b40d2ad67967e976462a33bb7e766777ba86cba4228afc6a6b2381648e7570800ffdccb697074bf10295bc73ab4b14f6d83cc3bd852772c30a9c8f4b4c28ca94ae0218e53ef4ca7e777f8122f09b86f8e03240191ca43887c036e5507268bad902cef26a97bae9f7d2439b092b0276c1498574bc8bcc782ab96e3142e6c01c049beab544ad0c65c0366b3e726dd7dd86669fe8773b1825ca2d5546318b92d4661f53d4c1e1ca0d7378eaf8d1800c026a6f3eee0451968f1700d76009a08255e74ba045dcf2c4fccab5480613e6d668515066dce778277b09f7f4191f603cb9b6b2e086ad8e36d66a0cf1cfc7cdd3c830cb1dfb7e0e51c47c36a11b612bbe27a\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":235,\"ccw_offset\":305,\"additional_offset\":483,\"total_bytes\":660,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000036119779ffda6e685a00000000000000c000000038000000000000001a962a0589ac3cfd390000000000000000ae7eb4cde3c5261250868be104519b1618ee059a2e8341ca1de66b77aba8e386d26d7d30d8bdac381e4f378567eeccbf493af95c1fe80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000886d9276f76e425b496cadd05d59e48e08444092897640328fc386194122e45eada635ddfaa8cf6f2e5761e7961f54b5835eafe114a5428a831fc9fa0ccd5542851c7281b659c965fbe7c0390a2a363938bc2f754f1b388a8ef24feab62934cc5c7df02666289a30939aaf269faea979dbd9a5e505913cb1fa7df98279669d05e00fa188f0fe556f13b072fb29711ecc59766a3237dde8f0d3cdc3e53d2268d799f6\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":110,\"ccw_offset\":166,\"additional_offset\":302,\"total_bytes\":328,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000008157126c978199fe6300000000000000da000000c3000000000000006300000000000000000000000000000000bfc1dca5d5ade781969a2ee725a84d6c19b145ce56ca05cb4cc88d13ba2c50193c475619a8fc882a31cb736179906286be05741cd381e9c5e8965398099d2dc10d190beb32689fb1d91714e35a177f43ef38ac97d729edf7953a67553090a0a5f169847d25de3fb692da4a6b46c5ea0d9865e39ee892cbff75c109efb0f01b095a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000088db20308d8ad7097949c90b857e78b4701358c6e73bb36c986d20eedda88abb17bdda7be99868f11952b0b54b558cc975c416aa62005f913cb0f27762278710766346b128f20cd09a5f4ecdeef3ebbf372d9e20892963cc0be0f20c414d416454df1c0a053a39614620b7a988c2a4dad3204e849b05da283b85\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":185,\"ccw_offset\":380,\"additional_offset\":403,\"total_bytes\":502,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000006f1206a3a541e678be00000000000000bb00000022000000000000009000000000000000000000000000000000a1557bed8e35618438c8fe8fcc995234769a9aa465e30e6a375d9c6f0a65204291bbaa14a57564effb0ad57d3850c22011b03c015dd368dce0754049fa01084dacf0dd56e66d3428ca1697a564bfbacfbe7bb2c51a2b346ae21140a820ee9230b5ba7a6b660d9254c305e7ecc04513000000000000000000000000000000000000000000000000000000000000000000002eb6df59ac5ebf4de8cd586b4f330e1c4cdcccc4f61c0fe5e3d78b5fe31fed18b6c403871d8ff70e84aa6aec63f38085384a370548bff467a3d6ac4b36a6a430cb8cac58a2dffa5862ad403a40b1a2f8c95aabe90ce1f87b61fe624e34e27a47bf78dc1d302a0eac2ca2ab03afa138b46c91c896a92bab8f5c6963cbbeed5a33cc39e6f637769758693fb68c1c6f316218519fb53dd12d2dc0c6d148194b25b06d674f8c8ac96e896143d1a17202f5438711f35c274356c23ac4da6257ed6f8a52abefe0bec3bf784d1cf6b5efd2d8523c16b714362517a3b143d02eea906809d6e5ba160072afb2de91a4ae30dcdd1424d06097421c999c62eec1bbd5ec9738dbfe8bcb3d5cd519ae980eaa83eeae7081ac81c21515207707295564b18ba3bc1ff6aeefc5eb0f3526\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":167,\"ccw_offset\":201,\"additional_offset\":354,\"total_bytes\":498,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000759693403fc0fc8270000000000000014100000062000000000000007a00000000000000000000000000000000907074ac12dff69de06ca622bd978ee8c7247cbb66df36110312ac3bb9807d8de982d19d007369b7ffcc7ccd8eed764a575430a459cc4eb3f8097899d677582a012f9f02d960b530c0bbe94820c50265f1a35868dfc253eafc06a131844e3659365bd1c887729fe9b5234af511493db7f153e5d9fd00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001989c225111e711a4ce28c76ed1b9134a4c31e94026c255da6c0eff2430c74cbf98e1c5766b43f2734e6612f7603c4d7f404fbd1bd9e98017b596270ff8cc88cc90877b58de96f1fc69bb5ceeee4ac2a87634f78fcad4baa8102099d9fdc78fc6ea23f91e8acdd4c6e40045cd4dc2a2f0852abc255b6e02180d18cb6874a89fa6eac18791db80cd0e89c15ef3b505a51776904a616e61ba52d74ac9d1221b357db59757bbfa7ee20043c2602997f7907660cc50d03e45bf364ed304c81839fecc2f0a4e0eeb6febde72e3c665e460b71e97300328c00bdf9b02b8e4f05bd811d96debf1caf723c24e3cc271e052e12234f4d0f016e3f57737dbc04db541bf4616565c53021bbb9e69a48e47b042a0139ff36477a1a6949458e13638700a4e40fabd83c00bdfdfa4b01141b9d4812a27c8061d030da8d1c78a59943e0d577065c4fbf079236139f5a0511a00c83c0e3f525e8c4eb4b39611916\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":173,\"ccw_offset\":271,\"additional_offset\":494,\"total_bytes\":616,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000091789ac724a183e9f8000000000000010a000000d600000000000000f500000000000000000000000000000000b8da4be2fa001da6241814baf2c53e83604cd390121b6b2d6e4b1b7abfa869bc8c31ec00259dd6b3890ea038d1cf68b0793144b5495d13b38749f58c6090792b848a62ecc23af3ba89d803d4a648b7d87f0d1180d64cd9209bef7902b7b2c7813ac14c6cc4eb15446094a6c6b538c90f298a867fa574e447ddeb4ea65d4a39097fd958d4a7e7bcc84923998a8ad60e30f5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006ad4b99f820c07abcaf9aa13b1a5b5ce9d764a295cf81311479504892117c1923387ad7280f97ef09a848276d7d41c2cd17f0723d2864807b5ddd62185cecb63d2a9ec3e13aac6f04b73233f43e98023995a3c3ba59bde037b29770eda58b444b868ff9e6ed62cb2979639bdad7512f724301b08cb0357fb5c4c77fc3cb06619c85b147d898cc6553583fb511d89201909bcf32debde10034ce6e7211a22d65f13d2dfd37602c5929445c821f9a43ad45213eb497a4ad8ad6910cf5a004e5b08fdaaa5b6f6bcd8b5c024fd4df954e6df7cf3e0902b02d14c53aa1109c32fea58bf8774e6b23bdb800fc1b0cfe021247cd63caf0d1015d06f603946c07380805a854095a336a400b27fca3ff6c12ca9040fdd46cb0a9b25848e1a022206bc1c27b9c00c94174fd2fd93\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":201,\"ccw_offset\":415,\"additional_offset\":467,\"total_bytes\":712,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000954cfec91d83b8908d00000000000000b5000000760000000000000003c5d945b4172beb720000000000000000dcc88440705d879a3634c10a4abbbcbd8a5bfc7f5d6c8a576c3db7a0754920b1281f6b4b5cf78702189873d03aef2847eee7089101d4dfab5e14d2482752e034269d62f5779eda8e4f683d900a22553db1ea867eb329f95e737b51cc161de9dd3ddbfc319f82da43533fbf524312607f2601243adeb3c3492e6239735f801226810e599c1f9911d765e997f550fc82ad4f5a09d040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000fd5083933a25ee66e694a008eaf3103fcaa1cddc25ae62a867ce1c0cb809078f524601253547f56d5f428850e60b14cd0080142a902d40c07a5c8eb3ea28d0a6d10\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":205,\"ccw_offset\":323,\"additional_offset\":386,\"total_bytes\":389,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000f39b475969104944fd00000000000000a500000022000000000000004310a159a84be695b90000000000000000ce776f770cad8de37ea4619c9f8aa9627688ddbe0dc7e6ca9cb996a7ba900bf28d42df1ed43bb68ae08daf05add49023c7352f62616bf3ea639d7d22dc72e2cb52a4e1233fa512eda5400128270bff6d5cf7bea4a55faf25cf7494c9a77bb72783be3209d107f8659722db90c1f3b83157c1a137575fd3160ec847a861b0325cf89a67561517abe5e8f9714b134e72aaf7d2e39ebed19886f011bedd928ecd103c21e2a551ca509d4b50e1678c24b6c51c3bc3d4de89e13b393757adc7b7ec1df65fd8f6c82bee2a75a4545da17ff049809ed57fd87bde7740a455834ba8d5766941063afd77547b807d8be3fa47e7a1172c3b00000000000000000000000000000000000000000000000000000000000000000000f69481821f3c4f5913bb3d4706416f3a58dbe4da081e42ecd104bfeb7892cb53d106f543df228058cde1e08b4977dca63831d174072ca45be01e1b01da26d1c3d3e3e0b5a12bc40bc89caddea3cc1970dc81ec5d41f903fbddf2d28805985670f03e14c41d715567721ff8dee396548eb2120c8c530f5e458c16a75848bd8bb70f772f6abb60cf7b7fd3394b06bcd5756240bf2be2964b319f1086d95cec3752dcddb06a5992ab0f029c78d347eda4c2beabcad27242d2f05d6c8df3ab257bcec18b100f7044\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":299,\"ccw_offset\":333,\"additional_offset\":464,\"total_bytes\":531,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000e3830ba69552a4cd6400000000000000fe00000060000000000000002f000000000000000000000000000000002324ad2e69ba3b5492eae4f801cb9d042a35cfa43bb18c1585c51932da6adf41caddc0b0d9e2e9c729ae9efb7a9bce65675a64bab0799e7547b4825daabf35abea8dcb6cb89390b158b0a84d3ac41cb178044cb1f23ed147bff95d351a5aef86198052aec29d91bff7d1f6ed4ae39e64f5a1443278e4e8085813add8a702c1cfc5abcff36ed29495b720cbb49de051b7a5d68dce78400f1ac5de105d59ef894e9f7cb5ff42c6fcbea8225dfd174c5972d58ecf257f1156c61e42668356d050d478f46ed37223b71cd087dfe0f0abacee5f317bc5a391893e8b0864881b6cd8754da9ca000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000fe5c3dde1815ada8ae4fb6f5a9d5d1f54bbaeb2bd263809261d427f2ce2530069edbe8cd037f28dfaaa643d9a6d38e4ad46609690a6fbced6c448b597edd0a7a2d9cc461e70fbcbd265839c8208af866e957024b3f0f0b470dcc14476a183b4cc084e54126a5840ba256429d6b1c13a004706ef50dc58c506c9bfd2d406a22fdb88e9c00b8327f8d22986cfac440daecb609bbddb678429ec174fa848920fcdc447385fd85407e8d675787fef3b7300d78c2b785f6c8c1cef0ac5b907182ad0e14a8588c08af39745f75a87b2c\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":283,\"ccw_offset\":379,\"additional_offset\":537,\"total_bytes\":584,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000009891cef7a00d18b9db000000000000016c00000092000000000000001300000000000000000000000000000000309678dc4976ec140310591954421bfb662a4a8ca1a5fef5192f8123e2c8f492a30524ffc473b35b420adb02815ddb982b95f0653fec929b3a5517ff84085ff2ff36aec43a68e334966be5789960403f355fce9982ec0390183d601abf042ecdb534f389d2799c88994a7c2d4406dff09b23153eaf3fc5dbd1189cd57926725229414019bf0c35be2744a637a60455c02066c244f54e8182000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002f8a20fd40b7968b8955a10a71476d40cedc1a27832651de5e30622128b3d92ddc2d5078b94164541341ed109402a43c857bdaff8c107312075c69ebaf22b992312363685e7e61931368070bd3c4b6a6346bf8e6ed9bf120ef30464814091f47a30a8671cd9d257165200216f77ec8b8198a500744fb36d4af35b2657a3124a8bbfecf4f7f720cbeaea1a1778756aef15bdca70ade47ab56bf5286e9e9f9fc6262bffabcb382ddf975a57a051aa28e9b474cfcc480fefe24889d8037045aac486205897ffe2a71c3297ec9444fe5539ca86c755801f9787cc0d1142f33b1fcab53f6fdd9dfeec93f6afc119d1\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":208,\"ccw_offset\":354,\"additional_offset\":572,\"total_bytes\":591,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000b5315ccd169817ae20000000000000011c000000cc00000000000000d3ce751bddecfd6bc40000000000000000549ea7655dca5316960fc12fcc569889d82692e2920a9f3354f91ca90ed6e23a289370a034f99b94a4239f3965e1ccb95792a408334896002151e042c5013415c5633136743fc67b55830ee300b7033a7e4be910378e2108905ad7e8434e42cce28624162a8cc29bd28df92e3d45ed8aa8fa15ae919e38e28c833d63c9877d9498f4a12bf4a1f7be4d9cb4cc99ab06bd852e067d97f9809c3fd12ebd51ae7ed267daaf19f504744cb88254650661e5d88c0af2ffd900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000046b0a61c01fdbabb3979fe1115cd8353794e4fd8b44dc1505751fd53689d971c509eab90eb3f0fb60daf6b09bfdcfc8c2a9cfc5cf301f15d22291de645afd1d3c46bad915cae7249900710f66b251d4e77ff0a9caeb782bae38b23f525c294e0da7f1018f1fe5d8f2367e2d6336084cd7eaa2bfb0abf122373cca541fde5533edc40c0e8f073925184c2730d8a8bec2034102186b4bf51071c69a7c047678b2532f66755265ddba9985ba8d8111fbcd0e0e2c8eb8d69b842a5bf9050e6de6e377b072081a93e911c80be598281104aaa44fb544c725b74fbaea206fa23156ce64a4df37ac551fffaeb6c43da889c1ccd81729738c26b56814eeb44b40472ac5c98dd2eb003a3c3ed3e07b91f8a48c41d1d6d42d3b2d477dfc91ed6c30664c068316204\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":237,\"ccw_offset\":441,\"additional_offset\":521,\"total_bytes\":732,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000001e611bd20e00dd378b00000000000000bc0000004c000000000000008d000000000000000000000000000000009f6493981ad65ec8eb9f9cd32464b3f87474e0d1ce5f2df2b7e2d08b28940000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000064ea5bbf2dc9c32a385d9474149e6b8149e3cc3fa1337e1516f7cda27661d29e649466c15e30bc73480bad413c4b65f54f1254ff4d019d3fabff33f6c2df89dcc992e3c9dcfc5fc291117db12c5e04286ee801196b0cbdbb22cf370b75ee6e39c66ff43e679b1380087a856023d9f90f55b2ece481620dfca149be2c4ad6580ec8bd7a2fcf8890a3322d9b7846405de1797ddd11876d97c174c26b71cf8bd7d363ff2e6d417c049599ed10735d417bd8f68686fe7e30a4edddd1c982ccf2b49face86150bbb39af46ea2c5fab9ab2535050e36b35051024874cc93f70e4cb8d2074372972700538005b289e5ac89346493f087ea7fb518d171572ca68d\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":86,\"ccw_offset\":162,\"additional_offset\":274,\"total_bytes\":415,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000005a9298e88fd91ceed500000000000000ee0000001d000000000000006300000000000000000000000000000000eb3334beaec87b06ed70810819d85f220d0dec2771f6feda46bc093bf0839f8da7d05e2e8ed4800be8424798cd36ade542eeccb36963b159f80f5c587cda5f73598cdcb74db940c312a2c83a6a1cabb8fb59674fab5f62ab63640000000000000000000000000000000000000000000000000000000000dd5be313a23af331c9ec259a7037730ede674120007e22a9ce399c43ecd1287a93b1b8d51ef977b2f54560f128deb556d0ac7bc3e52f0c4058a0f57ef8ab86ecc3a0f4c7532ef8ea11f2498c2b5395bac09e46310b296d40f35f81346fb119f80d76a3f2b6b0bcf50b02a93533e86eac94c0eb28198eed61ae8beeb6dd8c5be35ecf12a792c4b4a1e666368e463ab51fff8dd047778813cc7d0d06df3dc04d262cf70115d54c3530f237381ff9df7ddc2c28be1ad14c3f0a98d815f07280ab55cdb18fc3a445c29c2396e1a2219016c7b08034a22b96a1361b6344268e17689030bed30d71a074bcdfb578f11c20bfb3d228e123de70521ee9c26a9fe507fedd7441e5c2fbee04b0206bb09c01ec8c3b9a1d0f89350f1f6b5f8f176409a030d6830ff590e13f68f445d350b3d67791b1aee4299b\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":146,\"ccw_offset\":175,\"additional_offset\":384,\"total_bytes\":483,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000005bc9714d6235d8db450000000000000170000000b400000000000000e9e05b2230644dba3200000000000000007d4bcfcbce432a579422b6135b1bb09f009a8df1eae2c3c6785b323a1e50442b9e768dbc0b57830a6e5d5a88e3bf3ec611855b3b163e52c8ff08476c9db45e5389701da118175e4b20957344a360688bc89f256a3624aedc8aa3f200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000037a98ba8fd2e439b55b4773936811bd4bf16f3fcab711d0dd5ebf47061ca51a8ffa95860d0f7cb624dd5c0e062a188c32ea6fecf0705da2b33eaeffca28c070c25aa44bb3bc9f5bb1f714e19363826730e23aca0afb03002089efdbce7b9f2b4cd840c62887ca1c013c149dca5e69a2798341addc627ec484642a990a2b3560ebdfb4787931bf6e38a858d71ebedeade1fc6d2f566c187fe00545e020ee153a1f33eefc32f932f103c6fa9d5f85826aea6445348fce206a8d95cbb64b59b946faa16350ef3b8631b3a1af68f5ccb26e907eabdba8a5e80880bffeb33d2ea037ebaf5f26614fd1cd0d9f47a6be883f5d285fb09decf62f17eb1cc0b403878e22a9cc3887749cb79a224743e2a2a2eb7c9f82607dee4677f87a7017b81eace718a58991d14e82e02ef1053392e335363365a41e8486b35940c2994ab1f93493de2030054f377777b78e9b8c8b850951c9428718933648f1258fc69259b80bfe21bcd8c90048a48b97abdc7021bbbfe7faef70126609a31b3abdfc207b2ef823a3b93486c22eed0f0b96803efdff127ae6cb48a463c7d45afa02f63fd55eb555a4c0f15bc3839\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":147,\"ccw_offset\":327,\"additional_offset\":515,\"total_bytes\":748,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000000be7874287141c575800000000000000d5000000800000000000000028000000000000000000000000000000001d0ff3ff98d30706b95bb40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f79b16874a95927b91bf104a200f6d0db29067336ca5560c71d87a395fe2edb91799b1f8d4889981a67de1deed23dd74eed23d1e6b997a32a83a6d585b8e76ce92d1cb14aecdbba80cb31f8789f5761682bf17bb382894fbeb797f40a75319bc717afcbf8bc214dfc9a67f535b005b79e947957d59add9661aee07a7f8\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":67,\"ccw_offset\":195,\"additional_offset\":280,\"total_bytes\":320,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000009e61850fe5528e721500000000000000a80000002e000000000000005c00000000000000000000000000000000aaf28054fa0192c045b68c5a4ac6e26a531e30cf0a85f4d0b7706e200f502b8b3c15a312010f46a2d193c1dd46f79c2628ca910592bf74503a4987414db4fb9fb1a6b08e02cff6a6550cb9ab16d00e7a44f0171cc9823e703662391d12afcd012cb4a28d1585a724ffadb4f4237957733ce0afc40e9e4b9bd34d2dcc211a3ab49bf05dc061fa66479f940f896d0e471cca6c427bb99eac4e5079c0678abf00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f3ab913d252a1aa532746f46808cda6bf92cc2235beed0e14ea47e27b46bb040722b4a3acee0eeea5682f83f5151199b75d0d5711a4517d7e2e78a48cfae183c71427888aeb2cb8217cbf9c3f2b0282b5aa2ab90d9484ef68a99dd8aa884d5db179fb7b7228416a209ed41cba2689a570b78f1a0a7a91ebaa5a7cf581013ae851894493480f5bd06c5e4c6a5c3b45d0d173a319985852e4c6d669062ed36930435e76b49d21d572845d251ba352ccd61c9aa1ebf313fee87f107fc2fcfa951f7d6099bfd40f354ef9e49c5fe360409056579e8f2965d\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":214,\"ccw_offset\":260,\"additional_offset\":382,\"total_bytes\":474,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000866bea31052f4f2631000000000000012a0000004600000000000000b54b8062abed5ab9f300000000000000006f9e6f903046076267223d548bc54b16d740c0bffa85e4de4271c7632c525ac3f99c1979ae4d7e36d7fbbe1d5535479659d2e88ebd8de5fc936fc1d8dfd0c3a5573032efee95a8bfb38cceec67869fb3045ba14714f166092f7212cd6e090519d51a9ea6d411400965df78291b64a2e6587628744aaa18e06eccec40ae593bfd3ef57b6afb6b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ed7ec41b990078777da12c0ab48c86272521680d1f96dea4ee8d9e8996fda6c1c7cbd39d9a240e82fc4bfb8be750c8c285fa5467fb3b98d0709dae9edaa11e18ed588705b338850fa1e71f385de2039a1c53ed51ad0407b3644f793276ca45d3a5b0b476d8b66f1cbb19b0ca935b9ed1bb53e10c7093ae149b247e64e72661e3e6ec246f4da695d3469df0f0ba757590407fd954873782d2cf0b57d30696d49fb970e18c98a7612331db0dfc2f6a0ab346dbb005b24acf5eb14852322f7f0f2b035495a92b8182117117645d164083416a1777811b244aa3f30bf28663a5493d520a71fbd358aad02f5c302c0f678e51a449fa0eb0e5ccd4127d95ad6b33932aab38bd2018d4132f890052fded968548f59759f0892bc9a9d4286f77796fa0b2b5e37ce16ab8f4aee269d7423fb84c0563ba08608eed061ac65613ff85c6ce86f1a5297af43eddc840f690e7faee5607c4f25bc5887fffc3368edc260443d590791304f6b3c7219d033eb0d874ee8bf96f27fa936d0939181faff1db041b2a9a87bef6a2fa14f7cb4b4adf4c35dcf2b7f75df4e531f74ec4d6\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":190,\"ccw_offset\":260,\"additional_offset\":488,\"total_bytes\":669,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000e40fb41f0157eda27700000000000001d1000000d9000000000000007400000000000000000000000000000000c6ec8c90f7d643abfd5bd8354ff9fb346f4dcaa7a850d783bf932749e7e7761cd2e84c61fe6d59ac28348d92d31130d386253873001a0dd685f3379cb8a92ddd0f38c69fbf0de562034f153bb9a7a19aa4f824e8f8306e25b825ad70fa2996cea5a894310c6ce2508a2110f97608721091939cd7441b61273e8e02a170d3c63dd0dcb497c232ebd95b2aa518fa5d20dfe7f5e448285844b15c4c8a7e3d68670abb3f123d3d31f2bb2d5677e12ce929226338f46adbbcbb5f0fa0bf5a3b1f1b2c3c2382c987d017d585602a6215ec75b93b09717faef14e64ab941258b16ee0055768c5ef00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0e0b06237e318171c6fcb6c95f0f9615ce8a0b238031b07d1834f9dbc7d2b251aa53271cf6c61964fa552904cf4bcd61b3b19f56a031d6f98f8f8f9d5066aab30d5c4b06421f7001ca1b5a9f872d66551bded67a6b163692723a51c2d13ce840d77fb5b99ae34fec364f4990724eea2b697e4483a3bb1d1ac303fabc206414dab7c51c863d05d42b533cf85d6bdffc5b1287c49347938de339ef3de711ea7c1e1e757bdda9c42bf32ee2072c86e1e799e85538e4afedd08a611044247b07225aad3a5de90cbd162f9d192cff72dd9c731339fe9355e94c5a13a8013513773d70f1c5420feee9324d28032b57e9a65ccd0870e387e6b82b472180bf10feb78983267ee0a641dc241e8c241ffb2076e83e853a693b0459ad73e41e549dc4d7bc24882bcb2e49306315c05446bef1cb12aca9ea78b20c6dc5e3d98d2ed83a35769916205d7b06d47994973cadde08d027862cf86b725d7716785df4eaa0061d6c3b67211622b5f07973b4b0b0c\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":284,\"ccw_offset\":501,\"additional_offset\":749,\"total_bytes\":865,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000cc40bb4e583e667af600000000000000e80000003b00000000000000f41484a1ae327adfc00000000000000000879e0b55c3d50258d219f2f104d90d83eb4a5c63646c4f01cea1ebfc0bc347ba74341357bd54a9c8556c90097b112a158468f4adcd0d5bdb487eb6d6a643d448f0619aa2040a2655906af1ea36f645e90d8130bdbff6b710a09ffb4fdafbaee8e3726a590ebb5ed75d87c292481ec5d617cfb70023a2809cc5cc5da60efdf61a1bd8fc8f2e86950fcd9fee25b526bfbe543ca8dbf268ed124b0d4f880d243eb9831042bd624a86c25859b61c92c42e362386d76fd46c655a7d4cb114a3537c2b44cf29336cbce47719465ff60000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000aff4209bad6158b9e1eab90d36f5ced810358d4330a3dadca622491ae3c6633532029e6aae0cc1b9a3ec2009472e1188825d789c772048f443d531bc89453f3cb06ce2bd1f5eae1c8ca8bec008e5359031dcdc64133205e0b77d8c5e5c4e36c23f8e5d4e400baa728e9adf7ac298f4cd67b648cf6ba0e1040a6e3d131aba6be21473be9fb1f459e5a27e3dbe8fe2236f2be02b8d02abf28a6193eb38d8002a9a2903fe5bb99618671c83bf227055c3c9bb2de5ec5d5ff31265bbf568b8a556fb7c32de0ceb156be9783ac0c6c4241db2668ad177b11e11e530ea38722185933b3fd6ce3039f41046dafb16558cd8bcf780b9ba665586af3771a1647c12472b65b1e6e52a8860f27546b8a70afa38ffc039034e5d9c02949100410fcc79536dc3735076d3dcd9e638d830eaf221b86cb5c574ed1048a37c0d9a8b7c03479335851894c985e14175fce9782b88ada4df8c4c031c4a10d22325bb169f2f442b1e77be3b65e6ca9ad351a6a8765f61afa68ed7ffe844b506cd14716782e7fb6c2b7f051c8c95dfd7bac99ae215f1bc08e9995b8ed1bed64781f42f6702790997444130\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":260,\"ccw_offset\":319,\"additional_offset\":492,\"total_bytes\":736,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000b38da0bcb5a3e9a91a00000000000000ba0000007a0000000000000064000000000000000000000000000000005a4629c6c01ad8fcd5b76b2759f88a7b8aa9f6b1d6be68aeefc29a54fbbcae01f2fd4cf12c5746913157c37216a7519d5b5a3b386cc8e1c8cbb67b09bb911423c3e5933f447b4243dd245ede89bff50f19dce6e9968d3a1846a9a95521bbdb79fbada4f3b631716be5571b5dee8c952b14183613e85ca47b6ecc69a7c268797de52e3a04ab65b48cb1a623e043e3fbaa7395fcfe2e702da7207801418e26c53aed34c74c75cc951ef5d504137fd04c2e78fa6f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005496940faa2ebf92b3ad2f4852939c751cc9a796f2f6a940d64e5e81a8ee35458b0fbc8560613f5113206f0805b02f7990182f2587cae4a2d7f8e725a898e9d3f5578b9ca9710688f8b0ac8de9ec00ef9e4e3c72dac7ec29e4ea40c6aacfdf3fdb858b5aaaf59bea942deac6eb4de0e57415497c42e66d30a5c015d3830d9379e872717dd2c3a207ccae7d5a5f96d61c8912ef490ba1b5d1ea321b67de5511c5f1030155\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":235,\"ccw_offset\":357,\"additional_offset\":421,\"total_bytes\":521,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000043eda7c1a7e031c45800000000000000f40000005e000000000000005c1b2580f97643721800000000000000005fe4cd34fddceb035acb73dc55a3f0bd95f7d91a05bf1cb57fc49f347db24056bce1180785508aabf270c39dc2d7711e6c0739fc4af1483df982405295f5144e8befb500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000754e3b0e494acf052052772a6edce6a0386870ed6255f34eab0022bbc8858d84932b8b059e41e09cd0784432d20e0f1e59ea01a0aa293115fd7f0360830dd48875fd9a34ff507d1098a75bcfc6326005ad09817253c98115c5e98f55130a064bdd791d1676adf3d568ab959a111f8b6a0e9d4e5b4551488d75b41a09e075e70376f79d109ba02050c431a067a5f64eb6dc6270e36ad4ca2ee3aed1a350e482ed525127c0ce6ef6ebb2bd136863b10044273e3f72bd39e622d733c1336d17ca6b2e2b58b36204f9bcee355dcf4599789d20934eca75dcae5eeb21cc58e5718af6567bf0ec1190d06129664d61025348aba665\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":123,\"ccw_offset\":217,\"additional_offset\":367,\"total_bytes\":459,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000ac6b18677f1e1b6966000000000000019a000000e900000000000000684d2b9e9264d14c6e0000000000000000def69b1c13c518c8ddf265b2171c44f12c69e18041c605e741197118c8b118ae5b18868d895448c140586834a6b6d15692aeea85162d6cc971c5408cfa96266cead91bdef031bb1fc7f04e6f5acc02d5269246654af576d061d81220fd675f04264fdd9d3362e6f2dbf357a8645cd041ee757bf972e0c84046dd02fb3e4f99380ddf004dfe0076f3bc88d6c78ff3fb25057b19c7fa03d6da2aca350251324bb0c81b08496346fb6ca88484a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f2199dd7a3548e71dd2eb40d5a5e62084ca844123ecfe1eeaba8b4a9df77105b4f7e8414ef8054be3e59aff82eabdc304af1e4eefd62ff1c480acdc8d166ff068db716fa5073fdf2497f1df65ca01bbc221eae16947947f8a8b3976ce37489df305c21b1b5fb6c4221890252833672b88fd3bc04953f44321027e32ec10893503b6530cd744b68bd045707fef3506eb87bd45c03da3cd03fd55b40150b0a532a9d96cf81f949a856b1f7a28ff30f2dceb0a41398ccd2426eca5d7d40c0045331fbff6943dd7b9ede44e89f88bd27776dbf9d3fc13303c79d2a9ab19acefff836ab8ef884ef50d5f9c231e721e918159dbdac7ac1501156ec9b1e44cd1dea7a199ca58f7d0aca589c667239e45029e3aeb99ff6098f3f6aaa17\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":228,\"ccw_offset\":461,\"additional_offset\":638,\"total_bytes\":742,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000c83f1ee2690c6296fb00000000000000a800000063000000000000002cde88f2a4dc36e7d400000000000000002631b4f65c0be08850761d3712174e1d57d1212a8cd2d06b40763318bfd7fc8718ada497327e4ab3f6ff8396f1b0ebc5a54f80471ef50d6083b488da5cb903af048372f2ea0799e799aefba5c3009ef05dfce5370bf5c384a22340af043828128e150eae9dd0e6a3c0197f3acfa4132f868d83b8412d68fc7afde275ca2fb5ed40f5e197f8e11a296f60a302ff692dd635cac1cdce515fb02e763e353a7659987b4a41132998b98dcd6ef12ae925c19672dc5fcef76b6eafa12de5598ec178cc58d6ce256e9943190000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005ca96633591bf8549a52e963459df4f5ec9e130bf0a2406da1078de86acd409694367253abf7af6d10ab1ef2ca0c4ad8cc69cfe607964c1ff7801ebde287de9c26b29b7eac98536d0295fcccf020dbf9340ec12d2513ad3c5de7bc83841f4ab5c4c4919a283ffdb19542dd715ba871497a\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":256,\"ccw_offset\":355,\"additional_offset\":424,\"total_bytes\":468,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000001de6dce2f0384edb6c000000000000005800000003000000000000004e27ff8c6f6fda51b90000000000000000689cebdbcc02cc671ea6eb462d1c61d0eb3ba09b353f40d054489a6b96000000af4bd832c7f9ca86b1a2eaa66dd8bd8fce19fb0b1dcc4b03ce6ba7323d724eb4931f1a4813d741b7209aed633d118957c1d98c56ed9bf2d8cc92677d400bea2005da0b677fda08d0dd2fa1ab405b80e65a44d97342ac8f85c566a376cdcd8e797b0173bf3141a5b40269b74613d8b5620fe7f4e9297c370cc1393a822ad83ea626afca3b737f2117e3ef9b3a3768ec788d84ae5d4eccc28b9b9c429ef0f8d08e53abe3\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":85,\"ccw_offset\":88,\"additional_offset\":173,\"total_bytes\":251,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"014845460000000300000000570e39945e0014a20000000000000169000000df00000000000000fd000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000096f496afd433c02152310868242fb0c1cb37855e74a4b413d3cfdcda6042db6f686f8d4cc382ffc6e96fa3118e15e05341f70034d3ec24e311b46487c3dff4d82e0c2c780592169fd528444d7bfaf115891250cb09bdae00d230411fe49e78aedeab2a72e19866c8fbcf772f861a8dddfb37f619fe74ad4e3ec42229a2b48018b63b2b4aa31da0cf7b7c168dcffb87a78aa8fe177ec45ea7650436b80294888539d76d20ce5a9b4367a7bc1bc31b0cdf3bb2e18c742fd703ec0148d2a2fa50484f4291474f1b660ed102204422d08d9f674b24f50ad89bdfcb634ecafb886ef39b0923713b6276425cb788eff0dac4855bc029ed6251e98a91bf9dd0a5cc8b7f6ec3a13ab4106247926a546d06c738a1f3b9b33a995698df486efea3b1cb4c5bda2fa390c2bd337a6edad40b017d40cfdef33ade1107375a74ecfe2c8459f9c5f3ec8ecbc413c0e77c146700d617a132e0b32e04ba89d2e8f719786a51cef79b072682b973074fd30d76f308af48d4912e43be02eff2176bf91806c2cb58a426484a3c41da9d41\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":279,\"additional_offset\":417,\"total_bytes\":670,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000d6cd880c013668d4350000000000000178000000c800000000000000600000000000000000000000000000000053bd3526a324e135f0b73db09554fe48cbb6c08c72e6e096ed71623d4c70e054c33f82a3b795316ac25819ca939a39adc745cf5a60727b312db0a2f03d8f553ca10eccdc05cce97ecc060dff0248ca48dcc25676571a6b53b460b655a0c58c282b065474d66d17029e12465e9dafb85f49a27812be5f8d11b04fd6c8ba8932964186aa1207e9e50d93c9a4397108044f1ed7d58c5e36a144894519c6954a2292161a92c27457c4d1133b1798ffbe432cd4c5673d331a6539a9fa77df3293c941e947d2ca3cc64d91aa3d6d7b69b329b073dff2296d680000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000d17c69167e27bcd33147e98124fe61232306bc418a60b29e507487dae7adc5feca62ad0707de1abfa6ed81cbc42161c769e636120dc53e59dcf8cfd91f4b953ece9466dffa34e9c9ac5c94dec9b14440076e9dba4e89978a42d6268cb21faafa45efe4f9f4ff390bf08b48360a379f8a4f67213831827e11890d939090f345f774b48ec553ec4b9ae4f6c8b13e2337edc79f40240e103514cbca14f0c4538597d43bd9935e1df6bcd659f194e0dba432cbd3d8664a5751ef7de19b4958ccbd5bfda340d18b2d624463f8ede54ba1eb4129591a6fe485723ed52abcece21e6881a4d9f14d509721e595911f0b39fe98d3b4291bbb7d2524c1ed121f249adef252e579ebe4e1e9ddea29d56aafa4adc87f\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":270,\"ccw_offset\":470,\"additional_offset\":646,\"total_bytes\":742,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000d2ce813f0ace994db6000000000000012c0000008500000000000000d15bbca283206f318e0000000000000000b8baf477686fde8495be1ced05c4151e5e0ca9a21164689d496e5cd5141dea7b0c8ae2f89fe6f0b114f1a397716042f53c9d763c31b4ac28eb21952faafea9a2d76434da7d5f86542e936bc6777c03a85a92eb2b65500fddb11dfd33ce64db2b09b70dce3f7b3f2d7e3898521902931fefd8cb841d3cd1ca90a3e722e8cdbeacee962cd1120a040e1589374899d5ea9c86eeb9572f98aa053d6ee706034713c7174fef519976e883c41ea7892a67bb5b5341b5031d7c79fbde615c0a6490a018e84fff5d070dec6bcf8887cc7f40a2770c2100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000507f6b3a954b4e5e2534e8f16b513001a92a6eaee932892d605ed8e9753dbf2f61c414ac68e7dea2005a2669992cc2e6466691700c1d06be26b926f591208d85392e0a128dc233f2856af03c3cf88c7ea3628a59becb798cec45c5362e3267f9dccd4378e7e29bf7f97c4616719cc83575d64b41e8377ef9f746c0276c9cda34a42f919672befb925838302726ecc4fc8738a69e0288371f79d43f43415a1bb08b7a2259690f8812f263e139a640ac2b6dc91b452694c5beb8059eece86049c833322d2734c9cb72d88bd9a47a76e25efd3815c439e81eac6e52205e1c67dfd365c45c673fa38efb0c2c3a89d7da4c92c446ad2bed8b3bb4a07de13ed15a2f9daf63c290f2d850a27b31ae1070be4b3adf0fc74b547bb6424e5abd6312f10cbe587d7ddd06bd205f800f4316fcfa1002051322bcf7cac7fb2070d01c279889bb1d4c3b0603ac2ae95be98ac3a82e4e6e4bb80a8f80bc9e50c2126d51c625ffb06a318599b7605b27cd54d6061b3d876145a945497beb6d3c\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":266,\"ccw_offset\":399,\"additional_offset\":566,\"total_bytes\":775,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000786dec8002a392066b000000000000005b00000039000000000000008700000000000000000000000000000000feada0c357b8e230dd89fd431188030361dc3b2517f1698883f594bec2fd1175c8ba2397a4fef5af14424a82220b8dfbe1c5292284ebcbade497538390fce878c73b9610f68c1e468d654ac7b54038591ed41fe057baed485947c8f8ea31737599a29cf54c7ea1feb0974f69b65c18dfe75ae3a607008275000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c975a0064e833fced5b2832d892c32211adbf229d6b0a28e0328210acbe41c1e73e95aa9d2590e537426f3925f9432485b6f50277ada182dc2a3f4b2e4e19aca5b0e1dd04fe52f5fa97f9937f954542aa8287f2a220f9c7225fda1a7d915328acbe3f06beaa7b8cd6f51023cbc84d94ec24984aad1f52d734e94415d79bb0946ffcab9935aa94f49c0205e51828e2d555a142877773af2be77a4bfe6024e0258ae9fb8a2e4cda7c3e0\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":176,\"ccw_offset\":233,\"additional_offset\":267,\"total_bytes\":402,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000294388f1533d3b0e2d00000000000000aa000000a7000000000000003d00000000000000000000000000000000aac14883cfd73b0d9261829a90c9a1a21baaf5047a409443f07bc56af8a00ae61a69c87011c77d72c3000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000057ed66c4888cbe86789b87d15db5a65b83314c903f7e31243038b5c91df033f6b40d53924370e77ece2d125da4ad5c235d1e69f8e2ba986c4d50715f78ae2770\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":97,\"ccw_offset\":264,\"additional_offset\":267,\"total_bytes\":328,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000003450813372d506907a0000000000000198000000a1000000000000006900000000000000000000000000000000cf5d164cc4d221841ca35fb25dcfbf3be1c14e771c9a6d351237ace0cddb8d7975e57252b3090c0bbdf7058c544aa357f7ccf9e90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000529720041886efd4967f211305aab056ded7380d97b72c0120982eb173676b9aa8f61b91a7af3c0ee0a719692faabf65a9849e85d49f536e99ef7d544269937e68f02f048aab7316d10726c05ed817e4081af34f990c71805707912f753b84b93977e2442c884297fde787109aa0b529b1fab7d5f4899cd631916e89c6ba03dd1f2e159ce3bad984e391086e38657eee96091612f1083fbd4d7d3d767e54b6b23ba58c2a71fd1516c38249ac3ee6f9ad0b1d90d054d1f0805aa385df8f8b70e77d82f132d7ec1ce6ed237470ffd52d74e860a3a625873d0d5eaa97a09bbdf1050846255ef023dbce587844d1e8c8d49ed5ea1206dd3985e81858287a315f4d45fc5009c0f46e64495878a09013b3b5ef61572e23e2702b1bc78aa182c8558954f2cf67082dbae25bedd10cce63c1342da6686c046540110fc6647cc0b99221f6b6f90ca3ab45c34e0cd9949e8a150ca66173e9d9609e8c1c0c098b2165b69725\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":108,\"ccw_offset\":269,\"additional_offset\":516,\"total_bytes\":621,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000d4d1a149ef17676f82000000000000011e0000002100000000000000c600000000000000000000000000000000448a81be7a3b57c86ba6dac728e501bde96027104d96c77625beeeb1c21bc2e85007e9dbb378d9dac97df29c4efb024671d0ca0ab28997ecd836c2db7a38bf1d950165c6e5e926122486421cb16292b86f41b85dc25c7b51c4b9f95d777b3f57e454c83e07fe433246190f06dd9430a578894819b737762d81ea3166cd64d200e902b3c237e38c6ae6ea8e16022592469877435382af6d54f54e4f5133febbfdcaf3eca353ee32938dbddd956c1a136ce914b19aaa959e5be53532a521b36a922ea90959e37874b1391fe3c01a90b0e6e42be48a0000000000000000000000000000000000000000000000000000000000000000006a94da66fde9a52fe550016f31dd0bae3aed364f70405b52ca7358056f7475e2b6b928daf9b70ba5b61a2364f6323e02f0ec3c08843f20b171a3871bfa24043e7cae3c1803ae20294b299e11f70a605417eea7e812936c02ea34f7717e41f8f0eed675fc0b8430552dfc71393f75292ed3e03a24bf9710c4738c47d163f0878772fed990d12767b1a7a80cbae2a396eb2ec5eab807c9b40fd4b6af6b1d24c3041685111fe6467c7e2b5ae46275fc2d99bb8b2a5ac60fd166be9e2f4db9598d5acb73b60145ecdf91bc1adc858ff2ab339ddf5a553a6fec54a0c366e313bde32aacce63bc9a798b556e5b68a8bb01250036d7e06a720653a66cde99f670ee5a8aa039c64c9acb105019dd07735a254ac3aea73a06353397179b2bf7c9f80693f793070109f9ee5317daecbd46192cdf374e5cdf40ab97e72d06820fb5ce236e2d4f95dd9a202687695016280ed31df0ee4a4ba08f3ed99d005d13e57d400085087cbabb0a5d8c8eb3710fa9427ef10177512c7a75248986f3a0ccf13cc3cbc3db0aff9df798f40d9c4ed8c8fddc7895a386cb9c7dca124a018e600d0a13e7984bfa42e4eef4c31ff4bdd90185046ab7988086a61d115b165a8edb633cdac98832c952a3\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":268,\"ccw_offset\":301,\"additional_offset\":554,\"total_bytes\":752,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000001d1ce67cbea0a47cfd00000000000000d10000005a00000000000000a700000000000000000000000000000000c7d3282616044486667409b37164f68987ae4591107966e0123f5eca8d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000646732d39bce7eb3d598f3872748e0eb3f645ffe676fcb6115238d3be18f8bc949a10c61783dc85e525ad32f0f593ed13999baf7e14ea4ac4985dab2eb88e3a841e2d1f01ac68c1127fc06231e2994d8e73521f02e6234efd49ffb7fd92427d1645ce43e1c9f2c01831af8d62d0c7e6283f37f3682df7b635a9ecc2bbb4b3a1ae6dacb349ba33b1d65a16fb8d8960ed50669dd9a6784f0b9ddce8dc398d2c33e5a8e629d36ede9a9c5a30fe2b4ed2114dfced7054bdafb1c7d37e38ac51d32800dd33677ae2d7b29d0f5d923f8a4aa1d2844ca870804a156b3f623028b3bc7c4d5937c9ba281832154155a123da63c115292b394d4c1d31cf535dda639a6b999a6171438b8bfacc2ac749cd4836093a1a010466313ffea1b4b6632a36882\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":85,\"ccw_offset\":175,\"additional_offset\":294,\"total_bytes\":461,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000ccf3058f494ebabf2800000000000000fa000000b7000000000000000e000000000000000000000000000000005527ee3a88d15ee63db3dedd8af2e63eb2799fc6e720c35fa6e3e3bbcb42ca2992dea325745fad536901caf2a07d93bd547a87eb12a05f779ab18d2d115081cd9f4b148072204dab7fb447bab41f0792b93f12ceef489cc6216e29c1f90db452f07fb84a6bedd1af527d1b829b33cad1145252a2e99b418563d383dc92a64b124f6aa6a1c2972bc212dd0c154e55888b488fc88ab3ffebde7f14efd23a4ce049688160fe3515f3db654b481e6dfdc6b52b44d6f0a407aa10aafb721fec12ba7bdb092b8e6e6c73e576edebf20000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a9cea1518a6ef86fa5c8a54ab48dbda2562ab477cb9fdfd79105a8f66d40638ed8061f4dd5627f961facc15aaed44aea5eab57916da8f77a9693420e2dd5d073416df0bcb6567a7e30b615dd09bc9ba97\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":260,\"ccw_offset\":443,\"additional_offset\":510,\"total_bytes\":524,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000007e9984391b5dd629f300000000000000840000003c00000000000000ee000000000000000000000000000000003a6a91c4647fccb5c64d9086f81d6d542ac73c3ff39695444555a842328955a25b68937058aa8d45561128d494d40795680e3100764b979a098fad205d5d20a5f3f1cddf02ba345c5ac2d6ac47c7e9b2d8754c0e4ee6b41ea744280198dfdcf038519f430d6bcc201113e80da2f2da149aff2dfe6b4688b1328260c98b19000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a0984309da219b45a066b8be11f79dd8ada7c6599c4ea47a2fc9d196b4c0474615182cfe5cc16bc749b3ff942b985b3158b17de4f1e1489adb107f8bd007b35b8d348e6c5d921447497dfdfe7264b83884609ee540b1ad3036b0cf8d71df0b7f493e356d801aeb9e02fde7b495be1d2c0fd085f34fd15ad8a78f77d3a2619feca9734c64ce7593135f4d198d7e78ebabd29ca15729b6061bd606498fa2aaed8f05ef769956d0d36042cec896b875b08eafdb9851b37ded344e276511ace6028a3ab9b13014fdb82f4723c93479417a8e543567b1eb7e96325d9fe5958c46a8f8164f3e4f783860619e1bcee99a1ae40eb8f2c53e128495095588e180e8d390113e0048ff9053e850a945c050931a9035c7920caa6f064a74601cb7bb96974441c962e764b0fcb6c53fd260445e5c7d4a102b91aee504\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":182,\"ccw_offset\":242,\"additional_offset\":314,\"total_bytes\":552,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000300ac9f3c037dd4186000000000000010a000000d3000000000000005700000000000000000000000000000000b24a6bb19f0554c574d9962effb01f76aff6921073ed57ee525ba6f4b3342743eb96ffe62353312bd960908dfa51249000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000082fc484ab6e9f13d2b14e9ce78d2608b5b0f548a3a6d79a10e063176f20239c8cec8bb6ca735ac6fd107d0c52cf984ff1eb02ce9bb24798c5eaa76f72b21b71ea76a770bb72fe08d0c056dc7d3a418c75d42f05ea33454953d02bf1ba87a34b666ec45efad168240860d72029054dd0174d7be0828ac873fa072d2c691f30c9e2246c59c083d79052b17bccc25f\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":104,\"ccw_offset\":315,\"additional_offset\":370,\"total_bytes\":457,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000419abc765cad98d5aa00000000000000c60000009f00000000000000adda79888d878f803e00000000000000006b0e4ebfc30b9f501039b3b23674b46f08adf83f676bafe1eaf157c43723b71d3d1a6a905117f1c38a470a419de65f3fd7429bd0db8d9e4e447df65f930aa68e60000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ee7f695230738b832248e4b79264828bab2742239be8b3816ab4edb843fed6950c29e3f7b46b4fe928a726c930895896766dd112d25f4a3f69e39cddb319ba03d0b9f4b7bf5c7b380fb5d471506408db1e500eaaa93ca8da43a39e76ae10a35712441666253cae483754d51aac1985d0031b337b07bd0411752e658a92e212b52ef4f9cd91ccaa5cf40d96fadf01929c37a281a4b9fbe2d78f4ad03b01c2208ddf68865a84ccdd9cf2963cf50a4c958e4b72772d92f49331804e189668fac3ac76de451049fcbc1d5b50f281c21c2aa769f666a2\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":121,\"ccw_offset\":280,\"additional_offset\":319,\"total_bytes\":492,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"01484546000000030000000ed201bc9299e9426600000000000000f5000000b900000000000000af00788fb73d28915e0000000000000000a1653b82a4eb12602152186c7b600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000644885f0bd1dcb63f7ad6904edca68d1075b4ac8aad48eb6679a4493fb4f74eb755977da7fddb225b81e168c96ca712201d831c34c883cd022548a1e07f76560a963533a7f60d0734883039401cb8193bdbc79384522486ccd5450f457dc6f971435e52a1919851429c2c3e95ac9ab3aa6804b7367652aa8d8399637543e3bbdbe5034d70614126ab25b717e9cc6aab378382ab9665e8094f7dc9a76aa7d0f0af2278f376b623b62218ed82bf30191cb3ca49fcba07bf9d136c3742862bac2b1083ecba7ee273aeb96c96ab4c88357d607f58e3fc9f9a3bbab2e48483f8117af03ce332459bd4181a39ab3\",\"domain\":\"protobuf-only\",\"protobuf_offset\":56,\"padding_offset\":70,\"ccw_offset\":255,\"additional_offset\":315,\"total_bytes\":490,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "build",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"envelope_hex\":\"0148454600000003000000335c932dacd11df7df000000000000008800000080000000000000000f00000000000000000000000000000000140cfdf40fe7a7b3628f6b10c684198b959a43eac51dc8d9412ccbad2066746c2a54e830284a339cf8facd38cf1c74bfdcabb70000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f291a7f3d7e725083d1423567ddaeedf9b8233cdd22212\",\"domain\":\"full-residue\",\"protobuf_offset\":56,\"padding_offset\":107,\"ccw_offset\":235,\"additional_offset\":243,\"total_bytes\":258,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "extent",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":56,\"total_bytes\":56,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"protobuf_offset\":56,\"padding_offset\":4294967351,\"ccw_offset\":8589934646,\"additional_offset\":8589934646,\"total_bytes\":8589934646,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":56,\"additional_offset\":9223372036854775807,\"total_bytes\":9223372036854775807,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"protobuf_offset\":56,\"padding_offset\":4294967351,\"ccw_offset\":4294967351,\"additional_offset\":4294967351,\"total_bytes\":9223372036854775807,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"protobuf_offset\":56,\"padding_offset\":56,\"ccw_offset\":4294967351,\"additional_offset\":4294967351,\"total_bytes\":4294967351,\"device_access\":false,\"complete_program\":false,\"execution_tested\":false}\n"
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: total extent differs from actual bytes or exceeds host bound\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramEnvelope]: protobuf length exceeds UInt32 header field\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: section arithmetic exceeds UInt64\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramEnvelope]: output cannot be represented by host Int\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramEnvelope]: output cannot be represented by host Int\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramEnvelope]: output cannot be represented by host Int\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadArgs]: argument exceeds UInt32\n",
+    "stdout": ""
+  },
+  {
+    "mode": "extent",
+    "returncode": 1,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadProgramHeader]: explicit positive host buffer bound required\n",
+    "stdout": ""
+  }
+]

@@ -13,7 +13,9 @@
   regressions pass. Host bytes only, no device configuration or model inference.
 - [x] Original outer integrity: eleven methods/2072 native calls; header8/151
   regression. Selected-domain host checks only, no executable/device claim.
-- [ ] Active: `TASK_hailo10h_program_envelope.md`, owned output construction.
+- [x] Owned outer envelope: eight methods/194 native calls; complete synthetic
+  byte output only, no executable metadata/CCW/hardware claim.
+- [ ] Active: `TASK_hailo10h_public_encoding_delta.md`, public release delta.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

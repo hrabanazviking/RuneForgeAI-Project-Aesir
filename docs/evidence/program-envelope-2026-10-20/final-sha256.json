@@ -1,0 +1,6 @@
+{
+  "smidr/program_envelope.mojo": "468cdd7ea502af365ba20b55000c21177d1f77602ad72cc8b1d491f0c26e70e7",
+  "smidr/tools/program_envelope.mojo": "21251d3b307a5956c6ec948bd2bf7d8928134c9cf982cdb2079609e74a2d4aaa",
+  "tests/test_hailo_program_envelope.py": "9ce60a51b6b73ed8143108c27757f358b89f1ffc35743cffdfdbab586ebd0b42",
+  "../program-envelope": "e25fdfeededc0085b43881acce539900e32d19019b0e9d7d5adddbe4d0321230"
+}

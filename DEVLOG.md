@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original owned program envelope
+
+- Connected original header/layout and Mojo XXH3 into independent owned outer
+  output bytes. Exact lengths, zero padding, explicit checksum selection and
+  preallocation bounds are checked; input lists are never retained or changed.
+- Eight methods/194 native calls pass (159 accept,35 refuse), with complete-byte
+  independent struct/hash oracle, all section combinations, integer extremes,
+  direct zero-selector policy, input/output ownership and host-only trace.
+- `docs/HAILO10H_MOJO_PROGRAM_ENVELOPE.md` records this outer serialization
+  boundary. Opaque metadata/CCWs are not executable qualification; no device
+  or model runs. Continue the pinned public-release encoding/transport delta.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): original program integrity
 
 - Published exact version-3 checksum ranges and the full unseeded XXH3-64

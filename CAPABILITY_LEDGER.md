@@ -2997,3 +2997,16 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   branch verifies executable metadata, numerical CCWs, device CRC, physical
   placement/precision, target compatibility or execution. Owned output-envelope
   connection follows under `TASK_hailo10h_program_envelope.md`.
+
+
+### Original owned program outer envelope — 2026-10-20
+
+- **Status:** `verified` as host outer serialization of supplied opaque sections.
+- **Owner:** original `smidr/program_envelope.mojo`, connects header/hash codecs.
+- **Evidence:** `docs/HAILO10H_MOJO_PROGRAM_ENVELOPE.md`; eight methods/194
+  native calls (159 accept,35 refuse), exact complete-byte independent oracle,
+  all section combinations, size/bounds/overflow/selector/ownership and host-only
+  trace. Extent planning checks huge declarations without allocation.
+- **Boundary:** no executable protobuf/CCW semantics, hardware alignment/target/
+  precision/placement, firmware CRC, program transfer/configure or execution.
+  Continue `TASK_hailo10h_public_encoding_delta.md` toward actual backend gaps.

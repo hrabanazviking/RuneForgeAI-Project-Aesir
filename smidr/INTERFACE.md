@@ -141,3 +141,13 @@ executable metadata, numerical CCWs or hardware compatibility. Default unseeded
 XXH3-64 is implemented in Mojo with fixed-size hash state and no external hash
 runtime. Facts, independent vectors/oracle and limitations:
 `docs/HAILO10H_MOJO_PROGRAM_INTEGRITY.md`.
+
+`program_envelope.mojo` connects the checked header/layout and hash primitives.
+`plan_program_envelope(protobuf_bytes,ccw_bytes,additional_bytes,padding,bound)`
+returns a checked host-representable layout without allocating declared bytes.
+`build_program_envelope(protobuf,ccws,additional,padding,protobuf_only,bound)`
+returns one independent owned byte list with copied sections, zero-filled
+explicit padding and computed checksums; it validates its selected domain.
+These are opaque outer bytes, not executable protobuf/CCW validation or hardware
+alignment/target/placement/admission. Receipt and ownership/complete-byte oracle:
+`docs/HAILO10H_MOJO_PROGRAM_ENVELOPE.md`.
