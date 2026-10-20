@@ -39,3 +39,9 @@ Freeze current inspectors; verify complete old GGUF outputs, independent
 structural NoPE graph/lifetime/cache oracles, all relevant refusal/ownership/
 bounds cases and every affected compiler regression. Commit/publish, verify
 remote heads and automatically continue toward the unchanged broad-model target.
+
+2026-10-20 audit and exact typed API/compatibility/acceptance contract:
+`docs/HAILO10H_DECODER_GRAPH_POLICY_DESIGN.md`. Graph and cache migration must
+land together. The current graph/cache structural baseline remains unchanged
+by the preceding decoder-layer intent module and is already verified by its
+saved source/binary manifests; freeze it explicitly before new edits.
