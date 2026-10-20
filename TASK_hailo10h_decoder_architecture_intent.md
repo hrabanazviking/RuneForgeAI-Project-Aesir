@@ -34,3 +34,10 @@ Continue numerical Hailo configuration/instruction/precision/packing/placement/
 upload/activation/result/cleanup discovery and original implementation. Do not
 invent undocumented opcodes or use header/metadata checks as hardware execution.
 Commit/publish each verified slice, verify both remote heads and advance.
+
+2026-10-20 audit: exact owned parameter/modifier prerequisite is narrowed in
+`docs/HAILO10H_DECODER_ARCHITECTURE_DESIGN.md`. Publish that API/accounting/
+compatibility contract before code, then implement and verify it. Missing/null
+KV-head semantics remain unresolved because the public default descriptions
+conflict. Explicit pinned config values are unambiguous. Full source bindings,
+rotary pairing/modifiers and numerical execution remain required work.

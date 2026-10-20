@@ -1,0 +1,19 @@
+{
+  "license_sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+  "documentation_sha256": "f29d5597063e53403870c5aa19119a2e5e18402edf8d42b1ae26e179a379343e",
+  "configuration_sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+  "source_url": "https://huggingface.co/docs/transformers/v4.57.1/en/model_doc/smollm3#transformers.SmolLM3Config",
+  "kv_default_conflict": "signature default4; prose describes16 when not specified; absent/null kept unresolved in new native intent",
+  "pinned": {
+    "layers": 36,
+    "hidden": 2048,
+    "feed_forward": 11008,
+    "heads": 16,
+    "kv_heads": 4,
+    "vocabulary": 128256,
+    "source_context": 65536,
+    "head_dim_arithmetic_candidate": 128
+  },
+  "implementation_downloaded": false,
+  "model_evaluated": false
+}
