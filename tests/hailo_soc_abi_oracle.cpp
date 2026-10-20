@@ -10,6 +10,10 @@
 #include <sys/syscall.h>
 #include <linux/stat.h>
 #include <fcntl.h>
+#include <pthread.h>
+#include <ctime>
+#include <cerrno>
+#include <unistd.h>
 #include "hailo_ioctl_common.h"
 
 template<typename T> void bytes(const T &value) {
@@ -24,7 +28,16 @@ int main(int argc, char **argv) {
     static_assert(sizeof(bool) == 1 && sizeof(hailo_dma_buffer_type) == 4);
     const auto n = [&](int i) { return std::strtoull(argv[i], nullptr, 10); };
     const std::string mode = argc > 1 ? argv[1] : "layout";
-    if (mode == "host-layout" && argc == 2) {
+    if (mode == "thread-layout" && argc == 2) {
+        std::cout << "{\"pthread_size\":" << sizeof(pthread_t)
+                  << ",\"timespec_size\":" << sizeof(timespec)
+                  << ",\"seconds_offset\":" << offsetof(timespec, tv_sec)
+                  << ",\"nanos_offset\":" << offsetof(timespec, tv_nsec)
+                  << ",\"time_size\":" << sizeof(time_t)
+                  << ",\"monotonic\":" << CLOCK_MONOTONIC
+                  << ",\"timed_out\":" << ETIMEDOUT
+                  << ",\"exit_group\":" << SYS_exit_group << "}\n";
+    } else if (mode == "host-layout" && argc == 2) {
         std::cout << "{\"uname_size\":" << sizeof(utsname)
                   << ",\"uname_machine\":" << offsetof(utsname, machine)
                   << ",\"statx_size\":" << sizeof(statx)

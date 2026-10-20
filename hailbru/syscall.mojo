@@ -79,6 +79,8 @@ def sc_nr(arch: String, name: String) -> Int64:
         return Int64(35) if aarch else Int64(263)
     if name == "nanosleep":
         return Int64(101) if aarch else Int64(35)
+    if name == "exit_group":
+        return Int64(94) if aarch else Int64(231)
     if name == "statx":
         return Int64(291) if aarch else Int64(332)
     return Int64(-1)
@@ -641,3 +643,57 @@ def os_page_size() raises -> Int64:
     if size < 4096 or size > 1048576 or (size & (size - 1)) != 0:
         raise Error("HailbruError[OsError]: unsupported host page size")
     return size
+
+
+# Linux LP64 pthread ABI, independently checked against installed system headers.
+comptime OsWorkerCallback = def(Int64) thin abi("C") -> Int64
+
+
+def os_worker_start(callback: OsWorkerCallback, argument: Int64) -> Tuple[Int32, UInt64]:
+    var thread = unsafe_alloc[UInt64](1)
+    thread[unsafe_offset=0] = 0
+    var result = external_call["pthread_create", Int32](thread, Int64(0), callback, argument)
+    var identifier = thread[unsafe_offset=0]
+    thread.unsafe_free()
+    return (result, identifier)
+
+
+def os_worker_join(arch: String, thread: UInt64, timeout_ms: Int64) raises -> Int32:
+    if timeout_ms < 1 or timeout_ms > 60000:
+        raise Error("HailbruError[BadDeadline]: worker timeout must be in [1,60000]ms")
+    var deadline = unsafe_alloc[Int64](2)
+    if syscall6(sc_nr(arch, "clock_gettime"), 1, Int64(Int(deadline)), 0, 0, 0, 0) != 0:
+        var error = errno_now()
+        deadline.unsafe_free()
+        raise Error("HailbruError[OsError]: monotonic clock failed: " + String(error))
+    var seconds = deadline[unsafe_offset=0]
+    var nanos = deadline[unsafe_offset=1]
+    if seconds < 0 or seconds > Int64(9223372036854775687) or nanos < 0 or nanos >= 1000000000:
+        deadline.unsafe_free()
+        raise Error("HailbruError[OsError]: invalid monotonic clock value")
+    nanos += (timeout_ms % 1000) * 1000000
+    deadline[unsafe_offset=0] = seconds + timeout_ms // 1000 + nanos // 1000000000
+    deadline[unsafe_offset=1] = nanos % 1000000000
+    var result = external_call["pthread_clockjoin_np", Int32](thread, Int64(0), Int32(1), deadline)
+    deadline.unsafe_free()
+    return result
+
+
+def os_blocking_pipe() raises -> Tuple[Int64, Int64]:
+    var fds = unsafe_alloc[Int32](2)
+    var result = external_call["pipe2", Int32](fds, Int32(O_CLOEXEC()))
+    if result != 0:
+        var error = errno_now()
+        fds.unsafe_free()
+        raise Error("HailbruError[OsError]: pipe2 failed: " + String(error))
+    var read_fd = Int64(fds[unsafe_offset=0])
+    var write_fd = Int64(fds[unsafe_offset=1])
+    fds.unsafe_free()
+    return (read_fd, write_fd)
+
+
+def os_fail_closed(arch: String, code: Int32):
+    # An unrecoverable live native worker must not return into resource teardown.
+    # Linux exit_group terminates all threads; no Mojo/atexit destructors run.
+    while True:
+        _ = syscall6(sc_nr(arch, "exit_group"), Int64(code), 0, 0, 0, 0, 0)

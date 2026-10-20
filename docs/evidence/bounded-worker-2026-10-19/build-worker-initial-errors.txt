@@ -1,0 +1,80 @@
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:4:
+./hailbru/syscall.mojo:697:32: error: invalid call to 'external_call': 'external_call' parameter 'return_type' has 'RegisterPassable' type, but value has type 'None'
+        external_call["_Exit", None](code)
+        ~~~~~~~~~~~~~          ^~~~
+Mojo/stdlib/std/ffi/__init__.mojo:1136:1: note: function declared here
+def external_call[callee: StringSpan[ImmStaticOrigin], return_type: RegisterPassable, *types: AnyType, *, num_fixed_args: Optional[Int] = None](*args: *types.values) -> return_type    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:110:52: error: invalid call to '_load_word': value passed to 'bytes' cannot be converted from 'Pointer[UInt8, origin_of(self._storage)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        return (_load_word(self._storage.unsafe_ptr(), 56), _load_word(self._storage.unsafe_ptr(), 64))
+                ~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:13:5: note: function declared here
+def _load_word(bytes: Pointer[UInt8, MutUntrackedOrigin], offset: Int) -> Int64:
+    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:110:52: note: .mut of the first value is 'False' but the second value is 'True'
+        return (_load_word(self._storage.unsafe_ptr(), 56), _load_word(self._storage.unsafe_ptr(), 64))
+                                                   ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:69:21: error: invalid call to '_store_word': value passed to 'bytes' cannot be converted from 'Pointer[UInt8, origin_of(self._storage)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        _store_word(bytes, 0, number)
+        ~~~~~~~~~~~ ^~~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:20:5: note: function declared here
+def _store_word(bytes: Pointer[UInt8, MutUntrackedOrigin], offset: Int, value: Int64):
+    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:69:21: note: .origin of the first value is 'origin_of(self._storage)' but the second value is 'MutUntrackedOrigin'
+        _store_word(bytes, 0, number)
+                    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:70:21: error: invalid call to '_store_word': value passed to 'bytes' cannot be converted from 'Pointer[UInt8, origin_of(self._storage)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        _store_word(bytes, 8, fd)
+        ~~~~~~~~~~~ ^~~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:20:5: note: function declared here
+def _store_word(bytes: Pointer[UInt8, MutUntrackedOrigin], offset: Int, value: Int64):
+    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:70:21: note: .origin of the first value is 'origin_of(self._storage)' but the second value is 'MutUntrackedOrigin'
+        _store_word(bytes, 8, fd)
+                    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:71:21: error: invalid call to '_store_word': value passed to 'bytes' cannot be converted from 'Pointer[UInt8, origin_of(self._storage)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        _store_word(bytes, 16, second)
+        ~~~~~~~~~~~ ^~~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:20:5: note: function declared here
+def _store_word(bytes: Pointer[UInt8, MutUntrackedOrigin], offset: Int, value: Int64):
+    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:71:21: note: .origin of the first value is 'origin_of(self._storage)' but the second value is 'MutUntrackedOrigin'
+        _store_word(bytes, 16, second)
+                    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:72:21: error: invalid call to '_store_word': value passed to 'bytes' cannot be converted from 'Pointer[UInt8, origin_of(self._storage)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        _store_word(bytes, 24, third)
+        ~~~~~~~~~~~ ^~~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:20:5: note: function declared here
+def _store_word(bytes: Pointer[UInt8, MutUntrackedOrigin], offset: Int, value: Int64):
+    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:72:21: note: .origin of the first value is 'origin_of(self._storage)' but the second value is 'MutUntrackedOrigin'
+        _store_word(bytes, 24, third)
+                    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:73:21: error: invalid call to '_store_word': value passed to 'bytes' cannot be converted from 'Pointer[UInt8, origin_of(self._storage)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        _store_word(bytes, payload_argument, Int64(Int(bytes)) + BLOCKING_HEADER_SIZE)
+        ~~~~~~~~~~~ ^~~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:20:5: note: function declared here
+def _store_word(bytes: Pointer[UInt8, MutUntrackedOrigin], offset: Int, value: Int64):
+    ^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:73:21: note: .origin of the first value is 'origin_of(self._storage)' but the second value is 'MutUntrackedOrigin'
+        _store_word(bytes, payload_argument, Int64(Int(bytes)) + BLOCKING_HEADER_SIZE)
+                    ^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module

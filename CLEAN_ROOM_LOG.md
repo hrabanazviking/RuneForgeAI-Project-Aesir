@@ -192,3 +192,13 @@ post-effect malformed reply evidence use the installed driver and strace.
 The discarded preload experiment is test research outside production; raw
 syscall observation supplies the qualified fault. No DMA transfer was launched.
 Receipt: `docs/HAILO10H_MOJO_DMA_STORAGE_OWNER.md`.
+
+### 2026-10-19 — In-process native worker interface
+
+Read current Mojo 1.1 C ABI and public runtime documentation, GNU pthread join
+clock manual and Linux pthread_create API documentation. Installed glibc
+pthread/time headers identify LGPL-2.1-or-later; read their notice and only
+extracted ABI facts, independently checked with system-header C++ oracle.
+No libc/runtime implementation is copied or translated. Original Mojo callback
+and ownership policy, actual host deadlines and terminal invariant evidence:
+`docs/HAILO10H_MOJO_BOUNDED_WORKER.md`. No device was opened by this proof.
