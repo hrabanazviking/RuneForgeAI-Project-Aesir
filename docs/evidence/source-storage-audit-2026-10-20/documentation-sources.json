@@ -1,0 +1,27 @@
+[
+  {
+    "path": "docs/source/en/custom_models.md",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/8cb5963cc22174954e7dca2c0a3320b7dc2f4edc/docs/source/en/custom_models.md",
+    "bytes": 13018,
+    "sha256": "7ac92a9fc8ad2179530b94ccde62090652f72da3746534a27095da730188d16f"
+  },
+  {
+    "path": "docs/source/en/model_doc/llama.md",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/8cb5963cc22174954e7dca2c0a3320b7dc2f4edc/docs/source/en/model_doc/llama.md",
+    "bytes": 6211,
+    "sha256": "1ba86c97f4a6b7f183bb57ca1748bbc34818043d8830831e67ad5ea940a531f5"
+  },
+  {
+    "path": "docs/source/en/models.md",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/8cb5963cc22174954e7dca2c0a3320b7dc2f4edc/docs/source/en/models.md",
+    "bytes": 12998,
+    "sha256": "fcf76208b32ad85ee9600d528d247083f5d39be642d724612d4351e44ff0cb4d"
+  },
+  {
+    "path": "rendered LlamaConfig public declaration",
+    "url": "https://huggingface.co/docs/transformers/v4.57.1/en/model_doc/llama",
+    "bytes": 568131,
+    "sha256": "a7c625ce15feef170f7e138abadb4742605cbd00eb5e82cb22ef7845fa946ef1",
+    "pin": "versioned rendered API, not a pinned raw source implementation"
+  }
+]

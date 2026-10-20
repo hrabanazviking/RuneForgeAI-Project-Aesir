@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Cartographer, Auditor, Scribe): source storage rank/provenance audit
+
+- Found exact `[N]` versus `[N,1]` rank loss in the existing PackedGGUF value
+  descriptor. Published shape-preservation contract before implementation;
+  tagged storage/config/name integration depends on retaining actual source axes.
+- Read the Apache-2.0 license before pinned public Transformers configuration/
+  shard-index documentation. Recorded peeled revision, hashes, dtype namespace
+  distinction, original-name/file mapping and incomplete alias/orientation facts.
+- Typed slice `2134a37` is on both branches with exact remote/tree verification.
+  Hosted run39422599694 fails historical master compilation; later gates skip.
+  Targeted54/1933 passes remain narrow, not a full repository/device pass.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): owned typed decoder graph
 
 - Separated live GGUF metadata decoding from owned decoder parameters and the

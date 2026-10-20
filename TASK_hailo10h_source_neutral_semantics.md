@@ -45,3 +45,9 @@ records current format coupling and the first implementation contract: extract
 owned typed decoder parameters and a compatible mathematical graph builder.
 Storage remains explicitly GGUF-specific in that phase; tagged storage and
 ordinary config/index/name facts must precede the safetensors semantic adapter.
+
+2026-10-20 next narrowing: typed decoder implementation passes54 methods/1933
+native calls and is published at `2134a37`. The next audit in
+`docs/HAILO10H_SOURCE_STORAGE_PROVENANCE_AUDIT.md` establishes current GGUF rank
+loss and public config/index facts. Preserve exact admitted GGUF source axes
+before tagged storage integration; do not infer source rank from row count.

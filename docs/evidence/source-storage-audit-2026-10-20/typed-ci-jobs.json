@@ -1,0 +1,8 @@
+{
+  "run_id": 39422599694,
+  "head_sha": "2134a375088c316a25a725bd4628d45d3a7b9fc5",
+  "status": "completed",
+  "conclusion": "failure",
+  "failed_step": "Compile Historical Master Without CPU Model Execution",
+  "subsequent_gates": "skipped"
+}
