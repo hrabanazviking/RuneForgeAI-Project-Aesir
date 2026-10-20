@@ -26,3 +26,13 @@ if shared behavior changes. No tensor/model forward or external model compiler.
 After verified publication, automatically aggregate distinct indexed shards and
 check exact original names/labels/counts/extents against the source index.
 Numerical Hailo execution and broad model/architecture support remain required.
+
+
+Published-first concrete audit/design:
+`docs/HAILO10H_SAFETENSORS_OWNED_FD_DESIGN.md`. The selected fd consumer is
+metadata-only: exact owned prefix/header bytes and shared factored decoder,
+without mmap or partial mapping masquerading as a full-file constant owner.
+This fulfills the explicit changed-representation design option above; the
+legacy mapped constant route retains its documented behavior/limits. No new
+munmap is needed by the fd reader. Inject actual read/close failures there,
+while existing mapped-reader regressions preserve its separate evidence.

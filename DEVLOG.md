@@ -1,3 +1,17 @@
+## 2026-10-20 — Codex (Cartographer, Architect, Scribe): same-fd header audit
+
+- Root admission9c5103f is on both remote branches with exact tree/head/clean
+  verification. Advanced automatically into the next parser/consumer audit.
+- Found existing parser close ignores munmap/close errors and static constants
+  require the complete mapping. Selected an owned prefix/header fd reader plus
+  factored existing header grammar, never a partial buffer pretending to map
+  the file. Exact transfer/reader/refactor acceptance design is published first.
+- Current full consistency run:4806 issues =534 clean baseline issues +4272
+  literal machine paths in preserved new evidence. New production/test source
+  files have no named path diagnostics; ledger totals agree. No checker pass.
+- Continue `TASK_hailo10h_safetensors_owned_fd.md`, then automatic shard/index
+  matching, exact semantics and numerical device execution under unchanged scope.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): actual shard descriptors
 
 - Implemented original root/regular-file owners and ARM64 Linux openat2 ABI
