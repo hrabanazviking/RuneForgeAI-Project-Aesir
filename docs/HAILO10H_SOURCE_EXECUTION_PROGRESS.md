@@ -14,8 +14,8 @@ Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
-| Tagged semantic storage migration | Verified compiler boundary | `HAILO10H_MOJO_SEMANTIC_STORAGE.md`;94 methods/2559 native calls,108 complete frozen consumer comparisons. Actual ordinary architecture/rotary/modifier adapter and numerical device execution remain open. |
 |---|---|---|
+| Tagged semantic storage migration | Verified compiler boundary | `HAILO10H_MOJO_SEMANTIC_STORAGE.md`;94 methods/2559 native calls,108 complete frozen consumer comparisons. Actual ordinary architecture/rotary/modifier adapter and numerical device execution remain open. |
 | Integrated-device envelope | Verified as a host protocol primitive | `HAILO10H_MOJO_HRPC_FRAMING.md`; native tool, independent wire checks and ownership/refusal checks pass. |
 | Typed device requests/replies | Verified as a host wire primitive | `HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`; status 1 now matches observed requests, ten independent protobuf methods pass; replies retain status-0 success. |
 | Running driver ABI | Verified as a host byte primitive | `HAILO10H_MOJO_SOC_ABI.md`; twelve ioctl values and 84 complete buffers match the installed C UAPI oracle. |

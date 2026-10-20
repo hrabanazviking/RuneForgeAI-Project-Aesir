@@ -96,3 +96,35 @@ and ownership checks, public-config27/9 result, actual collection integration
 and source-config/semantic regressions. This is a bounded step within the fixed
 broad-model target. Numerical instruction/configuration, precision/packing/
 placement/upload/activation/results/cleanup remain required parallel work.
+
+### Implementation narrowing before code
+
+DecoderLayerPolicy has no implicit defaults. Metadata entries count root fields,
+all declared rotary mask entries, source layer-type entries and effective layer
+flags. Work units are4*(decoded root-key UTF-8 bytes + retained raw-value UTF-8
+bytes)+entries+layer_count, checked with subtraction/division before allocation
+or traversal. This bounds a derivation/validation pass, not CPU cycles. The
+existing config parser's document byte/depth/work policies remain separate.
+Snapshot source_bytes/work_units must remain consistent with its original
+parser's4*source_bytes+field_count accounting; descriptors are still mutable
+metadata, not immutable file identity.
+
+SourceDecoderLayers additionally owns its policy, entry_count and work_units.
+Absent/null mask stores no declared flags and generates exactly layer_count
+flags using the positive interval (default4 when absent). Explicit masks retain
+every bounded0/1 entry and use their first layer_count entries. A present null
+interval or null window-enable flag is a type error; omitted window-enable uses
+its documented false default. Missing/null layer_types stays an empty source
+list plus an unresolved note; never fabricate attention patterns. Explicit
+layer_types must have one string per layer; strings beyond the established
+full_attention declaration remain preserved with unresolved notes. Window raw
+fields sliding_window/max_window_layers retain absence versus null versus a
+positive integer, including inactive settings. Positive window enable records
+unresolved window/architecture lowering. All other config fields remain raw.
+
+validate_decoder_layers rederives the expected intent from its owned config
+under the explicit policy and compares all derived arrays, origins, notes and
+accounting. A query validates under the intent's owned policy before lookup.
+Initial semantic implementation is SmolLM3; other importer semantics remain
+open work toward broad support. The native inspector has separate config[4]
+and layer[3] policies and false architecture/layout/identity/execution flags.
