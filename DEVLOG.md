@@ -1,3 +1,15 @@
+## 2026-10-20 — Codex (Architect, Auditor, Scribe): shard-root admission design
+
+- Config 2e57b8a is published and exact remote/tree verified on both branches;
+  both checkouts are clean, all original committed branches remain merged.
+- Read installed Linux UAPI licenses before openat2/fcntl/syscall facts. Original
+  isolated C oracle confirms24-byte how buffer and ARM64 directory flag16384,
+  different from the generic header. No kernel/model execution claim yet.
+- Published `docs/HAILO10H_MODEL_ROOT_ADMISSION_DESIGN.md` before production
+  code: move-only root/file owners, actual beneath-root regular-fd admission,
+  bounded attempt accounting, cleanup and one-time fd transfer. Next same-fd
+  parser/collection connection remains explicit; no path-reopen preflight.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): ordinary config values
 
 - Index d39d481 published/verified on both remote branches; both clean checkouts
