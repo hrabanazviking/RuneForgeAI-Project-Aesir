@@ -22,9 +22,9 @@ verify, publish and advance each bounded work slice.
 | Assigned interrupt cancellation | Verified physical empty-channel gate | `HAILO10H_MOJO_ASSIGNED_WAIT.md`; six methods/18 native runs, disable retry, join before cleanup, persistent-cancel terminal path and fresh-session recovery. No launch. |
 | Owned RPC byte access | Verified host copy/bounds gate | `HAILO10H_MOJO_RPC_BYTES.md`; independent protobuf/header vectors, actual host allocation, complete zero padding, owned snapshots and seven direct refusals. |
 | RPC descriptor / completion accounting | Verified host policy and pending-state gate | `HAILO10H_MOJO_RPC_ACCOUNTING.md`; exact aligned descriptor counts, both directions required, error/duplicate refusal; actual mapped-storage pending guards prove no transfer. |
-| Owned DMA transfer / typed RPC | Next active gate | `TASK_hailo10h_native_rpc_roundtrip.md`: enable before posting, exact descriptor and directional completion accounting, cache visibility and correlated device messages. |
-| Independent Mojo read-only device round-trip | Contract published before transfer implementation | `TASK_hailo10h_native_rpc_roundtrip.md`; real create/identify/destroy with response correlation and complete cleanup. |
-| Source-model compiler representation / resource planning | Existing parsers; compiler connection open | Connect real source metadata/tensors to owned lowering inputs and resource estimates. |
+| Owned DMA transfer / typed RPC | Verified physical message exchange | `HAILO10H_MOJO_NATIVE_RPC.md`; actual USERPTR submissions, exact counts, both completions, synchronized reply bytes and correlation; no model/compute. |
+| Independent Mojo read-only device round-trip | Verified on Hailo-10H without HailoRT linkage | `HAILO10H_MOJO_NATIVE_RPC.md`; five methods/36 child runs, repeated create/identify/destroy, timeout and failure cleanup with fresh-session recovery. |
+| Source-model compiler representation / resource planning | Next active contract | `TASK_hailo10h_source_compiler_plan.md`; connect actual source metadata/tensors to original typed lowering inputs, checked resource estimates and explicit unknown backend gates. |
 | Executable compute-context generation | Open | Learn and emit real operation/configuration/scheduling data, then prove the first operation on hardware. |
 | Source-model execution and architecture breadth | Open | Earn complete model, format, quantization, memory, numerical and lifecycle gates toward the same broad target. |
 

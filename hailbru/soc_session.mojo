@@ -97,6 +97,14 @@ struct SocSession(Movable):
         print("HailbruError[SocWaitCancelFatal]: waiter did not join after two bounded cancellation attempts" + self.cancel_errors)
         os_fail_closed(self.driver.arch, 124)
 
+    def enable_interrupts(mut self) raises:
+        self.require_open()
+        if not self.interrupts_enabled:
+            var masks = soc_channel_masks(self._interrupt_mask(), 0, 0)
+            # Enable errors can follow side effects. Cleanup stays armed.
+            self.interrupts_enabled = True
+            _ = self.driver.request("enable-channels", masks)
+
     def wait_interrupts(mut self, timeout_ms: Int64) raises -> List[UInt8]:
         self.require_open()
         if timeout_ms < 1 or timeout_ms > 60000:
@@ -107,11 +115,7 @@ struct SocSession(Movable):
         self.cancel_attempts = 0
         self.cancel_errors = String("")
         try:
-            if not self.interrupts_enabled:
-                var masks = soc_channel_masks(self._interrupt_mask(), 0, 0)
-                # Enable errors can follow side effects. Cleanup stays armed.
-                self.interrupts_enabled = True
-                _ = self.driver.request("enable-channels", masks)
+            self.enable_interrupts()
             self.waiter.start_interrupts(self.driver.arch, self.driver.fd, self._interrupt_mask())
             if not self.waiter.join(timeout_ms):
                 self.wait_failed = True

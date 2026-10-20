@@ -222,3 +222,15 @@ IRQ transfer-count meaning and finalization. Facts recorded in the
 source-execution research notes and prior reference observation. Original Mojo single-outstanding pair policy
 and pending storage guards contain no copied/translated implementation. Host
 IRQ snapshots prove accounting/refusals, not hardware execution.
+
+### 2026-10-19 — Independent native device RPC exchange
+
+Implemented the previously recorded/licensed hRPC frame, typed device messages,
+USERPTR launch and completion facts using original Mojo ownership/accounting.
+No vendor implementation, source translation or runtime bridge is used. The
+actual binary does not link HailoRT; the installed driver/firmware provides the
+hardware endpoint. Thirty-six physical native child runs cover normal typed
+lifecycles, pre-create submission failures, timeout and post-destroy cleanup.
+No model/inference or kernel/firmware/binding/reset change. Private identifiers
+and RPC bodies are omitted from published output. Receipt:
+`docs/HAILO10H_MOJO_NATIVE_RPC.md`.
