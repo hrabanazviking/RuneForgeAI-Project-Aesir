@@ -1,0 +1,1 @@
+size=256 mode=28 file_size=40 mask=513 regular=32768

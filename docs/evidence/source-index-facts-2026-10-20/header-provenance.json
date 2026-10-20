@@ -1,0 +1,6 @@
+{
+  "source": "installed Linux UAPI stat.h",
+  "license": "GPL-2.0 WITH Linux-syscall-note; SPDX read before declarations",
+  "sha256": "ede923fe967c5bf5b5e81239236f1c326e50fb573ce58f55ab12f311fa3840bb",
+  "used": "statx declaration offsets/type+size mask only; no external implementation copied"
+}
