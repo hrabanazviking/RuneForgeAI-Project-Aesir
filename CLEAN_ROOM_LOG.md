@@ -285,3 +285,13 @@ permissive notice were read; no MD5 implementation is used or linked. Exact
 byte/layout and independent Python checks pass. No vendor implementation or
 model/container content is copied or translated. No device/control/write or
 model forward occurs. Receipt: `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`.
+
+### 2026-10-19 — Server loading boundary and primitive recipe contract
+
+Continued already MIT-licensed pinned server interface study; original prose
+facts/hash appended to `docs/HAILO10H_PUBLIC_CONTEXT_ACTIONS.md`. No server is
+run, installed or copied. Read paper abstract definitions and arXiv distribution
+license notices for RMSNorm (1910.07467) and SiLU (1702.03118); no paper source,
+implementation, figure or text is copied. Mathematical definitions and the
+project's own epsilon convention inform the original compiler recipe contract
+`TASK_hailo10h_primitive_recipes.md`. No numerical model forward.

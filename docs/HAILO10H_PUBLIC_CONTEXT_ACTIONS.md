@@ -68,3 +68,17 @@ Primary source links:
 [control definitions](https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/common/include/control_protocol.h),
 [config buffer](https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/core_op/resource_manager/config_buffer.cpp),
 [host hRPC class](https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/device/device_hrpc_client.hpp).
+
+## Continued pinned server boundary study
+
+`hailort/hailort_server/hailort_server.cpp` SHA-256
+`80b8c3c66b976f1cd2f62f52b0b23b8c996d1d3d58241619848b1023ee660668`
+was studied under the same already-read MIT license. The registered generic
+infer-model creation handler reads the declared compiled-container bytes
+separately, then passes that buffer to the local VDevice infer-model API.
+Its dispatcher provides model configure/activate/run lifecycles, not a
+documented arbitrary action-list upload RPC. This reinforces the separation
+between a reachable control channel and a usable original compute-program
+endpoint. No server implementation is copied, translated, run or installed.
+Actual program/CCW construction and endpoint work remain open; this observation
+does not restrict the owner goal to vendor-precompiled models.
