@@ -1,0 +1,6 @@
+{
+  "smidr/decoder_architecture.mojo": "1e26c5d8833c14e82d180a486b90ca944edbd06c8786db7b6417fd06d9842e8f",
+  "smidr/tools/decoder_architecture.mojo": "b639f980ec2688c059737e736e78c7b1ef7dcc4ec74dc1ac5a045e39d4976cc3",
+  "tests/hailo_decoder_architecture_api.mojo": "b5df20fadb4179c44ddd39432b0f70d3a19a7098e8be86cc79af7039c1d3129b",
+  "tests/test_hailo_decoder_architecture.py": "65adf1d0e7ac8918660a169ebeac343e8c5bb9e8543e59874a6b2565ec7045e2"
+}

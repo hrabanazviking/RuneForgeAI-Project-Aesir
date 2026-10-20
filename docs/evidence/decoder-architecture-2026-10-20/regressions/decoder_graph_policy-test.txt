@@ -1,0 +1,6 @@
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 5.551s
+
+OK
+Native outcomes: {'accepted': 81, 'refused': 71} complete graphs: 40

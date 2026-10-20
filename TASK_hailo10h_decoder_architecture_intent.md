@@ -41,3 +41,8 @@ compatibility contract before code, then implement and verify it. Missing/null
 KV-head semantics remain unresolved because the public default descriptions
 conflict. Explicit pinned config values are unambiguous. Full source bindings,
 rotary pairing/modifiers and numerical execution remain required work.
+
+
+2026-10-20 owned parameter prerequisite implemented/verified31 methods/1053
+calls; receipt docs/HAILO10H_MOJO_DECODER_ARCHITECTURE.md. Complete architecture
+work remains open. Next automatic child: TASK_hailo10h_ordinary_source_bindings.md.

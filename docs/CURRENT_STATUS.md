@@ -1,3 +1,16 @@
+## Raspberry Pi / Hailo-10H source compiler — 2026-10-20
+
+The owner-fixed target is broad LLM support from ordinary source-model files,
+with Aesir owning internal compilation/execution in Mojo. Source loading, tagged
+storage, owned ordinary config/layer/parameter intent and explicit NoPE graph/
+cache policy have targeted evidence. Latest parameter slice31 methods/1053
+calls and prior graph slice99/2711 pass. Actual source aliases/axes/output-tie/
+complete modifier adaptation and numerical Hailo program generation/execution
+remain open; metadata/graphs are not model execution or physical fit. No DFC,
+external compiler, vendor artifact or user conversion prerequisite. All LLM
+execution for this work stays on Hailo-10H. Current roadmap:
+[Hailo source progress](HAILO10H_SOURCE_EXECUTION_PROGRESS.md).
+
 ## Native performance update — 2026-10-01
 
 Dense GQA now uses prepared descriptors, block K-quant projections and bounded

@@ -50,9 +50,12 @@
 - [x] Explicit typed per-layer rotary/output graph and direct/rotary cache policy:
   99 methods/2711 native calls,40 complete NoPE graph and108 frozen consumer
   comparisons. `docs/HAILO10H_MOJO_DECODER_GRAPH_POLICY.md`. Structure only.
-- [ ] Active: `TASK_hailo10h_decoder_architecture_intent.md` under the ordinary
-  adapter: actual ordinary dimensions/aliases/tie/bias/window/scaling/norm/
-  activation/pairing integration, then numerical Hailo execution.
+- [x] Owned ordinary parameter/modifier intent:31 methods/1053 native calls;
+  full raw config/layer ownership and explicit unresolved source semantics.
+  `docs/HAILO10H_MOJO_DECODER_ARCHITECTURE.md`. Metadata interpretation only.
+- [ ] Active: `TASK_hailo10h_ordinary_source_bindings.md` under architecture
+  intent: actual aliases/projection axes/output tie, then complete modifiers/
+  rotary pairing and numerical Hailo execution.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

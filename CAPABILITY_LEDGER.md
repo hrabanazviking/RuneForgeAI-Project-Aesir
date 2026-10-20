@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 103 |
+| `verified` | 104 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **148** |
+| **Total** | **149** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3231,3 +3231,19 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   source-model execution. Missing coverage remains implementation work.
 - **Next acceptance gate:** `TASK_hailo10h_decoder_architecture_intent.md`,
   actual ordinary architecture semantics and numerical Hailo execution.
+
+
+### AES-SOURCE-010 — Owned ordinary decoder parameter intent
+
+- **Status:** `verified`
+- **Owner:** original smidr.decoder_architecture, shared strict config/layer
+  owners and actual indexed/unindexed collection-config connections.
+- **Executable evidence:** docs/HAILO10H_MOJO_DECODER_ARCHITECTURE.md and
+  docs/evidence/decoder-architecture-2026-10-20/;31 methods/1053 calls, including
+  200 new calls and108 complete frozen consumer comparisons in regressions.
+- **Evidence boundary:** Owned source/default dimensions, explicit flags,
+  exact scalar words, raw modifiers/layers and unresolved semantics only. Head
+  quotient is a candidate; no actual projection axes/alias/output binding,
+  complete ordinary model adapter, physical fit or numerical Hailo execution.
+- **Next acceptance gate:** TASK_hailo10h_ordinary_source_bindings.md, full
+  source architecture/modifier integration and numerical Hailo execution.

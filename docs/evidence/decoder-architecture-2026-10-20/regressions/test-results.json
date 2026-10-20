@@ -1,0 +1,76 @@
+[
+  {
+    "suite": "source_config",
+    "command": [
+      "python3",
+      "tests/test_hailo_source_config.py",
+      "--binary",
+      "../source-config",
+      "--api",
+      "../source-config-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-architecture-regressions/source_config"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_layers",
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_layers.py",
+      "--binary",
+      "../decoder-layers",
+      "--api",
+      "../decoder-layers-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-architecture-regressions/decoder_layers"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_graph_policy",
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_graph_policy.py",
+      "--binary",
+      "../graph-policy-inspector",
+      "--api",
+      "../graph-policy-api",
+      "--baseline",
+      "../decoder-graph-baseline/semantic-plan",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-architecture-regressions/decoder_graph_policy"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "semantic_storage",
+    "command": [
+      "python3",
+      "tests/test_hailo_semantic_storage.py",
+      "--binary",
+      "../graph-policy-final/tagged-semantic-storage",
+      "--api",
+      "../graph-policy-final/tagged-semantic-storage-api",
+      "--binaries",
+      "../graph-policy-final",
+      "--baseline",
+      "../decoder-graph-baseline",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-architecture-regressions/semantic_storage"
+    ],
+    "returncode": 0
+  }
+]

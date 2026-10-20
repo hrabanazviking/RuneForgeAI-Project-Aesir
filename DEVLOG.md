@@ -1,3 +1,19 @@
+## 2026-10-20 — Codex: owned ordinary parameter and modifier intent
+
+- Published exact API/accounting design6fc6b0a before original Mojo code.
+  Independent complete config/layer snapshots retain parameter/default/flag/
+  scalar/activation origins and every unknown/inactive modifier.
+- Public KV default ambiguity stays unresolved for omission/null; explicit4 in
+  the pinned config is clear. Head quotient is labelled candidate, not source
+  axis proof. Missing output ties never become a name-presence heuristic.
+- New7 methods/200 calls pass, including48 seeded cases, exact scalar words/
+  smallest subnormal, real descriptor cleanup,22 mutation refusals and40 error/
+  valid cycles. Four unchanged-source regressions24/853 pass, full31/1053.
+- Extra edge run exposed omitted openat2 tracing and execution during relinking;
+  failures retained, final clean builds/tests pass. No model/device execution.
+- Continue actual ordinary source aliases/projection axes/output binding, then
+  complete architecture modifiers and numerical Hailo configuration/execution.
+
 ## 2026-10-20 — Codex: explicit decoder graph and cache policy
 
 - Implemented the published232fdad contract: independently owned explicit layer/

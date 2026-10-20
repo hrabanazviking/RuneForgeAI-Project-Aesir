@@ -1,0 +1,14 @@
+[
+  {
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "binary": "../decoder-architecture",
+    "returncode": 0,
+    "sha256": "f0bd81fe80174645adc653b7fd16be5a38ead23d033a57f24fe37bc81b96f8e0"
+  },
+  {
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "binary": "../decoder-architecture-api",
+    "returncode": 0,
+    "sha256": "bfce5503b1df7893cbd17c9df09184bab318613472ec6d186ad9bc8e0a4a0219"
+  }
+]

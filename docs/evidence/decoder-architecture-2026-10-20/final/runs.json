@@ -1,0 +1,3610 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-final-verification/unindexed.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "unindexed",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/ordinary",
+      "weights",
+      "config.json"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "465bec17b318e917a9eb6d683cd76b16258ee1ce0e4f7aa96b2def4730b35ad7",
+    "stdout_bytes": 2853,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-final-verification/indexed.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "indexed",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/ordinary",
+      "index.json",
+      "config.json"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "465bec17b318e917a9eb6d683cd76b16258ee1ce0e4f7aa96b2def4730b35ad7",
+    "stdout_bytes": 2853,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-final-verification/unindexed-late-refusal.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "unindexed",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/ordinary",
+      "weights",
+      "config.json"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-final-verification/indexed-late-refusal.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "indexed",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/ordinary",
+      "index.json",
+      "config.json"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-1.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8561398117835a14c1b59528c4393f91affcc5b67d7d27072b8562bb5b38b67f",
+    "stdout_bytes": 2779,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-2.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "45e029a53b40fea18597e40013a7aaccbe9fea8a3b8ba6f8ef8e6930fa1c1da8",
+    "stdout_bytes": 2786,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-3.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5adb57f2f3f6c2a39d516d6d915106d64b987f54f170e2bae4b8a64dce6e4a99",
+    "stdout_bytes": 2769,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-4.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f4c9091bd2919da947db354fd6a203d7b66ecdcbe927093ddeaf3e2acfcaa7e1",
+    "stdout_bytes": 2842,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-5.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a719aff61450cde52571175b11a7203f97a256e95cf6002cd0a8c27a9f90519f",
+    "stdout_bytes": 2817,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-6.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "40",
+      "400"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cbb1d409642826fd0dc0745bb400965c514844041d5bc01b681daacf9be6fbd4",
+    "stdout_bytes": 2808,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-7.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "39",
+      "400"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived entry/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-8.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "40",
+      "399"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived entry/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-9.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "0",
+      "400"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: explicit positive policies required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-10.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "-1",
+      "400"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: explicit positive policies required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-11.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "40",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: explicit positive policies required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-12.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "40",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: explicit positive policies required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-13.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "1",
+      "1"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: metadata entry/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-14.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f63358b5cc86bce36408c82cd6e64800bdca0929bcbc4c5e783a45ba1bf5b8d7",
+    "stdout_bytes": 2781,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-15.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a8dff6fab95c0aef6fd40849f9c4cee9626a8ebe0c40df1a3da272d3e5c860d5",
+    "stdout_bytes": 2826,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-16.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "72e268d67aa5d8c91899725b5fdbe950aa5cd5743e3d65ff65c277c63245932c",
+    "stdout_bytes": 2756,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-17.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1c5c2d638f75e14fdd1a1c1dc2bb84e93a9b213f8af06ae4f70c8086f4736a7c",
+    "stdout_bytes": 2788,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-18.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "689e7cc5b034d984e947752e564c4b078fc07406347417bbd066b1df29b44963",
+    "stdout_bytes": 2789,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-19.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2af47efb66f270d0d69033c3c424ba85773dfab7511beb5b866853aba70fa8a3",
+    "stdout_bytes": 2803,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-20.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4f9d04517e5d88d63961b9064fb9aa2c223285eaad603309b00da3b8f218cf31",
+    "stdout_bytes": 2812,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-21.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "64b216898651f7058a33170ebfed46bea69ef1afc146d05b7e57ae7de36244e0",
+    "stdout_bytes": 2996,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-22.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d50112cd0050337afc3e37550dfd2f1baf2603a947838b9c7d79d921c77146d7",
+    "stdout_bytes": 2824,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-23.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f7fdf6dc7a7f235c685918cbaa4d547977bcfd2c4c7ae707b132924e2436df98",
+    "stdout_bytes": 2872,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e985b10b87b0f4c84de0952dc47dd92996e78b39a1b54d302ab936c5c119a484",
+    "stdout_bytes": 2811,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "cycles"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e985b10b87b0f4c84de0952dc47dd92996e78b39a1b54d302ab936c5c119a484",
+    "stdout_bytes": 2811,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "dimension"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived dimensions changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "dimension_extra"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived architecture intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "dimension_missing"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived architecture intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "candidate"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived dimensions changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "flag"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived flags changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "flag_missing"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived architecture intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "scalar"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived scalar changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "scalar_missing"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived architecture intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "activation"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived architecture intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "origin"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived source/default provenance changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "origin_missing"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived field count changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "notes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived string array length changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "entries"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived architecture intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "work"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived architecture intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "owned_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: supplied and owned policy differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "external_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: supplied and owned policy differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "layer_mask"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived integer array changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "source_dimension"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived source intent changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "source_scalar"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: inconsistent original config accounting\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "source_accounting"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: inconsistent original config accounting\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "source_unknown_json"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture-api",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-24.json",
+      "layer_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: metadata entry/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-25.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "870efe9160b967edf23117eda5175b09fa2882fe375469341993555ba26c9154",
+    "stdout_bytes": 3162,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-26.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5fd5ee4f69d848a259a6261297c84285784a0be1caeeab120e7fbc06805f4e31",
+    "stdout_bytes": 3030,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-27.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ac8d5a46bad8122b055babe23c734e5bdc3ccf7281f50f5093a9c087d9650ba9",
+    "stdout_bytes": 3140,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-28.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5615cec5fa39b537a86737e704ffe4a43bac297ef8010879c5c3b5c8959f506f",
+    "stdout_bytes": 3011,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-29.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c695a866f2ae2d08fc2fd2f61913a38a66e98482d7e4c9fc2bf3e596f7f7278c",
+    "stdout_bytes": 3172,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-30.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "54eed0d868ccbc2c5f521503bbb89967f68f1c5824edf6f092f15598c9c967fa",
+    "stdout_bytes": 3030,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-31.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "dd376653156870e399246e64703a84dcb3fc942a58d81c2781fc0b082b14eb74",
+    "stdout_bytes": 3107,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-32.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "22ddbf5e9498ad7449e5555ce8bfeb10794b06fafea11b591bfdfbfd9bfb1282",
+    "stdout_bytes": 3044,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-33.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b792feb2a0710532ddf25f03c4a637686a8719a004ae09a89e208125c911a0c9",
+    "stdout_bytes": 3172,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-34.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b32eb62cb45e060e0a95096b52abd893178f3cd8d944d8170545e031e96bb6b1",
+    "stdout_bytes": 3000,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-35.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d440fa44bc6647caec72fae3e1ca1bed117d9d9f11872c547dbfe4f343ddbe80",
+    "stdout_bytes": 3148,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-36.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8d8dc018f8dff20671c7bbde90ffad6ead766df3f56c25c595aee664354d5a6b",
+    "stdout_bytes": 3050,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-37.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2024e782964196d3613b63eef944a8b9bd6eaf554b0216ec99007e6bcfc8b8ab",
+    "stdout_bytes": 3152,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-38.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "adb3ddebc1d967f9f8ba1f25e038cdcc38a0fdaca5faa30ee2ed73f512858da3",
+    "stdout_bytes": 3052,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-39.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "88ef5ecd2a8e27787970a572120874e6af237bef1c7183d9e7e200b6a351554c",
+    "stdout_bytes": 3136,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-40.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d6a65c407c2ac6a6795d2063c0209d447dd1ff78761e290ee24dd6ca7ce5741d",
+    "stdout_bytes": 3017,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-41.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "945c5ea8b8dadc5f91136b7e13cd5f2b067b1172e37f35a064ba8c296d17fe64",
+    "stdout_bytes": 3173,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-42.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "32833f22465e0d44acaab4549a721227f31f11a2f3c09de763196a8c5132e6dd",
+    "stdout_bytes": 3030,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-43.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a65cca395bb4c6d9bed7c3379603ba6be4dc3f8df55ff192191bc7f1943733b3",
+    "stdout_bytes": 3118,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-44.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f568116ce74ef1779aac237c27050569c06f8abc37bfb8c4aae68d1e6557911d",
+    "stdout_bytes": 3052,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-45.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7a4eec5f1dbe6cd75299dadf47ce11725d7a3f88e5d72e69d6a772a9c2cc339e",
+    "stdout_bytes": 3178,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-46.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "20d78603ef2bf53d9e7513cfd100ff80e77cd9edf91cc02e28f284e34de2fac3",
+    "stdout_bytes": 3004,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-47.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "98d5f3ca909d475de38f271597bebfdaa72251525dff5db1bbd763dd7cc90e9e",
+    "stdout_bytes": 3151,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-48.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "bc597e95a7f26dea48a5f9defe966b24a2ad6487fbb970f429d67ebfa750ba22",
+    "stdout_bytes": 3044,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-49.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "43422d72383721dd95bc9013d5a13fa328a2ee3cf69607c58601c3ee7f2adaac",
+    "stdout_bytes": 3138,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-50.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e8c958a263158b82c14fdb78bd9f28798a7af6b98752cb37e6e92606b04b1fa4",
+    "stdout_bytes": 3050,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-51.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "89f779436ddcc7c9ad5ce08135578086d2f9922d5f3742fdb1b65929e98313f8",
+    "stdout_bytes": 3152,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-52.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "df404e15da906a694e03652acb27049af7f43bac78f2202ee63824766457c764",
+    "stdout_bytes": 3023,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-53.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2be9edcd663fc99560513052913137fba4d37df344de38b9f6fb92da57e6b490",
+    "stdout_bytes": 3172,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-54.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "05b5135f7798eabeca1af682c5e4db4f5fcc58e37e8f613fdeb69fa8d72ee966",
+    "stdout_bytes": 3029,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-55.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8f41fa94f27e47a6426ba9e9d0444319e7d9e5b43439749f0a0cad5374fc0b6e",
+    "stdout_bytes": 3116,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-56.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9e0ccac22181f9286a106be60a5ef2ca2815dde0408aaae00bf5b4f843519f3b",
+    "stdout_bytes": 3042,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-57.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7bfbcb1ccdd7b97dccd1e0bb6f6d7e0666f99709ab3c0939c80d097e558b6d68",
+    "stdout_bytes": 3180,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-58.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "dc347a623912fa267095fd1c47f285fe920910105caa6a4b3f9a081e06dd26d4",
+    "stdout_bytes": 3012,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-59.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b0cfe447c06abb5ec77ccc76682a495f60891d34062bd662703b8ce5fceb3fc1",
+    "stdout_bytes": 3128,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-60.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5b3b6be65eaa5032b5a4352fea0b5c03e427d6e41b2e3d13513798eb14d00885",
+    "stdout_bytes": 3049,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-61.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4bdb3b7747e2992000579dd2b7f4b2685facdc4f379ab6e3579a691c4524f4ed",
+    "stdout_bytes": 3154,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-62.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c84909ed791ca370b17e2a908132d2163a7a5cb463fb314ca49892b6fe346e50",
+    "stdout_bytes": 3043,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-63.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "21f585632b66fe5605bc08900c4ffe3d28239f836fa6a142289301fb2995fc7f",
+    "stdout_bytes": 3157,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-64.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5c2dea97965e15f2f96f8a81169fea58086f5c13f4bf39e4b1e865c80a82a881",
+    "stdout_bytes": 3006,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-65.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2675114c416e9db538139561345da370835108f422ee0161a1b287e1add8f353",
+    "stdout_bytes": 3191,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-66.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "dbfa91227f2a06c22847ea80b7cd4046bf9d9e5fafe7390d184cd58e2f249810",
+    "stdout_bytes": 3032,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-67.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "22ffb7a8b2ec4c4082665ee0b3d12c1408c0eba65abf47f4694c528c7b28a6ae",
+    "stdout_bytes": 3123,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-68.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a32b01669bba724cb5b821d04e2a2a280bacc2b2e3535389c1f7b78939a5f4bd",
+    "stdout_bytes": 3027,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-69.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "971e284ef26229ed8bcd867b7b75368baf95d3354608a5c2126d9a0bb3defabb",
+    "stdout_bytes": 3174,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-70.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d5efa237ce6cbc7774dccc3ee036d41c76ce4c69e21bdeefc6d08cdde49da82a",
+    "stdout_bytes": 3009,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-71.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "37cd194359b649e4db1909d615432846dcb75677dfb3645cd847256d308e5f16",
+    "stdout_bytes": 3148,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-72.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b86f49bc38b3590df0dbca611429d52455fd684a48c087581cfb91ad504ed850",
+    "stdout_bytes": 3032,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "../ordinary-model-metadata-study/config.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6f766869f8a32a2f1e3a9de9e47cedb58c8befb4ceb1ea76b99eb1821474d02e",
+    "stdout_bytes": 5548,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-73.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-74.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-75.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-76.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-77.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: trailing raw field data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-78.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-79.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: integer overflow in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-80.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-81.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-82.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-83.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-84.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-85.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: trailing raw field data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-86.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-87.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: integer overflow in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-88.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-89.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-90.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-91.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-92.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-93.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: trailing raw field data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-94.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-95.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: integer overflow in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-96.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-97.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-98.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-99.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-100.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-101.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: trailing raw field data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-102.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-103.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: integer overflow in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-104.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-105.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-106.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-107.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-108.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-109.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: trailing raw field data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-110.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-111.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: integer overflow in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-112.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-113.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-114.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-115.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-116.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: positive integer source field required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-117.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: trailing raw field data\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-118.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-119.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: integer overflow in JSON header\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-120.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-121.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-122.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-123.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-124.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-125.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-126.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-127.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-128.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-129.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-130.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-131.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-132.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-133.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-134.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-135.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-136.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-137.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-138.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-139.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-140.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-141.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-142.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-143.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-144.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-145.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-146.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: finite positive scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-147.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: finite positive scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-148.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-149.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-150.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-151.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-152.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-153.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-154.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: finite positive scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-155.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: finite positive scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-156.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-157.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-158.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: JSON numerical scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-159.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-160.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-161.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-162.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-163.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-164.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: rotary scaling must be object or null\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-165.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: rotary scaling must be object or null\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-166.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: rotary scaling must be object or null\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-167.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: rotary scaling must be object or null\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-168.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: KV heads must divide query heads\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/config-169.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: KV heads must divide query heads\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/raw-197.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: finite positive scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/raw-198.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: finite positive scalar required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-architecture",
+      "/tmp/aesir-decoder-architecture-h__gkv2w/raw-199.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: finite positive scalar required\n"
+  }
+]

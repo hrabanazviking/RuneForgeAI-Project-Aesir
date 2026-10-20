@@ -367,3 +367,16 @@ normalization/projection/position inputs, aliases and exact lifetimes. General
 standalone SemanticPlan construction retains an empty policy placeholder.
 See `docs/HAILO10H_MOJO_DECODER_GRAPH_POLICY.md`; actual ordinary architecture/
 layout/modifier adaptation and numerical Hailo execution remain open.
+
+
+## Owned ordinary architecture parameter intent — 2026-10-20
+
+DecoderArchitecturePolicy(entries,work), SourceDecoderArchitecture,
+source_decoder_architecture and validate_decoder_architecture retain an
+independent complete layer/config owner plus source/default dimensions, strict
+flags, Float64 scalar words, activation, origins and unresolved modifiers.
+Missing/null KV and output-tie semantics remain unresolved; head_dim_candidate
+is arithmetic only. Every derived entry is charged before growth. Validation
+rederives all mutable fields under owned policies. No SemanticPlan, alias map,
+complete architecture certificate or numerical executor is returned. See
+`docs/HAILO10H_MOJO_DECODER_ARCHITECTURE.md` for acceptance and exact limits.
