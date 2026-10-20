@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_decoder_layer_intent.md` under the ordinary semantic adapter. Full controlling scope:
+slice: `TASK_hailo10h_decoder_graph_policy.md` under the ordinary semantic adapter. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -15,6 +15,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Owned ordinary decoder-layer intent | Verified source interpretation | `HAILO10H_MOJO_DECODER_LAYERS.md`;19 methods/701 calls, retained raw modifiers and source/default mask provenance. Explicit graph/cache NoPE policy and complete architecture/numerical execution remain open. |
 | Tagged semantic storage migration | Verified compiler boundary | `HAILO10H_MOJO_SEMANTIC_STORAGE.md`;94 methods/2559 native calls,108 complete frozen consumer comparisons. Actual ordinary architecture/rotary/modifier adapter and numerical device execution remain open. |
 | Integrated-device envelope | Verified as a host protocol primitive | `HAILO10H_MOJO_HRPC_FRAMING.md`; native tool, independent wire checks and ownership/refusal checks pass. |
 | Typed device requests/replies | Verified as a host wire primitive | `HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`; status 1 now matches observed requests, ten independent protobuf methods pass; replies retain status-0 success. |

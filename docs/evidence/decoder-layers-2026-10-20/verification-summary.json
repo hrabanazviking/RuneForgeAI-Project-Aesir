@@ -1,0 +1,21 @@
+{
+  "new": {
+    "methods": 6,
+    "calls": 199,
+    "accepted": 88,
+    "refused": 111,
+    "internal_failure_valid_cycles": 40
+  },
+  "config_regression": {
+    "methods": 6,
+    "calls": 190
+  },
+  "semantic_regression": {
+    "methods": 7,
+    "calls": 312,
+    "complete_frozen_comparisons": 108
+  },
+  "total_methods": 19,
+  "total_calls": 701,
+  "existing_mojo_source_manifest_unchanged": true
+}

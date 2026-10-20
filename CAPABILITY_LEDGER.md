@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 101 |
+| `verified` | 102 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **146** |
+| **Total** | **147** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3197,3 +3197,20 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   or LLM execution. Missing formats/ranks/operations remain implementation work.
 - **Next acceptance gate:** `TASK_hailo10h_ordinary_semantic_adapter.md`, broad
   architecture/modifier semantics and the actual numerical Hailo backend.
+
+
+### AES-SOURCE-008 — Owned ordinary decoder-layer intent
+
+- **Status:** `verified`
+- **Owner:** original smidr.decoder_layers, existing strict JSON/config readers
+  and native layer inspector; actual collection-config acceptance connections.
+- **Executable evidence:** `docs/HAILO10H_MOJO_DECODER_LAYERS.md` and
+  `docs/evidence/decoder-layers-2026-10-20/`;19 methods/701 calls, including199
+  new,190 config and312 semantic regressions,40 error/valid cycles.
+- **Evidence boundary:** Owned metadata interpretation for documented initial
+  layer semantics, full original config/modifier retention and source/default
+  provenance. No complete ordinary architecture/graph adapter, physical layout/
+  fit, immutable identity, numerical Hailo program or LLM execution. Other
+  architectures and operations remain required implementation work.
+- **Next acceptance gate:** `TASK_hailo10h_decoder_graph_policy.md`, actual
+  ordinary architecture/alias/modifier semantics and numerical Hailo execution.

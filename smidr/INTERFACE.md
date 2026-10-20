@@ -335,3 +335,21 @@ provenance; live byte access still requires its format-specific actual owner.
 No immutable identity, architecture equivalence, physical fit or execution is
 certified. Inspector: smidr/tools/semantic_storage.mojo. Receipt:
 docs/HAILO10H_MOJO_SEMANTIC_STORAGE.md.
+
+
+`decoder_layers.mojo` exposes DecoderLayerPolicy(layers,entries,work), move-only
+SourceDecoderLayers(source snapshot,owned policy,model_type,layer_count,declared
+rope_flags,effective rope_enabled,source layer_types,interval,window flag/raw
+fields,field_origins,unresolved,entry_count,work_units), source_decoder_layers,
+validate_decoder_layers and decoder_layer_uses_rope. Initial documented SmolLM3
+semantics: integer1=RoPE,0=NoPE; absent/null mask uses the positive interval,
+default4 only when interval is absent. Declared tails survive. Missing layer
+patterns and unimplemented window/type semantics are retained with notes. Every
+original config field/value remains independently owned. Work=4*(key UTF-8 bytes
++raw-value UTF-8 bytes)+entries+layers; entries=root fields+declared flags+source
+layer types+effective flags. Positive explicit bounds apply before growth.
+Validation rederives all derived state; a lookup validates before index access.
+This is metadata/semantic intent, not complete architecture, immutable identity,
+physical layout/fit or LLM execution. Other schema/operation coverage remains
+required broad-model work. Inspector decoder_layers takes separate config[4]
+and layer[3] policies. Receipt: docs/HAILO10H_MOJO_DECODER_LAYERS.md.

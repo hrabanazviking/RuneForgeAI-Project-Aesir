@@ -1,0 +1,42 @@
+{
+  "smidr/decoder_layers.mojo": {
+    "bytes": 11701,
+    "sha256": "320d81a6c5e09d673c080c03a0322d3f3fe8b05992fe0db89d17f754b0aaee30"
+  },
+  "smidr/tools/decoder_layers.mojo": {
+    "bytes": 3177,
+    "sha256": "0eea733ef57c297eed6fd8961beb3e7e19e66bb6475b1832b185b9812e9555aa"
+  },
+  "tests/hailo_decoder_layers_api.mojo": {
+    "bytes": 6060,
+    "sha256": "2e4e7573d9bbe94be845369b5c27f06288a308e947bd0cbccbc3d909e5df4b9c"
+  },
+  "tests/test_hailo_decoder_layers.py": {
+    "bytes": 13359,
+    "sha256": "7dd4dcb6515cb25e19147760ce81a48d5e818163d2ac989a4b273c6db88db0e5"
+  },
+  "../decoder-layers": {
+    "bytes": 177488,
+    "sha256": "fa3e019ebe1d8561059d3a9d14a1c3628ea03a8ae01e8777f44eedb3572d4de3"
+  },
+  "../decoder-layers-api": {
+    "bytes": 328848,
+    "sha256": "2b5e53f3bd8334688006af366b57e67e4579966799f8f6e3305f1af45d7995da"
+  },
+  "../collection-config": {
+    "bytes": 168744,
+    "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a"
+  },
+  "../collection-config-api": {
+    "bytes": 172736,
+    "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f"
+  },
+  "../semantic-storage-final/tagged-semantic-storage": {
+    "bytes": 262840,
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  "../semantic-storage-final/tagged-semantic-storage-api": {
+    "bytes": 579568,
+    "sha256": "5b3a4b0757a3af515d26fdf6754eca9f7bb58993f9aa45c2a15481e3bf7caeb5"
+  }
+}

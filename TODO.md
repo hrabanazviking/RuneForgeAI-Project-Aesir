@@ -45,9 +45,11 @@
   `docs/HAILO10H_MOJO_SEMANTIC_STORAGE.md`. Compiler metadata/structure only.
 - [x] Public per-layer rotary meaning confirmed without model execution:
   pinned config27 rotary/9 NoPE layers; docs/HAILO10H_ORDINARY_LAYER_SEMANTICS.md.
-- [ ] Active: `TASK_hailo10h_decoder_layer_intent.md` under the ordinary adapter:
-  owned layer/window/raw modifier intent, then actual graph/alias integration,
-  broad operator coverage and actual numerical Hailo execution.
+- [x] Owned decoder-layer intent:19 methods/701 native calls; source/default
+  masks, tails, window facts and every raw modifier retained. Metadata only.
+- [ ] Active: `TASK_hailo10h_decoder_graph_policy.md` under the ordinary adapter:
+  explicit per-layer rotary/output graph and cache policy, then actual ordinary
+  architecture/alias/modifier integration and numerical Hailo execution.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.
