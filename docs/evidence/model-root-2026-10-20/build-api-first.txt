@@ -1,0 +1,7 @@
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_source_root_api.mojo:34:19: error: 'StringSpan[ImmStaticOrigin]' does not implement the '__iadd__' method
+        root_path += "\0tail"
+        ~~~~~~~~~ ^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_source_root_api.mojo:38:15: error: 'StringSpan[ImmStaticOrigin]' does not implement the '__iadd__' method
+        label += "\0tail"
+        ~~~~~ ^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module

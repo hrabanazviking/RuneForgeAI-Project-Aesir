@@ -1,3 +1,18 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): actual shard descriptors
+
+- Implemented original root/regular-file owners and ARM64 Linux openat2 ABI
+  wrappers under published36653d8 design. Same-dirfd BENEATH resolution, regular
+  statx size/type, bounded attempt/work/source extents and once-only fd transfer.
+- Five methods/77 native calls pass, including real nested/symlink/special paths,
+  rename, transfer with root closed first,40 cleanup cycles and9 injected fault
+  modes. Rebuilt index/config16/706 pass; full slice21/783.
+- Initial explicit-copy/StringSpan compile failures and76-call preliminary pass
+  preserved; final new/consumer builds warning-free. Full receipt and limits:
+  `docs/HAILO10H_MOJO_MODEL_ROOT.md`. No tensor/model/device execution.
+- Continue automatically with same-fd safetensors parser connection under
+  `TASK_hailo10h_safetensors_owned_fd.md`, then automatic shard/index matching,
+  complete semantics and actual numerical Hailo backend/result implementation.
+
 ## 2026-10-20 — Codex (Architect, Auditor, Scribe): shard-root admission design
 
 - Config 2e57b8a is published and exact remote/tree verified on both branches;

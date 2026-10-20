@@ -1,0 +1,1127 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/plain.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 0,
+    "stdout": "{\"explicit_cleanup\":true,\"attempts\":1,\"work_units\":47}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/implicit.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "implicit",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 0,
+    "stdout": "{\"implicit_cleanup\":true}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/transfer.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "transfer",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 0,
+    "stdout": "{\"transferred_once\":true,\"root_closed_first\":true}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/cycles.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "cycles",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 0,
+    "stdout": "{\"cleanup_cycles\":40}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/closedroot.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "closedroot",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: live model directory required\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/unwind.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "unwind",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRootApi: deliberate owner unwind\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/rename.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "rename",
+      "/tmp/aesir-source-root-bh9cckrk/rename-before",
+      "tiny.json",
+      "/tmp/aesir-source-root-bh9cckrk/rename-after"
+    ],
+    "returncode": 0,
+    "stdout": "{\"explicit_cleanup\":true,\"attempts\":1,\"work_units\":55}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "37",
+      "1",
+      "47",
+      "26"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"tiny.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/tiny.json\",\"source_bytes\":26,\"attempts\":1,\"work_units\":47,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "36",
+      "1",
+      "47",
+      "26"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: root path byte/work policy or NUL refusal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "37",
+      "1",
+      "46",
+      "26"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: file-attempt/work policy exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "37",
+      "1",
+      "47",
+      "25"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: regular-file extent exceeds source byte policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "0",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "-1",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "0",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "-1",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "0",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "-1",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "plain",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4096",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: positive policies and path bytes at most4095 required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "repeat",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "37",
+      "1",
+      "47",
+      "26"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: file-attempt/work policy exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "empty.json",
+      "4095",
+      "100",
+      "100000",
+      "1"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"empty.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/empty.json\",\"source_bytes\":0,\"attempts\":1,\"work_units\":48,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "sparse.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: regular-file extent exceeds source byte policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
+      "37",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: label byte policy or NUL refusal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "path",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "path",
+      "-9223372036854775808"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "files",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "files",
+      "-9223372036854775808"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "work",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "work",
+      "-9223372036854775808"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "source",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "source",
+      "-9223372036854775808"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "attempts",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: invalid admission accounting state\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "attempts",
+      "-9223372036854775808"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: invalid admission accounting state\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "used",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: invalid admission accounting state\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "used",
+      "-9223372036854775808"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: invalid admission accounting state\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "path",
+      "4096"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: mutated invalid policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "attempts",
+      "101"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: invalid admission accounting state\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "mutate",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "used",
+      "100001"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: invalid admission accounting state\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-root.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: directory open failed: 13\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-open.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 13\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-enosys.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 38\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-statx.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: statx regular fd failed: 5\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-mask.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: regular file with reported size required\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-type.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: regular file with reported size required\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-file_close.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: regular-file close failed: 5\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-root_close.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: directory close failed: 5\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/fault-transfer_statx.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "transfer",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: statx regular fd failed: 5\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "sub/nested.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"sub/nested.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/sub/nested.json\",\"source_bytes\":6,\"attempts\":1,\"work_units\":53,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "inside-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"inside-link\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/inside-link\",\"source_bytes\":6,\"attempts\":1,\"work_units\":49,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "./tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"./tiny.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/./tiny.json\",\"source_bytes\":26,\"attempts\":1,\"work_units\":49,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "sub/../tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"sub/../tiny.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/sub/../tiny.json\",\"source_bytes\":26,\"attempts\":1,\"work_units\":54,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "sub//nested.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"sub//nested.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/sub//nested.json\",\"source_bytes\":6,\"attempts\":1,\"work_units\":54,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "\u00c6sir-\ud83d\udf01.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"\u00c6sir-\ud83d\udf01.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/\u00c6sir-\ud83d\udf01.json\",\"source_bytes\":7,\"attempts\":1,\"work_units\":53,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/root-link",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"tiny.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/root-link/tiny.json\",\"source_bytes\":26,\"attempts\":1,\"work_units\":51,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "../outside.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 18\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "escape-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 18\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "absolute-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 18\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "magic-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 18\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "/tmp/aesir-source-root-bh9cckrk/model/tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: absolute label refused\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: label byte policy or NUL refusal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "missing.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 2\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      ".",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: regular file with reported size required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "sub",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: regular file with reported size required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "pipe",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[OsError]: regular file with reported size required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "socket",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: beneath-root open failed: 6\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "nullabel",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: label byte policy or NUL refusal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "nulroot",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: root path byte/work policy or NUL refusal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/missing",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: directory open failed: 2\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model/tiny.json",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: directory open failed: 20\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model/pipe",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: directory open failed: 20\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "abi",
+      "aarch64"
+    ],
+    "returncode": 0,
+    "stdout": "000808000000000000000000000000000a00000000000000\n",
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "abi",
+      "x86_64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: current beneath-root ABI requires ARM64 Linux\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "abi",
+      "arm"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: current beneath-root ABI requires ARM64 Linux\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "abi",
+      ""
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: current beneath-root ABI requires ARM64 Linux\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root-api",
+      "abi",
+      "unknown"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceRoot: current beneath-root ABI requires ARM64 Linux\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/model-root-2026-10-20/root/regular.strace",
+      "-e",
+      "trace=openat,openat2,close,statx,read,write,ioctl,rename",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-root",
+      "/tmp/aesir-source-root-bh9cckrk/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"beneath_root_regular_file\",\"label\":\"tiny.json\",\"source_path\":\"/tmp/aesir-source-root-bh9cckrk/model/tiny.json\",\"source_bytes\":26,\"attempts\":1,\"work_units\":47,\"file_admitted\":true,\"tensor_header_parsed\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false,\"execution_tested\":false}\n",
+    "stderr": ""
+  }
+]

@@ -31,3 +31,8 @@ real file admission; a host structure alone is insufficient. No tensor/model
 math, external compiler/runtime, device write/reset/firmware/kernel change.
 After publication, connect that same admitted fd to the existing safetensors
 parser and automatic checked multi-shard collection under the parent contract.
+
+
+Implementation receipt: `docs/HAILO10H_MOJO_MODEL_ROOT.md`;21 methods/783
+native calls including rebuilt consumers. Descriptor admission is verified;
+same-fd parsing follows under `TASK_hailo10h_safetensors_owned_fd.md`.

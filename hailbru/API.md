@@ -230,3 +230,15 @@ open/close the caller's descriptor or establish immutable identity. SMIÐR's new
 bounded metadata reader consumes it; device queries/ABI remain unchanged.
 Facts/C layout oracle: `docs/HAILO10H_SOURCE_INDEX_READER_DESIGN.md`. Native
 read/fault/cleanup evidence: `docs/HAILO10H_MOJO_SOURCE_INDEX.md`.
+
+
+### ARM64 model-root syscall primitives
+
+`os_beneath_open_how(arch)` returns the checked24-byte openat2 input buffer;
+`os_open_model_directory(arch,path)` and `os_open_beneath(arch,dirfd,label)`
+return raw fd/-1, refusing unknown/currently unimplemented hosts and invalid
+paths. Directory flags are the verified ARM64 value; relative opens use
+BENEATH|NO_MAGICLINKS and readonly/nonblocking/CLOEXEC, mode0, no unsafe fallback.
+Caller owns returned fd and maps errno; regular TYPE/SIZE is separately checked.
+ABI facts: `docs/HAILO10H_MODEL_ROOT_ADMISSION_DESIGN.md`; physical file-owner
+acceptance: `docs/HAILO10H_MOJO_MODEL_ROOT.md`. No device interaction.

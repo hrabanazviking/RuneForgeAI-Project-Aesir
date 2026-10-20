@@ -32,9 +32,11 @@
   `docs/HAILO10H_MOJO_SOURCE_INDEX.md`. No shard resolution or model execution.
 - [x] Owned ordinary configuration raw values:16 methods/706 native calls;
   `docs/HAILO10H_MOJO_SOURCE_CONFIG.md`. Full modifiers retained, semantics open.
-- [ ] Active: `TASK_hailo10h_model_root_admission.md` under checked shard
-  collection. Same-fd regular shard admission precedes actual index/tensor
-  matching; full semantics and numerical encoding/placement remain open.
+- [x] Actual beneath-root regular shard descriptors:21 methods/783 calls;
+  `docs/HAILO10H_MOJO_MODEL_ROOT.md`. No tensor/header/model execution claim.
+- [ ] Active: `TASK_hailo10h_safetensors_owned_fd.md` under checked shard
+  collection. Consume the admitted fd without path reopen, then exact index/
+  tensor matching; full semantics and numerical encoding/placement remain open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

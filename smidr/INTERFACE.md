@@ -240,3 +240,19 @@ policies/depth at most64 and exact EOF apply; logical work is4*bytes+root fields
 Whole-document validation precedes field collection. No semantic interpretation,
 model code, shard/tensor loading, immutable identity, hardware fit or execution
 is certified. Receipt: `docs/HAILO10H_MOJO_SOURCE_CONFIG.md`.
+
+
+`source_root.mojo` exposes `SourceRootPolicy(path_bytes,files,work,source_bytes)`,
+move-only `SourceModelRoot`/`SourceRegularFile` and
+`open_source_model_root(path,policy)`. `root.open_file(label)` admits the actual
+beneath-root regular fd; files counts valid-label attempts, work charges root
+bytes+sum(label bytes+1), including failed opens. Positive policies/path at most
+4095, ARM64 Linux only currently. Absolute/empty/NUL labels, escaping/special
+files and unavailable kernel interfaces refuse. Original labels/paths/sizes
+are descriptive, not immutable fingerprints. Root/file `close()` is idempotent;
+`file.take_fd()` transfers responsibility once, leaving it disarmed. Explicit
+close errors raise; destructors provide last cleanup. Consumers must not mutate
+owner fd/architecture or close borrowed descriptors. File can outlive root.
+Next parser must consume the same transferred fd, closing on every path.
+Actual independent admission/transfer/cleanup evidence and policy limits:
+`docs/HAILO10H_MOJO_MODEL_ROOT.md`. No tensor parser or execution claim.

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 96 |
+| `verified` | 97 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **141** |
+| **Total** | **142** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3116,3 +3116,18 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   loading shards/tensors, certifying immutable identity/fit or model execution.
 - **Next acceptance gate:** `TASK_hailo10h_shard_collection.md`, beginning with
   owned model-root regular-fd admission, then same-fd parsing and exact binding.
+
+
+### AES-SOURCE-003 — Actual owned beneath-root regular-file admission
+
+- **Status:** `verified`
+- **Owner:** `smidr/source_root.mojo`, documented syscall gateway; native
+  inspector/direct owner probes perform real filesystem operations on the Pi.
+- **Executable evidence:** `docs/HAILO10H_MOJO_MODEL_ROOT.md` and
+  `docs/evidence/model-root-2026-10-20/`;21 methods/783 calls,77 new and706
+  rebuilt index/config regressions. C ABI bytes and physical closes are checked.
+- **Evidence boundary:** ARM64 Linux file descriptor ownership/containment only.
+  No tensor header parsing, immutable identity, hardware fit, executable device
+  program or source-model execution. Other-host support remains implementation.
+- **Next acceptance gate:** `TASK_hailo10h_safetensors_owned_fd.md`, then
+  automatic exact multi-shard source index binding and complete model semantics.

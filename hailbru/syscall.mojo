@@ -722,3 +722,37 @@ def os_fail_closed(arch: String, code: Int32):
     # Linux exit_group terminates all threads; no Mojo/atexit destructors run.
     while True:
         _ = syscall6(sc_nr(arch, "exit_group"), Int64(code), 0, 0, 0, 0, 0)
+
+
+# Model-file admission uses the physically verified ARM64 Linux UAPI only.
+def os_beneath_open_how(arch: String) raises -> List[UInt8]:
+    if arch != "aarch64":
+        raise Error("SourceRoot: current beneath-root ABI requires ARM64 Linux")
+    var bytes = List[UInt8](length=24, fill=0)
+    var flags = UInt64(0x80800)  # O_RDONLY | O_CLOEXEC | O_NONBLOCK.
+    for i in range(8):
+        bytes[i] = UInt8((flags >> UInt64(i * 8)) & 255)
+    bytes[16] = 10  # RESOLVE_BENEATH | RESOLVE_NO_MAGICLINKS; mode remains zero.
+    return bytes^
+
+
+def os_open_model_directory(arch: String, path: String) raises -> Int64:
+    if arch != "aarch64":
+        raise Error("SourceRoot: current directory ABI requires ARM64 Linux")
+    if path.byte_length() == 0 or path.byte_length() >= 4096 or "\0" in path:
+        raise Error("SourceRoot: invalid directory path")
+    return os_openat(arch, path, 0x80800 | 0x4000, 0)
+
+
+def os_open_beneath(arch: String, directory: Int64, label: String) raises -> Int64:
+    var how = os_beneath_open_how(arch)
+    if directory < 0 or label.byte_length() == 0 or label.byte_length() >= 4096 or "\0" in label:
+        raise Error("SourceRoot: invalid beneath-root descriptor/label")
+    if label.as_bytes()[0] == 47:
+        raise Error("SourceRoot: beneath-root label must be relative")
+    var path = to_cstr(label)
+    var fd = syscall6(437, directory, Int64(Int(path)),
+        Int64(Int(how.unsafe_ptr())), 24, 0, 0)
+    _ = how
+    path.unsafe_free()
+    return fd
