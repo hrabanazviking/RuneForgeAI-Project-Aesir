@@ -1,0 +1,882 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-initial-verification/indexed.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-0",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-1",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8ad5c8043334fb19506085fb3bc3c8be3b6f3e2892489d95362c8d227fe93ea1",
+    "stdout_bytes": 10966,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "cycles"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8ad5c8043334fb19506085fb3bc3c8be3b6f3e2892489d95362c8d227fe93ea1",
+    "stdout_bytes": 10966,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "key_dim"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "value_dim"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "output"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "notes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived string array length changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "work"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "owned_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: supplied and owned policies differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "external_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: supplied and owned policies differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_architecture"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_provenance"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_extent"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: diagnostic source summary mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: diagnostic source summary mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_weight_bytes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: aggregate weight byte count mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_alias"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: complete bounded tagged source required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_binding"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical axes differ from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_kind"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical projection differs from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_tag"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: current GGUF source axes unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_shape"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: source element count mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_name"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived tagged source changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_path"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: missing original backing file\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "source_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "original_name"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: source tensor role implementation unresolved: other\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "original_shape"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: source element count mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "original_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: uncovered safetensors source payload\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "original_extent"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: uncovered safetensors source payload\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "original_metadata"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "original_metadata_count"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "architecture"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived dimensions changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "layer_mask"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived integer array changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "input_policy_work"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: alias slot work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-3",
+      "source-0.weights",
+      "config.json",
+      "input_metadata"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: projection work/count bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-initial-verification/remote-headers.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-api",
+      "remote",
+      "../ordinary-model-metadata-study/config.json",
+      "../ordinary-binding-study/0-header.json",
+      "4966315264",
+      "../ordinary-binding-study/1-header.json",
+      "1183919744"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b8b0d46df627b2730cb036f4f10baa63be6f71971be915e8d41994dcf3c57434",
+    "stdout_bytes": 115116,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-4",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-5",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-6",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-7",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-8",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-9",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-10",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-11",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-12",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-13",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-14",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-15",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-16",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-17",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-18",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-19",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-20",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-21",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-22",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2ff254886c282ce0da72eb4c29b43afbd7833293d2cc70c05570af6ea9c60f4e",
+    "stdout_bytes": 17912,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-pba679i9/ordinary-23",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: schema member/work bound exceeded\n"
+  }
+]

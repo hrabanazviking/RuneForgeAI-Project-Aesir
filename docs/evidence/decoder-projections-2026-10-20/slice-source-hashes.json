@@ -1,0 +1,6 @@
+{
+  "smidr/decoder_projections.mojo": "3fadb74b5f60c6354cd1f89ef5cd167efa28e9ff5a6988b77ae4458a79b46951",
+  "smidr/tools/decoder_projections.mojo": "be65f00a9a29b2175b76794d6e80d3e4b45de0aa9e897bae8aec7dc17b8ca848",
+  "tests/hailo_decoder_projections_api.mojo": "d6f4877f4787c5dc0d0c1496d86844a36ce5aedb94872e12e27f339e4b6c36a2",
+  "tests/test_hailo_decoder_projections.py": "561725a29c536eec6865cbb366b40d2bfa8bfb543c6fb4137552425a3fe41d4b"
+}

@@ -1,0 +1,13 @@
+{
+  "new_methods": 7,
+  "new_native_calls": 115,
+  "accepted": 50,
+  "expected_refusals": 65,
+  "regression_methods": 31,
+  "regression_native_calls": 1053,
+  "total_methods": 38,
+  "total_native_calls": 1168,
+  "actual_remote_tensors": 326,
+  "complete_frozen_consumer_comparisons": 108,
+  "device_execution": false
+}

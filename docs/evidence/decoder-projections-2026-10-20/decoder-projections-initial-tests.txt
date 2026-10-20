@@ -1,0 +1,58 @@
+FFF...F
+======================================================================
+FAIL: test_actual_collection_trace_and_late_refusal (__main__.DecoderProjections.test_actual_collection_trace_and_late_refusal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 274, in test_actual_collection_trace_and_late_refusal
+    self.check(self.accept(self.invoke(root, trace="indexed.strace")), config, expected, 3, 5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 76, in accept
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceIndex: schema member/work bound exceeded
+
+
+======================================================================
+FAIL: test_exact_policy_and_refusals_before_copy (__main__.DecoderProjections.test_exact_policy_and_refusals_before_copy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 211, in test_exact_policy_and_refusals_before_copy
+    obj = self.accept(self.invoke(root))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 76, in accept
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceIndex: schema member/work bound exceeded
+
+
+======================================================================
+FAIL: test_explicit_tie_and_missing_null_decisions (__main__.DecoderProjections.test_explicit_tie_and_missing_null_decisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 162, in test_explicit_tie_and_missing_null_decisions
+    self.check(self.accept(self.invoke(root)), config, expected, 3, 5)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 76, in accept
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceIndex: schema member/work bound exceeded
+
+
+======================================================================
+FAIL: test_seeded_actual_single_and_sharded_sources (__main__.DecoderProjections.test_seeded_actual_single_and_sharded_sources)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 155, in test_seeded_actual_single_and_sharded_sources
+    obj = self.accept(self.invoke(root, "unindexed" if shards == 1 else "indexed"))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 76, in accept
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: SourceIndex: schema member/work bound exceeded
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.880s
+
+FAILED (failures=4)
+Native outcomes: {'refused': 52, 'accepted': 4}

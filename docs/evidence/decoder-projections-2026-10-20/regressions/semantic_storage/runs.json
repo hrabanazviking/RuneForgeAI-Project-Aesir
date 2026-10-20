@@ -1,0 +1,4983 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-regressions/semantic_storage/ordinary-single.strace",
+      "-e",
+      "trace=openat,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "unindexed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/ordinary",
+      "one.weights",
+      "config.json"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "889ef8b7e15c10d60f43b722007acfa19d1a766226499cc37d3a409fcc2ae6e1",
+    "stdout_bytes": 779,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-regressions/semantic_storage/ordinary-sharded.strace",
+      "-e",
+      "trace=openat,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "indexed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/ordinary",
+      "index.json",
+      "config.json"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "fcf59c6133bc40fb7e9112f6fe3408d2b63e1f2d0a42f44d892956fb2fec8143",
+    "stdout_bytes": 1258,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "work_exact"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "306bab6ff889f7624c09e68880cbf8dd4ad2c9421fd02cd262d38057b3b62b1c",
+    "stdout_bytes": 675,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "691da054152ca6cced5ce4dfacc0dcb99f016e8b1b9d8ab6a52fe43840dfcf71",
+    "stdout_bytes": 12608,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "691da054152ca6cced5ce4dfacc0dcb99f016e8b1b9d8ab6a52fe43840dfcf71",
+    "stdout_bytes": 12608,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "691da054152ca6cced5ce4dfacc0dcb99f016e8b1b9d8ab6a52fe43840dfcf71",
+    "stdout_bytes": 12608,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "691da054152ca6cced5ce4dfacc0dcb99f016e8b1b9d8ab6a52fe43840dfcf71",
+    "stdout_bytes": 12608,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cca9c7df640890af86516c256722105ed37d8a90dfc64418b97a669e22a1e3f3",
+    "stdout_bytes": 47767,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cca9c7df640890af86516c256722105ed37d8a90dfc64418b97a669e22a1e3f3",
+    "stdout_bytes": 47767,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9f1a66bdb19c44912ee91c4bcf8246b64d9886885338892eeaf631f30c0e6c25",
+    "stdout_bytes": 12749,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9f1a66bdb19c44912ee91c4bcf8246b64d9886885338892eeaf631f30c0e6c25",
+    "stdout_bytes": 12749,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7e1b9bbf1bf68ca2e756a852ce1d5a1aaa71b2a3b072b67a7482b90b953b9e0f",
+    "stdout_bytes": 1069,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7e1b9bbf1bf68ca2e756a852ce1d5a1aaa71b2a3b072b67a7482b90b953b9e0f",
+    "stdout_bytes": 1069,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5e4bfb1e25c0a0ee98e26a0940c57748314d96438b12c557e2ba87b34d15ab6d",
+    "stdout_bytes": 2113,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5e4bfb1e25c0a0ee98e26a0940c57748314d96438b12c557e2ba87b34d15ab6d",
+    "stdout_bytes": 2113,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "89e4f87b87c613801fada6ec8277c9d0e03c896728e8b91f354dc618d47e57a9",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "89e4f87b87c613801fada6ec8277c9d0e03c896728e8b91f354dc618d47e57a9",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "fde7f5173c1a6c717615a633637c46bac397d8b0931b44410a4a59656356a275",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "fde7f5173c1a6c717615a633637c46bac397d8b0931b44410a4a59656356a275",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c6be6cd814527aa0503586a63f2dc085eb535ee6e206bba1daa3833463e18f66",
+    "stdout_bytes": 1057,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c6be6cd814527aa0503586a63f2dc085eb535ee6e206bba1daa3833463e18f66",
+    "stdout_bytes": 1057,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a78e70a8ee9a87e7ee544daa144aadcdd6d6a40ce8069a824d3d12fd2a4ac5cd",
+    "stdout_bytes": 7218,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a78e70a8ee9a87e7ee544daa144aadcdd6d6a40ce8069a824d3d12fd2a4ac5cd",
+    "stdout_bytes": 7218,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a78e70a8ee9a87e7ee544daa144aadcdd6d6a40ce8069a824d3d12fd2a4ac5cd",
+    "stdout_bytes": 7218,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a78e70a8ee9a87e7ee544daa144aadcdd6d6a40ce8069a824d3d12fd2a4ac5cd",
+    "stdout_bytes": 7218,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "855f8baae3ee1d3efb3e2e1d49735ea3c9767b1c7f66aa43f349c288fb4521aa",
+    "stdout_bytes": 26258,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "855f8baae3ee1d3efb3e2e1d49735ea3c9767b1c7f66aa43f349c288fb4521aa",
+    "stdout_bytes": 26258,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "10d4dcd9f72f8bde568bc316d7f0ec2fee7a13fbbc8771bfcb15bece7d8cb7f0",
+    "stdout_bytes": 7311,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "10d4dcd9f72f8bde568bc316d7f0ec2fee7a13fbbc8771bfcb15bece7d8cb7f0",
+    "stdout_bytes": 7311,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f2ca39169af75f4f0791fbe793028d3db1df21b59ec837cd46de035c1215faba",
+    "stdout_bytes": 949,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f2ca39169af75f4f0791fbe793028d3db1df21b59ec837cd46de035c1215faba",
+    "stdout_bytes": 949,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6c900cd8481f67ca6897839e2e5ae31fb03b4493fe3c19b962e5c21cb2376032",
+    "stdout_bytes": 1601,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6c900cd8481f67ca6897839e2e5ae31fb03b4493fe3c19b962e5c21cb2376032",
+    "stdout_bytes": 1601,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c87068f7235a00a45a995d144d7f73d74c2bb2846e8e601a1a9075c1718adfab",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c87068f7235a00a45a995d144d7f73d74c2bb2846e8e601a1a9075c1718adfab",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "bdda8982c5802b69d4e03d684c829a4701010b23b4454f035e3d8e758869ed7e",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "bdda8982c5802b69d4e03d684c829a4701010b23b4454f035e3d8e758869ed7e",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "edfb38fab164f2008b916bbf72da7867201e1c29fb72a7a47e6512c247d169cd",
+    "stdout_bytes": 638,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "edfb38fab164f2008b916bbf72da7867201e1c29fb72a7a47e6512c247d169cd",
+    "stdout_bytes": 638,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8d65f6b0b38232e6cf6be77cdcb99ca06bba5ef94bb71a531f45ddac31df4388",
+    "stdout_bytes": 17989,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8d65f6b0b38232e6cf6be77cdcb99ca06bba5ef94bb71a531f45ddac31df4388",
+    "stdout_bytes": 17989,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8d65f6b0b38232e6cf6be77cdcb99ca06bba5ef94bb71a531f45ddac31df4388",
+    "stdout_bytes": 17989,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8d65f6b0b38232e6cf6be77cdcb99ca06bba5ef94bb71a531f45ddac31df4388",
+    "stdout_bytes": 17989,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "0082d7e9acfece0bb46b542a1dc8bb6467ac808222c39b82ca9ab39d909b4c86",
+    "stdout_bytes": 69378,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "0082d7e9acfece0bb46b542a1dc8bb6467ac808222c39b82ca9ab39d909b4c86",
+    "stdout_bytes": 69378,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "708ec5c19f094941be99caff94a5475d468c196f46bd5d2c18eaab6a622182dd",
+    "stdout_bytes": 18249,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "708ec5c19f094941be99caff94a5475d468c196f46bd5d2c18eaab6a622182dd",
+    "stdout_bytes": 18249,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9abc3fa19fab2d6d936beddd07cd53972c7d8be91845f493365b75f3606753f1",
+    "stdout_bytes": 1264,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9abc3fa19fab2d6d936beddd07cd53972c7d8be91845f493365b75f3606753f1",
+    "stdout_bytes": 1264,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4258b614f58a18a9ed6387aed0926d997c79e9d2d081255acc1d6bfba567f697",
+    "stdout_bytes": 2838,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4258b614f58a18a9ed6387aed0926d997c79e9d2d081255acc1d6bfba567f697",
+    "stdout_bytes": 2838,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "23cc63071997a419e7b8158b856e865ac1ae353bbe81e98098bcbdcd1ef5285b",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "23cc63071997a419e7b8158b856e865ac1ae353bbe81e98098bcbdcd1ef5285b",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1b2557ffd541f0834dc0f060c539714632da9e677e8640ee27c46f3faf3f0a04",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1b2557ffd541f0834dc0f060c539714632da9e677e8640ee27c46f3faf3f0a04",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "296c352bfef6fe6e2896e0c503d452d7a0765844a5db6fe7403292a6347bcfe8",
+    "stdout_bytes": 1478,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "296c352bfef6fe6e2896e0c503d452d7a0765844a5db6fe7403292a6347bcfe8",
+    "stdout_bytes": 1478,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6ea1e79817fff39742e1c9525ee2aaaa3facdc35170564594c7a289b426559ac",
+    "stdout_bytes": 17874,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6ea1e79817fff39742e1c9525ee2aaaa3facdc35170564594c7a289b426559ac",
+    "stdout_bytes": 17874,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6ea1e79817fff39742e1c9525ee2aaaa3facdc35170564594c7a289b426559ac",
+    "stdout_bytes": 17874,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6ea1e79817fff39742e1c9525ee2aaaa3facdc35170564594c7a289b426559ac",
+    "stdout_bytes": 17874,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c2e24f70986f36bbebbf30c66b3ff5357f6cafb9a6335dab7c0ee3068ce0f0f9",
+    "stdout_bytes": 69040,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c2e24f70986f36bbebbf30c66b3ff5357f6cafb9a6335dab7c0ee3068ce0f0f9",
+    "stdout_bytes": 69040,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2b5e0c04bb72d11d385e7d41286bd0456466492632a1933718d856ac7718b147",
+    "stdout_bytes": 18215,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2b5e0c04bb72d11d385e7d41286bd0456466492632a1933718d856ac7718b147",
+    "stdout_bytes": 18215,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "363a7eb5f8a3ca5b9bb3b80ffe462d361f6de1bc997d4ed9680adfe081fd7ba6",
+    "stdout_bytes": 1204,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "363a7eb5f8a3ca5b9bb3b80ffe462d361f6de1bc997d4ed9680adfe081fd7ba6",
+    "stdout_bytes": 1204,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e772b19a2347123542bd9f929ebe01b37f13c1c82efc4981cab4bc0d771e215d",
+    "stdout_bytes": 2654,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e772b19a2347123542bd9f929ebe01b37f13c1c82efc4981cab4bc0d771e215d",
+    "stdout_bytes": 2654,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4022d82017aa9e0fba85c806b82965ed2365de0d5b49e06f555f4edc5907505c",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4022d82017aa9e0fba85c806b82965ed2365de0d5b49e06f555f4edc5907505c",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8e84d070c2eff62c134fb0ee11d11c157c35a8894814bc2d3915fb4742628471",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8e84d070c2eff62c134fb0ee11d11c157c35a8894814bc2d3915fb4742628471",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "08949a001afa170bf7eda196ea7297ace5ce33d998cf63f60deb9d0f453b9ec6",
+    "stdout_bytes": 1481,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "08949a001afa170bf7eda196ea7297ace5ce33d998cf63f60deb9d0f453b9ec6",
+    "stdout_bytes": 1481,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5a345267ed99fc830e03ed4f5fd457bbb6af174aa188352554cf52b94ed3c815",
+    "stdout_bytes": 17982,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5a345267ed99fc830e03ed4f5fd457bbb6af174aa188352554cf52b94ed3c815",
+    "stdout_bytes": 17982,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5a345267ed99fc830e03ed4f5fd457bbb6af174aa188352554cf52b94ed3c815",
+    "stdout_bytes": 17982,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5a345267ed99fc830e03ed4f5fd457bbb6af174aa188352554cf52b94ed3c815",
+    "stdout_bytes": 17982,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b45790cacb6a12d653fa709ae29cf0823b3491ccbc6cc313c13eb458e7492e2c",
+    "stdout_bytes": 69372,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b45790cacb6a12d653fa709ae29cf0823b3491ccbc6cc313c13eb458e7492e2c",
+    "stdout_bytes": 69372,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e045b1f9ba559747ea8a2176f276503dbcadf1ec5cc2339422ca14fc65b3ac15",
+    "stdout_bytes": 18243,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e045b1f9ba559747ea8a2176f276503dbcadf1ec5cc2339422ca14fc65b3ac15",
+    "stdout_bytes": 18243,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b9585fe54674de795d21073be8920b6b9229ebcdc3e7cba11809b838067ce833",
+    "stdout_bytes": 1233,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b9585fe54674de795d21073be8920b6b9229ebcdc3e7cba11809b838067ce833",
+    "stdout_bytes": 1233,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9671c66a1f09f8f8b24d1fd95dde4e81cc81000ec70cb6a01db2cd5bea5459bc",
+    "stdout_bytes": 2727,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9671c66a1f09f8f8b24d1fd95dde4e81cc81000ec70cb6a01db2cd5bea5459bc",
+    "stdout_bytes": 2727,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a7df038669e199fae474465664f6e97072e1ead1291b4ab0ea44b2267cd11158",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a7df038669e199fae474465664f6e97072e1ead1291b4ab0ea44b2267cd11158",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "dc12a878c1d494dce7b78b332a2d623cd8b93ddf4255efb9561764879b0b6710",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "dc12a878c1d494dce7b78b332a2d623cd8b93ddf4255efb9561764879b0b6710",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b515c819021ab5e896213fadf93ca16a0eb86a0037263e53c93a11ff25090489",
+    "stdout_bytes": 1481,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b515c819021ab5e896213fadf93ca16a0eb86a0037263e53c93a11ff25090489",
+    "stdout_bytes": 1481,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "af5fcc91a91289208a7d6cba0d8264b0bd373a7618dfdeae5c2d10cb9e424d22",
+    "stdout_bytes": 12564,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "af5fcc91a91289208a7d6cba0d8264b0bd373a7618dfdeae5c2d10cb9e424d22",
+    "stdout_bytes": 12564,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "af5fcc91a91289208a7d6cba0d8264b0bd373a7618dfdeae5c2d10cb9e424d22",
+    "stdout_bytes": 12564,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "af5fcc91a91289208a7d6cba0d8264b0bd373a7618dfdeae5c2d10cb9e424d22",
+    "stdout_bytes": 12564,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "31697ba6e245832156f1b52436f6a4228e0ae7eb76b7fe63f18832908dbe32f5",
+    "stdout_bytes": 47533,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "31697ba6e245832156f1b52436f6a4228e0ae7eb76b7fe63f18832908dbe32f5",
+    "stdout_bytes": 47533,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "19eea0290813f013611c20023ddf16247f66abb175989f25de8bfedda8b78226",
+    "stdout_bytes": 12781,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "19eea0290813f013611c20023ddf16247f66abb175989f25de8bfedda8b78226",
+    "stdout_bytes": 12781,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "849b5df98492b4a8684d4e081a103877a7106254e1f7cb19a68d51e42137b47b",
+    "stdout_bytes": 1104,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "849b5df98492b4a8684d4e081a103877a7106254e1f7cb19a68d51e42137b47b",
+    "stdout_bytes": 1104,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c98d46a8270b8775b9d23cdf22e38ddc9d2ad717394bbdf5a8e3383305706e72",
+    "stdout_bytes": 2225,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c98d46a8270b8775b9d23cdf22e38ddc9d2ad717394bbdf5a8e3383305706e72",
+    "stdout_bytes": 2225,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "64cae5a4cc3f7f0cca4ab016fa4394a923d11897a0dd954d4f2ee75ce9f43d17",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "64cae5a4cc3f7f0cca4ab016fa4394a923d11897a0dd954d4f2ee75ce9f43d17",
+    "stdout_bytes": 382,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ad92f7a8e4a7ab17450c9d363cc8e74b1395f31c31aaeea6f99e5349ed7492c4",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ad92f7a8e4a7ab17450c9d363cc8e74b1395f31c31aaeea6f99e5349ed7492c4",
+    "stdout_bytes": 327,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e83e3ba7f6ee7a3175a32503dc89ba06e92dbec8c707d0687e5db9ba92aa2e67",
+    "stdout_bytes": 1059,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e83e3ba7f6ee7a3175a32503dc89ba06e92dbec8c707d0687e5db9ba92aa2e67",
+    "stdout_bytes": 1059,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "18307d871183580dcedb68f2c71551400120c27d8ef4450ed475892b57425b72",
+    "stdout_bytes": 7456,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "18307d871183580dcedb68f2c71551400120c27d8ef4450ed475892b57425b72",
+    "stdout_bytes": 7456,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "18307d871183580dcedb68f2c71551400120c27d8ef4450ed475892b57425b72",
+    "stdout_bytes": 7456,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "18307d871183580dcedb68f2c71551400120c27d8ef4450ed475892b57425b72",
+    "stdout_bytes": 7456,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5453772d7b0da8d4fee8b09ef7e292aa5478d2a0e3238ed20c68f731b1c2c512",
+    "stdout_bytes": 26836,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5453772d7b0da8d4fee8b09ef7e292aa5478d2a0e3238ed20c68f731b1c2c512",
+    "stdout_bytes": 26836,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4c5c894c41900bf28bc8220b9c3dfc6e02d0f7e74aa70a38be0b0ecb1abc35fe",
+    "stdout_bytes": 7400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4c5c894c41900bf28bc8220b9c3dfc6e02d0f7e74aa70a38be0b0ecb1abc35fe",
+    "stdout_bytes": 7400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "873210a795b99460423a5f29d05ae7ffb83635ff882a7823ef4286b33d3dfe0b",
+    "stdout_bytes": 1006,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "873210a795b99460423a5f29d05ae7ffb83635ff882a7823ef4286b33d3dfe0b",
+    "stdout_bytes": 1006,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "05e35e0d13d3ff5db1b43d604bf180052b75c05f0875a139eefcc66711270e32",
+    "stdout_bytes": 1785,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "05e35e0d13d3ff5db1b43d604bf180052b75c05f0875a139eefcc66711270e32",
+    "stdout_bytes": 1785,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ce2ffebb1a4db199bd36028b28012929ae3a92c3fccfa27b6d28fa96d2f03f38",
+    "stdout_bytes": 400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ce2ffebb1a4db199bd36028b28012929ae3a92c3fccfa27b6d28fa96d2f03f38",
+    "stdout_bytes": 400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "347977379dd0105ba9f25c1844ad0ee1501c935b2043d24659b4c4a34c5052e5",
+    "stdout_bytes": 368,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "347977379dd0105ba9f25c1844ad0ee1501c935b2043d24659b4c4a34c5052e5",
+    "stdout_bytes": 368,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2c33beed57621dd7eca2ced06f124e9c402e1cb7593cbc96ba62eea64744761b",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2c33beed57621dd7eca2ced06f124e9c402e1cb7593cbc96ba62eea64744761b",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2c33beed57621dd7eca2ced06f124e9c402e1cb7593cbc96ba62eea64744761b",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2c33beed57621dd7eca2ced06f124e9c402e1cb7593cbc96ba62eea64744761b",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b8d867ddf4a941ce19691d6d7f8b201fa66eece5e0fe1d2526b4620e61e5b226",
+    "stdout_bytes": 26840,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b8d867ddf4a941ce19691d6d7f8b201fa66eece5e0fe1d2526b4620e61e5b226",
+    "stdout_bytes": 26840,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "66c04a4af22078874e22ceef1a56033bda3071155eb3b6d13a2505948a8b2aa9",
+    "stdout_bytes": 7409,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "66c04a4af22078874e22ceef1a56033bda3071155eb3b6d13a2505948a8b2aa9",
+    "stdout_bytes": 7409,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4bb5784935cfcd49673809b04887361a59a7a91cdf9cd5e6ab008250e82c3fa5",
+    "stdout_bytes": 1021,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4bb5784935cfcd49673809b04887361a59a7a91cdf9cd5e6ab008250e82c3fa5",
+    "stdout_bytes": 1021,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5e4282dc7b7e870b084e71c6dce5c558a728619d6202f1a0a955622c71599f4d",
+    "stdout_bytes": 1847,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5e4282dc7b7e870b084e71c6dce5c558a728619d6202f1a0a955622c71599f4d",
+    "stdout_bytes": 1847,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "192f387a2a5b0469180cfa9d4db367a19dc5546d2f2b06d98ea4df0ed82ef41c",
+    "stdout_bytes": 400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "192f387a2a5b0469180cfa9d4db367a19dc5546d2f2b06d98ea4df0ed82ef41c",
+    "stdout_bytes": 400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9924b6e4901a1826afde842de253d81be6d326d92b53b5e7144b2c7bd30f1348",
+    "stdout_bytes": 329,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9924b6e4901a1826afde842de253d81be6d326d92b53b5e7144b2c7bd30f1348",
+    "stdout_bytes": 329,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6c0f49447e7057136b8631a073cfc6147d0712940c98d580ceba404317dca7c2",
+    "stdout_bytes": 7448,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6c0f49447e7057136b8631a073cfc6147d0712940c98d580ceba404317dca7c2",
+    "stdout_bytes": 7448,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6c0f49447e7057136b8631a073cfc6147d0712940c98d580ceba404317dca7c2",
+    "stdout_bytes": 7448,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6c0f49447e7057136b8631a073cfc6147d0712940c98d580ceba404317dca7c2",
+    "stdout_bytes": 7448,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "99d6216d8641e65b8167272a5567b81225a001cbd5349ec11121c7c8a370ad64",
+    "stdout_bytes": 26840,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "99d6216d8641e65b8167272a5567b81225a001cbd5349ec11121c7c8a370ad64",
+    "stdout_bytes": 26840,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e1c15c078734d86c2db76f7c0b6c7813add620eced79862b2750547dc21a8a46",
+    "stdout_bytes": 7409,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e1c15c078734d86c2db76f7c0b6c7813add620eced79862b2750547dc21a8a46",
+    "stdout_bytes": 7409,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e79db9382a1e646c1b506e852be74ae303688dd1d1df42a3be06f1417be3b0f4",
+    "stdout_bytes": 1023,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e79db9382a1e646c1b506e852be74ae303688dd1d1df42a3be06f1417be3b0f4",
+    "stdout_bytes": 1023,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b609e70b41ce68b6a8e6b48f777b44ee57c5b7a293e6226dc2e76aeb86f683ba",
+    "stdout_bytes": 1859,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b609e70b41ce68b6a8e6b48f777b44ee57c5b7a293e6226dc2e76aeb86f683ba",
+    "stdout_bytes": 1859,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a6c1e5943c6e13d0e395eaec52ca7de1c709553dc39222327360149dc027e961",
+    "stdout_bytes": 399,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a6c1e5943c6e13d0e395eaec52ca7de1c709553dc39222327360149dc027e961",
+    "stdout_bytes": 399,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cf3f0ff2582d515145e453ecacf647a3c85ee92c947fa5b6b4c64bbe7e6a932f",
+    "stdout_bytes": 1333,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cf3f0ff2582d515145e453ecacf647a3c85ee92c947fa5b6b4c64bbe7e6a932f",
+    "stdout_bytes": 1333,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "91d8f19fc75a8b05b087ffb33a7ab227b7d4ae7ffa712764f31bfd8268a1122c",
+    "stdout_bytes": 7441,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "91d8f19fc75a8b05b087ffb33a7ab227b7d4ae7ffa712764f31bfd8268a1122c",
+    "stdout_bytes": 7441,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "91d8f19fc75a8b05b087ffb33a7ab227b7d4ae7ffa712764f31bfd8268a1122c",
+    "stdout_bytes": 7441,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "91d8f19fc75a8b05b087ffb33a7ab227b7d4ae7ffa712764f31bfd8268a1122c",
+    "stdout_bytes": 7441,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f2462ac3497e663ed3390576400a01e39dbd540395f5fd6672b5e3dd7a4ea3f9",
+    "stdout_bytes": 26821,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f2462ac3497e663ed3390576400a01e39dbd540395f5fd6672b5e3dd7a4ea3f9",
+    "stdout_bytes": 26821,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5d7cbcc39678df7ece6b4a18c5da41b8d477996a5eaba572dd27f8d528d8a7a4",
+    "stdout_bytes": 7393,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5d7cbcc39678df7ece6b4a18c5da41b8d477996a5eaba572dd27f8d528d8a7a4",
+    "stdout_bytes": 7393,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f7f41c60b8a6833f367dad546a8a390e603bf383ac61a9fbc57aea1e06ad0d4f",
+    "stdout_bytes": 1005,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f7f41c60b8a6833f367dad546a8a390e603bf383ac61a9fbc57aea1e06ad0d4f",
+    "stdout_bytes": 1005,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4a5594bee3e589c2626e3fc79d83fe3f874877ba7f80435ff4be4d0d7a5e639b",
+    "stdout_bytes": 1784,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4a5594bee3e589c2626e3fc79d83fe3f874877ba7f80435ff4be4d0d7a5e639b",
+    "stdout_bytes": 1784,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a4d569085b91064a995fe9276b694957dfcd98dcf31cafae2bdf89322e6e955d",
+    "stdout_bytes": 399,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a4d569085b91064a995fe9276b694957dfcd98dcf31cafae2bdf89322e6e955d",
+    "stdout_bytes": 399,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ed904b17c13b6ea31288a26ea46c794bb13cbda70daf1f3c0ab29d555514090c",
+    "stdout_bytes": 1559,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ed904b17c13b6ea31288a26ea46c794bb13cbda70daf1f3c0ab29d555514090c",
+    "stdout_bytes": 1559,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5d25300265bd81298ea58499bbd39677504dadd1558997d473c5580ffbb6e065",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5d25300265bd81298ea58499bbd39677504dadd1558997d473c5580ffbb6e065",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5d25300265bd81298ea58499bbd39677504dadd1558997d473c5580ffbb6e065",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5d25300265bd81298ea58499bbd39677504dadd1558997d473c5580ffbb6e065",
+    "stdout_bytes": 7452,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "63deb77b65eebea5055be777c388496884d31b5d68fccd05715ea05d4d52b556",
+    "stdout_bytes": 26842,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "63deb77b65eebea5055be777c388496884d31b5d68fccd05715ea05d4d52b556",
+    "stdout_bytes": 26842,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "86b3bbbf1813d10cff039fd9f4e0f989de8e499be0c59d63c14be2a4349c3e54",
+    "stdout_bytes": 7407,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "86b3bbbf1813d10cff039fd9f4e0f989de8e499be0c59d63c14be2a4349c3e54",
+    "stdout_bytes": 7407,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f6e4edcafc408d4fe42914cc29bba8c0d34105fdd29216399348e5dab475dd31",
+    "stdout_bytes": 1020,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f6e4edcafc408d4fe42914cc29bba8c0d34105fdd29216399348e5dab475dd31",
+    "stdout_bytes": 1020,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b535811ac2c62d054ed2deeee497f80c538538bd4165a6f022e4117691cd4463",
+    "stdout_bytes": 1846,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b535811ac2c62d054ed2deeee497f80c538538bd4165a6f022e4117691cd4463",
+    "stdout_bytes": 1846,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5b8da79afbe2e72777ef46f6f45448175888d2b88b054ae847281223d07a08fe",
+    "stdout_bytes": 399,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5b8da79afbe2e72777ef46f6f45448175888d2b88b054ae847281223d07a08fe",
+    "stdout_bytes": 399,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5f650147e7b8d60935cc4f259dfe0bb798a52cb9e24a136a2723773d480d9132",
+    "stdout_bytes": 1800,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5f650147e7b8d60935cc4f259dfe0bb798a52cb9e24a136a2723773d480d9132",
+    "stdout_bytes": 1800,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "01b6482d2131dfc9b9a88c25743458354c9313305116bb75768ebdacfc5aac5e",
+    "stdout_bytes": 7461,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-plan",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "01b6482d2131dfc9b9a88c25743458354c9313305116bb75768ebdacfc5aac5e",
+    "stdout_bytes": 7461,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "01b6482d2131dfc9b9a88c25743458354c9313305116bb75768ebdacfc5aac5e",
+    "stdout_bytes": 7461,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-typed-decoder",
+      "typed",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "01b6482d2131dfc9b9a88c25743458354c9313305116bb75768ebdacfc5aac5e",
+    "stdout_bytes": 7461,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "bf4ec9bcf756ce4f81b9d07816642a1d9b0963b54cd81d2b8a8474d19b986b7b",
+    "stdout_bytes": 26851,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-graph",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "bf4ec9bcf756ce4f81b9d07816642a1d9b0963b54cd81d2b8a8474d19b986b7b",
+    "stdout_bytes": 26851,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f63ef4d301eac663d1ed62e12256706fb14a8f9ae2bf75e5bc4fbb473366f34b",
+    "stdout_bytes": 7411,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-primitive-recipes",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f63ef4d301eac663d1ed62e12256706fb14a8f9ae2bf75e5bc4fbb473366f34b",
+    "stdout_bytes": 7411,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "90f2d80026011e5a9d185d8eb40585ebbf3343df16bebe9e6720efe73445a32a",
+    "stdout_bytes": 1027,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-storage-estimate",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "90f2d80026011e5a9d185d8eb40585ebbf3343df16bebe9e6720efe73445a32a",
+    "stdout_bytes": 1027,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "136f008a5d12a674ffadf0e5e3516850971b39507449497912a5fec2326537f1",
+    "stdout_bytes": 1865,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-expanded-storage",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "136f008a5d12a674ffadf0e5e3516850971b39507449497912a5fec2326537f1",
+    "stdout_bytes": 1865,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2090d4f63b898e46176e9beed98275a3a654bc86c760596a800164c00aad5f70",
+    "stdout_bytes": 401,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-matrix-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2090d4f63b898e46176e9beed98275a3a654bc86c760596a800164c00aad5f70",
+    "stdout_bytes": 401,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "49b618cbbfe44fd718c30e7a14d78e85797e75aeb4c25266ba8f5ab693b3760f",
+    "stdout_bytes": 330,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-source-weight-tiles",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "49b618cbbfe44fd718c30e7a14d78e85797e75aeb4c25266ba8f5ab693b3760f",
+    "stdout_bytes": 330,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-graph-baseline/cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-cache-layout",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "stdout_bytes": 641,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "format"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: current GGUF source axes unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "dtype"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical projection differs from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "projection_kind"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical projection differs from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "axis_order"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: safetensors source axis order mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "axes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical axes differ from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "elements"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: source element count mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "columns"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical axes differ from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "rows"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical axes differ from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical projection differs from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "bytes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical projection differs from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "file_size"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: diagnostic source summary mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "data_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: diagnostic source summary mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "path"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: missing original backing file\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "missing_storage"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: complete bounded tagged source required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "missing_file"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: complete bounded tagged source required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "summary_size"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: diagnostic source summary mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "summary_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: diagnostic source summary mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "total"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: aggregate weight byte count mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "provenance"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: complete bounded tagged source required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "rank_bound"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: source rank/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "work_bound"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: descriptor work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "file_bound"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: complete bounded tagged source required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "tensor_bound"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: complete bounded tagged source required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "overflow"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: invalid or overflowing source product\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "untagged"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: complete bounded tagged source required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "duplicate_original"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: duplicate original name in backing file\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "overlap"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: overlapping per-file source spans\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "work_short"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: source rank/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "alias_missing"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: explicit bounded one-to-one aliases required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "alias_absent"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: duplicate or absent explicit alias\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "alias_duplicate"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: duplicate or absent explicit alias\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "alias_canonical"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: duplicate or absent explicit alias\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "alias_provenance"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: explicit bounded one-to-one aliases required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-252.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1d1b0c6d80f209c942b9d0a6a223ed54ccf3572f94e90fd46fd2ae1cc2c14ebe",
+    "stdout_bytes": 721,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-252.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1d1b0c6d80f209c942b9d0a6a223ed54ccf3572f94e90fd46fd2ae1cc2c14ebe",
+    "stdout_bytes": 721,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-254.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "92096013e5b06141c724bbae7153d06bd8e27ca183466913658c1125b9f11cec",
+    "stdout_bytes": 723,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-254.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "92096013e5b06141c724bbae7153d06bd8e27ca183466913658c1125b9f11cec",
+    "stdout_bytes": 723,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-256.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "af5cba675012e91476422b15a9ba06d4665c0f859ac346dbd8c2eec8d038288d",
+    "stdout_bytes": 732,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-256.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: vector and matrix source roles differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-258.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: vector and matrix source roles differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-258.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "87d7f9a404e3c5521970d4e208e95116af553f542b3ac43d1791be38f07c686b",
+    "stdout_bytes": 734,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "gguf_reader",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-260.gguf"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceWeightTiles: actual GGUF owner/path required for GGUF byte reader\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-261.source",
+      ""
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation view for source rank remains unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-262.source",
+      ""
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical axes differ from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-263.source",
+      ""
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: logical axes differ from tagged source\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-264.source",
+      ""
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation view for source rank remains unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-265.one",
+      "left/",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/other.weights",
+      "right/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9e6d4c5298b14da3f26703ae37384d7f2afb4f42b1c3c0bf8f8b57b5a54dbdd8",
+    "stdout_bytes": 1187,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-265.one",
+      "",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/other.weights",
+      ""
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: duplicate or absent explicit alias\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-265.one",
+      "left/",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-265.one",
+      "right/"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: explicit bounded one-to-one aliases required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-265.one",
+      "s/",
+      "gguf",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-268.gguf",
+      "g/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b985b11bf0dc237bc5f7c9e53a538dd6dde85ef522b7a68dcf5caf46a1984665",
+    "stdout_bytes": 1158,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-regressions/semantic_storage/tagged-source.strace",
+      "-e",
+      "trace=openat,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-269.weights",
+      "explicit/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2a7d48e14db18512f939b2ee4e8d12cc769c9a7c818a18629cef8db3b235a282",
+    "stdout_bytes": 754,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-projections-regressions/semantic_storage/tagged-owned.strace",
+      "-e",
+      "trace=openat,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "eceed6686e50c181536383db6917a12f3eee914cbfaaafd6279696b9f6d4e2d7",
+    "stdout_bytes": 624,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-271.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4fd187f91a1fce4ed9d89e0394cd06fefc4cd9b027ce9f03e6bb1af504dc0206",
+    "stdout_bytes": 754,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-272.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b60498106bdddbfad91a7f30b69aee65ec7058beeb38b2e57a41b8eafd9f5d28",
+    "stdout_bytes": 791,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-273.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2751d628a96fa18959780fb9fe8a35c3c1607f2f74e766c5ab81dcdd7c143c3b",
+    "stdout_bytes": 797,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-274.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ea678ff09ef1a56b62f5bb689851a71a6d269caa2962d003103a1303d1fcc8d7",
+    "stdout_bytes": 775,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-275.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "51d7ab37011f1db61fe084d8bc13521cba1b320b40aa227b481383c8af611ccf",
+    "stdout_bytes": 797,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-276.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c2fe67edaa708da99b608f44e2c3d461444c2a6789dc74adb5c976b019003137",
+    "stdout_bytes": 763,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-277.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7c7d7b5c2f31aa5c001366a5ba3f75c05c20c12eea23d9f679d43d452f348b2b",
+    "stdout_bytes": 789,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-278.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7c176f36f227b72ba084c9426eefab7c5b2cc91bacac3e30c8b42e923f6fe1b2",
+    "stdout_bytes": 796,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-279.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "394c751bf29a6d058762b5c70d43d008167d45ac236436477767f390843f9f8a",
+    "stdout_bytes": 773,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-280.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "32bc20107774db5da1157af310c906b8c171ace578557c247c429922a12f6424",
+    "stdout_bytes": 799,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-281.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9eee974408a295b3cf45414814f71cb941270be2f74f323ce5124631ac1022fa",
+    "stdout_bytes": 761,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-282.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f2dcb36a05c928908ef8fb485d4dbec6d1f2fed4af9370ce9a596890813ba5de",
+    "stdout_bytes": 786,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-283.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "29ade0d56d834f3097fd46315203226ff521de9dc93d2411302e025c0d1b1462",
+    "stdout_bytes": 794,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-284.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7b9d9511d290820e38675bd8a29e58e8b48ee785f5fec37abc6903bc721c7f89",
+    "stdout_bytes": 773,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-285.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d1f6f19e3a01a6376e41230c6996803f00553eae532d781f7639d55041a87f54",
+    "stdout_bytes": 792,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-286.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "924aeed62ac85d2363638610a82b1cd2adc56b2acf633e5be534d589f67069e3",
+    "stdout_bytes": 765,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-287.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "891d50bccf53960b05e726ff0ef58af58da0ab1e4828cbaf40303af32e675a58",
+    "stdout_bytes": 784,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-288.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d41cab051bfca240161efe4fc7fd278a343716bebd7611cca5d01c22b27bb4f9",
+    "stdout_bytes": 796,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-289.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2d706f527ab29240522101b09d4a5edb7d1f07f4d4d3bd1727120ca221e4cba7",
+    "stdout_bytes": 768,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-290.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9201333e94fa4cf7ac4ed14fdfc91d4d2fca2047e5565cff42e8c1e259118c7e",
+    "stdout_bytes": 797,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-291.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "71aab59a4917ffe0c6cf3987d89db4da581052bcbaed0b861070b5962fb9f1ea",
+    "stdout_bytes": 761,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-292.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1609f378c6bb7756cf5c5577c0cf59d2ced791d80b28a0c0e6b6b0b37837a35d",
+    "stdout_bytes": 789,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-293.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cfca118b4aa48ccf09388f1d6327a765ce70c388d4555181ebdbedbc66c05fca",
+    "stdout_bytes": 790,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-294.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e6d0957d09c6fd9b80e42e7ade2dd2bac86ee7c14a77260b4c0bbb3fcaa3b97e",
+    "stdout_bytes": 775,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-295.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c0a077a2e9e23afc054c763a10907c06875c61bb3ffc3462faf59b93d24f3bb9",
+    "stdout_bytes": 797,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-296.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d1e31b65d812529cf7ded52ff02301a6cd8a329f5402587d22ba36be72b010e0",
+    "stdout_bytes": 761,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-297.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "638bfeab90f4f28ddf402aaa56c1e561fb0392b29bdb48da4985cec017a6da4b",
+    "stdout_bytes": 789,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-298.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6f84fa85f4e9516370cacb9494ee01e3306c521c1fdfc57c00263fb7e44c2cf8",
+    "stdout_bytes": 797,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-299.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1267f6ce933c6f16889584b9fcd0c800e8269d0218395b3952acc6de975fbd3b",
+    "stdout_bytes": 766,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-300.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5a1eff32a8cb53b4ef7eea9796c6c6828ded223e8dcdb5ff55f4ebfc033ad820",
+    "stdout_bytes": 801,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-301.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3906abc104c4274d68104fecc6994e9a714dd273453b0c0f39e01d0b78232330",
+    "stdout_bytes": 756,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-302.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "766f0b73929d67135d0cc1d1370e0779a0ec9f1df84d2ce245bf8f5d0a9aee3c",
+    "stdout_bytes": 789,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-303.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "95fc8c418f324dbbc363373d113853c831631405e1864fe55a8d48cb4c076b1d",
+    "stdout_bytes": 797,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-304.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8fad6fae04ba843297abada0fa4562975fc7c0c642eeb2c3eea1ca94cf2e61ce",
+    "stdout_bytes": 777,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-305.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f1c3910a94963dab27719836e9bb7f72d5ba37d74b5446665e4574867a9667aa",
+    "stdout_bytes": 797,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-mn4akwi0/source-306.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9afe059cb67cfe1b18be15beb5842b2692d8b573b70af27131b005e0f18122e2",
+    "stdout_bytes": 758,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "accept"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "306bab6ff889f7624c09e68880cbf8dd4ad2c9421fd02cd262d38057b3b62b1c",
+    "stdout_bytes": 675,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "matrix"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "eceed6686e50c181536383db6917a12f3eee914cbfaaafd6279696b9f6d4e2d7",
+    "stdout_bytes": 624,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "eceed6686e50c181536383db6917a12f3eee914cbfaaafd6279696b9f6d4e2d7",
+    "stdout_bytes": 624,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "norm"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8402cc89bc28f247937dc4722c59da9eda3d0febda5e965f4aedc9ddcca7a308",
+    "stdout_bytes": 54,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/graph-policy-final/tagged-semantic-storage-api",
+      "expanded"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "306bab6ff889f7624c09e68880cbf8dd4ad2c9421fd02cd262d38057b3b62b1c",
+    "stdout_bytes": 675,
+    "stderr": ""
+  }
+]

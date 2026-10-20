@@ -37,3 +37,10 @@ placement/upload/activation/result/cleanup. Never invent undocumented opcodes.
 BF16 spans/shape roles match the pinned config/index using37760 metadata bytes,
 no payload or model execution. Exact adapter/ownership/bounds contract is in
 `docs/HAILO10H_ORDINARY_PROJECTION_BINDING_DESIGN.md`; publish before code.
+
+
+2026-10-20 completed initial owned projection intent38 methods/1168 calls,
+including actual326 ordinary header bindings. Receipt:
+docs/HAILO10H_MOJO_DECODER_PROJECTIONS.md. Remaining roles/architectures and
+complete rotary/modifier/numerical execution stay open. Next automatic child:
+TASK_hailo10h_ordinary_rotary_modifiers.md.

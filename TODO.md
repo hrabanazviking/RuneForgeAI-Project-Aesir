@@ -53,9 +53,12 @@
 - [x] Owned ordinary parameter/modifier intent:31 methods/1053 native calls;
   full raw config/layer ownership and explicit unresolved source semantics.
   `docs/HAILO10H_MOJO_DECODER_ARCHITECTURE.md`. Metadata interpretation only.
-- [ ] Active: `TASK_hailo10h_ordinary_source_bindings.md` under architecture
-  intent: actual aliases/projection axes/output tie, then complete modifiers/
-  rotary pairing and numerical Hailo execution.
+- [x] Owned ordinary projection binding intent:38 methods/1168 native calls;
+  actual326 header tensor roles/shapes, explicit ties, independent widths and
+  original per-file metadata. No model/device execution.
+- [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
+  modifiers and original mathematical lowering, then complete ordinary graph
+  integration and numerical Hailo configuration/execution.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

@@ -1,3 +1,19 @@
+## 2026-10-20 — Codex: owned ordinary source projection bindings
+
+- Published exact API/accounting contract and arbitrary-metadata narrowing352d068
+  before code. Original native role adapter retains full config/layer/parameter,
+  source metadata/tag/name/path/axis/span ownership and explicit tie decisions.
+- Actual Q/K/V shapes supply checked independent dimensions; no hidden/head or
+  absent-output shortcut. Unknown roles/recipes remain required implementation.
+- New7 methods/115 native calls pass,50 accept/65 expected refusals;326 actual
+  remote-header bindings,36 seeded sources,34 mutations/input refusals,40 error/
+  valid cycles and exact policies. Five source-unchanged regressions31/1053 pass,
+  including108 frozen outputs. Total38/1168, clean final tool/API builds.
+- Initial indexed policy cap wiring failed; raw failure retained and corrected.
+  No source payload downloaded/mapped, model forward, device or numerical proof.
+- Continue actual rotary/modifier semantics and original lowering, then complete
+  ordinary graph and numerical Hailo configuration/program/execution work.
+
 ## 2026-10-20 — Codex: owned ordinary parameter and modifier intent
 
 - Published exact API/accounting design6fc6b0a before original Mojo code.

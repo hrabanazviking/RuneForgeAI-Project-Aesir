@@ -380,3 +380,16 @@ is arithmetic only. Every derived entry is charged before growth. Validation
 rederives all mutable fields under owned policies. No SemanticPlan, alias map,
 complete architecture certificate or numerical executor is returned. See
 `docs/HAILO10H_MOJO_DECODER_ARCHITECTURE.md` for acceptance and exact limits.
+
+
+## Ordinary projection bindings — 2026-10-20
+
+DecoderProjectionPolicy(source policy,work,provenance), SourceProjectionIntent,
+bind_decoder_projections and validate_decoder_projections own checked initial
+ordinary role/shape/output intent, complete source file/architecture snapshots
+and tagged canonical bindings. Actual Q/K/V dimensions are checked independently;
+output decisions require explicit tying. Arbitrary file metadata is prepaid
+before copying. Unknown roles/formats/heterogeneous recipes remain implementation
+work, never permanent eligibility rules. No graph, complete modifier/pairing
+certificate, numerical program or executor is returned. See
+`docs/HAILO10H_MOJO_DECODER_PROJECTIONS.md` for exact acceptance/bounds.

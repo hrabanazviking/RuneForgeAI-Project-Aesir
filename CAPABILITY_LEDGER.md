@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 104 |
+| `verified` | 105 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **149** |
+| **Total** | **150** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3247,3 +3247,19 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   complete ordinary model adapter, physical fit or numerical Hailo execution.
 - **Next acceptance gate:** TASK_hailo10h_ordinary_source_bindings.md, full
   source architecture/modifier integration and numerical Hailo execution.
+
+
+### AES-SOURCE-011 — Owned ordinary source projection binding intent
+
+- **Status:** `verified`
+- **Owner:** original smidr.decoder_projections, checked tagged source views,
+  owned ordinary architecture/file metadata and actual collection connections.
+- **Executable evidence:** docs/HAILO10H_MOJO_DECODER_PROJECTIONS.md and
+  docs/evidence/decoder-projections-2026-10-20/;38 methods/1168 calls,326 actual
+  pinned header bindings and108 complete frozen consumer comparisons.
+- **Evidence boundary:** Explicit initial ordinary role/axis/shape/output intent,
+  complete per-file/tag/config ownership and hypothetical metadata extents.
+  No full source fingerprint/local remote-model admission, complete rotary/
+  modifier adaptation, numerical program, physical fit or LLM execution.
+- **Next acceptance gate:** TASK_hailo10h_ordinary_rotary_modifiers.md,
+  complete source architecture semantics and numerical Hailo execution.

@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_ordinary_source_bindings.md` under the ordinary semantic adapter. Full controlling scope:
+slice: `TASK_hailo10h_ordinary_rotary_modifiers.md` under the ordinary semantic adapter. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -15,6 +15,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Owned ordinary projection bindings | Verified source compiler boundary | `HAILO10H_MOJO_DECODER_PROJECTIONS.md`;38 methods/1168 calls, actual326 header bindings, independent source Q/K/V widths and explicit output intent. Complete rotary/modifier adaptation and numerical execution remain open. |
 | Owned ordinary parameter/modifier intent | Verified source interpretation | `HAILO10H_MOJO_DECODER_ARCHITECTURE.md`;31 methods/1053 calls, exact scalar words and raw/layer/default ownership. Actual source aliases/axes/output binding and full architecture/numerical execution remain open. |
 | Explicit typed decoder graph/cache policy | Verified compiler structure | `HAILO10H_MOJO_DECODER_GRAPH_POLICY.md`;99 methods/2711 calls,40 complete NoPE graphs and108 frozen consumer comparisons. Actual ordinary architecture/alias/modifier adapter and numerical execution remain open. |
 | Owned ordinary decoder-layer intent | Verified source interpretation | `HAILO10H_MOJO_DECODER_LAYERS.md`;19 methods/701 calls, retained raw modifiers and source/default mask provenance. Explicit graph/cache NoPE policy and complete architecture/numerical execution remain open. |
