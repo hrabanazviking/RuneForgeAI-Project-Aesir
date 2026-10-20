@@ -295,3 +295,12 @@ license notices for RMSNorm (1910.07467) and SiLU (1702.03118); no paper source,
 implementation, figure or text is copied. Mathematical definitions and the
 project's own epsilon convention inform the original compiler recipe contract
 `TASK_hailo10h_primitive_recipes.md`. No numerical model forward.
+
+### 2026-10-19 — Original RMSNorm/SiLU mathematical IR
+
+Original Mojo source-bound expansion from mathematical identities and the
+project's normalization convention; no external implementation or paper
+text/figure copied. Exact graph/scalar/lifetime checks and tiny synthetic
+primitive-only Decimal oracles pass. No numerical production kernel, source
+model/layer forward or device program is executed. Receipt:
+`docs/HAILO10H_MOJO_PRIMITIVE_RECIPES.md`.

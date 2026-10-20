@@ -2750,3 +2750,15 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   enum/size/offset checks, field/refusal/ownership tests. No device access.
 - **Boundary:** no CCW generation, numerical operation, valid upload endpoint
   or physical activation is established. Source-model execution remains open.
+
+### Source-bound primitive mathematical recipes — 2026-10-19
+
+- **Status:** `verified` as RMSNorm/SiLU compiler expansion and isolated
+  primitive mathematical agreement only.
+- **Owner:** `smidr/primitive_recipes.mojo`; native recipe inspector.
+- **Evidence:** `docs/HAILO10H_MOJO_PRIMITIVE_RECIPES.md`; six methods/39
+  native calls, source IDs/weights/scalar bits/shapes/lifetimes, fourteen
+  malformed API refusals and ownership; four tiny Decimal primitive oracles.
+- **Boundary:** no CPU model/layer forward, Hailo program, device precision or
+  numerical hardware acceptance. Expanded storage and backend encoding remain
+  open. Unexpanded operations are explicitly named.

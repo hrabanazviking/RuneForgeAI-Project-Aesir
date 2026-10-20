@@ -42,3 +42,11 @@ Kinds 0/3/27/35 only; field order, ownership, range checks and independent
 public-header evidence are in `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`. This byte
 primitive is neither a CCW/numerical program nor an hRPC upload payload. No
 device/syscall access or submission consumer exists in this codec slice.
+
+`primitive_recipes.mojo` exposes `PrimitiveRecipes`, owned local
+`PrimitiveRecipe`/`RecipeValue`/`RecipeOperation` values and
+`lower_primitive_recipes(plan)`. RMSNorm and SiLU are expanded into mathematical
+IR; untouched source operation IDs remain named. No production arithmetic is
+evaluated. Exact source bindings/scalar bits, local reference conventions,
+shape/lifetime evidence and unresolved device/precision/storage gates are in
+`docs/HAILO10H_MOJO_PRIMITIVE_RECIPES.md`.
