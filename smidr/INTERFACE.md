@@ -35,3 +35,10 @@ provenance. Owning tensors are counted once; persistent aliases own zero bytes.
 The returned timeline/peak is aggregate live byte volume, not a placed arena or
 hardware fit certificate. There is no inference admission or allocation path.
 See `docs/HAILO10H_MOJO_STORAGE_ESTIMATE.md` for exact interpretation and proof.
+
+`context_actions.mojo` exposes a tagged, owned `ContextAction(kind, timestamp,
+values)` and exact bounded `encode_context_action` / `decode_context_action`.
+Kinds 0/3/27/35 only; field order, ownership, range checks and independent
+public-header evidence are in `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`. This byte
+primitive is neither a CCW/numerical program nor an hRPC upload payload. No
+device/syscall access or submission consumer exists in this codec slice.

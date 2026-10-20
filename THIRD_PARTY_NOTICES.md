@@ -250,3 +250,10 @@ this slice. See `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` and `CLEAN_ROOM_LOG.md`
 The same pinned GGUF format documentation also supplies metadata/default facts
 for the original source semantic graph. No external implementation is adapted;
 see `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md` and `CLEAN_ROOM_LOG.md`.
+
+The test-only public context-action oracle includes externally supplied
+HailoRT v5.3.0 public headers under the same pinned MIT license. Transitive
+`md5.h` carries Alexander Peslyak's public-domain/permissive notice, read in
+full; no MD5 implementation is used/linked. These headers are not bundled.
+Production Mojo copies no external implementation. Dependency hashes and
+evidence: `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`.

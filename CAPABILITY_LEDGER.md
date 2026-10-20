@@ -2739,3 +2739,14 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** the comparison is not hardware fit or inference admission.
   Actual conversion, precision, placement, physical budget and program costs
   remain unresolved; all corresponding proof flags remain false.
+
+### Original public context-action codec — 2026-10-19
+
+- **Status:** `verified` for four host byte-record types only.
+- **Owner:** `smidr/context_actions.mojo`, native host inspector; contract
+  `TASK_hailo10h_context_actions.md`.
+- **Evidence:** `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`; seven methods/244
+  native calls, exact independent Python and pinned C++ header object oracles,
+  enum/size/offset checks, field/refusal/ownership tests. No device access.
+- **Boundary:** no CCW generation, numerical operation, valid upload endpoint
+  or physical activation is established. Source-model execution remains open.

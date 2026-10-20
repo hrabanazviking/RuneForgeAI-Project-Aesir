@@ -274,3 +274,14 @@ interfaces and host/local device boundaries supply prose facts and hashes in
 `docs/HAILO10H_PUBLIC_CONTEXT_ACTIONS.md`. This is no vendor program extraction
 or implementation translation. The next original codec is contracted in
 `TASK_hailo10h_context_actions.md`. No device control/write is performed.
+
+### 2026-10-19 — Original context-action codec verification
+
+Implemented the previously published public field facts independently in Mojo.
+The test-only C++ oracle includes operator-supplied pinned public headers outside
+Git, without vendor runtime linkage. Ten dependency hashes are recorded. Their
+MIT notices and the transitive md5 header's Alexander Peslyak public-domain/
+permissive notice were read; no MD5 implementation is used or linked. Exact
+byte/layout and independent Python checks pass. No vendor implementation or
+model/container content is copied or translated. No device/control/write or
+model forward occurs. Receipt: `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`.

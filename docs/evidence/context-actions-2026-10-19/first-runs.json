@@ -1,0 +1,3040 @@
+[
+  {
+    "scope": "ownership",
+    "arguments": [],
+    "returncode": 0,
+    "stdout": "owned-value-snapshots-pass\n",
+    "stderr": ""
+  },
+  {
+    "scope": "strace_inspector",
+    "arguments": [
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/docs/evidence/context-actions-2026-10-19/codec.strace",
+      "-e",
+      "trace=openat,close,mmap,munmap,ioctl",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/context-actions",
+      "decode",
+      "0000000000050001"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":0,\"values\":[5,0,1],\"canonical_hex\":\"0000000000050001\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_layout",
+    "arguments": [
+      "layout"
+    ],
+    "returncode": 0,
+    "stdout": "{\"header\":5,\"timestamp_offset\":1,\"fetch\":3,\"lcu\":2,\"ccw\":3,\"write\":15,\"write_offsets\":[0,4,5,9,10,14],\"kinds\":[0,3,27,35],\"write_types\":[0,1]}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "3209906057",
+      "63975",
+      "3",
+      "52"
+    ],
+    "returncode": 0,
+    "stdout": "00894753bfe7f9f4\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "3209906057",
+      "63975",
+      "3",
+      "52"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3209906057,\"values\":[63975,3,52],\"canonical_hex\":\"00894753bfe7f9f4\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "00894753bfe7f9f4"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3209906057,\"values\":[63975,3,52],\"canonical_hex\":\"00894753bfe7f9f4\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "229381926",
+      "1241",
+      "2",
+      "39"
+    ],
+    "returncode": 0,
+    "stdout": "002617ac0dd904a7\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "229381926",
+      "1241",
+      "2",
+      "39"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":229381926,\"values\":[1241,2,39],\"canonical_hex\":\"002617ac0dd904a7\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "002617ac0dd904a7"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":229381926,\"values\":[1241,2,39],\"canonical_hex\":\"002617ac0dd904a7\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "3666316600",
+      "8385",
+      "3",
+      "51"
+    ],
+    "returncode": 0,
+    "stdout": "00388d87dac120f3\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "3666316600",
+      "8385",
+      "3",
+      "51"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3666316600,\"values\":[8385,3,51],\"canonical_hex\":\"00388d87dac120f3\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "00388d87dac120f3"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3666316600,\"values\":[8385,3,51],\"canonical_hex\":\"00388d87dac120f3\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "3806050420",
+      "30851",
+      "2",
+      "40"
+    ],
+    "returncode": 0,
+    "stdout": "0074b8dbe28378a8\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "3806050420",
+      "30851",
+      "2",
+      "40"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3806050420,\"values\":[30851,2,40],\"canonical_hex\":\"0074b8dbe28378a8\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "0074b8dbe28378a8"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3806050420,\"values\":[30851,2,40],\"canonical_hex\":\"0074b8dbe28378a8\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "925624747",
+      "7353",
+      "1",
+      "54"
+    ],
+    "returncode": 0,
+    "stdout": "00abe92b37b91c76\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "925624747",
+      "7353",
+      "1",
+      "54"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":925624747,\"values\":[7353,1,54],\"canonical_hex\":\"00abe92b37b91c76\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "00abe92b37b91c76"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":925624747,\"values\":[7353,1,54],\"canonical_hex\":\"00abe92b37b91c76\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "792240187",
+      "20724",
+      "3",
+      "14"
+    ],
+    "returncode": 0,
+    "stdout": "003ba0382ff450ce\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "792240187",
+      "20724",
+      "3",
+      "14"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":792240187,\"values\":[20724,3,14],\"canonical_hex\":\"003ba0382ff450ce\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "003ba0382ff450ce"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":792240187,\"values\":[20724,3,14],\"canonical_hex\":\"003ba0382ff450ce\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "3225262462",
+      "63287",
+      "3",
+      "29"
+    ],
+    "returncode": 0,
+    "stdout": "007e993dc037f7dd\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "3225262462",
+      "63287",
+      "3",
+      "29"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3225262462,\"values\":[63287,3,29],\"canonical_hex\":\"007e993dc037f7dd\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "007e993dc037f7dd"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":3225262462,\"values\":[63287,3,29],\"canonical_hex\":\"007e993dc037f7dd\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "1249914906",
+      "47732",
+      "2",
+      "17"
+    ],
+    "returncode": 0,
+    "stdout": "001a30804a74ba91\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "1249914906",
+      "47732",
+      "2",
+      "17"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":1249914906,\"values\":[47732,2,17],\"canonical_hex\":\"001a30804a74ba91\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "001a30804a74ba91"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":1249914906,\"values\":[47732,2,17],\"canonical_hex\":\"001a30804a74ba91\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "1880709373",
+      "7",
+      "4",
+      "110"
+    ],
+    "returncode": 0,
+    "stdout": "03fd581970746e\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "1880709373",
+      "7",
+      "4",
+      "110"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":1880709373,\"values\":[7,4,110],\"canonical_hex\":\"03fd581970746e\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "03fd581970746e"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":1880709373,\"values\":[7,4,110],\"canonical_hex\":\"03fd581970746e\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "2685073284",
+      "4",
+      "9",
+      "174"
+    ],
+    "returncode": 0,
+    "stdout": "0384f70aa049ae\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "2685073284",
+      "4",
+      "9",
+      "174"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":2685073284,\"values\":[4,9,174],\"canonical_hex\":\"0384f70aa049ae\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "0384f70aa049ae"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":2685073284,\"values\":[4,9,174],\"canonical_hex\":\"0384f70aa049ae\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "3966480595",
+      "1",
+      "5",
+      "186"
+    ],
+    "returncode": 0,
+    "stdout": "03d3b06bec15ba\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "3966480595",
+      "1",
+      "5",
+      "186"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":3966480595,\"values\":[1,5,186],\"canonical_hex\":\"03d3b06bec15ba\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "03d3b06bec15ba"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":3966480595,\"values\":[1,5,186],\"canonical_hex\":\"03d3b06bec15ba\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "2786414381",
+      "5",
+      "7",
+      "197"
+    ],
+    "returncode": 0,
+    "stdout": "032d4f15a657c5\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "2786414381",
+      "5",
+      "7",
+      "197"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":2786414381,\"values\":[5,7,197],\"canonical_hex\":\"032d4f15a657c5\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "032d4f15a657c5"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":2786414381,\"values\":[5,7,197],\"canonical_hex\":\"032d4f15a657c5\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "3038441270",
+      "6",
+      "9",
+      "217"
+    ],
+    "returncode": 0,
+    "stdout": "0336ef1ab569d9\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "3038441270",
+      "6",
+      "9",
+      "217"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":3038441270,\"values\":[6,9,217],\"canonical_hex\":\"0336ef1ab569d9\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "0336ef1ab569d9"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":3038441270,\"values\":[6,9,217],\"canonical_hex\":\"0336ef1ab569d9\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "106147132",
+      "2",
+      "7",
+      "208"
+    ],
+    "returncode": 0,
+    "stdout": "033cad530627d0\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "106147132",
+      "2",
+      "7",
+      "208"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":106147132,\"values\":[2,7,208],\"canonical_hex\":\"033cad530627d0\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "033cad530627d0"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":106147132,\"values\":[2,7,208],\"canonical_hex\":\"033cad530627d0\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "1680872419",
+      "2",
+      "4",
+      "99"
+    ],
+    "returncode": 0,
+    "stdout": "03e31330642463\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "1680872419",
+      "2",
+      "4",
+      "99"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":1680872419,\"values\":[2,4,99],\"canonical_hex\":\"03e31330642463\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "03e31330642463"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":1680872419,\"values\":[2,4,99],\"canonical_hex\":\"03e31330642463\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "167364862",
+      "0",
+      "13",
+      "101"
+    ],
+    "returncode": 0,
+    "stdout": "03fec8f9090d65\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "167364862",
+      "0",
+      "13",
+      "101"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":167364862,\"values\":[0,13,101],\"canonical_hex\":\"03fec8f9090d65\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "03fec8f9090d65"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":167364862,\"values\":[0,13,101],\"canonical_hex\":\"03fec8f9090d65\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "584640016",
+      "33082",
+      "154"
+    ],
+    "returncode": 0,
+    "stdout": "1b10e6d8223a819a\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "584640016",
+      "33082",
+      "154"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":584640016,\"values\":[33082,154],\"canonical_hex\":\"1b10e6d8223a819a\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b10e6d8223a819a"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":584640016,\"values\":[33082,154],\"canonical_hex\":\"1b10e6d8223a819a\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "1832475359",
+      "30019",
+      "87"
+    ],
+    "returncode": 0,
+    "stdout": "1bdf5a396d437557\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "1832475359",
+      "30019",
+      "87"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":1832475359,\"values\":[30019,87],\"canonical_hex\":\"1bdf5a396d437557\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1bdf5a396d437557"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":1832475359,\"values\":[30019,87],\"canonical_hex\":\"1bdf5a396d437557\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "122449275",
+      "50218",
+      "223"
+    ],
+    "returncode": 0,
+    "stdout": "1b7b6d4c072ac4df\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "122449275",
+      "50218",
+      "223"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":122449275,\"values\":[50218,223],\"canonical_hex\":\"1b7b6d4c072ac4df\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b7b6d4c072ac4df"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":122449275,\"values\":[50218,223],\"canonical_hex\":\"1b7b6d4c072ac4df\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "54650897",
+      "58845",
+      "198"
+    ],
+    "returncode": 0,
+    "stdout": "1b11e84103dde5c6\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "54650897",
+      "58845",
+      "198"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":54650897,\"values\":[58845,198],\"canonical_hex\":\"1b11e84103dde5c6\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b11e84103dde5c6"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":54650897,\"values\":[58845,198],\"canonical_hex\":\"1b11e84103dde5c6\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "1825861171",
+      "36357",
+      "14"
+    ],
+    "returncode": 0,
+    "stdout": "1b336ed46c058e0e\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "1825861171",
+      "36357",
+      "14"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":1825861171,\"values\":[36357,14],\"canonical_hex\":\"1b336ed46c058e0e\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b336ed46c058e0e"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":1825861171,\"values\":[36357,14],\"canonical_hex\":\"1b336ed46c058e0e\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "3325736027",
+      "57006",
+      "215"
+    ],
+    "returncode": 0,
+    "stdout": "1b5bb43ac6aeded7\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "3325736027",
+      "57006",
+      "215"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":3325736027,\"values\":[57006,215],\"canonical_hex\":\"1b5bb43ac6aeded7\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b5bb43ac6aeded7"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":3325736027,\"values\":[57006,215],\"canonical_hex\":\"1b5bb43ac6aeded7\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "2636452756",
+      "43777",
+      "166"
+    ],
+    "returncode": 0,
+    "stdout": "1b9413259d01aba6\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "2636452756",
+      "43777",
+      "166"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":2636452756,\"values\":[43777,166],\"canonical_hex\":\"1b9413259d01aba6\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b9413259d01aba6"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":2636452756,\"values\":[43777,166],\"canonical_hex\":\"1b9413259d01aba6\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "2633528333",
+      "29172",
+      "34"
+    ],
+    "returncode": 0,
+    "stdout": "1b0d74f89cf47122\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "2633528333",
+      "29172",
+      "34"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":2633528333,\"values\":[29172,34],\"canonical_hex\":\"1b0d74f89cf47122\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b0d74f89cf47122"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":2633528333,\"values\":[29172,34],\"canonical_hex\":\"1b0d74f89cf47122\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "279173213",
+      "3736021140",
+      "0",
+      "57783455",
+      "91",
+      "3591602555",
+      "209"
+    ],
+    "returncode": 0,
+    "stdout": "235dd8a3109428afde009fb471035b7b8113d6d1\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "279173213",
+      "3736021140",
+      "0",
+      "57783455",
+      "91",
+      "3591602555",
+      "209"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":279173213,\"values\":[3736021140,0,57783455,91,3591602555,209],\"canonical_hex\":\"235dd8a3109428afde009fb471035b7b8113d6d1\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "235dd8a3109428afde009fb471035b7b8113d6d1"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":279173213,\"values\":[3736021140,0,57783455,91,3591602555,209],\"canonical_hex\":\"235dd8a3109428afde009fb471035b7b8113d6d1\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "147193952",
+      "13367793",
+      "1",
+      "2375934796",
+      "209",
+      "481917249",
+      "45"
+    ],
+    "returncode": 0,
+    "stdout": "236000c608f1f9cb00014ce39d8dd14179b91c2d\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "147193952",
+      "13367793",
+      "1",
+      "2375934796",
+      "209",
+      "481917249",
+      "45"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":147193952,\"values\":[13367793,1,2375934796,209,481917249,45],\"canonical_hex\":\"236000c608f1f9cb00014ce39d8dd14179b91c2d\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "236000c608f1f9cb00014ce39d8dd14179b91c2d"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":147193952,\"values\":[13367793,1,2375934796,209,481917249,45],\"canonical_hex\":\"236000c608f1f9cb00014ce39d8dd14179b91c2d\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "1523201397",
+      "2248569118",
+      "1",
+      "100927615",
+      "237",
+      "3691707467",
+      "241"
+    ],
+    "returncode": 0,
+    "stdout": "237535ca5a1e710686017f080406ed4bfc0adcf1\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "1523201397",
+      "2248569118",
+      "1",
+      "100927615",
+      "237",
+      "3691707467",
+      "241"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":1523201397,\"values\":[2248569118,1,100927615,237,3691707467,241],\"canonical_hex\":\"237535ca5a1e710686017f080406ed4bfc0adcf1\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "237535ca5a1e710686017f080406ed4bfc0adcf1"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":1523201397,\"values\":[2248569118,1,100927615,237,3691707467,241],\"canonical_hex\":\"237535ca5a1e710686017f080406ed4bfc0adcf1\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "751681276",
+      "2840256496",
+      "1",
+      "384436310",
+      "16",
+      "4135804345",
+      "177"
+    ],
+    "returncode": 0,
+    "stdout": "23fcbecd2cf0df4aa9015608ea1610b95d83f6b1\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "751681276",
+      "2840256496",
+      "1",
+      "384436310",
+      "16",
+      "4135804345",
+      "177"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":751681276,\"values\":[2840256496,1,384436310,16,4135804345,177],\"canonical_hex\":\"23fcbecd2cf0df4aa9015608ea1610b95d83f6b1\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "23fcbecd2cf0df4aa9015608ea1610b95d83f6b1"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":751681276,\"values\":[2840256496,1,384436310,16,4135804345,177],\"canonical_hex\":\"23fcbecd2cf0df4aa9015608ea1610b95d83f6b1\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "1930953689",
+      "679399635",
+      "0",
+      "2264775095",
+      "53",
+      "1359111164",
+      "60"
+    ],
+    "returncode": 0,
+    "stdout": "23d9031873d3d07e2800b7b9fd8635fc6302513c\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "1930953689",
+      "679399635",
+      "0",
+      "2264775095",
+      "53",
+      "1359111164",
+      "60"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":1930953689,\"values\":[679399635,0,2264775095,53,1359111164,60],\"canonical_hex\":\"23d9031873d3d07e2800b7b9fd8635fc6302513c\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "23d9031873d3d07e2800b7b9fd8635fc6302513c"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":1930953689,\"values\":[679399635,0,2264775095,53,1359111164,60],\"canonical_hex\":\"23d9031873d3d07e2800b7b9fd8635fc6302513c\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "4128098320",
+      "1474135589",
+      "0",
+      "2890131070",
+      "100",
+      "1746281621",
+      "179"
+    ],
+    "returncode": 0,
+    "stdout": "2310c80df62586dd57007ee643ac6495241668b3\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "4128098320",
+      "1474135589",
+      "0",
+      "2890131070",
+      "100",
+      "1746281621",
+      "179"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":4128098320,\"values\":[1474135589,0,2890131070,100,1746281621,179],\"canonical_hex\":\"2310c80df62586dd57007ee643ac6495241668b3\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "2310c80df62586dd57007ee643ac6495241668b3"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":4128098320,\"values\":[1474135589,0,2890131070,100,1746281621,179],\"canonical_hex\":\"2310c80df62586dd57007ee643ac6495241668b3\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "443907847",
+      "2096387634",
+      "0",
+      "438661398",
+      "84",
+      "3292886244",
+      "197"
+    ],
+    "returncode": 0,
+    "stdout": "23077f751a3256f47c001671251a54e47445c4c5\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "443907847",
+      "2096387634",
+      "0",
+      "438661398",
+      "84",
+      "3292886244",
+      "197"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":443907847,\"values\":[2096387634,0,438661398,84,3292886244,197],\"canonical_hex\":\"23077f751a3256f47c001671251a54e47445c4c5\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "23077f751a3256f47c001671251a54e47445c4c5"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":443907847,\"values\":[2096387634,0,438661398,84,3292886244,197],\"canonical_hex\":\"23077f751a3256f47c001671251a54e47445c4c5\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "1944584586",
+      "1137593890",
+      "0",
+      "1425261296",
+      "72",
+      "3139019796",
+      "159"
+    ],
+    "returncode": 0,
+    "stdout": "238a01e873224ece4300f0c2f3544814a419bb9f\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "1944584586",
+      "1137593890",
+      "0",
+      "1425261296",
+      "72",
+      "3139019796",
+      "159"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":1944584586,\"values\":[1137593890,0,1425261296,72,3139019796,159],\"canonical_hex\":\"238a01e873224ece4300f0c2f3544814a419bb9f\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "238a01e873224ece4300f0c2f3544814a419bb9f"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":1944584586,\"values\":[1137593890,0,1425261296,72,3139019796,159],\"canonical_hex\":\"238a01e873224ece4300f0c2f3544814a419bb9f\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      ""
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00ff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00ffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00ffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00ffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00ffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00ffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "00ffffffffffffff00"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      ""
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03ff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03ffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03ffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03ffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03ffffffff7f"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03ffffffff7fff00"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      ""
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1b"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1bff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1bffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1bffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1bffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1bffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1bffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1bffffffffffffff00"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      ""
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: truncated five-byte header\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action extent mismatch\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffffffffffffffff00"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: inspected action exceeds the bounded subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "03000000008000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: reserved LCU packed bit is set\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "2300000000000000000200000000000000000000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: unknown typed-write selector\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "0100000000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "1800000000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "2c00000000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "2d00000000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "ff00000000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcHex]: expected at most 2068 complete hexadecimal byte pairs\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "xy"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[BadRpcHex]: frame must contain only hexadecimal pairs\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "fffffffffffffffffffffffffffffffffffffffff"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: inspected action exceeds the bounded subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "decode",
+      "000000000000000000000000000000000000000000"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: inspected action exceeds the bounded subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "-1",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "65536",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "-1",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "4",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "0",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "0",
+      "64"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "-1",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "4294967296",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: incorrect typed field count\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: incorrect typed field count\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "-1",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "8",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "0",
+      "-1",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "0",
+      "16",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "0",
+      "0",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "0",
+      "0",
+      "256"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "-1",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "4294967296",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: incorrect typed field count\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: incorrect typed field count\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "0",
+      "-1",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "0",
+      "65536",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "0",
+      "0",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "0",
+      "0",
+      "256"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "-1",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "4294967296",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: incorrect typed field count\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "27",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: incorrect typed field count\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "4294967296",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "2",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "-1",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "4294967296",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "-1",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "256",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "-1",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "4294967296",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "-1"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "256"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "4294967296",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: field exceeds its public unsigned width\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: incorrect typed field count\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: usage: context_actions decode <hex> | encode <kind> <timestamp> <typed-fields...>\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "-1",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "24",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "44",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "45",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "256",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "mojo_refusal",
+    "arguments": [
+      "encode",
+      "4294967296",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ContextAction: action kind is outside the verified codec subset\n"
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "0000000000000000\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":0,\"values\":[0,0,0],\"canonical_hex\":\"0000000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "0000000000000000"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":0,\"values\":[0,0,0],\"canonical_hex\":\"0000000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "4294967295",
+      "65535",
+      "3",
+      "63"
+    ],
+    "returncode": 0,
+    "stdout": "00ffffffffffffff\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "4294967295",
+      "65535",
+      "3",
+      "63"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":4294967295,\"values\":[65535,3,63],\"canonical_hex\":\"00ffffffffffffff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "00ffffffffffffff"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":4294967295,\"values\":[65535,3,63],\"canonical_hex\":\"00ffffffffffffff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "0",
+      "2309737967",
+      "4660",
+      "2",
+      "17"
+    ],
+    "returncode": 0,
+    "stdout": "00efcdab89341291\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "0",
+      "2309737967",
+      "4660",
+      "2",
+      "17"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":2309737967,\"values\":[4660,2,17],\"canonical_hex\":\"00efcdab89341291\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "00efcdab89341291"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":0,\"timestamp\":2309737967,\"values\":[4660,2,17],\"canonical_hex\":\"00efcdab89341291\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "03000000000000\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":0,\"values\":[0,0,0],\"canonical_hex\":\"03000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "03000000000000"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":0,\"values\":[0,0,0],\"canonical_hex\":\"03000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "4294967295",
+      "7",
+      "15",
+      "255"
+    ],
+    "returncode": 0,
+    "stdout": "03ffffffff7fff\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "4294967295",
+      "7",
+      "15",
+      "255"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":4294967295,\"values\":[7,15,255],\"canonical_hex\":\"03ffffffff7fff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "03ffffffff7fff"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":4294967295,\"values\":[7,15,255],\"canonical_hex\":\"03ffffffff7fff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "3",
+      "2309737967",
+      "5",
+      "10",
+      "113"
+    ],
+    "returncode": 0,
+    "stdout": "03efcdab895a71\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "3",
+      "2309737967",
+      "5",
+      "10",
+      "113"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":2309737967,\"values\":[5,10,113],\"canonical_hex\":\"03efcdab895a71\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "03efcdab895a71"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":3,\"timestamp\":2309737967,\"values\":[5,10,113],\"canonical_hex\":\"03efcdab895a71\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "1b00000000000000\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":0,\"values\":[0,0],\"canonical_hex\":\"1b00000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1b00000000000000"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":0,\"values\":[0,0],\"canonical_hex\":\"1b00000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "4294967295",
+      "65535",
+      "255"
+    ],
+    "returncode": 0,
+    "stdout": "1bffffffffffffff\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "4294967295",
+      "65535",
+      "255"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":4294967295,\"values\":[65535,255],\"canonical_hex\":\"1bffffffffffffff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1bffffffffffffff"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":4294967295,\"values\":[65535,255],\"canonical_hex\":\"1bffffffffffffff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "27",
+      "2309737967",
+      "13398",
+      "23"
+    ],
+    "returncode": 0,
+    "stdout": "1befcdab89563417\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "27",
+      "2309737967",
+      "13398",
+      "23"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":2309737967,\"values\":[13398,23],\"canonical_hex\":\"1befcdab89563417\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "1befcdab89563417"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":27,\"timestamp\":2309737967,\"values\":[13398,23],\"canonical_hex\":\"1befcdab89563417\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "2300000000000000000000000000000000000000\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":0,\"values\":[0,0,0,0,0,0],\"canonical_hex\":\"2300000000000000000000000000000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "2300000000000000000000000000000000000000"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":0,\"values\":[0,0,0,0,0,0],\"canonical_hex\":\"2300000000000000000000000000000000000000\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "4294967295",
+      "4294967295",
+      "1",
+      "4294967295",
+      "255",
+      "4294967295",
+      "255"
+    ],
+    "returncode": 0,
+    "stdout": "23ffffffffffffffff01ffffffffffffffffffff\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "4294967295",
+      "4294967295",
+      "1",
+      "4294967295",
+      "255",
+      "4294967295",
+      "255"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":4294967295,\"values\":[4294967295,1,4294967295,255,4294967295,255],\"canonical_hex\":\"23ffffffffffffffff01ffffffffffffffffffff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "23ffffffffffffffff01ffffffffffffffffffff"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":4294967295,\"values\":[4294967295,1,4294967295,255,4294967295,255],\"canonical_hex\":\"23ffffffffffffffff01ffffffffffffffffffff\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "header_oracle",
+    "arguments": [
+      "35",
+      "2309737967",
+      "287454020",
+      "1",
+      "1432778632",
+      "31",
+      "2864434397",
+      "29"
+    ],
+    "returncode": 0,
+    "stdout": "23efcdab894433221101887766551fddccbbaa1d\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_encode",
+    "arguments": [
+      "encode",
+      "35",
+      "2309737967",
+      "287454020",
+      "1",
+      "1432778632",
+      "31",
+      "2864434397",
+      "29"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":2309737967,\"values\":[287454020,1,1432778632,31,2864434397,29],\"canonical_hex\":\"23efcdab894433221101887766551fddccbbaa1d\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  },
+  {
+    "scope": "mojo_decode",
+    "arguments": [
+      "decode",
+      "23efcdab894433221101887766551fddccbbaa1d"
+    ],
+    "returncode": 0,
+    "stdout": "{\"kind\":35,\"timestamp\":2309737967,\"values\":[287454020,1,1432778632,31,2864434397,29],\"canonical_hex\":\"23efcdab894433221101887766551fddccbbaa1d\",\"device_access\":false,\"numerical_program\":false}\n",
+    "stderr": ""
+  }
+]
