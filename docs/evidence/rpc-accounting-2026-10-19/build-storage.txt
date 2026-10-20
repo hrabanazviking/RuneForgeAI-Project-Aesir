@@ -1,0 +1,57 @@
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:216:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("desc-create", input)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:219:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("desc-create", output)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:223:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("connect", connect)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:148:36: warning: 'Int64' value is unused; assign to '_' to discard the result
+                self.driver.request("close", data)
+                ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+                _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:172:40: warning: 'Int64' value is unused; assign to '_' to discard the result
+                    self.driver.request("desc-release", data)
+                    ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+                    _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:178:40: warning: 'Int64' value is unused; assign to '_' to discard the result
+                    self.driver.request("desc-release", data)
+                    ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+                    _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:7:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("driver-info", driver_info)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:7:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("properties", properties)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:7:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?
+        var d = 0
+                ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:10:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?
+    for index in range(size):
+        ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_storage.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:86:13: warning: ref 'attempt' was never used, remove it?
+        for attempt in range(2):
+            ^

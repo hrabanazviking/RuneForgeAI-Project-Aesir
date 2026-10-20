@@ -146,6 +146,8 @@ struct SocSession(Movable):
             try:
                 # Driver stops the assigned channels before the remote close.
                 self.driver.request("close", data)
+                self.output_storage.channels_quiesced()
+                self.input_storage.channels_quiesced()
                 release_explicitly = True
             except error:
                 failures += "; " + String(error)

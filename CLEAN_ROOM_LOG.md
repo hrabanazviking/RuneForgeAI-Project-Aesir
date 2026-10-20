@@ -213,3 +213,12 @@ only assigned channel masks and the independently owned pthread worker.
 Actual empty-channel deadlines, retry, terminal invariant and subsequent fresh
 sessions are recorded in `docs/HAILO10H_MOJO_ASSIGNED_WAIT.md`. No DMA launch,
 inference, kernel, firmware, binding or reset operation was performed.
+
+### 2026-10-19 — Exact RPC descriptor/directional accounting
+
+Continued already licensed installed 5.3.0 UAPI/driver interface study in
+`common/vdma_common.c` and `linux/vdma/ioctl.c` for non-cyclic returned count,
+IRQ transfer-count meaning and finalization. Facts recorded in the
+source-execution research notes and prior reference observation. Original Mojo single-outstanding pair policy
+and pending storage guards contain no copied/translated implementation. Host
+IRQ snapshots prove accounting/refusals, not hardware execution.

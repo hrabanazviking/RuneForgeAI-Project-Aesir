@@ -23,6 +23,7 @@ struct SocRpcStorage(Movable):
     var mapping_attempted: Bool
     var mapped: Bool
     var cpu_owned: Bool
+    var transfer_pending: Bool
 
     def __init__(out self):
         self.arch = String("")
@@ -35,6 +36,7 @@ struct SocRpcStorage(Movable):
         self.mapping_attempted = False
         self.mapped = False
         self.cpu_owned = False
+        self.transfer_pending = False
 
     def __deinit__(deinit self):
         if self.address != 0:
@@ -79,7 +81,7 @@ struct SocRpcStorage(Movable):
         self.mapped = True
 
     def sync(mut self, mut driver: SocDriver, for_device: Bool) raises:
-        if not self.mapped or driver.fd < 0 or driver.fd != self.owner_fd or self.arch != driver.arch:
+        if self.transfer_pending or not self.mapped or driver.fd < 0 or driver.fd != self.owner_fd or self.arch != driver.arch:
             raise herror("SocStorageState", "cache sync requires a live owned mapping")
         var data = soc_buffer_sync(self.handle, for_device, 0, SOC_RPC_STORAGE_SIZE, SOC_RPC_STORAGE_SIZE)
         # A failed sync cannot grant either CPU or DMA access.
@@ -88,7 +90,7 @@ struct SocRpcStorage(Movable):
         self.cpu_owned = not for_device
 
     def _require_cpu(self) raises:
-        if self.address == 0 or not self.cpu_owned:
+        if self.transfer_pending or self.address == 0 or not self.cpu_owned:
             raise herror("SocStorageState", "CPU byte access requires explicitly CPU-owned storage")
 
     def write_message(mut self, data: List[UInt8]) raises:
@@ -113,7 +115,7 @@ struct SocRpcStorage(Movable):
         return result^
 
     def zeroed(self) raises -> Bool:
-        if self.address == 0 or not self.cpu_owned:
+        if self.transfer_pending or self.address == 0 or not self.cpu_owned:
             raise herror("SocStorageState", "CPU read requires explicitly CPU-owned storage")
         var bytes = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=Int(self.address))
         for index in range(Int(SOC_RPC_STORAGE_SIZE)):
@@ -124,16 +126,33 @@ struct SocRpcStorage(Movable):
     def unmap(mut self, mut driver: SocDriver) raises:
         if not self.mapping_attempted:
             return
-        if not self.mapped or driver.fd < 0 or driver.fd != self.owner_fd or self.arch != driver.arch:
+        if self.transfer_pending or not self.mapped or driver.fd < 0 or driver.fd != self.owner_fd or self.arch != driver.arch:
             raise herror("SocStorageState", "uncertain map requires owning file-context finalization")
         var data = soc_buffer(self.address, SOC_RPC_STORAGE_SIZE, self.direction)
         _ = driver.request("buffer-unmap", data)
         self.context_finalized()
 
+    def begin_transfer(mut self) raises:
+        if not self.mapped or self.cpu_owned or self.transfer_pending:
+            raise herror("SocStorageState", "launch requires mapped device-owned idle storage")
+        # Armed before ioctl: an uncertain launch cannot return CPU ownership.
+        self.transfer_pending = True
+
+    def transfer_finished(mut self) raises:
+        if not self.transfer_pending:
+            raise herror("SocStorageState", "no pending transfer can be completed")
+        # Only the session completion owner calls this for a validated IRQ.
+        self.transfer_pending = False
+
+    def channels_quiesced(mut self):
+        # Only after assigned-channel stop or entire file-context finalization.
+        self.transfer_pending = False
+
     def context_finalized(mut self):
         # Only the session owner calls this after unmap or actual fd finalization.
         self.mapping_attempted = False
         self.mapped = False
+        self.transfer_pending = False
         self.owner_fd = -1
         self.handle = SOC_INVALID_HANDLE
         self.cpu_owned = True
