@@ -97,3 +97,11 @@ UInt64 sums, explicit positive host bound and exact total extent. Hash fields
 are unverified integers; no full container, checksum, device target/CCW or
 execution admission is provided. Evidence/remaining gates:
 `docs/HAILO10H_MOJO_PROGRAM_HEADER.md`.
+
+`cache_layout.mojo` exposes explicit `CacheLayoutAssumptions`, owned
+`CacheLayout`/`CacheRegion`, `plan_cache_layout`, `validate_cache_layout` and
+`cache_element_offset`. Source cache/view identities and relative token-major
+row addresses are checked under caller-supplied widths, strides, alignment, pool
+and provenance. No physical layout, allocation, ring mutation, cache data or
+execution is admitted. Exact scope/evidence:
+`docs/HAILO10H_MOJO_CACHE_LAYOUT.md`.

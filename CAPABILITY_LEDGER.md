@@ -2847,3 +2847,15 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   numerical CCWs, model/program file input, device upload or execution. Active
   `TASK_hailo10h_llm_compile_interfaces.md` investigates public source compiler
   interface leads toward the actual numerical backend gap.
+
+### Explicit source-bound cache address scenarios — 2026-10-20
+
+- **Status:** `verified` as hypothetical compiler relative addressing only.
+- **Owner:** original `smidr/cache_layout.mojo`, current dense semantic cache
+  identities and explicit caller assumptions.
+- **Evidence:** `docs/HAILO10H_MOJO_CACHE_LAYOUT.md`; six methods/89 native calls
+  (18 accepted, 71 refused), 3353 independent element-offset checks, distinct
+  K/V widths, padding/budget/overflow/graph/alias/ownership refusals.
+- **Boundary:** no actual dtype/layout/placement, immutable source identity,
+  cache/ring data mutation, host model math or hardware execution. Actual
+  numerical configuration remains open under the program-delivery parent.
