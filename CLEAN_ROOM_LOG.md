@@ -339,3 +339,13 @@ or linked. Original integer Mojo field expansion preserves payload placement
 without floating evaluation. Python struct/value-based exhaustive oracles use
 synthetic static constants only, never model/layer arithmetic or device access.
 Receipt: `docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`.
+
+### 2026-10-19 — Q4_K source data-format study
+
+Re-read the ggml MIT license at frozen
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` before continued study of public block
+declarations and reference field interpretation. Original prose byte/bit table
+and hashes are published first in `docs/HAILO10H_Q4K_SOURCE_LAYOUT.md`. This is
+a source weight data format, not vendor device-program extraction. No external
+implementation is copied/translated/vendored; future test-only oracle stays
+outside the production tree. No model/layer/attention arithmetic or device call.

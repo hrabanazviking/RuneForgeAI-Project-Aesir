@@ -257,3 +257,9 @@ HailoRT v5.3.0 public headers under the same pinned MIT license. Transitive
 full; no MD5 implementation is used/linked. These headers are not bundled.
 Production Mojo copies no external implementation. Dependency hashes and
 evidence: `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`.
+
+The original source constant work also studies ggml Q4_K public data-format
+facts at the same pinned MIT revision, with its license re-read. No ggml
+implementation is copied/translated into production or bundled by the study.
+Hashes/schema and planned external test-only oracle boundary are recorded in
+`docs/HAILO10H_Q4K_SOURCE_LAYOUT.md`.
