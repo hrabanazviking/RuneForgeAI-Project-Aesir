@@ -1,0 +1,2234 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/activation-api",
+    "bytes": 1154928,
+    "mode": "0o755",
+    "sha256": "feb5ddff9642fa9e786746b71ea63338df265392f988b09f910aca6375d03724"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/activation-consumers",
+    "bytes": 714448,
+    "mode": "0o755",
+    "sha256": "95c408d59e46d9dfbe635aba9754f980c79075b80c072281091ed7a5facfda2e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/activation-gguf",
+    "bytes": 921120,
+    "mode": "0o755",
+    "sha256": "92f887e1283ec48412c0e15c8eda5b5966d50f7bda5afb7732afff2a13c490d7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/activation-graph",
+    "bytes": 1226112,
+    "mode": "0o755",
+    "sha256": "899b8200df6c0468b17371dc7aee92bc02dd622d934977eabe51eb7bca724fc9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/activation-ownership",
+    "bytes": 1080496,
+    "mode": "0o755",
+    "sha256": "8eee72a8f9ee0eca99d8fe75b69ab73c7d01d73d35f74d925c2187be1e5dd3c2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/baseline.json",
+    "bytes": 217,
+    "mode": "0o644",
+    "sha256": "cfe69a887d6dfff53ecb58e1b084e75a19e06b7c73f0ae10396018b34c15de8f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/bias-consumers",
+    "bytes": 648448,
+    "mode": "0o755",
+    "sha256": "9982560b9693a5c6b70d6f642726dcbf836f0de93d288d4665237153450b2524"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/bias-gguf",
+    "bytes": 920944,
+    "mode": "0o755",
+    "sha256": "8c7ab1eb97cc7c3f6bd8da89a3cf6036cfe29c6016431f7de57f0115a5def35c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/bias-ownership",
+    "bytes": 1079160,
+    "mode": "0o755",
+    "sha256": "963fb32bb83961d7d2cdcb1e4500ae98c19a1f112db2dc74bc7009abcd14a321"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/build-results.json",
+    "bytes": 14375,
+    "mode": "0o644",
+    "sha256": "bc5479ed58e8dedbdc41f52699e62c8cdaf5e39677f15675d041017c07dab25c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/decoder-bias-api",
+    "bytes": 1082280,
+    "mode": "0o755",
+    "sha256": "0df2b2e3653595b2cc06890dec2aa2f7aa6eef8fde988bb3386b9d1bf21869dd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/decoder-bias-graph",
+    "bytes": 1225488,
+    "mode": "0o755",
+    "sha256": "24a14e0b6a0756d17532c8bf13c6867193af3ea4f42ca443712d10bbe3de7557"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/decoder-graph-policy",
+    "bytes": 923760,
+    "mode": "0o755",
+    "sha256": "a43718a4216a2f00d9736673c32105c073e478991d66cefebc963ad81259523e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/decoder-graph-policy-api",
+    "bytes": 1074264,
+    "mode": "0o755",
+    "sha256": "f2d7a05ca00bffc7be2d61d85296e77f15a189ea4ee06490ac07a11934a1c596"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/decoder-projections",
+    "bytes": 567464,
+    "mode": "0o755",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/decoder-projections-api",
+    "bytes": 568128,
+    "mode": "0o755",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/decoder-scalar-source",
+    "bytes": 1075568,
+    "mode": "0o755",
+    "sha256": "799016e008134a8f4f00d1d155a8409122a0c41fcd1f0f38fd39d97dce890698"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/ordinary-schema",
+    "bytes": 568488,
+    "mode": "0o755",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/ordinary-schema-api",
+    "bytes": 569952,
+    "mode": "0o755",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/rotary-api",
+    "bytes": 772952,
+    "mode": "0o755",
+    "sha256": "80b1ef584da9de0b68c6993bea3796c2dbc6b1d83ad94aa9a153f5fcc8b53445"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/rotary-recipes",
+    "bytes": 920512,
+    "mode": "0o755",
+    "sha256": "5c01b3ec74a5b3c2df4df4dc6cb6c1c4d95794e991e5f429522295f56bb4b6f7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/session-api",
+    "bytes": 1156096,
+    "mode": "0o755",
+    "sha256": "7ac6f5bd445af3c1a24cf0f7fa2b0652b1c49165f678a881778df544f1375e3e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/session-gguf",
+    "bytes": 921984,
+    "mode": "0o755",
+    "sha256": "9641774ca460adb959bc89175631f53c3a33a45958aff7860690c6a11624b631"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/session-graph",
+    "bytes": 1226488,
+    "mode": "0o755",
+    "sha256": "3d7bd76337708c31cfeb32a186e3891c45fa46077d2e1370d9d71313018c67a0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/session-ownership",
+    "bytes": 1147208,
+    "mode": "0o755",
+    "sha256": "fa5f5194439bdd3c818694d40efdb8ecee0cddf8d9dbb3a9c0a0fe6a35f929f6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/session-source",
+    "bytes": 570120,
+    "mode": "0o755",
+    "sha256": "e73f01542f3d652dfee2e7a1c6548be6d8759367e13a6becd1add83b9fb867c6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/source-hashes.json",
+    "bytes": 19607,
+    "mode": "0o644",
+    "sha256": "bd5e4da62dec2d03b55ddda80a6cce0f9aab02f4c9baf680d66defde6170f422"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/source-scalars-api",
+    "bytes": 923808,
+    "mode": "0o755",
+    "sha256": "ff5d40ea1acf93df2ee0d7b607862026434e545840bdf679af7acc0773208f21"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-cache-api",
+    "bytes": 483440,
+    "mode": "0o755",
+    "sha256": "c12473ab8279895408b881e139d2f965451b7ba69ce7e76463747141d402d781"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-cache-layout",
+    "bytes": 487208,
+    "mode": "0o755",
+    "sha256": "da4340bf6e67179d925302331d7ae4584c4eac363a147980349b456db0c37c6f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-expanded-api",
+    "bytes": 559016,
+    "mode": "0o755",
+    "sha256": "e25446dcb00302c002eec532eaec31385074156014d6d25a6a2c6cbf91d950d7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-expanded-graph",
+    "bytes": 636168,
+    "mode": "0o755",
+    "sha256": "4838437f0f47a9291040fd577a7b5a78acd0a76d5dbd41a930886879921fb7a6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-expanded-storage",
+    "bytes": 774480,
+    "mode": "0o755",
+    "sha256": "21dcb1ec64035ebaf20b454ac7976eb48701923e76571a8ab9ff86f8e9a87b99"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-expanded-storage-api",
+    "bytes": 770184,
+    "mode": "0o755",
+    "sha256": "1bbb2f6d3db651d287288d4b9b21d32d033128d7c274357d9af837a1b3f8c373"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-float-api",
+    "bytes": 168320,
+    "mode": "0o755",
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-float-constants",
+    "bytes": 170360,
+    "mode": "0o755",
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-matrix-api",
+    "bytes": 337240,
+    "mode": "0o755",
+    "sha256": "911269d1e63235b00c87a8424cfbf4deda34fe16b93974f564e913ad2d7fd8c9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-matrix-tiles",
+    "bytes": 417688,
+    "mode": "0o755",
+    "sha256": "42138566996d1ffb0cc05787ed8a1ab744e444b55fd9109db1b86087f6cbaad8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-primitive-api",
+    "bytes": 487568,
+    "mode": "0o755",
+    "sha256": "103c329c836cb628ca12b5e9ed217d66b7318dfe37f124421965ce2b8d608cf9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-primitive-recipes",
+    "bytes": 564832,
+    "mode": "0o755",
+    "sha256": "3ed6fbdc9b826c7de9d1032c2e6c3dd9c437c6ce52a4237926849854477b5365"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-q4k-api",
+    "bytes": 168160,
+    "mode": "0o755",
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-q4k-constants",
+    "bytes": 174976,
+    "mode": "0o755",
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-q5q6-api",
+    "bytes": 170128,
+    "mode": "0o755",
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-q5q6-constants",
+    "bytes": 169952,
+    "mode": "0o755",
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-semantic-plan",
+    "bytes": 348080,
+    "mode": "0o755",
+    "sha256": "2d6d721c382cbc46a3efb22927c917db7abcbbd30a2e0c40e18f95c1e37e17ce"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-semantic-storage",
+    "bytes": 262840,
+    "mode": "0o755",
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-semantic-storage-api",
+    "bytes": 935896,
+    "mode": "0o755",
+    "sha256": "a5925027433c632a457dc42c3cfe6cbd232f219b7df9318071fa08bd43d6a791"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-source-inventory",
+    "bytes": 253464,
+    "mode": "0o755",
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-source-weight-api",
+    "bytes": 415520,
+    "mode": "0o755",
+    "sha256": "efcf82a16b0ba0ef47ae7d91c5c51937710f41a8c456c0d0b975adaaa765e194"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-source-weight-tiles",
+    "bytes": 483984,
+    "mode": "0o755",
+    "sha256": "b130c00244f0319cbd218455873804dd9420ada530f48d2b1df948181860cb5a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-storage-api",
+    "bytes": 409824,
+    "mode": "0o755",
+    "sha256": "8dc2ea99bff65be09c658ec3e503a6175a3cb88106bf917612b1fa8543c9c4f8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-storage-estimate",
+    "bytes": 416568,
+    "mode": "0o755",
+    "sha256": "15c1c6717df8f84ef26a306bb895f397c22a5e4410a06368e2833297eed91063"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-typed-api",
+    "bytes": 340552,
+    "mode": "0o755",
+    "sha256": "e63b9c6b5c403e2216b73346df62fc28029a3f1947b1022816c27ef483b2c70d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/tagged-typed-decoder",
+    "bytes": 420320,
+    "mode": "0o755",
+    "sha256": "55fbf9e93de0bafdc72d924b0d79ad4741da6e515818520c4e4824afe195663c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/window-api",
+    "bytes": 1222016,
+    "mode": "0o755",
+    "sha256": "421be76c81786fdce814f0c5185c765174e27fed4d28f2a95ba011f53e6b68d5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/window-gguf",
+    "bytes": 921760,
+    "mode": "0o755",
+    "sha256": "b417ac42c95a62623afbdafd6044a1fcf5b0e33a4aa5abd4905bc12cb194f1b0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/window-graph",
+    "bytes": 1226744,
+    "mode": "0o755",
+    "sha256": "015779ac5a166a7539e488713d76849484286dc20b27d53add33966b96c86992"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/window-indices",
+    "bytes": 86752,
+    "mode": "0o755",
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/window-ownership",
+    "bytes": 1147312,
+    "mode": "0o755",
+    "sha256": "0786730591fc6156e84d576646ca6562d45acffe1051af916ec56d9b5850a76d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/window-policy",
+    "bytes": 91648,
+    "mode": "0o755",
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-baseline/window-source",
+    "bytes": 569624,
+    "mode": "0o755",
+    "sha256": "ccb719fc4f8231fcd1693dcf63dffd20609f65aa4bb31aff74e3625308d3cada"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/build-results.json",
+    "bytes": 1327,
+    "mode": "0o644",
+    "sha256": "b5ddfecae486e9fdb4b29a577610cafc03880f1a35e277a7ef5b0012cab6bf5a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-api",
+    "bytes": 1294016,
+    "mode": "0o755",
+    "sha256": "c13c71a750897e5f88dd9b3a558e8b950bca822227e6fed3298c7a9bbb36f8a8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-gguf",
+    "bytes": 993536,
+    "mode": "0o755",
+    "sha256": "d6615674acdf2380113d3af837aeaad1533f83d457a4ced555018eb992d392ec"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-graph",
+    "bytes": 1298928,
+    "mode": "0o755",
+    "sha256": "a38086abaccaa0faa229a61a2c597f6a5a2edd99822e35b002d1f1b63b31b525"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-ownership",
+    "bytes": 1218872,
+    "mode": "0o755",
+    "sha256": "5ac4e03ba6d2eac050aa944c20264818284c95ca7f835966200aef6ae6d875f8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-policy",
+    "bytes": 93760,
+    "mode": "0o755",
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-source",
+    "bytes": 571120,
+    "mode": "0o755",
+    "sha256": "49a8ea5a61ea54bde63f95eaf30769a1dad13977f0ca82c41d32dac116bae28e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/scaling-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial/source-hashes.json",
+    "bytes": 20561,
+    "mode": "0o644",
+    "sha256": "480fc6178435119c075a12afdb90f24d135db58cb1cb222ac5215c2c3f4bb151"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-corrected/build-results.json",
+    "bytes": 453,
+    "mode": "0o644",
+    "sha256": "5b24035f615b6afa43ea8d8bbdb2fe00c1aa04a988184aacb952451bac730d72"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-corrected/scaling-api",
+    "bytes": 1294016,
+    "mode": "0o755",
+    "sha256": "de8c480caacf2961fc31e00534c516785d4d1e2c29d31be6aaa3d043494d226e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-corrected/scaling-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-corrected/scaling-ownership",
+    "bytes": 1218872,
+    "mode": "0o755",
+    "sha256": "5fdc856316f4ad4ed176bd06d34b029b33ed9d0f12871598c621df807d9bc818"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-corrected/scaling-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-corrected/source-hashes.json",
+    "bytes": 20561,
+    "mode": "0o644",
+    "sha256": "a661546aac82a0d8886f7e4e29aebf0d4b0774acbfe0240d52af466b52876195"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-api",
+    "bytes": 1226200,
+    "mode": "0o755",
+    "sha256": "41e72f878137045151065550e6bdbc5f61468b5a3e9a3a71ec256867d80eb1b0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-consumers",
+    "bytes": 717632,
+    "mode": "0o755",
+    "sha256": "4ea7101feb28d378d283ff28080d5d6cb67a3b3b58c953c60b719015b1bc632e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-consumers-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-gguf",
+    "bytes": 992336,
+    "mode": "0o755",
+    "sha256": "9abd2c286ee02c42a2b74c629eacf745b6e749bff50ed1f1cdd09c5e25ecf5c5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-graph",
+    "bytes": 1231312,
+    "mode": "0o755",
+    "sha256": "307544956dcd81c710a5a64c4b4a953344127c4000b1fb19bed93889c439577a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-ownership",
+    "bytes": 1151648,
+    "mode": "0o755",
+    "sha256": "66e949faa03bd53365f5eedbbc1ca333f5037c7f3bdce5ff83caf8bf53a6561c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/activation-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/bias-consumers",
+    "bytes": 717192,
+    "mode": "0o755",
+    "sha256": "6116f6648ec199ec82061a00018b39dd64ca9e32f27855dcae13cdb7c442cfdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/bias-consumers-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/bias-gguf",
+    "bytes": 992152,
+    "mode": "0o755",
+    "sha256": "70561294425b70334faaaf947c1b4c153cf6c22c9a8050b115a6919f6f9a8d5f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/bias-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/bias-ownership",
+    "bytes": 1150320,
+    "mode": "0o755",
+    "sha256": "72d33e4a2dec7f721f7d161f92dedc10f13b00852c25de89a2113a3e362ac637"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/bias-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/build-results.json",
+    "bytes": 14295,
+    "mode": "0o644",
+    "sha256": "b449f2385e3171fc4943da9495422f27f67e60140cbec4f0117ee606bc3016b1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-bias-api",
+    "bytes": 1153432,
+    "mode": "0o755",
+    "sha256": "55d7233f510bf7ea7a15e0402ebc236fb9b8748afdde252cfd58180140e50f3b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-bias-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-bias-graph",
+    "bytes": 1230680,
+    "mode": "0o755",
+    "sha256": "cceabbdedf2a6aea43f0e39b07c6263e0173c643a615b3d27b6f91ad6a3ab71f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-bias-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-graph-policy",
+    "bytes": 994808,
+    "mode": "0o755",
+    "sha256": "400b380fce7a124a889974592e5b1242c9c505267e3db088664c77961a071620"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-graph-policy-api",
+    "bytes": 1145272,
+    "mode": "0o755",
+    "sha256": "ac48455bc8899b600980d227bf3187856c1e79db996ee169c67c6a5fd9c709bd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-graph-policy-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-graph-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-projections",
+    "bytes": 567464,
+    "mode": "0o755",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-projections-api",
+    "bytes": 568128,
+    "mode": "0o755",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-projections-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-projections-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-scalar-source",
+    "bytes": 1146728,
+    "mode": "0o755",
+    "sha256": "67b6ada16d60948a25f42969bc7d095a8e571c27eeb5c2baa63acf008e76b7d6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/decoder-scalar-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/oracle-input-hashes.json",
+    "bytes": 7082,
+    "mode": "0o644",
+    "sha256": "6d5b1fa96609117a70145502b4b98ad2d0c24ea3e3c52fab1df032653c37cac6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/ordinary-schema",
+    "bytes": 568488,
+    "mode": "0o755",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/ordinary-schema-api",
+    "bytes": 569952,
+    "mode": "0o755",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/ordinary-schema-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/ordinary-schema-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/rotary-api",
+    "bytes": 843264,
+    "mode": "0o755",
+    "sha256": "c6f85124a19bd541092adc23bb7b71c3d0a327b353664145e85bd59d15df2b19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/rotary-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/rotary-recipes",
+    "bytes": 991720,
+    "mode": "0o755",
+    "sha256": "8f22cf2c8f39b754339e70b01ca0b6ba89eead3167f5d1ca8a49c7e778692018"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/rotary-recipes-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/runtime.json",
+    "bytes": 262,
+    "mode": "0o644",
+    "sha256": "247bd7b71cc224f15e54cd21b2d30fd373b72a179e51166473423f089719fae1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-api",
+    "bytes": 1294016,
+    "mode": "0o755",
+    "sha256": "de8c480caacf2961fc31e00534c516785d4d1e2c29d31be6aaa3d043494d226e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-gguf",
+    "bytes": 993536,
+    "mode": "0o755",
+    "sha256": "d6615674acdf2380113d3af837aeaad1533f83d457a4ced555018eb992d392ec"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-graph",
+    "bytes": 1298928,
+    "mode": "0o755",
+    "sha256": "a38086abaccaa0faa229a61a2c597f6a5a2edd99822e35b002d1f1b63b31b525"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-ownership",
+    "bytes": 1218872,
+    "mode": "0o755",
+    "sha256": "5fdc856316f4ad4ed176bd06d34b029b33ed9d0f12871598c621df807d9bc818"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-policy",
+    "bytes": 93760,
+    "mode": "0o755",
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-source",
+    "bytes": 571120,
+    "mode": "0o755",
+    "sha256": "49a8ea5a61ea54bde63f95eaf30769a1dad13977f0ca82c41d32dac116bae28e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/scaling-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-api",
+    "bytes": 1227248,
+    "mode": "0o755",
+    "sha256": "f470dee12074eeae51c8097898ad90f14efde6be29823743bc1326b529097e07"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-gguf",
+    "bytes": 993200,
+    "mode": "0o755",
+    "sha256": "e88227def9f0a3e125c9e00c8ff5fb32cccd67455733ec2f834a428815f6633b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-graph",
+    "bytes": 1231688,
+    "mode": "0o755",
+    "sha256": "33a4791ccab6aa6bddbba3545a2cf44171baa02934e9e4773af868d36366a2bb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-ownership",
+    "bytes": 1152832,
+    "mode": "0o755",
+    "sha256": "ee117a0f47f50634e7b5353f0da6c4480c8054797675e3ffa9d179f9cdee0ea2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-source",
+    "bytes": 570120,
+    "mode": "0o755",
+    "sha256": "e73f01542f3d652dfee2e7a1c6548be6d8759367e13a6becd1add83b9fb867c6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/session-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/source-hashes.json",
+    "bytes": 20561,
+    "mode": "0o644",
+    "sha256": "a661546aac82a0d8886f7e4e29aebf0d4b0774acbfe0240d52af466b52876195"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/source-scalars-api",
+    "bytes": 995016,
+    "mode": "0o755",
+    "sha256": "346a25bd7218df859717a30586854703068f62e5d76775e2b20c9157f53d8239"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/source-scalars-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-cache-api",
+    "bytes": 486896,
+    "mode": "0o755",
+    "sha256": "51979c141b4ba12dcbc7c86466f2fe49d8d65025e4306d43ce129d9858b0a8e0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-cache-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-cache-layout",
+    "bytes": 490688,
+    "mode": "0o755",
+    "sha256": "fd31705caa7f27e694c457406e828b35054f3d16704ed32f758650b32c557e74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-cache-layout-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-api",
+    "bytes": 628576,
+    "mode": "0o755",
+    "sha256": "07ba158607fdd2dc0c68557cd7e7b2aae2be362a757c5a3ae97e20fd9504e87b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-graph",
+    "bytes": 641024,
+    "mode": "0o755",
+    "sha256": "0fb232d3c369f55b507bfa88b91990f6d1989987f12cecc740154ce72b3f9963"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-storage",
+    "bytes": 844792,
+    "mode": "0o755",
+    "sha256": "328906ea813695c83ff9a0fc8b8455e71beec090ebb67a5d5df393cbf112758b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-storage-api",
+    "bytes": 840496,
+    "mode": "0o755",
+    "sha256": "992947968fbe69276e09ff729f106cb29a82bb7644c2e7729c59ac634368397d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-expanded-storage-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-float-api",
+    "bytes": 168320,
+    "mode": "0o755",
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-float-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-float-constants",
+    "bytes": 170360,
+    "mode": "0o755",
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-float-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-matrix-api",
+    "bytes": 339960,
+    "mode": "0o755",
+    "sha256": "5a941c70f59f63326e64bd93db3176aa887b9774eb4b8b760a0289db70c28fe7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-matrix-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-matrix-tiles",
+    "bytes": 486680,
+    "mode": "0o755",
+    "sha256": "d7fc16ff388d548e351d3fc39a04a9d1d5fc931ca866aa407eda20d829e8aaa2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-matrix-tiles-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-primitive-api",
+    "bytes": 556872,
+    "mode": "0o755",
+    "sha256": "1a51fdbee820fb027134f625e1e84b27edbf9e6b0e1464382852ddd97766f3d0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-primitive-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-primitive-recipes",
+    "bytes": 569360,
+    "mode": "0o755",
+    "sha256": "9d3930fe3de665fc254362fe9eb8d0cac217e999597e1dee5cb1ca7bdb37b845"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-primitive-recipes-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q4k-api",
+    "bytes": 168160,
+    "mode": "0o755",
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q4k-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q4k-constants",
+    "bytes": 174976,
+    "mode": "0o755",
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q4k-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q5q6-api",
+    "bytes": 170128,
+    "mode": "0o755",
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q5q6-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q5q6-constants",
+    "bytes": 169952,
+    "mode": "0o755",
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-q5q6-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-semantic-plan",
+    "bytes": 416568,
+    "mode": "0o755",
+    "sha256": "19e84100aebb0c43336c2efa88f145cd8be15bc184e37d4164546b27cde10610"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-semantic-plan-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-semantic-storage",
+    "bytes": 262840,
+    "mode": "0o755",
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-semantic-storage-api",
+    "bytes": 1005968,
+    "mode": "0o755",
+    "sha256": "a2e4774b34bc1b167653a10d2fe8deb7a261574b8c6d712202297801f69a4176"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-semantic-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-semantic-storage-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-source-inventory",
+    "bytes": 253464,
+    "mode": "0o755",
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-source-inventory-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-source-weight-api",
+    "bytes": 484512,
+    "mode": "0o755",
+    "sha256": "69c15f16357acb2c4219d63f7a50172741e33096d3464b41475024cbfb5ac50f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-source-weight-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-source-weight-tiles",
+    "bytes": 487440,
+    "mode": "0o755",
+    "sha256": "a51bda0d0fc12cca514eae5f7ed338cd7a6e42d873ba262070dbf5a88488de15"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-source-weight-tiles-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-storage-api",
+    "bytes": 413280,
+    "mode": "0o755",
+    "sha256": "bd93ad610e459aeef5c6c9e5ad9f0ea10e9bb6510be2eff7519ba1eaa5050203"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-storage-estimate",
+    "bytes": 485560,
+    "mode": "0o755",
+    "sha256": "6c20b529edcceb1476a673eb210b80ec6010c1e9f19f3e0bce76fa32290d04f2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-storage-estimate-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-typed-api",
+    "bytes": 343504,
+    "mode": "0o755",
+    "sha256": "e9ecddc32c4b60b1c3007ea6e9c8d67806da607a299661d041961320c6b112b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-typed-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-typed-decoder",
+    "bytes": 423280,
+    "mode": "0o755",
+    "sha256": "2050601b161ea3f8a829d68c5a1d7207338a956a4e342722e140c969d58e0cf1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/tagged-typed-decoder-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-api",
+    "bytes": 1227632,
+    "mode": "0o755",
+    "sha256": "45dc9dc4293189f3a73d94516053cf5ab52713123c4a8ee3b36af5711fa6f15e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-gguf",
+    "bytes": 993416,
+    "mode": "0o755",
+    "sha256": "c1b08ed2a6f27c7d87bf1c4ecc3bc56f4982f1efb64338878acb35a5e24196b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-graph",
+    "bytes": 1297920,
+    "mode": "0o755",
+    "sha256": "d2ea06d5bfe43e64579b54b80a79ebcf723674ee86043486119765bf3213ab19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-indices",
+    "bytes": 86752,
+    "mode": "0o755",
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-indices-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-ownership",
+    "bytes": 1218912,
+    "mode": "0o755",
+    "sha256": "c11adbff698fb55d164bfa35bae479d5c81d1a41872b071a8fcde7d5bc22a8f5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-policy",
+    "bytes": 91648,
+    "mode": "0o755",
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-source",
+    "bytes": 569624,
+    "mode": "0o755",
+    "sha256": "ccb719fc4f8231fcd1693dcf63dffd20609f65aa4bb31aff74e3625308d3cada"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-final/window-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-preliminary-source-policy/runs.json",
+    "bytes": 66102,
+    "mode": "0o644",
+    "sha256": "15d1876450bcba54487480ecfd0c52cc8f2db2a8175498270602f3cd2b69bacb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-preliminary-source-policy/summary.json",
+    "bytes": 38,
+    "mode": "0o644",
+    "sha256": "7100eb7d3349aaafe9a9184f7bc3909d0e2fe24f038d5b0bf314fd4debab9118"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-preliminary-mutations/runs.json",
+    "bytes": 393103,
+    "mode": "0o644",
+    "sha256": "5b3f93ce5be1d871ece797152c83776b10c3e879db1038c2baf04d96c8cc4366"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-preliminary-mutations/summary.json",
+    "bytes": 21,
+    "mode": "0o644",
+    "sha256": "839ab67fc42dfcc33b3293794b3080364c63d3b6b2eb6584e56e1de4d7e747b3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/cached_append-requested32-0.strace",
+    "bytes": 87544,
+    "mode": "0o644",
+    "sha256": "26a9c30b3925ef0519d1bdc3aceaddddb47fc411abf8e64f78e4091d1589c232"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/cached_append-requested32-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "71f3d701871cb53bd8651202ba85c2e43053923f3d0c39417028afbebb05730a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/cached_append-source64-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "490059cf3f9bdad7e2ba5b4ff4276f3fafab6f72245fe2b6530c57b25e4542c0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/cached_append-source64-1.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "758fc99c4377d0cb6337782496770fd1597178be5340b8f9471332825da96b27"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/full_prefix-requested32-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "1686c9fe236da391f3c451977c145ffb3242652a9a0b7dc06f42ebcaf3dbd0cf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/full_prefix-requested32-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "66867ab7229324bec9287cf5e386798ac9475f7d0e1e2c9cc9522a0efe99983e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/full_prefix-source64-0.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "bd26abc8d3dbc2b2c0c5a57bcaf7f482d310351516b57c928718dd6e8140c3ad"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/full_prefix-source64-1.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "60742ae8b70f58fad3d61f5e5a6b78dbde0bd78550e4ed24e8b5852b5cf0c17c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/runs.json",
+    "bytes": 248681,
+    "mode": "0o644",
+    "sha256": "1a77281506d8b77edeff6711e85cb97dae03d91ce4d778b31f63e5ffa583ea7e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-verification/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "b46af678dd762f6939b6f3bcef2219c4abd5fd67031d68d35535fa1ecb24fecd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/cached_append-requested32-0.strace",
+    "bytes": 87586,
+    "mode": "0o644",
+    "sha256": "d93b37a7df737bdb94d0b86e1309dd401d842de9a2b538f7f096b7e3d1105dd4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/cached_append-requested32-1.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "6c8836221f9a3b378a86e4178d3d598f22f191cbfc225355141bf8f9d3ce7524"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/cached_append-source64-0.strace",
+    "bytes": 87548,
+    "mode": "0o644",
+    "sha256": "a596b153a00532bb18bee4a229ba3cb6cccfa1d9252d039a8ae358bc0f0e6baf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/cached_append-source64-1.strace",
+    "bytes": 87588,
+    "mode": "0o644",
+    "sha256": "f35ae1b7c0f5c971931ad41c931e6cfaf6c6c17a7d826fc9c09dd1d2fb90b5b8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/full_prefix-requested32-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "75e1dbc2131321f296dbcec15193e09485294ac65cc902f4521e5fdcc0520dd9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/full_prefix-requested32-1.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "7f1f39cbf77e266dbc5e4193dd097fcce0d8684da5d3ac7144790a334e1df9db"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/full_prefix-source64-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "df38fd5c9642d9871d83870d3ec6ed3e971ea2f5878672f030fdf8990235338d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/full_prefix-source64-1.strace",
+    "bytes": 87548,
+    "mode": "0o644",
+    "sha256": "93f4d63f711b67878f2847e5d344615162ff49894c80b9c075f0ddc25326ff58"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/runs.json",
+    "bytes": 630942,
+    "mode": "0o644",
+    "sha256": "e6050f248bcd7b307bb85b4646b2cba41ddec187f959a97fbf95c57eaee6f873"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-focused-corrected/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "2fa70c71aadd7a2c7eb0e4e691eadbc7105dc11f028c9c17d45e83705b3959da"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/cache_layout/layout.strace",
+    "bytes": 24885,
+    "mode": "0o644",
+    "sha256": "a3373030da380f70cb581bb6c42620b7d73e87f86d2c756c73d54d7de54afd10"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/cache_layout/runs.json",
+    "bytes": 64230,
+    "mode": "0o644",
+    "sha256": "4d73367c5bd1afcbafd22769aad3f28c35e73917061bdf5c5a4e83c184d88274"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/cache_layout-test.txt",
+    "bytes": 153,
+    "mode": "0o644",
+    "sha256": "9066bbcfd3bdc41ebeec6ab7f843b173cd56015200473fe4f2b7aa3fd84f9bf4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/expanded_graph/expanded.strace",
+    "bytes": 26194,
+    "mode": "0o644",
+    "sha256": "cd7113ae567e6b780826262e41caaf2aa0af224c079b02729b69390cf0a7ba8e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/expanded_graph/runs.json",
+    "bytes": 621556,
+    "mode": "0o644",
+    "sha256": "cacc6679cb868dc8114791ad3167d4194638baab45ba5ae6b15505aa650d5c5b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/expanded_graph-test.txt",
+    "bytes": 622,
+    "mode": "0o644",
+    "sha256": "fb0a3ea670188dce9f56745bc110bd9ebd38500a9c28c80212bc83294a6348d1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/expanded_storage/expanded-storage.strace",
+    "bytes": 26091,
+    "mode": "0o644",
+    "sha256": "c9bd997099c4c2e902ecbe432c8b274b9c5f07926a4427c5960342a3b9e75a22"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/expanded_storage/runs.json",
+    "bytes": 428052,
+    "mode": "0o644",
+    "sha256": "1e8ac9c2f77dbe0c99a66cc771982a85ec97afb77c01edb3f5dde88c9949dc51"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/expanded_storage-test.txt",
+    "bytes": 207,
+    "mode": "0o644",
+    "sha256": "b9a0a9e544e3ff05d68eccf7b97d8b36d96a3ad414820f37bdd165bf74f30a31"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/matrix_tiles/runs.json",
+    "bytes": 690495,
+    "mode": "0o644",
+    "sha256": "bf67273be3cd4ce40bb0160b67d75b1f28416ab8010104f25262346536c316b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/matrix_tiles/schedule.strace",
+    "bytes": 24873,
+    "mode": "0o644",
+    "sha256": "75dd5cc0c4779fd6d0f88a7e0cecb501030b2991efa75d8c1b36f9a04831740d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/matrix_tiles/summary.json",
+    "bytes": 92,
+    "mode": "0o644",
+    "sha256": "8c7cc25194815f0879598b63789117f7b5e1fb963f9c260fffb9995ee4955d59"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/matrix_tiles-test.txt",
+    "bytes": 180,
+    "mode": "0o644",
+    "sha256": "11b44d7518014d899173653059400e882a788a8eeea72e1249eb8ef9964f03f0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/primitive_recipes/recipes.strace",
+    "bytes": 26051,
+    "mode": "0o644",
+    "sha256": "4d2f36ddcef0f6fb0fb6345d216bbdc64f01e6630ecb6685e10af86898d6f3eb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/primitive_recipes/runs.json",
+    "bytes": 267602,
+    "mode": "0o644",
+    "sha256": "825e18b91cf8b4ebbbcc79cc5c54159eb74fc85ef0f68909621d88672106c466"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/primitive_recipes/tiny-primitive-results.json",
+    "bytes": 6900,
+    "mode": "0o644",
+    "sha256": "222d4ea54b856bd4ed84b5e1f19fbb240a7ae3e3c19e7d6e31bc33534b3b236e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/primitive_recipes-test.txt",
+    "bytes": 723,
+    "mode": "0o644",
+    "sha256": "15152c63c5285c3ba065966d0cd179bebc948283a1d2a6099f5d4472ac06652f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_plan/fixture-runs.json",
+    "bytes": 151248,
+    "mode": "0o644",
+    "sha256": "bf27848cd0bbb8189662b99d294d90182c4d0244020c1b5b8048de7c9d2dce21"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_plan/source-graph.strace",
+    "bytes": 26079,
+    "mode": "0o644",
+    "sha256": "b62e140f29c5ca878a8710d436407a590eb47911007ffc6461b413f02d2acc2e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_plan-test.txt",
+    "bytes": 107,
+    "mode": "0o644",
+    "sha256": "e497e16ad4aea9eb783a45fa16dd882ea340d99170881633a2103e982c429986"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage/baseline-binaries.json",
+    "bytes": 1710,
+    "mode": "0o644",
+    "sha256": "a539b9b36b6da1ec40e3d7723a0edc722cee18bffac12d802cb2c45f76b8daf8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage/ordinary-sharded.strace",
+    "bytes": 27167,
+    "mode": "0o644",
+    "sha256": "59647ca966d9f84dcd2bf1e83fdb06185af0596bff5f8aae3634e73df2d0e857"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage/ordinary-single.strace",
+    "bytes": 26586,
+    "mode": "0o644",
+    "sha256": "99c096c776fad6df5d60f2574fb488fffc372b4552d1c1a2bc1cbee658ae4dd7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage/runs.json",
+    "bytes": 141492,
+    "mode": "0o644",
+    "sha256": "358b32092d2dc750d6726aa457e123c3df4e67e838ba0b2fb69ba80ef7666b09"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage/summary.json",
+    "bytes": 101,
+    "mode": "0o644",
+    "sha256": "50e7a68cea43e72f6b2544cae27cc1196a82e45549a344f7eaf12c5517285e74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage/tagged-owned.strace",
+    "bytes": 25721,
+    "mode": "0o644",
+    "sha256": "f49916ed1f3ecfd04aa8080397e3d0194587bc07421b5ffb86395a7a2ce7c005"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage/tagged-source.strace",
+    "bytes": 26138,
+    "mode": "0o644",
+    "sha256": "83ebe998bb5f579abcc4d095332117d86e36ca6a20dab94fd4a5eae8ed86c2b8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/semantic_storage-test.txt",
+    "bytes": 181,
+    "mode": "0o644",
+    "sha256": "8e9e6dac254abb74f3c53afeea8d8faa47803096dbd0b3cee1b51e5d3fbfcc72"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_float_constants/constants.strace",
+    "bytes": 26068,
+    "mode": "0o644",
+    "sha256": "0b3f88e42709884b5f3f3b21e0bc47a2ce9207d08003f6a20ef6f7587a2a9881"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_float_constants/exhaustive-coverage.json",
+    "bytes": 309,
+    "mode": "0o644",
+    "sha256": "b09e3035d27710f36331b44ecdca1af67cc593b1627dcfe0aa89d0504ef3e44d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_float_constants/runs.json",
+    "bytes": 52519,
+    "mode": "0o644",
+    "sha256": "9bfb749a3975d0b9c0cc2eee09632f53267c87f6bd40978b16429ecb4ac5c485"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_float_constants-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "53287277ad53fa5899e553fb94ded2fe3456229b3727601ee7063b2fc3fb7578"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_inventory/fixture-runs.json",
+    "bytes": 8278,
+    "mode": "0o644",
+    "sha256": "68f5f7f1470dbbeef4a5dd3140becfb67221eb3c18e4506cf49659919c4c131a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_inventory/read-only-inventory.strace",
+    "bytes": 26084,
+    "mode": "0o644",
+    "sha256": "21dd4a07475818e7dd86b8d76ae952b551826d0c570661952066108e72288c23"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_inventory-test.txt",
+    "bytes": 104,
+    "mode": "0o644",
+    "sha256": "395b1ec49e402c61b5782a47462ddb5f5e91f7ae784a66bf1e255c4bb96325c6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q4k_constants/constants.strace",
+    "bytes": 26064,
+    "mode": "0o644",
+    "sha256": "f8de90f44b1f5a15b5f8802277cb1fc597e1d76b81abc4f327e26c859ea33445"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q4k_constants/external-reference.json",
+    "bytes": 395,
+    "mode": "0o644",
+    "sha256": "3b8b6750b34764b2c1e44afcaf4e88fac71db4952a82e0ff505f1e788bf0f716"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q4k_constants/runs.json",
+    "bytes": 49085,
+    "mode": "0o644",
+    "sha256": "73f97bcd1249565c08a2ec450988b02124ac9d495189a74f638eabd9036c7561"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q4k_constants-test.txt",
+    "bytes": 186,
+    "mode": "0o644",
+    "sha256": "5de44159729b76a0e12fe8e20637d9a71dda2040dfbc8596398c5e4d472d2844"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q5q6_constants/13.strace",
+    "bytes": 26054,
+    "mode": "0o644",
+    "sha256": "ca715ec925edbb586788f41dc9a172f4692bbe1a6519b2c51ac07e42651771af"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q5q6_constants/14.strace",
+    "bytes": 26053,
+    "mode": "0o644",
+    "sha256": "897f977b87451ef440bc147fb2a0ba04c8238d8354010ad2e4ec0bca4a18efd4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q5q6_constants/external-reference.json",
+    "bytes": 627,
+    "mode": "0o644",
+    "sha256": "c6e2e2c1952531bf40ea0e4f72430230369517575d6ebf9147f04d67075e795c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q5q6_constants/runs.json",
+    "bytes": 41581,
+    "mode": "0o644",
+    "sha256": "5ba79638c04956193794ad836b5c9bcc7b1a9e6d5fc4a1d6946889ebcc4768f4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q5q6_constants/summary.json",
+    "bytes": 91,
+    "mode": "0o644",
+    "sha256": "3bfe79788578d8bc0e4203df6d587587202e4a6995b940a7e9875f3f9f505989"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_q5q6_constants-test.txt",
+    "bytes": 178,
+    "mode": "0o644",
+    "sha256": "f832616efa65c14de4714cd1afb21e378c388c8190320b64991a545c7c59e3cd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_weight_tiles/bytes.strace",
+    "bytes": 26479,
+    "mode": "0o644",
+    "sha256": "3830b25d7df0e4f1715449584e6b4e5fea2ce47874d4d696701842f4df987717"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_weight_tiles/runs.json",
+    "bytes": 488027,
+    "mode": "0o644",
+    "sha256": "6adf5f6f4922d3c3985860755a2b849e83c0787f49ba1ce4d6834c0ab2ed15a7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_weight_tiles/summary.json",
+    "bytes": 87,
+    "mode": "0o644",
+    "sha256": "f0d1eaeef91ea5c038d80aa7ce4770cdcf8dddac9e5fea102254e452971a039f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/source_weight_tiles-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "4723c781764f457e0b1db02512ab8e884af3e8ef3d436862cc004fc91687606d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/storage_estimate/fixture-runs.json",
+    "bytes": 139301,
+    "mode": "0o644",
+    "sha256": "37c21b7ceae13b80ce4b6e1c11e4f8b4998ec5f58fb4b4eab7c155f25b6fa68d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/storage_estimate/storage.strace",
+    "bytes": 26045,
+    "mode": "0o644",
+    "sha256": "0ffa05d0a7dfe144273d0980fd8f38b4dc7ca1b4ff9a8d79ef420357bdcf58dc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/storage_estimate-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "5dca5ad2d393c11a5f1212806de9b17fcc87e196e42f086951464ff56dc0ef7c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/test-results.json",
+    "bytes": 8526,
+    "mode": "0o644",
+    "sha256": "41f32d73fad9f2d1228921e4f85aacc175cb9ffed8950ab8365c5063a25d23a7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/typed_decoder/fixture-runs.json",
+    "bytes": 410492,
+    "mode": "0o644",
+    "sha256": "f71a6b1d7ebb9c8ed2c2c74a2ff5ccf20065d54b86d8ab8264ce8a957f882c14"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/typed_decoder/typed-source.strace",
+    "bytes": 26253,
+    "mode": "0o644",
+    "sha256": "f0b81c0ea9c2bac5caaeab4f48c350794166599d863f77828f10dea79cb12cbc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/typed_decoder/typed-synthetic.strace",
+    "bytes": 25811,
+    "mode": "0o644",
+    "sha256": "84e3c2a3bb587b0b506f7d3802725e57ff4a8480fae77640574b79decea3131c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-regression-accepted/typed_decoder-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "11c27a761a0ece89e04a7643a5d8f54e0943bebf123d9aec51dd4906d96613f6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/decoder_graph_policy/runs.json",
+    "bytes": 82221,
+    "mode": "0o644",
+    "sha256": "12ea264c6fed503b0d188874f7f2c7a9fb6eeb6f2c92a19aec9f501f634f3852"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/decoder_graph_policy/safe-1.strace",
+    "bytes": 26738,
+    "mode": "0o644",
+    "sha256": "b1030d60f2503c8d9cc5ca913267426678e279ecafbdb982a9abd5221bca1c2f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/decoder_graph_policy/safe-2.strace",
+    "bytes": 27207,
+    "mode": "0o644",
+    "sha256": "e7b5ae8e06bef66d7afaeaabf77693818183a2b1a57fe415bc4fc093ddff4138"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/decoder_graph_policy/summary.json",
+    "bytes": 98,
+    "mode": "0o644",
+    "sha256": "b7d2d5166a1d72bef1f7d099741aa02879b5db39891adb28e8e3dd6aac4233d2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/decoder_graph_policy-test.txt",
+    "bytes": 172,
+    "mode": "0o644",
+    "sha256": "28ca1ff52dd031da404478d9d6b3c2890a0d7cec96f753af31509dd37f61e6a2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/rotary_recipes/isolated-primitive.json",
+    "bytes": 13603,
+    "mode": "0o644",
+    "sha256": "6ea7f1864f8c9fb33373f35064b5a46833c96043bd1868d72e119344bf2a82bb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/rotary_recipes/rotary.strace",
+    "bytes": 18236,
+    "mode": "0o644",
+    "sha256": "9ee8ed12f47f5eaddbcb456761267c9c7d79d29b9bc7c4e9962736a7b621aeab"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/rotary_recipes/runs.json",
+    "bytes": 4097743,
+    "mode": "0o644",
+    "sha256": "128d5ab6a52e00b8813a5923ae9a36df7648bd602620dcaea62da8ab703c1187"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/rotary_recipes-test.txt",
+    "bytes": 2410,
+    "mode": "0o644",
+    "sha256": "4da46284c8b8d8b85e6229676375257749cf261bf8d176c6f3c455e6a77bdd67"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/source_scalars/runs.json",
+    "bytes": 4528826,
+    "mode": "0o644",
+    "sha256": "db2d69f72f968c6c44e8e02ff4b13e4cf3cf7e886975f6db210b9ce6dbf409c2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/source_scalars/source-scalars.strace",
+    "bytes": 18476,
+    "mode": "0o644",
+    "sha256": "42cc60a0ca359a653c846df6b17152aeaf05ebb36c1abe1c14ef5dddf7c0de1c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/source_scalars-test.txt",
+    "bytes": 151,
+    "mode": "0o644",
+    "sha256": "7c4b83517d843cdeeea6344958f2f49f6a861f820367e793b3bae502feaf47e3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-extra-accepted/test-results.json",
+    "bytes": 1521,
+    "mode": "0o644",
+    "sha256": "736eba22fd681d59ed230ac41b86d8adcd9455a6ccb2cc6d14fcd7866b3feeb0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/decoder_projections/indexed.strace",
+    "bytes": 28451,
+    "mode": "0o644",
+    "sha256": "a07ecf6cfbcc8cd627ea177f56df2f6102a5fd7b9324379de2645dc9157efc2e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/decoder_projections/late-output-refusal.strace",
+    "bytes": 27113,
+    "mode": "0o644",
+    "sha256": "89dd5267c624f78021a85b03379dfaa7e924863fcb9d833b152bbe10d08d37cf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/decoder_projections/remote-headers.strace",
+    "bytes": 26927,
+    "mode": "0o644",
+    "sha256": "95ddd3a243e1475b0eb13a840fb4db5ee80423ae4095c73f219a2ed151066857"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/decoder_projections/runs.json",
+    "bytes": 71502,
+    "mode": "0o644",
+    "sha256": "7811aba9b0deb6656bad010a1930c13eb01f540baa150ac33c04195127e31c03"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/decoder_projections/summary.json",
+    "bytes": 38,
+    "mode": "0o644",
+    "sha256": "3b9a2063174e2f51f184d596b41eb42476b58807ea80dee56d72fc1e07f20178"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/decoder_projections/unindexed.strace",
+    "bytes": 27338,
+    "mode": "0o644",
+    "sha256": "41e12a364188ba2d4d39997886aed17483400cf8aa311023afee86dcdf38e1f8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/decoder_projections-test.txt",
+    "bytes": 154,
+    "mode": "0o644",
+    "sha256": "187a64279c75b9264ff8b6b2e455b0711f42e0e05a59616c1028829c7f6aca45"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/ordinary_projection_schema/late-head-refusal.strace",
+    "bytes": 27183,
+    "mode": "0o644",
+    "sha256": "722917d15c577a2ee523994b3be786edefc92cd46e586df9737fcec1677fb93f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/ordinary_projection_schema/owned-readonly.strace",
+    "bytes": 27249,
+    "mode": "0o644",
+    "sha256": "0ef3d1b6c8552b7b9e9bfd6ddd00b8f9cb4101ce3b15701a2273d67f92079535"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/ordinary_projection_schema/real-metadata.strace",
+    "bytes": 26925,
+    "mode": "0o644",
+    "sha256": "05f4bc0a8e46de46760cb881994b7f3289051d12a6fbfb7cb4b4994f0f786121"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/ordinary_projection_schema/runs.json",
+    "bytes": 132821,
+    "mode": "0o644",
+    "sha256": "41e49c3b4967fd407b88927e34ec45cf8ba5131612ed66a177b7c38766c82eb5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/ordinary_projection_schema/summary.json",
+    "bytes": 39,
+    "mode": "0o644",
+    "sha256": "dc44880c44e164968ad1f44cf87b19f38b207393a2eaeda9d39aa1ede885402b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/ordinary_projection_schema-test.txt",
+    "bytes": 1007,
+    "mode": "0o644",
+    "sha256": "0095fde029b60024e32836dd20237e7e733fddaa84ad623badb7d3319f898d7f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-other-accepted/test-results.json",
+    "bytes": 1454,
+    "mode": "0o644",
+    "sha256": "42bb60db9e02580ffda418ff5f12ba25199a67a46d1c2b7a4f66a3337f529bdd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_activation/requested32-ownership.strace",
+    "bytes": 86989,
+    "mode": "0o644",
+    "sha256": "80c377c3c489564a39f03f4fcb0ec2156f3ef87d075704048cf580178df055ff"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_activation/runs.json",
+    "bytes": 331439,
+    "mode": "0o644",
+    "sha256": "dc9c1ee35f9080256f60045c5f2f44bdf03f099a6872bfe2d915396faec2acf5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_activation/source64-ownership.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "64e6d054cd0c63b6350c4a8a32f8e8c077a8272e1c8b89d1f84055c0ed77adbe"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_activation/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "a78a8907981c7086549f74dd73df038d99cb684fe3e7e921e66d9c59da641a08"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_activation-test.txt",
+    "bytes": 1317,
+    "mode": "0o644",
+    "sha256": "2167717612a47ad35e774677c1a446dd892df3c1940f4beaf8816f8178a32596"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_bias/bias-ownership.strace",
+    "bytes": 87031,
+    "mode": "0o644",
+    "sha256": "b0fbf9a605871f47de2eded7ae4158a86f5ac8c8ff3ee1a59e4fdd759b630c4e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_bias/bias-readonly.strace",
+    "bytes": 27347,
+    "mode": "0o644",
+    "sha256": "6a4900c0a3606f9e5fad35a36eba59fd8a1caced09f62314a9dcc87e7f5d6ba6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_bias/runs.json",
+    "bytes": 173227,
+    "mode": "0o644",
+    "sha256": "b95e59dd4f741e425ba218688722fc251ead07643339b6ffa78b1204f064be1a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_bias/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "3c7fca87a341fa70346f22457e979d7f46d905b099ba71ed626915773f1315b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_bias-test.txt",
+    "bytes": 1283,
+    "mode": "0o644",
+    "sha256": "356930535d7bfb0f39b3096d5fd46fd16c878b8ab55c2017753189a9528086b6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/cached_append-requested32-0.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "9ecf57cefa54b5899158c57f1755aef567839b79b2c8e775086b4fa5b2198651"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/cached_append-requested32-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "c3d9b94844e212e082901d2c5a45aa8f8847d0596347626b43fe30065d49b64c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/cached_append-source64-0.strace",
+    "bytes": 87548,
+    "mode": "0o644",
+    "sha256": "4ca1921649ddcc4fabee24cdebe2c34106fa00f7cb9df314266885e8eef1b630"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/cached_append-source64-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "d25efd5bfdcf4fb220aa956d163b478da1163291dca9669683e669d7aadba301"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/full_prefix-requested32-0.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "ab1780683c194fe4c1ae219f62af69d05ededad95068a3b920bdfd59237af121"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/full_prefix-requested32-1.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "17388057c4fb717f413b0399093f3184183622ade95772329db52b2603a0d3c7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/full_prefix-source64-0.strace",
+    "bytes": 87588,
+    "mode": "0o644",
+    "sha256": "4b79fef72c285a05464916440c8e1127e4c0c48d14e1dd939441cf176fc78889"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/full_prefix-source64-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "be522c2a2866d0c197055cbd2c11dd082b677c4422440ef7df8a243fe7255eaf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/runs.json",
+    "bytes": 628036,
+    "mode": "0o644",
+    "sha256": "5d415779c4e9a48db14b28254259fb974784046fc33cc305c62dea2e744c3c42"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "2fa70c71aadd7a2c7eb0e4e691eadbc7105dc11f028c9c17d45e83705b3959da"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_scaling-test.txt",
+    "bytes": 1045,
+    "mode": "0o644",
+    "sha256": "effb1e40a06ed52d128543762714b5a468fe30ce4c6573b86f616457e94a79d4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/cached_append-requested32-0.strace",
+    "bytes": 87031,
+    "mode": "0o644",
+    "sha256": "a124cef5376dc060bb95dbc94cdfbe5176beaf9b565787628547b644404cb6e2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/cached_append-requested32-1.strace",
+    "bytes": 86987,
+    "mode": "0o644",
+    "sha256": "01298e163777f03d54b4eda7f231c476c24fc71d345470845b8dcfa48024d84f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/cached_append-source64-0.strace",
+    "bytes": 86987,
+    "mode": "0o644",
+    "sha256": "83160e2fa4f8b63b973d4791be180d4c00122adc72c1216b543b38ba2b18f025"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/cached_append-source64-1.strace",
+    "bytes": 87027,
+    "mode": "0o644",
+    "sha256": "4adc2d40c756164c085c4e8a0c2921b21d7a2cb5f3ae7f1401bc1264d57f219d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/full_prefix-requested32-0.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "800f563b8ad630bf4757f3deacfc9eb7b5334facc85fb4fd21927b0987459ba1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/full_prefix-requested32-1.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "8007dba6117568d584fa45e74947909e5f3bee6130bcd4a30c2db1d7d0a50a9c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/full_prefix-source64-0.strace",
+    "bytes": 87029,
+    "mode": "0o644",
+    "sha256": "e13591760a8875df6c0e663858e438cce99a1d9991105440fbca28b7f182d934"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/full_prefix-source64-1.strace",
+    "bytes": 86987,
+    "mode": "0o644",
+    "sha256": "9ecb6b1444a1a3aeed7641d6e72be5749339e97bbbb2395ceabeac3e7cf97ca5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/runs.json",
+    "bytes": 429158,
+    "mode": "0o644",
+    "sha256": "ddace8004a18591064308b60f3588bcbe928aaba21cabbbea599ced8ecadb445"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "ff74ba2c4467f45a326446b72862aa8e5f6e63aa55b876cf75f6e042fd3a9138"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_session-test.txt",
+    "bytes": 1077,
+    "mode": "0o644",
+    "sha256": "06bc1a1e2b4bf0dc57f5e201b4ee62f82b44dfc2ac0f1a1ad210ac12d7cceead"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/cached_append-requested32-0.strace",
+    "bytes": 87588,
+    "mode": "0o644",
+    "sha256": "494642a87d2deacb530d870a0a31d44f1dea418b239149ceaf590615fd70581a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/cached_append-requested32-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "2d0f07a76bf2e35413ce10697249e3615f3252fc337797a0727c0a18a794a5d4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/cached_append-source64-0.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "dfe02f150513bc73ee130a1d5eb5d599bb4364718a08dfade3f6de7621101d9f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/cached_append-source64-1.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "d5a08b1ebb76c9ac00646e879dddde0f226a6b1084232f11addb7bc9dca6c46b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/full_prefix-requested32-0.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "123ea3caa93364fc824793190f8f90304e8bb9ca75d1ece32c7f8202e430decd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/full_prefix-requested32-1.strace",
+    "bytes": 87548,
+    "mode": "0o644",
+    "sha256": "93efea4166fbb9e59e31c6cf444e407b756fd0f3cf37a57a4cc76547f4d338f7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/full_prefix-source64-0.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "fd3e0bd681ef31fa8d8abf4378b6d89721e2e7f06442f856f04d3db0058dc4d2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/full_prefix-source64-1.strace",
+    "bytes": 87544,
+    "mode": "0o644",
+    "sha256": "466b76ec2f57c6fd8d1e52fbcba79f95ee323f01755a381fd238579d5d2c515f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/runs.json",
+    "bytes": 471733,
+    "mode": "0o644",
+    "sha256": "50ad71bec92ab41c37d16ab19ea43ce2a0d51195454469e3aad141b9d8a9982e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "e5543bc47812175a6e5a9b8c83988c07e20ff61a86b24facd9d01580f5f6a83f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/decoder_window-test.txt",
+    "bytes": 1028,
+    "mode": "0o644",
+    "sha256": "8d30d16d25b927c1e9a95cd2694c5b25f01e7c769525947590080b0e68324eeb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-accepted/test-results.json",
+    "bytes": 4277,
+    "mode": "0o644",
+    "sha256": "bddaeacfa8c756acd51feb7cc00512f8523ceefc76eb5b524d73efb8a2a24667"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-policy-initial-2",
+    "bytes": 93760,
+    "mode": "0o755",
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-source-initial-2",
+    "bytes": 571120,
+    "mode": "0o755",
+    "sha256": "49a8ea5a61ea54bde63f95eaf30769a1dad13977f0ca82c41d32dac116bae28e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-graph-initial",
+    "bytes": 1298824,
+    "mode": "0o755",
+    "sha256": "4be290b5e52a1128e4309b49c15024dd98d7e7cade223d284d4ef4f440078e02"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-policy-preliminary.json",
+    "bytes": 15792,
+    "mode": "0o644",
+    "sha256": "07ea7076b5173d0602992fe4d827006a257ca25e3643c0e6795175eee9e70bcb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-initial-build.py",
+    "bytes": 1466,
+    "mode": "0o644",
+    "sha256": "cd281d52e2fdb8b28e96013ed950a516fa2543df9156c060c1c704333627b58a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-scaling-correction-build.py",
+    "bytes": 1254,
+    "mode": "0o644",
+    "sha256": "2d662ba4ecec23ccc98c4943bdb27485d93ce5f5c871687c198a78f33fdda279"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/verify-scaling-mutations-preliminary.py",
+    "bytes": 1241,
+    "mode": "0o644",
+    "sha256": "75e70bc6c805e216128c2c0f8446806cd6ebe10dee30b37d340ba38af1c6f4ec"
+  }
+]

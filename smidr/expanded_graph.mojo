@@ -1,3 +1,4 @@
+from smidr.scaling_policy import same_scaling_policy
 from smidr.window_policy import same_window_policy
 from smidr.session_graph import validate_plan_session_state
 from smidr.session_policy import same_session_policy
@@ -8,7 +9,7 @@ from std.collections import Dict
 from smidr.bias_policy import same_bias_policy
 from smidr.bias_graph import validate_plan_bias_state
 from smidr.source_inventory import validate_source_weight
-from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
+from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar, validate_plan_scaling_state
 from smidr.source_scalars import ScalarWord, same_scalar_word, same_decoder_scalars, scalar32_mirror
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
 from smidr.primitive_recipes import _rotary_recipe, _projection_bias_recipe, _activation_recipe, _selected_silu_recipe, _window_recipe
@@ -47,6 +48,8 @@ struct ExpandedOperation(Copyable, Movable):
     var rotary_provenance: String
 
     var window_tokens: Int
+    var scaling_kind: String
+    var scaling_factor: ScalarWord
 
     def __init__(out self, kind: String,
                  var inputs: List[Int],
@@ -62,7 +65,8 @@ struct ExpandedOperation(Copyable, Movable):
                  rotary_base_bits: UInt32,
                  rotary_base_scalar: ScalarWord,
                  rotary_pairing: String,
-                 rotary_provenance: String, window_tokens: Int = 0):
+                 rotary_provenance: String, window_tokens: Int = 0,
+                 scaling_kind: String = "", scaling_factor: ScalarWord = ScalarWord(0, 0)):
         self.kind = kind
         self.inputs = inputs^
         self.output = output
@@ -79,6 +83,8 @@ struct ExpandedOperation(Copyable, Movable):
         self.rotary_pairing = rotary_pairing
         self.rotary_provenance = rotary_provenance
         self.window_tokens = window_tokens
+        self.scaling_kind = scaling_kind
+        self.scaling_factor = scaling_factor.copy()
 
 
 struct ExpandedGraph(Movable):
@@ -158,7 +164,8 @@ struct ExpandedGraph(Movable):
              rotary_pairing: String = "", rotary_provenance: String = "",
              epsilon_scalar: ScalarWord = ScalarWord(0, 0),
              rotary_base_scalar: ScalarWord = ScalarWord(0, 0),
-             window_tokens: Int = 0) raises -> Int:
+             window_tokens: Int = 0, scaling_kind: String = "",
+             scaling_factor: ScalarWord = ScalarWord(0, 0)) raises -> Int:
         var step = len(self.operations)
         for input_id in inputs:
             if input_id < 0 or input_id >= len(self.values) or self.values[input_id].producer >= step:
@@ -167,7 +174,7 @@ struct ExpandedGraph(Movable):
         var output = self.value(name, shape^, domain, storage, step, alias_of, source_tensor)
         self.operations.append(ExpandedOperation(kind, inputs^, output, source_operation,
             recipe_step, width, epsilon_bits, epsilon_scalar.copy(), source_weight, preconditions.copy(),
-            rotary_dim, rotary_base_bits, rotary_base_scalar.copy(), rotary_pairing, rotary_provenance, window_tokens))
+            rotary_dim, rotary_base_bits, rotary_base_scalar.copy(), rotary_pairing, rotary_provenance, window_tokens, scaling_kind, scaling_factor))
         return output
 
 
@@ -245,7 +252,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
                     recipe.epsilon_bits, weight, recipe.runtime_preconditions,
                     -1, source_id, recipe.rotary_dim, recipe.rotary_base_bits,
                     recipe.rotary_pairing, recipe.rotary_provenance,
-                    recipe.epsilon_scalar, recipe.rotary_base_scalar, recipe.window_tokens)
+                    recipe.epsilon_scalar, recipe.rotary_base_scalar, recipe.window_tokens, recipe.scaling_kind, recipe.scaling_factor)
             graph.source_values[source_op.output] = local[recipe.result]
         else:
             var inputs = List[Int]()
@@ -282,6 +289,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
 def validate_rotary_expansion(graph: ExpandedGraph) raises:
     validate_window_expansion(graph)
     validate_session_expansion(graph)
+    validate_scaling_expansion(graph)
     validate_scalar_expansion(graph)
     validate_bias_expansion(graph)
     validate_activation_expansion(graph)
@@ -320,7 +328,7 @@ def validate_rotary_expansion(graph: ExpandedGraph) raises:
         if op.source_operation not in stored_for_source:
             raise Error("RotaryExpansion: missing owned source recipe")
         var stored = graph.recipes.recipes[stored_for_source[op.source_operation]].copy()
-        if stored.source_inputs != recipe.source_inputs or stored.input_values != recipe.input_values or stored.source_input != recipe.source_input or stored.source_output != recipe.source_output or stored.kind != recipe.kind or not same_scalar_word(stored.rotary_base_scalar, recipe.rotary_base_scalar) or stored.rotary_dim != recipe.rotary_dim or stored.rotary_base_bits != recipe.rotary_base_bits or stored.rotary_pairing != recipe.rotary_pairing or stored.rotary_provenance != recipe.rotary_provenance or stored.runtime_preconditions != recipe.runtime_preconditions or stored.result != recipe.result or len(stored.values) != len(recipe.values) or len(stored.operations) != len(recipe.operations) or stored.divisor != 0 or stored.epsilon_bits != 0 or stored.weight_name.byte_length() != 0:
+        if stored.scaling_kind != recipe.scaling_kind or not same_scalar_word(stored.scaling_factor, recipe.scaling_factor) or stored.source_inputs != recipe.source_inputs or stored.input_values != recipe.input_values or stored.source_input != recipe.source_input or stored.source_output != recipe.source_output or stored.kind != recipe.kind or not same_scalar_word(stored.rotary_base_scalar, recipe.rotary_base_scalar) or stored.rotary_dim != recipe.rotary_dim or stored.rotary_base_bits != recipe.rotary_base_bits or stored.rotary_pairing != recipe.rotary_pairing or stored.rotary_provenance != recipe.rotary_provenance or stored.runtime_preconditions != recipe.runtime_preconditions or stored.result != recipe.result or len(stored.values) != len(recipe.values) or len(stored.operations) != len(recipe.operations) or stored.divisor != 0 or stored.epsilon_bits != 0 or stored.weight_name.byte_length() != 0:
             raise Error("RotaryExpansion: changed owned recipe/mapping")
         for i in range(len(recipe.values)):
             if stored.values[i].shape != recipe.values[i].shape or stored.values[i].elements != recipe.values[i].elements or stored.values[i].domain != recipe.values[i].domain or stored.values[i].producer != recipe.values[i].producer or stored.values[i].last_use != recipe.values[i].last_use:
@@ -338,7 +346,7 @@ def validate_rotary_expansion(graph: ExpandedGraph) raises:
                 raise Error("RotaryExpansion: truncated recipe")
             var actual = graph.operations[cursor].copy()
             var expected = recipe.operations[j].copy()
-            if actual.source_operation != recipe.source_operation or actual.recipe_step != j or actual.kind != expected.kind or len(actual.inputs) != len(expected.inputs) or not same_scalar_word(actual.rotary_base_scalar, recipe.rotary_base_scalar) or actual.rotary_dim != recipe.rotary_dim or actual.rotary_base_bits != recipe.rotary_base_bits or actual.rotary_pairing != recipe.rotary_pairing or actual.rotary_provenance != recipe.rotary_provenance or actual.width != 0 or actual.epsilon_bits != 0 or actual.source_weight.byte_length() != 0 or actual.runtime_preconditions != recipe.runtime_preconditions:
+            if actual.scaling_kind != recipe.scaling_kind or not same_scalar_word(actual.scaling_factor, recipe.scaling_factor) or actual.source_operation != recipe.source_operation or actual.recipe_step != j or actual.kind != expected.kind or len(actual.inputs) != len(expected.inputs) or not same_scalar_word(actual.rotary_base_scalar, recipe.rotary_base_scalar) or actual.rotary_dim != recipe.rotary_dim or actual.rotary_base_bits != recipe.rotary_base_bits or actual.rotary_pairing != recipe.rotary_pairing or actual.rotary_provenance != recipe.rotary_provenance or actual.width != 0 or actual.epsilon_bits != 0 or actual.source_weight.byte_length() != 0 or actual.runtime_preconditions != recipe.runtime_preconditions:
                 raise Error("RotaryExpansion: changed recipe operation/metadata")
             for i in range(len(expected.inputs)):
                 if expected.inputs[i] not in local or actual.inputs[i] != local[expected.inputs[i]]:
@@ -349,6 +357,13 @@ def validate_rotary_expansion(graph: ExpandedGraph) raises:
             var wanted = recipe.values[expected.output].copy()
             if value.shape != wanted.shape or value.elements != wanted.elements or value.domain != wanted.domain or value.storage != "activation" or value.producer != cursor or value.alias_of != -1:
                 raise Error("RotaryExpansion: changed recipe value")
+            if graph.source.explicit_scaling:
+                var is_result = expected.output == recipe.result
+                var expected_name = graph.source.tensors[recipe.source_output].name
+                if not is_result:
+                    expected_name += ".primitive." + String(j)
+                if value.name != expected_name or value.source_tensor != (recipe.source_output if is_result else -1) or value.source_weight.byte_length() != 0:
+                    raise Error("DecoderScaling: changed rotary global identity")
             local[expected.output] = actual.output
             cursor += 1
         if recipe.source_output not in graph.source_values or graph.source_values[recipe.source_output] != local[recipe.result]:
@@ -631,3 +646,63 @@ def validate_window_expansion(graph: ExpandedGraph) raises:
     for i in range(len(graph.source.operations)):
         if graph.source.operations[i].kind == "causal_window_mask" and i not in seen:
             raise Error("WindowExpansion: window expansion omitted")
+
+
+def validate_scaling_expansion(graph: ExpandedGraph) raises:
+    validate_plan_scaling_state(graph.source)
+    if graph.recipes.explicit_scaling != graph.source.explicit_scaling or graph.recipes.scaling_work != graph.source.scaling_work or not same_scaling_policy(graph.recipes.scaling_policy, graph.source.scaling_policy):
+        raise Error("DecoderScaling: retained scaling policy snapshot changed")
+    if graph.source.explicit_scaling and graph.recipes.rotary_policy.pairing.byte_length() == 0:
+        raise Error("DecoderScaling: explicit mathematical basis missing")
+    for r in graph.recipes.recipes:
+        if r.source_operation < 0 or r.source_operation >= len(graph.source.operations):
+            raise Error("DecoderScaling: invalid retained source identity")
+        var kind = graph.source.operations[r.source_operation].kind
+        var rotary = kind == "rope_query" or kind == "rope_key"
+        if graph.source.explicit_scaling and rotary:
+            if r.scaling_kind != graph.source.scaling_policy.kind or not same_scalar_word(r.scaling_factor, graph.source.scaling_policy.factor):
+                raise Error("DecoderScaling: changed retained factor")
+            if r.window_tokens != 0 or r.epsilon_scalar.width != 0 or r.epsilon_scalar.bits != 0 or r.weight.file_offset != 0 or r.weight.columns != 0 or r.weight.rows != 0 or r.weight.source_kind != 0 or r.weight.byte_count != 0 or r.weight_extent.source_format.byte_length() != 0 or r.weight_extent.source_bytes != 0 or r.weight_extent.data_offset != 0:
+                raise Error("DecoderScaling: stray retained rotary constant/extent")
+            var w = r.weight_storage.copy()
+            if w.source_format.byte_length() != 0 or w.source_kind != 0 or w.axis_order.byte_length() != 0 or w.original_name.byte_length() != 0 or len(w.source_shape) != 0 or w.source_path.byte_length() != 0 or w.file_offset != 0 or w.byte_count != 0 or w.elements != 0:
+                raise Error("DecoderScaling: stray retained rotary storage")
+        elif r.scaling_kind.byte_length() != 0 or r.scaling_factor.width != 0 or r.scaling_factor.bits != 0:
+            raise Error("DecoderScaling: stray retained scaling metadata")
+    for op in graph.operations:
+        if op.source_operation < 0 or op.source_operation >= len(graph.source.operations):
+            raise Error("DecoderScaling: invalid expanded source identity")
+        var kind = graph.source.operations[op.source_operation].kind
+        if graph.source.explicit_scaling and (kind == "rope_query" or kind == "rope_key"):
+            if op.scaling_kind != graph.source.scaling_policy.kind or not same_scalar_word(op.scaling_factor, graph.source.scaling_policy.factor) or op.window_tokens != 0 or op.epsilon_scalar.width != 0 or op.epsilon_scalar.bits != 0:
+                raise Error("DecoderScaling: changed expanded factor/unused metadata")
+        elif op.scaling_kind.byte_length() != 0 or op.scaling_factor.width != 0 or op.scaling_factor.bits != 0:
+            raise Error("DecoderScaling: stray expanded scaling metadata")
+    if not graph.source.explicit_scaling:
+        return
+    if len(graph.values) > graph.source.source.policy.work or len(graph.operations) > graph.source.source.policy.work:
+        raise Error("DecoderScaling: expanded work bound exceeded")
+    for id in graph.recipes.remaining_source_operations:
+        if id < 0 or id >= len(graph.source.operations):
+            raise Error("DecoderScaling: invalid remaining source identity")
+        if graph.source.operations[id].kind == "rope_query" or graph.source.operations[id].kind == "rope_key":
+            raise Error("DecoderScaling: lowered rotary retained as remaining operation")
+    var last = List[Int]()
+    for value in graph.values:
+        if value.producer < -1 or value.producer >= len(graph.operations):
+            raise Error("DecoderScaling: invalid expanded producer")
+        last.append(value.producer)
+    for i in range(len(graph.operations)):
+        var op = graph.operations[i].copy()
+        if op.output < 0 or op.output >= len(graph.values) or graph.values[op.output].producer != i:
+            raise Error("DecoderScaling: changed expanded output producer")
+        for id in op.inputs:
+            if id < 0 or id >= len(graph.values) or graph.values[id].producer >= i:
+                raise Error("DecoderScaling: unavailable expanded operand")
+            last[id] = i
+    for i in range(len(graph.values)):
+        var value = graph.values[i].copy()
+        if value.storage == "source_weight" or value.storage == "persistent_kv" or is_expanded_export(graph, i):
+            last[i] = len(graph.operations)
+        if value.last_use != last[i]:
+            raise Error("DecoderScaling: changed expanded lifetime")

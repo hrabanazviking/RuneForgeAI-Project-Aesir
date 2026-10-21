@@ -1,3 +1,4 @@
+from smidr.tools.scaling_policy import describe_scaling_policy
 from smidr.tools.window_policy import describe_window_policy
 from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
 from smidr.tools.activation_policy import describe_activation_policy
@@ -32,6 +33,9 @@ def describe_expanded_graph(graph: ExpandedGraph) raises -> String:
     if graph.source.explicit_window:
         text = text.replace("\"schema_version\":5", "\"schema_version\":6")
         text += ",\"window_policy\":" + describe_window_policy(graph.source.window_policy, graph.source.window_work)
+    if graph.source.explicit_scaling:
+        text = text.replace("\"schema_version\":6", "\"schema_version\":7")
+        text += ",\"scaling_policy\":" + describe_scaling_policy(graph.source.scaling_policy, graph.source.scaling_work)
     text += ",\"architecture\":" + _quote(graph.source.source.architecture) + ",\"source_operation_count\":" + String(len(graph.source.operations)) + ",\"source_tensor_count\":" + String(len(graph.source.tensors))
     text += ",\"runtime_preconditions\":[\"token_ids_in_vocabulary\",\"positions_equal_past_plus_query_index\",\"kv_prefix_initialized_through_past\"]"
     if graph.source.explicit_session and graph.source.session_policy.mode == "full_prefix":
@@ -68,6 +72,8 @@ def describe_expanded_graph(graph: ExpandedGraph) raises -> String:
         text += ",\"source_operation\":" + String(op.source_operation) + ",\"recipe_step\":" + String(op.recipe_step) + ",\"width\":" + String(op.width) + ",\"epsilon_bits\":" + (String("null") if op.epsilon_scalar.width == 64 else String(op.epsilon_bits))
         if graph.source.explicit_window:
             text += ",\"window_tokens\":" + String(op.window_tokens)
+        if graph.source.explicit_scaling:
+            text += ",\"scaling_kind\":" + _quote(op.scaling_kind) + ",\"scaling_factor\":" + describe_scalar_word(op.scaling_factor)
         if graph.source.explicit_scalars:
             text += ",\"epsilon_scalar\":" + describe_scalar_word(op.epsilon_scalar) + ",\"rotary_base_scalar\":" + describe_scalar_word(op.rotary_base_scalar)
         text += ",\"source_weight\":" + _quote(op.source_weight) + ",\"runtime_preconditions\":["

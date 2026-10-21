@@ -1,0 +1,6 @@
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 4.343s
+
+OK
+Native outcomes: {'accepted': 270, 'refused': 42} complete comparisons: 108

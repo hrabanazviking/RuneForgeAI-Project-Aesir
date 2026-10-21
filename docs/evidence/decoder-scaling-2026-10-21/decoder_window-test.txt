@@ -1,0 +1,13 @@
+test_01_modes_widths_scalar_and_export_grid (__main__.DecoderWindow.test_01_modes_widths_scalar_and_export_grid) ... ok
+test_02_qualified_source_patterns_and_complete_owner (__main__.DecoderWindow.test_02_qualified_source_patterns_and_complete_owner) ... ok
+test_03_policy_work_boundaries_and_source_words (__main__.DecoderWindow.test_03_policy_work_boundaries_and_source_words) ... ok
+test_04_all_mutations_refuse_and_recover (__main__.DecoderWindow.test_04_all_mutations_refuse_and_recover) ... ok
+test_05_owned_state_recovery_header_bounds (__main__.DecoderWindow.test_05_owned_state_recovery_header_bounds) ... ok
+test_06_frozen_full_outputs_and_storage_consumers (__main__.DecoderWindow.test_06_frozen_full_outputs_and_storage_consumers) ... ok
+test_07_independent_integer_oracle_and_extremes (__main__.DecoderWindow.test_07_independent_integer_oracle_and_extremes) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 15.122s
+
+OK
+Native outcomes: {'accepted': 226, 'refused': 499}

@@ -15,7 +15,8 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
-| Ordinary scaling/modifier semantics | Active qualification | `TASK_hailo10h_ordinary_scaling_semantics.md`; 48-case audit in `HAILO10H_ORDINARY_SCALING_AUDIT.md`; original default/linear implementation follows `HAILO10H_DECODER_SCALING_DESIGN.md`,58 frozen controls. Other variants/full device gates open. Full ordinary/device gates open. |
+| Owned default/linear rotary scaling | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_SCALING.md`;161 methods/6387 calls,64 builds,16 frozen GGUF/8 ordinary outputs and160 recovery cycles. Other variants/full ordinary/numerical device gates stay open. |
+| Remaining scaling/modifier semantics | Active qualification | `TASK_hailo10h_ordinary_scaling_semantics.md`; dynamic/context/cache-basis, other variants and training semantics require original qualification/contracts/implementation. |
 | Ordinary window semantics | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_WINDOW.md`;154 methods/5455 calls,58 builds,16 frozen GGUF/8 ordinary outputs and160 recovery cycles. No physical compaction or numerical device claim. |
 | Ordinary cache/session semantics | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_SESSION.md`;147 methods/4730 calls,51 builds,8 complete frozen GGUF/2 ordinary comparisons and160 recovery cycles. No numerical device proof. |
 | Source activation selection/lowering | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_ACTIVATION.md`;140 methods/4124 calls,46 builds,8 complete frozen GGUF and4 additional full comparisons. Other activations/full ordinary/numerical device gates remain open. |

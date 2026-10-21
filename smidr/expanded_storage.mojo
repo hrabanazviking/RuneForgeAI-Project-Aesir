@@ -171,6 +171,12 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
                 raise Error("ExpandedStorage: comparison result must be a predicate")
         elif output.domain != "real":
             raise Error("ExpandedStorage: unexpected predicate result")
+        if op.kind == "rotary_frequency_scale":
+            if len(op.inputs) != 1 or output.domain != "real" or output.shape != List[Int]([graph.source.rope_dim // 2]) or op.scaling_kind != "linear":
+                raise Error("ExpandedStorage: scaled frequency vector role changed")
+            var id = op.inputs[0]
+            if id < 0 or id >= value_count or graph.values[id].domain != "real" or graph.values[id].shape != output.shape:
+                raise Error("ExpandedStorage: scaled frequency input changed")
         if op.kind == "select_negative_infinity" and len(op.inputs) != 2:
             raise Error("ExpandedStorage: window select arity mismatch")
         if op.kind == "select" and len(op.inputs) != 3:

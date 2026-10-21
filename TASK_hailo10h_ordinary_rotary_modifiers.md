@@ -90,3 +90,8 @@ actual numerical Hailo encoding/configuration/execution remain required work.
 docs/HAILO10H_MOJO_DECODER_WINDOW.md. Next active child:
 TASK_hailo10h_ordinary_scaling_semantics.md. Full ordinary architecture and actual
 numerical Hailo encoding/configuration/execution remain required work.
+
+2026-10-21 original default/linear source scaling child passed161 methods/6387
+calls and64 builds under the published contract. Receipt:
+docs/HAILO10H_MOJO_DECODER_SCALING.md. Dynamic/context/cache-basis, other variants,
+architecture and actual numerical Hailo encoding/execution stay active.

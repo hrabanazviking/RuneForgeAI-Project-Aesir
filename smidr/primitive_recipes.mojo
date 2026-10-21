@@ -1,3 +1,4 @@
+from smidr.scaling_policy import DecoderScalingPolicy, empty_scaling_policy
 from smidr.window_policy import DecoderWindowPolicy, empty_window_policy
 from smidr.session_policy import DecoderSessionPolicy, empty_session_policy
 from smidr.session_graph import validate_plan_session_state
@@ -42,6 +43,8 @@ struct PrimitiveRecipe(Copyable, Movable):
     var weight: SourceTensorBinding
     var weight_storage: SourceStorageTensor
     var weight_extent: SourceFileExtent
+    var scaling_kind: String
+    var scaling_factor: ScalarWord
     var window_tokens: Int
     var divisor: Int
     var epsilon_bits: UInt32
@@ -68,6 +71,8 @@ struct PrimitiveRecipe(Copyable, Movable):
         self.weight = SourceTensorBinding(0, 0, 0, 0, 0)
         self.weight_storage = SourceStorageTensor("", 0, "", "", List[Int](), "", 0, 0, 0)
         self.weight_extent = SourceFileExtent("", 0, 0)
+        self.scaling_kind = String("")
+        self.scaling_factor = ScalarWord(0, 0)
         self.window_tokens = 0
         self.divisor = 0
         self.epsilon_bits = 0
@@ -108,6 +113,9 @@ struct PrimitiveRecipes(Movable):
     var remaining_source_operations: List[Int]
     var rotary_policy: RotaryLoweringPolicy
     var rotary_work: Int
+    var explicit_scaling: Bool
+    var scaling_policy: DecoderScalingPolicy
+    var scaling_work: Int
     var explicit_window: Bool
     var window_policy: DecoderWindowPolicy
     var window_work: Int
@@ -129,6 +137,9 @@ struct PrimitiveRecipes(Movable):
         self.remaining_source_operations = List[Int]()
         self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
         self.rotary_work = 0
+        self.explicit_scaling = False
+        self.scaling_policy = empty_scaling_policy()
+        self.scaling_work = 0
         self.explicit_window = False
         self.window_policy = empty_window_policy()
         self.window_work = 0
@@ -181,6 +192,9 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
     var r = PrimitiveRecipe(index, op.inputs[0], op.output, op.kind)
     r.source_inputs = op.inputs.copy()
     r.input_values = [0, 1]
+    if plan.explicit_scaling:
+        r.scaling_kind = plan.scaling_policy.kind
+        r.scaling_factor = plan.scaling_policy.factor.copy()
     r.rotary_dim = plan.rope_dim
     r.rotary_base_scalar = rotary_scalar(plan)
     r.rotary_base_bits = scalar32_mirror(r.rotary_base_scalar)
@@ -193,6 +207,8 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
     var angle_shape = List[Int]([plan.query_tokens, pairs])
     var pair_shape = List[Int]([plan.query_tokens, heads, pairs])
     var frequency = r.emit("rotary_inverse_frequency", List[Int](), [pairs])
+    if plan.explicit_scaling and plan.scaling_policy.kind == "linear":
+        frequency = r.emit("rotary_frequency_scale", [frequency], [pairs])
     var angles = r.emit("rotary_angles", [positions, frequency], angle_shape.copy())
     var cosine = r.emit("cos", [angles], angle_shape.copy())
     var sine = r.emit("sin", [angles], angle_shape.copy())
@@ -232,7 +248,12 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
     validate_plan_session_state(plan)
     validate_plan_bias_state(plan)
     validate_plan_activation_state(plan)
+    if plan.explicit_scaling and not rotary:
+        raise Error("DecoderScaling: explicit mathematical rotary basis required")
     var lowered = PrimitiveRecipes()
+    lowered.explicit_scaling = plan.explicit_scaling
+    lowered.scaling_policy = plan.scaling_policy.copy()
+    lowered.scaling_work = plan.scaling_work
     lowered.explicit_window = plan.explicit_window
     lowered.window_policy = plan.window_policy.copy()
     lowered.window_work = plan.window_work

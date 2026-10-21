@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 112 |
+| `verified` | 113 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **157** |
+| **Total** | **158** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3443,4 +3443,31 @@ No new capability ID or hardware/complete-source execution claim.
   actual numerical Hailo configuration/register/CCW encoding/delivery/results/
   cleanup toward the unchanged broad target.
 - **Audit:** Exact source32/64 and negative/preliminary/source/binary/trace facts
+  retained. No model/layer/attention forward, external compiler or inference proxy.
+
+
+### AES-SOURCE-019 — Owned source default/linear rotary scaling
+
+- **Status:** `verified`
+- **Owner:** original scaling_policy/decoder_scaling_source and typed semantic,
+  recipe/expanded/storage consumers with exact factor-word ownership.
+- **Claim sources:** TASK_hailo10h_ordinary_scaling_semantics.md and
+  docs/HAILO10H_DECODER_SCALING_DESIGN.md, published before production changes.
+- **Implementation evidence:** Independent source/default/null/legacy/modern
+  projection, exact32/64 factor binding, original13/14-step abstract rotary math,
+  snapshots/maps/domains/lifetimes and temporary real-frequency storage. Original
+  raw/dormant/unresolved facts remain; complete old outputs stay unchanged.
+- **Executable evidence:** docs/HAILO10H_MOJO_DECODER_SCALING.md;24 suites,
+  161 methods/6387 native calls,64 zero-diagnostic builds. New7/932 includes300
+  accepted/632 expected refusals,560 mutations,16 frozen GGUF/8 ordinary outputs,
+  160 recovery cycles/8 ownership traces. External48/120-word constant oracle
+  is distinct from native numerical acceptance.
+- **Evidence boundary:** Selected source/mathematical compiler behavior and
+  hypothetical storage only. No full ordinary architecture/other scaling/training
+  adapter, immutable source identity, hardware precision/packing/placement/fit,
+  executable Hailo numerical program or source-model inference.
+- **Next acceptance gate:** Remaining dynamic/context/cache-basis and other
+  scaling/architecture semantics, actual numerical Hailo configuration/register/
+  CCW generation, original delivery/activation/results/cleanup and broad support.
+- **Audit:** Exact source words and negative/preliminary/binary/trace identities
   retained. No model/layer/attention forward, external compiler or inference proxy.

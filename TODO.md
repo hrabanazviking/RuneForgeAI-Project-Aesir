@@ -82,8 +82,12 @@
   154 methods/5455 native child calls,58 builds,16 frozen GGUF/8 ordinary outputs,
   2720 integer admissions/10 extrema and160 recovery cycles. No device execution.
   `docs/HAILO10H_MOJO_DECODER_WINDOW.md`.
-- [ ] Active: `TASK_hailo10h_ordinary_scaling_semantics.md`: bounded source
-  scaling/modifier audit and exact native contract before code.
+- [x] Original default/linear source scaling and exact factor ownership:
+  161 methods/6387 native child calls,64 builds,16 frozen GGUF/8 ordinary outputs,
+  560 mutation refusals and160 recovery cycles. Mathematical compiler only.
+  `docs/HAILO10H_MOJO_DECODER_SCALING.md`.
+- [ ] Active: `TASK_hailo10h_ordinary_scaling_semantics.md`: dynamic/context/
+  cache-basis and other scaling/modifier qualification and original implementation.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

@@ -27,6 +27,7 @@ source semantics under TASK_hailo10h_numerical_encoding_sources.md. Do not inven
 opcodes, change the target or count host graphs/public research/memory estimates
 as device execution. Verify, publish both heads and continue automatically.
 
+Historical audit-only checkpoint (superseded by implementation below),
 2026-10-21 qualified48-case configuration-only audit:
 docs/HAILO10H_ORDINARY_SCALING_AUDIT.md. Legacy selector mutation and warning-bearing
 constructor permissiveness are retained facts, not a numerical adapter rule.
@@ -38,3 +39,9 @@ docs/HAILO10H_DECODER_SCALING_DESIGN.md.58 predecessor entrypoints/188 source
 identities frozen before code. Owned source selector/factor representation,
 semantic binding,13/14-step rotary recipes, lifetime/storage and independent
 acceptance are fixed before production edits. Other variants stay required work.
+
+2026-10-21 original default/linear child completed:161 methods/6387 calls,
+64 clean builds,16 frozen GGUF/8 ordinary outputs,560 mutation refusals and160
+recovery cycles. Receipt docs/HAILO10H_MOJO_DECODER_SCALING.md. The parent remains
+active: dynamic/context/cache-basis and other variants/training/architecture are
+required work. Full ordinary/Hailo numerical execution remains unverified.

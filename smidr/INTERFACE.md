@@ -532,3 +532,35 @@ complete outputs remain unchanged. New inspector `tools/decoder_window_graph.moj
 and formatter `tools/window_policy.mojo` retain source32/64 words. Receipt:
 docs/HAILO10H_MOJO_DECODER_WINDOW.md. No numerical attention/model forward,
 physical cache compaction, device encoding/fit or source-model execution claim.
+
+
+## Original owned default/linear rotary scaling
+
+`scaling_policy.mojo` adds DecoderScalingPolicy(kind,factor:ScalarWord,origin,
+provenance,work), unique empty state/equality/validation and exact descriptor
+charge160+UTF8(kind/origin/provenance). Binary32/64 factors retain exact words,
+independently of theta width; default requires unity and linear a positive finite
+factor. `decoder_scaling_source.mojo` validates the complete architecture first,
+retains all raw/default/dormant/unresolved facts and selects qualified source
+absent/null/legacy/modern intent. Unknown variants remain implementation work.
+
+New typed/scalar builder overloads accept graph,bias,activation,session,window,
+scaling before query/past/capacity. SemanticPlan and PrimitiveRecipes own policy/
+accounting snapshots; Q/K SemanticOperation.scaling_kind/scaling_factor binds the
+choice independently. Constructor/emit and ExpandedOperation use optional trailing
+metadata, preserving older calls. Shared guards validate counts/roles/edges/maps/
+products/storage/lifetimes before relevant consumers rely on the selected rule.
+
+Default keeps13 original rotary operations. Linear adds one real[pairs]
+rotary_frequency_scale division before rotary_angles; no position-domain cast,
+phantom factor buffer or device format is implied. Every rotary recipe/global
+operation has matching metadata; other operations retain empty state. Recompute
+extra ephemeral real-vector storage using hypothetical activation_width. Explicit
+scaling needs an explicit RotaryLoweringPolicy when lowering/expanding.
+
+Only explicit schema7 adds scaling policy/source/recipe/global descriptors.
+Legacy complete outputs stay unchanged. `tools/decoder_scaling_graph.mojo` retains
+the complete original source owner and reports ordinary_model_admitted false;
+`tools/scaling_policy.mojo` serializes exact words. Receipt:
+docs/HAILO10H_MOJO_DECODER_SCALING.md. No numerical layer/attention/model execution,
+physical Hailo encoding/fit or full ordinary source-model execution is claimed.

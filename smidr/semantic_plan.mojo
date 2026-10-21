@@ -1,3 +1,4 @@
+from smidr.scaling_policy import DecoderScalingPolicy, empty_scaling_policy, same_scaling_policy, validate_scaling_policy
 from smidr.window_policy import DecoderWindowPolicy, empty_window_policy, same_window_policy, validate_window_policy
 # Original source graph construction. No numerical kernels or device program.
 from std.collections import Dict
@@ -6,7 +7,7 @@ from smidr.activation_policy import DecoderActivationPolicy, empty_activation_po
 from smidr.bias_policy import DecoderBiasPolicy, empty_bias_policy, validate_bias_policy
 from std.math import isfinite
 from std.memory import bitcast
-from smidr.source_scalars import ScalarWord, DecoderScalars, empty_decoder_scalars, validate_decoder_scalars, validate_scalar_word, same_decoder_scalars
+from smidr.source_scalars import ScalarWord, DecoderScalars, empty_decoder_scalars, validate_decoder_scalars, validate_scalar_word, same_decoder_scalars, same_scalar_word
 from loader.packed_gguf import PackedGGUF
 from smidr.source_inventory import SourceTensorInventory, inventory_from_source, validate_source_inventory, validate_source_weight
 
@@ -98,14 +99,19 @@ struct SemanticOperation(Copyable, Movable):
     var output: Int
     var weight: String
     var window_tokens: Int
+    var scaling_kind: String
+    var scaling_factor: ScalarWord
 
     def __init__(out self, kind: String, var inputs: List[Int], output: Int,
-                 weight: String, window_tokens: Int = 0):
+                 weight: String, window_tokens: Int = 0, scaling_kind: String = "",
+                 scaling_factor: ScalarWord = ScalarWord(0, 0)):
         self.kind = kind
         self.inputs = inputs^
         self.output = output
         self.weight = weight
         self.window_tokens = window_tokens
+        self.scaling_kind = scaling_kind
+        self.scaling_factor = scaling_factor.copy()
 
 
 struct SemanticPlan(Movable):
@@ -130,6 +136,9 @@ struct SemanticPlan(Movable):
     var source_layout: String
     var logits: Int
     var decoder_policy: DecoderGraphPolicy
+    var explicit_scaling: Bool
+    var scaling_policy: DecoderScalingPolicy
+    var scaling_work: Int
     var explicit_window: Bool
     var window_policy: DecoderWindowPolicy
     var window_work: Int
@@ -168,6 +177,9 @@ struct SemanticPlan(Movable):
         self.source_layout = String("")
         self.logits = -1
         self.decoder_policy = DecoderGraphPolicy(List[Int](), "", "")
+        self.explicit_scaling = False
+        self.scaling_policy = empty_scaling_policy()
+        self.scaling_work = 0
         self.explicit_window = False
         self.window_policy = empty_window_policy()
         self.window_work = 0
@@ -200,7 +212,8 @@ struct SemanticPlan(Movable):
 
     def emit(mut self, kind: String, name: String, var inputs: List[Int],
              var shape: List[Int], weight: String = "", alias_of: Int = -1,
-             window_tokens: Int = 0) raises -> Int:
+             window_tokens: Int = 0, scaling_kind: String = "",
+             scaling_factor: ScalarWord = ScalarWord(0, 0)) raises -> Int:
         var index = len(self.operations)
         for input_id in inputs:
             if input_id < 0 or input_id >= len(self.tensors):
@@ -211,7 +224,7 @@ struct SemanticPlan(Movable):
         if weight.byte_length() != 0 and weight not in self.used_weights:
             raise Error("SemanticPlan: operation weight was not shape checked")
         var output = self.tensor(name, shape^, index, False, alias_of)
-        self.operations.append(SemanticOperation(kind, inputs^, output, weight, window_tokens))
+        self.operations.append(SemanticOperation(kind, inputs^, output, weight, window_tokens, scaling_kind, scaling_factor))
         return output
 
 
@@ -502,6 +515,31 @@ def build_decoder_semantic_plan(var source: SourceTensorInventory,
         query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True, window, True)
 
 
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              parameters: DenseDecoderParameters, policy: DecoderGraphPolicy,
+                              bias: DecoderBiasPolicy, activation: DecoderActivationPolicy,
+                              session: DecoderSessionPolicy, window: DecoderWindowPolicy, scaling: DecoderScalingPolicy, query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    return _build_decoder_semantic_plan(source^, parameters, empty_decoder_scalars(), False,
+        policy, query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True, window, True, scaling, True)
+
+
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              geometry: DecoderGeometry, scalars: DecoderScalars,
+                              policy: DecoderGraphPolicy, bias: DecoderBiasPolicy,
+                              activation: DecoderActivationPolicy, session: DecoderSessionPolicy, window: DecoderWindowPolicy, scaling: DecoderScalingPolicy,
+                              query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    _ = validate_decoder_scalars(scalars)
+    if scalars.work_limit > source.policy.work:
+        raise Error("SourceScalar: scalar work limit exceeds source policy")
+    var p = DenseDecoderParameters(geometry.layers, geometry.hidden, geometry.feed_forward,
+        geometry.heads, geometry.kv_heads, geometry.key_dim, geometry.value_dim,
+        geometry.rope_dim, geometry.vocabulary, geometry.source_context, 0, 0, geometry.source_layout)
+    return _build_decoder_semantic_plan(source^, p, scalars, True, policy,
+        query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True, window, True, scaling, True)
+
+
 def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                parameters: DenseDecoderParameters, scalars: DecoderScalars,
                                explicit: Bool, policy: DecoderGraphPolicy, query_tokens: Int,
@@ -513,7 +551,9 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                session_policy: DecoderSessionPolicy = empty_session_policy(),
                                explicit_session: Bool = False,
                                window_policy: DecoderWindowPolicy = empty_window_policy(),
-                               explicit_window: Bool = False) raises -> SemanticPlan:
+                               explicit_window: Bool = False,
+                               scaling_policy: DecoderScalingPolicy = empty_scaling_policy(),
+                               explicit_scaling: Bool = False) raises -> SemanticPlan:
     """Build an explicitly selected mathematical recipe from tagged values."""
     validate_source_inventory(source)
     if explicit:
@@ -537,7 +577,15 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
         if not explicit_session:
             raise Error("DecoderWindow: explicit session required")
         window_work = validate_window_policy(window_policy, parameters.layers, source.policy.work)
+    var scaling_work = 0
+    if explicit_scaling:
+        if not explicit_session or not explicit_window:
+            raise Error("DecoderScaling: explicit session/window ownership required")
+        scaling_work = validate_scaling_policy(scaling_policy, source.policy.work)
     var plan = SemanticPlan(source^)
+    plan.explicit_scaling = explicit_scaling
+    plan.scaling_policy = scaling_policy.copy()
+    plan.scaling_work = scaling_work
     plan.explicit_window = explicit_window
     plan.window_policy = window_policy.copy()
     plan.window_work = window_work
@@ -604,8 +652,8 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
             k = plan.emit("add_projection_bias", p + "k_biased", [k], [query_tokens, plan.kv_heads, plan.key_dim], p + "attn_k.bias")
             v = plan.emit("add_projection_bias", p + "v_biased", [v], [query_tokens, plan.kv_heads, plan.value_dim], p + "attn_v.bias")
         if policy.rope_enabled[layer] == 1:
-            q = plan.emit("rope_query", p + "q_rotary", [q, positions], [query_tokens, plan.heads, plan.key_dim])
-            k = plan.emit("rope_key", p + "k_rotary", [k, positions], [query_tokens, plan.kv_heads, plan.key_dim])
+            q = plan.emit("rope_query", p + "q_rotary", [q, positions], [query_tokens, plan.heads, plan.key_dim], "", -1, 0, scaling_policy.kind if explicit_scaling else String(""), scaling_policy.factor.copy() if explicit_scaling else ScalarWord(0, 0))
+            k = plan.emit("rope_key", p + "k_rotary", [k, positions], [query_tokens, plan.kv_heads, plan.key_dim], "", -1, 0, scaling_policy.kind if explicit_scaling else String(""), scaling_policy.factor.copy() if explicit_scaling else ScalarWord(0, 0))
         var keys_view = k
         var values_view = v
         if not explicit_session or session_policy.mode == "cached_append":
@@ -689,6 +737,7 @@ def read_dense_semantic_plan(path: String, query_tokens: Int,
 
 
 def validate_plan_window_state(plan: SemanticPlan) raises:
+    validate_plan_scaling_state(plan)
     if not plan.explicit_window:
         if not same_window_policy(plan.window_policy, empty_window_policy()) or plan.window_work != 0:
             raise Error("DecoderWindow: stray explicit policy state")
@@ -732,3 +781,71 @@ def validate_plan_window_state(plan: SemanticPlan) raises:
             raise Error("DecoderWindow: changed mask input/product/storage/positions")
         if op.kind != kind or op.window_tokens != plan.window_policy.windows[layer] or op.output != id or op.inputs != List[Int]([names[p + "scores"], names["positions"]]) or op.weight.byte_length() != 0 or t.shape != shape:
             raise Error("DecoderWindow: changed selected mask/edge/shape")
+
+
+def validate_plan_scaling_state(plan: SemanticPlan) raises:
+    if len(plan.operations) > plan.source.policy.work or len(plan.tensors) > plan.source.policy.work:
+        raise Error("DecoderScaling: graph work bound changed")
+    if not plan.explicit_scaling:
+        if not same_scaling_policy(plan.scaling_policy, empty_scaling_policy()) or plan.scaling_work != 0:
+            raise Error("DecoderScaling: stray explicit policy state")
+        for op in plan.operations:
+            if op.scaling_kind.byte_length() != 0 or op.scaling_factor.width != 0 or op.scaling_factor.bits != 0:
+                raise Error("DecoderScaling: source metadata lacks explicit policy")
+        return
+    if not plan.explicit_session or not plan.explicit_window or validate_scaling_policy(plan.scaling_policy, plan.source.policy.work) != plan.scaling_work:
+        raise Error("DecoderScaling: policy ownership/accounting changed")
+    validate_decoder_graph_policy(plan.decoder_policy, plan.source, plan.layers, plan.hidden, plan.vocabulary)
+    if plan.query_tokens <= 0 or plan.key_dim <= 0 or plan.rope_dim <= 0 or plan.rope_dim > plan.key_dim or plan.rope_dim % 2 != 0:
+        raise Error("DecoderScaling: rotary dimensions changed")
+    var names = Dict[String, Int]()
+    for i in range(len(plan.tensors)):
+        if plan.tensors[i].name in names:
+            raise Error("DecoderScaling: duplicate source role")
+        names[plan.tensors[i].name] = i
+    if "positions" not in names:
+        raise Error("DecoderScaling: source positions missing")
+    var pos_id = names["positions"]
+    var pos = plan.tensors[pos_id].copy()
+    if pos.shape != List[Int]([plan.query_tokens]) or pos.elements != plan.query_tokens or pos.producer != -1 or pos.persistent or pos.alias_of != -1:
+        raise Error("DecoderScaling: changed source positions")
+    var count = 0
+    for op in plan.operations:
+        if op.kind == "rope_query" or op.kind == "rope_key":
+            count += 1
+            if op.scaling_kind != plan.scaling_policy.kind or not same_scalar_word(op.scaling_factor, plan.scaling_policy.factor):
+                raise Error("DecoderScaling: selected source operation factor changed")
+        elif op.scaling_kind.byte_length() != 0 or op.scaling_factor.width != 0 or op.scaling_factor.bits != 0:
+            raise Error("DecoderScaling: stray source operation factor")
+    if plan.explicit_bias:
+        _ = validate_bias_policy(plan.bias_policy, plan.layers, len(plan.source.bindings), plan.source.policy.work)
+    var expected = 0
+    for layer in range(plan.layers):
+        var prefix = String("blk.") + String(layer) + "."
+        for side in List[String](["q", "k"]):
+            var name = prefix + side + "_rotary"
+            if plan.decoder_policy.rope_enabled[layer] == 0:
+                if name in names:
+                    raise Error("DecoderScaling: rotary output bypasses NoPE selection")
+                continue
+            expected += 1
+            if name not in names:
+                raise Error("DecoderScaling: selected rotary source output missing")
+            var t = plan.tensors[names[name]].copy()
+            if t.producer < 0 or t.producer >= len(plan.operations):
+                raise Error("DecoderScaling: invalid rotary producer")
+            var op = plan.operations[t.producer].copy()
+            var input_name = prefix + side + (String("_biased") if plan.explicit_bias and plan.bias_policy.attention[layer] == 1 else String(""))
+            if input_name not in names:
+                raise Error("DecoderScaling: source rotary activation missing")
+            var input_id = names[input_name]
+            var input = plan.tensors[input_id].copy()
+            var heads = plan.heads if side == "q" else plan.kv_heads
+            var shape = List[Int]([plan.query_tokens, heads, plan.key_dim])
+            var elements = checked_product(checked_product(plan.query_tokens, heads), plan.key_dim)
+            if op.kind != (String("rope_query") if side == "q" else String("rope_key")) or op.inputs != List[Int]([input_id, pos_id]) or op.output != names[name] or op.weight.byte_length() != 0 or op.window_tokens != 0:
+                raise Error("DecoderScaling: changed source rotary kind/edges/weight")
+            if t.shape != shape or input.shape != shape or t.elements != elements or input.elements != elements or t.persistent or t.alias_of != -1 or input.persistent or input.alias_of != -1 or input.producer < 0 or input.producer >= t.producer or input.last_use < t.producer or input.last_use > len(plan.operations) or t.last_use < t.producer or t.last_use > len(plan.operations):
+                raise Error("DecoderScaling: changed rotary axes/products/storage/lifetimes")
+    if count != expected:
+        raise Error("DecoderScaling: missing/duplicate rotary source operations")

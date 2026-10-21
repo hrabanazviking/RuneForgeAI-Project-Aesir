@@ -1,0 +1,24 @@
+test_01_modes_factors_words_and_bases (__main__.DecoderScaling.test_01_modes_factors_words_and_bases) ... ok
+test_02_qualified_source_projection_and_raw_owners (__main__.DecoderScaling.test_02_qualified_source_projection_and_raw_owners) ... ok
+test_03_policy_exact_budgets_and_scalar_words (__main__.DecoderScaling.test_03_policy_exact_budgets_and_scalar_words) ... ok
+test_04_all_mutations_refuse_and_recover (__main__.DecoderScaling.test_04_all_mutations_refuse_and_recover) ... FAIL
+test_05_owned_state_recovery_header_bounds (__main__.DecoderScaling.test_05_owned_state_recovery_header_bounds) ... ok
+test_06_frozen_complete_outputs_and_storage_consumers (__main__.DecoderScaling.test_06_frozen_complete_outputs_and_storage_consumers) ... ok
+test_07_isolated_real_formula_and_qualified_constant_words (__main__.DecoderScaling.test_07_isolated_real_formula_and_qualified_constant_words) ... ok
+
+======================================================================
+FAIL: test_04_all_mutations_refuse_and_recover (__main__.DecoderScaling.test_04_all_mutations_refuse_and_recover)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_scaling.py", line 140, in test_04_all_mutations_refuse_and_recover
+    r=self.api_call(root,scalar,mode,returned,0 if mode=='full_prefix' else 1,case=case);self.refuse(r)
+                                                                                         ^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 80, in refuse
+    self.assertGreater(result.returncode, 0)
+AssertionError: 0 not greater than 0
+
+----------------------------------------------------------------------
+Ran 7 tests in 15.706s
+
+FAILED (failures=1)
+Native outcomes: {'accepted': 298, 'refused': 100}

@@ -1,3 +1,4 @@
+from smidr.tools.scaling_policy import describe_scaling_policy
 from smidr.tools.window_policy import describe_window_policy
 from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
 from smidr.tools.activation_policy import describe_activation_policy
@@ -6,7 +7,7 @@ from std.sys import argv
 from smidr.tools.bias_policy import describe_bias_policy
 from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
 from smidr.tools.source_inventory import _quote
-from smidr.tools.source_scalars import describe_decoder_scalars
+from smidr.tools.source_scalars import describe_decoder_scalars, describe_scalar_word
 
 
 def _integers(values: List[Int]) -> String:
@@ -47,6 +48,9 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
     if plan.explicit_window:
         text = text.replace("\"schema_version\":5", "\"schema_version\":6")
         text += ",\"window_policy\":" + describe_window_policy(plan.window_policy, plan.window_work)
+    if plan.explicit_scaling:
+        text = text.replace("\"schema_version\":6", "\"schema_version\":7")
+        text += ",\"scaling_policy\":" + describe_scaling_policy(plan.scaling_policy, plan.scaling_work)
     text += ",\"source_bytes\":" + String(plan.source.source_bytes) + ",\"weight_bytes\":" + String(plan.source.weight_bytes) + ",\"weights\":{"
     var first = True
     for name in plan.used_weights:
@@ -72,6 +76,8 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
         text += "{\"id\":" + String(i) + ",\"kind\":" + _quote(operation.kind) + ",\"inputs\":" + _integers(operation.inputs)
         if plan.explicit_window:
             text += ",\"window_tokens\":" + String(operation.window_tokens)
+        if plan.explicit_scaling:
+            text += ",\"scaling_kind\":" + _quote(operation.scaling_kind) + ",\"scaling_factor\":" + describe_scalar_word(operation.scaling_factor)
         text += ",\"output\":" + String(operation.output) + ",\"weight\":" + _quote(operation.weight) + "}"
     text += "],\"logits\":" + String(plan.logits) + "}"
     return text

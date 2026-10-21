@@ -1,3 +1,19 @@
+## 2026-10-21 — Codex: original owned default/linear rotary scaling
+
+- Implemented exact source/default/null/legacy/modern scaling intent, independent
+  factor32/64 policy and source-operation binding,13/14-step abstract recipes,
+  shared guards, snapshots/maps/domains/lifetimes and real-frequency storage.
+  Raw/dormant/unresolved fields and complete old outputs remain unchanged.
+- Final24 suites/161 methods/6387 native calls;64 zero-diagnostic builds from one
+  unchanged197-Mojo-source snapshot. New7/932 includes300 accepted/632 expected
+  refusals;560 mutation cases,16 frozen GGUF/8 ordinary outputs,160 cycles/8 traces.
+- No model/layer/attention forward or device execution. External48/120-word
+  constant oracle and real formula remain distinct from native/device numerics.
+  All preliminary failures/binaries/results retained. No external code translation.
+- Receipt docs/HAILO10H_MOJO_DECODER_SCALING.md; ledger AES-SOURCE-019. Remaining
+  dynamic/context/cache-basis/other architecture variants and physical Hailo
+  encoding/placement/delivery/activation/results/cleanup continue automatically.
+
 ## 2026-10-21 — Codex: contracted original default/linear scaling integration
 
 - Froze58 verified compiler binaries with modes/hashes and188 Mojo source hashes
