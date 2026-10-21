@@ -7,8 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_source_scalar_precision.md`, child of
-`TASK_hailo10h_ordinary_rotary_modifiers.md`, under the ordinary semantic adapter. Full controlling scope:
+slice: `TASK_hailo10h_ordinary_rotary_modifiers.md`, under the ordinary semantic adapter. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -16,6 +15,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Exact source scalar propagation | Verified source representation/math boundary | `HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`;108 methods/2996 calls,32/64 source words through typed/recipe/expanded IR, no implicit narrowing. Complete ordinary semantics and numerical Hailo execution remain open. |
 | Explicit source-bound rotary recipes | Verified mathematical compiler integration | `HAILO10H_MOJO_ROTARY_RECIPES.md`;104 methods/2864 calls, explicit two-input/basis mapping and recomputed storage. Ordinary scalar/modifier adapter and numerical Hailo execution remain open. |
 | Qualified ordinary omitted/null defaults | Verified source interpretation refinement | `HAILO10H_MOJO_ORDINARY_DEFAULTS.md`;44 methods/1285 calls,28 complete explicit old outputs and326 actual header geometries. Raw fields/origins and all remaining execution gates retained. |
 | Owned ordinary projection bindings | Verified source compiler boundary | `HAILO10H_MOJO_DECODER_PROJECTIONS.md`;38 methods/1168 calls, actual326 header bindings, independent source Q/K/V widths and explicit output intent. Complete rotary/modifier adaptation and numerical execution remain open. |

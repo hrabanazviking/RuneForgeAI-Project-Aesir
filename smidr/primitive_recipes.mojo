@@ -2,7 +2,8 @@
 from std.math import isfinite
 from smidr.source_storage import SourceStorageTensor
 from std.memory import bitcast
-from smidr.semantic_plan import SemanticPlan, checked_product
+from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
+from smidr.source_scalars import ScalarWord, DecoderScalars, empty_decoder_scalars, scalar32_mirror
 from smidr.rotary_policy import RotaryLoweringPolicy, validate_rotary_policy
 from smidr.source_inventory import SourceTensorBinding, SourceFileExtent, validate_source_weight, validate_source_inventory
 
@@ -36,8 +37,10 @@ struct PrimitiveRecipe(Copyable, Movable):
     var weight_extent: SourceFileExtent
     var divisor: Int
     var epsilon_bits: UInt32
+    var epsilon_scalar: ScalarWord
     var rotary_dim: Int
     var rotary_base_bits: UInt32
+    var rotary_base_scalar: ScalarWord
     var rotary_pairing: String
     var rotary_provenance: String
     var runtime_preconditions: List[String]
@@ -59,8 +62,10 @@ struct PrimitiveRecipe(Copyable, Movable):
         self.weight_extent = SourceFileExtent("", 0, 0)
         self.divisor = 0
         self.epsilon_bits = 0
+        self.epsilon_scalar = ScalarWord(0, 0)
         self.rotary_dim = 0
         self.rotary_base_bits = 0
+        self.rotary_base_scalar = ScalarWord(0, 0)
         self.rotary_pairing = String("")
         self.rotary_provenance = String("")
         self.runtime_preconditions = ["finite_inputs"]
@@ -94,12 +99,16 @@ struct PrimitiveRecipes(Movable):
     var remaining_source_operations: List[Int]
     var rotary_policy: RotaryLoweringPolicy
     var rotary_work: Int
+    var explicit_scalars: Bool
+    var source_scalars: DecoderScalars
 
     def __init__(out self):
         self.recipes = List[PrimitiveRecipe]()
         self.remaining_source_operations = List[Int]()
         self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
         self.rotary_work = 0
+        self.explicit_scalars = False
+        self.source_scalars = empty_decoder_scalars()
 
 
 def lower_primitive_recipes(plan: SemanticPlan) raises -> PrimitiveRecipes:
@@ -122,7 +131,7 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
     var pos = plan.tensors[op.inputs[1]].copy()
     var out = plan.tensors[op.output].copy()
     var heads = plan.heads if op.kind == "rope_query" else plan.kv_heads
-    if plan.query_tokens <= 0 or heads <= 0 or plan.key_dim <= 0 or plan.rope_dim <= 0 or plan.rope_dim > plan.key_dim or plan.rope_dim % 2 != 0 or not isfinite(plan.rope_base) or plan.rope_base <= 0:
+    if plan.query_tokens <= 0 or heads <= 0 or plan.key_dim <= 0 or plan.rope_dim <= 0 or plan.rope_dim > plan.key_dim or plan.rope_dim % 2 != 0 or (not plan.explicit_scalars and (not isfinite(plan.rope_base) or plan.rope_base <= 0)):
         raise Error("RotaryRecipe: invalid typed dimensions/base")
     if x.persistent or x.alias_of != -1 or out.persistent or out.alias_of != -1 or out.producer != index or out.last_use < index or out.last_use > len(plan.operations) or len(x.shape) != 3 or len(out.shape) != 3:
         raise Error("RotaryRecipe: invalid activation/output roles")
@@ -138,7 +147,8 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
     r.source_inputs = op.inputs.copy()
     r.input_values = [0, 1]
     r.rotary_dim = plan.rope_dim
-    r.rotary_base_bits = bitcast[DType.uint32](plan.rope_base)
+    r.rotary_base_scalar = rotary_scalar(plan)
+    r.rotary_base_bits = scalar32_mirror(r.rotary_base_scalar)
     r.rotary_pairing = policy.pairing
     r.rotary_provenance = policy.provenance
     r.runtime_preconditions = ["finite_activation_inputs", "positions_equal_past_plus_query_index", "finite_exact_integer_positions", "real_rotation_identity_only_precision_unqualified"]
@@ -166,7 +176,10 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
 
 def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, rotary: Bool) raises -> PrimitiveRecipes:
     validate_source_inventory(plan.source)
+    validate_plan_scalar_state(plan)
     var lowered = PrimitiveRecipes()
+    lowered.explicit_scalars = plan.explicit_scalars
+    lowered.source_scalars = plan.source_scalars.copy()
     if rotary:
         lowered.rotary_work = validate_rotary_policy(plan, policy)
         lowered.rotary_policy = policy.copy()
@@ -196,7 +209,7 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
         var recipe = PrimitiveRecipe(index, operation.inputs[0], operation.output, operation.kind)
         var x = recipe.value(input.shape.copy())
         if operation.kind == "rms_norm":
-            if len(input.shape) != 2 or not isfinite(plan.rms_epsilon) or plan.rms_epsilon <= 0:
+            if len(input.shape) != 2 or (not plan.explicit_scalars and (not isfinite(plan.rms_epsilon) or plan.rms_epsilon <= 0)):
                 raise Error("PrimitiveRecipe: RMSNorm requires a matrix and finite positive epsilon")
             var width = input.shape[1]
             if operation.weight not in plan.source.bindings:
@@ -208,7 +221,8 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
             recipe.weight_storage = plan.source.storage[operation.weight].copy()
             recipe.weight_extent = plan.source.files[recipe.weight_storage.source_path].copy()
             recipe.divisor = width
-            recipe.epsilon_bits = bitcast[DType.uint32](plan.rms_epsilon)
+            recipe.epsilon_scalar = rms_scalar(plan)
+            recipe.epsilon_bits = scalar32_mirror(recipe.epsilon_scalar)
             var w = recipe.value([width])
             var square = recipe.emit("multiply", [x, x], input.shape.copy())
             var summed = recipe.emit("reduce_sum_last", [square], [input.shape[0], 1])

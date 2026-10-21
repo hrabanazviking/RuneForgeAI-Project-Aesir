@@ -1,0 +1,5 @@
+{
+  "connect_calls": 0,
+  "hailo_device_open": false,
+  "torch_loaded": false
+}

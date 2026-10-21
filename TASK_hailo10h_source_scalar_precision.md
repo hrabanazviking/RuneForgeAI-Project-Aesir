@@ -43,3 +43,7 @@ After verify/publish/remote-head checks continue full ordinary modifier/graph
 integration and actual Hailo numerical instruction/register/configuration,
 packing/placement/upload/activation/results/cleanup automatically. Do not invent
 opcodes or count source words/host IR as numerical device execution.
+
+2026-10-21 completed108 methods/2996 calls,32 rebuilds and20 new full legacy
+comparisons. Receipt docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md. Return to
+ordinary modifiers/complete graph adaptation and actual numerical Hailo work.

@@ -1,0 +1,8 @@
+{
+  "baseline": 17862,
+  "current": 18187,
+  "new_receipt_path_diagnostics": 325,
+  "new_nonreceipt_diagnostics": 0,
+  "removed_diagnostics": [],
+  "normalization": "Shifted Markdown diagnostic line numbers normalized, preserving messages and multiplicity."
+}

@@ -417,3 +417,18 @@ checks metadata/domains and accounts all real intermediates/lifetimes. Old APIs
 and inspector schemas remain unchanged. No format-derived basis, ordinary scalar
 narrowing, complete ordinary adapter, device precision/program or inference is
 implied. See docs/HAILO10H_MOJO_ROTARY_RECIPES.md;104 methods/2864 calls.
+
+
+## Exact source scalar word propagation — 2026-10-21
+
+ScalarWord(width,bits) retains positive finite source binary32/64 words.
+DecoderScalars owns epsilon/base plus bounded provenance. DecoderGeometry and
+an explicit scalar builder overload avoid narrowing through legacy Float32 slots;
+explicit state requires those unavailable slots bitwise positive zero. Resolvers
+preserve live legacy fields for old standalone APIs. Ordinary scalar projection
+validates its full architecture input; the caller retains raw fields/modifiers.
+Recipes/expanded operations carry exact descriptors and storage checks source/
+snapshot/role/mirror consistency. New explicit diagnostics use version2/null
+unavailable values; old outputs remain unchanged. Source width is not device
+arithmetic width or a complete ordinary adapter. See
+`docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`;108 methods/2996 calls.

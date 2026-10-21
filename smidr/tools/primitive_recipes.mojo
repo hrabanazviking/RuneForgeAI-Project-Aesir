@@ -4,10 +4,14 @@ from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
 from smidr.tools.source_inventory import _quote
 from smidr.tools.semantic_plan import _integers
+from smidr.tools.source_scalars import describe_scalar_word, describe_decoder_scalars
 
 
 def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) raises -> String:
     var text = String("{\"schema_version\":1,\"scope\":\"mathematical_primitive_recipes\",\"executable_program\":false,\"device_execution_verified\":false,\"source_fingerprint_verified\":false,\"lowered_storage_recomputed\":false")
+    if lowered.explicit_scalars:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":2")
+        text += ",\"source_scalars\":" + describe_decoder_scalars(lowered.source_scalars)
     text += ",\"unresolved_gates\":[\"finite_precision_reduction_and_overflow\",\"special_values_and_transcendental_approximations\",\"quantization_weight_and_activation_layout\",\"lowered_storage_and_device_placement\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"recipes\":["
     for i in range(len(lowered.recipes)):
@@ -15,7 +19,9 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
             text += ","
         var recipe = lowered.recipes[i].copy()
         text += "{\"source_operation\":" + String(recipe.source_operation) + ",\"source_input\":" + String(recipe.source_input) + ",\"source_output\":" + String(recipe.source_output)
-        text += ",\"kind\":" + _quote(recipe.kind) + ",\"weight_name\":" + _quote(recipe.weight_name) + ",\"divisor\":" + String(recipe.divisor) + ",\"epsilon_bits\":" + String(recipe.epsilon_bits)
+        text += ",\"kind\":" + _quote(recipe.kind) + ",\"weight_name\":" + _quote(recipe.weight_name) + ",\"divisor\":" + String(recipe.divisor) + ",\"epsilon_bits\":" + (String("null") if recipe.epsilon_scalar.width == 64 else String(recipe.epsilon_bits))
+        if lowered.explicit_scalars:
+            text += ",\"epsilon_scalar\":" + describe_scalar_word(recipe.epsilon_scalar) + ",\"rotary_base_scalar\":" + describe_scalar_word(recipe.rotary_base_scalar)
         text += ",\"runtime_preconditions\":["
         for j in range(len(recipe.runtime_preconditions)):
             if j != 0:

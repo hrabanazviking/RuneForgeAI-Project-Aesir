@@ -1,0 +1,2966 @@
+[
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-0.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-0.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "ordinary source \u03bb",
+      "1000"
+    ],
+    "scope": "ordinary_factory",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-0.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-0.json": "a57ba707776c6d3d1053cb9f4252b57ddbe05f0eb9cc80f87316888a8433ac41"
+    },
+    "returncode": 0,
+    "stdout_bytes": 70909,
+    "stdout_sha256": "76ae9f46ac8595da698b52e547ce06719072546c8670f74a5124227323755a16",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/usr/bin/strace",
+      "-f",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/source_scalars/source-scalars.strace",
+      "-e",
+      "trace=openat,openat2,connect,ioctl",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-1.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-1.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "ordinary source \u03bb",
+      "1000"
+    ],
+    "scope": "ordinary_factory",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-1.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-1.json": "69dcf86383903fbc0abbdfa77729824a5a00535212beba3a1b18137fd184caac"
+    },
+    "returncode": 0,
+    "stdout_bytes": 72571,
+    "stdout_sha256": "6994221be05842ed8eba0121ef5f98f8e5839ca9c025a5670e4bf57d120c2662",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-2.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-2.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "ordinary source \u03bb",
+      "1000"
+    ],
+    "scope": "ordinary_factory",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-2.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-2.json": "3ede944962a1217e01cbeb4bf6e3b204c1e2a3320242bfd16b19f504039b17e8"
+    },
+    "returncode": 0,
+    "stdout_bytes": 70451,
+    "stdout_sha256": "e3098c4a6a0a23e29b51be6862cba6c6c8388be8e3dd023a4b7316cd4deac6d3",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-3.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-3.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "ordinary source \u03bb",
+      "1000"
+    ],
+    "scope": "ordinary_factory",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-3.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-3.json": "03fb3f17a0bf8889640e5687508545e8593170ef8b98598c6f0ce197259698d6"
+    },
+    "returncode": 0,
+    "stdout_bytes": 70923,
+    "stdout_sha256": "a56b50b244628369c4e5ac96e9527510680535fcb85996a726dd9b7cfb21cb7b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-4.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-4.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "ordinary source \u03bb",
+      "1000"
+    ],
+    "scope": "ordinary_factory",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-4.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/config-4.json": "3ec7192e0b085708d960c3e351a9f3b66895ecc0b360ea7868e7c33b54cc93b9"
+    },
+    "returncode": 0,
+    "stdout_bytes": 70963,
+    "stdout_sha256": "69aa90fd222371b95fc19f39472f6ff010185085599e5f1675a3feba41328a2a",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-5.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "source",
+      "1000"
+    ],
+    "scope": "factory_refusal",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-5.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json": "815c574d1aa211e47007de31bc364553eb5515d2b2c65b5c35cc5ab570cc6fb0"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 222,
+    "stderr_sha256": "e2dd420ab853ce5af74bea5e0ed0c44938b50b21591c3d833204a99f7c488edb"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-6.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "source",
+      "1000"
+    ],
+    "scope": "factory_refusal",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-6.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json": "51e4b56daee0537b1a29947db11e12d4ab1977c724c88e94dec89c2374a430ea"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 222,
+    "stderr_sha256": "e2dd420ab853ce5af74bea5e0ed0c44938b50b21591c3d833204a99f7c488edb"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-7.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "source",
+      "1000"
+    ],
+    "scope": "factory_refusal",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-7.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json": "2d332a0e4a93515a4d8e2cb675813d8f6aa78e0ad5bba8aae1f792f96705940f"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 221,
+    "stderr_sha256": "381e9bb9b41331b36c3fd64907a984d9689a92f66272663a008456ed1e770dc9"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-8.gguf",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "1",
+      "source",
+      "1000"
+    ],
+    "scope": "factory_refusal",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-8.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+      "/tmp/aesir-source-scalars-lmnvvjfy/invalid.json": "e273c854449bc02649506b79fd6aae27d4164548dffbd85a2740b6503f209db1"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 221,
+    "stderr_sha256": "381e9bb9b41331b36c3fd64907a984d9689a92f66272663a008456ed1e770dc9"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7309,
+    "stdout_sha256": "cb40c714296f626e4d99c739122f022d507467889ecf652094984a65368005f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7309,
+    "stdout_sha256": "cb40c714296f626e4d99c739122f022d507467889ecf652094984a65368005f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "365fd98aeb3e1b52c94357b9123af4f57f5efd3f6f74d7746f31ce04da815f32",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "365fd98aeb3e1b52c94357b9123af4f57f5efd3f6f74d7746f31ce04da815f32",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 26559,
+    "stdout_sha256": "dfe7806dbc2ccb8e576cdc7cf0e3195126bb18ba78414131374c96e22bef052b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 26559,
+    "stdout_sha256": "dfe7806dbc2ccb8e576cdc7cf0e3195126bb18ba78414131374c96e22bef052b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 1591,
+    "stdout_sha256": "ae2928ed0e1c774dd23cfae36f95fb96943a43db6fe5f9a4bb615fd36720341e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 1591,
+    "stdout_sha256": "ae2928ed0e1c774dd23cfae36f95fb96943a43db6fe5f9a4bb615fd36720341e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 62845,
+    "stdout_sha256": "7ee7b55b9509892fcaec3a5de742c7f6bfa99fd314d2472241c4faf9296471f2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-9.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 62845,
+    "stdout_sha256": "7ee7b55b9509892fcaec3a5de742c7f6bfa99fd314d2472241c4faf9296471f2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12656,
+    "stdout_sha256": "931602379098fbf3eee731faebb6e134cf4c56bce308a50aa954ee301f670707",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12656,
+    "stdout_sha256": "931602379098fbf3eee731faebb6e134cf4c56bce308a50aa954ee301f670707",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "5bfb5180f10501bfc0a85470ef7b0f946b547147237f31f7f6c748925dca7d51",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "5bfb5180f10501bfc0a85470ef7b0f946b547147237f31f7f6c748925dca7d51",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 47837,
+    "stdout_sha256": "7a6f87cdb8e788b6b02a64c1f488fa42af7ccd018378899edfe7f2ab585d0bcc",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 47837,
+    "stdout_sha256": "7a6f87cdb8e788b6b02a64c1f488fa42af7ccd018378899edfe7f2ab585d0bcc",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 2168,
+    "stdout_sha256": "242633618765906cc0d0e9e7d2ca0b0c497b96d691d87c8bd5baf10952b326f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 2168,
+    "stdout_sha256": "242633618765906cc0d0e9e7d2ca0b0c497b96d691d87c8bd5baf10952b326f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1,1"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 116141,
+    "stdout_sha256": "28dc4e89dd48f691448ed1bed0498e7e68a8d8804274a388dddc5eb31b7168fa",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1,1"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-19.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 116141,
+    "stdout_sha256": "28dc4e89dd48f691448ed1bed0498e7e68a8d8804274a388dddc5eb31b7168fa",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7309,
+    "stdout_sha256": "cb40c714296f626e4d99c739122f022d507467889ecf652094984a65368005f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7309,
+    "stdout_sha256": "cb40c714296f626e4d99c739122f022d507467889ecf652094984a65368005f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "365fd98aeb3e1b52c94357b9123af4f57f5efd3f6f74d7746f31ce04da815f32",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "365fd98aeb3e1b52c94357b9123af4f57f5efd3f6f74d7746f31ce04da815f32",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 26559,
+    "stdout_sha256": "dfe7806dbc2ccb8e576cdc7cf0e3195126bb18ba78414131374c96e22bef052b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 26559,
+    "stdout_sha256": "dfe7806dbc2ccb8e576cdc7cf0e3195126bb18ba78414131374c96e22bef052b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 1591,
+    "stdout_sha256": "ae2928ed0e1c774dd23cfae36f95fb96943a43db6fe5f9a4bb615fd36720341e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 1591,
+    "stdout_sha256": "ae2928ed0e1c774dd23cfae36f95fb96943a43db6fe5f9a4bb615fd36720341e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 62845,
+    "stdout_sha256": "7ee7b55b9509892fcaec3a5de742c7f6bfa99fd314d2472241c4faf9296471f2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-29.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 62845,
+    "stdout_sha256": "7ee7b55b9509892fcaec3a5de742c7f6bfa99fd314d2472241c4faf9296471f2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12656,
+    "stdout_sha256": "931602379098fbf3eee731faebb6e134cf4c56bce308a50aa954ee301f670707",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-plan",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12656,
+    "stdout_sha256": "931602379098fbf3eee731faebb6e134cf4c56bce308a50aa954ee301f670707",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "5bfb5180f10501bfc0a85470ef7b0f946b547147237f31f7f6c748925dca7d51",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "5bfb5180f10501bfc0a85470ef7b0f946b547147237f31f7f6c748925dca7d51",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 47837,
+    "stdout_sha256": "7a6f87cdb8e788b6b02a64c1f488fa42af7ccd018378899edfe7f2ab585d0bcc",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-graph",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 47837,
+    "stdout_sha256": "7a6f87cdb8e788b6b02a64c1f488fa42af7ccd018378899edfe7f2ab585d0bcc",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 2168,
+    "stdout_sha256": "242633618765906cc0d0e9e7d2ca0b0c497b96d691d87c8bd5baf10952b326f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "0",
+      "1000000",
+      "synthetic"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 2168,
+    "stdout_sha256": "242633618765906cc0d0e9e7d2ca0b0c497b96d691d87c8bd5baf10952b326f1",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1,1"
+    ],
+    "scope": "legacy_frozen",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 116141,
+    "stdout_sha256": "28dc4e89dd48f691448ed1bed0498e7e68a8d8804274a388dddc5eb31b7168fa",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit",
+      "1000",
+      "1000000",
+      "1,1"
+    ],
+    "scope": "legacy_current",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-39.gguf": "80ccf2fff6bfe1c407eebd9f6177a0433fcccb50767b1ddc71f07d26474bf763"
+    },
+    "returncode": 0,
+    "stdout_bytes": 116141,
+    "stdout_sha256": "28dc4e89dd48f691448ed1bed0498e7e68a8d8804274a388dddc5eb31b7168fa",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-49.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4787326403894841344",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1,0,1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-49.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 162572,
+    "stdout_sha256": "422529daa478ad30bcf530ec6cec53f94a903151097e780956f76965840e7677",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-49.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1,0,1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-49.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 148742,
+    "stdout_sha256": "097d0d589f6e6c007069bde381e5b1123c468b3dc60a971d65ed320fe3bcce30",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-51.gguf",
+      "valid",
+      "64",
+      "4517329193108106638",
+      "64",
+      "4039728865751334912",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-51.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69511,
+    "stdout_sha256": "66cc9f4df5be543379b0b565bce19c117209e680fa38620b862a1ef39b6ed15d",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-51.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-51.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 63309,
+    "stdout_sha256": "c1060bdf98084b81130fdeee36c250126650944a6be61cd6b578ccc29162ec54",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-53.gguf",
+      "valid",
+      "64",
+      "4517329193108106636",
+      "64",
+      "4607182418800017408",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-53.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69511,
+    "stdout_sha256": "cba1c4a1922f791a4326062e517cb159f0ea041b46c536f8c886e1ca73d9d00a",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-53.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-53.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 63309,
+    "stdout_sha256": "c1060bdf98084b81130fdeee36c250126650944a6be61cd6b578ccc29162ec54",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-55.gguf",
+      "valid",
+      "64",
+      "1",
+      "64",
+      "9094988921128908188",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1,0,1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-55.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 161510,
+    "stdout_sha256": "7bca15f952f46f69df3b88a3043000823e01dff30a3973d996966528b63ecc8b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-55.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1,0,1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-55.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 148742,
+    "stdout_sha256": "097d0d589f6e6c007069bde381e5b1123c468b3dc60a971d65ed320fe3bcce30",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-57.gguf",
+      "valid",
+      "64",
+      "9218868437227405311",
+      "64",
+      "118622047889322841",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-57.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69480,
+    "stdout_sha256": "de1a9f0aafebce67c6c96823087ca5a5ecffb1206794efa170235d1872924739",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-57.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-57.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 63309,
+    "stdout_sha256": "c1060bdf98084b81130fdeee36c250126650944a6be61cd6b578ccc29162ec54",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-59.gguf",
+      "valid",
+      "64",
+      "118622047889322841",
+      "64",
+      "9218868437227405311",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-59.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69484,
+    "stdout_sha256": "9c84b5ba5abac683fd5a29d85a7c6ec5293fb099df5188f0dbd8cda3e9d27506",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-59.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-59.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 63309,
+    "stdout_sha256": "c1060bdf98084b81130fdeee36c250126650944a6be61cd6b578ccc29162ec54",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-61.gguf",
+      "valid",
+      "64",
+      "9094988921128908188",
+      "64",
+      "1",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1,0,1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-61.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 161510,
+    "stdout_sha256": "291ad1d8bd795945df4b86409967cc3c543069fdc4972f0397ee1d485745571c",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-61.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1,0,1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-61.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 148742,
+    "stdout_sha256": "097d0d589f6e6c007069bde381e5b1123c468b3dc60a971d65ed320fe3bcce30",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-63.gguf",
+      "valid",
+      "64",
+      "4607182418800017408",
+      "64",
+      "4517329193108106636",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-63.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69511,
+    "stdout_sha256": "3eaf4561c1f16e47ab246b6a4168930b6cdbebbf10f1c54ddadd5889bcc6e798",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-63.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-63.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 63309,
+    "stdout_sha256": "c1060bdf98084b81130fdeee36c250126650944a6be61cd6b578ccc29162ec54",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-65.gguf",
+      "valid",
+      "64",
+      "4039728865751334912",
+      "64",
+      "4517329193108106638",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-65.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69511,
+    "stdout_sha256": "5aa7312d843e4f9be3f7294eafe052d609a1fd85765204fe60c6fc04f74c190f",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-65.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-65.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 63309,
+    "stdout_sha256": "c1060bdf98084b81130fdeee36c250126650944a6be61cd6b578ccc29162ec54",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-67.gguf",
+      "valid",
+      "64",
+      "4787326403894841344",
+      "64",
+      "4517329193108106637",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1,0,1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-67.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 162572,
+    "stdout_sha256": "0e94d60035501eb913ee4077d3db57493d8b14423ba0bd667276cbe4021066b2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-baseline/rotary-recipes",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-67.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "explicit synthetic basis",
+      "1000",
+      "1000000",
+      "1,0,1"
+    ],
+    "scope": "frozen_structure",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-67.gguf": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f"
+    },
+    "returncode": 0,
+    "stdout_bytes": 148742,
+    "stdout_sha256": "097d0d589f6e6c007069bde381e5b1123c468b3dc60a971d65ed320fe3bcce30",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-69.gguf",
+      "valid",
+      "32",
+      "897988541",
+      "32",
+      "1176256512",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-69.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69250,
+    "stdout_sha256": "4cf0e651d7201f3caed57791fb6b20d36a25345df2c59e6f5d3e34cadc3d494b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-70.gguf",
+      "valid",
+      "32",
+      "897988541",
+      "64",
+      "4666723172467343360",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-70.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69361,
+    "stdout_sha256": "2f8c7471b72574bc28165a087140b84489769452a2c67e8c88cc29a12f68fa23",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-71.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "32",
+      "1176256512",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-71.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69400,
+    "stdout_sha256": "6d24604783304120676f82ba99657fb9e5be0011cc037456071ebb0351226d72",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-72.gguf",
+      "opaque",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:opaque",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-72.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 46714,
+    "stdout_sha256": "db6b238773d4d08dc019dfba45aa058dedffcc8b8e9eba3b4e2a21b1bad0db78",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-73.gguf",
+      "valid",
+      "0",
+      "0",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-73.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "1fa7f71b06e2b1d9b9bdebd05335d942bbaf046b8c7873a272c049089e2dd2ba"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-74.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "0",
+      "0",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-74.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "1fa7f71b06e2b1d9b9bdebd05335d942bbaf046b8c7873a272c049089e2dd2ba"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-75.gguf",
+      "valid",
+      "16",
+      "1",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-75.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "1fa7f71b06e2b1d9b9bdebd05335d942bbaf046b8c7873a272c049089e2dd2ba"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-76.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "16",
+      "1",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-76.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "1fa7f71b06e2b1d9b9bdebd05335d942bbaf046b8c7873a272c049089e2dd2ba"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-77.gguf",
+      "valid",
+      "32",
+      "4294967296",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-77.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "c8399036c8e51bf2dec8ba42301a01ba9f8cdf18408b1ffb1a5f7783ee6e7a8f"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-78.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "32",
+      "4294967296",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-78.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "c8399036c8e51bf2dec8ba42301a01ba9f8cdf18408b1ffb1a5f7783ee6e7a8f"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-79.gguf",
+      "valid",
+      "32",
+      "0",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-79.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-80.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "32",
+      "0",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-80.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-81.gguf",
+      "valid",
+      "32",
+      "2147483648",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-81.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-82.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "32",
+      "2147483648",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-82.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-83.gguf",
+      "valid",
+      "32",
+      "3212836864",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-83.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-84.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "32",
+      "3212836864",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-84.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-85.gguf",
+      "valid",
+      "32",
+      "2139095040",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-85.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-86.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "32",
+      "2139095040",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-86.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-87.gguf",
+      "valid",
+      "32",
+      "2143289344",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-87.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-88.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "32",
+      "2143289344",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-88.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "ed7d081fa9626f205ca326e95a55e1974a746aebddd731c5264c136f9ec0be82"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-89.gguf",
+      "valid",
+      "64",
+      "0",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-89.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-90.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "0",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-90.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-91.gguf",
+      "valid",
+      "64",
+      "9223372036854775808",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-91.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-92.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "9223372036854775808",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-92.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-93.gguf",
+      "valid",
+      "64",
+      "13830554455654793216",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-93.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-94.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "13830554455654793216",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-94.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-95.gguf",
+      "valid",
+      "64",
+      "9218868437227405312",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-95.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-96.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "9218868437227405312",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-96.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-97.gguf",
+      "valid",
+      "64",
+      "18442240474082181120",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-97.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-98.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "18442240474082181120",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-98.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-99.gguf",
+      "valid",
+      "64",
+      "9221120237041090560",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-99.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-100.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "9221120237041090560",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-100.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-101.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "",
+      "100",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-101.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 227,
+    "stderr_sha256": "6ee08a10aad7c01d4bc0ac428a7456a2ad52d388bff5e1a09aea18f9b92e063e"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-102.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "valid",
+      "0",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-102.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 227,
+    "stderr_sha256": "6ee08a10aad7c01d4bc0ac428a7456a2ad52d388bff5e1a09aea18f9b92e063e"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-103.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "valid",
+      "6",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-103.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 227,
+    "stderr_sha256": "6ee08a10aad7c01d4bc0ac428a7456a2ad52d388bff5e1a09aea18f9b92e063e"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-104.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "\u03bb",
+      "3",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-104.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 227,
+    "stderr_sha256": "6ee08a10aad7c01d4bc0ac428a7456a2ad52d388bff5e1a09aea18f9b92e063e"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-105.gguf",
+      "valid",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "\u03bb",
+      "4",
+      "1"
+    ],
+    "scope": "api:valid",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-105.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 69430,
+    "stdout_sha256": "29f3797b2aa40fc9d1465edc2c51ff7625f53d20eb0e2aa1950a68044e592147",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-106.gguf",
+      "geometry",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:geometry",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-106.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 210,
+    "stderr_sha256": "4333ba6b04e76a8900755f4162187885d7d4562e178f36f0558adb13430961a9"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-107.gguf",
+      "source_bound",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:source_bound",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-107.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "5e7b1206c5e94df2590396d167382a7e4f793758989a0b5ebe8b7e7d0061a733"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-108.gguf",
+      "legacy_epsilon",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:legacy_epsilon",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-108.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 231,
+    "stderr_sha256": "e2224e80708a25d07cafc9273a709651c7d08087ac288e6cfa453c3bb0e336df"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-109.gguf",
+      "legacy_negative_zero",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:legacy_negative_zero",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-109.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 231,
+    "stderr_sha256": "e2224e80708a25d07cafc9273a709651c7d08087ac288e6cfa453c3bb0e336df"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-110.gguf",
+      "state_disabled",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:state_disabled",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-110.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 211,
+    "stderr_sha256": "6cc4a692633c4c60b52049d310ab93f24baf7d6ee9adfd003f09aca98e8c5c6e"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-111.gguf",
+      "state_provenance",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:state_provenance",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-111.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 227,
+    "stderr_sha256": "6ee08a10aad7c01d4bc0ac428a7456a2ad52d388bff5e1a09aea18f9b92e063e"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-112.gguf",
+      "state_width",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:state_width",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-112.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "1fa7f71b06e2b1d9b9bdebd05335d942bbaf046b8c7873a272c049089e2dd2ba"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-113.gguf",
+      "state_zero",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:state_zero",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-113.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-114.gguf",
+      "graph_norm_word",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_norm_word",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-114.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-115.gguf",
+      "graph_norm_width",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_norm_width",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-115.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-116.gguf",
+      "graph_norm_mirror",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_norm_mirror",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-116.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-117.gguf",
+      "graph_rope_word",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_rope_word",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-117.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-118.gguf",
+      "graph_rope_width",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_rope_width",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-118.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-119.gguf",
+      "graph_rope_mirror",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_rope_mirror",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-119.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-120.gguf",
+      "graph_stray_epsilon",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_stray_epsilon",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-120.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-121.gguf",
+      "graph_stray_base",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_stray_base",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-121.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "96207d328410714f0d9c5511a828f5787eeca122fd60ed6c482684395c46d205"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-122.gguf",
+      "graph_recipe_word",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_recipe_word",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-122.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 224,
+    "stderr_sha256": "1bc8cc0469377e2830df88d932f53bcf63f9543ed281caea009879648e238d54"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-123.gguf",
+      "graph_recipe_mirror",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_recipe_mirror",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-123.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 224,
+    "stderr_sha256": "1bc8cc0469377e2830df88d932f53bcf63f9543ed281caea009879648e238d54"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-124.gguf",
+      "graph_snapshot_word",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_snapshot_word",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-124.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 226,
+    "stderr_sha256": "6376cfcbaa93dc81dc3dff045942e98e1e8718af1021d805d32f23d577cb1045"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-125.gguf",
+      "graph_snapshot_provenance",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_snapshot_provenance",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-125.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 226,
+    "stderr_sha256": "6376cfcbaa93dc81dc3dff045942e98e1e8718af1021d805d32f23d577cb1045"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-126.gguf",
+      "graph_source_word",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_source_word",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-126.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 223,
+    "stderr_sha256": "9a43c8330a0ed0afd761020517eb228fe214e515010f2e2701e227be9b8abcc2"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-127.gguf",
+      "graph_source_provenance",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_source_provenance",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-127.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 226,
+    "stderr_sha256": "6376cfcbaa93dc81dc3dff045942e98e1e8718af1021d805d32f23d577cb1045"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-128.gguf",
+      "graph_legacy_slot",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_legacy_slot",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-128.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 231,
+    "stderr_sha256": "e2224e80708a25d07cafc9273a709651c7d08087ac288e6cfa453c3bb0e336df"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-129.gguf",
+      "graph_snapshot_mode",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_snapshot_mode",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-129.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 226,
+    "stderr_sha256": "6376cfcbaa93dc81dc3dff045942e98e1e8718af1021d805d32f23d577cb1045"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-130.gguf",
+      "ownership",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:ownership",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-130.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 26,
+    "stdout_sha256": "4e4cec505b587136000058d3a4d0903698307f876ea7cb50c2c01fd7391d0521",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-131.gguf",
+      "graph_ownership",
+      "64",
+      "4517329193108106637",
+      "64",
+      "4707126720094797824",
+      "explicit scalar source \u03bb",
+      "1000",
+      "1"
+    ],
+    "scope": "api:graph_ownership",
+    "identities": {
+      "/tmp/aesir-source-scalars-lmnvvjfy/fixture-131.gguf": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a"
+    },
+    "returncode": 0,
+    "stdout_bytes": 30,
+    "stdout_sha256": "e5b5533b82e351ca283cb989db7cc5f1998f73b8abf05b21e3e93a180b124f56",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

@@ -62,6 +62,9 @@
 - [x] Explicit rotary mathematical lowering and expanded storage:104 methods/2864
   calls,30 rebuilt entrypoints and18 complete new legacy comparisons.
   `docs/HAILO10H_MOJO_ROTARY_RECIPES.md`. No numerical device execution.
+- [x] Exact source scalar words through math/expanded lowering:108 methods/2996
+  calls,32 rebuilt entrypoints,20 new complete old outputs.
+  `docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`. Source/IR only.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

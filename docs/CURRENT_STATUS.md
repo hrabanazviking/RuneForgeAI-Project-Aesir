@@ -6,7 +6,8 @@ storage, owned ordinary config/layer/parameter intent, projection bindings and
 explicit NoPE graph/cache policy have targeted evidence. Latest projection
 slice38 methods/1168 calls, defaults44/1285, parameter31/1053 and graph99/2711
 pass. Explicit rotary mathematical recipes additionally pass104 methods/2864
-calls across30 rebuilt entrypoints. Complete
+calls across30 rebuilt entrypoints. Exact source scalar propagation passes108
+methods/2996 calls across32 rebuilt entrypoints. Complete
 source rotary/modifier adaptation and numerical Hailo program generation/execution
 remain open; metadata/graphs are not model execution or physical fit. No DFC,
 external compiler, vendor artifact or user conversion prerequisite. All LLM

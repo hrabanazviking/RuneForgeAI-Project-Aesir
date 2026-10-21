@@ -1,0 +1,60 @@
+[
+  {
+    "suite": "source_scalars",
+    "command": [
+      "python3",
+      "tests/test_hailo_source_scalars.py",
+      "--binaries",
+      "../source-scalar-final",
+      "--baseline",
+      "../source-scalar-baseline",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../source-scalar-extra-verification/source_scalars"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "rotary_recipes",
+    "command": [
+      "python3",
+      "tests/test_hailo_rotary_recipes.py",
+      "--binary",
+      "../source-scalar-final/rotary-recipes",
+      "--api",
+      "../source-scalar-final/rotary-api",
+      "--binaries",
+      "../source-scalar-final",
+      "--baseline",
+      "../rotary-baseline",
+      "--oracle",
+      "../ordinary-modifier-study/rotary-final.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../source-scalar-extra-verification/rotary_recipes"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_graph_policy",
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_graph_policy.py",
+      "--binary",
+      "../source-scalar-final/decoder-graph-policy",
+      "--api",
+      "../source-scalar-final/decoder-graph-policy-api",
+      "--baseline",
+      "../decoder-graph-baseline/semantic-plan",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../source-scalar-extra-verification/decoder_graph_policy"
+    ],
+    "returncode": 0
+  }
+]

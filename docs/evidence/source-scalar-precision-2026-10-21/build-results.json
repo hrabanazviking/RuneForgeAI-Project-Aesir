@@ -1,0 +1,194 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../source-scalar-final/tagged-semantic-plan",
+    "returncode": 0,
+    "sha256": "64b0897066e685f2c9361c0f5b48e3d439f19b71f6e807eceb7772ec8a2242de"
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "../source-scalar-final/tagged-typed-api",
+    "returncode": 0,
+    "sha256": "6f21ad11c6e028d5935fafdb4c7220eb26dda85dbfaf34516cfafab95cc632a1"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../source-scalar-final/tagged-expanded-graph",
+    "returncode": 0,
+    "sha256": "b52dbc4ac8a33843e839682445269588c108abb8dbef9412e1019275d143afed"
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "../source-scalar-final/tagged-expanded-api",
+    "returncode": 0,
+    "sha256": "a5519cce55c2b5bd84cde6b14b039db6f88d9ef2376eb3bf6c7b1258721074ad"
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "../source-scalar-final/tagged-expanded-storage",
+    "returncode": 0,
+    "sha256": "3957086c76ee87e1b5a23557e23f213381090fa7003b05aa510151aea4c36d79"
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "../source-scalar-final/tagged-expanded-storage-api",
+    "returncode": 0,
+    "sha256": "27c5d6bcd21b92ae253cbe3eba6a7496db04562a7844cd781582210cba291af5"
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "../source-scalar-final/tagged-matrix-tiles",
+    "returncode": 0,
+    "sha256": "eecfcd9544cae98edf68d28458fb04be8934ecd39ee1eee397dc5cd844d9b7cc"
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "../source-scalar-final/tagged-matrix-api",
+    "returncode": 0,
+    "sha256": "11a6140aa13fea956b485b470124e2cf03b07b8581c96233b66791d8f1328302"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../source-scalar-final/tagged-primitive-recipes",
+    "returncode": 0,
+    "sha256": "7997e978374e12dd02389167e819bff27e57d173468eb168ca17bd58d3b57143"
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "../source-scalar-final/tagged-primitive-api",
+    "returncode": 0,
+    "sha256": "debdb98b83128c686a84573c72f813b769550ceab13b0ec2b55035b3d7aa00f6"
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../source-scalar-final/tagged-cache-layout",
+    "returncode": 0,
+    "sha256": "40893f0c4d4d07946270462cc116ef8521a4f3a4f5963462f82eb22006dd5379"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../source-scalar-final/tagged-cache-api",
+    "returncode": 0,
+    "sha256": "73d9163489c4c170c30fa162071fd8d6c042399bb75017b2619598e2148e5dd6"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../source-scalar-final/tagged-source-weight-tiles",
+    "returncode": 0,
+    "sha256": "0b2a5dedc5ef717fbf1f2d09a9b5a748aebb2bc16aa3c79f0fa90ac42956799b"
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "../source-scalar-final/tagged-source-weight-api",
+    "returncode": 0,
+    "sha256": "b43f5a5b8ddc47983bc863c476aa3e171a7840b4b79511238fb9fdac4c362c75"
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "../source-scalar-final/tagged-storage-estimate",
+    "returncode": 0,
+    "sha256": "8e40c59d2d5260f190d279f09fa8800c2a14507f2c3702e159022e72b9664636"
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "../source-scalar-final/tagged-storage-api",
+    "returncode": 0,
+    "sha256": "fd86f47315b54bd9e693bd844a6efc875d0fa66be433817b123a6b57390643b7"
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "../source-scalar-final/tagged-source-inventory",
+    "returncode": 0,
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "../source-scalar-final/tagged-typed-decoder",
+    "returncode": 0,
+    "sha256": "f80ea3789fb88a47e6e0870ef98ef2a25c6b8f31fc993a1ba125f0737d359f25"
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "../source-scalar-final/tagged-semantic-storage",
+    "returncode": 0,
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "../source-scalar-final/tagged-semantic-storage-api",
+    "returncode": 0,
+    "sha256": "53c1c007772155845d0f5964dbede4d325247fff9bdda6805a5fb8436a59d264"
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "../source-scalar-final/tagged-float-constants",
+    "returncode": 0,
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "../source-scalar-final/tagged-float-api",
+    "returncode": 0,
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "../source-scalar-final/tagged-q4k-constants",
+    "returncode": 0,
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "../source-scalar-final/tagged-q4k-api",
+    "returncode": 0,
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "../source-scalar-final/tagged-q5q6-constants",
+    "returncode": 0,
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "../source-scalar-final/tagged-q5q6-api",
+    "returncode": 0,
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../source-scalar-final/decoder-graph-policy",
+    "returncode": 0,
+    "sha256": "1892cac20e6c1d40a6a87e5ae190320c204c0060d2dbb9944b872bada87cdc4b"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../source-scalar-final/decoder-graph-policy-api",
+    "returncode": 0,
+    "sha256": "b47634131661f45a7ee0c67a76f4bf5cdb6639f9036b965def58f6615987d39d"
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "../source-scalar-final/rotary-recipes",
+    "returncode": 0,
+    "sha256": "f98bd92eaf81568664a5f603fff76dbd643109551370793485a911b728319005"
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "../source-scalar-final/rotary-api",
+    "returncode": 0,
+    "sha256": "3fb42ffac3d5df872795586c1244da47eaa94ad71a61f0ca44692696d66a718f"
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "binary": "../source-scalar-final/decoder-scalar-source",
+    "returncode": 0,
+    "sha256": "ce0261b77ae7ce4ae2e920835b1acf00f2608b1c831bfb289ed9dcf7a6433b46"
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "binary": "../source-scalar-final/source-scalars-api",
+    "returncode": 0,
+    "sha256": "f365a99fc7067b25e89a0277f66c33721f6ffc6101f8ff58c9f319b75e04f462"
+  }
+]

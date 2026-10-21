@@ -1,6 +1,8 @@
 # Original source graph construction. No numerical kernels or device program.
 from std.collections import Dict
 from std.math import isfinite
+from std.memory import bitcast
+from smidr.source_scalars import ScalarWord, DecoderScalars, empty_decoder_scalars, validate_decoder_scalars, validate_scalar_word, same_decoder_scalars
 from loader.packed_gguf import PackedGGUF
 from smidr.source_inventory import SourceTensorInventory, inventory_from_source, validate_source_inventory, validate_source_weight
 
@@ -27,6 +29,26 @@ struct DenseDecoderParameters(Copyable, Movable):
     var rope_base: Float32
     var rms_epsilon: Float32
     var source_layout: String
+
+
+@fieldwise_init
+struct DecoderGeometry(Copyable, Movable):
+    var layers: Int
+    var hidden: Int
+    var feed_forward: Int
+    var heads: Int
+    var kv_heads: Int
+    var key_dim: Int
+    var value_dim: Int
+    var rope_dim: Int
+    var vocabulary: Int
+    var source_context: Int
+    var source_layout: String
+
+
+def decoder_geometry(p: DenseDecoderParameters) -> DecoderGeometry:
+    return DecoderGeometry(p.layers, p.hidden, p.feed_forward, p.heads, p.kv_heads,
+        p.key_dim, p.value_dim, p.rope_dim, p.vocabulary, p.source_context, p.source_layout)
 
 
 @fieldwise_init
@@ -96,6 +118,8 @@ struct SemanticPlan(Movable):
     var source_layout: String
     var logits: Int
     var decoder_policy: DecoderGraphPolicy
+    var explicit_scalars: Bool
+    var source_scalars: DecoderScalars
 
     def __init__(out self, var source: SourceTensorInventory):
         self.source = source^
@@ -119,6 +143,8 @@ struct SemanticPlan(Movable):
         self.source_layout = String("")
         self.logits = -1
         self.decoder_policy = DecoderGraphPolicy(List[Int](), "", "")
+        self.explicit_scalars = False
+        self.source_scalars = empty_decoder_scalars()
 
     def tensor(mut self, name: String, var shape: List[Int], producer: Int = -1,
                persistent: Bool = False, alias_of: Int = -1) raises -> Int:
@@ -148,6 +174,27 @@ struct SemanticPlan(Movable):
         var output = self.tensor(name, shape^, index, False, alias_of)
         self.operations.append(SemanticOperation(kind, inputs^, output, weight))
         return output
+
+
+def validate_plan_scalar_state(plan: SemanticPlan) raises:
+    if plan.explicit_scalars:
+        _ = validate_decoder_scalars(plan.source_scalars)
+        if plan.source_scalars.work_limit > plan.source.policy.work or bitcast[DType.uint32](plan.rms_epsilon) != 0 or bitcast[DType.uint32](plan.rope_base) != 0:
+            raise Error("SourceScalar: explicit state bound/compatibility slot changed")
+    elif not same_decoder_scalars(plan.source_scalars, empty_decoder_scalars()):
+        raise Error("SourceScalar: stray explicit scalar state")
+
+
+def rms_scalar(plan: SemanticPlan) raises -> ScalarWord:
+    var value = plan.source_scalars.epsilon.copy() if plan.explicit_scalars else ScalarWord(32, UInt64(bitcast[DType.uint32](plan.rms_epsilon)))
+    validate_scalar_word(value)
+    return value^
+
+
+def rotary_scalar(plan: SemanticPlan) raises -> ScalarWord:
+    var value = plan.source_scalars.rope_base.copy() if plan.explicit_scalars else ScalarWord(32, UInt64(bitcast[DType.uint32](plan.rope_base)))
+    validate_scalar_word(value)
+    return value^
 
 
 def gguf_dense_decoder_parameters(source: PackedGGUF) raises -> DenseDecoderParameters:
@@ -255,7 +302,14 @@ def validate_dense_decoder_parameters(parameters: DenseDecoderParameters,
                                       source: SourceTensorInventory,
                                       query_tokens: Int, past_tokens: Int,
                                       context_capacity: Int) raises:
-    var p = parameters.copy()
+    if not isfinite(parameters.rms_epsilon) or parameters.rms_epsilon <= 0 or not isfinite(parameters.rope_base) or parameters.rope_base <= 0:
+        raise Error("SemanticPlan: non-finite or non-positive numerical parameter")
+    validate_decoder_geometry(decoder_geometry(parameters), source, query_tokens, past_tokens, context_capacity)
+
+
+def validate_decoder_geometry(p: DecoderGeometry, source: SourceTensorInventory,
+                              query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises:
     if p.layers <= 0 or p.layers > len(source.bindings) // 9 or p.layers > (9223372036854775807 - 5) // 23:
         raise Error("SemanticPlan: layer count exceeds source tensor evidence")
     if p.hidden <= 0 or p.feed_forward <= 0 or p.vocabulary <= 0 or p.source_context <= 0:
@@ -268,8 +322,6 @@ def validate_dense_decoder_parameters(parameters: DenseDecoderParameters,
     _ = checked_product(p.heads, p.value_dim)
     if p.rope_dim <= 0 or p.rope_dim > p.key_dim or p.rope_dim % 2 != 0:
         raise Error("SemanticPlan: invalid rotary dimension")
-    if not isfinite(p.rms_epsilon) or p.rms_epsilon <= 0 or not isfinite(p.rope_base) or p.rope_base <= 0:
-        raise Error("SemanticPlan: non-finite or non-positive numerical parameter")
     if query_tokens <= 0 or past_tokens < 0 or context_capacity <= 0 or context_capacity > p.source_context or past_tokens > context_capacity or query_tokens > context_capacity - past_tokens:
         raise Error("SemanticPlan: invalid session query/past/context extent")
     if "token_embd.weight" not in source.bindings:
@@ -283,12 +335,40 @@ def build_decoder_semantic_plan(var source: SourceTensorInventory,
                               policy: DecoderGraphPolicy,
                               query_tokens: Int, past_tokens: Int,
                               context_capacity: Int) raises -> SemanticPlan:
+    return _build_decoder_semantic_plan(source^, parameters, empty_decoder_scalars(), False,
+        policy, query_tokens, past_tokens, context_capacity)
+
+
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              geometry: DecoderGeometry, scalars: DecoderScalars,
+                              policy: DecoderGraphPolicy, query_tokens: Int,
+                              past_tokens: Int, context_capacity: Int) raises -> SemanticPlan:
+    _ = validate_decoder_scalars(scalars)
+    if scalars.work_limit > source.policy.work:
+        raise Error("SourceScalar: scalar work limit exceeds source policy")
+    # Zero slots are explicitly unavailable compatibility fields, never rounded constants.
+    var p = DenseDecoderParameters(geometry.layers, geometry.hidden, geometry.feed_forward,
+        geometry.heads, geometry.kv_heads, geometry.key_dim, geometry.value_dim,
+        geometry.rope_dim, geometry.vocabulary, geometry.source_context, 0, 0, geometry.source_layout)
+    return _build_decoder_semantic_plan(source^, p, scalars, True, policy,
+        query_tokens, past_tokens, context_capacity)
+
+
+def _build_decoder_semantic_plan(var source: SourceTensorInventory,
+                               parameters: DenseDecoderParameters, scalars: DecoderScalars,
+                               explicit: Bool, policy: DecoderGraphPolicy, query_tokens: Int,
+                               past_tokens: Int, context_capacity: Int) raises -> SemanticPlan:
     """Build an explicitly selected mathematical recipe from tagged values."""
     validate_source_inventory(source)
-    validate_dense_decoder_parameters(parameters, source, query_tokens, past_tokens, context_capacity)
+    if explicit:
+        validate_decoder_geometry(decoder_geometry(parameters), source, query_tokens, past_tokens, context_capacity)
+    else:
+        validate_dense_decoder_parameters(parameters, source, query_tokens, past_tokens, context_capacity)
     validate_decoder_graph_policy(policy, source, parameters.layers, parameters.hidden, parameters.vocabulary)
     var plan = SemanticPlan(source^)
     plan.decoder_policy = policy.copy()
+    plan.explicit_scalars = explicit
+    plan.source_scalars = scalars.copy()
     plan.layers = parameters.layers
     plan.hidden = parameters.hidden
     plan.feed_forward = parameters.feed_forward

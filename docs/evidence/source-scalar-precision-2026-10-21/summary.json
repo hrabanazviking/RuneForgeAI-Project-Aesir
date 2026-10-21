@@ -1,0 +1,17 @@
+{
+  "new_methods": 4,
+  "new_calls": 132,
+  "new_accepted": 72,
+  "new_expected_refusals": 60,
+  "regression_methods": 104,
+  "regression_calls": 2864,
+  "total_methods": 108,
+  "total_calls": 2996,
+  "rebuilt_entrypoints": 32,
+  "new_full_legacy_comparisons": 20,
+  "new_complete_normalized_structure_comparisons": 10,
+  "rotary_full_legacy_comparisons": 18,
+  "frozen_regression_comparisons": 108,
+  "complete_nope_graphs": 40,
+  "device_execution_verified": false
+}

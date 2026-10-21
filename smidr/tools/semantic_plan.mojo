@@ -2,6 +2,7 @@
 from std.sys import argv
 from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
 from smidr.tools.source_inventory import _quote
+from smidr.tools.source_scalars import describe_decoder_scalars
 
 
 def _integers(values: List[Int]) -> String:
@@ -21,8 +22,12 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
     text += ",\"parameters\":{\"layers\":" + String(plan.layers) + ",\"hidden\":" + String(plan.hidden) + ",\"feed_forward\":" + String(plan.feed_forward)
     text += ",\"heads\":" + String(plan.heads) + ",\"kv_heads\":" + String(plan.kv_heads) + ",\"key_dim\":" + String(plan.key_dim) + ",\"value_dim\":" + String(plan.value_dim)
     text += ",\"rope_dim\":" + String(plan.rope_dim) + ",\"vocabulary\":" + String(plan.vocabulary) + ",\"context_capacity\":" + String(plan.context_capacity)
-    text += ",\"query_tokens\":" + String(plan.query_tokens) + ",\"past_tokens\":" + String(plan.past_tokens) + ",\"rope_base\":" + String(plan.rope_base)
-    text += ",\"rms_epsilon\":" + String(plan.rms_epsilon) + ",\"source_layout\":" + _quote(plan.source_layout) + "}"
+    text += ",\"query_tokens\":" + String(plan.query_tokens) + ",\"past_tokens\":" + String(plan.past_tokens)
+    text += ",\"rope_base\":" + (String("null") if plan.explicit_scalars else String(plan.rope_base))
+    text += ",\"rms_epsilon\":" + (String("null") if plan.explicit_scalars else String(plan.rms_epsilon)) + ",\"source_layout\":" + _quote(plan.source_layout) + "}"
+    if plan.explicit_scalars:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":2")
+        text += ",\"source_scalars\":" + describe_decoder_scalars(plan.source_scalars)
     text += ",\"source_bytes\":" + String(plan.source.source_bytes) + ",\"weight_bytes\":" + String(plan.source.weight_bytes) + ",\"weights\":{"
     var first = True
     for name in plan.used_weights:

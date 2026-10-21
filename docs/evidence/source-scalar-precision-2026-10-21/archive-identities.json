@@ -1,0 +1,727 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/build-results.json",
+    "bytes": 7159,
+    "sha256": "2052e1bc2d120fb37124afb8331daaaf92f00dfa194a60c4feb1b2c34b413e60"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-graph-policy",
+    "bytes": 642920,
+    "sha256": "1892cac20e6c1d40a6a87e5ae190320c204c0060d2dbb9944b872bada87cdc4b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-graph-policy-api",
+    "bytes": 793768,
+    "sha256": "b47634131661f45a7ee0c67a76f4bf5cdb6639f9036b965def58f6615987d39d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-graph-policy-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-graph-policy-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source",
+    "bytes": 794168,
+    "sha256": "ce0261b77ae7ce4ae2e920835b1acf00f2608b1c831bfb289ed9dcf7a6433b46"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/decoder-scalar-source-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-api",
+    "bytes": 558744,
+    "sha256": "3fb42ffac3d5df872795586c1244da47eaa94ad71a61f0ca44692696d66a718f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-recipes",
+    "bytes": 639056,
+    "sha256": "f98bd92eaf81568664a5f603fff76dbd643109551370793485a911b728319005"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/rotary-recipes-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-hashes.json",
+    "bytes": 15465,
+    "sha256": "d409fc0fceb18320a17812155bd6432ba8704df62bbcd7f92ef9b435d070d500"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api",
+    "bytes": 642352,
+    "sha256": "f365a99fc7067b25e89a0277f66c33721f6ffc6101f8ff58c9f319b75e04f462"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/source-scalars-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-cache-api",
+    "bytes": 337640,
+    "sha256": "73d9163489c4c170c30fa162071fd8d6c042399bb75017b2619598e2148e5dd6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-cache-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-cache-layout",
+    "bytes": 341688,
+    "sha256": "40893f0c4d4d07946270462cc116ef8521a4f3a4f5963462f82eb22006dd5379"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-cache-layout-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-api",
+    "bytes": 415096,
+    "sha256": "a5519cce55c2b5bd84cde6b14b039db6f88d9ef2376eb3bf6c7b1258721074ad"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-graph",
+    "bytes": 425472,
+    "sha256": "b52dbc4ac8a33843e839682445269588c108abb8dbef9412e1019275d143afed"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-graph-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage",
+    "bytes": 560808,
+    "sha256": "3957086c76ee87e1b5a23557e23f213381090fa7003b05aa510151aea4c36d79"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage-api",
+    "bytes": 556232,
+    "sha256": "27c5d6bcd21b92ae253cbe3eba6a7496db04562a7844cd781582210cba291af5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-expanded-storage-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-float-api",
+    "bytes": 168320,
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-float-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-float-constants",
+    "bytes": 170360,
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-float-constants-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-matrix-api",
+    "bytes": 184144,
+    "sha256": "11a6140aa13fea956b485b470124e2cf03b07b8581c96233b66791d8f1328302"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-matrix-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-matrix-tiles",
+    "bytes": 337672,
+    "sha256": "eecfcd9544cae98edf68d28458fb04be8934ecd39ee1eee397dc5cd844d9b7cc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-matrix-tiles-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-api",
+    "bytes": 341184,
+    "sha256": "debdb98b83128c686a84573c72f813b769550ceab13b0ec2b55035b3d7aa00f6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-recipes",
+    "bytes": 417160,
+    "sha256": "7997e978374e12dd02389167e819bff27e57d173468eb168ca17bd58d3b57143"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-primitive-recipes-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q4k-api",
+    "bytes": 168160,
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q4k-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q4k-constants",
+    "bytes": 174976,
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q4k-constants-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q5q6-api",
+    "bytes": 170128,
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q5q6-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q5q6-constants",
+    "bytes": 169952,
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-q5q6-constants-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-plan",
+    "bytes": 343128,
+    "sha256": "64b0897066e685f2c9361c0f5b48e3d439f19b71f6e807eceb7772ec8a2242de"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-plan-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-storage",
+    "bytes": 262840,
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-storage-api",
+    "bytes": 656264,
+    "sha256": "53c1c007772155845d0f5964dbede4d325247fff9bdda6805a5fb8436a59d264"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-storage-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-semantic-storage-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-source-inventory",
+    "bytes": 253464,
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-source-inventory-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-source-weight-api",
+    "bytes": 335344,
+    "sha256": "b43f5a5b8ddc47983bc863c476aa3e171a7840b4b79511238fb9fdac4c362c75"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-source-weight-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-source-weight-tiles",
+    "bytes": 338432,
+    "sha256": "0b2a5dedc5ef717fbf1f2d09a9b5a748aebb2bc16aa3c79f0fa90ac42956799b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-source-weight-tiles-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-storage-api",
+    "bytes": 263832,
+    "sha256": "fd86f47315b54bd9e693bd844a6efc875d0fa66be433817b123a6b57390643b7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-storage-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-storage-estimate",
+    "bytes": 336400,
+    "sha256": "8e40c59d2d5260f190d279f09fa8800c2a14507f2c3702e159022e72b9664636"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-storage-estimate-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-typed-api",
+    "bytes": 335600,
+    "sha256": "6f21ad11c6e028d5935fafdb4c7220eb26dda85dbfaf34516cfafab95cc632a1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-typed-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-typed-decoder",
+    "bytes": 415368,
+    "sha256": "f80ea3789fb88a47e6e0870ef98ef2a25c6b8f31fc993a1ba125f0737d359f25"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-final/tagged-typed-decoder-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/cache_layout/layout.strace",
+    "bytes": 24885,
+    "sha256": "37c72dccea6bd15e438846c3423f16edbc17659de0d7e720046d35b44a2a4b06"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/cache_layout/runs.json",
+    "bytes": 64230,
+    "sha256": "4d73367c5bd1afcbafd22769aad3f28c35e73917061bdf5c5a4e83c184d88274"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/cache_layout-test.txt",
+    "bytes": 153,
+    "sha256": "2d20799d5141d75f9f7f2b057ffa63ddfd8ba190cd4eb54b02c7a6c4f5a58da8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/expanded_graph/expanded.strace",
+    "bytes": 26083,
+    "sha256": "084f2808a5b789cc6c0f107e290c07ff24b5b00b71e4283bf1c8608e7afa5114"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/expanded_graph/runs.json",
+    "bytes": 621556,
+    "sha256": "cacc6679cb868dc8114791ad3167d4194638baab45ba5ae6b15505aa650d5c5b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/expanded_graph-test.txt",
+    "bytes": 622,
+    "sha256": "791a361410e956ee919355ab43b74af47608924dd6525d71eb7a2ecb477d9499"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/expanded_storage/expanded-storage.strace",
+    "bytes": 26091,
+    "sha256": "e3beb3a88f3917f98b9af4496c345453911f67e2008f099d4cbbf55697530e37"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/expanded_storage/runs.json",
+    "bytes": 428052,
+    "sha256": "1e8ac9c2f77dbe0c99a66cc771982a85ec97afb77c01edb3f5dde88c9949dc51"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/expanded_storage-test.txt",
+    "bytes": 207,
+    "sha256": "a2d70e16cbbd425640abbf2a45166a46800b01d92d053c63407675f3fba554ac"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/matrix_tiles/runs.json",
+    "bytes": 690495,
+    "sha256": "bf67273be3cd4ce40bb0160b67d75b1f28416ab8010104f25262346536c316b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/matrix_tiles/schedule.strace",
+    "bytes": 24827,
+    "sha256": "ec501972495db126739ac3566bb0e7fec16bbbe439a129fa1f243af358e00d60"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/matrix_tiles/summary.json",
+    "bytes": 92,
+    "sha256": "8c7cc25194815f0879598b63789117f7b5e1fb963f9c260fffb9995ee4955d59"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/matrix_tiles-test.txt",
+    "bytes": 180,
+    "sha256": "96933517aa3bdc9dd652db75f261fe42b644b1db419d01d9dad6921c92132eb1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/primitive_recipes/recipes.strace",
+    "bytes": 26093,
+    "sha256": "e44abe27d4904849c530e71231e65482fdb91e5ba8101486efe4e8df99b64389"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/primitive_recipes/runs.json",
+    "bytes": 267602,
+    "sha256": "825e18b91cf8b4ebbbcc79cc5c54159eb74fc85ef0f68909621d88672106c466"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/primitive_recipes/tiny-primitive-results.json",
+    "bytes": 6900,
+    "sha256": "222d4ea54b856bd4ed84b5e1f19fbb240a7ae3e3c19e7d6e31bc33534b3b236e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/primitive_recipes-test.txt",
+    "bytes": 723,
+    "sha256": "2814d387b95e52f794388be481273e6e3d3673b6217f6d50d4f8a5d82efcdfad"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_plan/fixture-runs.json",
+    "bytes": 151248,
+    "sha256": "bf27848cd0bbb8189662b99d294d90182c4d0244020c1b5b8048de7c9d2dce21"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_plan/source-graph.strace",
+    "bytes": 26035,
+    "sha256": "0b968d14bf4707971ca2e32ab9d74f8d0965ea9ea89169b249d836d289f56365"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_plan-test.txt",
+    "bytes": 107,
+    "sha256": "c2d66b0dbe1595fcc7587fc9794be31fbd49aadb28a0c0c853bb763ba1c82965"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage/baseline-binaries.json",
+    "bytes": 1710,
+    "sha256": "5547f58975b4936dc917423c55e5b5e882d4543a52c19466d9208ab12a57d47f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage/ordinary-sharded.strace",
+    "bytes": 27169,
+    "sha256": "ef031c6fe57b25944651566d65a960729d237abc1e97a71fa5ba5effac53fbed"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage/ordinary-single.strace",
+    "bytes": 26584,
+    "sha256": "c4759ab7256324b45278967148cf9178149286d5578054d002f9825dbe4baa56"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage/runs.json",
+    "bytes": 141092,
+    "sha256": "4cf02aad6e8cfb53a69d58ee1435937b2f98bf0461c86a3ff1df0b12ce652cce"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage/summary.json",
+    "bytes": 101,
+    "sha256": "50e7a68cea43e72f6b2544cae27cc1196a82e45549a344f7eaf12c5517285e74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage/tagged-owned.strace",
+    "bytes": 25721,
+    "sha256": "13ebec430d3858e35d5ec86d312b7a71b3f31e49587f11b8b7e87d08bd9b08ff"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage/tagged-source.strace",
+    "bytes": 26182,
+    "sha256": "e55113a52795c4395323953a8590c1c307eea85165bed32d59f2a54fe0ba9b04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/semantic_storage-test.txt",
+    "bytes": 181,
+    "sha256": "1938d2a2339984b549b0dc064759879e71d8842ddb5bcf71446dd72962c71db2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_float_constants/constants.strace",
+    "bytes": 26070,
+    "sha256": "501abb4caa491b7bbfd3700618e87c16c39624cbc4854f642f85d84bd5372b2c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_float_constants/exhaustive-coverage.json",
+    "bytes": 309,
+    "sha256": "b09e3035d27710f36331b44ecdca1af67cc593b1627dcfe0aa89d0504ef3e44d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_float_constants/runs.json",
+    "bytes": 52519,
+    "sha256": "9bfb749a3975d0b9c0cc2eee09632f53267c87f6bd40978b16429ecb4ac5c485"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_float_constants-test.txt",
+    "bytes": 184,
+    "sha256": "6276e92054f5f9fbce17672b8d7e8b188f8e45cb3485d04c0b235c0159d92e24"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_inventory/fixture-runs.json",
+    "bytes": 8278,
+    "sha256": "68f5f7f1470dbbeef4a5dd3140becfb67221eb3c18e4506cf49659919c4c131a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_inventory/read-only-inventory.strace",
+    "bytes": 26042,
+    "sha256": "e87bd0305d0bf712a616a01c49f024dfd05f89817edda2ddf02e9e018b118859"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_inventory-test.txt",
+    "bytes": 104,
+    "sha256": "2c5121b24cf8175a7fcc93040d5c9ef60d88a746b0a17243e75de73b60565f81"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q4k_constants/constants.strace",
+    "bytes": 26022,
+    "sha256": "bb0f5bc2055e1ca7b2270f3040af835f44e0e8735446083140ff08b77ec34d49"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q4k_constants/external-reference.json",
+    "bytes": 395,
+    "sha256": "3b8b6750b34764b2c1e44afcaf4e88fac71db4952a82e0ff505f1e788bf0f716"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q4k_constants/runs.json",
+    "bytes": 49085,
+    "sha256": "73f97bcd1249565c08a2ec450988b02124ac9d495189a74f638eabd9036c7561"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q4k_constants-test.txt",
+    "bytes": 186,
+    "sha256": "0874ff9736b92d684257e5f5fc3693de047efbf02ee6eb75c32567f819e36401"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q5q6_constants/13.strace",
+    "bytes": 26010,
+    "sha256": "7277af2f40b25bdcfd8023b6195d6e9a78f064464c864e0b99fc4a7bba3fa5ba"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q5q6_constants/14.strace",
+    "bytes": 26053,
+    "sha256": "e5ea234d992a8fbfc2dc55e69386bcaf318ffbb908bbdbd119d975b87a75cd56"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q5q6_constants/external-reference.json",
+    "bytes": 627,
+    "sha256": "c6e2e2c1952531bf40ea0e4f72430230369517575d6ebf9147f04d67075e795c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q5q6_constants/runs.json",
+    "bytes": 41581,
+    "sha256": "5ba79638c04956193794ad836b5c9bcc7b1a9e6d5fc4a1d6946889ebcc4768f4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q5q6_constants/summary.json",
+    "bytes": 91,
+    "sha256": "3bfe79788578d8bc0e4203df6d587587202e4a6995b940a7e9875f3f9f505989"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_q5q6_constants-test.txt",
+    "bytes": 178,
+    "sha256": "5855dad1b12b3322055b8363507e6532cd60bbf5c58b0c9050d0133daf2df6b2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_weight_tiles/bytes.strace",
+    "bytes": 26473,
+    "sha256": "9797456b7bcbcd51630cf53ecb449ffcac0fd06f1128b38bbd2e5ea342be241d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_weight_tiles/runs.json",
+    "bytes": 488027,
+    "sha256": "6adf5f6f4922d3c3985860755a2b849e83c0787f49ba1ce4d6834c0ab2ed15a7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_weight_tiles/summary.json",
+    "bytes": 87,
+    "sha256": "f0d1eaeef91ea5c038d80aa7ce4770cdcf8dddac9e5fea102254e452971a039f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/source_weight_tiles-test.txt",
+    "bytes": 184,
+    "sha256": "d86011cc3edff5b271ced2385a020444d1c5e92fd0e1d539f704a7708b4053af"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/storage_estimate/fixture-runs.json",
+    "bytes": 139301,
+    "sha256": "37c21b7ceae13b80ce4b6e1c11e4f8b4998ec5f58fb4b4eab7c155f25b6fa68d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/storage_estimate/storage.strace",
+    "bytes": 26045,
+    "sha256": "591a6c2a2c1e42cf4c480c557f393f62ddb929bceee1f5ce44424b03abd3073a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/storage_estimate-test.txt",
+    "bytes": 105,
+    "sha256": "4a040bf8d38cbbba6da80c5987999b28220db76d186065b0c5ba15d5d77fce88"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/test-results.json",
+    "bytes": 8488,
+    "sha256": "0506aa0e195b4fa8e889c34afa38f09aa4926f59254fc115506153c409c2855a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/typed_decoder/fixture-runs.json",
+    "bytes": 410492,
+    "sha256": "7caac3afff35dfd747c6e33150c07a241361b09c1cb706086fe9cb81331f60a2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/typed_decoder/typed-source.strace",
+    "bytes": 26205,
+    "sha256": "f98c79647b24be564694736590e6a3573cfa83378a46c7ebcfe48326aaa7fea8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/typed_decoder/typed-synthetic.strace",
+    "bytes": 25813,
+    "sha256": "633de4012a478c196fc05d0992cdfa2626c73a614eb7275e0d84ced818c4f589"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-regression-verification/typed_decoder-test.txt",
+    "bytes": 106,
+    "sha256": "c6742acfc9faa87abc64dee9d3c29c2e34b2d0a62e070ffcc2c64f613767b6c8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/decoder_graph_policy/runs.json",
+    "bytes": 81997,
+    "sha256": "fedab82dfa2dabc25020f6153d22aa25f8d017dba7463cab4f9d3d430880951f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/decoder_graph_policy/safe-1.strace",
+    "bytes": 26738,
+    "sha256": "3c3bb22b9c8b4979f5f019c550ee9f99d895209fc2aa4403c356c89e19144816"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/decoder_graph_policy/safe-2.strace",
+    "bytes": 27318,
+    "sha256": "af461b713fa8d0c9a67176fd95754f50dc27baec10f14af85ea4df6942e4244a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/decoder_graph_policy/summary.json",
+    "bytes": 98,
+    "sha256": "b7d2d5166a1d72bef1f7d099741aa02879b5db39891adb28e8e3dd6aac4233d2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/decoder_graph_policy-test.txt",
+    "bytes": 173,
+    "sha256": "21b1a0f2cf02a3c6f829e6d2f6c75dee2bb1b7b17eeb41dff0bbf2e16306d313"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/rotary_recipes/isolated-primitive.json",
+    "bytes": 13603,
+    "sha256": "6ea7f1864f8c9fb33373f35064b5a46833c96043bd1868d72e119344bf2a82bb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/rotary_recipes/rotary.strace",
+    "bytes": 18236,
+    "sha256": "2a10e57a3a897477a075bf9d6c9402b7b371e7e9cbfbc401e843bdde441701c2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/rotary_recipes/runs.json",
+    "bytes": 4097468,
+    "sha256": "095d42bda8001041136aba7df110f075653f767c3fc58d3c5539725055414f08"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/rotary_recipes-test.txt",
+    "bytes": 2410,
+    "sha256": "44b550697bcc9575f19c6912f797d9c3868210a4ea90b44e017bb431b1bfcb9e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/source_scalars/runs.json",
+    "bytes": 4528624,
+    "sha256": "6c2356527a9fadd4c97ea215ab39090032c0a0d2cc324f45ce861b3ce1ec1d88"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/source_scalars/source-scalars.strace",
+    "bytes": 18476,
+    "sha256": "16d5f24fb6ec6af92fa0382448a674f4f5e6b31a180893708a825999d9532d7b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/source_scalars-test.txt",
+    "bytes": 151,
+    "sha256": "882ac8614971612861ba19cf7927c291946f55c36d6452f58c5a84522b9ec38a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-extra-verification/test-results.json",
+    "bytes": 1515,
+    "sha256": "f3f36fae72c14a2506a947e78cc128cbfdb37354bc5b5f4fa8c2f6e223ab8a41"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-initial/decoder-scalar-source",
+    "bytes": 794168,
+    "sha256": "ce0261b77ae7ce4ae2e920835b1acf00f2608b1c831bfb289ed9dcf7a6433b46"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-initial/decoder-scalar-source-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-initial/decoder-scalar-source-v2",
+    "bytes": 794168,
+    "sha256": "ce0261b77ae7ce4ae2e920835b1acf00f2608b1c831bfb289ed9dcf7a6433b46"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-initial/decoder-scalar-source-v2-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-initial/expanded-storage-build.txt",
+    "bytes": 377,
+    "sha256": "e6912f2cfaf1b7a621cf46f7df4790213c73667c516b1ac747d2c91db4d6b0e1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-initial/source-scalars-api",
+    "bytes": 642192,
+    "sha256": "4ac522190f2efdf6c1ff7edb82c7017161c8e19d64fa79e06409f6c1bb9c6804"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-initial/source-scalars-api-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-probe-verification/runs.json",
+    "bytes": 535784,
+    "sha256": "a72d408a5796cbe936a97e01fc05de6b8b42e8cb8cb11b427306a296553a3cd3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-probe-verification/source-scalars.strace",
+    "bytes": 18478,
+    "sha256": "133e2093e9a863e86690e17d77b0d6401beb3d076b5383f7bfc6732599cfda93"
+  }
+]

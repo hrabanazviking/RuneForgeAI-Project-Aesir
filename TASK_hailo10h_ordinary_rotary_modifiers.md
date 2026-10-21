@@ -49,3 +49,9 @@ ordinary Float64 source constants crossing legacy Float32 typed/recipe fields;
 resolve representation/precision provenance explicitly before connecting the
 complete ordinary adapter. This is implementation work, never a source eligibility
 restriction or permission to change the owner's broad target.
+
+2026-10-21 source scalar precision child completed at its exact source/IR boundary:
+TASK_hailo10h_source_scalar_precision.md,108 methods/2996 calls. Full original
+architecture owner still retains all raw modifiers. Continue remaining head/bias/
+activation/scaling/window/cache/training semantics and complete ordinary graph
+adapter, alongside actual numerical Hailo configuration/encoding/execution.

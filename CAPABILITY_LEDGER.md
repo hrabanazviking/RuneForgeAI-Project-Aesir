@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 106 |
+| `verified` | 107 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **151** |
+| **Total** | **152** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3296,3 +3296,25 @@ bindings. No model/device numerical execution or runtime external dependency.
   ordinary semantic integration and actual Hailo numerical configuration/execution.
 - **Audit:** Final native source/binary identities and negative/ownership evidence
   retained; no external compiler, inference proxy or user conversion prerequisite.
+
+
+### AES-SOURCE-013 — Exact source scalar words through mathematical lowering
+
+- **Status:** `verified`
+- **Owner:** original source_scalars/decoder_scalar_source, semantic graph,
+  primitive/expanded scalar resolvers and snapshot/storage validation.
+- **Claim sources:** TASK_hailo10h_source_scalar_precision.md and
+  docs/HAILO10H_SOURCE_SCALAR_PRECISION_DESIGN.md, published before code.
+- **Implementation evidence:** Owned32/64 tagged words, separate geometry/scalar
+  builder, validated ordinary projection and exact recipe/expanded propagation.
+- **Executable evidence:** docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md and
+  docs/evidence/source-scalar-precision-2026-10-21/;108 methods/2996 calls,
+  32 rebuilds,20 new full legacy comparisons and108 frozen regression comparisons.
+- **Evidence boundary:** Source representation/mathematical IR only; source word
+  width never asserts device arithmetic precision. No complete ordinary modifier/
+  architecture adapter, immutable file identity, placement/fit, numerical Hailo
+  program or source-model execution. Other encodings remain implementation work.
+- **Next acceptance gate:** TASK_hailo10h_ordinary_rotary_modifiers.md, complete
+  ordinary semantics/graph integration and actual numerical Hailo execution.
+- **Audit:** Exact source/binary/negative/ownership identities retained. No DFC,
+  outside compiler/machine, inference proxy or special user conversion dependency.

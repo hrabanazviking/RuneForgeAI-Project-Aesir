@@ -1,3 +1,16 @@
+## 2026-10-21 — Codex: exact source scalar words through math lowering
+
+- Published contract c5158d8 before code. Original tagged32/64 constants,
+  separated geometry/scalar construction, owned ordinary scalar projection.
+- Explicit source values bypass unavailable legacy Float32 slots; exact words
+  survive norm/rotary recipes and expanded/storage consistency checks.
+- Final108 methods/2996 calls pass;32 warning-free rebuilds,20 complete new
+  old-output comparisons,108 frozen regressions and40 NoPE graphs.
+- No source/model/device numerical execution, external compiler/runtime or
+  permanent Float32 source restriction. Receipt:
+  docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md. Continue ordinary modifiers,
+  complete graph adaptation and actual numerical Hailo program/execution.
+
 ## 2026-10-21 — Codex: explicit rotary mathematical compiler recipes
 
 - Published exact contract048924d before code; original owned two-input mapping,

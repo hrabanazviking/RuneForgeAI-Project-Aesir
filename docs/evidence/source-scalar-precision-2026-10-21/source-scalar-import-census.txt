@@ -1,0 +1,103 @@
+smidr/cache_layout.mojo:4:from smidr.semantic_plan import SemanticPlan, checked_product, validate_decoder_graph_policy
+smidr/source_q4k_constants.mojo:4:from smidr.semantic_plan import checked_product
+smidr/source_scalars.mojo:47:    validate_scalar_word(values.rope_base)
+smidr/source_scalars.mojo:52:    return same_scalar_word(a.epsilon, b.epsilon) and same_scalar_word(a.rope_base, b.rope_base) and a.provenance == b.provenance and a.work_limit == b.work_limit
+smidr/source_weight_tiles.mojo:5:from smidr.semantic_plan import checked_product
+smidr/expanded_storage.mojo:2:from smidr.expanded_graph import ExpandedGraph, validate_rotary_expansion
+smidr/expanded_storage.mojo:3:from smidr.semantic_plan import checked_product
+smidr/expanded_graph.mojo:4:from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
+smidr/expanded_graph.mojo:5:from smidr.source_scalars import ScalarWord, same_scalar_word, same_decoder_scalars, scalar32_mirror
+smidr/expanded_graph.mojo:6:from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
+smidr/expanded_graph.mojo:7:from smidr.primitive_recipes import _rotary_recipe
+smidr/storage_estimate.mojo:2:from smidr.semantic_plan import SemanticPlan, checked_product
+smidr/tools/cache_layout.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan, checked_product
+smidr/tools/source_scalars.mojo:2:from smidr.source_scalars import ScalarWord, DecoderScalars
+smidr/tools/source_scalars.mojo:13:    return String("{\"epsilon\":") + describe_scalar_word(values.epsilon) + ",\"rope_base\":" + describe_scalar_word(values.rope_base) + ",\"provenance\":" + _quote(values.provenance) + ",\"work_limit\":" + String(values.work_limit) + ",\"charged_work\":" + String(2 + values.provenance.byte_length()) + "}"
+smidr/tools/expanded_storage.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan
+smidr/tools/expanded_storage.mojo:4:from smidr.expanded_graph import expand_semantic_graph
+smidr/tools/expanded_graph.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan
+smidr/tools/expanded_graph.mojo:4:from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
+smidr/tools/storage_estimate.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan
+smidr/tools/typed_decoder.mojo:8:from smidr.semantic_plan import (
+smidr/tools/typed_decoder.mojo:41:        p.rope_base = Float32(atof(value))
+smidr/tools/typed_decoder.mojo:43:        p.rms_epsilon = Float32(atof(value))
+smidr/tools/typed_decoder.mojo:45:        p.rope_base = bitcast[DType.float32](_uint32(value))
+smidr/tools/typed_decoder.mojo:47:        p.rms_epsilon = bitcast[DType.float32](_uint32(value))
+smidr/tools/semantic_plan.mojo:3:from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
+smidr/tools/semantic_plan.mojo:26:    text += ",\"rope_base\":" + (String("null") if plan.explicit_scalars else String(plan.rope_base))
+smidr/tools/semantic_plan.mojo:27:    text += ",\"rms_epsilon\":" + (String("null") if plan.explicit_scalars else String(plan.rms_epsilon)) + ",\"source_layout\":" + _quote(plan.source_layout) + "}"
+smidr/tools/decoder_scalar_source.mojo:7:from smidr.semantic_plan import decoder_geometry, DecoderGraphPolicy, build_decoder_semantic_plan
+smidr/tools/decoder_scalar_source.mojo:11:from smidr.expanded_graph import expand_semantic_graph
+smidr/tools/decoder_graph_policy.mojo:3:from smidr.semantic_plan import DecoderGraphPolicy, SemanticPlan, build_decoder_semantic_plan
+smidr/tools/decoder_graph_policy.mojo:8:from smidr.expanded_graph import expand_semantic_graph
+smidr/tools/rotary_recipes.mojo:3:from smidr.semantic_plan import SemanticPlan, DecoderGraphPolicy, build_decoder_semantic_plan
+smidr/tools/rotary_recipes.mojo:7:from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
+smidr/tools/matrix_tiles.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan
+smidr/tools/primitive_recipes.mojo:3:from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
+smidr/tools/primitive_recipes.mojo:4:from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
+smidr/rotary_policy.mojo:2:from smidr.semantic_plan import SemanticPlan
+smidr/rotary_policy.mojo:4:from smidr.semantic_plan import checked_product
+smidr/decoder_projections.mojo:7:from smidr.semantic_plan import checked_product
+smidr/semantic_plan.mojo:5:from smidr.source_scalars import ScalarWord, DecoderScalars, empty_decoder_scalars, validate_decoder_scalars, validate_scalar_word, same_decoder_scalars
+smidr/semantic_plan.mojo:141:        self.rope_base = 0
+smidr/semantic_plan.mojo:142:        self.rms_epsilon = 0
+smidr/semantic_plan.mojo:182:        if plan.source_scalars.work_limit > plan.source.policy.work or bitcast[DType.uint32](plan.rms_epsilon) != 0 or bitcast[DType.uint32](plan.rope_base) != 0:
+smidr/semantic_plan.mojo:189:    var value = plan.source_scalars.epsilon.copy() if plan.explicit_scalars else ScalarWord(32, UInt64(bitcast[DType.uint32](plan.rms_epsilon)))
+smidr/semantic_plan.mojo:195:    var value = plan.source_scalars.rope_base.copy() if plan.explicit_scalars else ScalarWord(32, UInt64(bitcast[DType.uint32](plan.rope_base)))
+smidr/semantic_plan.mojo:305:    if not isfinite(parameters.rms_epsilon) or parameters.rms_epsilon <= 0 or not isfinite(parameters.rope_base) or parameters.rope_base <= 0:
+smidr/semantic_plan.mojo:381:    plan.rope_base = parameters.rope_base
+smidr/semantic_plan.mojo:382:    plan.rms_epsilon = parameters.rms_epsilon
+smidr/source_q5q6_constants.mojo:5:from smidr.semantic_plan import checked_product
+smidr/decoder_scalar_source.mojo:4:from smidr.source_scalars import ScalarWord, DecoderScalars, validate_decoder_scalars
+smidr/source_float_constants.mojo:4:from smidr.semantic_plan import checked_product
+smidr/matrix_tiles.mojo:2:from smidr.semantic_plan import SemanticPlan, checked_product
+smidr/primitive_recipes.mojo:5:from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
+smidr/primitive_recipes.mojo:6:from smidr.source_scalars import ScalarWord, DecoderScalars, empty_decoder_scalars, scalar32_mirror
+smidr/primitive_recipes.mojo:134:    if plan.query_tokens <= 0 or heads <= 0 or plan.key_dim <= 0 or plan.rope_dim <= 0 or plan.rope_dim > plan.key_dim or plan.rope_dim % 2 != 0 or (not plan.explicit_scalars and (not isfinite(plan.rope_base) or plan.rope_base <= 0)):
+smidr/primitive_recipes.mojo:212:            if len(input.shape) != 2 or (not plan.explicit_scalars and (not isfinite(plan.rms_epsilon) or plan.rms_epsilon <= 0)):
+scratch/test_layer0.mojo:26:    rmsnorm(x, block0.attn_norm_weight, block0.rms_epsilon)
+smidr/tools/source_weight_tiles.mojo:4:from smidr.semantic_plan import read_dense_semantic_plan
+tests/hailo_source_weight_tiles_api.mojo:4:from smidr.semantic_plan import read_dense_semantic_plan
+tests/h041_gguf_port.mojo:60:    print("config.rms_epsilon: " + String(seer.config.rms_epsilon))
+tests/hailo_decoder_graph_policy_api.mojo:3:from smidr.semantic_plan import DecoderGraphPolicy, build_decoder_semantic_plan
+tests/hailo_recipe_api.mojo:4:from smidr.semantic_plan import read_dense_semantic_plan
+tests/hailo_recipe_api.mojo:5:from smidr.primitive_recipes import lower_primitive_recipes
+tests/hailo_recipe_api.mojo:33:        plan.rms_epsilon = 5
+tests/hailo_recipe_api.mojo:34:        if recipes.recipes[0].values[0].shape[1] != width or recipes.recipes[0].weight.columns != columns or recipes.recipes[0].epsilon_bits == bitcast[DType.uint32](plan.rms_epsilon):
+tests/hailo_recipe_api.mojo:61:        plan.rms_epsilon = 0
+tests/hailo_recipe_api.mojo:63:        plan.rms_epsilon = bitcast[DType.float32](UInt32(0x7fc00000))
+tests/hailo_storage_api.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan
+tests/hailo_matrix_tiles_api.mojo:4:from smidr.semantic_plan import SemanticPlan, checked_product
+tests/hailo_semantic_storage_api.mojo:15:from smidr.semantic_plan import SemanticPlan
+tests/hailo_semantic_storage_api.mojo:18:from smidr.primitive_recipes import lower_primitive_recipes
+tests/hailo_semantic_storage_api.mojo:19:from smidr.expanded_graph import expand_semantic_graph
+tests/hailo_semantic_storage_api.mojo:77:        plan.rms_epsilon = 0.00001
+tests/hailo_source_scalars_api.mojo:5:from smidr.source_scalars import ScalarWord, DecoderScalars, same_scalar_word
+tests/hailo_source_scalars_api.mojo:6:from smidr.semantic_plan import decoder_geometry, DecoderGraphPolicy, build_decoder_semantic_plan
+tests/hailo_source_scalars_api.mojo:10:from smidr.primitive_recipes import lower_primitive_recipes
+tests/hailo_source_scalars_api.mojo:11:from smidr.expanded_graph import expand_semantic_graph
+tests/hailo_source_scalars_api.mojo:42:        plan.source_scalars.rope_base.bits = 0
+tests/hailo_source_scalars_api.mojo:47:            if (r.kind == "rope_query" or r.kind == "rope_key") and not same_scalar_word(r.rotary_base_scalar, wanted.rope_base):
+tests/hailo_source_scalars_api.mojo:49:        if recipes.source_scalars.provenance != wanted.provenance or not same_scalar_word(recipes.source_scalars.rope_base, wanted.rope_base):
+tests/hailo_source_scalars_api.mojo:54:        plan.rms_epsilon = 1
+tests/hailo_source_scalars_api.mojo:56:        plan.rope_base = bitcast[DType.float32](UInt32(0x80000000))
+tests/hailo_source_scalars_api.mojo:64:        plan.source_scalars.rope_base.bits = 0
+tests/hailo_source_scalars_api.mojo:98:            graph.operations[0].rotary_base_scalar = wanted.rope_base.copy()
+tests/hailo_source_scalars_api.mojo:108:            graph.source.source_scalars.rope_base.bits = 0
+tests/hailo_source_scalars_api.mojo:112:            graph.source.rope_base = 1
+tests/hailo_typed_decoder_api.mojo:7:from smidr.semantic_plan import build_dense_semantic_plan, gguf_dense_decoder_parameters, _check_disjoint_spans
+tests/hailo_typed_decoder_api.mojo:44:        input.parameters.rope_base = bitcast[DType.float32](word)
+tests/hailo_typed_decoder_api.mojo:45:        input.parameters.rms_epsilon = bitcast[DType.float32](word)
+tests/hailo_typed_decoder_api.mojo:48:        if bitcast[DType.uint32](graph.rope_base) != word or bitcast[DType.uint32](graph.rms_epsilon) != word:
+tests/hailo_rotary_recipes_api.mojo:6:from smidr.primitive_recipes import lower_primitive_recipes
+tests/hailo_rotary_recipes_api.mojo:7:from smidr.expanded_graph import expand_semantic_graph
+tests/hailo_rotary_recipes_api.mojo:37:        plan.rope_base = 2
+tests/hailo_rotary_recipes_api.mojo:38:        if recipes.rotary_policy.pairing != "split_half" or recipes.recipes[index].rotary_provenance != "isolated API fixture policy" or recipes.recipes[index].values[0].shape[2] == 999 or recipes.recipes[index].values[1].shape[0] == 888 or len(recipes.recipes[index].source_inputs) != 2 or recipes.recipes[index].rotary_base_bits == bitcast[DType.uint32](plan.rope_base):
+tests/hailo_rotary_recipes_api.mojo:117:        plan.rope_base = 0
+tests/hailo_rotary_recipes_api.mojo:119:        plan.rope_base = bitcast[DType.float32](UInt32(0x7fc00000))
+tests/hailo_rotary_recipes_api.mojo:187:            graph.source.rope_base = 2
+tests/hailo_cache_layout_api.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan
+tests/hailo_expanded_storage_api.mojo:4:from smidr.semantic_plan import read_dense_semantic_plan
+tests/hailo_expanded_storage_api.mojo:5:from smidr.expanded_graph import expand_semantic_graph
+tests/hailo_expanded_api.mojo:3:from smidr.semantic_plan import read_dense_semantic_plan, SemanticTensor
+tests/hailo_expanded_api.mojo:4:from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
