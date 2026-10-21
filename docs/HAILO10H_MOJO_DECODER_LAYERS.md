@@ -93,3 +93,11 @@ validated policy. Preserve complete existing GGUF behavior and layout gates,
 then continue actual ordinary dimensions/aliases/tie/bias/window/scaling/norm/
 activation semantics and numerical Hailo compiler/configuration/execution work.
 Broad model support and exclusive Hailo LLM execution remain the fixed target.
+
+
+### Later qualified default refinement
+
+HAILO10H_MOJO_ORDINARY_DEFAULTS.md supersedes only the earlier conservative
+omitted/null layer/KV/tie interpretation for the qualified ordinary schema.
+Historical evidence above remains preserved. Complete architecture/numerical
+Hailo execution is still open; no raw input field is rewritten.

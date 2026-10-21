@@ -3263,3 +3263,14 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   modifier adaptation, numerical program, physical fit or LLM execution.
 - **Next acceptance gate:** TASK_hailo10h_ordinary_rotary_modifiers.md,
   complete source architecture semantics and numerical Hailo execution.
+
+
+### Ordinary omitted/null refinement — 2026-10-20
+
+Refines AES-SOURCE-008/010/011 without introducing a new capability ID. Original
+Mojo now applies qualified layer36, omitted KV4/null-query-heads and omitted
+tie=true semantics with raw/default/null origins intact. Explicit null tying
+and every remaining architecture/numerical gate stay unresolved. Evidence:
+docs/HAILO10H_MOJO_ORDINARY_DEFAULTS.md;44 methods/1285 calls,28 complete old
+explicit outputs,108 frozen consumer comparisons and326 metadata-only header
+bindings. No model/device numerical execution or runtime external dependency.

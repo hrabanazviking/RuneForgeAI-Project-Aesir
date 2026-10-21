@@ -97,3 +97,11 @@ lowering before the complete source-to-graph bridge. Continue actual numerical
 Hailo instruction/configuration/precision/packing/placement/upload/activation/
 results/cleanup in the same fixed broad target. No DFC, outside compiler/machine,
 user conversion or vendor-precompiled artifact becomes a prerequisite.
+
+
+### Later qualified default refinement
+
+HAILO10H_MOJO_ORDINARY_DEFAULTS.md supersedes only the earlier conservative
+omitted/null layer/KV/tie interpretation for the qualified ordinary schema.
+Historical evidence above remains preserved. Complete architecture/numerical
+Hailo execution is still open; no raw input field is rewritten.

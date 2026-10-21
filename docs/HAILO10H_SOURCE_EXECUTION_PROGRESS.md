@@ -15,6 +15,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Qualified ordinary omitted/null defaults | Verified source interpretation refinement | `HAILO10H_MOJO_ORDINARY_DEFAULTS.md`;44 methods/1285 calls,28 complete explicit old outputs and326 actual header geometries. Raw fields/origins and all remaining execution gates retained. |
 | Owned ordinary projection bindings | Verified source compiler boundary | `HAILO10H_MOJO_DECODER_PROJECTIONS.md`;38 methods/1168 calls, actual326 header bindings, independent source Q/K/V widths and explicit output intent. Complete rotary/modifier adaptation and numerical execution remain open. |
 | Owned ordinary parameter/modifier intent | Verified source interpretation | `HAILO10H_MOJO_DECODER_ARCHITECTURE.md`;31 methods/1053 calls, exact scalar words and raw/layer/default ownership. Actual source aliases/axes/output binding and full architecture/numerical execution remain open. |
 | Explicit typed decoder graph/cache policy | Verified compiler structure | `HAILO10H_MOJO_DECODER_GRAPH_POLICY.md`;99 methods/2711 calls,40 complete NoPE graphs and108 frozen consumer comparisons. Actual ordinary architecture/alias/modifier adapter and numerical execution remain open. |

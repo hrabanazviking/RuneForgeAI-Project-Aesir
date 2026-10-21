@@ -78,13 +78,16 @@ class DecoderArchitecture(unittest.TestCase):
             self.assertIs(obj[flag], False)
         dims = dict(DEFAULTS)
         dims.update({k: data[k] for k in DEFAULTS if k in data})
-        dims["num_hidden_layers"] = data["num_hidden_layers"]
+        dims["num_hidden_layers"] = data.get("num_hidden_layers", 36)
         origins = {k: "source" if k in data else "documented_default:" + str(v) for k, v in DEFAULTS.items()}
-        origins["num_hidden_layers"] = "source"
+        origins["num_hidden_layers"] = "source" if "num_hidden_layers" in data else "documented_default:36"
         notes = []
-        if data.get("num_key_value_heads") is None:
-            origins["num_key_value_heads"] = "source:null_unresolved" if "num_key_value_heads" in data else "absent_unresolved_public_default_conflict"
-            notes.append("kv_head_default_semantics_unresolved")
+        if "num_key_value_heads" not in data:
+            dims["num_key_value_heads"] = 4
+            origins["num_key_value_heads"] = "documented_default:4"
+        elif data["num_key_value_heads"] is None:
+            dims["num_key_value_heads"] = dims["num_attention_heads"]
+            origins["num_key_value_heads"] = "source:null_then_query_heads"
         else:
             dims["num_key_value_heads"] = data["num_key_value_heads"]
             origins["num_key_value_heads"] = "source"
@@ -103,8 +106,11 @@ class DecoderArchitecture(unittest.TestCase):
                 notes.append(key + "_operation_lowering")
         if not flags["use_cache"]:
             notes.append("source_cache_disabled_semantics")
-        if data.get("tie_word_embeddings") is None:
-            origins["tie_word_embeddings"] = "source:null_unresolved" if "tie_word_embeddings" in data else "absent_unresolved"
+        if "tie_word_embeddings" not in data:
+            flags["tie_word_embeddings"] = True
+            origins["tie_word_embeddings"] = "documented_default:true"
+        elif data["tie_word_embeddings"] is None:
+            origins["tie_word_embeddings"] = "source:null_unresolved"
             notes.append("output_tie_default_semantics_unresolved")
         else:
             flags["tie_word_embeddings"] = data["tie_word_embeddings"]
@@ -135,7 +141,7 @@ class DecoderArchitecture(unittest.TestCase):
         byte_cost = sum(len(k.encode()) + len(v.encode()) for k, v in raw.items())
         self.assertEqual(obj["entry_count"], entries)
         self.assertEqual(obj["work_units"], 4 * byte_cost + entries)
-        self.assertEqual(obj["layers"]["layer_count"], data["num_hidden_layers"])
+        self.assertEqual(obj["layers"]["layer_count"], data.get("num_hidden_layers", 36))
 
     def test_seeded_full_intent_and_public_config(self):
         rng = random.Random(381009)

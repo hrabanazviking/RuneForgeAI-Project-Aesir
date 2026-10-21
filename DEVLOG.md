@@ -1,3 +1,19 @@
+## 2026-10-20 — Codex: qualified ordinary omitted/null semantics
+
+- Published exact source-default contract6fe8f4d before code. Pinned4.57.1
+  configuration-only oracle31 cases resolves layer36, omitted KV4/null query
+  heads and missing tying true, with exact reviewed license/module identities.
+- Original native layer/architecture code retains raw fields and separate
+  origins; source geometry, bounds and every unresolved execution gate remain.
+  No source filename heuristic, user conversion or external runtime dependency.
+- Seven affected entrypoints compile clean. New5 methods/109 calls pass,
+  including28 complete old explicit outputs; six other suites39/1176 pass,
+  full44/1285,108 frozen consumers and326 actual metadata-only header geometries.
+  No native failure; installed5.7 oracle isolation failure remains preserved.
+- Refines existing SOURCE008/010/011; no redundant capability ID/count change.
+  Continue actual rotary/modifier semantics, original lowering and numerical
+  Hailo compiler/configuration/placement/upload/activation/results/cleanup.
+
 ## 2026-10-20 — Codex: owned ordinary source projection bindings
 
 - Published exact API/accounting contract and arbitrary-metadata narrowing352d068

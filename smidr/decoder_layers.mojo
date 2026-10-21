@@ -172,12 +172,16 @@ def source_decoder_layers(source: SourceConfiguration,
         raw_bytes = _charge(raw_bytes, size, source.source_bytes)
     for key in source.fields:
         _raw_value(source.fields[key])
-    if "model_type" not in source.fields or "num_hidden_layers" not in source.fields:
-        raise Error("DecoderLayers: explicit model type and layer count required")
+    if "model_type" not in source.fields:
+        raise Error("DecoderLayers: explicit model type required")
     var model = _text(source.fields["model_type"])
     if model != "smollm3":
         raise Error("DecoderLayers: source layer semantics implementation unresolved: " + model)
-    var layers = _positive(source.fields["num_hidden_layers"])
+    var layers = 36
+    var layer_origin = String("documented_default:36")
+    if "num_hidden_layers" in source.fields:
+        layers = _positive(source.fields["num_hidden_layers"])
+        layer_origin = "source"
     if layers > policy.layers:
         raise Error("DecoderLayers: source layer count exceeds policy")
     entries = _charge(entries, layers, policy.entries)
@@ -185,7 +189,7 @@ def source_decoder_layers(source: SourceConfiguration,
     work = _charge(work, layers, policy.work)
     var origins = Dict[String, String]()
     origins["model_type"] = "source"
-    origins["num_hidden_layers"] = "source"
+    origins["num_hidden_layers"] = layer_origin
     var interval = 4
     origins["no_rope_layer_interval"] = "documented_default:4"
     if "no_rope_layer_interval" in source.fields:

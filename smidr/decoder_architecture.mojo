@@ -98,24 +98,22 @@ def source_decoder_architecture(layers: SourceDecoderLayers,
         _origin(origins, key, origin, entries, work, policy)
     _admit_entry(entries, work, policy)
     dimensions["num_hidden_layers"] = layers.layer_count
-    _origin(origins, "num_hidden_layers", "source", entries, work, policy)
+    _origin(origins, "num_hidden_layers", layers.field_origins["num_hidden_layers"], entries, work, policy)
     var kv_key = String("num_key_value_heads")
-    var kv_origin = String("absent_unresolved_public_default_conflict")
-    var has_kv = kv_key in layers.source.fields
-    if has_kv:
+    var kv = 4
+    var kv_origin = String("documented_default:4")
+    if kv_key in layers.source.fields:
         if _null(layers.source.fields[kv_key]):
-            has_kv = False
-            kv_origin = "source:null_unresolved"
+            kv = dimensions["num_attention_heads"]
+            kv_origin = "source:null_then_query_heads"
         else:
-            var kv = _positive(layers.source.fields[kv_key])
-            if dimensions["num_attention_heads"] % kv != 0:
-                raise Error("DecoderArchitecture: KV heads must divide query heads")
-            _admit_entry(entries, work, policy)
-            dimensions[kv_key] = kv
+            kv = _positive(layers.source.fields[kv_key])
             kv_origin = "source"
+    if kv <= 0 or dimensions["num_attention_heads"] % kv != 0:
+        raise Error("DecoderArchitecture: KV heads must divide query heads")
+    _admit_entry(entries, work, policy)
+    dimensions[kv_key] = kv
     _origin(origins, kv_key, kv_origin, entries, work, policy)
-    if not has_kv:
-        _note(notes, "kv_head_default_semantics_unresolved", entries, work, policy)
     if "head_dim" in layers.source.fields:
         _origin(origins, "head_dim", "source:unresolved_extension", entries, work, policy)
         _note(notes, "explicit_head_dim_extension_semantics", entries, work, policy)
@@ -141,17 +139,19 @@ def source_decoder_architecture(layers: SourceDecoderLayers,
     if not flags["use_cache"]:
         _note(notes, "source_cache_disabled_semantics", entries, work, policy)
     var tie_key = String("tie_word_embeddings")
-    var tie_origin = String("absent_unresolved")
-    var has_tie = tie_key in layers.source.fields
-    if has_tie:
+    var tie_origin = String("documented_default:true")
+    var has_tie = True
+    var tied = True
+    if tie_key in layers.source.fields:
         if _null(layers.source.fields[tie_key]):
             has_tie = False
             tie_origin = "source:null_unresolved"
         else:
-            var value = _boolean(layers.source.fields[tie_key])
-            _admit_entry(entries, work, policy)
-            flags[tie_key] = value
+            tied = _boolean(layers.source.fields[tie_key])
             tie_origin = "source"
+    if has_tie:
+        _admit_entry(entries, work, policy)
+        flags[tie_key] = tied
     _origin(origins, tie_key, tie_origin, entries, work, policy)
     if not has_tie:
         _note(notes, "output_tie_default_semantics_unresolved", entries, work, policy)

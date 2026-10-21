@@ -4,7 +4,8 @@ The owner-fixed target is broad LLM support from ordinary source-model files,
 with Aesir owning internal compilation/execution in Mojo. Source loading, tagged
 storage, owned ordinary config/layer/parameter intent, projection bindings and
 explicit NoPE graph/cache policy have targeted evidence. Latest projection
-slice38 methods/1168 calls, parameter31/1053 and graph99/2711 pass. Complete
+slice38 methods/1168 calls, defaults44/1285, parameter31/1053 and graph99/2711
+pass. Complete
 source rotary/modifier adaptation and numerical Hailo program generation/execution
 remain open; metadata/graphs are not model execution or physical fit. No DFC,
 external compiler, vendor artifact or user conversion prerequisite. All LLM

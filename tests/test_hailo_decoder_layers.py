@@ -85,7 +85,7 @@ class DecoderLayers(unittest.TestCase):
             self.assertIs(report[flag], False)
         raw = report["source"]["fields_raw"]
         self.assertEqual({k: json.loads(v) for k, v in raw.items()}, obj)
-        n = obj["num_hidden_layers"]
+        n = obj.get("num_hidden_layers", 36)
         declared = obj.get("no_rope_layers")
         interval = obj.get("no_rope_layer_interval", 4)
         expected = [int((i + 1) % interval != 0) for i in range(n)] if declared is None else declared[:n]
@@ -98,7 +98,7 @@ class DecoderLayers(unittest.TestCase):
         self.assertEqual(report["no_rope_layer_interval"], interval)
         self.assertEqual(report["use_sliding_window"], obj.get("use_sliding_window", False))
         self.assertEqual(report["window_fields"], {k: raw[k] for k in ("sliding_window", "max_window_layers") if k in raw})
-        origins = {"model_type": "source", "num_hidden_layers": "source",
+        origins = {"model_type": "source", "num_hidden_layers": "source" if "num_hidden_layers" in obj else "documented_default:36",
             "no_rope_layer_interval": "source" if "no_rope_layer_interval" in obj else "documented_default:4",
             "no_rope_layers": "absent_then_documented_interval" if "no_rope_layers" not in obj else ("source:null_then_documented_interval" if declared is None else "source"),
             "layer_types": "absent" if "layer_types" not in obj else ("source:null" if types is None else "source"),
@@ -173,6 +173,17 @@ class DecoderLayers(unittest.TestCase):
         self.refuse(self.invoke(fixture(1, no_rope_layer_interval=MAX + 1)))
         self.check(fixture(1, no_rope_layer_interval=MAX), self.accept(self.invoke(fixture(1, no_rope_layer_interval=MAX))))
 
+    def test_omitted_layer_count_qualified_default(self):
+        omitted = fixture()
+        del omitted["num_hidden_layers"]
+        for obj in ({"model_type": "smollm3"}, omitted, dict(omitted, no_rope_layer_interval=2)):
+            self.check(obj, self.accept(self.invoke(obj)))
+            self.refuse(self.invoke(obj, policy=(35, 100000, 10000000)))
+        obj = {"model_type": "smollm3"}
+        report = self.accept(self.invoke(obj))
+        self.check(obj, self.accept(self.invoke(obj, policy=(36, report["entry_count"], report["work_units"]))))
+        self.refuse(self.invoke(obj, policy=(36, report["entry_count"], report["work_units"] - 1)))
+
     def test_invalid_source_types_lengths_literals_and_duplicate_fields(self):
         cases = []
         for key in ("num_hidden_layers", "no_rope_layer_interval"):
@@ -185,7 +196,7 @@ class DecoderLayers(unittest.TestCase):
         for key in ("sliding_window", "max_window_layers"):
             cases += [fixture(**{key: x}) for x in (0, -1, True, 1.0, "4", [], {})]
         cases += [fixture(model_type=x) for x in (None, True, 0, [], {}, "other_architecture")]
-        for missing in ("model_type", "num_hidden_layers"):
+        for missing in ("model_type",):
             obj = fixture()
             del obj[missing]
             cases.append(obj)

@@ -56,6 +56,9 @@
 - [x] Owned ordinary projection binding intent:38 methods/1168 native calls;
   actual326 header tensor roles/shapes, explicit ties, independent widths and
   original per-file metadata. No model/device execution.
+- [x] Qualified ordinary omitted/null defaults:44 methods/1285 native calls;
+  raw/source/default origins retained,28 explicit old outputs unchanged.
+  `docs/HAILO10H_MOJO_ORDINARY_DEFAULTS.md`. Metadata/structure only.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

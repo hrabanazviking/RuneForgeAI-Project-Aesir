@@ -375,8 +375,9 @@ DecoderArchitecturePolicy(entries,work), SourceDecoderArchitecture,
 source_decoder_architecture and validate_decoder_architecture retain an
 independent complete layer/config owner plus source/default dimensions, strict
 flags, Float64 scalar words, activation, origins and unresolved modifiers.
-Missing/null KV and output-tie semantics remain unresolved; head_dim_candidate
-is arithmetic only. Every derived entry is charged before growth. Validation
+Qualified SmolLM3 defaults retain layer36, omitted KV4/null query-heads and
+omitted tie=true with separate origins; explicit null tying remains unresolved.
+head_dim_candidate is arithmetic only. Every derived entry is charged before growth. Validation
 rederives all mutable fields under owned policies. No SemanticPlan, alias map,
 complete architecture certificate or numerical executor is returned. See
 `docs/HAILO10H_MOJO_DECODER_ARCHITECTURE.md` for acceptance and exact limits.
@@ -393,3 +394,13 @@ before copying. Unknown roles/formats/heterogeneous recipes remain implementatio
 work, never permanent eligibility rules. No graph, complete modifier/pairing
 certificate, numerical program or executor is returned. See
 `docs/HAILO10H_MOJO_DECODER_PROJECTIONS.md` for exact acceptance/bounds.
+
+
+## Qualified omitted/null defaults — 2026-10-20
+
+The existing owned layer/architecture types now apply checked ordinary class
+layer36, omitted KV4/null-query-heads and omitted tie=true semantics, preserving
+all original raw fields. Null tying stays unresolved. Source geometry/policies
+remain enforced; file-name presence never selects a tie. No rotary/window/
+numerical default is inferred. Exact qualified oracle/compatibility evidence:
+`docs/HAILO10H_MOJO_ORDINARY_DEFAULTS.md`;44 methods/1285 native calls.

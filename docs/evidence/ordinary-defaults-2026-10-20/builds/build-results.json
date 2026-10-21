@@ -1,0 +1,44 @@
+[
+  {
+    "source": "smidr/tools/decoder_layers.mojo",
+    "binary": "../ordinary-defaults-final/decoder-layers",
+    "returncode": 0,
+    "sha256": "a9547e66aef92b81bee6afc79a5968b5c2a140ef05465a9d0ce65d4e1634bb57"
+  },
+  {
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "binary": "../ordinary-defaults-final/decoder-layers-api",
+    "returncode": 0,
+    "sha256": "efdefbb074ecee893059c6a19415bb6f52b78577cb39705c9479be94b07efe04"
+  },
+  {
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "binary": "../ordinary-defaults-final/decoder-architecture",
+    "returncode": 0,
+    "sha256": "06c7216ec3daa4ed807c50fb79037ece7000e376d59f8652943fcb91ca3b4a95"
+  },
+  {
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "binary": "../ordinary-defaults-final/decoder-architecture-api",
+    "returncode": 0,
+    "sha256": "18fe12afd845e01ce1b206b51d11bf5ef7bf15b350ab0b4be46dd97b55052c0c"
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "../ordinary-defaults-final/decoder-projections",
+    "returncode": 0,
+    "sha256": "72898390b163675c261445db3351c09b8a098625a4a4680b5e4e7c9108dedfb3"
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "../ordinary-defaults-final/decoder-projections-api",
+    "returncode": 0,
+    "sha256": "274617c6f6c43cf862e0f85e49334fa417289592990a018bb07948b833b4423c"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../ordinary-defaults-final/decoder-graph-policy-api",
+    "returncode": 0,
+    "sha256": "3300a7dde0ce6cd17b5dfb0068d26f673702a4de1bec2dc82867deacecce7d7d"
+  }
+]

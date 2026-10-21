@@ -115,7 +115,8 @@ class DecoderProjections(unittest.TestCase):
         for flag in ("complete_architecture_verified", "source_fingerprint_verified", "execution_tested", "device_access"):
             self.assertIs(obj[flag], False)
         self.assertEqual((obj["key_dim"], obj["value_dim"]), (key, value))
-        output = "token_embd.weight" if config.get("tie_word_embeddings") is True else "output.weight" if config.get("tie_word_embeddings") is False else ""
+        tie = config.get("tie_word_embeddings", True)
+        output = "token_embd.weight" if tie is True else "output.weight" if tie is False else ""
         self.assertEqual(obj["output_weight"], output)
         source = obj["source"]
         self.assertEqual(source["architecture_adapter_verified"], False)
@@ -128,7 +129,7 @@ class DecoderProjections(unittest.TestCase):
         self.assertEqual(obj["file_metadata"], expected["metadata"])
         raw = obj["architecture"]["layers"]["source"]["fields_raw"]
         self.assertEqual({k: json.loads(v) for k, v in raw.items()}, config)
-        slots = 9 * config["num_hidden_layers"] + 3
+        slots = 9 * config.get("num_hidden_layers", 36) + 3
         work = 128 * slots + 8 * len(expected["bindings"]) + len(expected["files"]) + len(provenance.encode()) * len(expected["files"])
         work += sum(len(path.encode()) + len(metadata) + sum(len(k.encode()) + len(v.encode()) for k, v in metadata.items()) for path, metadata in expected["metadata"].items())
         work += sum(len(b["original_name"].encode()) + len(b["source_path"].encode()) for b in expected["bindings"].values())

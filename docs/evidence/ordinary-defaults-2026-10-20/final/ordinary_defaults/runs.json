@@ -1,0 +1,2033 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-initial-verification/ordinary_defaults/absent-defaults.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-0.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3c99bff457c263c1f9243fba775c1347dbefe77af90f4cf5c7bb9dd2f027c91a",
+    "stdout_bytes": 2808,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-0.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "35",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: source layer count exceeds policy\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-0.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "36",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3c99bff457c263c1f9243fba775c1347dbefe77af90f4cf5c7bb9dd2f027c91a",
+    "stdout_bytes": 2808,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-1.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-2.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-3.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-4.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-5.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-6.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-7.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-8.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-9.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-10.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-11.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-12.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON literal\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-13.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON integer\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-initial-verification/ordinary_defaults/default-remote-headers.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "remote",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-14.json",
+      "../ordinary-binding-study/0-header.json",
+      "4966315264",
+      "../ordinary-binding-study/1-header.json",
+      "1183919744"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "21268c53b2e67939bdc60fd7dde40a794c620d20cbf687c77f6cbde5bac2002a",
+    "stdout_bytes": 112359,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-15.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1a2b3f14adbb55eb657462cb3eafe334e9c297417ebb6320a684d758afc17131",
+    "stdout_bytes": 1443,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-15.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1a2b3f14adbb55eb657462cb3eafe334e9c297417ebb6320a684d758afc17131",
+    "stdout_bytes": 1443,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-15.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4767f08762609b166497dc791866440f6a4038d5051d0d738311e4a847025dbc",
+    "stdout_bytes": 2919,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-15.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4767f08762609b166497dc791866440f6a4038d5051d0d738311e4a847025dbc",
+    "stdout_bytes": 2919,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-16.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d6d3516d9c537db055d3ece7ca4e79983d63dfbf7413388db780dad36ce30f24",
+    "stdout_bytes": 1695,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-16.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d6d3516d9c537db055d3ece7ca4e79983d63dfbf7413388db780dad36ce30f24",
+    "stdout_bytes": 1695,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-16.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f3402a5cb7a264084c9eead689125c1b26d73449332b908b58c5b5df6646027c",
+    "stdout_bytes": 3172,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-16.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f3402a5cb7a264084c9eead689125c1b26d73449332b908b58c5b5df6646027c",
+    "stdout_bytes": 3172,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-17.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9b49a853316ca7b8ae22779006256aeb8318459467ce1689fa3399157f7ca01f",
+    "stdout_bytes": 1444,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-17.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9b49a853316ca7b8ae22779006256aeb8318459467ce1689fa3399157f7ca01f",
+    "stdout_bytes": 1444,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-17.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ee6dd4b0e06f87de751785e1c04d25226504aaad4b2f0d0c2d793d94ed1527a9",
+    "stdout_bytes": 2922,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-17.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ee6dd4b0e06f87de751785e1c04d25226504aaad4b2f0d0c2d793d94ed1527a9",
+    "stdout_bytes": 2922,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-18.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4491609e609ae5e38d953751d47fcc4a05b738594d0891d2cf7a539b0bc3e444",
+    "stdout_bytes": 1485,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-18.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4491609e609ae5e38d953751d47fcc4a05b738594d0891d2cf7a539b0bc3e444",
+    "stdout_bytes": 1485,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-18.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b7b7339fb07fbb16381b88fa7a536fa2c85024167cf921c2016f544ff98dcba3",
+    "stdout_bytes": 2962,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-18.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b7b7339fb07fbb16381b88fa7a536fa2c85024167cf921c2016f544ff98dcba3",
+    "stdout_bytes": 2962,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-19.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9bf2fddef51d0e5eee09de3e941f6620851de0b20680d176c376159bb408b559",
+    "stdout_bytes": 1695,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-19.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9bf2fddef51d0e5eee09de3e941f6620851de0b20680d176c376159bb408b559",
+    "stdout_bytes": 1695,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-19.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7b1bd8bae3e0a393aa7ed10bf0a3493e93b8d63880d76d00b0711a5cddb7d249",
+    "stdout_bytes": 3171,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-19.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7b1bd8bae3e0a393aa7ed10bf0a3493e93b8d63880d76d00b0711a5cddb7d249",
+    "stdout_bytes": 3171,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-20.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f81623b17428cf20bfc2d756478056f5a93e2cde9e9ae5f6ba30b06011079168",
+    "stdout_bytes": 1652,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-20.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f81623b17428cf20bfc2d756478056f5a93e2cde9e9ae5f6ba30b06011079168",
+    "stdout_bytes": 1652,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-20.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2860804dfa13412d93c484991e0b92bbcbed7f6bb0ce3e6b6dd0d2a6d57cf1a0",
+    "stdout_bytes": 3128,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-20.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2860804dfa13412d93c484991e0b92bbcbed7f6bb0ce3e6b6dd0d2a6d57cf1a0",
+    "stdout_bytes": 3128,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-21.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "bd86f59cefa808858d489557f8b789b8eccbf259513a165cb710775d1971f4f2",
+    "stdout_bytes": 1528,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-21.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "bd86f59cefa808858d489557f8b789b8eccbf259513a165cb710775d1971f4f2",
+    "stdout_bytes": 1528,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-21.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b243bdb1bbf7f328d7766dc9da557de8c8b077c6ad2c8e6cfd323353af475efe",
+    "stdout_bytes": 3006,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-21.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b243bdb1bbf7f328d7766dc9da557de8c8b077c6ad2c8e6cfd323353af475efe",
+    "stdout_bytes": 3006,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-22.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e6107ee8d99d65feea9d6c7d45ae01165d423d97461b69624ea325e11022ccbe",
+    "stdout_bytes": 1400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-22.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e6107ee8d99d65feea9d6c7d45ae01165d423d97461b69624ea325e11022ccbe",
+    "stdout_bytes": 1400,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-22.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c8edcfd181bd17973485e1de23410d3ed3f753cbc99a65451b5cfc880a66ea6a",
+    "stdout_bytes": 2877,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-22.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c8edcfd181bd17973485e1de23410d3ed3f753cbc99a65451b5cfc880a66ea6a",
+    "stdout_bytes": 2877,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-23.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a142b87ba9ba6dbb85362c2831e5e314f49a52acb4d82d29789394f10ca8bcb8",
+    "stdout_bytes": 1486,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-23.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a142b87ba9ba6dbb85362c2831e5e314f49a52acb4d82d29789394f10ca8bcb8",
+    "stdout_bytes": 1486,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-23.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "86b4a337ff0a516829b514a39207db2c196efd8ead9adac9ef72e6595b539e75",
+    "stdout_bytes": 2964,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-23.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "86b4a337ff0a516829b514a39207db2c196efd8ead9adac9ef72e6595b539e75",
+    "stdout_bytes": 2964,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-24.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "103d4661d7156c4b87d288f201e9da439cf735592522ce7905bcb0a3f4c6dce1",
+    "stdout_bytes": 1569,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-24.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "103d4661d7156c4b87d288f201e9da439cf735592522ce7905bcb0a3f4c6dce1",
+    "stdout_bytes": 1569,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-24.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a10f2cf3461f627adb05e2aa6bbd715a47702d1f93307a729ad55d449ac58708",
+    "stdout_bytes": 3046,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-24.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a10f2cf3461f627adb05e2aa6bbd715a47702d1f93307a729ad55d449ac58708",
+    "stdout_bytes": 3046,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-25.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "879aa5f03b7afe569c8cc0ebc7ec861f84f774cd941d4251b9c887bcf4eb27e6",
+    "stdout_bytes": 1528,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-25.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "879aa5f03b7afe569c8cc0ebc7ec861f84f774cd941d4251b9c887bcf4eb27e6",
+    "stdout_bytes": 1528,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-25.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f58c6a51f0e0d36ae6f2cd3eddef6a6474264ef72188a043b3c4eadaf7e55d62",
+    "stdout_bytes": 3006,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-25.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f58c6a51f0e0d36ae6f2cd3eddef6a6474264ef72188a043b3c4eadaf7e55d62",
+    "stdout_bytes": 3006,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-26.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "83335df7047398578c1cafb228c4114a3c780693873f8814ada0675c353a366f",
+    "stdout_bytes": 1653,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-layers",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-26.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "83335df7047398578c1cafb228c4114a3c780693873f8814ada0675c353a366f",
+    "stdout_bytes": 1653,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-26.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "280567fd13b186976e06ba0366450809fbbc4181c08e1ee5144f909ce1c307e8",
+    "stdout_bytes": 3130,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-26.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "280567fd13b186976e06ba0366450809fbbc4181c08e1ee5144f909ce1c307e8",
+    "stdout_bytes": 3130,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-27.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9dd4a8d3d1415eb957b6615f629beabcb7aae1f97dc4f9801d0b0ca7a7b5296a",
+    "stdout_bytes": 2809,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-28.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3e3a585551be421a31817778521a7935d106a3586e2a52acb77740db16cf7f36",
+    "stdout_bytes": 2759,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-29.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "67bd4da3b61eb7dddd3e2386eb721b83e9bdbf7b52073617796fd32ef9605f5e",
+    "stdout_bytes": 2784,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-30.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3e19ff401bdfaa305ab6e5a51ed37d3383b1c01d284c9ab8dcf847089978bd61",
+    "stdout_bytes": 2747,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-31.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9f1e6b48cf7fdc809628b3a346c419d08454213a517b342c5599ccea47d1e19d",
+    "stdout_bytes": 2751,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-32.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4aea44a6748df0a64f32ea63633edec78357f2eef29ee81d86e5d2013e536e71",
+    "stdout_bytes": 2780,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-33.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a4745731bb6af45bd243cf33a574131316963650ca21775d5d163ec9de7ce059",
+    "stdout_bytes": 2823,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-34.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "782092658b9dac1e5410ea3e66e710e0b52554aa4241fcd84dd21055394a0f25",
+    "stdout_bytes": 2880,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-35.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "66a21911727a5fb430ce607a48e1137bcc8d4fa91b01b7cd5999af7e0dc96829",
+    "stdout_bytes": 2743,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-36.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: KV heads must divide query heads\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-37.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "258130f7fa22ba0e0d812f6fa06bc3fedd9da01d02b523bbb199a9546d7fa36c",
+    "stdout_bytes": 2785,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-38.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: KV heads must divide query heads\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-39.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9c660c1cf82a8cab0572aeb6bf29a32503d719cba43e191135e87ecfe9245a30",
+    "stdout_bytes": 2785,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-40.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c93b6a1fe24b382b07bdd76c3a4d05e1311d812b4f5673452d42634bc5d7e55d",
+    "stdout_bytes": 2747,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-41.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3340054ba49aa9baa8a7c16f577708f9ac27fd4c50ee0d493a93b6922ca8f4e7",
+    "stdout_bytes": 2784,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-42.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a144e15d120194b9c47986d78992dc2ce8509aebf2af10930839991b8628d578",
+    "stdout_bytes": 2747,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-43.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "adcb7b82646fe9174a864ad2149b75be2b6df96f2668563c7a19068f973e0f62",
+    "stdout_bytes": 2784,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-44.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8d6a823fc411fd273f36fca5b0cf1fd39737f74fd46d89eec7c693119a2f6605",
+    "stdout_bytes": 2749,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-45.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b45a1bb5b8fc7305844a4dc6a0c86149a748f1a32815c896d28fb8bdc9f773ad",
+    "stdout_bytes": 2787,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-46.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6134af69f508c5c82db561f21bf3913345b38a90e06da88053cbbdafa1497329",
+    "stdout_bytes": 2748,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-47.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a8db89d38e30f692313f9473bf31a91df2786d3db2bfa31678189a42746628ad",
+    "stdout_bytes": 2786,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-48.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d16684bf8563615beb6b0a5c5af6feeb33c9af0485656fb27993ce5c1fa61f46",
+    "stdout_bytes": 2731,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-49.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e184d8d29cec7bba38331de51c4ce1209eba25cf4f2acd2a2412c638c65f275c",
+    "stdout_bytes": 2733,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-50.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e749b44c6a822f88f203b094099b7888eacdb388ed754390e2c32e65480127d5",
+    "stdout_bytes": 2735,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-51.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "dee4f0c0ae7b4ca957ed7b358c2b0005ea605895933e2bc28c34e414efd42faa",
+    "stdout_bytes": 2737,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-52.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8b77636617cbe76512e4aeafaeec237358a81ceb36acde294533bece9d6b5e3b",
+    "stdout_bytes": 2743,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-53.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2d73b5bad327bfb1acd055beaed5601401d9d21ebd84c07e33087d14f5bc4a99",
+    "stdout_bytes": 2746,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-54.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cc46f8ee6c0b8de4c91e82eebec499241d4e3f4d8e27f329f8cae8a794ca79f1",
+    "stdout_bytes": 2844,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-55.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "309e03449d8984d9a515912c3da0965013f71828f89ef7291ea7a8efeed39575",
+    "stdout_bytes": 2844,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-56.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a4e9d30aef3313fed2d44a2559aab253c3f0e4c3f272749790ba28690fc39db5",
+    "stdout_bytes": 2844,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-architecture",
+      "/tmp/aesir-ordinary-defaults-scep28r1/config-57.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64",
+      "4096",
+      "100000",
+      "10000000",
+      "100000",
+      "10000000"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5d57d7f336130e7f94a87ffa3570213c67c4cfb39a6709dfa50da99490720e25",
+    "stdout_bytes": 2844,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-58",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3b5544a1ac38ef50c7a470de2203c7ae5f17aa1b5c5875838c5c2d0dd90a7d8b",
+    "stdout_bytes": 10685,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-59",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8baa8b17fd2450b52ae11a092f31151153f1fe9c62ad5fc54d05462e4b38d81e",
+    "stdout_bytes": 10722,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-60",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d346acc66447735d4e0f58ca2cfe27b32c0127ed849ecc4c82e451a6c32aa712",
+    "stdout_bytes": 10684,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-61",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "177222b2299badf3f3a82c120c004f3a8a119f040a63b84dbc2237818bb2680a",
+    "stdout_bytes": 10671,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-62",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6bb197ef046d711f09f5ffadb1580923ca7a92efa5375f844901e3c38d4765f3",
+    "stdout_bytes": 10979,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-62",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6bb197ef046d711f09f5ffadb1580923ca7a92efa5375f844901e3c38d4765f3",
+    "stdout_bytes": 10979,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-63",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b4507160cf76969847f6d29af9b1e09fafba4176016100a76447af0d0eee7b21",
+    "stdout_bytes": 10685,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-63",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b4507160cf76969847f6d29af9b1e09fafba4176016100a76447af0d0eee7b21",
+    "stdout_bytes": 10685,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-64",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "91ffbe5194716d6b71bb707df5fb9727ae6bc92a3f8e5c3fbf40cb79fd75cadb",
+    "stdout_bytes": 10995,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-64",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "91ffbe5194716d6b71bb707df5fb9727ae6bc92a3f8e5c3fbf40cb79fd75cadb",
+    "stdout_bytes": 10995,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-baseline/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-65",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f1050b3c8f0a5bfe4759d02268857925749f0359d17fd5f0913e6478acd86f00",
+    "stdout_bytes": 10697,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-65",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f1050b3c8f0a5bfe4759d02268857925749f0359d17fd5f0913e6478acd86f00",
+    "stdout_bytes": 10697,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-ordinary-defaults-scep28r1/source-66",
+      "weights",
+      "config.json",
+      "4",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "qualified default source test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: nonintegral actual projection head dimensions\n"
+  }
+]

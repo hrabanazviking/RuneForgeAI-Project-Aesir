@@ -1,0 +1,7 @@
+{
+  "changed": [
+    "smidr/decoder_architecture.mojo",
+    "smidr/decoder_layers.mojo"
+  ],
+  "other_previous_Mojo_sources_unchanged": true
+}

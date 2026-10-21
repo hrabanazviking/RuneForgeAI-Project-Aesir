@@ -1,0 +1,138 @@
+[
+  {
+    "suite": "ordinary_defaults",
+    "command": [
+      "python3",
+      "tests/test_hailo_ordinary_defaults.py",
+      "--binaries",
+      "../ordinary-defaults-final",
+      "--baseline",
+      "../ordinary-defaults-baseline",
+      "--oracle",
+      "../ordinary-modifier-study/config-4.57.1-expanded.json",
+      "--header0",
+      "../ordinary-binding-study/0-header.json",
+      "--header1",
+      "../ordinary-binding-study/1-header.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../ordinary-defaults-initial-verification/ordinary_defaults"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "source_config",
+    "command": [
+      "python3",
+      "tests/test_hailo_source_config.py",
+      "--binary",
+      "../source-config",
+      "--api",
+      "../source-config-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../ordinary-defaults-initial-verification/source_config"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_layers",
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_layers.py",
+      "--binary",
+      "../ordinary-defaults-final/decoder-layers",
+      "--api",
+      "../ordinary-defaults-final/decoder-layers-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../ordinary-defaults-initial-verification/decoder_layers"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_architecture",
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_architecture.py",
+      "--binary",
+      "../ordinary-defaults-final/decoder-architecture",
+      "--api",
+      "../ordinary-defaults-final/decoder-architecture-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../ordinary-defaults-initial-verification/decoder_architecture"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_projections",
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_projections.py",
+      "--binary",
+      "../ordinary-defaults-final/decoder-projections",
+      "--api",
+      "../ordinary-defaults-final/decoder-projections-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--header0",
+      "../ordinary-binding-study/0-header.json",
+      "--header1",
+      "../ordinary-binding-study/1-header.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../ordinary-defaults-initial-verification/decoder_projections"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_graph_policy",
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_graph_policy.py",
+      "--binary",
+      "../graph-policy-inspector",
+      "--api",
+      "../ordinary-defaults-final/decoder-graph-policy-api",
+      "--baseline",
+      "../decoder-graph-baseline/semantic-plan",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../ordinary-defaults-initial-verification/decoder_graph_policy"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "semantic_storage",
+    "command": [
+      "python3",
+      "tests/test_hailo_semantic_storage.py",
+      "--binary",
+      "../graph-policy-final/tagged-semantic-storage",
+      "--api",
+      "../graph-policy-final/tagged-semantic-storage-api",
+      "--binaries",
+      "../graph-policy-final",
+      "--baseline",
+      "../decoder-graph-baseline",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../ordinary-defaults-initial-verification/semantic_storage"
+    ],
+    "returncode": 0
+  }
+]

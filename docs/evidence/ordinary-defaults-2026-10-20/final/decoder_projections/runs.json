@@ -1,0 +1,1991 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-initial-verification/decoder_projections/indexed.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-0",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "750006bf62acb06081d349545e68ba1b340e2879ceabd161ae7f55d73d876602",
+    "stdout_bytes": 11253,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-initial-verification/decoder_projections/unindexed.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-1",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1912b8f43d707a6fa3b777438c9cb31ec45e184616748eaa56252a8bb8d82836",
+    "stdout_bytes": 10969,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-initial-verification/decoder_projections/late-output-refusal.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-1",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: explicit untied output source missing\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a27c4c71ed8956d0bf1a30e90160d454d284fb52d0b790a562f71573a4ad47db",
+    "stdout_bytes": 11253,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "2",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a27c4c71ed8956d0bf1a30e90160d454d284fb52d0b790a562f71573a4ad47db",
+    "stdout_bytes": 11253,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "1",
+      "20",
+      "2",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ShardCollection: aggregate shard/tensor count exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "19",
+      "2",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: tensor entry bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "1",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: rank bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "2",
+      "10000000",
+      "5153",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: projection work/count bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "2",
+      "1",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceIndex: input byte/work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "0",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: ShardCollection: positive aggregate policies required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "0",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: explicit positive source/work/provenance required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "-1",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: explicit positive source/work/provenance required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      ""
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: explicit positive source/work/provenance required\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit \u00e6\ud834\udd1e"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3b8b31227715d18339895bf4cf574b1d4479276c9e2541014253cd286eca67d8",
+    "stdout_bytes": 11217,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-3",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "aed6d4fb0b571cd811d767cc174b438d81ed2ce7a339b903c59193379eb87af0",
+    "stdout_bytes": 10969,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-4",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b775428bbfd0b29b6701c53497f79d599432260d0842c198cf473c16bbceead8",
+    "stdout_bytes": 11334,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-5",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ee8478de50f10752665cb2b8bae79cd4a241ba2291314faa1fbeec18254fce05",
+    "stdout_bytes": 11283,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-6",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8982a529b0ccd70f2bf9fa7681d63ce7431c299a94685677c4e8ab9009f46d5e",
+    "stdout_bytes": 11068,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-7",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "25558c98d205b91543e014963f8fad91ed17250e7e422afce899a07f5f07fe83",
+    "stdout_bytes": 11384,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-8",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "028c38d73a961ebd5b44f899e24e9fa728812ba84848d2dbd0127d95e653083d",
+    "stdout_bytes": 11320,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-9",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: explicit untied output source missing\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-10",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: nonintegral actual projection head dimensions\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-11",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: nonintegral actual projection head dimensions\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8bba3460144f7a39505fe0e61982d99f6e2c1bfaf2c57dabea9150e9901563dd",
+    "stdout_bytes": 10989,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "cycles"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "8bba3460144f7a39505fe0e61982d99f6e2c1bfaf2c57dabea9150e9901563dd",
+    "stdout_bytes": 10989,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "key_dim"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "value_dim"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "output"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "notes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived string array length changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "work"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "owned_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: supplied and owned policies differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "external_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: supplied and owned policies differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_architecture"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_provenance"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_extent"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_weight_bytes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_alias"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_binding"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source binding changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_kind"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source binding changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_tag"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived tagged source changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_shape"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived integer array changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_name"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived tagged source changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_path"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived tagged source changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived source summary/policy changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_name"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: source tensor role implementation unresolved: other\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_shape"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: source element count mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: uncovered safetensors source payload\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_extent"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: uncovered safetensors source payload\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_metadata"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_metadata_count"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: derived projection decision/accounting changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "architecture"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderArchitecture: derived dimensions changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "layer_mask"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderLayers: derived integer array changed\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_policy_work"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: alias slot work bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_metadata"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: projection work/count bound exceeded\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_duplicate"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: duplicate global source name\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_layer_count"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: layer roles exceed actual source evidence\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_format"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: source role format implementation unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_kind"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceStorage: source dtype implementation unresolved\n"
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-initial-verification/decoder_projections/remote-headers.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections-api",
+      "remote",
+      "../ordinary-model-metadata-study/config.json",
+      "../ordinary-binding-study/0-header.json",
+      "4966315264",
+      "../ordinary-binding-study/1-header.json",
+      "1183919744"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b8b0d46df627b2730cb036f4f10baa63be6f71971be915e8d41994dcf3c57434",
+    "stdout_bytes": 115116,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-13",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation source shape mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-14",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: vector and matrix source roles differ\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-15",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: nonintegral actual projection head dimensions\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-16",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation source shape mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-17",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: nonintegral actual projection head dimensions\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-18",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation source shape mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-19",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation source shape mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-20",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation source shape mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-21",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation source shape mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-22",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation source shape mismatch\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-23",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation view for source rank remains unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-24",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: operation view for source rank remains unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-25",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: layer roles exceed actual source evidence\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-26",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: layer roles exceed actual source evidence\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-27",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: layer roles exceed actual source evidence\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-28",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: source tensor role implementation unresolved: unknown.weight\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-29",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: source tensor role implementation unresolved: model.layers.0.self_attn.q_proj.bias\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-30",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderProjections: heterogeneous head recipe implementation unresolved\n"
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-31",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "70e44239136f5376836c10cb63cc60def74d1fc6a02b1a81ce852585cc3fe235",
+    "stdout_bytes": 17912,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-32",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d1957d2870240cdf22a3f482d89904ba986b476c08fbb52724dcb8576efcc983",
+    "stdout_bytes": 17500,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-33",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1f02acfe9a86c5fe8acd5594fc44fd64d11a5f9b9141e2e464bfbf6db025a5cf",
+    "stdout_bytes": 18190,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-34",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7aaa09bc31ef5cd9ee4bed7794eb5616ef98547031d6cdb50b1d337d13a3b4da",
+    "stdout_bytes": 14185,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-35",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "0c609c8aced78026108c69e39bf38d52dbefea70c014d55cced2345a6e49c470",
+    "stdout_bytes": 14706,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-36",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5566669977ca1f7c9d785ff6a6ae401ef7dfeaed3b90ceeb4a66c7d494d3e740",
+    "stdout_bytes": 8475,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-37",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ffa3eb208f5562a124da590b0275c5a1cbbe3c11ec778f36c51787a8b617fad7",
+    "stdout_bytes": 8257,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-38",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "728458b3be9144808e1eb8192c9165f6a3a571edd3d6b453324b16e54e1bf5b6",
+    "stdout_bytes": 17572,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-39",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "c08e6a403ae21f749120818e6cce9dc85e5d2f167bdc96f6b8f7077d402b5c86",
+    "stdout_bytes": 11934,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-40",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6946a8ab13efaf14bce4aa230d6f4426e5915f04cfd8f21b7d0e54dace74f154",
+    "stdout_bytes": 17405,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-41",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4ac511bb07d0aab50669da33f7ca24ad5b4094ec61708a909f5699307ab5a70d",
+    "stdout_bytes": 17994,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-42",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9f74bb545c8b2c06c050c5690e1c614e3cdc50a00573f1f7579b4592f5ec980a",
+    "stdout_bytes": 14817,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-43",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e64efd04c63b5cb44fdf8cfb8ddffde83c4d568b336930e6ccf58f6821d30c10",
+    "stdout_bytes": 8243,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-44",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d19a937980748fa353c359e9923c69a81b45cb6fde6554aed816ec07f671df4d",
+    "stdout_bytes": 11339,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-45",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "993a3af91ea643ec51e1c3b91d7023bf9e8bff8c1d0054601d4848efadc0a5a0",
+    "stdout_bytes": 18334,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-46",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cb07c5c656d9b88427cd7f5ec046a71c70405c01a29b0451ebc21aa7f6954d4d",
+    "stdout_bytes": 7927,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-47",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cc8a1eecbcd9d42099dde09403b855ae48461c08dbdc86ef386ca7b264b4e67c",
+    "stdout_bytes": 11652,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-48",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ca98c19e6f03d73327ded63fbd6d369e1992576631f8dff5eed23c136619d03d",
+    "stdout_bytes": 14820,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-49",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6a33a0aed2feb23891a67ed56c6ed0cf241489498696333007b0db72c5540c95",
+    "stdout_bytes": 11333,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-50",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d555f955ffa6fa158df3c8019d4d3ce7887c47aa19c28772a99d5b38d60eb598",
+    "stdout_bytes": 17536,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-51",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "caf57270ad10ae0dfac452c6e58df36ec7ed0b06b24980decb05b0650e67d71f",
+    "stdout_bytes": 8773,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-52",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "1e52283772206df47b28beb6f7602d482360185320345feb910723f0ad36f763",
+    "stdout_bytes": 7942,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-53",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "56db38654e506e070f85cce796601f8efb6f1bd6a8505b6f63703ed5479a304e",
+    "stdout_bytes": 17853,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-54",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "fbd469895bb78ecfc04c03e189ba6df41eb9206ab7424768d7a7547e12f32356",
+    "stdout_bytes": 11593,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-55",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "fbb7f0fba80135c52d7e4ae02556688af595830d0e897ed3b599f879b1b6f434",
+    "stdout_bytes": 17575,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-56",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3578b2e2a9783ad5eb7f51b499f9e0d6857316033c0ff624bb6fc409958d74eb",
+    "stdout_bytes": 17592,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-57",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b4fd549e8bb06cfdeccadb48841d3231442ba25e307a0e90a559eadd2d1ed238",
+    "stdout_bytes": 15071,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-58",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b6f73aa70860528bfe9cf7ac0eb255962e8b2755e01c259c68434a091c98e0c1",
+    "stdout_bytes": 17306,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-59",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e65cedfe4248903e591c09cbc9cd24ae36f1de0f7649c331716d2ebd0ee236a1",
+    "stdout_bytes": 14861,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-60",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4e19e2ee0c7decfd936f8ac9056c6051cdeefaffbe22f53c762fd97cbc0a02bc",
+    "stdout_bytes": 14720,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-61",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "20b3dd66f73435d99c68c5c642a2a5035724e9e20be9a3fda931f5ced6ae341b",
+    "stdout_bytes": 11319,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-62",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d119ab45c2878bbf92e441cccba00a3867ebe2172cc4276b11c0194bec7320c3",
+    "stdout_bytes": 8201,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-63",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "87545b142ca322d6ac38a4e355110da45f4111a1974f03b62bd85724e4719d5a",
+    "stdout_bytes": 18309,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-64",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ebeed5dc1daecd23eb4aae68283da54e5d95ff1823b12e45ced5e7e983fd3a61",
+    "stdout_bytes": 7927,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-65",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6afd43a33cb195fe58ce1187e042856b2e179fa577829dcde6cab4877d7f1c1f",
+    "stdout_bytes": 8527,
+    "stderr": ""
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-defaults-final/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-0hhuw84s/ordinary-66",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f58fc7f020e65b0230ba242b18e8a2414c4d82a8472e5214e0472d8fda6252ab",
+    "stdout_bytes": 17859,
+    "stderr": ""
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "smidr/decoder_layers.mojo": "43f60459a962fc884394f43ecb6ad52301d8d79e31cb207decabb81b2d39033a",
+  "smidr/decoder_architecture.mojo": "7bd2e561ef2d6873a6d32b9b830a3086483cac4840177f1123f734ed0a830d0d",
+  "tests/test_hailo_decoder_layers.py": "221c3c7853b24d404850148c8a5abdb9ab259b19ef02eab0f38ebd2b6df130b9",
+  "tests/test_hailo_decoder_architecture.py": "7676b772517407680d13327dbeff21e91732b69c10c217c2b07f22783ea56261",
+  "tests/test_hailo_decoder_projections.py": "dbc3a35dca268ce8993b4a2c61398710fb05d1b831069b684bd2e6a787dc1550",
+  "tests/test_hailo_ordinary_defaults.py": "af77c3c2226a17b0c21975b9cc86f57ae12449291eda444037779a586ff5cd1c"
+}
