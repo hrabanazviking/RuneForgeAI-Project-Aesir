@@ -58,7 +58,13 @@ For positive window select causal_window_mask with the same scores and positions
 inputs, output identity and [heads,query,past+query] shape. A mask policy validator
 must run before any consumer indexes widths. Session validation selects the
 expected mask kind only after validating the window owner; legacy state with
-stray fields refuses. Exact per-layer mask identity, producer/consumer/source
+stray fields refuses. Bind the selected numeric width independently in each
+SemanticOperation.window_tokens field, with optional trailing constructor/emit
+argument default0. Positive source-mask width must equal the owned per-layer
+policy; every other source operation has0. This detects positive-to-positive
+policy mutations before lowering, rather than silently reinterpreting an already
+constructed graph. Serialize this source operation metadata only in explicit
+window schema6; complete older outputs remain unchanged. Exact per-layer mask identity, producer/consumer/source
 edges, counts, no bypass/duplicate, outputs and lifetimes must be rederived.
 
 ## Original mathematical recipe
