@@ -29,3 +29,6 @@ ordinary adapter and actual numerical Hailo encoding/configuration/placement/
 upload/activation/results/cleanup. No guessed opcodes, DFC, outside compiler,
 external compilation host, specially compiled model or inference proxy. Missing
 coverage remains implementation work toward the same broad model target.
+
+Exact pre-code API/ownership/broadcast/lifetime/compatibility contract:
+docs/HAILO10H_DECODER_BIAS_GRAPH_DESIGN.md. Publish it before implementation.
