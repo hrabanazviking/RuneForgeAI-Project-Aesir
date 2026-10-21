@@ -27,3 +27,8 @@ Publish, verify both branch heads and automatically continue full ordinary
 activation/scaling/window/cache/training/graph adaptation and actual numerical
 Hailo encoding/configuration/placement/upload/activation/results/cleanup. Host
 IR or primitive constants do not establish hardware execution or physical fit.
+
+2026-10-21 isolated qualified selector/primitive facts and exact pre-code design:
+docs/HAILO10H_DECODER_ACTIVATION_DESIGN.md. Publish before production edits.
+Initial math identities are SiLU, default erf GELU and ReLU; other selectors
+remain implementation work, not aliases or permanent model restrictions.

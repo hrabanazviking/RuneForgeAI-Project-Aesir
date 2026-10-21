@@ -1,0 +1,47 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation-primitive-error.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation-primitive-final-audit.json",
+    "bytes": 487,
+    "sha256": "14a7536ead546de82706172372f19404e9e03bc660e892baedb653211aa710ad"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation-primitive-final-error.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation-primitive-final.json",
+    "bytes": 13335,
+    "sha256": "21f9b3d979bae264f41b58d1e47d8d6d1a0a01a6174a9085a41d93b035728112"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation-primitive-final.strace",
+    "bytes": 2301082,
+    "sha256": "77fb8afa42f8d9a0783bc97a17fecb61ef2d07936113af7b1a10987a249f19dc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation-primitive.json",
+    "bytes": 11645,
+    "sha256": "c9a38da14ad8acd31b9ba255e065c53880d46aa189779c2e09764443079364c6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation-primitive.strace",
+    "bytes": 2298828,
+    "sha256": "985c90049a82f16b3c207b6117ffe9a8b98df31ffe653afe496166be905e0c54"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation_primitive_final_probe.py",
+    "bytes": 4768,
+    "sha256": "3b67cabc85012c934706b2c38554668850b6148744989fd4a4d8677ebc9c5359"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/activation_primitive_probe.py",
+    "bytes": 3289,
+    "sha256": "20ad50272cce25abb0583507cfcdcdfd42c482710bb74cc8ca1e4d8ba4becc8b"
+  }
+]

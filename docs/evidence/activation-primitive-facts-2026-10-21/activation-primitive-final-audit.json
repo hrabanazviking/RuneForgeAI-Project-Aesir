@@ -1,0 +1,21 @@
+{
+  "vectors": 8,
+  "scalar_outputs": 136,
+  "selector_successes": 7,
+  "selector_expected_unknown": 1,
+  "module_forward_calls": [],
+  "connect_calls": 0,
+  "hailo_device_open": false,
+  "source_weights_loaded": false,
+  "finite_real_only": true,
+  "gelu_none_tanh_separation": [
+    {
+      "dtype": "torch.float32",
+      "max_absolute_difference": 0.0004124641418457031
+    },
+    {
+      "dtype": "torch.float64",
+      "max_absolute_difference": 0.00041230201311731607
+    }
+  ]
+}
