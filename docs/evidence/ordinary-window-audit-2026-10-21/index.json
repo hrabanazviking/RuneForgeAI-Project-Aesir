@@ -1,0 +1,1311 @@
+{
+  "primitive": "isolated causal/window boolean index predicates",
+  "predicate_checks": 4760,
+  "rows": [
+    {
+      "window": 1,
+      "query": 0,
+      "admitted": [
+        0
+      ]
+    },
+    {
+      "window": 1,
+      "query": 1,
+      "admitted": [
+        1
+      ]
+    },
+    {
+      "window": 1,
+      "query": 2,
+      "admitted": [
+        2
+      ]
+    },
+    {
+      "window": 1,
+      "query": 3,
+      "admitted": [
+        3
+      ]
+    },
+    {
+      "window": 1,
+      "query": 4,
+      "admitted": [
+        4
+      ]
+    },
+    {
+      "window": 1,
+      "query": 5,
+      "admitted": [
+        5
+      ]
+    },
+    {
+      "window": 1,
+      "query": 6,
+      "admitted": [
+        6
+      ]
+    },
+    {
+      "window": 1,
+      "query": 7,
+      "admitted": [
+        7
+      ]
+    },
+    {
+      "window": 1,
+      "query": 8,
+      "admitted": [
+        8
+      ]
+    },
+    {
+      "window": 1,
+      "query": 9,
+      "admitted": [
+        9
+      ]
+    },
+    {
+      "window": 1,
+      "query": 10,
+      "admitted": [
+        10
+      ]
+    },
+    {
+      "window": 1,
+      "query": 11,
+      "admitted": [
+        11
+      ]
+    },
+    {
+      "window": 1,
+      "query": 12,
+      "admitted": [
+        12
+      ]
+    },
+    {
+      "window": 1,
+      "query": 13,
+      "admitted": [
+        13
+      ]
+    },
+    {
+      "window": 1,
+      "query": 14,
+      "admitted": [
+        14
+      ]
+    },
+    {
+      "window": 1,
+      "query": 15,
+      "admitted": [
+        15
+      ]
+    },
+    {
+      "window": 1,
+      "query": 16,
+      "admitted": [
+        16
+      ]
+    },
+    {
+      "window": 2,
+      "query": 0,
+      "admitted": [
+        0
+      ]
+    },
+    {
+      "window": 2,
+      "query": 1,
+      "admitted": [
+        0,
+        1
+      ]
+    },
+    {
+      "window": 2,
+      "query": 2,
+      "admitted": [
+        1,
+        2
+      ]
+    },
+    {
+      "window": 2,
+      "query": 3,
+      "admitted": [
+        2,
+        3
+      ]
+    },
+    {
+      "window": 2,
+      "query": 4,
+      "admitted": [
+        3,
+        4
+      ]
+    },
+    {
+      "window": 2,
+      "query": 5,
+      "admitted": [
+        4,
+        5
+      ]
+    },
+    {
+      "window": 2,
+      "query": 6,
+      "admitted": [
+        5,
+        6
+      ]
+    },
+    {
+      "window": 2,
+      "query": 7,
+      "admitted": [
+        6,
+        7
+      ]
+    },
+    {
+      "window": 2,
+      "query": 8,
+      "admitted": [
+        7,
+        8
+      ]
+    },
+    {
+      "window": 2,
+      "query": 9,
+      "admitted": [
+        8,
+        9
+      ]
+    },
+    {
+      "window": 2,
+      "query": 10,
+      "admitted": [
+        9,
+        10
+      ]
+    },
+    {
+      "window": 2,
+      "query": 11,
+      "admitted": [
+        10,
+        11
+      ]
+    },
+    {
+      "window": 2,
+      "query": 12,
+      "admitted": [
+        11,
+        12
+      ]
+    },
+    {
+      "window": 2,
+      "query": 13,
+      "admitted": [
+        12,
+        13
+      ]
+    },
+    {
+      "window": 2,
+      "query": 14,
+      "admitted": [
+        13,
+        14
+      ]
+    },
+    {
+      "window": 2,
+      "query": 15,
+      "admitted": [
+        14,
+        15
+      ]
+    },
+    {
+      "window": 2,
+      "query": 16,
+      "admitted": [
+        15,
+        16
+      ]
+    },
+    {
+      "window": 3,
+      "query": 0,
+      "admitted": [
+        0
+      ]
+    },
+    {
+      "window": 3,
+      "query": 1,
+      "admitted": [
+        0,
+        1
+      ]
+    },
+    {
+      "window": 3,
+      "query": 2,
+      "admitted": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "window": 3,
+      "query": 3,
+      "admitted": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "window": 3,
+      "query": 4,
+      "admitted": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "window": 3,
+      "query": 5,
+      "admitted": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "window": 3,
+      "query": 6,
+      "admitted": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "window": 3,
+      "query": 7,
+      "admitted": [
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "window": 3,
+      "query": 8,
+      "admitted": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "window": 3,
+      "query": 9,
+      "admitted": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "window": 3,
+      "query": 10,
+      "admitted": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "window": 3,
+      "query": 11,
+      "admitted": [
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "window": 3,
+      "query": 12,
+      "admitted": [
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "window": 3,
+      "query": 13,
+      "admitted": [
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "window": 3,
+      "query": 14,
+      "admitted": [
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "window": 3,
+      "query": 15,
+      "admitted": [
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "window": 3,
+      "query": 16,
+      "admitted": [
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "window": 4,
+      "query": 0,
+      "admitted": [
+        0
+      ]
+    },
+    {
+      "window": 4,
+      "query": 1,
+      "admitted": [
+        0,
+        1
+      ]
+    },
+    {
+      "window": 4,
+      "query": 2,
+      "admitted": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "window": 4,
+      "query": 3,
+      "admitted": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "window": 4,
+      "query": 4,
+      "admitted": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "window": 4,
+      "query": 5,
+      "admitted": [
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "window": 4,
+      "query": 6,
+      "admitted": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "window": 4,
+      "query": 7,
+      "admitted": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "window": 4,
+      "query": 8,
+      "admitted": [
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "window": 4,
+      "query": 9,
+      "admitted": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "window": 4,
+      "query": 10,
+      "admitted": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "window": 4,
+      "query": 11,
+      "admitted": [
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "window": 4,
+      "query": 12,
+      "admitted": [
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "window": 4,
+      "query": 13,
+      "admitted": [
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "window": 4,
+      "query": 14,
+      "admitted": [
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "window": 4,
+      "query": 15,
+      "admitted": [
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "window": 4,
+      "query": 16,
+      "admitted": [
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "window": 8,
+      "query": 0,
+      "admitted": [
+        0
+      ]
+    },
+    {
+      "window": 8,
+      "query": 1,
+      "admitted": [
+        0,
+        1
+      ]
+    },
+    {
+      "window": 8,
+      "query": 2,
+      "admitted": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "window": 8,
+      "query": 3,
+      "admitted": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "window": 8,
+      "query": 4,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "window": 8,
+      "query": 5,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "window": 8,
+      "query": 6,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "window": 8,
+      "query": 7,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "window": 8,
+      "query": 8,
+      "admitted": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "window": 8,
+      "query": 9,
+      "admitted": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "window": 8,
+      "query": 10,
+      "admitted": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "window": 8,
+      "query": 11,
+      "admitted": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "window": 8,
+      "query": 12,
+      "admitted": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "window": 8,
+      "query": 13,
+      "admitted": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "window": 8,
+      "query": 14,
+      "admitted": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "window": 8,
+      "query": 15,
+      "admitted": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "window": 8,
+      "query": 16,
+      "admitted": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "window": 64,
+      "query": 0,
+      "admitted": [
+        0
+      ]
+    },
+    {
+      "window": 64,
+      "query": 1,
+      "admitted": [
+        0,
+        1
+      ]
+    },
+    {
+      "window": 64,
+      "query": 2,
+      "admitted": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "window": 64,
+      "query": 3,
+      "admitted": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "window": 64,
+      "query": 4,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "window": 64,
+      "query": 5,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "window": 64,
+      "query": 6,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "window": 64,
+      "query": 7,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "window": 64,
+      "query": 8,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "window": 64,
+      "query": 9,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "window": 64,
+      "query": 10,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "window": 64,
+      "query": 11,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "window": 64,
+      "query": 12,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "window": 64,
+      "query": 13,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "window": 64,
+      "query": 14,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "window": 64,
+      "query": 15,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "window": 64,
+      "query": 16,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 0,
+      "admitted": [
+        0
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 1,
+      "admitted": [
+        0,
+        1
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 2,
+      "admitted": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 3,
+      "admitted": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 4,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 5,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 6,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 7,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 8,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 9,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 10,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 11,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 12,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 13,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 14,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 15,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "window": 9223372036854775807,
+      "query": 16,
+      "admitted": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    }
+  ],
+  "identities": [
+    {
+      "name": "causal_mask_function",
+      "signature": "(batch_idx: int, head_idx: int, q_idx: int, kv_idx: int) -> bool",
+      "doc": "This creates a basic lower-diagonal causal mask.",
+      "module_sha256": "7a963feed8173b8265298dd24350c166222ce6b4719442fce48ab414d0478a6a"
+    },
+    {
+      "name": "sliding_window_overlay",
+      "signature": "(sliding_window: int) -> Callable",
+      "doc": "This is an overlay depicting a sliding window pattern. Add it on top of a causal mask for a proper sliding\nwindow mask.",
+      "module_sha256": "7a963feed8173b8265298dd24350c166222ce6b4719442fce48ab414d0478a6a"
+    }
+  ],
+  "no_tensors_created": true,
+  "model_or_attention_forward": false,
+  "device_access": false
+}

@@ -1,0 +1,1388 @@
+{
+  "version": "4.57.1",
+  "module_sha256": "4fec68b228fec767ddc8f8cd4c40f8eaf374c3c44bf38c0cf1618382c7731cdf",
+  "configuration_only": true,
+  "model_execution": false,
+  "cases": [
+    {
+      "case": 0,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": null
+      }
+    },
+    {
+      "case": 1,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 2,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 3,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": null
+      }
+    },
+    {
+      "case": 4,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 5,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": null,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 6,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 1
+      }
+    },
+    {
+      "case": 7,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 8,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 9,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 1
+      }
+    },
+    {
+      "case": 10,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 11,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 1,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 12,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 4
+      }
+    },
+    {
+      "case": 13,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 14,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 15,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 4
+      }
+    },
+    {
+      "case": 16,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 17,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 4,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 18,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": null
+      }
+    },
+    {
+      "case": 19,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 20,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 21,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": null
+      }
+    },
+    {
+      "case": 22,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 23,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": null,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 24,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 1
+      }
+    },
+    {
+      "case": 25,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 26,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 27,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 1
+      }
+    },
+    {
+      "case": 28,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 29,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 1,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 30,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 4
+      }
+    },
+    {
+      "case": 31,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 32,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 33,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 4
+      }
+    },
+    {
+      "case": 34,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 1
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "max_window_layers": 1
+      }
+    },
+    {
+      "case": 35,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "max_window_layers": 4
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 4,
+        "max_window_layers": 4
+      }
+    },
+    {
+      "case": 36,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 3,
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 37,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 3,
+        "layer_types": [
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention"
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 38,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 3,
+        "layer_types": [
+          "full_attention",
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention"
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 39,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 3,
+        "layer_types": null
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": false,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 40,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": false,
+        "sliding_window": 3,
+        "layer_types": []
+      },
+      "error": "ValueError",
+      "detail": "`num_hidden_layers` (4) must be equal to the number of layer types (0)"
+    },
+    {
+      "case": 41,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 3,
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "full_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 42,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 3,
+        "layer_types": [
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention"
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 43,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 3,
+        "layer_types": [
+          "full_attention",
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention"
+        ]
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "sliding_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 44,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 3,
+        "layer_types": null
+      },
+      "result": {
+        "layer_types": [
+          "full_attention",
+          "full_attention",
+          "full_attention",
+          "sliding_attention"
+        ],
+        "no_rope_layers": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "use_sliding_window": true,
+        "sliding_window": 3
+      }
+    },
+    {
+      "case": 45,
+      "input": {
+        "num_hidden_layers": 4,
+        "use_sliding_window": true,
+        "sliding_window": 3,
+        "layer_types": []
+      },
+      "error": "ValueError",
+      "detail": "`num_hidden_layers` (4) must be equal to the number of layer types (0)"
+    }
+  ]
+}

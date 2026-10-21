@@ -28,3 +28,14 @@ packing/placement, program upload/activation/results/cleanup active in parallel
 under TASK_hailo10h_numerical_encoding_sources.md. No guessed opcodes or host
 structure/metadata/fit claims as hardware execution. Verify, publish both heads
 and advance automatically.
+
+2026-10-21 qualification audit: docs/HAILO10H_ORDINARY_WINDOW_AUDIT.md.
+46 pinned public constructor cases and119 isolated index cases/4760 predicates;
+full raw outputs, identities and preliminary audit corrections retained. No native
+implementation yet. Next publish exact policy/source/mask/consumer contract and
+freeze51 verified current entrypoints before production edits.
+
+Exact native contract: docs/HAILO10H_DECODER_WINDOW_DESIGN.md. All51 verified
+controls are now frozen with modes/hashes;178-file source manifest retained.
+Publish this contract before production changes. Next implement the owned source/
+invocation policy, mask/recipe/consumer integration and independent acceptance.

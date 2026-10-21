@@ -1,0 +1,24 @@
+{
+  "predicate_checks": 4760,
+  "cases": 119,
+  "model_execution": false,
+  "LLM_execution": false,
+  "hardware_access": false,
+  "model_module_absence_assertion": "The process asserts no smollm3 modeling module in sys.modules; lazy source-file discovery occurs during library import and does not execute a model.",
+  "trace_sha256": "5a1719f48af1b2ff2f4fc634a18deefc061fb2f4ca30c07d54a929027d6d9128",
+  "trace_bytes": 3112271,
+  "functions": [
+    {
+      "name": "causal_mask_function",
+      "signature": "(batch_idx: int, head_idx: int, q_idx: int, kv_idx: int) -> bool",
+      "doc": "This creates a basic lower-diagonal causal mask.",
+      "module_sha256": "7a963feed8173b8265298dd24350c166222ce6b4719442fce48ab414d0478a6a"
+    },
+    {
+      "name": "sliding_window_overlay",
+      "signature": "(sliding_window: int) -> Callable",
+      "doc": "This is an overlay depicting a sliding window pattern. Add it on top of a causal mask for a proper sliding\nwindow mask.",
+      "module_sha256": "7a963feed8173b8265298dd24350c166222ce6b4719442fce48ab414d0478a6a"
+    }
+  ]
+}

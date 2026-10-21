@@ -1,0 +1,19 @@
+{
+  "baseline": 21006,
+  "current": 21025,
+  "new_count": 19,
+  "new_nonreceipt": [],
+  "whole_repository_pass": false,
+  "source_files_unchanged": 178,
+  "frozen_controls": 51,
+  "raw_reports": {
+    "session-implementation-consistency-final.txt": {
+      "bytes": 2230704,
+      "sha256": "f0160689ae57e7ae4500d48b3efe1fd064d5016d6a3f82b575a451e5be5a3f14"
+    },
+    "window-audit-consistency.txt": {
+      "bytes": 2232686,
+      "sha256": "e771c2a061d1cd8777e72a9c7466e63b7af0b828f6b2c247540ff530d7a58676"
+    }
+  }
+}

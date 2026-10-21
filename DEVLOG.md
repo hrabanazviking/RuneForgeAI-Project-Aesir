@@ -1,3 +1,16 @@
+## 2026-10-21 — Codex: qualified ordinary window configuration/index audit
+
+- Pinned licensed4.57.1 constructors:46 cases,44 metadata results/2 expected
+  empty-list refusals. Explicit types survive flag disagreement; generated
+  patterns depend on flag, non-null window and source NoPE bits in these probes.
+- Isolated integer predicates:119 cases/4760 boolean checks, no tensor/model/
+  layer/attention forward or device/network access. Constructor permissiveness
+  is not numerical model validity; window masking is not cache compaction.
+- Both preliminary audit expectation corrections and complete unchanged outputs
+  retained. Exact native integration contract and51 frozen controls are published before code;
+  full ordinary/numerical Hailo gates remain open under the fixed broad target.
+- Receipt docs/HAILO10H_ORDINARY_WINDOW_AUDIT.md. No new capability ID.
+
 ## 2026-10-21 — Codex: original decoder session and cache-return semantics
 
 - Pre-code contract71dfa61; owned source/invocation return policy, explicit

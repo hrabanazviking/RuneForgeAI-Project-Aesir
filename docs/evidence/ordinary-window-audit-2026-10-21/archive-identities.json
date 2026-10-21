@@ -1,0 +1,98 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/LICENSE",
+    "bytes": 11418,
+    "mode": "0o644",
+    "sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/audit-draft.md",
+    "bytes": 4073,
+    "mode": "0o644",
+    "sha256": "48aa588e5935fdc61f5a3a81c5c39dbe6e6b1e9a4fe13cbf0dff8c2c875bb3ce"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/audit.json",
+    "bytes": 1495,
+    "mode": "0o644",
+    "sha256": "d88155ff62fd4944f04b127ab77e3785ef32ae4b964d10106a6ffd4e89b2ce2e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/audit.py",
+    "bytes": 1639,
+    "mode": "0o644",
+    "sha256": "e275c2720ec432d1492e110f7c6c1aa1380c68e60c90c3215182696d039b4f57"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/config-error.txt",
+    "bytes": 159,
+    "mode": "0o644",
+    "sha256": "2d056a402d36c0559e8176f3048ad5de7f1c8cc6a83cd0416e91573be6e2ac50"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/config.json",
+    "bytes": 27856,
+    "mode": "0o644",
+    "sha256": "16e802250d87e84b7be1c60a639e4eb8454da2b8dcd9be872294c0fa6b0a5fa6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/config.strace",
+    "bytes": 3461783,
+    "mode": "0o644",
+    "sha256": "17a2c707eff8eeb8820ccb4d1855e326b52f96d198716756bc75e390c0c5a12c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/config_probe.py",
+    "bytes": 1560,
+    "mode": "0o644",
+    "sha256": "72a3e69c821c28923e735b0c4604829e52be19dc62d5b8699e66d6487e5539fc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/index-audit.json",
+    "bytes": 1079,
+    "mode": "0o644",
+    "sha256": "a8d7f51fafa4575c029b2bcd556f05869412d7dd2630b89c708e6cf8ae49fe6e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/index-error.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/index.json",
+    "bytes": 16852,
+    "mode": "0o644",
+    "sha256": "daef16d36082f43f1a959a18b4d6d4f77456f838b86003c1e43d56d391104fec"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/index.strace",
+    "bytes": 3112271,
+    "mode": "0o644",
+    "sha256": "5a1719f48af1b2ff2f4fc634a18deefc061fb2f4ca30c07d54a929027d6d9128"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/index_probe.py",
+    "bytes": 2012,
+    "mode": "0o644",
+    "sha256": "4ecefe263d533633f96e1617fc9832e6f97f1ea1b4e522c6ded58e1301828c8f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/native-design-draft.md",
+    "bytes": 9036,
+    "mode": "0o644",
+    "sha256": "724e97818fb35dac993e629dae8462f813efffab03e827cae517d3cfedcdd51f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/preliminary-audit-failure.txt",
+    "bytes": 411,
+    "mode": "0o644",
+    "sha256": "1c879fad897385de927aa47b31a080e109fab6742d44e7218695fcac4675c3ff"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-window-study/preliminary-index-audit-failure.txt",
+    "bytes": 373,
+    "mode": "0o644",
+    "sha256": "51dac556b77bef078d38faba763878c6b6609a50d8cbcfc39f2442a2e291861e"
+  }
+]

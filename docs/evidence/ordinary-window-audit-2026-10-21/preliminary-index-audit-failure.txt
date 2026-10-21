@@ -1,0 +1,1 @@
+An initial trace assertion excluded every modeling_smollm3.py path. The library performs lazy source discovery, so a source-file open appeared even though the runtime sys.modules absence assertion passes. Corrected trace audit distinguishes file discovery from module import/execution and still excludes device/network access. Original trace/output are retained unchanged.
