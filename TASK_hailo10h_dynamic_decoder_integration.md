@@ -9,6 +9,11 @@ probes establish the current source_context/capacity coupling in
 docs/HAILO10H_DYNAMIC_CONTEXT_INTEGRATION_GAPS.md. All199 source identities and65
 controls are frozen before further native edits. Preserve all complete old outputs.
 
+Phase1 exact pre-code source/history contract is now
+docs/HAILO10H_DYNAMIC_SOURCE_HISTORY_DESIGN.md. Publish before implementing new
+source-bound policy/insertion-history modules and inspectors. Existing graph/cache
+consumers remain unchanged in phase1. Phase2 still requires its own exact contract.
+
 Next publish an exact original source/policy/API/recipe/consumer/domain/lifetime/
 storage and independent acceptance contract. Keep original configured/raw contexts,
 qualified dynamic baseline, actual position extents, cache allocation capacity,
