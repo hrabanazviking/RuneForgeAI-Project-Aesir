@@ -1,0 +1,126 @@
+{
+  "scope": "read-only next-work inventory, no new supported capability",
+  "fields": [
+    {
+      "field": "hidden_act",
+      "source_present": true,
+      "source_value": "silu",
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "rms_norm_eps",
+      "source_present": true,
+      "source_value": 1e-06,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "rope_theta",
+      "source_present": true,
+      "source_value": 5000000.0,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "rope_scaling",
+      "source_present": true,
+      "source_value": null,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "head_dim",
+      "source_present": false,
+      "source_value": "ABSENT",
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "use_sliding_window",
+      "source_present": true,
+      "source_value": false,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "sliding_window",
+      "source_present": true,
+      "source_value": null,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "layer_types",
+      "source_present": true,
+      "source_value": [
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention"
+      ],
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "use_cache",
+      "source_present": true,
+      "source_value": false,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "pretraining_tp",
+      "source_present": true,
+      "source_value": 2,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "attention_bias",
+      "source_present": true,
+      "source_value": false,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "mlp_bias",
+      "source_present": true,
+      "source_value": false,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "tie_word_embeddings",
+      "source_present": true,
+      "source_value": true,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    },
+    {
+      "field": "max_position_embeddings",
+      "source_present": true,
+      "source_value": 65536,
+      "next_gate": "qualify original architecture semantics and source scalar precision; retain raw source"
+    }
+  ]
+}

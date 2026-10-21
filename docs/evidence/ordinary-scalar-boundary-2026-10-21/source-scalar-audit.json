@@ -1,0 +1,33 @@
+{
+  "scope": "next-work source scalar boundary audit; not an implementation or device certificate",
+  "source_sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+  "source_fields": [
+    {
+      "field": "rms_norm_eps",
+      "source_decimal": "0.000001",
+      "source_binary64_bits": 4517329193108106637,
+      "legacy_binary32_bits": 897988541,
+      "binary32_exactly_preserves_binary64": false,
+      "binary32_value": "9.999999974752427e-07",
+      "decimal_difference": "-2.524757292121648788452148438E-15"
+    },
+    {
+      "field": "rope_theta",
+      "source_decimal": "5000000.0",
+      "source_binary64_bits": 4707126720094797824,
+      "legacy_binary32_bits": 1251513984,
+      "binary32_exactly_preserves_binary64": true,
+      "binary32_value": "5000000.0",
+      "decimal_difference": "0.0"
+    }
+  ],
+  "current_native_owners": {
+    "ordinary": "SourceDecoderArchitecture.scalars:Dict[String,Float64]",
+    "typed": "DenseDecoderParameters/SemanticPlan.rms_epsilon,rope_base:Float32",
+    "recipe": "epsilon_bits/rotary_base_bits:UInt32"
+  },
+  "required_work": "Carry source scalar words and explicit constant-conversion/precision provenance through typed math and all affected consumers. Publish exact API/accounting/compatibility contract before code. Do not require source values to be exactly Float32-representable as a permanent model rule.",
+  "ordinary_adapter_complete": false,
+  "device_execution_verified": false,
+  "model_forward": false
+}

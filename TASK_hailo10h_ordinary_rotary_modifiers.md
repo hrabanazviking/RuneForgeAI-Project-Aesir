@@ -43,3 +43,9 @@ basis facts and both explicit pairing policies are retained. Continue actual
 ordinary scalar/modifier/precision reconciliation and complete adapter, alongside
 actual numerical Hailo configuration/encoding/program/result work. No implicit
 source basis, full ordinary support or numerical execution has been certified.
+
+Next active child:TASK_hailo10h_source_scalar_precision.md. Read-only audit found
+ordinary Float64 source constants crossing legacy Float32 typed/recipe fields;
+resolve representation/precision provenance explicitly before connecting the
+complete ordinary adapter. This is implementation work, never a source eligibility
+restriction or permission to change the owner's broad target.
