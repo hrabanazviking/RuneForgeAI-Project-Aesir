@@ -90,7 +90,14 @@ Add dedicated window_tokens metadata to PrimitiveRecipe and ExpandedOperation
 constructor with an optional trailing field. Preserve exact source/recipe/global snapshots,
 inputs, shapes, domain and lifetime validation. Recompute expected recipe state
 rather than trusting serialized metadata. Expanded storage validates the new
-index/predicate/broadcast roles and exact hypothetical byte timelines. Cache,
+index/predicate/broadcast roles and exact hypothetical byte timelines. Internal
+prefix indices are ephemeral activation storage in the index domain, charged by
+index_width and a separate index_live_bytes timeline; they are neither external
+input_bytes nor real-domain activation bytes. activation_live_bytes and its peak
+sum real, predicate and internal index timelines. Preserve the old storage-result
+positional constructor via an optional trailing index timeline. Serialize that
+new timeline only for explicit window output; legacy complete JSON is unchanged.
+Cache,
 matrix, semantic storage, bias/activation/session guards must validate window
 state before relying on the selected mask; no recursive guard cycle.
 
