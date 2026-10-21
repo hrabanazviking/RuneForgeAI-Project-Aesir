@@ -500,3 +500,35 @@ and legacy complete outputs stay unchanged. The new session graph tool is
 `tools/decoder_session_graph.mojo`; formatters are `tools/session_policy.mojo`.
 Receipt docs/HAILO10H_MOJO_DECODER_SESSION.md. This is mathematical compiler
 support, not complete ordinary architecture or numerical Hailo execution.
+
+
+## Explicit original per-layer causal windows
+
+`window_policy.mojo` adds owned DecoderWindowPolicy(windows,origin,provenance,work),
+width0 full causal/positive window including current key; origin source/invocation.
+Exact129*layers+UTF8(origin/provenance) charge precedes own copies/source growth.
+`decoder_window_source.mojo` validates the complete original architecture before
+qualified source-pattern projection; raw/default/dormant/unresolved facts remain.
+
+New DenseDecoderParameters and DecoderGeometry/DecoderScalars overloads accept
+graph,bias,activation,session,
+window policies before query/past/capacity. Explicit windows require a session.
+Source SemanticOperation.window_tokens independently binds positive mask width;
+other operations retain0. Its constructor/emit and ExpandedOperation preserve old
+positional calls with optional trailing metadata. Full causal topology stays
+unchanged. Neither session cache mode nor formal returned K/V content is compacted.
+
+Positive masks lower to original prefix_key_indices/causal_window_predicate/
+select_negative_infinity math with exact input maps, index/predicate/real domains,
+source/recipe/global snapshots and lifetimes. Validate causality before index
+subtraction. Temporary indices are activation storage at index_width, with separate
+index_live_bytes; activation peak sums real, predicate and index temporaries.
+External inputs remain separate. The storage-result constructor preserves old
+positional calls via an optional trailing timeline. All compiler consumers reject
+window policy/source-operation/recipe/domain/lifetime inconsistencies.
+
+Only explicit window output uses schema6 and new descriptors/timeline; older
+complete outputs remain unchanged. New inspector `tools/decoder_window_graph.mojo`
+and formatter `tools/window_policy.mojo` retain source32/64 words. Receipt:
+docs/HAILO10H_MOJO_DECODER_WINDOW.md. No numerical attention/model forward,
+physical cache compaction, device encoding/fit or source-model execution claim.

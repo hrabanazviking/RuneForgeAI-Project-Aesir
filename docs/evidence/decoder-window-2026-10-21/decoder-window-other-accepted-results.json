@@ -1,0 +1,50 @@
+[
+  {
+    "suite": "decoder_projections",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_projections.py",
+      "--binary",
+      "../decoder-window-final/decoder-projections",
+      "--api",
+      "../decoder-window-final/decoder-projections-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--header0",
+      "../ordinary-binding-study/0-header.json",
+      "--header1",
+      "../ordinary-binding-study/1-header.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-window-other-accepted/decoder_projections"
+    ]
+  },
+  {
+    "suite": "ordinary_projection_schema",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_ordinary_projection_schema.py",
+      "--binary",
+      "../decoder-window-final/ordinary-schema",
+      "--api",
+      "../decoder-window-final/ordinary-schema-api",
+      "--legacy",
+      "../decoder-window-final/decoder-projections",
+      "--frozen",
+      "../ordinary-projection-schema-baseline/decoder-projections",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--header0",
+      "../ordinary-binding-study/0-header.json",
+      "--header1",
+      "../ordinary-binding-study/1-header.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-window-other-accepted/ordinary_projection_schema"
+    ]
+  }
+]

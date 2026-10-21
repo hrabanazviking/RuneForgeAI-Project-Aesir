@@ -1,0 +1,2432 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/extra-build-results.json",
+    "bytes": 543,
+    "mode": "0o644",
+    "sha256": "ced679c4207f9c8a636dc04399a5ccef685786f63acdcf813d8fd874253fe3cf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-api",
+    "bytes": 1221464,
+    "mode": "0o755",
+    "sha256": "7f69fd32977a7f7c7f2e0c760806dd064de2147d521fc8216254f0d525c13586"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-gguf",
+    "bytes": 921568,
+    "mode": "0o755",
+    "sha256": "f6727690899448b757ed22955e86a31a6886f0bfbf4a3005f668cf9c5fba0f93"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-graph",
+    "bytes": 1226528,
+    "mode": "0o755",
+    "sha256": "143b5d78691b4129b7bd04acfceec7d1d36cdbdbaa4643baede5c79071d63779"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-indices",
+    "bytes": 86752,
+    "mode": "0o755",
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-indices-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-ownership",
+    "bytes": 1147096,
+    "mode": "0o755",
+    "sha256": "fef222d820ff655a705a1e0c7865d0c7e75f9da94f9faed6438afee431efb033"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-policy",
+    "bytes": 91648,
+    "mode": "0o755",
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-source",
+    "bytes": 569624,
+    "mode": "0o755",
+    "sha256": "ccb719fc4f8231fcd1693dcf63dffd20609f65aa4bb31aff74e3625308d3cada"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-initial/window-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/build-results.json",
+    "bytes": 1527,
+    "mode": "0o644",
+    "sha256": "9cf156246c2b7a48ec043533727a3517671047e3e736c4e9bcb823abac5bf60e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/source-hashes.json",
+    "bytes": 19607,
+    "mode": "0o644",
+    "sha256": "e56f8287a1fec124bc92a651d7f48ae2f77da8e1a21d9ad7f54774ec52e8e397"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-api",
+    "bytes": 1221520,
+    "mode": "0o755",
+    "sha256": "5d338ff67643bcee72d15f6c72eb4587b7ccc21c3decd6ec1165c63a666b9e6e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-gguf",
+    "bytes": 921624,
+    "mode": "0o755",
+    "sha256": "711e7e279bc1c5c0747d45fd5ca3b8fbc16f8f862ce5af016f5e7806b831b725"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-graph",
+    "bytes": 1226584,
+    "mode": "0o755",
+    "sha256": "a2bda42999ae9f524f8014fd832517152169e5712ec2d3da63c7d7f60027e89c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-indices",
+    "bytes": 86752,
+    "mode": "0o755",
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-indices-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-ownership",
+    "bytes": 1147152,
+    "mode": "0o755",
+    "sha256": "871c940d756c095601f05ee245e82792d187843b657992f1c020acdf837a2314"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-policy",
+    "bytes": 91648,
+    "mode": "0o755",
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-source",
+    "bytes": 569624,
+    "mode": "0o755",
+    "sha256": "ccb719fc4f8231fcd1693dcf63dffd20609f65aa4bb31aff74e3625308d3cada"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused/window-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/activation-api",
+    "bytes": 1084984,
+    "mode": "0o755",
+    "sha256": "73b3b1a941ad23895e09cca378e7fff188e39ea7be9349a14d1661b7434d4bfa"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/activation-consumers",
+    "bytes": 647504,
+    "mode": "0o755",
+    "sha256": "4e395c209beb1a95b591e054617b43a300e53b3fe0baae88b0e2e12bb86e26f6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/activation-gguf",
+    "bytes": 851192,
+    "mode": "0o755",
+    "sha256": "41b54f07b0ee22ba0e1c0df87621ec0b27a166b94fb72338da6620354b8779a1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/activation-graph",
+    "bytes": 1156184,
+    "mode": "0o755",
+    "sha256": "58541d5fd872b3aa5bc9c25a767742d0607dd458c3bc35b1bf91a89d075d060d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/activation-ownership",
+    "bytes": 1010544,
+    "mode": "0o755",
+    "sha256": "1b9a3e6d9a0b91ee6f906604eaa1a56815ef249c30dff20b30451024ad9b6eb5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/bias-consumers",
+    "bytes": 647040,
+    "mode": "0o755",
+    "sha256": "25ff804a94763d7c723caf2ce6e66c1efd4770be0742dd40d641d4192863d6e1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/bias-gguf",
+    "bytes": 851016,
+    "mode": "0o755",
+    "sha256": "8ddc35f899eb55f25eca2e405f9a70d8575df8fb8cb453a4048719737727bb70"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/bias-ownership",
+    "bytes": 1009256,
+    "mode": "0o755",
+    "sha256": "ed8811949e835bc2fc0bedc4d2a07cedfd5fa65a08598209bcf45cb0d8478512"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/build-results.json",
+    "bytes": 12639,
+    "mode": "0o644",
+    "sha256": "72dbab5709e0c56a0d3a73e3e5b7208d2a6f2243c0e921e2005a6c12c485f500"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/decoder-bias-api",
+    "bytes": 1012352,
+    "mode": "0o755",
+    "sha256": "b41995369a83a674a155353290e17017754d68908a6a47eb52e28937cb9600ba"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/decoder-bias-graph",
+    "bytes": 1155560,
+    "mode": "0o755",
+    "sha256": "aec4ed293ba354ffd15ba698506f74a112866f4e716e4ccfc6da1939a718280b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/decoder-graph-policy",
+    "bytes": 854064,
+    "mode": "0o755",
+    "sha256": "4c521a5b281d92fa109c9cf726a496f2fa2eb53a1853f15261cefd3779e4a302"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/decoder-graph-policy-api",
+    "bytes": 1004584,
+    "mode": "0o755",
+    "sha256": "3925ba8b504fe7da887826365f521cb5c6b307e9c09e86153993941484cacb09"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/decoder-projections",
+    "bytes": 567464,
+    "mode": "0o755",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/decoder-projections-api",
+    "bytes": 568128,
+    "mode": "0o755",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/decoder-scalar-source",
+    "bytes": 1005640,
+    "mode": "0o755",
+    "sha256": "3bef267eabc9396486b20c9c0645d9ec661dab1450251ec93ad0fb7bd2e639f4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/ordinary-schema",
+    "bytes": 568488,
+    "mode": "0o755",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/ordinary-schema-api",
+    "bytes": 569952,
+    "mode": "0o755",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/rotary-api",
+    "bytes": 703608,
+    "mode": "0o755",
+    "sha256": "60defaf71833e9161242feb61bcb3d7eac184ae38c20bda3f7101c5ab2ac6ba8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/rotary-recipes",
+    "bytes": 850584,
+    "mode": "0o755",
+    "sha256": "73fe573dc1c6f12d93544bde05d3f2721b9adc910afa784bdfb755b021aabf2d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/session-api",
+    "bytes": 1086168,
+    "mode": "0o755",
+    "sha256": "05b123d009860ce26e652b72cda6f31d19dbca50b0634c12936400a4dcaf8d0c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/session-gguf",
+    "bytes": 851656,
+    "mode": "0o755",
+    "sha256": "2218603067b12cbacf8288ee3c244e2dabcfc1d259a376f00f418a13e5638b98"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/session-graph",
+    "bytes": 1156160,
+    "mode": "0o755",
+    "sha256": "d706d23070084016ac3d7280b8530774f13463a33cf6e1bfbcf0dcd63afa8e50"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/session-ownership",
+    "bytes": 1011344,
+    "mode": "0o755",
+    "sha256": "75a8b2af09ebb15aeee6c7e1942361b329cb8015f3ad5035a420b34bdd3b7c06"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/session-source",
+    "bytes": 570120,
+    "mode": "0o755",
+    "sha256": "e73f01542f3d652dfee2e7a1c6548be6d8759367e13a6becd1add83b9fb867c6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/source-hashes.json",
+    "bytes": 18557,
+    "mode": "0o644",
+    "sha256": "49ed5229d42800c3dd873be4f9028bab7cde14082cb4e3e54f4a7bc04030cb3b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/source-scalars-api",
+    "bytes": 853880,
+    "mode": "0o755",
+    "sha256": "4f20ba070250dda0c4c88720974a59dd76cab96a88bb8bb9862daedb49dba94a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-cache-api",
+    "bytes": 481536,
+    "mode": "0o755",
+    "sha256": "e786de731cc35ce69eaeb1158e2379ca348454dd0d4fe6b8e5eba4379a9c46ff"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-cache-layout",
+    "bytes": 485304,
+    "mode": "0o755",
+    "sha256": "374a97db9397143b159e755462d9e5adf0ae73fcb511e78c71ba770a45c39cf2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-expanded-api",
+    "bytes": 556752,
+    "mode": "0o755",
+    "sha256": "7c4fe9137c7890fedd6e7016d6b8274ce89eae240dd68b149f7f462455f033ab"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-expanded-graph",
+    "bytes": 568056,
+    "mode": "0o755",
+    "sha256": "1a8aa7a8e4ef4b34297aac06a2421ab2adc1a62b0d2d216dc0bb714a9d47804e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-expanded-storage",
+    "bytes": 705128,
+    "mode": "0o755",
+    "sha256": "e1eca5aea6b402fbe69778870dfabd6c43e417e3ba00ac186606f3a1e8f61167"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-expanded-storage-api",
+    "bytes": 700832,
+    "mode": "0o755",
+    "sha256": "5df7e00306bd8b2ea860b4edf43a622da01ce5c10da3bc2ec6ecfb4a1682a320"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-float-api",
+    "bytes": 168320,
+    "mode": "0o755",
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-float-constants",
+    "bytes": 170360,
+    "mode": "0o755",
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-matrix-api",
+    "bytes": 336032,
+    "mode": "0o755",
+    "sha256": "e5ba03ff5b316e2cac6091eca20acb32e6818e682a8b9167bbd0257ef454af22"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-matrix-tiles",
+    "bytes": 415768,
+    "mode": "0o755",
+    "sha256": "b3e60d63b42c57bb61bcd87731dd32fc048613c716b41a1e4b024142be32f031"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-primitive-api",
+    "bytes": 485376,
+    "mode": "0o755",
+    "sha256": "6436379cd52c0f05aed03253970fa667de50806cfde23ed5d8281ad838c230e3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-primitive-recipes",
+    "bytes": 496776,
+    "mode": "0o755",
+    "sha256": "061c3543b6a36cda6019487a55def07948a1b12364f039bb229d9847efe2290f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-q4k-api",
+    "bytes": 168160,
+    "mode": "0o755",
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-q4k-constants",
+    "bytes": 174976,
+    "mode": "0o755",
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-q5q6-api",
+    "bytes": 170128,
+    "mode": "0o755",
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-q5q6-constants",
+    "bytes": 169952,
+    "mode": "0o755",
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-semantic-plan",
+    "bytes": 346896,
+    "mode": "0o755",
+    "sha256": "aeec7ac5970e2426a56346e1e6ea4f6a9ad78683721a96b74adc9092fba9dcd3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-semantic-storage",
+    "bytes": 262840,
+    "mode": "0o755",
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-semantic-storage-api",
+    "bytes": 866776,
+    "mode": "0o755",
+    "sha256": "b981ca9e534bb9da84ea6bf7526468a5df194607f52f2fd468f81d2644ef60f8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-source-inventory",
+    "bytes": 253464,
+    "mode": "0o755",
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-source-weight-api",
+    "bytes": 413600,
+    "mode": "0o755",
+    "sha256": "a9858a9632cd29a8fe2337214a7b643b0ee01b4d00283241df14918513a07f23"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-source-weight-tiles",
+    "bytes": 416528,
+    "mode": "0o755",
+    "sha256": "1db6f9f1895d9727a9ca99cf0efe8f0891c0c7d2300be179be35f50bc8029457"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-storage-api",
+    "bytes": 407904,
+    "mode": "0o755",
+    "sha256": "5968b0da74c3895d3ccd3dd38a6680877d12ed3d97e2504fff9e4671779eabcd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-storage-estimate",
+    "bytes": 414648,
+    "mode": "0o755",
+    "sha256": "b0b8b17b096e5f8175fc3aacdb62d406c2c3f9efcd1cf8f2651448b17d233a37"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-typed-api",
+    "bytes": 339368,
+    "mode": "0o755",
+    "sha256": "ac71c7f85715a4c71d82d4c74f73156f2ead76fe0f18c9d7843d03ffa7d4f51a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-baseline/tagged-typed-decoder",
+    "bytes": 419144,
+    "mode": "0o755",
+    "sha256": "06750381f675c8dc1d69d5a02b1ad1d158a325446f1766d2e36a7ccb9db54afb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-api",
+    "bytes": 1154928,
+    "mode": "0o755",
+    "sha256": "feb5ddff9642fa9e786746b71ea63338df265392f988b09f910aca6375d03724"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-consumers",
+    "bytes": 714448,
+    "mode": "0o755",
+    "sha256": "95c408d59e46d9dfbe635aba9754f980c79075b80c072281091ed7a5facfda2e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-consumers-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-gguf",
+    "bytes": 921120,
+    "mode": "0o755",
+    "sha256": "92f887e1283ec48412c0e15c8eda5b5966d50f7bda5afb7732afff2a13c490d7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-graph",
+    "bytes": 1226112,
+    "mode": "0o755",
+    "sha256": "899b8200df6c0468b17371dc7aee92bc02dd622d934977eabe51eb7bca724fc9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-ownership",
+    "bytes": 1080496,
+    "mode": "0o755",
+    "sha256": "8eee72a8f9ee0eca99d8fe75b69ab73c7d01d73d35f74d925c2187be1e5dd3c2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/activation-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/bias-consumers",
+    "bytes": 648448,
+    "mode": "0o755",
+    "sha256": "9982560b9693a5c6b70d6f642726dcbf836f0de93d288d4665237153450b2524"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/bias-consumers-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/bias-gguf",
+    "bytes": 920944,
+    "mode": "0o755",
+    "sha256": "8c7ab1eb97cc7c3f6bd8da89a3cf6036cfe29c6016431f7de57f0115a5def35c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/bias-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/bias-ownership",
+    "bytes": 1079160,
+    "mode": "0o755",
+    "sha256": "963fb32bb83961d7d2cdcb1e4500ae98c19a1f112db2dc74bc7009abcd14a321"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/bias-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/build-results.json",
+    "bytes": 12925,
+    "mode": "0o644",
+    "sha256": "2319d108857fba0ae56e77804b9be5eaa3e848ca3f1c104fa9be93cdc71e249d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-bias-api",
+    "bytes": 1082280,
+    "mode": "0o755",
+    "sha256": "0df2b2e3653595b2cc06890dec2aa2f7aa6eef8fde988bb3386b9d1bf21869dd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-bias-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-bias-graph",
+    "bytes": 1225488,
+    "mode": "0o755",
+    "sha256": "24a14e0b6a0756d17532c8bf13c6867193af3ea4f42ca443712d10bbe3de7557"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-bias-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-graph-policy",
+    "bytes": 923760,
+    "mode": "0o755",
+    "sha256": "a43718a4216a2f00d9736673c32105c073e478991d66cefebc963ad81259523e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-graph-policy-api",
+    "bytes": 1074264,
+    "mode": "0o755",
+    "sha256": "f2d7a05ca00bffc7be2d61d85296e77f15a189ea4ee06490ac07a11934a1c596"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-graph-policy-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-graph-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-projections",
+    "bytes": 567464,
+    "mode": "0o755",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-projections-api",
+    "bytes": 568128,
+    "mode": "0o755",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-projections-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-projections-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-scalar-source",
+    "bytes": 1075568,
+    "mode": "0o755",
+    "sha256": "799016e008134a8f4f00d1d155a8409122a0c41fcd1f0f38fd39d97dce890698"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/decoder-scalar-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/ordinary-schema",
+    "bytes": 568488,
+    "mode": "0o755",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/ordinary-schema-api",
+    "bytes": 569952,
+    "mode": "0o755",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/ordinary-schema-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/ordinary-schema-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/rotary-api",
+    "bytes": 772952,
+    "mode": "0o755",
+    "sha256": "80b1ef584da9de0b68c6993bea3796c2dbc6b1d83ad94aa9a153f5fcc8b53445"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/rotary-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/rotary-recipes",
+    "bytes": 920512,
+    "mode": "0o755",
+    "sha256": "5c01b3ec74a5b3c2df4df4dc6cb6c1c4d95794e991e5f429522295f56bb4b6f7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/rotary-recipes-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-api",
+    "bytes": 1156096,
+    "mode": "0o755",
+    "sha256": "7ac6f5bd445af3c1a24cf0f7fa2b0652b1c49165f678a881778df544f1375e3e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-gguf",
+    "bytes": 921984,
+    "mode": "0o755",
+    "sha256": "9641774ca460adb959bc89175631f53c3a33a45958aff7860690c6a11624b631"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-graph",
+    "bytes": 1226488,
+    "mode": "0o755",
+    "sha256": "3d7bd76337708c31cfeb32a186e3891c45fa46077d2e1370d9d71313018c67a0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-ownership",
+    "bytes": 1147208,
+    "mode": "0o755",
+    "sha256": "fa5f5194439bdd3c818694d40efdb8ecee0cddf8d9dbb3a9c0a0fe6a35f929f6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-source",
+    "bytes": 570120,
+    "mode": "0o755",
+    "sha256": "e73f01542f3d652dfee2e7a1c6548be6d8759367e13a6becd1add83b9fb867c6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/session-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/source-hashes.json",
+    "bytes": 19607,
+    "mode": "0o644",
+    "sha256": "bd5e4da62dec2d03b55ddda80a6cce0f9aab02f4c9baf680d66defde6170f422"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/source-scalars-api",
+    "bytes": 923808,
+    "mode": "0o755",
+    "sha256": "ff5d40ea1acf93df2ee0d7b607862026434e545840bdf679af7acc0773208f21"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/source-scalars-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-cache-api",
+    "bytes": 483440,
+    "mode": "0o755",
+    "sha256": "c12473ab8279895408b881e139d2f965451b7ba69ce7e76463747141d402d781"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-cache-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-cache-layout",
+    "bytes": 487208,
+    "mode": "0o755",
+    "sha256": "da4340bf6e67179d925302331d7ae4584c4eac363a147980349b456db0c37c6f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-cache-layout-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-api",
+    "bytes": 559016,
+    "mode": "0o755",
+    "sha256": "e25446dcb00302c002eec532eaec31385074156014d6d25a6a2c6cbf91d950d7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-graph",
+    "bytes": 636168,
+    "mode": "0o755",
+    "sha256": "4838437f0f47a9291040fd577a7b5a78acd0a76d5dbd41a930886879921fb7a6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-storage",
+    "bytes": 774480,
+    "mode": "0o755",
+    "sha256": "21dcb1ec64035ebaf20b454ac7976eb48701923e76571a8ab9ff86f8e9a87b99"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-storage-api",
+    "bytes": 770184,
+    "mode": "0o755",
+    "sha256": "1bbb2f6d3db651d287288d4b9b21d32d033128d7c274357d9af837a1b3f8c373"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-expanded-storage-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-float-api",
+    "bytes": 168320,
+    "mode": "0o755",
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-float-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-float-constants",
+    "bytes": 170360,
+    "mode": "0o755",
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-float-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-matrix-api",
+    "bytes": 337240,
+    "mode": "0o755",
+    "sha256": "911269d1e63235b00c87a8424cfbf4deda34fe16b93974f564e913ad2d7fd8c9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-matrix-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-matrix-tiles",
+    "bytes": 417688,
+    "mode": "0o755",
+    "sha256": "42138566996d1ffb0cc05787ed8a1ab744e444b55fd9109db1b86087f6cbaad8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-matrix-tiles-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-primitive-api",
+    "bytes": 487568,
+    "mode": "0o755",
+    "sha256": "103c329c836cb628ca12b5e9ed217d66b7318dfe37f124421965ce2b8d608cf9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-primitive-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-primitive-recipes",
+    "bytes": 564832,
+    "mode": "0o755",
+    "sha256": "3ed6fbdc9b826c7de9d1032c2e6c3dd9c437c6ce52a4237926849854477b5365"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-primitive-recipes-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q4k-api",
+    "bytes": 168160,
+    "mode": "0o755",
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q4k-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q4k-constants",
+    "bytes": 174976,
+    "mode": "0o755",
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q4k-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q5q6-api",
+    "bytes": 170128,
+    "mode": "0o755",
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q5q6-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q5q6-constants",
+    "bytes": 169952,
+    "mode": "0o755",
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-q5q6-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-semantic-plan",
+    "bytes": 348080,
+    "mode": "0o755",
+    "sha256": "2d6d721c382cbc46a3efb22927c917db7abcbbd30a2e0c40e18f95c1e37e17ce"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-semantic-plan-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-semantic-storage",
+    "bytes": 262840,
+    "mode": "0o755",
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-semantic-storage-api",
+    "bytes": 935896,
+    "mode": "0o755",
+    "sha256": "a5925027433c632a457dc42c3cfe6cbd232f219b7df9318071fa08bd43d6a791"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-semantic-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-semantic-storage-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-source-inventory",
+    "bytes": 253464,
+    "mode": "0o755",
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-source-inventory-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-source-weight-api",
+    "bytes": 415520,
+    "mode": "0o755",
+    "sha256": "efcf82a16b0ba0ef47ae7d91c5c51937710f41a8c456c0d0b975adaaa765e194"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-source-weight-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-source-weight-tiles",
+    "bytes": 483984,
+    "mode": "0o755",
+    "sha256": "b130c00244f0319cbd218455873804dd9420ada530f48d2b1df948181860cb5a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-source-weight-tiles-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-storage-api",
+    "bytes": 409824,
+    "mode": "0o755",
+    "sha256": "8dc2ea99bff65be09c658ec3e503a6175a3cb88106bf917612b1fa8543c9c4f8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-storage-estimate",
+    "bytes": 416568,
+    "mode": "0o755",
+    "sha256": "15c1c6717df8f84ef26a306bb895f397c22a5e4410a06368e2833297eed91063"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-storage-estimate-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-typed-api",
+    "bytes": 340552,
+    "mode": "0o755",
+    "sha256": "e63b9c6b5c403e2216b73346df62fc28029a3f1947b1022816c27ef483b2c70d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-typed-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-typed-decoder",
+    "bytes": 420320,
+    "mode": "0o755",
+    "sha256": "55fbf9e93de0bafdc72d924b0d79ad4741da6e515818520c4e4824afe195663c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/tagged-typed-decoder-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-api",
+    "bytes": 1222016,
+    "mode": "0o755",
+    "sha256": "421be76c81786fdce814f0c5185c765174e27fed4d28f2a95ba011f53e6b68d5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-gguf",
+    "bytes": 921760,
+    "mode": "0o755",
+    "sha256": "b417ac42c95a62623afbdafd6044a1fcf5b0e33a4aa5abd4905bc12cb194f1b0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-graph",
+    "bytes": 1226744,
+    "mode": "0o755",
+    "sha256": "015779ac5a166a7539e488713d76849484286dc20b27d53add33966b96c86992"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-indices",
+    "bytes": 86752,
+    "mode": "0o755",
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-indices-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-ownership",
+    "bytes": 1147312,
+    "mode": "0o755",
+    "sha256": "0786730591fc6156e84d576646ca6562d45acffe1051af916ec56d9b5850a76d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-policy",
+    "bytes": 91648,
+    "mode": "0o755",
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-source",
+    "bytes": 569624,
+    "mode": "0o755",
+    "sha256": "ccb719fc4f8231fcd1693dcf63dffd20609f65aa4bb31aff74e3625308d3cada"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-final/window-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-preliminary-grid/runs.json",
+    "bytes": 70347,
+    "mode": "0o644",
+    "sha256": "e44fb3a35f0497790131e6ccef0717bfdd9384a876182ffa5cfed94e815bee1e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-preliminary-grid/summary.json",
+    "bytes": 38,
+    "mode": "0o644",
+    "sha256": "745d984aa77d70d7cd73df302216e095c12b5a152a8755b2e6ed592994290aea"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-preliminary-source/runs.json",
+    "bytes": 422,
+    "mode": "0o644",
+    "sha256": "af14987dba420a25b9b94f5a3feb7637c085d2b69a3758ca3a2ac9c3d154f7c8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-preliminary-source/summary.json",
+    "bytes": 20,
+    "mode": "0o644",
+    "sha256": "f2eed33778e57fe510aa0443ffde0fa7ba84d53d688e617161b6d63fa695bf6d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/cached_append-requested32-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "b5188fd721d185ca114bb9f102823177919808dfd122758ac9b771d0a99ee1c1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/cached_append-requested32-1.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "5bf91a34ad6988abedb92b2e54f08878ded3db8f2d7f9b283ef6fe7f4fb45164"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/cached_append-source64-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "5bdd655e4e41c283deaec2ea67a770bd2ae2d889e7a0630a38fe8ef70ba66310"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/cached_append-source64-1.strace",
+    "bytes": 87548,
+    "mode": "0o644",
+    "sha256": "c8bfe1cd6724f0749916163d833e22c74541686afd66a165f8fce9ebfc3ebba7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/full_prefix-requested32-0.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "e4ae44d4832d7962ff421a553c220ca3cef2efa7c04d45525bbdca75648785df"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/full_prefix-requested32-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "72d0bc45f0d202419bddb0febe3981a8e2ffa9d78fc80e753293adfdabe3f36a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/full_prefix-source64-0.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "5ad8e9afc01fe1286dc36fcab1711cff74c84325e0d1f4d8ca2f5c94b68eedb2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/full_prefix-source64-1.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "1fd7fee15778ae46cd73579dfb4a23da5fb88282d2af90f9fa3a12b9fda1e80a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/runs.json",
+    "bytes": 397540,
+    "mode": "0o644",
+    "sha256": "4886c0500302b6a72f9c618ffd8cb197209cb44174cf95c857fa1ad5924ab58f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-verification/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "08f6a0400de89964ce7b9edd9063611a6d28984a13bbd16ea5a9b10b12440acf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-corrections/runs.json",
+    "bytes": 41343,
+    "mode": "0o644",
+    "sha256": "0d5f12869413e50d07a34f3a79937af662a81179c1bcd9593b88c6118cf4484b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-focused-corrections/summary.json",
+    "bytes": 37,
+    "mode": "0o644",
+    "sha256": "b147b2a6f0a42a27362b7d987ea26431ea75d02c8584f274374c4486d60c0b7b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/cache_layout/layout.strace",
+    "bytes": 24883,
+    "mode": "0o644",
+    "sha256": "a8b1c6949bf61932c91d0e9961dafb35029cae95195ee39d86e96e83da4bb2c6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/cache_layout/runs.json",
+    "bytes": 64230,
+    "mode": "0o644",
+    "sha256": "4d73367c5bd1afcbafd22769aad3f28c35e73917061bdf5c5a4e83c184d88274"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/cache_layout-test.txt",
+    "bytes": 153,
+    "mode": "0o644",
+    "sha256": "ebdf958e49c91395f238ce0c7d6a95b5a2509e2fddd82c3b5e0e976ceccf702a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/expanded_graph/expanded.strace",
+    "bytes": 26037,
+    "mode": "0o644",
+    "sha256": "6108256b4f6820d8d10af76c3de57d0d47849b310bb3b1dc4b028d3c9fd4baa6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/expanded_graph/runs.json",
+    "bytes": 621556,
+    "mode": "0o644",
+    "sha256": "cacc6679cb868dc8114791ad3167d4194638baab45ba5ae6b15505aa650d5c5b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/expanded_graph-test.txt",
+    "bytes": 622,
+    "mode": "0o644",
+    "sha256": "d8c0f8f9ea0b1ff9b50fa8f35180a4aedc64af819dc590e6fc59b00fbe30b30a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/expanded_storage/expanded-storage.strace",
+    "bytes": 26089,
+    "mode": "0o644",
+    "sha256": "2013a4e548687d6ff5628db7848e8623c68c4d6ac4dbd734b730b24a8fb8ebb6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/expanded_storage/runs.json",
+    "bytes": 428052,
+    "mode": "0o644",
+    "sha256": "1e8ac9c2f77dbe0c99a66cc771982a85ec97afb77c01edb3f5dde88c9949dc51"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/expanded_storage-test.txt",
+    "bytes": 207,
+    "mode": "0o644",
+    "sha256": "990cae095bd879166aaf01515978ddd01d0b822030ae63b50c94af16dd8a8175"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/matrix_tiles/runs.json",
+    "bytes": 690495,
+    "mode": "0o644",
+    "sha256": "bf67273be3cd4ce40bb0160b67d75b1f28416ab8010104f25262346536c316b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/matrix_tiles/schedule.strace",
+    "bytes": 24873,
+    "mode": "0o644",
+    "sha256": "88b20f6820b3b722b0ec55e1688bcd423a43fd458cdff3b51f49091796dd7a93"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/matrix_tiles/summary.json",
+    "bytes": 92,
+    "mode": "0o644",
+    "sha256": "8c7cc25194815f0879598b63789117f7b5e1fb963f9c260fffb9995ee4955d59"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/matrix_tiles-test.txt",
+    "bytes": 180,
+    "mode": "0o644",
+    "sha256": "00d665d77815618168f7ff02cf78e7baf4f7e436ed4eadf376e251884fa74048"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/primitive_recipes/recipes.strace",
+    "bytes": 26093,
+    "mode": "0o644",
+    "sha256": "a1916d03cfc38276e82889768160c6c5e87e93104e4f2cad9ba795c2e1230f79"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/primitive_recipes/runs.json",
+    "bytes": 267602,
+    "mode": "0o644",
+    "sha256": "825e18b91cf8b4ebbbcc79cc5c54159eb74fc85ef0f68909621d88672106c466"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/primitive_recipes/tiny-primitive-results.json",
+    "bytes": 6900,
+    "mode": "0o644",
+    "sha256": "222d4ea54b856bd4ed84b5e1f19fbb240a7ae3e3c19e7d6e31bc33534b3b236e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/primitive_recipes-test.txt",
+    "bytes": 723,
+    "mode": "0o644",
+    "sha256": "5cd559687695d1b95b32d96fdafd5a15559746ae393107d5dbe92d7cd693a610"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_plan/fixture-runs.json",
+    "bytes": 151248,
+    "mode": "0o644",
+    "sha256": "bf27848cd0bbb8189662b99d294d90182c4d0244020c1b5b8048de7c9d2dce21"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_plan/source-graph.strace",
+    "bytes": 26077,
+    "mode": "0o644",
+    "sha256": "c7951a671530ab716d2bfb68555fbbda6efc50300474dc0869529ecbe2fc7b6f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_plan-test.txt",
+    "bytes": 107,
+    "mode": "0o644",
+    "sha256": "dc70fef30db22c002e23f92d965b12107b8bbf011f9d7a1183442b04dd3fc022"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage/baseline-binaries.json",
+    "bytes": 1710,
+    "mode": "0o644",
+    "sha256": "04038d973d5dba4dc3581765a93c8eb8eec1fff075e1c3dfd040a9538b72b0d0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage/ordinary-sharded.strace",
+    "bytes": 27169,
+    "mode": "0o644",
+    "sha256": "7ef338cd9611d94ea6644e92fb3e03869404e701d84db02bd58b2e533ec3bd8e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage/ordinary-single.strace",
+    "bytes": 26586,
+    "mode": "0o644",
+    "sha256": "d927c2a574071762e78d050a0380393f8671b7eb8e711a06b3301c2b2b49b907"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage/runs.json",
+    "bytes": 141300,
+    "mode": "0o644",
+    "sha256": "61bb0fb4e470bb5f89010da13af8fa76a2c430bcdd7955404c38c219dc630237"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage/summary.json",
+    "bytes": 101,
+    "mode": "0o644",
+    "sha256": "50e7a68cea43e72f6b2544cae27cc1196a82e45549a344f7eaf12c5517285e74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage/tagged-owned.strace",
+    "bytes": 25719,
+    "mode": "0o644",
+    "sha256": "7583013d4f463dbc3b64dba2ad7e4bc7dd42affb4999beec38421676e3ebf8a3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage/tagged-source.strace",
+    "bytes": 26182,
+    "mode": "0o644",
+    "sha256": "db591975c46aed8396dba70c4a545fa5d731a55d262df704180709d473726b20"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/semantic_storage-test.txt",
+    "bytes": 181,
+    "mode": "0o644",
+    "sha256": "1696d76126d60589d965fd4d60b2da45c1b5ab4cfe13705ebc927a752c59a8f6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_float_constants/constants.strace",
+    "bytes": 26030,
+    "mode": "0o644",
+    "sha256": "41f24452d94f4a4f7093d3bddb2bd82579147dc6aa8fd26519d3352005a9e475"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_float_constants/exhaustive-coverage.json",
+    "bytes": 309,
+    "mode": "0o644",
+    "sha256": "b09e3035d27710f36331b44ecdca1af67cc593b1627dcfe0aa89d0504ef3e44d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_float_constants/runs.json",
+    "bytes": 52519,
+    "mode": "0o644",
+    "sha256": "9bfb749a3975d0b9c0cc2eee09632f53267c87f6bd40978b16429ecb4ac5c485"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_float_constants-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "0a57688da312897e01daea11ab1237cab0338b71999253a7190514c81168ee9f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_inventory/fixture-runs.json",
+    "bytes": 8278,
+    "mode": "0o644",
+    "sha256": "68f5f7f1470dbbeef4a5dd3140becfb67221eb3c18e4506cf49659919c4c131a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_inventory/read-only-inventory.strace",
+    "bytes": 26084,
+    "mode": "0o644",
+    "sha256": "ee09a08b606308c31f646270498cac0a98cd9fb800227dc6ecc0a1ee65f5f58a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_inventory-test.txt",
+    "bytes": 104,
+    "mode": "0o644",
+    "sha256": "1cbdd6c786b58a33bb780c57e66713e9fce3a9ce453f0fe62181178ba7ff8ca2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q4k_constants/constants.strace",
+    "bytes": 26064,
+    "mode": "0o644",
+    "sha256": "4d7ef96c82c6ff0446fb1813f2227e7adf1d7d8d5cc654053470caf6e7036243"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q4k_constants/external-reference.json",
+    "bytes": 395,
+    "mode": "0o644",
+    "sha256": "3b8b6750b34764b2c1e44afcaf4e88fac71db4952a82e0ff505f1e788bf0f716"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q4k_constants/runs.json",
+    "bytes": 49085,
+    "mode": "0o644",
+    "sha256": "73f97bcd1249565c08a2ec450988b02124ac9d495189a74f638eabd9036c7561"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q4k_constants-test.txt",
+    "bytes": 186,
+    "mode": "0o644",
+    "sha256": "f6b5f7488b8bd1da5a19b98b1c9e5909a3c9f05485daf04288d4a18528f4bb85"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q5q6_constants/13.strace",
+    "bytes": 26010,
+    "mode": "0o644",
+    "sha256": "10264d5a9fb9f62e801c09420769d9a223f5816af5520f426a6ed44ce3213d1b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q5q6_constants/14.strace",
+    "bytes": 26055,
+    "mode": "0o644",
+    "sha256": "9bc6c53eeb4aa7e1639e31007fba0626987d103fae8b0315890dfb9c11da659d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q5q6_constants/external-reference.json",
+    "bytes": 627,
+    "mode": "0o644",
+    "sha256": "c6e2e2c1952531bf40ea0e4f72430230369517575d6ebf9147f04d67075e795c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q5q6_constants/runs.json",
+    "bytes": 41581,
+    "mode": "0o644",
+    "sha256": "5ba79638c04956193794ad836b5c9bcc7b1a9e6d5fc4a1d6946889ebcc4768f4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q5q6_constants/summary.json",
+    "bytes": 91,
+    "mode": "0o644",
+    "sha256": "3bfe79788578d8bc0e4203df6d587587202e4a6995b940a7e9875f3f9f505989"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_q5q6_constants-test.txt",
+    "bytes": 178,
+    "mode": "0o644",
+    "sha256": "19ae7adc601933c9f45829bf4a4cd34e51ee0004649a5db959c9e7742ccad639"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_weight_tiles/bytes.strace",
+    "bytes": 26479,
+    "mode": "0o644",
+    "sha256": "fc1c7f76d1052d096a291e5af623f8c0faf1616fc7b25b722e25e05a7f6b03a8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_weight_tiles/runs.json",
+    "bytes": 488027,
+    "mode": "0o644",
+    "sha256": "6adf5f6f4922d3c3985860755a2b849e83c0787f49ba1ce4d6834c0ab2ed15a7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_weight_tiles/summary.json",
+    "bytes": 87,
+    "mode": "0o644",
+    "sha256": "f0d1eaeef91ea5c038d80aa7ce4770cdcf8dddac9e5fea102254e452971a039f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/source_weight_tiles-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "61d9d757a009301d9c2e80173d076eacee2601127190975d9155c05fff495a14"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/storage_estimate/fixture-runs.json",
+    "bytes": 139301,
+    "mode": "0o644",
+    "sha256": "37c21b7ceae13b80ce4b6e1c11e4f8b4998ec5f58fb4b4eab7c155f25b6fa68d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/storage_estimate/storage.strace",
+    "bytes": 26091,
+    "mode": "0o644",
+    "sha256": "010d5e1441c5c8ee8d8c45bde57448ad6dd37fe3bdc84198706ba19cda555ced"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/storage_estimate-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "42483640071a78c33898e17299b16c39356d136eb4b2f11567a841a3e55225f0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/test-results.json",
+    "bytes": 8535,
+    "mode": "0o644",
+    "sha256": "b193bf4f6f95dd3f6bc82d0ee043739305cd9282893f29410d1e7795f1f88c53"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/typed_decoder/fixture-runs.json",
+    "bytes": 410492,
+    "mode": "0o644",
+    "sha256": "181e2eea379ecd7f27d6c939340f826c2e5951d64d347e1dde1944c4e1cd4cbb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/typed_decoder/typed-source.strace",
+    "bytes": 26253,
+    "mode": "0o644",
+    "sha256": "09ee5195f993d06000935148eb3a63bd6ba61c9b1d8a4f4246fe620a35d4a92d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/typed_decoder/typed-synthetic.strace",
+    "bytes": 25811,
+    "mode": "0o644",
+    "sha256": "97402be350ef88b3a716dc33eca3bc216e7a35e4db3a6875c8426cbc67953abc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-verification/typed_decoder-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "b65e69d6f6868aec9e6f4b1f27905de1a3173569637c6d7002b2b4eba1746b85"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/decoder_graph_policy/runs.json",
+    "bytes": 82113,
+    "mode": "0o644",
+    "sha256": "c1e83403c7bcb7f2ad97d738723be35fc2c3e904ce051b244702fe927931e866"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/decoder_graph_policy/safe-1.strace",
+    "bytes": 26694,
+    "mode": "0o644",
+    "sha256": "65f23af22e0a4b090a2c58a6fa33674c21ea5ebc9e1875c6869cb980680ed497"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/decoder_graph_policy/safe-2.strace",
+    "bytes": 27316,
+    "mode": "0o644",
+    "sha256": "01316771f6c3cbfc36750e3577f17f020df195c609316dfd953da0d614dbb3c9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/decoder_graph_policy/summary.json",
+    "bytes": 98,
+    "mode": "0o644",
+    "sha256": "b7d2d5166a1d72bef1f7d099741aa02879b5db39891adb28e8e3dd6aac4233d2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/decoder_graph_policy-test.txt",
+    "bytes": 172,
+    "mode": "0o644",
+    "sha256": "2bbf48ca67804b1dce621e1dd7db3185a0c2408aeffe6cbd44a00eafcfdd2a0e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/rotary_recipes/isolated-primitive.json",
+    "bytes": 13603,
+    "mode": "0o644",
+    "sha256": "6ea7f1864f8c9fb33373f35064b5a46833c96043bd1868d72e119344bf2a82bb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/rotary_recipes/rotary.strace",
+    "bytes": 18236,
+    "mode": "0o644",
+    "sha256": "70db0dada95b681f4cbbc20c5a931f8afeccad3a3aad9ba2a46328d59db257b1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/rotary_recipes/runs.json",
+    "bytes": 4095203,
+    "mode": "0o644",
+    "sha256": "3cdc816a12472a511d018fdbf16fe1c8bab553cc88a2e97a0c1db26a1fa8abb9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/rotary_recipes-test.txt",
+    "bytes": 3218,
+    "mode": "0o644",
+    "sha256": "9146fe8182af8270e20310d872e080f4e6607a2ad4ea1dc4c8612fdb702a1e33"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/source_scalars/runs.json",
+    "bytes": 4528727,
+    "mode": "0o644",
+    "sha256": "5b6e5464d77706eaed318ed409115352fa42aecf67d7feab8239266811c53896"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/source_scalars/source-scalars.strace",
+    "bytes": 18476,
+    "mode": "0o644",
+    "sha256": "3d89ba85dccfd0877b3a23b7bd671ce7bcca531df84cdd7316567f1667309890"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/source_scalars-test.txt",
+    "bytes": 151,
+    "mode": "0o644",
+    "sha256": "f91825dc3cfa856cc9ba963a44450890521f4974339d29a12d12e7f04871e4d0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-verification/test-results.json",
+    "bytes": 1524,
+    "mode": "0o644",
+    "sha256": "9c52c06dccb1b197aceb73baf75cfaebe34c08d84197f6fef763421280900c89"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/cache_layout/layout.strace",
+    "bytes": 24885,
+    "mode": "0o644",
+    "sha256": "433fb53d760f6a51759b29773d881e88378cb6879e5cf5c81f8c16dc61248426"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/cache_layout/runs.json",
+    "bytes": 64230,
+    "mode": "0o644",
+    "sha256": "4d73367c5bd1afcbafd22769aad3f28c35e73917061bdf5c5a4e83c184d88274"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/cache_layout-test.txt",
+    "bytes": 153,
+    "mode": "0o644",
+    "sha256": "46da3982360096b8933fd6e85c1b94f0e95e3a30ff65d1886f0e5396bba8559c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/expanded_graph/expanded.strace",
+    "bytes": 26198,
+    "mode": "0o644",
+    "sha256": "c22b6f05e3ad5b68aed785f774446df241345047c0fb126ae28fd7b08ee874ec"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/expanded_graph/runs.json",
+    "bytes": 621556,
+    "mode": "0o644",
+    "sha256": "cacc6679cb868dc8114791ad3167d4194638baab45ba5ae6b15505aa650d5c5b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/expanded_graph-test.txt",
+    "bytes": 622,
+    "mode": "0o644",
+    "sha256": "b1b1c83abd5b6a3bf85ac342e9d04d3870041a5fea871ce8c80d0a999d4b37a8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/expanded_storage/expanded-storage.strace",
+    "bytes": 26091,
+    "mode": "0o644",
+    "sha256": "f85b199a92f754424f8c07b9d32e550c7cc88d056a85be052ad2ebdb5274dea6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/expanded_storage/runs.json",
+    "bytes": 428052,
+    "mode": "0o644",
+    "sha256": "1e8ac9c2f77dbe0c99a66cc771982a85ec97afb77c01edb3f5dde88c9949dc51"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/expanded_storage-test.txt",
+    "bytes": 207,
+    "mode": "0o644",
+    "sha256": "792236a3ad852d53986a02b22e610ee9f1a1501663d17cc5a1d96bce24d96e6e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/matrix_tiles/runs.json",
+    "bytes": 690495,
+    "mode": "0o644",
+    "sha256": "bf67273be3cd4ce40bb0160b67d75b1f28416ab8010104f25262346536c316b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/matrix_tiles/schedule.strace",
+    "bytes": 24873,
+    "mode": "0o644",
+    "sha256": "b94506d6de0e5d29c1f6c45da845d7b71b34bf5882b62b924e80e3e42135a585"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/matrix_tiles/summary.json",
+    "bytes": 92,
+    "mode": "0o644",
+    "sha256": "8c7cc25194815f0879598b63789117f7b5e1fb963f9c260fffb9995ee4955d59"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/matrix_tiles-test.txt",
+    "bytes": 180,
+    "mode": "0o644",
+    "sha256": "d82c8bb45d7ed0c2451e9ad687844c97c793fb68104554d411fd2ea7f0d85e5c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/primitive_recipes/recipes.strace",
+    "bytes": 26095,
+    "mode": "0o644",
+    "sha256": "598c12b1b0ecaf5c365e43763dee5ff0d3477f95af5b5537305c7faa23189a12"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/primitive_recipes/runs.json",
+    "bytes": 267602,
+    "mode": "0o644",
+    "sha256": "825e18b91cf8b4ebbbcc79cc5c54159eb74fc85ef0f68909621d88672106c466"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/primitive_recipes/tiny-primitive-results.json",
+    "bytes": 6900,
+    "mode": "0o644",
+    "sha256": "222d4ea54b856bd4ed84b5e1f19fbb240a7ae3e3c19e7d6e31bc33534b3b236e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/primitive_recipes-test.txt",
+    "bytes": 723,
+    "mode": "0o644",
+    "sha256": "5423ee5c3a895f3d9a9377db846d61c01c40e9c817fb487a7a37f083b890eef2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_plan/fixture-runs.json",
+    "bytes": 151248,
+    "mode": "0o644",
+    "sha256": "bf27848cd0bbb8189662b99d294d90182c4d0244020c1b5b8048de7c9d2dce21"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_plan/source-graph.strace",
+    "bytes": 26079,
+    "mode": "0o644",
+    "sha256": "41cbd20a97b2c7ebe5e20e9c7652ee3e94e11cd7b6fa547fb2fa1a022ff2b21f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_plan-test.txt",
+    "bytes": 107,
+    "mode": "0o644",
+    "sha256": "c2f5f38f2d2f0b719049bc2a499245e198477c28374466398978f176fea856f4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage/baseline-binaries.json",
+    "bytes": 1710,
+    "mode": "0o644",
+    "sha256": "04038d973d5dba4dc3581765a93c8eb8eec1fff075e1c3dfd040a9538b72b0d0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage/ordinary-sharded.strace",
+    "bytes": 27167,
+    "mode": "0o644",
+    "sha256": "280344c162f7ea14f4214d3b50fb3c17110576fd3f5de932625b523fef5985fb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage/ordinary-single.strace",
+    "bytes": 26584,
+    "mode": "0o644",
+    "sha256": "fd717758a02bc889ecc086d336f08a6e8f29fb965dca2dc7ca779a53552afd40"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage/runs.json",
+    "bytes": 141284,
+    "mode": "0o644",
+    "sha256": "38070c82846e7e9a89c547d5466b358c994933928781a68eae0155e91fa89d8d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage/summary.json",
+    "bytes": 101,
+    "mode": "0o644",
+    "sha256": "50e7a68cea43e72f6b2544cae27cc1196a82e45549a344f7eaf12c5517285e74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage/tagged-owned.strace",
+    "bytes": 25677,
+    "mode": "0o644",
+    "sha256": "578561b405c172e25e63f0840b61dff0c5c86d8c2914eb496acb34245ae33cc7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage/tagged-source.strace",
+    "bytes": 26138,
+    "mode": "0o644",
+    "sha256": "40c4611f4fbed1b19cb4c2b521117f23d2aa395bb9bcfe630818328e9f6b889b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/semantic_storage-test.txt",
+    "bytes": 181,
+    "mode": "0o644",
+    "sha256": "e61a1912366f1a7263490c492c05fbe1feaecbeb842cca3b76db5e5d9e6c237a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_float_constants/constants.strace",
+    "bytes": 26074,
+    "mode": "0o644",
+    "sha256": "3d5fbfba0013c10aa689732e8de7367cfa7220fc601b0f4905ae32570dae5390"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_float_constants/exhaustive-coverage.json",
+    "bytes": 309,
+    "mode": "0o644",
+    "sha256": "b09e3035d27710f36331b44ecdca1af67cc593b1627dcfe0aa89d0504ef3e44d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_float_constants/runs.json",
+    "bytes": 52519,
+    "mode": "0o644",
+    "sha256": "9bfb749a3975d0b9c0cc2eee09632f53267c87f6bd40978b16429ecb4ac5c485"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_float_constants-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "631fbb77fcabfa8da5a10fa26f194914400154d29ebfe690fc61c69e47ad8077"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_inventory/fixture-runs.json",
+    "bytes": 8278,
+    "mode": "0o644",
+    "sha256": "68f5f7f1470dbbeef4a5dd3140becfb67221eb3c18e4506cf49659919c4c131a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_inventory/read-only-inventory.strace",
+    "bytes": 26084,
+    "mode": "0o644",
+    "sha256": "0ae09f55017f6e1b05e23f6f1466f79597e122dc1f8277451fe0fd9072de6dea"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_inventory-test.txt",
+    "bytes": 104,
+    "mode": "0o644",
+    "sha256": "eb20363a1aa47a34a473bc791a0878172ed5024698f31f91ad302599aad6db6d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q4k_constants/constants.strace",
+    "bytes": 26016,
+    "mode": "0o644",
+    "sha256": "bf2cd99d0ce9fa4269d13da8535ecc33791213bee0804c11d8ec4797b291eadf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q4k_constants/external-reference.json",
+    "bytes": 395,
+    "mode": "0o644",
+    "sha256": "3b8b6750b34764b2c1e44afcaf4e88fac71db4952a82e0ff505f1e788bf0f716"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q4k_constants/runs.json",
+    "bytes": 49085,
+    "mode": "0o644",
+    "sha256": "73f97bcd1249565c08a2ec450988b02124ac9d495189a74f638eabd9036c7561"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q4k_constants-test.txt",
+    "bytes": 186,
+    "mode": "0o644",
+    "sha256": "9364ce8af4a08dbd44318437ba19cb192e2081afeb1b6cd4ee1315c30d7fd5dd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q5q6_constants/13.strace",
+    "bytes": 26054,
+    "mode": "0o644",
+    "sha256": "f20b98a04d2a9ebbb8a17cdf92ca090599d41b2d03c13692e5a0e2f6cb616566"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q5q6_constants/14.strace",
+    "bytes": 26055,
+    "mode": "0o644",
+    "sha256": "e34039f4b69bbfdb4db3ed0f1c21b737bbd6f7f935b77e5961ec4c8f528cf847"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q5q6_constants/external-reference.json",
+    "bytes": 627,
+    "mode": "0o644",
+    "sha256": "c6e2e2c1952531bf40ea0e4f72430230369517575d6ebf9147f04d67075e795c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q5q6_constants/runs.json",
+    "bytes": 41581,
+    "mode": "0o644",
+    "sha256": "5ba79638c04956193794ad836b5c9bcc7b1a9e6d5fc4a1d6946889ebcc4768f4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q5q6_constants/summary.json",
+    "bytes": 91,
+    "mode": "0o644",
+    "sha256": "3bfe79788578d8bc0e4203df6d587587202e4a6995b940a7e9875f3f9f505989"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_q5q6_constants-test.txt",
+    "bytes": 178,
+    "mode": "0o644",
+    "sha256": "393dec8097de7e3f4dd4a386d3a8ccef001fef678a39d9a42f224eeaa6c7e3eb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_weight_tiles/bytes.strace",
+    "bytes": 26477,
+    "mode": "0o644",
+    "sha256": "d7303c8db94d8c80904dd78e821b26fd40f0116b99ef4426d555ad1debcb1de7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_weight_tiles/runs.json",
+    "bytes": 488027,
+    "mode": "0o644",
+    "sha256": "6adf5f6f4922d3c3985860755a2b849e83c0787f49ba1ce4d6834c0ab2ed15a7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_weight_tiles/summary.json",
+    "bytes": 87,
+    "mode": "0o644",
+    "sha256": "f0d1eaeef91ea5c038d80aa7ce4770cdcf8dddac9e5fea102254e452971a039f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/source_weight_tiles-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "7d581009a156ea9eb603230ec79028209b3eef0104e03f7a5e1cfe010557fc98"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/storage_estimate/fixture-runs.json",
+    "bytes": 139301,
+    "mode": "0o644",
+    "sha256": "37c21b7ceae13b80ce4b6e1c11e4f8b4998ec5f58fb4b4eab7c155f25b6fa68d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/storage_estimate/storage.strace",
+    "bytes": 26045,
+    "mode": "0o644",
+    "sha256": "607d2b56a68357ccbb3b3313ae57f156dff95cafc68fd628f141b4801d6d8570"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/storage_estimate-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "700dd329c48243b1be0873c7553b7fdbf49919fd16af48578870793068023b07"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/test-results.json",
+    "bytes": 8479,
+    "mode": "0o644",
+    "sha256": "37f94f9cb3925ac84e8a0b6761681448f50642a2f7e1b261d44a84ed04c606fe"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/typed_decoder/fixture-runs.json",
+    "bytes": 410492,
+    "mode": "0o644",
+    "sha256": "875c9c87c23ece4ba12e4fb87e9327dda184902d2e37e3285eb7c5c3dd81683b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/typed_decoder/typed-source.strace",
+    "bytes": 26209,
+    "mode": "0o644",
+    "sha256": "7be82130a14eefb4d4cb74f6be44d750c20a1095e93d2f038b1d885824e9ebc3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/typed_decoder/typed-synthetic.strace",
+    "bytes": 25811,
+    "mode": "0o644",
+    "sha256": "83ab82642a2964aefe8ddd879005ea8b26392d3070929414c7bb63da76cddb28"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-regression-accepted/typed_decoder-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "d6f0d31a97eab7c85d35a52dd17a6cdb2c54ad58252bd1941006eaa1bd1a2ac2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/decoder_graph_policy/runs.json",
+    "bytes": 82105,
+    "mode": "0o644",
+    "sha256": "6ed590abdacf0a1149dba1972275357b74b0a2f9938703306a0919a49d892722"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/decoder_graph_policy/safe-1.strace",
+    "bytes": 26734,
+    "mode": "0o644",
+    "sha256": "1e4b93d138ca0698859d064fa1e93c50cf6bf4df827d9f67794167eb0e2aec64"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/decoder_graph_policy/safe-2.strace",
+    "bytes": 27205,
+    "mode": "0o644",
+    "sha256": "d69c146535bb82e2490819318da476f521feb37c5200aa800ea692c2cb18a771"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/decoder_graph_policy/summary.json",
+    "bytes": 98,
+    "mode": "0o644",
+    "sha256": "b7d2d5166a1d72bef1f7d099741aa02879b5db39891adb28e8e3dd6aac4233d2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/decoder_graph_policy-test.txt",
+    "bytes": 172,
+    "mode": "0o644",
+    "sha256": "3f76eba1d8d271859e38ac00a50a68b55ad238f1f14dc0d92bf7259ba697bc6f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/rotary_recipes/isolated-primitive.json",
+    "bytes": 13603,
+    "mode": "0o644",
+    "sha256": "6ea7f1864f8c9fb33373f35064b5a46833c96043bd1868d72e119344bf2a82bb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/rotary_recipes/rotary.strace",
+    "bytes": 18236,
+    "mode": "0o644",
+    "sha256": "be4e342e4096be0cff05b99b2957fb0c969b44927eed73c493d97a0842f1edb8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/rotary_recipes/runs.json",
+    "bytes": 4097607,
+    "mode": "0o644",
+    "sha256": "3a8d72ef04e7f067aabba1391ef41b6481d3fe7b1821f5acb4b402f4eca43083"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/rotary_recipes-test.txt",
+    "bytes": 2410,
+    "mode": "0o644",
+    "sha256": "c2f2e0a5b58551bd70553bb76c90e4044caba6b83ea373571a6e962ec11dbbc6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/source_scalars/runs.json",
+    "bytes": 4528723,
+    "mode": "0o644",
+    "sha256": "27654e219478cd6347d43cda04589a03b73fdd7d6063aeb792ec815ed0d307fd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/source_scalars/source-scalars.strace",
+    "bytes": 18476,
+    "mode": "0o644",
+    "sha256": "2302af134b9aa67292f0dd9f4e35436f9469acbc34feaa6e1dbf83d0da192513"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/source_scalars-test.txt",
+    "bytes": 151,
+    "mode": "0o644",
+    "sha256": "dfcf109fcf98c62d6f6fcf9763e4a4d9467bd4173fe8869df306efd9fd0355eb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-extra-accepted/test-results.json",
+    "bytes": 1512,
+    "mode": "0o644",
+    "sha256": "a897f6a578b8b9d53cd8719a4ebf5a12d80f4df8e3052a71a6ff864a00567251"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/decoder_projections/indexed.strace",
+    "bytes": 28336,
+    "mode": "0o644",
+    "sha256": "123d5bb5f3491a3f69499410ae32a856541050fa56cb1017ad6770937c47290c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/decoder_projections/late-output-refusal.strace",
+    "bytes": 27113,
+    "mode": "0o644",
+    "sha256": "5c01ed50abcd46023e6e027ff4e2f37c3094197640e7dab1e71faa5047b04d9c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/decoder_projections/remote-headers.strace",
+    "bytes": 26925,
+    "mode": "0o644",
+    "sha256": "0427be3f7739df847df06650fac1444e9b90351df9e2dcec9138a38c50508713"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/decoder_projections/runs.json",
+    "bytes": 71383,
+    "mode": "0o644",
+    "sha256": "8c1d8fdac19c264b9f1d8e9888c10dc447ff37a7b8d2c61b17e9272623ea196b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/decoder_projections/summary.json",
+    "bytes": 38,
+    "mode": "0o644",
+    "sha256": "3b9a2063174e2f51f184d596b41eb42476b58807ea80dee56d72fc1e07f20178"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/decoder_projections/unindexed.strace",
+    "bytes": 27177,
+    "mode": "0o644",
+    "sha256": "8b24bfba8e6d1c1c24a10f4ac7ed87e33d3459c557b18b9bc33cd8d0627c4356"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/decoder_projections-test.txt",
+    "bytes": 154,
+    "mode": "0o644",
+    "sha256": "d28e04edb970abd0815c0e76320dd4482fa478ba4dfa6b93340f8f16327c20ca"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/ordinary_projection_schema/late-head-refusal.strace",
+    "bytes": 27183,
+    "mode": "0o644",
+    "sha256": "829b98e608a9da3b3dc472ae72512a1d817bcbd7815380f6fd0b09b0e33cae7e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/ordinary_projection_schema/owned-readonly.strace",
+    "bytes": 27249,
+    "mode": "0o644",
+    "sha256": "b82e12ba4ebf2839f445c4fab880f78f2ae83a7f29f9740f786deff37672ed6b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/ordinary_projection_schema/real-metadata.strace",
+    "bytes": 26929,
+    "mode": "0o644",
+    "sha256": "1175b398e6bd28fbc305adec66750531effb59f488598199751c3e2d2c210a78"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/ordinary_projection_schema/runs.json",
+    "bytes": 132616,
+    "mode": "0o644",
+    "sha256": "406a06222f47817721965e447a4bee927e509dbe91894baee1f352f67cc35d9a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/ordinary_projection_schema/summary.json",
+    "bytes": 39,
+    "mode": "0o644",
+    "sha256": "dc44880c44e164968ad1f44cf87b19f38b207393a2eaeda9d39aa1ede885402b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/ordinary_projection_schema-test.txt",
+    "bytes": 1007,
+    "mode": "0o644",
+    "sha256": "0949e6cc72cfdef45dd8f6e4ea7d0e0c1305fff592166433fe9743504534828c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-other-accepted/test-results.json",
+    "bytes": 1447,
+    "mode": "0o644",
+    "sha256": "8b3695dd9d0441125a0f7c1a8e0e62fa562e40dfce7220a8dc39e3777c1ded30"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_activation/requested32-ownership.strace",
+    "bytes": 87031,
+    "mode": "0o644",
+    "sha256": "573e4d74593692c6103ce4057ed622b81905af4dce8a366360e6bbc38ecbd975"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_activation/runs.json",
+    "bytes": 330946,
+    "mode": "0o644",
+    "sha256": "786c30ce2a4e871c2e644992f7aa21967b052579572f79881f0b81d7dc649e03"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_activation/source64-ownership.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "39b35583be6638f65355ac69fb3b1391a5707bce80420deb21e81de6fa7b1a3c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_activation/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "a78a8907981c7086549f74dd73df038d99cb684fe3e7e921e66d9c59da641a08"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_activation-test.txt",
+    "bytes": 1317,
+    "mode": "0o644",
+    "sha256": "dfd47a77dc619881640ecb4544027f1a1893f5d6714ed21c5e676325b011a3e3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_bias/bias-ownership.strace",
+    "bytes": 86989,
+    "mode": "0o644",
+    "sha256": "0cd973957c66e775d4a10637e2f5bb9ce77b88893c13069c813a17fbc8a6022b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_bias/bias-readonly.strace",
+    "bytes": 27349,
+    "mode": "0o644",
+    "sha256": "30ea2eb91a988adc55b89c36e4c2de49061786db0dbe80ae77321f4ed2c034e8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_bias/runs.json",
+    "bytes": 172934,
+    "mode": "0o644",
+    "sha256": "625781204458bea33b29a292c2d2b6528d282bee6830567801d2f21d9a0c3914"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_bias/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "3c7fca87a341fa70346f22457e979d7f46d905b099ba71ed626915773f1315b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_bias-test.txt",
+    "bytes": 1283,
+    "mode": "0o644",
+    "sha256": "5fe6b6e30b8957dfe06fcd3331eef91281f2e615ca8334570313a3f4001ede40"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/cached_append-requested32-0.strace",
+    "bytes": 86985,
+    "mode": "0o644",
+    "sha256": "b112e39acf517a88de9e6725fbfb49c62faec88930c4a81f34758781896c5453"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/cached_append-requested32-1.strace",
+    "bytes": 87029,
+    "mode": "0o644",
+    "sha256": "519e5afa8dab0148ceb59470e38f8fd9b6fcdb5314b356efeb608b7958827f53"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/cached_append-source64-0.strace",
+    "bytes": 86987,
+    "mode": "0o644",
+    "sha256": "af626709cf98582058d79491731c270a9047a003708d8cd36d2e73a65ea80761"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/cached_append-source64-1.strace",
+    "bytes": 86985,
+    "mode": "0o644",
+    "sha256": "26e202ff12b5514dd033e570f8ca38b00fb040fb85fd0fa286e5ee75dbae00d0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/full_prefix-requested32-0.strace",
+    "bytes": 86989,
+    "mode": "0o644",
+    "sha256": "455507a65e25056ddaace7e27055c091002631326958f2ab49e6ec64c41f1123"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/full_prefix-requested32-1.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "a2c3f69047f8cb057defb9072c5b26eb62db7edc9608ddf7c94d868eaed2169c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/full_prefix-source64-0.strace",
+    "bytes": 86987,
+    "mode": "0o644",
+    "sha256": "bfc2e2e3661e22913961fb0b861e41880b5f8908a4896d8cb6b06575c2a405ff"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/full_prefix-source64-1.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "885a2d5886ce06fb5b5ddff7415a3aba2798c8c45244cedf499359c4b6674ac2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/runs.json",
+    "bytes": 428554,
+    "mode": "0o644",
+    "sha256": "40300c4c5c57e6e1399f36d3827fa360ba81219ac6a91fd382c06d04b17f5200"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "ff74ba2c4467f45a326446b72862aa8e5f6e63aa55b876cf75f6e042fd3a9138"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_session-test.txt",
+    "bytes": 1077,
+    "mode": "0o644",
+    "sha256": "71ab1d3f8f55347f1971c6bf56ae3c956c78cde5eeda5e80f337a4b874120171"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/cached_append-requested32-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "e2eb1a7ced0a69fa9b6ebdbbc950ac46c647214be66e756c11dc6ef68dc12671"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/cached_append-requested32-1.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "8714438d750eeb40cedb4ff10491c3780c466cc5199f5e22e4d5ce4d23c061d8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/cached_append-source64-0.strace",
+    "bytes": 87592,
+    "mode": "0o644",
+    "sha256": "5770194ec2d5f59062051eb9ec567eae275ca38537788ef0d8b0aac08d977910"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/cached_append-source64-1.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "1280cd344c087f5e9e45170c0b66b26b50ef031d6652336d210f2582270a154c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/full_prefix-requested32-0.strace",
+    "bytes": 87590,
+    "mode": "0o644",
+    "sha256": "0fe56bc3753ac547a9d171c1f211f6f6e6d9a36811a7f3526414d0879e23fee8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/full_prefix-requested32-1.strace",
+    "bytes": 87586,
+    "mode": "0o644",
+    "sha256": "b30f7d889ad1053379d6bb9c63e4a2a296ca5998449662105a6e7f7e652d398b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/full_prefix-source64-0.strace",
+    "bytes": 87546,
+    "mode": "0o644",
+    "sha256": "4baeba299d84402b3c267b53032d88bdbf39dcfe33dddd4d10f5498ddd8b5528"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/full_prefix-source64-1.strace",
+    "bytes": 87544,
+    "mode": "0o644",
+    "sha256": "1eb67ef2200199fd7059f142efd10e2ac9f18c30551e36a5c3425fb4e4b26d36"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/runs.json",
+    "bytes": 471024,
+    "mode": "0o644",
+    "sha256": "8d2b44b08160021c171813f1fe9676276074ce785172331350a0de5b45f5a480"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "e5543bc47812175a6e5a9b8c83988c07e20ff61a86b24facd9d01580f5f6a83f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/decoder_window-test.txt",
+    "bytes": 1028,
+    "mode": "0o644",
+    "sha256": "e3d4d5dcee5049cfd39a50349b9d7d2a80a95ebbf699ab5c6a84e88507dbf9da"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-window-accepted/test-results.json",
+    "bytes": 3226,
+    "mode": "0o644",
+    "sha256": "97d4615e0cb64ddfa53bad4ed8e70f9c63450d3040c558faca706eacd93701bf"
+  }
+]

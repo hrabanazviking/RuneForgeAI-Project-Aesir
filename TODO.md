@@ -78,8 +78,12 @@
   147 methods/4730 native child calls,51 builds,8 complete frozen GGUF/2 ordinary
   comparisons and160 recovery cycles. No device execution.
   `docs/HAILO10H_MOJO_DECODER_SESSION.md`.
-- [ ] Active: `TASK_hailo10h_ordinary_window_semantics.md`: qualified source/index audit and exact
-  native integration contract with51 frozen controls; implement next.
+- [x] Source windows/original mask lowering and temporary-index accounting:
+  154 methods/5455 native child calls,58 builds,16 frozen GGUF/8 ordinary outputs,
+  2720 integer admissions/10 extrema and160 recovery cycles. No device execution.
+  `docs/HAILO10H_MOJO_DECODER_WINDOW.md`.
+- [ ] Active: `TASK_hailo10h_ordinary_scaling_semantics.md`: bounded source
+  scaling/modifier audit and exact native contract before code.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

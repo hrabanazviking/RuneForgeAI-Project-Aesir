@@ -1,0 +1,7 @@
+{
+  "mojo": "Mojo 1.1.0 (8189361e)",
+  "python": "3.11.2",
+  "machine": "aarch64",
+  "LLM_execution": false,
+  "hardware_access": false
+}

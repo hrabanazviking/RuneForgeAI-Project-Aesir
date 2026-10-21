@@ -255,7 +255,10 @@ class RotaryRecipes(unittest.TestCase):
         for mode in source+["graph_"+x for x in graph]:
             result=self.child([self.api,str(path),mode],path,"refusal:"+mode)
             self.assertNotEqual(result.returncode,0,mode);self.assertEqual(result.stdout,"")
-            self.assertTrue(any(prefix in result.stderr for prefix in ("Rotary","SourceInventory","SemanticPlan","ExpandedStorage")),result.stderr)
+            # The shared window guard now checks retained identities before rotary expansion.
+            # Only this exact corruption may report its specific earlier diagnostic.
+            earlier_window_guard = mode == "graph_recipe_identity" and "WindowExpansion: invalid/duplicate retained recipe" in result.stderr
+            self.assertTrue(earlier_window_guard or any(prefix in result.stderr for prefix in ("Rotary","SourceInventory","SemanticPlan","ExpandedStorage")),result.stderr)
         for mode in ("ownership","graph_ownership","work_exact"):
             result=self.child([self.api,str(path),mode],path,"ownership_or_exact")
             self.assertEqual(result.returncode,0,result.stderr)

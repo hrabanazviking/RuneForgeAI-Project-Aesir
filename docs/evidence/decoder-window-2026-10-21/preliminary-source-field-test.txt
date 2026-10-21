@@ -1,0 +1,16 @@
+test_02_qualified_source_patterns_and_complete_owner (__main__.DecoderWindow.test_02_qualified_source_patterns_and_complete_owner) ... ERROR
+
+======================================================================
+ERROR: test_02_qualified_source_patterns_and_complete_owner (__main__.DecoderWindow.test_02_qualified_source_patterns_and_complete_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_window.py", line 159, in test_02_qualified_source_patterns_and_complete_owner
+    fields=obj['original_source']['binding']['architecture']['layers']['source']['fields']
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'fields'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.029s
+
+FAILED (errors=1)
+Native outcomes: {'accepted': 1}

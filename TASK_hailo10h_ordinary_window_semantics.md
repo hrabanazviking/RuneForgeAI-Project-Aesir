@@ -39,3 +39,9 @@ Exact native contract: docs/HAILO10H_DECODER_WINDOW_DESIGN.md. All51 verified
 controls are now frozen with modes/hashes;178-file source manifest retained.
 Publish this contract before production changes. Next implement the owned source/
 invocation policy, mask/recipe/consumer integration and independent acceptance.
+
+2026-10-21 original source window/math/storage child completed 154 methods/5455 native child calls,
+58 clean builds under the published contract; receipt:
+docs/HAILO10H_MOJO_DECODER_WINDOW.md. Next active child:
+TASK_hailo10h_ordinary_scaling_semantics.md. Full ordinary architecture and actual
+numerical Hailo encoding/configuration/execution remain required work.

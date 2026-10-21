@@ -1,0 +1,8 @@
+test_01_modes_widths_scalar_and_export_grid (__main__.DecoderWindow.test_01_modes_widths_scalar_and_export_grid) ... ok
+test_03_policy_work_boundaries_and_source_words (__main__.DecoderWindow.test_03_policy_work_boundaries_and_source_words) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 12.946s
+
+OK
+Native outcomes: {'accepted': 85, 'refused': 22}

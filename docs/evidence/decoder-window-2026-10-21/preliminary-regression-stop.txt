@@ -1,0 +1,7 @@
+decoder-window-regressions.py 0
+decoder-window-extra-verify.py 1
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/../verify-window-final.py", line 8, in <module>
+    r=subprocess.run(['python3','../'+driver],capture_output=True,text=True);Path('../'+driver+'.log').write_text(r.stdout+r.stderr);print(driver,r.returncode,flush=True);assert r.returncode==0
+                                                                                                                                                                                  ^^^^^^^^^^^^^^^
+AssertionError

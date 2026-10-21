@@ -1,11 +1,12 @@
 # Validate selected activation roles at every downstream compilation boundary.
 from std.collections import Dict
 from smidr.activation_policy import empty_activation_policy, same_activation_policy, validate_activation_policy, activation_kind_supported
-from smidr.semantic_plan import SemanticPlan, checked_product, is_plan_export
+from smidr.semantic_plan import validate_plan_window_state, SemanticPlan, checked_product, is_plan_export
 from smidr.source_inventory import validate_source_weight
 
 
 def validate_plan_activation_state(plan: SemanticPlan) raises:
+    validate_plan_window_state(plan)
     if not plan.explicit_activation:
         if not same_activation_policy(plan.activation_policy, empty_activation_policy()) or plan.activation_work != 0:
             raise Error("DecoderActivation: stray explicit policy state")

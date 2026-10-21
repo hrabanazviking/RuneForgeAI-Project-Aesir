@@ -15,7 +15,8 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
-| Ordinary window semantics | Active qualification | `TASK_hailo10h_ordinary_window_semantics.md`; qualified constructor/index audit in `HAILO10H_ORDINARY_WINDOW_AUDIT.md`; exact `HAILO10H_DECODER_WINDOW_DESIGN.md` and51 frozen controls; implementation follows publication. Full ordinary/numerical Hailo gates open. |
+| Ordinary scaling/modifier semantics | Active qualification | `TASK_hailo10h_ordinary_scaling_semantics.md`; source/default/scaling/training interpretation and exact original native contract before code. Full ordinary/device gates open. |
+| Ordinary window semantics | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_WINDOW.md`;154 methods/5455 calls,58 builds,16 frozen GGUF/8 ordinary outputs and160 recovery cycles. No physical compaction or numerical device claim. |
 | Ordinary cache/session semantics | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_SESSION.md`;147 methods/4730 calls,51 builds,8 complete frozen GGUF/2 ordinary comparisons and160 recovery cycles. No numerical device proof. |
 | Source activation selection/lowering | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_ACTIVATION.md`;140 methods/4124 calls,46 builds,8 complete frozen GGUF and4 additional full comparisons. Other activations/full ordinary/numerical device gates remain open. |
 | Source-bound projection bias arithmetic | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_BIAS_GRAPH.md`;131 methods/3621 calls,41 builds,8 complete frozen outputs. Original vector addition and cache/matrix/storage integration; full ordinary/device gates open. |

@@ -1,0 +1,162 @@
+[
+  {
+    "name": "full_prefix-requested32-0.strace",
+    "sha256": "0fe56bc3753ac547a9d171c1f211f6f6e6d9a36811a7f3526414d0879e23fee8",
+    "bytes": 87590,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  },
+  {
+    "name": "cached_append-source64-0.strace",
+    "sha256": "5770194ec2d5f59062051eb9ec567eae275ca38537788ef0d8b0aac08d977910",
+    "bytes": 87592,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  },
+  {
+    "name": "cached_append-requested32-1.strace",
+    "sha256": "8714438d750eeb40cedb4ff10491c3780c466cc5199f5e22e4d5ce4d23c061d8",
+    "bytes": 87546,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  },
+  {
+    "name": "full_prefix-source64-0.strace",
+    "sha256": "4baeba299d84402b3c267b53032d88bdbf39dcfe33dddd4d10f5498ddd8b5528",
+    "bytes": 87546,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  },
+  {
+    "name": "full_prefix-source64-1.strace",
+    "sha256": "1eb67ef2200199fd7059f142efd10e2ac9f18c30551e36a5c3425fb4e4b26d36",
+    "bytes": 87544,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  },
+  {
+    "name": "full_prefix-requested32-1.strace",
+    "sha256": "b30f7d889ad1053379d6bb9c63e4a2a296ca5998449662105a6e7f7e652d398b",
+    "bytes": 87586,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  },
+  {
+    "name": "cached_append-requested32-0.strace",
+    "sha256": "e2eb1a7ced0a69fa9b6ebdbbc950ac46c647214be66e756c11dc6ef68dc12671",
+    "bytes": 87590,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  },
+  {
+    "name": "cached_append-source64-1.strace",
+    "sha256": "1280cd344c087f5e9e45170c0b66b26b50ef031d6652336d210f2582270a154c",
+    "bytes": 87590,
+    "source_descriptors": {
+      "config.json": {
+        "opens": 43,
+        "closes": 43
+      },
+      "ordinary-139": {
+        "opens": 43,
+        "closes": 43
+      },
+      "source-0.weights": {
+        "opens": 43,
+        "closes": 43
+      }
+    },
+    "device_open_or_ioctl": false
+  }
+]

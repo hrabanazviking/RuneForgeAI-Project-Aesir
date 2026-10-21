@@ -1,3 +1,4 @@
+from smidr.tools.window_policy import describe_window_policy
 from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
 from smidr.tools.activation_policy import describe_activation_policy
 # Host-only source graph inspection. Does not submit executable device bytes.
@@ -43,6 +44,9 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
         text = text.replace("\"schema_version\":1", "\"schema_version\":5").replace("\"schema_version\":2", "\"schema_version\":5").replace("\"schema_version\":3", "\"schema_version\":5").replace("\"schema_version\":4", "\"schema_version\":5")
         text += ",\"session_policy\":" + describe_session_policy(plan.session_policy, plan.session_work)
         text += ",\"cache_exports\":" + describe_cache_exports(plan.cache_exports)
+    if plan.explicit_window:
+        text = text.replace("\"schema_version\":5", "\"schema_version\":6")
+        text += ",\"window_policy\":" + describe_window_policy(plan.window_policy, plan.window_work)
     text += ",\"source_bytes\":" + String(plan.source.source_bytes) + ",\"weight_bytes\":" + String(plan.source.weight_bytes) + ",\"weights\":{"
     var first = True
     for name in plan.used_weights:
@@ -66,6 +70,8 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
             text += ","
         var operation = plan.operations[i].copy()
         text += "{\"id\":" + String(i) + ",\"kind\":" + _quote(operation.kind) + ",\"inputs\":" + _integers(operation.inputs)
+        if plan.explicit_window:
+            text += ",\"window_tokens\":" + String(operation.window_tokens)
         text += ",\"output\":" + String(operation.output) + ",\"weight\":" + _quote(operation.weight) + "}"
     text += "],\"logits\":" + String(plan.logits) + "}"
     return text

@@ -1,3 +1,19 @@
+## 2026-10-21 — Codex: original per-layer source window lowering
+
+- Published exact design/index/source-width contracts before each production
+  change. Owned per-layer source/invocation widths and independent source-mask
+  binding feed original index/predicate/select recipes and all compiler guards.
+- Temporary integer indices have separate lifetime/storage accounting. Both
+  session modes/cache exports and complete old outputs remain unchanged.
+- Final23 suites/154 methods/5455 native child calls,58 clean builds. New7/725;
+  16 frozen GGUF/8 ordinary outputs,2720 integer admissions/10 extrema and160
+  recovery cycles/8 traces. Complete source/raw/default ownership retained.
+- Preliminary source-field/count expectations and corrected probes preserved.
+  No model/layer/attention forward, device access, outside compiler, physical
+  compaction or complete ordinary adapter claim. Broad target remains fixed.
+- Next: ordinary scaling/modifier qualification and actual numerical Hailo
+  configuration/encoding/delivery/results. Receipt docs/HAILO10H_MOJO_DECODER_WINDOW.md.
+
 ## 2026-10-21 — Codex: qualified ordinary window configuration/index audit
 
 - Pinned licensed4.57.1 constructors:46 cases,44 metadata results/2 expected

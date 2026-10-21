@@ -19,7 +19,6 @@ struct ExpandedStorageAssumptions(Copyable, Movable):
     var provenance: String
 
 
-@fieldwise_init
 struct ExpandedStorageEstimate(Copyable, Movable):
     var value_bytes: List[Int]
     var real_live_bytes: List[Int]
@@ -31,6 +30,31 @@ struct ExpandedStorageEstimate(Copyable, Movable):
     var peak_step: Int
     var total_bytes: Int
     var within_supplied_budget: Bool
+
+    var index_live_bytes: List[Int]
+
+    def __init__(out self, var value_bytes: List[Int],
+                 var real_live_bytes: List[Int],
+                 var predicate_live_bytes: List[Int],
+                 var activation_live_bytes: List[Int],
+                 persistent_kv_bytes: Int,
+                 input_bytes: Int,
+                 peak_activation_bytes: Int,
+                 peak_step: Int,
+                 total_bytes: Int,
+                 within_supplied_budget: Bool,
+                 var index_live_bytes: List[Int] = List[Int]()):
+        self.value_bytes = value_bytes^
+        self.real_live_bytes = real_live_bytes^
+        self.predicate_live_bytes = predicate_live_bytes^
+        self.activation_live_bytes = activation_live_bytes^
+        self.persistent_kv_bytes = persistent_kv_bytes
+        self.input_bytes = input_bytes
+        self.peak_activation_bytes = peak_activation_bytes
+        self.peak_step = peak_step
+        self.total_bytes = total_bytes
+        self.within_supplied_budget = within_supplied_budget
+        self.index_live_bytes = index_live_bytes^
 
 
 def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
@@ -79,7 +103,7 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
             if value.domain != "real" or value.producer != -1 or value.alias_of != -1:
                 raise Error("ExpandedStorage: invalid persistent KV role")
         elif value.storage == "activation":
-            if (value.domain != "real" and value.domain != "predicate") or value.producer < 0 or value.alias_of != -1:
+            if (value.domain != "real" and value.domain != "predicate" and value.domain != "index") or value.producer < 0 or value.alias_of != -1:
                 raise Error("ExpandedStorage: invalid activation domain/role")
         elif value.storage == "kv_view":
             if value.domain != "real" or value.producer < 0 or value.alias_of < 0 or value.alias_of >= value_count or value.source_tensor < 0:
@@ -136,11 +160,19 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
         produced[op.output] = True
         if op.kind.byte_length() == 0 or op.source_operation < 0 or op.source_operation >= len(graph.source.operations):
             raise Error("ExpandedStorage: missing source operation identity")
-        if op.kind == "compare_nonnegative":
+        if op.kind == "prefix_key_indices":
+            if len(op.inputs) != 0 or output.domain != "index":
+                raise Error("ExpandedStorage: key indices must be index-domain")
+        elif op.kind == "causal_window_predicate":
+            if len(op.inputs) != 2 or output.domain != "predicate":
+                raise Error("ExpandedStorage: window mask must be predicate-domain")
+        elif op.kind == "compare_nonnegative":
             if len(op.inputs) != 1 or output.domain != "predicate":
                 raise Error("ExpandedStorage: comparison result must be a predicate")
         elif output.domain != "real":
             raise Error("ExpandedStorage: unexpected predicate result")
+        if op.kind == "select_negative_infinity" and len(op.inputs) != 2:
+            raise Error("ExpandedStorage: window select arity mismatch")
         if op.kind == "select" and len(op.inputs) != 3:
             raise Error("ExpandedStorage: select arity mismatch")
         var found_weight = False
@@ -150,7 +182,11 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
                 raise Error("ExpandedStorage: unavailable operation input")
             var input = graph.values[input_id].copy()
             var expected_domain = String("real")
-            if op.kind == "select" and j == 0:
+            if op.kind == "causal_window_predicate":
+                expected_domain = String("index")
+            elif op.kind == "select_negative_infinity" and j == 1:
+                expected_domain = String("predicate")
+            elif op.kind == "select" and j == 0:
                 expected_domain = String("predicate")
             elif op.kind == "rotary_angles" and j == 0:
                 expected_domain = String("index")
@@ -186,9 +222,13 @@ def estimate_expanded_storage(graph: ExpandedGraph, policy: ExpandedStorageAssum
     var count = len(graph.operations)
     var real_births = List[Int]()
     var real_deaths = List[Int]()
+    var index_births = List[Int]()
+    var index_deaths = List[Int]()
     var predicate_births = List[Int]()
     var predicate_deaths = List[Int]()
     for _ in range(count + 2):
+        index_births.append(0)
+        index_deaths.append(0)
         real_births.append(0)
         real_deaths.append(0)
         predicate_births.append(0)
@@ -203,7 +243,7 @@ def estimate_expanded_storage(graph: ExpandedGraph, policy: ExpandedStorageAssum
         var width = policy.activation_width
         if value.storage == "persistent_kv":
             width = policy.kv_width
-        elif value.storage == "index":
+        elif value.domain == "index":
             width = policy.index_width
         elif value.domain == "predicate":
             width = policy.predicate_width
@@ -213,12 +253,17 @@ def estimate_expanded_storage(graph: ExpandedGraph, policy: ExpandedStorageAssum
             kv_bytes = checked_sum(kv_bytes, size)
         elif value.storage == "index":
             inputs = checked_sum(inputs, size)
+        elif value.domain == "index":
+            index_births[value.producer] = checked_sum(index_births[value.producer], size)
+            index_deaths[value.last_use + 1] = checked_sum(index_deaths[value.last_use + 1], size)
         elif value.domain == "predicate":
             predicate_births[value.producer] = checked_sum(predicate_births[value.producer], size)
             predicate_deaths[value.last_use + 1] = checked_sum(predicate_deaths[value.last_use + 1], size)
         else:
             real_births[value.producer] = checked_sum(real_births[value.producer], size)
             real_deaths[value.last_use + 1] = checked_sum(real_deaths[value.last_use + 1], size)
+    var index_live = 0
+    var index_timeline = List[Int]()
     var real_live = 0
     var predicate_live = 0
     var peak = 0
@@ -227,11 +272,13 @@ def estimate_expanded_storage(graph: ExpandedGraph, policy: ExpandedStorageAssum
     var predicate_timeline = List[Int]()
     var timeline = List[Int]()
     for i in range(count + 1):
-        if real_deaths[i] > real_live or predicate_deaths[i] > predicate_live:
+        if real_deaths[i] > real_live or predicate_deaths[i] > predicate_live or index_deaths[i] > index_live:
             raise Error("ExpandedStorage: inconsistent release accounting")
         real_live = checked_sum(real_live - real_deaths[i], real_births[i])
         predicate_live = checked_sum(predicate_live - predicate_deaths[i], predicate_births[i])
-        var live = checked_sum(real_live, predicate_live)
+        index_live = checked_sum(index_live - index_deaths[i], index_births[i])
+        var live = checked_sum(checked_sum(real_live, predicate_live), index_live)
+        index_timeline.append(index_live)
         real_timeline.append(real_live)
         predicate_timeline.append(predicate_live)
         timeline.append(live)
@@ -242,4 +289,4 @@ def estimate_expanded_storage(graph: ExpandedGraph, policy: ExpandedStorageAssum
     total = checked_sum(total, policy.device_weight_bytes)
     total = checked_sum(total, policy.workspace_bytes)
     return ExpandedStorageEstimate(sizes^, real_timeline^, predicate_timeline^,
-        timeline^, kv_bytes, inputs, peak, peak_step, total, total <= policy.budget_bytes)
+        timeline^, kv_bytes, inputs, peak, peak_step, total, total <= policy.budget_bytes, index_timeline^)

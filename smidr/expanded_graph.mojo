@@ -1,3 +1,4 @@
+from smidr.window_policy import same_window_policy
 from smidr.session_graph import validate_plan_session_state
 from smidr.session_policy import same_session_policy
 from smidr.activation_graph import validate_plan_activation_state
@@ -10,7 +11,7 @@ from smidr.source_inventory import validate_source_weight
 from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
 from smidr.source_scalars import ScalarWord, same_scalar_word, same_decoder_scalars, scalar32_mirror
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
-from smidr.primitive_recipes import _rotary_recipe, _projection_bias_recipe, _activation_recipe, _selected_silu_recipe
+from smidr.primitive_recipes import _rotary_recipe, _projection_bias_recipe, _activation_recipe, _selected_silu_recipe, _window_recipe
 from smidr.rotary_policy import RotaryLoweringPolicy, validate_rotary_policy
 
 
@@ -28,7 +29,6 @@ struct ExpandedValue(Copyable, Movable):
     var source_weight: String
 
 
-@fieldwise_init
 struct ExpandedOperation(Copyable, Movable):
     var kind: String
     var inputs: List[Int]
@@ -45,6 +45,40 @@ struct ExpandedOperation(Copyable, Movable):
     var rotary_base_scalar: ScalarWord
     var rotary_pairing: String
     var rotary_provenance: String
+
+    var window_tokens: Int
+
+    def __init__(out self, kind: String,
+                 var inputs: List[Int],
+                 output: Int,
+                 source_operation: Int,
+                 recipe_step: Int,
+                 width: Int,
+                 epsilon_bits: UInt32,
+                 epsilon_scalar: ScalarWord,
+                 source_weight: String,
+                 var runtime_preconditions: List[String],
+                 rotary_dim: Int,
+                 rotary_base_bits: UInt32,
+                 rotary_base_scalar: ScalarWord,
+                 rotary_pairing: String,
+                 rotary_provenance: String, window_tokens: Int = 0):
+        self.kind = kind
+        self.inputs = inputs^
+        self.output = output
+        self.source_operation = source_operation
+        self.recipe_step = recipe_step
+        self.width = width
+        self.epsilon_bits = epsilon_bits
+        self.epsilon_scalar = epsilon_scalar.copy()
+        self.source_weight = source_weight
+        self.runtime_preconditions = runtime_preconditions^
+        self.rotary_dim = rotary_dim
+        self.rotary_base_bits = rotary_base_bits
+        self.rotary_base_scalar = rotary_base_scalar.copy()
+        self.rotary_pairing = rotary_pairing
+        self.rotary_provenance = rotary_provenance
+        self.window_tokens = window_tokens
 
 
 struct ExpandedGraph(Movable):
@@ -123,7 +157,8 @@ struct ExpandedGraph(Movable):
              source_tensor: Int = -1, rotary_dim: Int = 0, rotary_base_bits: UInt32 = 0,
              rotary_pairing: String = "", rotary_provenance: String = "",
              epsilon_scalar: ScalarWord = ScalarWord(0, 0),
-             rotary_base_scalar: ScalarWord = ScalarWord(0, 0)) raises -> Int:
+             rotary_base_scalar: ScalarWord = ScalarWord(0, 0),
+             window_tokens: Int = 0) raises -> Int:
         var step = len(self.operations)
         for input_id in inputs:
             if input_id < 0 or input_id >= len(self.values) or self.values[input_id].producer >= step:
@@ -132,7 +167,7 @@ struct ExpandedGraph(Movable):
         var output = self.value(name, shape^, domain, storage, step, alias_of, source_tensor)
         self.operations.append(ExpandedOperation(kind, inputs^, output, source_operation,
             recipe_step, width, epsilon_bits, epsilon_scalar.copy(), source_weight, preconditions.copy(),
-            rotary_dim, rotary_base_bits, rotary_base_scalar.copy(), rotary_pairing, rotary_provenance))
+            rotary_dim, rotary_base_bits, rotary_base_scalar.copy(), rotary_pairing, rotary_provenance, window_tokens))
         return output
 
 
@@ -210,7 +245,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
                     recipe.epsilon_bits, weight, recipe.runtime_preconditions,
                     -1, source_id, recipe.rotary_dim, recipe.rotary_base_bits,
                     recipe.rotary_pairing, recipe.rotary_provenance,
-                    recipe.epsilon_scalar, recipe.rotary_base_scalar)
+                    recipe.epsilon_scalar, recipe.rotary_base_scalar, recipe.window_tokens)
             graph.source_values[source_op.output] = local[recipe.result]
         else:
             var inputs = List[Int]()
@@ -245,6 +280,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
 
 
 def validate_rotary_expansion(graph: ExpandedGraph) raises:
+    validate_window_expansion(graph)
     validate_session_expansion(graph)
     validate_scalar_expansion(graph)
     validate_bias_expansion(graph)
@@ -511,3 +547,87 @@ def validate_session_expansion(graph: ExpandedGraph) raises:
         var source = graph.source.tensors[id].copy()
         if v.source_tensor != id or v.name != source.name or v.shape != source.shape or v.elements != source.elements or v.domain != "real" or v.last_use != len(graph.operations) or (v.storage != "activation" and v.storage != "kv_view"):
             raise Error("ExpandedStorage: changed cache export identity/shape/lifetime")
+
+
+def validate_window_expansion(graph: ExpandedGraph) raises:
+    validate_plan_session_state(graph.source)
+    if graph.recipes.explicit_window != graph.source.explicit_window or graph.recipes.window_work != graph.source.window_work or not same_window_policy(graph.recipes.window_policy, graph.source.window_policy):
+        raise Error("WindowExpansion: retained window policy/accounting changed")
+    var stored = Dict[Int, Int]()
+    if len(graph.recipes.recipes) > len(graph.source.operations):
+        raise Error("WindowExpansion: excessive retained recipes")
+    for i in range(len(graph.recipes.recipes)):
+        var id = graph.recipes.recipes[i].source_operation
+        if id < 0 or id >= len(graph.source.operations) or id in stored:
+            raise Error("WindowExpansion: invalid/duplicate retained recipe")
+        stored[id] = i
+        if graph.source.operations[id].kind != "causal_window_mask" and graph.recipes.recipes[i].window_tokens != 0:
+            raise Error("WindowExpansion: stray retained window metadata")
+    var seen = Dict[Int, Bool]()
+    var cursor = 0
+    var last_source = -1
+    while cursor < len(graph.operations):
+        var first = graph.operations[cursor].copy()
+        var id = first.source_operation
+        if id < 0 or id >= len(graph.source.operations):
+            raise Error("WindowExpansion: invalid expanded source identity")
+        if graph.source.explicit_window and id < last_source:
+            raise Error("WindowExpansion: source groups reordered")
+        last_source = id
+        if graph.source.operations[id].kind != "causal_window_mask":
+            if first.window_tokens != 0 or first.kind == "prefix_key_indices" or first.kind == "causal_window_predicate" or first.kind == "select_negative_infinity":
+                raise Error("WindowExpansion: stray window primitive/metadata")
+            cursor += 1
+            continue
+        if id in seen or id not in stored:
+            raise Error("WindowExpansion: duplicate/missing window group")
+        seen[id] = True
+        var expected = _window_recipe(graph.source, id)
+        var retained = graph.recipes.recipes[stored[id]].copy()
+        if retained.window_tokens != expected.window_tokens or retained.source_input != expected.source_input or retained.source_inputs != expected.source_inputs or retained.input_values != expected.input_values or retained.source_output != expected.source_output or retained.kind != expected.kind or retained.result != expected.result or retained.runtime_preconditions != expected.runtime_preconditions or len(retained.values) != len(expected.values) or len(retained.operations) != len(expected.operations) or retained.divisor != 0 or retained.epsilon_bits != 0 or retained.rotary_dim != 0 or retained.rotary_base_bits != 0 or retained.rotary_pairing.byte_length() != 0 or retained.rotary_provenance.byte_length() != 0 or retained.weight_name.byte_length() != 0 or retained.epsilon_scalar.width != 0 or retained.epsilon_scalar.bits != 0 or retained.rotary_base_scalar.width != 0 or retained.rotary_base_scalar.bits != 0:
+            raise Error("WindowExpansion: changed retained window recipe")
+        if retained.weight.file_offset != 0 or retained.weight.columns != 0 or retained.weight.rows != 0 or retained.weight.source_kind != 0 or retained.weight.byte_count != 0 or retained.weight_extent.source_format.byte_length() != 0 or retained.weight_extent.source_bytes != 0 or retained.weight_extent.data_offset != 0 or retained.weight_storage.source_format.byte_length() != 0 or retained.weight_storage.source_kind != 0 or retained.weight_storage.original_name.byte_length() != 0 or retained.weight_storage.source_path.byte_length() != 0 or len(retained.weight_storage.source_shape) != 0 or retained.weight_storage.axis_order.byte_length() != 0 or retained.weight_storage.elements != 0 or retained.weight_storage.file_offset != 0 or retained.weight_storage.byte_count != 0:
+            raise Error("WindowExpansion: window recipe has stray source weight state")
+        for j in range(len(expected.values)):
+            var a = retained.values[j].copy()
+            var b = expected.values[j].copy()
+            if a.shape != b.shape or a.elements != b.elements or a.domain != b.domain or a.producer != b.producer or a.last_use != b.last_use:
+                raise Error("WindowExpansion: changed local window value/lifetime")
+        var local = Dict[Int, Int]()
+        for j in range(len(expected.source_inputs)):
+            if expected.source_inputs[j] not in graph.source_values:
+                raise Error("WindowExpansion: source window input mapping missing")
+            local[expected.input_values[j]] = graph.source_values[expected.source_inputs[j]]
+        for j in range(len(expected.operations)):
+            if cursor >= len(graph.operations):
+                raise Error("WindowExpansion: truncated window recipe")
+            var a = graph.operations[cursor].copy()
+            var b = expected.operations[j].copy()
+            var saved = retained.operations[j].copy()
+            if saved.kind != b.kind or saved.inputs != b.inputs or saved.output != b.output:
+                raise Error("WindowExpansion: changed retained window operation")
+            if a.source_operation != id or a.recipe_step != j or a.kind != b.kind or a.window_tokens != expected.window_tokens or len(a.inputs) != len(b.inputs) or a.runtime_preconditions != expected.runtime_preconditions or a.width != 0 or a.epsilon_bits != 0 or a.rotary_dim != 0 or a.rotary_base_bits != 0 or a.rotary_pairing.byte_length() != 0 or a.rotary_provenance.byte_length() != 0 or a.source_weight.byte_length() != 0 or a.epsilon_scalar.width != 0 or a.epsilon_scalar.bits != 0 or a.rotary_base_scalar.width != 0 or a.rotary_base_scalar.bits != 0:
+                raise Error("WindowExpansion: changed expanded window metadata")
+            for k in range(len(b.inputs)):
+                if b.inputs[k] not in local or a.inputs[k] != local[b.inputs[k]]:
+                    raise Error("WindowExpansion: changed window primitive edge")
+            if a.output < 0 or a.output >= len(graph.values):
+                raise Error("WindowExpansion: invalid window result")
+            var value = graph.values[a.output].copy()
+            var wanted = expected.values[b.output].copy()
+            var result = b.output == expected.result
+            var name = graph.source.tensors[expected.source_output].name
+            if not result:
+                name += ".primitive." + String(j)
+            if value.shape != wanted.shape or value.elements != wanted.elements or value.domain != wanted.domain or value.producer != cursor or value.storage != "activation" or value.alias_of != -1 or value.name != name or value.source_tensor != (expected.source_output if result else -1) or value.source_weight.byte_length() != 0:
+                raise Error("WindowExpansion: changed window result/domain/source")
+            local[b.output] = a.output
+            cursor += 1
+        if expected.source_output not in graph.source_values or graph.source_values[expected.source_output] != local[expected.result]:
+            raise Error("WindowExpansion: changed window export mapping")
+        for remaining in graph.recipes.remaining_source_operations:
+            if remaining == id:
+                raise Error("WindowExpansion: lowered window marked as remaining")
+    for i in range(len(graph.source.operations)):
+        if graph.source.operations[i].kind == "causal_window_mask" and i not in seen:
+            raise Error("WindowExpansion: window expansion omitted")

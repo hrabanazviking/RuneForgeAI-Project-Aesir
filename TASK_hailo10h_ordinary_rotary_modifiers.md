@@ -84,3 +84,9 @@ warning-free builds under the published contract. Receipt:
 docs/HAILO10H_MOJO_DECODER_SESSION.md. Next active child:
 TASK_hailo10h_ordinary_window_semantics.md. Complete ordinary architecture and
 actual numerical Hailo encoding/configuration/execution remain required work.
+
+2026-10-21 original source window/math/storage child completed 154 methods/5455 native child calls,
+58 clean builds under the published contract; receipt:
+docs/HAILO10H_MOJO_DECODER_WINDOW.md. Next active child:
+TASK_hailo10h_ordinary_scaling_semantics.md. Full ordinary architecture and actual
+numerical Hailo encoding/configuration/execution remain required work.

@@ -53,6 +53,8 @@ def describe_rotary_graph(graph: ExpandedGraph, policy: RotaryLoweringPolicy) ra
     text += "],\"storage\":{\"activation_width\":2,\"predicate_width\":1,\"kv_width\":2,\"index_width\":8,\"alignment\":16,\"assumed_device_weight_bytes\":" + String(assumptions.device_weight_bytes)
     text += ",\"value_bytes\":" + _integers(storage.value_bytes) + ",\"real_live_bytes\":" + _integers(storage.real_live_bytes) + ",\"predicate_live_bytes\":" + _integers(storage.predicate_live_bytes) + ",\"activation_live_bytes\":" + _integers(storage.activation_live_bytes)
     text += ",\"persistent_kv_bytes\":" + String(storage.persistent_kv_bytes) + ",\"input_bytes\":" + String(storage.input_bytes) + ",\"peak_activation_bytes\":" + String(storage.peak_activation_bytes) + ",\"peak_step\":" + String(storage.peak_step) + ",\"total_bytes\":" + String(storage.total_bytes) + "}}"
+    if graph.source.explicit_window:
+        text = text.replace("\"storage\":{", "\"storage\":{\"index_live_bytes\":" + _integers(storage.index_live_bytes) + ",")
     return text
 
 

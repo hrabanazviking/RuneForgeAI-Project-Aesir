@@ -1,3 +1,4 @@
+from smidr.window_policy import DecoderWindowPolicy, empty_window_policy, same_window_policy, validate_window_policy
 # Original source graph construction. No numerical kernels or device program.
 from std.collections import Dict
 from smidr.session_policy import DecoderSessionPolicy, empty_session_policy, validate_session_policy
@@ -91,12 +92,20 @@ struct SemanticTensor(Copyable, Movable):
     var alias_of: Int
 
 
-@fieldwise_init
 struct SemanticOperation(Copyable, Movable):
     var kind: String
     var inputs: List[Int]
     var output: Int
     var weight: String
+    var window_tokens: Int
+
+    def __init__(out self, kind: String, var inputs: List[Int], output: Int,
+                 weight: String, window_tokens: Int = 0):
+        self.kind = kind
+        self.inputs = inputs^
+        self.output = output
+        self.weight = weight
+        self.window_tokens = window_tokens
 
 
 struct SemanticPlan(Movable):
@@ -121,6 +130,9 @@ struct SemanticPlan(Movable):
     var source_layout: String
     var logits: Int
     var decoder_policy: DecoderGraphPolicy
+    var explicit_window: Bool
+    var window_policy: DecoderWindowPolicy
+    var window_work: Int
     var explicit_session: Bool
     var session_policy: DecoderSessionPolicy
     var session_work: Int
@@ -156,6 +168,9 @@ struct SemanticPlan(Movable):
         self.source_layout = String("")
         self.logits = -1
         self.decoder_policy = DecoderGraphPolicy(List[Int](), "", "")
+        self.explicit_window = False
+        self.window_policy = empty_window_policy()
+        self.window_work = 0
         self.explicit_session = False
         self.session_policy = empty_session_policy()
         self.session_work = 0
@@ -184,7 +199,8 @@ struct SemanticPlan(Movable):
         self.used_weights[name] = True
 
     def emit(mut self, kind: String, name: String, var inputs: List[Int],
-             var shape: List[Int], weight: String = "", alias_of: Int = -1) raises -> Int:
+             var shape: List[Int], weight: String = "", alias_of: Int = -1,
+             window_tokens: Int = 0) raises -> Int:
         var index = len(self.operations)
         for input_id in inputs:
             if input_id < 0 or input_id >= len(self.tensors):
@@ -195,7 +211,7 @@ struct SemanticPlan(Movable):
         if weight.byte_length() != 0 and weight not in self.used_weights:
             raise Error("SemanticPlan: operation weight was not shape checked")
         var output = self.tensor(name, shape^, index, False, alias_of)
-        self.operations.append(SemanticOperation(kind, inputs^, output, weight))
+        self.operations.append(SemanticOperation(kind, inputs^, output, weight, window_tokens))
         return output
 
 
@@ -461,6 +477,31 @@ def build_decoder_semantic_plan(var source: SourceTensorInventory,
         query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True)
 
 
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              parameters: DenseDecoderParameters, policy: DecoderGraphPolicy,
+                              bias: DecoderBiasPolicy, activation: DecoderActivationPolicy,
+                              session: DecoderSessionPolicy, window: DecoderWindowPolicy, query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    return _build_decoder_semantic_plan(source^, parameters, empty_decoder_scalars(), False,
+        policy, query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True, window, True)
+
+
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              geometry: DecoderGeometry, scalars: DecoderScalars,
+                              policy: DecoderGraphPolicy, bias: DecoderBiasPolicy,
+                              activation: DecoderActivationPolicy, session: DecoderSessionPolicy, window: DecoderWindowPolicy,
+                              query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    _ = validate_decoder_scalars(scalars)
+    if scalars.work_limit > source.policy.work:
+        raise Error("SourceScalar: scalar work limit exceeds source policy")
+    var p = DenseDecoderParameters(geometry.layers, geometry.hidden, geometry.feed_forward,
+        geometry.heads, geometry.kv_heads, geometry.key_dim, geometry.value_dim,
+        geometry.rope_dim, geometry.vocabulary, geometry.source_context, 0, 0, geometry.source_layout)
+    return _build_decoder_semantic_plan(source^, p, scalars, True, policy,
+        query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True, window, True)
+
+
 def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                parameters: DenseDecoderParameters, scalars: DecoderScalars,
                                explicit: Bool, policy: DecoderGraphPolicy, query_tokens: Int,
@@ -470,7 +511,9 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                activation_policy: DecoderActivationPolicy = empty_activation_policy(),
                                explicit_activation: Bool = False,
                                session_policy: DecoderSessionPolicy = empty_session_policy(),
-                               explicit_session: Bool = False) raises -> SemanticPlan:
+                               explicit_session: Bool = False,
+                               window_policy: DecoderWindowPolicy = empty_window_policy(),
+                               explicit_window: Bool = False) raises -> SemanticPlan:
     """Build an explicitly selected mathematical recipe from tagged values."""
     validate_source_inventory(source)
     if explicit:
@@ -489,7 +532,15 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
         session_work = validate_session_policy(session_policy, parameters.layers, source.policy.work)
         if session_policy.mode == "full_prefix" and past_tokens != 0:
             raise Error("DecoderSession: full prefix cannot discard supplied past state")
+    var window_work = 0
+    if explicit_window:
+        if not explicit_session:
+            raise Error("DecoderWindow: explicit session required")
+        window_work = validate_window_policy(window_policy, parameters.layers, source.policy.work)
     var plan = SemanticPlan(source^)
+    plan.explicit_window = explicit_window
+    plan.window_policy = window_policy.copy()
+    plan.window_work = window_work
     plan.explicit_session = explicit_session
     plan.session_policy = session_policy.copy()
     plan.session_work = session_work
@@ -566,7 +617,7 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
             plan.cache_exports.append(keys_view)
             plan.cache_exports.append(values_view)
         var scores = plan.emit("gqa_scaled_dot", p + "scores", [q, keys_view], [plan.heads, query_tokens, total])
-        scores = plan.emit("causal_mask", p + "masked_scores", [scores, positions], [plan.heads, query_tokens, total])
+        scores = plan.emit("causal_window_mask" if explicit_window and window_policy.windows[layer] > 0 else String("causal_mask"), p + "masked_scores", [scores, positions], [plan.heads, query_tokens, total], "", -1, window_policy.windows[layer] if explicit_window else 0)
         scores = plan.emit("softmax", p + "probabilities", [scores], [plan.heads, query_tokens, total])
         var attention = plan.emit("gqa_weighted_values", p + "attention", [scores, values_view], [query_tokens, attended_width])
         attention = plan.emit("linear", p + "attn_output", [attention], [query_tokens, plan.hidden], p + "attn_output.weight")
@@ -635,3 +686,49 @@ def read_dense_semantic_plan(path: String, query_tokens: Int,
     except e:
         source.source.close()
         raise e
+
+
+def validate_plan_window_state(plan: SemanticPlan) raises:
+    if not plan.explicit_window:
+        if not same_window_policy(plan.window_policy, empty_window_policy()) or plan.window_work != 0:
+            raise Error("DecoderWindow: stray explicit policy state")
+        for op in plan.operations:
+            if op.kind == "causal_window_mask" or op.window_tokens != 0:
+                raise Error("DecoderWindow: mask lacks explicit policy")
+        return
+    if not plan.explicit_session or validate_window_policy(plan.window_policy, plan.layers, plan.source.policy.work) != plan.window_work:
+        raise Error("DecoderWindow: session/policy/accounting changed")
+    if len(plan.operations) > plan.source.policy.work or len(plan.tensors) > plan.source.policy.work or plan.query_tokens <= 0 or plan.past_tokens < 0 or plan.past_tokens > plan.context_capacity or plan.query_tokens > plan.context_capacity - plan.past_tokens:
+        raise Error("DecoderWindow: graph/session work bounds changed")
+    var names = Dict[String, Int]()
+    for i in range(len(plan.tensors)):
+        if plan.tensors[i].name in names:
+            raise Error("DecoderWindow: duplicate source role")
+        names[plan.tensors[i].name] = i
+    if "positions" not in names:
+        raise Error("DecoderWindow: positions missing")
+    var masks = 0
+    for op in plan.operations:
+        if op.kind != "causal_window_mask" and op.window_tokens != 0:
+            raise Error("DecoderWindow: stray source width metadata")
+        masks += Int(op.kind == "causal_mask" or op.kind == "causal_window_mask")
+    if masks != plan.layers:
+        raise Error("DecoderWindow: incomplete/duplicate mask set")
+    for layer in range(plan.layers):
+        var p = String("blk.") + String(layer) + "."
+        if p + "masked_scores" not in names or p + "scores" not in names:
+            raise Error("DecoderWindow: source score/mask role missing")
+        var id = names[p + "masked_scores"]
+        var t = plan.tensors[id].copy()
+        if t.producer < 0 or t.producer >= len(plan.operations) or t.persistent or t.alias_of != -1:
+            raise Error("DecoderWindow: invalid mask producer/storage")
+        var op = plan.operations[t.producer].copy()
+        var kind = String("causal_window_mask") if plan.window_policy.windows[layer] > 0 else String("causal_mask")
+        var shape = List[Int]([plan.heads, plan.query_tokens, plan.past_tokens + plan.query_tokens])
+        var elements = checked_product(checked_product(plan.heads, plan.query_tokens), plan.past_tokens + plan.query_tokens)
+        var scores = plan.tensors[names[p + "scores"]].copy()
+        var positions = plan.tensors[names["positions"]].copy()
+        if t.elements != elements or scores.shape != shape or scores.elements != elements or scores.producer < 0 or scores.producer >= t.producer or scores.persistent or scores.alias_of != -1 or positions.producer != -1 or positions.persistent or positions.alias_of != -1 or positions.shape != List[Int]([plan.query_tokens]) or positions.elements != plan.query_tokens:
+            raise Error("DecoderWindow: changed mask input/product/storage/positions")
+        if op.kind != kind or op.window_tokens != plan.window_policy.windows[layer] or op.output != id or op.inputs != List[Int]([names[p + "scores"], names["positions"]]) or op.weight.byte_length() != 0 or t.shape != shape:
+            raise Error("DecoderWindow: changed selected mask/edge/shape")

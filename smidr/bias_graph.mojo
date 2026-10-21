@@ -1,7 +1,7 @@
 # Original projection-wide bias source/edge checks. Mathematical IR only.
 from std.collections import Dict
 from smidr.bias_policy import empty_bias_policy, same_bias_policy, validate_bias_policy
-from smidr.semantic_plan import SemanticPlan, checked_product, is_plan_export
+from smidr.semantic_plan import validate_plan_window_state, SemanticPlan, checked_product, is_plan_export
 from smidr.source_inventory import validate_source_weight
 
 
@@ -30,6 +30,7 @@ def projection_bias_width(plan: SemanticPlan, index: Int) raises -> Int:
 
 
 def validate_plan_bias_state(plan: SemanticPlan) raises:
+    validate_plan_window_state(plan)
     if not plan.explicit_bias:
         if not same_bias_policy(plan.bias_policy, empty_bias_policy()) or plan.bias_work != 0:
             raise Error("DecoderBias: stray explicit policy state")

@@ -1,3 +1,4 @@
+from smidr.tools.window_policy import describe_window_policy
 from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
 from smidr.tools.activation_policy import describe_activation_policy
 # Source-bound recipe inspector; no production arithmetic executor.
@@ -25,6 +26,9 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
         text = text.replace("\"schema_version\":1", "\"schema_version\":5").replace("\"schema_version\":2", "\"schema_version\":5").replace("\"schema_version\":3", "\"schema_version\":5").replace("\"schema_version\":4", "\"schema_version\":5")
         text += ",\"session_policy\":" + describe_session_policy(lowered.session_policy, lowered.session_work)
         text += ",\"cache_exports\":" + describe_cache_exports(lowered.cache_exports)
+    if lowered.explicit_window:
+        text = text.replace("\"schema_version\":5", "\"schema_version\":6")
+        text += ",\"window_policy\":" + describe_window_policy(lowered.window_policy, lowered.window_work)
     text += ",\"unresolved_gates\":[\"finite_precision_reduction_and_overflow\",\"special_values_and_transcendental_approximations\",\"quantization_weight_and_activation_layout\",\"lowered_storage_and_device_placement\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"recipes\":["
     for i in range(len(lowered.recipes)):
@@ -33,6 +37,8 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
         var recipe = lowered.recipes[i].copy()
         text += "{\"source_operation\":" + String(recipe.source_operation) + ",\"source_input\":" + String(recipe.source_input) + ",\"source_output\":" + String(recipe.source_output)
         text += ",\"kind\":" + _quote(recipe.kind) + ",\"weight_name\":" + _quote(recipe.weight_name) + ",\"divisor\":" + String(recipe.divisor) + ",\"epsilon_bits\":" + (String("null") if recipe.epsilon_scalar.width == 64 else String(recipe.epsilon_bits))
+        if lowered.explicit_window:
+            text += ",\"window_tokens\":" + String(recipe.window_tokens)
         if lowered.explicit_activation:
             text += ",\"source_inputs\":" + _integers(recipe.source_inputs) + ",\"input_values\":" + _integers(recipe.input_values)
         if lowered.explicit_scalars:

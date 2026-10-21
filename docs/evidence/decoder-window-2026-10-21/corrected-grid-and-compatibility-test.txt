@@ -1,0 +1,8 @@
+test_06_frozen_full_outputs_and_storage_consumers (__main__.DecoderWindow.test_06_frozen_full_outputs_and_storage_consumers) ... ok
+test_07_independent_integer_oracle_and_extremes (__main__.DecoderWindow.test_07_independent_integer_oracle_and_extremes) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.255s
+
+OK
+Native outcomes: {'accepted': 84, 'refused': 6}

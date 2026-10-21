@@ -1,0 +1,8 @@
+source_scalars 0
+rotary_recipes 1
+decoder_graph_policy 0
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/../decoder-window-extra-verify.py", line 10, in <module>
+    (out/'test-results.json').write_text(json.dumps(rows,indent=2)+'\n');assert not any(r['returncode'] for r in rows)
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

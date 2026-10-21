@@ -1,0 +1,19 @@
+{
+  "native_boolean_index_outputs": 2720,
+  "extreme_integer_cases": 10,
+  "qualified_configuration_cases": 46,
+  "suites": 23,
+  "methods": 154,
+  "calls": 5455,
+  "new_methods": 7,
+  "new_calls": 725,
+  "new_accepted": 226,
+  "new_expected_refusals": 499,
+  "rebuilt_entrypoints": 58,
+  "complete_frozen_gguf_comparisons": 16,
+  "complete_frozen_ordinary_comparisons": 8,
+  "inprocess_refusal_recovery_cycles": 160,
+  "ownership_trace_count": 8,
+  "device_execution": false,
+  "whole_repository_pass": false
+}

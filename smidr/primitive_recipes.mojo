@@ -1,3 +1,4 @@
+from smidr.window_policy import DecoderWindowPolicy, empty_window_policy
 from smidr.session_policy import DecoderSessionPolicy, empty_session_policy
 from smidr.session_graph import validate_plan_session_state
 from smidr.activation_graph import validate_plan_activation_state
@@ -41,6 +42,7 @@ struct PrimitiveRecipe(Copyable, Movable):
     var weight: SourceTensorBinding
     var weight_storage: SourceStorageTensor
     var weight_extent: SourceFileExtent
+    var window_tokens: Int
     var divisor: Int
     var epsilon_bits: UInt32
     var epsilon_scalar: ScalarWord
@@ -66,6 +68,7 @@ struct PrimitiveRecipe(Copyable, Movable):
         self.weight = SourceTensorBinding(0, 0, 0, 0, 0)
         self.weight_storage = SourceStorageTensor("", 0, "", "", List[Int](), "", 0, 0, 0)
         self.weight_extent = SourceFileExtent("", 0, 0)
+        self.window_tokens = 0
         self.divisor = 0
         self.epsilon_bits = 0
         self.epsilon_scalar = ScalarWord(0, 0)
@@ -105,6 +108,9 @@ struct PrimitiveRecipes(Movable):
     var remaining_source_operations: List[Int]
     var rotary_policy: RotaryLoweringPolicy
     var rotary_work: Int
+    var explicit_window: Bool
+    var window_policy: DecoderWindowPolicy
+    var window_work: Int
     var explicit_session: Bool
     var session_policy: DecoderSessionPolicy
     var session_work: Int
@@ -123,6 +129,9 @@ struct PrimitiveRecipes(Movable):
         self.remaining_source_operations = List[Int]()
         self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
         self.rotary_work = 0
+        self.explicit_window = False
+        self.window_policy = empty_window_policy()
+        self.window_work = 0
         self.explicit_session = False
         self.session_policy = empty_session_policy()
         self.session_work = 0
@@ -224,6 +233,9 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
     validate_plan_bias_state(plan)
     validate_plan_activation_state(plan)
     var lowered = PrimitiveRecipes()
+    lowered.explicit_window = plan.explicit_window
+    lowered.window_policy = plan.window_policy.copy()
+    lowered.window_work = plan.window_work
     lowered.explicit_session = plan.explicit_session
     lowered.session_policy = plan.session_policy.copy()
     lowered.session_work = plan.session_work
@@ -241,6 +253,9 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
         lowered.rotary_policy = policy.copy()
     for index in range(len(plan.operations)):
         var operation = plan.operations[index].copy()
+        if operation.kind == "causal_window_mask":
+            lowered.recipes.append(_window_recipe(plan, index))
+            continue
         if operation.kind == "gelu_erf" or operation.kind == "relu":
             lowered.recipes.append(_activation_recipe(plan, index))
             continue
@@ -365,3 +380,30 @@ def _selected_silu_recipe(plan: SemanticPlan, index: Int) raises -> PrimitiveRec
     recipe.result = recipe.emit("multiply", [x, sigmoid], input.shape.copy())
     recipe.values[recipe.result].last_use = len(recipe.operations)
     return recipe^
+
+
+def _window_recipe(plan: SemanticPlan, index: Int) raises -> PrimitiveRecipe:
+    validate_plan_session_state(plan)
+    if index < 0 or index >= len(plan.operations):
+        raise Error("WindowRecipe: source operation out of range")
+    var op = plan.operations[index].copy()
+    if not plan.explicit_window or op.kind != "causal_window_mask" or len(op.inputs) != 2 or op.output < 0 or op.output >= len(plan.tensors):
+        raise Error("WindowRecipe: source window role missing")
+    var width = 0
+    for layer in range(plan.layers):
+        if plan.tensors[op.output].name == String("blk.") + String(layer) + ".masked_scores":
+            width = plan.window_policy.windows[layer]
+    if width <= 0:
+        raise Error("WindowRecipe: positive selected width required")
+    var r = PrimitiveRecipe(index, op.inputs[0], op.output, op.kind)
+    r.source_inputs = op.inputs.copy()
+    r.input_values = [0, 1]
+    r.window_tokens = width
+    r.runtime_preconditions = ["positions_equal_past_plus_query_index", "nonnegative_exact_integer_positions_and_keys", "causal_test_precedes_position_minus_key", "window_includes_current_key", "masked_value_is_mathematical_negative_infinity_precision_unqualified"]
+    var scores = r.value(plan.tensors[op.inputs[0]].shape.copy())
+    var positions = r.value([plan.query_tokens], "index")
+    var indices = r.emit("prefix_key_indices", List[Int](), [plan.past_tokens + plan.query_tokens], "index")
+    var predicate = r.emit("causal_window_predicate", [positions, indices], [plan.query_tokens, plan.past_tokens + plan.query_tokens], "predicate")
+    r.result = r.emit("select_negative_infinity", [scores, predicate], plan.tensors[op.output].shape.copy())
+    r.values[r.result].last_use = len(r.operations)
+    return r^

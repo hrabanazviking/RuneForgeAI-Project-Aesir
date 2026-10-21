@@ -2,7 +2,7 @@
 from std.collections import Dict
 from smidr.session_policy import empty_session_policy, same_session_policy, validate_session_policy
 from smidr.bias_policy import validate_bias_policy
-from smidr.semantic_plan import SemanticPlan, checked_product, is_plan_export, validate_decoder_graph_policy
+from smidr.semantic_plan import SemanticPlan, checked_product, is_plan_export, validate_decoder_graph_policy, validate_plan_window_state
 from smidr.source_inventory import validate_source_weight
 
 
@@ -31,6 +31,7 @@ def _session_operation(plan: SemanticPlan, output: Int, kind: String,
 
 
 def validate_plan_session_state(plan: SemanticPlan) raises:
+    validate_plan_window_state(plan)
     if not plan.explicit_session:
         if not same_session_policy(plan.session_policy, empty_session_policy()) or plan.session_work != 0 or len(plan.cache_exports) != 0:
             raise Error("DecoderSession: stray explicit session state")
@@ -131,7 +132,7 @@ def validate_plan_session_state(plan: SemanticPlan) raises:
         var scores = _session_tensor(plan, names, p + "scores", [plan.heads, plan.query_tokens, total])
         _session_operation(plan, scores, "gqa_scaled_dot", [selected[0], keys])
         var masked = _session_tensor(plan, names, p + "masked_scores", [plan.heads, plan.query_tokens, total])
-        _session_operation(plan, masked, "causal_mask", [scores, positions])
+        _session_operation(plan, masked, "causal_window_mask" if plan.explicit_window and plan.window_policy.windows[layer] > 0 else String("causal_mask"), [scores, positions])
         var probabilities = _session_tensor(plan, names, p + "probabilities", [plan.heads, plan.query_tokens, total])
         _session_operation(plan, probabilities, "softmax", [masked])
         var attention = _session_tensor(plan, names, p + "attention", [plan.query_tokens, checked_product(plan.heads, plan.value_dim)])

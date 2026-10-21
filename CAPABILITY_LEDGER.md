@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 111 |
+| `verified` | 112 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **156** |
+| **Total** | **157** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3417,3 +3417,30 @@ No new capability ID or hardware/complete-source execution claim.
   cleanup toward the same fixed broad target.
 - **Audit:** Full source/default/unresolved facts and32/64 words retained;
   source headers only, no payload mmap, host LLM forward or outside compiler.
+
+
+### AES-SOURCE-018 — Source windows and mathematical causal mask lowering
+
+- **Status:** `verified`
+- **Owner:** original window_policy/decoder_window_source, typed semantic/recipe/
+  expanded builders and session/bias/activation/cache/matrix/storage consumers.
+- **Claim sources:** TASK_hailo10h_ordinary_window_semantics.md and
+  docs/HAILO10H_DECODER_WINDOW_DESIGN.md, with pre-code published clarifications.
+- **Implementation evidence:** Bounded owned source/invocation per-layer widths,
+  independent numeric source-operation binding, original index/predicate/select
+  recipe, exact snapshots/maps/domains/lifetimes and separate temporary-index
+  storage timeline. Complete raw/default/dormant/unresolved source facts survive.
+- **Executable evidence:** docs/HAILO10H_MOJO_DECODER_WINDOW.md;23 suites,
+  154 methods/5455 native child calls,58 warning-free rebuilds. New7/725,
+  226 accepted/499 expected refusals;
+  16 frozen GGUF/8 ordinary comparisons,2720 integer admissions and10 extremes,
+  160 recovery cycles/8 ownership traces and46 qualified constructor cases.
+- **Evidence boundary:** Source/mathematical compiler support and hypothetical
+  storage only. No full ordinary architecture/scaling/training adapter, physical
+  cache compaction, immutable model identity, actual device precision/packing/
+  placement/fit, executable Hailo numerical program or source-model inference.
+- **Next acceptance gate:** Remaining ordinary scaling/training/architecture and
+  actual numerical Hailo configuration/register/CCW encoding/delivery/results/
+  cleanup toward the unchanged broad target.
+- **Audit:** Exact source32/64 and negative/preliminary/source/binary/trace facts
+  retained. No model/layer/attention forward, external compiler or inference proxy.
