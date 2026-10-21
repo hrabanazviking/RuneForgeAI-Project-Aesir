@@ -15,7 +15,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
-| Exact source scalar propagation | Verified source representation/math boundary | `HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`;108 methods/2996 calls,32/64 source words through typed/recipe/expanded IR, no implicit narrowing. Complete ordinary semantics and numerical Hailo execution remain open. |
+| Exact source scalar propagation | Verified source representation/math boundary | `HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`;115 methods/3111 calls including shared-import closure,32/64 source words through typed/recipe/expanded IR, no implicit narrowing. Complete ordinary semantics and numerical Hailo execution remain open. |
 | Explicit source-bound rotary recipes | Verified mathematical compiler integration | `HAILO10H_MOJO_ROTARY_RECIPES.md`;104 methods/2864 calls, explicit two-input/basis mapping and recomputed storage. Ordinary scalar/modifier adapter and numerical Hailo execution remain open. |
 | Qualified ordinary omitted/null defaults | Verified source interpretation refinement | `HAILO10H_MOJO_ORDINARY_DEFAULTS.md`;44 methods/1285 calls,28 complete explicit old outputs and326 actual header geometries. Raw fields/origins and all remaining execution gates retained. |
 | Owned ordinary projection bindings | Verified source compiler boundary | `HAILO10H_MOJO_DECODER_PROJECTIONS.md`;38 methods/1168 calls, actual326 header bindings, independent source Q/K/V widths and explicit output intent. Complete rotary/modifier adaptation and numerical execution remain open. |

@@ -1,0 +1,14 @@
+[
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "../source-scalar-projection-closure/decoder-projections",
+    "returncode": 0,
+    "sha256": "72898390b163675c261445db3351c09b8a098625a4a4680b5e4e7c9108dedfb3"
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "../source-scalar-projection-closure/decoder-projections-api",
+    "returncode": 0,
+    "sha256": "274617c6f6c43cf862e0f85e49334fa417289592990a018bb07948b833b4423c"
+  }
+]

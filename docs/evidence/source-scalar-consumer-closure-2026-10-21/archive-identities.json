@@ -1,0 +1,54 @@
+{
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/test.txt": {
+    "bytes": 154,
+    "sha256": "c10ea6207272adfd8bdc02201ba1f500feb3197f4a2082ac995a3555c236bd44"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/source-hashes.json": {
+    "bytes": 15465,
+    "sha256": "d409fc0fceb18320a17812155bd6432ba8704df62bbcd7f92ef9b435d070d500"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api": {
+    "bytes": 567240,
+    "sha256": "274617c6f6c43cf862e0f85e49334fa417289592990a018bb07948b833b4423c"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections": {
+    "bytes": 500776,
+    "sha256": "72898390b163675c261445db3351c09b8a098625a4a4680b5e4e7c9108dedfb3"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api-build.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/build-results.json": {
+    "bytes": 487,
+    "sha256": "307fce00ff6a6ec311fdb132bdffe75f60fbbf2a3ecb2261d1aeefb67d98d8c8"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-build.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/runs.json": {
+    "bytes": 72747,
+    "sha256": "2dd63fc5157399d6f4e70ba5ba9fc019b158bd5f6c7c2e4edeacdc6063972ab5"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/indexed.strace": {
+    "bytes": 28334,
+    "sha256": "0ba73036f5cbf32ade55ac273153663bb8599b98c0205b34f7dbffbe08c4bd3e"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/unindexed.strace": {
+    "bytes": 27223,
+    "sha256": "53c3366fe3418010f1f12208e0cec84c977a6e2216cf8041d165cd2f601cf9ed"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/summary.json": {
+    "bytes": 38,
+    "sha256": "3b9a2063174e2f51f184d596b41eb42476b58807ea80dee56d72fc1e07f20178"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/late-output-refusal.strace": {
+    "bytes": 27113,
+    "sha256": "40e468feb40c4eba32e0ef0879bc22716c413f18a35d169dba933bbf188b0420"
+  },
+  "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/remote-headers.strace": {
+    "bytes": 26927,
+    "sha256": "19c63b68313302de69e8bb1e65e7a58f8f6e2ea1655b7f840e38bd56fc179bb8"
+  }
+}

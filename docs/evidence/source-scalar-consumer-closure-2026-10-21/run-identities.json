@@ -1,0 +1,2106 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/indexed.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-0",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9d376bcaf12cc848c88f29d537cf387336fda0cd48d6663f9ba44921b6cfd285",
+    "stdout_bytes": 11253,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/unindexed.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-1",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d6f92b0f220d0543c6a80aa7afca1ab447f55ca77754c1e7c7c3f3502b5b4330",
+    "stdout_bytes": 10969,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/late-output-refusal.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-1",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "09d12598727bae5b2d0c9e93ff7bae50f66e9b5bf0a44dfab0eb9c5164cb15aa",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f882ae90211ec9379f93d7b800c6b0d100ec5646136a496a62a639c00094b2c2",
+    "stdout_bytes": 11253,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "2",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f882ae90211ec9379f93d7b800c6b0d100ec5646136a496a62a639c00094b2c2",
+    "stdout_bytes": 11253,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "1",
+      "20",
+      "2",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "47aa4afdd8b562da0f408c6e61952dd0329713b1a2b537d38d47fa789010fe58",
+    "stderr_bytes": 224
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "19",
+      "2",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "3aa909cd64fcf4ad554449c880e8eeef291770bf7fe9b11266f30476575d4806",
+    "stderr_bytes": 210
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "1",
+      "10000000",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "03452267c9540e01ea247316a8cb5bdc54132d6b81427e745a7d63e09d793832",
+    "stderr_bytes": 202
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "2",
+      "10000000",
+      "5153",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "87f2114f020c80524777420b1cbc6accff96019a609b48f789ba5c86968ccb3b",
+    "stderr_bytes": 226
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "2",
+      "20",
+      "2",
+      "1",
+      "5154",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "a7a577595480a7dffc98fd7433bfbdb209ad669244c82152d658caf0b9555a84",
+    "stderr_bytes": 213
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "0",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "aeb757f5f8ffa86630ca0449e39ab0c96188b8bb06a6c8705f9f76f487471d3f",
+    "stderr_bytes": 223
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "0",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "5516e89f875f5d384a91bc9670c90dd6b8e4f6844579968ab32fc01d56afc953",
+    "stderr_bytes": 239
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "-1",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "5516e89f875f5d384a91bc9670c90dd6b8e4f6844579968ab32fc01d56afc953",
+    "stderr_bytes": 239
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      ""
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "5516e89f875f5d384a91bc9670c90dd6b8e4f6844579968ab32fc01d56afc953",
+    "stderr_bytes": 239
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-2",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit \u00e6\ud834\udd1e"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "62a499c4fef114b90c94dbc6c190cb86d2b15a677b879a33bc093873945595ca",
+    "stdout_bytes": 11217,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-3",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "74e23d6d0df28f6b8968daa5c8bf735529a352035825985885830ed90d86953d",
+    "stdout_bytes": 10969,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-4",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b28575fe66148b6d3c3fb560b8c992f8a29b6c90b844b013b6eb37d4ce844ac3",
+    "stdout_bytes": 11334,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-5",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3a2199c36d71d43ffa8bcbeb7a38a360ec0ee0a321598530864e880c1e426bad",
+    "stdout_bytes": 11283,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-6",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5fe66de4f563306ba27396205d22faece9e9d9260b19ff1229151086776801bf",
+    "stdout_bytes": 11068,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-7",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3ed6f19bf4301726cbac1f68b48904a0b6ceb95b452b951685dd9c7988112040",
+    "stdout_bytes": 11384,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-8",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "aac0c729f560eb1de13fffa634705985a20d3311a2abef183efe727cd1b9c67c",
+    "stdout_bytes": 11320,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-9",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "09d12598727bae5b2d0c9e93ff7bae50f66e9b5bf0a44dfab0eb9c5164cb15aa",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-10",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "c7e479f6676ae8d98ef35c0c324dfdcf411e4646f7908e4205a829714637fb4d",
+    "stderr_bytes": 235
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-11",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "c7e479f6676ae8d98ef35c0c324dfdcf411e4646f7908e4205a829714637fb4d",
+    "stderr_bytes": 235
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "ownership"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "0ebf0f9b1f7c2a2272a0f52c6af85136dbdaf3d7e5d2b6567b87f88443ba6986",
+    "stdout_bytes": 10989,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "cycles"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "0ebf0f9b1f7c2a2272a0f52c6af85136dbdaf3d7e5d2b6567b87f88443ba6986",
+    "stdout_bytes": 10989,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "key_dim"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e3fd4de246675ecc45ca98cc228831596249bf4139c4121bdea3b93709c9efc4",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "value_dim"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e3fd4de246675ecc45ca98cc228831596249bf4139c4121bdea3b93709c9efc4",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "output"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e3fd4de246675ecc45ca98cc228831596249bf4139c4121bdea3b93709c9efc4",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "notes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "de1b796422e5e89ba0916de94eb161a988c7f39356f0403101864bad434f33a8",
+    "stderr_bytes": 220
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "work"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e3fd4de246675ecc45ca98cc228831596249bf4139c4121bdea3b93709c9efc4",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "owned_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "bfe0ebc53169921182df776788a11cac9295e037d181515fbb8233fcbb65c70b",
+    "stderr_bytes": 224
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "external_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "bfe0ebc53169921182df776788a11cac9295e037d181515fbb8233fcbb65c70b",
+    "stderr_bytes": 224
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_architecture"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "55c94d6e9d3abda607df7101da02b6aec1dc3e958ce1875cd58fd8ec837d5143",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_provenance"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "55c94d6e9d3abda607df7101da02b6aec1dc3e958ce1875cd58fd8ec837d5143",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_extent"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "55c94d6e9d3abda607df7101da02b6aec1dc3e958ce1875cd58fd8ec837d5143",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "55c94d6e9d3abda607df7101da02b6aec1dc3e958ce1875cd58fd8ec837d5143",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_weight_bytes"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "55c94d6e9d3abda607df7101da02b6aec1dc3e958ce1875cd58fd8ec837d5143",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_alias"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "55c94d6e9d3abda607df7101da02b6aec1dc3e958ce1875cd58fd8ec837d5143",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_binding"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "89b57b745d8d16380a1aab5951ecdb5f3fe0a827f674328ca72ed276e4a96a37",
+    "stderr_bytes": 220
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_kind"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "89b57b745d8d16380a1aab5951ecdb5f3fe0a827f674328ca72ed276e4a96a37",
+    "stderr_bytes": 220
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_tag"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "2bed791396dd08c1e4be8561870cb6e347b078b4bd4e4a509adc8a0a3caba7ee",
+    "stderr_bytes": 219
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_shape"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "0fc08695e8e1e9af9f70b26077c6a236b55b82299eb93a3d228f7030961af342",
+    "stderr_bytes": 214
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_name"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "2bed791396dd08c1e4be8561870cb6e347b078b4bd4e4a509adc8a0a3caba7ee",
+    "stderr_bytes": 219
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_path"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "2bed791396dd08c1e4be8561870cb6e347b078b4bd4e4a509adc8a0a3caba7ee",
+    "stderr_bytes": 219
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "source_policy"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "55c94d6e9d3abda607df7101da02b6aec1dc3e958ce1875cd58fd8ec837d5143",
+    "stderr_bytes": 227
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_name"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "745e8fce3852e37a8b73c8b54f8bcac191735f6a385b333626883c6f71b4224e",
+    "stderr_bytes": 241
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_shape"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "625d03a249ce27bd0330b1bb536f7013e7e10a788e972e4dd5ea4e75988a23c5",
+    "stderr_bytes": 214
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_offset"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "c2d468c5fe2650575a2e42feb376e7cabaa796f876c63e982dbdf9aa47877ae7",
+    "stderr_bytes": 221
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_extent"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "c2d468c5fe2650575a2e42feb376e7cabaa796f876c63e982dbdf9aa47877ae7",
+    "stderr_bytes": 221
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_metadata"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e3fd4de246675ecc45ca98cc228831596249bf4139c4121bdea3b93709c9efc4",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "original_metadata_count"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e3fd4de246675ecc45ca98cc228831596249bf4139c4121bdea3b93709c9efc4",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "architecture"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "ef63e2003049f091d9f1990c1bfc1429e9449470bffe09997a0aa7c29e9aa54e",
+    "stderr_bytes": 217
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "layer_mask"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "0fc08695e8e1e9af9f70b26077c6a236b55b82299eb93a3d228f7030961af342",
+    "stderr_bytes": 214
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_policy_work"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "0e1f727c17b4af1422687ff9a2a29325569afd6a9cf6ca813a78dc0da04353fb",
+    "stderr_bytes": 220
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_metadata"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "87f2114f020c80524777420b1cbc6accff96019a609b48f789ba5c86968ccb3b",
+    "stderr_bytes": 226
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_duplicate"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "4bef97b5cbe466dd5e9b8f035dd04e60b2b3c46b47c316ad9db6e67302c381dc",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_layer_count"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e57ca52a4a2c83b4b00bef60f6200c7d39b03c0d72af5779ebfc34a302c06fb0",
+    "stderr_bytes": 231
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_format"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "86518fe845df446c02ab8b091388d21b44760ef9b8518769bb2c3f54ebf17547",
+    "stderr_bytes": 234
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-12",
+      "source-0.weights",
+      "config.json",
+      "input_kind"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "ae1ff9abfae747882de147b47a9950e73b1f563075bf51290b54abd0bce0cece",
+    "stderr_bytes": 223
+  },
+  {
+    "arguments": [
+      "/usr/bin/strace",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/verification/remote-headers.strace",
+      "-e",
+      "trace=openat,openat2,close,mmap,munmap,pread64,ioctl,write",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections-api",
+      "remote",
+      "../ordinary-model-metadata-study/config.json",
+      "../ordinary-binding-study/0-header.json",
+      "4966315264",
+      "../ordinary-binding-study/1-header.json",
+      "1183919744"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b8b0d46df627b2730cb036f4f10baa63be6f71971be915e8d41994dcf3c57434",
+    "stdout_bytes": 115116,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-13",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "19020a0ce3e68d80f3e607894cb062c9052a3f1450d452950d6ef50c1e840d5b",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-14",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "0338bb58d1d17bbbad68ff332e91e9ffebe3d4fed30e0bb12e43105aba357e4c",
+    "stderr_bytes": 224
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-15",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "c7e479f6676ae8d98ef35c0c324dfdcf411e4646f7908e4205a829714637fb4d",
+    "stderr_bytes": 235
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-16",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "19020a0ce3e68d80f3e607894cb062c9052a3f1450d452950d6ef50c1e840d5b",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-17",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "c7e479f6676ae8d98ef35c0c324dfdcf411e4646f7908e4205a829714637fb4d",
+    "stderr_bytes": 235
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-18",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "19020a0ce3e68d80f3e607894cb062c9052a3f1450d452950d6ef50c1e840d5b",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-19",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "19020a0ce3e68d80f3e607894cb062c9052a3f1450d452950d6ef50c1e840d5b",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-20",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "19020a0ce3e68d80f3e607894cb062c9052a3f1450d452950d6ef50c1e840d5b",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-21",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "19020a0ce3e68d80f3e607894cb062c9052a3f1450d452950d6ef50c1e840d5b",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-22",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "19020a0ce3e68d80f3e607894cb062c9052a3f1450d452950d6ef50c1e840d5b",
+    "stderr_bytes": 218
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-23",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "bb8a5d07e446246138268a1187ff89dd87eb1514bf5f6360b21e16d1bfd4b8ba",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-24",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "bb8a5d07e446246138268a1187ff89dd87eb1514bf5f6360b21e16d1bfd4b8ba",
+    "stderr_bytes": 236
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-25",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e57ca52a4a2c83b4b00bef60f6200c7d39b03c0d72af5779ebfc34a302c06fb0",
+    "stderr_bytes": 231
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-26",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e57ca52a4a2c83b4b00bef60f6200c7d39b03c0d72af5779ebfc34a302c06fb0",
+    "stderr_bytes": 231
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-27",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "e57ca52a4a2c83b4b00bef60f6200c7d39b03c0d72af5779ebfc34a302c06fb0",
+    "stderr_bytes": 231
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-28",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "51fa2dedfe991191b0828dfd747dc8992eacade31d0dde6d8583a0a8e2b6f510",
+    "stderr_bytes": 250
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-29",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "b98068bedf77514304d6689cbf069b7a398277fc717abe70a81a47d159e3dc57",
+    "stderr_bytes": 272
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-30",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 1,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stderr_sha256": "c9fd971a241ee9ff70da5e2fb872b7572dbb2d7b06ea9b26c1405535ab4c1b34",
+    "stderr_bytes": 241
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-31",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "3bd614b5180e6188c922aa239c89c2051cb5cba5d70eed153ede3daef683c128",
+    "stdout_bytes": 17912,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-32",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "df8935b2c43d51ea93634460612df1e6c78977f91f17688f43bc195b77ad2783",
+    "stdout_bytes": 17500,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-33",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "427dd5bad6c28efbe5d46a267d5de470050408912bd29a23ec32280d2ee48dc9",
+    "stdout_bytes": 18190,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-34",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "63d97795102f4c1567018a3c398eda06877ed221f31773dd18d053216e42fb6e",
+    "stdout_bytes": 14185,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-35",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b6136a4fe072cf99297d8e486e4d001c888d4dd6375c8ffeefe4e1519329b7e9",
+    "stdout_bytes": 14706,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-36",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e1e756aeb2b939d0f64e1bb73af8a47ae34568a58e91319c24f05ec0421be857",
+    "stdout_bytes": 8475,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-37",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "b83e8ae37676f2c0ef7f5ce2283c49afbd1ede75c59310cddb84d9d49ae9776e",
+    "stdout_bytes": 8257,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-38",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cd4c4bda612accdc1bf08c33f100a417bf3fe612f229c07d372998cbcfde838b",
+    "stdout_bytes": 17572,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-39",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7544e744371a7ead8b02c9ef9aa886a559d23cb08069227c083440fc469c708a",
+    "stdout_bytes": 11934,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-40",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d354409d43b4c5bfb4765a96658f80ac7519e1d6fed34804a3f2a973da25521e",
+    "stdout_bytes": 17405,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-41",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "5e751a100c7a5355111bb9781da983f7b9a5f3ebc820e2c2ebae402e2baba765",
+    "stdout_bytes": 17994,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-42",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "02da6d5c3da1138d5f2acbdbe6d201b3e2f175cc74e4cf327b23b8924512833d",
+    "stdout_bytes": 14817,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-43",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a1a8b8c07a0207949d6a0b60e946e0b7f1a13a4491dc5a4f4c2f611df5afd369",
+    "stdout_bytes": 8243,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-44",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "80219d31b9dd6f455b94b452b50cb16fb67e06cbb7f36e221ea99f640106b396",
+    "stdout_bytes": 11339,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-45",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "af713fccf58d4f9eaa3552fad1b3337f6fe4b171f32f6de9d362f9d99880908a",
+    "stdout_bytes": 18334,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-46",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "9a8d84fc791695558d7e336ab77070ec4660abc8ed476a42daa7f1afbb4293ac",
+    "stdout_bytes": 7927,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-47",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "d61e338daacf8a1a5b2bd930f92971f24e30d82d8c1c7bfc4c641c620904bf64",
+    "stdout_bytes": 11652,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-48",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "0c6d87a6bc0b2c469fb2ddf33b3023e067395e58fc45851e366c5143216bbbe2",
+    "stdout_bytes": 14820,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-49",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "23bc9a195a17b1ecf995e4555f9fa2ce597525155c06c5ea6f0bdf54fca467ea",
+    "stdout_bytes": 11333,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-50",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "a6783d23dd81a586437f630b4369ab5916f43ced3876a2a65ad4a8b39f8a41ce",
+    "stdout_bytes": 17536,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-51",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "cf9edbade961af89a4c88d769c98eeccacef4d831300feb1359d2e3c56d6096b",
+    "stdout_bytes": 8773,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-52",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "87fed7191ade5b94ddc965f173bbecc10d8cc771c1a3456d51d6816b19c2dc5b",
+    "stdout_bytes": 7942,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-53",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "00e0ca5203468bb877858f1a9aa64e0259edcdf4daa692a9a084f4cfb9e27862",
+    "stdout_bytes": 17853,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-54",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "f823f986e4f762b97d3da1f4c3b4db0f05b7ec59fa2227e001404c489dc23c17",
+    "stdout_bytes": 11593,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-55",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "112975446e83db6b05eab3cb52ec9292d5f095cc0feca640897c42178ce47b69",
+    "stdout_bytes": 17575,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-56",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "744a61781282ab502d1ec98f698c38174ef364d29352a78a85c3a810826c67aa",
+    "stdout_bytes": 17592,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-57",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e4fe91a45f41816e567bc9ab611c4b2b12e72aafa0acb562601a9d115ad226d5",
+    "stdout_bytes": 15071,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-58",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "ece2159f3319e92aa2e5983b739082672647a7f325b81d363f90952af2da094d",
+    "stdout_bytes": 17306,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-59",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "7d4f83f9f9ab5b520a3894b1e883a3e9b70128569eb7bd60b586617862946d0b",
+    "stdout_bytes": 14861,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-60",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "6461dea87f872157ea6b37294b62c61d845bb828835373d18f107ee93d714060",
+    "stdout_bytes": 14720,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-61",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "e86fe4922c39882b7d0f5316050857ccdff2b12a024e3a166b9c2d4dd7dafa9f",
+    "stdout_bytes": 11319,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-62",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "4c69ba242aa51c85fe0a19764c92c535b4166ec0ebe75b902883d8b477556bd4",
+    "stdout_bytes": 8201,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-63",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "2b014dc46e2ede646aec37ea198413792c68859c703521edc9dd3fc44d53ba48",
+    "stdout_bytes": 18309,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "unindexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-64",
+      "source-0.weights",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "da2a6804a69750a54c4aa28b7cbb934180d7519ae14f6b0deb13434776d858f1",
+    "stdout_bytes": 7927,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-65",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "66ee5ae1ff14824894666582c03166969773d0484d01c14425e6ed594d285b13",
+    "stdout_bytes": 8527,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  },
+  {
+    "arguments": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/source-scalar-projection-closure/decoder-projections",
+      "indexed",
+      "/tmp/aesir-decoder-projections-vxpdx9m8/ordinary-66",
+      "index.json",
+      "config.json",
+      "8",
+      "10000",
+      "64",
+      "10000000",
+      "10000000",
+      "explicit ordinary projection test"
+    ],
+    "returncode": 0,
+    "stdout_sha256": "757149c026ffbff567cd997e76fb2281618ac11e5bc6c3c78dce637e05d9ab9b",
+    "stdout_bytes": 17859,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0
+  }
+]

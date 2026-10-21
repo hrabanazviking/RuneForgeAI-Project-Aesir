@@ -77,3 +77,14 @@ Whole-repository consistency remains failing:18187 diagnostics,
 nonreceipt diagnostic after shifted Markdown line normalization. Ledger census:
 107 verified/152 total, no duplicate ID. This is scoped native acceptance;
 no historical-master/full-repository pass or hardware numerical proof is claimed.
+
+## Shared semantic import closure — 2026-10-21
+
+After publication5214d7, the import audit identified two ordinary projection
+entrypoints that also import the shared checked_product helper. Both rebuild
+without warnings and their existing7 methods/115 calls pass,50 accepted/65
+expected refusals,326 actual metadata-only header bindings. No source code
+changed. Combined source-scalar acceptance is115 methods/3111 calls across18
+suites and34 rebuilt entrypoints. The initial32-build/108-method receipt above
+remains historical evidence. Additional receipt:
+docs/evidence/source-scalar-consumer-closure-2026-10-21/.

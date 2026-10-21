@@ -3318,3 +3318,8 @@ bindings. No model/device numerical execution or runtime external dependency.
   ordinary semantics/graph integration and actual numerical Hailo execution.
 - **Audit:** Exact source/binary/negative/ownership identities retained. No DFC,
   outside compiler/machine, inference proxy or special user conversion dependency.
+
+Source-scalar shared import closure for AES-SOURCE-013: two additional ordinary
+projection entrypoints rebuilt,7 methods/115 calls pass; combined115 methods/
+3111 calls and34 builds. See docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md.
+No new capability ID or hardware/complete-source execution claim.
