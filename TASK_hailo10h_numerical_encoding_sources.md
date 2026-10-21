@@ -28,3 +28,10 @@ oracles, under a scoped contract published before its implementation. First
 numerical hardware proof still requires a valid original program and bounded
 activation/result/cleanup. Keep broad ordinary-model support unchanged and
 continue implementation automatically wherever evidence permits.
+
+2026-10-21 matching-v5.3 integrated-NNC study:
+docs/HAILO10H_INTEGRATED_NNC_BOUNDARY_2026-10-21.md. Action-list/shared-memory/
+mailbox receiver boundaries are public; board table selects H15H/H15L/H12L and
+reuses an H10H-named mask. No compatible H10H profile or arithmetic encoding was
+qualified, and this does not enable the Pi's rejected NNC family. Continue actual
+numerical/placement/program evidence work; no hardware write or new native claim.

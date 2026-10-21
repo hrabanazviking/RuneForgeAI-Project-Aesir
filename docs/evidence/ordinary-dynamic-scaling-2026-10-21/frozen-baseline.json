@@ -1,0 +1,9 @@
+{
+  "commit": "5626f2d99b1f2347446e6e3f189de49c9d6fbee6",
+  "entrypoints": 64,
+  "source_files": 197,
+  "acceptance_methods": 161,
+  "acceptance_calls": 6387,
+  "model_execution": false,
+  "device_execution": false
+}

@@ -1,0 +1,53 @@
+{
+  "pin": "45e5fc53c6922fd6985febfc09399653497a2082",
+  "license": "GPL-2.0",
+  "license_sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505",
+  "source_files": [
+    {
+      "path": "linux/integrated_nnc/src/board.h",
+      "bytes": 4206,
+      "sha256": "fb31905f356a9d331ac5d04a4146d20a6f609ded8af08322273942b609f67a74"
+    },
+    {
+      "path": "linux/integrated_nnc/src/dram_vdma.h",
+      "bytes": 1242,
+      "sha256": "8f8a7f574ffc0686f938df39c0b87dadc4221ea32f334ce4b46385968d5a94bb"
+    },
+    {
+      "path": "linux/integrated_nnc/src/fw_control.h",
+      "bytes": 501,
+      "sha256": "305951604cdeeb040b057be8fc0ee87e8228f9fdcce87bd0acb27fa29f17f939"
+    },
+    {
+      "path": "linux/integrated_nnc/src/file_operations.c",
+      "bytes": 11904,
+      "sha256": "459bc5895462298a586bcec9ee9f4219f7d2be91b3397443467cd610ba7e92d2"
+    },
+    {
+      "path": "linux/integrated_nnc/src/main.c",
+      "bytes": 17626,
+      "sha256": "605bcd1acec867c1f83d1941537adf10eaef4e1757f4923c59532fcfbad4e025"
+    },
+    {
+      "path": "linux/integrated_nnc/src/dram_vdma.c",
+      "bytes": 10011,
+      "sha256": "064aa8473e3a8c28843c28ac8442e993aaa9a2a26a4bf1598b22dff90802bb10"
+    },
+    {
+      "path": "linux/integrated_nnc/src/fw_control.c",
+      "bytes": 5853,
+      "sha256": "4866e30b508f9fb86d0aeafdf32508ef5aff97b1759f7bc1e62beddc6fa1942b"
+    }
+  ],
+  "device_access": false,
+  "numerical_encodings_established": 0,
+  "hailo10h_profile_qualified": false,
+  "interface_facts": [
+    "Integrated NNC dispatcher admits firmware controls and an action-list write operation, using a platform driver distinct from this Pi PCIe SoC endpoint.",
+    "Action-list bytes are copied into file-context-indexed shared memory and a DMA address is returned; this source does not define arithmetic instruction payloads.",
+    "Pinned board table selects H15H/H15L/H12L profiles. A source-channel mask with H10H in its name is reused by the H15 entries; its name alone cannot qualify a H10H descriptor.",
+    "DMA channel-address mask literal is 0x7ffff0000 (bits16..34), while its header comment says17:34; preserve the discrepancy until target encoding is independently established.",
+    "Firmware-control implementation uses mailbox/shared-memory framing, a checksum/length header, bounded reply length and completion/timeout handling; it supplies no arithmetic CCW map.",
+    "No external driver implementation was copied/translated into Aesir, firmware downloaded, reset or kernel changed. No new Pi raw-control route or numerical program was established."
+  ]
+}

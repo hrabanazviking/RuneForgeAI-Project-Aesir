@@ -45,3 +45,8 @@ acceptance are fixed before production edits. Other variants stay required work.
 recovery cycles. Receipt docs/HAILO10H_MOJO_DECODER_SCALING.md. The parent remains
 active: dynamic/context/cache-basis and other variants/training/architecture are
 required work. Full ordinary/Hailo numerical execution remains unverified.
+
+2026-10-21 next child TASK_hailo10h_dynamic_scaling_semantics.md: qualified192
+static initializer cases/432 external Float32 words and froze64 controls/197 source
+identities. docs/HAILO10H_ORDINARY_DYNAMIC_SCALING_AUDIT.md. No native dynamic or
+cache-transition acceptance. Publish exact original contract before next code.

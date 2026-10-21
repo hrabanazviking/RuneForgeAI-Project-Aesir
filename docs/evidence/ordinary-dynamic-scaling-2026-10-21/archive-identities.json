@@ -1,0 +1,62 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/audit-draft.md",
+    "bytes": 4271,
+    "mode": "0o644",
+    "sha256": "7c718e7379b3057269e3eedf6a6298fb4df2774f751cdaf03383be757a7b297c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/audit.json",
+    "bytes": 1249,
+    "mode": "0o644",
+    "sha256": "9c44a4319f2760617b5aeb13f63dc1b56606556d28be3b348f6bfc0ff7bd0106"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/constant_probe.py",
+    "bytes": 3787,
+    "mode": "0o644",
+    "sha256": "e4449160baf42bde48d33f0a5787607fe7f920c9b359fbb5c8b27125c2dad644"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/constants.json",
+    "bytes": 92065,
+    "mode": "0o644",
+    "sha256": "6f12119ccffa84eca9ce8ca1471c3253794a3eed55cac18349398e06ee789d98"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/constants.strace",
+    "bytes": 14947977,
+    "mode": "0o644",
+    "sha256": "78fc7907159057d9db3d4a476b49bb9ed1154df5593cc7fbfa5d0fe9156c5706"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/errors.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/preliminary/constant_probe.py",
+    "bytes": 3632,
+    "mode": "0o644",
+    "sha256": "45bad89781632474940ed6b1c235e9ac68b0f896dbf554c7a35c31f1267b7db0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/preliminary/constants.json",
+    "bytes": 84961,
+    "mode": "0o644",
+    "sha256": "2aef239ae6b6b7860119a0b4aac4854e0df620acf88f98bdbe741e50254a4568"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/preliminary/constants.strace",
+    "bytes": 14947983,
+    "mode": "0o644",
+    "sha256": "3b38b12766c87e7ae55b2e98bdee70962e28b4289b2bc3e252fe8b33bbe9b514"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-dynamic-scaling-study/preliminary/errors.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

@@ -1,3 +1,20 @@
+## 2026-10-21 — Codex: qualified dynamic constants and integrated NNC boundaries
+
+- Followed published default/linear implementation5626f2d with192 isolated dynamic
+  initializer cases:144 return432 Float32 words,48 width2 initializer errors.
+  Context dependence and original-context-field non-effect are bounded observations;
+  source-model validity, cache transitions and native dynamic behavior remain open.
+- Froze64 accepted compiler controls with modes/hashes and197 Mojo identities.
+  Active TASK_hailo10h_dynamic_scaling_semantics.md requires an exact original
+  source/math/cache-basis/consumer/storage/acceptance contract before further code.
+- Licensed seven-file matching-v5.3 integrated-NNC interface study maps action-list/
+  mailbox/shared-memory/profile boundaries. H10H-named DMA constants are reused
+  by H15 entries; no H10H compatibility/arithmetic encoding or Pi route was earned.
+- No native capability ID, model/layer/attention forward, numerical device proof,
+  external compiler/dependency, source translation or hardware change. Receipts:
+  docs/HAILO10H_ORDINARY_DYNAMIC_SCALING_AUDIT.md and
+  docs/HAILO10H_INTEGRATED_NNC_BOUNDARY_2026-10-21.md. Broad target unchanged.
+
 ## 2026-10-21 — Codex: original owned default/linear rotary scaling
 
 - Implemented exact source/default/null/legacy/modern scaling intent, independent

@@ -1,0 +1,12 @@
+{
+  "baseline": 23254,
+  "current": 23292,
+  "added": 38,
+  "removed": 0,
+  "new_nonreceipt": [],
+  "native_code_changed": false,
+  "ledger_entries": 158,
+  "verified_entries": 113,
+  "whole_repository_pass": false,
+  "device_execution": false
+}

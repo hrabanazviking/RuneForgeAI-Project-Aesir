@@ -1,0 +1,67 @@
+{
+  "repository": "hailo-ai/linux-yocto-hailo",
+  "pin": {
+    "repository": "hailo-ai/linux-yocto-hailo",
+    "branch": "1.13.0",
+    "sha": "2e58815fd413114c0aba5e045ead528c374dbd74"
+  },
+  "public_org_repositories": 47,
+  "root_tree_truncated": true,
+  "driver_tree_truncated": false,
+  "driver_entries": 32089,
+  "exact_neural_name_matches": [],
+  "source_implementation_bodies_inspected": 0,
+  "numerical_fields_established": 0,
+  "device_access": false,
+  "absence_of_public_ISA_proven": false,
+  "notes": [
+    "Metadata/path-only bounded search; no inferred Hailo-10H arithmetic register map.",
+    "Hailo15 imaging/DSP/DMA names do not qualify Hailo-10H numerical programs."
+  ],
+  "identities": {
+    "drivers-misc.json": {
+      "bytes": 67584,
+      "sha256": "5bbfe5fbbf4585e7ed9c453c84e665ae575fbc37abc88bc37fbeffcedb358a50"
+    },
+    "linux-pin.json": {
+      "bytes": 124,
+      "sha256": "711535bab8653936b85d478a7f55e0cd215d8d2fac5f0977f9e3848d924b2db9"
+    },
+    "repositories.json": {
+      "bytes": 254964,
+      "sha256": "86e7a27289582ecfa8b6c06978a7116a2887bab189e2c24813c19da223afa1a7"
+    },
+    "linux-driver-directories.json": {
+      "bytes": 121044,
+      "sha256": "45c752c4444cc42b51ecb8f6bc7c669362be78674cb4ae8fe2988aa334e45fa0"
+    },
+    "COPYING": {
+      "bytes": 496,
+      "sha256": "fb5a425bd3b3cd6071a3a9aff9909a859e7c1158d54d32e07658398cd67eb6a0"
+    },
+    "LICENSES-preferred-GPL-2.0": {
+      "bytes": 18729,
+      "sha256": "f6b78c087c3ebdf0f3c13415070dd480a3f35d8fc76f3d02180a407c1c812f79"
+    },
+    "LICENSES-exceptions-Linux-syscall-note": {
+      "bytes": 1258,
+      "sha256": "8e378ab93586eb55135d3bc119cce787f7324f48394777d00c34fa3d0be3303f"
+    },
+    "linux-hailo-directory.json": {
+      "bytes": 3232,
+      "sha256": "7ba01cf6f717a54a8f9daa494d41df11da895385faafef0478c280f3d90a5d93"
+    },
+    "linux-driver-tree.json": {
+      "bytes": 7908670,
+      "sha256": "31830cad6aed4c432397284036eee245a82b7d7258a2bcf616b23302decaf9a4"
+    },
+    "linux-tree.json": {
+      "bytes": 18878957,
+      "sha256": "e8d9312c5d8372a23bdff7942ca4f504229a417a70165172af417739d73ecfd0"
+    },
+    "drivers-soc.json": {
+      "bytes": 25420,
+      "sha256": "2da0d42bd753bd1726e50875ea94a58dff5b271f63ac972eb2991b2a3bf3d0fd"
+    }
+  }
+}

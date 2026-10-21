@@ -16,7 +16,7 @@ verify, publish and advance each bounded work slice.
 | Work slice | State | Evidence / next action |
 |---|---|---|
 | Owned default/linear rotary scaling | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_SCALING.md`;161 methods/6387 calls,64 builds,16 frozen GGUF/8 ordinary outputs and160 recovery cycles. Other variants/full ordinary/numerical device gates stay open. |
-| Remaining scaling/modifier semantics | Active qualification | `TASK_hailo10h_ordinary_scaling_semantics.md`; dynamic/context/cache-basis, other variants and training semantics require original qualification/contracts/implementation. |
+| Remaining scaling/modifier semantics | Active qualification | `TASK_hailo10h_dynamic_scaling_semantics.md`;192 static initializer cases/432 external words and64 frozen controls. Dynamic/cache-basis/other variants/training require original contracts/implementation. |
 | Ordinary window semantics | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_WINDOW.md`;154 methods/5455 calls,58 builds,16 frozen GGUF/8 ordinary outputs and160 recovery cycles. No physical compaction or numerical device claim. |
 | Ordinary cache/session semantics | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_SESSION.md`;147 methods/4730 calls,51 builds,8 complete frozen GGUF/2 ordinary comparisons and160 recovery cycles. No numerical device proof. |
 | Source activation selection/lowering | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_ACTIVATION.md`;140 methods/4124 calls,46 builds,8 complete frozen GGUF and4 additional full comparisons. Other activations/full ordinary/numerical device gates remain open. |
@@ -95,3 +95,8 @@ tagged full-shape storage/name provenance and ordinary config/index facts; typed
 configuration/compatible graph construction passes54 methods/1933 calls,
 while actual encoding/configuration/placement/transport work remains open. Architectural
 patents are not a device ISA.
+
+Latest integrated-platform qualification:
+`HAILO10H_INTEGRATED_NNC_BOUNDARY_2026-10-21.md`. Public receiver/profile facts do
+not establish H10H numerical instruction fields or an alternative Pi raw-control
+route. Numerical source/configuration/placement/program work stays active.

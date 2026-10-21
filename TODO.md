@@ -86,8 +86,8 @@
   161 methods/6387 native child calls,64 builds,16 frozen GGUF/8 ordinary outputs,
   560 mutation refusals and160 recovery cycles. Mathematical compiler only.
   `docs/HAILO10H_MOJO_DECODER_SCALING.md`.
-- [ ] Active: `TASK_hailo10h_ordinary_scaling_semantics.md`: dynamic/context/
-  cache-basis and other scaling/modifier qualification and original implementation.
+- [ ] Active: `TASK_hailo10h_dynamic_scaling_semantics.md`: dynamic/context/
+  cache-basis qualification; other scaling/modifiers remain under the parent task.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

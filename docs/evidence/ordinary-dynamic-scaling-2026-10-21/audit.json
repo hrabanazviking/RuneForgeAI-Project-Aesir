@@ -1,0 +1,39 @@
+{
+  "case_count": 192,
+  "accepted": 144,
+  "refused": 48,
+  "constant_words": 432,
+  "worst_relative_error_against_independent_candidate": 3.4248169908430164e-07,
+  "model_or_attention_forward": false,
+  "weights_loaded": false,
+  "model_module_imported": false,
+  "device_access": false,
+  "external_runtime_dependency": false,
+  "identities": {
+    "constant_probe.py": {
+      "bytes": 3787,
+      "sha256": "e4449160baf42bde48d33f0a5787607fe7f920c9b359fbb5c8b27125c2dad644"
+    },
+    "errors.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "constants.json": {
+      "bytes": 92065,
+      "sha256": "6f12119ccffa84eca9ce8ca1471c3253794a3eed55cac18349398e06ee789d98"
+    },
+    "constants.strace": {
+      "bytes": 14947977,
+      "sha256": "78fc7907159057d9db3d4a476b49bb9ed1154df5593cc7fbfa5d0fe9156c5706"
+    },
+    "audit-draft.md": {
+      "bytes": 4271,
+      "sha256": "7c718e7379b3057269e3eedf6a6298fb4df2774f751cdaf03383be757a7b297c"
+    }
+  },
+  "original_context_field_effect_observed": false,
+  "below_equal_context_words_identical": true,
+  "cache_transition_semantics_qualified": false,
+  "model_validity_qualified": false,
+  "native_implementation": false
+}

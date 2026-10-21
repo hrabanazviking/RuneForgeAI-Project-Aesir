@@ -1,0 +1,152 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/COPYING",
+    "bytes": 496,
+    "mode": "0o644",
+    "sha256": "fb5a425bd3b3cd6071a3a9aff9909a859e7c1158d54d32e07658398cd67eb6a0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/LICENSES-exceptions-Linux-syscall-note",
+    "bytes": 1258,
+    "mode": "0o644",
+    "sha256": "8e378ab93586eb55135d3bc119cce787f7324f48394777d00c34fa3d0be3303f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/LICENSES-preferred-GPL-2.0",
+    "bytes": 18729,
+    "mode": "0o644",
+    "sha256": "f6b78c087c3ebdf0f3c13415070dd480a3f35d8fc76f3d02180a407c1c812f79"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/audit.json",
+    "bytes": 2282,
+    "mode": "0o644",
+    "sha256": "877140f28d1904d44a534c7cb67407502793511ea35142cd8c2d9e8efe6e72c4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/driver-v5.3-LICENSE",
+    "bytes": 18091,
+    "mode": "0o644",
+    "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/drivers-misc.json",
+    "bytes": 67584,
+    "mode": "0o644",
+    "sha256": "5bbfe5fbbf4585e7ed9c453c84e665ae575fbc37abc88bc37fbeffcedb358a50"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/drivers-soc.json",
+    "bytes": 25420,
+    "mode": "0o644",
+    "sha256": "2da0d42bd753bd1726e50875ea94a58dff5b271f63ac972eb2991b2a3bf3d0fd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/hailort-driver-branches.json",
+    "bytes": 1288,
+    "mode": "0o644",
+    "sha256": "014783c8a2fc9700b2e3c4ad2180705eeb9a8f636f019ffaff6f0702d44ca799"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/hailort-driver-pin.json",
+    "bytes": 122,
+    "mode": "0o644",
+    "sha256": "342d23ddf79c32147071215dce55f30d2249066c8cd2dcf9697003e5e636260d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/hailort-driver-tree.json",
+    "bytes": 22178,
+    "mode": "0o644",
+    "sha256": "65d23713631d832f7f5127b5927df2b9efacb86639e8c00f1e283fe39d61d12f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/board.h",
+    "bytes": 4206,
+    "mode": "0o644",
+    "sha256": "fb31905f356a9d331ac5d04a4146d20a6f609ded8af08322273942b609f67a74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/dram_vdma.c",
+    "bytes": 10011,
+    "mode": "0o644",
+    "sha256": "064aa8473e3a8c28843c28ac8442e993aaa9a2a26a4bf1598b22dff90802bb10"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/dram_vdma.h",
+    "bytes": 1242,
+    "mode": "0o644",
+    "sha256": "8f8a7f574ffc0686f938df39c0b87dadc4221ea32f334ce4b46385968d5a94bb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/file_operations.c",
+    "bytes": 11904,
+    "mode": "0o644",
+    "sha256": "459bc5895462298a586bcec9ee9f4219f7d2be91b3397443467cd610ba7e92d2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/fw_control.c",
+    "bytes": 5853,
+    "mode": "0o644",
+    "sha256": "4866e30b508f9fb86d0aeafdf32508ef5aff97b1759f7bc1e62beddc6fa1942b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/fw_control.h",
+    "bytes": 501,
+    "mode": "0o644",
+    "sha256": "305951604cdeeb040b057be8fc0ee87e8228f9fdcce87bd0acb27fa29f17f939"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/interface-facts.json",
+    "bytes": 2590,
+    "mode": "0o644",
+    "sha256": "ac7939502f670542dba911c8b1f2aa958cbd13eb50e974c0f54e33a181c5f972"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/main.c",
+    "bytes": 17626,
+    "mode": "0o644",
+    "sha256": "605bcd1acec867c1f83d1941537adf10eaef4e1757f4923c59532fcfbad4e025"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/integrated-nnc-v5.3/provenance.json",
+    "bytes": 1271,
+    "mode": "0o644",
+    "sha256": "a4485b66ba48b4e66dce70057600022f5a61af6684339e5946533ff086f1ef8e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/linux-driver-directories.json",
+    "bytes": 121044,
+    "mode": "0o644",
+    "sha256": "45c752c4444cc42b51ecb8f6bc7c669362be78674cb4ae8fe2988aa334e45fa0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/linux-driver-tree.json",
+    "bytes": 7908670,
+    "mode": "0o644",
+    "sha256": "31830cad6aed4c432397284036eee245a82b7d7258a2bcf616b23302decaf9a4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/linux-hailo-directory.json",
+    "bytes": 3232,
+    "mode": "0o644",
+    "sha256": "7ba01cf6f717a54a8f9daa494d41df11da895385faafef0478c280f3d90a5d93"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/linux-pin.json",
+    "bytes": 124,
+    "mode": "0o644",
+    "sha256": "711535bab8653936b85d478a7f55e0cd215d8d2fac5f0977f9e3848d924b2db9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/linux-tree.json",
+    "bytes": 18878957,
+    "mode": "0o644",
+    "sha256": "e8d9312c5d8372a23bdff7942ca4f504229a417a70165172af417739d73ecfd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/hailo-public-repository-census-2026-10-21/repositories.json",
+    "bytes": 254964,
+    "mode": "0o644",
+    "sha256": "86e7a27289582ecfa8b6c06978a7116a2887bab189e2c24813c19da223afa1a7"
+  }
+]
