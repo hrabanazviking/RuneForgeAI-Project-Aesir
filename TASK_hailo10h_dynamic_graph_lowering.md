@@ -4,6 +4,11 @@ Parent TASK_hailo10h_dynamic_decoder_integration.md. Read fixed owner scope,
 docs/HAILO10H_MOJO_DYNAMIC_SOURCE_HISTORY.md and source/history contract7df6cef.
 Phase1 source/policy/history arithmetic is verified, not graph/model execution.
 
+Exact phase2 pre-code contract:docs/HAILO10H_DYNAMIC_GRAPH_LOWERING_DESIGN.md.
+Publish it before production edits. It requires an owned position_range index
+producer, distinct context/history outputs and independent real/index storage
+timelines, alongside the full dynamic source/recipe/consumer invariants.
+
 Before production changes publish an exact original API/source/operation/recipe/
 consumer/domain/lifetime/storage/acceptance contract. Preserve old constructors,
 complete outputs and source_context evidence. Use an explicit path separating

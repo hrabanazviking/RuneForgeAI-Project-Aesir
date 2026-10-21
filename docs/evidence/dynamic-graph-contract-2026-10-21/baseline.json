@@ -1,0 +1,10 @@
+{
+  "pre_code_contract": "7df6cef9dcd121753eec0349cf98b50c2139b1d9",
+  "source_files": 204,
+  "entrypoints": 67,
+  "new_source_history_methods": 4,
+  "new_source_history_calls": 244,
+  "combined_regression_run_claimed": false,
+  "model_execution": false,
+  "device_execution": false
+}

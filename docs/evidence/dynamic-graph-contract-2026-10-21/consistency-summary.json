@@ -1,0 +1,16 @@
+{
+  "baseline": 23296,
+  "current": 23296,
+  "added": 0,
+  "removed": 0,
+  "new_nonreceipt": [],
+  "ledger_entries": 160,
+  "verified_entries": 115,
+  "native_sources_unchanged": 204,
+  "frozen_controls": 67,
+  "whole_repository_pass": false,
+  "raw_identities": {
+    "../dynamic-source-history-consistency.txt": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8",
+    "../dynamic-graph-contract-consistency.txt": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8"
+  }
+}
