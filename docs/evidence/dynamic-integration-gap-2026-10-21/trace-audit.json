@@ -1,0 +1,42 @@
+[
+  {
+    "name": "within",
+    "weight_header_reads": 2,
+    "header_extent": 1952,
+    "pread_requests_inside_header": true,
+    "connect_calls": 0,
+    "ioctls": 0
+  },
+  {
+    "name": "capacity_above_source",
+    "weight_header_reads": 2,
+    "header_extent": 1952,
+    "pread_requests_inside_header": true,
+    "connect_calls": 0,
+    "ioctls": 0
+  },
+  {
+    "name": "positions_above_source",
+    "weight_header_reads": 2,
+    "header_extent": 1952,
+    "pread_requests_inside_header": true,
+    "connect_calls": 0,
+    "ioctls": 0
+  },
+  {
+    "name": "dynamic_inside",
+    "weight_header_reads": 2,
+    "header_extent": 1952,
+    "pread_requests_inside_header": true,
+    "connect_calls": 0,
+    "ioctls": 0
+  },
+  {
+    "name": "dynamic_growth",
+    "weight_header_reads": 2,
+    "header_extent": 1952,
+    "pread_requests_inside_header": true,
+    "connect_calls": 0,
+    "ioctls": 0
+  }
+]

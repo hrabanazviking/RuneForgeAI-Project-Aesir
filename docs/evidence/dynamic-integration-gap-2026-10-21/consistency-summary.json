@@ -1,0 +1,20 @@
+{
+  "baseline": 23296,
+  "late_receipt_baseline": 23297,
+  "current": 23296,
+  "added": 0,
+  "removed": 0,
+  "new_nonreceipt": [],
+  "receipt_rename": "The zero-byte build receipt was tracked after the preceding check, adding one runtime_state artifact issue. Renamed build.log to build-diagnostics.txt with identical bytes; original retained in published history and unchanged outside archive.",
+  "native_source_changes": false,
+  "source_identities": 199,
+  "frozen_controls": 65,
+  "ledger_entries": 159,
+  "verified_entries": 114,
+  "whole_repository_pass": false,
+  "raw_identities": {
+    "../dynamic-context-consistency.txt": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8",
+    "../dynamic-integration-gap-consistency.txt": "7a69c385ab622bba26147f492b28b68510a6b554ce377054d31de2f2c797a668",
+    "../dynamic-integration-gap-consistency-corrected.txt": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8"
+  }
+}

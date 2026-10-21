@@ -1,0 +1,11 @@
+{
+  "commit": "ce43d0f0e2d8936898652ebca9b79c78754e34dd",
+  "source_files": 199,
+  "entrypoints": 65,
+  "previous_integration_methods": 161,
+  "previous_integration_calls": 6387,
+  "standalone_new_methods": 4,
+  "standalone_new_calls": 122,
+  "combined_regression_run_claimed": false,
+  "source_execution": false
+}

@@ -12,6 +12,9 @@ admission. Full native source/cache/recipe integration still needs its own exact
 published contract before those edits. The standalone child is now verified:
 docs/HAILO10H_MOJO_DYNAMIC_CONTEXT.md;4 methods/122 native calls, one clean build.
 It does not admit dynamic source models or modify any cache/graph consumer.
+Next:TASK_hailo10h_dynamic_decoder_integration.md, with five native metadata
+observations of current source-context/capacity coupling and199 source/65 control
+identities frozen. See docs/HAILO10H_DYNAMIC_CONTEXT_INTEGRATION_GAPS.md.
 192 constant-only cases/432 Float32 words qualify a bounded context-dependent
 candidate and explicit public-initializer errors, not full source execution.
 All64 currently accepted compiler controls and197 Mojo identities are frozen

@@ -1,0 +1,129 @@
+{
+  "cases": [
+    {
+      "name": "within",
+      "query": 1,
+      "capacity": 8,
+      "scaling_kind": "default",
+      "returncode": 0,
+      "stdout": {
+        "bytes": 125332,
+        "sha256": "dc461c4bb0e42fb6c706ee0073fdff837be364dc423779dc68880ba5c19e324a"
+      },
+      "stderr": "",
+      "parameters": {
+        "layers": 2,
+        "hidden": 8,
+        "feed_forward": 12,
+        "heads": 2,
+        "kv_heads": 1,
+        "key_dim": 4,
+        "value_dim": 4,
+        "rope_dim": 2,
+        "vocabulary": 10,
+        "context_capacity": 8,
+        "query_tokens": 1,
+        "past_tokens": 0,
+        "rope_base": null,
+        "rms_epsilon": null,
+        "source_layout": "row_major_outermost_first"
+      }
+    },
+    {
+      "name": "capacity_above_source",
+      "query": 1,
+      "capacity": 9,
+      "scaling_kind": "default",
+      "returncode": 1,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SemanticPlan: invalid session query/past/context extent\n"
+    },
+    {
+      "name": "positions_above_source",
+      "query": 9,
+      "capacity": 9,
+      "scaling_kind": "default",
+      "returncode": 1,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SemanticPlan: invalid session query/past/context extent\n"
+    },
+    {
+      "name": "dynamic_inside",
+      "query": 1,
+      "capacity": 8,
+      "scaling_kind": "dynamic",
+      "returncode": 1,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: DecoderScaling: bounded kind/work/provenance required\n"
+    },
+    {
+      "name": "dynamic_growth",
+      "query": 9,
+      "capacity": 9,
+      "scaling_kind": "dynamic",
+      "returncode": 1,
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SemanticPlan: invalid session query/past/context extent\n"
+    }
+  ],
+  "source_config": {
+    "model_type": "smollm3",
+    "num_hidden_layers": 2,
+    "hidden_size": 8,
+    "intermediate_size": 12,
+    "num_attention_heads": 2,
+    "num_key_value_heads": 1,
+    "vocab_size": 10,
+    "max_position_embeddings": 8,
+    "attention_bias": false,
+    "mlp_bias": false,
+    "use_cache": false,
+    "tie_word_embeddings": true,
+    "custom": {
+      "unknown": [
+        1,
+        true,
+        "\u00e6\u0000\ud834\udd1e"
+      ]
+    },
+    "head_dim": 4,
+    "rope_scaling": {
+      "rope_type": "dynamic",
+      "factor": 2.0,
+      "original_max_position_embeddings": 4
+    },
+    "no_rope_layers": [
+      1,
+      0
+    ]
+  },
+  "header_extent": 1952,
+  "source_files": {
+    "../dynamic-context-integration-study/root/config.json": {
+      "bytes": 432,
+      "sha256": "23b22dcc49a9210266a3d81f52095e84ed59e9db670a87acdecd35b8af6da763"
+    },
+    "../dynamic-context-integration-study/root/weights": {
+      "bytes": 4112,
+      "sha256": "00d4dfacd9678c75b13f3375b605d524502c3db276b2d41534bac6a5d489046f"
+    }
+  },
+  "binary": {
+    "bytes": 1298928,
+    "sha256": "a38086abaccaa0faa229a61a2c597f6a5a2edd99822e35b002d1f1b63b31b525"
+  },
+  "metadata_only": true,
+  "model_layer_attention_or_device_execution": false
+}
