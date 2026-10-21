@@ -1,0 +1,24 @@
+{
+  "cases": 12,
+  "parameter_shapes_checked": true,
+  "all_parameters_meta": true,
+  "module_forward_calls": [],
+  "direct_forward_guard": true,
+  "connect_calls": 0,
+  "hailo_device_open": false,
+  "source_weights_loaded": false,
+  "full_model_instantiated": false,
+  "numerical_forward_semantics_verified": false,
+  "licenses": [
+    {
+      "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv/lib/python3.11/site-packages/transformers-4.57.1.dist-info/licenses/LICENSE",
+      "bytes": 11418,
+      "sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049"
+    },
+    {
+      "path": "/home/pi/.local/lib/python3.11/site-packages/torch-2.11.0+cpu.dist-info/licenses/LICENSE",
+      "bytes": 351341,
+      "sha256": "a0d7abc10248a062a2f309bf12981524973f2a61aadccf4c5099d96d8c388cf4"
+    }
+  ]
+}

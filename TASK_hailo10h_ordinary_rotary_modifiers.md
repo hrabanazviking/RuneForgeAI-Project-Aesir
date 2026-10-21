@@ -55,3 +55,8 @@ TASK_hailo10h_source_scalar_precision.md,108 methods/2996 calls. Full original
 architecture owner still retains all raw modifiers. Continue remaining head/bias/
 activation/scaling/window/cache/training semantics and complete ordinary graph
 adapter, alongside actual numerical Hailo configuration/encoding/execution.
+
+2026-10-21 next active child:TASK_hailo10h_ordinary_projection_schema.md.
+Qualified constructor metadata and the separate exact head/bias source-binding
+contract are published before production edits. Scalar shared-import closure
+now115 methods/3111 calls/34 rebuilt entrypoints; initial receipt remains intact.

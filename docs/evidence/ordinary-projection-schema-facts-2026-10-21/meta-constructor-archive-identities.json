@@ -1,0 +1,97 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/audit_meta_constructor.py",
+    "bytes": 3335,
+    "sha256": "9923362445d8a0bc190889d26277555024fc27c8eaa04db399b682cbfe8b6e7e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/audit_meta_constructor_initial.py",
+    "bytes": 3303,
+    "sha256": "71bc87524d44e10a49e3f7a65aa1eab31a6169f7c2f7ea4426fa25c523d76101"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-audit.json",
+    "bytes": 344,
+    "sha256": "09414c915ce6e32d02ef7c7d369b7c78e5ffe2f339dbb9e0150acb2aaa6594e1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-expanded-stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-expanded.json",
+    "bytes": 31044,
+    "sha256": "f0e0338078a8dae5ece60684e7e148b10f1d78483b6b34eefd465c4c28c7e9df"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-expanded.strace",
+    "bytes": 3730511,
+    "sha256": "c80775a2e76c5a2c952a2e0a2c25a76b713609676322c8c55844613a4082afbd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-final-audit-error.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-final-audit-output.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-final-audit.json",
+    "bytes": 860,
+    "sha256": "ec91e58c9166a0ad6c456eb52e42c720890d623e1a4c9df4b3a8521b7f4cbb5d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-final-stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-final.json",
+    "bytes": 33498,
+    "sha256": "6aed4b2b7ed445d70c458b89c1e83a1c7cdc99c5a033e0724408ced4f783624b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-final.strace",
+    "bytes": 3730469,
+    "sha256": "da14c14442721647da4963614ee88b5e067a66afe61dcbcb3341c041278bf92d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor-trace-identity.json",
+    "bytes": 207,
+    "sha256": "5d87b3e2453c3e5123eb3db3bf065c17f8c522379a0e4f9cb9d02523de2df2f3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor.json",
+    "bytes": 22337,
+    "sha256": "db153fa3312da4559157122306081ca19d8ce77ccb945b4c54b8cbbefbc88ca2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta-constructor.strace",
+    "bytes": 3730385,
+    "sha256": "ebf76268c29308a7bc8fd05fea5734a165b2c46a2706342a18dac8d58b8d29c5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta_constructor_expanded_probe.py",
+    "bytes": 4110,
+    "sha256": "7e1d0b2cb2a7bdd6489f98ce8ce09f1ac201dc5f4e23d9cbd0a7ee8116f0b37b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta_constructor_final_probe.py",
+    "bytes": 4309,
+    "sha256": "3b00edd35c96676e2fb2e06a2a9144f28229c6ab614982fd48dec456febf01ef"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/meta_constructor_probe.py",
+    "bytes": 3527,
+    "sha256": "db3649e832cc3f11b98a4386d5b4172f377ad35a3abe18d19071cb43891d0371"
+  }
+]
