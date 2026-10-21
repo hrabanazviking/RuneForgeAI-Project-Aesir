@@ -1,0 +1,17 @@
+{
+  "rotary-isolated.strace": {
+    "bytes": 778830,
+    "sha256": "c2dbc42c72d0e3aa35bdc0f5099e48f430907b57ec0c080670d3b4c7ebc7c9f9",
+    "retained_external": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/rotary-isolated.strace"
+  },
+  "rotary-initial.strace": {
+    "bytes": 3565652,
+    "sha256": "9600aa12a76fb880e21faf841d2a992fbaa5b1a1aadc885b9569c44ac73f1681",
+    "retained_external": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/rotary-initial.strace"
+  },
+  "rotary-final.strace": {
+    "bytes": 3647674,
+    "sha256": "35ae2f05ca1f48b97a8f59f923fbb68a8e1ec07e3ac129d5e6a42a95ee0a79f6",
+    "retained_external": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/rotary-final.strace"
+  }
+}

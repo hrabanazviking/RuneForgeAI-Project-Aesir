@@ -1,0 +1,42 @@
+{
+  "static_cases": 5,
+  "frequency_cases": 18,
+  "max_frequency_relative_error": 2.919510495560376e-07,
+  "split_half_pairing_observed": true,
+  "module_forward_calls": [],
+  "network_connect_calls": 0,
+  "hailo_device_open": false,
+  "torch_loaded": true,
+  "model_instantiated": false,
+  "weights_loaded": false,
+  "frequency_errors": [
+    0.0,
+    0.0,
+    0.0,
+    2.2351741811588166e-08,
+    8.231017730980988e-08,
+    5.622809257383554e-08,
+    1.6589400835828532e-07,
+    2.919510495560376e-07,
+    2.322107213655174e-07,
+    4.749745128457272e-08,
+    8.231017730980988e-08,
+    5.622809257383554e-08,
+    6.396061998251937e-08,
+    8.231017730980988e-08,
+    5.622809257383554e-08,
+    6.971705480642665e-08,
+    8.231017730980988e-08,
+    8.163736304688516e-08
+  ],
+  "initial_comparison": {
+    "threshold": 2e-07,
+    "passed": false,
+    "reason": "F32 frequency oracle differs from ideal real exponent, maximum measured2.9196e-7. No hardware precision acceptance claimed."
+  },
+  "notes": [
+    "Only static vector/frequency primitives; no model/layer/attention forward.",
+    "Initial sklearn/scipy import failure and missing sympy failure are preserved.",
+    "Final process uses pinned Transformers4.57.1 plus selected installed Torch/sympy/mpmath imports; no global package changes."
+  ]
+}

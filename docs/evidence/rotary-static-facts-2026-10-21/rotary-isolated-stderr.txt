@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/rotary_probe.py", line 21, in <module>
+    from transformers.models.smollm3.modeling_smollm3 import rotate_half, apply_rotary_pos_emb
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv/lib/python3.11/site-packages/transformers/__init__.py", line 27, in <module>
+    from . import dependency_versions_check
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv/lib/python3.11/site-packages/transformers/dependency_versions_check.py", line 16, in <module>
+    from .utils.versions import require_version, require_version_core
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv/lib/python3.11/site-packages/transformers/utils/__init__.py", line 24, in <module>
+    from .auto_docstring import (
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv/lib/python3.11/site-packages/transformers/utils/auto_docstring.py", line 30, in <module>
+    from .generic import ModelOutput
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv/lib/python3.11/site-packages/transformers/utils/generic.py", line 53, in <module>
+    from ..model_debugging_utils import model_addition_debugger_context
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-modifier-study/config-4.57.1-venv/lib/python3.11/site-packages/transformers/model_debugging_utils.py", line 35, in <module>
+    import torch.distributed.tensor
+  File "/home/pi/.local/lib/python3.11/site-packages/torch/distributed/tensor/__init__.py", line 4, in <module>
+    import torch.distributed.tensor._ops  # force import all built-in dtensor ops
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/.local/lib/python3.11/site-packages/torch/distributed/tensor/_ops/__init__.py", line 8, in <module>
+    from ._tensor_ops import *  # noqa: F403
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/.local/lib/python3.11/site-packages/torch/distributed/tensor/_ops/_tensor_ops.py", line 44, in <module>
+    from torch.fx.experimental.symbolic_shapes import statically_known_true
+  File "/home/pi/.local/lib/python3.11/site-packages/torch/fx/experimental/symbolic_shapes.py", line 3, in <module>
+    import sympy
+ModuleNotFoundError: No module named 'sympy'

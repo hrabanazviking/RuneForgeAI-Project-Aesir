@@ -1,0 +1,16 @@
+[
+  {
+    "package": "transformers",
+    "version": "5.7.0",
+    "license_bytes": 11418,
+    "license_sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+    "license_file": "transformers-5.7.0.dist-info/licenses/LICENSE"
+  },
+  {
+    "package": "torch",
+    "version": "2.11.0+cpu",
+    "license_bytes": 351341,
+    "license_sha256": "a0d7abc10248a062a2f309bf12981524973f2a61aadccf4c5099d96d8c388cf4",
+    "license_file": "torch-2.11.0+cpu.dist-info/licenses/LICENSE"
+  }
+]
