@@ -1,10 +1,12 @@
 # Original source-to-global mathematical IR integration; never execution.
 from std.collections import Dict
+from smidr.bias_policy import same_bias_policy
+from smidr.bias_graph import validate_plan_bias_state
 from smidr.source_inventory import validate_source_weight
 from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
 from smidr.source_scalars import ScalarWord, same_scalar_word, same_decoder_scalars, scalar32_mirror
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
-from smidr.primitive_recipes import _rotary_recipe
+from smidr.primitive_recipes import _rotary_recipe, _projection_bias_recipe
 from smidr.rotary_policy import RotaryLoweringPolicy, validate_rotary_policy
 
 
@@ -198,7 +200,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
                 var is_result = op.output == recipe.result
                 var name = source_out.name if is_result else source_out.name + ".primitive." + String(j)
                 var source_id = source_op.output if is_result else -1
-                var weight = recipe.weight_name if op.kind == "multiply_source_vector" else String("")
+                var weight = recipe.weight_name if op.kind == "multiply_source_vector" or op.kind == "add_source_projection_vector" else String("")
                 local[op.output] = graph.emit(op.kind, name, inputs^, value.shape.copy(),
                     value.domain, "activation", index, j, recipe.divisor,
                     recipe.epsilon_bits, weight, recipe.runtime_preconditions,
@@ -238,6 +240,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
 
 def validate_rotary_expansion(graph: ExpandedGraph) raises:
     validate_scalar_expansion(graph)
+    validate_bias_expansion(graph)
     var enabled = graph.recipes.rotary_policy.pairing.byte_length() != 0
     if enabled:
         if validate_rotary_policy(graph.source, graph.recipes.rotary_policy) != graph.recipes.rotary_work:
@@ -310,6 +313,65 @@ def validate_rotary_expansion(graph: ExpandedGraph) raises:
         for i in range(len(graph.source.operations)):
             if (graph.source.operations[i].kind == "rope_query" or graph.source.operations[i].kind == "rope_key") and i not in seen:
                 raise Error("RotaryExpansion: missing complete source recipe")
+
+
+def validate_bias_expansion(graph: ExpandedGraph) raises:
+    validate_plan_bias_state(graph.source)
+    if graph.recipes.explicit_bias != graph.source.explicit_bias or graph.recipes.bias_work != graph.source.bias_work or not same_bias_policy(graph.recipes.bias_policy, graph.source.bias_policy):
+        raise Error("ExpandedStorage: retained bias policy/accounting changed")
+    var stored = Dict[Int, Int]()
+    for i in range(len(graph.recipes.recipes)):
+        var id = graph.recipes.recipes[i].source_operation
+        if id < 0 or id >= len(graph.source.operations):
+            raise Error("ExpandedStorage: invalid retained bias recipe identity")
+        if graph.source.operations[id].kind == "add_projection_bias":
+            if id in stored:
+                raise Error("ExpandedStorage: duplicate retained bias recipe")
+            stored[id] = i
+    var seen = Dict[Int, Bool]()
+    for i in range(len(graph.operations)):
+        var actual = graph.operations[i].copy()
+        if actual.source_operation < 0 or actual.source_operation >= len(graph.source.operations):
+            raise Error("ExpandedStorage: missing bias source identity")
+        if graph.source.operations[actual.source_operation].kind != "add_projection_bias":
+            if actual.kind == "add_source_projection_vector":
+                raise Error("ExpandedStorage: stray projection bias operation")
+            continue
+        var id = actual.source_operation
+        if id in seen or id not in stored:
+            raise Error("ExpandedStorage: duplicate or missing complete bias recipe")
+        seen[id] = True
+        var expected = _projection_bias_recipe(graph.source, id)
+        var retained = graph.recipes.recipes[stored[id]].copy()
+        if retained.kind != expected.kind or retained.source_operation != expected.source_operation or retained.source_input != expected.source_input or retained.source_inputs != expected.source_inputs or retained.input_values != expected.input_values or retained.source_output != expected.source_output or retained.weight_name != expected.weight_name or retained.result != expected.result or retained.divisor != 0 or retained.rotary_dim != 0 or retained.rotary_pairing.byte_length() != 0 or retained.rotary_provenance.byte_length() != 0 or retained.runtime_preconditions != expected.runtime_preconditions or len(retained.values) != 3 or len(retained.operations) != 1:
+            raise Error("ExpandedStorage: changed retained bias recipe metadata")
+        var a = retained.weight
+        var b = expected.weight
+        if a.file_offset != b.file_offset or a.columns != b.columns or a.rows != b.rows or a.source_kind != b.source_kind or a.byte_count != b.byte_count:
+            raise Error("ExpandedStorage: changed retained bias source binding")
+        var x = retained.weight_storage.copy()
+        var y = expected.weight_storage.copy()
+        if x.source_format != y.source_format or x.source_kind != y.source_kind or x.original_name != y.original_name or x.source_path != y.source_path or x.source_shape != y.source_shape or x.axis_order != y.axis_order or x.elements != y.elements or x.file_offset != y.file_offset or x.byte_count != y.byte_count or retained.weight_extent.source_format != expected.weight_extent.source_format or retained.weight_extent.source_bytes != expected.weight_extent.source_bytes or retained.weight_extent.data_offset != expected.weight_extent.data_offset:
+            raise Error("ExpandedStorage: changed retained bias tagged storage/extent")
+        for j in range(3):
+            if retained.values[j].shape != expected.values[j].shape or retained.values[j].elements != expected.values[j].elements or retained.values[j].domain != expected.values[j].domain or retained.values[j].producer != expected.values[j].producer or retained.values[j].last_use != expected.values[j].last_use:
+                raise Error("ExpandedStorage: changed retained bias value/lifetime")
+        if retained.operations[0].kind != expected.operations[0].kind or retained.operations[0].inputs != expected.operations[0].inputs or retained.operations[0].output != expected.operations[0].output:
+            raise Error("ExpandedStorage: changed retained bias operation")
+        if actual.kind != "add_source_projection_vector" or actual.recipe_step != 0 or actual.source_weight != expected.weight_name or actual.width != 0 or actual.rotary_dim != 0 or actual.rotary_pairing.byte_length() != 0 or actual.rotary_provenance.byte_length() != 0 or actual.runtime_preconditions != expected.runtime_preconditions or len(actual.inputs) != 2:
+            raise Error("ExpandedStorage: changed expanded bias metadata")
+        if expected.source_input not in graph.source_values or expected.source_output not in graph.source_values or expected.weight_name not in graph.weight_values or actual.inputs[0] != graph.source_values[expected.source_input] or actual.inputs[1] != graph.weight_values[expected.weight_name] or actual.output != graph.source_values[expected.source_output] or actual.output < 0 or actual.output >= len(graph.values):
+            raise Error("ExpandedStorage: changed expanded bias source/weight/result mapping")
+        var value = graph.values[actual.output].copy()
+        if value.shape != expected.values[expected.result].shape or value.elements != expected.values[expected.result].elements or value.domain != "real" or value.storage != "activation" or value.producer != i or value.alias_of != -1 or value.name != graph.source.tensors[expected.source_output].name:
+            raise Error("ExpandedStorage: changed expanded bias result")
+    for i in range(len(graph.source.operations)):
+        if graph.source.operations[i].kind == "add_projection_bias":
+            if i not in seen:
+                raise Error("ExpandedStorage: missing complete projection bias")
+            for id in graph.recipes.remaining_source_operations:
+                if id == i:
+                    raise Error("ExpandedStorage: lowered bias marked as remaining")
 
 
 def validate_scalar_expansion(graph: ExpandedGraph) raises:

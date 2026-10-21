@@ -68,6 +68,9 @@
 - [x] Qualified ordinary head/bias source schema:14 methods/326 calls,4 builds,
   9 complete frozen outputs. Header binding only; bias math/device work remains.
   `docs/HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md`.
+- [x] Source-bound projection bias mathematical graph/recipe/cache/storage:
+  131 methods/3621 calls,41 builds,8 complete frozen outputs. No device execution.
+  `docs/HAILO10H_MOJO_DECODER_BIAS_GRAPH.md`.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

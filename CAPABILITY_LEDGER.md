@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 108 |
+| `verified` | 109 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **153** |
+| **Total** | **154** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3343,3 +3343,26 @@ No new capability ID or hardware/complete-source execution claim.
   and actual Hailo numerical configuration/encoding/execution under the fixed target.
 - **Audit:** Licensed meta-only constructor evidence and original independent
   source/ownership/mutation/negative traces retained; no external runtime/compiler.
+
+
+### AES-SOURCE-015 — Source-bound decoder projection bias arithmetic
+
+- **Status:** `verified`
+- **Owner:** original bias_policy/bias_graph, typed semantic builders,
+  primitive/expanded recipes and cache/matrix/storage consumers.
+- **Claim sources:** TASK_hailo10h_decoder_bias_graph.md and
+  docs/HAILO10H_DECODER_BIAS_GRAPH_DESIGN.md, published before code.
+- **Implementation evidence:** Explicit per-layer flags, actual full-width source
+  vectors, one-operation mathematical additions, checked source/derived snapshots,
+  no-bypass/lifetime validation and bias-aware cache dependencies.
+- **Executable evidence:** docs/HAILO10H_MOJO_DECODER_BIAS_GRAPH.md;20 suites,
+  131 methods/3621 calls,41 warning-free rebuilds. New9/299 with147 accepted and
+  152 expected refusals;8 complete frozen outputs and40 refusal/recovery cycles.
+- **Evidence boundary:** Mathematical/source compiler support and hypothetical
+  address/storage scenarios only. No complete ordinary modifier/architecture
+  adaptation, immutable model identity, device precision/placement/fit, original
+  executable Hailo numerical program or LLM inference claim.
+- **Next acceptance gate:** Complete ordinary activation/modifier/graph integration
+  and actual numerical Hailo configuration/encoding/upload/execution/cleanup.
+- **Audit:** Source/binary/negative/frozen/ownership evidence retained; source32/64
+  words remain exact. No external compiler, DFC, model forward or inference proxy.

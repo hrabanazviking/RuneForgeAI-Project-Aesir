@@ -1,0 +1,50 @@
+[
+  {
+    "suite": "decoder_projections",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_projections.py",
+      "--binary",
+      "../decoder-bias-hardened/decoder-projections",
+      "--api",
+      "../decoder-bias-hardened/decoder-projections-api",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--header0",
+      "../ordinary-binding-study/0-header.json",
+      "--header1",
+      "../ordinary-binding-study/1-header.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-bias-other-regressions/decoder_projections"
+    ]
+  },
+  {
+    "suite": "ordinary_projection_schema",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_ordinary_projection_schema.py",
+      "--binary",
+      "../decoder-bias-hardened/ordinary-schema",
+      "--api",
+      "../decoder-bias-hardened/ordinary-schema-api",
+      "--legacy",
+      "../decoder-bias-hardened/decoder-projections",
+      "--frozen",
+      "../ordinary-projection-schema-baseline/decoder-projections",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--header0",
+      "../ordinary-binding-study/0-header.json",
+      "--header1",
+      "../ordinary-binding-study/1-header.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-bias-other-regressions/ordinary_projection_schema"
+    ]
+  }
+]

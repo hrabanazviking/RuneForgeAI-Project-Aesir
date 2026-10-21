@@ -1,0 +1,7 @@
+test_09_complete_frozen_gguf_outputs (test_hailo_decoder_bias.DecoderBias.test_09_complete_frozen_gguf_outputs) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.861s
+
+OK
+Native outcomes: {'accepted': 16}

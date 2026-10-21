@@ -65,3 +65,9 @@ now115 methods/3111 calls/34 rebuilt entrypoints; initial receipt remains intact
 new active child:TASK_hailo10h_decoder_bias_graph.md. Actual original bias
 sources are bound; next implement their arithmetic/broadcast/lifetime integration
 under an exact published contract. Complete ordinary/numerical Hailo gates open.
+
+2026-10-21 source-bound bias arithmetic completed131 methods/3621 calls,
+41 builds; next active child:TASK_hailo10h_decoder_activation_policy.md.
+Source hidden_act remains retained while the selected typed recipe uses SiLU;
+qualify and implement explicit activation selection/lowering before calling an
+ordinary adapter complete. Actual numerical Hailo encoding/execution stays open.

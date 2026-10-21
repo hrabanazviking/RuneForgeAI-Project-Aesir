@@ -1,5 +1,6 @@
 # Native compiler graph inspector. No arithmetic execution or device upload.
 from std.sys import argv
+from smidr.tools.bias_policy import describe_bias_policy
 from smidr.semantic_plan import read_dense_semantic_plan
 from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
 from smidr.tools.source_inventory import _quote
@@ -12,6 +13,9 @@ def describe_expanded_graph(graph: ExpandedGraph) raises -> String:
     if graph.source.explicit_scalars:
         text = text.replace("\"schema_version\":1", "\"schema_version\":2")
         text += ",\"source_scalars\":" + describe_decoder_scalars(graph.source.source_scalars)
+    if graph.source.explicit_bias:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":3").replace("\"schema_version\":2", "\"schema_version\":3")
+        text += ",\"bias_policy\":" + describe_bias_policy(graph.source.bias_policy, graph.source.bias_work)
     text += ",\"architecture\":" + _quote(graph.source.source.architecture) + ",\"source_operation_count\":" + String(len(graph.source.operations)) + ",\"source_tensor_count\":" + String(len(graph.source.tensors))
     text += ",\"runtime_preconditions\":[\"token_ids_in_vocabulary\",\"positions_equal_past_plus_query_index\",\"kv_prefix_initialized_through_past\"]"
     text += ",\"unresolved_gates\":[\"source_identity_layout_and_rope\",\"device_precision_and_numerical_acceptance\",\"weight_conversion_and_placement\",\"expanded_storage_accounting\",\"CCW_encoding_upload_and_hardware_result\"]"

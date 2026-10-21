@@ -1,0 +1,6 @@
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 1.961s
+
+OK
+Native child scopes: {'expanded': 10, 'source': 10, 'recipes': 10, 'api_refusal:bad_output': 1, 'api_refusal:duplicate_output': 1, 'api_refusal:unmapped_input': 1, 'api_refusal:short_index_lifetime': 1, 'api_refusal:index_shape': 1, 'api_refusal:external_domain': 1, 'api_refusal:persistent_lifetime': 1, 'api_refusal:alias_self': 1, 'api_refusal:alias_extent': 1, 'api_refusal:bad_weight': 1, 'api_refusal:weight_extent': 1, 'api_refusal:orphan': 1, 'api_refusal:lost_export': 1, 'ownership': 1, 'expanded_repeat': 1}

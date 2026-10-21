@@ -1,5 +1,6 @@
 # Original explicit cache address scenario. No allocation, cache data or math.
 from std.collections import Dict
+from smidr.bias_graph import validate_plan_bias_state
 from smidr.source_inventory import validate_source_inventory, validate_source_weight
 from smidr.semantic_plan import SemanticPlan, checked_product, validate_decoder_graph_policy
 from smidr.storage_estimate import checked_sum
@@ -83,6 +84,7 @@ def _projection(plan: SemanticPlan, name: String, rows: Int) raises:
 def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises -> CacheLayout:
     _policy(policy)
     validate_source_inventory(plan.source)
+    validate_plan_bias_state(plan)
     if plan.hidden <= 0:
         raise Error("CacheLayout: invalid source hidden dimension")
     if plan.layers <= 0 or plan.layers > len(plan.tensors) // 2 or len(plan.operations) == 0 or plan.context_capacity <= 0 or plan.query_tokens <= 0 or plan.past_tokens < 0 or plan.past_tokens > plan.context_capacity or plan.query_tokens > plan.context_capacity - plan.past_tokens or plan.heads <= 0 or plan.kv_heads <= 0 or plan.heads % plan.kv_heads != 0:
@@ -128,7 +130,10 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
             var base_name = p + kind + "_cache"
             var view_name = p + (String("keys_view") if is_key else String("values_view"))
             var rotary_key = is_key and plan.decoder_policy.rope_enabled[layer] == 1
-            var writer_name = p + ((String("k_rotary") if rotary_key else String("k")) if is_key else String("v"))
+            var biased = plan.explicit_bias and plan.bias_policy.attention[layer] == 1
+            var raw_name = p + (String("k") if is_key else String("v"))
+            var projected_name = raw_name + (String("_biased") if biased else String(""))
+            var writer_name = p + "k_rotary" if rotary_key else projected_name
             if base_name not in names or view_name not in names or writer_name not in names:
                 raise Error("CacheLayout: missing named source cache/view/writer")
             var base_id = names[base_name]
@@ -149,15 +154,15 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
             if append.inputs[0] != base_id or append.inputs[1] != writer_id:
                 raise Error("CacheLayout: cache append input identity mismatch")
             var writer_op = plan.operations[writer.producer].copy()
-            if writer_op.output != writer_id or writer_op.kind != (String("rope_key") if rotary_key else String("linear")):
+            if writer_op.output != writer_id or writer_op.kind != (String("rope_key") if rotary_key else (String("add_projection_bias") if biased else String("linear"))):
                 raise Error("CacheLayout: invalid cache writer identity")
-            if not is_key and writer_op.weight != p + "attn_v.weight":
+            if not is_key and writer_op.weight != p + (String("attn_v.bias") if biased else String("attn_v.weight")):
                 raise Error("CacheLayout: value projection source mismatch")
             var projection_id = writer_id
             if rotary_key:
-                if p + "k" not in names or "positions" not in names or len(writer_op.inputs) != 2 or writer_op.weight != "":
+                if projected_name not in names or "positions" not in names or len(writer_op.inputs) != 2 or writer_op.weight != "":
                     raise Error("CacheLayout: missing key projection/position inputs")
-                projection_id = names[p + "k"]
+                projection_id = names[projected_name]
                 var position_id = names["positions"]
                 if writer_op.inputs[0] != projection_id or writer_op.inputs[1] != position_id:
                     raise Error("CacheLayout: rotary key input identity mismatch")
@@ -165,6 +170,17 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
                 if len(positions.shape) != 1 or positions.shape[0] != plan.query_tokens or positions.elements != plan.query_tokens or positions.producer != -1 or positions.persistent or positions.alias_of != -1:
                     raise Error("CacheLayout: invalid rotary positions")
                 _lifetime(plan, position_id)
+            if biased:
+                _shape(plan, projection_id, plan.query_tokens, dimension)
+                var bias_tensor = plan.tensors[projection_id].copy()
+                if bias_tensor.producer < 0 or bias_tensor.producer >= view.producer:
+                    raise Error("CacheLayout: invalid biased projection producer")
+                var bias_op = plan.operations[bias_tensor.producer].copy()
+                var bias_weight = p + (String("attn_k.bias") if is_key else String("attn_v.bias"))
+                if bias_op.kind != "add_projection_bias" or bias_op.output != projection_id or len(bias_op.inputs) != 1 or bias_op.weight != bias_weight or raw_name not in names or bias_op.inputs[0] != names[raw_name]:
+                    raise Error("CacheLayout: biased projection source/edge mismatch")
+                _lifetime(plan, projection_id)
+                projection_id = bias_op.inputs[0]
             _shape(plan, projection_id, plan.query_tokens, dimension)
             var projection = plan.tensors[projection_id].copy()
             if projection.producer < 0 or projection.producer >= view.producer or projection.persistent or projection.alias_of != -1 or (rotary_key and projection.producer >= writer.producer):

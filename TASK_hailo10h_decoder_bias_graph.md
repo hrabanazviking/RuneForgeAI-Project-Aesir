@@ -32,3 +32,8 @@ coverage remains implementation work toward the same broad model target.
 
 Exact pre-code API/ownership/broadcast/lifetime/compatibility contract:
 docs/HAILO10H_DECODER_BIAS_GRAPH_DESIGN.md. Publish it before implementation.
+
+2026-10-21 completed at the source-bound mathematical boundary:131 methods/
+3621 calls,41 builds,8 complete frozen outputs. Receipt
+docs/HAILO10H_MOJO_DECODER_BIAS_GRAPH.md. Continue ordinary activation/modifier
+selection, complete graph adaptation and actual numerical Hailo execution.

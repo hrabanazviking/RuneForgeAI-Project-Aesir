@@ -1,0 +1,15 @@
+test_01_actual_metadata_and_flag_grid (__main__.DecoderBias.test_01_actual_metadata_and_flag_grid) ... ok
+test_02_source_neutral_mixed_layers_independent_widths (__main__.DecoderBias.test_02_source_neutral_mixed_layers_independent_widths) ... ok
+test_03_policy_source_bounds_and_exact_word_retention (__main__.DecoderBias.test_03_policy_source_bounds_and_exact_word_retention) ... ok
+test_04_retained_and_derived_mutation_refusals (__main__.DecoderBias.test_04_retained_and_derived_mutation_refusals) ... ok
+test_05_zero_policy_structural_compatibility_and_readonly (__main__.DecoderBias.test_05_zero_policy_structural_compatibility_and_readonly) ... ok
+test_06_owned_policies_and_recipe_snapshots (__main__.DecoderBias.test_06_owned_policies_and_recipe_snapshots) ... ok
+test_07_gguf_source_vectors_and_scalar_words (__main__.DecoderBias.test_07_gguf_source_vectors_and_scalar_words) ... ok
+test_08_cache_matrix_and_storage_consumer_integration (__main__.DecoderBias.test_08_cache_matrix_and_storage_consumer_integration) ... ok
+test_09_complete_frozen_gguf_outputs (__main__.DecoderBias.test_09_complete_frozen_gguf_outputs) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 11.854s
+
+OK
+Native outcomes: {'accepted': 147, 'refused': 152}

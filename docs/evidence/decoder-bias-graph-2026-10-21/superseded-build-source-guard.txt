@@ -1,0 +1,42 @@
+tagged-typed-api 0
+tagged-semantic-plan 0
+tagged-expanded-storage 0
+tagged-expanded-graph 0
+tagged-expanded-api 0
+tagged-matrix-api 0
+tagged-matrix-tiles 0
+tagged-primitive-recipes 0
+tagged-expanded-storage-api 0
+tagged-primitive-api 0
+tagged-cache-layout 0
+tagged-cache-api 0
+tagged-source-weight-tiles 0
+tagged-source-inventory 0
+tagged-source-weight-api 0
+tagged-storage-estimate 0
+tagged-semantic-storage 0
+tagged-float-constants 0
+tagged-storage-api 0
+tagged-float-api 0
+tagged-q4k-constants 0
+tagged-q4k-api 0
+tagged-q5q6-constants 0
+tagged-q5q6-api 0
+tagged-typed-decoder 0
+tagged-semantic-storage-api 0
+decoder-graph-policy 0
+rotary-recipes 0
+decoder-graph-policy-api 0
+ordinary-schema 0
+ordinary-schema-api 0
+decoder-projections 0
+rotary-api 0
+decoder-projections-api 0
+source-scalars-api 0
+decoder-scalar-source 0
+decoder-bias-graph 0
+decoder-bias-api 0
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/../decoder-bias-build.py", line 16, in <module>
+    assert all(hashlib.sha256(Path(p).read_bytes()).hexdigest()==h for p,h in manifest.items())
+AssertionError

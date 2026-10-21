@@ -1,0 +1,39 @@
+# Test-only GGUF source-word/bias recipe integration; no payload evaluation.
+from std.sys import argv
+from std.memory import bitcast
+from smidr.tools.typed_decoder import _from_file
+from smidr.tools.decoder_graph_policy import parse_rotary_flags
+from smidr.bias_policy import DecoderBiasPolicy
+from smidr.source_scalars import DecoderScalars, ScalarWord
+from smidr.semantic_plan import decoder_geometry, DecoderGraphPolicy, build_decoder_semantic_plan
+from smidr.rotary_policy import RotaryLoweringPolicy
+from smidr.expanded_graph import expand_semantic_graph
+from smidr.tools.rotary_recipes import describe_rotary_graph
+
+
+def main() raises:
+    var args = argv()
+    if len(args) != 6:
+        raise Error("expected source.gguf attention_mask mlp_mask rope_mask scalar_mode")
+    var input = _from_file(args[1])
+    var source = input.take_inventory()
+    var output = String("output.weight") if "output.weight" in source.bindings else String("token_embd.weight")
+    var decoder = DecoderGraphPolicy(parse_rotary_flags(args[4]), output,
+        "explicit synthetic GGUF recipe; no architecture execution certificate")
+    var bias = DecoderBiasPolicy(parse_rotary_flags(args[2]), parse_rotary_flags(args[3]),
+        "GGUF bias source test", 1000000)
+    var rotary = RotaryLoweringPolicy("adjacent", "explicit synthetic GGUF bias basis", 10000, 10000000)
+    if args[5] == "source32":
+        var scalars = DecoderScalars(ScalarWord(32, UInt64(bitcast[DType.uint32](input.parameters.rms_epsilon))),
+            ScalarWord(32, UInt64(bitcast[DType.uint32](input.parameters.rope_base))),
+            "exact original GGUF binary32 words", 1000000)
+        var plan = build_decoder_semantic_plan(source^, decoder_geometry(input.parameters), scalars,
+            decoder, bias, 2, 1, 8)
+        var graph = expand_semantic_graph(plan^, rotary)
+        print(describe_rotary_graph(graph, rotary))
+    elif args[5] == "legacy32":
+        var plan = build_decoder_semantic_plan(source^, input.parameters, decoder, bias, 2, 1, 8)
+        var graph = expand_semantic_graph(plan^, rotary)
+        print(describe_rotary_graph(graph, rotary))
+    else:
+        raise Error("unknown GGUF scalar mode")

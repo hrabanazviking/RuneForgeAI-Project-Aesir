@@ -1,0 +1,26 @@
+test_09_complete_frozen_gguf_outputs (test_hailo_decoder_bias.DecoderBias.test_09_complete_frozen_gguf_outputs) ... ERROR
+
+======================================================================
+ERROR: test_09_complete_frozen_gguf_outputs (test_hailo_decoder_bias.DecoderBias.test_09_complete_frozen_gguf_outputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_bias.py", line 254, in test_09_complete_frozen_gguf_outputs
+    before=self.accept(self.child([CONFIG.frozen,path,2,1,8,"adjacent","explicit synthetic GGUF bias basis",10000,10000000,"1,0"]))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 68, in child
+    result = subprocess.run(command, capture_output=True, text=True, timeout=60,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '../decoder-bias-baseline/rotary-recipes'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.033s
+
+FAILED (errors=1)
+Native outcomes: {}

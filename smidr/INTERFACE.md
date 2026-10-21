@@ -445,3 +445,17 @@ projection intent deliberately retains its smaller schema/independent widths.
 Complete raw config/source tags/metadata/unresolved notes survive. Header binding
 is not bias math, full architecture, physical fit or numerical model execution.
 Receipt docs/HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md;14 methods/326 calls.
+
+
+## Source-bound decoder bias arithmetic — 2026-10-21
+
+DecoderBiasPolicy owns per-layer attention/MLP flags, provenance and bounded
+work. New typed/source-scalar builder overloads emit add_projection_bias from
+actual rank1 source vectors covering every feature/head. A single primitive
+add_source_projection_vector retains tagged binding/backing snapshots; expanded
+and storage consumers rederive mappings/policy/source/lifetime invariants and
+reject raw linear bypasses. Cache follows linear→bias→optional rotary→append;
+matrix and semantic storage validate the same policy state. Explicit policy
+JSON uses schema3; old APIs/outputs remain unchanged. Source32/64 precision
+metadata does not establish device arithmetic or complete ordinary semantics.
+Receipt docs/HAILO10H_MOJO_DECODER_BIAS_GRAPH.md;131 methods/3621 calls/41 builds.

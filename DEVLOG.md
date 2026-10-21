@@ -1,3 +1,17 @@
+## 2026-10-21 — Codex: original source-bound decoder bias arithmetic
+
+- Contract1f04e80 published before code. Original owned per-layer bias policy,
+  exact full-projection source vectors and one-operation mathematical recipes.
+- Cache now follows linear/bias/rotary dependencies; matrix/storage guard source
+  policy, snapshots, bypasses and lifetimes. Old graph/JSON behavior retained.
+- Final20 suites/131 methods/3621 calls,41 warning-free builds; new9/299,
+  8 complete frozen outputs and40 in-process refusal/recovery cycles. Source
+  snapshot and binaries match. All negative/preliminary evidence retained.
+- Source32/64 words survive; no model/layer/attention forward, outside compiler,
+  device numerical execution or full ordinary architecture claim. Continue source
+  activation/modifiers and actual numerical Hailo encoding/configuration.
+- Receipt docs/HAILO10H_MOJO_DECODER_BIAS_GRAPH.md.
+
 ## 2026-10-21 — Codex: qualified ordinary heads and optional bias sources
 
 - Contract aaedcd2 published before code; licensed meta-only12-case constructor

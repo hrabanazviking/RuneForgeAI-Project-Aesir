@@ -1,0 +1,6 @@
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 4.826s
+
+OK
+Native outcomes: {'refused': 48, 'accepted': 40} component checks: 94416

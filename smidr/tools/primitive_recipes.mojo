@@ -1,5 +1,6 @@
 # Source-bound recipe inspector; no production arithmetic executor.
 from std.sys import argv
+from smidr.tools.bias_policy import describe_bias_policy
 from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
 from smidr.tools.source_inventory import _quote
@@ -12,6 +13,9 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
     if lowered.explicit_scalars:
         text = text.replace("\"schema_version\":1", "\"schema_version\":2")
         text += ",\"source_scalars\":" + describe_decoder_scalars(lowered.source_scalars)
+    if lowered.explicit_bias:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":3").replace("\"schema_version\":2", "\"schema_version\":3")
+        text += ",\"bias_policy\":" + describe_bias_policy(lowered.bias_policy, lowered.bias_work)
     text += ",\"unresolved_gates\":[\"finite_precision_reduction_and_overflow\",\"special_values_and_transcendental_approximations\",\"quantization_weight_and_activation_layout\",\"lowered_storage_and_device_placement\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"recipes\":["
     for i in range(len(lowered.recipes)):

@@ -1,5 +1,7 @@
 # Mathematical compiler IR only. No numerical host kernel or device program.
 from std.math import isfinite
+from smidr.bias_policy import DecoderBiasPolicy, empty_bias_policy
+from smidr.bias_graph import projection_bias_width, validate_plan_bias_state
 from smidr.source_storage import SourceStorageTensor
 from std.memory import bitcast
 from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
@@ -99,6 +101,9 @@ struct PrimitiveRecipes(Movable):
     var remaining_source_operations: List[Int]
     var rotary_policy: RotaryLoweringPolicy
     var rotary_work: Int
+    var explicit_bias: Bool
+    var bias_policy: DecoderBiasPolicy
+    var bias_work: Int
     var explicit_scalars: Bool
     var source_scalars: DecoderScalars
 
@@ -107,6 +112,9 @@ struct PrimitiveRecipes(Movable):
         self.remaining_source_operations = List[Int]()
         self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
         self.rotary_work = 0
+        self.explicit_bias = False
+        self.bias_policy = empty_bias_policy()
+        self.bias_work = 0
         self.explicit_scalars = False
         self.source_scalars = empty_decoder_scalars()
 
@@ -174,10 +182,31 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
     return r^
 
 
+def _projection_bias_recipe(plan: SemanticPlan, index: Int) raises -> PrimitiveRecipe:
+    var width = projection_bias_width(plan, index)
+    var op = plan.operations[index].copy()
+    var input = plan.tensors[op.inputs[0]].copy()
+    var recipe = PrimitiveRecipe(index, op.inputs[0], op.output, op.kind)
+    recipe.weight_name = op.weight
+    recipe.weight = plan.source.bindings[op.weight].copy()
+    recipe.weight_storage = plan.source.storage[op.weight].copy()
+    recipe.weight_extent = plan.source.files[recipe.weight_storage.source_path].copy()
+    recipe.runtime_preconditions = ["real_projection_bias_addition_precision_unqualified"]
+    var x = recipe.value(input.shape.copy())
+    var bias = recipe.value([width])
+    recipe.result = recipe.emit("add_source_projection_vector", [x, bias], input.shape.copy())
+    recipe.values[recipe.result].last_use = len(recipe.operations)
+    return recipe^
+
+
 def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, rotary: Bool) raises -> PrimitiveRecipes:
     validate_source_inventory(plan.source)
     validate_plan_scalar_state(plan)
+    validate_plan_bias_state(plan)
     var lowered = PrimitiveRecipes()
+    lowered.explicit_bias = plan.explicit_bias
+    lowered.bias_policy = plan.bias_policy.copy()
+    lowered.bias_work = plan.bias_work
     lowered.explicit_scalars = plan.explicit_scalars
     lowered.source_scalars = plan.source_scalars.copy()
     if rotary:
@@ -185,6 +214,9 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
         lowered.rotary_policy = policy.copy()
     for index in range(len(plan.operations)):
         var operation = plan.operations[index].copy()
+        if operation.kind == "add_projection_bias":
+            lowered.recipes.append(_projection_bias_recipe(plan, index))
+            continue
         if rotary and (operation.kind == "rope_query" or operation.kind == "rope_key"):
             lowered.recipes.append(_rotary_recipe(plan, index, policy))
             continue

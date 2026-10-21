@@ -1,0 +1,15 @@
+{
+  "suites": 20,
+  "methods": 131,
+  "calls": 3621,
+  "new_methods": 9,
+  "new_calls": 299,
+  "new_accepted": 147,
+  "new_expected_refusals": 152,
+  "rebuilt_entrypoints": 41,
+  "new_complete_frozen_outputs": 8,
+  "zero_policy_complete_structural_comparisons": 2,
+  "inprocess_refusal_recovery_cycles": 40,
+  "device_execution": false,
+  "whole_repository_pass": false
+}

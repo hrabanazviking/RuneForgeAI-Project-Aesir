@@ -1,0 +1,5 @@
+Whole-repository checker remains failing.
+Baseline18689/current19301;612 new receipt-path diagnostics.
+No new nonreceipt issue or removed issue after Markdown line normalization.
+Raw complete outputs are external with identities in consistency-archives.json.
+No whole-repository or historical-master pass is claimed.

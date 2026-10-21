@@ -1,0 +1,17 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-bias-consistency-baseline.txt",
+    "bytes": 1991831,
+    "sha256": "17781f5cbe7feb2111cd5d769814aba1a21fb49a0fa5abc0e98f9dd287323284"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-bias-consistency-current.txt",
+    "bytes": 2055708,
+    "sha256": "89137c6ba8941db0de5f99a7815fc47af5d7f9ce82b4d60727720c1b52b6df5b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-bias-consistency-publication.txt",
+    "bytes": 2056021,
+    "sha256": "2a66b7c51cfe7fafc090c14ddf8828254d111c8f04628c937482660ad8ac894d"
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "reason": "copyfile preserved bytes but omitted executable mode; restored executable permission after the first frozen probe refused to launch.",
+  "unchanged_hashes": true,
+  "binaries": 36
+}

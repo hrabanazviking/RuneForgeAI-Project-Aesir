@@ -1,4 +1,5 @@
 # Original lazy contraction schedules. No numerical evaluation or device code.
+from smidr.bias_graph import validate_plan_bias_state
 from smidr.semantic_plan import SemanticPlan, checked_product
 from smidr.source_inventory import SourceTensorBinding, SourceFileExtent, validate_source_binding, validate_source_weight, validate_source_inventory
 from smidr.storage_estimate import checked_sum, aligned_bytes
@@ -148,6 +149,7 @@ def matrix_tile_count(schedule: MatrixSchedule) raises -> Int:
 def plan_matrix_contraction(plan: SemanticPlan, operation: Int,
                             policy: MatrixTilePolicy) raises -> MatrixSchedule:
     validate_source_inventory(plan.source)
+    validate_plan_bias_state(plan)
     if operation < 0 or operation >= len(plan.operations):
         raise Error("MatrixTiles: operation index outside source graph")
     var op = plan.operations[operation].copy()
