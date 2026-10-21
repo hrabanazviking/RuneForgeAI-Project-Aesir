@@ -3,6 +3,7 @@ from std.math import isfinite
 from smidr.source_storage import SourceStorageTensor
 from std.memory import bitcast
 from smidr.semantic_plan import SemanticPlan, checked_product
+from smidr.rotary_policy import RotaryLoweringPolicy, validate_rotary_policy
 from smidr.source_inventory import SourceTensorBinding, SourceFileExtent, validate_source_weight, validate_source_inventory
 
 
@@ -25,6 +26,8 @@ struct RecipeOperation(Copyable, Movable):
 struct PrimitiveRecipe(Copyable, Movable):
     var source_operation: Int
     var source_input: Int
+    var source_inputs: List[Int]
+    var input_values: List[Int]
     var source_output: Int
     var kind: String
     var weight_name: String
@@ -33,6 +36,10 @@ struct PrimitiveRecipe(Copyable, Movable):
     var weight_extent: SourceFileExtent
     var divisor: Int
     var epsilon_bits: UInt32
+    var rotary_dim: Int
+    var rotary_base_bits: UInt32
+    var rotary_pairing: String
+    var rotary_provenance: String
     var runtime_preconditions: List[String]
     var values: List[RecipeValue]
     var operations: List[RecipeOperation]
@@ -42,6 +49,8 @@ struct PrimitiveRecipe(Copyable, Movable):
                  source_output: Int, kind: String):
         self.source_operation = source_operation
         self.source_input = source_input
+        self.source_inputs = [source_input]
+        self.input_values = [0]
         self.source_output = source_output
         self.kind = kind
         self.weight_name = String("")
@@ -50,6 +59,10 @@ struct PrimitiveRecipe(Copyable, Movable):
         self.weight_extent = SourceFileExtent("", 0, 0)
         self.divisor = 0
         self.epsilon_bits = 0
+        self.rotary_dim = 0
+        self.rotary_base_bits = 0
+        self.rotary_pairing = String("")
+        self.rotary_provenance = String("")
         self.runtime_preconditions = ["finite_inputs"]
         self.values = List[RecipeValue]()
         self.operations = List[RecipeOperation]()
@@ -79,17 +92,89 @@ struct PrimitiveRecipe(Copyable, Movable):
 struct PrimitiveRecipes(Movable):
     var recipes: List[PrimitiveRecipe]
     var remaining_source_operations: List[Int]
+    var rotary_policy: RotaryLoweringPolicy
+    var rotary_work: Int
 
     def __init__(out self):
         self.recipes = List[PrimitiveRecipe]()
         self.remaining_source_operations = List[Int]()
+        self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
+        self.rotary_work = 0
 
 
 def lower_primitive_recipes(plan: SemanticPlan) raises -> PrimitiveRecipes:
+    return _lower_primitive_recipes(plan, RotaryLoweringPolicy("", "", 0, 0), False)
+
+
+def lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy) raises -> PrimitiveRecipes:
+    _ = validate_rotary_policy(plan, policy)
+    return _lower_primitive_recipes(plan, policy, True)
+
+
+def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy) raises -> PrimitiveRecipe:
+    var op = plan.operations[index].copy()
+    if len(op.inputs) != 2 or op.weight.byte_length() != 0 or op.output < 0 or op.output >= len(plan.tensors):
+        raise Error("RotaryRecipe: invalid source arity/output/weight")
+    for id in op.inputs:
+        if id < 0 or id >= len(plan.tensors) or plan.tensors[id].producer < -1 or plan.tensors[id].producer >= index or plan.tensors[id].last_use < index or plan.tensors[id].last_use > len(plan.operations):
+            raise Error("RotaryRecipe: invalid source input/order/lifetime")
+    var x = plan.tensors[op.inputs[0]].copy()
+    var pos = plan.tensors[op.inputs[1]].copy()
+    var out = plan.tensors[op.output].copy()
+    var heads = plan.heads if op.kind == "rope_query" else plan.kv_heads
+    if plan.query_tokens <= 0 or heads <= 0 or plan.key_dim <= 0 or plan.rope_dim <= 0 or plan.rope_dim > plan.key_dim or plan.rope_dim % 2 != 0 or not isfinite(plan.rope_base) or plan.rope_base <= 0:
+        raise Error("RotaryRecipe: invalid typed dimensions/base")
+    if x.persistent or x.alias_of != -1 or out.persistent or out.alias_of != -1 or out.producer != index or out.last_use < index or out.last_use > len(plan.operations) or len(x.shape) != 3 or len(out.shape) != 3:
+        raise Error("RotaryRecipe: invalid activation/output roles")
+    var expected = List[Int]([plan.query_tokens, heads, plan.key_dim])
+    var elements = 1
+    for axis in range(3):
+        if x.shape[axis] != expected[axis] or out.shape[axis] != expected[axis]:
+            raise Error("RotaryRecipe: source activation axes mismatch")
+        elements = checked_product(elements, expected[axis])
+    if x.elements != elements or out.elements != elements or pos.name != "positions" or pos.producer != -1 or pos.persistent or pos.alias_of != -1 or len(pos.shape) != 1 or pos.shape[0] != plan.query_tokens or pos.elements != plan.query_tokens:
+        raise Error("RotaryRecipe: source product/position identity mismatch")
+    var r = PrimitiveRecipe(index, op.inputs[0], op.output, op.kind)
+    r.source_inputs = op.inputs.copy()
+    r.input_values = [0, 1]
+    r.rotary_dim = plan.rope_dim
+    r.rotary_base_bits = bitcast[DType.uint32](plan.rope_base)
+    r.rotary_pairing = policy.pairing
+    r.rotary_provenance = policy.provenance
+    r.runtime_preconditions = ["finite_activation_inputs", "positions_equal_past_plus_query_index", "finite_exact_integer_positions", "real_rotation_identity_only_precision_unqualified"]
+    var activation = r.value(x.shape.copy())
+    var positions = r.value(pos.shape.copy(), "index")
+    var pairs = plan.rope_dim // 2
+    var angle_shape = List[Int]([plan.query_tokens, pairs])
+    var pair_shape = List[Int]([plan.query_tokens, heads, pairs])
+    var frequency = r.emit("rotary_inverse_frequency", List[Int](), [pairs])
+    var angles = r.emit("rotary_angles", [positions, frequency], angle_shape.copy())
+    var cosine = r.emit("cos", [angles], angle_shape.copy())
+    var sine = r.emit("sin", [angles], angle_shape.copy())
+    var first = r.emit("rotary_first", [activation], pair_shape.copy())
+    var second = r.emit("rotary_second", [activation], pair_shape.copy())
+    var fc = r.emit("multiply_rotary_cos", [first, cosine], pair_shape.copy())
+    var ss = r.emit("multiply_rotary_sin", [second, sine], pair_shape.copy())
+    var a = r.emit("subtract", [fc, ss], pair_shape.copy())
+    var fs = r.emit("multiply_rotary_sin", [first, sine], pair_shape.copy())
+    var sc = r.emit("multiply_rotary_cos", [second, cosine], pair_shape.copy())
+    var b = r.emit("add", [fs, sc], pair_shape.copy())
+    r.result = r.emit("rotary_assemble", [a, b, activation], x.shape.copy())
+    r.values[r.result].last_use = len(r.operations)
+    return r^
+
+
+def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, rotary: Bool) raises -> PrimitiveRecipes:
     validate_source_inventory(plan.source)
     var lowered = PrimitiveRecipes()
+    if rotary:
+        lowered.rotary_work = validate_rotary_policy(plan, policy)
+        lowered.rotary_policy = policy.copy()
     for index in range(len(plan.operations)):
         var operation = plan.operations[index].copy()
+        if rotary and (operation.kind == "rope_query" or operation.kind == "rope_key"):
+            lowered.recipes.append(_rotary_recipe(plan, index, policy))
+            continue
         if operation.kind != "rms_norm" and operation.kind != "silu" and operation.kind != "softmax":
             lowered.remaining_source_operations.append(index)
             continue

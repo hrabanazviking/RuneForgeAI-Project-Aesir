@@ -1,17 +1,12 @@
 # Source-bound recipe inspector; no production arithmetic executor.
 from std.sys import argv
-from smidr.semantic_plan import read_dense_semantic_plan
-from smidr.primitive_recipes import lower_primitive_recipes
+from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
+from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
 from smidr.tools.source_inventory import _quote
 from smidr.tools.semantic_plan import _integers
 
 
-def main() raises:
-    var args = argv()
-    if len(args) != 5:
-        raise Error("usage: primitive_recipes <source.gguf> <query> <past> <context_capacity>")
-    var plan = read_dense_semantic_plan(args[1], Int(args[2]), Int(args[3]), Int(args[4]))
-    var lowered = lower_primitive_recipes(plan)
+def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) raises -> String:
     var text = String("{\"schema_version\":1,\"scope\":\"mathematical_primitive_recipes\",\"executable_program\":false,\"device_execution_verified\":false,\"source_fingerprint_verified\":false,\"lowered_storage_recomputed\":false")
     text += ",\"unresolved_gates\":[\"finite_precision_reduction_and_overflow\",\"special_values_and_transcendental_approximations\",\"quantization_weight_and_activation_layout\",\"lowered_storage_and_device_placement\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"recipes\":["
@@ -50,4 +45,13 @@ def main() raises:
             text += ","
         var index = lowered.remaining_source_operations[i]
         text += "{\"id\":" + String(index) + ",\"kind\":" + _quote(plan.operations[index].kind) + "}"
-    print(text + "]}")
+    return text + "]}"
+
+
+def main() raises:
+    var args = argv()
+    if len(args) != 5:
+        raise Error("usage: primitive_recipes <source.gguf> <query> <past> <context_capacity>")
+    var plan = read_dense_semantic_plan(args[1], Int(args[2]), Int(args[3]), Int(args[4]))
+    var lowered = lower_primitive_recipes(plan)
+    print(describe_primitive_recipes(lowered, plan))

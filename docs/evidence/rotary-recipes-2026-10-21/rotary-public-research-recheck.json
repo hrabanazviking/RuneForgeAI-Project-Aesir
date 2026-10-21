@@ -1,0 +1,11 @@
+{
+  "date_utc": "2026-10-21",
+  "scope": "bounded primary discovery only; no new implementation claim",
+  "queries": [
+    "Hailo CCW instruction format LCU Hailo10 open source compiler",
+    "Hailo10 native ISA register configuration compiler open source github",
+    "site.github.com/hailo-ai HAILO_10H ccw context switch configuration"
+  ],
+  "result": "Same DFC wrapper and vendor runtime/application leads already documented. No new numerical encoding fact established. No source body, compiler, model, device or inference invoked.",
+  "existing_receipt": "docs/HAILO10H_NUMERICAL_ENCODING_LEADS_2026-10-20.md"
+}

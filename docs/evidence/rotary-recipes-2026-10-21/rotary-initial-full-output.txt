@@ -1,0 +1,25 @@
+E....
+======================================================================
+ERROR: test_complete_legacy_outputs_and_read_only_trace (__main__.RotaryRecipes.test_complete_legacy_outputs_and_read_only_trace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_rotary_recipes.py", line 268, in test_complete_legacy_outputs_and_read_only_trace
+    new=self.child([str(Path(CONFIG.binaries)/name),*args],path,"new_legacy")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_rotary_recipes.py", line 77, in child
+    result = subprocess.run(command,capture_output=True,text=True,stdin=subprocess.DEVNULL,timeout=30)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: '../rotary-final/tagged-primitive-recipes'
+
+----------------------------------------------------------------------
+Ran 5 tests in 6.223s
+
+FAILED (errors=1)
+Native child scopes: {'frozen_legacy': 1, 'rotary': 36, 'policy_refusal': 2, 'refusal:bad_pairing': 1, 'refusal:empty_provenance': 1, 'refusal:zero_recipe_bound': 1, 'refusal:short_recipe_bound': 1, 'refusal:zero_work': 1, 'refusal:work_short': 1, 'refusal:arity': 1, 'refusal:negative_input': 1, 'refusal:negative_output': 1, 'refusal:weight': 1, 'refusal:input_forward': 1, 'refusal:input_expired': 1, 'refusal:input_rank': 1, 'refusal:input_shape': 1, 'refusal:input_product': 1, 'refusal:input_alias': 1, 'refusal:input_persistent': 1, 'refusal:output_rank': 1, 'refusal:output_shape': 1, 'refusal:output_product': 1, 'refusal:output_producer': 1, 'refusal:output_alias': 1, 'refusal:output_persistent': 1, 'refusal:position_producer': 1, 'refusal:position_name': 1, 'refusal:position_shape': 1, 'refusal:position_product': 1, 'refusal:position_alias': 1, 'refusal:position_persistent': 1, 'refusal:dimension_zero': 1, 'refusal:dimension_odd': 1, 'refusal:dimension_excess': 1, 'refusal:base_zero': 1, 'refusal:base_nan': 1, 'refusal:head_role': 1, 'refusal:product_overflow': 1, 'refusal:source_policy': 1, 'refusal:graph_pairing': 1, 'refusal:graph_provenance': 1, 'refusal:graph_dim': 1, 'refusal:graph_base': 1, 'refusal:graph_kind': 1, 'refusal:graph_edge': 1, 'refusal:graph_arity': 1, 'refusal:graph_source': 1, 'refusal:graph_step': 1, 'refusal:graph_shape': 1, 'refusal:graph_product': 1, 'refusal:graph_domain': 1, 'refusal:graph_storage': 1, 'refusal:graph_producer': 1, 'refusal:graph_lifetime': 1, 'refusal:graph_position_domain': 1, 'refusal:graph_export': 1, 'refusal:graph_stray_metadata': 1, 'refusal:graph_stray_kind': 1, 'refusal:graph_policy': 1, 'refusal:graph_work': 1, 'refusal:graph_disabled': 1, 'refusal:graph_source_base': 1, 'refusal:graph_width': 1, 'refusal:graph_preconditions': 1, 'ownership_or_exact': 3}

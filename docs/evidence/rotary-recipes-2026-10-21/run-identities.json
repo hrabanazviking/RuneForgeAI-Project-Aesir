@@ -1,0 +1,2604 @@
+[
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 26557,
+    "stdout_sha256": "f6779e1f115c8b69256640e530e14ffeba2087783d13dcf250245110d40c7431",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 26557,
+    "stdout_sha256": "f6779e1f115c8b69256640e530e14ffeba2087783d13dcf250245110d40c7431",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-0.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 1607,
+    "stdout_sha256": "b2a870125865e66cf060fba77427751110f3fd20e63a81d9a69abb36e9b22f5e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-0.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 1607,
+    "stdout_sha256": "b2a870125865e66cf060fba77427751110f3fd20e63a81d9a69abb36e9b22f5e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-1.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "b27fbc2e262ccf96ccf4bbaffca044274e730e6d2cb409e014c5d89e34eb8a17",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-1.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "b27fbc2e262ccf96ccf4bbaffca044274e730e6d2cb409e014c5d89e34eb8a17",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-1.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 47533,
+    "stdout_sha256": "088dbb5f63a9eb7650f512abe27a9261b9effba7e6952c11148400db115dcfda",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-1.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 47533,
+    "stdout_sha256": "088dbb5f63a9eb7650f512abe27a9261b9effba7e6952c11148400db115dcfda",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-1.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 2185,
+    "stdout_sha256": "1b6433a9a7881d3d9bb13bf4b78c1e72f69273334d01266ab8e64c30e343d00b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-1.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 2185,
+    "stdout_sha256": "1b6433a9a7881d3d9bb13bf4b78c1e72f69273334d01266ab8e64c30e343d00b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-2.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "3366d5e9f57b423bb9ff2c476b529b92154cb54ddebbe3958b4e1c7c9c84e4a2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-2.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "3366d5e9f57b423bb9ff2c476b529b92154cb54ddebbe3958b4e1c7c9c84e4a2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-2.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 26557,
+    "stdout_sha256": "203c2d24fdef2929e201a7817ade522cfa3d91dd61e0ec3e8ab2e82748681e71",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-2.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 26557,
+    "stdout_sha256": "203c2d24fdef2929e201a7817ade522cfa3d91dd61e0ec3e8ab2e82748681e71",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-2.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 1615,
+    "stdout_sha256": "66384e37fe9115b7fd490489208dd693b1aafb8b4ac554dfdadf418d98f62bcd",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-2.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 1615,
+    "stdout_sha256": "66384e37fe9115b7fd490489208dd693b1aafb8b4ac554dfdadf418d98f62bcd",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-3.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "64aebffe1006525b0ee8556c74d6ee67905b047f632376bf8ac53d1ed02259c2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-3.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "64aebffe1006525b0ee8556c74d6ee67905b047f632376bf8ac53d1ed02259c2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-3.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 47533,
+    "stdout_sha256": "16667653f3e52fe1578e0dec7d05dd55381c37842889f79cec063eb9c984f9de",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-3.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 47533,
+    "stdout_sha256": "16667653f3e52fe1578e0dec7d05dd55381c37842889f79cec063eb9c984f9de",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-3.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 2193,
+    "stdout_sha256": "6c63ead125fabb23eb39944f610910ad4893538e6823bcd97754be310ff0b83d",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-3.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 2193,
+    "stdout_sha256": "6c63ead125fabb23eb39944f610910ad4893538e6823bcd97754be310ff0b83d",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 7311,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 26557,
+    "stdout_sha256": "f6779e1f115c8b69256640e530e14ffeba2087783d13dcf250245110d40c7431",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 26557,
+    "stdout_sha256": "f6779e1f115c8b69256640e530e14ffeba2087783d13dcf250245110d40c7431",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-4.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 1607,
+    "stdout_sha256": "b2a870125865e66cf060fba77427751110f3fd20e63a81d9a69abb36e9b22f5e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-4.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "f5dd0d074e0d557aee105a7a71aa193aae7116eb69f5abcae9c6b2a2c7199432",
+    "returncode": 0,
+    "stdout_bytes": 1607,
+    "stdout_sha256": "b2a870125865e66cf060fba77427751110f3fd20e63a81d9a69abb36e9b22f5e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-5.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "b27fbc2e262ccf96ccf4bbaffca044274e730e6d2cb409e014c5d89e34eb8a17",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-primitive-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-5.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 12777,
+    "stdout_sha256": "b27fbc2e262ccf96ccf4bbaffca044274e730e6d2cb409e014c5d89e34eb8a17",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-5.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 47533,
+    "stdout_sha256": "088dbb5f63a9eb7650f512abe27a9261b9effba7e6952c11148400db115dcfda",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-graph",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-5.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 47533,
+    "stdout_sha256": "088dbb5f63a9eb7650f512abe27a9261b9effba7e6952c11148400db115dcfda",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "frozen_legacy",
+    "command": [
+      "../rotary-baseline/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-5.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 2185,
+    "stdout_sha256": "1b6433a9a7881d3d9bb13bf4b78c1e72f69273334d01266ab8e64c30e343d00b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "new_legacy",
+    "command": [
+      "../rotary-hardened/tagged-expanded-storage",
+      "/tmp/aesir-rotary-n3uzgeea/legacy-5.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "source_sha256": "3912b81ed76bc8c29b096414a2a8733ac776d3ff525c824d4634892e821f4c5a",
+    "returncode": 0,
+    "stdout_bytes": 2185,
+    "stdout_sha256": "1b6433a9a7881d3d9bb13bf4b78c1e72f69273334d01266ab8e64c30e343d00b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/usr/bin/strace",
+      "-f",
+      "-y",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened-clean-verification/rotary.strace",
+      "-e",
+      "trace=openat,openat2,connect,ioctl",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-36.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 63307,
+    "stdout_sha256": "66970743313ba046cdb3369973dce21707fcccfc553627a53a7f760d7c376751",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-37.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "2893e6ade6d14b122ae8b43f5550386d736bfa8b3ee01f10af8f1338c9e3fa0c",
+    "returncode": 0,
+    "stdout_bytes": 62889,
+    "stdout_sha256": "b6ae294dc115c76ef79bfef1a35a0fdb9a79db835dff50f964d94de3a38effda",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-38.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "2893e6ade6d14b122ae8b43f5550386d736bfa8b3ee01f10af8f1338c9e3fa0c",
+    "returncode": 0,
+    "stdout_bytes": 41008,
+    "stdout_sha256": "2c13300f2ad1da67883a01b36d782f5c83a55868691d887d2d73778754b8d3e8",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-39.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "bd85740edcaaadf7191c895aa373717c0a33537538be2341821331ecf059fc80",
+    "returncode": 0,
+    "stdout_bytes": 148297,
+    "stdout_sha256": "496de1ba638c3975a2b7c49cc67ff0d0bf7f9676e35879f6a53e1f31845d410d",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-40.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 63300,
+    "stdout_sha256": "6f0357dfde4a7d5dab5bbada68a2d779c5032f963403aa611653f1ed646b94b9",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-41.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 41403,
+    "stdout_sha256": "c699fb294cdf509004f67c3c84bd6d23e552ccd36a39dac43ecd81fa90d4f798",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-42.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "624b9e96062fb35a60366e56998fe383a4336dab62cf00ab8061a3137942950d",
+    "returncode": 0,
+    "stdout_bytes": 148745,
+    "stdout_sha256": "5f87a5d05e73e57b6a000660ed4827d5599fbbcdf3cc4c6d1624aebcdeecdc53",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-43.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+    "returncode": 0,
+    "stdout_bytes": 63305,
+    "stdout_sha256": "183bc8d91c7ed5026afe5399d602cf44eda1cbb0bde2ddf68b0c18373a25536f",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-44.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+    "returncode": 0,
+    "stdout_bytes": 41407,
+    "stdout_sha256": "f999b653b3ce7cdfdab445ab2d2b0748521f503b21165c1cf2db55f5c3648994",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-45.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f",
+    "returncode": 0,
+    "stdout_bytes": 148759,
+    "stdout_sha256": "acfd2bc9d25642236a40070cb858b5a8526fb4543d3b8c48b138480b6d699f62",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-46.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "84800424d26625bdf6ebfc68a5f7b56584259823fbbe3e0f7bd9e61cccdb60f5",
+    "returncode": 0,
+    "stdout_bytes": 62919,
+    "stdout_sha256": "2409ca23b18bb810d2a53fc38bbbef76bb88ac8d12012933060c8207959d65da",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-47.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "84800424d26625bdf6ebfc68a5f7b56584259823fbbe3e0f7bd9e61cccdb60f5",
+    "returncode": 0,
+    "stdout_bytes": 41021,
+    "stdout_sha256": "54847de613d9d209cf35e20c2a41cae29d379c81c4b339fa0a48434bd77ef4d6",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-48.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "6c7778eaa72874fd2f0c586b90214fa0e599f6c92153189ca3b0c41fed75c0fc",
+    "returncode": 0,
+    "stdout_bytes": 148371,
+    "stdout_sha256": "865aa7970f1721d853fe56c20db848d214867ecab60fa3360467520063f97546",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-49.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "2893e6ade6d14b122ae8b43f5550386d736bfa8b3ee01f10af8f1338c9e3fa0c",
+    "returncode": 0,
+    "stdout_bytes": 62947,
+    "stdout_sha256": "f0e25d60a08f1a5beab4a5b40c90b6353ae696d5066371e1515dea6641f72e8a",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-50.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "2893e6ade6d14b122ae8b43f5550386d736bfa8b3ee01f10af8f1338c9e3fa0c",
+    "returncode": 0,
+    "stdout_bytes": 41010,
+    "stdout_sha256": "d34a958fcd04331141d1837c56b805464dce1a7cb45093415b1713ea236dd431",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-51.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "bd85740edcaaadf7191c895aa373717c0a33537538be2341821331ecf059fc80",
+    "returncode": 0,
+    "stdout_bytes": 148411,
+    "stdout_sha256": "4889705c7d7b8863d5f3284b06f8e5b3de2bb47f14127e60838a5e2a1a70363c",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-52.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 63358,
+    "stdout_sha256": "5d79e86f492f02fc5888d032ddc79add82a1e7359abbaa6cd8a56aae2e076019",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-53.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 41405,
+    "stdout_sha256": "2c93f6010657e555855eea160e4b84734bb5742eb8d820d951513e16624ea918",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-54.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "624b9e96062fb35a60366e56998fe383a4336dab62cf00ab8061a3137942950d",
+    "returncode": 0,
+    "stdout_bytes": 148859,
+    "stdout_sha256": "22a5be39c38d5b2a565d4f2b1ce617e04136d4b45f1b38ad557c6419f1a11443",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-55.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+    "returncode": 0,
+    "stdout_bytes": 63363,
+    "stdout_sha256": "44ebc8bfc2041b1d5c1028737aa8d8b461e7186ac35171a0ceb79dfd8a6f1d9e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-56.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "2dae430952ac8a13bc61f000f35803933fd3e850e3ed3ee393c88a34847ef72a",
+    "returncode": 0,
+    "stdout_bytes": 41409,
+    "stdout_sha256": "61c3854bce0bdb923225e99fb50b94a4407834842f340a2dc556ae2c9c45d074",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-57.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "dad034d8bf46c9922f962e5142d5161e6bfb1ca68bef4499c42a26657ae4ec8f",
+    "returncode": 0,
+    "stdout_bytes": 148873,
+    "stdout_sha256": "50f14b20835c4f8b5a48052e40a42dabe536855be9c304bd6e265d037aae1d32",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-58.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "84800424d26625bdf6ebfc68a5f7b56584259823fbbe3e0f7bd9e61cccdb60f5",
+    "returncode": 0,
+    "stdout_bytes": 62977,
+    "stdout_sha256": "120b7f99b1754af6606c84dce240a882e5c03dc58163abc15b6ac4984ba15595",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-59.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "84800424d26625bdf6ebfc68a5f7b56584259823fbbe3e0f7bd9e61cccdb60f5",
+    "returncode": 0,
+    "stdout_bytes": 41023,
+    "stdout_sha256": "4b3bbd904a7005b0209659b068ed6c3486107b9eb0df73d29e2dfef13cdbed5d",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-60.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "source_sha256": "6c7778eaa72874fd2f0c586b90214fa0e599f6c92153189ca3b0c41fed75c0fc",
+    "returncode": 0,
+    "stdout_bytes": 148485,
+    "stdout_sha256": "fc20678e8cbff2f056a5c3c7ca0ce6230de60d94f3df76ea0f625cc67c1a2279",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-61.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "fe0a1fd29a4a65d240e97240bc4673b34f9b34510bfcf119cf691387565cf7b9",
+    "returncode": 0,
+    "stdout_bytes": 64264,
+    "stdout_sha256": "2b4067d63ab0e1c4a475033390f15e01acc848bdb1a6b09d30146a4a14be5b26",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-62.gguf",
+      "1",
+      "7",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,1,1,0"
+    ],
+    "source_sha256": "6af3f91489e8df54a71b4cca27457f40ca38655583fd44af81464a44011b3e37",
+    "returncode": 0,
+    "stdout_bytes": 203536,
+    "stdout_sha256": "a3703968664d4cf48883b5901588243d53dc5a8c120f6e3b7f20f4a9687c12d5",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-63.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 62930,
+    "stdout_sha256": "1c91b8110f44cd48d7469ab78b082854a804bfb876738a5445ba290407dea345",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-64.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "322",
+      "1"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 62925,
+    "stdout_sha256": "06ba44774daf905da55e31fbe0be7e16c744cba26ddfd0daf88156888f2f86c6",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "policy_refusal",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/short.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "100",
+      "321",
+      "1"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 214,
+    "stderr_sha256": "c485f596fe0a8da6eb39b1fdfc7f83b0c04042d6d38d7c60668733ee11f64d3b"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-66.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 41357,
+    "stdout_sha256": "9c8cc85160af821027a30110ec660f0740b70f37a675865a982e2fad2863acee",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-67.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "22",
+      "0"
+    ],
+    "source_sha256": "35dd75704c51d0d1610f82f6b79c05825c4c939b3bd6c203d741dc641da7e93e",
+    "returncode": 0,
+    "stdout_bytes": 41351,
+    "stdout_sha256": "454c62cf13e66994e6d8eaf35516082270c257d80573e5eb06ca1723084c46d4",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "policy_refusal",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/short.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "100",
+      "21",
+      "0"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "d295204f281d09b97ba4a43c54c57fc86d47db1c37b5604869abaf49c07add93"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-69.gguf",
+      "2",
+      "1",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "c57849aed209c47bb3cefa6496a25061e677ef9e38e53b7ee6c0a94370a69b1a",
+    "returncode": 0,
+    "stdout_bytes": 63217,
+    "stdout_sha256": "ca254978b762c612559867bb1ef5d8f22a7d28fda2260c24e33a3905b92c8d6f",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-70.gguf",
+      "2",
+      "1",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "6a28791af267615c60d284620125cd9599056b27a198d78c048d31e9a184a2fd",
+    "returncode": 0,
+    "stdout_bytes": 63254,
+    "stdout_sha256": "e65c547e1318bb4dad2b67dcdd57214bb4dba8a04588597fc4b7801d3e11600b",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-71.gguf",
+      "2",
+      "1",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "aece98130f5de91450d4b4ddf174e295491455391d783117b126cefc49d46231",
+    "returncode": 0,
+    "stdout_bytes": 63273,
+    "stdout_sha256": "acb317931b9e48019ea98dc71193c63a5bf7b631639ef6c3b956766747530f07",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-72.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "c57849aed209c47bb3cefa6496a25061e677ef9e38e53b7ee6c0a94370a69b1a",
+    "returncode": 0,
+    "stdout_bytes": 63275,
+    "stdout_sha256": "b2f80a15849ea0e44277312677db92c14781289b24151299e6207a6c000c652a",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-73.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "6a28791af267615c60d284620125cd9599056b27a198d78c048d31e9a184a2fd",
+    "returncode": 0,
+    "stdout_bytes": 63312,
+    "stdout_sha256": "057b48ec09146e92b617a061f679343fed7e476e24b08a8cded027677fe0b396",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "rotary",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-recipes",
+      "/tmp/aesir-rotary-n3uzgeea/case-74.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "source_sha256": "aece98130f5de91450d4b4ddf174e295491455391d783117b126cefc49d46231",
+    "returncode": 0,
+    "stdout_bytes": 63331,
+    "stdout_sha256": "86940528380a17260f4ce90a2a7883dc2c04233e615de0e100c870642bc6498f",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "refusal:bad_pairing",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "bad_pairing"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 238,
+    "stderr_sha256": "697296990a8acee2add0e67399bb59a7190f3828a67a5ddd4eaffb4d795ff309"
+  },
+  {
+    "scope": "refusal:empty_provenance",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "empty_provenance"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 238,
+    "stderr_sha256": "697296990a8acee2add0e67399bb59a7190f3828a67a5ddd4eaffb4d795ff309"
+  },
+  {
+    "scope": "refusal:zero_recipe_bound",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "zero_recipe_bound"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 238,
+    "stderr_sha256": "697296990a8acee2add0e67399bb59a7190f3828a67a5ddd4eaffb4d795ff309"
+  },
+  {
+    "scope": "refusal:short_recipe_bound",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "short_recipe_bound"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 211,
+    "stderr_sha256": "08ea7ac1470c143b889fd5f84cdebeda345de579af0d712e25507e49a5b9ce8f"
+  },
+  {
+    "scope": "refusal:zero_work",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "zero_work"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 238,
+    "stderr_sha256": "697296990a8acee2add0e67399bb59a7190f3828a67a5ddd4eaffb4d795ff309"
+  },
+  {
+    "scope": "refusal:work_short",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "work_short"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 214,
+    "stderr_sha256": "c485f596fe0a8da6eb39b1fdfc7f83b0c04042d6d38d7c60668733ee11f64d3b"
+  },
+  {
+    "scope": "refusal:arity",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "arity"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 218,
+    "stderr_sha256": "f9565c745f8c4752f81241cc39f40f7dc07583da717097cfcceae2d40f3babc1"
+  },
+  {
+    "scope": "refusal:negative_input",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "negative_input"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 219,
+    "stderr_sha256": "a709753a5afffa6fb7e9170c1d471089aa946ec27b20e1382e7685b9678724ce"
+  },
+  {
+    "scope": "refusal:negative_output",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "negative_output"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 218,
+    "stderr_sha256": "f9565c745f8c4752f81241cc39f40f7dc07583da717097cfcceae2d40f3babc1"
+  },
+  {
+    "scope": "refusal:weight",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "weight"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 218,
+    "stderr_sha256": "f9565c745f8c4752f81241cc39f40f7dc07583da717097cfcceae2d40f3babc1"
+  },
+  {
+    "scope": "refusal:input_forward",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_forward"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 219,
+    "stderr_sha256": "a709753a5afffa6fb7e9170c1d471089aa946ec27b20e1382e7685b9678724ce"
+  },
+  {
+    "scope": "refusal:input_expired",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_expired"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 219,
+    "stderr_sha256": "a709753a5afffa6fb7e9170c1d471089aa946ec27b20e1382e7685b9678724ce"
+  },
+  {
+    "scope": "refusal:input_rank",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_rank"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:input_shape",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_shape"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "b87c271beae97e300566698ccf118d301120391a6ccee4a2fe8fec8249ae40b9"
+  },
+  {
+    "scope": "refusal:input_product",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_product"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:input_alias",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_alias"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:input_persistent",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_persistent"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:output_rank",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_rank"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:output_shape",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_shape"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "b87c271beae97e300566698ccf118d301120391a6ccee4a2fe8fec8249ae40b9"
+  },
+  {
+    "scope": "refusal:output_product",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_product"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:output_producer",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_producer"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:output_alias",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_alias"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:output_persistent",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_persistent"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:position_producer",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "position_producer"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:position_name",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "position_name"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:position_shape",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "position_shape"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:position_product",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "position_product"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:position_alias",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "position_alias"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:position_persistent",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "position_persistent"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 225,
+    "stderr_sha256": "5a48ecd3ffced8025c7cedf7d93c9217251fd361771fe4d0b7708124f78c4ed6"
+  },
+  {
+    "scope": "refusal:dimension_zero",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "dimension_zero"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 213,
+    "stderr_sha256": "e31b8a85916a50b9d98321e021d04a5287557d2479b555b124b8917de7318e0a"
+  },
+  {
+    "scope": "refusal:dimension_odd",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "dimension_odd"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 213,
+    "stderr_sha256": "e31b8a85916a50b9d98321e021d04a5287557d2479b555b124b8917de7318e0a"
+  },
+  {
+    "scope": "refusal:dimension_excess",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "dimension_excess"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 213,
+    "stderr_sha256": "e31b8a85916a50b9d98321e021d04a5287557d2479b555b124b8917de7318e0a"
+  },
+  {
+    "scope": "refusal:base_zero",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "base_zero"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 213,
+    "stderr_sha256": "e31b8a85916a50b9d98321e021d04a5287557d2479b555b124b8917de7318e0a"
+  },
+  {
+    "scope": "refusal:base_nan",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "base_nan"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 213,
+    "stderr_sha256": "e31b8a85916a50b9d98321e021d04a5287557d2479b555b124b8917de7318e0a"
+  },
+  {
+    "scope": "refusal:head_role",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "head_role"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "b87c271beae97e300566698ccf118d301120391a6ccee4a2fe8fec8249ae40b9"
+  },
+  {
+    "scope": "refusal:product_overflow",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "product_overflow"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 229,
+    "stderr_sha256": "67c5d20bad3e5be5e0a4ad33c3871ef091397a159b13d25906c76fc99b5f870d"
+  },
+  {
+    "scope": "refusal:source_policy",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "source_policy"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 226,
+    "stderr_sha256": "b68cbf409d12a50cc1aa53b28f38fc60e0fe82a1657319b92d34f42339fb226d"
+  },
+  {
+    "scope": "refusal:input_negative_producer",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_negative_producer"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 219,
+    "stderr_sha256": "a709753a5afffa6fb7e9170c1d471089aa946ec27b20e1382e7685b9678724ce"
+  },
+  {
+    "scope": "refusal:input_excess_lifetime",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "input_excess_lifetime"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 219,
+    "stderr_sha256": "a709753a5afffa6fb7e9170c1d471089aa946ec27b20e1382e7685b9678724ce"
+  },
+  {
+    "scope": "refusal:output_expired",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_expired"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:output_excess_lifetime",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "output_excess_lifetime"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "e920fa674fbe57ce60c15e2f20d8e3ce4c3f5c176f98426f60380e94597148c7"
+  },
+  {
+    "scope": "refusal:graph_pairing",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_pairing"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_provenance",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_provenance"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_dim",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_dim"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_base",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_base"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_kind",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_kind"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_edge",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_edge"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 206,
+    "stderr_sha256": "0b1cb9bb0b9e72a9442e4ac1ad5144aaeae6cc157fdb6fd44589ed153852f36f"
+  },
+  {
+    "scope": "refusal:graph_arity",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_arity"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_source",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_source"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_step",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_step"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_shape",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_shape"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 207,
+    "stderr_sha256": "749738991792455c21f136d0b8a89c09faf7b750d94ef4ef6d614255d861e753"
+  },
+  {
+    "scope": "refusal:graph_product",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_product"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 207,
+    "stderr_sha256": "749738991792455c21f136d0b8a89c09faf7b750d94ef4ef6d614255d861e753"
+  },
+  {
+    "scope": "refusal:graph_domain",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_domain"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 207,
+    "stderr_sha256": "749738991792455c21f136d0b8a89c09faf7b750d94ef4ef6d614255d861e753"
+  },
+  {
+    "scope": "refusal:graph_storage",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_storage"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 207,
+    "stderr_sha256": "749738991792455c21f136d0b8a89c09faf7b750d94ef4ef6d614255d861e753"
+  },
+  {
+    "scope": "refusal:graph_producer",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_producer"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 207,
+    "stderr_sha256": "749738991792455c21f136d0b8a89c09faf7b750d94ef4ef6d614255d861e753"
+  },
+  {
+    "scope": "refusal:graph_lifetime",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_lifetime"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 208,
+    "stderr_sha256": "eb7ae974d63a471768050bce8630149264c47dfe12accb6124c238ed783f5c43"
+  },
+  {
+    "scope": "refusal:graph_position_domain",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_position_domain"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 214,
+    "stderr_sha256": "e492def30ff8c32b3dbd6e90ad3c1b2d2daa1a561b5d9979acf39ddb6c45c45c"
+  },
+  {
+    "scope": "refusal:graph_export",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_export"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 211,
+    "stderr_sha256": "cd9e0e264e2a8b46791cf56ffee51a9dd6f660de7dac38d724dda355c53600e9"
+  },
+  {
+    "scope": "refusal:graph_stray_metadata",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_stray_metadata"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 208,
+    "stderr_sha256": "137c4d355aaed241094aebd77a68a822efc6f036f137e8c83b4ddbd2a442a015"
+  },
+  {
+    "scope": "refusal:graph_stray_kind",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_stray_kind"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 208,
+    "stderr_sha256": "137c4d355aaed241094aebd77a68a822efc6f036f137e8c83b4ddbd2a442a015"
+  },
+  {
+    "scope": "refusal:graph_policy",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_policy"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 208,
+    "stderr_sha256": "665c35a22af912a80d580a29c992629d0bff470a25a9d2eb94ef49bf4f25888f"
+  },
+  {
+    "scope": "refusal:graph_work",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_work"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 208,
+    "stderr_sha256": "665c35a22af912a80d580a29c992629d0bff470a25a9d2eb94ef49bf4f25888f"
+  },
+  {
+    "scope": "refusal:graph_disabled",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_disabled"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 208,
+    "stderr_sha256": "137c4d355aaed241094aebd77a68a822efc6f036f137e8c83b4ddbd2a442a015"
+  },
+  {
+    "scope": "refusal:graph_source_base",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_source_base"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "9e722cc3cb8f872bf246650c56e86df3a7e369180da410cc57b13771b6a0b522"
+  },
+  {
+    "scope": "refusal:graph_width",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_width"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_preconditions",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_preconditions"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 220,
+    "stderr_sha256": "70de36427bd383f2861a7e31305fdb9e225566d4e49e3401bd8f92691da92ae6"
+  },
+  {
+    "scope": "refusal:graph_recipe_inputs",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_inputs"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "9e722cc3cb8f872bf246650c56e86df3a7e369180da410cc57b13771b6a0b522"
+  },
+  {
+    "scope": "refusal:graph_recipe_local",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_local"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "9e722cc3cb8f872bf246650c56e86df3a7e369180da410cc57b13771b6a0b522"
+  },
+  {
+    "scope": "refusal:graph_recipe_shape",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_shape"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 213,
+    "stderr_sha256": "772abeb407badeeb72cd111cccb21c7ec63f9c7d687f71f9218f3836dbf827d9"
+  },
+  {
+    "scope": "refusal:graph_recipe_lifetime",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_lifetime"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 213,
+    "stderr_sha256": "772abeb407badeeb72cd111cccb21c7ec63f9c7d687f71f9218f3836dbf827d9"
+  },
+  {
+    "scope": "refusal:graph_recipe_kind",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_kind"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "20223a6df09fd502e93b9844c7711952986bf6e2cd6c646393e4587197e2654a"
+  },
+  {
+    "scope": "refusal:graph_recipe_edge",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_edge"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "20223a6df09fd502e93b9844c7711952986bf6e2cd6c646393e4587197e2654a"
+  },
+  {
+    "scope": "refusal:graph_recipe_identity",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_identity"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 217,
+    "stderr_sha256": "0053e3c890acb6f6483eb24ca4fb0eba0cba97cda5bfb4471ffaf565da070224"
+  },
+  {
+    "scope": "refusal:graph_recipe_result",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_result"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "9e722cc3cb8f872bf246650c56e86df3a7e369180da410cc57b13771b6a0b522"
+  },
+  {
+    "scope": "refusal:graph_recipe_metadata",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_recipe_metadata"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 1,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 215,
+    "stderr_sha256": "9e722cc3cb8f872bf246650c56e86df3a7e369180da410cc57b13771b6a0b522"
+  },
+  {
+    "scope": "ownership_or_exact",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "ownership"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 0,
+    "stdout_bytes": 25,
+    "stdout_sha256": "74223571026ce63fc0a93d930aa4801a7189586ce508f68e74b4f3439f6991e9",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "ownership_or_exact",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "graph_ownership"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 0,
+    "stdout_bytes": 28,
+    "stdout_sha256": "f446ab26a6217d06589ce0efe7db36033a82d0980be183d72dd53642b91d337e",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "scope": "ownership_or_exact",
+    "command": [
+      "/home/pi/Documents/Codex/2026-10-19/u/work/rotary-hardened/rotary-api",
+      "/tmp/aesir-rotary-n3uzgeea/mutations.gguf",
+      "work_exact"
+    ],
+    "source_sha256": "b0bf84b8a887d5315b14c13dfe6a755fdaa5731112286e23b5dd701a9cd88bae",
+    "returncode": 0,
+    "stdout_bytes": 30,
+    "stdout_sha256": "ea84ffebd9f73430ec718d8cffde21dd26312d2429b1c4ac2d60ee9c2d5484e4",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

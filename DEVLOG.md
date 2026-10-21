@@ -1,3 +1,16 @@
+## 2026-10-21 — Codex: explicit rotary mathematical compiler recipes
+
+- Published exact contract048924d before code; original owned two-input mapping,
+  explicit adjacent/split-half basis,13 mathematical operations and tail copy.
+- Expanded graph/storage preserve source/KV identities and check rederived
+  snapshots/metadata/domains/lifetimes. Review hardened source lifetime bounds.
+- Final104 methods/2864 native calls pass;30 entrypoints rebuild warning-free,
+  18 complete new legacy outputs,108 frozen comparisons and40 NoPE graphs.
+- Six isolated synthetic single-primitive cases compare256 output scalars;
+  no model/layer/attention forward, external compiler or device execution.
+- Receipt docs/HAILO10H_MOJO_ROTARY_RECIPES.md; broaden ordinary modifier/adapter
+  semantics and actual numerical Hailo encoding/configuration next. Target fixed.
+
 ## 2026-10-20 — Codex: qualified ordinary omitted/null semantics
 
 - Published exact source-default contract6fe8f4d before code. Pinned4.57.1

@@ -404,3 +404,16 @@ all original raw fields. Null tying stays unresolved. Source geometry/policies
 remain enforced; file-name presence never selects a tie. No rotary/window/
 numerical default is inferred. Exact qualified oracle/compatibility evidence:
 `docs/HAILO10H_MOJO_ORDINARY_DEFAULTS.md`;44 methods/1285 native calls.
+
+
+## Explicit rotary mathematical lowering — 2026-10-21
+
+RotaryLoweringPolicy(pairing,provenance,max_recipes,work) enables new overloads
+of lower_primitive_recipes and expand_semantic_graph. Owned source_inputs/
+input_values preserve both activation/position references; explicit adjacent or
+split_half pairing, exact typed Float32 base words,13 operations and tail copies
+survive expanded integration. Storage rederives owned recipes and graph mappings,
+checks metadata/domains and accounts all real intermediates/lifetimes. Old APIs
+and inspector schemas remain unchanged. No format-derived basis, ordinary scalar
+narrowing, complete ordinary adapter, device precision/program or inference is
+implied. See docs/HAILO10H_MOJO_ROTARY_RECIPES.md;104 methods/2864 calls.

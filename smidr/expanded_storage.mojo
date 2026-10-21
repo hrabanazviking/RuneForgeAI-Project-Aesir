@@ -1,5 +1,5 @@
 # Checked storage volume for expanded mathematical IR, never device admission.
-from smidr.expanded_graph import ExpandedGraph
+from smidr.expanded_graph import ExpandedGraph, validate_rotary_expansion
 from smidr.semantic_plan import checked_product
 from smidr.storage_estimate import aligned_bytes, checked_sum
 from smidr.source_inventory import validate_source_inventory, validate_source_weight
@@ -33,6 +33,7 @@ struct ExpandedStorageEstimate(Copyable, Movable):
 
 
 def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
+    validate_rotary_expansion(graph)
     var count = len(graph.operations)
     var value_count = len(graph.values)
     if count == 0 or value_count == 0 or graph.result < 0 or graph.result >= value_count:
@@ -150,6 +151,8 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
             var expected_domain = String("real")
             if op.kind == "select" and j == 0:
                 expected_domain = String("predicate")
+            elif op.kind == "rotary_angles" and j == 0:
+                expected_domain = String("index")
             elif (op.kind == "embedding_gather" and j == 0) or ((op.kind == "rope_query" or op.kind == "rope_key" or op.kind == "causal_mask") and j == 1):
                 expected_domain = String("index")
             if input.domain != expected_domain:

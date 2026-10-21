@@ -10,3 +10,7 @@ storage expectations, tiny isolated primitive mathematics, refusals/ownership,
 all affected consumers and frozen legacy outputs. Publish/verify both heads,
 then return to ordinary source modifiers/graph adaptation and actual numerical
 Hailo encoding/configuration/precision/packing/placement/upload/results/cleanup.
+
+2026-10-21 completed104 methods/2864 calls,30 rebuilt entrypoints; final
+receipt docs/HAILO10H_MOJO_ROTARY_RECIPES.md. Return automatically to source
+modifiers/ordinary graph integration and actual numerical Hailo work.

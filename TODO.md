@@ -59,6 +59,9 @@
 - [x] Qualified ordinary omitted/null defaults:44 methods/1285 native calls;
   raw/source/default origins retained,28 explicit old outputs unchanged.
   `docs/HAILO10H_MOJO_ORDINARY_DEFAULTS.md`. Metadata/structure only.
+- [x] Explicit rotary mathematical lowering and expanded storage:104 methods/2864
+  calls,30 rebuilt entrypoints and18 complete new legacy comparisons.
+  `docs/HAILO10H_MOJO_ROTARY_RECIPES.md`. No numerical device execution.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

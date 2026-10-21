@@ -1,0 +1,19 @@
+{
+  "new_methods": 5,
+  "new_calls": 153,
+  "new_accepted": 76,
+  "new_expected_refusals": 77,
+  "regression_methods": 94,
+  "regression_calls": 2559,
+  "decoder_policy_methods": 5,
+  "decoder_policy_calls": 152,
+  "total_methods": 104,
+  "total_calls": 2864,
+  "rebuilt_entrypoints": 30,
+  "complete_new_legacy_comparisons": 18,
+  "complete_regression_frozen_comparisons": 108,
+  "complete_nope_graphs": 40,
+  "isolated_primitives": 6,
+  "isolated_output_scalars": 256,
+  "device_execution_verified": false
+}

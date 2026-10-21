@@ -1,17 +1,12 @@
 # Native compiler graph inspector. No arithmetic execution or device upload.
 from std.sys import argv
 from smidr.semantic_plan import read_dense_semantic_plan
-from smidr.expanded_graph import expand_semantic_graph
+from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
 from smidr.tools.source_inventory import _quote
 from smidr.tools.semantic_plan import _integers
 
 
-def main() raises:
-    var args = argv()
-    if len(args) != 5:
-        raise Error("usage: expanded_graph <source.gguf> <query> <past> <context_capacity>")
-    var plan = read_dense_semantic_plan(args[1], Int(args[2]), Int(args[3]), Int(args[4]))
-    var graph = expand_semantic_graph(plan^)
+def describe_expanded_graph(graph: ExpandedGraph) raises -> String:
     var text = String("{\"schema_version\":1,\"scope\":\"expanded_mathematical_graph\",\"executable_program\":false,\"device_execution_verified\":false,\"source_fingerprint_verified\":false,\"expanded_storage_recomputed\":false")
     text += ",\"architecture\":" + _quote(graph.source.source.architecture) + ",\"source_operation_count\":" + String(len(graph.source.operations)) + ",\"source_tensor_count\":" + String(len(graph.source.tensors))
     text += ",\"runtime_preconditions\":[\"token_ids_in_vocabulary\",\"positions_equal_past_plus_query_index\",\"kv_prefix_initialized_through_past\"]"
@@ -57,4 +52,13 @@ def main() raises:
             text += ","
         var index = graph.recipes.remaining_source_operations[i]
         text += "{\"id\":" + String(index) + ",\"kind\":" + _quote(graph.source.operations[index].kind) + "}"
-    print(text + "],\"result\":" + String(graph.result) + "}")
+    return text + "],\"result\":" + String(graph.result) + "}"
+
+
+def main() raises:
+    var args = argv()
+    if len(args) != 5:
+        raise Error("usage: expanded_graph <source.gguf> <query> <past> <context_capacity>")
+    var plan = read_dense_semantic_plan(args[1], Int(args[2]), Int(args[3]), Int(args[4]))
+    var graph = expand_semantic_graph(plan^)
+    print(describe_expanded_graph(graph))

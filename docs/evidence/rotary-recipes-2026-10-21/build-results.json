@@ -1,0 +1,182 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../rotary-hardened/tagged-semantic-plan",
+    "returncode": 0,
+    "sha256": "d8b33fc5ad62419bc2501b8f4a011ebcacb90a08e2b7d67f3b9b168f34ab13ec"
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "../rotary-hardened/tagged-typed-api",
+    "returncode": 0,
+    "sha256": "cc45038d538b2838a3a741ae6f8321340959a3bdf9f23e3147e45090f711344f"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../rotary-hardened/tagged-expanded-graph",
+    "returncode": 0,
+    "sha256": "e7ba752f54759a496c2628b5ccb17e45c685783063168819a081ce7ed41eab3b"
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "../rotary-hardened/tagged-expanded-api",
+    "returncode": 0,
+    "sha256": "7e161b09316095c3bdb51f9ae7ac13c76e57ffa4f5553940e8312828a3f6a44d"
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "../rotary-hardened/tagged-expanded-storage",
+    "returncode": 0,
+    "sha256": "b952118c64ba1e60a6de0ce4994ef43ba7ce8364066e2277637abeeda5e22085"
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "../rotary-hardened/tagged-expanded-storage-api",
+    "returncode": 0,
+    "sha256": "f01ad1b73c67e545e6a15fc8744bdd9027e586188d067a91c296a4f92a9ba4dd"
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "../rotary-hardened/tagged-matrix-tiles",
+    "returncode": 0,
+    "sha256": "93d5655b138cf065cc0a9fccd75111d0903ebb89dde80e92db061e707962551a"
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "../rotary-hardened/tagged-matrix-api",
+    "returncode": 0,
+    "sha256": "33081e69185907a20adfe7bbf6bd66320c42f97959d9cd9a7fe589500415e666"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../rotary-hardened/tagged-primitive-recipes",
+    "returncode": 0,
+    "sha256": "0b62cd1f4ecbbc6fa7758c152254136d38a61e43a7490bc5316223cf20bc7829"
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "../rotary-hardened/tagged-primitive-api",
+    "returncode": 0,
+    "sha256": "bcf8ec1ba1e3b7809eca93d8a0f12f1653bd707613742777cd40fea2d88aab11"
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../rotary-hardened/tagged-cache-layout",
+    "returncode": 0,
+    "sha256": "0b9ca0a8ec508603b67b65f5d88b40a841f45976371820591b4902128bbc7c5b"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../rotary-hardened/tagged-cache-api",
+    "returncode": 0,
+    "sha256": "12a31a9885cc128713a6f51d31ffcfed348e1ed687db287c738be13d7cc099e6"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../rotary-hardened/tagged-source-weight-tiles",
+    "returncode": 0,
+    "sha256": "a4aa7155c7fe7d70c1467095446c6da0a33c329f9a15d4ac5e97a27d086cc267"
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "../rotary-hardened/tagged-source-weight-api",
+    "returncode": 0,
+    "sha256": "d052f5fa0ca54530add38489997c1c4113b578ab473d06b8347f59afea0f73db"
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "../rotary-hardened/tagged-storage-estimate",
+    "returncode": 0,
+    "sha256": "28e12b41410ea1dca4545b2d290f09b1dcd1d7632be85793a29c0715fddd397d"
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "../rotary-hardened/tagged-storage-api",
+    "returncode": 0,
+    "sha256": "09a64f7c132d935bfc8d89d16efaf12caf503321c5dafe36e7511ed15601c1ef"
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "../rotary-hardened/tagged-source-inventory",
+    "returncode": 0,
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "../rotary-hardened/tagged-typed-decoder",
+    "returncode": 0,
+    "sha256": "923adbce6eccd2ed6660a98ba0fc4bc662caf36fac0348d1c95d21f5e41c2a47"
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "../rotary-hardened/tagged-semantic-storage",
+    "returncode": 0,
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "../rotary-hardened/tagged-semantic-storage-api",
+    "returncode": 0,
+    "sha256": "d3a1d33f98f78b1f45a14073e4060888dfa7e7f4a517ffc9d043e0c19b54a227"
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "../rotary-hardened/tagged-float-constants",
+    "returncode": 0,
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "../rotary-hardened/tagged-float-api",
+    "returncode": 0,
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "../rotary-hardened/tagged-q4k-constants",
+    "returncode": 0,
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "../rotary-hardened/tagged-q4k-api",
+    "returncode": 0,
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "../rotary-hardened/tagged-q5q6-constants",
+    "returncode": 0,
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "../rotary-hardened/tagged-q5q6-api",
+    "returncode": 0,
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../rotary-hardened/decoder-graph-policy",
+    "returncode": 0,
+    "sha256": "5fd5bb7ca19af37cdf277e57167186bb94aed4720d99e55bece283c4bda2dfc4"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../rotary-hardened/decoder-graph-policy-api",
+    "returncode": 0,
+    "sha256": "f10fcac111164fe1116b6bfd5f6e9405578b34f2bfb4a8e55945c7b9854eda0c"
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "../rotary-hardened/rotary-recipes",
+    "returncode": 0,
+    "sha256": "e12166ca253d8773c06954094845493c185edd299f23c3ee6a9602acd4525bfc"
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "../rotary-hardened/rotary-api",
+    "returncode": 0,
+    "sha256": "1a12afe62e8b48b36bc138f285551cc87452ff0595b89cd3ece8d1d29bd6a27d"
+  }
+]

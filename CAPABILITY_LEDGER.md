@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 105 |
+| `verified` | 106 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **150** |
+| **Total** | **151** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3274,3 +3274,25 @@ and every remaining architecture/numerical gate stay unresolved. Evidence:
 docs/HAILO10H_MOJO_ORDINARY_DEFAULTS.md;44 methods/1285 calls,28 complete old
 explicit outputs,108 frozen consumer comparisons and326 metadata-only header
 bindings. No model/device numerical execution or runtime external dependency.
+
+
+### AES-SOURCE-012 — Explicit source-bound rotary mathematical lowering
+
+- **Status:** `verified`
+- **Owner:** original smidr.rotary_policy, primitive_recipes, expanded_graph and
+  expanded_storage, owned two-input mappings and explicit basis/provenance.
+- **Claim sources:** TASK_hailo10h_rotary_recipes.md and
+  docs/HAILO10H_ROTARY_RECIPES_DESIGN.md, published before implementation.
+- **Implementation evidence:** Original13-operation rotary recipes, exact typed
+  Float32 base words, tail-preserving pair maps and rederived snapshot/graph checks.
+- **Executable evidence:** docs/HAILO10H_MOJO_ROTARY_RECIPES.md and
+  docs/evidence/rotary-recipes-2026-10-21/;104 methods/2864 native calls,
+  30 rebuilt entrypoints,18 new full legacy and108 frozen regression comparisons.
+- **Evidence boundary:** Mathematical IR and hypothetical storage only; explicit
+  adjacent/split-half choice has no implicit format default. No full ordinary
+  scalar/modifier adapter, device numerical precision/placement/fit, executable
+  Hailo program or LLM execution. Missing operations/bases remain implementation work.
+- **Next acceptance gate:** TASK_hailo10h_ordinary_rotary_modifiers.md, complete
+  ordinary semantic integration and actual Hailo numerical configuration/execution.
+- **Audit:** Final native source/binary identities and negative/ownership evidence
+  retained; no external compiler, inference proxy or user conversion prerequisite.

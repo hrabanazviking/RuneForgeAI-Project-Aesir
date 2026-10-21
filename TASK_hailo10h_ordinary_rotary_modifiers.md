@@ -36,3 +36,10 @@ advance automatically. No DFC, outside compiler/machine or user conversion.
 semantics without a model or Torch in its environment. Implement the narrowed
 TASK_hailo10h_ordinary_defaults.md first under its exact published contract,
 then return to pairing/modifiers and original mathematical operation lowering.
+
+2026-10-21 explicit two-input mathematical rotary recipe/integration verified:
+TASK_hailo10h_rotary_recipes.md,104 methods/2864 calls. Qualified static ordinary
+basis facts and both explicit pairing policies are retained. Continue actual
+ordinary scalar/modifier/precision reconciliation and complete adapter, alongside
+actual numerical Hailo configuration/encoding/program/result work. No implicit
+source basis, full ordinary support or numerical execution has been certified.
