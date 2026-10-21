@@ -1,0 +1,20 @@
+{
+  "scenario_count": 48,
+  "public_decorator_constant_callbacks": 576,
+  "constant_words": 1728,
+  "worst_relative_error": 3.4970036343036024e-07,
+  "rotation_cases": 144,
+  "rotation_pair_identities": 432,
+  "changed_pairs": 216,
+  "worst_rotation_error": 4.440892098500626e-15,
+  "connect_calls": 0,
+  "model_payload_opens": 0,
+  "model_source_text_opens": 3,
+  "model_module_imported": false,
+  "hailo_cuda_inference_library_or_device_opens": 0,
+  "model_layer_attention_or_external_rotary_forward": false,
+  "cache_update_called": false,
+  "preliminary_failure": "All probe assertions completed; JSON serialization failed on a scalar Tensor state value. Original script/error/empty result/full trace preserved. Corrected only observed_context serialization to int; qualified rerun passed.",
+  "native_dynamic_source_integration": false,
+  "source_model_execution": false
+}

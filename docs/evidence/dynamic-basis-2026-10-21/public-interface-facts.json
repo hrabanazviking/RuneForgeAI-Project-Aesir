@@ -1,0 +1,38 @@
+{
+  "transformers_version": "4.57.1",
+  "license_sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+  "static_inspection_only": true,
+  "external_implementation_copied_or_translated": false,
+  "source_identities": {
+    "modeling_rope_utils.py": {
+      "bytes": 43192,
+      "sha256": "55cc0c8cb76f592ab178b4662adcbdf4ad5012bb0b4249c0a96603141f18e9ac"
+    },
+    "cache_utils.py": {
+      "bytes": 67772,
+      "sha256": "f4e11caf14c75bdefa5e3003b93ef0e8b97fb6103375705ad944b0b344d7da8a"
+    },
+    "models/smollm3/modeling_smollm3.py": {
+      "bytes": 22491,
+      "sha256": "06816c41869a75e66dc78468987c75f64349450c44c980b786a20b22041596ec"
+    },
+    "models/smollm3/configuration_smollm3.py": {
+      "bytes": 13374,
+      "sha256": "4fec68b228fec767ddc8f8cd4c40f8eaf374c3c44bf38c0cf1618382c7731cdf"
+    }
+  },
+  "facts": [
+    "Pinned SmolLM3 original and initial retained frequency context use configured max_position_embeddings, independently of nested original context metadata.",
+    "Shared public dynamic frequency decorator receives maximum position plus one. Growth can update retained frequency context; a short call below configured context can reset it. Equality with configured context after growth does not itself reset.",
+    "Static inspection: SmolLM3 rotates newly computed keys on enabled layers before handing them to its cache update interface.",
+    "Static inspection: ordinary non-sliding DynamicLayer concatenates incoming key/value state; no previous-key rephasing is specified at that boundary. No cache implementation executed.",
+    "Generic partial-factor initializer outputs do not qualify the SmolLM3 full-head rotary consumer for partial widths.",
+    "NoPE flags select whether a layer rotates Q/K; no inference about other families or cache types."
+  ],
+  "primary_links": [
+    "https://github.com/huggingface/transformers/blob/v4.57.1/src/transformers/modeling_rope_utils.py",
+    "https://github.com/huggingface/transformers/blob/v4.57.1/src/transformers/models/smollm3/modeling_smollm3.py",
+    "https://github.com/huggingface/transformers/blob/v4.57.1/src/transformers/cache_utils.py",
+    "https://huggingface.co/docs/transformers/v4.57.1/model_doc/smollm3"
+  ]
+}

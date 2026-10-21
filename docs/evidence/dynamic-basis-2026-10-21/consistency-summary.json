@@ -1,0 +1,14 @@
+{
+  "baseline": 23292,
+  "current": 23295,
+  "added": 3,
+  "removed": 0,
+  "new_nonreceipt": [],
+  "unchanged_mojo_source_identities": 197,
+  "native_code_changed": false,
+  "whole_repository_pass": false,
+  "raw_report_identities": {
+    "dynamic-followup-consistency-after.txt": "7b1158580db0e5ca57d3b328c25fdbf92470ffc6cea321582bf47a0634e60674",
+    "dynamic-basis-consistency.txt": "33f0e8837047d6febef8a23ca728720c97dd2c32831360bb24eddcb800d069c6"
+  }
+}

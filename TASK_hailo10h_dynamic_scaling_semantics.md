@@ -4,6 +4,12 @@ Date:2026-10-21. Parent TASK_hailo10h_ordinary_scaling_semantics.md. Owner scope
 docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md. Continue automatically.
 
 Starting public/isolated facts:docs/HAILO10H_ORDINARY_DYNAMIC_SCALING_AUDIT.md.
+Follow-up context/cache-basis qualification is now in
+docs/HAILO10H_DYNAMIC_CACHE_BASIS_AUDIT.md. Next bounded standalone original
+arithmetic child:TASK_hailo10h_dynamic_context_coefficients.md; exact pre-code
+contract docs/HAILO10H_DYNAMIC_CONTEXT_DESIGN.md. This adds no dynamic source
+admission. Full native source/cache/recipe integration still needs its own exact
+published contract before those edits.
 192 constant-only cases/432 Float32 words qualify a bounded context-dependent
 candidate and explicit public-initializer errors, not full source execution.
 All64 currently accepted compiler controls and197 Mojo identities are frozen

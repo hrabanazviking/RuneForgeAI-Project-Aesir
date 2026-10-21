@@ -1,0 +1,46 @@
+{
+  "preliminary/state-errors.txt": {
+    "bytes": 2368,
+    "sha256": "c34f588c9a36a5f55a37ec52cedf6fd98dc39efa5d7e7e9a5c55cbbf2e6931c5"
+  },
+  "preliminary/state.strace": {
+    "bytes": 8653190,
+    "sha256": "a6f8d7af0a93ef351420b4a97cc4692b832bfdf4c761779be436fa92f5ed8bbd"
+  },
+  "preliminary/state_probe.py": {
+    "bytes": 5801,
+    "sha256": "43fe6d188542b50266386da7bfcc77dcb32a445b1b8bdf0d7c0afc76759e7054"
+  },
+  "preliminary/states.json": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "rotation-errors.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "rotation-identities.json": {
+    "bytes": 238176,
+    "sha256": "718302abd890b2d08d46ebac104224d05732eb7782f15705ab9b9abf8a7f3a84"
+  },
+  "rotation_identity_probe.py": {
+    "bytes": 2645,
+    "sha256": "e08b6eda40c55b7ce762ac14ebb508f19cc25f2ee8e7ef3485ed307d84d7c8bb"
+  },
+  "state-errors.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "state.strace": {
+    "bytes": 8649352,
+    "sha256": "3a3ecceefdca13b239e14ab4cb1442c2cd0286f2c4efbd63f07bf9e71549321d"
+  },
+  "state_probe.py": {
+    "bytes": 5806,
+    "sha256": "dec1aff8a171d3e858f1b45205f17714267516c013f928d0eec71665b40ac07f"
+  },
+  "states.json": {
+    "bytes": 310977,
+    "sha256": "a3175d2d82311737a6e3ee764c3b615e723f1f5f4cc9e0884ec076803b58efe6"
+  }
+}
