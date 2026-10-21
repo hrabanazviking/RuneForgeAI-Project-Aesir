@@ -26,3 +26,9 @@ encoding, original program delivery/activation/results/cleanup active alongside
 source semantics under TASK_hailo10h_numerical_encoding_sources.md. Do not invent
 opcodes, change the target or count host graphs/public research/memory estimates
 as device execution. Verify, publish both heads and continue automatically.
+
+2026-10-21 qualified48-case configuration-only audit:
+docs/HAILO10H_ORDINARY_SCALING_AUDIT.md. Legacy selector mutation and warning-bearing
+constructor permissiveness are retained facts, not a numerical adapter rule.
+Next qualify the mathematical/constant/index rules and publish an exact original
+native contract before production scaling changes. No native scaling code yet.

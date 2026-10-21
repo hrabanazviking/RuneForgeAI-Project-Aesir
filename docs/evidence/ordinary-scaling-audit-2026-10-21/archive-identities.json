@@ -1,0 +1,68 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/audit-draft.md",
+    "bytes": 5354,
+    "mode": "0o644",
+    "sha256": "c71e3628313be11b5086a05d83692498c028c9dda4c50beb95ade2a371eaec43"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/audit.json",
+    "bytes": 2179,
+    "mode": "0o644",
+    "sha256": "994282aefd24f4a4c8857a4df697178171edb4bddcc0171fb8881c9df69f5bfb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/config-error.txt",
+    "bytes": 1928,
+    "mode": "0o644",
+    "sha256": "5c07a6a25164a5a1ffdb2e4f64e1106f973f56f171f526fccaaee406b9d9a09a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/config.json",
+    "bytes": 46051,
+    "mode": "0o644",
+    "sha256": "daf0179d5c283f11eb3a96ecafeade4f066866eb7540e7a3c305a14d82cd0323"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/config.strace",
+    "bytes": 3463458,
+    "mode": "0o644",
+    "sha256": "39c49d7a03913b2a1ee4f0f3ff1f83d1f777c6367b0c971d7a9254b6647e34bd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/config_probe.py",
+    "bytes": 2371,
+    "mode": "0o644",
+    "sha256": "47badc47bdaacdc9064082d714f78f9e53197feb6fe6dbdff39fa49f2ae44a91"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/linear-constant-audit.json",
+    "bytes": 1111,
+    "mode": "0o644",
+    "sha256": "1622368a13854997c7624510a236a29ef819729ddc6ede94447d7390d890b98f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/linear-constants-error.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/linear-constants.json",
+    "bytes": 24006,
+    "mode": "0o644",
+    "sha256": "8ec900d290ecd236909809a4ac8aa8a5a4d3d83255489996a5033479a08b7e8f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/linear-constants.strace",
+    "bytes": 4434252,
+    "mode": "0o644",
+    "sha256": "2a9c05522a621af699cb61d66735f732a01120c1a511c75925962d85f05170d9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-scaling-study/linear_constant_probe.py",
+    "bytes": 3008,
+    "mode": "0o644",
+    "sha256": "772b0da32d7f35ed333d30083912330a4089b44eab34eb5d9069fa23aae385f9"
+  }
+]

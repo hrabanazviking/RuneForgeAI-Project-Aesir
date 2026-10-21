@@ -1,0 +1,1853 @@
+{
+  "version": "4.57.1",
+  "configuration_only": true,
+  "model_execution": false,
+  "torch_imported": false,
+  "model_module_imported": false,
+  "license_sha256": "77fd4710def9ec3c0f6225800e0235f15a425abd4a8b03559127fcd782612049",
+  "module_sha256": "4fec68b228fec767ddc8f8cd4c40f8eaf374c3c44bf38c0cf1618382c7731cdf",
+  "cases": [
+    {
+      "case": 0,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": null,
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": null,
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": null,
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 0,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": null,
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": null,
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": null,
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 0,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": null,
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": null,
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": null,
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 1,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 1,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 1,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "default"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 2,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0,
+          "rope_type": "linear"
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0,
+          "rope_type": "linear"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 2,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0,
+          "rope_type": "linear"
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0,
+          "rope_type": "linear"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 2,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0,
+          "rope_type": "linear"
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "type": "linear",
+          "factor": 2.0,
+          "rope_type": "linear"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 3,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 3,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 3,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 4,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 4,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 4,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "type": "linear",
+          "rope_type": "linear",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 5,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 5,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 5,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 6,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 6,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 6,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.5
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 7,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 7,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 7,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 0.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 8,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 8,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 8,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": -1.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 9,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 9,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 9,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": "2"
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 10,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 10,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 10,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "future",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 11,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 11,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 11,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "dynamic",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 12,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 12,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 12,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "yarn",
+          "factor": 2.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 13,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 13,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 13,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "longrope",
+          "factor": 2.0,
+          "original_max_position_embeddings": 32,
+          "short_factor": [
+            1.0,
+            1.0
+          ],
+          "long_factor": [
+            2.0,
+            2.0
+          ]
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 14,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 14,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 14,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "llama3",
+          "factor": 8.0,
+          "original_max_position_embeddings": 32,
+          "low_freq_factor": 1.0,
+          "high_freq_factor": 4.0
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 15,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "pretraining_tp": 1
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "pretraining_tp": 1
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 1,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 15,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "pretraining_tp": 2
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "pretraining_tp": 2
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": 2,
+        "max_position_embeddings": 64
+      }
+    },
+    {
+      "case": 15,
+      "input": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "pretraining_tp": null
+      },
+      "caller_after": {
+        "num_hidden_layers": 4,
+        "hidden_size": 16,
+        "num_attention_heads": 4,
+        "num_key_value_heads": 2,
+        "max_position_embeddings": 64,
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "pretraining_tp": null
+      },
+      "result": {
+        "rope_scaling": {
+          "rope_type": "linear",
+          "factor": 2.0,
+          "custom": {
+            "retained": "\u00e6"
+          }
+        },
+        "rope_theta": 2000000.0,
+        "pretraining_tp": null,
+        "max_position_embeddings": 64
+      }
+    }
+  ]
+}

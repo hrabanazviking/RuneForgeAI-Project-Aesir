@@ -1,0 +1,57 @@
+{
+  "configuration_cases": 48,
+  "constructor_results": 48,
+  "numerical_validity_verified": false,
+  "model_execution": false,
+  "torch_imported": false,
+  "model_module_imported": false,
+  "trace_bytes": 3463458,
+  "trace_sha256": "39c49d7a03913b2a1ee4f0f3ff1f83d1f777c6367b0c971d7a9254b6647e34bd",
+  "notes": [
+    "Legacy type adds/overwrites rope_type in caller dictionary in these pinned constructor probes; native original raw fields must remain independently owned.",
+    "Unknown rope types and several invalid/nonnumeric factors yield metadata plus warnings; constructor acceptance does not establish mathematical validity.",
+    "pretraining_tp1/2/null are retained metadata; inference/training execution semantics remain unqualified."
+  ],
+  "identities": {
+    "config.json": {
+      "bytes": 46051,
+      "sha256": "daf0179d5c283f11eb3a96ecafeade4f066866eb7540e7a3c305a14d82cd0323"
+    },
+    "audit-draft.md": {
+      "bytes": 5354,
+      "sha256": "c71e3628313be11b5086a05d83692498c028c9dda4c50beb95ade2a371eaec43"
+    },
+    "config.strace": {
+      "bytes": 3463458,
+      "sha256": "39c49d7a03913b2a1ee4f0f3ff1f83d1f777c6367b0c971d7a9254b6647e34bd"
+    },
+    "linear-constants-error.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "linear_constant_probe.py": {
+      "bytes": 3008,
+      "sha256": "772b0da32d7f35ed333d30083912330a4089b44eab34eb5d9069fa23aae385f9"
+    },
+    "config-error.txt": {
+      "bytes": 1928,
+      "sha256": "5c07a6a25164a5a1ffdb2e4f64e1106f973f56f171f526fccaaee406b9d9a09a"
+    },
+    "linear-constants.strace": {
+      "bytes": 4434252,
+      "sha256": "2a9c05522a621af699cb61d66735f732a01120c1a511c75925962d85f05170d9"
+    },
+    "linear-constant-audit.json": {
+      "bytes": 1111,
+      "sha256": "1622368a13854997c7624510a236a29ef819729ddc6ede94447d7390d890b98f"
+    },
+    "config_probe.py": {
+      "bytes": 2371,
+      "sha256": "47badc47bdaacdc9064082d714f78f9e53197feb6fe6dbdff39fa49f2ae44a91"
+    },
+    "linear-constants.json": {
+      "bytes": 24006,
+      "sha256": "8ec900d290ecd236909809a4ac8aa8a5a4d3d83255489996a5033479a08b7e8f"
+    }
+  }
+}

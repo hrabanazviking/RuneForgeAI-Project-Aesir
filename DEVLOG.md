@@ -1,3 +1,16 @@
+## 2026-10-21 — Codex: qualified ordinary scaling constructor facts
+
+- Licensed pinned4.57.1 constructor audit48 cases; complete original/caller-after/
+  result/warning facts retained. Legacy type overwrites rope_type/caller dictionaries;
+  unknown/invalid factors can warn yet produce metadata. No validity promotion.
+- pretraining_tp1/2/null remain stored metadata; execution semantics unqualified.
+  No source weights, model/layer/attention forward, network or Hailo access.
+  Separate48-case/120-word constant oracle is not native/device numerical proof.
+  No external runtime/compiler or new native capability.
+- Next: original math/constant/index qualification and exact native contract before
+  scaling code. Full broad target and actual numerical Hailo gates stay open.
+- Receipt docs/HAILO10H_ORDINARY_SCALING_AUDIT.md. No new capability ID.
+
 ## 2026-10-21 — Codex: original per-layer source window lowering
 
 - Published exact design/index/source-width contracts before each production

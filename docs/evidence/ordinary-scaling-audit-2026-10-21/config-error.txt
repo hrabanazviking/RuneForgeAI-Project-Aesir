@@ -1,0 +1,23 @@
+None of PyTorch, TensorFlow >= 2.0, or Flax have been found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+`rope_scaling`'s factor field must be a float >= 1, got 2
+`rope_scaling`'s factor field must be a float >= 1, got 2
+`rope_scaling`'s factor field must be a float >= 1, got 2
+`rope_scaling`'s factor field must be a float >= 1, got 0.5
+`rope_scaling`'s factor field must be a float >= 1, got 0.5
+`rope_scaling`'s factor field must be a float >= 1, got 0.5
+`rope_scaling`'s factor field must be a float >= 1, got 0.0
+`rope_scaling`'s factor field must be a float >= 1, got 0.0
+`rope_scaling`'s factor field must be a float >= 1, got 0.0
+`rope_scaling`'s factor field must be a float >= 1, got -1.0
+`rope_scaling`'s factor field must be a float >= 1, got -1.0
+`rope_scaling`'s factor field must be a float >= 1, got -1.0
+`rope_scaling`'s factor field must be a float >= 1, got 2
+`rope_scaling`'s factor field must be a float >= 1, got 2
+`rope_scaling`'s factor field must be a float >= 1, got 2
+Missing validation function mapping in `ROPE_VALIDATION_FUNCTIONS` for 'rope_type'='future'
+Missing validation function mapping in `ROPE_VALIDATION_FUNCTIONS` for 'rope_type'='future'
+Missing validation function mapping in `ROPE_VALIDATION_FUNCTIONS` for 'rope_type'='future'
+config.rope_scaling['original_max_position_embeddings'], the pre-yarn context length, is unset. We will **assume** config.max_position_embeddings holds the pre-yarn context length. Some use cases may expect config.max_position_embeddings to hold the post-yarn context length (pre-yarn context length * factor) -- we recommend updating both fields for optimal downstream model usage.
+Unrecognized keys in `rope_scaling` for 'rope_type'='linear': {'custom'}
+Unrecognized keys in `rope_scaling` for 'rope_type'='linear': {'custom'}
+Unrecognized keys in `rope_scaling` for 'rope_type'='linear': {'custom'}

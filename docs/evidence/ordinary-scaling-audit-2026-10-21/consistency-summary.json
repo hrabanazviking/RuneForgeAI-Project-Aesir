@@ -1,0 +1,14 @@
+{
+  "baseline": 22059,
+  "current": 22073,
+  "added": 14,
+  "removed": 0,
+  "new_nonreceipt": [],
+  "whole_repository_pass": false,
+  "native_code_changed": false,
+  "configuration_cases": 48,
+  "isolated_constant_cases": 48,
+  "isolated_linear_float32_words": 120,
+  "model_or_attention_forward": false,
+  "device_execution": false
+}

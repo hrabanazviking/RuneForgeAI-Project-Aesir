@@ -1,0 +1,24 @@
+{
+  "case_count": 48,
+  "linear_constant_words": 120,
+  "worst_relative_error_against_real_formula": 3.2082570642933134e-07,
+  "model_or_attention_forward": false,
+  "weights_loaded": false,
+  "model_module_imported": false,
+  "device_access": false,
+  "external_runtime_dependency": false,
+  "identities": [
+    {
+      "name": "default",
+      "signature": "(config: Optional[transformers.configuration_utils.PretrainedConfig] = None, device: Optional[ForwardRef('torch.device')] = None, seq_len: Optional[int] = None) -> tuple['torch.Tensor', float]",
+      "module_sha256": "55cc0c8cb76f592ab178b4662adcbdf4ad5012bb0b4249c0a96603141f18e9ac"
+    },
+    {
+      "name": "linear",
+      "signature": "(config: Optional[transformers.configuration_utils.PretrainedConfig] = None, device: Optional[ForwardRef('torch.device')] = None, seq_len: Optional[int] = None) -> tuple['torch.Tensor', float]",
+      "module_sha256": "55cc0c8cb76f592ab178b4662adcbdf4ad5012bb0b4249c0a96603141f18e9ac"
+    }
+  ],
+  "trace_sha256": "2a9c05522a621af699cb61d66735f732a01120c1a511c75925962d85f05170d9",
+  "trace_bytes": 4434252
+}
