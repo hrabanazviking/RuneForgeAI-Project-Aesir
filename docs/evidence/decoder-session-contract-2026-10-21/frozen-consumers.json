@@ -1,0 +1,324 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../decoder-session-baseline/tagged-semantic-plan",
+    "sha256": "4115d2f5b05801f819e03435847e64043b5091a8841e7db5fd668ae16aaf8cf5",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-typed-api",
+    "sha256": "c77fdf5c900a00efb2d994c5fb7250f8a17289886c15fb117b933f7fee0a89ad",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../decoder-session-baseline/tagged-expanded-graph",
+    "sha256": "2305fa1ab2a1059cd578246e6687997e3055b2e4b197d9f7ec51ac5eac3e0167",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-expanded-api",
+    "sha256": "4dbb1f571e289308f19200a0c3e2d2354199bd0d1826e39a1aefcf063f8ff77c",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "../decoder-session-baseline/tagged-expanded-storage",
+    "sha256": "405563c7a17fb52633c7eabcd1ac483cbfa98ee2027c51d758ba89955c6b9265",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-expanded-storage-api",
+    "sha256": "653c03d0222aef1b9b0ffa3c17cb61f9bdea0051640564dfe5e0940be7c02bdf",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "../decoder-session-baseline/tagged-matrix-tiles",
+    "sha256": "f7356fe703d0e6791279ac55d4034ad5cd70ff9720a4d09a237b0f33a032833f",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-matrix-api",
+    "sha256": "e03c578bc850a829e9e1d9f930d11c3fadcb01a8c83e5ae02c518f4351bfb575",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../decoder-session-baseline/tagged-primitive-recipes",
+    "sha256": "f107bc3f1e03e00f9b0460ddcbfb7edea133b46395107255eecb7a965893c179",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-primitive-api",
+    "sha256": "beac3d050c55d5831ad3a4a4248bf5defdba948e5fc28c1fcfa2e6f803ff00f3",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../decoder-session-baseline/tagged-cache-layout",
+    "sha256": "b158aba9ad8aaaee91839e8f5bf9f9203cba1deeecc94dc174abaf999d7f52ca",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-cache-api",
+    "sha256": "dfcb68604ca1d1671849b27a492047f6e9a37c1a43bf74eb0bf342902bd51ea8",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../decoder-session-baseline/tagged-source-weight-tiles",
+    "sha256": "4cecaacec962478c0e7816b0e5d05b3d24044080ebda2200e2ad2682a0da50ad",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-source-weight-api",
+    "sha256": "1163aa83c07c2cf59abdadab3c14f0c6c26e7299df8418f0b46f118c7dac105e",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "../decoder-session-baseline/tagged-storage-estimate",
+    "sha256": "c6d37b4f7ce5b86e763c01a1f6d2f9892352ceaf0a0ec2792403781607111623",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-storage-api",
+    "sha256": "d6ba146fd9af658b74ba468130bdd4176f22be319908198c250badbfea365001",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "../decoder-session-baseline/tagged-source-inventory",
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "../decoder-session-baseline/tagged-typed-decoder",
+    "sha256": "d93dff21b7984a6ecef3fe71d362378fbadd1b9dfacd207538636e16c42e2f42",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "../decoder-session-baseline/tagged-semantic-storage",
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-semantic-storage-api",
+    "sha256": "15d7ce58bad890b70ed1f9f267f5f27fa23da5d90d4382a95f25f0eb8b72fd32",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "../decoder-session-baseline/tagged-float-constants",
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-float-api",
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "../decoder-session-baseline/tagged-q4k-constants",
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-q4k-api",
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "../decoder-session-baseline/tagged-q5q6-constants",
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "../decoder-session-baseline/tagged-q5q6-api",
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../decoder-session-baseline/decoder-graph-policy",
+    "sha256": "62d1a955d0bc06983d522343c256ea4731f926a27cab37e343092794211a2cca",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../decoder-session-baseline/decoder-graph-policy-api",
+    "sha256": "46960145397ac7ecba99ae6f9168f544904ea2acaaa955cb6e0ce35304fe1e14",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "../decoder-session-baseline/rotary-recipes",
+    "sha256": "49ec1fe0910875f206f41e0ef12104d78922f083275e2c7eb99863be0a8ed9a1",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "../decoder-session-baseline/rotary-api",
+    "sha256": "3afd61c03fc8cb6dc9857096813e0948d942b63225b00614b0dc3752405c1aca",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "binary": "../decoder-session-baseline/decoder-scalar-source",
+    "sha256": "af1e9a604b8d1b4dd70e0631414a165e0efa2cf25bdc82e88f3542f695f5ea0a",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "binary": "../decoder-session-baseline/source-scalars-api",
+    "sha256": "5b31ea159ec519742b296731036251d298e53a01d640784766bed7788dc4a8c0",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "binary": "../decoder-session-baseline/ordinary-schema",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "binary": "../decoder-session-baseline/ordinary-schema-api",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "../decoder-session-baseline/decoder-projections",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "../decoder-session-baseline/decoder-projections-api",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "binary": "../decoder-session-baseline/decoder-bias-graph",
+    "sha256": "a27b0bde717cceb99402f8e652151f520c52fcfc33d32a0e4ef99c1fbff3d366",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "binary": "../decoder-session-baseline/decoder-bias-api",
+    "sha256": "95481863c3a5017c9c90896983674aed79971ffe3b4a362a50261aeb75ed449e",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_bias_ownership.mojo",
+    "binary": "../decoder-session-baseline/bias-ownership",
+    "sha256": "20e121ddbcc3dc1282a180664c2e7f052888f7b0146c3c819800a0f9d26b7852",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_bias_gguf.mojo",
+    "binary": "../decoder-session-baseline/bias-gguf",
+    "sha256": "738d0cc70e6959df6d5a7aa8e852d5f8bc14745006fd111f9ae35d83d4c85b69",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_bias_consumers.mojo",
+    "binary": "../decoder-session-baseline/bias-consumers",
+    "sha256": "bb7712b04aaf6cf6558b979a3adcc8ece971f55bd50a08e3cb57163fb0534684",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "binary": "../decoder-session-baseline/activation-graph",
+    "sha256": "e1c80906a1e146d77ccec33643f911bc3e24399546b8dc978139ffe46d06330f",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "binary": "../decoder-session-baseline/activation-api",
+    "sha256": "ec3f78c023cc6ec45d2fe82531ca317aafb6bdd215b50323dd2c546ea1bd0eb4",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_activation_ownership.mojo",
+    "binary": "../decoder-session-baseline/activation-ownership",
+    "sha256": "b44d6521400350897517b1712b73dbe1caa88891735b13df536e4d69b7a1b2d1",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_activation_gguf.mojo",
+    "binary": "../decoder-session-baseline/activation-gguf",
+    "sha256": "347fb49054769801d088e92694c09d1930214d1434816434edf1df31d6cb4086",
+    "mode": "0o755",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_activation_consumers.mojo",
+    "binary": "../decoder-session-baseline/activation-consumers",
+    "sha256": "3aa82ef75c43267e2098185971b697c17dabbdea4d9e782ff6cd734bf52021b2",
+    "mode": "0o755",
+    "returncode": 0
+  }
+]

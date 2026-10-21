@@ -1,0 +1,22 @@
+{
+  "source_commit": "d5d70ff0cccbe021f765dd280e0cef51eebc7de0",
+  "source_files": {
+    "smidr/semantic_plan.mojo": "5d223dfa51aa3f4ee330ea38d6fa78f4cbba7bfca20f2ace9879c4762c6ba7d6",
+    "smidr/decoder_architecture.mojo": "7bd2e561ef2d6873a6d32b9b830a3086483cac4840177f1123f734ed0a830d0d",
+    "smidr/bias_graph.mojo": "91bd6fb74c4667021f653daa0da67671160aa455185d76a467aa45d9c8b17fd9",
+    "smidr/activation_graph.mojo": "8664e266c4e9889cd2de2890919ce3601549b2203098dcc5f286e8ce186f8a1c",
+    "smidr/cache_layout.mojo": "250473c4321b62e9f6d86346d3e4c5d5bfcb67dc2b3b6eefd439abbe8258d1ac",
+    "smidr/matrix_tiles.mojo": "e02eec753fd17c8f2ed763dd9874a157e6654e3109c03662f0bcee1f3ccafe9f",
+    "smidr/storage_estimate.mojo": "1e57a4fd9165735e7e64ad5283597677799086be6244ece7744a8013d1946d54",
+    "smidr/expanded_graph.mojo": "badd0a0eec1ed8db7474a830de6dddbcb250013a1f1f51086f60d6d7eac2999c",
+    "smidr/expanded_storage.mojo": "2254727692e40d138e0cfc0bf312cb0d6f2bf1a530e812b8e910830725cd6cac",
+    "smidr/primitive_recipes.mojo": "9b50969891c13202d15ccb8bd997c299dcfb71f733f912d57394549188baef52"
+  },
+  "primary_declaration": "https://huggingface.co/docs/transformers/v4.57.1/model_doc/smollm3",
+  "source_config_sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+  "source_use_cache": false,
+  "new_compiler_or_device_capability_claimed": false,
+  "model_or_layer_or_attention_forward": false,
+  "hardware_access": false,
+  "external_implementation_copied": false
+}

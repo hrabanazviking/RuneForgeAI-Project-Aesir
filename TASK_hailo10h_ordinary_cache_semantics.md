@@ -39,3 +39,8 @@ The parameter and return declarations describe cache return/use and unprocessed
 input with past keys/values. They do not prove a physical backend allocation or
 all architecture implementation behavior. No external implementation is copied
 or translated and no model was instantiated/evaluated in this audit.
+
+2026-10-21 read-only audit and exact API/mode/lifetime/consumer contract:
+docs/HAILO10H_DECODER_SESSION_DESIGN.md. Publish before production changes.
+Forty-six controls are frozen; source cache return and invocation mode must be
+kept distinct. No new execution capability is claimed by this audit/design.
