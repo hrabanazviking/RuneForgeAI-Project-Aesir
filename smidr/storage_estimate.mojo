@@ -1,3 +1,4 @@
+from smidr.activation_graph import validate_plan_activation_state
 # Checked scenario arithmetic. No allocator, hardware budget or precision claim.
 from smidr.bias_graph import validate_plan_bias_state
 from smidr.semantic_plan import SemanticPlan, checked_product
@@ -47,6 +48,7 @@ def estimate_storage(plan: SemanticPlan, policy: StorageAssumptions) raises -> S
         raise Error("StorageEstimate: explicit positive widths/weights/budget and provenance required")
     validate_source_inventory(plan.source)
     validate_plan_bias_state(plan)
+    validate_plan_activation_state(plan)
     # Assumptions are caller supplied, not capabilities discovered from hardware.
     _ = aligned_bytes(1, 1, policy.alignment)
     var count = len(plan.operations)

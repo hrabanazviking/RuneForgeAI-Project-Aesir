@@ -1,3 +1,17 @@
+## 2026-10-21 — Codex: original source activation mathematical lowering
+
+- Pre-code design4a66acb. Owned per-layer SiLU/erf GELU/ReLU policy and original
+  source projection preserve raw/default/unresolved source facts and scalar words.
+- Source bias ordering, new five/one operation recipes and exact source/local/global
+  state validation extend cache/matrix/storage consumers; old outputs are retained.
+- Final21 suites/140 methods/4124 calls,46 warning-free builds, new9/503
+  (135 accepted/368 expected refusals),8 frozen GGUF and4 further full
+  comparisons. Forty recovery cycles and48 isolated primitive outputs pass.
+- No model/layer/attention forward, outside compiler, complete ordinary adapter or
+  numerical Hailo execution claim. Next: ordinary cache/session semantics and
+  actual numerical configuration/encoding/delivery/result gates under broad support.
+- Receipt docs/HAILO10H_MOJO_DECODER_ACTIVATION.md.
+
 ## 2026-10-21 — Codex: original source-bound decoder bias arithmetic
 
 - Contract1f04e80 published before code. Original owned per-layer bias policy,

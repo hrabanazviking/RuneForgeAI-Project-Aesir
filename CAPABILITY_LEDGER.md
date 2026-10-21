@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 109 |
+| `verified` | 110 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **154** |
+| **Total** | **155** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3366,3 +3366,28 @@ No new capability ID or hardware/complete-source execution claim.
   and actual numerical Hailo configuration/encoding/upload/execution/cleanup.
 - **Audit:** Source/binary/negative/frozen/ownership evidence retained; source32/64
   words remain exact. No external compiler, DFC, model forward or inference proxy.
+
+
+### AES-SOURCE-016 — Source activation selection and mathematical lowering
+
+- **Status:** `verified`
+- **Owner:** original activation_policy/activation_graph/decoder_activation_source,
+  semantic/primitive/expanded builders and downstream compiler consumers.
+- **Claim sources:** TASK_hailo10h_decoder_activation_policy.md and
+  docs/HAILO10H_DECODER_ACTIVATION_DESIGN.md, published before code at4a66acb.
+- **Implementation evidence:** Owned bounded per-layer SiLU/erf GELU/ReLU choices,
+  source projection retaining raw/default/unresolved modifiers, original five/one
+  operation math recipes, source bias ordering and exact snapshot/edge validation.
+- **Executable evidence:** docs/HAILO10H_MOJO_DECODER_ACTIVATION.md;21 suites,
+  140 methods/4124 calls,46 warning-free builds. New9/503,
+  135 accepted/368 expected refusals;8 complete frozen GGUF outputs,
+  4 additional full comparisons,40 recovery cycles and48 isolated scalar outputs.
+- **Evidence boundary:** Mathematical/source compiler support and hypothetical
+  storage/address scenarios only. No complete ordinary architecture, immutable
+  model identity, actual Hailo precision/placement/fit, executable numerical
+  device program, original source-model execution or LLM inference claim.
+- **Next acceptance gate:** Remaining activation variants/cache/window/scaling/
+  training/full graph semantics and actual numerical Hailo configuration/encoding/
+  delivery/activation/results/cleanup toward the fixed broad target.
+- **Audit:** Qualified primary primitive facts and all source/binary/ownership/
+  mutation/negative receipts retained. No external compiler or host LLM forward.

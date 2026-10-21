@@ -1,0 +1,3 @@
+{
+  "raw_compiler_output": "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_decoder_activation_api.mojo:118:9: error: unexpected token in expression\n    var global = -1\n        ^\n/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module\n"
+}

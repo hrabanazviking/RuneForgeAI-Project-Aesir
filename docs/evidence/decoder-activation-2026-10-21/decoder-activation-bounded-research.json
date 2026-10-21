@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-21",
+  "scope": "bounded primary interface search while unchanged activation closure compiles",
+  "queries": [
+    "Hailo-10H ISA numerical instruction register CCW open source compiler",
+    "Hailo LCU microcode instruction format configuration addressing documentation",
+    "site:github.com/hailo-ai LCU opcode",
+    "site:github.com/hailo-ai ccw address",
+    "site:hailo.ai instruction set Hailo"
+  ],
+  "new_numerical_encoding_fields_adopted": [],
+  "compiler_implementation_progress_claimed": false,
+  "hardware_touched": false,
+  "external_implementation_copied": false,
+  "notes": "Results repeated the already recorded DFC wrapper and conceptual architectural sources, or unrelated results. No new encoding or arithmetic capability was established. A versioned SmolLM3 public API declaration was read to prepare the next cache/session audit; no model/forward was run.",
+  "next_interface": "https://huggingface.co/docs/transformers/v4.57.1/model_doc/smollm3"
+}

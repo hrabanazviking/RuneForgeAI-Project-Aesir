@@ -1,0 +1,17 @@
+{
+  "baseline": 19315,
+  "current": 20098,
+  "new_count": 783,
+  "new_nonreceipt": [],
+  "removed_count": 0,
+  "raw_reports": {
+    "activation-implementation-consistency-before.txt": {
+      "bytes": 2057625,
+      "sha256": "1011e4d89491c48e4b70c3b489f49ab1681e816ead3ecc73b584184fb44b4ba7"
+    },
+    "activation-implementation-consistency-staged.txt": {
+      "bytes": 2139153,
+      "sha256": "c7c96737a022cbc5e44124a788e9570f83e321e5db733d16fb3af40bd3d3ceaf"
+    }
+  }
+}

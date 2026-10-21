@@ -1,0 +1,6 @@
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 1.310s
+
+OK
+Native child scopes: {'expanded_storage': 41, 'expanded_graph': 9, 'api_refusal': 37, 'ownership': 1}

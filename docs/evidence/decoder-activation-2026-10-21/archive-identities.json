@@ -1,0 +1,1580 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/activation-api",
+    "bytes": 1079768,
+    "mode": "0o755",
+    "sha256": "4fb9040faaac011e7dbec0a1751441f57acc94bb3fad050956137e22578ab458"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/activation-graph",
+    "bytes": 1085768,
+    "mode": "0o755",
+    "sha256": "f60264d1de88ea97d1d8865f68da9be540d4ac2ecac28ac45a93527170737bb9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/api-build-2.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/api-build.txt",
+    "bytes": 274,
+    "mode": "0o644",
+    "sha256": "a4e164799f8479de4e1cecf8b47081b26ecefb1345f8491612900252479de3ea"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/decoder-bias-graph",
+    "bytes": 1018248,
+    "mode": "0o755",
+    "sha256": "1537fa7ce18f7d072cf7920437f2cf08b01a89171aa2d6f34e68814d08e20bfe"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/first-tests/runs.json",
+    "bytes": 229051,
+    "mode": "0o644",
+    "sha256": "77e57333b83ee6d38a771fbac1b8fe151dc376c2f861aaf978a8370876d078af"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/first-tests/summary.json",
+    "bytes": 38,
+    "mode": "0o644",
+    "sha256": "18f6a2f88ad619f21d09cfa00421e87e0a9e1a30dc6abd6622edf9d35260e144"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/first-tests.txt",
+    "bytes": 3562,
+    "mode": "0o644",
+    "sha256": "4f15dba90296dfa06c0562ec715fd813f40bf92e2e24b3cb6985ed2187fce6e7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/initial-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/probe/runs.json",
+    "bytes": 435,
+    "mode": "0o644",
+    "sha256": "9a32bf54751d016cc81feb530ec30085b5ffeba08d6cd63c265f773c1181b820"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/probe/summary.json",
+    "bytes": 20,
+    "mode": "0o644",
+    "sha256": "f2eed33778e57fe510aa0443ffde0fa7ba84d53d688e617161b6d63fa695bf6d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/second-tests/runs.json",
+    "bytes": 66063,
+    "mode": "0o644",
+    "sha256": "1fc11a9249ccc1bbc1cea9af867079ded36fde9188a02abb935bc1ce653ac71e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/second-tests/summary.json",
+    "bytes": 38,
+    "mode": "0o644",
+    "sha256": "d83f09e7116e8bb8337aeb45c3f27c7309464407b8bfd31b451264d1ca7e8a74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/second-tests.txt",
+    "bytes": 558,
+    "mode": "0o644",
+    "sha256": "989809c566d5ae3b73fe884814942ccc1b022999d510cf1925dc5d0e0ee4ad16"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-initial/valid.json",
+    "bytes": 123775,
+    "mode": "0o644",
+    "sha256": "0275093734beb72ef5834c52bb1b306ce2c373e03365ceb409533a524fe84638"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-api",
+    "bytes": 1079768,
+    "mode": "0o755",
+    "sha256": "fd13cd86b7d645b8ce966166332c52fd1e2d7636c94958ccaa156106a8dfe55c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-consumers",
+    "bytes": 643488,
+    "mode": "0o755",
+    "sha256": "f7e38f4d4ff4e2a2183980f11468cf56197f1849cae268627cbfeea1758ac7b8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-consumers-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-gguf",
+    "bytes": 780720,
+    "mode": "0o755",
+    "sha256": "4e5d564f623aa914f2f75d8f1780b7568da503182137645fa03bb610fcf159aa"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-graph",
+    "bytes": 1085768,
+    "mode": "0o755",
+    "sha256": "f60264d1de88ea97d1d8865f68da9be540d4ac2ecac28ac45a93527170737bb9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-ownership",
+    "bytes": 1005080,
+    "mode": "0o755",
+    "sha256": "255d6d5bd129c967771529764ea18d8c381bb9fe808cccb77bde0a28c14607a6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/activation-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/build-results.json",
+    "bytes": 1159,
+    "mode": "0o644",
+    "sha256": "034194d4e3ec8430f2522fcfef8f8de2a9d79b34a8cb4b5c03eb72289ed20d4c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/tests.txt",
+    "bytes": 2020,
+    "mode": "0o644",
+    "sha256": "0103cda47687ab85d84751bab6962b893be0034e3d9d55dab9cd9ff773c44c92"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/verification/requested32-ownership.strace",
+    "bytes": 87031,
+    "mode": "0o644",
+    "sha256": "0787461f1c6b659165802c6bd4a2f41071c93d45202cd692cb683d3a2c0c0074"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/verification/runs.json",
+    "bytes": 315523,
+    "mode": "0o644",
+    "sha256": "4b1a0af1afc2f4d7fd47351c305bbb6beb4d5e33c929965ff54fdbc01b23d0b8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/verification/source64-ownership.strace",
+    "bytes": 87031,
+    "mode": "0o644",
+    "sha256": "f37f6092f1c72eb3067e77d2d4efab9e0d33ef0700b4fe3df4e6f13f2d416e81"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/verification/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "b933311411b95901432c41ad662570cd63efe98964e97f880b736a74b3febcc5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/bias-consumers",
+    "bytes": 573776,
+    "mode": "0o755",
+    "sha256": "299b073c333147bca3d78fabb8b41a916bc440d97afd94319eebeabf6442b15e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/bias-gguf",
+    "bytes": 709488,
+    "mode": "0o755",
+    "sha256": "128d0da2a9895fed6c70bdf4cc85f0cf6a3741684eae93134d1a48e97a940548"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/bias-ownership",
+    "bytes": 867496,
+    "mode": "0o755",
+    "sha256": "515f872df8ae2ac0b0b4ca50b2ea90b0b3390647e78db0c421bf26b791c4c147"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/build-results.json",
+    "bytes": 9486,
+    "mode": "0o644",
+    "sha256": "37e8de4c2b4abbc8282451f73052a480326f5dbb1109ada7a4d4a95d9a968f37"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/decoder-bias-api",
+    "bytes": 870608,
+    "mode": "0o755",
+    "sha256": "67037f27a28ef877b9a03d2410a9075cfb69af12d9cd0b2e48dcdd8b234a9bb3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/decoder-bias-graph",
+    "bytes": 1014088,
+    "mode": "0o755",
+    "sha256": "7fd4c21ce8f105a0ff1c38392e7bd64a75ba4412c1442820f0e8b8c179728b52"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/decoder-graph-policy",
+    "bytes": 713320,
+    "mode": "0o755",
+    "sha256": "90cad24172e2313f2d622c5167eee2725a128751ebfbb2b2acd241fa45fb3b06"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/decoder-graph-policy-api",
+    "bytes": 864168,
+    "mode": "0o755",
+    "sha256": "781f0f2289789d0b5c7925e93733094df389e4ce3752c8440d95546e2466693e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/decoder-projections",
+    "bytes": 567464,
+    "mode": "0o755",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/decoder-projections-api",
+    "bytes": 568128,
+    "mode": "0o755",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/decoder-scalar-source",
+    "bytes": 864480,
+    "mode": "0o755",
+    "sha256": "4132be249bfdc73562f653de4be06600444001bba11407b3425809111d5ea26a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/ordinary-schema",
+    "bytes": 568488,
+    "mode": "0o755",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/ordinary-schema-api",
+    "bytes": 569952,
+    "mode": "0o755",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/rotary-api",
+    "bytes": 629104,
+    "mode": "0o755",
+    "sha256": "bbec873307bfcacc27574e8ee43ee474d35338cfe3e392f0eb3553ffcb478815"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/rotary-recipes",
+    "bytes": 709368,
+    "mode": "0o755",
+    "sha256": "50a5cd431150f435b73a86a2ea45d017fd2c2fb6fe5939b6cfae573895087a23"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/source-scalars-api",
+    "bytes": 712664,
+    "mode": "0o755",
+    "sha256": "6e76a87f2d881af3e1332c9fccb1cf16a6d93feb82ebde33067c20135c296479"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-cache-api",
+    "bytes": 408824,
+    "mode": "0o755",
+    "sha256": "a4d0dfc7869d15cbf45bd29b913b9862492a35ebe36070321597d0bcb152ff6d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-cache-layout",
+    "bytes": 412568,
+    "mode": "0o755",
+    "sha256": "e5750c1a12d9b4decd8695c8edbd9ea0a9bcf4a155308fefaefcecee082512b0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-expanded-api",
+    "bytes": 483968,
+    "mode": "0o755",
+    "sha256": "3090893490a58d12939f90f9c857b0a604422b6a2e4fc7612914c1c09587a227"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-expanded-graph",
+    "bytes": 494504,
+    "mode": "0o755",
+    "sha256": "e6d4125b5f5dc73641e2177b367e7d0a785a60c075da50850a5dc2f0db435296"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-expanded-storage",
+    "bytes": 630624,
+    "mode": "0o755",
+    "sha256": "808a89fa03b28434125001f39d1db046a1bb7efa9acb81043aebf20f7b3e9042"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-expanded-storage-api",
+    "bytes": 626328,
+    "mode": "0o755",
+    "sha256": "c45f4c875b044a00651328a5f30f686adc69e581e45a67ce0c9d9529892b6557"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-float-api",
+    "bytes": 168320,
+    "mode": "0o755",
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-float-constants",
+    "bytes": 170360,
+    "mode": "0o755",
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-matrix-api",
+    "bytes": 259800,
+    "mode": "0o755",
+    "sha256": "070e2c1d149b0bf81fe4f77a97f33413a3795fb0a56691e4d96fcbec707312c2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-matrix-tiles",
+    "bytes": 408232,
+    "mode": "0o755",
+    "sha256": "166093ef934011ebaa5813aab7b16dcaf05fdaf5518d516c8e8cd58af5e70346"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-primitive-api",
+    "bytes": 412592,
+    "mode": "0o755",
+    "sha256": "bccf68c677a6d33ea84a8f5ee31de66620f93752263f9b5f25124e2ae16beda7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-primitive-recipes",
+    "bytes": 423168,
+    "mode": "0o755",
+    "sha256": "ea4387fadb6c9b694980acd256015e0f22faac0e62d23e6afd6d56fbf2aa0889"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-q4k-api",
+    "bytes": 168160,
+    "mode": "0o755",
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-q4k-constants",
+    "bytes": 174976,
+    "mode": "0o755",
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-q5q6-api",
+    "bytes": 170128,
+    "mode": "0o755",
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-q5q6-constants",
+    "bytes": 169952,
+    "mode": "0o755",
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-semantic-plan",
+    "bytes": 344744,
+    "mode": "0o755",
+    "sha256": "61ad29fefd1f2ec3eec1e158a3e65182d8ed02f5e1682ed8eaf8d50d9a32a667"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-semantic-storage",
+    "bytes": 262840,
+    "mode": "0o755",
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-semantic-storage-api",
+    "bytes": 725544,
+    "mode": "0o755",
+    "sha256": "e3dfe35a18944fad60ee1189303eb233a62f006f6c414d6c68f82b85318890cf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-source-inventory",
+    "bytes": 253464,
+    "mode": "0o755",
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-source-weight-api",
+    "bytes": 406056,
+    "mode": "0o755",
+    "sha256": "61430c7a9384f9090c1e22e0f105943f65ed0dc92d426fd5a3a51e51d5b97174"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-source-weight-tiles",
+    "bytes": 409144,
+    "mode": "0o755",
+    "sha256": "13ba8e8fc4f2d46215009862ffcfc3b96c5bc595c6958d495d7e4b0353439c70"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-storage-api",
+    "bytes": 334824,
+    "mode": "0o755",
+    "sha256": "40f7255afde096b8455a2a45192512942e67df46ca3781135c46f31aae70ea6c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-storage-estimate",
+    "bytes": 341576,
+    "mode": "0o755",
+    "sha256": "0cea8e0d69a22df90e795478b9fd5d3588324619245b6239e196942b93b2475f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-typed-api",
+    "bytes": 337216,
+    "mode": "0o755",
+    "sha256": "6cbd02ca120699487d3cc6cc1f3a63b9a46bc722af16cfe079eff1dc6d50e809"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-baseline/tagged-typed-decoder",
+    "bytes": 416992,
+    "mode": "0o755",
+    "sha256": "0ebc166375d9de51dd0121b2ccf437fdce9a5922108529eaa087a821c4efaae1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-api",
+    "bytes": 1080384,
+    "mode": "0o755",
+    "sha256": "ec3f78c023cc6ec45d2fe82531ca317aafb6bdd215b50323dd2c546ea1bd0eb4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-consumers",
+    "bytes": 643544,
+    "mode": "0o755",
+    "sha256": "3aa82ef75c43267e2098185971b697c17dabbdea4d9e782ff6cd734bf52021b2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-consumers-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-gguf",
+    "bytes": 780776,
+    "mode": "0o755",
+    "sha256": "347fb49054769801d088e92694c09d1930214d1434816434edf1df31d6cb4086"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-graph",
+    "bytes": 1085824,
+    "mode": "0o755",
+    "sha256": "e1c80906a1e146d77ccec33643f911bc3e24399546b8dc978139ffe46d06330f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-ownership",
+    "bytes": 1005136,
+    "mode": "0o755",
+    "sha256": "b44d6521400350897517b1712b73dbe1caa88891735b13df536e4d69b7a1b2d1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/activation-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/bias-consumers",
+    "bytes": 643056,
+    "mode": "0o755",
+    "sha256": "bb7712b04aaf6cf6558b979a3adcc8ece971f55bd50a08e3cb57163fb0534684"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/bias-consumers-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/bias-gguf",
+    "bytes": 780648,
+    "mode": "0o755",
+    "sha256": "738d0cc70e6959df6d5a7aa8e852d5f8bc14745006fd111f9ae35d83d4c85b69"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/bias-gguf-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/bias-ownership",
+    "bytes": 938648,
+    "mode": "0o755",
+    "sha256": "20e121ddbcc3dc1282a180664c2e7f052888f7b0146c3c819800a0f9d26b7852"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/bias-ownership-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/build-results.json",
+    "bytes": 10509,
+    "mode": "0o644",
+    "sha256": "648a313cb68a110269ed6ac9d74ae9314079d8cd26cc477c766236de82495eb5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-bias-api",
+    "bytes": 1007304,
+    "mode": "0o755",
+    "sha256": "95481863c3a5017c9c90896983674aed79971ffe3b4a362a50261aeb75ed449e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-bias-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-bias-graph",
+    "bytes": 1085248,
+    "mode": "0o755",
+    "sha256": "a27b0bde717cceb99402f8e652151f520c52fcfc33d32a0e4ef99c1fbff3d366"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-bias-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-graph-policy",
+    "bytes": 849856,
+    "mode": "0o755",
+    "sha256": "62d1a955d0bc06983d522343c256ea4731f926a27cab37e343092794211a2cca"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-graph-policy-api",
+    "bytes": 935168,
+    "mode": "0o755",
+    "sha256": "46960145397ac7ecba99ae6f9168f544904ea2acaaa955cb6e0ce35304fe1e14"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-graph-policy-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-graph-policy-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-projections",
+    "bytes": 567464,
+    "mode": "0o755",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-projections-api",
+    "bytes": 568128,
+    "mode": "0o755",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-projections-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-projections-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-scalar-source",
+    "bytes": 935640,
+    "mode": "0o755",
+    "sha256": "af1e9a604b8d1b4dd70e0631414a165e0efa2cf25bdc82e88f3542f695f5ea0a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/decoder-scalar-source-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/ordinary-schema",
+    "bytes": 568488,
+    "mode": "0o755",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/ordinary-schema-api",
+    "bytes": 569952,
+    "mode": "0o755",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/ordinary-schema-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/ordinary-schema-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/rotary-api",
+    "bytes": 699832,
+    "mode": "0o755",
+    "sha256": "3afd61c03fc8cb6dc9857096813e0948d942b63225b00614b0dc3752405c1aca"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/rotary-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/rotary-recipes",
+    "bytes": 780528,
+    "mode": "0o755",
+    "sha256": "49ec1fe0910875f206f41e0ef12104d78922f083275e2c7eb99863be0a8ed9a1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/rotary-recipes-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/source-hashes.json",
+    "bytes": 17610,
+    "mode": "0o644",
+    "sha256": "ec9a2b386b6b73f13c7090d50fd5d9ba1786f566163e4952f9cc3e4a54aaab27"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/source-scalars-api",
+    "bytes": 783824,
+    "mode": "0o755",
+    "sha256": "5b31ea159ec519742b296731036251d298e53a01d640784766bed7788dc4a8c0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/source-scalars-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-cache-api",
+    "bytes": 412544,
+    "mode": "0o755",
+    "sha256": "dfcb68604ca1d1671849b27a492047f6e9a37c1a43bf74eb0bf342902bd51ea8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-cache-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-cache-layout",
+    "bytes": 416312,
+    "mode": "0o755",
+    "sha256": "b158aba9ad8aaaee91839e8f5bf9f9203cba1deeecc94dc174abaf999d7f52ca"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-cache-layout-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-api",
+    "bytes": 487776,
+    "mode": "0o755",
+    "sha256": "4dbb1f571e289308f19200a0c3e2d2354199bd0d1826e39a1aefcf063f8ff77c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-graph",
+    "bytes": 564096,
+    "mode": "0o755",
+    "sha256": "2305fa1ab2a1059cd578246e6687997e3055b2e4b197d9f7ec51ac5eac3e0167"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-graph-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-storage",
+    "bytes": 701352,
+    "mode": "0o755",
+    "sha256": "405563c7a17fb52633c7eabcd1ac483cbfa98ee2027c51d758ba89955c6b9265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-storage-api",
+    "bytes": 697056,
+    "mode": "0o755",
+    "sha256": "653c03d0222aef1b9b0ffa3c17cb61f9bdea0051640564dfe5e0940be7c02bdf"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-expanded-storage-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-float-api",
+    "bytes": 168320,
+    "mode": "0o755",
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-float-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-float-constants",
+    "bytes": 170360,
+    "mode": "0o755",
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-float-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-matrix-api",
+    "bytes": 265416,
+    "mode": "0o755",
+    "sha256": "e03c578bc850a829e9e1d9f930d11c3fadcb01a8c83e5ae02c518f4351bfb575"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-matrix-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-matrix-tiles",
+    "bytes": 411976,
+    "mode": "0o755",
+    "sha256": "f7356fe703d0e6791279ac55d4034ad5cd70ff9720a4d09a237b0f33a032833f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-matrix-tiles-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-primitive-api",
+    "bytes": 416368,
+    "mode": "0o755",
+    "sha256": "beac3d050c55d5831ad3a4a4248bf5defdba948e5fc28c1fcfa2e6f803ff00f3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-primitive-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-primitive-recipes",
+    "bytes": 492872,
+    "mode": "0o755",
+    "sha256": "f107bc3f1e03e00f9b0460ddcbfb7edea133b46395107255eecb7a965893c179"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-primitive-recipes-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q4k-api",
+    "bytes": 168160,
+    "mode": "0o755",
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q4k-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q4k-constants",
+    "bytes": 174976,
+    "mode": "0o755",
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q4k-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q5q6-api",
+    "bytes": 170128,
+    "mode": "0o755",
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q5q6-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q5q6-constants",
+    "bytes": 169952,
+    "mode": "0o755",
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-q5q6-constants-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-semantic-plan",
+    "bytes": 345520,
+    "mode": "0o755",
+    "sha256": "4115d2f5b05801f819e03435847e64043b5091a8841e7db5fd668ae16aaf8cf5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-semantic-plan-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-semantic-storage",
+    "bytes": 262840,
+    "mode": "0o755",
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-semantic-storage-api",
+    "bytes": 862184,
+    "mode": "0o755",
+    "sha256": "15d7ce58bad890b70ed1f9f267f5f27fa23da5d90d4382a95f25f0eb8b72fd32"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-semantic-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-semantic-storage-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-source-inventory",
+    "bytes": 253464,
+    "mode": "0o755",
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-source-inventory-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-source-weight-api",
+    "bytes": 409808,
+    "mode": "0o755",
+    "sha256": "1163aa83c07c2cf59abdadab3c14f0c6c26e7299df8418f0b46f118c7dac105e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-source-weight-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-source-weight-tiles",
+    "bytes": 412736,
+    "mode": "0o755",
+    "sha256": "4cecaacec962478c0e7816b0e5d05b3d24044080ebda2200e2ad2682a0da50ad"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-source-weight-tiles-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-storage-api",
+    "bytes": 338576,
+    "mode": "0o755",
+    "sha256": "d6ba146fd9af658b74ba468130bdd4176f22be319908198c250badbfea365001"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-storage-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-storage-estimate",
+    "bytes": 410856,
+    "mode": "0o755",
+    "sha256": "c6d37b4f7ce5b86e763c01a1f6d2f9892352ceaf0a0ec2792403781607111623"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-storage-estimate-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-typed-api",
+    "bytes": 337992,
+    "mode": "0o755",
+    "sha256": "c77fdf5c900a00efb2d994c5fb7250f8a17289886c15fb117b933f7fee0a89ad"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-typed-api-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-typed-decoder",
+    "bytes": 417760,
+    "mode": "0o755",
+    "sha256": "d93dff21b7984a6ecef3fe71d362378fbadd1b9dfacd207538636e16c42e2f42"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-final/tagged-typed-decoder-build.txt",
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/cache_layout/layout.strace",
+    "bytes": 24885,
+    "mode": "0o644",
+    "sha256": "a030842eeb1ab59fa787d04d06071f73480f4bba005e059b52d8745bb30453df"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/cache_layout/runs.json",
+    "bytes": 64230,
+    "mode": "0o644",
+    "sha256": "4d73367c5bd1afcbafd22769aad3f28c35e73917061bdf5c5a4e83c184d88274"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/cache_layout-test.txt",
+    "bytes": 153,
+    "mode": "0o644",
+    "sha256": "9987bae525e40b511aa3da038581be9c54dea417c869f3706f74fbfe78e61a02"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/expanded_graph/expanded.strace",
+    "bytes": 26081,
+    "mode": "0o644",
+    "sha256": "21988767d60c2844efbf5232630f8220459b612cc773a586a7a073eee19c9da3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/expanded_graph/runs.json",
+    "bytes": 621556,
+    "mode": "0o644",
+    "sha256": "cacc6679cb868dc8114791ad3167d4194638baab45ba5ae6b15505aa650d5c5b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/expanded_graph-test.txt",
+    "bytes": 622,
+    "mode": "0o644",
+    "sha256": "db9a1012a7c8f16d57261325c3ff80f1d1670a0f885f837d6df7496a05428320"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/expanded_storage/expanded-storage.strace",
+    "bytes": 26206,
+    "mode": "0o644",
+    "sha256": "4e387dd21d74ccffe7edd9af21249a254bb7000c6f5ba18f07bb9d7719f250cd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/expanded_storage/runs.json",
+    "bytes": 428052,
+    "mode": "0o644",
+    "sha256": "1e8ac9c2f77dbe0c99a66cc771982a85ec97afb77c01edb3f5dde88c9949dc51"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/expanded_storage-test.txt",
+    "bytes": 207,
+    "mode": "0o644",
+    "sha256": "641cfb6513ebff8f0e68c17ef990d5060192fbde9ad86ae3f6f21ed4a08dcd9b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/matrix_tiles/runs.json",
+    "bytes": 690495,
+    "mode": "0o644",
+    "sha256": "bf67273be3cd4ce40bb0160b67d75b1f28416ab8010104f25262346536c316b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/matrix_tiles/schedule.strace",
+    "bytes": 24873,
+    "mode": "0o644",
+    "sha256": "2e07c147a03677475f5a55786f1d73a611bd078e9aff8dd2a791271d74ae7e5a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/matrix_tiles/summary.json",
+    "bytes": 92,
+    "mode": "0o644",
+    "sha256": "8c7cc25194815f0879598b63789117f7b5e1fb963f9c260fffb9995ee4955d59"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/matrix_tiles-test.txt",
+    "bytes": 179,
+    "mode": "0o644",
+    "sha256": "80125cb560795b68e2c7e10c2c54a3c9af9d279d07548797fdac65a1a3c170bd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/primitive_recipes/recipes.strace",
+    "bytes": 26095,
+    "mode": "0o644",
+    "sha256": "958380d728de4e21053148282d335d9ac1606e8f74d53c27277e3e09389aa6f5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/primitive_recipes/runs.json",
+    "bytes": 267602,
+    "mode": "0o644",
+    "sha256": "825e18b91cf8b4ebbbcc79cc5c54159eb74fc85ef0f68909621d88672106c466"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/primitive_recipes/tiny-primitive-results.json",
+    "bytes": 6900,
+    "mode": "0o644",
+    "sha256": "222d4ea54b856bd4ed84b5e1f19fbb240a7ae3e3c19e7d6e31bc33534b3b236e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/primitive_recipes-test.txt",
+    "bytes": 723,
+    "mode": "0o644",
+    "sha256": "8dfc2d7e9abc1f764c42c2b10976192544ccfd81eff39daeb6f8a859dc699b29"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_plan/fixture-runs.json",
+    "bytes": 151248,
+    "mode": "0o644",
+    "sha256": "bf27848cd0bbb8189662b99d294d90182c4d0244020c1b5b8048de7c9d2dce21"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_plan/source-graph.strace",
+    "bytes": 26079,
+    "mode": "0o644",
+    "sha256": "871d6cfdadacdcf1e0a59bd98d9aab9197637d57d98bf8f358e40b3533cce69b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_plan-test.txt",
+    "bytes": 107,
+    "mode": "0o644",
+    "sha256": "1a7099e93628a0dee49467be669dec5e71f0bc319d523a69f0e39a0ffe8e08fa"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage/baseline-binaries.json",
+    "bytes": 1710,
+    "mode": "0o644",
+    "sha256": "b6349266c29beefa82239c31bbcf95bac8fd7c1fd6c54b445e3999f0efd7447d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage/ordinary-sharded.strace",
+    "bytes": 27282,
+    "mode": "0o644",
+    "sha256": "c7c4449e2ee57d216d069493e1d6b891e4a0ca0b1c6b6e7546a06ccdf536149f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage/ordinary-single.strace",
+    "bytes": 26542,
+    "mode": "0o644",
+    "sha256": "3fbc21ce693f78f6cfa722b688615f8292f5b1788a6a36a7fd7b9bd894d96610"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage/runs.json",
+    "bytes": 142132,
+    "mode": "0o644",
+    "sha256": "a8293b1e42f315bc7ff93a168db717aca954e7a06d89cc342af94fb8a15857b0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage/summary.json",
+    "bytes": 101,
+    "mode": "0o644",
+    "sha256": "50e7a68cea43e72f6b2544cae27cc1196a82e45549a344f7eaf12c5517285e74"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage/tagged-owned.strace",
+    "bytes": 25677,
+    "mode": "0o644",
+    "sha256": "db417be5166082e2834f6d784c364eb99ec164646e53a886925e8df59a7f21b0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage/tagged-source.strace",
+    "bytes": 26182,
+    "mode": "0o644",
+    "sha256": "ece9be7970ec2962ce9d339b098e1d4faffef790104082d39694d386ef8cb773"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/semantic_storage-test.txt",
+    "bytes": 181,
+    "mode": "0o644",
+    "sha256": "ed18d98fe7df84bc0f2f88e5b935bce5082ec9ea414142fcfc2fdc318c552449"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_float_constants/constants.strace",
+    "bytes": 26074,
+    "mode": "0o644",
+    "sha256": "4d4a88bd0d28c68576885573c9a626dfef153e11280a2cf7e1d2221f99ed6819"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_float_constants/exhaustive-coverage.json",
+    "bytes": 309,
+    "mode": "0o644",
+    "sha256": "b09e3035d27710f36331b44ecdca1af67cc593b1627dcfe0aa89d0504ef3e44d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_float_constants/runs.json",
+    "bytes": 52519,
+    "mode": "0o644",
+    "sha256": "9bfb749a3975d0b9c0cc2eee09632f53267c87f6bd40978b16429ecb4ac5c485"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_float_constants-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "044a5add827c4435f2f3847bd466be7dc7586d50b9f09005fddb277e3a351f56"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_inventory/fixture-runs.json",
+    "bytes": 8278,
+    "mode": "0o644",
+    "sha256": "68f5f7f1470dbbeef4a5dd3140becfb67221eb3c18e4506cf49659919c4c131a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_inventory/read-only-inventory.strace",
+    "bytes": 26042,
+    "mode": "0o644",
+    "sha256": "19451e6e3cd7dbbdfea62da3c2ff3245a1012931dd0fdeae0194dd931a3f7f87"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_inventory-test.txt",
+    "bytes": 104,
+    "mode": "0o644",
+    "sha256": "1dd072f39a158a9569d8033cbf2d660dd308ffac3d8b02542d9765733aef97ab"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q4k_constants/constants.strace",
+    "bytes": 26020,
+    "mode": "0o644",
+    "sha256": "61d2c76fbab1a1d7fad539b7d524891edaaa49f5fe54caec8d6a459ab30c524a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q4k_constants/external-reference.json",
+    "bytes": 395,
+    "mode": "0o644",
+    "sha256": "3b8b6750b34764b2c1e44afcaf4e88fac71db4952a82e0ff505f1e788bf0f716"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q4k_constants/runs.json",
+    "bytes": 49085,
+    "mode": "0o644",
+    "sha256": "73f97bcd1249565c08a2ec450988b02124ac9d495189a74f638eabd9036c7561"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q4k_constants-test.txt",
+    "bytes": 186,
+    "mode": "0o644",
+    "sha256": "6b4944e22216f4928bcd1fe5faaa057053120550d99255a8dd2f239338f3e38b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q5q6_constants/13.strace",
+    "bytes": 26008,
+    "mode": "0o644",
+    "sha256": "cbe27a486d10c70ae36c3bcc45612a341a7b9ea180dad9e34cadbb42c37953f1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q5q6_constants/14.strace",
+    "bytes": 26007,
+    "mode": "0o644",
+    "sha256": "4772bdb2bdfecf2c45ab4556b3407c72f823c83b4ee85d118d820efb575f5f02"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q5q6_constants/external-reference.json",
+    "bytes": 627,
+    "mode": "0o644",
+    "sha256": "c6e2e2c1952531bf40ea0e4f72430230369517575d6ebf9147f04d67075e795c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q5q6_constants/runs.json",
+    "bytes": 41581,
+    "mode": "0o644",
+    "sha256": "5ba79638c04956193794ad836b5c9bcc7b1a9e6d5fc4a1d6946889ebcc4768f4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q5q6_constants/summary.json",
+    "bytes": 91,
+    "mode": "0o644",
+    "sha256": "3bfe79788578d8bc0e4203df6d587587202e4a6995b940a7e9875f3f9f505989"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_q5q6_constants-test.txt",
+    "bytes": 178,
+    "mode": "0o644",
+    "sha256": "257363064583aa579308035549d36514fdf681ccec08379d24eb252f3f96dc07"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_weight_tiles/bytes.strace",
+    "bytes": 26479,
+    "mode": "0o644",
+    "sha256": "52211bcd29d86c2facc22ff5aff80b82afe2c90ec9005df87bde21e3e01ed11b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_weight_tiles/runs.json",
+    "bytes": 488027,
+    "mode": "0o644",
+    "sha256": "6adf5f6f4922d3c3985860755a2b849e83c0787f49ba1ce4d6834c0ab2ed15a7"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_weight_tiles/summary.json",
+    "bytes": 87,
+    "mode": "0o644",
+    "sha256": "f0d1eaeef91ea5c038d80aa7ce4770cdcf8dddac9e5fea102254e452971a039f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/source_weight_tiles-test.txt",
+    "bytes": 184,
+    "mode": "0o644",
+    "sha256": "70b3251a30fb89b791e42ab6da95966290ad830149c6c25d87b7bcf2defeddbb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/storage_estimate/fixture-runs.json",
+    "bytes": 139301,
+    "mode": "0o644",
+    "sha256": "37c21b7ceae13b80ce4b6e1c11e4f8b4998ec5f58fb4b4eab7c155f25b6fa68d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/storage_estimate/storage.strace",
+    "bytes": 26091,
+    "mode": "0o644",
+    "sha256": "f05fdc1445c050d0c37b60c8d394d958192bfb9bc6b2810c8bd71d8ad380f6b8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/storage_estimate-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "8eddee83ae80e2e9c495a058fb1d208d423d4fcb604dc5bffac6f19ddf44498b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/test-results.json",
+    "bytes": 8723,
+    "mode": "0o644",
+    "sha256": "de8ab8980d83bed7a22740e7b837a253790df994de1c192463fbe92d039f82ae"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/typed_decoder/fixture-runs.json",
+    "bytes": 410492,
+    "mode": "0o644",
+    "sha256": "7d799115010596c65fc1e86fa0e54ce23492fdf68e75b72c2669b3916e85d603"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/typed_decoder/typed-source.strace",
+    "bytes": 26207,
+    "mode": "0o644",
+    "sha256": "f6d260d1657c5ee44008ef884ade6a2a111d385653f7e86095e42afee7c98855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/typed_decoder/typed-synthetic.strace",
+    "bytes": 25813,
+    "mode": "0o644",
+    "sha256": "cb65e99c9f73a2f6c06b5bd6de585ecd85b2748546b56d409a5e09c20aa04966"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-regression-verification/typed_decoder-test.txt",
+    "bytes": 105,
+    "mode": "0o644",
+    "sha256": "9233b21374599c15e4f5b9b501894dc92992c10d2dd46450cd3fc51fdc7d9d27"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/decoder_graph_policy/runs.json",
+    "bytes": 82577,
+    "mode": "0o644",
+    "sha256": "7c2e5d5da6d6a8ebae11e6e9b4b5edd17ccf6d0dafd77384b10680e090566c16"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/decoder_graph_policy/safe-1.strace",
+    "bytes": 26694,
+    "mode": "0o644",
+    "sha256": "3a68efedcde55c938c4d8149ca28c1ff30af585e9c528ab5c651c31e79c91f44"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/decoder_graph_policy/safe-2.strace",
+    "bytes": 27274,
+    "mode": "0o644",
+    "sha256": "77c86a77efa4665d513244a9cc0e34efa8d6a8a7ae16a317400cf21dcaedff04"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/decoder_graph_policy/summary.json",
+    "bytes": 98,
+    "mode": "0o644",
+    "sha256": "b7d2d5166a1d72bef1f7d099741aa02879b5db39891adb28e8e3dd6aac4233d2"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/decoder_graph_policy-test.txt",
+    "bytes": 172,
+    "mode": "0o644",
+    "sha256": "8dafa47b1e2f7a8a926b0568033ea41aa88a55aa75dc58378b48a79fb0d9bb49"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/rotary_recipes/isolated-primitive.json",
+    "bytes": 13603,
+    "mode": "0o644",
+    "sha256": "6ea7f1864f8c9fb33373f35064b5a46833c96043bd1868d72e119344bf2a82bb"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/rotary_recipes/rotary.strace",
+    "bytes": 18236,
+    "mode": "0o644",
+    "sha256": "2b11d3f43fcc73a1f284b7c92b93b039b3e1e614cec81eb491afd1e0a0a1200f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/rotary_recipes/runs.json",
+    "bytes": 4098148,
+    "mode": "0o644",
+    "sha256": "549358d457c4ca64de66efbb77e3fb80343ea381e6eef174841a25818ddce879"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/rotary_recipes-test.txt",
+    "bytes": 2410,
+    "mode": "0o644",
+    "sha256": "56534371abae0d7abd5d79e9f3e6d0c8c70cd80bc429d045fcfec264fa6eb340"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/source_scalars/runs.json",
+    "bytes": 4529139,
+    "mode": "0o644",
+    "sha256": "4636e83d49d7f9de46a3785b09998bf48cfc8c99cb8007eff41a50e4613f7220"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/source_scalars/source-scalars.strace",
+    "bytes": 18476,
+    "mode": "0o644",
+    "sha256": "75657bdcfc9e642237eb02a1f4851f19337b8bc19c330cb5b29772df93a2d058"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/source_scalars-test.txt",
+    "bytes": 151,
+    "mode": "0o644",
+    "sha256": "e47a9eb4521efc28e2d5bf4f0073aeedea9ef2258bdc71f0711412ca09883f79"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-extra-verification/test-results.json",
+    "bytes": 1560,
+    "mode": "0o644",
+    "sha256": "1a036baca68f3e251e307afd2e842beed485edd42bfe1526bb774c9e8bd624c3"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/decoder_projections/indexed.strace",
+    "bytes": 28292,
+    "mode": "0o644",
+    "sha256": "70619abe63d1267b111ba585ba536bc84755e8ef96a042ac6005f5e17d797b63"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/decoder_projections/late-output-refusal.strace",
+    "bytes": 27157,
+    "mode": "0o644",
+    "sha256": "fd2c133b472f47b858a3e5b313822f4d32eb7bb44661abcf53e6bfc4f3e8f942"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/decoder_projections/remote-headers.strace",
+    "bytes": 26921,
+    "mode": "0o644",
+    "sha256": "e52172bf0f756cdecac317733a89fabe442010c7896d6c258bc82decc959042b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/decoder_projections/runs.json",
+    "bytes": 71871,
+    "mode": "0o644",
+    "sha256": "288b4f98d817706ed464abf127cf5f853ccf7dd46eeb57311b7dc0e546cd9bf5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/decoder_projections/summary.json",
+    "bytes": 38,
+    "mode": "0o644",
+    "sha256": "3b9a2063174e2f51f184d596b41eb42476b58807ea80dee56d72fc1e07f20178"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/decoder_projections/unindexed.strace",
+    "bytes": 27221,
+    "mode": "0o644",
+    "sha256": "e1a25e8fc94b6ac43db0ad8517fcfb581bbc3671b690850f5696ee7d4c2312ad"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/decoder_projections-test.txt",
+    "bytes": 154,
+    "mode": "0o644",
+    "sha256": "17254c2f44e1d3160bd4e06c68b3b9edd9d16ab1303aa4e98b91d8509d797b6e"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/ordinary_projection_schema/late-head-refusal.strace",
+    "bytes": 27183,
+    "mode": "0o644",
+    "sha256": "013a017398bc67554c53bad81042ecd9ee838efd649707802148d80ec82685ca"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/ordinary_projection_schema/owned-readonly.strace",
+    "bytes": 27247,
+    "mode": "0o644",
+    "sha256": "9e4ec08441db96d8df3b5f80539f08325d5dd44ef02febeed42756314f8c1a9c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/ordinary_projection_schema/real-metadata.strace",
+    "bytes": 26925,
+    "mode": "0o644",
+    "sha256": "fbba1f7421336819055f33bb562d948365a072c16127cd84eb6fa1b1f76239e1"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/ordinary_projection_schema/runs.json",
+    "bytes": 133445,
+    "mode": "0o644",
+    "sha256": "e8f9d777d8762b4c59e16cfab20c0420002d04ad8cd71efe76695b83394dca96"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/ordinary_projection_schema/summary.json",
+    "bytes": 39,
+    "mode": "0o644",
+    "sha256": "dc44880c44e164968ad1f44cf87b19f38b207393a2eaeda9d39aa1ede885402b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/ordinary_projection_schema-test.txt",
+    "bytes": 1007,
+    "mode": "0o644",
+    "sha256": "02a22d753f09dcc31c137713bdba910e173f6cabc8d53e2a078168eda617c8b8"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-other-regressions/test-results.json",
+    "bytes": 1481,
+    "mode": "0o644",
+    "sha256": "5e6249dcde9b0cb86169a894452e66f81a9216f6701495cd5afe4a1820861768"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_activation/requested32-ownership.strace",
+    "bytes": 87029,
+    "mode": "0o644",
+    "sha256": "3de9e6f13f24f30a507cd568e97fc360bb0795f5ea53f2be03232b6019e60334"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_activation/runs.json",
+    "bytes": 332926,
+    "mode": "0o644",
+    "sha256": "f85f669a584fb5f6b6f76d90c0de9e0d0ffd0328da226d137473b65f538d882f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_activation/source64-ownership.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "28a345592e34b552087f3593dbe02c991ed8797b2578de40b171196532e29850"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_activation/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "a78a8907981c7086549f74dd73df038d99cb684fe3e7e921e66d9c59da641a08"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_activation-test.txt",
+    "bytes": 1318,
+    "mode": "0o644",
+    "sha256": "072cff7cbb337811cd1aaf10cd43fb4ff61efa26cbc54a626fa65d96aeeaec60"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_bias/bias-ownership.strace",
+    "bytes": 87033,
+    "mode": "0o644",
+    "sha256": "10e53fc573be71143d9d8e9be4e018d94fbf0d16214d201eca64bd792370ca70"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_bias/bias-readonly.strace",
+    "bytes": 27349,
+    "mode": "0o644",
+    "sha256": "c7bddcfcd80bbb7bb274f9bee37378b145f25a469b5b25dfe8b653b9e6827e40"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_bias/runs.json",
+    "bytes": 174114,
+    "mode": "0o644",
+    "sha256": "e48918a113e34d5c718d1096921208c1f766fca5207f378a9f9e1e0fff1394d6"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_bias/summary.json",
+    "bytes": 40,
+    "mode": "0o644",
+    "sha256": "3c7fca87a341fa70346f22457e979d7f46d905b099ba71ed626915773f1315b4"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/decoder_bias-test.txt",
+    "bytes": 1283,
+    "mode": "0o644",
+    "sha256": "f5735e86a838e6dfdd857daf08bc51e18465d35a488e27864ca7cdaaa8c81b4c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-verification/test-results.json",
+    "bytes": 1561,
+    "mode": "0o644",
+    "sha256": "f36191df9fbb4e5723d899ff0830781cbf34e84faed155598448baa913fa1eae"
+  }
+]

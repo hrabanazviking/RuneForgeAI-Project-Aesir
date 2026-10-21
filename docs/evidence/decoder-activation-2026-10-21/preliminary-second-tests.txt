@@ -1,0 +1,9 @@
+test_01_choices_bias_order_and_independent_lifetimes (__main__.DecoderActivation.test_01_choices_bias_order_and_independent_lifetimes) ... ok
+test_02_source_projection_defaults_and_unresolved_selectors (__main__.DecoderActivation.test_02_source_projection_defaults_and_unresolved_selectors) ... ok
+test_03_bounds_and_exact_source_words (__main__.DecoderActivation.test_03_bounds_and_exact_source_words) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 13.577s
+
+OK
+Native outcomes: {'accepted': 80, 'refused': 20}

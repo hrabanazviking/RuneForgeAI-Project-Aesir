@@ -459,3 +459,18 @@ matrix and semantic storage validate the same policy state. Explicit policy
 JSON uses schema3; old APIs/outputs remain unchanged. Source32/64 precision
 metadata does not establish device arithmetic or complete ordinary semantics.
 Receipt docs/HAILO10H_MOJO_DECODER_BIAS_GRAPH.md;131 methods/3621 calls/41 builds.
+
+
+## Source activation mathematical selection — 2026-10-21
+
+DecoderActivationPolicy owns one qualified kind/layer, provenance and checked
+work128*layers+UTF8(provenance)+sum(UTF8(kind)). source_decoder_activations validates
+the original full architecture and projects silu/gelu/relu without erasing raw
+modifiers. New bias+activation builder overloads preserve source32/64 words and
+place gate_silu/gate_gelu_erf/gate_relu after bias, before gate/up multiplication.
+Original GELU uses inverse-sqrt-two/erf/one/multiply/half math; ReLU maximum_zero.
+These are real-domain mathematical names, never device opcodes. Plan, recipe,
+expanded/storage and cache/matrix consumers reject selected-state/edge/lifetime
+mutations. Explicit JSON schema4 exposes owned input maps; old complete outputs
+remain unchanged. Receipt docs/HAILO10H_MOJO_DECODER_ACTIVATION.md;140 methods/
+4124 calls,46 builds. Actual numerical Hailo/full ordinary gates remain open.

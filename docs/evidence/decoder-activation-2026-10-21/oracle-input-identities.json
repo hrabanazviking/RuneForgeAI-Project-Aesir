@@ -1,0 +1,6 @@
+{
+  "tests/test_hailo_decoder_activation.py": "f8f447fe5e3dd8c06708b21a2f660ea4b17456f72f5eb564cd6ce8fff06a85e5",
+  "tests/test_hailo_decoder_bias.py": "368d533b974f640af82ca2a70bf245f7d799ee9aba239d7058420ff3efe39bfc",
+  "../decoder-activation-baseline/build-results.json": "37e8de4c2b4abbc8282451f73052a480326f5dbb1109ada7a4d4a95d9a968f37",
+  "../ordinary-modifier-study/activation-primitive-final.json": "21f9b3d979bae264f41b58d1e47d8d6d1a0a01a6174a9085a41d93b035728112"
+}

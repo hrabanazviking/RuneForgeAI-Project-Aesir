@@ -1,0 +1,26 @@
+test_01_choices_bias_order_and_independent_lifetimes (__main__.DecoderActivation.test_01_choices_bias_order_and_independent_lifetimes) ... ok
+test_02_source_projection_defaults_and_unresolved_selectors (__main__.DecoderActivation.test_02_source_projection_defaults_and_unresolved_selectors) ... ok
+test_03_bounds_and_exact_source_words (__main__.DecoderActivation.test_03_bounds_and_exact_source_words) ... ok
+test_04_mutations_and_consumer_boundaries (__main__.DecoderActivation.test_04_mutations_and_consumer_boundaries) ... ok
+test_05_owned_inputs_snapshots_recovery_and_cleanup (__main__.DecoderActivation.test_05_owned_inputs_snapshots_recovery_and_cleanup) ... ok
+test_06_complete_legacy_output_compatibility (__main__.DecoderActivation.test_06_complete_legacy_output_compatibility) ... ok
+test_07_isolated_recipe_math (__main__.DecoderActivation.test_07_isolated_recipe_math) ... ok
+test_08_actual_cache_matrix_storage_consumers (__main__.DecoderActivation.test_08_actual_cache_matrix_storage_consumers) ... ok
+test_09_mixed_source_neutral_bias_and_independent_widths (__main__.DecoderActivation.test_09_mixed_source_neutral_bias_and_independent_widths) ... ok
+setUpClass (test_hailo_decoder_bias.DecoderBias) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_hailo_decoder_bias.DecoderBias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 50, in setUpClass
+    cls.evidence.mkdir(parents=True, exist_ok=False)
+  File "/usr/lib/python3.11/pathlib.py", line 1117, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/home/pi/Documents/Codex/2026-10-19/u/work/decoder-activation-focused/verification'
+
+----------------------------------------------------------------------
+Ran 9 tests in 8.805s
+
+FAILED (errors=1)
+Native outcomes: {'accepted': 132, 'refused': 344}

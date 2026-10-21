@@ -1,0 +1,17 @@
+{
+  "suites": 21,
+  "methods": 140,
+  "calls": 4124,
+  "new_methods": 9,
+  "new_calls": 503,
+  "new_accepted": 135,
+  "new_expected_refusals": 368,
+  "rebuilt_entrypoints": 46,
+  "complete_frozen_gguf_comparisons": 8,
+  "complete_frozen_ordinary_comparisons": 2,
+  "complete_frozen_consumer_comparisons": 2,
+  "inprocess_refusal_recovery_cycles": 40,
+  "isolated_primitive_scalar_outputs": 48,
+  "device_execution": false,
+  "whole_repository_pass": false
+}

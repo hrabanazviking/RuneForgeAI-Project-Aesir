@@ -32,3 +32,8 @@ IR or primitive constants do not establish hardware execution or physical fit.
 docs/HAILO10H_DECODER_ACTIVATION_DESIGN.md. Publish before production edits.
 Initial math identities are SiLU, default erf GELU and ReLU; other selectors
 remain implementation work, not aliases or permanent model restrictions.
+
+2026-10-21 completed at the selected mathematical compiler boundary:140 methods/
+4124 calls,46 builds,8 complete frozen GGUF outputs and4 additional complete
+comparisons. Receipt docs/HAILO10H_MOJO_DECODER_ACTIVATION.md. Automatically
+continue TASK_hailo10h_ordinary_cache_semantics.md and actual numerical Hailo work.

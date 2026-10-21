@@ -1,5 +1,7 @@
+from smidr.activation_graph import validate_plan_activation_state
 # Mathematical compiler IR only. No numerical host kernel or device program.
 from std.math import isfinite
+from smidr.activation_policy import DecoderActivationPolicy, empty_activation_policy
 from smidr.bias_policy import DecoderBiasPolicy, empty_bias_policy
 from smidr.bias_graph import projection_bias_width, validate_plan_bias_state
 from smidr.source_storage import SourceStorageTensor
@@ -101,6 +103,9 @@ struct PrimitiveRecipes(Movable):
     var remaining_source_operations: List[Int]
     var rotary_policy: RotaryLoweringPolicy
     var rotary_work: Int
+    var explicit_activation: Bool
+    var activation_policy: DecoderActivationPolicy
+    var activation_work: Int
     var explicit_bias: Bool
     var bias_policy: DecoderBiasPolicy
     var bias_work: Int
@@ -112,6 +117,9 @@ struct PrimitiveRecipes(Movable):
         self.remaining_source_operations = List[Int]()
         self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
         self.rotary_work = 0
+        self.explicit_activation = False
+        self.activation_policy = empty_activation_policy()
+        self.activation_work = 0
         self.explicit_bias = False
         self.bias_policy = empty_bias_policy()
         self.bias_work = 0
@@ -203,7 +211,11 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
     validate_source_inventory(plan.source)
     validate_plan_scalar_state(plan)
     validate_plan_bias_state(plan)
+    validate_plan_activation_state(plan)
     var lowered = PrimitiveRecipes()
+    lowered.explicit_activation = plan.explicit_activation
+    lowered.activation_policy = plan.activation_policy.copy()
+    lowered.activation_work = plan.activation_work
     lowered.explicit_bias = plan.explicit_bias
     lowered.bias_policy = plan.bias_policy.copy()
     lowered.bias_work = plan.bias_work
@@ -214,6 +226,9 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
         lowered.rotary_policy = policy.copy()
     for index in range(len(plan.operations)):
         var operation = plan.operations[index].copy()
+        if operation.kind == "gelu_erf" or operation.kind == "relu":
+            lowered.recipes.append(_activation_recipe(plan, index))
+            continue
         if operation.kind == "add_projection_bias":
             lowered.recipes.append(_projection_bias_recipe(plan, index))
             continue
@@ -291,3 +306,47 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
         recipe.values[recipe.result].last_use = len(recipe.operations)
         lowered.recipes.append(recipe^)
     return lowered^
+
+
+
+def _activation_recipe(plan: SemanticPlan, index: Int) raises -> PrimitiveRecipe:
+    var op = plan.operations[index].copy()
+    if (op.kind != "gelu_erf" and op.kind != "relu") or len(op.inputs) != 1 or op.weight.byte_length() != 0:
+        raise Error("DecoderActivation: invalid mathematical activation recipe")
+    var r = PrimitiveRecipe(index, op.inputs[0], op.output, op.kind)
+    r.runtime_preconditions = ["finite_real_inputs", "real_precision_unqualified"]
+    var shape = plan.tensors[op.inputs[0]].shape.copy()
+    var x = r.value(shape.copy())
+    if op.kind == "relu":
+        r.result = r.emit("maximum_zero", [x], shape.copy())
+    else:
+        # Exact algebraic 1/sqrt(2), rational 1/2 and integer 1 semantics.
+        # No hidden rounded Float32 constants and no device opcode claim.
+        var scaled = r.emit("multiply_inverse_sqrt_two", [x], shape.copy())
+        var cdf = r.emit("erf", [scaled], shape.copy())
+        var shifted = r.emit("add_one", [cdf], shape.copy())
+        var product = r.emit("multiply", [x, shifted], shape.copy())
+        r.result = r.emit("multiply_half", [product], shape.copy())
+    r.values[r.result].last_use = len(r.operations)
+    return r^
+
+
+
+def _selected_silu_recipe(plan: SemanticPlan, index: Int) raises -> PrimitiveRecipe:
+    var operation = plan.operations[index].copy()
+    var input = plan.tensors[operation.inputs[0]].copy()
+    var recipe = PrimitiveRecipe(index, operation.inputs[0], operation.output, operation.kind)
+    var x = recipe.value(input.shape.copy())
+    # Finite-real identity with no positive exponential argument.
+    # Device rounding/underflow/special-value policies are still open.
+    var magnitude = recipe.emit("abs", [x], input.shape.copy())
+    var negative = recipe.emit("negate", [magnitude], input.shape.copy())
+    var e = recipe.emit("exp", [negative], input.shape.copy())
+    var denominator = recipe.emit("add_one", [e], input.shape.copy())
+    var inv = recipe.emit("reciprocal", [denominator], input.shape.copy())
+    var negative_sigmoid = recipe.emit("multiply", [e, inv], input.shape.copy())
+    var predicate = recipe.emit("compare_nonnegative", [x], input.shape.copy(), "predicate")
+    var sigmoid = recipe.emit("select", [predicate, inv, negative_sigmoid], input.shape.copy())
+    recipe.result = recipe.emit("multiply", [x, sigmoid], input.shape.copy())
+    recipe.values[recipe.result].last_use = len(recipe.operations)
+    return recipe^

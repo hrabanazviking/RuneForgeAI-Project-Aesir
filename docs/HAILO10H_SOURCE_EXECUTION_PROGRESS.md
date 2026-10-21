@@ -15,7 +15,8 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
-| Source activation selection/lowering | Active pre-code audit | `TASK_hailo10h_decoder_activation_policy.md`; exact `HAILO10H_DECODER_ACTIVATION_DESIGN.md` and136 isolated primitive outputs. Implement qualified source activation policy/math and preserve old outputs. Full ordinary/numerical device gates open. |
+| Ordinary cache/session semantics | Active pre-code audit | `TASK_hailo10h_ordinary_cache_semantics.md`; reconcile source use_cache and selected persistent-cache graph, invocation/past/export/position ownership before the complete ordinary adapter. Numerical Hailo gates open. |
+| Source activation selection/lowering | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_ACTIVATION.md`;140 methods/4124 calls,46 builds,8 complete frozen GGUF and4 additional full comparisons. Other activations/full ordinary/numerical device gates remain open. |
 | Source-bound projection bias arithmetic | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_BIAS_GRAPH.md`;131 methods/3621 calls,41 builds,8 complete frozen outputs. Original vector addition and cache/matrix/storage integration; full ordinary/device gates open. |
 | Qualified ordinary head/bias schema | Verified source-header binding | `HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md`;14 methods/326 calls,4 builds,9 complete frozen outputs. Seven optional bias sources/layer and qualified heads; bias math/full ordinary/device gates open. |
 | Exact source scalar propagation | Verified source representation/math boundary | `HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`;115 methods/3111 calls including shared-import closure,32/64 source words through typed/recipe/expanded IR, no implicit narrowing. Complete ordinary semantics and numerical Hailo execution remain open. |

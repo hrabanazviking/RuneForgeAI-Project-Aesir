@@ -1,5 +1,6 @@
 # Original source graph construction. No numerical kernels or device program.
 from std.collections import Dict
+from smidr.activation_policy import DecoderActivationPolicy, empty_activation_policy, validate_activation_policy
 from smidr.bias_policy import DecoderBiasPolicy, empty_bias_policy, validate_bias_policy
 from std.math import isfinite
 from std.memory import bitcast
@@ -119,6 +120,9 @@ struct SemanticPlan(Movable):
     var source_layout: String
     var logits: Int
     var decoder_policy: DecoderGraphPolicy
+    var explicit_activation: Bool
+    var activation_policy: DecoderActivationPolicy
+    var activation_work: Int
     var explicit_bias: Bool
     var bias_policy: DecoderBiasPolicy
     var bias_work: Int
@@ -147,6 +151,9 @@ struct SemanticPlan(Movable):
         self.source_layout = String("")
         self.logits = -1
         self.decoder_policy = DecoderGraphPolicy(List[Int](), "", "")
+        self.explicit_activation = False
+        self.activation_policy = empty_activation_policy()
+        self.activation_work = 0
         self.explicit_bias = False
         self.bias_policy = empty_bias_policy()
         self.bias_work = 0
@@ -384,12 +391,38 @@ def build_decoder_semantic_plan(var source: SourceTensorInventory,
         query_tokens, past_tokens, context_capacity, bias, True)
 
 
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              parameters: DenseDecoderParameters, policy: DecoderGraphPolicy,
+                              bias: DecoderBiasPolicy, activation: DecoderActivationPolicy,
+                              query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    return _build_decoder_semantic_plan(source^, parameters, empty_decoder_scalars(), False,
+        policy, query_tokens, past_tokens, context_capacity, bias, True, activation, True)
+
+
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              geometry: DecoderGeometry, scalars: DecoderScalars,
+                              policy: DecoderGraphPolicy, bias: DecoderBiasPolicy,
+                              activation: DecoderActivationPolicy, query_tokens: Int,
+                              past_tokens: Int, context_capacity: Int) raises -> SemanticPlan:
+    _ = validate_decoder_scalars(scalars)
+    if scalars.work_limit > source.policy.work:
+        raise Error("SourceScalar: scalar work limit exceeds source policy")
+    var p = DenseDecoderParameters(geometry.layers, geometry.hidden, geometry.feed_forward,
+        geometry.heads, geometry.kv_heads, geometry.key_dim, geometry.value_dim,
+        geometry.rope_dim, geometry.vocabulary, geometry.source_context, 0, 0, geometry.source_layout)
+    return _build_decoder_semantic_plan(source^, p, scalars, True, policy,
+        query_tokens, past_tokens, context_capacity, bias, True, activation, True)
+
+
 def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                parameters: DenseDecoderParameters, scalars: DecoderScalars,
                                explicit: Bool, policy: DecoderGraphPolicy, query_tokens: Int,
                                past_tokens: Int, context_capacity: Int,
                                bias_policy: DecoderBiasPolicy = empty_bias_policy(),
-                               explicit_bias: Bool = False) raises -> SemanticPlan:
+                               explicit_bias: Bool = False,
+                               activation_policy: DecoderActivationPolicy = empty_activation_policy(),
+                               explicit_activation: Bool = False) raises -> SemanticPlan:
     """Build an explicitly selected mathematical recipe from tagged values."""
     validate_source_inventory(source)
     if explicit:
@@ -400,7 +433,13 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
     var bias_work = 0
     if explicit_bias:
         bias_work = validate_bias_policy(bias_policy, parameters.layers, len(source.bindings), source.policy.work)
+    var activation_work = 0
+    if explicit_activation:
+        activation_work = validate_activation_policy(activation_policy, parameters.layers, source.policy.work)
     var plan = SemanticPlan(source^)
+    plan.explicit_activation = explicit_activation
+    plan.activation_policy = activation_policy.copy()
+    plan.activation_work = activation_work
     plan.explicit_bias = explicit_bias
     plan.bias_policy = bias_policy.copy()
     plan.bias_work = bias_work
@@ -482,7 +521,8 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
             plan.weight(p + "ffn_up.bias", plan.feed_forward, 1, True)
             gate = plan.emit("add_projection_bias", p + "gate_biased", [gate], [query_tokens, plan.feed_forward], p + "ffn_gate.bias")
             up = plan.emit("add_projection_bias", p + "up_biased", [up], [query_tokens, plan.feed_forward], p + "ffn_up.bias")
-        gate = plan.emit("silu", p + "gate_silu", [gate], [query_tokens, plan.feed_forward])
+        var activation = activation_policy.kinds[layer] if explicit_activation else String("silu")
+        gate = plan.emit(activation, p + "gate_" + activation, [gate], [query_tokens, plan.feed_forward])
         gate = plan.emit("multiply", p + "gated", [gate, up], [query_tokens, plan.feed_forward])
         var down = plan.emit("linear", p + "down", [gate], [query_tokens, plan.hidden], p + "ffn_down.weight")
         if explicit_bias and bias_policy.mlp[layer] == 1:

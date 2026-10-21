@@ -1,3 +1,4 @@
+from smidr.tools.activation_policy import describe_activation_policy
 # Source-bound recipe inspector; no production arithmetic executor.
 from std.sys import argv
 from smidr.tools.bias_policy import describe_bias_policy
@@ -16,6 +17,9 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
     if lowered.explicit_bias:
         text = text.replace("\"schema_version\":1", "\"schema_version\":3").replace("\"schema_version\":2", "\"schema_version\":3")
         text += ",\"bias_policy\":" + describe_bias_policy(lowered.bias_policy, lowered.bias_work)
+    if lowered.explicit_activation:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":4").replace("\"schema_version\":2", "\"schema_version\":4").replace("\"schema_version\":3", "\"schema_version\":4")
+        text += ",\"activation_policy\":" + describe_activation_policy(lowered.activation_policy, lowered.activation_work)
     text += ",\"unresolved_gates\":[\"finite_precision_reduction_and_overflow\",\"special_values_and_transcendental_approximations\",\"quantization_weight_and_activation_layout\",\"lowered_storage_and_device_placement\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"recipes\":["
     for i in range(len(lowered.recipes)):
@@ -24,6 +28,8 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
         var recipe = lowered.recipes[i].copy()
         text += "{\"source_operation\":" + String(recipe.source_operation) + ",\"source_input\":" + String(recipe.source_input) + ",\"source_output\":" + String(recipe.source_output)
         text += ",\"kind\":" + _quote(recipe.kind) + ",\"weight_name\":" + _quote(recipe.weight_name) + ",\"divisor\":" + String(recipe.divisor) + ",\"epsilon_bits\":" + (String("null") if recipe.epsilon_scalar.width == 64 else String(recipe.epsilon_bits))
+        if lowered.explicit_activation:
+            text += ",\"source_inputs\":" + _integers(recipe.source_inputs) + ",\"input_values\":" + _integers(recipe.input_values)
         if lowered.explicit_scalars:
             text += ",\"epsilon_scalar\":" + describe_scalar_word(recipe.epsilon_scalar) + ",\"rotary_base_scalar\":" + describe_scalar_word(recipe.rotary_base_scalar)
         text += ",\"runtime_preconditions\":["

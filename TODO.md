@@ -71,6 +71,9 @@
 - [x] Source-bound projection bias mathematical graph/recipe/cache/storage:
   131 methods/3621 calls,41 builds,8 complete frozen outputs. No device execution.
   `docs/HAILO10H_MOJO_DECODER_BIAS_GRAPH.md`.
+- [x] Source activation mathematical selection/expansion:140 methods/4124 calls,
+  46 builds,8 complete frozen GGUF and4 additional full comparisons. No device
+  execution. `docs/HAILO10H_MOJO_DECODER_ACTIVATION.md`.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

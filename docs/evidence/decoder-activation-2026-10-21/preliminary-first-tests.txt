@@ -1,0 +1,45 @@
+test_01_choices_bias_order_and_independent_lifetimes (__main__.DecoderActivation.test_01_choices_bias_order_and_independent_lifetimes) ... FAIL
+test_02_source_projection_defaults_and_unresolved_selectors (__main__.DecoderActivation.test_02_source_projection_defaults_and_unresolved_selectors) ... ERROR
+test_03_bounds_and_exact_source_words (__main__.DecoderActivation.test_03_bounds_and_exact_source_words) ... ERROR
+test_04_mutations_and_consumer_boundaries (__main__.DecoderActivation.test_04_mutations_and_consumer_boundaries) ... ok
+
+======================================================================
+ERROR: test_02_source_projection_defaults_and_unresolved_selectors (__main__.DecoderActivation.test_02_source_projection_defaults_and_unresolved_selectors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_activation.py", line 109, in test_02_source_projection_defaults_and_unresolved_selectors
+    self.check(obj,expected,[kind]*2)
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_activation.py", line 70, in check
+    self.assertEqual(recipe["source_inputs"],[inp["id"]]);self.assertEqual(recipe["input_values"],[0])
+                     ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'source_inputs'
+
+======================================================================
+ERROR: test_03_bounds_and_exact_source_words (__main__.DecoderActivation.test_03_bounds_and_exact_source_words)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_activation.py", line 123, in test_03_bounds_and_exact_source_words
+    self.check(self.accept(self.invoke(root,",".join(kinds),attention="0,0",mlp="0,0",work=exact)),expected,kinds,[0,0],[0,0])
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_activation.py", line 70, in check
+    self.assertEqual(recipe["source_inputs"],[inp["id"]]);self.assertEqual(recipe["input_values"],[0])
+                     ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'source_inputs'
+
+======================================================================
+FAIL: test_01_choices_bias_order_and_independent_lifetimes (__main__.DecoderActivation.test_01_choices_bias_order_and_independent_lifetimes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_activation.py", line 98, in test_01_choices_bias_order_and_independent_lifetimes
+    obj=self.accept(self.invoke(root,",".join(kinds),scalar,flags,flags,shards=shards))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 76, in accept
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: OrdinaryProjectionSchema: declared head/source projection mismatch
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 10.094s
+
+FAILED (failures=1, errors=2)
+Native outcomes: {'refused': 325, 'accepted': 3}

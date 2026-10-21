@@ -71,3 +71,10 @@ under an exact published contract. Complete ordinary/numerical Hailo gates open.
 Source hidden_act remains retained while the selected typed recipe uses SiLU;
 qualify and implement explicit activation selection/lowering before calling an
 ordinary adapter complete. Actual numerical Hailo encoding/execution stays open.
+
+2026-10-21 source activation selection/math completed140 methods/4124 calls,
+46 builds under the published design. New active child:
+TASK_hailo10h_ordinary_cache_semantics.md. Source use_cache:false and the current
+selected recipe's persistent cache must be reconciled explicitly before ordinary
+adapter completion. Remaining activation variants, window/scaling/training and
+actual Hailo numerical execution remain implementation work under the full target.

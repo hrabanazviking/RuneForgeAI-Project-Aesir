@@ -1,3 +1,4 @@
+from smidr.tools.activation_policy import describe_activation_policy
 # Host-only source graph inspection. Does not submit executable device bytes.
 from std.sys import argv
 from smidr.tools.bias_policy import describe_bias_policy
@@ -32,6 +33,9 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
     if plan.explicit_bias:
         text = text.replace("\"schema_version\":1", "\"schema_version\":3").replace("\"schema_version\":2", "\"schema_version\":3")
         text += ",\"bias_policy\":" + describe_bias_policy(plan.bias_policy, plan.bias_work)
+    if plan.explicit_activation:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":4").replace("\"schema_version\":2", "\"schema_version\":4").replace("\"schema_version\":3", "\"schema_version\":4")
+        text += ",\"activation_policy\":" + describe_activation_policy(plan.activation_policy, plan.activation_work)
     text += ",\"source_bytes\":" + String(plan.source.source_bytes) + ",\"weight_bytes\":" + String(plan.source.weight_bytes) + ",\"weights\":{"
     var first = True
     for name in plan.used_weights:

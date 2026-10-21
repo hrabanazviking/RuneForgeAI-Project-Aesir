@@ -1,0 +1,107 @@
+[
+  {
+    "path": "smidr/primitive_recipes.mojo",
+    "line": 1,
+    "declaration": "from smidr.activation_graph import validate_plan_activation_state"
+  },
+  {
+    "path": "smidr/primitive_recipes.mojo",
+    "line": 4,
+    "declaration": "from smidr.activation_policy import DecoderActivationPolicy, empty_activation_policy"
+  },
+  {
+    "path": "smidr/matrix_tiles.mojo",
+    "line": 1,
+    "declaration": "from smidr.activation_graph import validate_plan_activation_state"
+  },
+  {
+    "path": "smidr/semantic_plan.mojo",
+    "line": 3,
+    "declaration": "from smidr.activation_policy import DecoderActivationPolicy, empty_activation_policy, validate_activation_policy"
+  },
+  {
+    "path": "smidr/decoder_activation_source.mojo",
+    "line": 3,
+    "declaration": "from smidr.activation_policy import DecoderActivationPolicy, activation_policy_charge, validate_activation_policy"
+  },
+  {
+    "path": "smidr/storage_estimate.mojo",
+    "line": 1,
+    "declaration": "from smidr.activation_graph import validate_plan_activation_state"
+  },
+  {
+    "path": "smidr/expanded_graph.mojo",
+    "line": 1,
+    "declaration": "from smidr.activation_graph import validate_plan_activation_state"
+  },
+  {
+    "path": "smidr/expanded_graph.mojo",
+    "line": 2,
+    "declaration": "from smidr.activation_policy import same_activation_policy, activation_kind_supported"
+  },
+  {
+    "path": "smidr/activation_graph.mojo",
+    "line": 3,
+    "declaration": "from smidr.activation_policy import empty_activation_policy, same_activation_policy, validate_activation_policy, activation_kind_supported"
+  },
+  {
+    "path": "smidr/cache_layout.mojo",
+    "line": 1,
+    "declaration": "from smidr.activation_graph import validate_plan_activation_state"
+  },
+  {
+    "path": "smidr/tools/primitive_recipes.mojo",
+    "line": 1,
+    "declaration": "from smidr.tools.activation_policy import describe_activation_policy"
+  },
+  {
+    "path": "smidr/tools/semantic_plan.mojo",
+    "line": 1,
+    "declaration": "from smidr.tools.activation_policy import describe_activation_policy"
+  },
+  {
+    "path": "smidr/tools/activation_policy.mojo",
+    "line": 1,
+    "declaration": "from smidr.activation_policy import DecoderActivationPolicy"
+  },
+  {
+    "path": "smidr/tools/decoder_activation_graph.mojo",
+    "line": 19,
+    "declaration": "from smidr.activation_policy import DecoderActivationPolicy"
+  },
+  {
+    "path": "smidr/tools/decoder_activation_graph.mojo",
+    "line": 20,
+    "declaration": "from smidr.decoder_activation_source import source_decoder_activations"
+  },
+  {
+    "path": "smidr/tools/expanded_graph.mojo",
+    "line": 1,
+    "declaration": "from smidr.tools.activation_policy import describe_activation_policy"
+  },
+  {
+    "path": "tests/hailo_decoder_activation_api.mojo",
+    "line": 4,
+    "declaration": "from smidr.activation_policy import DecoderActivationPolicy, same_activation_policy, activation_policy_charge"
+  },
+  {
+    "path": "tests/hailo_decoder_activation_api.mojo",
+    "line": 5,
+    "declaration": "from smidr.tools.decoder_activation_graph import parse_activation_kinds"
+  },
+  {
+    "path": "tests/hailo_activation_ownership.mojo",
+    "line": 4,
+    "declaration": "from smidr.activation_policy import same_activation_policy"
+  },
+  {
+    "path": "tests/hailo_activation_gguf.mojo",
+    "line": 7,
+    "declaration": "from smidr.activation_policy import DecoderActivationPolicy"
+  },
+  {
+    "path": "tests/hailo_activation_gguf.mojo",
+    "line": 8,
+    "declaration": "from smidr.tools.decoder_activation_graph import parse_activation_kinds"
+  }
+]

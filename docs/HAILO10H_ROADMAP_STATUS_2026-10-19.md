@@ -1,3 +1,10 @@
+> **2026-10-21 source compiler update:** activation mathematical lowering passes
+> 140 methods/4124 calls and46 builds; source32/64 words, bias ordering and
+> complete legacy outputs are preserved. Active next work is ordinary cache/
+> session semantics under `TASK_hailo10h_ordinary_cache_semantics.md`; current
+> frontier remains `HAILO10H_SOURCE_EXECUTION_PROGRESS.md`. All committed branch
+> history is integrated into main. Full numerical Hailo execution remains open.
+
 > **2026-10-20 integration update:** owner requested all current branches into
 > main. `1edae4f` includes AES500, latest Hailo, consistency and old local C7
 > history, with exact remote tree/ancestry verified. This supersedes the older

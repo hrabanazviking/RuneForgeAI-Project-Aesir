@@ -1,3 +1,5 @@
+from smidr.activation_graph import validate_plan_activation_state
+from smidr.activation_policy import same_activation_policy, activation_kind_supported
 # Original source-to-global mathematical IR integration; never execution.
 from std.collections import Dict
 from smidr.bias_policy import same_bias_policy
@@ -6,7 +8,7 @@ from smidr.source_inventory import validate_source_weight
 from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar
 from smidr.source_scalars import ScalarWord, same_scalar_word, same_decoder_scalars, scalar32_mirror
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
-from smidr.primitive_recipes import _rotary_recipe, _projection_bias_recipe
+from smidr.primitive_recipes import _rotary_recipe, _projection_bias_recipe, _activation_recipe, _selected_silu_recipe
 from smidr.rotary_policy import RotaryLoweringPolicy, validate_rotary_policy
 
 
@@ -241,6 +243,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
 def validate_rotary_expansion(graph: ExpandedGraph) raises:
     validate_scalar_expansion(graph)
     validate_bias_expansion(graph)
+    validate_activation_expansion(graph)
     var enabled = graph.recipes.rotary_policy.pairing.byte_length() != 0
     if enabled:
         if validate_rotary_policy(graph.source, graph.recipes.rotary_policy) != graph.recipes.rotary_work:
@@ -396,3 +399,80 @@ def validate_scalar_expansion(graph: ExpandedGraph) raises:
         var base = rotary_scalar(graph.source) if (kind == "rope_query" or kind == "rope_key") and op.recipe_step >= 0 else empty.copy()
         if not same_scalar_word(op.epsilon_scalar, epsilon) or not same_scalar_word(op.rotary_base_scalar, base) or op.epsilon_bits != scalar32_mirror(epsilon) or op.rotary_base_bits != scalar32_mirror(base):
             raise Error("ExpandedStorage: expanded scalar/mirror changed")
+
+
+
+def validate_activation_expansion(graph: ExpandedGraph) raises:
+    validate_plan_activation_state(graph.source)
+    if graph.recipes.explicit_activation != graph.source.explicit_activation or graph.recipes.activation_work != graph.source.activation_work or not same_activation_policy(graph.recipes.activation_policy, graph.source.activation_policy):
+        raise Error("ExpandedStorage: retained activation policy/accounting changed")
+    if not graph.source.explicit_activation:
+        return
+    var stored = Dict[Int, Int]()
+    for i in range(len(graph.recipes.recipes)):
+        var id = graph.recipes.recipes[i].source_operation
+        if id < 0 or id >= len(graph.source.operations) or id in stored:
+            raise Error("ExpandedStorage: invalid retained activation recipe identity")
+        stored[id] = i
+    var seen = Dict[Int, Bool]()
+    var cursor = 0
+    while cursor < len(graph.operations):
+        var id = graph.operations[cursor].source_operation
+        if id < 0 or id >= len(graph.source.operations):
+            raise Error("ExpandedStorage: invalid activation source identity")
+        var kind = graph.source.operations[id].kind
+        if not activation_kind_supported(kind):
+            var k = graph.operations[cursor].kind
+            if k == "maximum_zero" or k == "multiply_inverse_sqrt_two" or k == "erf" or k == "multiply_half":
+                raise Error("ExpandedStorage: stray selected activation primitive")
+            cursor += 1
+            continue
+        if id in seen or id not in stored:
+            raise Error("ExpandedStorage: duplicate/missing activation recipe group")
+        seen[id] = True
+        var expected = _selected_silu_recipe(graph.source, id) if kind == "silu" else _activation_recipe(graph.source, id)
+        var retained = graph.recipes.recipes[stored[id]].copy()
+        if retained.source_operation != expected.source_operation or retained.source_input != expected.source_input or retained.source_inputs != expected.source_inputs or retained.input_values != expected.input_values or retained.source_output != expected.source_output or retained.kind != expected.kind or retained.result != expected.result or retained.runtime_preconditions != expected.runtime_preconditions or len(retained.values) != len(expected.values) or len(retained.operations) != len(expected.operations):
+            raise Error("ExpandedStorage: changed retained activation identity/mapping")
+        if retained.weight_name.byte_length() != 0 or retained.weight.file_offset != 0 or retained.weight.columns != 0 or retained.weight.rows != 0 or retained.weight.source_kind != 0 or retained.weight.byte_count != 0 or retained.weight_storage.source_format.byte_length() != 0 or retained.weight_storage.source_kind != 0 or retained.weight_storage.original_name.byte_length() != 0 or retained.weight_storage.source_path.byte_length() != 0 or len(retained.weight_storage.source_shape) != 0 or retained.weight_storage.axis_order.byte_length() != 0 or retained.weight_storage.elements != 0 or retained.weight_storage.file_offset != 0 or retained.weight_storage.byte_count != 0 or retained.weight_extent.source_format.byte_length() != 0 or retained.weight_extent.source_bytes != 0 or retained.weight_extent.data_offset != 0 or retained.divisor != 0 or retained.epsilon_bits != 0 or retained.rotary_dim != 0 or retained.rotary_base_bits != 0 or retained.rotary_pairing.byte_length() != 0 or retained.rotary_provenance.byte_length() != 0:
+            raise Error("ExpandedStorage: stray retained activation metadata")
+        for j in range(len(expected.values)):
+            if retained.values[j].shape != expected.values[j].shape or retained.values[j].elements != expected.values[j].elements or retained.values[j].domain != expected.values[j].domain or retained.values[j].producer != expected.values[j].producer or retained.values[j].last_use != expected.values[j].last_use:
+                raise Error("ExpandedStorage: changed activation local value/lifetime")
+        var local = Dict[Int, Int]()
+        if expected.source_input not in graph.source_values:
+            raise Error("ExpandedStorage: missing activation input mapping")
+        local[0] = graph.source_values[expected.source_input]
+        for j in range(len(expected.operations)):
+            if cursor >= len(graph.operations):
+                raise Error("ExpandedStorage: truncated activation recipe")
+            var actual = graph.operations[cursor].copy()
+            var op = expected.operations[j].copy()
+            if retained.operations[j].kind != op.kind or retained.operations[j].inputs != op.inputs or retained.operations[j].output != op.output:
+                raise Error("ExpandedStorage: changed retained activation operation")
+            if actual.source_operation != id or actual.recipe_step != j or actual.kind != op.kind or len(actual.inputs) != len(op.inputs) or actual.runtime_preconditions != expected.runtime_preconditions or actual.width != 0 or actual.epsilon_bits != 0 or actual.rotary_dim != 0 or actual.rotary_base_bits != 0 or actual.rotary_pairing.byte_length() != 0 or actual.rotary_provenance.byte_length() != 0 or actual.source_weight.byte_length() != 0:
+                raise Error("ExpandedStorage: changed expanded activation metadata")
+            for k in range(len(op.inputs)):
+                if op.inputs[k] not in local or actual.inputs[k] != local[op.inputs[k]]:
+                    raise Error("ExpandedStorage: changed activation primitive edge")
+            if actual.output < 0 or actual.output >= len(graph.values):
+                raise Error("ExpandedStorage: invalid activation primitive result")
+            var value = graph.values[actual.output].copy()
+            var wanted = expected.values[op.output].copy()
+            var result = op.output == expected.result
+            var name = graph.source.tensors[expected.source_output].name
+            var source_id = expected.source_output if result else -1
+            if not result:
+                name += ".primitive." + String(j)
+            if value.shape != wanted.shape or value.elements != wanted.elements or value.domain != wanted.domain or value.producer != cursor or value.storage != "activation" or value.alias_of != -1 or value.name != name or value.source_tensor != source_id or value.source_weight.byte_length() != 0:
+                raise Error("ExpandedStorage: changed activation primitive result role")
+            local[op.output] = actual.output
+            cursor += 1
+        if expected.source_output not in graph.source_values or graph.source_values[expected.source_output] != local[expected.result]:
+            raise Error("ExpandedStorage: changed activation result mapping")
+        for remaining in graph.recipes.remaining_source_operations:
+            if remaining == id:
+                raise Error("ExpandedStorage: lowered activation marked as remaining")
+    for i in range(len(graph.source.operations)):
+        if activation_kind_supported(graph.source.operations[i].kind) and i not in seen:
+            raise Error("ExpandedStorage: omitted selected activation expansion")

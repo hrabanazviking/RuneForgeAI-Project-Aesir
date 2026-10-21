@@ -1,3 +1,4 @@
+from smidr.activation_graph import validate_plan_activation_state
 # Original explicit cache address scenario. No allocation, cache data or math.
 from std.collections import Dict
 from smidr.bias_graph import validate_plan_bias_state
@@ -85,6 +86,7 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
     _policy(policy)
     validate_source_inventory(plan.source)
     validate_plan_bias_state(plan)
+    validate_plan_activation_state(plan)
     if plan.hidden <= 0:
         raise Error("CacheLayout: invalid source hidden dimension")
     if plan.layers <= 0 or plan.layers > len(plan.tensors) // 2 or len(plan.operations) == 0 or plan.context_capacity <= 0 or plan.query_tokens <= 0 or plan.past_tokens < 0 or plan.past_tokens > plan.context_capacity or plan.query_tokens > plan.context_capacity - plan.past_tokens or plan.heads <= 0 or plan.kv_heads <= 0 or plan.heads % plan.kv_heads != 0:

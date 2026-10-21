@@ -1,0 +1,16 @@
+{
+  "mojo": "Mojo 1.1.0 (8189361e)",
+  "python": "3.11.2",
+  "machine": "aarch64",
+  "compiler_options": [
+    "build",
+    "-I",
+    ".",
+    "-I",
+    "aesir_engine",
+    "-I",
+    "tests"
+  ],
+  "LLM_execution": false,
+  "hardware_access": false
+}
