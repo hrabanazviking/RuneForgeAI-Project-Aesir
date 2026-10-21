@@ -1,3 +1,13 @@
+## 2026-10-21 — Codex: contracted original default/linear scaling integration
+
+- Froze58 verified compiler binaries with modes/hashes and188 Mojo source hashes
+  before production changes. Exact owned policy/source/math/consumer/lifetime/
+  storage/acceptance contract: docs/HAILO10H_DECODER_SCALING_DESIGN.md.
+- Preserve raw legacy/modern/default/null fields and exact factor32/64 words.
+  Original linear frequency division is an abstract operation; no device opcode,
+  model forward or complete ordinary adapter is claimed. Other variants remain work.
+- Native implementation follows publication. Full Hailo numerical gate remains open.
+
 ## 2026-10-21 — Codex: qualified ordinary scaling constructor facts
 
 - Licensed pinned4.57.1 constructor audit48 cases; complete original/caller-after/

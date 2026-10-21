@@ -32,3 +32,9 @@ docs/HAILO10H_ORDINARY_SCALING_AUDIT.md. Legacy selector mutation and warning-be
 constructor permissiveness are retained facts, not a numerical adapter rule.
 Next qualify the mathematical/constant/index rules and publish an exact original
 native contract before production scaling changes. No native scaling code yet.
+
+2026-10-21 exact original default/linear native contract:
+docs/HAILO10H_DECODER_SCALING_DESIGN.md.58 predecessor entrypoints/188 source
+identities frozen before code. Owned source selector/factor representation,
+semantic binding,13/14-step rotary recipes, lifetime/storage and independent
+acceptance are fixed before production edits. Other variants stay required work.
