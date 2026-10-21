@@ -432,3 +432,16 @@ snapshot/role/mirror consistency. New explicit diagnostics use version2/null
 unavailable values; old outputs remain unchanged. Source width is not device
 arithmetic width or a complete ordinary adapter. See
 `docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`;108 methods/2996 calls.
+
+
+## Qualified ordinary projection schema — 2026-10-21
+
+OrdinaryProjectionSchema owns SourceProjectionIntent plus qualified head_dim,
+origin/provenance and bounded accounting. bind_ordinary_projection_schema binds
+seven optional bias sources/layer against source flags/output axes and checks
+Q/K/V/O against explicit head_dim or qualified floor(H/Q). The matching validator
+rederives all source/decision state. Use that validator for this wrapper; old
+projection intent deliberately retains its smaller schema/independent widths.
+Complete raw config/source tags/metadata/unresolved notes survive. Header binding
+is not bias math, full architecture, physical fit or numerical model execution.
+Receipt docs/HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md;14 methods/326 calls.

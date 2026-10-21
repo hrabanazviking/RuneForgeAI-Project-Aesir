@@ -22,8 +22,7 @@ def _snapshot(file: SourceStorageInventory) -> SourceStorageInventory:
         file.data_offset, file.tensors.copy(), file.metadata.copy())
 
 
-def describe_decoder_projections(intent: SourceProjectionIntent) raises -> String:
-    validate_decoder_projections(intent, intent.policy)
+def _describe_decoder_projections(intent: SourceProjectionIntent) raises -> String:
     var text = String("{\"schema_version\":1,\"scope\":\"ordinary_projection_binding_intent\",\"complete_architecture_verified\":false,\"source_fingerprint_verified\":false,\"execution_tested\":false,\"device_access\":false,\"key_dim\":") + String(intent.key_dim)
     text += ",\"value_dim\":" + String(intent.value_dim) + ",\"output_weight\":" + _quote(intent.output_weight) + ",\"work_units\":" + String(intent.work_units)
     text += ",\"source\":" + describe_semantic_storage(intent.source) + ",\"architecture\":" + describe_decoder_architecture(intent.architecture) + ",\"file_metadata\":{"
@@ -44,6 +43,11 @@ def describe_decoder_projections(intent: SourceProjectionIntent) raises -> Strin
             text += ","
         text += _quote(intent.unresolved[i])
     return text + "]}"
+
+
+def describe_decoder_projections(intent: SourceProjectionIntent) raises -> String:
+    validate_decoder_projections(intent, intent.policy)
+    return _describe_decoder_projections(intent)
 
 
 def main() raises:

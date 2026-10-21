@@ -1,0 +1,16 @@
+{
+  "new_methods": 7,
+  "new_calls": 211,
+  "new_accepted": 86,
+  "new_expected_refusals": 125,
+  "regression_methods": 7,
+  "regression_calls": 115,
+  "total_methods": 14,
+  "total_calls": 326,
+  "accepted": 136,
+  "expected_refusals": 190,
+  "rebuilt_entrypoints": 4,
+  "full_legacy_comparisons": 9,
+  "actual_source_headers": 326,
+  "numerical_execution": false
+}

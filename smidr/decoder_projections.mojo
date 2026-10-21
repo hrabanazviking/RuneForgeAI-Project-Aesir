@@ -39,7 +39,7 @@ def _same_policy(a: DecoderProjectionPolicy, b: DecoderProjectionPolicy) raises:
 
 
 def _work(architecture: SourceDecoderArchitecture, files: List[SourceStorageInventory],
-          policy: DecoderProjectionPolicy) raises -> Int:
+          policy: DecoderProjectionPolicy, extended: Bool = False) raises -> Int:
     if policy.source.files <= 0 or policy.source.tensors <= 0 or policy.source.rank <= 0 or policy.source.work <= 0 or policy.work <= 0 or policy.provenance.byte_length() == 0 or len(files) == 0 or len(files) > policy.source.files:
         raise Error("DecoderProjections: explicit positive source/work/provenance required")
     var count = 0
@@ -48,7 +48,10 @@ def _work(architecture: SourceDecoderArchitecture, files: List[SourceStorageInve
     var layers = architecture.layers.layer_count
     if count < 2 or layers <= 0 or layers > (count - 2) // 9 or layers > (9223372036854775807 - 3) // 9:
         raise Error("DecoderProjections: layer roles exceed actual source evidence")
-    var slots = 9 * layers + 3
+    var role_count = 16 if extended else 9
+    if layers > (9223372036854775807 - 3) // role_count:
+        raise Error("DecoderProjections: role count overflow")
+    var slots = role_count * layers + 3
     if slots > policy.work // 128 or count > policy.work // 8:
         raise Error("DecoderProjections: alias slot work bound exceeded")
     var work = _charge(slots * 128, count * 8, policy.work)
@@ -69,7 +72,7 @@ def _work(architecture: SourceDecoderArchitecture, files: List[SourceStorageInve
     return work
 
 
-def _roles(layers: Int) raises -> Dict[String, String]:
+def _roles(layers: Int, extended: Bool = False) raises -> Dict[String, String]:
     # Each original/canonical pair was prepaid with a128-unit slot reserve.
     var result = Dict[String, String]()
     result["model.embed_tokens.weight"] = "token_embd.weight"
@@ -77,6 +80,9 @@ def _roles(layers: Int) raises -> Dict[String, String]:
     result["lm_head.weight"] = "output.weight"
     var originals: List[String] = ["input_layernorm.weight", "post_attention_layernorm.weight", "self_attn.q_proj.weight", "self_attn.k_proj.weight", "self_attn.v_proj.weight", "self_attn.o_proj.weight", "mlp.gate_proj.weight", "mlp.up_proj.weight", "mlp.down_proj.weight"]
     var canonical: List[String] = ["attn_norm.weight", "ffn_norm.weight", "attn_q.weight", "attn_k.weight", "attn_v.weight", "attn_output.weight", "ffn_gate.weight", "ffn_up.weight", "ffn_down.weight"]
+    if extended:
+        originals.extend([String("self_attn.q_proj.bias"), String("self_attn.k_proj.bias"), String("self_attn.v_proj.bias"), String("self_attn.o_proj.bias"), String("mlp.gate_proj.bias"), String("mlp.up_proj.bias"), String("mlp.down_proj.bias")])
+        canonical.extend([String("attn_q.bias"), String("attn_k.bias"), String("attn_v.bias"), String("attn_output.bias"), String("ffn_gate.bias"), String("ffn_up.bias"), String("ffn_down.bias")])
     for layer in range(layers):
         var prefix = String("model.layers.") + String(layer) + "."
         var target = String("blk.") + String(layer) + "."
@@ -85,14 +91,14 @@ def _roles(layers: Int) raises -> Dict[String, String]:
     return result^
 
 
-def bind_decoder_projections(architecture: SourceDecoderArchitecture,
+def _bind_decoder_projections(architecture: SourceDecoderArchitecture,
                              files: List[SourceStorageInventory],
-                             policy: DecoderProjectionPolicy) raises -> SourceProjectionIntent:
-    var work = _work(architecture, files, policy)
+                             policy: DecoderProjectionPolicy, extended: Bool) raises -> SourceProjectionIntent:
+    var work = _work(architecture, files, policy, extended)
     validate_decoder_architecture(architecture, architecture.policy)
     if "num_key_value_heads" not in architecture.dimensions:
         raise Error("DecoderProjections: explicit KV-head source semantics unresolved")
-    var roles = _roles(architecture.layers.layer_count)
+    var roles = _roles(architecture.layers.layer_count, extended)
     var source = SourceTensorInventory()
     source.architecture = architecture.layers.model_type
     source.policy = policy.source.copy()
@@ -146,6 +152,16 @@ def bind_decoder_projections(architecture: SourceDecoderArchitecture,
         validate_source_weight(source, p + "ffn_gate.weight", hidden, ff, False)
         validate_source_weight(source, p + "ffn_up.weight", hidden, ff, False)
         validate_source_weight(source, p + "ffn_down.weight", ff, hidden, False)
+        if extended:
+            var names: List[String] = ["attn_q.bias", "attn_k.bias", "attn_v.bias", "attn_output.bias", "ffn_gate.bias", "ffn_up.bias", "ffn_down.bias"]
+            var sizes: List[Int] = [checked_product(heads, key_width), checked_product(kv, key_width), checked_product(kv, value_width), hidden, ff, ff, hidden]
+            for j in range(len(names)):
+                var enabled = architecture.flags["attention_bias"] if j < 4 else architecture.flags["mlp_bias"]
+                var name = p + names[j]
+                if enabled:
+                    validate_source_weight(source, name, sizes[j], 1, True)
+                elif name in source.bindings:
+                    raise Error("DecoderProjections: bias source contradicts disabled flag")
     var has_output = "output.weight" in source.bindings
     if has_output:
         validate_source_weight(source, "output.weight", hidden, vocab, False)
@@ -174,6 +190,12 @@ def bind_decoder_projections(architecture: SourceDecoderArchitecture,
     var owned_architecture = source_decoder_architecture(architecture.layers, architecture.policy)
     return SourceProjectionIntent(owned_architecture^, snapshots^, source^, key_dim,
         value_dim, output^, notes^, policy.copy(), work)
+
+
+def bind_decoder_projections(architecture: SourceDecoderArchitecture,
+                             files: List[SourceStorageInventory],
+                             policy: DecoderProjectionPolicy) raises -> SourceProjectionIntent:
+    return _bind_decoder_projections(architecture, files, policy, False)
 
 
 def _same_source(a: SourceTensorInventory, b: SourceTensorInventory) raises:

@@ -65,6 +65,9 @@
 - [x] Exact source scalar words through math/expanded lowering:108 methods/2996
   calls,32 rebuilt entrypoints,20 new complete old outputs.
   `docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md`. Source/IR only.
+- [x] Qualified ordinary head/bias source schema:14 methods/326 calls,4 builds,
+  9 complete frozen outputs. Header binding only; bias math/device work remains.
+  `docs/HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md`.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

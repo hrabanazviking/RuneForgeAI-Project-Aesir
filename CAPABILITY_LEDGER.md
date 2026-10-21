@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 107 |
+| `verified` | 108 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **152** |
+| **Total** | **153** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3323,3 +3323,23 @@ Source-scalar shared import closure for AES-SOURCE-013: two additional ordinary
 projection entrypoints rebuilt,7 methods/115 calls pass; combined115 methods/
 3111 calls and34 builds. See docs/HAILO10H_MOJO_SOURCE_SCALAR_PRECISION.md.
 No new capability ID or hardware/complete-source execution claim.
+
+
+### AES-SOURCE-014 — Qualified ordinary head and bias source headers
+
+- **Status:** `verified`
+- **Owner:** original ordinary_projection_schema and extended source role binder.
+- **Claim sources:** TASK_hailo10h_ordinary_projection_schema.md and
+  docs/HAILO10H_ORDINARY_PROJECTION_SCHEMA_DESIGN.md, published before code.
+- **Implementation evidence:** Owned qualified head declaration, seven optional
+  bias aliases per layer, full tagged source/header/flag consistency and budgets.
+- **Executable evidence:** docs/HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md;
+  14 methods/326 calls,4 warning-free builds,9 complete frozen outputs and326
+  actual metadata-only source headers. New suite7/211,86 accepted125 refused.
+- **Evidence boundary:** Header geometry/source binding only; old independent
+  K/V intent unchanged. No bias arithmetic/full ordinary architecture, source
+  fingerprint, physical fit, numerical Hailo program or LLM execution claim.
+- **Next acceptance gate:** Original bias arithmetic/ordinary graph integration
+  and actual Hailo numerical configuration/encoding/execution under the fixed target.
+- **Audit:** Licensed meta-only constructor evidence and original independent
+  source/ownership/mutation/negative traces retained; no external runtime/compiler.

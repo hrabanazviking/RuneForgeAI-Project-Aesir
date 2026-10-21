@@ -1,0 +1,26 @@
+[
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/ordinary-schema",
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/ordinary-schema-api",
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/decoder-projections",
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/decoder-projections-api",
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc",
+    "returncode": 0
+  }
+]

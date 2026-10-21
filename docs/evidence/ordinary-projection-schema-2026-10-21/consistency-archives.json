@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-consistency-baseline.txt",
+    "bytes": 1954122,
+    "sha256": "1ed4417ab78ee83280a3300cf65cf342c23742f1c0c9bf2138c06a59866d8f9d"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-consistency-current.txt",
+    "bytes": 1954122,
+    "sha256": "01af53e18fe33ba1ff5def7df58fb3858855daf1687f0fa787beded0c5b6c0a9"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-consistency-final.txt",
+    "bytes": 1991381,
+    "sha256": "f4f1a4cda3177ec67b70ed75686df046bacb6d00e4e81bbcc8e87e97e884e4ca"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-consistency-closure.txt",
+    "bytes": 1991718,
+    "sha256": "9ec9b2dee70f9bcd655abae31c3e34eaa5f9dac8c344e9e446aefb3f10a52997"
+  }
+]

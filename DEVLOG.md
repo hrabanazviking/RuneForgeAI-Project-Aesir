@@ -1,3 +1,14 @@
+## 2026-10-21 — Codex: qualified ordinary heads and optional bias sources
+
+- Contract aaedcd2 published before code; licensed meta-only12-case constructor
+  facts. Original separate owned schema and full bias/header/source consistency.
+- New7/211 plus legacy7/115 pass;4 warning-free builds,9 complete frozen outputs,
+  actual326 metadata-only headers. No source payload/model/layer/attention forward.
+- Complete source/raw/unknown modifier ownership remains; old independent K/V
+  intent unchanged. Receipt docs/HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md.
+- Continue bias arithmetic/full ordinary graph and actual Hailo numerical
+  encoding/configuration/execution. Broad target unchanged; no outside compiler.
+
 ## 2026-10-21 — Codex: exact source scalar words through math lowering
 
 - Published contract c5158d8 before code. Original tagged32/64 constants,

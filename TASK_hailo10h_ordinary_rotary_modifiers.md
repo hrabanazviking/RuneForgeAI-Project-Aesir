@@ -60,3 +60,8 @@ adapter, alongside actual numerical Hailo configuration/encoding/execution.
 Qualified constructor metadata and the separate exact head/bias source-binding
 contract are published before production edits. Scalar shared-import closure
 now115 methods/3111 calls/34 rebuilt entrypoints; initial receipt remains intact.
+
+2026-10-21 qualified head/bias binding child completed14 methods/326 calls;
+new active child:TASK_hailo10h_decoder_bias_graph.md. Actual original bias
+sources are bound; next implement their arithmetic/broadcast/lifetime integration
+under an exact published contract. Complete ordinary/numerical Hailo gates open.

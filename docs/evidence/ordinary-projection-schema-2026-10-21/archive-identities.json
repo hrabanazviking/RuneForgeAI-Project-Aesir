@@ -1,0 +1,122 @@
+[
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-test-final/late-head-refusal.strace",
+    "bytes": 27183,
+    "sha256": "86c97218d0ef39293b28a3b40a00923460938506a7e6702374f130b6f2fb473c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-test-final/owned-readonly.strace",
+    "bytes": 27245,
+    "sha256": "09b796ab49a69dde5c3a1dd8dfb01fca48a91cb14949ba5d6549ed994a56b34a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-test-final/real-metadata.strace",
+    "bytes": 26929,
+    "sha256": "6da6ad258c7428d45cfdc0eceb8bbab7b3703ff3180052c54103bff2102e1367"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-test-final/runs.json",
+    "bytes": 134983,
+    "sha256": "cf53b81d7d9959d32cf07e491153bf2afefef315f127072a64bd0fe98952e17c"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-test-final/summary.json",
+    "bytes": 39,
+    "sha256": "dc44880c44e164968ad1f44cf87b19f38b207393a2eaeda9d39aa1ede885402b"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-legacy-regressions/indexed.strace",
+    "bytes": 28407,
+    "sha256": "8cf95de635c405fdc7ece9184dea7ed52e75b1a58d5c98983961daa07d026680"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-legacy-regressions/late-output-refusal.strace",
+    "bytes": 27155,
+    "sha256": "dce8f80fc8ac894b294162161d3aa01fd9c6ea53010873f60a8b727285174205"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-legacy-regressions/remote-headers.strace",
+    "bytes": 26929,
+    "sha256": "533043aab39730d7beb99de5dad9a55e5fd8b955ec0be3f9d0a89f4ec46288ee"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-legacy-regressions/runs.json",
+    "bytes": 72747,
+    "sha256": "961a35b8ac698712cea642acab19cc44fea54f75d18cd9cb3f360484d6240f1a"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-legacy-regressions/summary.json",
+    "bytes": 38,
+    "sha256": "3b9a2063174e2f51f184d596b41eb42476b58807ea80dee56d72fc1e07f20178"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-legacy-regressions/unindexed.strace",
+    "bytes": 27221,
+    "sha256": "7636bb61f03589f4cbddedebfaa406c6823b78018134cf9f3f83bf1967f2583f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/build-results.json",
+    "bytes": 1137,
+    "sha256": "a64d10b5ff6ac530859b690d6779cb72640fa195c433e5da76f28b2ab794f41f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/decoder-projections",
+    "bytes": 567464,
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/decoder-projections-api",
+    "bytes": 568128,
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/decoder-projections-api.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/decoder-projections.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/legacy-regressions.txt",
+    "bytes": 154,
+    "sha256": "2822c3f6ebbb3eed0e58bce7ec69615a2105a6a31b7accf3c360c473def7260f"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/ordinary-schema",
+    "bytes": 568488,
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/ordinary-schema-api",
+    "bytes": 569952,
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/ordinary-schema-api.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/ordinary-schema.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/source-hashes.json",
+    "bytes": 15814,
+    "sha256": "2c9e223a3b16bb5919650c7e97f93d67c3480485bb286edbe5134a3bb545a4fa"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/test-final.txt",
+    "bytes": 1007,
+    "sha256": "a5283849b1e19eaa5e56236abff869d21663445191a7d00b065f660af485e395"
+  },
+  {
+    "path": "/home/pi/Documents/Codex/2026-10-19/u/work/ordinary-projection-schema-build/test-initial.txt",
+    "bytes": 1007,
+    "sha256": "f63937da5c5c0801a9538ae0212b9d24075eb8a0a5c5f9a7fbe1bf63da11139d"
+  }
+]

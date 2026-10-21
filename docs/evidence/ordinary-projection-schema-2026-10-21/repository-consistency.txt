@@ -1,0 +1,5 @@
+Whole repository checker remains failing.
+Baseline 18343 issues; current 18689.
+New receipt-path diagnostics 346; new nonreceipt issues0; removed0.
+Raw complete outputs remain external with hashes in consistency-archives.json.
+This is a normalized delta, not a whole-repository pass.
