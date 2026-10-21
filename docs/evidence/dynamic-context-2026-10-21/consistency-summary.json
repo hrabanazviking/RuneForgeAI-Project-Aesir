@@ -1,0 +1,30 @@
+{
+  "baseline": 23295,
+  "current": 23296,
+  "added": 1,
+  "removed": 0,
+  "new_nonreceipt": [],
+  "ledger_entries": 159,
+  "ledger_census": {
+    "verified": 114,
+    "partial": 29,
+    "missing": 15,
+    "blocked": 1
+  },
+  "unchanged_historical_ledger_diagnostics": [
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "status must be one backticked canonical value",
+    "malformed capability heading"
+  ],
+  "whole_repository_pass": false,
+  "raw_identities": {
+    "../dynamic-basis-consistency.txt": "33f0e8837047d6febef8a23ca728720c97dd2c32831360bb24eddcb800d069c6",
+    "../dynamic-context-consistency.txt": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8"
+  }
+}

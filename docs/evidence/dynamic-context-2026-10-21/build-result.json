@@ -1,0 +1,30 @@
+{
+  "entrypoint": "tests/hailo_dynamic_rotary_context.mojo",
+  "command": [
+    "mojo",
+    "build",
+    "-I",
+    ".",
+    "-I",
+    "aesir_engine",
+    "-I",
+    "tests",
+    "tests/hailo_dynamic_rotary_context.mojo",
+    "-o",
+    "../dynamic-context-final/dynamic-context"
+  ],
+  "environment": {
+    "MODULAR_CACHE_DIR": "../mojo-cache"
+  },
+  "tool_version": "Mojo 1.1.0 (8189361e)",
+  "returncode": 0,
+  "diagnostic_bytes": 0,
+  "binary": {
+    "bytes": 87928,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  "diagnostics": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

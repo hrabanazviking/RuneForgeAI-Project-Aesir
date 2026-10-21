@@ -1,0 +1,62 @@
+{
+  "../dynamic-context-final/build.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "../dynamic-context-final/dynamic-context": {
+    "bytes": 87928,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  "../dynamic-context-final/isolation-errors.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "../dynamic-context-final/isolation.strace": {
+    "bytes": 24040,
+    "sha256": "fb3cb008c45b4cdc24206fc6d02f5d42909a7b5019b639d7849ad3407b621069"
+  },
+  "../dynamic-context-final/isolation.txt": {
+    "bytes": 24,
+    "sha256": "e046d15be11d63f6f71f3b701f022e65803a8ca7436a4786de7c0dec64a7c7e7"
+  },
+  "../dynamic-context-final/test-log.txt": {
+    "bytes": 554,
+    "sha256": "6075e8bd045c88ebc81123187d8075eadc975ac1341696e709289b9625327119"
+  },
+  "../dynamic-context-final/test-output.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "../dynamic-context-final/test-results.json": {
+    "bytes": 71343,
+    "sha256": "4eb976bcc5bfa16eb2d422d7c85957854778a626edc769312b0d87f6ed27cfb9"
+  },
+  "../dynamic-context-preliminary/build-warning.log": {
+    "bytes": 190,
+    "sha256": "df88e62cf2d1e0f1fcf4a65cb9b2e9bba166c76b599465f945b626d89a0e3be5"
+  },
+  "../dynamic-context-preliminary/build.log": {
+    "bytes": 927,
+    "sha256": "9e9243ae5369b95b09f1d0f4d3e1224e026799b1bf468bbfc60db5b549418b99"
+  },
+  "../dynamic-context-preliminary/dynamic-context-warning": {
+    "bytes": 87928,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  "../dynamic-context-preliminary/dynamic_rotary_context.mojo": {
+    "bytes": 2742,
+    "sha256": "35c0aa83c9fc4f1e2654e293098dbc842a8851cac420319c9d6345f3e41c6e24"
+  },
+  "../dynamic-context-preliminary/hailo_dynamic_rotary_context-warning.mojo": {
+    "bytes": 3817,
+    "sha256": "67221b5ce13c063170f4cd52cfc29a422b63a3c3f6baab38dd61ca1d7792832c"
+  },
+  "../dynamic-context-preliminary/hailo_dynamic_rotary_context.mojo": {
+    "bytes": 3817,
+    "sha256": "67221b5ce13c063170f4cd52cfc29a422b63a3c3f6baab38dd61ca1d7792832c"
+  },
+  "../dynamic-context-preliminary/test_hailo_dynamic_rotary_context.py": {
+    "bytes": 6565,
+    "sha256": "1a4eb9b67ba4beb05dda5072c3fd8cc4e5ec70b9685d363b47197fc139336823"
+  }
+}

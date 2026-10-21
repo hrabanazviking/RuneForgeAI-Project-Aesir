@@ -1,0 +1,14 @@
+{
+  "smidr/dynamic_rotary_context.mojo": {
+    "bytes": 2743,
+    "sha256": "1149b393e8dfc23c65048214030ba7bcb47e58c49f9a0c8399b235c7bfd2e3b7"
+  },
+  "tests/hailo_dynamic_rotary_context.mojo": {
+    "bytes": 3817,
+    "sha256": "5407c33604779034afd3988afa0de309c9ea143da5616bb8a3116e9f28e344e0"
+  },
+  "tests/test_hailo_dynamic_rotary_context.py": {
+    "bytes": 6565,
+    "sha256": "1a4eb9b67ba4beb05dda5072c3fd8cc4e5ec70b9685d363b47197fc139336823"
+  }
+}

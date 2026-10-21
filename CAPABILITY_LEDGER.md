@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 113 |
+| `verified` | 114 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **158** |
+| **Total** | **159** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3471,3 +3471,30 @@ No new capability ID or hardware/complete-source execution claim.
   CCW generation, original delivery/activation/results/cleanup and broad support.
 - **Audit:** Exact source words and negative/preliminary/binary/trace identities
   retained. No model/layer/attention forward, external compiler or inference proxy.
+
+
+### AES-SOURCE-020 — Standalone dynamic rotary integer coefficient schedule
+
+- **Status:** `verified`
+- **Owner:** original smidr/dynamic_rotary_context.mojo and isolated native probe.
+- **Claim sources:** TASK_hailo10h_dynamic_context_coefficients.md and
+  docs/HAILO10H_DYNAMIC_CONTEXT_DESIGN.md, published before native edits247134c.
+- **Implementation evidence:** Owned bounded retained-context selection and
+  canonical rational exponent/delta schedule, explicit width2/pair0 identity,
+  constant-space arithmetic and independent field revalidation. No old consumer
+  imports or source/model admission changes.
+- **Executable evidence:** docs/HAILO10H_MOJO_DYNAMIC_CONTEXT.md;4 methods/122
+  native calls,91 accepted/31 expected refusals,1159 context/index and695 rational
+  cases,576 qualified public state observations,11 field mutations and121 internal
+  recovery cycles. One zero-diagnostic build;197 existing source hashes and64
+  frozen control identities unchanged. Separate native isolation trace.
+- **Evidence boundary:** Standalone integer compiler arithmetic only. No source
+  dynamic integration, numerical frequency/rotation, cache-basis/full-prefix
+  equivalence, model/layer/attention execution, device precision/encoding/fit,
+  Hailo numerical program or source-model execution.
+- **Next acceptance gate:** Exact source/factor/context-history/cache-basis and
+  recipe/consumer/domain/lifetime/storage integration contract, then original
+  implementation and actual Hailo numerical configuration/delivery/results.
+- **Audit:** Public constant/index and fixed-pair identities are separate from
+  native acceptance. Preliminary build errors/warning and identities preserved;
+  no copied external implementation, model forward or device operation.
