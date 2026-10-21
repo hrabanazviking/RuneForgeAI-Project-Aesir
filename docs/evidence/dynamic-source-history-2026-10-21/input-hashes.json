@@ -1,0 +1,8 @@
+{
+  "smidr/dynamic_decoder_policy.mojo": "351df5db8661075545106bb1cd4507b59425668a435a77bf346369cd09ec506d",
+  "smidr/source_dynamic_decoder.mojo": "233ee859f17d0f175267d183a267ba6c4a4a96ea07f246ff527c9715f6320949",
+  "smidr/tools/dynamic_decoder_policy.mojo": "0db8f6f8ae113950a66da0b26f40bbe5536979c89523e77c886d7524934d1820",
+  "tests/hailo_dynamic_decoder_history.mojo": "03a62e883d76c3bb642c1ad5cea45090d46ef863494aeacb9b69716cf785db8d",
+  "tests/hailo_dynamic_decoder_source.mojo": "0808309a476133bab1c0556c1153e5fa11efb7aa1533754b71fdc7a9b2740421",
+  "tests/test_hailo_dynamic_decoder_history.py": "096a7ff6a718b9bda625583158af81ce43a6228bcf05b43a42c8840f044561b3"
+}

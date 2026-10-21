@@ -1,0 +1,31 @@
+{
+  "pre_code_contract": "7df6cef9dcd121753eec0349cf98b50c2139b1d9",
+  "mojo_version": "Mojo 1.1.0 (8189361e)",
+  "new_zero_diagnostic_builds": 2,
+  "methods": 4,
+  "native_child_calls": 244,
+  "accepted_calls": 170,
+  "expected_refusals": 74,
+  "native_history_mutation_fields": 19,
+  "source_binding_mutation_fields": 10,
+  "internal_refusal_recovery_cycles": 220,
+  "source_refusal_fresh_success_pairs": 24,
+  "complete_frozen_source_descriptor_comparisons": 8,
+  "ownership_traces": 30,
+  "fixture_opens": 132,
+  "fixture_closes": 132,
+  "weight_header_reads": 102,
+  "unchanged_source_fixture_identities": 72,
+  "unchanged_previous_mojo_source_identities": 199,
+  "unchanged_previous_controls": 65,
+  "new_mojo_source_files": 5,
+  "no_previous_consumer_import_changed": true,
+  "source_graph_integrated": false,
+  "source_model_admitted": false,
+  "numerical_device_execution": false,
+  "preliminary_failures": [
+    "Initial Python test driver attempted NUL in argv; no child for affected requests. Corrected to Unicode argv and separate native-injected NUL provenance cases.",
+    "Native NUL probe compilation required owned String instead of StringSpan for concatenation. Both original failed logs/sources retained.",
+    "One test run began before the second new binary existed; loader errors and its mixed records are excluded. Final runner waits for both completed clean builds, verifies identities and requires native exceptions for all expected refusals."
+  ]
+}

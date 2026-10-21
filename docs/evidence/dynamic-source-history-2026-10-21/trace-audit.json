@@ -1,0 +1,1088 @@
+{
+  "traces": 30,
+  "fixture_opens": 132,
+  "fixture_closes": 132,
+  "weight_header_reads": 102,
+  "header_only": true,
+  "source_files_unchanged": 72,
+  "model_payload_mmaps": 0,
+  "external_inference_or_device_opens": 0,
+  "connects": 0,
+  "ioctls": 0,
+  "per_trace": [
+    {
+      "trace": "recovery-0.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-1.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-10.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-11.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-12.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-13.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-2.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-3.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-4.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-5.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-6.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-7.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-8.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "recovery-9.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "9": 1,
+        "9/index.json": 1,
+        "9/config.json": 1,
+        "9/source-0.weights": 1,
+        "9/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "9/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "9/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-0.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "10": 1,
+        "10/index.json": 1,
+        "10/config.json": 1,
+        "10/source-0.weights": 1,
+        "10/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "10/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "10/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "10/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "10/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-1.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "11": 1,
+        "11/config.json": 1,
+        "11/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "11/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "11/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-10.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "20": 1,
+        "20/index.json": 1,
+        "20/config.json": 1,
+        "20/source-0.weights": 1,
+        "20/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "20/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "20/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "20/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "20/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-11.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "21": 1,
+        "21/config.json": 1,
+        "21/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "21/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "21/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-12.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "22": 1,
+        "22/index.json": 1,
+        "22/config.json": 1,
+        "22/source-0.weights": 1,
+        "22/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "22/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "22/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "22/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "22/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-13.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "23": 1,
+        "23/config.json": 1,
+        "23/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "23/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "23/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-2.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "12": 1,
+        "12/index.json": 1,
+        "12/config.json": 1,
+        "12/source-0.weights": 1,
+        "12/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "12/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "12/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "12/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "12/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-3.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "13": 1,
+        "13/config.json": 1,
+        "13/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "13/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "13/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-4.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "14": 1,
+        "14/index.json": 1,
+        "14/config.json": 1,
+        "14/source-0.weights": 1,
+        "14/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "14/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "14/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "14/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "14/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-5.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "15": 1,
+        "15/config.json": 1,
+        "15/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "15/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "15/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-6.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "16": 1,
+        "16/index.json": 1,
+        "16/config.json": 1,
+        "16/source-0.weights": 1,
+        "16/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "16/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "16/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "16/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "16/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-7.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "17": 1,
+        "17/config.json": 1,
+        "17/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "17/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "17/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-8.strace",
+      "fixture_open_count": 5,
+      "fixture_close_count": 5,
+      "files": {
+        "18": 1,
+        "18/index.json": 1,
+        "18/config.json": 1,
+        "18/source-0.weights": 1,
+        "18/source-1.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "18/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1016
+        },
+        {
+          "file": "18/source-0.weights",
+          "count": 1008,
+          "offset": 8,
+          "header_extent": 1016
+        },
+        {
+          "file": "18/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 999
+        },
+        {
+          "file": "18/source-1.weights",
+          "count": 991,
+          "offset": 8,
+          "header_extent": 999
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "refusal-9.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "19": 1,
+        "19/config.json": 1,
+        "19/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "19/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "19/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "source-growth.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "8": 1,
+        "8/config.json": 1,
+        "8/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "8/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "8/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "source-nul.strace",
+      "fixture_open_count": 3,
+      "fixture_close_count": 3,
+      "files": {
+        "8": 1,
+        "8/config.json": 1,
+        "8/source-0.weights": 1
+      },
+      "weight_header_reads": [
+        {
+          "file": "8/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_extent": 1976
+        },
+        {
+          "file": "8/source-0.weights",
+          "count": 1968,
+          "offset": 8,
+          "header_extent": 1976
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    }
+  ]
+}

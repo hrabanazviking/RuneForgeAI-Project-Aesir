@@ -1,0 +1,42 @@
+[
+  {
+    "name": "history",
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "command": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_dynamic_decoder_history.mojo",
+      "-o",
+      "../dynamic-source-history-verified/history"
+    ],
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "binary_sha256": "b6f16d6f50c9515746357c965a48211ed971409901688c26eb6fafaa7a9d3fc5"
+  },
+  {
+    "name": "source",
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "command": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_dynamic_decoder_source.mojo",
+      "-o",
+      "../dynamic-source-history-verified/source"
+    ],
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "binary_sha256": "1d6c10e5fbe94d3d7ceda2b75c1290affe653a31670ded08c1ecb29eae8ad58c"
+  }
+]

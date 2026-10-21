@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 114 |
+| `verified` | 115 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **159** |
+| **Total** | **160** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3498,3 +3498,32 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Public constant/index and fixed-pair identities are separate from
   native acceptance. Preliminary build errors/warning and identities preserved;
   no copied external implementation, model forward or device operation.
+
+
+### AES-SOURCE-021 — Source-bound dynamic context and declared insertion history
+
+- **Status:** `verified`
+- **Owner:** original dynamic_decoder_policy/source_dynamic_decoder and isolated
+  owned source-header/history inspectors.
+- **Claim sources:** TASK_hailo10h_dynamic_decoder_integration.md phase1 and
+  docs/HAILO10H_DYNAMIC_SOURCE_HISTORY_DESIGN.md, published7df6cef before code.
+- **Implementation evidence:** Exact source64 factor/theta/default/legacy/modern
+  context projection, independent invocation32/64 words, bounded append-history
+  replay without coalescing, owned snapshots and rational coefficient connection.
+  Complete original source/raw/unresolved fields remain retained.
+- **Executable evidence:** docs/HAILO10H_MOJO_DYNAMIC_SOURCE_HISTORY.md;4 methods/
+  244 native calls,170 accepted/74 expected refusals,2 zero-diagnostic builds,
+  29 history/source mutation fields,220 internal recovery cycles,24 source recovery
+  pairs and8 complete frozen source descriptor comparisons.30 traces/132 opens/
+  132 closes,102 header reads,72 unchanged fixture identities. All199 previous
+  source hashes/65 controls unchanged.
+- **Evidence boundary:** Source/policy/integer lineage arithmetic only. No current
+  graph/cache data consumer, actual cache ownership or immutable source proof,
+  numerical frequency/attention/model forward, hardware packing/fit/encoding,
+  Hailo numerical program or source-model execution.
+- **Next acceptance gate:** Exact dynamic graph/recipe/consumer/domain/lifetime/
+  storage/export contract, then original implementation and actual numerical
+  Hailo configuration/placement/delivery/results toward the unchanged broad target.
+- **Audit:** Preliminary argv/build/verification-order failures and identities
+  preserved; final native-only refusals, unchanged build/test inputs, header/fd
+  boundaries and no device/inference access independently checked.

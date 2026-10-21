@@ -1,0 +1,5 @@
+{
+  "tests/test_hailo_ordinary_projection_schema.py": "a20dceda27283a49fd22b1d198c0e06bc4750b8cf8e429baab7830640b1b0ea0",
+  "tests/test_hailo_decoder_projections.py": "dbc3a35dca268ce8993b4a2c61398710fb05d1b831069b684bd2e6a787dc1550",
+  "tests/test_hailo_safetensors_inventory.py": "083fd757ac6b107469a419d9281be100fce78b50b994aa63f6413ad060093de0"
+}
