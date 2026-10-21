@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 110 |
+| `verified` | 111 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **155** |
+| **Total** | **156** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3391,3 +3391,29 @@ No new capability ID or hardware/complete-source execution claim.
   delivery/activation/results/cleanup toward the fixed broad target.
 - **Audit:** Qualified primary primitive facts and all source/binary/ownership/
   mutation/negative receipts retained. No external compiler or host LLM forward.
+
+
+### AES-SOURCE-017 — Source cache-return and decoder session semantics
+
+- **Status:** `verified`
+- **Owner:** original session_policy/session_graph/decoder_session_source,
+  semantic/recipe/expanded builders and cache/matrix/storage consumers.
+- **Claim sources:** TASK_hailo10h_ordinary_cache_semantics.md and
+  docs/HAILO10H_DECODER_SESSION_DESIGN.md, published before code at71dfa61.
+- **Implementation evidence:** Owned bounded source/invocation return decisions,
+  explicit cached-append/full-prefix modes, exact formal K/V exports and source/
+  global lifetimes, independent policy snapshots and empty full-prefix cache
+  layout without phantom capacity products. Original source facts remain owned.
+- **Executable evidence:** docs/HAILO10H_MOJO_DECODER_SESSION.md;22 suites,
+  147 methods/4730 native child calls,51 warning-free builds. New7/606,
+  181 accepted/425 expected refusals;
+  8 complete frozen GGUF and2 ordinary comparisons,160 recovery cycles/8 traces.
+- **Evidence boundary:** Source/mathematical compiler support and hypothetical
+  storage/address scenarios only. No complete ordinary architecture, numerical
+  cache-reuse equivalence, device precision/placement/fit, executable Hailo
+  numerical program or source-model inference claim.
+- **Next acceptance gate:** Window/scaling/training/remaining architecture
+  semantics and actual numerical Hailo configuration/encoding/delivery/results/
+  cleanup toward the same fixed broad target.
+- **Audit:** Full source/default/unresolved facts and32/64 words retained;
+  source headers only, no payload mmap, host LLM forward or outside compiler.

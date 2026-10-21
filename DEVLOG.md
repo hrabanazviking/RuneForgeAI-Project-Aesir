@@ -1,3 +1,17 @@
+## 2026-10-21 — Codex: original decoder session and cache-return semantics
+
+- Pre-code contract71dfa61; owned source/invocation return policy, explicit
+  cached-append/full-prefix graph modes and formal K/V exports with end lifetimes.
+- Full-prefix mode avoids persistent cache bases/append/views and unallocated
+  capacity products. Source/recipe/global guards migrate all compiler consumers.
+- Final22 suites/147 methods/4730 native child calls,51 warning-free builds. New7/
+  606 calls;8 frozen GGUF/2 ordinary comparisons and160 recovery cycles
+  across8 traces. Exact source/binary hashes match; negative fixtures retained.
+- No model/layer/attention forward, device access, external compiler or complete
+  ordinary adapter claim. Next: window semantics and actual numerical Hailo
+  configuration/encoding/delivery/result gates under the unchanged broad target.
+- Receipt docs/HAILO10H_MOJO_DECODER_SESSION.md.
+
 ## 2026-10-21 — Codex: original source activation mathematical lowering
 
 - Pre-code design4a66acb. Owned per-layer SiLU/erf GELU/ReLU policy and original

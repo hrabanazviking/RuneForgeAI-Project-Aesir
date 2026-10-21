@@ -1,0 +1,6 @@
+{
+  "tests/test_hailo_decoder_session.py": "537150bd795845b210816038946c9d44ac4abc47e337b5b7f176e5507bd8b84d",
+  "tests/test_hailo_decoder_activation.py": "f8f447fe5e3dd8c06708b21a2f660ea4b17456f72f5eb564cd6ce8fff06a85e5",
+  "tests/test_hailo_decoder_bias.py": "368d533b974f640af82ca2a70bf245f7d799ee9aba239d7058420ff3efe39bfc",
+  "../decoder-session-baseline/build-results.json": "ab17233045b3f8b1e1f2cb4a01327849c0d9822ca9f312a0c9858d2b31994bc9"
+}

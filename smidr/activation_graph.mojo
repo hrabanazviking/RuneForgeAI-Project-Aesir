@@ -1,7 +1,7 @@
 # Validate selected activation roles at every downstream compilation boundary.
 from std.collections import Dict
 from smidr.activation_policy import empty_activation_policy, same_activation_policy, validate_activation_policy, activation_kind_supported
-from smidr.semantic_plan import SemanticPlan, checked_product
+from smidr.semantic_plan import SemanticPlan, checked_product, is_plan_export
 from smidr.source_inventory import validate_source_weight
 
 
@@ -85,7 +85,7 @@ def validate_plan_activation_state(plan: SemanticPlan) raises:
         if down.kind != "linear" or down.weight != p + "ffn_down.weight" or down.inputs != List[Int]([gated_id]):
             raise Error("DecoderActivation: changed gate product consumer")
     for i in range(len(plan.tensors)):
-        if plan.tensors[i].persistent or i == plan.logits:
+        if plan.tensors[i].persistent or is_plan_export(plan, i):
             last[i] = len(plan.operations)
         if last[i] != plan.tensors[i].last_use:
             raise Error("DecoderActivation: stale source lifetime")

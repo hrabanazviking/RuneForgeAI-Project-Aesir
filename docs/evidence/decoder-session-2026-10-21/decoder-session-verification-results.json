@@ -1,0 +1,80 @@
+[
+  {
+    "suite": "decoder_bias",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_bias.py",
+      "--binary",
+      "../decoder-session-final/decoder-bias-graph",
+      "--api",
+      "../decoder-session-final/decoder-bias-api",
+      "--ownership",
+      "../decoder-session-final/bias-ownership",
+      "--gguf",
+      "../decoder-session-final/bias-gguf",
+      "--consumers",
+      "../decoder-session-final/bias-consumers",
+      "--frozen",
+      "../decoder-bias-baseline/rotary-recipes",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-session-verification/decoder_bias"
+    ]
+  },
+  {
+    "suite": "decoder_activation",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_activation.py",
+      "--binary",
+      "../decoder-session-final/activation-graph",
+      "--api",
+      "../decoder-session-final/activation-api",
+      "--ownership",
+      "../decoder-session-final/activation-ownership",
+      "--gguf",
+      "../decoder-session-final/activation-gguf",
+      "--consumers",
+      "../decoder-session-final/activation-consumers",
+      "--frozen-api",
+      "../decoder-activation-baseline/decoder-bias-api",
+      "--frozen-gguf",
+      "../decoder-activation-baseline/bias-gguf",
+      "--frozen-consumers",
+      "../decoder-activation-baseline/bias-consumers",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-session-verification/decoder_activation"
+    ]
+  },
+  {
+    "suite": "decoder_session",
+    "returncode": 0,
+    "command": [
+      "python3",
+      "tests/test_hailo_decoder_session.py",
+      "--binary",
+      "../decoder-session-final/session-graph",
+      "--api",
+      "../decoder-session-final/session-api",
+      "--ownership",
+      "../decoder-session-final/session-ownership",
+      "--gguf",
+      "../decoder-session-final/session-gguf",
+      "--source",
+      "../decoder-session-final/session-source",
+      "--frozen-api",
+      "../decoder-session-baseline/activation-api",
+      "--frozen-gguf",
+      "../decoder-session-baseline/activation-gguf",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../decoder-session-verification/decoder_session"
+    ]
+  }
+]

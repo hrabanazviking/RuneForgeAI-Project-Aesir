@@ -1,3 +1,4 @@
+from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
 from smidr.tools.activation_policy import describe_activation_policy
 # Source-bound recipe inspector; no production arithmetic executor.
 from std.sys import argv
@@ -20,6 +21,10 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
     if lowered.explicit_activation:
         text = text.replace("\"schema_version\":1", "\"schema_version\":4").replace("\"schema_version\":2", "\"schema_version\":4").replace("\"schema_version\":3", "\"schema_version\":4")
         text += ",\"activation_policy\":" + describe_activation_policy(lowered.activation_policy, lowered.activation_work)
+    if lowered.explicit_session:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":5").replace("\"schema_version\":2", "\"schema_version\":5").replace("\"schema_version\":3", "\"schema_version\":5").replace("\"schema_version\":4", "\"schema_version\":5")
+        text += ",\"session_policy\":" + describe_session_policy(lowered.session_policy, lowered.session_work)
+        text += ",\"cache_exports\":" + describe_cache_exports(lowered.cache_exports)
     text += ",\"unresolved_gates\":[\"finite_precision_reduction_and_overflow\",\"special_values_and_transcendental_approximations\",\"quantization_weight_and_activation_layout\",\"lowered_storage_and_device_placement\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"recipes\":["
     for i in range(len(lowered.recipes)):

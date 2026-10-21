@@ -474,3 +474,29 @@ expanded/storage and cache/matrix consumers reject selected-state/edge/lifetime
 mutations. Explicit JSON schema4 exposes owned input maps; old complete outputs
 remain unchanged. Receipt docs/HAILO10H_MOJO_DECODER_ACTIVATION.md;140 methods/
 4124 calls,46 builds. Actual numerical Hailo/full ordinary gates remain open.
+
+
+## Explicit decoder session input and cache-return policy
+
+Original `session_policy.mojo`, `decoder_session_source.mojo` and
+`session_graph.mojo` add owned DecoderSessionPolicy(mode,return_cache,
+source_return_cache,return_origin,provenance,work). Modes are cached_append and
+full_prefix, independent of source/invocation cache-return preference. Exact
+128*layers+2+UTF8(mode/origin/provenance) charge precedes copies/exports. Source
+projection validates and retains the full original architecture/defaults.
+
+Semantic builders with graph,bias,activation,session policy overloads own the
+policy and ordered per-layer K,V exports. full_prefix requires past0 and selects
+post-bias/rotary K and post-bias V directly, without persistent cache/append/view
+roles. cached_append preserves prior graph roles. Formal exports retain end
+lifetimes through independent recipe snapshots, expanded global maps and storage
+validation. Cache/matrix consumers validate session ownership before use.
+
+CacheLayout adds optional trailing mode while retaining the old constructor.
+full_prefix has empty regions,total0 and no unallocated capacity products; every
+cache address lookup refuses. Actual query/context and geometry bounds remain.
+Explicit tool schema5 reports policy and exports; source32/64 words remain exact,
+and legacy complete outputs stay unchanged. The new session graph tool is
+`tools/decoder_session_graph.mojo`; formatters are `tools/session_policy.mojo`.
+Receipt docs/HAILO10H_MOJO_DECODER_SESSION.md. This is mathematical compiler
+support, not complete ordinary architecture or numerical Hailo execution.

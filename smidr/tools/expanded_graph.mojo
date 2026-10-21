@@ -1,3 +1,4 @@
+from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
 from smidr.tools.activation_policy import describe_activation_policy
 # Native compiler graph inspector. No arithmetic execution or device upload.
 from std.sys import argv
@@ -20,8 +21,17 @@ def describe_expanded_graph(graph: ExpandedGraph) raises -> String:
     if graph.source.explicit_activation:
         text = text.replace("\"schema_version\":1", "\"schema_version\":4").replace("\"schema_version\":2", "\"schema_version\":4").replace("\"schema_version\":3", "\"schema_version\":4")
         text += ",\"activation_policy\":" + describe_activation_policy(graph.source.activation_policy, graph.source.activation_work)
+    if graph.source.explicit_session:
+        text = text.replace("\"schema_version\":1", "\"schema_version\":5").replace("\"schema_version\":2", "\"schema_version\":5").replace("\"schema_version\":3", "\"schema_version\":5").replace("\"schema_version\":4", "\"schema_version\":5")
+        text += ",\"session_policy\":" + describe_session_policy(graph.source.session_policy, graph.source.session_work)
+        var exports = List[Int]()
+        for id in graph.source.cache_exports:
+            exports.append(graph.source_values[id])
+        text += ",\"cache_exports\":" + describe_cache_exports(exports)
     text += ",\"architecture\":" + _quote(graph.source.source.architecture) + ",\"source_operation_count\":" + String(len(graph.source.operations)) + ",\"source_tensor_count\":" + String(len(graph.source.tensors))
     text += ",\"runtime_preconditions\":[\"token_ids_in_vocabulary\",\"positions_equal_past_plus_query_index\",\"kv_prefix_initialized_through_past\"]"
+    if graph.source.explicit_session and graph.source.session_policy.mode == "full_prefix":
+        text = text.replace(",\"kv_prefix_initialized_through_past\"", "")
     text += ",\"unresolved_gates\":[\"source_identity_layout_and_rope\",\"device_precision_and_numerical_acceptance\",\"weight_conversion_and_placement\",\"expanded_storage_accounting\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"source_to_global\":["
     for i in range(len(graph.source.tensors)):

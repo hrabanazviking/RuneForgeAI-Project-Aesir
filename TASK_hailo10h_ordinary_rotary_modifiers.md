@@ -78,3 +78,9 @@ TASK_hailo10h_ordinary_cache_semantics.md. Source use_cache:false and the curren
 selected recipe's persistent cache must be reconciled explicitly before ordinary
 adapter completion. Remaining activation variants, window/scaling/training and
 actual Hailo numerical execution remain implementation work under the full target.
+
+2026-10-21 explicit session child completed 147 methods/4730 native child calls,51
+warning-free builds under the published contract. Receipt:
+docs/HAILO10H_MOJO_DECODER_SESSION.md. Next active child:
+TASK_hailo10h_ordinary_window_semantics.md. Complete ordinary architecture and
+actual numerical Hailo encoding/configuration/execution remain required work.

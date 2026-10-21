@@ -1,3 +1,5 @@
+from smidr.session_policy import DecoderSessionPolicy, empty_session_policy
+from smidr.session_graph import validate_plan_session_state
 from smidr.activation_graph import validate_plan_activation_state
 # Mathematical compiler IR only. No numerical host kernel or device program.
 from std.math import isfinite
@@ -103,6 +105,10 @@ struct PrimitiveRecipes(Movable):
     var remaining_source_operations: List[Int]
     var rotary_policy: RotaryLoweringPolicy
     var rotary_work: Int
+    var explicit_session: Bool
+    var session_policy: DecoderSessionPolicy
+    var session_work: Int
+    var cache_exports: List[Int]
     var explicit_activation: Bool
     var activation_policy: DecoderActivationPolicy
     var activation_work: Int
@@ -117,6 +123,10 @@ struct PrimitiveRecipes(Movable):
         self.remaining_source_operations = List[Int]()
         self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
         self.rotary_work = 0
+        self.explicit_session = False
+        self.session_policy = empty_session_policy()
+        self.session_work = 0
+        self.cache_exports = List[Int]()
         self.explicit_activation = False
         self.activation_policy = empty_activation_policy()
         self.activation_work = 0
@@ -210,9 +220,14 @@ def _projection_bias_recipe(plan: SemanticPlan, index: Int) raises -> PrimitiveR
 def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, rotary: Bool) raises -> PrimitiveRecipes:
     validate_source_inventory(plan.source)
     validate_plan_scalar_state(plan)
+    validate_plan_session_state(plan)
     validate_plan_bias_state(plan)
     validate_plan_activation_state(plan)
     var lowered = PrimitiveRecipes()
+    lowered.explicit_session = plan.explicit_session
+    lowered.session_policy = plan.session_policy.copy()
+    lowered.session_work = plan.session_work
+    lowered.cache_exports = plan.cache_exports.copy()
     lowered.explicit_activation = plan.explicit_activation
     lowered.activation_policy = plan.activation_policy.copy()
     lowered.activation_work = plan.activation_work

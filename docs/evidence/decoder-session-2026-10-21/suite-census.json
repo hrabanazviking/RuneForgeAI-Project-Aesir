@@ -1,0 +1,134 @@
+[
+  {
+    "suite": "source_inventory",
+    "methods": 6,
+    "calls": 16,
+    "returncode": 0
+  },
+  {
+    "suite": "semantic_plan",
+    "methods": 9,
+    "calls": 56,
+    "returncode": 0
+  },
+  {
+    "suite": "typed_decoder",
+    "methods": 7,
+    "calls": 493,
+    "returncode": 0
+  },
+  {
+    "suite": "storage_estimate",
+    "methods": 7,
+    "calls": 61,
+    "returncode": 0
+  },
+  {
+    "suite": "primitive_recipes",
+    "methods": 7,
+    "calls": 44,
+    "returncode": 0
+  },
+  {
+    "suite": "expanded_graph",
+    "methods": 5,
+    "calls": 45,
+    "returncode": 0
+  },
+  {
+    "suite": "expanded_storage",
+    "methods": 7,
+    "calls": 88,
+    "returncode": 0
+  },
+  {
+    "suite": "matrix_tiles",
+    "methods": 7,
+    "calls": 860,
+    "returncode": 0
+  },
+  {
+    "suite": "source_weight_tiles",
+    "methods": 5,
+    "calls": 286,
+    "returncode": 0
+  },
+  {
+    "suite": "cache_layout",
+    "methods": 6,
+    "calls": 89,
+    "returncode": 0
+  },
+  {
+    "suite": "source_float_constants",
+    "methods": 6,
+    "calls": 64,
+    "returncode": 0
+  },
+  {
+    "suite": "source_q4k_constants",
+    "methods": 8,
+    "calls": 57,
+    "returncode": 0
+  },
+  {
+    "suite": "source_q5q6_constants",
+    "methods": 7,
+    "calls": 88,
+    "returncode": 0
+  },
+  {
+    "suite": "semantic_storage",
+    "methods": 7,
+    "calls": 312,
+    "returncode": 0
+  },
+  {
+    "suite": "source_scalars",
+    "methods": 4,
+    "calls": 132,
+    "returncode": 0
+  },
+  {
+    "suite": "rotary_recipes",
+    "methods": 5,
+    "calls": 153,
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_graph_policy",
+    "methods": 5,
+    "calls": 152,
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_projections",
+    "methods": 7,
+    "calls": 115,
+    "returncode": 0
+  },
+  {
+    "suite": "ordinary_projection_schema",
+    "methods": 7,
+    "calls": 211,
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_bias",
+    "methods": 9,
+    "calls": 299,
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_activation",
+    "methods": 9,
+    "calls": 503,
+    "returncode": 0
+  },
+  {
+    "suite": "decoder_session",
+    "methods": 7,
+    "calls": 606,
+    "returncode": 0
+  }
+]

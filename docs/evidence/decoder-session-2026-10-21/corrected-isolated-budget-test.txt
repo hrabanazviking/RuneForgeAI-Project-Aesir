@@ -1,0 +1,7 @@
+test_02_defaults_source_revalidation_and_bounds (__main__.DecoderSession.test_02_defaults_source_revalidation_and_bounds) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2.710s
+
+OK
+Native outcomes: {'accepted': 9, 'refused': 46}

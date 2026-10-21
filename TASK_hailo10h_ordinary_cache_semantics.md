@@ -44,3 +44,9 @@ or translated and no model was instantiated/evaluated in this audit.
 docs/HAILO10H_DECODER_SESSION_DESIGN.md. Publish before production changes.
 Forty-six controls are frozen; source cache return and invocation mode must be
 kept distinct. No new execution capability is claimed by this audit/design.
+
+2026-10-21 explicit session child completed 147 methods/4730 native child calls,51
+warning-free builds under the published contract. Receipt:
+docs/HAILO10H_MOJO_DECODER_SESSION.md. Next active child:
+TASK_hailo10h_ordinary_window_semantics.md. Complete ordinary architecture and
+actual numerical Hailo encoding/configuration/execution remain required work.

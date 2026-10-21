@@ -1,3 +1,4 @@
+from smidr.session_graph import validate_plan_session_state
 from smidr.activation_graph import validate_plan_activation_state
 # Original lazy contraction schedules. No numerical evaluation or device code.
 from smidr.bias_graph import validate_plan_bias_state
@@ -150,6 +151,7 @@ def matrix_tile_count(schedule: MatrixSchedule) raises -> Int:
 def plan_matrix_contraction(plan: SemanticPlan, operation: Int,
                             policy: MatrixTilePolicy) raises -> MatrixSchedule:
     validate_source_inventory(plan.source)
+    validate_plan_session_state(plan)
     validate_plan_bias_state(plan)
     validate_plan_activation_state(plan)
     if operation < 0 or operation >= len(plan.operations):

@@ -15,7 +15,8 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
-| Ordinary cache/session semantics | Active pre-code audit | `TASK_hailo10h_ordinary_cache_semantics.md`; exact `HAILO10H_DECODER_SESSION_DESIGN.md` and46 frozen controls. Implement explicit mode/return/export/lifetime migration; full ordinary/numerical Hailo gates open. |
+| Ordinary window semantics | Active qualification | `TASK_hailo10h_ordinary_window_semantics.md`; exact source pattern/default/mask audit before native code. Full ordinary/numerical Hailo gates open. |
+| Ordinary cache/session semantics | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_SESSION.md`;147 methods/4730 calls,51 builds,8 complete frozen GGUF/2 ordinary comparisons and160 recovery cycles. No numerical device proof. |
 | Source activation selection/lowering | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_ACTIVATION.md`;140 methods/4124 calls,46 builds,8 complete frozen GGUF and4 additional full comparisons. Other activations/full ordinary/numerical device gates remain open. |
 | Source-bound projection bias arithmetic | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_BIAS_GRAPH.md`;131 methods/3621 calls,41 builds,8 complete frozen outputs. Original vector addition and cache/matrix/storage integration; full ordinary/device gates open. |
 | Qualified ordinary head/bias schema | Verified source-header binding | `HAILO10H_MOJO_ORDINARY_PROJECTION_SCHEMA.md`;14 methods/326 calls,4 builds,9 complete frozen outputs. Seven optional bias sources/layer and qualified heads; bias math/full ordinary/device gates open. |

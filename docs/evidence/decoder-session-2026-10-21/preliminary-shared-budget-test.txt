@@ -1,0 +1,26 @@
+test_01_actual_source_modes_overrides_and_mappings (__main__.DecoderSession.test_01_actual_source_modes_overrides_and_mappings) ... ok
+test_02_defaults_source_revalidation_and_bounds (__main__.DecoderSession.test_02_defaults_source_revalidation_and_bounds) ... FAIL
+test_03_all_retained_derived_and_consumer_refusals (__main__.DecoderSession.test_03_all_retained_derived_and_consumer_refusals) ... ok
+test_04_ownership_recovery_and_descriptor_cleanup (__main__.DecoderSession.test_04_ownership_recovery_and_descriptor_cleanup) ... ok
+test_05_full_legacy_output_compatibility (__main__.DecoderSession.test_05_full_legacy_output_compatibility) ... ok
+test_06_large_unallocated_capacity_and_consumer_scenarios (__main__.DecoderSession.test_06_large_unallocated_capacity_and_consumer_scenarios) ... ok
+test_07_source_words_mixed_bias_and_index_bounds (__main__.DecoderSession.test_07_source_words_mixed_bias_and_index_bounds) ... ok
+
+======================================================================
+FAIL: test_02_defaults_source_revalidation_and_bounds (__main__.DecoderSession.test_02_defaults_source_revalidation_and_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_session.py", line 147, in test_02_defaults_source_revalidation_and_bounds
+    result=self.accept(self.invoke(root,mode,override,0 if mode=="full_prefix" else 1,work=exact))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_decoder_projections.py", line 76, in accept
+    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: DecoderBias: operation work bound exceeded
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 12.062s
+
+FAILED (failures=1)
+Native outcomes: {'accepted': 170, 'refused': 340}

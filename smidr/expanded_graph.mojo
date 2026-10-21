@@ -1,3 +1,5 @@
+from smidr.session_graph import validate_plan_session_state
+from smidr.session_policy import same_session_policy
 from smidr.activation_graph import validate_plan_activation_state
 from smidr.activation_policy import same_activation_policy, activation_kind_supported
 # Original source-to-global mathematical IR integration; never execution.
@@ -234,6 +236,8 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
     graph.result = graph.source_values[graph.source.logits]
     var end = len(graph.operations)
     graph.values[graph.result].last_use = end
+    for id in graph.source.cache_exports:
+        graph.values[graph.source_values[id]].last_use = end
     for i in range(len(graph.values)):
         if graph.values[i].storage == "persistent_kv" or graph.values[i].storage == "source_weight":
             graph.values[i].last_use = end
@@ -241,6 +245,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
 
 
 def validate_rotary_expansion(graph: ExpandedGraph) raises:
+    validate_session_expansion(graph)
     validate_scalar_expansion(graph)
     validate_bias_expansion(graph)
     validate_activation_expansion(graph)
@@ -476,3 +481,33 @@ def validate_activation_expansion(graph: ExpandedGraph) raises:
     for i in range(len(graph.source.operations)):
         if activation_kind_supported(graph.source.operations[i].kind) and i not in seen:
             raise Error("ExpandedStorage: omitted selected activation expansion")
+
+
+
+def is_expanded_export(graph: ExpandedGraph, value: Int) raises -> Bool:
+    if value == graph.result:
+        return True
+    if len(graph.source.cache_exports) > graph.source.source.policy.work:
+        raise Error("DecoderSession: expanded export work bound exceeded")
+    for id in graph.source.cache_exports:
+        if id not in graph.source_values:
+            raise Error("DecoderSession: missing expanded export mapping")
+        if graph.source_values[id] == value:
+            return True
+    return False
+
+
+def validate_session_expansion(graph: ExpandedGraph) raises:
+    validate_plan_session_state(graph.source)
+    if graph.recipes.explicit_session != graph.source.explicit_session or graph.recipes.session_work != graph.source.session_work or not same_session_policy(graph.recipes.session_policy, graph.source.session_policy) or graph.recipes.cache_exports != graph.source.cache_exports:
+        raise Error("ExpandedStorage: retained session policy/export snapshot changed")
+    for id in graph.source.cache_exports:
+        if id not in graph.source_values:
+            raise Error("ExpandedStorage: missing cache export source mapping")
+        var mapped = graph.source_values[id]
+        if mapped < 0 or mapped >= len(graph.values):
+            raise Error("ExpandedStorage: cache export map out of range")
+        var v = graph.values[mapped].copy()
+        var source = graph.source.tensors[id].copy()
+        if v.source_tensor != id or v.name != source.name or v.shape != source.shape or v.elements != source.elements or v.domain != "real" or v.last_use != len(graph.operations) or (v.storage != "activation" and v.storage != "kv_view"):
+            raise Error("ExpandedStorage: changed cache export identity/shape/lifetime")

@@ -1,0 +1,36 @@
+{
+  "baseline": 20098,
+  "current": 21006,
+  "new_count": 908,
+  "new_nonreceipt": [],
+  "removed_count": 0,
+  "ledger_entries": 156,
+  "ledger_census": {
+    "verified": 111,
+    "partial": 29,
+    "missing": 15,
+    "blocked": 1
+  },
+  "ledger_schema_pass": false,
+  "unchanged_historical_ledger_diagnostics": [
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "missing required field 'Evidence boundary'",
+    "status must be one backticked canonical value",
+    "malformed capability heading"
+  ],
+  "raw_reports": {
+    "session-implementation-consistency-before.txt": {
+      "bytes": 2139153,
+      "sha256": "c7c96737a022cbc5e44124a788e9570f83e321e5db733d16fb3af40bd3d3ceaf"
+    },
+    "session-implementation-consistency-after.txt": {
+      "bytes": 2230704,
+      "sha256": "f0160689ae57e7ae4500d48b3efe1fd064d5016d6a3f82b575a451e5be5a3f14"
+    }
+  }
+}

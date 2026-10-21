@@ -1,7 +1,7 @@
 # Original projection-wide bias source/edge checks. Mathematical IR only.
 from std.collections import Dict
 from smidr.bias_policy import empty_bias_policy, same_bias_policy, validate_bias_policy
-from smidr.semantic_plan import SemanticPlan, checked_product
+from smidr.semantic_plan import SemanticPlan, checked_product, is_plan_export
 from smidr.source_inventory import validate_source_weight
 
 
@@ -101,7 +101,7 @@ def validate_plan_bias_state(plan: SemanticPlan) raises:
                 raise Error("DecoderBias: selected raw linear result bypasses bias")
     for i in range(len(plan.tensors)):
         var tensor = plan.tensors[i].copy()
-        if tensor.persistent or i == plan.logits:
+        if tensor.persistent or is_plan_export(plan, i):
             last[i] = len(plan.operations)
         if tensor.last_use != last[i]:
             raise Error("DecoderBias: stale source lifetime")

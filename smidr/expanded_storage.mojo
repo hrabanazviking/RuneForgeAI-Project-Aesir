@@ -1,3 +1,4 @@
+from smidr.expanded_graph import is_expanded_export
 # Checked storage volume for expanded mathematical IR, never device admission.
 from smidr.expanded_graph import ExpandedGraph, validate_rotary_expansion
 from smidr.semantic_plan import checked_product
@@ -171,7 +172,7 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
         var value = graph.values[i].copy()
         if (value.producer >= 0) != produced[i]:
             raise Error("ExpandedStorage: orphan/misclassified producer")
-        if value.storage == "source_weight" or value.storage == "persistent_kv" or i == graph.result:
+        if value.storage == "source_weight" or value.storage == "persistent_kv" or is_expanded_export(graph, i):
             last[i] = count
         if value.last_use != last[i]:
             raise Error("ExpandedStorage: stale global lifetime")

@@ -74,6 +74,12 @@
 - [x] Source activation mathematical selection/expansion:140 methods/4124 calls,
   46 builds,8 complete frozen GGUF and4 additional full comparisons. No device
   execution. `docs/HAILO10H_MOJO_DECODER_ACTIVATION.md`.
+- [x] Source cache-return/session mathematical graph and export lifetimes:
+  147 methods/4730 native child calls,51 builds,8 complete frozen GGUF/2 ordinary
+  comparisons and160 recovery cycles. No device execution.
+  `docs/HAILO10H_MOJO_DECODER_SESSION.md`.
+- [ ] Active: `TASK_hailo10h_ordinary_window_semantics.md`: qualify exact source
+  patterns/masks and publish a bounded native integration contract before code.
 - [ ] Active: `TASK_hailo10h_ordinary_rotary_modifiers.md`: actual source basis/
   modifiers and original mathematical lowering, then complete ordinary graph
   integration and numerical Hailo configuration/execution.

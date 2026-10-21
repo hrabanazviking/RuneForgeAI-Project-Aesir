@@ -1,5 +1,6 @@
 # Original source graph construction. No numerical kernels or device program.
 from std.collections import Dict
+from smidr.session_policy import DecoderSessionPolicy, empty_session_policy, validate_session_policy
 from smidr.activation_policy import DecoderActivationPolicy, empty_activation_policy, validate_activation_policy
 from smidr.bias_policy import DecoderBiasPolicy, empty_bias_policy, validate_bias_policy
 from std.math import isfinite
@@ -120,6 +121,10 @@ struct SemanticPlan(Movable):
     var source_layout: String
     var logits: Int
     var decoder_policy: DecoderGraphPolicy
+    var explicit_session: Bool
+    var session_policy: DecoderSessionPolicy
+    var session_work: Int
+    var cache_exports: List[Int]
     var explicit_activation: Bool
     var activation_policy: DecoderActivationPolicy
     var activation_work: Int
@@ -151,6 +156,10 @@ struct SemanticPlan(Movable):
         self.source_layout = String("")
         self.logits = -1
         self.decoder_policy = DecoderGraphPolicy(List[Int](), "", "")
+        self.explicit_session = False
+        self.session_policy = empty_session_policy()
+        self.session_work = 0
+        self.cache_exports = List[Int]()
         self.explicit_activation = False
         self.activation_policy = empty_activation_policy()
         self.activation_work = 0
@@ -188,6 +197,18 @@ struct SemanticPlan(Movable):
         var output = self.tensor(name, shape^, index, False, alias_of)
         self.operations.append(SemanticOperation(kind, inputs^, output, weight))
         return output
+
+
+def is_plan_export(plan: SemanticPlan, tensor: Int) raises -> Bool:
+    if tensor == plan.logits:
+        return True
+    if len(plan.cache_exports) > plan.source.policy.work:
+        raise Error("DecoderSession: export list exceeds source work")
+    if plan.explicit_session:
+        for id in plan.cache_exports:
+            if id == tensor:
+                return True
+    return False
 
 
 def validate_plan_scalar_state(plan: SemanticPlan) raises:
@@ -415,6 +436,31 @@ def build_decoder_semantic_plan(var source: SourceTensorInventory,
         query_tokens, past_tokens, context_capacity, bias, True, activation, True)
 
 
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              parameters: DenseDecoderParameters, policy: DecoderGraphPolicy,
+                              bias: DecoderBiasPolicy, activation: DecoderActivationPolicy,
+                              session: DecoderSessionPolicy, query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    return _build_decoder_semantic_plan(source^, parameters, empty_decoder_scalars(), False,
+        policy, query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True)
+
+
+def build_decoder_semantic_plan(var source: SourceTensorInventory,
+                              geometry: DecoderGeometry, scalars: DecoderScalars,
+                              policy: DecoderGraphPolicy, bias: DecoderBiasPolicy,
+                              activation: DecoderActivationPolicy, session: DecoderSessionPolicy,
+                              query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    _ = validate_decoder_scalars(scalars)
+    if scalars.work_limit > source.policy.work:
+        raise Error("SourceScalar: scalar work limit exceeds source policy")
+    var p = DenseDecoderParameters(geometry.layers, geometry.hidden, geometry.feed_forward,
+        geometry.heads, geometry.kv_heads, geometry.key_dim, geometry.value_dim,
+        geometry.rope_dim, geometry.vocabulary, geometry.source_context, 0, 0, geometry.source_layout)
+    return _build_decoder_semantic_plan(source^, p, scalars, True, policy,
+        query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True)
+
+
 def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                parameters: DenseDecoderParameters, scalars: DecoderScalars,
                                explicit: Bool, policy: DecoderGraphPolicy, query_tokens: Int,
@@ -422,7 +468,9 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                bias_policy: DecoderBiasPolicy = empty_bias_policy(),
                                explicit_bias: Bool = False,
                                activation_policy: DecoderActivationPolicy = empty_activation_policy(),
-                               explicit_activation: Bool = False) raises -> SemanticPlan:
+                               explicit_activation: Bool = False,
+                               session_policy: DecoderSessionPolicy = empty_session_policy(),
+                               explicit_session: Bool = False) raises -> SemanticPlan:
     """Build an explicitly selected mathematical recipe from tagged values."""
     validate_source_inventory(source)
     if explicit:
@@ -436,7 +484,15 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
     var activation_work = 0
     if explicit_activation:
         activation_work = validate_activation_policy(activation_policy, parameters.layers, source.policy.work)
+    var session_work = 0
+    if explicit_session:
+        session_work = validate_session_policy(session_policy, parameters.layers, source.policy.work)
+        if session_policy.mode == "full_prefix" and past_tokens != 0:
+            raise Error("DecoderSession: full prefix cannot discard supplied past state")
     var plan = SemanticPlan(source^)
+    plan.explicit_session = explicit_session
+    plan.session_policy = session_policy.copy()
+    plan.session_work = session_work
     plan.explicit_activation = explicit_activation
     plan.activation_policy = activation_policy.copy()
     plan.activation_work = activation_work
@@ -499,10 +555,16 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
         if policy.rope_enabled[layer] == 1:
             q = plan.emit("rope_query", p + "q_rotary", [q, positions], [query_tokens, plan.heads, plan.key_dim])
             k = plan.emit("rope_key", p + "k_rotary", [k, positions], [query_tokens, plan.kv_heads, plan.key_dim])
-        var cache_k = plan.tensor(p + "key_cache", [context_capacity, plan.kv_heads, plan.key_dim], -1, True)
-        var cache_v = plan.tensor(p + "value_cache", [context_capacity, plan.kv_heads, plan.value_dim], -1, True)
-        var keys_view = plan.emit("kv_append_keys", p + "keys_view", [cache_k, k], [total, plan.kv_heads, plan.key_dim], "", cache_k)
-        var values_view = plan.emit("kv_append_values", p + "values_view", [cache_v, v], [total, plan.kv_heads, plan.value_dim], "", cache_v)
+        var keys_view = k
+        var values_view = v
+        if not explicit_session or session_policy.mode == "cached_append":
+            var cache_k = plan.tensor(p + "key_cache", [context_capacity, plan.kv_heads, plan.key_dim], -1, True)
+            var cache_v = plan.tensor(p + "value_cache", [context_capacity, plan.kv_heads, plan.value_dim], -1, True)
+            keys_view = plan.emit("kv_append_keys", p + "keys_view", [cache_k, k], [total, plan.kv_heads, plan.key_dim], "", cache_k)
+            values_view = plan.emit("kv_append_values", p + "values_view", [cache_v, v], [total, plan.kv_heads, plan.value_dim], "", cache_v)
+        if explicit_session and session_policy.return_cache == 1:
+            plan.cache_exports.append(keys_view)
+            plan.cache_exports.append(values_view)
         var scores = plan.emit("gqa_scaled_dot", p + "scores", [q, keys_view], [plan.heads, query_tokens, total])
         scores = plan.emit("causal_mask", p + "masked_scores", [scores, positions], [plan.heads, query_tokens, total])
         scores = plan.emit("softmax", p + "probabilities", [scores], [plan.heads, query_tokens, total])
@@ -538,7 +600,7 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
     var end = len(plan.operations)
     plan.tensors[plan.logits].last_use = end
     for i in range(len(plan.tensors)):
-        if plan.tensors[i].persistent:
+        if plan.tensors[i].persistent or is_plan_export(plan, i):
             plan.tensors[i].last_use = end
     return plan^
 

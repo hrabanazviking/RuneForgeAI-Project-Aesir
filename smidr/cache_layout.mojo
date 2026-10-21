@@ -1,9 +1,10 @@
+from smidr.session_graph import validate_plan_session_state
 from smidr.activation_graph import validate_plan_activation_state
 # Original explicit cache address scenario. No allocation, cache data or math.
 from std.collections import Dict
 from smidr.bias_graph import validate_plan_bias_state
 from smidr.source_inventory import validate_source_inventory, validate_source_weight
-from smidr.semantic_plan import SemanticPlan, checked_product, validate_decoder_graph_policy
+from smidr.semantic_plan import SemanticPlan, checked_product, validate_decoder_graph_policy, is_plan_export
 from smidr.storage_estimate import checked_sum
 
 
@@ -31,7 +32,6 @@ struct CacheRegion(Copyable, Movable):
     var byte_count: Int
 
 
-@fieldwise_init
 struct CacheLayout(Movable):
     var policy: CacheLayoutAssumptions
     var layers: Int
@@ -42,6 +42,23 @@ struct CacheLayout(Movable):
     var source_tensor_count: Int
     var regions: List[CacheRegion]
     var total_bytes: Int
+
+    var mode: String
+
+    def __init__(out self, var policy: CacheLayoutAssumptions, layers: Int,
+                 capacity: Int, heads: Int, key_dim: Int, value_dim: Int,
+                 source_tensor_count: Int, var regions: List[CacheRegion],
+                 total_bytes: Int, mode: String = "cached_append"):
+        self.policy = policy^
+        self.layers = layers
+        self.capacity = capacity
+        self.heads = heads
+        self.key_dim = key_dim
+        self.value_dim = value_dim
+        self.source_tensor_count = source_tensor_count
+        self.regions = regions^
+        self.total_bytes = total_bytes
+        self.mode = mode
 
 
 def _policy(policy: CacheLayoutAssumptions) raises:
@@ -70,6 +87,8 @@ def _lifetime(plan: SemanticPlan, index: Int) raises:
                 if step <= tensor.producer:
                     raise Error("CacheLayout: writer/input used before production")
                 last = step
+    if is_plan_export(plan, index):
+        last = len(plan.operations)
     if tensor.last_use != last:
         raise Error("CacheLayout: writer/input lifetime mismatch")
 
@@ -85,6 +104,7 @@ def _projection(plan: SemanticPlan, name: String, rows: Int) raises:
 def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises -> CacheLayout:
     _policy(policy)
     validate_source_inventory(plan.source)
+    validate_plan_session_state(plan)
     validate_plan_bias_state(plan)
     validate_plan_activation_state(plan)
     if plan.hidden <= 0:
@@ -99,6 +119,9 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
         raise Error("CacheLayout: explicit output policy disagrees with graph")
     if plan.operations[logits.producer].kind != "linear" or plan.decoder_policy.output_weight not in plan.used_weights or not plan.used_weights[plan.decoder_policy.output_weight] or len(logits.shape) != 2 or logits.shape[0] != plan.query_tokens or logits.shape[1] != plan.vocabulary or logits.elements != checked_product(plan.query_tokens, plan.vocabulary):
         raise Error("CacheLayout: invalid explicit decoder output binding/shape")
+    if plan.explicit_session and plan.session_policy.mode == "full_prefix":
+        return CacheLayout(policy.copy(), plan.layers, plan.context_capacity, plan.kv_heads,
+            plan.key_dim, plan.value_dim, len(plan.tensors), List[CacheRegion](), 0, "full_prefix")
     var key_elements = checked_product(plan.kv_heads, plan.key_dim)
     var value_elements = checked_product(plan.kv_heads, plan.value_dim)
     var key_bytes = checked_product(key_elements, policy.key_width)
@@ -209,6 +232,8 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
                         if step <= view.producer:
                             raise Error("CacheLayout: view used before production")
                         last = step
+            if is_plan_export(plan, view_id):
+                last = len(plan.operations)
             if view.last_use != last:
                 raise Error("CacheLayout: cache view lifetime mismatch")
             bases[base_id] = True
@@ -230,6 +255,12 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
 
 def validate_cache_layout(layout: CacheLayout) raises:
     _policy(layout.policy)
+    if layout.mode != "cached_append" and layout.mode != "full_prefix":
+        raise Error("CacheLayout: invalid returned session mode")
+    if layout.mode == "full_prefix":
+        if layout.layers <= 0 or layout.layers > layout.source_tensor_count or layout.capacity <= 0 or layout.heads <= 0 or layout.key_dim <= 0 or layout.value_dim <= 0 or len(layout.regions) != 0 or layout.total_bytes != 0:
+            raise Error("CacheLayout: invalid full-prefix empty persistent layout")
+        return
     if layout.layers <= 0 or len(layout.regions) != checked_product(layout.layers, 2) or layout.source_tensor_count <= 0:
         raise Error("CacheLayout: invalid returned region count/graph extent")
     var cursor = 0

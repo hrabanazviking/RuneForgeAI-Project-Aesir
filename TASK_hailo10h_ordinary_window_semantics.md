@@ -1,0 +1,30 @@
+# Ordinary per-layer attention window semantics
+
+Date:2026-10-21. Child of TASK_hailo10h_ordinary_rotary_modifiers.md.
+Controlling scope: docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+
+Continue automatically after verified session publication. Qualify ordinary
+layer_types, use_sliding_window, sliding_window, max_window_layers and NoPE
+interactions without dropping dormant/unknown source fields or treating a
+configuration constructor as a valid numerical model oracle. Preserve complete
+source/default/origin ownership, source scalar words, cache/return choices and
+all remaining unresolved facts. Missing semantics remain implementation work
+under broad model support, never permanent model eligibility restrictions.
+
+Use bounded license-first public interface and configuration/index-only probes.
+Do not copy/translate external implementation. No model/layer/attention forward,
+DFC, outside compiler/machine, special conversion, inference proxy or CPU/CUDA/
+cloud LLM execution. Isolated integer mask/index probes are permitted.
+
+Before code publish an exact owned per-layer policy/API, source projection,
+mask operation/recipe/domain and storage/cache/lifetime contract, including
+full-prefix and cached continuation, source/invocation provenance, exact work
+charges, overflow/ownership/mutation/refusal/recovery checks, complete frozen
+legacy comparisons and all downstream consumers. Do not conflate window mask
+selection with physical cache compaction or infer missing hardware geometry.
+
+Keep original numerical Hailo configuration/register/CCW encoding, precision/
+packing/placement, program upload/activation/results/cleanup active in parallel
+under TASK_hailo10h_numerical_encoding_sources.md. No guessed opcodes or host
+structure/metadata/fit claims as hardware execution. Verify, publish both heads
+and advance automatically.
