@@ -1,0 +1,15 @@
+{
+  "issue": "--binaries directory arguments were not remapped; scalar-source and source-scalar API were built but not executed as current binaries in the initial46suite pass.",
+  "all46_native_suites_passed": true,
+  "coverage_check_correctly_refused_success": true,
+  "missing_sources": [
+    "smidr/tools/decoder_scalar_source.mojo",
+    "tests/hailo_source_scalars_api.mojo"
+  ],
+  "repair": "Rerun ALL three directory-based suites with current source-identified aliases; resolve each actual invocation to its current binary before full frozen-control pairing. Preserve prior compatibility runs. No test/production/binary changes or omitted pairs.",
+  "supplemental_suites": [
+    "semantic_storage",
+    "source_scalars",
+    "rotary_recipes"
+  ]
+}

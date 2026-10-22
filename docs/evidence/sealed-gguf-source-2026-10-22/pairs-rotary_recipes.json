@@ -1,0 +1,2525 @@
+[
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f6779e1f115c8b69256640e530e14ffeba2087783d13dcf250245110d40c7431",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-0.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b2a870125865e66cf060fba77427751110f3fd20e63a81d9a69abb36e9b22f5e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-1.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b27fbc2e262ccf96ccf4bbaffca044274e730e6d2cb409e014c5d89e34eb8a17",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-1.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "088dbb5f63a9eb7650f512abe27a9261b9effba7e6952c11148400db115dcfda",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-1.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1b6433a9a7881d3d9bb13bf4b78c1e72f69273334d01266ab8e64c30e343d00b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-2.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3366d5e9f57b423bb9ff2c476b529b92154cb54ddebbe3958b4e1c7c9c84e4a2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-2.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "203c2d24fdef2929e201a7817ade522cfa3d91dd61e0ec3e8ab2e82748681e71",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-2.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "66384e37fe9115b7fd490489208dd693b1aafb8b4ac554dfdadf418d98f62bcd",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-3.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "64aebffe1006525b0ee8556c74d6ee67905b047f632376bf8ac53d1ed02259c2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-3.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "16667653f3e52fe1578e0dec7d05dd55381c37842889f79cec063eb9c984f9de",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-3.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6c63ead125fabb23eb39944f610910ad4893538e6823bcd97754be310ff0b83d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f6779e1f115c8b69256640e530e14ffeba2087783d13dcf250245110d40c7431",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-4.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b2a870125865e66cf060fba77427751110f3fd20e63a81d9a69abb36e9b22f5e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-5.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b27fbc2e262ccf96ccf4bbaffca044274e730e6d2cb409e014c5d89e34eb8a17",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-5.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "088dbb5f63a9eb7650f512abe27a9261b9effba7e6952c11148400db115dcfda",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/legacy-5.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "8",
+      "16",
+      "8192",
+      "128",
+      "1000000",
+      "explicit synthetic scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1b6433a9a7881d3d9bb13bf4b78c1e72f69273334d01266ab8e64c30e343d00b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-36.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "66970743313ba046cdb3369973dce21707fcccfc553627a53a7f760d7c376751",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-37.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b6ae294dc115c76ef79bfef1a35a0fdb9a79db835dff50f964d94de3a38effda",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-38.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2c13300f2ad1da67883a01b36d782f5c83a55868691d887d2d73778754b8d3e8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-39.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "496de1ba638c3975a2b7c49cc67ff0d0bf7f9676e35879f6a53e1f31845d410d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-40.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6f0357dfde4a7d5dab5bbada68a2d779c5032f963403aa611653f1ed646b94b9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-41.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c699fb294cdf509004f67c3c84bd6d23e552ccd36a39dac43ecd81fa90d4f798",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-42.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5f87a5d05e73e57b6a000660ed4827d5599fbbcdf3cc4c6d1624aebcdeecdc53",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-43.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "183bc8d91c7ed5026afe5399d602cf44eda1cbb0bde2ddf68b0c18373a25536f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-44.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f999b653b3ce7cdfdab445ab2d2b0748521f503b21165c1cf2db55f5c3648994",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-45.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "acfd2bc9d25642236a40070cb858b5a8526fb4543d3b8c48b138480b6d699f62",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-46.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2409ca23b18bb810d2a53fc38bbbef76bb88ac8d12012933060c8207959d65da",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-47.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "54847de613d9d209cf35e20c2a41cae29d379c81c4b339fa0a48434bd77ef4d6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-48.gguf",
+      "3",
+      "2",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "865aa7970f1721d853fe56c20db848d214867ecab60fa3360467520063f97546",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-49.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f0e25d60a08f1a5beab4a5b40c90b6353ae696d5066371e1515dea6641f72e8a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-50.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d34a958fcd04331141d1837c56b805464dce1a7cb45093415b1713ea236dd431",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-51.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4889705c7d7b8863d5f3284b06f8e5b3de2bb47f14127e60838a5e2a1a70363c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-52.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5d79e86f492f02fc5888d032ddc79add82a1e7359abbaa6cd8a56aae2e076019",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-53.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2c93f6010657e555855eea160e4b84734bb5742eb8d820d951513e16624ea918",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-54.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "22a5be39c38d5b2a565d4f2b1ce617e04136d4b45f1b38ad557c6419f1a11443",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-55.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "44ebc8bfc2041b1d5c1028737aa8d8b461e7186ac35171a0ceb79dfd8a6f1d9e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-56.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "61c3854bce0bdb923225e99fb50b94a4407834842f340a2dc556ae2c9c45d074",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-57.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "50f14b20835c4f8b5a48052e40a42dabe536855be9c304bd6e265d037aae1d32",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-58.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "120b7f99b1754af6606c84dce240a882e5c03dc58163abc15b6ac4984ba15595",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-59.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4b3bbd904a7005b0209659b068ed6c3486107b9eb0df73d29e2dfef13cdbed5d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-60.gguf",
+      "3",
+      "2",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,0,1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fc20678e8cbff2f056a5c3c7ca0ce6230de60d94f3df76ea0f625cc67c1a2279",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-61.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2b4067d63ab0e1c4a475033390f15e01acc848bdb1a6b09d30146a4a14be5b26",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-62.gguf",
+      "1",
+      "7",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1,1,1,0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a3703968664d4cf48883b5901588243d53dc5a8c120f6e3b7f20f4a9687c12d5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-63.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1c91b8110f44cd48d7469ab78b082854a804bfb876738a5445ba290407dea345",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-64.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "322",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "06ba44774daf905da55e31fbe0be7e16c744cba26ddfd0daf88156888f2f86c6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/short.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "100",
+      "321",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: descriptor work exceeds policy",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-66.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9c8cc85160af821027a30110ec660f0740b70f37a675865a982e2fad2863acee",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-67.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "1000",
+      "22",
+      "0"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "454c62cf13e66994e6d8eaf35516082270c257d80573e5eb06ca1723084c46d4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/short.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "basis \u03bb\u539f",
+      "100",
+      "21",
+      "0"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source operation scan exceeds work policy",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-69.gguf",
+      "2",
+      "1",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ca254978b762c612559867bb1ef5d8f22a7d28fda2260c24e33a3905b92c8d6f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-70.gguf",
+      "2",
+      "1",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e65c547e1318bb4dad2b67dcdd57214bb4dba8a04588597fc4b7801d3e11600b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-71.gguf",
+      "2",
+      "1",
+      "16",
+      "adjacent",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "acb317931b9e48019ea98dc71193c63a5bf7b631639ef6c3b956766747530f07",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-72.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b2f80a15849ea0e44277312677db92c14781289b24151299e6207a6c000c652a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-73.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "057b48ec09146e92b617a061f679343fed7e476e24b08a8cded027677fe0b396",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-028",
+    "control_binary": "../iq4-native-final/rotary-recipes",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/case-74.gguf",
+      "2",
+      "1",
+      "16",
+      "split_half",
+      "test-only explicit basis",
+      "1000",
+      "10000000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "86940528380a17260f4ce90a2a7883dc2c04233e615de0e100c870642bc6498f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "bad_pairing"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: explicit basis/provenance and positive bounds required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "empty_provenance"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: explicit basis/provenance and positive bounds required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "zero_recipe_bound"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: explicit basis/provenance and positive bounds required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "short_recipe_bound"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: recipe count exceeds policy",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "zero_work"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: explicit basis/provenance and positive bounds required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "work_short"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: descriptor work exceeds policy",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "arity"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source arity/output/weight",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "negative_input"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source input/order/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "negative_output"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source arity/output/weight",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "weight"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source arity/output/weight",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_forward"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source input/order/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_expired"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source input/order/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_rank"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source activation axes mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_product"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_alias"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_persistent"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_rank"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source activation axes mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_product"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_producer"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_alias"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_persistent"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "position_producer"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "position_name"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "position_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "position_product"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "position_alias"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "position_persistent"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source product/position identity mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "dimension_zero"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid typed dimensions/base",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "dimension_odd"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid typed dimensions/base",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "dimension_excess"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid typed dimensions/base",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "base_zero"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid typed dimensions/base",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "base_nan"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid typed dimensions/base",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "head_role"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: source activation axes mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "product_overflow"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "source_policy"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: complete bounded tagged source required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_negative_producer"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source input/order/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "input_excess_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid source input/order/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_expired"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "output_excess_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryRecipe: invalid activation/output roles",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_pairing"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_provenance"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_dim"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_base"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedStorage: expanded scalar/mirror changed",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_kind"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_edge"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe edge",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_arity"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_source"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_step"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_product"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_domain"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_storage"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_producer"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedStorage: stale global lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_position_domain"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedStorage: invalid external index role",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_export"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed exported mapping",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_stray_metadata"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: stray rotary metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_stray_kind"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: stray rotary metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_policy"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: stale descriptor work",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_work"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: stale descriptor work",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_disabled"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: stray rotary metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_source_base"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedStorage: retained recipe scalar/mirror changed",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_width"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_preconditions"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed recipe operation/metadata",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_inputs"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed owned recipe/mapping",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_local"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed owned recipe/mapping",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed owned recipe value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed owned recipe value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_kind"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed owned recipe operation",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_edge"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed owned recipe operation",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_identity"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "WindowExpansion: invalid/duplicate retained recipe",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_result"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "RotaryExpansion: changed owned recipe/mapping",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_recipe_metadata"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedStorage: retained recipe scalar/mirror changed",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "74223571026ce63fc0a93d930aa4801a7189586ce508f68e74b4f3439f6991e9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "graph_ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f446ab26a6217d06589ce0efe7db36033a82d0980be183d72dd53642b91d337e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-029",
+    "control_binary": "../iq4-native-final/rotary-api",
+    "arguments": [
+      "/tmp/aesir-rotary-e99g7huo/mutations.gguf",
+      "work_exact"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ea84ffebd9f73430ec718d8cffde21dd26312d2429b1c4ac2d60ee9c2d5484e4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

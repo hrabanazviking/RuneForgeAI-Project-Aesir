@@ -1,0 +1,15 @@
+.F...
+======================================================================
+FAIL: test_fault_progress_independent_attempt_budgets_and_cleanup (__main__.SealedCopy.test_fault_progress_independent_attempt_budgets_and_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_sealed_source_copy.py", line 108, in test_fault_progress_independent_attempt_budgets_and_cleanup
+    events=result[1];self.assertLessEqual(sum(e['op']=='source_read' for e in events),r);self.assertLessEqual(sum(e['op']=='copy_write' for e in events),w)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 48 not less than or equal to 24
+
+----------------------------------------------------------------------
+Ran 5 tests in 4.657s
+
+FAILED (failures=1)
+{'calls': 146, 'outcomes': {'accepted': 122, 'refused': 24}, 'complete_copied_byte_comparisons': 207509, 'fixtures': 52, 'traces': 53}

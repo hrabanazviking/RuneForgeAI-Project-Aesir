@@ -1,0 +1,12 @@
+{
+  "controls": 106,
+  "success_pairs": 7272,
+  "nonzero_pairs": 5851,
+  "skipped_pairs": 0,
+  "complete_mutation_pairs": 6,
+  "independent_complete_fault_log_pairs": 40,
+  "canonical_suites": 46,
+  "supplemental_directory_suite_reruns": 3,
+  "unchanged_native_binaries": 109,
+  "unchanged_old_python_inputs": 68
+}

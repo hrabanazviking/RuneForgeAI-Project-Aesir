@@ -1,0 +1,6 @@
+......
+----------------------------------------------------------------------
+Ran 6 tests in 4.674s
+
+OK
+{'calls': 221, 'outcomes': {'accepted': 156, 'refused': 65}, 'traces': 95, 'complete_comparisons': {'full_metadata_axes_binding_payload_and_file': 55, 'raw_bytes': 90687, 'complete_constant_components': 6924, 'complete_byte_tiles': 426, 'complete_original_post_mutation': 3, 'complete_parser_refusal_pairs': 25, 'complete_semantic_graphs_and_weight_bindings': 8}}

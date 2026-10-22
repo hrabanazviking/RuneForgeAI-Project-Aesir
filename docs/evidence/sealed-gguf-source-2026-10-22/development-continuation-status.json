@@ -1,0 +1,5 @@
+{
+  "state": "native_verification_failed",
+  "returncode": 1,
+  "log": "../sealed-gguf-native-development/native_verification.log"
+}

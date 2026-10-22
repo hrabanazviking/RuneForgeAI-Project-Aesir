@@ -1,0 +1,4059 @@
+[
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "unindexed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/ordinary",
+      "one.weights",
+      "config.json"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bff4123f9ccd7bb4792e68306c719460f9f794b0749b24b7c6cbeca88b929642",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "indexed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/ordinary",
+      "index.json",
+      "config.json"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cf2bc85ef71b0981faf035403e1b01e66602fa3170bcee33a80ebba3095372cb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "work_exact"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "306bab6ff889f7624c09e68880cbf8dd4ad2c9421fd02cd262d38057b3b62b1c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "691da054152ca6cced5ce4dfacc0dcb99f016e8b1b9d8ab6a52fe43840dfcf71",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "691da054152ca6cced5ce4dfacc0dcb99f016e8b1b9d8ab6a52fe43840dfcf71",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cca9c7df640890af86516c256722105ed37d8a90dfc64418b97a669e22a1e3f3",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9f1a66bdb19c44912ee91c4bcf8246b64d9886885338892eeaf631f30c0e6c25",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7e1b9bbf1bf68ca2e756a852ce1d5a1aaa71b2a3b072b67a7482b90b953b9e0f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5e4bfb1e25c0a0ee98e26a0940c57748314d96438b12c557e2ba87b34d15ab6d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "89e4f87b87c613801fada6ec8277c9d0e03c896728e8b91f354dc618d47e57a9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fde7f5173c1a6c717615a633637c46bac397d8b0931b44410a4a59656356a275",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-3.gguf",
+      "1",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c6be6cd814527aa0503586a63f2dc085eb535ee6e206bba1daa3833463e18f66",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a78e70a8ee9a87e7ee544daa144aadcdd6d6a40ce8069a824d3d12fd2a4ac5cd",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a78e70a8ee9a87e7ee544daa144aadcdd6d6a40ce8069a824d3d12fd2a4ac5cd",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "855f8baae3ee1d3efb3e2e1d49735ea3c9767b1c7f66aa43f349c288fb4521aa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "10d4dcd9f72f8bde568bc316d7f0ec2fee7a13fbbc8771bfcb15bece7d8cb7f0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f2ca39169af75f4f0791fbe793028d3db1df21b59ec837cd46de035c1215faba",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6c900cd8481f67ca6897839e2e5ae31fb03b4493fe3c19b962e5c21cb2376032",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c87068f7235a00a45a995d144d7f73d74c2bb2846e8e601a1a9075c1718adfab",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bdda8982c5802b69d4e03d684c829a4701010b23b4454f035e3d8e758869ed7e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-21.gguf",
+      "2",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "edfb38fab164f2008b916bbf72da7867201e1c29fb72a7a47e6512c247d169cd",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8d65f6b0b38232e6cf6be77cdcb99ca06bba5ef94bb71a531f45ddac31df4388",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8d65f6b0b38232e6cf6be77cdcb99ca06bba5ef94bb71a531f45ddac31df4388",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "0082d7e9acfece0bb46b542a1dc8bb6467ac808222c39b82ca9ab39d909b4c86",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "708ec5c19f094941be99caff94a5475d468c196f46bd5d2c18eaab6a622182dd",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9abc3fa19fab2d6d936beddd07cd53972c7d8be91845f493365b75f3606753f1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4258b614f58a18a9ed6387aed0926d997c79e9d2d081255acc1d6bfba567f697",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "23cc63071997a419e7b8158b856e865ac1ae353bbe81e98098bcbdcd1ef5285b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1b2557ffd541f0834dc0f060c539714632da9e677e8640ee27c46f3faf3f0a04",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-39.gguf",
+      "3",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "296c352bfef6fe6e2896e0c503d452d7a0765844a5db6fe7403292a6347bcfe8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6ea1e79817fff39742e1c9525ee2aaaa3facdc35170564594c7a289b426559ac",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6ea1e79817fff39742e1c9525ee2aaaa3facdc35170564594c7a289b426559ac",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c2e24f70986f36bbebbf30c66b3ff5357f6cafb9a6335dab7c0ee3068ce0f0f9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2b5e0c04bb72d11d385e7d41286bd0456466492632a1933718d856ac7718b147",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "363a7eb5f8a3ca5b9bb3b80ffe462d361f6de1bc997d4ed9680adfe081fd7ba6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e772b19a2347123542bd9f929ebe01b37f13c1c82efc4981cab4bc0d771e215d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4022d82017aa9e0fba85c806b82965ed2365de0d5b49e06f555f4edc5907505c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8e84d070c2eff62c134fb0ee11d11c157c35a8894814bc2d3915fb4742628471",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-57.gguf",
+      "1",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "08949a001afa170bf7eda196ea7297ace5ce33d998cf63f60deb9d0f453b9ec6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5a345267ed99fc830e03ed4f5fd457bbb6af174aa188352554cf52b94ed3c815",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5a345267ed99fc830e03ed4f5fd457bbb6af174aa188352554cf52b94ed3c815",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b45790cacb6a12d653fa709ae29cf0823b3491ccbc6cc313c13eb458e7492e2c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e045b1f9ba559747ea8a2176f276503dbcadf1ec5cc2339422ca14fc65b3ac15",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b9585fe54674de795d21073be8920b6b9229ebcdc3e7cba11809b838067ce833",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9671c66a1f09f8f8b24d1fd95dde4e81cc81000ec70cb6a01db2cd5bea5459bc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a7df038669e199fae474465664f6e97072e1ead1291b4ab0ea44b2267cd11158",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "dc12a878c1d494dce7b78b332a2d623cd8b93ddf4255efb9561764879b0b6710",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-75.gguf",
+      "2",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b515c819021ab5e896213fadf93ca16a0eb86a0037263e53c93a11ff25090489",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "af5fcc91a91289208a7d6cba0d8264b0bd373a7618dfdeae5c2d10cb9e424d22",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "af5fcc91a91289208a7d6cba0d8264b0bd373a7618dfdeae5c2d10cb9e424d22",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "31697ba6e245832156f1b52436f6a4228e0ae7eb76b7fe63f18832908dbe32f5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "19eea0290813f013611c20023ddf16247f66abb175989f25de8bfedda8b78226",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "849b5df98492b4a8684d4e081a103877a7106254e1f7cb19a68d51e42137b47b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c98d46a8270b8775b9d23cdf22e38ddc9d2ad717394bbdf5a8e3383305706e72",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "64cae5a4cc3f7f0cca4ab016fa4394a923d11897a0dd954d4f2ee75ce9f43d17",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ad92f7a8e4a7ab17450c9d363cc8e74b1395f31c31aaeea6f99e5349ed7492c4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-93.gguf",
+      "3",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e83e3ba7f6ee7a3175a32503dc89ba06e92dbec8c707d0687e5db9ba92aa2e67",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "18307d871183580dcedb68f2c71551400120c27d8ef4450ed475892b57425b72",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "18307d871183580dcedb68f2c71551400120c27d8ef4450ed475892b57425b72",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5453772d7b0da8d4fee8b09ef7e292aa5478d2a0e3238ed20c68f731b1c2c512",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4c5c894c41900bf28bc8220b9c3dfc6e02d0f7e74aa70a38be0b0ecb1abc35fe",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "873210a795b99460423a5f29d05ae7ffb83635ff882a7823ef4286b33d3dfe0b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "05e35e0d13d3ff5db1b43d604bf180052b75c05f0875a139eefcc66711270e32",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ce2ffebb1a4db199bd36028b28012929ae3a92c3fccfa27b6d28fa96d2f03f38",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "347977379dd0105ba9f25c1844ad0ee1501c935b2043d24659b4c4a34c5052e5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-111.gguf",
+      "1",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2c33beed57621dd7eca2ced06f124e9c402e1cb7593cbc96ba62eea64744761b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2c33beed57621dd7eca2ced06f124e9c402e1cb7593cbc96ba62eea64744761b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b8d867ddf4a941ce19691d6d7f8b201fa66eece5e0fe1d2526b4620e61e5b226",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "66c04a4af22078874e22ceef1a56033bda3071155eb3b6d13a2505948a8b2aa9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4bb5784935cfcd49673809b04887361a59a7a91cdf9cd5e6ab008250e82c3fa5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5e4282dc7b7e870b084e71c6dce5c558a728619d6202f1a0a955622c71599f4d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "192f387a2a5b0469180cfa9d4db367a19dc5546d2f2b06d98ea4df0ed82ef41c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9924b6e4901a1826afde842de253d81be6d326d92b53b5e7144b2c7bd30f1348",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-129.gguf",
+      "2",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6c0f49447e7057136b8631a073cfc6147d0712940c98d580ceba404317dca7c2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6c0f49447e7057136b8631a073cfc6147d0712940c98d580ceba404317dca7c2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "99d6216d8641e65b8167272a5567b81225a001cbd5349ec11121c7c8a370ad64",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e1c15c078734d86c2db76f7c0b6c7813add620eced79862b2750547dc21a8a46",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e79db9382a1e646c1b506e852be74ae303688dd1d1df42a3be06f1417be3b0f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b609e70b41ce68b6a8e6b48f777b44ee57c5b7a293e6226dc2e76aeb86f683ba",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a6c1e5943c6e13d0e395eaec52ca7de1c709553dc39222327360149dc027e961",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cf3f0ff2582d515145e453ecacf647a3c85ee92c947fa5b6b4c64bbe7e6a932f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-147.gguf",
+      "3",
+      "0",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "91d8f19fc75a8b05b087ffb33a7ab227b7d4ae7ffa712764f31bfd8268a1122c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "91d8f19fc75a8b05b087ffb33a7ab227b7d4ae7ffa712764f31bfd8268a1122c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f2462ac3497e663ed3390576400a01e39dbd540395f5fd6672b5e3dd7a4ea3f9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5d7cbcc39678df7ece6b4a18c5da41b8d477996a5eaba572dd27f8d528d8a7a4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f7f41c60b8a6833f367dad546a8a390e603bf383ac61a9fbc57aea1e06ad0d4f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4a5594bee3e589c2626e3fc79d83fe3f874877ba7f80435ff4be4d0d7a5e639b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a4d569085b91064a995fe9276b694957dfcd98dcf31cafae2bdf89322e6e955d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ed904b17c13b6ea31288a26ea46c794bb13cbda70daf1f3c0ab29d555514090c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-165.gguf",
+      "1",
+      "1",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5d25300265bd81298ea58499bbd39677504dadd1558997d473c5580ffbb6e065",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5d25300265bd81298ea58499bbd39677504dadd1558997d473c5580ffbb6e065",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "63deb77b65eebea5055be777c388496884d31b5d68fccd05715ea05d4d52b556",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "86b3bbbf1813d10cff039fd9f4e0f989de8e499be0c59d63c14be2a4349c3e54",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f6e4edcafc408d4fe42914cc29bba8c0d34105fdd29216399348e5dab475dd31",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b535811ac2c62d054ed2deeee497f80c538538bd4165a6f022e4117691cd4463",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5b8da79afbe2e72777ef46f6f45448175888d2b88b054ae847281223d07a08fe",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5f650147e7b8d60935cc4f259dfe0bb798a52cb9e24a136a2723773d480d9132",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-183.gguf",
+      "2",
+      "2",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-000",
+    "control_binary": "../iq4-native-final/tagged-semantic-plan",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "01b6482d2131dfc9b9a88c25743458354c9313305116bb75768ebdacfc5aac5e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-017",
+    "control_binary": "../iq4-native-final/tagged-typed-decoder",
+    "arguments": [
+      "typed",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "01b6482d2131dfc9b9a88c25743458354c9313305116bb75768ebdacfc5aac5e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-002",
+    "control_binary": "../iq4-native-final/tagged-expanded-graph",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bf4ec9bcf756ce4f81b9d07816642a1d9b0963b54cd81d2b8a8474d19b986b7b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-008",
+    "control_binary": "../iq4-native-final/tagged-primitive-recipes",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f63ef4d301eac663d1ed62e12256706fb14a8f9ae2bf75e5bc4fbb473366f34b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-014",
+    "control_binary": "../iq4-native-final/tagged-storage-estimate",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "90f2d80026011e5a9d185d8eb40585ebbf3343df16bebe9e6720efe73445a32a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-004",
+    "control_binary": "../iq4-native-final/tagged-expanded-storage",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "4",
+      "16",
+      "10000",
+      "100",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "136f008a5d12a674ffadf0e5e3516850971b39507449497912a5fec2326537f1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-006",
+    "control_binary": "../iq4-native-final/tagged-matrix-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "2",
+      "2",
+      "4",
+      "8",
+      "1073741824",
+      "test scenario",
+      "summary"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2090d4f63b898e46176e9beed98275a3a654bc86c760596a800164c00aad5f70",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-012",
+    "control_binary": "../sealed-copy-native-final/tagged-source-weight-tiles",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "1",
+      "2",
+      "3",
+      "0",
+      "1073741824",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "49b618cbbfe44fd718c30e7a14d78e85797e75aeb4c25266ba8f5ab693b3760f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-010",
+    "control_binary": "../iq4-native-final/tagged-cache-layout",
+    "arguments": [
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-201.gguf",
+      "3",
+      "3",
+      "16",
+      "2",
+      "2",
+      "1048576",
+      "1048576",
+      "16",
+      "1099511627776",
+      "test scenario"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3cb695ec930ad7ee5637c3e2a0a39180b807a830f78943aaa28483412f378527",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "format"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceStorage: current GGUF source axes unresolved",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "dtype"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical projection differs from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "projection_kind"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical projection differs from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "axis_order"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceStorage: safetensors source axis order mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "axes"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical axes differ from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "elements"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceStorage: source element count mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical axes differ from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical axes differ from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "offset"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical projection differs from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "bytes"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical projection differs from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "file_size"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: diagnostic source summary mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "data_offset"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: diagnostic source summary mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "path"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: missing original backing file",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "missing_storage"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: complete bounded tagged source required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "missing_file"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: complete bounded tagged source required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "summary_size"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: diagnostic source summary mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "summary_offset"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: diagnostic source summary mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "total"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: aggregate weight byte count mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "provenance"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: complete bounded tagged source required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "rank_bound"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: source rank/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "work_bound"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: descriptor work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "file_bound"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: complete bounded tagged source required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "tensor_bound"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: complete bounded tagged source required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "overflow"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceStorage: invalid or overflowing source product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "untagged"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: complete bounded tagged source required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "duplicate_original"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: duplicate original name in backing file",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "overlap"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: overlapping per-file source spans",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "work_short"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: source rank/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "alias_missing"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: explicit bounded one-to-one aliases required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "alias_absent"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: duplicate or absent explicit alias",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "alias_duplicate"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: duplicate or absent explicit alias",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "alias_canonical"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: duplicate or absent explicit alias",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "alias_provenance"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: explicit bounded one-to-one aliases required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-252.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5406609fa5a77c5b74c0a7b2fdc11704fff2c738c70ab86f3b06c6beec406a46",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-252.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5406609fa5a77c5b74c0a7b2fdc11704fff2c738c70ab86f3b06c6beec406a46",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-254.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "db61cc3b0768e95fc301114b74c1a609b40867aead76b70b2ec53e070dd022a8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "gguf",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-254.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "db61cc3b0768e95fc301114b74c1a609b40867aead76b70b2ec53e070dd022a8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-256.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2956c921264f5191f5570fb3577ff6765a3bd5cf24ce52147bd84ac9a099878a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-256.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: vector and matrix source roles differ",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-258.source",
+      "w",
+      "7",
+      "1",
+      "vector"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: vector and matrix source roles differ",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "view",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-258.source",
+      "w",
+      "7",
+      "1",
+      "matrix"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6d3e7ba2e1beddaab429b8a0dba1e2fb4aa480248d024fc4a123e458fc64889a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "gguf_reader",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-260.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceWeightTiles: actual GGUF owner/path required for GGUF byte reader",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-261.source",
+      ""
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: operation view for source rank remains unresolved",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-262.source",
+      ""
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical axes differ from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-263.source",
+      ""
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical axes differ from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-264.source",
+      ""
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: operation view for source rank remains unresolved",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-265.one",
+      "left/",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/other.weights",
+      "right/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "61c1be7fe2e204dbeb173719ab738b0d1a968010f058eee417e6ab9511e101f2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-265.one",
+      "",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/other.weights",
+      ""
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: duplicate or absent explicit alias",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-265.one",
+      "left/",
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-265.one",
+      "right/"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: explicit bounded one-to-one aliases required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-265.one",
+      "s/",
+      "gguf",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-268.gguf",
+      "g/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "48256d46bec4f257477e1a928a3d98b27b8f8b330c1f9691609dc879c24e9e5b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-269.weights",
+      "explicit/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4ba6caf81624ba64ddee7f81aacf5315b7cb5b55abbf460fdfbc16c128227fd7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "eceed6686e50c181536383db6917a12f3eee914cbfaaafd6279696b9f6d4e2d7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-271.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5ed480a354a6aaf8be3781d14c409dbb4fbf88dd56aaa491935cfad40738ce25",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-272.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "95713aab2cd83b122291c8e31c1c7429219f45bfe22c0d8c58c4351c73413d01",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-273.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "eb820f3cb6fbf7806e60e7dfee40782f9ec3a52283a9f745987e8b127c2d3e3b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-274.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e426c531aa106f6e9d5c87bb88a23459ccdecdba66c006dc28c35fb19fdac4d8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-275.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "16816c1961631fdcbe329807aac464d02633d58ac4ad087e03601f155611298d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-276.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e313a6600fcab7667bb1494997e1d8965c6b5851a6dd30c22c92fa9381d598eb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-277.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d5ccb8e7a6fb12cf164ed1655b49406ecda34bfe31e998e01cfd187aee6739b6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-278.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2bc0a11227e9d86404d826c364cc0553632e83da28787c2c19e3c6383e8a588c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-279.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5f5c52afd3c769bdccdcc504b27a71b28bfc0fdcb8c7cb7082cdc892fc963794",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-280.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8c3d3ae741fbf28fab221030106588f2a73bc326883e06b7fe31ed21a92a4512",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-281.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6915548c18fbff5db8d1604757b661b95895b08fb051c9d5b9e37d25051494db",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-282.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d0db3e2788650c3fcb904c17455ae6d10082f025e21b8aec1bd4432c260a55d2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-283.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d4bce65b970f19190da27810f003f328cceb4bf4bf031dfba532b9e07f53cb22",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-284.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f5cfaedfe3efd2b6c577d0f52b6b7c5b41f221e68ff2c822ebed49405619e239",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-285.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2845df7b55b5f4e8ca5219e100adb107ea1a5eec9ed2bbbe90a107049b23455",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-286.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "46394304aa82364c049224a29076be009e2f39be5feff6c0f493a95ac8d1f308",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-287.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1d47d1327a6a8304033774fc87a95d655c9a11bfa46685aca4dc4fce91217e19",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-288.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e0e7209cd3b4d8c3e1bd9c683b24429002ced34beacb3170336672fe20f8562d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-289.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bb8dddabc825958312eb3a671a25952ef2a6e445756f5318f74bec025f45f001",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-290.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "89e4a501a4955d3b6f0b5c6558b8d387973b13bd6af7b07776e9f406ee4adc5d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-291.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b65e9e80f2fb1388d816c27bed3acc7a09026f9a0ae655347299b55323d778cc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-292.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c769db98cd617cd9e24a8a28dba606d9b568cbb8c16fad8cd714b1e6a2583de7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-293.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a396f138b1b130a330f87d3c1572fda9e0e3f96399d04f359e81a2169368bf8b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-294.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3f0bfffeda5d1798d0d133f375d90ac02bf6685630d6e6163fb56100457ac960",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-295.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bdd256572653498bd0070223a24fd5291f9f0aca3536e487477bca475c9eedf5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-296.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f8558624d0f48b5388bd50578289bfbf0c3c3cf8ec0a82fa9b9595859830bb69",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-297.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "555c02dbba86ebe7e6c6e6be4b09a84909d9590894f7b0b7f6a50c3a26582638",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-298.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "00066a67e497e29a0faab82e52a52d14897500e5f2c7d12ea8f536add4aec64b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-299.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f621374f16f705e5aec70bb9e77b50992fbdc7be92b9fb0684f57694b91f860d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-300.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "458a5e0e3bcad99c750fa49e6b6c066e5b457cfcfe4239971a9f274cdc04f75a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-301.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a634dc39325da4efebe8c9af86d2440e3bfde573219c7a1d405bdb1ed5058237",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-302.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cd70f3c37ba839f0d1d50ac45b4ac788dd1b64e4b8c41636ac183dd7fcfd69b6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-303.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "915c4846a933ccc338e8ab7bc083578725f854adcde9f8692c11f6bf21090cb9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-304.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d25add48dee2efa725395c906f7ca002fb7340e45c5d264dcfe84153fad3a3d5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-305.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "28de9b03d3c4ca1735e96e92a579d8390320c4eb7f0fcaa32ca6d4a43d04e566",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-018",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage",
+    "arguments": [
+      "safetensors",
+      "/tmp/aesir-semantic-storage-5tjh8ti2/source-306.weights",
+      "explicit/\u03c0/"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "eea4b2eec756dc05a75fc83f1c54fabe0cc85876d716280ac188bdb63159e4ec",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "accept"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "306bab6ff889f7624c09e68880cbf8dd4ad2c9421fd02cd262d38057b3b62b1c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "matrix"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "eceed6686e50c181536383db6917a12f3eee914cbfaaafd6279696b9f6d4e2d7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "eceed6686e50c181536383db6917a12f3eee914cbfaaafd6279696b9f6d4e2d7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "norm"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8402cc89bc28f247937dc4722c59da9eda3d0febda5e965f4aedc9ddcca7a308",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-019",
+    "control_binary": "../iq4-native-final/tagged-semantic-storage-api",
+    "arguments": [
+      "expanded"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "306bab6ff889f7624c09e68880cbf8dd4ad2c9421fd02cd262d38057b3b62b1c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

@@ -1,0 +1,758 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../sealed-gguf-native-final/old-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "278ac61b887c8699bf099558172007578ed65ccf606d524dcc52a5db4be55e25"
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "84f5b95631dfd00c3c05952af13aede66c1aca36965d9b84cd94bf37d7942ec8"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "834308adbcd073ca09ac557bc24dc72ca6bf019bc50006289573f988d0fa1466"
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b32eb9efbfce03fdf02e5457786199e23c9a3d84c9f35e308aa7549b2bf29fd3"
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "../sealed-gguf-native-final/old-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "11eda85b8d715eb3a901c9620753f13be34549c294ced6a92f817c2525d3c50f"
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-005",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "89badc7dfae2357d6086a2e06fc1e31f4f645a1fcc1e5dfb6cdaa4f4b06aaca1"
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "../sealed-gguf-native-final/old-006",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "16d4f67417dd6b9c6a4478802d3f8d9bfc32f0c322b45ea783aea010e17ea608"
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-007",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "00dd01ef8c383090d4bf82992c2007425cf8834ce98382aea0a9508dfe8bda68"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../sealed-gguf-native-final/old-008",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0f2c1d759c130e096af804d03fcb422ab5dba170411d4e4c9a7508732757aac9"
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-009",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "085a3b72f86c40d8ec0d994c394c37ef515868d05d5f3080cdd765da0ea40782"
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../sealed-gguf-native-final/old-010",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "859fc35dea2d22ceea9e5156fe8d5b35e9e77303e92dca4bb1c5f539e7848130"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-011",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "41156f8ffcfaab2e336569ed48946a4c7bfa7d9151739d3e25acbc4fafe1ef35"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../sealed-gguf-native-final/old-012",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "39928802ab417ac7c71982a0094242cd54f74aaef245ec0afa86248c082d1d8f"
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-013",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0353199ed624b8f9c1409876831b61e1722d041e4463c6a801d83d1fc010130a"
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "../sealed-gguf-native-final/old-014",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d9c7807dc904da1b42ae534931ed5ec1c715cb39738e6cea896cf09854ab6602"
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-015",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8426daf9f41b490323cd9b1a2ee434233f270c26720d2ad14c4be885e3b1b70a"
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "../sealed-gguf-native-final/old-016",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d2f12270fe1a4cc5a72c6d9701039e2ef36db16e68713afd5954875d150545dc"
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "../sealed-gguf-native-final/old-017",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6b9730895bc8867dee0e93eb3490897d22ec857f74171081b32f3f97785fb84a"
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "../sealed-gguf-native-final/old-018",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4401e1b0f1377d06007925a7afd736a01dfee75b22e7f522fcf258f6896c83c8"
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-019",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7c1cf46982b3ea066bc304b20b9ae883f8c0d67c7d2438ebf1887e42dbcf78c7"
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-020",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "732fd96ce34e6db4201d922781b458b9b6969d974e833972570031ac64887e3b"
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-021",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "86c2a7c7cc6a325a4a6b86904dcd3e6389e9a789ef2ac33189a6c9e1603e1251"
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-022",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "12eb21daf99c2c0024e752bc69e6684115eb9ef7680c14c8317e9296dc68c75a"
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-023",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "85d5e96719ba70512cee1509409c0510d2c9cd4c1eb59309aa8b87298a9fdc2c"
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-024",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "af9c8c6dd15a054494da455b92d1ceffb866829f3d8c414566758eccc53a151b"
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-025",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d1a7247f51b0d2e6315b13dd95f397fd9493ff3c5575e62646e82c898bfd9c1b"
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../sealed-gguf-native-final/old-026",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9f9ac84e046a9622c5126b4190ef10341c15337782795bb2c82dab269be56476"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-027",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3ef0565d22e00ae3b3aa4a6992367346bc930c0f67128aae741afded22a40dd9"
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "../sealed-gguf-native-final/old-028",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3bd93ccf787188ccb9ec98e76e203f5de4e8865645d05aa5296b57b2fbe59e58"
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-029",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6a1b9a60c0a61ba76292495961525ff30cae177e67fca4d2cd869717054b629f"
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "binary": "../sealed-gguf-native-final/old-030",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "dd2c758f91d989aea6745ac9d49a2fa7bed0dc42ef2af407d7849c01b99d92f1"
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-031",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "03597360cb30b4d30acd9dee208b2b49d612f21ca9ee837dd01601117ddb26d3"
+  },
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "binary": "../sealed-gguf-native-final/old-032",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "007b79c33396a53d19b8c11213f94fc0a67558687f6f66093809b981d9720619"
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-033",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d95ea236cee4726b95c4daa36194f9e3b2b14d02e53c60e43d2ef301bb9a864"
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "../sealed-gguf-native-final/old-034",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d01318bc78381c1985e1c8e10b882c8f616ffffd92373b52b13f19910ec847c6"
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-035",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fedaf0470983b27ef130624f916b7c656c83f08be1b76ee838b6dc1a2be8f72a"
+  },
+  {
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-036",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aabf24f674e2260da0a974010c667b91b144637e0e8a85530a2cef4d676d76af"
+  },
+  {
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-037",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b2095162a113b6f817532fcafd92afefe24311c38b0633f1faef9f3b29ca568a"
+  },
+  {
+    "source": "tests/hailo_bias_ownership.mojo",
+    "binary": "../sealed-gguf-native-final/old-038",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "790a12937ba158028d14e49a95e4e7b67dfeb6a3f0aa56866b85d45e54e6a910"
+  },
+  {
+    "source": "tests/hailo_bias_gguf.mojo",
+    "binary": "../sealed-gguf-native-final/old-039",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f4f81beb51bed996ce2d7fd0367901b37e1653bea87ef0f5c8c9aa53428ce3d4"
+  },
+  {
+    "source": "tests/hailo_bias_consumers.mojo",
+    "binary": "../sealed-gguf-native-final/old-040",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "23c64dd8a32f790a8536dcd223fa2897b056f5244ea4b0433b55b3ef7b2bd2f3"
+  },
+  {
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-041",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0fbd1d2f20fbf9abc0374669211e66697c98092a3c63a8e512efb2ff2905a60d"
+  },
+  {
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-042",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7530618bdbbaf973c5c5ea93bd781a4f549e33bceef8c5019bee3513d41393de"
+  },
+  {
+    "source": "tests/hailo_activation_ownership.mojo",
+    "binary": "../sealed-gguf-native-final/old-043",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b4162c16c497c9a45a5a5bc62872decbd723055b1b1adc946863cfd0c16b9154"
+  },
+  {
+    "source": "tests/hailo_activation_gguf.mojo",
+    "binary": "../sealed-gguf-native-final/old-044",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "78b0f26e00daeb52e3b2de28e16fc33f88c95040f18817c3ad6786b32916a6c6"
+  },
+  {
+    "source": "tests/hailo_activation_consumers.mojo",
+    "binary": "../sealed-gguf-native-final/old-045",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5d25e190d4e4be8898769b6bcc020501b09ffecae9a87cdfb3af1d878088581d"
+  },
+  {
+    "source": "smidr/tools/decoder_session_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-046",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a413a9b0a7d8f7fb404d75cc61ba2e68085dd13d00706180a5861f94b81f7f11"
+  },
+  {
+    "source": "tests/hailo_decoder_session_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-047",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3a9e3b494f62ac8a6f8b957252747d5dcd396c8f657e5fbc6be2a63d0e7ac9e1"
+  },
+  {
+    "source": "tests/hailo_session_ownership.mojo",
+    "binary": "../sealed-gguf-native-final/old-048",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b2ac18c500ae6e72995916b94cec1f5ffedd72eb2ae879c61d3d3fc9bcd63ae6"
+  },
+  {
+    "source": "tests/hailo_session_gguf.mojo",
+    "binary": "../sealed-gguf-native-final/old-049",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "56e8dd6489cbcf6189ca8731b4cd45f73d0777f0f74abc7abaca617752f73b8a"
+  },
+  {
+    "source": "tests/hailo_session_source.mojo",
+    "binary": "../sealed-gguf-native-final/old-050",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6a3b1088adfc4d8fc3039c3a07b312df2cbf29ef3cef3ffd96f1b0f3e7181ea3"
+  },
+  {
+    "source": "smidr/tools/decoder_window_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-051",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "becf6ab37c7d4e8fc4861836ca3373162071eb7561ad2442a1cdd05082006e0e"
+  },
+  {
+    "source": "tests/hailo_decoder_window_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-052",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "14ab6bb7c28cbe025ae1e863433028af28d820cd2540648ae184f4a4d055280e"
+  },
+  {
+    "source": "tests/hailo_window_source.mojo",
+    "binary": "../sealed-gguf-native-final/old-053",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4063394e27cf7481bbe36971c40cc55c8aafe5ac75a111c721c95aa25df12bb1"
+  },
+  {
+    "source": "tests/hailo_window_ownership.mojo",
+    "binary": "../sealed-gguf-native-final/old-054",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "27b9f9b73d859514a1678eb9f91ce870064678e48e5f9b34adf9110c7f443e0b"
+  },
+  {
+    "source": "tests/hailo_window_gguf.mojo",
+    "binary": "../sealed-gguf-native-final/old-055",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "af4e5c2f9683b4526fe4a3af3e28e42a05d934c8ea99ca2866f5a55cd088c53d"
+  },
+  {
+    "source": "tests/hailo_window_indices.mojo",
+    "binary": "../sealed-gguf-native-final/old-056",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "source": "tests/hailo_window_policy.mojo",
+    "binary": "../sealed-gguf-native-final/old-057",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-058",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a7b8b049d51947c683ba11ee5458b7ae07ad40eaa15da45c98bbb5a666aa5d5a"
+  },
+  {
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-059",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "388005edbd3a654564ae016a0cd2cdd9c0b41f7dc85fbe31da0e8479d4f93eb9"
+  },
+  {
+    "source": "tests/hailo_scaling_source.mojo",
+    "binary": "../sealed-gguf-native-final/old-060",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "db46d9a419f2412e6d0ef421a9fa91d7f1f7cdf6f9528ee5c1a2d0eaad8fd96a"
+  },
+  {
+    "source": "tests/hailo_scaling_ownership.mojo",
+    "binary": "../sealed-gguf-native-final/old-061",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a5bcb39bab4f83ee0a3f1e1e5a79f048787991f81b2427415984e7d0e1da39b4"
+  },
+  {
+    "source": "tests/hailo_scaling_gguf.mojo",
+    "binary": "../sealed-gguf-native-final/old-062",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1ba982d5856700d205578be913d53c17279e76088a36b519c15695cbac799d48"
+  },
+  {
+    "source": "tests/hailo_scaling_policy.mojo",
+    "binary": "../sealed-gguf-native-final/old-063",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "source": "tests/hailo_dynamic_rotary_context.mojo",
+    "binary": "../sealed-gguf-native-final/old-064",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "binary": "../sealed-gguf-native-final/old-065",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b6f16d6f50c9515746357c965a48211ed971409901688c26eb6fafaa7a9d3fc5"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "binary": "../sealed-gguf-native-final/old-066",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f3b14926bc12aa557e0e428b6b0d5ef8f6bf04c9a5216d3cc066d266a571ae79"
+  },
+  {
+    "source": "smidr/tools/dynamic_decoder_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-067",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "20f96da6b9b18dad7caf95ab6f732035c737cd7bcae1cfed9d5b595a17e619ff"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_graph.mojo",
+    "binary": "../sealed-gguf-native-final/old-068",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "64c60d83faeb870bbea07554fc8edfc07c0b17e40d0b12263138ef712bdc9d54"
+  },
+  {
+    "source": "tests/hailo_dynamic_graph_gguf.mojo",
+    "binary": "../sealed-gguf-native-final/old-069",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "28f44f2a1a6e243cfe266e8cc86236ab077aaa51df80d7984a7a074bf5960108"
+  },
+  {
+    "source": "smidr/tools/context_actions.mojo",
+    "binary": "../sealed-gguf-native-final/old-070",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "daf26af8df4ba53e0bb62eb122c9c80d6b794cf2a4075b54bbf98cf481e20bf7"
+  },
+  {
+    "source": "tests/hailo_context_action_ownership.mojo",
+    "binary": "../sealed-gguf-native-final/old-071",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96392e5c82488aa94840b47ee2673f3c7c9a72cf2e2332942efb915841f0d309"
+  },
+  {
+    "source": "smidr/tools/lcu_actions.mojo",
+    "binary": "../sealed-gguf-native-final/old-072",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de039ce12b8e47eeee7626cb27da75a55c18a90b19fd0a58e562b4099de9594"
+  },
+  {
+    "source": "tests/hailo_lcu_action_ownership.mojo",
+    "binary": "../sealed-gguf-native-final/old-073",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2342cba0412b5c5bc97661b944e2ac88404b99c6a617742332fa9d097b2c7b1c"
+  },
+  {
+    "source": "smidr/tools/source_q8_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-074",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c11cff083393d9572ce64bc0f1696d56f6dd6996e48bf62fd61611f5bce25dad"
+  },
+  {
+    "source": "tests/hailo_source_q8_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-075",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa916e1b21765b3a61253b2af89f0d0563993a72da41f39bf36ff8916ef01e30"
+  },
+  {
+    "source": "smidr/tools/source_classic32_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-076",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "12d8747ee005af4eb8c2750d63a057e742a14d8ba59ded48ce977573c8fce976"
+  },
+  {
+    "source": "tests/hailo_source_classic32_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-077",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "37f80e324ee840ac63044554e7e041b9debd7392210e79e9705277b3c82566b8"
+  },
+  {
+    "source": "smidr/tools/source_storage.mojo",
+    "binary": "../sealed-gguf-native-final/old-078",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "627a7bef6b1a8e132836283ff8c00415747eb1b6f277c6b7067959179ccf4cc3"
+  },
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-079",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "35c0669a7efb919fa1054018aea162348a2a97b3c50721f2fbb9e605145832e0"
+  },
+  {
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "binary": "../sealed-gguf-native-final/old-080",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "94d772eac4871487046feec67d04420aabff1443be180d976e16b3e6ee196c18"
+  },
+  {
+    "source": "smidr/tools/source_q2q3_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-081",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "14ca85c8ca9227c7d9bdc9cb1cb390731fd4e043fbab5fe9ea929dd21d418a95"
+  },
+  {
+    "source": "tests/hailo_source_q2q3_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-082",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "95d106bc598d59f3fa096e92f737850254a734ca9577d035c68a20cfdda4da6a"
+  },
+  {
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "binary": "../sealed-gguf-native-final/old-083",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "06c7216ec3daa4ed807c50fb79037ece7000e376d59f8652943fcb91ca3b4a95"
+  },
+  {
+    "source": "smidr/tools/decoder_layers.mojo",
+    "binary": "../sealed-gguf-native-final/old-084",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a9547e66aef92b81bee6afc79a5968b5c2a140ef05465a9d0ce65d4e1634bb57"
+  },
+  {
+    "source": "smidr/tools/gguf_shapes.mojo",
+    "binary": "../sealed-gguf-native-final/old-085",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "02b18f667ccba7642ec5bc90385d4009a722dc3b42320a768326bbaca5cf0e68"
+  },
+  {
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-086",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3982fcb098f8fb64a1bff2968ac880a5289fdf6087bde99b8f4985b48cc54352"
+  },
+  {
+    "source": "smidr/tools/shard_collection.mojo",
+    "binary": "../sealed-gguf-native-final/old-087",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b7b41920f6b98cd5de8530765584e8850b01bfbf066a5c292f885cec5ecb6aad"
+  },
+  {
+    "source": "smidr/tools/source_config.mojo",
+    "binary": "../sealed-gguf-native-final/old-088",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a"
+  },
+  {
+    "source": "smidr/tools/source_index.mojo",
+    "binary": "../sealed-gguf-native-final/old-089",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a"
+  },
+  {
+    "source": "smidr/tools/source_root.mojo",
+    "binary": "../sealed-gguf-native-final/old-090",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5"
+  },
+  {
+    "source": "smidr/tools/unindexed_source.mojo",
+    "binary": "../sealed-gguf-native-final/old-091",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3a83e279def1b2b58b7425ba1ae67a2c56e38207411d4533aaeb48cc956603d4"
+  },
+  {
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-092",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "cf96b5749d66655fb3241f846bb04a7c33b3103d9516122555c8460c1661d079"
+  },
+  {
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-093",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "433bce60d0537c0fc924fd83d6fa4a7012ec3ae5ac1b33d2ee65a7ad81c33358"
+  },
+  {
+    "source": "tests/hailo_gguf_shapes_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-094",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a9c76087748b088278af8071f901965af8e9951e70c5f9fd0fc8734249155813"
+  },
+  {
+    "source": "tests/hailo_safetensors_constants_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-095",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f0d84e0a0f7b0957748fc97c72779a5a9f7c2083e756aab8ee98e9423834044"
+  },
+  {
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-096",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e2ec76b57b84ebe67216c6ca4b8f04fca148c68717cbea334976ccaded54e86b"
+  },
+  {
+    "source": "tests/hailo_source_config_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-097",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f"
+  },
+  {
+    "source": "tests/hailo_source_index_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-098",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94"
+  },
+  {
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-099",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9993ebcafa446a3a783a58dc3f851ff2c3668da205acf0beee323e1d6f5c0d8d"
+  },
+  {
+    "source": "smidr/tools/source_iq4_constants.mojo",
+    "binary": "../sealed-gguf-native-final/old-100",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c5d5953e8cbc4aefa18da5997120b1ab6e0f0de7246e5730756ef96caf0dcc05"
+  },
+  {
+    "source": "tests/hailo_source_iq4_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-101",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "00a75fce9087a23cb74ffb88dcdb75e1cc71e39402cef67fd9637a8600d801a5"
+  },
+  {
+    "source": "smidr/tools/source_byte_digest.mojo",
+    "binary": "../sealed-gguf-native-final/old-102",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "db1b01d5fa60e6b11ef3f9cd9f11111e9c99c55e4862d698ba94e6dbef6e570f"
+  },
+  {
+    "source": "tests/hailo_source_digest_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-103",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "bbfd7db872b8100914a554fecb32de3bfd25f9a4d2f4cedfb79cbcc26318ea72"
+  },
+  {
+    "source": "smidr/tools/sealed_source_copy.mojo",
+    "binary": "../sealed-gguf-native-final/old-104",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "271387902ab33e3a424d47729273b71ad1c0dd5c28178c2441a9b1e99203340f"
+  },
+  {
+    "source": "tests/hailo_sealed_source_api.mojo",
+    "binary": "../sealed-gguf-native-final/old-105",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b9e7ebf9a12f509dd364608e19feee32e3c27f30e48bbead2dd749c586569144"
+  },
+  {
+    "source": "smidr/tools/sealed_gguf_source.mojo",
+    "binary": "../sealed-gguf-native-final/sealed-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d31b5d8f13068c7d956008f574e365996ac6db12653fe46f409d67ac1105a49"
+  },
+  {
+    "source": "tests/hailo_sealed_gguf_api.mojo",
+    "binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "46cc897b23f87d666f9a711599904707b82369f4bdbfb8407fc6c54550274709"
+  }
+]

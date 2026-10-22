@@ -1,0 +1,9 @@
+{
+  "failure": "Original digest auditor classified resumed-but-unreturned sigaltstack as a second unfinished call before joining the pending record.",
+  "trace": "../sealed-gguf-native-acceptance-v2/digest/trace-219.strace",
+  "pid": "3310123",
+  "retained_joined_record": "sigaltstack(NULL,   <unfinished ...>) = ?",
+  "correction": "Join matching PID/name before examining unfinished markers. Retain inline unfinished termination as opaque, without any inferred effect. All descriptor, extent, budget, map, close and forbidden-access checks retained.",
+  "native_or_frozen_input_changes": false,
+  "native_reruns_for_this_audit_correction": 0
+}

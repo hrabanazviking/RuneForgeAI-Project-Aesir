@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../sealed-gguf-native-reviewed/audit-old-digest.py", line 24, in <module>
+    for pid,line in logical(text):
+                    ^^^^^^^^^^^^^
+  File "../Project-Aesir/../sealed-gguf-native-reviewed/audit-old-digest.py", line 12, in logical
+    assert pid not in pending,line;pending[pid]=body.split('<unfinished ...>',1)[0];continue
+           ^^^^^^^^^^^^^^^^^^
+AssertionError: 3310123 <... sigaltstack resumed> <unfinished ...>) = ?

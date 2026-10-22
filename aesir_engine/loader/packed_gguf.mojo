@@ -94,6 +94,20 @@ struct PackedGGUF:
         self.data_offset = 0
         self.source._open_and_map()
         self.source._parse_header()
+        self._interpret_tables()
+
+    def __init__(out self, label: String, owned_sealed_fd: Int64, source_bytes: Int64) raises:
+        self.source = GGUFSeer(label)
+        self.fields = Dict[String, Int]()
+        self.field_types = Dict[String, Int]()
+        self.tensors = Dict[String, PackedTensor]()
+        self.tensor_shapes = Dict[String, List[Int]]()
+        self.data_offset = 0
+        self.source._adopt_owned_sealed_fd(owned_sealed_fd, source_bytes)
+        self.source._parse_header()
+        self._interpret_tables()
+
+    def _interpret_tables(mut self) raises:
         if self.source.kv_count > 4096 or self.source.tensor_count > 100000:
             raise Error("Packed GGUF: unreasonable table count")
         var cursor = 24

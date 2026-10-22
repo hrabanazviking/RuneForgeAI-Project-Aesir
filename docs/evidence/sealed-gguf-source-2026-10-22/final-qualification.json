@@ -1,0 +1,15 @@
+{
+  "qualified": true,
+  "canonical_suites": 46,
+  "controls": 106,
+  "complete_pairs": 13123,
+  "success_pairs": 7272,
+  "nonzero_pairs": 5851,
+  "complete_mutation_pairs": 6,
+  "independent_complete_fault_log_pairs": 40,
+  "supplemental_directory_suites_rerun": 3,
+  "trace_audits_passed": true,
+  "opaque_worker_termination_records_retained_without_inference": 1,
+  "production_or_old_test_changes_for_harness_or_auditor_corrections": false,
+  "publication_performed": false
+}

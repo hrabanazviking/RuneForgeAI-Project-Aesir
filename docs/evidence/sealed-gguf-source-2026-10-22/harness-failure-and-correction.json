@@ -1,0 +1,815 @@
+{
+  "failure": "Frozen control reused primary fault-log pathname, appending a second identical sequence to test diagnostic counts.",
+  "old_test_failure": "48 source_read events exceeded the primary24 attempt permit because both compared processes logged there.",
+  "production_or_old_test_changes_required": false,
+  "native_returncode_and_output_pairs_matched": true,
+  "retained_original_run": "../sealed-gguf-native-acceptance",
+  "representative_primary_record": {
+    "arguments": [
+      "/usr/bin/strace",
+      "-f",
+      "-y",
+      "-o",
+      "../sealed-gguf-native-acceptance/copy/trace-97.strace",
+      "../sealed-gguf-native-final/old-105",
+      "copy",
+      "../sealed-gguf-native-acceptance/copy/fixtures/33.source",
+      "70",
+      "70",
+      "24",
+      "24",
+      "1",
+      "aarch64",
+      "bytes"
+    ],
+    "returncode": 0,
+    "stdout": "{\"source_bytes\":70,\"digest_hex\":\"5767d69a906d4860db9079eb7e90ab4a543e5cb032fce846554aef6ceb600e1d\",\"reported_digest\":\"5767d69a906d4860db9079eb7e90ab4a543e5cb032fce846554aef6ceb600e1d\",\"hex\":\"000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445\",\"seals\":15,\"fd_flags\":1,\"source_read_calls\":24,\"copy_write_calls\":24,\"digest_read_calls\":1}\n",
+    "stderr": "",
+    "fault": "read_short",
+    "fault_events": [
+      {
+        "op": "source_stat",
+        "attempt": 1,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "create",
+        "attempt": 1,
+        "request": 3,
+        "offset": 0
+      },
+      {
+        "op": "source_read",
+        "attempt": 1,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "copy_write",
+        "attempt": 1,
+        "request": 3,
+        "offset": 0
+      },
+      {
+        "op": "source_read",
+        "attempt": 2,
+        "request": 67,
+        "offset": 3
+      },
+      {
+        "op": "copy_write",
+        "attempt": 2,
+        "request": 3,
+        "offset": 3
+      },
+      {
+        "op": "source_read",
+        "attempt": 3,
+        "request": 64,
+        "offset": 6
+      },
+      {
+        "op": "copy_write",
+        "attempt": 3,
+        "request": 3,
+        "offset": 6
+      },
+      {
+        "op": "source_read",
+        "attempt": 4,
+        "request": 61,
+        "offset": 9
+      },
+      {
+        "op": "copy_write",
+        "attempt": 4,
+        "request": 3,
+        "offset": 9
+      },
+      {
+        "op": "source_read",
+        "attempt": 5,
+        "request": 58,
+        "offset": 12
+      },
+      {
+        "op": "copy_write",
+        "attempt": 5,
+        "request": 3,
+        "offset": 12
+      },
+      {
+        "op": "source_read",
+        "attempt": 6,
+        "request": 55,
+        "offset": 15
+      },
+      {
+        "op": "copy_write",
+        "attempt": 6,
+        "request": 3,
+        "offset": 15
+      },
+      {
+        "op": "source_read",
+        "attempt": 7,
+        "request": 52,
+        "offset": 18
+      },
+      {
+        "op": "copy_write",
+        "attempt": 7,
+        "request": 3,
+        "offset": 18
+      },
+      {
+        "op": "source_read",
+        "attempt": 8,
+        "request": 49,
+        "offset": 21
+      },
+      {
+        "op": "copy_write",
+        "attempt": 8,
+        "request": 3,
+        "offset": 21
+      },
+      {
+        "op": "source_read",
+        "attempt": 9,
+        "request": 46,
+        "offset": 24
+      },
+      {
+        "op": "copy_write",
+        "attempt": 9,
+        "request": 3,
+        "offset": 24
+      },
+      {
+        "op": "source_read",
+        "attempt": 10,
+        "request": 43,
+        "offset": 27
+      },
+      {
+        "op": "copy_write",
+        "attempt": 10,
+        "request": 3,
+        "offset": 27
+      },
+      {
+        "op": "source_read",
+        "attempt": 11,
+        "request": 40,
+        "offset": 30
+      },
+      {
+        "op": "copy_write",
+        "attempt": 11,
+        "request": 3,
+        "offset": 30
+      },
+      {
+        "op": "source_read",
+        "attempt": 12,
+        "request": 37,
+        "offset": 33
+      },
+      {
+        "op": "copy_write",
+        "attempt": 12,
+        "request": 3,
+        "offset": 33
+      },
+      {
+        "op": "source_read",
+        "attempt": 13,
+        "request": 34,
+        "offset": 36
+      },
+      {
+        "op": "copy_write",
+        "attempt": 13,
+        "request": 3,
+        "offset": 36
+      },
+      {
+        "op": "source_read",
+        "attempt": 14,
+        "request": 31,
+        "offset": 39
+      },
+      {
+        "op": "copy_write",
+        "attempt": 14,
+        "request": 3,
+        "offset": 39
+      },
+      {
+        "op": "source_read",
+        "attempt": 15,
+        "request": 28,
+        "offset": 42
+      },
+      {
+        "op": "copy_write",
+        "attempt": 15,
+        "request": 3,
+        "offset": 42
+      },
+      {
+        "op": "source_read",
+        "attempt": 16,
+        "request": 25,
+        "offset": 45
+      },
+      {
+        "op": "copy_write",
+        "attempt": 16,
+        "request": 3,
+        "offset": 45
+      },
+      {
+        "op": "source_read",
+        "attempt": 17,
+        "request": 22,
+        "offset": 48
+      },
+      {
+        "op": "copy_write",
+        "attempt": 17,
+        "request": 3,
+        "offset": 48
+      },
+      {
+        "op": "source_read",
+        "attempt": 18,
+        "request": 19,
+        "offset": 51
+      },
+      {
+        "op": "copy_write",
+        "attempt": 18,
+        "request": 3,
+        "offset": 51
+      },
+      {
+        "op": "source_read",
+        "attempt": 19,
+        "request": 16,
+        "offset": 54
+      },
+      {
+        "op": "copy_write",
+        "attempt": 19,
+        "request": 3,
+        "offset": 54
+      },
+      {
+        "op": "source_read",
+        "attempt": 20,
+        "request": 13,
+        "offset": 57
+      },
+      {
+        "op": "copy_write",
+        "attempt": 20,
+        "request": 3,
+        "offset": 57
+      },
+      {
+        "op": "source_read",
+        "attempt": 21,
+        "request": 10,
+        "offset": 60
+      },
+      {
+        "op": "copy_write",
+        "attempt": 21,
+        "request": 3,
+        "offset": 60
+      },
+      {
+        "op": "source_read",
+        "attempt": 22,
+        "request": 7,
+        "offset": 63
+      },
+      {
+        "op": "copy_write",
+        "attempt": 22,
+        "request": 3,
+        "offset": 63
+      },
+      {
+        "op": "source_read",
+        "attempt": 23,
+        "request": 4,
+        "offset": 66
+      },
+      {
+        "op": "copy_write",
+        "attempt": 23,
+        "request": 3,
+        "offset": 66
+      },
+      {
+        "op": "source_read",
+        "attempt": 24,
+        "request": 1,
+        "offset": 69
+      },
+      {
+        "op": "copy_write",
+        "attempt": 24,
+        "request": 1,
+        "offset": 69
+      },
+      {
+        "op": "source_stat",
+        "attempt": 2,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 1,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "add_seals",
+        "attempt": 1,
+        "request": 15,
+        "offset": 0
+      },
+      {
+        "op": "get_seals",
+        "attempt": 1,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 2,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 3,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "digest_read",
+        "attempt": 1,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 4,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "get_seals",
+        "attempt": 2,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 5,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 6,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "digest_read",
+        "attempt": 2,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 7,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "digest_read",
+        "attempt": 3,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "get_seals",
+        "attempt": 3,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "source_stat",
+        "attempt": 1,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "create",
+        "attempt": 1,
+        "request": 3,
+        "offset": 0
+      },
+      {
+        "op": "source_read",
+        "attempt": 1,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "copy_write",
+        "attempt": 1,
+        "request": 3,
+        "offset": 0
+      },
+      {
+        "op": "source_read",
+        "attempt": 2,
+        "request": 67,
+        "offset": 3
+      },
+      {
+        "op": "copy_write",
+        "attempt": 2,
+        "request": 3,
+        "offset": 3
+      },
+      {
+        "op": "source_read",
+        "attempt": 3,
+        "request": 64,
+        "offset": 6
+      },
+      {
+        "op": "copy_write",
+        "attempt": 3,
+        "request": 3,
+        "offset": 6
+      },
+      {
+        "op": "source_read",
+        "attempt": 4,
+        "request": 61,
+        "offset": 9
+      },
+      {
+        "op": "copy_write",
+        "attempt": 4,
+        "request": 3,
+        "offset": 9
+      },
+      {
+        "op": "source_read",
+        "attempt": 5,
+        "request": 58,
+        "offset": 12
+      },
+      {
+        "op": "copy_write",
+        "attempt": 5,
+        "request": 3,
+        "offset": 12
+      },
+      {
+        "op": "source_read",
+        "attempt": 6,
+        "request": 55,
+        "offset": 15
+      },
+      {
+        "op": "copy_write",
+        "attempt": 6,
+        "request": 3,
+        "offset": 15
+      },
+      {
+        "op": "source_read",
+        "attempt": 7,
+        "request": 52,
+        "offset": 18
+      },
+      {
+        "op": "copy_write",
+        "attempt": 7,
+        "request": 3,
+        "offset": 18
+      },
+      {
+        "op": "source_read",
+        "attempt": 8,
+        "request": 49,
+        "offset": 21
+      },
+      {
+        "op": "copy_write",
+        "attempt": 8,
+        "request": 3,
+        "offset": 21
+      },
+      {
+        "op": "source_read",
+        "attempt": 9,
+        "request": 46,
+        "offset": 24
+      },
+      {
+        "op": "copy_write",
+        "attempt": 9,
+        "request": 3,
+        "offset": 24
+      },
+      {
+        "op": "source_read",
+        "attempt": 10,
+        "request": 43,
+        "offset": 27
+      },
+      {
+        "op": "copy_write",
+        "attempt": 10,
+        "request": 3,
+        "offset": 27
+      },
+      {
+        "op": "source_read",
+        "attempt": 11,
+        "request": 40,
+        "offset": 30
+      },
+      {
+        "op": "copy_write",
+        "attempt": 11,
+        "request": 3,
+        "offset": 30
+      },
+      {
+        "op": "source_read",
+        "attempt": 12,
+        "request": 37,
+        "offset": 33
+      },
+      {
+        "op": "copy_write",
+        "attempt": 12,
+        "request": 3,
+        "offset": 33
+      },
+      {
+        "op": "source_read",
+        "attempt": 13,
+        "request": 34,
+        "offset": 36
+      },
+      {
+        "op": "copy_write",
+        "attempt": 13,
+        "request": 3,
+        "offset": 36
+      },
+      {
+        "op": "source_read",
+        "attempt": 14,
+        "request": 31,
+        "offset": 39
+      },
+      {
+        "op": "copy_write",
+        "attempt": 14,
+        "request": 3,
+        "offset": 39
+      },
+      {
+        "op": "source_read",
+        "attempt": 15,
+        "request": 28,
+        "offset": 42
+      },
+      {
+        "op": "copy_write",
+        "attempt": 15,
+        "request": 3,
+        "offset": 42
+      },
+      {
+        "op": "source_read",
+        "attempt": 16,
+        "request": 25,
+        "offset": 45
+      },
+      {
+        "op": "copy_write",
+        "attempt": 16,
+        "request": 3,
+        "offset": 45
+      },
+      {
+        "op": "source_read",
+        "attempt": 17,
+        "request": 22,
+        "offset": 48
+      },
+      {
+        "op": "copy_write",
+        "attempt": 17,
+        "request": 3,
+        "offset": 48
+      },
+      {
+        "op": "source_read",
+        "attempt": 18,
+        "request": 19,
+        "offset": 51
+      },
+      {
+        "op": "copy_write",
+        "attempt": 18,
+        "request": 3,
+        "offset": 51
+      },
+      {
+        "op": "source_read",
+        "attempt": 19,
+        "request": 16,
+        "offset": 54
+      },
+      {
+        "op": "copy_write",
+        "attempt": 19,
+        "request": 3,
+        "offset": 54
+      },
+      {
+        "op": "source_read",
+        "attempt": 20,
+        "request": 13,
+        "offset": 57
+      },
+      {
+        "op": "copy_write",
+        "attempt": 20,
+        "request": 3,
+        "offset": 57
+      },
+      {
+        "op": "source_read",
+        "attempt": 21,
+        "request": 10,
+        "offset": 60
+      },
+      {
+        "op": "copy_write",
+        "attempt": 21,
+        "request": 3,
+        "offset": 60
+      },
+      {
+        "op": "source_read",
+        "attempt": 22,
+        "request": 7,
+        "offset": 63
+      },
+      {
+        "op": "copy_write",
+        "attempt": 22,
+        "request": 3,
+        "offset": 63
+      },
+      {
+        "op": "source_read",
+        "attempt": 23,
+        "request": 4,
+        "offset": 66
+      },
+      {
+        "op": "copy_write",
+        "attempt": 23,
+        "request": 3,
+        "offset": 66
+      },
+      {
+        "op": "source_read",
+        "attempt": 24,
+        "request": 1,
+        "offset": 69
+      },
+      {
+        "op": "copy_write",
+        "attempt": 24,
+        "request": 1,
+        "offset": 69
+      },
+      {
+        "op": "source_stat",
+        "attempt": 2,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 1,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "add_seals",
+        "attempt": 1,
+        "request": 15,
+        "offset": 0
+      },
+      {
+        "op": "get_seals",
+        "attempt": 1,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 2,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 3,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "digest_read",
+        "attempt": 1,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 4,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "get_seals",
+        "attempt": 2,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 5,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 6,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "digest_read",
+        "attempt": 2,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "destination_stat",
+        "attempt": 7,
+        "request": 0,
+        "offset": 0
+      },
+      {
+        "op": "digest_read",
+        "attempt": 3,
+        "request": 70,
+        "offset": 0
+      },
+      {
+        "op": "get_seals",
+        "attempt": 3,
+        "request": 0,
+        "offset": 0
+      }
+    ],
+    "source": "../sealed-gguf-native-acceptance/copy/fixtures/33.source",
+    "mutation": false
+  },
+  "repair": "Separate .frozen-control diagnostic log; require complete byte equality with primary and prove primary log unchanged. Retain both logs. Fresh full46-suite acceptance and all106control comparisons; no pair omission."
+}

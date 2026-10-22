@@ -1,0 +1,3724 @@
+[
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "2",
+      "1",
+      "8",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c697d729266d3d23e8863c38e7c045d46e3a3fbe436ed972bc5f5d1ff824447e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1",
+      "1",
+      "8",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: input byte/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "2",
+      "1",
+      "7",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: input byte/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "2",
+      "1",
+      "8",
+      "0"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a317d",
+      "7",
+      "1",
+      "29",
+      "2"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "35d551a710643757842d3b7e9a32d83268fccfe45a467b25fbcb9939ae7b9e17",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a317d",
+      "6",
+      "1",
+      "29",
+      "2"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: input byte/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a317d",
+      "7",
+      "1",
+      "28",
+      "2"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: root field/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a317d",
+      "7",
+      "1",
+      "29",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: JSON nesting bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "2",
+      "70",
+      "3"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d57e7f25381769dc2cbcc016eaeb8698e82dd36c82711d8cfceab4e911b8fb68",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "16",
+      "2",
+      "70",
+      "3"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: input byte/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "2",
+      "69",
+      "3"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: root field/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "2",
+      "70",
+      "2"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: JSON nesting bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a312c2262223a5b322c335d7d",
+      "17",
+      "1",
+      "70",
+      "3"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: root field/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "20",
+      "1",
+      "81",
+      "4"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4032b8db06c50556a634b7d3bd7527ae95f056890ac2566a789bc233a746d709",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "19",
+      "1",
+      "81",
+      "4"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: input byte/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "20",
+      "1",
+      "80",
+      "4"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: root field/work bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a7b226e6573746564223a5b315d7d7d",
+      "20",
+      "1",
+      "81",
+      "3"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: JSON nesting bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "0",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "-1",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "0",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "-1",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "0",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "-1",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "0"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "-1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "65"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: positive policies and depth at most64 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b305d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e9943e9036ed380682c194786f43ab90ee95c2402c165509d3d2fa85a1cfb8bb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b305d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: JSON nesting bound exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-28.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "dcbb27dd6f5d18122b13e7ce9974cb4b5fbae0c1bedcc0fab1e36ca9723b1b80",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-29.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1d2afb64bd17617599642e4d7b3b4b204724f6c8a149efc740476f34f254f394",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-30.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b8f890e182418c2d478757d29b984927bba55ed7d77227db8c8e3d85cbb03feb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/missing.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceMetadataFile: open failed: 2",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: regular file with reported size required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config.fifo",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: regular file with reported size required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/oversize.json",
+      "2",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceMetadataFile: source exceeds byte bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "cleanup",
+      "/tmp/aesir-source-config-1j48eteh/valid.json",
+      "/tmp/aesir-source-config-1j48eteh/invalid.json"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2a066fc17593d288f6d82574921e32d75201e115b5c4374324ace8f890284d1d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-37.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "5b5d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-39.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "74727565",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-41.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "227465787422",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-43.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: trailing data after JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d78",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: trailing data after JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-45.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: expected JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a30317d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: leading zero in JSON number",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-47.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a2b317d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-49.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: expected JSON number digits",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a2e317d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-51.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: expected JSON number digits",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a7472756566616c73657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON object",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-53.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: bad escape in JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a225c7544383030227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: lone surrogate in JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-55.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: bad code point in JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a22ff227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Cannot construct a String from invalid UTF-8 data",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-57.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Cannot construct a String from invalid UTF-8 data",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a22eda080227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Cannot construct a String from invalid UTF-8 data",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-59.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Cannot construct a String from invalid UTF-8 data",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a2200227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: control character in JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-61.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d00",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceConfig: trailing data after JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-63.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: duplicate skipped object key",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b2261223a7b2278223a302c2278223a317d7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: duplicate skipped object key",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-65.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: duplicate skipped object key",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-67.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: expected JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-69.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-71.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c3867369",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-73.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c38673697222",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-75.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-77.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f0",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-79.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-81.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c8122",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON array",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-83.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: expected JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-85.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-87.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f64",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-89.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-91.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f6469666965",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-93.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f64696669657222",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-95.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a74",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON literal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-97.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON literal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON literal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-99.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON object",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON array",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-101.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON object",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: expected JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-103.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c2274",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-105.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c22746169",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-107.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: unterminated JSON string",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c227461696c22",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-109.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON value",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c227461696c223a6e",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON literal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-111.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON literal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b22c386736972223a5b22f09f9c81222c7b226d6f646966696572223a747275657d5d2c227461696c223a6e756c",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON literal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-113.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "safetensors: malformed JSON object",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-114.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "349e323e993213f85025e1eda88780b6c14d26be90c28ca76cfd04d6247cf9f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-115.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c24468ead2d189512666bab63969b48181bb6db7573dbe440faebffad659d906",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-116.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "75e8025092c8cadda98399d6ba6f77ad90eefa22f381dba4e67b90750dfdb0a4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-117.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f19547c0e700581a5b163ce9daaaf2660dc1f968bbae6b409e1f2201f1866d00",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-118.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4ea4f4e19862cecd6b757b6e05c361fc24e8633bb775932cac1ecd35d35882af",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-119.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ba5960b1816f97f96cc5a6114ed8fa17ec2593cde37a8f85174f3a154c72e89e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-120.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "420622cc2e92229d62a95a3f8a8060345609d08cc9c274349a644f48658be61c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-121.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "0e4af2cc0befe75515c27aacf7690d4fd93a65aa99d01c45cce1eddf8ec1de54",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "207b2022726f70655f7363616c696e6722203a207b202274797065223a22667574757265222c2022666163746f72223a312e3030652b3032207d2c2022657073223a202d302c20226e616d65223a225c75303063365c7530303030222c2022667574757265223a5b747275652c206e756c6c2c207b2261223a327d5d207d200a",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8da8bb53203e34fd4fa15abbc5fd98d77ef1b25adf357b07f0eeb50c9433c5b7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c697d729266d3d23e8863c38e7c045d46e3a3fbe436ed972bc5f5d1ff824447e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b22223a6e756c6c2c22c3867369725c7530303030f09f9c81223a22746578745c7530303030227d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "24b07442a68f635f4da9cd8c6aebf4dad8e37b30c1da748fda5cb8f1a6548787",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b226d6f64656c5f74797065223a6e756c6c2c2261726368697465637475726573223a312c22756e6b6e6f776e223a747275657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "50450b13f9d4ef6645d8eee2c40c5cbd9dfdb4e3c894aa82438877140eb1a775",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b226d6f64656c5f74797065223a22667574757265222c227469655f776f72645f656d62656464696e6773223a66616c73652c226e6f5f726f70655f6c6179657273223a5b312c305d2c22736c6964696e675f77696e646f77223a383139322c226d6c705f62696173223a747275652c22617474656e74696f6e5f62696173223a66616c73657d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9f9f26fcba62f932e7b234f3028a05bf8c8f54f78871af864b24218a9837c65a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b226c61726765223a31303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030303030302c22736d616c6c223a31652d3130307d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fb83c52a34b7efbe07296080f6643d4ea658a1cd8cb941f1a0c46719780b8070",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a20202261726368697465637475726573223a205b0a2020202022536d6f6c4c4d33466f7243617573616c4c4d220a20205d2c0a202022617474656e74696f6e5f62696173223a2066616c73652c0a202022617474656e74696f6e5f64726f706f7574223a20302e302c0a202022626f735f746f6b656e5f6964223a203132383030302c0a202022656f735f746f6b656e5f6964223a203132383031322c0a20202268696464656e5f616374223a202273696c75222c0a20202268696464656e5f73697a65223a20323034382c0a202022696e697469616c697a65725f72616e6765223a20302e30322c0a202022696e7465726d6564696174655f73697a65223a2031313030382c0a2020226c617965725f7479706573223a205b0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e222c0a202020202266756c6c5f617474656e74696f6e220a20205d2c0a2020226d61785f706f736974696f6e5f656d62656464696e6773223a2036353533362c0a2020226d61785f77696e646f775f6c6179657273223a2032382c0a2020226d6c705f62696173223a2066616c73652c0a2020226d6f64656c5f74797065223a2022736d6f6c6c6d33222c0a2020226e6f5f726f70655f6c617965725f696e74657276616c223a20342c0a2020226e6f5f726f70655f6c6179657273223a205b0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020302c0a20202020312c0a20202020312c0a20202020312c0a20202020300a20205d2c0a2020226e756d5f617474656e74696f6e5f6865616473223a2031362c0a2020226e756d5f68696464656e5f6c6179657273223a2033362c0a2020226e756d5f6b65795f76616c75655f6865616473223a20342c0a2020227061645f746f6b656e5f6964223a203132383030342c0a202022707265747261696e696e675f7470223a20322c0a202022726d735f6e6f726d5f657073223a2031652d30362c0a202022726f70655f7363616c696e67223a206e756c6c2c0a202022726f70655f7468657461223a20353030303030302e302c0a202022736c6964696e675f77696e646f77223a206e756c6c2c0a2020227469655f776f72645f656d62656464696e6773223a20747275652c0a202022746f7263685f6474797065223a202262666c6f61743136222c0a2020227472616e73666f726d6572735f76657273696f6e223a2022342e35342e302e64657630222c0a2020227573655f6361636865223a2066616c73652c0a2020227573655f736c6964696e675f77696e646f77223a2066616c73652c0a202022766f6361625f73697a65223a203132383235360a7d0a",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "608584e3694c1666a39b4712870115904e7742dd997dae7d20b416f697739e75",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "../ordinary-model-metadata-study/config.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a7a7b9d1324abb7c1eb094791f39d767a70283e1a0cd299ee10adb77deafcdd7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c697d729266d3d23e8863c38e7c045d46e3a3fbe436ed972bc5f5d1ff824447e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-131.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fe4161182da97cd0bab3fe402af6ea2c617a1f974305c50f1efedd19630ad139",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d302d5c75303063365c7530303030223a202d320a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "246ad53c786e5cdb9ab757bb1be812929730709281839dbba0f177b714184f23",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a202020226669656c642d302dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a202020202020202020332c0a2020202020202020206e756c6c0a2020202020205d0a2020207d2c0a202020226669656c642d312dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a202020202020202020332c0a2020202020202020206e756c6c0a2020202020205d0a2020207d2c0a202020226669656c642d322dc3865c7530303030223a202d330a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d868b030a76d08a231e8c2656850283b78203a86f0f12806088db8e45937cfa7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d302d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d332d5c75303063365c7530303030223a20747275652c0a226669656c642d322d5c75303063365c7530303030223a202d342c0a226669656c642d312d5c75303063365c7530303030223a20747275650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "35a65538d11fb89038ee80813049bd27d4e4d4184f75feb9bb2c543b9cba1c09",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-135.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "46c7a06db5119f269bcd78ce853d998ab8d9c3db1285fadd69cf4d2e1aeb565c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d342d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d352d5c75303063365c7530303030223a205b0a20202020362c0a202020207b0a20202020202022666163746f72223a20362e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a20747275650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "09e05625ae8f07c1a82c5f9654d055ac455df6fdac35de478a2a6cc937bb78fa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-137.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "515f3f7cf69f9ef9cc6d27f026b22cf0fbe020ff81939cd40b19962b318967f9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d352d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d342d5c75303063365c7530303030223a20382c0a226669656c642d362d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a382c0a6e756c6c0a5d0a7d2c0a226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a226669656c642d322d5c75303063365c7530303030223a202d382c0a226669656c642d372d5c75303063365c7530303030223a20382c0a226669656c642d332d5c75303063365c7530303030223a2066616c73652c0a226669656c642d312d5c75303063365c7530303030223a205b0a382c0a7b0a22666163746f72223a20382e32350a7d0a5d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1f11c460eef502ca1386ade97b6b19a011f389cc6b4938d93923f3bd949a5589",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a20226669656c642d302dc3865c7530303030223a206e756c6c2c0a20226669656c642d342dc3865c7530303030223a2066616c73652c0a20226669656c642d322dc3865c7530303030223a206e756c6c2c0a20226669656c642d362dc3865c7530303030223a2066616c73652c0a20226669656c642d332dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d352dc3865c7530303030223a202d392c0a20226669656c642d372dc3865c7530303030223a2066616c73652c0a20226669656c642d382dc3865c7530303030223a206e756c6c2c0a20226669656c642d312dc3865c7530303030223a2022f09f9c81220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4bf1dc4cae7648068328f691f5e5d366c6ed997147dda1574d960bf0c4c728bf",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d342d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202031302c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d392d5c75303063365c7530303030223a20747275652c0a2020226669656c642d372d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d302d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a2031302c0a2020226669656c642d312d5c75303063365c7530303030223a2031302c0a2020226669656c642d362d5c75303063365c7530303030223a205b0a2020202031302c0a202020207b0a20202020202022666163746f72223a2031302e32350a202020207d0a20205d2c0a2020226669656c642d382d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d332d5c75303063365c7530303030223a205b0a2020202031302c0a202020207b0a20202020202022666163746f72223a2031302e32350a202020207d0a20205d2c0a2020226669656c642d352d5c75303063365c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6a3a589c43c7fc78a14c9c7d868b37b7439d15056b2a5415acedafe01ee00c07",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-141.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8cafb8cf977786841776bd63d13615cc8bd0f61187df6797db7edfbaf493b026",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a226669656c642d342d5c75303063365c7530303030223a20747275652c0a226669656c642d382d5c75303063365c7530303030223a205b0a31322c0a7b0a22666163746f72223a2031322e32350a7d0a5d2c0a226669656c642d302d5c75303063365c7530303030223a202d31322c0a226669656c642d332d5c75303063365c7530303030223a2031322c0a226669656c642d31302d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a31322c0a6e756c6c0a5d0a7d2c0a226669656c642d312d5c75303063365c7530303030223a20747275652c0a226669656c642d392d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d362d5c75303063365c7530303030223a20747275652c0a226669656c642d352d5c75303063365c7530303030223a202d31322c0a226669656c642d372d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d322d5c75303063365c7530303030223a2031322c0a226669656c642d31312d5c75303063365c7530303030223a202d31320a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3d00333194f5b2135c498fd9b5d001410f6a8e82f130670168402ec6f62fe57b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-143.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1f0e9ce66b92c9f4ff6c1ec1eecac7ed0f8d3dcdeb764b5fa180b3f389354446",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a2031340a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8225a493624fa8b22ca790098dc1d2634b2599c6d0432a5dac324f14e699a3c8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a202020226669656c642d312dc3865c7530303030223a202d31352c0a202020226669656c642d302dc3865c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c262c8494c62e8cf746c877a403ed07372ce5dbbc0d9628654d881ed7a2c9b7f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d312d5c75303063365c7530303030223a2031362c0a226669656c642d322d5c75303063365c7530303030223a202d31362c0a226669656c642d302d5c75303063365c7530303030223a2031360a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1ea191a6822e45f5a6f63e9934be44ed707261ddbf88976e0794263aa3a2b47b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-147.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "866178b9aaef384387ccb7fb3dd27800432e0b3056aaaed92fd1ed304d67474d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202031382c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d322d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d342d5c75303063365c7530303030223a205b0a2020202031382c0a202020207b0a20202020202022666163746f72223a2031382e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a20747275652c0a2020226669656c642d302d5c75303063365c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2223abfbdc0a91ed8fb77acf7b6abfe7dac133bb258d4df331ef45cc95969d66",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-149.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e31ed7ee0893d21820ed3853136be4fd5d82947983f61092f4279d19d5287602",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d322d5c75303063365c7530303030223a205b0a32302c0a7b0a22666163746f72223a2032302e32350a7d0a5d2c0a226669656c642d312d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a32302c0a6e756c6c0a5d0a7d2c0a226669656c642d342d5c75303063365c7530303030223a20747275652c0a226669656c642d352d5c75303063365c7530303030223a202d32302c0a226669656c642d302d5c75303063365c7530303030223a2032302c0a226669656c642d362d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a32302c0a6e756c6c0a5d0a7d2c0a226669656c642d332d5c75303063365c7530303030223a202d32300a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6377630d92a801da377680268c5362da4fcfe1836c8966181cd6bd9507624fc4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a20226669656c642d342dc3865c7530303030223a207b0a2020226e6573746564223a205b0a20202032312c0a2020206e756c6c0a20205d0a207d2c0a20226669656c642d362dc3865c7530303030223a2066616c73652c0a20226669656c642d332dc3865c7530303030223a207b0a2020226e6573746564223a205b0a20202032312c0a2020206e756c6c0a20205d0a207d2c0a20226669656c642d322dc3865c7530303030223a202d32312c0a20226669656c642d302dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d372dc3865c7530303030223a20747275652c0a20226669656c642d352dc3865c7530303030223a202d32312c0a20226669656c642d312dc3865c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8dda18f9b24339da33ac6a88e12b97ed5701a03c61f46176505ef7db244eab98",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d322d5c75303063365c7530303030223a20747275652c0a2020226669656c642d352d5c75303063365c7530303030223a205b0a2020202032322c0a202020207b0a20202020202022666163746f72223a2032322e32350a202020207d0a20205d2c0a2020226669656c642d342d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d382d5c75303063365c7530303030223a20747275652c0a2020226669656c642d362d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d302d5c75303063365c7530303030223a2032322c0a2020226669656c642d312d5c75303063365c7530303030223a202d32322c0a2020226669656c642d332d5c75303063365c7530303030223a205b0a2020202032322c0a202020207b0a20202020202022666163746f72223a2032322e32350a202020207d0a20205d2c0a2020226669656c642d372d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4953bd7fda688ce497351b9479f9eef3f26853b600d702a6b11fd26b0cec6b10",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-153.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9d0b77439152e644c396c1557aeeac8aafe4a6001542a4ba96141869581c41b9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a226669656c642d31302d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d372d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d362d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d332d5c75303063365c7530303030223a205b0a32342c0a7b0a22666163746f72223a2032342e32350a7d0a5d2c0a226669656c642d392d5c75303063365c7530303030223a2032342c0a226669656c642d382d5c75303063365c7530303030223a20747275652c0a226669656c642d322d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d302d5c75303063365c7530303030223a202d32342c0a226669656c642d352d5c75303063365c7530303030223a202d32342c0a226669656c642d342d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a32342c0a6e756c6c0a5d0a7d2c0a226669656c642d312d5c75303063365c7530303030223a2032340a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "42674c3ceba72d29b3995cfca8cf2fdef513fb00c59df4fa65c8cd457b09a83a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-155.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "0b6702e3bbf85a222f4faf8bff1b3cb8680bb95b8f5b3208f3600503eb2d822c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c697d729266d3d23e8863c38e7c045d46e3a3fbe436ed972bc5f5d1ff824447e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a202020226669656c642d302dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a20202020202020202032372c0a2020202020202020206e756c6c0a2020202020205d0a2020207d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6b9296945a39d9c4d5622d3bcf441a5ff5290f17cf8a8c3d15a94b7aaedebc41",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d302d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "849905fa9a2f3fd53e1aa081cda4ddc55ef5a4e06295899ff3aedbaaa8fc7dbc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-159.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "44ffe64db72ae843b74de18c61c0481ffd1983f6460483af407d5b82a9ae3a4e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a2020226669656c642d322d5c75303063365c7530303030223a202d33302c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d332d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202033302c0a2020202020206e756c6c0a202020205d0a20207d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "95e0cac8361f45575209fcbc9da3535fb3a55e1e62c4a0e6a4276316ca1c5b24",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-161.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ba7595d9d1f56c1e662af9e2092056a4a1cb2349ce4f6d313905870a7d728493",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d312d5c75303063365c7530303030223a202d33322c0a226669656c642d322d5c75303063365c7530303030223a2033322c0a226669656c642d342d5c75303063365c7530303030223a202d33322c0a226669656c642d332d5c75303063365c7530303030223a202d33322c0a226669656c642d352d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a33322c0a6e756c6c0a5d0a7d2c0a226669656c642d302d5c75303063365c7530303030223a2033320a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8776caf7d47443f793bbb2481d5381cd655999b2ec3632aa577fa2aaad064814",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a20226669656c642d322dc3865c7530303030223a206e756c6c2c0a20226669656c642d362dc3865c7530303030223a205b0a202033332c0a20207b0a20202022666163746f72223a2033332e32350a20207d0a205d2c0a20226669656c642d332dc3865c7530303030223a2066616c73652c0a20226669656c642d352dc3865c7530303030223a2066616c73652c0a20226669656c642d312dc3865c7530303030223a20747275652c0a20226669656c642d302dc3865c7530303030223a2033332c0a20226669656c642d342dc3865c7530303030223a2022f09f9c81220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1ad9ef5162da4de563dfb38a397b0ca2234fd01594f71dd61c1dbcef0d28f955",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d332d5c75303063365c7530303030223a20747275652c0a2020226669656c642d352d5c75303063365c7530303030223a202d33342c0a2020226669656c642d322d5c75303063365c7530303030223a202d33342c0a2020226669656c642d302d5c75303063365c7530303030223a2033342c0a2020226669656c642d362d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d372d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d342d5c75303063365c7530303030223a202d33340a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ee2f3826e6d7680c9fc0d834de35cdb1708f302098f365f56bfa70b7f3c3eb40",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-165.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "358a5bd2454b8a32a86074ed54bfbee593618bf45a74a7433b679d1b920817c1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a226669656c642d372d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a33362c0a6e756c6c0a5d0a7d2c0a226669656c642d392d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d342d5c75303063365c7530303030223a205b0a33362c0a7b0a22666163746f72223a2033362e32350a7d0a5d2c0a226669656c642d352d5c75303063365c7530303030223a2066616c73652c0a226669656c642d332d5c75303063365c7530303030223a205b0a33362c0a7b0a22666163746f72223a2033362e32350a7d0a5d2c0a226669656c642d362d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d312d5c75303063365c7530303030223a2033362c0a226669656c642d322d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a33362c0a6e756c6c0a5d0a7d2c0a226669656c642d382d5c75303063365c7530303030223a2066616c73652c0a226669656c642d302d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9a79b1dc286cf2a3bcfb4c35bf33f3a75434bafb13d660fb4052ab9d54b7e00b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-167.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "0d4a584873878ea4a99f35ae32d6923d15341309e5d85374b156129908a1d3c0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d322d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d392d5c75303063365c7530303030223a205b0a2020202033382c0a202020207b0a20202020202022666163746f72223a2033382e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d31302d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d342d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d352d5c75303063365c7530303030223a2033382c0a2020226669656c642d302d5c75303063365c7530303030223a2033382c0a2020226669656c642d362d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d372d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d31312d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d382d5c75303063365c7530303030223a205b0a2020202033382c0a202020207b0a20202020202022666163746f72223a2033382e32350a202020207d0a20205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c4bac7614e8eeff9bfe02015940acd2bb0335d3534a8634d4e858b1898598916",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c697d729266d3d23e8863c38e7c045d46e3a3fbe436ed972bc5f5d1ff824447e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d302d5c75303063365c7530303030223a206e756c6c0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cb64d7890a5a713288ea6636a56b02a87120aed1b5f292b2055ee557d287ff54",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-171.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "649979136925a61a6a7b79badb52c5cb6edf33d4776e6a87e2d3ad7edc29e7f6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a2034322c0a2020226669656c642d302d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "21ca97665c694ed21ed71e7a92f814ce288fc7b87a46eb22423283ba86570558",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-173.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "642ad7f9522e1e99d7f4bc425ab5411778f3df4a4972f51c9c873d4a923be626",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d322d5c75303063365c7530303030223a2066616c73652c0a226669656c642d342d5c75303063365c7530303030223a205b0a34342c0a7b0a22666163746f72223a2034342e32350a7d0a5d2c0a226669656c642d332d5c75303063365c7530303030223a205b0a34342c0a7b0a22666163746f72223a2034342e32350a7d0a5d2c0a226669656c642d302d5c75303063365c7530303030223a2066616c73652c0a226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4588badd86104964382968f31730662ede24483c68038392a594b3abe6fd78a8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a20226669656c642d302dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d332dc3865c7530303030223a205b0a202034352c0a20207b0a20202022666163746f72223a2034352e32350a20207d0a205d2c0a20226669656c642d352dc3865c7530303030223a20747275652c0a20226669656c642d342dc3865c7530303030223a20747275652c0a20226669656c642d312dc3865c7530303030223a2022f09f9c81222c0a20226669656c642d322dc3865c7530303030223a202d34350a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c2d73ec51bef200004b2ba0cea471db34291e13316df7f02571dafe29bfe87f2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d352d5c75303063365c7530303030223a205b0a2020202034362c0a202020207b0a20202020202022666163746f72223a2034362e32350a202020207d0a20205d2c0a2020226669656c642d332d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202034362c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d312d5c75303063365c7530303030223a202d34362c0a2020226669656c642d362d5c75303063365c7530303030223a202d34362c0a2020226669656c642d322d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d342d5c75303063365c7530303030223a2066616c73650a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d287f4b45bc0394088e269d1790786cd49185f9c8d53fdb7bb47f5bbf2620624",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-177.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "316d51453d4899af3f47e23fcb799b89c72b2bcde77337992e25a529756a9b85",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a226669656c642d332d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d352d5c75303063365c7530303030223a202d34382c0a226669656c642d342d5c75303063365c7530303030223a20747275652c0a226669656c642d302d5c75303063365c7530303030223a2034382c0a226669656c642d362d5c75303063365c7530303030223a205b0a34382c0a7b0a22666163746f72223a2034382e32350a7d0a5d2c0a226669656c642d322d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a34382c0a6e756c6c0a5d0a7d2c0a226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a226669656c642d372d5c75303063365c7530303030223a205b0a34382c0a7b0a22666163746f72223a2034382e32350a7d0a5d2c0a226669656c642d382d5c75303063365c7530303030223a20225c75643833645c7564663031220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "90afa5153215857b2f6e72b058ddeb0412efc0ade74b6c59b2381b1ca821f776",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-179.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "751192df83b04becffcb942d48c7661d1c24f1a01916e608f3f88fb672426a02",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a2035302c0a2020226669656c642d31302d5c75303063365c7530303030223a205b0a2020202035302c0a202020207b0a20202020202022666163746f72223a2035302e32350a202020207d0a20205d2c0a2020226669656c642d362d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202035302c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d372d5c75303063365c7530303030223a20747275652c0a2020226669656c642d342d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d312d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d322d5c75303063365c7530303030223a20225c75643833645c7564663031222c0a2020226669656c642d392d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d352d5c75303063365c7530303030223a202d35302c0a2020226669656c642d332d5c75303063365c7530303030223a20747275652c0a2020226669656c642d382d5c75303063365c7530303030223a20225c75643833645c7564663031220a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cc0c47109fff64410a1b2eee1b8ced9f5d3587e87532f8c99901ab9a7da6fe83",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a202020226669656c642d342dc3865c7530303030223a207b0a202020202020226e6573746564223a205b0a20202020202020202035312c0a2020202020202020206e756c6c0a2020202020205d0a2020207d2c0a202020226669656c642d322dc3865c7530303030223a202d35312c0a202020226669656c642d382dc3865c7530303030223a2066616c73652c0a202020226669656c642d312dc3865c7530303030223a2022f09f9c81222c0a202020226669656c642d352dc3865c7530303030223a2066616c73652c0a202020226669656c642d31312dc3865c7530303030223a205b0a20202020202035312c0a2020202020207b0a20202020202020202022666163746f72223a2035312e32350a2020202020207d0a2020205d2c0a202020226669656c642d31302dc3865c7530303030223a2022f09f9c81222c0a202020226669656c642d332dc3865c7530303030223a2035312c0a202020226669656c642d362dc3865c7530303030223a202d35312c0a202020226669656c642d302dc3865c7530303030223a206e756c6c2c0a202020226669656c642d372dc3865c7530303030223a2066616c73652c0a202020226669656c642d392dc3865c7530303030223a205b0a20202020202035312c0a2020202020207b0a20202020202020202022666163746f72223a2035312e32350a2020202020207d0a2020205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5a7f3d24762c370f8137ea2a72ac8409058a7b6a8054407f431aaec10c8979de",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c697d729266d3d23e8863c38e7c045d46e3a3fbe436ed972bc5f5d1ff824447e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-183.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bfee2db31ae31a17d24b3072d875c99a7ba5f0d22e5d61bff3233b8fd8d19f93",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a2020226669656c642d302d5c75303063365c7530303030223a206e756c6c2c0a2020226669656c642d312d5c75303063365c7530303030223a205b0a2020202035342c0a202020207b0a20202020202022666163746f72223a2035342e32350a202020207d0a20205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "099d66960011be8ba7f995ff7b017886acabbfba470a560b599b39edd93ad232",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-185.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "022e2fce03ecb19852250de4cee74f1af8556afa32431db001ecd7e904b43b33",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a226669656c642d302d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d332d5c75303063365c7530303030223a206e756c6c2c0a226669656c642d312d5c75303063365c7530303030223a207b0a226e6573746564223a205b0a35362c0a6e756c6c0a5d0a7d2c0a226669656c642d322d5c75303063365c7530303030223a2035360a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "78e7efe8b9e9d2278a1de80fcca1cbc25428566c44af32783f9277e9d5044c86",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "ownership",
+      "7b0a20226669656c642d322dc3865c7530303030223a207b0a2020226e6573746564223a205b0a20202035372c0a2020206e756c6c0a20205d0a207d2c0a20226669656c642d332dc3865c7530303030223a2066616c73652c0a20226669656c642d312dc3865c7530303030223a206e756c6c2c0a20226669656c642d342dc3865c7530303030223a205b0a202035372c0a20207b0a20202022666163746f72223a2035372e32350a20207d0a205d2c0a20226669656c642d302dc3865c7530303030223a205b0a202035372c0a20207b0a20202022666163746f72223a2035372e32350a20207d0a205d0a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6133a8c6792ee681bb432fc44785b888fc116bdebe32932c66fe4e0263549226",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-097",
+    "control_binary": "../iq4-native-final/closure-hailo_source_config_api",
+    "arguments": [
+      "bytes",
+      "7b0a2020226669656c642d312d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202035382c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d352d5c75303063365c7530303030223a2066616c73652c0a2020226669656c642d332d5c75303063365c7530303030223a207b0a20202020226e6573746564223a205b0a20202020202035382c0a2020202020206e756c6c0a202020205d0a20207d2c0a2020226669656c642d322d5c75303063365c7530303030223a2035382c0a2020226669656c642d302d5c75303063365c7530303030223a205b0a2020202035382c0a202020207b0a20202020202022666163746f72223a2035382e32350a202020207d0a20205d2c0a2020226669656c642d342d5c75303063365c7530303030223a202d35380a7d",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a94ef1e62d35561100bebf418bfb2162eed26420024de6ae357ad3c2c5bb3d88",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-088",
+    "control_binary": "../iq4-native-final/closure-source_config",
+    "arguments": [
+      "/tmp/aesir-source-config-1j48eteh/config-189.json",
+      "1048576",
+      "10000",
+      "10000000",
+      "64"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7a6cc872020661b52cec27fec8bd8e0b7d3917d8a7e67b38d1cf73c7e71cbc4b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

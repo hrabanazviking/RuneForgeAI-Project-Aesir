@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 123 |
+| `verified` | 124 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **168** |
+| **Total** | **169** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3767,3 +3767,32 @@ No new capability ID or hardware/complete-source execution claim.
   reruns. One opaque worker termination record remains unclassified. Full old
   outputs compared, two mutation fixtures restored and final bytes compared,
   no skipped pairs; independent fault budgets and exact cleanup traces.
+
+### AES-SOURCE-029 — Owned sealed GGUF parser and source-reader integration
+
+- **Status:** `verified`
+- **Owner:** Original HAILBRU sealed owner, GGUFSeer/PackedGGUF and SMIÐR adapter.
+- **Claim sources:** TASK_hailo10h_sealed_gguf_source.md published at39d187d and
+  route clarification f208472 before production; fixed broad ordinary-model
+  scope in docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+- **Implementation evidence:** Checked exclusive transfer, actual same-fd seals/
+  extent and full digest, read-only shared mapping with independently captured
+  capacity, persistent sealed admission across close and one byte-identical
+  original table interpreter. Existing653 Mojo and68 Python inputs unchanged.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEALED_GGUF_SOURCE.md and
+  docs/evidence/sealed-gguf-source-2026-10-22/;109 clean Mojo/two C fault-shim
+  builds,46 canonical suites/322 methods/14257 primary calls,106 frozen
+  controls/13123 complete pairs. New221 calls,6924 complete constant components,
+  426 byte tiles,55 full source snapshots and eight structural graph comparisons.
+- **Evidence boundary:** Owned immutable observed GGUF input at existing parser,
+  constant/byte readers and structural compiler boundary. No atomic original
+  snapshot, compiled-artifact/session identity, device format/fit/placement,
+  numerical Hailo or source-model execution. Existing global flags stay false.
+- **Next acceptance gate:** Coherent compiler/artifact ownership across the owned
+  source lifetime, remaining ordinary formats/architectures/operations and real
+  numerical H10H configuration/packing/placement/program execution/results.
+- **Audit:**95 new traces,93 balanced memfds and72 exact-capacity unmaps;
+  407 legacy traces, six complete mutation pairs and40 independent complete
+  fault-log pairs. Shared-log and directory-mapping harness failures retained
+  and corrected without production/old-test changes or omitted comparisons.
+  One unreturned worker syscall remains opaque, with no inferred effect.

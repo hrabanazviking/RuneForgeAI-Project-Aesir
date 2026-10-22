@@ -1,0 +1,656 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff91318000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff910f0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff90f10000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff90e60000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff90bc0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff90b70000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff90030000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff8fff0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff912e0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff8ffc0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff6ebac000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff6e970000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff6e790000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff6e6e0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff6e440000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff6e3f0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff6d8b0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff6d870000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff6eb60000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff6d840000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffa0568000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffa02f0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffa0110000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffa0060000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff9fdc0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff9fd70000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff9f230000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff9f1f0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffa0530000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff9f1c0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff1627c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff16000000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff15e20000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff15d70000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff15ad0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff15a80000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff14f40000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff14f00000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff16230000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff14ed0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff84db8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff84b10000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff84930000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff84880000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff845e0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff84590000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff83a50000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff83a10000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff84d80000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff839e0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffeef478000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffeef1d0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffeeeff0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffeeef40000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffeeeca0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffeeec50000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffeee110000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffeee0d0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffeef440000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffeee0a0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffa7878000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffa7630000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffa7450000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffa73a0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffa7100000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffa70b0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffa6570000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffa6530000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffa7840000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffa6500000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff9ccf8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff9cae0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff9c900000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff9c850000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff9c5b0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff9c560000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff9ba20000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff9b9e0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff9ccc0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff9b9b0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff5de38000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff5dbd0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff5d9f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff5d940000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff5d6a0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff5d650000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff5cb10000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff5cad0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff5de00000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff5caa0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff53fe8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff53d90000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff53bb0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff53b00000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff53860000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff53810000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff52cd0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff52c90000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff53fb0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff52c60000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffefc228000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffefbfe0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffefbe00000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffefbd50000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffefbab0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffefba60000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffefaf20000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffefaee0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffefc1f0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffefaeb0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff2c9ec000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff2c790000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff2c5b0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff2c500000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff2c260000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff2c210000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff2b6d0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff2b690000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff2c9a0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff2b660000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffef4848000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffef4600000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffef4420000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffef4370000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffef40d0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffef4080000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffef3540000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffef3500000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffef4810000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffef34d0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff58998000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff58750000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff58570000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff584c0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff58220000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff581d0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff57690000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff57650000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff58960000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff57620000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffed2088000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffed1e40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffed1c60000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffed1bb0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffed1910000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffed18c0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffed0d80000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffed0d40000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffed2050000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffed0d10000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff021ec000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff01f90000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff01db0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff01d00000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff01a60000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff01a10000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff00ed0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff00e90000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff021a0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff00e60000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff4ea58000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff4e860000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff4e680000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff4e5d0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff4e330000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff4e2e0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff4d7a0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff4d760000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff4ea20000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff4d730000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff58d6c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff58b30000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff58950000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff588a0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff58600000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff585b0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff57a70000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff57a30000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff58d20000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff57a00000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff531ec000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff52fe0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff52e00000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff52d50000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff52ab0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff52a60000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff51f20000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff51ee0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff531a0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff51eb0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffec13c8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffec1120000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffec0f40000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffec0e90000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffec0bf0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffec0ba0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffec0060000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffec0020000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffec1390000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffebfff0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff2cc28000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff2ca40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff2c860000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff2c7b0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff2c510000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff2c4c0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff2b980000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff2b940000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff2cbf0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff2b910000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff73ccc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff73ad0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff738f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff73840000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff735a0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff73550000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff72a10000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff729d0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff73c80000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff729a0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff59f4c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff59d50000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff59b70000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff59ac0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff59820000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff597d0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff58c90000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff58c50000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff59f00000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff58c20000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffecae08000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffecac20000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffecaa40000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffeca990000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffeca6f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffeca6a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffec9b60000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffec9b20000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffecadd0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffec9af0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffec6dcc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffec6bd0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffec69f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffec6940000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffec66a0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffec6650000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffec5b10000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffec5ad0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffec6d80000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffec5aa0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffec5488000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffec52a0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffec50c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffec5010000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffec4d70000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffec4d20000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffec41e0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffec41a0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffec5450000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffec4170000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff18e88000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff18bc0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff189e0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff18930000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff18690000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff18640000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff17b00000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff17ac0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff18e50000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff17a90000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff9dda8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff9dad0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff9d8f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff9d840000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff9d5a0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff9d550000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff9ca10000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff9c9d0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff9dd70000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff9c9a0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffed7e68000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffed7ba0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffed79c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffed7910000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffed7670000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffed7620000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffed6ae0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffed6aa0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffed7e30000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffed6a70000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff555b8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff55310000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff55130000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff55080000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff54de0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff54d90000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff54250000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff54210000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff55580000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff541e0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff7c2ac000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff7bfb0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff7bdd0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff7bd20000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff7ba80000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff7ba30000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff7aef0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff7aeb0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff7c260000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff7ae80000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff889d8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff88710000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff88530000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff88480000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff881e0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff88190000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff87650000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff87610000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff889a0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff875e0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffee2c38000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffee2a00000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffee2820000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffee2770000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffee24d0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffee2480000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffee1940000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffee1900000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffee2c00000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffee18d0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff05bec000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff059a0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff057c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff05710000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff05470000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff05420000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff048e0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff048a0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff05ba0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff04870000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffb22bc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffb2070000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffb1e90000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffb1de0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffb1b40000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffb1af0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffb0fb0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffb0f70000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffb2270000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffb0f40000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff54bb8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff54980000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff547a0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff546f0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff54450000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff54400000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff538c0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff53880000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff54b80000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff53850000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffee08bc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffee05b0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffee03d0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffee0320000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffee0080000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffee0030000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffedf4f0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffedf4b0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffee0870000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffedf480000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff19208000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff18f20000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff18d40000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff18c90000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff189f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff189a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff17e60000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff17e20000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff191d0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff17df0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_bias_ownership.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff40d18000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff40a30000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff40850000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff407a0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff40500000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff404b0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff3f970000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff3f930000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff40ce0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff3f900000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_bias_gguf.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff28db8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff28af0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff28910000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff28860000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff285c0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff28570000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff27a30000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff279f0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff28d80000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff279c0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_bias_consumers.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff66f28000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff66cb0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff66ad0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff66a20000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff66780000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff66730000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff65bf0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff65bb0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff66ef0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff65b80000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff9ad7c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff9aa70000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff9a890000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff9a7e0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff9a540000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff9a4f0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff999b0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff99970000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff9ad30000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff99940000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffed4d38000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffed4a40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffed4860000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffed47b0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffed4510000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffed44c0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffed3980000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffed3940000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffed4d00000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffed3910000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_activation_ownership.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffee32c8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffee2fe0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffee2e00000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffee2d50000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffee2ab0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffee2a60000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffee1f20000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffee1ee0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffee3290000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffee1eb0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_activation_gguf.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff8f22c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff8ef50000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff8ed70000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff8ecc0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff8ea20000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff8e9d0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff8de90000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff8de50000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff8f1e0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff8de20000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_activation_consumers.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffee80c8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffee7e50000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffee7c70000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffee7bc0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffee7920000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffee78d0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffee6d90000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffee6d50000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffee8090000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffee6d20000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_session_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff92898000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff925a0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff923c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff92310000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff92070000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff92020000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff914e0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff914a0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff92860000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff91470000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_session_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffa1638000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffa1340000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffa1160000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffa10b0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffa0e10000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffa0dc0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffa0280000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffa0240000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffa1600000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffa0210000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_session_ownership.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff85118000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff84e20000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff84c40000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff84b90000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff848f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff848a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff83d60000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff83d20000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff850e0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff83cf0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_session_gguf.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffa403c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffa3d60000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffa3b80000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffa3ad0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffa3830000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffa37e0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffa2ca0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffa2c60000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffa3ff0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffa2c30000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_session_source.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff71b78000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff71940000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff71760000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff716b0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff71410000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff713c0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff70880000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff70840000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff71b40000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff70810000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_window_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff1f3c8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff1f0d0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff1eef0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff1ee40000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff1eba0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff1eb50000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff1e010000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff1dfd0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff1f390000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff1dfa0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_window_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff8f2f8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff8f000000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff8ee20000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff8ed70000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff8ead0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff8ea80000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff8df40000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff8df00000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff8f2c0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff8ded0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_window_source.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffef0788000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffef0550000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffef0370000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffef02c0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffef0020000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffeeffd0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffeef490000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffeef450000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffef0750000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffeef420000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_window_ownership.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff4a2dc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff49fd0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff49df0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff49d40000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff49aa0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff49a50000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff48f10000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff48ed0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff4a290000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff48ea0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_window_gguf.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff509fc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff50720000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff50540000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff50490000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff501f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff501a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff4f660000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff4f620000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff509b0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff4f5f0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_window_indices.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff21c08000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff21a30000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff21850000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff217a0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff21500000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff214b0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff20970000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff20930000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff21bd0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff20900000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_window_policy.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff8d568000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff8d390000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff8d1b0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff8d100000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff8ce60000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff8ce10000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff8c2d0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff8c290000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff8d530000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff8c260000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff51ae8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff517e0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff51600000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff51550000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff512b0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff51260000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff50720000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff506e0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff51ab0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff506b0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffbbcc8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffbb9c0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffbb7e0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffbb730000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffbb490000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffbb440000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffba900000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffba8c0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffbbc90000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffba890000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_scaling_source.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffecdb08000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffecd8d0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffecd6f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffecd640000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffecd3a0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffecd350000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffecc810000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffecc7d0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffecdad0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffecc7a0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_scaling_ownership.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff51d58000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff51a60000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff51880000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff517d0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff51530000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff514e0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff509a0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff50960000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff51d20000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff50930000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_scaling_gguf.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff58318000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff58050000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff57e70000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff57dc0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff57b20000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff57ad0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff56f90000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff56f50000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff582e0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff56f20000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_scaling_policy.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff53c68000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff53a90000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff538b0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff53800000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff53560000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff53510000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff529d0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff52990000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff53c30000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff52960000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_dynamic_rotary_context.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff061d8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff06000000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff05e20000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff05d70000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff05ad0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff05a80000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff04f40000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff04f00000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff061a0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff04ed0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff51158000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff50f80000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff50da0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff50cf0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff50a50000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff50a00000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff4fec0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff4fe80000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff51120000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff4fe50000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff6fea8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff6fc70000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff6fa90000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff6f9e0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff6f740000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff6f6f0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff6ebb0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff6eb70000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff6fe70000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff6eb40000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/dynamic_decoder_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff307f8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff304f0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff30310000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff30260000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff2ffc0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff2ff70000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff2f430000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff2f3f0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff307c0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff2f3c0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_graph.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffecbb98000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffecb890000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffecb6b0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffecb600000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffecb360000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffecb310000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffeca7d0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffeca790000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffecbb60000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffeca760000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_dynamic_graph_gguf.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffa395c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffa3680000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffa34a0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffa33f0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffa3150000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffa3100000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffa25c0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffa2580000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffa3910000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffa2550000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/context_actions.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffa28f8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffa2720000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffa2540000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffa2490000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffa21f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffa21a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffa1660000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffa1620000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffa28c0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffa15f0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_context_action_ownership.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff767f8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff76620000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff76440000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff76390000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff760f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff760a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff75560000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff75520000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff767c0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff754f0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/lcu_actions.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff49d48000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff49b70000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff49990000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff498e0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff49640000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff495f0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff48ab0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff48a70000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff49d10000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff48a40000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_lcu_action_ownership.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffef4cdc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffef4af0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffef4910000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffef4860000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffef45c0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffef4570000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffef3a30000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffef39f0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffef4c90000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffef39c0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_q8_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffa6e98000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffa6cb0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffa6ad0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffa6a20000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffa6780000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffa6730000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffa5bf0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffa5bb0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffa6e60000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffa5b80000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_q8_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff3a60c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff3a410000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff3a230000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff3a180000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff39ee0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff39e90000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff39350000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff39310000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff3a5c0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff392e0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_classic32_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff535b8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff533d0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff531f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff53140000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff52ea0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff52e50000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff52310000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff522d0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff53580000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff522a0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_classic32_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffebfef8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffebfd10000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffebfb30000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffebfa80000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffebf7e0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffebf790000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffebec50000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffebec10000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffebfec0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffebebe0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_storage.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff3e478000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff3e280000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff3e0a0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff3dff0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff3dd50000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff3dd00000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff3d1c0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff3d180000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff3e440000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff3d150000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffaf238000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffaf040000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffaee60000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffaedb0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffaeb10000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffaeac0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffadf80000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffadf40000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffaf200000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffadf10000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff11598000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff113b0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff111d0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff11120000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff10e80000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff10e30000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff102f0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff102b0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff11560000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff10280000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_q2q3_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffb0e08000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffb0c20000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffb0a40000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffb0990000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffb06f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffb06a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffafb60000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffafb20000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffb0dd0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffafaf0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_q2q3_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff781d8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff77ff0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff77e10000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff77d60000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff77ac0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff77a70000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff76f30000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff76ef0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff781a0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff76ec0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff97708000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff97500000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff97320000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff97270000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff96fd0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff96f80000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff96440000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff96400000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff976d0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff963d0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/decoder_layers.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffedc638000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffedc450000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffedc270000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffedc1c0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffedbf20000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffedbed0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffedb390000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffedb350000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffedc600000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffedb320000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/gguf_shapes.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffb26b8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffb24d0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffb22f0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffb2240000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffb1fa0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffb1f50000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffb1410000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffb13d0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffb2680000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffb13a0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffed9bd8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffed99f0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffed9810000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffed9760000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffed94c0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffed9470000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffed8930000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffed88f0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffed9ba0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffed88c0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/shard_collection.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff1e23c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff1e030000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff1de50000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff1dda0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff1db00000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff1dab0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff1cf70000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff1cf30000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff1e1f0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff1cf00000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_config.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffedc568000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffedc380000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffedc1a0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffedc0f0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffedbe50000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffedbe00000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffedb2c0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffedb280000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffedc530000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffedb250000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_index.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff5e14c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff5df50000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff5dd70000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff5dcc0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff5da20000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff5d9d0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff5ce90000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff5ce50000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff5e100000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff5ce20000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_root.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff6115c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff60f70000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff60d90000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff60ce0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff60a40000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff609f0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff5feb0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff5fe70000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff61110000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff5fe40000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/unindexed_source.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff9364c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff93450000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff93270000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff931c0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff92f20000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff92ed0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff92390000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff92350000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff93600000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff92320000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff6a018000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff69e00000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff69c20000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff69b70000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff698d0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff69880000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff68d40000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff68d00000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff69fe0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff68cd0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff3d368000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff3d160000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff3cf80000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff3ced0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff3cc30000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff3cbe0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff3c0a0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff3c060000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff3d330000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff3c030000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_gguf_shapes_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff84d28000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff84b40000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff84960000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff848b0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff84610000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff845c0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff83a80000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff83a40000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff84cf0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff83a10000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_safetensors_constants_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffef5a6c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffef5870000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffef5690000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffef55e0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffef5340000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffef52f0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffef47b0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffef4770000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffef5a20000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffef4740000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffadcbc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffadab0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffad8d0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffad820000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffad580000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffad530000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffac9f0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffac9b0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffadc70000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffac980000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_config_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff1d248000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff1d060000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff1ce80000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff1cdd0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff1cb30000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff1cae0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff1bfa0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff1bf60000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff1d210000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff1bf30000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_index_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff0b198000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff0afb0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff0add0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff0ad20000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff0aa80000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff0aa30000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff09ef0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff09eb0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff0b160000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff09e80000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fffb453c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fffb4330000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fffb4150000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fffb40a0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fffb3e00000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fffb3db0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fffb3270000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fffb3230000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fffb44f0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fffb3200000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_iq4_constants.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffec04a8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffec02c0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffec00e0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffec0030000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffebfd90000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffebfd40000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffebf200000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffebf1c0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffec0470000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffebf190000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_iq4_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff820f8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff81f10000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff81d30000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff81c80000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff819e0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff81990000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff80e50000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff80e10000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff820c0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff80de0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/source_byte_digest.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffee1038000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffee0e50000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffee0c70000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffee0bc0000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffee0920000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffee08d0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffedfd90000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffedfd50000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffee1000000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffedfd20000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_digest_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff014f8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff01310000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff01130000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff01080000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff00de0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff00d90000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff00250000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff00210000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff014c0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff001e0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/sealed_source_copy.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffec28c8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffec26f0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffec2510000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffec2460000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffec21c0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffec2170000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffec1630000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffec15f0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffec2890000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffec15c0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_sealed_source_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff503a8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff501d0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff4fff0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff4ff40000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff4fca0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff4fc50000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff4f110000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff4f0d0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff50370000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff4f0a0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "smidr/tools/sealed_gguf_source.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffef85e8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffef8400000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffef8220000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffef8170000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffef7ed0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffef7e80000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffef7340000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffef7300000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffef85b0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffef72d0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_sealed_gguf_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff71f08000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff71cf0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff71b10000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff71a60000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff717c0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff71770000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff70c30000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff70bf0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff71ed0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff70bc0000)\n",
+    "stderr": ""
+  },
+  {
+    "source": "tests/hailo_sealed_semantic_api.mojo",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007ffefd4d8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007ffefd2a0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007ffefd0c0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007ffefd010000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007ffefcd70000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007ffefcd20000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007ffefc1e0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007ffefc1a0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007ffefd4a0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007ffefc170000)\n",
+    "stderr": ""
+  }
+]

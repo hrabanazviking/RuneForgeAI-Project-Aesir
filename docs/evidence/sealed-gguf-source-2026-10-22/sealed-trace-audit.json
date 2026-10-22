@@ -1,0 +1,5811 @@
+{
+  "trace_count": 95,
+  "totals": {
+    "source_opens": 105,
+    "source_closes": 105,
+    "memfd_creates": 93,
+    "memfd_closes": 93,
+    "seal_operations": 90
+  },
+  "readonly_sealed_maps": 71,
+  "readonly_path_maps": 1,
+  "exact_capacity_unmaps": 72,
+  "kernel_reads": 306,
+  "kernel_writes": 106,
+  "opaque_records": [],
+  "forbidden_access_matches": 0,
+  "traces": [
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-0.strace",
+      "sha256": "d94d2f366bdef6092beca538faf1612b20901702391c67c1fe35473e122a84a7",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171439",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffed5de8000",
+          "extent": 177
+        }
+      ],
+      "unmaps": [
+        [
+          "3171439",
+          "0x7ffed5de8000",
+          177
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171439",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/0.gguf",
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        },
+        {
+          "pid": "3171439",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        },
+        {
+          "pid": "3171439",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171439",
+          "fd": 4,
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-5.strace",
+      "sha256": "6ca9ff2bb916e265c21a70db46f68f544b73c207d8e2b0463dab34db37a02dc4",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171472",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff861dc000",
+          "extent": 177
+        }
+      ],
+      "unmaps": [
+        [
+          "3171472",
+          "0x7fff861dc000",
+          177
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171472",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/0.gguf",
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        },
+        {
+          "pid": "3171472",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        },
+        {
+          "pid": "3171472",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171472",
+          "fd": 4,
+          "offset": 0,
+          "requested": 177,
+          "returned": 177
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-6.strace",
+      "sha256": "060a1e26346c2fa62ef5be5c8425e7b1f4d301041361e2d4b531f0bdbe6e4e4f",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171480",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff8d8f0000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3171480",
+          "0x7fff8d8f0000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171480",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/1.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3171480",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3171480",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171480",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-12.strace",
+      "sha256": "ddbdb8b08a4fc6f5a807536d2151984f17896735df6d2c5d29e73a2083606b25",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171513",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff5eec0000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3171513",
+          "0x7fff5eec0000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171513",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/2.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3171513",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3171513",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171513",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-18.strace",
+      "sha256": "45b6cb0f81712db04fb06f75485c2dceb452ab42be7d7b62810c6f98cb389f9d",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171546",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff08164000",
+          "extent": 233
+        }
+      ],
+      "unmaps": [
+        [
+          "3171546",
+          "0x7fff08164000",
+          233
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171546",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/3.gguf",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3171546",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3171546",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171546",
+          "fd": 4,
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-24.strace",
+      "sha256": "6c38f7bf5814c8772dff6cce37a2967acccc4e2ba6418da8d60bc7f326f4c44b",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171579",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff4c038000",
+          "extent": 241
+        }
+      ],
+      "unmaps": [
+        [
+          "3171579",
+          "0x7fff4c038000",
+          241
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171579",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/4.gguf",
+          "offset": 0,
+          "requested": 241,
+          "returned": 241
+        },
+        {
+          "pid": "3171579",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 241,
+          "returned": 241
+        },
+        {
+          "pid": "3171579",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 241,
+          "returned": 241
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171579",
+          "fd": 4,
+          "offset": 0,
+          "requested": 241,
+          "returned": 241
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-30.strace",
+      "sha256": "29c6e8ec351679722ff2102ca47df7e1c9ce16e2362ba9f4acfd16d0d558fc18",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171612",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff4b1ec000",
+          "extent": 249
+        }
+      ],
+      "unmaps": [
+        [
+          "3171612",
+          "0x7fff4b1ec000",
+          249
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171612",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/5.gguf",
+          "offset": 0,
+          "requested": 249,
+          "returned": 249
+        },
+        {
+          "pid": "3171612",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 249,
+          "returned": 249
+        },
+        {
+          "pid": "3171612",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 249,
+          "returned": 249
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171612",
+          "fd": 4,
+          "offset": 0,
+          "requested": 249,
+          "returned": 249
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-36.strace",
+      "sha256": "2aa4bc1236736492a7e6126e116b39d867b5413b6e4d410487e23c509bcb3ebb",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171645",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff556b8000",
+          "extent": 257
+        }
+      ],
+      "unmaps": [
+        [
+          "3171645",
+          "0x7fff556b8000",
+          257
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171645",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/6.gguf",
+          "offset": 0,
+          "requested": 257,
+          "returned": 257
+        },
+        {
+          "pid": "3171645",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 257,
+          "returned": 257
+        },
+        {
+          "pid": "3171645",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 257,
+          "returned": 257
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171645",
+          "fd": 4,
+          "offset": 0,
+          "requested": 257,
+          "returned": 257
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-42.strace",
+      "sha256": "1e797ea4fd7e0f795e0362f9892f6d29b86582279b789331ca40997f53169ae7",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171678",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffee6728000",
+          "extent": 297
+        }
+      ],
+      "unmaps": [
+        [
+          "3171678",
+          "0x7ffee6728000",
+          297
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171678",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/7.gguf",
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        },
+        {
+          "pid": "3171678",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        },
+        {
+          "pid": "3171678",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171678",
+          "fd": 4,
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-47.strace",
+      "sha256": "e1ce5b0670fe315bb262cd168c5190d6ab23088506a9d7f1ea2be9b21977955b",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171710",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff9a818000",
+          "extent": 297
+        }
+      ],
+      "unmaps": [
+        [
+          "3171710",
+          "0x7fff9a818000",
+          297
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171710",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/7.gguf",
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        },
+        {
+          "pid": "3171710",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        },
+        {
+          "pid": "3171710",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171710",
+          "fd": 4,
+          "offset": 0,
+          "requested": 297,
+          "returned": 297
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-48.strace",
+      "sha256": "0fc5c1ce6c22bcb88d5e303f42012f0357044bf84d6ed8908d6c60be45fc1b62",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171718",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff9eb00000",
+          "extent": 497
+        }
+      ],
+      "unmaps": [
+        [
+          "3171718",
+          "0x7fff9eb00000",
+          497
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171718",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/8.gguf",
+          "offset": 0,
+          "requested": 497,
+          "returned": 497
+        },
+        {
+          "pid": "3171718",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 497,
+          "returned": 497
+        },
+        {
+          "pid": "3171718",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 497,
+          "returned": 497
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171718",
+          "fd": 4,
+          "offset": 0,
+          "requested": 497,
+          "returned": 497
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-54.strace",
+      "sha256": "c688d7366275c4d5297b3c309445515089a3b7e7588a93a5a835cc532af94418",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171752",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff851cc000",
+          "extent": 601
+        }
+      ],
+      "unmaps": [
+        [
+          "3171752",
+          "0x7fff851cc000",
+          601
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171752",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/9.gguf",
+          "offset": 0,
+          "requested": 601,
+          "returned": 601
+        },
+        {
+          "pid": "3171752",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 601,
+          "returned": 601
+        },
+        {
+          "pid": "3171752",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 601,
+          "returned": 601
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171752",
+          "fd": 4,
+          "offset": 0,
+          "requested": 601,
+          "returned": 601
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-60.strace",
+      "sha256": "c1227c90075e7deecadac545878513c5d7374b7ee5aede1fa34d00c625c86999",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171788",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff9bba0000",
+          "extent": 737
+        }
+      ],
+      "unmaps": [
+        [
+          "3171788",
+          "0x7fff9bba0000",
+          737
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171788",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/10.gguf",
+          "offset": 0,
+          "requested": 737,
+          "returned": 737
+        },
+        {
+          "pid": "3171788",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 737,
+          "returned": 737
+        },
+        {
+          "pid": "3171788",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 737,
+          "returned": 737
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171788",
+          "fd": 4,
+          "offset": 0,
+          "requested": 737,
+          "returned": 737
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-66.strace",
+      "sha256": "3845e9a841ca9c6005b1e64e241212a2ea1b980c73d1f7cec6fbbc837581873b",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171821",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffefa588000",
+          "extent": 865
+        }
+      ],
+      "unmaps": [
+        [
+          "3171821",
+          "0x7ffefa588000",
+          865
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171821",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/11.gguf",
+          "offset": 0,
+          "requested": 865,
+          "returned": 865
+        },
+        {
+          "pid": "3171821",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 865,
+          "returned": 865
+        },
+        {
+          "pid": "3171821",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 865,
+          "returned": 865
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171821",
+          "fd": 4,
+          "offset": 0,
+          "requested": 865,
+          "returned": 865
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-72.strace",
+      "sha256": "14ec1fb5e193d3269ee74bc41cee966ba3fde91df2fb408862949a667d034f6d",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171858",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff06678000",
+          "extent": 1001
+        }
+      ],
+      "unmaps": [
+        [
+          "3171858",
+          "0x7fff06678000",
+          1001
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171858",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/12.gguf",
+          "offset": 0,
+          "requested": 1001,
+          "returned": 1001
+        },
+        {
+          "pid": "3171858",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 1001,
+          "returned": 1001
+        },
+        {
+          "pid": "3171858",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 1001,
+          "returned": 1001
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171858",
+          "fd": 4,
+          "offset": 0,
+          "requested": 1001,
+          "returned": 1001
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-78.strace",
+      "sha256": "06f985b26a59e1a74940302f49147575388bccabd698ae5f9a78ba008ab6c9bc",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171892",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffed8b98000",
+          "extent": 233
+        }
+      ],
+      "unmaps": [
+        [
+          "3171892",
+          "0x7ffed8b98000",
+          233
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171892",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/13.gguf",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3171892",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3171892",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171892",
+          "fd": 4,
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-84.strace",
+      "sha256": "41743da749b1310ddad00c1dcc08287f4d9fff7a8d33c79af745d2c054c9bbbf",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171925",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffef050c000",
+          "extent": 705
+        }
+      ],
+      "unmaps": [
+        [
+          "3171925",
+          "0x7ffef050c000",
+          705
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171925",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/14.gguf",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3171925",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3171925",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171925",
+          "fd": 4,
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-89.strace",
+      "sha256": "d4320f08cded925953a6e43fabd7c98aaff29faaa70ae77db1abaf043436c27d",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3171953",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff83f6c000",
+          "extent": 705
+        }
+      ],
+      "unmaps": [
+        [
+          "3171953",
+          "0x7fff83f6c000",
+          705
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3171953",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/14.gguf",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3171953",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3171953",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3171953",
+          "fd": 4,
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-100.strace",
+      "sha256": "90f4b6bfd20908b3a8e76841b694a33bd00011f764cf0e46883cdd151a7ed9d1",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172012",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff46b98000",
+          "extent": 4105
+        }
+      ],
+      "unmaps": [
+        [
+          "3172012",
+          "0x7fff46b98000",
+          4105
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172012",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/20.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172012",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/20.gguf",
+          "offset": 4096,
+          "requested": 9,
+          "returned": 9
+        },
+        {
+          "pid": "3172012",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172012",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 9,
+          "returned": 9
+        },
+        {
+          "pid": "3172012",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172012",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 9,
+          "returned": 9
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172012",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172012",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 9,
+          "returned": 9
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-102.strace",
+      "sha256": "aca3a5f91ff44c490d88f0d45283c85af6aefafbfa3abb5fb1eba10ebe610c57",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172025",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff04e64000",
+          "extent": 137
+        }
+      ],
+      "unmaps": [
+        [
+          "3172025",
+          "0x7fff04e64000",
+          137
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172025",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/21.gguf",
+          "offset": 0,
+          "requested": 137,
+          "returned": 137
+        },
+        {
+          "pid": "3172025",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 137,
+          "returned": 137
+        },
+        {
+          "pid": "3172025",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 137,
+          "returned": 137
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172025",
+          "fd": 4,
+          "offset": 0,
+          "requested": 137,
+          "returned": 137
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-104.strace",
+      "sha256": "7409d8216ae1a3d53d8ebff03b44f79742a19bafaf97ca6aabc0faba49505aaa",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172038",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff5ec70000",
+          "extent": 4095
+        }
+      ],
+      "unmaps": [
+        [
+          "3172038",
+          "0x7fff5ec70000",
+          4095
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172038",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/22.gguf",
+          "offset": 0,
+          "requested": 4095,
+          "returned": 4095
+        },
+        {
+          "pid": "3172038",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4095,
+          "returned": 4095
+        },
+        {
+          "pid": "3172038",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4095,
+          "returned": 4095
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172038",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4095,
+          "returned": 4095
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-105.strace",
+      "sha256": "9c476500acd2f11ef5b2f09806eb509e64d4e84a49f4bfabf6c8abc3f5af1c4c",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172046",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fffac928000",
+          "extent": 4096
+        }
+      ],
+      "unmaps": [
+        [
+          "3172046",
+          "0x7fffac928000",
+          4096
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172046",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/23.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172046",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172046",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172046",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-106.strace",
+      "sha256": "e4d23cfe52fe662678125477cc1aa2aba66f0dc81fab6da6c7fb8efd09204b79",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172055",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffef7ae8000",
+          "extent": 4097
+        }
+      ],
+      "unmaps": [
+        [
+          "3172055",
+          "0x7ffef7ae8000",
+          4097
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172055",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/24.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172055",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/24.gguf",
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "3172055",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172055",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "3172055",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172055",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172055",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172055",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-107.strace",
+      "sha256": "175fc4592311d6bb6a0647636a1b601f564a2d5eceebb6c44ebc45d21220f879",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172063",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff68774000",
+          "extent": 16383
+        }
+      ],
+      "unmaps": [
+        [
+          "3172063",
+          "0x7fff68774000",
+          16383
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172063",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/25.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/25.gguf",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/25.gguf",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/25.gguf",
+          "offset": 12288,
+          "requested": 4095,
+          "returned": 4095
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 12288,
+          "requested": 4095,
+          "returned": 4095
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 12288,
+          "requested": 4095,
+          "returned": 4095
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172063",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4095,
+          "returned": 4095
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-108.strace",
+      "sha256": "f4905be6f2781de2221c50d05d08137e791c7fa56f014bf4e36333828ac0d02a",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172074",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff3d5bc000",
+          "extent": 16384
+        }
+      ],
+      "unmaps": [
+        [
+          "3172074",
+          "0x7fff3d5bc000",
+          16384
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172074",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/26.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/26.gguf",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/26.gguf",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/26.gguf",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172074",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-109.strace",
+      "sha256": "48831b9936cf828a49af2d96df66454d6b642aacaa15ca000b6f5277997b2dfc",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172083",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff93bf8000",
+          "extent": 16385
+        }
+      ],
+      "unmaps": [
+        [
+          "3172083",
+          "0x7fff93bf8000",
+          16385
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172083",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/27.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/27.gguf",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/27.gguf",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/27.gguf",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/27.gguf",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172083",
+          "fd": 4,
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-110.strace",
+      "sha256": "19cb20d4e07f5ccb03ee461273258304cc39c38849e7b09207f3fee55c2ff45c",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172093",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffefcff4000",
+          "extent": 705
+        }
+      ],
+      "unmaps": [
+        [
+          "3172093",
+          "0x7ffefcff4000",
+          705
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172093",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/28.gguf",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3172093",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3172093",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172093",
+          "fd": 4,
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-111.strace",
+      "sha256": "217dd8010315f7ab2df2240f6446a6b401fca5eb01f5b58018c162f3c7ea0659",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172101",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff29ff0000",
+          "extent": 705
+        }
+      ],
+      "unmaps": [
+        [
+          "3172101",
+          "0x7fff29ff0000",
+          705
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172101",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/29.gguf",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3172101",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3172101",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172101",
+          "fd": 4,
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-112.strace",
+      "sha256": "3858d85dc226182f9b3698552b490acb9b44ad8454bbc7cf5fced70897fe1631",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172111",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff0b4d4000",
+          "extent": 705
+        }
+      ],
+      "unmaps": [
+        [
+          "3172111",
+          "0x7fff0b4d4000",
+          705
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172111",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/30.gguf",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3172111",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        },
+        {
+          "pid": "3172111",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172111",
+          "fd": 4,
+          "offset": 0,
+          "requested": 705,
+          "returned": 705
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-113.strace",
+      "sha256": "0453c64a10cb561a7de7a2163ff091d20cc7eb8d0355738bc910500e7a377113",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 0,
+      "source_closes": 0,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-114.strace",
+      "sha256": "0683bde3a6a967b0950b379c3765bc38763a40224bf3bf3eaeaf7bb8ff8e31b4",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172128",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff91e34000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172128",
+          "0x7fff91e34000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172128",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172128",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172128",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-115.strace",
+      "sha256": "e1e18c8bafdf5ff3bdf0d48dd7d2726d086da6968565d3739ddafd50b8c54735",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172142",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172142",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172142",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172142",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-116.strace",
+      "sha256": "c32c3fff33e30bde86087d4c41bb4e9745fa947682944ac200f16d84335d2493",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172155",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172155",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172155",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172155",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-117.strace",
+      "sha256": "e2579c975f57456902a33bb28aa1085f47aa69f6123adad93637d5f103fc9b59",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172165",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172165",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172165",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172165",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-118.strace",
+      "sha256": "0996881d42a19fe4a220dd2f69d54154d5eced7006fdf4c9f0b532913280decf",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172173",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172173",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172173",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172173",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-119.strace",
+      "sha256": "6fabc55006fa3ed8ec184134368d57cea4b20294841dc9540463ca63ed62a53f",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 2,
+      "memfd_closes": 2,
+      "maps": [
+        {
+          "pid": "3172199",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffed2444000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172199",
+          "0x7ffed2444000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172199",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172199",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172199",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172199",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172199",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172199",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172199",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 2
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-120.strace",
+      "sha256": "2ff87704d9c978ca86f39c74a6c3710cbe8cb3bb34c9e9218bc5799717b47626",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 2,
+      "memfd_closes": 2,
+      "maps": [
+        {
+          "pid": "3172207",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffede1e8000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172207",
+          "0x7ffede1e8000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172207",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172207",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172207",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172207",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172207",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172207",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172207",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 2
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-121.strace",
+      "sha256": "455200e21c71cff9ac20f8479b1311a251066a47954dfbc9e94bd71b45c1cca7",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 3,
+      "source_closes": 3,
+      "memfd_creates": 2,
+      "memfd_closes": 2,
+      "maps": [
+        {
+          "pid": "3172215",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff01a6c000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172215",
+          "0x7fff01a6c000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172215",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172215",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172215",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172215",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172215",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172215",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172215",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 2
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-122.strace",
+      "sha256": "40744d463749d96317a3e7a6167de63d237e4bb6ffc04b317242dad6c3c8ed60",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 2,
+      "memfd_closes": 2,
+      "maps": [
+        {
+          "pid": "3172223",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fffbf2ac000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172223",
+          "0x7fffbf2ac000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172223",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172223",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172223",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172223",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172223",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172223",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172223",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 2
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-123.strace",
+      "sha256": "2937ebb3db5fc67de852e466193eaf534a9ac17e710394ed7c3c574c205793a3",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 2,
+      "memfd_closes": 2,
+      "maps": [
+        {
+          "pid": "3172231",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff8b134000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172231",
+          "0x7fff8b134000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172231",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172231",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172231",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172231",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172231",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172231",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172231",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 2
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-124.strace",
+      "sha256": "705ee9b7b3872ece02f170c13cdd1d13c0686fa6c82ea4be62b46540b0e64488",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172241",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff91f4c000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172241",
+          "0x7fff91f4c000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172241",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172241",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172241",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172241",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-125.strace",
+      "sha256": "ce1d8f9fca75afad524e7fddd70be9dfe38c984f9e7895b967cfbde38d349f9b",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172251",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff07da4000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172251",
+          "0x7fff07da4000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172251",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172251",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172251",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172251",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-126.strace",
+      "sha256": "6590afa55437ee91b7bc9dd02769ed016b69e56b7684c35dd763f626b6455bb7",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172259",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fffb2ff4000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172259",
+          "0x7fffb2ff4000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172259",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172259",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172259",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172259",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-127.strace",
+      "sha256": "6bb167799684750aff2680ad03c2d35061a3e78c159e57e260e03ae3fde9198b",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 2,
+      "memfd_closes": 2,
+      "maps": [
+        {
+          "pid": "3172267",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff28e64000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172267",
+          "0x7fff28e64000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172267",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172267",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172267",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172267",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172267",
+          "fd": 5,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172267",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172267",
+          "fd": 5,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 2
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-128.strace",
+      "sha256": "7751bd6e55a060c173986a0588a11474c6cf532cbe21fde09f419a08ecf882e7",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [
+        {
+          "pid": "3172278",
+          "fd": "3",
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "address": "0x7ffef9310000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172278",
+          "0x7ffef9310000",
+          169
+        ]
+      ],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-129.strace",
+      "sha256": "d60f3f6df77702c93c1aaf1d8454612a3f0b384159eaaaf4b39c3bd0bebbedc2",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172287",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff5ffd0000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172287",
+          "0x7fff5ffd0000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172287",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172287",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172287",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172287",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-130.strace",
+      "sha256": "35afd8913f16768f6386896f4316c46d3d70d0f779084229bba4ca2de2f43a81",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172296",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172296",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172296",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-131.strace",
+      "sha256": "329706a12c86a8b94ab633dbe541646b4b761408fcdad9c16f652ae0680e68ad",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172305",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff64e48000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172305",
+          "0x7fff64e48000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172305",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/31.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172305",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172305",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172305",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-133.strace",
+      "sha256": "e01dad03b00afada09fad8541eadfc538ee331535e9d4b1068146f64a5eb459e",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-135.strace",
+      "sha256": "1e3d6328756ec72d2f1e1d428db9ce9dfdb2fe84fccedd4a418b80f008135078",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172334",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/33.gguf",
+          "offset": 0,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "3172334",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "3172334",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172334",
+          "fd": 4,
+          "offset": 0,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-137.strace",
+      "sha256": "6dade00f8a1a733534e77583b34698c82436f4bd6a1ed19d05f01a1defd6c55f",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172347",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/34.gguf",
+          "offset": 0,
+          "requested": 23,
+          "returned": 23
+        },
+        {
+          "pid": "3172347",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 23,
+          "returned": 23
+        },
+        {
+          "pid": "3172347",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 23,
+          "returned": 23
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172347",
+          "fd": 4,
+          "offset": 0,
+          "requested": 23,
+          "returned": 23
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-139.strace",
+      "sha256": "620d02a2225d18897b37c87d51601548fc07be4203c8dace0855d2946c1f46fa",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172362",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff41e8c000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172362",
+          "0x7fff41e8c000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172362",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/35.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172362",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172362",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172362",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-141.strace",
+      "sha256": "c82b617c997ebd7976ba14fdf8a3f7f11bcaa043e8f71ee99b0c2f3b0f5c7cc4",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172377",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff519c0000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172377",
+          "0x7fff519c0000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172377",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/36.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172377",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172377",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172377",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-143.strace",
+      "sha256": "99ef62a5a3cf8efc43d8660d58ca64c4680faef4e2fc9cd22a1fabf4fb6cd1ff",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172390",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff7f804000",
+          "extent": 24
+        }
+      ],
+      "unmaps": [
+        [
+          "3172390",
+          "0x7fff7f804000",
+          24
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172390",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/37.gguf",
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        },
+        {
+          "pid": "3172390",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        },
+        {
+          "pid": "3172390",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172390",
+          "fd": 4,
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-145.strace",
+      "sha256": "b210b23c2fbe9068283cce4c5d2a22bbc499afecb402998e42beab22517e9816",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172403",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff797a4000",
+          "extent": 160
+        }
+      ],
+      "unmaps": [
+        [
+          "3172403",
+          "0x7fff797a4000",
+          160
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172403",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/38.gguf",
+          "offset": 0,
+          "requested": 160,
+          "returned": 160
+        },
+        {
+          "pid": "3172403",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 160,
+          "returned": 160
+        },
+        {
+          "pid": "3172403",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 160,
+          "returned": 160
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172403",
+          "fd": 4,
+          "offset": 0,
+          "requested": 160,
+          "returned": 160
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-147.strace",
+      "sha256": "bb24f1aeea6fa90c691c65e42c321ec72fe39ca3845c46399ab6d1cc7d32670f",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172416",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff085d4000",
+          "extent": 24
+        }
+      ],
+      "unmaps": [
+        [
+          "3172416",
+          "0x7fff085d4000",
+          24
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172416",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/39.gguf",
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        },
+        {
+          "pid": "3172416",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        },
+        {
+          "pid": "3172416",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172416",
+          "fd": 4,
+          "offset": 0,
+          "requested": 24,
+          "returned": 24
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-149.strace",
+      "sha256": "d79da75765b8fc2e9d9e4736be837f73c66b5f64e964d2c87fd3db3ad1d6f8f5",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172429",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff32a10000",
+          "extent": 233
+        }
+      ],
+      "unmaps": [
+        [
+          "3172429",
+          "0x7fff32a10000",
+          233
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172429",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/40.gguf",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3172429",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3172429",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172429",
+          "fd": 4,
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-151.strace",
+      "sha256": "91813b10361d9aacae71c3a72aacbe8b25b6da8618994c9f606f35623ae7c9ad",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172442",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff99c9c000",
+          "extent": 201
+        }
+      ],
+      "unmaps": [
+        [
+          "3172442",
+          "0x7fff99c9c000",
+          201
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172442",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/41.gguf",
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        },
+        {
+          "pid": "3172442",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        },
+        {
+          "pid": "3172442",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172442",
+          "fd": 4,
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-153.strace",
+      "sha256": "8f9e762ec88257d15ed9cb1db800600e4015845f6bbf754b7c2775aefa0653b1",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172455",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fffbef04000",
+          "extent": 201
+        }
+      ],
+      "unmaps": [
+        [
+          "3172455",
+          "0x7fffbef04000",
+          201
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172455",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/42.gguf",
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        },
+        {
+          "pid": "3172455",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        },
+        {
+          "pid": "3172455",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172455",
+          "fd": 4,
+          "offset": 0,
+          "requested": 201,
+          "returned": 201
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-155.strace",
+      "sha256": "599245a7195a22d91d3c6a23498192c20379e4bbb242ba946aea01697dd6143c",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172468",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fffba2ec000",
+          "extent": 165
+        }
+      ],
+      "unmaps": [
+        [
+          "3172468",
+          "0x7fffba2ec000",
+          165
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172468",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/43.gguf",
+          "offset": 0,
+          "requested": 165,
+          "returned": 165
+        },
+        {
+          "pid": "3172468",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 165,
+          "returned": 165
+        },
+        {
+          "pid": "3172468",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 165,
+          "returned": 165
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172468",
+          "fd": 4,
+          "offset": 0,
+          "requested": 165,
+          "returned": 165
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-157.strace",
+      "sha256": "a0a37e1ae0a8e1dfd91e7600ffe11493aa8c5bf255c0a36965b8d32dba27fa88",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172481",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fffb73e4000",
+          "extent": 8201
+        }
+      ],
+      "unmaps": [
+        [
+          "3172481",
+          "0x7fffb73e4000",
+          8201
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172481",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/44.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/44.gguf",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/44.gguf",
+          "offset": 8192,
+          "requested": 9,
+          "returned": 9
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 9,
+          "returned": 9
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 8192,
+          "requested": 9,
+          "returned": 9
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172481",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 9,
+          "returned": 9
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-159.strace",
+      "sha256": "98183325d0cf408c01a0998eea3ebc6bf1bcc40984cfa3bd981570a36c22bb43",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172494",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff79ab8000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172494",
+          "0x7fff79ab8000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172494",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/45.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172494",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172494",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172494",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-161.strace",
+      "sha256": "c2279b9ca580f0e34fa3ae036bc3c2f7321d5679b2edbc4a5148df9491a2e9c1",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172507",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff3c74c000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172507",
+          "0x7fff3c74c000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172507",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/46.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172507",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172507",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172507",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-163.strace",
+      "sha256": "ee17b1f1aa2b82c2dbeafe758970210e54d32bee781971881213563023a3fb23",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172520",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fffab868000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172520",
+          "0x7fffab868000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172520",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/47.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172520",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172520",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172520",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-165.strace",
+      "sha256": "e7f445ee9f09e2e1c13985e9c240014d95182138a228c5aebda025b92d856028",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172535",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff55e80000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172535",
+          "0x7fff55e80000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172535",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/48.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172535",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172535",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172535",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-167.strace",
+      "sha256": "07b9528d2a2e384458f9f82f6de467156d3001fad35cb50ace73f0d9ed4fbcb8",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172548",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffef6478000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172548",
+          "0x7ffef6478000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172548",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/49.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172548",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172548",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172548",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-169.strace",
+      "sha256": "05130de4f03a5cb923ce753b57a0f73f72a6257ac24a82b52e017e5a4130c919",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172561",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffefa1ac000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172561",
+          "0x7ffefa1ac000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172561",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/50.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172561",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172561",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172561",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-171.strace",
+      "sha256": "08318f7d57a178c9c6ca1f0a97a56f8751e11920091e7855e557892cccf99e3b",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172574",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff54038000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172574",
+          "0x7fff54038000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172574",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/51.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172574",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172574",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172574",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-173.strace",
+      "sha256": "b61c7118d63f9391a86d3f329912587d7466a5eaa135a4eb3add3f08feb3a571",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172589",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff97c64000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172589",
+          "0x7fff97c64000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172589",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/52.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172589",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172589",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172589",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-175.strace",
+      "sha256": "2e25dbde17cd13bff8b0164d62572a597ab8eaa3262422e6a356baa5c8729f78",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172604",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffed07fc000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172604",
+          "0x7ffed07fc000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172604",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/53.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172604",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172604",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172604",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-177.strace",
+      "sha256": "e7b0a2f21fdc7f8c986b33e6e5d9e836e14464cecc69244cfa36a94232632bf8",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172617",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff780d0000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172617",
+          "0x7fff780d0000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172617",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/54.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172617",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172617",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172617",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-179.strace",
+      "sha256": "3c17977a990a61c82276257f5b467a69d6bea2077af2c9dae793fb3121f2057f",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172630",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff914f4000",
+          "extent": 169
+        }
+      ],
+      "unmaps": [
+        [
+          "3172630",
+          "0x7fff914f4000",
+          169
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172630",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/55.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172630",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172630",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172630",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-181.strace",
+      "sha256": "705b552118e4c37229100442611a915124282cf4d30f7d30697968a084353a4e",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172645",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff6aaa0000",
+          "extent": 233
+        }
+      ],
+      "unmaps": [
+        [
+          "3172645",
+          "0x7fff6aaa0000",
+          233
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172645",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/56.gguf",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3172645",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        },
+        {
+          "pid": "3172645",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172645",
+          "fd": 4,
+          "offset": 0,
+          "requested": 233,
+          "returned": 233
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-182.strace",
+      "sha256": "47c5690eecc9dfbcf857d4f366ed7e47cfd96d3f24b4a6525462ac273678be5e",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-183.strace",
+      "sha256": "7b9ae0016b9cae28217bdec75de83547ab32d9a0ecda57eb68c995e2bb638fce",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-184.strace",
+      "sha256": "50eee20fae10a4ebfec53361e98283f69adbf78e04430cf336878b28fb1f5d59",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-185.strace",
+      "sha256": "9baefc6ce057166cc4dac17b457e59bef12730cddbde7c0ff84905734d6c29a7",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-186.strace",
+      "sha256": "28437878ccbba2c649a7100f098fff560d83c59dd1596478371dc278e47ec034",
+      "returncode": 1,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-187.strace",
+      "sha256": "5461d46d7cb32bd971de7ba6630177a073fbf64c2ebd684f517532a4e77e2857",
+      "returncode": 1,
+      "fault": "parser_digest",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172694",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/57.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172694",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172694",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-189.strace",
+      "sha256": "61bb69c691954a459f62f92c8ab00ac60b274a89607e99e229552b1ef99ad956",
+      "returncode": 1,
+      "fault": "transfer",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172707",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/57.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172707",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172707",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172707",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-191.strace",
+      "sha256": "65a9daec6d9e82579d8a7d481cbc73c22affe6c7d053cbea0ea122c879744604",
+      "returncode": 1,
+      "fault": "admit",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172721",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/57.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172721",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172721",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172721",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-193.strace",
+      "sha256": "de16813fd845691efd66d471eb40e3975b6316f34d9ac2a9522fa6f0f7161bdb",
+      "returncode": 1,
+      "fault": "mmap",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172736",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/57.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172736",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        },
+        {
+          "pid": "3172736",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172736",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-195.strace",
+      "sha256": "d561e4e3c4564e75a08d3c9270de1552ba5f7e39d07eb6f679d3913072bfe786",
+      "returncode": 1,
+      "fault": "copy:create",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-197.strace",
+      "sha256": "93a0a6af32bec604ca183265616e8f92e50a1552687e00c4bb3d7cadd8c47144",
+      "returncode": 1,
+      "fault": "copy:read_error",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-199.strace",
+      "sha256": "9a68daca7850c23fa2971c4bcd862dcb3906f9f58b6e7e7567d7431a92db4f96",
+      "returncode": 1,
+      "fault": "copy:write_error",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172781",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/57.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-201.strace",
+      "sha256": "d3777c0a7be8dc37f801612a53955398a6a6cc70e0f31d45d52853520939a08f",
+      "returncode": 1,
+      "fault": "copy:seal",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172794",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/57.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172794",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 0
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-203.strace",
+      "sha256": "584cbc24a1899910e91f8af7b21f0d32a44ed25ecfca784af6359d3e123c3092",
+      "returncode": 1,
+      "fault": "copy:digest_error",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [],
+      "unmaps": [],
+      "kernel_reads": [
+        {
+          "pid": "3172807",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/57.gguf",
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172807",
+          "fd": 4,
+          "offset": 0,
+          "requested": 169,
+          "returned": 169
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-206.strace",
+      "sha256": "f6b94f6db4a2ad6713193bf63709b4d9da04812653b47b4e64f13a3a9a180171",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172825",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffef518c000",
+          "extent": 2656
+        }
+      ],
+      "unmaps": [
+        [
+          "3172825",
+          "0x7ffef518c000",
+          2656
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172825",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/58.gguf",
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        },
+        {
+          "pid": "3172825",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        },
+        {
+          "pid": "3172825",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172825",
+          "fd": 4,
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-208.strace",
+      "sha256": "e4db44be52679f6aec4ff9e5aa107ece1be9dbbd93802dcaa716cdbcc334f53c",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172838",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff0a970000",
+          "extent": 2656
+        }
+      ],
+      "unmaps": [
+        [
+          "3172838",
+          "0x7fff0a970000",
+          2656
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172838",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/58.gguf",
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        },
+        {
+          "pid": "3172838",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        },
+        {
+          "pid": "3172838",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172838",
+          "fd": 4,
+          "offset": 0,
+          "requested": 2656,
+          "returned": 2656
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-210.strace",
+      "sha256": "ade12fefb20c3ba352b4d2ef7209378149a36b873b46efd2a9bffca0cd88c249",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172851",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff53174000",
+          "extent": 4192
+        }
+      ],
+      "unmaps": [
+        [
+          "3172851",
+          "0x7fff53174000",
+          4192
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172851",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/59.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172851",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/59.gguf",
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        },
+        {
+          "pid": "3172851",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172851",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        },
+        {
+          "pid": "3172851",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172851",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172851",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172851",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-212.strace",
+      "sha256": "70e83c6d84ade3dab9e7e2c3a0a87e39167506dd68d50e204ec6545e99fe0908",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172864",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7ffed6918000",
+          "extent": 4192
+        }
+      ],
+      "unmaps": [
+        [
+          "3172864",
+          "0x7ffed6918000",
+          4192
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172864",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/59.gguf",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172864",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/59.gguf",
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        },
+        {
+          "pid": "3172864",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172864",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        },
+        {
+          "pid": "3172864",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172864",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172864",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "3172864",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 96,
+          "returned": 96
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-214.strace",
+      "sha256": "fc89c39a1f1c9994bbfbc0b2892d3b85959e320c103b0582e74cd112803d8a9d",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172877",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff54c74000",
+          "extent": 2432
+        }
+      ],
+      "unmaps": [
+        [
+          "3172877",
+          "0x7fff54c74000",
+          2432
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172877",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/60.gguf",
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        },
+        {
+          "pid": "3172877",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        },
+        {
+          "pid": "3172877",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172877",
+          "fd": 4,
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-216.strace",
+      "sha256": "80b364025d51cabd76548ca8646599f741a0a8aed9028cbd00dd007042205655",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172890",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff07fe0000",
+          "extent": 2432
+        }
+      ],
+      "unmaps": [
+        [
+          "3172890",
+          "0x7fff07fe0000",
+          2432
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172890",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/60.gguf",
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        },
+        {
+          "pid": "3172890",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        },
+        {
+          "pid": "3172890",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172890",
+          "fd": 4,
+          "offset": 0,
+          "requested": 2432,
+          "returned": 2432
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-218.strace",
+      "sha256": "3e6eca1ebbcdd15b84d950b2e1bb32d2d0fe59102c87d73e549b74db6ab69e4a",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172903",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff8d934000",
+          "extent": 4000
+        }
+      ],
+      "unmaps": [
+        [
+          "3172903",
+          "0x7fff8d934000",
+          4000
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172903",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/61.gguf",
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        },
+        {
+          "pid": "3172903",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        },
+        {
+          "pid": "3172903",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172903",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        }
+      ],
+      "seal_operations": 1
+    },
+    {
+      "trace": "../sealed-gguf-native-acceptance-v2/sealed/trace-220.strace",
+      "sha256": "0bd12095fa9ba0149b4b23248f19561ce6a95a03b949856233e7af02c8d68531",
+      "returncode": 0,
+      "fault": null,
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "maps": [
+        {
+          "pid": "3172916",
+          "fd": "4",
+          "target": "/memfd:aesir-source-copy",
+          "address": "0x7fff19774000",
+          "extent": 4000
+        }
+      ],
+      "unmaps": [
+        [
+          "3172916",
+          "0x7fff19774000",
+          4000
+        ]
+      ],
+      "kernel_reads": [
+        {
+          "pid": "3172916",
+          "fd": 3,
+          "target": "../sealed-gguf-native-acceptance-v2/sealed/fixtures/61.gguf",
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        },
+        {
+          "pid": "3172916",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        },
+        {
+          "pid": "3172916",
+          "fd": 4,
+          "target": "/memfd:aesir-source-copy",
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "3172916",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4000,
+          "returned": 4000
+        }
+      ],
+      "seal_operations": 1
+    }
+  ]
+}

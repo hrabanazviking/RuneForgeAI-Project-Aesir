@@ -1,0 +1,14 @@
+{
+  "changed_old_sources": [
+    "aesir_engine/loader/gguf.mojo",
+    "aesir_engine/loader/packed_gguf.mojo",
+    "hailbru/source_sealed_copy.mojo"
+  ],
+  "unchanged_old_sources": 653,
+  "unchanged_frozen_python_inputs": 68,
+  "single_shared_original_table_body_byte_identical": true,
+  "shared_table_body_sha256": "5e7b7aefac0b588031f0af45603413f1eb073eb3d3e1cbce02926c1ed59678b5",
+  "current_mojo_sources": 660,
+  "development_binaries_executed": false,
+  "native_tests_started": false
+}

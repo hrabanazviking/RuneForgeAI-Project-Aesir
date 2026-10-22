@@ -1,0 +1,6 @@
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 1.093s
+
+OK
+Native child scopes: {'recipes': 13, 'source_graph': 13, 'api_refusal:input_count': 1, 'api_refusal:negative_input': 1, 'api_refusal:bad_output': 1, 'api_refusal:forward_input': 1, 'api_refusal:producer_mismatch': 1, 'api_refusal:short_lifetime': 1, 'api_refusal:shape_mismatch': 1, 'api_refusal:wrong_product': 1, 'api_refusal:missing_weight': 1, 'api_refusal:weight_shape': 1, 'api_refusal:weight_extent': 1, 'api_refusal:zero_epsilon': 1, 'api_refusal:nan_epsilon': 1, 'api_refusal:silu_weight': 1, 'api_refusal:softmax_weight': 1, 'api_refusal:softmax_shape': 1, 'api_refusal:softmax_lifetime': 1, 'ownership': 1}

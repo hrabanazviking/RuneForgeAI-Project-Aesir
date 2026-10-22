@@ -1,0 +1,13 @@
+test_01_modes_factors_words_and_bases (__main__.DecoderScaling.test_01_modes_factors_words_and_bases) ... ok
+test_02_qualified_source_projection_and_raw_owners (__main__.DecoderScaling.test_02_qualified_source_projection_and_raw_owners) ... ok
+test_03_policy_exact_budgets_and_scalar_words (__main__.DecoderScaling.test_03_policy_exact_budgets_and_scalar_words) ... ok
+test_04_all_mutations_refuse_and_recover (__main__.DecoderScaling.test_04_all_mutations_refuse_and_recover) ... ok
+test_05_owned_state_recovery_header_bounds (__main__.DecoderScaling.test_05_owned_state_recovery_header_bounds) ... ok
+test_06_frozen_complete_outputs_and_storage_consumers (__main__.DecoderScaling.test_06_frozen_complete_outputs_and_storage_consumers) ... ok
+test_07_isolated_real_formula_and_qualified_constant_words (__main__.DecoderScaling.test_07_isolated_real_formula_and_qualified_constant_words) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 41.918s
+
+OK
+Native outcomes: {'accepted': 300, 'refused': 632}

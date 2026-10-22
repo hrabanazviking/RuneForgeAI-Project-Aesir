@@ -29,6 +29,13 @@ struct SealedSourceBytes(Movable):
             if os_close_descriptor(self.fd) != 0:
                 print("SourceSealedCopy: implicit descriptor close failed")
 
+    def take_fd(mut self) raises -> Int64:
+        # Validate the actual live object before relinquishing exclusive ownership.
+        _require_sealed_source(self.arch, self.fd, self.source_bytes)
+        var owned = self.fd
+        self.fd = -1
+        return owned
+
     def close(mut self) raises:
         if self.fd < 0:
             return

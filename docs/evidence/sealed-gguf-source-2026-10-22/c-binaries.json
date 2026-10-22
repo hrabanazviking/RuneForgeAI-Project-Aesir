@@ -1,0 +1,10 @@
+[
+  {
+    "binary": "../sealed-gguf-native-final/parser-faults.so",
+    "sha256": "81ccdbffb30e195831e5b8b6a0d00248e585374c37bb9a39b4d8c91901764821"
+  },
+  {
+    "binary": "../sealed-gguf-native-final/copy-faults.so",
+    "sha256": "4510abb333c16c4211fdea5b724126dcef33420b10d0fcdc4bae2c81ea5446e4"
+  }
+]

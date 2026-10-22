@@ -1,0 +1,8 @@
+{
+  "state": "prior_stage_failed_review_required",
+  "prior": {
+    "state": "native_verification_failed",
+    "returncode": 1,
+    "log": "../sealed-gguf-native-development/native_verification.log"
+  }
+}

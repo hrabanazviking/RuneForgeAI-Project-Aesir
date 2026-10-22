@@ -1,0 +1,6 @@
+......
+----------------------------------------------------------------------
+Ran 6 tests in 1.915s
+
+OK
+Native child scopes: {'constant_window': 52, 'api_refusal': 11, 'ownership': 1}

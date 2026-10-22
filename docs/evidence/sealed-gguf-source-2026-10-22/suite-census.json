@@ -1,0 +1,324 @@
+[
+  {
+    "suite": "sealed-gguf",
+    "methods": 6,
+    "primary_native_child_calls": 221,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/sealed/runs.json",
+    "sha256": "33c0cb76d996beb8430a29aa28270216ff1d6a0bba7fde852b55d2bae26e7a63"
+  },
+  {
+    "suite": "iq4",
+    "methods": 14,
+    "primary_native_child_calls": 546,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/iq4/runs.json",
+    "sha256": "f3b36291ec6308ebb31931acedaf59f09d3223bf6499cdd6c0890aeb0946b8ff"
+  },
+  {
+    "suite": "source_inventory",
+    "methods": 6,
+    "primary_native_child_calls": 16,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/source_inventory/fixture-runs.json",
+    "sha256": "68f5f7f1470dbbeef4a5dd3140becfb67221eb3c18e4506cf49659919c4c131a"
+  },
+  {
+    "suite": "semantic_plan",
+    "methods": 9,
+    "primary_native_child_calls": 56,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/semantic_plan/fixture-runs.json",
+    "sha256": "bf27848cd0bbb8189662b99d294d90182c4d0244020c1b5b8048de7c9d2dce21"
+  },
+  {
+    "suite": "typed_decoder",
+    "methods": 7,
+    "primary_native_child_calls": 493,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/typed_decoder/fixture-runs.json",
+    "sha256": "41db637a41f938e71e8808e8bc309f3a71196a27fab9a74733d178742c6a5697"
+  },
+  {
+    "suite": "storage_estimate",
+    "methods": 7,
+    "primary_native_child_calls": 61,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/storage_estimate/fixture-runs.json",
+    "sha256": "37c21b7ceae13b80ce4b6e1c11e4f8b4998ec5f58fb4b4eab7c155f25b6fa68d"
+  },
+  {
+    "suite": "primitive_recipes",
+    "methods": 7,
+    "primary_native_child_calls": 44,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/primitive_recipes/runs.json",
+    "sha256": "825e18b91cf8b4ebbbcc79cc5c54159eb74fc85ef0f68909621d88672106c466"
+  },
+  {
+    "suite": "expanded_graph",
+    "methods": 5,
+    "primary_native_child_calls": 45,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/expanded_graph/runs.json",
+    "sha256": "cacc6679cb868dc8114791ad3167d4194638baab45ba5ae6b15505aa650d5c5b"
+  },
+  {
+    "suite": "expanded_storage",
+    "methods": 7,
+    "primary_native_child_calls": 88,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/expanded_storage/runs.json",
+    "sha256": "1e8ac9c2f77dbe0c99a66cc771982a85ec97afb77c01edb3f5dde88c9949dc51"
+  },
+  {
+    "suite": "matrix_tiles",
+    "methods": 7,
+    "primary_native_child_calls": 860,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/matrix_tiles/runs.json",
+    "sha256": "bf67273be3cd4ce40bb0160b67d75b1f28416ab8010104f25262346536c316b4"
+  },
+  {
+    "suite": "source_weight_tiles",
+    "methods": 5,
+    "primary_native_child_calls": 286,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/source_weight_tiles/runs.json",
+    "sha256": "6adf5f6f4922d3c3985860755a2b849e83c0787f49ba1ce4d6834c0ab2ed15a7"
+  },
+  {
+    "suite": "cache_layout",
+    "methods": 6,
+    "primary_native_child_calls": 89,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/cache_layout/runs.json",
+    "sha256": "4d73367c5bd1afcbafd22769aad3f28c35e73917061bdf5c5a4e83c184d88274"
+  },
+  {
+    "suite": "source_float_constants",
+    "methods": 6,
+    "primary_native_child_calls": 64,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/source_float_constants/runs.json",
+    "sha256": "9bfb749a3975d0b9c0cc2eee09632f53267c87f6bd40978b16429ecb4ac5c485"
+  },
+  {
+    "suite": "source_q4k_constants",
+    "methods": 8,
+    "primary_native_child_calls": 57,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/source_q4k_constants/runs.json",
+    "sha256": "73f97bcd1249565c08a2ec450988b02124ac9d495189a74f638eabd9036c7561"
+  },
+  {
+    "suite": "source_q5q6_constants",
+    "methods": 7,
+    "primary_native_child_calls": 88,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/source_q5q6_constants/runs.json",
+    "sha256": "5ba79638c04956193794ad836b5c9bcc7b1a9e6d5fc4a1d6946889ebcc4768f4"
+  },
+  {
+    "suite": "semantic_storage",
+    "methods": 7,
+    "primary_native_child_calls": 312,
+    "call_manifest": "../sealed-gguf-native-closure/acceptance/semantic_storage/runs.json",
+    "sha256": "921ce5b5aca9817162cf6821c0a83759ec5f57e836c084087820d45005222fa4"
+  },
+  {
+    "suite": "source_scalars",
+    "methods": 4,
+    "primary_native_child_calls": 132,
+    "call_manifest": "../sealed-gguf-native-closure/acceptance/source_scalars/runs.json",
+    "sha256": "03c2d7564f743e83c03601413d95d4b09a2e16568a98691e822afa49b291ac2a"
+  },
+  {
+    "suite": "rotary_recipes",
+    "methods": 5,
+    "primary_native_child_calls": 153,
+    "call_manifest": "../sealed-gguf-native-closure/acceptance/rotary_recipes/runs.json",
+    "sha256": "6b2515f783e14ea71d0cf8c87087f9f274a8c720a62b3153fa83fc930a29cd6c"
+  },
+  {
+    "suite": "decoder_graph_policy",
+    "methods": 5,
+    "primary_native_child_calls": 152,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/decoder_graph_policy/runs.json",
+    "sha256": "43b7696309019bff7fbd135c34ce2cc4ba37cf5bbe66636582686f62056245d7"
+  },
+  {
+    "suite": "decoder_projections",
+    "methods": 7,
+    "primary_native_child_calls": 115,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/decoder_projections/runs.json",
+    "sha256": "f191e9b491c8b937d19b5c34cda254168a869917bb9a98706bdf06d3d1955b75"
+  },
+  {
+    "suite": "ordinary_projection_schema",
+    "methods": 7,
+    "primary_native_child_calls": 211,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/ordinary_projection_schema/runs.json",
+    "sha256": "fdb3ea7e1deae9749ee33b8337075e69d19e17eec1297e38dc71453bb89fbd8f"
+  },
+  {
+    "suite": "decoder_bias",
+    "methods": 9,
+    "primary_native_child_calls": 299,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/decoder_bias/runs.json",
+    "sha256": "650e7478793b74c64b352c9e7baf8327442c461d0925a99021d250fc094d5ac1"
+  },
+  {
+    "suite": "decoder_activation",
+    "methods": 9,
+    "primary_native_child_calls": 503,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/decoder_activation/runs.json",
+    "sha256": "443ed31fc82952274650ba0b9d7ed0bfc08f1963eeadd2378c546534e0cec5e5"
+  },
+  {
+    "suite": "decoder_session",
+    "methods": 7,
+    "primary_native_child_calls": 606,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/decoder_session/runs.json",
+    "sha256": "1980889c00499b53cb94777967a6fbd169eec2ac2d0dcd3c6ceede2c0332f42c"
+  },
+  {
+    "suite": "decoder_window",
+    "methods": 7,
+    "primary_native_child_calls": 725,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/decoder_window/runs.json",
+    "sha256": "08f7b4bac410b79ac9c924ddaa12b98b94381af273b9c6f7fbd24d22ee446020"
+  },
+  {
+    "suite": "decoder_scaling",
+    "methods": 7,
+    "primary_native_child_calls": 932,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/legacy/decoder_scaling/runs.json",
+    "sha256": "c15acee682b57f2ed40aa019f15ad55e7359648f87cb97a19703ce6aa5914e9d"
+  },
+  {
+    "suite": "q8",
+    "methods": 10,
+    "primary_native_child_calls": 137,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/q8/runs.json",
+    "sha256": "51d42e7dee536c7fc96f117ed0f5afdf191ca54c4273e42dd0a1d91ccef3257a"
+  },
+  {
+    "suite": "classic32",
+    "methods": 12,
+    "primary_native_child_calls": 788,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/classic32/runs.json",
+    "sha256": "0932d07458452a5429709c982286b43f41b317ae5f569fb42f6642a3b3509afc"
+  },
+  {
+    "suite": "q2q3",
+    "methods": 13,
+    "primary_native_child_calls": 530,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/q2q3/runs.json",
+    "sha256": "d6cf7cb827bb4cafa0b3cfc9f874dbac053773aa9c0e5802cfc0c9a192debb24"
+  },
+  {
+    "suite": "context",
+    "methods": 4,
+    "primary_native_child_calls": 122,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/context-report.json",
+    "sha256": "2f3e582520f2de4a2e02ce3223b6bc79564d54d84a247250c26ce85eb3cffc04"
+  },
+  {
+    "suite": "history",
+    "methods": 4,
+    "primary_native_child_calls": 244,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/history/runs.json",
+    "sha256": "80518a3ca79f654baf7c3566c54564e351712bb3cb492cbf47c7319c054443f2"
+  },
+  {
+    "suite": "graph",
+    "methods": 4,
+    "primary_native_child_calls": 306,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/graph/runs.json",
+    "sha256": "16af6ffc55fe543df5237d1a89ac796d0b182cb5e5ca73c4e9b4710b11875c17"
+  },
+  {
+    "suite": "context-actions",
+    "methods": 7,
+    "primary_native_child_calls": 244,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/context-actions/runs.json",
+    "sha256": "60f54ee877a6fce890fb532bb26637beeca118f33e64774041ae7b4cbfed96cc"
+  },
+  {
+    "suite": "lcu-actions",
+    "methods": 10,
+    "primary_native_child_calls": 1869,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/lcu-actions/runs.json",
+    "sha256": "ea96bb5e45003a7c5ad60e229513f2a4d27debe61e4e38648dac92ce984d903d"
+  },
+  {
+    "suite": "source_storage",
+    "methods": 7,
+    "primary_native_child_calls": 452,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/source_storage/runs.json",
+    "sha256": "0f3289bb1a61fff17a093676b95c49f2e74ab23ff978ff67be54e3356a3e08f7"
+  },
+  {
+    "suite": "gguf_shapes",
+    "methods": 6,
+    "primary_native_child_calls": 104,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/gguf_shapes/runs.json",
+    "sha256": "36d7cb653f46b2f2edc9e967c6fc3b8807efa50dbe0b49ba6b4f32768be246f1"
+  },
+  {
+    "suite": "safetensors_constants",
+    "methods": 9,
+    "primary_native_child_calls": 97,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/safetensors_constants/runs.json",
+    "sha256": "4486b10d3d6ac31e3215e68fd601fc6f6b8d92f8b87ea06701439988e199a32c"
+  },
+  {
+    "suite": "decoder_architecture",
+    "methods": 7,
+    "primary_native_child_calls": 200,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/decoder_architecture/runs.json",
+    "sha256": "41169c6b2ecfe846aed805064a5cc6c06de0fadb1341007a175e541426bf10d3"
+  },
+  {
+    "suite": "decoder_layers",
+    "methods": 7,
+    "primary_native_child_calls": 207,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/decoder_layers/runs.json",
+    "sha256": "d3756e7d60d107e96af98f2304008f73ec829c66af480104c06e973d575ff98c"
+  },
+  {
+    "suite": "source_config",
+    "methods": 6,
+    "primary_native_child_calls": 190,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/source_config/runs.json",
+    "sha256": "a8a5df45aef43698fca3f3de2f0fdd94b17ecaa5067cf7956ff951bc8625a492"
+  },
+  {
+    "suite": "source_index",
+    "methods": 10,
+    "primary_native_child_calls": 516,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/source_index/runs.json",
+    "sha256": "96a2dd18b08d5eb667eab2f3ac554e15c3d908b90df0463870e2db67c0874b0e"
+  },
+  {
+    "suite": "source_root",
+    "methods": 5,
+    "primary_native_child_calls": 77,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/source_root/runs.json",
+    "sha256": "76c29d4d9d2480ae338e3d7aed6282d569732a722cc62630b5f1c52e6cb720b6"
+  },
+  {
+    "suite": "shard_collection",
+    "methods": 5,
+    "primary_native_child_calls": 205,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/shard_collection/runs.json",
+    "sha256": "55e0b6e6eaea50bb4f4382a365a159bf021aba0107c5907ed175ce1eb8722059"
+  },
+  {
+    "suite": "unindexed_source",
+    "methods": 4,
+    "primary_native_child_calls": 178,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/legacy/unindexed_source/runs.json",
+    "sha256": "d802125e5eef3041b7abf78490a710d9cfcfb77abea41eddce2dfdf2961d8092"
+  },
+  {
+    "suite": "source-digest",
+    "methods": 6,
+    "primary_native_child_calls": 451,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/digest/runs.json",
+    "sha256": "8f6d5d0b1426ba8d54a5883c1affd65a098a14ef663fd49390059e21cf01489a"
+  },
+  {
+    "suite": "sealed-copy",
+    "methods": 5,
+    "primary_native_child_calls": 186,
+    "call_manifest": "../sealed-gguf-native-acceptance-v2/copy/runs.json",
+    "sha256": "4d7092e1c22ddb6e92fcd37975d412f4403d199536ab3fab8f588ceaf2763a16"
+  }
+]

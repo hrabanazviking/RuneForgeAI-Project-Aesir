@@ -1,0 +1,7 @@
+{
+  "source": "tests/hailo_sealed_semantic_api.mojo",
+  "binary": "../sealed-gguf-native-final/sealed-semantic-api",
+  "returncode": 0,
+  "diagnostic_bytes": 0,
+  "sha256": "1f81cac3a92c7c9a80c30fd8f0e49cbdf3f28cebc4e4f52e6feea1d8dc87f6f4"
+}

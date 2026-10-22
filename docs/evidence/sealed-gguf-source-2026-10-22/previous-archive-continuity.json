@@ -1,0 +1,22 @@
+[
+  {
+    "manifest": "docs/evidence/sealed-gguf-contract-2026-10-22/archive-identities.json",
+    "entries_verified": 77,
+    "all_unchanged": true
+  },
+  {
+    "manifest": "docs/evidence/sealed-source-copy-2026-10-22/archive-identities.json",
+    "entries_verified": 1052,
+    "all_unchanged": true
+  },
+  {
+    "manifest": "docs/evidence/source-byte-digest-2026-10-22/archive-identities.json",
+    "entries_verified": 1676,
+    "all_unchanged": true
+  },
+  {
+    "manifest": "docs/evidence/iq4-source-constants-2026-10-22/archive-identities.json",
+    "entries_verified": 3122,
+    "all_unchanged": true
+  }
+]

@@ -13,6 +13,8 @@ from core.mimir_well import (
     f16,
 )
 from loader.tokenizer import RuneWeaver
+from hailbru.source_sealed_copy import _require_sealed_source
+from hailbru.syscall import os_host_architecture, os_mmap, os_close_descriptor
 
 
 struct GGMLType:
@@ -184,6 +186,10 @@ struct GGUFSeer:
     var config: GGUFModelConfig
     var fd: Int32
     var file_size: Int64
+    # Captured only from a successful mapping, independent of declared size.
+    var _mapping_extent: Int64
+    # Admission route persists after cleanup; a provenance label is never a path.
+    var _sealed_route: Bool
     var mmap_ptr: Pointer[Int8, MutUntrackedOrigin]
     var is_mapped: Bool
     var is_loaded: Bool
@@ -202,6 +208,8 @@ struct GGUFSeer:
         self.config = GGUFModelConfig()
         self.fd = -1
         self.file_size = 0
+        self._mapping_extent = 0
+        self._sealed_route = False
         self.mmap_ptr = Pointer[Int8, MutUntrackedOrigin](unsafe_from_address=1)
         self.is_mapped = False
         self.is_loaded = False
@@ -214,7 +222,7 @@ struct GGUFSeer:
     def _require_range(self, offset: Int, byte_count: Int) raises:
         if offset < 0 or byte_count < 0:
             raise Error("GGUF contains a negative byte range")
-        if offset > Int(self.file_size) or byte_count > Int(self.file_size) - offset:
+        if offset > Int(self.file_size) or byte_count > Int(self.file_size) - offset or offset > Int(self._mapping_extent) or byte_count > Int(self._mapping_extent) - offset:
             raise Error("GGUF is truncated or contains an out-of-range offset")
 
     def _read_u16(self, offset: Int) raises -> UInt16:
@@ -435,7 +443,37 @@ struct GGUFSeer:
             tokenizer.add_space_prefix = self.mmap_ptr.unsafe_load(offset) != 0
         return self.skip_value(value_type, offset)
 
+    def _adopt_owned_sealed_fd(mut self, owned_fd: Int64, expected_size: Int64) raises:
+        # Busy refusal must not close an alias of this instance's live descriptor.
+        if self.fd >= 0 or self.is_mapped or self._sealed_route:
+            if owned_fd != Int64(self.fd):
+                _ = os_close_descriptor(owned_fd)
+            raise Error("GGUF sealed admission requires a fresh unmapped owner")
+        self._sealed_route = True
+        if owned_fd < 0 or owned_fd > 2147483647:
+            raise Error("GGUF sealed source requires an exact live descriptor")
+        self.fd = Int32(owned_fd)
+        try:
+            var arch = os_host_architecture()
+            _require_sealed_source(arch, owned_fd, expected_size)
+            if expected_size < 24:
+                raise Error("GGUF file is smaller than the v3 header")
+            var mapped_address = os_mmap(arch, expected_size, 1, 1, owned_fd, 0)
+            if mapped_address == -1:
+                raise Error("Failed to mmap GGUF model")
+            self.file_size = expected_size
+            self._mapping_extent = expected_size
+            self.mmap_ptr = Pointer[Int8, MutUntrackedOrigin](unsafe_from_address=Int(mapped_address))
+            self.is_mapped = True
+        except e:
+            self._cleanup()
+            raise e
+
     def _open_and_map(mut self) raises:
+        if self._sealed_route:
+            if not self.is_mapped or self.fd < 0 or self._mapping_extent <= 0:
+                raise Error("GGUF sealed source is closed or unmapped")
+            return
         var path_bytes = List[Int8]()
         var source = self.file_path.as_bytes()
         if len(source) == 0 or len(source) >= 4096 or "\0" in self.file_path:
@@ -483,6 +521,7 @@ struct GGUFSeer:
         self.mmap_ptr = Pointer[Int8, MutUntrackedOrigin](
             unsafe_from_address=mapped_address
         )
+        self._mapping_extent = self.file_size
         self.is_mapped = True
 
     def parse_header_bytes[origin: Origin](mut self, bytes_ptr: Pointer[UInt8, origin], size_bytes: Int, mut well: MimirWell) raises:
@@ -771,9 +810,10 @@ struct GGUFSeer:
     def _cleanup(mut self):
         if self.is_mapped:
             if self.mmap_ptr != Pointer[Int8, MutUntrackedOrigin](unsafe_from_address=1):
-                _ = external_call["munmap", Int32](self.mmap_ptr, self.file_size)
+                _ = external_call["munmap", Int32](self.mmap_ptr, self._mapping_extent)
             self.mmap_ptr = Pointer[Int8, MutUntrackedOrigin](unsafe_from_address=1)
             self.is_mapped = False
+        self._mapping_extent = 0
         if self.fd >= 0:
             _ = external_call["close", Int32](self.fd)
             self.fd = -1

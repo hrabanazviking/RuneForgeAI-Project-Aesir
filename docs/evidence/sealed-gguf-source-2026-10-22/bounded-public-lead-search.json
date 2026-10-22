@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-22",
+  "queries": [
+    "site:hailo.ai Hailo-10H compiler instruction set CCW registers specification",
+    "site:github.com/hailo-ai hailo10h lcu ccw encoding"
+  ],
+  "bounded_results": [
+    "https://hailo.ai/hailo-files/hailo-10h-product-brief-en/",
+    "https://github.com/hailo-ai/hailo_model_zoo/blob/master/docs/GETTING_STARTED.rst",
+    "https://community.hailo.ai/t/i-compiled-an-llm-for-the-hailo-10h/19685"
+  ],
+  "disposition": "Search results describe product/software-suite requirements and a DFC-driven wrapper. No arithmetic bitfield/register/opcode definition was qualified by this bounded search. This is not a proof of public absence; no implementation or device capability follows. No source body was adopted, compiler/model invoked, or target accessed. Existing pinned public-interface research remains active.",
+  "license_first": "No external source-body inspection or code adoption proceeded from this search; license/provenance must be qualified before any such future work.",
+  "outside_compiler_requirement_adopted": false,
+  "numerical_encoding_qualified": false,
+  "new_device_access": false,
+  "source_execution_claim": false
+}

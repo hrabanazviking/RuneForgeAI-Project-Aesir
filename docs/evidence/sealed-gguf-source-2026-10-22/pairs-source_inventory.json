@@ -1,0 +1,242 @@
+[
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-1.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f21de5747f77b705d8a3cedbc7f1d09a5882dab17f351f2cf8d09cfd38a3d505",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-2.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "dbc5f9d6a769de1755574c385497d39c363037063d3b01e16ecf7d3e1308110f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-3.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e526d32f5bab334ea1cd25ddd7553aeb1ff6e5f02078e8ab97ae307a4c845438",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-4.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "30d23a2e3e6796aa087d86bd86e62abe6f0f964ac142ea0b928e271f16bdabe2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-5.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d0acef682c080eeac96053c342631534ed88a2cbf2dcef87fbb0bd1de9f36fd0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-6.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Cannot construct a String from invalid UTF-8 data",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-7.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f21de5747f77b705d8a3cedbc7f1d09a5882dab17f351f2cf8d09cfd38a3d505",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-8.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF file is smaller than the v3 header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-9.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF is truncated or contains an out-of-range offset",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-10.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: overlapping tensors",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-11.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: architecture and at least one tensor are required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-12.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: architecture and at least one tensor are required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-13.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: duplicate tensor same",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-14.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "080164d33c9af498bd203f8c45eb7448b1b36daad189267bb6ce41b438f07c97",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-15.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "aa1b840b187a176aab6d591a218b10114cebaea1f7261789086bea5a1f82c05f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-016",
+    "control_binary": "../iq4-native-final/tagged-source-inventory",
+    "arguments": [
+      "/tmp/aesir-source-inventory-6a7m0ocs/fixture-16.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: unsupported tensor type 99",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

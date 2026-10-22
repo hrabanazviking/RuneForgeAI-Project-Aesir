@@ -1,0 +1,1000 @@
+[
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-0.gguf",
+      "matrix.weight",
+      "0",
+      "4096"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "03e49c94725e047a403b2ca4d00df683d6e9ac5cd27b343f64e8a709b73295f0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-1.gguf",
+      "matrix.weight",
+      "4096",
+      "4096"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "10062de4155bd0aa0e3b27b563ae57d09174331d2ab0cdff83ad618c0fe77c63",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-2.gguf",
+      "matrix.weight",
+      "8192",
+      "4096"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "40bfb2bf4b5dee9bcfda76bf7acdff64d79da3f7a811e032ed08c375d6493b91",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-3.gguf",
+      "matrix.weight",
+      "12288",
+      "4096"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "157c23dc91ca61103896d5c95863ac4816aa73ff1931a0b44e2b3bad15f372a2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-4.gguf",
+      "matrix.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4d106d6e197a1f7c74918d1ded2acde43763f279071dfec5a8932751b7871a96",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-5.gguf",
+      "matrix.weight",
+      "31",
+      "2"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7c842730a0d58ac0604d9ac54ca44540e3742e9d7e452cf66aedfa2daad0c57b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-6.gguf",
+      "matrix.weight",
+      "63",
+      "2"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e8d1f2adfcf8bcd6f4df235123a7b309bcff72e9398606bd4fa12dd4e73ea0d7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-7.gguf",
+      "matrix.weight",
+      "127",
+      "3"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "80321784d9a8071842b42558fdad41970832be3709dae93af98fc1a9797a640b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-8.gguf",
+      "matrix.weight",
+      "255",
+      "2"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c705c200442f61d2faff14c64b133df3e12e4995fa5790bfa9fdeea839281400",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-9.gguf",
+      "matrix.weight",
+      "510",
+      "5"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "207143ab2a4fd4456d1b4d26bbd415ed8b098c28d742f5b468239707f2b35d5c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-10.gguf",
+      "matrix.weight",
+      "1023",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f96919da124b38759a5f64beaa5c0e27fce8f8415a3b55b5f7534dec9f19d6a1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-11.gguf",
+      "matrix.weight",
+      "0",
+      "1024"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "341927bd49f1de301d9a71b7fe3f0223605c2be8c9ccd62ff95278614bbb6e66",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-12.gguf",
+      "matrix.weight",
+      "2048",
+      "4096"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f1be7ffc28ce6bfa9fa1c7ccc7db8d97990e4e3f7a587751c5e692273be47382",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-13.gguf",
+      "matrix.weight",
+      "2048",
+      "4096"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f1be7ffc28ce6bfa9fa1c7ccc7db8d97990e4e3f7a587751c5e692273be47382",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-14.gguf",
+      "matrix.weight",
+      "0",
+      "4097"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "closed"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: source mapping is closed",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "byte_count"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: tensor source extent mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "offset"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: tensor source extent mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "metadata_offset"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: tensor source extent mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "data_offset"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: tensor source extent mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "data_tail"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: tensor source extent mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "negative_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "overflow_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "unaligned_columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: K-quant row is not block aligned",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "kind"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: requires Q4_K source kind 12",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "limit"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "negative_limit"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "narrow_limit"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-023",
+    "control_binary": "../iq4-native-final/tagged-q4k-api",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/api.gguf",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d19b7568e8b912332be3d12a434fa67c5a7b8b97d8ba3a46f744747f962cee58",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-29.gguf",
+      "matrix.weight",
+      "0",
+      "4096"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "94ad10955d66412acf7e266a46373accd26037ddfda23caf6ba9271acbc125a0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-30.gguf",
+      "matrix.weight",
+      "250",
+      "6"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6676cc7189bbc2155447265725c6704ab72bc908fd4ae407d21a113c13f94300",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-31.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e203393d4816c40d2a6240eac86ccf217a9a52a01141d06ec1fd47230d614d5b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-32.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "39b5a1caf7e850526eaef42cd7192f9ae83a86e1e3c6d55ac0e3eae3efe8038c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-33.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c81017d67f2b7a6e2f742cec39ecaa25cc453997164a447a4abaa6e917bec7d4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-34.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "dfa1d8efde88bce9efa1dd5d19b9c03db2e29c0350ffbc308e15111af196a356",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-35.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5556cce3852520f7b0ca2545784a1c0bf7331c4462a59602cbd310e81912e935",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-36.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "df45f00c3ee7742d45d146f80b12cc44f89c5314a0bb7200b7c4305f4f66b954",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-37.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3340345c60cd2f8d3b51b85ca3cffb4f51981cff25077f4b5e100f75f112231",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-38.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c2364479b7f587a6a38d579b0b2855f526255e7fc4cc5e0a43ed03fd48bde52b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-39.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "29b7d1933ecc43108d2f1a3387447710e6f27be05e99752452f0054ac5e39631",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-40.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a1471f802ad0b882b58eb7bebae6df8e198774d42db786a684491c3e3badb11f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-41.gguf",
+      "matrix.weight",
+      "255",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "71304b41f3ae09cb2b139bb44d030b7f98f564ec9ab26a7e0fcad9db7ff67e9f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-42.gguf",
+      "matrix.weight",
+      "-1",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-43.gguf",
+      "matrix.weight",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-44.gguf",
+      "matrix.weight",
+      "0",
+      "-1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-45.gguf",
+      "matrix.weight",
+      "256",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-46.gguf",
+      "matrix.weight",
+      "255",
+      "2"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-47.gguf",
+      "matrix.weight",
+      "9223372036854775807",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-48.gguf",
+      "matrix.weight",
+      "0",
+      "9223372036854775807"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-49.gguf",
+      "matrix.weight",
+      "0",
+      "4097"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: invalid element window or explicit host bound",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-50.gguf",
+      "missing.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: missing tensor missing.weight",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-51.gguf",
+      "matrix.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: requires Q4_K source kind 12",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-52.gguf",
+      "matrix.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: requires Q4_K source kind 12",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-53.gguf",
+      "matrix.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: requires Q4_K source kind 12",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-54.gguf",
+      "matrix.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: requires Q4_K source kind 12",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-55.gguf",
+      "matrix.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceQ4KConstants: requires Q4_K source kind 12",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-022",
+    "control_binary": "../iq4-native-final/tagged-q4k-constants",
+    "arguments": [
+      "/tmp/aesir-source-q4k-i00apviw/fixture-56.gguf",
+      "matrix.weight",
+      "0",
+      "1"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF is truncated or contains an out-of-range offset",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

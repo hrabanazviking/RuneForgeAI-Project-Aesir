@@ -1,0 +1,762 @@
+[
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "37",
+      "1",
+      "47",
+      "26"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fc8aeaf373432573f152dfd0cb15ad2e34ae4c929134332d8555055a371f0bf7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "36",
+      "1",
+      "47",
+      "26"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: root path byte/work policy or NUL refusal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "37",
+      "1",
+      "46",
+      "26"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: file-attempt/work policy exceeded",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "37",
+      "1",
+      "47",
+      "25"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: regular-file extent exceeds source byte policy",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4096",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: positive policies and path bytes at most4095 required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "empty.json",
+      "4095",
+      "100",
+      "100000",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bb2c0148be4d5c1db62d3e823ea6aebfd7778490fa265842296f2aea2a6409ff",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "sparse.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: regular-file extent exceeds source byte policy",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
+      "37",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: label byte policy or NUL refusal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: directory open failed: 13",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 13",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 38",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: statx regular fd failed: 5",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: regular file with reported size required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: regular file with reported size required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: regular-file close failed: 5",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: directory close failed: 5",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "sub/nested.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9b90cc6f7b9e59884091a026b9c2361b50adee5cdf8228ad48133a35d23891a2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "inside-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fc33f41a4e8923ca91eec33a47a699481677483340be1e0278ba25f59304e088",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "./tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7990096a4034f7afc33ae2c42145ff6779c990e11bfcdfcd2e14d43d0d468da5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "sub/../tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c13fb7151fc80ec90a1c1f100d6d999b5a8cd1dbc6b69d8dbbe74efb1b6ccf73",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "sub//nested.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "81770a2e67e8cbe79dde51d2cb74cb5fbeea0cbea5129f1172df06380b312efa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "\u00c6sir-\ud83d\udf01.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "93b584484bae4b1f0c08f0817750976c3737f49a47a583a34ed834bd8d501d7d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/root-link",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "78cb2d5b7e8746431bfe706aa01a148f8d8e00d214e38fd62016e1cc48b6cb46",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "../outside.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 18",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "escape-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 18",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "absolute-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 18",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "magic-link",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 18",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "/tmp/aesir-source-root-psf3quko/model/tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: absolute label refused",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: label byte policy or NUL refusal",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "missing.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 2",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      ".",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: regular file with reported size required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "sub",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: regular file with reported size required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "pipe",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "HailbruError[OsError]: regular file with reported size required",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "socket",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: beneath-root open failed: 6",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/missing",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: directory open failed: 2",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model/tiny.json",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: directory open failed: 20",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model/pipe",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceRoot: directory open failed: 20",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-gguf-native-final/old-090",
+    "control_binary": "../iq4-native-final/closure-source_root",
+    "arguments": [
+      "/tmp/aesir-source-root-psf3quko/model",
+      "tiny.json",
+      "4095",
+      "100",
+      "100000",
+      "1048576"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fc8aeaf373432573f152dfd0cb15ad2e34ae4c929134332d8555055a371f0bf7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]
