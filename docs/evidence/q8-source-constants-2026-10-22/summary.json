@@ -1,0 +1,42 @@
+{
+  "pre_code_contract": "9b698947fa1f975dba08bb3d5abd11a8549741e0",
+  "clean_mojo_builds": 76,
+  "source_hashes_and_actual_snapshots": 640,
+  "prior_mojo_sources_unchanged": 635,
+  "prior_mojo_sources_changed": [
+    "aesir_engine/loader/packed_gguf.mojo",
+    "smidr/source_weight_tiles.mojo"
+  ],
+  "old_tests_unchanged": 62,
+  "frozen_controls_unchanged": 74,
+  "primary_suites": 30,
+  "primary_methods": 200,
+  "recorded_primary_child_calls": 9309,
+  "new_methods": 10,
+  "new_primary_calls": 137,
+  "new_accepted": 78,
+  "new_expected_refusals": 59,
+  "complete_component_comparisons": 1321,
+  "exhaustive_digest_component_records": 2097152,
+  "exhaustive_scale_word_patterns": 65536,
+  "source_byte_comparisons": 3774,
+  "additional_repeated_context_methods": 4,
+  "additional_repeated_context_primary_calls": 122,
+  "additional_repeated_context_frozen_calls": 122,
+  "additional_frozen_calls": 8331,
+  "frozen_success_stdout_pairs": 4308,
+  "frozen_nonzero_stdout_exit_error_pairs": 4023,
+  "unique_frozen_controls": 74,
+  "successful_frozen_controls": 73,
+  "mutation_only_controls": [
+    "tagged-storage-api"
+  ],
+  "source_payload_representation_decoded": true,
+  "production_floating_tensor_products": false,
+  "model_layer_attention_forward": false,
+  "numerical_hailo_execution": false,
+  "device_format_or_fit_verified": false,
+  "source_model_execution": false,
+  "whole_repository_pass": false,
+  "hosted_ci_pass": false
+}

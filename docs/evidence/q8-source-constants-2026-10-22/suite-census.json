@@ -1,0 +1,152 @@
+[
+  {
+    "suite": "q8",
+    "methods": 10,
+    "recorded_primary_child_calls": 137
+  },
+  {
+    "suite": "source_inventory",
+    "methods": 6,
+    "recorded_primary_child_calls": 16
+  },
+  {
+    "suite": "semantic_plan",
+    "methods": 9,
+    "recorded_primary_child_calls": 56
+  },
+  {
+    "suite": "typed_decoder",
+    "methods": 7,
+    "recorded_primary_child_calls": 493
+  },
+  {
+    "suite": "storage_estimate",
+    "methods": 7,
+    "recorded_primary_child_calls": 61
+  },
+  {
+    "suite": "primitive_recipes",
+    "methods": 7,
+    "recorded_primary_child_calls": 44
+  },
+  {
+    "suite": "expanded_graph",
+    "methods": 5,
+    "recorded_primary_child_calls": 45
+  },
+  {
+    "suite": "expanded_storage",
+    "methods": 7,
+    "recorded_primary_child_calls": 88
+  },
+  {
+    "suite": "matrix_tiles",
+    "methods": 7,
+    "recorded_primary_child_calls": 860
+  },
+  {
+    "suite": "source_weight_tiles",
+    "methods": 5,
+    "recorded_primary_child_calls": 286
+  },
+  {
+    "suite": "cache_layout",
+    "methods": 6,
+    "recorded_primary_child_calls": 89
+  },
+  {
+    "suite": "source_float_constants",
+    "methods": 6,
+    "recorded_primary_child_calls": 64
+  },
+  {
+    "suite": "source_q4k_constants",
+    "methods": 8,
+    "recorded_primary_child_calls": 57
+  },
+  {
+    "suite": "source_q5q6_constants",
+    "methods": 7,
+    "recorded_primary_child_calls": 88
+  },
+  {
+    "suite": "semantic_storage",
+    "methods": 7,
+    "recorded_primary_child_calls": 312
+  },
+  {
+    "suite": "source_scalars",
+    "methods": 4,
+    "recorded_primary_child_calls": 132
+  },
+  {
+    "suite": "rotary_recipes",
+    "methods": 5,
+    "recorded_primary_child_calls": 153
+  },
+  {
+    "suite": "decoder_graph_policy",
+    "methods": 5,
+    "recorded_primary_child_calls": 152
+  },
+  {
+    "suite": "decoder_projections",
+    "methods": 7,
+    "recorded_primary_child_calls": 115
+  },
+  {
+    "suite": "ordinary_projection_schema",
+    "methods": 7,
+    "recorded_primary_child_calls": 211
+  },
+  {
+    "suite": "decoder_bias",
+    "methods": 9,
+    "recorded_primary_child_calls": 299
+  },
+  {
+    "suite": "decoder_activation",
+    "methods": 9,
+    "recorded_primary_child_calls": 503
+  },
+  {
+    "suite": "decoder_session",
+    "methods": 7,
+    "recorded_primary_child_calls": 606
+  },
+  {
+    "suite": "decoder_window",
+    "methods": 7,
+    "recorded_primary_child_calls": 725
+  },
+  {
+    "suite": "decoder_scaling",
+    "methods": 7,
+    "recorded_primary_child_calls": 932
+  },
+  {
+    "suite": "context",
+    "methods": 4,
+    "recorded_primary_child_calls": 122
+  },
+  {
+    "suite": "history",
+    "methods": 4,
+    "recorded_primary_child_calls": 244
+  },
+  {
+    "suite": "graph",
+    "methods": 4,
+    "recorded_primary_child_calls": 306
+  },
+  {
+    "suite": "context-actions",
+    "methods": 7,
+    "recorded_primary_child_calls": 244
+  },
+  {
+    "suite": "lcu-actions",
+    "methods": 10,
+    "recorded_primary_child_calls": 1869
+  }
+]

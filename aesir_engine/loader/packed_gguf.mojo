@@ -23,6 +23,10 @@ def packed_row_bytes(kind: Int, columns: Int) raises -> Int:
         return columns * 4
     if kind == 1 or kind == 30:
         return columns * 2
+    if kind == 8:
+        if columns % 32 != 0:
+            raise Error("Packed GGUF: Q8_0 row is not block aligned")
+        return columns // 32 * 34
     if columns % 256 != 0:
         raise Error("Packed GGUF: K-quant row is not block aligned")
     if kind == 12:

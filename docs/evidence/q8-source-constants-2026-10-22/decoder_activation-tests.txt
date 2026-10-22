@@ -1,0 +1,15 @@
+test_01_choices_bias_order_and_independent_lifetimes (__main__.DecoderActivation.test_01_choices_bias_order_and_independent_lifetimes) ... ok
+test_02_source_projection_defaults_and_unresolved_selectors (__main__.DecoderActivation.test_02_source_projection_defaults_and_unresolved_selectors) ... ok
+test_03_bounds_and_exact_source_words (__main__.DecoderActivation.test_03_bounds_and_exact_source_words) ... ok
+test_04_mutations_and_consumer_boundaries (__main__.DecoderActivation.test_04_mutations_and_consumer_boundaries) ... ok
+test_05_owned_inputs_snapshots_recovery_and_cleanup (__main__.DecoderActivation.test_05_owned_inputs_snapshots_recovery_and_cleanup) ... ok
+test_06_complete_legacy_output_compatibility (__main__.DecoderActivation.test_06_complete_legacy_output_compatibility) ... ok
+test_07_isolated_recipe_math (__main__.DecoderActivation.test_07_isolated_recipe_math) ... ok
+test_08_actual_cache_matrix_storage_consumers (__main__.DecoderActivation.test_08_actual_cache_matrix_storage_consumers) ... ok
+test_09_mixed_source_neutral_bias_and_independent_widths (__main__.DecoderActivation.test_09_mixed_source_neutral_bias_and_independent_widths) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 24.325s
+
+OK
+Native outcomes: {'accepted': 135, 'refused': 368}

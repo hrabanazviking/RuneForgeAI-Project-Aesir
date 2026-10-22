@@ -1,0 +1,9 @@
+test_bounds_mutations_copies_and_recovery (__main__.DynamicDecoderHistory.test_bounds_mutations_copies_and_recovery) ... ok
+test_integer_histories_words_and_extremes (__main__.DynamicDecoderHistory.test_integer_histories_words_and_extremes) ... ok
+test_source_projection_raw_words_and_frozen_outputs (__main__.DynamicDecoderHistory.test_source_projection_raw_words_and_frozen_outputs) ... ok
+test_source_refusals_and_fresh_recovery (__main__.DynamicDecoderHistory.test_source_refusals_and_fresh_recovery) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.865s
+
+OK

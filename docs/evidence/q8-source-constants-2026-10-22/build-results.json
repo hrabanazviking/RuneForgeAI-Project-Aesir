@@ -1,0 +1,534 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../q8-source-final/tagged-semantic-plan",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c38f4b9061f381ae05a3db52b1fab2ff9d6b01eb215aa4e263fc271b8a84137e"
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "../q8-source-final/tagged-typed-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1ba82f890291623567a879cd5cc51911ecdf88b04771d089243cdf5064ec259c"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../q8-source-final/tagged-expanded-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "89462b7e50baaa595303d61ca7a15e1cd932384111adc6b3ff8d7caafd13dbd4"
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "../q8-source-final/tagged-expanded-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "873a44a2989792d93085157b1c056d13d66c683e3c2be89fc993a80e8bb2a6cc"
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "../q8-source-final/tagged-expanded-storage",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ecb6b46094d8a33e66c591b0e7d69d4d95ad7500a601729027636184eb8dadbd"
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "../q8-source-final/tagged-expanded-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "887c171501f2b8d2fe1c4a3141354777c078ed9955bef816b664567735ea4cdc"
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "../q8-source-final/tagged-matrix-tiles",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d365903734deaecac715fd9b4689d4af3580b8f55c30c80cb282b7b572d115d3"
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "../q8-source-final/tagged-matrix-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b5a28d1b6dbac3cece3c67d2986250d96dd33d340a130892810b564f59d69665"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../q8-source-final/tagged-primitive-recipes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "94e0460c683f17b43189c731ec20aa16ce7d1717db250f9408c3b8c3a5bbeb98"
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "../q8-source-final/tagged-primitive-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "87c28a8a887b983af88aec0a906c69260d36755e69e91790dfeed801a67fa653"
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../q8-source-final/tagged-cache-layout",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "33e2d0c755f3388e230315f35c4c9775eeb0f82b9c4872a3ad7be23db2b1f5ff"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../q8-source-final/tagged-cache-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f53ba15152b7867d215bb3e4419c1147a398321bc5ee7504139e9aa6dcb6fd77"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../q8-source-final/tagged-source-weight-tiles",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f17de33e4e1d47f4ca5eeb7954a9f2881cced66ac36b39c963b7c5ef5105a03"
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "../q8-source-final/tagged-source-weight-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "69d89b52b6cd70429f6cf7ce6af1a1afa15b3314f3b6fd0fda0ad80e14bd75f1"
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "../q8-source-final/tagged-storage-estimate",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9eb11db2facf26539578e9cd8af9ef680122a84f6408da2bd3d68632cae05041"
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "../q8-source-final/tagged-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "785c0d478457ca9683f63f86cc1f49b5b14eebea7116332c6853e15e4b16ff55"
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "../q8-source-final/tagged-source-inventory",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e0199c563182cfdbbca5521d60413b19421a5088f8bb8f89834ae573a83efa5b"
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "../q8-source-final/tagged-typed-decoder",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d00bf9c06d0018b503f0bcecedcc5a476f50e5093d81838f1034cb3a55a1e7f0"
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "../q8-source-final/tagged-semantic-storage",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa001339581392e1b99d9ea2ef74a62a099e287410d57981dc6e2c17078b00ae"
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "../q8-source-final/tagged-semantic-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ffbb7d31080fe916750b9a583f54f7a31c9e1aa3c0155320209370cf94ae1cba"
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "../q8-source-final/tagged-float-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fd08c3334ccda25bab3652a8345bfd80a93b8395d1a2832fa022d14c514d2acd"
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "../q8-source-final/tagged-float-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b12b08e4ec91962cf82e302835a59d573ad8bdd73ebb9abf94005c40aa2409d2"
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "../q8-source-final/tagged-q4k-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "02d88855978fd3ddc8dba7fafce2c1115eff60d735663381e63f989bca82abd4"
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "../q8-source-final/tagged-q4k-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d1ef7eb29914ea7aa08cf4ee16c5f440973dcc227da7082ab76f3c486c9d5a82"
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "../q8-source-final/tagged-q5q6-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fdda6a1029534ef71782ac9b9bf196dbcd014499692fbe9ef78c2bb334f90d9c"
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "../q8-source-final/tagged-q5q6-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9853b98e38638e9c151dcffe72a96110b20358502e4a305474f9b49a9a89d38f"
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../q8-source-final/decoder-graph-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "54c59f806f26dc91a6ddb04197e6a9e30d8a4662d046bb8bb3fb0cac0da7e014"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../q8-source-final/decoder-graph-policy-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ebb743525801ca6ab9f340d0b24d7ef90bc36c42da130f2dbbc65421cf13507e"
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "../q8-source-final/rotary-recipes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b2c2ccf0cdfacdf6f80475d030e745e61e7b5993e6ac3a97d9f7de6a5c9ba258"
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "../q8-source-final/rotary-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1d141d3e4bd914f44d8b3d2dcb07ed0a527901e93c90f1cb17243a0db5d1b9a5"
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "binary": "../q8-source-final/decoder-scalar-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7e96afad635cdadf110ea7bc1d794e5efb64b2fa4933981f027ff796fa235f85"
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "binary": "../q8-source-final/source-scalars-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "187730e9c986b5fc1465c44741486bb677cd773af0ec5044416cbae31d171cfa"
+  },
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "binary": "../q8-source-final/ordinary-schema",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d96264647c556f99eee51d375913389d1c4230611d4d28b0b601f7c10612fd4"
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "binary": "../q8-source-final/ordinary-schema-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fdb9aadba56a0ec61b952d84cfdb28adcbb7dc9be3911bb08e2abb3062e7c563"
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "../q8-source-final/decoder-projections",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "382477b0ebd7d341635ecc1073567c9713c48fbd78d71004b137ab389530b360"
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "../q8-source-final/decoder-projections-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6bfcaaa106880be3a4ac37fc53c45e5249661a34725cb42399038ec3708d662f"
+  },
+  {
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "binary": "../q8-source-final/decoder-bias-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "096a490e18e9eb7492f0fd0487e951da8b1946438dd5adc98375b324de3f607b"
+  },
+  {
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "binary": "../q8-source-final/decoder-bias-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6ef9bafd6bbed5aaa5b8fbd5c1c254d51d56844f23f86221e49eb6d598a24425"
+  },
+  {
+    "source": "tests/hailo_bias_ownership.mojo",
+    "binary": "../q8-source-final/bias-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d5a315d27216c8bea589a8a9037646cffe2177c36e2112c3c4aa479f06362828"
+  },
+  {
+    "source": "tests/hailo_bias_gguf.mojo",
+    "binary": "../q8-source-final/bias-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ad07cf4de9d83b457c418c2186f58c330d0641ea749cdb14683a6123ceba1816"
+  },
+  {
+    "source": "tests/hailo_bias_consumers.mojo",
+    "binary": "../q8-source-final/bias-consumers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "510311c2fadeea374ca0a67a5114e39c4da6b39ae865984e9b8fc6a493a7e176"
+  },
+  {
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "binary": "../q8-source-final/activation-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fb0cb8fc31e1f1354a06f71c1b865a663e4256bda079f07c71b41966ded1971d"
+  },
+  {
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "binary": "../q8-source-final/activation-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8536b53e23db5283d2881e181b914256ee8c871f727eda00173f8d06d9caceb2"
+  },
+  {
+    "source": "tests/hailo_activation_ownership.mojo",
+    "binary": "../q8-source-final/activation-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7208432783f3c1fd91ecfbe4b65b779af7659243f1c146fcd6a32a112bb44aa6"
+  },
+  {
+    "source": "tests/hailo_activation_gguf.mojo",
+    "binary": "../q8-source-final/activation-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8c7070f9f0c67b18cecc52327924fd9293dffc4d9ff66954cbb5847d2097a260"
+  },
+  {
+    "source": "tests/hailo_activation_consumers.mojo",
+    "binary": "../q8-source-final/activation-consumers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a38f5f00ce21481449f278893db95e9909179ca7f3a6ff1dbcef7bd0a9447fb3"
+  },
+  {
+    "source": "smidr/tools/decoder_session_graph.mojo",
+    "binary": "../q8-source-final/session-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "12517b557c1d5f24822a7b2036377c5674d82cb270bf9365cdf1812ea15eb537"
+  },
+  {
+    "source": "tests/hailo_decoder_session_api.mojo",
+    "binary": "../q8-source-final/session-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5a6e332dfccd3f509b6fea10ecd0ae494ac01ca7a847f890fd866632bcb220f6"
+  },
+  {
+    "source": "tests/hailo_session_ownership.mojo",
+    "binary": "../q8-source-final/session-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7f4bde0b78271b9e8c50b5e9e38a1591d9c460d9a61496691e1222f9049ba9fc"
+  },
+  {
+    "source": "tests/hailo_session_gguf.mojo",
+    "binary": "../q8-source-final/session-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "02aed167ed56b656bc75d0cbc5e2a6a95a4e343fe707eb945bcc7e22892e00a2"
+  },
+  {
+    "source": "tests/hailo_session_source.mojo",
+    "binary": "../q8-source-final/session-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ac992ae7b824bb6c0c9c7c7c711cc50cab97754d9b059a26a9117d73c6917961"
+  },
+  {
+    "source": "smidr/tools/decoder_window_graph.mojo",
+    "binary": "../q8-source-final/window-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5dfff1659e74f97a1eccc12a1468ac1eae7ed1a47abc03843d8713871d7b732f"
+  },
+  {
+    "source": "tests/hailo_decoder_window_api.mojo",
+    "binary": "../q8-source-final/window-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "55c560de59daa25eb2af6be7e10a27ac6bbb8e5742e383cec3f9d2ec74318a5c"
+  },
+  {
+    "source": "tests/hailo_window_source.mojo",
+    "binary": "../q8-source-final/window-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ac7ca095a5e3e054346bf8ce2ff8e3dcaa4f5e7978dfaef8eb5436a9aa93db88"
+  },
+  {
+    "source": "tests/hailo_window_ownership.mojo",
+    "binary": "../q8-source-final/window-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96eb984baf9c7f8ef10a8c7b7b81a6da9c395f227caae11dca4d2ae7978cbefe"
+  },
+  {
+    "source": "tests/hailo_window_gguf.mojo",
+    "binary": "../q8-source-final/window-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "883a6f540bb831b8566c09d5a1ef5c8f53f7b24d3459b1a045d7a6ca7d94de62"
+  },
+  {
+    "source": "tests/hailo_window_indices.mojo",
+    "binary": "../q8-source-final/window-indices",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "source": "tests/hailo_window_policy.mojo",
+    "binary": "../q8-source-final/window-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "binary": "../q8-source-final/scaling-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "68e59b33ddc48b4b211b97bd04ba0b24b4eb540b4b14fe265622a5098bbff597"
+  },
+  {
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "binary": "../q8-source-final/scaling-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b151206ae1b9ae58a04d038a1f706fa6b65d78fec573bd55507b6a9cfa8b2775"
+  },
+  {
+    "source": "tests/hailo_scaling_source.mojo",
+    "binary": "../q8-source-final/scaling-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a51dc0f8bafba0d9cfcf8cb0f75fcc0a83d09a1f4ac613a70bdc333c683c213d"
+  },
+  {
+    "source": "tests/hailo_scaling_ownership.mojo",
+    "binary": "../q8-source-final/scaling-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "896fd65f480f87bf750518e493f665bc8737ec685edb9534bc690bd18b9cac85"
+  },
+  {
+    "source": "tests/hailo_scaling_gguf.mojo",
+    "binary": "../q8-source-final/scaling-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "99cbb143d66ec13cd9505166484cf5ac39be1bc5281b3e588d44b945304542cf"
+  },
+  {
+    "source": "tests/hailo_scaling_policy.mojo",
+    "binary": "../q8-source-final/scaling-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "source": "tests/hailo_dynamic_rotary_context.mojo",
+    "binary": "../q8-source-final/dynamic-context",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "binary": "../q8-source-final/dynamic-history",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b6f16d6f50c9515746357c965a48211ed971409901688c26eb6fafaa7a9d3fc5"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "binary": "../q8-source-final/dynamic-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3683fed6abde62f214946d0fab492a1da9786e208e1e44562e713adf790f967e"
+  },
+  {
+    "source": "smidr/tools/dynamic_decoder_graph.mojo",
+    "binary": "../q8-source-final/dynamic-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c9b9893b6bca5b97a32ef3d2616c12f1b06045752888e7e71e82cdb16a52c610"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_graph.mojo",
+    "binary": "../q8-source-final/dynamic-graph-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3588de6775a534abf9afcd958fdb3ca0d9aabef4ddac8c9a2d1441ac2cfe206f"
+  },
+  {
+    "source": "tests/hailo_dynamic_graph_gguf.mojo",
+    "binary": "../q8-source-final/dynamic-graph-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4b115431ace3a5ac8893ec24f79cc39825d136b52dba1d7b9574f09a5ef11960"
+  },
+  {
+    "source": "smidr/tools/context_actions.mojo",
+    "binary": "../q8-source-final/old-inspector",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "daf26af8df4ba53e0bb62eb122c9c80d6b794cf2a4075b54bbf98cf481e20bf7"
+  },
+  {
+    "source": "tests/hailo_context_action_ownership.mojo",
+    "binary": "../q8-source-final/old-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96392e5c82488aa94840b47ee2673f3c7c9a72cf2e2332942efb915841f0d309"
+  },
+  {
+    "source": "smidr/tools/lcu_actions.mojo",
+    "binary": "../q8-source-final/inspector",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de039ce12b8e47eeee7626cb27da75a55c18a90b19fd0a58e562b4099de9594"
+  },
+  {
+    "source": "tests/hailo_lcu_action_ownership.mojo",
+    "binary": "../q8-source-final/ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2342cba0412b5c5bc97661b944e2ac88404b99c6a617742332fa9d097b2c7b1c"
+  },
+  {
+    "source": "smidr/tools/source_q8_constants.mojo",
+    "binary": "../q8-source-final/q8-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5d31ca1bba2c04cca731bf2eca4c9151c909304e6ab549273d9629dc7476aa33"
+  },
+  {
+    "source": "tests/hailo_source_q8_api.mojo",
+    "binary": "../q8-source-final/q8-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6185a13fad33a112bf1772e471c7d0f8ea1442b9c5963f2934a3b41e7a4dbd69"
+  }
+]

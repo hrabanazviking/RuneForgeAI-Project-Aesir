@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_q8_source_constants.md`, alongside numerical configuration research. Full controlling scope:
+slice: `TASK_hailo10h_numerical_encoding_sources.md`, alongside remaining source-format work. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -58,6 +58,7 @@ verify, publish and advance each bounded work slice.
 | Expanded graph / updated lifetimes | Verified compiler integration | `HAILO10H_MOJO_EXPANDED_GRAPH.md`; global source/local mapping, explicit constants/predicates/indices/KV aliases, new lifetimes; five methods/45 native calls. No numerical execution. |
 | Expanded storage accounting | Verified hypothetical compiler scenario | `HAILO10H_MOJO_EXPANDED_STORAGE.md`; typed roles, exact last uses and explicit predicate width; seven methods/88 native calls. Not physical placement or hardware fit. |
 | Floating source constants | Verified source representation reader | `HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`; bounded owned F32/F16/BF16 windows; six methods/64 native calls, all 131,072 16-bit patterns, source inventory/storage regressions. Not device format or execution. |
+| Q8_0 source constants and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_Q8_SOURCE_CONSTANTS.md`;76 clean Mojo builds,200 methods/9309 primary calls,74 frozen controls covered. New10/137,actual payload fields and byte tiles;10 ownership traces. No numerical Hailo/source-model execution. |
 | Q4_K source constants | Verified source affine component reader | `HAILO10H_MOJO_SOURCE_Q4K_CONSTANTS.md`; eight methods/57 native calls, full group-factor/nibble coverage and exact external reference on 4096 synthetic constants. Not device precision or execution. |
 | Source-bound cache address scenarios | Verified hypothetical relative addressing | `HAILO10H_MOJO_CACHE_LAYOUT.md`; six methods/89 calls, 3353 independent element-offset checks, source/alias/policy/index/ownership refusals. No physical layout/ring mutation/execution. |
 | Native source-bound matrix schedules | Verified mathematical scheduling | `HAILO10H_MOJO_MATRIX_TILES.md`; seven methods/860 native calls,729 small domains/6672 coordinates, lazy tails/source binding/head splits/ownership/overflow. Actual packed source tile reads are next; no device numerical program. |
@@ -116,3 +117,8 @@ Next source representation work:`TASK_hailo10h_q8_source_constants.md`;
 `HAILO10H_Q8_SOURCE_LAYOUT.md` qualifies actual Q8_0 fields and an exact pre-code
 loader/constant/byte-tile contract.637 source identities/74 controls are frozen.
 No Q8 implementation or device execution is claimed by this contract.
+
+Q8_0 implementation checkpoint:`HAILO10H_MOJO_Q8_SOURCE_CONSTANTS.md` now
+records the verified native importer/constant/byte-tile slice under9b69894.
+Remaining source ranks/formats/architecture semantics and actual H10H numerical
+encoding/configuration/placement/delivery/results continue toward the full target.

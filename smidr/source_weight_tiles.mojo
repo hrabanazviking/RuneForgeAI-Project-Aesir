@@ -62,6 +62,9 @@ def read_source_weight_tile(source: PackedGGUF, schedule: MatrixSchedule,
     var block_bytes = 2
     if actual.kind == 0:
         block_bytes = 4
+    elif actual.kind == 8:
+        block_elements = 32
+        block_bytes = 34
     elif actual.kind == 12 or actual.kind == 13 or actual.kind == 14:
         block_elements = 256
         block_bytes = row_bytes // (actual.columns // block_elements)

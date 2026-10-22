@@ -1,0 +1,93 @@
+[
+  {
+    "source": "../q8-source-final/source-hashes.json",
+    "original_sha256": "32b419e541c27d03cda30da3b097be3677fd5125db903496a657bfd5c743c354",
+    "published": "source-hashes.json",
+    "published_sha256": "32b419e541c27d03cda30da3b097be3677fd5125db903496a657bfd5c743c354",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-final/input-hashes.json",
+    "original_sha256": "c8ee12ccb1d6c4e6d4e3a69e396fecb0fdcb686eb414d01e5403d60bd9c5b51b",
+    "published": "input-hashes.json",
+    "published_sha256": "c8ee12ccb1d6c4e6d4e3a69e396fecb0fdcb686eb414d01e5403d60bd9c5b51b",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-final/build-results.json",
+    "original_sha256": "3c90bef45d29b01bc50afa3470e24a7b51758afc650a86658c34e75517db15fc",
+    "published": "build-results.json",
+    "published_sha256": "3c90bef45d29b01bc50afa3470e24a7b51758afc650a86658c34e75517db15fc",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-final/changed-prior-sources.json",
+    "original_sha256": "f88ddbc61e25947b2a7ad46793efa8aba2cb85bdc295e32248e205b13bde258c",
+    "published": "changed-prior-sources.json",
+    "published_sha256": "f88ddbc61e25947b2a7ad46793efa8aba2cb85bdc295e32248e205b13bde258c",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/test-results.json",
+    "original_sha256": "b26596f7b2aafa912ccc02f113e8a30ba8e62b415cdcb2e55899adb4f127523e",
+    "published": "test-results.json",
+    "published_sha256": "b26596f7b2aafa912ccc02f113e8a30ba8e62b415cdcb2e55899adb4f127523e",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/frozen-pair-summary.json",
+    "original_sha256": "7440dca864f0f9f618854ba9e8d7f4360f39ada15203a34a085052b0803db1ea",
+    "published": "frozen-pair-summary.json",
+    "published_sha256": "7440dca864f0f9f618854ba9e8d7f4360f39ada15203a34a085052b0803db1ea",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/new/fixtures.json",
+    "original_sha256": "76a28e2a255b56ec3dea507230ddc9afbcf9c28d6e78c36b1aea15a4299afb67",
+    "published": "q8-fixture-identities.json",
+    "published_sha256": "76a28e2a255b56ec3dea507230ddc9afbcf9c28d6e78c36b1aea15a4299afb67",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/new/trace-audit.json",
+    "original_sha256": "16f70eadff1498b211ed07833890edd4564f0e38dcc893e84bc1be19d4fd1a2e",
+    "published": "q8-trace-audit.json",
+    "published_sha256": "16f70eadff1498b211ed07833890edd4564f0e38dcc893e84bc1be19d4fd1a2e",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/new/static-reference.json",
+    "original_sha256": "27a43be97bc7e9eaced45a88f1a101ed5eb0d2ceb01f736b8b4158ecb461c90e",
+    "published": "static-reference.json",
+    "published_sha256": "27a43be97bc7e9eaced45a88f1a101ed5eb0d2ceb01f736b8b4158ecb461c90e",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/post-context/result.json",
+    "original_sha256": "196a7bcff1c532ec90715183efd94c34649147c4a26c152d62b5f300dded1279",
+    "published": "repeated-context-result.json",
+    "published_sha256": "196a7bcff1c532ec90715183efd94c34649147c4a26c152d62b5f300dded1279",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/post-context/comparison.json",
+    "original_sha256": "673baeb20bb9c43c31b8d38ef062e0276dbb6a1d597dd21718e1f51403217643",
+    "published": "context-report-collision-review.json",
+    "published_sha256": "673baeb20bb9c43c31b8d38ef062e0276dbb6a1d597dd21718e1f51403217643",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-acceptance/graph/trace-audit.json",
+    "original_sha256": "0c1d7f59856c46f05e54c60f0057bc94088aa0a4408e98c9d06d0a5785c3df53",
+    "published": "graph-trace-audit.json",
+    "published_sha256": "0c1d7f59856c46f05e54c60f0057bc94088aa0a4408e98c9d06d0a5785c3df53",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../q8-source-audit-review/verification-input-hashes.json",
+    "original_sha256": "c55cc1c58c8a97ec330c827a270f05a1a1bbbf3f810dd99cbc846734843810b9",
+    "published": "audit-review-input-hashes.json",
+    "published_sha256": "c55cc1c58c8a97ec330c827a270f05a1a1bbbf3f810dd99cbc846734843810b9",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  }
+]

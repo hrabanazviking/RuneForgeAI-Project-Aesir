@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 117 |
+| `verified` | 118 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **162** |
+| **Total** | **163** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3579,3 +3579,32 @@ No new capability ID or hardware/complete-source execution claim.
   fixed broad ordinary-source target. Continue bounded public-interface research.
 - **Audit:** Exact source/input/binary/control identities and failed compile
   retained; all accepted tests native-only with independent header/struct bytes.
+
+
+### AES-SOURCE-023 — Owned Q8_0 source constants and byte-tile integration
+
+- **Status:** `verified`
+- **Owner:** original source_q8_constants reader, packed source loader and
+  source_weight_tiles consumer, with bounded native inspectors.
+- **Claim sources:** TASK_hailo10h_q8_source_constants.md published9b69894 before
+  code; docs/HAILO10H_Q8_SOURCE_LAYOUT.md pins the MIT source field facts.
+- **Implementation evidence:** Source kind8,32-element/34-byte row geometry,
+  owned exact scale-word/signed-quant windows, source-shape/span/bound guards,
+  whole touched-block byte spans and preserved original axes/kind/path metadata.
+- **Executable evidence:** docs/HAILO10H_MOJO_Q8_SOURCE_CONSTANTS.md;76 clean
+  Mojo builds,30 suites/200 methods/9309 primary child calls. New10/137 includes
+  59 refusals,1321 complete component comparisons,65536 scale patterns via a
+  2097152-record integer digest,256 static reference values and3774 byte checks.
+  All74 frozen controls covered by4308 success/4023 error pairs;10 traces/13
+  balanced fixture opens/closes/readonly whole-file maps/unmaps. Extra repeated
+  context4/122 plus122 frozen calls is counted separately.
+- **Evidence boundary:** Current dense vector/matrix source importer only,
+  with actual source payload representation decoding. No production floating
+  tensor product,model/layer/attention forward,physical packing/fit/placement,
+  Hailo numerical program,source-model execution or whole-repository/CI pass.
+- **Next acceptance gate:** Remaining formats/ranks/architectures/operations and
+  qualified H10H numerical/configuration fields,then original physical program
+  generation/delivery/activation/results/cleanup toward the fixed broad target.
+- **Audit:** Original compile and split-trace parser failures retained. Final
+  native inputs unchanged;corrected audit and separately repeated report after
+  runner filename collision preserve actual evidence without double counting.

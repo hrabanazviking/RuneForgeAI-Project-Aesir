@@ -1,0 +1,9 @@
+{
+  "../q8-source-audit-review/verify-reviewed.py": "f690f2d5f897428e3bc22241ae506ed74710278ea061da5996e2e458c94bc6b7",
+  "../q8-source-audit-review/audit-q8-traces.py": "d5d8543fe2c09f40bdb6598374c4d487b6108acf21539f23d752c5eef8cafeaa",
+  "../lcu-action-final/oracle": "606ece9fd167da45873ed79a0e997646897951290bfa7833e37cbc7dfa3efe06",
+  "../lcu-action-final/old-oracle": "8dc035a9d569cac42b01b55f4eb1b870132df2ccc89ee78cc7982bc7d9649f1c",
+  "../ggml-format-study/build/src/libggml-base.so.0.27.0": "45bd8cc3f12159e7b219a95d185be74a2ad83789045e6359acf49523aee23328",
+  "tests/hailo_lcu_action_oracle.cpp": "1440323212f7955cafa3b75aad7514abb0cb064f7c9bf7173630afca83bd26d5",
+  "tests/hailo_context_action_oracle.cpp": "85c2b0d292bebaa7211afd07ef251066db6ddb5ea813942c9feffe572560b59f"
+}

@@ -72,3 +72,13 @@ original upload/activation/results/cleanup remain open. Continue bounded
 license-first primary research in parallel. No guessed device request,kernel/
 firmware/reset/rebind,DFC,outside compiler/machine,precompiled prerequisite,
 inference proxy or CPU/CUDA/cloud LLM inference is introduced.
+
+## Verified source conversion checkpoint
+
+docs/HAILO10H_MOJO_Q8_SOURCE_CONSTANTS.md records76 clean Mojo builds and
+30 suites/200 methods/9309 primary child calls. New10/137 includes actual
+Q8_0 source fields,graph bindings and byte tiles;74 frozen controls remain
+covered. Digest coverage,complete comparisons,static oracle values and extra
+context rerun are explicitly separated. No numerical Hailo/source-model
+execution is claimed. Continue source-format/architecture coverage and
+TASK_hailo10h_numerical_encoding_sources.md toward the same broad target.

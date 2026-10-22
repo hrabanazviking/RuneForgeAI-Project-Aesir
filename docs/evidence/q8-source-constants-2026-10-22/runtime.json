@@ -1,0 +1,6 @@
+{
+  "mojo": "Mojo 1.1.0 (8189361e)",
+  "compiler_environment": "MODULAR_CACHE_DIR=../mojo-cache",
+  "model_or_layer_or_attention_execution": false,
+  "numerical_hailo_execution": false
+}

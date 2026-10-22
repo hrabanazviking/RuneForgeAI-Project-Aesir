@@ -1,0 +1,8 @@
+{
+  "reason": "Original runner capsule overwrote standalone report at the same context-result.json path; retained as-is. Targeted repeat stores the full transcript separately.",
+  "original_context_native_pair_records": 122,
+  "repeat_context_primary_calls": 122,
+  "repeat_context_frozen_calls": 122,
+  "all_repeat_native_arguments_status_stdout_and_handled_errors_equal_original_pairs": true,
+  "original_native_build_or_test_inputs_changed": false
+}
