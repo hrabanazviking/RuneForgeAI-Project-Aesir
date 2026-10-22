@@ -133,3 +133,11 @@ Verify, commit/publish Hailo branch, verify remote exact head/tree, fast-forward
 main and verify both clean checkouts, then continue. Actual physical numerical
 configuration/packing/placement and original program execution/results/cleanup,
 compiler executable-artifact binding and broad ordinary coverage remain required.
+
+## Native result — 2026-10-22
+
+Completed at the compiler-input/byte-streaming boundary under
+`docs/HAILO10H_MOJO_OWNED_GGUF_COMPILER.md`:9 clean Mojo builds,23 methods,
+596 primary child calls and480 complete frozen pairs across all seven selected
+controls. All660 old sources/69 Python inputs/109 controls remain unchanged.
+Actual numerical device encoding and broad source execution remain open.

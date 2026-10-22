@@ -317,3 +317,13 @@ Phase 15 progress and per-slice receipts: `docs/HAILO10H_PHASE15_PROGRESS.md`.
 - [ ] **Slice 199.** Close remaining direct HailoRT GenAI integration defects; preserve Hailo-only inference and no-proxy rules.
 - [ ] **Slice 200.** Publish the verified Æsir Hailo-10H release profile, measured inference evidence, and next Hailo-targeted improvements.
 
+
+## Compiler-owned observed input update — 2026-10-22
+
+Original Mojo now retains a sealed GGUF source through existing mathematical
+compilation and source-byte tile reads. Native evidence:
+`docs/HAILO10H_MOJO_OWNED_GGUF_COMPILER.md` (9 clean builds,23 methods/596 calls,
+480 complete frozen pairs,209 ownership traces). This does not certify a chip
+program or numerical source execution. The broad100% ordinary-model target,
+remaining formats/architectures/operations and physical numerical configuration,
+packing/placement/delivery/results requirements remain unchanged.

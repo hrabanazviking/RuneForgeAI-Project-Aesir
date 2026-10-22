@@ -1,0 +1,14 @@
+test_all_current_geometries_components_tiles_and_owned_move (__main__.OwnedCompiler.test_all_current_geometries_components_tiles_and_owned_move) ... ok
+test_compiler_failure_seams_and_fresh_success (__main__.OwnedCompiler.test_compiler_failure_seams_and_fresh_success) ... ok
+test_complete_graphs_ties_sessions_defaults_scalars (__main__.OwnedCompiler.test_complete_graphs_ties_sessions_defaults_scalars) ... ok
+test_current_source_and_lowering_refusals_match_controls (__main__.OwnedCompiler.test_current_source_and_lowering_refusals_match_controls) ... ok
+test_forged_caches_hashes_and_full_parser_snapshot (__main__.OwnedCompiler.test_forged_caches_hashes_and_full_parser_snapshot) ... ok
+test_original_changes_after_copy_before_compile (__main__.OwnedCompiler.test_original_changes_after_copy_before_compile) ... ok
+test_path_factory_diagnostics_and_explicit_budgets (__main__.OwnedCompiler.test_path_factory_diagnostics_and_explicit_budgets) ... ok
+test_stale_owner_graph_schedule_bounds_and_recovery (__main__.OwnedCompiler.test_stale_owner_graph_schedule_bounds_and_recovery) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 14.636s
+
+OK
+{'calls': 319, 'outcomes': {0: 275, 1: 44}, 'comparisons': {'complete_semantic_recipe_global_triples': 38, 'complete_source_components': 9952, 'complete_byte_tiles': 173, 'exact_payload_bytes': 25740, 'complete_legacy_tile_outputs': 38, 'full_handled_refusal_pairs': 6, 'complete_parser_snapshot': 1, 'complete_mutation_preimage_postimage_pairs': 3, 'complete_path_factory_outputs': 1}, 'traces': 113}

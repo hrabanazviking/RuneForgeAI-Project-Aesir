@@ -1,0 +1,11 @@
+{
+  "raw_native_attempts_retained": true,
+  "published_path_prefix_projection": "task work root",
+  "archive_files": 2181,
+  "old_production_sources_changed": 0,
+  "current_native_sources": 663,
+  "all_previous_660_sources_69_python_inputs_109_controls_unchanged": true,
+  "all_linking_finished_before_native_acceptance": true,
+  "whole_repository_or_hosted_ci_pass": false,
+  "published_runtime_location_prefix_projection": "<host-home>/"
+}

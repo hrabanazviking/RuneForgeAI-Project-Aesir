@@ -1,0 +1,12 @@
+{
+  "before_exit": 1,
+  "after_exit": 1,
+  "before_issues": 23405,
+  "after_issues": 23405,
+  "raw_byte_identical": true,
+  "sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76",
+  "strict_historical_schema_diagnostics": 9,
+  "added": [],
+  "removed": [],
+  "inherited_baseline_includes_109_precode_control_path_diagnostics": true
+}

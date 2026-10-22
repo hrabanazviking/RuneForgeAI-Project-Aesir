@@ -1,0 +1,39 @@
+{
+  "native_builds": 9,
+  "clean_diagnostics": true,
+  "old_sources_unchanged": 660,
+  "current_mojo_sources": 663,
+  "qualified_old_python_inputs_unchanged": 69,
+  "current_qualified_python_inputs": 70,
+  "prior_native_controls_unchanged": 109,
+  "selected_rebuilt_controls": 7,
+  "frozen_control_outputs_compared": 480,
+  "frozen_outcomes": {
+    "zero": 367,
+    "nonzero": 113
+  },
+  "methods": 23,
+  "primary_child_calls": 596,
+  "new_tests": {
+    "calls": 319,
+    "outcomes": {
+      "0": 275,
+      "1": 44
+    },
+    "comparisons": {
+      "complete_semantic_recipe_global_triples": 38,
+      "complete_source_components": 9952,
+      "complete_byte_tiles": 173,
+      "exact_payload_bytes": 25740,
+      "complete_legacy_tile_outputs": 38,
+      "full_handled_refusal_pairs": 6,
+      "complete_parser_snapshot": 1,
+      "complete_mutation_preimage_postimage_pairs": 3,
+      "complete_path_factory_outputs": 1
+    },
+    "traces": 113
+  },
+  "independent_complete_fault_log_pairs": 5,
+  "complete_mutation_pairs": 3,
+  "all_selected_controls_compared": true
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "manifest": "docs/evidence/sealed-gguf-source-2026-10-22/archive-identities.json",
+    "verified": 3984,
+    "sha256": "5f243f45a6a7691521d667fe69ba6b1e446fcf1029285a561702dc204e7260a6"
+  },
+  {
+    "manifest": "docs/evidence/owned-compiler-contract-2026-10-22/archive-identities.json",
+    "verified": 77,
+    "sha256": "9eae0bcfcf63760cda6c147de8a46fd36f87ed865350ebc5d784ef8d5af3e72b"
+  }
+]

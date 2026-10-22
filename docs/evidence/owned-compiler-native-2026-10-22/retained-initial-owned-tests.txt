@@ -1,0 +1,56 @@
+setUpClass (test_hailo_expanded_graph.ExpandedGraph) ... ERROR
+test_all_current_geometries_components_tiles_and_owned_move (__main__.OwnedCompiler.test_all_current_geometries_components_tiles_and_owned_move) ... ok
+test_compiler_failure_seams_and_fresh_success (__main__.OwnedCompiler.test_compiler_failure_seams_and_fresh_success) ... ok
+test_complete_graphs_ties_sessions_defaults_scalars (__main__.OwnedCompiler.test_complete_graphs_ties_sessions_defaults_scalars) ... FAIL
+test_current_source_and_lowering_refusals_match_controls (__main__.OwnedCompiler.test_current_source_and_lowering_refusals_match_controls) ... ok
+test_forged_caches_hashes_and_full_parser_snapshot (__main__.OwnedCompiler.test_forged_caches_hashes_and_full_parser_snapshot) ... ok
+test_original_changes_after_copy_before_compile (__main__.OwnedCompiler.test_original_changes_after_copy_before_compile) ... ok
+test_path_factory_diagnostics_and_explicit_budgets (__main__.OwnedCompiler.test_path_factory_diagnostics_and_explicit_budgets) ... ok
+test_stale_owner_graph_schedule_bounds_and_recovery (__main__.OwnedCompiler.test_stale_owner_graph_schedule_bounds_and_recovery) ... ok
+setUpClass (test_hailo_semantic_plan.SemanticPlan) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_hailo_expanded_graph.ExpandedGraph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "../Project-Aesir/tests/test_hailo_expanded_graph.py", line 21, in setUpClass
+    cls.binary=str(Path(CONFIG.binary).resolve(strict=True))
+                        ^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'binary'
+
+======================================================================
+ERROR: setUpClass (test_hailo_semantic_plan.SemanticPlan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "../Project-Aesir/tests/test_hailo_semantic_plan.py", line 61, in setUpClass
+    cls.binary = str(Path(CONFIG.binary).resolve(strict=True))
+                          ^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'binary'
+
+======================================================================
+FAIL: test_complete_graphs_ties_sessions_defaults_scalars (__main__.OwnedCompiler.test_complete_graphs_ties_sessions_defaults_scalars)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_owned_gguf_compiler.py", line 100, in test_complete_graphs_ties_sessions_defaults_scalars
+    self.check_all(*self.save(generated))
+  File "tests/test_hailo_owned_gguf_compiler.py", line 73, in check_all
+    controls=self.controls(path,session)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_owned_gguf_compiler.py", line 71, in controls
+    return [json.loads(self.ok(self.call(key,path,*session))) for key in ('semantic','recipes','expanded')]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_owned_gguf_compiler.py", line 71, in <listcomp>
+    return [json.loads(self.ok(self.call(key,path,*session))) for key in ('semantic','recipes','expanded')]
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_owned_gguf_compiler.py", line 68, in ok
+    def ok(self,p):self.assertEqual(p.returncode,0,p.stdout+p.stderr);self.assertEqual(p.stderr,'');return p.stdout
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: Packed GGUF: expected float llama.rope.freq_base
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 12.935s
+
+FAILED (failures=1, errors=2)
+{'calls': 304, 'outcomes': {0: 263, 1: 41}, 'comparisons': {'complete_semantic_recipe_global_triples': 36, 'complete_source_components': 9792, 'complete_byte_tiles': 171, 'exact_payload_bytes': 25708, 'complete_legacy_tile_outputs': 36, 'full_handled_refusal_pairs': 4, 'complete_parser_snapshot': 1, 'complete_mutation_preimage_postimage_pairs': 3, 'complete_path_factory_outputs': 1}, 'traces': 109}

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 124 |
+| `verified` | 125 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **169** |
+| **Total** | **170** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3796,3 +3796,30 @@ No new capability ID or hardware/complete-source execution claim.
   fault-log pairs. Shared-log and directory-mapping harness failures retained
   and corrected without production/old-test changes or omitted comparisons.
   One unreturned worker syscall remains opaque, with no inferred effect.
+
+
+### AES-SOURCE-030 — Compiler-owned observed GGUF input lifetime
+
+- **Status:** `verified`
+- **Owner:** Original Mojo SMIÐR compiler owner and existing sealed-source loader.
+- **Claim sources:** TASK_hailo10h_owned_gguf_compiler.md published at a416da3
+  before production; docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+- **Implementation evidence:** New movable owner retains the actual sealed
+  parser and expanded graph, recomputes the full input hash, rehydrates mutable
+  caches with the existing interpreter and validates source-bound byte reads.
+  No old production source changed; close/moves/exceptions preserve ownership.
+- **Executable evidence:** docs/HAILO10H_MOJO_OWNED_GGUF_COMPILER.md and
+  docs/evidence/owned-compiler-native-2026-10-22/;9 clean Mojo builds/3 C shims,
+  23 methods/596 primary calls,7 controls/480 complete frozen pairs. New319 calls,
+  38 complete graph/recipe triples,9952 components and173 exact byte tiles.
+- **Evidence boundary:** Compiler INPUT lifetime and copied source representation,
+  never numerical source-model execution, atomic original-file version,
+  compiled chip-artifact identity or physical format/fit/placement. All global
+  identity and execution flags remain false. Broad ordinary support stays100%.
+- **Next acceptance gate:** Remaining ordinary adapters and executable-artifact
+  binding plus real numerical encoding/configuration/packing/placement and
+  original device-program delivery/results/cleanup.
+- **Audit:**209 complete traces,204 balanced memfds/182 exact unmaps,100 complete
+  post-map hash phases/3 intentional partial phases. Complete original-change,
+  cache/move/close/refusal/recovery tests;7 selected old controls fully paired,
+  no directory consumers or omitted comparisons. Initial harness failures retained.

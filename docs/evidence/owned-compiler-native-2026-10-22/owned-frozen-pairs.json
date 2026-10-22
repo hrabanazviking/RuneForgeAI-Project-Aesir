@@ -1,0 +1,3883 @@
+[
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ee702c55b95d89adc5c617e5b815d868c5f9e89667fb9f458240111b84e3f4cb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6027000931e8efc7827391247e28fdb99b8315773fb3837ab80f8a199944bbd1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fa19a8d4ca88e8fc01a79b2d8f343db1245beb0a85b0454e46025914b0da63dc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-0.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cb0b7305ff46411ce4e6539abe076399366746d109443074309e64dbe39b19d8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-0.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "740d5646c9a24f21711e4f481fb58077b05c4134837f3820e35055298d1e16e2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-1.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "58096391026d91d5572a869ef8bc351ea9728dac5eb6c6abed4766ef65b1aac9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-1.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cab7b2f13c3400a5ab8d6fb59d39fa908797ddf2fb1f88dc470a8d884dd2d0f8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-1.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "185733483eb60406aa1d3f763aae92a06af557f47bc3e94c92d7fb0e5f7bd07c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-1.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9b4aecc5b6bfa079db45bdcb2ed84f869e622f43f602c7fcc00a0094a0f7355c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-1.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "37d54ff422e386fc41088076f766f2b54603af4168dcdeac8492ee6d11fe2e1e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-2.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "045b063acdd632ebe4413f546ece3e856b17e6b2aa79afcef0a14d1ef6279cda",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-2.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cab7b2f13c3400a5ab8d6fb59d39fa908797ddf2fb1f88dc470a8d884dd2d0f8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-2.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "722d68eb6a662a21255fbce301fbb8f8748747e76364b4a17b4b906fb9a521ed",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-2.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "527e919890898026e3dc97d09cd922a9403ac09832cdb085d626b5a2c7f778a2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-2.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c86b2f1fa3b57357731b98011d953b7d3774e144be1ed6ff7e72ec365a7eb606",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-3.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b67ad76f824b92f8b07308ec1dafc1102c212c984cc48c7029b613be9263ad22",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-3.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1de2e383840cc9a5fd89a5da294904d82810dcdc9abde2c48d08eb8ba8d3d0ef",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-3.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "951b9797cb6acc99cd7d294374f87be3cd8787a2cba9779fbeefed908c22c787",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-3.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5d16c03778b9617320072760af2748a6fa4ae7121af23a85084de4cce6aa6fb3",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-3.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5a0894ad6bd10229d04b199094879b57ceacbfc8e904528e9ce2e8eaf28faeae",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "24adf85ab8bbe860b590407cfaf40b5edfc4d71a44a2a9d302d02fcc98be9823",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d9dc4e5c2ff095d885b59723fa95c1254d5a676f0d069a0fb811b90788765e8f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2877c7fa67f5b8b7385b054487953118eec6281987861a3e2f8f3efb9ae71bda",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-4.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "0571f3a030717fb9ea57cbec32d086855817c1302d80279ad1cd4fc70d9c480b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-4.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e228f6cbb57709aaae70f555ae9ec05b44a2f0ded12ed82db9b429ce5f9659dd",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-5.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b07c999f763668484427c195168a03491ce5ff8f6f58f02060435064ce374421",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-5.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "001d8bf53a41fbd491ad53f851afdcf7c5bce8b3fb2f4d6e040e57e34c4ebdb4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-5.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bbb21c454f3508c4c7385aa8ee3b8d4ed416f77844724c50a7f8020ac7025e04",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-5.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1884feb1a657e619aef98c3142106475c19476d7f11bf990ab9289d4e4afe0f9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-5.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "74be087505d7622c14774e04b37b69bf71429a291e538342953c58c2e91a73c1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-6.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c1ce4b84f2424878ff1423f6e6b31fd2e6baf69be766b33ce8239aa29b7cd52d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-6.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "06803be07b5dba0f167f6856217e9d4f42708f2043ec0f267599886d26463211",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-6.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "151b3a0fef0da3cbb26fa166eb6301b19ae00cf082649930ae91589ed78fd2ad",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-6.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f99079ead3659ed2b72ee4b40c0afa205c70be010a38d5aa6b949280ff8d5b53",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-6.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b331ac98c5ea9d8d38e570eba152213e4d7b270427714d5a870d18c294e5a9f8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-7.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4972819965a852d79b75043a31e7c7c175cd992af03ad251d1a72ea884a9003e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-7.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9986709ad4d8d82f4d09e0a41ceb7db0db40f141ea0c540522858e0a204015e0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-7.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a14b4ef97d59e761bc607d65bfb27ebab67ce6239a66201ba8d5ea84b3faf392",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-7.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2f7fd21e24f2c1035d1448a2e05a6e3ffdb7bfeeeffad451022ea4207a00adf",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-7.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ae68927b96cf522bea09d9983dbcf1d8a0d7e0b9fa0f76dfbe51ce752e98e7de",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-8.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a7664a855cdd369e37a7164301bab13b58ec546b5d673cf946b59abd5c8eeca8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-8.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "36c05f3e29b4b9c1d5e028b38060611c3b7bdf5fc1fc62f3732d212b0cbd7727",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-8.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6ff2b2df94fdb417097a090d6cef7ce82ad061a7906373ac04a1495cec6f4caf",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-8.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5061038ce1e39c6070aa3149eb11ba3ab5509fdc709544d9d0d9a6f63d77d8b6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-8.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "51c80f94838730a78c88eb010b5c01e7946673c8fc7d83c7ad4f16f9e6447875",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-9.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f210fab572e38aa20088529aa406070b45959f35900843787df8c09c585b0f44",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-9.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a511d2304c516b8340f38a74cf844e5006b9cf225a395ca7cd5765ee3db10e67",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-9.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "637e9f113f2131eda3e7c6daf79af5cf6c1e2267fddd67b9bc3388ff5031a077",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-9.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "417e9222b401152b94c3f68562d7eaf7999baa6f5e38a9f0b253952adc684295",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-9.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7f9055284f2b724336f3fc4084b6e3829280b9044b51010db453d18727c039b6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-10.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8bc6e6ace8acff5b1d26069e18de443f19e0a3dd4b2fb1980df110c776d975db",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-10.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1de2e383840cc9a5fd89a5da294904d82810dcdc9abde2c48d08eb8ba8d3d0ef",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-10.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "727357e58e98fc1c5dcdeb2443ab18b9b8c04fa1fb576ffc09f2f4607a1a86fb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-10.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a1209823f9303de2618287d91de439f2bd975f6e9615ba62dd913bebe20441f1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-10.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "91ca56cc8a61c10c6f406d9a7cf84a867c3cd5c13e3cc673d49724111aa84eea",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-11.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "47d6503362d43a79d20871e8fe1fca72cd66ce84295af3831e251b99b8842fcf",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-11.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "001d8bf53a41fbd491ad53f851afdcf7c5bce8b3fb2f4d6e040e57e34c4ebdb4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-11.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b23e7c69fb15432b2cdb73ba5aa94b33ca7f37a98c16ed0833887ab4aa3b2e60",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-11.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "82221dffec03401beb5957316490f56552b749b5b8f8fcafcbeff682baa702e5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-11.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1b1459285cbe1108e1f1cce10b45824053f7d570663da5e17766c9b0155a8aea",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-12.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4cfa2ba761e4ec56ac1de4882eb5dd0d722e420c22c8a5fc5317d331b50210fa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-12.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ed98c57d45a8edff81f8a47aa3515a77d3126d20879dfb9f30ce23a2466404cc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-12.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7bc9033b12ec283d068a8c89150a4ea30f7c2cb0177162f7b6cf37130d94f5e1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-12.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8870c6a3b9c3ad63b595c26513349e72c8f226e24954896530434a79a53667b9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-12.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "badf347b8d19f906e781a9a0817f227945e8e5ff51ac0f900f1a5d07561b42ce",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-13.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5aee878dff552b7b96dd618e67f2dedf354a1514f08d67845ce5f9c68651b7b0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-13.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1de2e383840cc9a5fd89a5da294904d82810dcdc9abde2c48d08eb8ba8d3d0ef",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-13.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "635b677458df3fa5f4969347cf4071d50dfe8ce8d38825466fdecba6a7cb6fe8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-13.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d1b36de81f48e3a924d563b5973e354ca3c9bacdde45f43b2fed9c73ba60dd3a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-13.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "80bca2d508eb8236e729edd4ded65b1d0e2c7a77234b89bee7a73cb4710a3f08",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-14.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f31b21319e9db3b0e22155f3c5718952ba71cabd7377173ca6bb0adc74a8b172",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-14.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1de2e383840cc9a5fd89a5da294904d82810dcdc9abde2c48d08eb8ba8d3d0ef",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-14.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6656caf1df65e8fd8ccc05baa4b52333455f553eae44513c3bbbf87ac19b68d0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-14.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cd2624488dba28ae04fd5148c78743b0bf114979616208d691d5e1ceb0b19f3b",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-14.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a3474ea68e9ddef7c07fa970960432a693042a528b640589b3e1bf195bd1bf61",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-15.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7afae4ed570c3972837e5dd51856f7ae6b9474c0e82b03060196e788c5d259f9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "000cd6b83492401cba574b7fff0aa2c2d439e1c7bc4aeaaba7f6cfa36037b917",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9228fa24913d200cd0564a986463a9e7cd2bcd3ba13f911edf19ac22cc305f71",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "1",
+      "0",
+      "1",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "442ad4b884e187dfefa92973aaaac4ee86b9f56b7a8e13dcbf5162e276de7f41",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "afccd810fc04d4af6450af789e335042ae11375a39adea60a7a72cde88e65fdf",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b42b9c57206e3e84a2a160f035633d221a116fb81707514c60eb4bb8ec6144f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "2",
+      "3",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "38519fd4995d9d4ef31308fc67757a5e231a652c2a0d07fd9eebec3511a741b7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bbe75dcb64b6c9fa0b81b4ec51715fffaca6ebbec84d11846b6fc3ade11cf451",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5f3fbf0b84ac0b38c6273c0136497d7c0db52e5ddc8aaceb79bd0dd53abacc39",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-16.gguf",
+      "3",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "dc7f31ecebfe16a5b76a477422e7af4f2c4f1361525f93ed0fd5ad987ce95380",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9f1a66bdb19c44912ee91c4bcf8246b64d9886885338892eeaf631f30c0e6c25",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d1fbab9a285330959d8a175d429208988ca7232863687ef1b0798cc0ef4cbfff",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "1",
+      "0",
+      "1",
+      "44",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4ba29ae6708738a9c8eda32a24ec919b2e5287eabf6daac62eefa49497be6ce1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "30bc27957379de76d81403253b823451746da76a1ba06cb1b1e1321f508a4c26",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "eb20d75e868d8a58d5a450706b62f4dbe20cf3684c66c6bba31bd326c3146188",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2f2293d1dd411b164f6a1d811595204e76ca98eacccc836cbb074e68e266b41c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "2",
+      "3",
+      "16",
+      "44",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4ba29ae6708738a9c8eda32a24ec919b2e5287eabf6daac62eefa49497be6ce1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2d25421968914dcc28ca4d95a58896fd20d762459c0076cdd3474da69e0aa33f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7163512f5b742f96a6e16234a47d25d831bdb7d0751d9c24d2651c2e6f7ea2ae",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "44276d67fb68bff65e5ae36cdb3d7bd59d0a9c43edc745678ee4fec9cad00cd0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-17.gguf",
+      "3",
+      "0",
+      "16",
+      "44",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4ba29ae6708738a9c8eda32a24ec919b2e5287eabf6daac62eefa49497be6ce1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "139494a1a38c1229ee90ad1e15f8a2bb1f1c408ac42cc565f2f1832b80a0c14d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7a688205b3cda0d70b1a38a4c9ff77f1fb73ff611f133fde0c560d4f5a461673",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2b83a728b4a8b9a762155bede6752db881d82a842bc8bcf6e5fab40947c378e2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "token_embd.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "1",
+      "0",
+      "1",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6b1879cc814e41fff5c54854fe38927ec76f978a615cff3706bfd65d75ddc119",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ca7dd8269b6991ecc696b0d2cb329ebbbc1824c3ed3c1dad8b7408fa808088e1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4027a1c6a9ede87b6e889bee510c66a0fb0ce31a02c0d864bb5ce41b362639b3",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b63b35bbc8fd311a98232d8daadc09675995f1f7a482a454ea7c64eb61124527",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "token_embd.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "2",
+      "3",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6b1879cc814e41fff5c54854fe38927ec76f978a615cff3706bfd65d75ddc119",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "4a1b3c1aadd5b8f6124036654c296aa479de0ff0c7d086471d30fdbf3953977d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8cf6bb0fa276c59986687772fd468f957caba00703465d29e57152bbe6c20586",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "2b2ad86df07d10fa461646beb1604b7569e806e985466894d7a90e8c102d964a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "token_embd.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-18.gguf",
+      "3",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6b1879cc814e41fff5c54854fe38927ec76f978a615cff3706bfd65d75ddc119",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f15216b62197baf5ce277831121eacfb438293607753025eff380849302a4e44",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "158fd937ce08e747cfdae14198bc446b040da747c8ca60dc45edd606a87f8dfa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "1",
+      "0",
+      "1"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c4b05fe988079e2486698268d8221cfec2f1310591f47adfdeb5669fa9719140",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "token_embd.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "1",
+      "0",
+      "1",
+      "44",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d35b60d4cdeabfdf65db1e674dd825095489c3f3e7bafc2993429a09d8e05420",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "86f4a637a7ddd047d53741795a7012fcc5574b96ac6888e0a4b3520bde3688ad",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "90c1afaa894eee176121767e5fd38840d440d3debcd464e8b50e9b74fcdca370",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5cd234827239e8fa1e3657c17b62dc7ad245f436d3c5c4944a99f25ffe895ae5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "token_embd.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "2",
+      "3",
+      "16",
+      "44",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d35b60d4cdeabfdf65db1e674dd825095489c3f3e7bafc2993429a09d8e05420",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "27bae6c65f8b9df08bcce44d517a320f4327d0182dace982529c1de6395a02d4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d486bf504eef39320a25c47beb9a18e46cfb56d4190181bf99239eb65bb916e4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "252714e46e7581f300cecc26653df2265c61abb9b55d8305229a89add2302a65",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "token_embd.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-19.gguf",
+      "3",
+      "0",
+      "16",
+      "44",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d35b60d4cdeabfdf65db1e674dd825095489c3f3e7bafc2993429a09d8e05420",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-20.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1f0c97607e9910f9d2fa09d6f07251891506d1ba6019bc1659767fcc560ed437",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-20.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "fbe6829c4f8f372f6d1e9830ade9613bd64df1ce3285e1919e7db9af24ab3608",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-20.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "dc47cbc0ca91613d2ffb374ed322729925b3c301c1a3602b3b1299bf805e61e4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-20.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-20.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3636ec7f8b7ffb968f9c24699bcb9dbd025a86d13b5d6d3ddf3be7255ac7d40e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-21.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d6bcfe9fc1334ad9cb440ca516332423bbfe46ea77c4179195d7c21965d1cea9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-21.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "05de68dd49ba071d19984c69ec13500cbaa95ba7efcde9147df2bc1ca9df4498",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-21.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "0fb8dea6e0754e5b5c4688110665b051d16ae9cf0ab91ea043312bad2c9d48b2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-21.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-21.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-22.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: expected float llama.rope.freq_base",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-23.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: expected float llama.attention.layer_norm_rms_epsilon",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-24.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: architecture semantic importer unresolved: unknown",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-25.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid hidden/query/KV head dimensions",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-26.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: missing paired canonical source binding",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-27.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: scaled RoPE recipe unresolved",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-28.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d3e5472d16a62c9b6ddc1f4ad82f24a0c6d6451d3947d27180f3556cf2a12def",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-29.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-29.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-29.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-29.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-29.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-30.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-30.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-30.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-30.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-30.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-31.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-31.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-31.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-31.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "770b59d21c075bab9555a7eb4a18333c8ebb1d33975c0202be94d05b7630716e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-31.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d2330c657d603e6585ed3276e03aa0a7a800ccad40dc5ea568bebb9a2c85fad8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-32.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-32.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-32.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "58096391026d91d5572a869ef8bc351ea9728dac5eb6c6abed4766ef65b1aac9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cab7b2f13c3400a5ab8d6fb59d39fa908797ddf2fb1f88dc470a8d884dd2d0f8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "185733483eb60406aa1d3f763aae92a06af557f47bc3e94c92d7fb0e5f7bd07c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "58096391026d91d5572a869ef8bc351ea9728dac5eb6c6abed4766ef65b1aac9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-002",
+    "control_binary": "../sealed-gguf-native-final/old-008",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "cab7b2f13c3400a5ab8d6fb59d39fa908797ddf2fb1f88dc470a8d884dd2d0f8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-001",
+    "control_binary": "../sealed-gguf-native-final/old-002",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "185733483eb60406aa1d3f763aae92a06af557f47bc3e94c92d7fb0e5f7bd07c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-004",
+    "control_binary": "../sealed-gguf-native-final/sealed-gguf-api",
+    "arguments": [
+      "path_constants",
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "output.weight"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9b4aecc5b6bfa079db45bdcb2ed84f869e622f43f602c7fcc00a0094a0f7355c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-012",
+    "arguments": [
+      "../owned-compiler-native-acceptance-v2/owned/fixture-34.gguf",
+      "2",
+      "0",
+      "16",
+      "23",
+      "1",
+      "1",
+      "130",
+      "0",
+      "16777216",
+      "16777216"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "37d54ff422e386fc41088076f766f2b54603af4168dcdeac8492ee6d11fe2e1e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

@@ -13,10 +13,10 @@ is verified under `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`. The source-byte diges
 `HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md`. Owned sealed source copies are verified under
 `HAILO10H_MOJO_SEALED_SOURCE_COPY.md`. Owned sealed GGUF parsing, mapping-capacity
 guards and existing source-reader integration are verified under
-`HAILO10H_MOJO_SEALED_GGUF_SOURCE.md`. Next is coherent compiler/artifact ownership
-across that source lifetime and remaining ordinary format/architecture/operation
-implementation. Active native contract:
-`TASK_hailo10h_owned_gguf_compiler.md`. Full controlling scope:
+`HAILO10H_MOJO_SEALED_GGUF_SOURCE.md`. Compiler-owned observed GGUF input and byte streaming are verified under
+`HAILO10H_MOJO_OWNED_GGUF_COMPILER.md`. Executable-artifact binding and remaining
+ordinary format/architecture/operation implementation stay open. The completed
+native contract is `TASK_hailo10h_owned_gguf_compiler.md`. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -24,6 +24,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Compiler-owned observed GGUF source | Verified compiler-input lifetime | `HAILO10H_MOJO_OWNED_GGUF_COMPILER.md`;9 clean Mojo builds,23 methods/596 primary calls,7 controls/480 complete frozen pairs. Rehydrated parser caches, owned lowering and same-source tiles;209 lifetime traces. No executable-artifact identity or numerical Hailo execution. |
 | Owned sealed GGUF parser/source readers | Verified immutable observed input at parser/compiler boundary | `HAILO10H_MOJO_SEALED_GGUF_SOURCE.md`;109 clean builds,46 canonical suites/322 methods/14257 primary calls,106 controls/13123 complete pairs. Same sealed fd, exact mapping capacity, constants/tiles/structural graphs. No atomic original version, compiled-artifact identity or numerical Hailo execution. |
 | Owned default/linear rotary scaling | Verified mathematical compiler integration | `HAILO10H_MOJO_DECODER_SCALING.md`;161 methods/6387 calls,64 builds,16 frozen GGUF/8 ordinary outputs and160 recovery cycles. Other variants/full ordinary/numerical device gates stay open. |
 | Standalone dynamic context/coefficient primitive | Verified integer arithmetic | `HAILO10H_MOJO_DYNAMIC_CONTEXT.md`;4 methods/122 calls and one clean build,197 existing source hashes/64 controls unchanged. No current graph/cache consumer or dynamic source admission. |

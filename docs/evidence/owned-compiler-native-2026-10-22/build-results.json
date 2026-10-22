@@ -1,0 +1,65 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../owned-compiler-native-final/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "278ac61b887c8699bf099558172007578ed65ccf606d524dcc52a5db4be55e25"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../owned-compiler-native-final/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "834308adbcd073ca09ac557bc24dc72ca6bf019bc50006289573f988d0fa1466"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../owned-compiler-native-final/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0f2c1d759c130e096af804d03fcb422ab5dba170411d4e4c9a7508732757aac9"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../owned-compiler-native-final/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "39928802ab417ac7c71982a0094242cd54f74aaef245ec0afa86248c082d1d8f"
+  },
+  {
+    "source": "tests/hailo_sealed_gguf_api.mojo",
+    "binary": "../owned-compiler-native-final/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "46cc897b23f87d666f9a711599904707b82369f4bdbfb8407fc6c54550274709"
+  },
+  {
+    "source": "tests/hailo_sealed_semantic_api.mojo",
+    "binary": "../owned-compiler-native-final/entry-005",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f81cac3a92c7c9a80c30fd8f0e49cbdf3f28cebc4e4f52e6feea1d8dc87f6f4"
+  },
+  {
+    "source": "smidr/tools/sealed_gguf_source.mojo",
+    "binary": "../owned-compiler-native-final/entry-006",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d31b5d8f13068c7d956008f574e365996ac6db12653fe46f409d67ac1105a49"
+  },
+  {
+    "source": "smidr/tools/owned_gguf_compiler.mojo",
+    "binary": "../owned-compiler-native-final/entry-007",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4ce78f8e60f1806c328875e55a31e2438bcb26aaa52443397d4f57a42533d3b1"
+  },
+  {
+    "source": "tests/hailo_owned_gguf_api.mojo",
+    "binary": "../owned-compiler-native-final/entry-008",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "18b18d9cb2b3e131f450311a61f125c2666f0c3428760d9c748d1e8ca1ab9fed"
+  }
+]

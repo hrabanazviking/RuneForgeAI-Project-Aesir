@@ -1,0 +1,12 @@
+test_all_geometries_full_source_constants_and_tiles (__main__.SealedGGUF.test_all_geometries_full_source_constants_and_tiles) ... ok
+test_metadata_scalars_arrays_unicode_nul_and_alignment (__main__.SealedGGUF.test_metadata_scalars_arrays_unicode_nul_and_alignment) ... ok
+test_original_changes_after_copy_do_not_change_parse (__main__.SealedGGUF.test_original_changes_after_copy_do_not_change_parse) ... ok
+test_owner_transfer_bounds_refusals_and_recovery (__main__.SealedGGUF.test_owner_transfer_bounds_refusals_and_recovery) ... ok
+test_parser_refusals_budgets_and_fault_cleanup (__main__.SealedGGUF.test_parser_refusals_budgets_and_fault_cleanup) ... ok
+test_semantic_bindings_and_tied_weight_alias (__main__.SealedGGUF.test_semantic_bindings_and_tied_weight_alias) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 8.533s
+
+OK
+{'calls': 221, 'outcomes': {'accepted': 156, 'refused': 65}, 'traces': 95, 'complete_comparisons': {'full_metadata_axes_binding_payload_and_file': 55, 'raw_bytes': 90687, 'complete_constant_components': 6924, 'complete_byte_tiles': 426, 'complete_original_post_mutation': 3, 'complete_parser_refusal_pairs': 25, 'complete_semantic_graphs_and_weight_bindings': 8}}

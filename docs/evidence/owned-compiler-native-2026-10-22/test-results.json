@@ -1,0 +1,17 @@
+[
+  {
+    "name": "owned",
+    "script": "tests/test_hailo_owned_gguf_compiler.py",
+    "returncode": 0
+  },
+  {
+    "name": "semantic",
+    "script": "tests/test_hailo_semantic_plan.py",
+    "returncode": 0
+  },
+  {
+    "name": "sealed",
+    "script": "tests/test_hailo_sealed_gguf_source.py",
+    "returncode": 0
+  }
+]

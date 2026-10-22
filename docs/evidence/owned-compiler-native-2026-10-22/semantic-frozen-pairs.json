@@ -1,0 +1,1010 @@
+[
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-0.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "60a45051c68dbf20004ccbe394384374d67a385baa5c9da93a80b61bbda44419",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-1.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: architecture semantic importer unresolved: qwen3",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-2.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-integral default head dimension",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-3.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "0af528ad254cfa0aaabc223c05653dec7a89198cbeab470064781574ad150d49",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-4.gguf",
+      "0",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid session query/past/context extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-5.gguf",
+      "1",
+      "-1",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid session query/past/context extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-6.gguf",
+      "1",
+      "0",
+      "0"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid session query/past/context extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-7.gguf",
+      "2",
+      "15",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid session query/past/context extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-8.gguf",
+      "1",
+      "17",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid session query/past/context extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-9.gguf",
+      "1",
+      "0",
+      "65"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid session query/past/context extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-10.gguf",
+      "1",
+      "0",
+      "9223372036854775807"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-11.gguf",
+      "4611686018427387903",
+      "0",
+      "9223372036854775807"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-12.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-13.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid hidden/query/KV head dimensions",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-14.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: layer count exceeds source tensor evidence",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-15.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: layer count exceeds source tensor evidence",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-16.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid decoder dimensions",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-17.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid hidden/query/KV head dimensions",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-18.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid hidden/query/KV head dimensions",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-19.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid hidden/query/KV head dimensions",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-20.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-21.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid or overflowing positive shape product",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-22.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid rotary dimension",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-23.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: invalid rotary dimension",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-24.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-25.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-26.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-27.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-28.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-29.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-30.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-31.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: non-finite or non-positive numerical parameter",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-32.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing metadata llama.embedding_length",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-33.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: expected unsigned integer shape metadata: llama.attention.head_count",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-34.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: vocabulary metadata and embedding disagree",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-35.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "38519fd4995d9d4ef31308fc67757a5e231a652c2a0d07fd9eebec3511a741b7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-36.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e46b4417f33a70671a9cf27b4cdfd25af2d41c430c0273d00c1d76d43b7070b3",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-37.gguf",
+      "4",
+      "5",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "593b928a42d315c77c04ffc213296520331edaaf66a1fd0af03e38f273421647",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-38.gguf",
+      "16",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7825d04ed4500c44b49072adb967ba446ec16550276ef62bc6562b533c411d7a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-39.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6c0f49447e7057136b8631a073cfc6147d0712940c98d580ceba404317dca7c2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-40.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9e9f351dfb20d59f73d761bd1355b04d580b33a1e26e897f55ba782217fb6ace",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-41.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "52f8db85ebd93a1564410420ff79b44fb12e2fb1f986d8b9c2c1c7ae72325757",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-42.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92173f4084c4d3298609acd8db458560bd84ec8decea85e4ca71b9477e0a7aba",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-43.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "38519fd4995d9d4ef31308fc67757a5e231a652c2a0d07fd9eebec3511a741b7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-44.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: operation source shape mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-45.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF is truncated or contains an out-of-range offset",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-46.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: missing paired canonical source binding",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-47.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: missing paired canonical source binding",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-48.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: missing embedding",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-49.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "726ff7414b9decce7dc18c9056a19e81c16f2a4dada4cc9b812215234c0b27c9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-50.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "180690f1e814f9519f835a43c3e839ce85e037e7685229e2a425b05ecb6e0112",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-51.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: metadata semantics unresolved: llama.attention.logit_softcap",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-52.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: scaled RoPE recipe unresolved",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-53.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: source tensor semantics unresolved: blk.0.attn_q.bias",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-54.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SemanticPlan: source tensor semantics unresolved: rope_freqs.weight",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../owned-compiler-native-final/entry-000",
+    "control_binary": "../sealed-gguf-native-final/old-000",
+    "arguments": [
+      "/tmp/aesir-semantic-plan-6nwia8k4/fixture-55.gguf",
+      "3",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "15f9faab4f9b933c36ced03ccdd483bbf5bfa85dd384ec6ad9384441f6db781c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

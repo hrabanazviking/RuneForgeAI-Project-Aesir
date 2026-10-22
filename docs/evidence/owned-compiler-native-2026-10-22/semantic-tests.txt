@@ -1,0 +1,14 @@
+test_defaults_mha_and_architecture_not_hardware_admission (__main__.SemanticPlan.test_defaults_mha_and_architecture_not_hardware_admission) ... ok
+test_invalid_context_and_checked_products (__main__.SemanticPlan.test_invalid_context_and_checked_products) ... ok
+test_metadata_shape_semantics_and_scalar_parameters (__main__.SemanticPlan.test_metadata_shape_semantics_and_scalar_parameters) ... ok
+test_prefill_decode_and_chunked_cached_shapes_lifetimes (__main__.SemanticPlan.test_prefill_decode_and_chunked_cached_shapes_lifetimes) ... ok
+test_quantized_bindings_preserve_packed_kinds_without_dequantization (__main__.SemanticPlan.test_quantized_bindings_preserve_packed_kinds_without_dequantization) ... ok
+test_read_only_no_device_or_inference_library (__main__.SemanticPlan.test_read_only_no_device_or_inference_library) ... ok
+test_shape_mismatch_and_no_source_mutation (__main__.SemanticPlan.test_shape_mismatch_and_no_source_mutation) ... ok
+test_unequal_value_width_multilayer_and_tied_weights (__main__.SemanticPlan.test_unequal_value_width_multilayer_and_tied_weights) ... ok
+test_unknown_modifiers_scaling_and_unbound_weights_stay_named (__main__.SemanticPlan.test_unknown_modifiers_scaling_and_unbound_weights_stay_named) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.951s
+
+OK
