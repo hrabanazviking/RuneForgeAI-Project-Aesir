@@ -1,0 +1,62 @@
+[
+  {
+    "path": "../iq4-source-study/baseline.json",
+    "bytes": 273,
+    "sha256": "e44156c9a8ee0e8afc24851602b5fb1e1061921f91932e5a0f9d89ad54c4439d"
+  },
+  {
+    "path": "../iq4-source-study/controls.json",
+    "bytes": 47103,
+    "sha256": "c1ab7b8daecafce244903073feff761fed250af2bef405d937158721330f647f"
+  },
+  {
+    "path": "../iq4-source-study/layout-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../iq4-source-study/layout-oracle",
+    "bytes": 70456,
+    "sha256": "b93a56a5dd37e86cb0058678bffd80895256736292b638d12bae97c6f6d8184b"
+  },
+  {
+    "path": "../iq4-source-study/layout-oracle.cpp",
+    "bytes": 476,
+    "sha256": "3531aa00953dc99d35bfa1445703ec3bfbe538498d7cec3078a88b6991b83f91"
+  },
+  {
+    "path": "../iq4-source-study/layout-oracle.json",
+    "bytes": 38,
+    "sha256": "ed57d1e21a2f8658a011968a8d698637b2dc4dba532fa83ea51e80a814bd4a22"
+  },
+  {
+    "path": "../iq4-source-study/provenance.json",
+    "bytes": 1922,
+    "sha256": "7395ce8e7ecde51cf91ce199128169eec47cd60913282a08a7d8fffbdd49c0c9"
+  },
+  {
+    "path": "../iq4-source-study/qualification-results.txt",
+    "bytes": 74,
+    "sha256": "260b8ae0123648136da8087f2f98fe09cdcaf11c256aa46bb7b03da238bc14da"
+  },
+  {
+    "path": "../iq4-source-study/qualified-oracles.json",
+    "bytes": 316231,
+    "sha256": "a0ee36fccfeaca66075a9a260e52fabfd2a18f66c66711713cf467f75bd0e3e6"
+  },
+  {
+    "path": "../iq4-source-study/qualify-fields.py",
+    "bytes": 3290,
+    "sha256": "35159fb537135fc5e40aba5815aaa0195689e5fb92d6101cb31098b1d2cba2a3"
+  },
+  {
+    "path": "../iq4-source-study/source-hashes.json",
+    "bytes": 70194,
+    "sha256": "facedf0b5b2a4b308bccbeeea962173bfb00c69278a13d12fae86b6498477d6b"
+  },
+  {
+    "path": "../iq4-source-study/test-input-hashes.json",
+    "bytes": 7116,
+    "sha256": "2946483d4683ae009083a2e7466296535f45e701734e4eefe79eaa27c9061c79"
+  }
+]

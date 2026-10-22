@@ -1,0 +1,1 @@
+Qualified 1264 small static cases; 287744 complete finite constant values

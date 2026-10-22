@@ -8,8 +8,9 @@ Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. The Q2_K/Q3_K source-reader slice is verified under
 `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`. Active numerical/backend work remains
-`TASK_hailo10h_numerical_encoding_sources.md`, alongside remaining ordinary
-source/architecture/operation implementation. Full controlling scope:
+`TASK_hailo10h_numerical_encoding_sources.md`; the next exact native source
+contract is `TASK_hailo10h_iq4_source_constants.md`, alongside remaining ordinary
+architecture/operation implementation. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -151,3 +152,10 @@ full source-storage suite pass. The ldd/API runner classification failure is
 retained with an additive reviewed pass; no native comparison is skipped.
 Remaining source/architecture/operation breadth and actual H10H numerical
 encoding/configuration/placement/program delivery/results/cleanup remain work.
+
+Next source-format qualification: `TASK_hailo10h_iq4_source_constants.md` and
+`HAILO10H_IQ4_SOURCE_LAYOUT.md`. Public object fields and1264 small static cases/
+287744 finite constant comparisons qualify IQ4_NL/IQ4_XS before original code.
+646 source identities/100 binary controls/65 Python inputs are frozen. No new
+production capability or numerical/source-model execution is claimed by this
+contract. The broad model target and physical numerical-program work remain.

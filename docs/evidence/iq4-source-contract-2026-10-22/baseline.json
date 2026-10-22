@@ -1,0 +1,8 @@
+{
+  "parent": "4d16930bb430d0fefd8f45e3072f9fa295ed502a",
+  "source_files": 646,
+  "current_binary_controls": 100,
+  "python_inputs": 65,
+  "actual_source_snapshots": "../q2q3-native-final/source-snapshot",
+  "all_identities_verified_before_next_production_change": true
+}
