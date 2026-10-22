@@ -11,7 +11,8 @@ no outside compiler or specially precompiled model prerequisite. The Q2_K/Q3_K s
 `TASK_hailo10h_numerical_encoding_sources.md`; the IQ4 native source reader
 is verified under `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`. The source-byte digest leaf is verified under
 `HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md`. Owned sealed source copies are verified under
-`HAILO10H_MOJO_SEALED_SOURCE_COPY.md`. Next is sealed-descriptor parsing with
+`HAILO10H_MOJO_SEALED_SOURCE_COPY.md`. Next native contract is
+`TASK_hailo10h_sealed_gguf_source.md` for sealed-descriptor parsing and
 mapped-capacity guards, followed by coherent artifact binding and remaining ordinary architecture/
 operation implementation. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.

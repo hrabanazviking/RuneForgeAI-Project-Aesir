@@ -1,0 +1,8 @@
+# Compile-only type/ownership probe. Never run a model or invoke this constructor.
+from loader.packed_gguf import PackedGGUF
+struct SourceMoveProbe(Movable):
+    var source: PackedGGUF
+    def __init__(out self, path: String) raises:
+        self.source = PackedGGUF(path)
+def main():
+    print("compile-only sealed-source ownership feasibility")

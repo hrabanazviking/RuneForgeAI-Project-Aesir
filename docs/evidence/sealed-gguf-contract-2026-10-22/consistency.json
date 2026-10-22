@@ -1,0 +1,10 @@
+{
+  "baseline_exit": 1,
+  "candidate_exit": 1,
+  "raw_output_byte_equal": true,
+  "normalized_issue_set_additions": 0,
+  "normalized_issue_set_removals": 0,
+  "historical_diagnostics": 23296,
+  "new_production_mojo": false,
+  "whole_repository_pass": false
+}

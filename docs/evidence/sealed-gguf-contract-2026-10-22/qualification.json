@@ -1,0 +1,29 @@
+{
+  "parent": "a0354354c56639277d09c394e10e9fa5e6f90d91",
+  "sources_and_actual_snapshots": 656,
+  "controls": 106,
+  "python_and_actual_snapshots": 68,
+  "planned_shared_source_changes": [
+    "aesir_engine/loader/gguf.mojo",
+    "aesir_engine/loader/packed_gguf.mojo",
+    "hailbru/source_sealed_copy.mojo"
+  ],
+  "static_import_affected_controls": 100,
+  "static_import_unaffected_controls": 6,
+  "module_roots": [
+    ".",
+    "aesir_engine",
+    "tests"
+  ],
+  "inventory_scope": "Conservative static local import closure including package initializers; recompute after implementation and cover every affected existing entrypoint. No engine/model execution.",
+  "movable_wrapper_probe": {
+    "source": "move-probe.mojo",
+    "binary_sha256": "1075099ff7ac27da2f4b5c268c4edd499b1f61a4dd924ba64f7ab11ab935e57a",
+    "build_diagnostic_bytes": 0,
+    "executed": false
+  },
+  "parser_or_mapping_implementation_added": false,
+  "source_fingerprint_verified": false,
+  "execution_tested": false,
+  "device_access": false
+}
