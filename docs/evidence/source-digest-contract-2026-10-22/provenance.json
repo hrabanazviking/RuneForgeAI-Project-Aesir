@@ -1,0 +1,26 @@
+{
+  "parent": "9588604b841c4c8e0549f82d99073994a6dc8224",
+  "sources": [
+    {
+      "url": "https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf",
+      "publication": "FIPS180-4 August2015",
+      "access": "Official PDF read with web tool;no local raw PDF hash claimed"
+    },
+    {
+      "url": "https://csrc.nist.gov/csrc/media/projects/cryptographic-standards-and-guidelines/documents/examples/sha256.pdf",
+      "scope": "Only published SHA256 example message/digest data,confirmed with independent hashlib;no implementation body copied"
+    }
+  ],
+  "existing_original_compression": "hailbru/fw.mojo::_sha256_block",
+  "existing_original_source_sha256": "ef0b497e254062fed3d838bc2dc4d864c19de3254744d6e0c75a2fa00dc73ae2",
+  "existing_positional_read": "hailbru/syscall.mojo::os_pread_metadata",
+  "positional_read_source_sha256": "45c1eb435147f30d712ad91c6dcb7d387fcf376b294c75427186ecb88558648b",
+  "existing_regular_fd_extent": "hailbru/syscall.mojo::os_fd_regular_size",
+  "source_bytes_not_coherent_snapshot_or_model_execution": true,
+  "new_native_implementation": false,
+  "device_access": false,
+  "retained_preparation_history": [
+    "Direct urllib PDF retrieval returned403;no workaround attempted. Official web tool provided the sources.",
+    "The csrc /final PDF URL serves archived2012 text;correct August2015 source is nvlpubs/NIST.FIPS.180-4.pdf. Technical hash specification unchanged according to archive cover;the contract cites August2015."
+  ]
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "path": "../source-digest-contract-study/controls.json",
+    "bytes": 29259,
+    "sha256": "4d8e488c3129b9ab5a2f7394a03f399d0aa0b8c19f29d699bd1d8f4b9fb9ed6d"
+  },
+  {
+    "path": "../source-digest-contract-study/nist-example-vectors.json",
+    "bytes": 298,
+    "sha256": "7036d89f73b813fdc749c239ab29ec07a6beb185cbdbd0fbccdcd72ca2134fec"
+  },
+  {
+    "path": "../source-digest-contract-study/provenance.json",
+    "bytes": 1481,
+    "sha256": "9387e757a7e3a2525f6fbc51a7376260a69896ebe9621cc3d8973622d54da16f"
+  },
+  {
+    "path": "../source-digest-contract-study/source-hashes.json",
+    "bytes": 70515,
+    "sha256": "c5081af17360f7b746ce86178b7e2e7fcc475371d97a5f1318f6728574cd547c"
+  },
+  {
+    "path": "../source-digest-contract-study/test-input-hashes.json",
+    "bytes": 7230,
+    "sha256": "17e3f185fa779579bd228b943e8e381c71f2ffab6aaeeea2ddcab845291d7be2"
+  }
+]

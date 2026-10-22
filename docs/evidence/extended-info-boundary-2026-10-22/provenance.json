@@ -1,0 +1,69 @@
+{
+  "pin": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "license": "MIT re-read before declarations/source-boundary inspection",
+  "sources": [
+    {
+      "path": "hailort/LICENSE",
+      "retained_path": "../hailort-v530-study/LICENSE",
+      "git_blob": "8912b6d01df11cd33cedb682d30b68b81ce380aa",
+      "sha256": "b7f9de8a9180e5e47f14a34c8291778bd543e144afbf21ddfd191e0b057da4d7",
+      "bytes": 1115,
+      "url": "https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/LICENSE"
+    },
+    {
+      "path": "hailort/hrpc_protocol/rpc.proto",
+      "retained_path": "../hailort-v530-study/rpc.proto",
+      "git_blob": "dca15f9f0e7b36c365430b19bf3a6425b19b1a52",
+      "sha256": "c44ec3a28d075bae5f814f99491a4f1de0c3cbd026721243e8876c67b5da9225",
+      "bytes": 12177,
+      "url": "https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/hrpc_protocol/rpc.proto"
+    },
+    {
+      "path": "hailort/hrpc_protocol/serializer.hpp",
+      "retained_path": "../hailort-v530-study/serializer.hpp",
+      "git_blob": "57d276941db2ab26868979340dee4cce498d8b52",
+      "sha256": "e02cdb188ac543edd2a4b746c50399b6a74ad8ef1eb230ba5431ae47fccd3a87",
+      "bytes": 23725,
+      "url": "https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/hrpc_protocol/serializer.hpp"
+    },
+    {
+      "path": "hailort/libhailort/src/device/device_hrpc_client.cpp",
+      "retained_path": "../hailort-v530-study/device_hrpc_client.cpp",
+      "git_blob": "e720c5b475b215e2fc36940877641f8450303cb4",
+      "sha256": "04ee2580ccdd448d0888170e01eeb0889aed2d2167780549f96f4c04571434d9",
+      "bytes": 20651,
+      "url": "https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/device/device_hrpc_client.cpp"
+    },
+    {
+      "path": "hailort/libhailort/src/vdma/integrated/integrated_device.cpp",
+      "retained_path": "../hailort-v530-study/integrated_device.cpp",
+      "git_blob": "3c5e75327d57c386da68544b80cde270bc7e76de",
+      "sha256": "1a831c88b906c9b5ec90a4de35092ab19e3883fba7d5a85e5d196223db7a376a",
+      "bytes": 13157,
+      "url": "https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/vdma/integrated/integrated_device.cpp"
+    },
+    {
+      "path": "hailort/hailort_server/hailort_server.cpp",
+      "retained_path": "../hailort-v530-study/hailort_server.cpp",
+      "git_blob": "7c0d281930c80fd3e85693a0a39608f5ec106f3b",
+      "sha256": "80b8c3c66b976f1cd2f62f52b0b23b8c996d1d3d58241619848b1023ee660668",
+      "bytes": 61627,
+      "url": "https://github.com/hailo-ai/hailort/blob/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/hailort_server/hailort_server.cpp"
+    }
+  ],
+  "facts": {
+    "hRPC_extended_info_action": 23,
+    "source_kind_23_is_a_separate_namespace": true,
+    "integrated_neural_network_clock_field": "Explicitly deprecated and populated with NOT_AVAILABLE=0 in this pinned path;not a measured zero clock",
+    "extended_info_has_no_memory_budget_or_arithmetic_instruction_fields": true,
+    "H10H_path_can_invoke": "GpioReader().read under Linux GPIO_V2_GET_LINE_IOCTL conditional",
+    "GPIO_reader_effects_qualified": false,
+    "performance_RAM_field": "Schema name alone does not qualify allocatable model memory or transport behavior"
+  },
+  "new_numeric_encoding_or_physical_capability": false,
+  "new_native_implementation": false,
+  "physical_query_or_device_access": false,
+  "model_or_compiler_download": false,
+  "source_model_execution": false,
+  "preparation_note": "Initial provenance selection incorrectly assumed LICENSE at repo root;tree metadata resolves hailort/LICENSE. No claim or device experiment preceded exact-blob verification."
+}

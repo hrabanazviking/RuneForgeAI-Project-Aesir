@@ -42,3 +42,10 @@ program103/runtime6/deprecated5 namespaces and partial-layout conditions. Three
 additional public LCU bodies are qualified for original host serialization under
 TASK_hailo10h_lcu_action_codec.md. No numerical encoding,placement or callable
 raw-context upload is established; continue those physical gaps in parallel.
+
+2026-10-22 extended-info lead qualification:
+docs/HAILO10H_EXTENDED_INFO_BOUNDARY_2026-10-22.md. Exact pinned source populates
+the integrated clock field with deprecated NOT_AVAILABLE=0;schema RAM names do
+not qualify model budgets. No live request or new numerical/physical capability.
+Continue actual encoding/configuration/placement/program work;source-byte digest
+prerequisite follows its own native contract without claiming immutable binding.

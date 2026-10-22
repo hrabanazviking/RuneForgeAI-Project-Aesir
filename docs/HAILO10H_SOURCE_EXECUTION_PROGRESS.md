@@ -9,8 +9,9 @@ target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. The Q2_K/Q3_K source-reader slice is verified under
 `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`. Active numerical/backend work remains
 `TASK_hailo10h_numerical_encoding_sources.md`; the IQ4 native source reader
-is verified under `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`, alongside remaining
-ordinary architecture/operation implementation. Full controlling scope:
+is verified under `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`. Next native contract:
+`TASK_hailo10h_source_byte_digest.md`,alongside remaining ordinary architecture/
+operation implementation. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -166,3 +167,13 @@ original nonlinear source components and byte integration against contractefb0ec
 All65 old Python inputs remain unchanged;100 pre-code binary controls and the
 full source-storage suite pass. The broad source-model target and actual H10H
 numerical encoding/configuration/packing/placement/delivery/results remain open.
+
+Next bounded compiler connection: `TASK_hailo10h_source_byte_digest.md` and
+`HAILO10H_SOURCE_DIGEST_CONTRACT.md` specify an incremental observed-byte digest
+using existing original SHA256 compression and bounded same-fd reads. No new
+implementation or fingerprint/binding/execution claim is made by this contract.
+649source identities/102 controls/66 Python inputs are frozen before code.
+
+Physical metadata lead disposition: `HAILO10H_EXTENDED_INFO_BOUNDARY_2026-10-22.md`
+qualifies the deprecated/unavailable clock field and limits of schema-only RAM
+names. No query,new numerical field,physical capability or execution is claimed.
