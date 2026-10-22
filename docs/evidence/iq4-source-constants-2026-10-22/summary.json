@@ -1,0 +1,53 @@
+{
+  "pre_code_contract": "efb0ec0a4553a2511e08df731db4ba5371216eaf",
+  "clean_current_mojo_builds": 102,
+  "source_hashes_and_actual_snapshots": 649,
+  "prior_mojo_sources_unchanged": 645,
+  "prior_mojo_sources_changed": [
+    "aesir_engine/loader/packed_gguf.mojo"
+  ],
+  "old_python_tests_unchanged": 65,
+  "controls_frozen_before_production": 100,
+  "primary_suites": 43,
+  "primary_methods": 305,
+  "recorded_primary_child_calls": 13399,
+  "new_methods": 14,
+  "new_primary_calls": 546,
+  "new_outcomes": {
+    "accepted": 345,
+    "refused": 201
+  },
+  "complete_component_comparisons": 327602,
+  "source_byte_comparisons": 27584,
+  "isolated_static_reference_constants": 2048,
+  "bit_plane_cases": 1200,
+  "complete_bit_plane_component_comparisons": 278528,
+  "additional_frozen_calls": 11940,
+  "frozen_success_stdout_pairs": 6379,
+  "frozen_nonzero_stdout_exit_error_pairs": 5561,
+  "unique_comparison_controls": 100,
+  "successful_comparison_controls": 99,
+  "mutation_only_controls": [
+    "tagged-storage-api"
+  ],
+  "new_trace_files": 27,
+  "trace_lifecycles": {
+    "fixture_opens": 36,
+    "fixture_closes": 36,
+    "whole_readonly_shared_maps": 36,
+    "matching_unmaps": 36
+  },
+  "intentional_GGUF_admission_delta_calls": 6,
+  "old_test_inputs_changed": 0,
+  "unrelated_native_comparisons_skipped": 0,
+  "source_payload_representation_decoded": true,
+  "production_floating_tensor_product": false,
+  "model_layer_attention_forward": false,
+  "numerical_hailo_execution": false,
+  "device_format_or_fit_verified": false,
+  "source_model_execution": false,
+  "initial_q8_audit_whitespace_failure_retained": true,
+  "native_suites_reexecuted_for_audit_correction": 0,
+  "whole_repository_pass": false,
+  "hosted_ci_pass": false
+}

@@ -1,0 +1,9 @@
+{
+  "mojo": "Mojo 1.1.0 (8189361e)",
+  "ggml_cpu_backend": "OFF",
+  "static_oracle_functions": [
+    "dequantize_row_iq4_nl",
+    "dequantize_row_iq4_xs"
+  ],
+  "no_external_model_context_graph_forward_API": true
+}

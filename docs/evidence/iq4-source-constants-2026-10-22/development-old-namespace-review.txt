@@ -1,0 +1,7 @@
+tests/test_hailo_source_classic32_constants.py:26:SIZES={2:18,3:20,6:22,7:24}
+tests/test_hailo_source_classic32_constants.py:209:        known={0:(1,4),1:(1,2),30:(1,2),2:(32,18),3:(32,20),6:(32,22),7:(32,24),8:(32,34),12:(256,144),13:(256,176),14:(256,210)}
+tests/test_hailo_source_storage.py:46:                              timeout=20,stdin=subprocess.DEVNULL,check=False)
+tests/test_hailo_source_storage.py:159:        for _ in range(20):
+tests/test_hailo_source_storage.py:162:                shape=[rng.randrange(1,20)]
+tests/test_hailo_source_storage.py:233:            pairs=[(start:=rng.randrange(20),start+rng.randrange(5)) for _ in range(rng.randrange(0,50))]
+tests/test_hailo_source_q2q3_constants.py:233:        known={0:(1,4),1:(1,2),30:(1,2),2:(32,18),3:(32,20),6:(32,22),7:(32,24),8:(32,34),10:(256,84),11:(256,110),12:(256,144),13:(256,176),14:(256,210)}

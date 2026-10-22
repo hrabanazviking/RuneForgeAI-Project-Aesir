@@ -1,0 +1,6 @@
+..............
+----------------------------------------------------------------------
+Ran 14 tests in 33.993s
+
+OK
+IQ4 native outcomes {'accepted': 345, 'refused': 201} component checks 327602 byte checks 27584

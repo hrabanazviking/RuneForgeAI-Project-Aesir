@@ -1,0 +1,9 @@
+{
+  "suite": "q8-traces",
+  "returncode": 1,
+  "command": [
+    "/usr/bin/python3",
+    "../q8-source-audit-review/audit-q8-traces.py",
+    "../iq4-native-acceptance/q8"
+  ]
+}

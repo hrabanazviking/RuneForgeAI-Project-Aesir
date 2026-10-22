@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 120 |
+| `verified` | 121 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **165** |
+| **Total** | **166** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3672,3 +3672,39 @@ No new capability ID or hardware/complete-source execution claim.
   native safetensors passes;additive reviewed nine-method/97-call pass and
   separate dependency inspection close it. No native pair is skipped or old
   test input changed. Complete original outputs retained under archive hashes.
+
+
+### AES-SOURCE-026 — Original nonlinear IQ4 source components and byte tiles
+
+- **Status:** `verified`
+- **Owner:** original source_iq4_constants reader,shared packed GGUF geometry
+  and unchanged generic source_weight_tiles consumer,with bounded native tools.
+- **Claim sources:** TASK_hailo10h_iq4_source_constants.md publishedefb0ec0
+  before code;docs/HAILO10H_IQ4_SOURCE_LAYOUT.md pins MIT public fields/table.
+- **Implementation evidence:** GGUF20/23 geometry and original bit readers,
+  exact d words/expanded bits,explicit group-scale presence/signed values,
+  original nonlinear codes and signed source values;owned bounded windows,
+  actual compiler bindings and whole-touched-block byte tiles.65 old Python
+  inputs unchanged;old geometry/width limits/unrelated diagnostics preserved.
+- **Executable evidence:** docs/HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md;
+  102 clean current Mojo builds,649 actual source identities;43 suites/
+  305 methods/13399 primary child calls. New14/546,
+  327602 complete components,27584 bytes,2048 isolated finite static
+  values;27 new traces/36 balanced read-only lifecycles.100 pre-code controls
+  covered by6379 complete successful stdout/5561 nonzero exit/stdout/
+  handled-error pairs. No unrelated native comparison is skipped.
+- **Evidence boundary:** Source representation/conversion and byte integration
+  only. No production floating tensor product,model/layer/attention forward,
+  accelerator precision/packing/fit/placement,numerical Hailo/source-model
+  execution or whole-repository/hosted-CI pass. Remaining formats/ranks,
+  architectures and operations stay work toward100% of the broad target.
+- **Next acceptance gate:** Actual H10H numerical/configuration evidence and
+  original physical program generation/delivery/activation/results/cleanup,
+  alongside remaining ordinary source/architecture/operation implementation.
+- **Audit:** Old Q8 audit whitespace failure retained;corrected auditor accepts
+  normal resumed-call spacing on unchanged raw traces,with no native rerun.
+  Exact pre-code snapshots and all100 existing binaries preserved.
+  Full source-storage suite and direct20/23 admission proof;correct native API
+  versus ldd classification,dependency inspection on both sides,PID-aware
+  split-syscall joins and actual trace census. Full original outputs archived;
+  published large-output receipts follow complete component comparisons.

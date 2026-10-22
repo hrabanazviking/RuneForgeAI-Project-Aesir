@@ -71,3 +71,8 @@ required work alongside remaining source/architecture/operation implementation.
 No DFC/outside compiler or machine/precompiled prerequisite/proxy, guessed device
 write, reset/rebind or kernel/firmware change. All LLM execution stays on Hailo-10H;
 missing coverage never narrows the fixed broad target.
+
+Implementation checkpoint(2026-10-22): original Mojo source components and
+byte integration are verified in docs/HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md
+(path relative to repository root). Pre-code qualification history remains
+preserved;this establishes no numerical Hailo or source-model execution.

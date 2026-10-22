@@ -8,9 +8,9 @@ Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. The Q2_K/Q3_K source-reader slice is verified under
 `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`. Active numerical/backend work remains
-`TASK_hailo10h_numerical_encoding_sources.md`; the next exact native source
-contract is `TASK_hailo10h_iq4_source_constants.md`, alongside remaining ordinary
-architecture/operation implementation. Full controlling scope:
+`TASK_hailo10h_numerical_encoding_sources.md`; the IQ4 native source reader
+is verified under `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`, alongside remaining
+ordinary architecture/operation implementation. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -61,6 +61,7 @@ verify, publish and advance each bounded work slice.
 | Expanded graph / updated lifetimes | Verified compiler integration | `HAILO10H_MOJO_EXPANDED_GRAPH.md`; global source/local mapping, explicit constants/predicates/indices/KV aliases, new lifetimes; five methods/45 native calls. No numerical execution. |
 | Expanded storage accounting | Verified hypothetical compiler scenario | `HAILO10H_MOJO_EXPANDED_STORAGE.md`; typed roles, exact last uses and explicit predicate width; seven methods/88 native calls. Not physical placement or hardware fit. |
 | Floating source constants | Verified source representation reader | `HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`; bounded owned F32/F16/BF16 windows; six methods/64 native calls, all 131,072 16-bit patterns, source inventory/storage regressions. Not device format or execution. |
+| Original nonlinear IQ4 source components and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`;102 clean current Mojo builds,305 methods/13399 primary calls. New14/546,327602 complete components,27584 bytes;100 pre-code controls and27 traces/36 balanced file lifecycles. No numerical Hailo/source-model execution. |
 | Original Q2_K/Q3_K source components and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`;100 clean current Mojo builds plus17 pre-code-snapshot controls,291 methods/12853 calls. New13/530,439026 complete components,32248 bytes;98 controls/11410 pairs and27 traces/36 balanced file lifecycles. Runner dependency-inspection failure retained and corrected;no numerical Hailo/source-model execution. |
 | Classic Q4/Q5 source conversion and shared geometry | Verified source representation/conversion | `HAILO10H_MOJO_CLASSIC32_SOURCE_CONSTANTS.md`;81 clean current Mojo builds plus3 pre-code snapshot baseline builds,219 methods/10549 primary calls. New12/788,26611 complete components,11322 bytes;79 comparison controls and45 traces/60 balanced file lifecycles. Original runner wiring and audit/recorder failures retained and corrected;no numerical Hailo/source-model execution. |
 | Q8_0 source constants and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_Q8_SOURCE_CONSTANTS.md`;76 clean Mojo builds,200 methods/9309 primary calls,74 frozen controls covered. New10/137,actual payload fields and byte tiles;10 ownership traces. No numerical Hailo/source-model execution. |
@@ -159,3 +160,9 @@ Next source-format qualification: `TASK_hailo10h_iq4_source_constants.md` and
 646 source identities/100 binary controls/65 Python inputs are frozen. No new
 production capability or numerical/source-model execution is claimed by this
 contract. The broad model target and physical numerical-program work remain.
+
+IQ4 implementation checkpoint: `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md` records
+original nonlinear source components and byte integration against contractefb0ec0.
+All65 old Python inputs remain unchanged;100 pre-code binary controls and the
+full source-storage suite pass. The broad source-model target and actual H10H
+numerical encoding/configuration/packing/placement/delivery/results remain open.

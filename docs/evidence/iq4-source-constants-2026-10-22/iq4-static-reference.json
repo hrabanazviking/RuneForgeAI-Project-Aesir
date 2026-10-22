@@ -1,0 +1,14 @@
+[
+  {
+    "gguf_source_kind": 20,
+    "constants": 1024,
+    "complete_value_match": true,
+    "bits_sha256": "5e53282a8074bd01c759d20b69a751ec8734b26355b09e462b3c28755db7ea1a"
+  },
+  {
+    "gguf_source_kind": 23,
+    "constants": 1024,
+    "complete_value_match": true,
+    "bits_sha256": "826c9ac65fca898214de72f152ca872a3fd0c50082b8d4af2cff62df6ffddbcc"
+  }
+]

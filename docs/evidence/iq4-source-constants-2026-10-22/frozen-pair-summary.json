@@ -1,0 +1,8 @@
+{
+  "controls": 100,
+  "success_pairs": 6379,
+  "nonzero_pairs": 5561,
+  "unrelated_native_comparisons_skipped": 0,
+  "all_controls_frozen_before_production": true,
+  "ldd_is_dependency_inspection_not_API_request": true
+}

@@ -1,0 +1,11 @@
+{
+  "original_failure": "Old Q8 audit required exactly one space after resumed mmap closing parenthesis. Raw trace shows successful whole-fixture mmap.",
+  "corrected_auditor": "../classic32-source-audit-review/audit-traces.py",
+  "all43_native_suites_already_passed": true,
+  "all48_final_statuses_zero": true,
+  "source_binary_test_input_changes": false,
+  "raw_traces_changed": false,
+  "native_suites_reexecuted": 0,
+  "all_original_artifacts_retained": true,
+  "comparison_skips": 0
+}

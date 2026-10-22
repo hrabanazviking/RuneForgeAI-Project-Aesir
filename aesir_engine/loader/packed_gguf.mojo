@@ -48,6 +48,10 @@ def packed_block_geometry(kind: Int) raises -> PackedBlockGeometry:
         return PackedBlockGeometry(256, 176)
     if kind == 14:
         return PackedBlockGeometry(256, 210)
+    if kind == 20:
+        return PackedBlockGeometry(32, 18)
+    if kind == 23:
+        return PackedBlockGeometry(256, 136)
     raise Error("Packed GGUF: unsupported tensor type " + String(kind))
 
 
@@ -63,6 +67,10 @@ def packed_row_bytes(kind: Int, columns: Int) raises -> Int:
     if kind == 8:
         if columns % 32 != 0:
             raise Error("Packed GGUF: Q8_0 row is not block aligned")
+        return columns // 32 * packed_block_geometry(kind).bytes
+    if kind == 20:
+        if columns % 32 != 0:
+            raise Error("Packed GGUF: IQ4_NL row is not block aligned")
         return columns // 32 * packed_block_geometry(kind).bytes
     if columns % 256 != 0:
         raise Error("Packed GGUF: K-quant row is not block aligned")

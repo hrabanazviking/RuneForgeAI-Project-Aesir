@@ -1,0 +1,47 @@
+[
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "arguments": [
+      "arithmetic",
+      "gguf",
+      "20",
+      "32"
+    ],
+    "old_returncode": 1,
+    "old_stdout": "",
+    "old_stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: K-quant row is not block aligned\n",
+    "new_returncode": 0,
+    "new_stdout": "{\"elements\":32,\"bytes\":18}\n",
+    "new_stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "arguments": [
+      "arithmetic",
+      "gguf",
+      "20",
+      "256"
+    ],
+    "old_returncode": 1,
+    "old_stdout": "",
+    "old_stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: unsupported tensor type 20\n",
+    "new_returncode": 0,
+    "new_stdout": "{\"elements\":256,\"bytes\":144}\n",
+    "new_stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "arguments": [
+      "arithmetic",
+      "gguf",
+      "23",
+      "256"
+    ],
+    "old_returncode": 1,
+    "old_stdout": "",
+    "old_stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: unsupported tensor type 23\n",
+    "new_returncode": 0,
+    "new_stdout": "{\"elements\":256,\"bytes\":136}\n",
+    "new_stderr": ""
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "side": "current",
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "binary": "../iq4-native-final/closure-safetensors_constants",
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff97dac000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff97bb0000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff979d0000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff97920000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff97680000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff97630000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff96af0000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff96ab0000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff97d60000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff96a80000)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_iq4_constants.mojo",
+    "binary": "../iq4-native-final/iq4-constants",
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff8fe0c000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff8fc10000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff8fa30000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff8f980000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff8f6e0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff8f690000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff8eb50000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff8eb10000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff8fdc0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff8eae0000)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "side": "precode",
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "binary": "../q2q3-native-final/closure-safetensors_constants",
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff57c08000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff57a20000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff57840000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff57790000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff574f0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff574a0000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff56960000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff56920000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff57bd0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff568f0000)\n",
+    "stderr": "",
+    "returncode": 0
+  }
+]

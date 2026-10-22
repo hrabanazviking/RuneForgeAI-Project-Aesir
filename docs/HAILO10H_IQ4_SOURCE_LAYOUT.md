@@ -46,3 +46,8 @@ Primary pinned declarations/data:
 [type tags](https://github.com/ggml-org/ggml/blob/a05c9922613c6a2230dbb1d0de679519ecafb4f0/include/ggml.h),
 [fields and nonlinear table](https://github.com/ggml-org/ggml/blob/a05c9922613c6a2230dbb1d0de679519ecafb4f0/src/ggml-common.h),
 [license](https://github.com/ggml-org/ggml/blob/a05c9922613c6a2230dbb1d0de679519ecafb4f0/LICENSE).
+
+Implementation checkpoint(2026-10-22): original Mojo source components and
+byte integration are verified in docs/HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md
+(path relative to repository root). Pre-code qualification history remains
+preserved;this establishes no numerical Hailo or source-model execution.

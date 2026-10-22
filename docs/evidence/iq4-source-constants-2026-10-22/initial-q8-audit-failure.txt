@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/../q8-source-audit-review/audit-q8-traces.py", line 37, in <module>
+    m=re.search(r'mmap\(NULL, (\d+), PROT_READ, MAP_SHARED, (\d+)<([^>]+\.gguf)>, 0\s*\) = (0x[0-9a-f]+)',line);assert m,line
+                                                                                                                ^^^^^^^^^^^^^
+AssertionError: 2687866 mmap(NULL, 35264, PROT_READ, MAP_SHARED, 3</tmp/aesir-q8-source-yx6xcmg8/source-39.gguf>, 0 )             = 0x7ffefcc00000

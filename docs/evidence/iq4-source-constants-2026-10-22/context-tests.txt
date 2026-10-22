@@ -1,0 +1,9 @@
+test_all_public_state_observations (__main__.DynamicRotaryContextTest.test_all_public_state_observations) ... ok
+test_context_domains_and_limits (__main__.DynamicRotaryContextTest.test_context_domains_and_limits) ... ok
+test_exact_rational_schedule (__main__.DynamicRotaryContextTest.test_exact_rational_schedule) ... ok
+test_refusals_mutation_ownership_and_recovery (__main__.DynamicRotaryContextTest.test_refusals_mutation_ownership_and_recovery) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 3.216s
+
+OK

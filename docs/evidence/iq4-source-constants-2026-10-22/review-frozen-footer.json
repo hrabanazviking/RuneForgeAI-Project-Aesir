@@ -1,0 +1,6 @@
+{
+  "source": "../iq4-native-development/verify-final.py",
+  "source_sha256": "7f0026696764e0fd72958029d3adab9c52833450a08ec6a9f1b7ced155febc3a",
+  "suffix_sha256": "77cb615fb0ddf6f466f60b5566547f656a318848ee346681dc8a9968604befdf",
+  "execution": "Only previously unexecuted control coverage/admission/dependency/header footer, against copied native results."
+}

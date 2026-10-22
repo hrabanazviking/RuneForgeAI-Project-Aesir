@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-22",
+  "queries": [
+    "site:github.com/hailo-ai/hailort Hailo10H CCW instruction register numerical encoding",
+    "site:github.com/hailo-ai/hailort release v5.4 Hailo-10H configuration"
+  ],
+  "bounded_result": "No new numerical instruction/register/placement field qualified by these searches;not an absence proof or new capability.",
+  "primary_interface_results": [
+    {
+      "url": "https://github.com/hailo-ai/hailort/releases",
+      "disposition": "Official release metadata only;no numerical field or source body adopted."
+    },
+    {
+      "url": "https://github.com/hailo-ai/hailo-apps/blob/main/hailo_apps/config/config.yaml",
+      "disposition": "Application version mapping;not numerical CCW configuration."
+    }
+  ],
+  "new_source_body_adopted": false,
+  "model_or_external_compiler_download": false,
+  "device_access": false,
+  "source_model_execution": false
+}

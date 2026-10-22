@@ -1,0 +1,198 @@
+[
+  {
+    "source": "../iq4-native-final/source-hashes.json",
+    "original_sha256": "c5081af17360f7b746ce86178b7e2e7fcc475371d97a5f1318f6728574cd547c",
+    "published": "build-source-hashes.json",
+    "published_sha256": "c5081af17360f7b746ce86178b7e2e7fcc475371d97a5f1318f6728574cd547c",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-final/input-hashes.json",
+    "original_sha256": "4dcddb2637d88e85b322471e465233ae6962ba59c9b32f7cac3ab8ae045c4825",
+    "published": "build-input-hashes.json",
+    "published_sha256": "4dcddb2637d88e85b322471e465233ae6962ba59c9b32f7cac3ab8ae045c4825",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-final/build-results.json",
+    "original_sha256": "4d8e488c3129b9ab5a2f7394a03f399d0aa0b8c19f29d699bd1d8f4b9fb9ed6d",
+    "published": "build-build-results.json",
+    "published_sha256": "9acb0e349a18d0889ff36297c134fe6115aa181e0c8cf82cada38faf1a3d98c3",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-final/closure-jobs.json",
+    "original_sha256": "42e4804a8b80b4ddff0db1a33642a41ef93ce1cfbae1ef2fd248775b83ff8fbb",
+    "published": "build-closure-jobs.json",
+    "published_sha256": "42e4804a8b80b4ddff0db1a33642a41ef93ce1cfbae1ef2fd248775b83ff8fbb",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/test-results.json",
+    "original_sha256": "a653979442fc7e01bac07d5423f1301ea8b2d9f3d65507e3298e5b49c420c611",
+    "published": "test-results.json",
+    "published_sha256": "a27704748df24286329d865fd0910b4be4456e8a068be29fbe8e43c36288941b",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/input-hashes.json",
+    "original_sha256": "0d7fd99e1e40b76701c2f82a41637abce08765271548053dd09e6ccc08ff1968",
+    "published": "input-hashes.json",
+    "published_sha256": "0d7fd99e1e40b76701c2f82a41637abce08765271548053dd09e6ccc08ff1968",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/frozen-pair-summary.json",
+    "original_sha256": "92b2b4bb7ff887797745e6b79275ff793a4c3142f925dab1580dbb74e7cc1301",
+    "published": "frozen-pair-summary.json",
+    "published_sha256": "92b2b4bb7ff887797745e6b79275ff793a4c3142f925dab1580dbb74e7cc1301",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/intentional-admission-deltas.json",
+    "original_sha256": "231b1163c538cfc0a55a47dbcab15419a963188e3b4a1f637a25c7bd2c5ccd8f",
+    "published": "intentional-admission-deltas.json",
+    "published_sha256": "231b1163c538cfc0a55a47dbcab15419a963188e3b4a1f637a25c7bd2c5ccd8f",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/linked-controls.json",
+    "original_sha256": "9aa09ae88c64f1f658644e6b3aa86a6a592a98877cfe08840895f7e4e89ff0ec",
+    "published": "linked-controls.json",
+    "published_sha256": "0443b26966180c706bfb41b26eeea1dc4928dd213b2fa578d4e87ec0d2a48977",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/layout-oracle.json",
+    "original_sha256": "ed57d1e21a2f8658a011968a8d698637b2dc4dba532fa83ea51e80a814bd4a22",
+    "published": "layout-oracle.json",
+    "published_sha256": "ceb46521a99016c4bd32287e67b4203e99135ec069b232a39686961ca524d032",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/iq4/fixtures.json",
+    "original_sha256": "1a1cc3dce221e8b7f580cdfc1620b743a9cf42de3b4fc133c37d7e4f8fe028a9",
+    "published": "iq4-fixtures.json",
+    "published_sha256": "1a1cc3dce221e8b7f580cdfc1620b743a9cf42de3b4fc133c37d7e4f8fe028a9",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/iq4/summary.json",
+    "original_sha256": "99447e607b00cd33d2d422de8cf21e99cfdf69b13a292f5cab9ac362a88d4610",
+    "published": "iq4-summary.json",
+    "published_sha256": "99447e607b00cd33d2d422de8cf21e99cfdf69b13a292f5cab9ac362a88d4610",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/iq4/trace-audit.json",
+    "original_sha256": "2616fc561a5ed21a12ea9c6ab2953e90a74571ed36cbafaf3f9f84243f30fb6d",
+    "published": "iq4-trace-audit.json",
+    "published_sha256": "2616fc561a5ed21a12ea9c6ab2953e90a74571ed36cbafaf3f9f84243f30fb6d",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/iq4/static-reference.json",
+    "original_sha256": "96ddc6793bdd06913e6bce2fcfded95a9899a4b49e45c8184f833c19282596ed",
+    "published": "iq4-static-reference.json",
+    "published_sha256": "96ddc6793bdd06913e6bce2fcfded95a9899a4b49e45c8184f833c19282596ed",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/q2q3/trace-audit.json",
+    "original_sha256": "86cad727812daaeb455f53283dd505c2ff206edf52f47e8ff12d0ad791592c04",
+    "published": "q2q3-trace-audit.json",
+    "published_sha256": "86cad727812daaeb455f53283dd505c2ff206edf52f47e8ff12d0ad791592c04",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/classic32/trace-audit.json",
+    "original_sha256": "c68e5388db7fcad3b2dacec5f8f33fe5b5c4f6ec37c01b199746817481537d6c",
+    "published": "classic32-trace-audit.json",
+    "published_sha256": "c68e5388db7fcad3b2dacec5f8f33fe5b5c4f6ec37c01b199746817481537d6c",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/q8/trace-audit.json",
+    "original_sha256": "2526f805ccb336272e563a08c7dac5d146bc88eb5c3c2829dcb5915f5f38e9d0",
+    "published": "q8-trace-audit.json",
+    "published_sha256": "2526f805ccb336272e563a08c7dac5d146bc88eb5c3c2829dcb5915f5f38e9d0",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/graph/trace-audit.json",
+    "original_sha256": "df1923583371616ad2f4fb9b1ef8d866918ae37d0c1f6bd1ed55263600bc8cc9",
+    "published": "graph-trace-audit.json",
+    "published_sha256": "df1923583371616ad2f4fb9b1ef8d866918ae37d0c1f6bd1ed55263600bc8cc9",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-baseline/source-hashes.json",
+    "original_sha256": "facedf0b5b2a4b308bccbeeea962173bfb00c69278a13d12fae86b6498477d6b",
+    "published": "baseline-source-hashes.json",
+    "published_sha256": "facedf0b5b2a4b308bccbeeea962173bfb00c69278a13d12fae86b6498477d6b",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-baseline/test-input-hashes.json",
+    "original_sha256": "2946483d4683ae009083a2e7466296535f45e701734e4eefe79eaa27c9061c79",
+    "published": "baseline-test-input-hashes.json",
+    "published_sha256": "2946483d4683ae009083a2e7466296535f45e701734e4eefe79eaa27c9061c79",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-baseline/controls.json",
+    "original_sha256": "c1ab7b8daecafce244903073feff761fed250af2bef405d937158721330f647f",
+    "published": "baseline-controls.json",
+    "published_sha256": "6050002fea72eb7d93c700aa0d59fc93e89c5c49186a82770d2fed55e8e42852",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-baseline/consumer-inventory.json",
+    "original_sha256": "dc20ef3d5a9f54fd8c1765f35896d73af3b8dc913641520a924530bdb113477f",
+    "published": "baseline-consumer-inventory.json",
+    "published_sha256": "dc20ef3d5a9f54fd8c1765f35896d73af3b8dc913641520a924530bdb113477f",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-development/numerical-search-notes.json",
+    "original_sha256": "6d4208702ec82e57f1493c4ee2adfcc7b51079a1780bb1f3770499cb216a1cc5",
+    "published": "development-numerical-search-notes.json",
+    "published_sha256": "7934009d02bcbbf80b21c41cdfd685e19efcd405c7abca3013517107f574957c",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-development/commands.json",
+    "original_sha256": "518839922d597abbcd8519933a8f7322529390a5f930c90df514eb2bdf42df5e",
+    "published": "development-commands.json",
+    "published_sha256": "c78effccda10befd0eb2b14905151742cf5bf6232adf35fdb8544972a6d6dfbf",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-reviewed-acceptance/review-input-hashes.json",
+    "original_sha256": "75bb57b066415407725f89cc45cdde79d8f372b422c8a1d760ce5790776f7ff3",
+    "published": "review-input-hashes.json",
+    "published_sha256": "4eb4153b473f4629fafb47cfb56452a8675d3e505089a98e6a272d67992b81fb",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-review/audit-correction.json",
+    "original_sha256": "70ec0c298243e3ce48a4da307b797b2a85b72ba306bae66754076e48d33a5e8c",
+    "published": "review-audit-correction.json",
+    "published_sha256": "70ec0c298243e3ce48a4da307b797b2a85b72ba306bae66754076e48d33a5e8c",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-review/frozen-footer.json",
+    "original_sha256": "0aa9716bcd295db9d978c27fb661d3126d13cecaecefb2844e929fff3a3a1983",
+    "published": "review-frozen-footer.json",
+    "published_sha256": "0aa9716bcd295db9d978c27fb661d3126d13cecaecefb2844e929fff3a3a1983",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  },
+  {
+    "source": "../iq4-native-acceptance/q8-traces-status.json",
+    "original_sha256": "4ae12583168eac78b1d1edf9cde6b12633b43e60ddc35bcdd8d6a0b0e6067ad4",
+    "published": "initial-q8-audit-status.json",
+    "published_sha256": "4ae12583168eac78b1d1edf9cde6b12633b43e60ddc35bcdd8d6a0b0e6067ad4",
+    "normalization": "Work prefix replaced with ../;runtime prefix with <mojo-runtime>. Source/payload hashes unchanged;original full values retained outside."
+  }
+]
