@@ -1,0 +1,11 @@
+{
+  "head": "28c776864600a40ccccd76d28463056a965f8452",
+  "source_identities_and_actual_snapshots": 653,
+  "current_controls": 104,
+  "python_identities_and_actual_snapshots": 67,
+  "actual_source_snapshot": "../source-digest-native-final-v2/source-snapshot",
+  "host_memfd_opens": 3,
+  "host_memfd_closes": 3,
+  "new_production_mojo": false,
+  "parser_accepts_deleted_memfd_display_suffix": true
+}

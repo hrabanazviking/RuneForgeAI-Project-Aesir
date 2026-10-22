@@ -1,0 +1,8 @@
+../source-sealed-copy-contract-study/host-seals-oracle.c: In function ‘main’:
+../source-sealed-copy-contract-study/host-seals-oracle.c:47:9: error: this ‘for’ clause does not guard... [-Werror=misleading-indentation]
+   47 |         for(size_t i=0;i<n;i++)printf("%02x",out[i]);printf("\",\"seals\":%d}",mask);
+      |         ^~~
+../source-sealed-copy-contract-study/host-seals-oracle.c:47:54: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   47 |         for(size_t i=0;i<n;i++)printf("%02x",out[i]);printf("\",\"seals\":%d}",mask);
+      |                                                      ^~~~~~
+cc1: all warnings being treated as errors

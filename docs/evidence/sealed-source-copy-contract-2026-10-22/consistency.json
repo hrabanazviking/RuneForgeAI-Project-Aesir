@@ -1,0 +1,10 @@
+{
+  "baseline_exit": 1,
+  "candidate_exit": 1,
+  "raw_output_sha256": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8",
+  "raw_output_byte_equal": true,
+  "normalized_issue_set_delta": 0,
+  "historical_diagnostics": 23296,
+  "new_native_capability_claims": 0,
+  "new_production_mojo": false
+}

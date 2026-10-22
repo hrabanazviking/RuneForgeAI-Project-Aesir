@@ -1,0 +1,38 @@
+{
+  "abi": [
+    279,
+    25,
+    1,
+    2,
+    1033,
+    1034,
+    15
+  ],
+  "cases": [
+    {
+      "bytes": 0,
+      "seals": 15,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 17,
+      "seals": 15,
+      "sha256": "d6ef72ccf1dc07afb3074967c93919b8c410f0b633fec60ee3c7233441ceff44"
+    },
+    {
+      "bytes": 8193,
+      "seals": 15,
+      "sha256": "d37426b71db09954cacd4d2be0059f5dbd7ad5d32fc42ab0eeda4ed1a4e1bebc"
+    }
+  ],
+  "complete_bytes_checked": 8210,
+  "c_oracle_only": true,
+  "new_mojo_implementation": false,
+  "device_access": false,
+  "model_execution": false,
+  "copy_atomicity_of_mutable_original": false,
+  "kernel": "6.12.112-v8-16k-hailo+",
+  "uapi_package": "linux-libc-dev 1:6.12.109-1+rpt1",
+  "source_bodies_copied": false,
+  "license_review_before_fields": "Installed UAPI first-line GPL-2.0 WITH Linux-syscall-note; official kernel licensing rules reviewed. Interface constants only."
+}
