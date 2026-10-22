@@ -1,0 +1,18 @@
+{
+  "parent": "4435500dd13b79da293d0d27a589d971ca6eca62",
+  "source_sha256": {
+    "smidr/context_actions.mojo": "7215ac09d7be3d81e280f4e2039f554b762d779568b75cef7d8229acedd25b27",
+    "smidr/tools/context_actions.mojo": "2519eaf411624c93d2132726c6988b66df6a5cfa671f6fcd6fac0ca72593b4c9",
+    "tests/hailo_context_action_ownership.mojo": "36bf1a0d05b77d47e5bc239116914605b4519fb9f042b8ed122120c5d053aaba",
+    "tests/test_hailo_context_actions.py": "fea48b12be231b4070c79edf15a816154da529fbbe9a6c1e25245d0ec2d28155",
+    "tests/hailo_context_action_oracle.cpp": "85c2b0d292bebaa7211afd07ef251066db6ddb5ea813942c9feffe572560b59f",
+    "smidr/tools/hrpc_frame.mojo": "5d44f4a4cc05b83e291ad8ed307447556beea9b399149414c5050506128670c9",
+    "smidr/tools/semantic_plan.mojo": "2ec61c90dcb15b593a5462159882ce2da742ae6fedf760663f7726e154756dc3"
+  },
+  "control_sha256": {
+    "../context-actions": "daf26af8df4ba53e0bb62eb122c9c80d6b794cf2a4075b54bbf98cf481e20bf7",
+    "../context-action-ownership": "96392e5c82488aa94840b47ee2673f3c7c9a72cf2e2332942efb915841f0d309",
+    "../context-action-oracle": "8dc035a9d569cac42b01b55f4eb1b870132df2ccc89ee78cc7982bc7d9649f1c"
+  },
+  "no_production_edits": true
+}

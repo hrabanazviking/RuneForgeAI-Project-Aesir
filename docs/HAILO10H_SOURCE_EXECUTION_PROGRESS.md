@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_ordinary_rotary_modifiers.md`, under the ordinary semantic adapter. Full controlling scope:
+slice: `TASK_hailo10h_lcu_action_codec.md`, with continued numerical configuration research. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -103,3 +103,10 @@ Latest integrated-platform qualification:
 `HAILO10H_INTEGRATED_NNC_BOUNDARY_2026-10-21.md`. Public receiver/profile facts do
 not establish H10H numerical instruction fields or an alternative Pi raw-control
 route. Numerical source/configuration/placement/program work stays active.
+
+2026-10-22 bounded target/control qualification:
+`HAILO10H_PROGRAM_TARGET_AND_LCU_BOUNDARY_2026-10-22.md` separates the program
+target namespace and partial-layout conditions, and qualifies three additional
+LCU record bodies for original Mojo serialization. Next native contract:
+`TASK_hailo10h_lcu_action_codec.md`. This is public-interface research, with no
+new capability ID,numerical instruction,physical acceptance or source execution.

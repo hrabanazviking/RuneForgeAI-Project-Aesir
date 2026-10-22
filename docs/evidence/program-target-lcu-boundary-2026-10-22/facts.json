@@ -1,0 +1,62 @@
+{
+  "program_architecture": {
+    "family_1xh": 103,
+    "deprecated_h10h": 5,
+    "header_field": 1
+  },
+  "runtime_h10h_enum": 6,
+  "partial_layout_field": 1,
+  "multi_layout_architectures": [
+    "HAILO8L",
+    "HAILO15M"
+  ],
+  "h10h_does_not_receive_h15h_partial_layout_bypass": true,
+  "lcu_action_ids": {
+    "ENABLE_LCU_NON_DEFAULT": 4,
+    "DISABLE_LCU": 5,
+    "SWITCH_LCU_BATCH": 36
+  },
+  "lcu_ordered_body_fields": {
+    "enable_lcu_action_non_default_data_t": [
+      [
+        "uint8_t",
+        "packed_lcu_id"
+      ],
+      [
+        "uint8_t",
+        "network_index"
+      ],
+      [
+        "uint16_t",
+        "kernel_done_address"
+      ],
+      [
+        "uint32_t",
+        "kernel_done_count"
+      ]
+    ],
+    "disable_lcu_action_data_t": [
+      [
+        "uint8_t",
+        "packed_lcu_id"
+      ]
+    ],
+    "switch_lcu_batch_action_data_t": [
+      [
+        "uint8_t",
+        "packed_lcu_id"
+      ],
+      [
+        "uint8_t",
+        "network_index"
+      ],
+      [
+        "uint32_t",
+        "kernel_done_count"
+      ]
+    ]
+  },
+  "source_bodies_executed": false,
+  "device_access": false,
+  "numerical_encoding_established": false
+}

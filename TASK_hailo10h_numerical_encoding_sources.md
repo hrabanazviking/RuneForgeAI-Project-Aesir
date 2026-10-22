@@ -35,3 +35,10 @@ mailbox receiver boundaries are public; board table selects H15H/H15L/H12L and
 reuses an H10H-named mask. No compatible H10H profile or arithmetic encoding was
 qualified, and this does not enable the Pi's rejected NNC family. Continue actual
 numerical/placement/program evidence work; no hardware write or new native claim.
+
+2026-10-22 target/control qualification:
+docs/HAILO10H_PROGRAM_TARGET_AND_LCU_BOUNDARY_2026-10-22.md records distinct
+program103/runtime6/deprecated5 namespaces and partial-layout conditions. Three
+additional public LCU bodies are qualified for original host serialization under
+TASK_hailo10h_lcu_action_codec.md. No numerical encoding,placement or callable
+raw-context upload is established; continue those physical gaps in parallel.

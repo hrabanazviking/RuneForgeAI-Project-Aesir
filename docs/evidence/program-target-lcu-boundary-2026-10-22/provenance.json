@@ -1,0 +1,73 @@
+{
+  "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "license": "MIT; root license read before source bodies; per-file MIT notices checked where present",
+  "sources": [
+    {
+      "path": "hailort/LICENSE",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/LICENSE",
+      "sha256": "b7f9de8a9180e5e47f14a34c8291778bd543e144afbf21ddfd191e0b057da4d7",
+      "bytes": 1115,
+      "local_matches_pin": true
+    },
+    {
+      "path": "hailort/libhailort/hef.proto",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/hef.proto",
+      "sha256": "e58753d4c33791beee096482cc4fce8b5023b48bc04c7910798fa7b063e149fb",
+      "bytes": 29926,
+      "local_matches_pin": true
+    },
+    {
+      "path": "hailort/libhailort/include/hailo/hailort.h",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/include/hailo/hailort.h",
+      "sha256": "df41786c6856a0ffaa435d4808d7592b997af6e64969d6f9619c22074378ecd4",
+      "bytes": 188937,
+      "local_matches_pin": true
+    },
+    {
+      "path": "hailort/libhailort/src/device_common/device_internal.hpp",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/device_common/device_internal.hpp",
+      "sha256": "8a75606b22d11cd689f11c2ea768f2b1805bf4415b0e3b2da4deeee16fed57f8",
+      "bytes": 6239,
+      "local_matches_pin": true
+    },
+    {
+      "path": "hailort/libhailort/src/device_common/device_internal.cpp",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/device_common/device_internal.cpp",
+      "sha256": "a21afbe569b139158c1b504ca9119e57f52ae9110e229387ce3f3a1f6bb94711",
+      "bytes": 19036,
+      "local_matches_pin": true
+    },
+    {
+      "path": "hailort/libhailort/src/hef/hef.cpp",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/hef/hef.cpp",
+      "sha256": "3dd18a8b8094dc4f6bdf84e69ac728426116ec4046275d0b6564737b58b1fde4",
+      "bytes": 224796,
+      "local_matches_pin": true
+    },
+    {
+      "path": "hailort/libhailort/src/hef/memory_requirements_calculator.cpp",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/hef/memory_requirements_calculator.cpp",
+      "sha256": "f301eb64b71a686ae825eec70847c5075f2bcb8d4b104d4f950d2a7127e6df02",
+      "bytes": 8901,
+      "local_matches_pin": true
+    },
+    {
+      "path": "hailort/libhailort/src/hef/memory_requirements_calculator.hpp",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/hailort/libhailort/src/hef/memory_requirements_calculator.hpp",
+      "sha256": "93b6f7d9ebd85987c809174c27c3872dbd1630507c05ddde6df7b931310c8b6b",
+      "bytes": 2035,
+      "local_matches_pin": true
+    },
+    {
+      "path": "common/include/context_switch_defs.h",
+      "url": "https://raw.githubusercontent.com/hailo-ai/hailort/d503417f2a0db186a838390fb08690c4ea0f415e/common/include/context_switch_defs.h",
+      "sha256": "fa8fa9f979e58285ad52ba6287a613e61324f297a3f283306acdc217cd46568b",
+      "bytes": 19282,
+      "local_matches_pin": true
+    }
+  ],
+  "device_access": false,
+  "implementation_copied_or_translated": false,
+  "external_compiler": false,
+  "model_opened_or_executed": false
+}
