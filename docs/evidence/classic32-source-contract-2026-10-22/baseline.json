@@ -1,0 +1,9 @@
+{
+  "parent": "6673169cabeeb6259a1ca840983a8c44f9d6eb3c",
+  "source_files": 640,
+  "native_controls": 76,
+  "old_python_tests": 63,
+  "implementation_started": false,
+  "device_access": false,
+  "numerical_encoding_qualified": false
+}

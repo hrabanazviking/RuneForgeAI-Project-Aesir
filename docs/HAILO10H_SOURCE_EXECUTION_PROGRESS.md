@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_numerical_encoding_sources.md`, alongside remaining source-format work. Full controlling scope:
+slice: `TASK_hailo10h_classic32_source_constants.md`, alongside numerical configuration research. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -122,3 +122,8 @@ Q8_0 implementation checkpoint:`HAILO10H_MOJO_Q8_SOURCE_CONSTANTS.md` now
 records the verified native importer/constant/byte-tile slice under9b69894.
 Remaining source ranks/formats/architecture semantics and actual H10H numerical
 encoding/configuration/placement/delivery/results continue toward the full target.
+
+Next exact source-format contract: `TASK_hailo10h_classic32_source_constants.md`
+and `HAILO10H_CLASSIC32_SOURCE_LAYOUT.md`. Four classic Q4/Q5 formats and shared
+source byte geometry are qualified for original implementation; no production
+change or new execution capability is claimed by that contract.
