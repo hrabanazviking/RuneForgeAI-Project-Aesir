@@ -1,0 +1,10 @@
+[
+  {
+    "suite": "new",
+    "returncode": 0
+  },
+  {
+    "suite": "legacy",
+    "returncode": 0
+  }
+]

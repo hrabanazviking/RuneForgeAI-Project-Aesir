@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 116 |
+| `verified` | 117 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **161** |
+| **Total** | **162** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3556,3 +3556,26 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Source/input/control identities and all development failures retained.
   SafeTensors header traces and GGUF whole-file mapping are explicitly scoped;
   no invented instruction, outside compiler, model forward or inference proxy.
+
+
+### AES-CONTROL-001 — Owned nondefault LCU control record serialization
+
+- **Status:** `verified`
+- **Owner:** original smidr/lcu_actions.mojo and bounded host inspector.
+- **Claim sources:** TASK_hailo10h_lcu_action_codec.md published7724738 before
+  code; docs/HAILO10H_PROGRAM_TARGET_AND_LCU_BOUNDARY_2026-10-22.md.
+- **Implementation evidence:** Independent scalar validation,exact owned packed
+  bytes for IDs4/5/36,width/extent/reserved-bit and absent-field guards. Existing
+  four-action module and public behavior unchanged. No physical value inference.
+- **Executable evidence:** docs/HAILO10H_MOJO_LCU_ACTIONS.md;6 clean builds,
+  17 methods/2113 primary calls,456 independent new vectors,492 native refusals,
+  18 internal mutable-field recovery cycles and244 additional frozen pairs.
+  Seven new traces contain no device/network/ioctl/inference-runtime access.
+- **Evidence boundary:** Host byte serialization only. No instruction/register
+  semantics,actual physical counts/placement,raw-context endpoint,numerical
+  program upload/activation/results,source-model execution or whole-repo/CI pass.
+- **Next acceptance gate:** Established H10H numerical/configuration/placement
+  fields and original program delivery/activation/result/cleanup toward the
+  fixed broad ordinary-source target. Continue bounded public-interface research.
+- **Audit:** Exact source/input/binary/control identities and failed compile
+  retained; all accepted tests native-only with independent header/struct bytes.

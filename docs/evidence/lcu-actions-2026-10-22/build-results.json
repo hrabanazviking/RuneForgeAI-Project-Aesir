@@ -1,0 +1,44 @@
+[
+  {
+    "source": "smidr/tools/lcu_actions.mojo",
+    "binary": "../lcu-action-final/inspector",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de039ce12b8e47eeee7626cb27da75a55c18a90b19fd0a58e562b4099de9594"
+  },
+  {
+    "source": "tests/hailo_lcu_action_ownership.mojo",
+    "binary": "../lcu-action-final/ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2342cba0412b5c5bc97661b944e2ac88404b99c6a617742332fa9d097b2c7b1c"
+  },
+  {
+    "source": "smidr/tools/context_actions.mojo",
+    "binary": "../lcu-action-final/old-inspector",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "daf26af8df4ba53e0bb62eb122c9c80d6b794cf2a4075b54bbf98cf481e20bf7"
+  },
+  {
+    "source": "tests/hailo_context_action_ownership.mojo",
+    "binary": "../lcu-action-final/old-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96392e5c82488aa94840b47ee2673f3c7c9a72cf2e2332942efb915841f0d309"
+  },
+  {
+    "source": "tests/hailo_lcu_action_oracle.cpp",
+    "binary": "../lcu-action-final/oracle",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "606ece9fd167da45873ed79a0e997646897951290bfa7833e37cbc7dfa3efe06"
+  },
+  {
+    "source": "tests/hailo_context_action_oracle.cpp",
+    "binary": "../lcu-action-final/old-oracle",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8dc035a9d569cac42b01b55f4eb1b870132df2ccc89ee78cc7982bc7d9649f1c"
+  }
+]

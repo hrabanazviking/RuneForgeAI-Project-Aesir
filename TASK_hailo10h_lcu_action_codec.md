@@ -44,3 +44,11 @@ encoding,placement and valid activation/result/cleanup are established. A host
 codec cannot qualify arbitrary action upload or provide numerical instructions.
 Continue actual physical configuration/CCW/transport research alongside the
 remaining compiler work; no DFC/external compiler/machine/precompiled prerequisite.
+
+## Verified serialization checkpoint
+
+docs/HAILO10H_MOJO_LCU_ACTIONS.md records6 clean builds and17 methods/2113
+primary calls,plus244 additional frozen comparisons. New456 vectors/492 refusals
+and18 internal recovery cycles pass. This is host byte serialization only.
+Continue TASK_hailo10h_numerical_encoding_sources.md toward actual physical
+configuration/CCW/placement/transport fields; no guessed hardware request.

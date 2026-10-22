@@ -1,0 +1,6 @@
+Native child scopes: {'ownership': 1, 'strace_inspector': 1, 'header_layout': 1, 'header_oracle': 44, 'mojo_encode': 44, 'mojo_decode': 44, 'mojo_refusal': 109}
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 3.574s
+
+OK

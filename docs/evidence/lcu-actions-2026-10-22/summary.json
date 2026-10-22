@@ -1,0 +1,71 @@
+{
+  "new": {
+    "primary_calls": 1869,
+    "scope_counts": {
+      "header_oracle": 456,
+      "mojo_encode": 456,
+      "mojo_decode": 456,
+      "ownership": 1,
+      "mojo_refusal": 492,
+      "header_layout": 1,
+      "trace_control": 7
+    },
+    "zero_exit": 1377,
+    "nonzero_exit": 492,
+    "original_journal_sha256": "6490ae74b70caedf37936fab23aadc74e3661243ac9fa31fb321b8954f7d0fff"
+  },
+  "legacy": {
+    "primary_calls": 244,
+    "scope_counts": {
+      "ownership": 1,
+      "strace_inspector": 1,
+      "header_layout": 1,
+      "header_oracle": 44,
+      "mojo_encode": 44,
+      "mojo_decode": 44,
+      "mojo_refusal": 109
+    },
+    "zero_exit": 135,
+    "nonzero_exit": 109,
+    "original_journal_sha256": "3556b2e2f562e4cd4bdd48fae1af9d706c0af9a0057a120efa74dfb8891cd33f"
+  },
+  "methods": 17,
+  "new_methods": 10,
+  "legacy_methods": 7,
+  "primary_calls": 2113,
+  "additional_frozen_comparison_calls": 244,
+  "frozen_success_pairs": 135,
+  "frozen_error_pairs": 109,
+  "new_vectors": 456,
+  "valid_packed_identities_per_kind": 128,
+  "native_internal_refusal_recovery_cycles": 18,
+  "clean_builds": 6,
+  "mojo_builds": 4,
+  "cpp_oracle_builds": 2,
+  "source_hashes": 637,
+  "qualified_action_ids": [
+    4,
+    5,
+    36
+  ],
+  "device_access": false,
+  "numerical_program": false,
+  "source_model_execution": false,
+  "whole_repository_pass": false,
+  "development_failures": {
+    "first_build_log_sha256": "745b86a67c4f5c9a66a482c2e174877a7dd51f3c40ddbc29ce5210e6a79ec10b",
+    "first_source_sha256": "222a1d10de7129ddc8c54c13c35b4b9886f0d171aa36a9b93bfa10e8537f7aff",
+    "error": "Copyable implicit return; explicit move fixes it; no accepted first binary",
+    "first_log_bytes": 1015,
+    "second_preliminary_log_bytes": 0
+  },
+  "source_snapshot": {
+    "archive": "../lcu-action-final/source-snapshot",
+    "all_match": true
+  },
+  "runtime": {
+    "mojo": "Mojo 1.1.0 (8189361e)",
+    "cpp": "g++ (Debian 12.2.0-14+deb12u1) 12.2.0\nCopyright (C) 2022 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+  },
+  "unchanged_previous_mojo_sources": 634
+}

@@ -1,0 +1,41 @@
+{
+  "traces": [
+    {
+      "name": "control-0.strace",
+      "bytes": 27670,
+      "sha256": "ef5d2eebbac68d9438f1156afc91b35e4e45bdde87b93a2e0c4ae3b2d904a838"
+    },
+    {
+      "name": "control-1.strace",
+      "bytes": 27784,
+      "sha256": "767978892a298fe25b117a98107f16d5b3cd4fec4dfdbdf53b9c929d80e95dad"
+    },
+    {
+      "name": "control-2.strace",
+      "bytes": 27477,
+      "sha256": "3fd4fabb94058f6664c9c8178b5e24a30431379f580a377a0779440c9f12f9c6"
+    },
+    {
+      "name": "control-3.strace",
+      "bytes": 27479,
+      "sha256": "d797870afb343232d72eabe1884715db39690e56261bacfb516c17e47c7ac5c6"
+    },
+    {
+      "name": "control-4.strace",
+      "bytes": 27407,
+      "sha256": "db93a5c6a49ac0b35074429b1d8964c4e5289126f5ad1195c727150fbcec32b9"
+    },
+    {
+      "name": "control-5.strace",
+      "bytes": 27704,
+      "sha256": "150e906aa87fd59d84a521accb7cac0ee4db052b00d4f4424d5afe0dd23ab25a"
+    },
+    {
+      "name": "control-6.strace",
+      "bytes": 27778,
+      "sha256": "44d73feccf51a934262d0319ebf48c60508cd43a35e75f407fa0611d8693aa24"
+    }
+  ],
+  "forbidden_device_network_ioctl_runtime_matches": 0,
+  "trace_arguments": "openat,close,mmap,munmap,connect,ioctl; -f -y"
+}

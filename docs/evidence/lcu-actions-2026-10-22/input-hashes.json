@@ -1,0 +1,8 @@
+{
+  "tests/test_hailo_lcu_actions.py": "0e9e4cd4637139c0af441537a4576e2347e9093247ec57b623082888e9c16505",
+  "tests/hailo_lcu_action_oracle.cpp": "1440323212f7955cafa3b75aad7514abb0cb064f7c9bf7173630afca83bd26d5",
+  "tests/test_hailo_context_actions.py": "fea48b12be231b4070c79edf15a816154da529fbbe9a6c1e25245d0ec2d28155",
+  "tests/hailo_context_action_oracle.cpp": "85c2b0d292bebaa7211afd07ef251066db6ddb5ea813942c9feffe572560b59f",
+  "../lcu-action-development/build-and-verify.py": "2a26639341a7c51716210df88850f44d8eb5f6c1749f724d33dace2cc4645f4f",
+  "../lcu-action-development/pair-legacy.py": "78d2ae2383bac31db8615b3baad981ca69989e01f8dcdb5a006d2971d2ba3d24"
+}
