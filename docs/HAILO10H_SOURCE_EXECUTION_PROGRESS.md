@@ -15,7 +15,8 @@ is verified under `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`. The source-byte diges
 guards and existing source-reader integration are verified under
 `HAILO10H_MOJO_SEALED_GGUF_SOURCE.md`. Next is coherent compiler/artifact ownership
 across that source lifetime and remaining ordinary format/architecture/operation
-implementation. Full controlling scope:
+implementation. Active native contract:
+`TASK_hailo10h_owned_gguf_compiler.md`. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,

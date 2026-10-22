@@ -1,0 +1,15 @@
+{
+  "parent": "73f89e93bbc6c2a6e4c53e2c1d7ef7ee75bdb95f",
+  "source_identities_and_actual_prior_snapshots": 660,
+  "current_native_controls_verified": 109,
+  "qualified_python_inputs_and_actual_snapshots": 69,
+  "planned_old_production_changes": [],
+  "planned_new_leaf": "smidr/owned_gguf_compiler.mojo",
+  "probe_executed": false,
+  "production_started": false,
+  "source_model_execution": false,
+  "device_access": false,
+  "probe_binary_sha256": "a76dac4787fd4a99cc9de8002d8751c0079a258dab06d6b01f610cde1621cf4d",
+  "probe_build_diagnostic_bytes": 0,
+  "new_leaf_imported_by_existing_sources": false
+}

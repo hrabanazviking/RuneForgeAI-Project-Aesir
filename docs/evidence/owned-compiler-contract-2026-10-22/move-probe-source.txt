@@ -1,0 +1,19 @@
+# Compile-only ownership feasibility. Never execute this source or constructor.
+from smidr.sealed_gguf_source import SealedPackedGGUF, load_sealed_packed_gguf
+from smidr.source_inventory import inventory_from_source
+from smidr.semantic_plan import gguf_dense_decoder_parameters, build_dense_semantic_plan
+from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
+
+struct OwnedCompilerMoveProbe(Movable):
+    var owner: SealedPackedGGUF
+    var graph: ExpandedGraph
+    def __init__(out self, path: String) raises:
+        var owner = load_sealed_packed_gguf(path, 1048576, 4096, 4096, 4096)
+        var parameters = gguf_dense_decoder_parameters(owner.source)
+        var inventory = inventory_from_source(owner.source)
+        var plan = build_dense_semantic_plan(inventory^, parameters, 1, 0, 16)
+        self.graph = expand_semantic_graph(plan^)
+        self.owner = owner^
+
+def main():
+    print("compile-only owned source/compiler feasibility; never executed")

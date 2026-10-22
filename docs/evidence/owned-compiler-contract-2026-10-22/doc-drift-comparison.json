@@ -1,0 +1,9 @@
+{
+  "exit_code": 1,
+  "historical_issues": 23296,
+  "normalized_added": 0,
+  "normalized_removed": 0,
+  "raw_sha256": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8",
+  "native_production_started": false,
+  "probe_executed": false
+}
