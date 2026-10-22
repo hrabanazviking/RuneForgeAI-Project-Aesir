@@ -1,0 +1,23 @@
+.......E.
+======================================================================
+ERROR: test_read_only_payload_trace_no_runtime_or_device (__main__.SafetensorsConstants.test_read_only_payload_trace_no_runtime_or_device)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_safetensors_constants.py", line 179, in test_read_only_payload_trace_no_runtime_or_device
+    linked=subprocess.check_output(['ldd',self.binary],text=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/../q2q3-native-development/pair-frozen.py", line 18, in pair
+    control=real([pairs[key],*c[i+1:]],*a,**opts)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/pi/Documents/Codex/2026-10-19/u/work/q2q3-native-final/snapshot-safetensors_constants']' returned non-zero exit status 1.
+
+----------------------------------------------------------------------
+Ran 9 tests in 3.627s
+
+FAILED (errors=1)
+Native outcomes: {'accepted': 77, 'refused': 20} raw/expanded word checks: 264204

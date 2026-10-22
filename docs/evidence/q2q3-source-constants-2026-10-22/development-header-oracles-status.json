@@ -1,0 +1,22 @@
+{
+  "build_command": [
+    "c++",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-I",
+    "../ggml-format-study/source/include",
+    "-I",
+    "../ggml-format-study/source/src",
+    "tests/hailo_q2q3_layout_oracle.cpp",
+    "-o",
+    "../q2q3-native-development/layout-oracle"
+  ],
+  "returncode": 0,
+  "diagnostic_bytes": 0,
+  "layout_source_sha256": "10cf47a7dd9ede474eeda4a5137d3b2861ea5505781341e4fd7e223ab7db41f9",
+  "layout_binary_sha256": "b7f71c61350eb4c3b244afe85e40063092a8327b2f6ac01dd35b2f26d565af04",
+  "root_layout_binary_sha256": "cef90b9d3703c343fedbd9c0b83ddcbb84748890b1427500722c4b05f72587f0",
+  "root_layout_output_sha256": "fe70b9b024799bf0fbe861499a58ac4949e4d69edb570062599b1bd97e84385a"
+}

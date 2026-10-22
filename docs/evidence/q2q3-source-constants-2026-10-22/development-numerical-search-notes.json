@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-22",
+  "queries": [
+    "site:github.com Hailo10H instruction register configuration compiler open",
+    "Hailo10H CCW numerical compiler ISA public source"
+  ],
+  "result": "No new qualified numerical instruction/register/placement fact established by these bounded searches. This is not an absence proof, new capability or execution evidence.",
+  "primary_interface_results": [
+    {
+      "url": "https://github.com/hailo-ai/hailo-apps/blob/main/doc/user_guide/configuration.md",
+      "disposition": "Application configuration and hardware detection interface only; no arithmetic register/CCW layout qualified. No source body adopted."
+    },
+    {
+      "url": "https://github.com/hailo-ai/hailo_model_zoo/blob/master/docs/GETTING_STARTED.rst",
+      "disposition": "Known DFC/model-zoo compile interface; excluded as an Aesir prerequisite; no implementation adopted."
+    }
+  ],
+  "new_source_body_read": false,
+  "model_or_compiler_download": false,
+  "hardware_access": false,
+  "source_model_execution": false
+}

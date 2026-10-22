@@ -1,0 +1,7 @@
+{
+  "initial_local_commit": "a97c81b",
+  "initial_local_commit_not_published": true,
+  "preparation_note": "Dependency-output portability normalization removed two machine-runtime paths; recorder now derives the runtime prefix. A shell sequence continued to the initial local commit after a drift assertion failed. A corrective documentation commit and zero-delta validation preceded remote publication.",
+  "native_sources_or_test_inputs_changed_during_portability_review": false,
+  "final_normalized_consistency_delta": 0
+}

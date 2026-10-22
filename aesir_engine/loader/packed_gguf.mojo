@@ -38,6 +38,10 @@ def packed_block_geometry(kind: Int) raises -> PackedBlockGeometry:
         return PackedBlockGeometry(32, 24)
     if kind == 8:
         return PackedBlockGeometry(32, 34)
+    if kind == 10:
+        return PackedBlockGeometry(256, 84)
+    if kind == 11:
+        return PackedBlockGeometry(256, 110)
     if kind == 12:
         return PackedBlockGeometry(256, 144)
     if kind == 13:

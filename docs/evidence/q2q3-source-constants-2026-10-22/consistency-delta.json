@@ -1,0 +1,9 @@
+{
+  "baseline_diagnostics": 23296,
+  "final_diagnostics": 23296,
+  "normalized_added": [],
+  "normalized_removed": [],
+  "normalization": "Reported line numbers replaced with LINE; unique complete issue strings compared.",
+  "baseline_sha256": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8",
+  "final_sha256": "5fad25a6cbd2239324bad5437e4fbd787a22a3ef3fc6ed7e911432df11830cb8"
+}

@@ -66,3 +66,8 @@ Primary pinned sources:
 [block fields](https://github.com/ggml-org/ggml/blob/a05c9922613c6a2230dbb1d0de679519ecafb4f0/src/ggml-common.h),
 [isolated static interpretation](https://github.com/ggml-org/ggml/blob/a05c9922613c6a2230dbb1d0de679519ecafb4f0/src/ggml-quants.c),
 [license](https://github.com/ggml-org/ggml/blob/a05c9922613c6a2230dbb1d0de679519ecafb4f0/LICENSE).
+
+Implementation checkpoint (2026-10-22): original native source components and
+byte integration are verified in docs/HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md
+(path relative to repository root). This preserves the pre-code contract and
+qualification history;no numerical Hailo or source-model execution is claimed.

@@ -6,8 +6,10 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
-no outside compiler or specially precompiled model prerequisite. Active native slice: `TASK_hailo10h_q2q3_source_constants.md`, alongside
-`TASK_hailo10h_numerical_encoding_sources.md`; the classic32 slice is verified. Full controlling scope:
+no outside compiler or specially precompiled model prerequisite. The Q2_K/Q3_K source-reader slice is verified under
+`HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`. Active numerical/backend work remains
+`TASK_hailo10h_numerical_encoding_sources.md`, alongside remaining ordinary
+source/architecture/operation implementation. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -58,6 +60,7 @@ verify, publish and advance each bounded work slice.
 | Expanded graph / updated lifetimes | Verified compiler integration | `HAILO10H_MOJO_EXPANDED_GRAPH.md`; global source/local mapping, explicit constants/predicates/indices/KV aliases, new lifetimes; five methods/45 native calls. No numerical execution. |
 | Expanded storage accounting | Verified hypothetical compiler scenario | `HAILO10H_MOJO_EXPANDED_STORAGE.md`; typed roles, exact last uses and explicit predicate width; seven methods/88 native calls. Not physical placement or hardware fit. |
 | Floating source constants | Verified source representation reader | `HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`; bounded owned F32/F16/BF16 windows; six methods/64 native calls, all 131,072 16-bit patterns, source inventory/storage regressions. Not device format or execution. |
+| Original Q2_K/Q3_K source components and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`;100 clean current Mojo builds plus17 pre-code-snapshot controls,291 methods/12853 calls. New13/530,439026 complete components,32248 bytes;98 controls/11410 pairs and27 traces/36 balanced file lifecycles. Runner dependency-inspection failure retained and corrected;no numerical Hailo/source-model execution. |
 | Classic Q4/Q5 source conversion and shared geometry | Verified source representation/conversion | `HAILO10H_MOJO_CLASSIC32_SOURCE_CONSTANTS.md`;81 clean current Mojo builds plus3 pre-code snapshot baseline builds,219 methods/10549 primary calls. New12/788,26611 complete components,11322 bytes;79 comparison controls and45 traces/60 balanced file lifecycles. Original runner wiring and audit/recorder failures retained and corrected;no numerical Hailo/source-model execution. |
 | Q8_0 source constants and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_Q8_SOURCE_CONSTANTS.md`;76 clean Mojo builds,200 methods/9309 primary calls,74 frozen controls covered. New10/137,actual payload fields and byte tiles;10 ownership traces. No numerical Hailo/source-model execution. |
 | Q4_K source constants | Verified source affine component reader | `HAILO10H_MOJO_SOURCE_Q4K_CONSTANTS.md`; eight methods/57 native calls, full group-factor/nibble coverage and exact external reference on 4096 synthetic constants. Not device precision or execution. |
@@ -140,3 +143,11 @@ Next exact native contract: `TASK_hailo10h_q2q3_source_constants.md` and
 bit-plane cases/385024 constant comparisons qualify two source layouts. No
 production implementation, numerical Hailo or source-model execution is claimed
 by this contract.643 source identities/81 controls/64 Python tests are frozen.
+
+Q2_K/Q3_K implementation checkpoint: `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`
+records original native components and byte integration against contract5ec7420. All64 old
+Python inputs remain unchanged; the expanded conservative compiler closure and
+full source-storage suite pass. The ldd/API runner classification failure is
+retained with an additive reviewed pass; no native comparison is skipped.
+Remaining source/architecture/operation breadth and actual H10H numerical
+encoding/configuration/placement/program delivery/results/cleanup remain work.

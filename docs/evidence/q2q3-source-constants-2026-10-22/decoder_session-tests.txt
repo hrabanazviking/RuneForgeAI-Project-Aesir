@@ -1,0 +1,13 @@
+test_01_actual_source_modes_overrides_and_mappings (__main__.DecoderSession.test_01_actual_source_modes_overrides_and_mappings) ... ok
+test_02_defaults_source_revalidation_and_bounds (__main__.DecoderSession.test_02_defaults_source_revalidation_and_bounds) ... ok
+test_03_all_retained_derived_and_consumer_refusals (__main__.DecoderSession.test_03_all_retained_derived_and_consumer_refusals) ... ok
+test_04_ownership_recovery_and_descriptor_cleanup (__main__.DecoderSession.test_04_ownership_recovery_and_descriptor_cleanup) ... ok
+test_05_full_legacy_output_compatibility (__main__.DecoderSession.test_05_full_legacy_output_compatibility) ... ok
+test_06_large_unallocated_capacity_and_consumer_scenarios (__main__.DecoderSession.test_06_large_unallocated_capacity_and_consumer_scenarios) ... ok
+test_07_source_words_mixed_bias_and_index_bounds (__main__.DecoderSession.test_07_source_words_mixed_bias_and_index_bounds) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 30.443s
+
+OK
+Native outcomes: {'accepted': 181, 'refused': 425}

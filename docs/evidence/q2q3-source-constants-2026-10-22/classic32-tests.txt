@@ -1,0 +1,6 @@
+............
+----------------------------------------------------------------------
+Ran 12 tests in 23.883s
+
+OK
+Classic32 native outcomes {'accepted': 488, 'refused': 300} component checks 26611 byte checks 11322

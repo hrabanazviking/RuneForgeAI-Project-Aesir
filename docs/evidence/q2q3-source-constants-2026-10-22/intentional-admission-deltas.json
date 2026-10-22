@@ -1,0 +1,32 @@
+[
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "arguments": [
+      "arithmetic",
+      "gguf",
+      "10",
+      "256"
+    ],
+    "old_returncode": 1,
+    "old_stdout": "",
+    "old_stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: unsupported tensor type 10\n",
+    "new_returncode": 0,
+    "new_stdout": "{\"elements\":256,\"bytes\":84}\n",
+    "new_stderr": ""
+  },
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "arguments": [
+      "arithmetic",
+      "gguf",
+      "11",
+      "256"
+    ],
+    "old_returncode": 1,
+    "old_stdout": "",
+    "old_stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: unsupported tensor type 11\n",
+    "new_returncode": 0,
+    "new_stdout": "{\"elements\":256,\"bytes\":110}\n",
+    "new_stderr": ""
+  }
+]

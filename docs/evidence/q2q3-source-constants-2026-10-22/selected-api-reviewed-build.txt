@@ -1,0 +1,4 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_source_q2q3_api.mojo:4:
+./smidr/source_q2q3_constants.mojo:68:21: warning: assignment to 'scale' was never used; assign to '_' instead?
+        var scale = 0
+                    ^

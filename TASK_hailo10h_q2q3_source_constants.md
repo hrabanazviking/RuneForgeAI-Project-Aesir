@@ -75,3 +75,8 @@ No guessed device write, reset/rebind/kernel/firmware change, DFC, outside model
 compiler/machine, precompiled prerequisite or inference proxy. All LLM execution
 stays on Hailo-10H. Missing coverage remains implementation work toward100% of
 the broad ordinary unmodified model target.
+
+Implementation checkpoint (2026-10-22): original native source components and
+byte integration are verified in docs/HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md
+(path relative to repository root). This preserves the pre-code contract and
+qualification history;no numerical Hailo or source-model execution is claimed.

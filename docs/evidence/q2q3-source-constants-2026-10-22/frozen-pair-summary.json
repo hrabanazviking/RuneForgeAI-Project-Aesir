@@ -1,0 +1,8 @@
+{
+  "controls": 98,
+  "success_pairs": 6040,
+  "nonzero_pairs": 5370,
+  "unrelated_native_comparisons_skipped": 0,
+  "snapshot_controls_compiled_after_implementation": 17,
+  "ldd_inspection_is_not_native_API_execution": true
+}

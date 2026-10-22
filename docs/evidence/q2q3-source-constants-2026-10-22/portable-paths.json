@@ -1,0 +1,205 @@
+[
+  {
+    "source": "../q2q3-native-final/source-hashes.json",
+    "original_sha256": "facedf0b5b2a4b308bccbeeea962173bfb00c69278a13d12fae86b6498477d6b",
+    "published": "build-source-hashes.json",
+    "published_sha256": "facedf0b5b2a4b308bccbeeea962173bfb00c69278a13d12fae86b6498477d6b",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-final/input-hashes.json",
+    "original_sha256": "a945ac626e68b484b55ee2dcab5ee96bc0e0f8b98d30df1d9108f5bfc71da67a",
+    "published": "build-input-hashes.json",
+    "published_sha256": "a945ac626e68b484b55ee2dcab5ee96bc0e0f8b98d30df1d9108f5bfc71da67a",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-final/build-results.json",
+    "original_sha256": "0a259d6d147f47e08cd9dfcd51bed98117503f18382e4c1f41817d2745a19c0c",
+    "published": "build-build-results.json",
+    "published_sha256": "9abfe5cf61149dfe7893afa513537be3e1c48f8337c4d534499554e71903d367",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-final/closure-jobs.json",
+    "original_sha256": "55e1851a3995b3191da7363699954e4fa819e448d57c91997427569de12b63f8",
+    "published": "build-closure-jobs.json",
+    "published_sha256": "55e1851a3995b3191da7363699954e4fa819e448d57c91997427569de12b63f8",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/test-results.json",
+    "original_sha256": "963eb50e7379a9ef202e5c477100521fa18ce7536963545accac43523db8a8ab",
+    "published": "test-results.json",
+    "published_sha256": "e5ce48cc48ca2b24b1511e2cdd869b2a73243fd1fe04b83df6d87ab53821699c",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/input-hashes.json",
+    "original_sha256": "b0a11ed3797963ad6e3485af37b6d7a4cdcd555e10ba5ef2669439541de19a07",
+    "published": "input-hashes.json",
+    "published_sha256": "b0a11ed3797963ad6e3485af37b6d7a4cdcd555e10ba5ef2669439541de19a07",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/frozen-pair-summary.json",
+    "original_sha256": "999a631534ca51548be2ca9e8c7a1c0f686f03a31674465bed5356a8232c4d0f",
+    "published": "frozen-pair-summary.json",
+    "published_sha256": "999a631534ca51548be2ca9e8c7a1c0f686f03a31674465bed5356a8232c4d0f",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/intentional-admission-deltas.json",
+    "original_sha256": "e9dc35fce51c6cad0746d93c64a54e82e706be3bb5bf02718c4ec15d6c6863ca",
+    "published": "intentional-admission-deltas.json",
+    "published_sha256": "e9dc35fce51c6cad0746d93c64a54e82e706be3bb5bf02718c4ec15d6c6863ca",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/q2q3/fixtures.json",
+    "original_sha256": "f3787ab9e9e158bf9ebd8a89dfa4de1cd0c817c7eb7f8e3715c9eab816e750fe",
+    "published": "q2q3-fixtures.json",
+    "published_sha256": "f3787ab9e9e158bf9ebd8a89dfa4de1cd0c817c7eb7f8e3715c9eab816e750fe",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/q2q3/summary.json",
+    "original_sha256": "4163bb6de41b9dc8764f2b62ee267ffff453d75ccad94baa4d6932e69c58832b",
+    "published": "q2q3-summary.json",
+    "published_sha256": "4163bb6de41b9dc8764f2b62ee267ffff453d75ccad94baa4d6932e69c58832b",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/q2q3/trace-audit.json",
+    "original_sha256": "d906438e5f3b663579df9a6746cb889b7b4837cfcee63c6245c54d2c2098d83f",
+    "published": "q2q3-trace-audit.json",
+    "published_sha256": "d906438e5f3b663579df9a6746cb889b7b4837cfcee63c6245c54d2c2098d83f",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/q2q3/static-reference.json",
+    "original_sha256": "0cb28450c53dcf055d91a654a1ad39be9982dec2e9223931bc5ef0c378eaa9ff",
+    "published": "q2q3-static-reference.json",
+    "published_sha256": "0cb28450c53dcf055d91a654a1ad39be9982dec2e9223931bc5ef0c378eaa9ff",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/classic32/trace-audit.json",
+    "original_sha256": "a6c0f148620686159c218c02a380e6e613a3084546bc9da6f540f8730b2dc014",
+    "published": "classic32-trace-audit.json",
+    "published_sha256": "a6c0f148620686159c218c02a380e6e613a3084546bc9da6f540f8730b2dc014",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/q8/trace-audit.json",
+    "original_sha256": "1f1a88adf1806df72c95e6930d2e25d95c3fe71e9e20975cf373d0f42f97ef10",
+    "published": "q8-trace-audit.json",
+    "published_sha256": "1f1a88adf1806df72c95e6930d2e25d95c3fe71e9e20975cf373d0f42f97ef10",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/graph/trace-audit.json",
+    "original_sha256": "a20290b62bd4d616a074265940243da64e49bfea9cfa10cd1a787c0a2714cb8a",
+    "published": "graph-trace-audit.json",
+    "published_sha256": "a20290b62bd4d616a074265940243da64e49bfea9cfa10cd1a787c0a2714cb8a",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-baseline/source-hashes.json",
+    "original_sha256": "bd2009139f63f01c3de16cb83eaeba1cb50fe3ce15b5ae7bd9600712e2d37da2",
+    "published": "baseline-source-hashes.json",
+    "published_sha256": "bd2009139f63f01c3de16cb83eaeba1cb50fe3ce15b5ae7bd9600712e2d37da2",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-baseline/test-input-hashes.json",
+    "original_sha256": "387764b5c848d0eb46caccd96a3d17adbf9ac7eb71c89b5101d480eb35443ec7",
+    "published": "baseline-test-input-hashes.json",
+    "published_sha256": "387764b5c848d0eb46caccd96a3d17adbf9ac7eb71c89b5101d480eb35443ec7",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-baseline/controls.json",
+    "original_sha256": "e2174078aa54f85435ed9e85cde071a2ea6902cd2ca174b48863d196abc259c2",
+    "published": "baseline-controls.json",
+    "published_sha256": "ce014445f0ec70945f7b3cc09dcffcc9a38ff0f13e02babf70299d4592eb97af",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-baseline/consumer-inventory.json",
+    "original_sha256": "25aa7fd5218e3d201b40bf1c2e97d0652989a9214073eefc989af80799cdda4f",
+    "published": "baseline-consumer-inventory.json",
+    "published_sha256": "25aa7fd5218e3d201b40bf1c2e97d0652989a9214073eefc989af80799cdda4f",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/review-input-hashes.json",
+    "original_sha256": "f03cef6cba4835c48aab0c852c6942d930ec67eddd5435bf1a40b47b3e8ccdc3",
+    "published": "review-input-hashes.json",
+    "published_sha256": "f03cef6cba4835c48aab0c852c6942d930ec67eddd5435bf1a40b47b3e8ccdc3",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-reviewed-acceptance/safetensors-linked-controls.json",
+    "original_sha256": "b8a5c1165228b252141d0753b246cb2f4844fd5863ee99cb39c820bda9f13e8a",
+    "published": "safetensors-linked-controls.json",
+    "published_sha256": "0633176fa6ae7d309ee532bd73ec16b857704d56fa099de79574440bb09b3a45",
+    "normalization": "Absolute work prefix replaced with ../ and machine-specific Mojo runtime prefix replaced with <mojo-runtime>; original full dependency output retained under original_sha256."
+  },
+  {
+    "source": "../q2q3-native-acceptance/safetensors_constants-status.json",
+    "original_sha256": "6cd3c68c12b3e96763cd28aa2b2ccccea98060bc1404e157052a6afb482d3737",
+    "published": "initial-safetensors-runner-failure-status.json",
+    "published_sha256": "c2b4e85a107faeed29847836f638519d2ddce4f01c9382495bcf65096c9c6551",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-development/root-layout.json",
+    "original_sha256": "fe70b9b024799bf0fbe861499a58ac4949e4d69edb570062599b1bd97e84385a",
+    "published": "development-root-layout.json",
+    "published_sha256": "68e43a6222f9722d8b6b59567b6047a14770966eb39583ea428d182bdf90988a",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-development/numerical-search-notes.json",
+    "original_sha256": "909eeacbf2e571bc891886ea60291d5086d947777100c32a84a1990128aa78bf",
+    "published": "development-numerical-search-notes.json",
+    "published_sha256": "85eccfc5b33ddb188255564ba504c2cdfaab89942b38e902db78c1bc386978ef",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-development/commands.json",
+    "original_sha256": "6d6a7325001aaeabfd443077bf788802206293fd7f776b1758671b6599f998b1",
+    "published": "development-commands.json",
+    "published_sha256": "e7ddb488a779334a7bb4b849367e5df29d0ad229970f5557fcd0fac9ec56b114",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-development/cpp-amendment.json",
+    "original_sha256": "eb9c43bc28b939edc7c92a881334fca26af54c8e143f4af76c07cbf31588cdbf",
+    "published": "development-cpp-amendment.json",
+    "published_sha256": "eb9c43bc28b939edc7c92a881334fca26af54c8e143f4af76c07cbf31588cdbf",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-development/header-oracles-status.json",
+    "original_sha256": "785cee528cb4868cc856f9dc0eed5730f5a6fb99d236e98ead07906cafd06baf",
+    "published": "development-header-oracles-status.json",
+    "published_sha256": "785cee528cb4868cc856f9dc0eed5730f5a6fb99d236e98ead07906cafd06baf",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-development/layout-oracle.json",
+    "original_sha256": "5fd18195481722edcb01f62dc875891ec59aaa2a738bfe78d03637f4d150f762",
+    "published": "development-layout-oracle.json",
+    "published_sha256": "d4bd617276ef4d15d0b4f50989b968120847543130b751d5bd2396b393bb89b4",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  },
+  {
+    "source": "../q2q3-native-review/classification-note.json",
+    "original_sha256": "b0d139da46811ad84e14a127728b1a12d2bff61754a23aa40016d2ac999de613",
+    "published": "review-classification-note.json",
+    "published_sha256": "b0d139da46811ad84e14a127728b1a12d2bff61754a23aa40016d2ac999de613",
+    "normalization": "Absolute work prefix replaced with ../; source/payload hashes unchanged."
+  }
+]

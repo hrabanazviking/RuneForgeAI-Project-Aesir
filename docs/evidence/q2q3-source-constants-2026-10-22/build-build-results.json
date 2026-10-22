@@ -1,0 +1,1172 @@
+[
+  {
+    "side": "current",
+    "source": "smidr/tools/semantic_plan.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "2ec61c90dcb15b593a5462159882ce2da742ae6fedf760663f7726e154756dc3",
+    "binary": "../q2q3-native-final/tagged-semantic-plan",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f41b3c86cffd388bec7fc9ada6b95205e2f33b9d2305d90e43a110769736a6b3"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "94dd0f631338b25bb1843c08f395fc0ce3706b742d7f9ce1912de76b4b162907",
+    "binary": "../q2q3-native-final/tagged-typed-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "cfc9180158a7c62fdaa10c96caa0053d5a8b35f2b1071cbaf73c189f2a93365f"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/expanded_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "9cd3d7962469a3fb9d0f2e8b9bd78040ab4ca7b6b5f758e58cf81922567684f3",
+    "binary": "../q2q3-native-final/tagged-expanded-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9052c5f00ed72b840a3956ca285a7a88da2d88412351ad20b68755cf552b5ec7"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_expanded_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "74f4a744cc2311bdf68508ecae767163c936646ba0492a3cc1ee24b072c6e96e",
+    "binary": "../q2q3-native-final/tagged-expanded-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "db9eeaedcba51eac84cb573a8bfda1876d911696ea8e7befd2feec19f644a314"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/expanded_storage.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "a5e3a0c40229d2042a06ad0a69a30750361914af3bc1ef826fec56f0a4d77e35",
+    "binary": "../q2q3-native-final/tagged-expanded-storage",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8999153613593ba9070501e598b2740315d9a9c047832880cde770044c4052c3"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "d97f296318929d6a85669ff0958e10e9b8b1c6560bd9cf14e302ac2473eafa15",
+    "binary": "../q2q3-native-final/tagged-expanded-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "af7431c658cd7b005d47661a3d11e155a339339f235c68c902cd83ef71303eaf"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "8366f3127a0eaddd2939eac92cf96fdaf6b0cc2bb8847f2d8adc3a7519f946af",
+    "binary": "../q2q3-native-final/tagged-matrix-tiles",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "38d5a5831175e8a04c678bed936dd3e69f507de7ff11cc161541e4fb1a56a65a"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "1082cc563913b4af259804fe5513ee9a706100a42e5b446db2855acccd4fdb5d",
+    "binary": "../q2q3-native-final/tagged-matrix-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "af9dc564596196ef1b5deab4807ef2fab6b438f1d593da0b057033ee55b140d9"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "1d9ddf8a3450d9bb076eaf09391623727687a0c2ba85535ea8db01da9dfc844b",
+    "binary": "../q2q3-native-final/tagged-primitive-recipes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d7920a999a909b10f02e470f64d8c914cb40e85cb3f1e85404a78b92c35d976"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_recipe_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5f3fe844e01b5d12a77d9fa47eee9f3ef6f48fcb35267dc23d7408369e6c2a73",
+    "binary": "../q2q3-native-final/tagged-primitive-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "25d8dfc3ffc5c9dad6d537a702ca3c21b5c58e05fc685a1f87fafe6f9306b08c"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/cache_layout.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5236bb0a90355567c75b8117fde937b7c768a947f8b718e6e711944fa4b9cf07",
+    "binary": "../q2q3-native-final/tagged-cache-layout",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f3381925fbb455e11f7b83fe468a480dd03e89921ef9b2526b4bffb6e2725a2c"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "3719f4232ffeb8158eb9fb02797451e6283721f8cb242641763e528d49d3f405",
+    "binary": "../q2q3-native-final/tagged-cache-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "764a781655226a6d796593cbda35afc52d7e50778bc1a3a486bcf5e0d830cbbb"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "d1cf67bed33922a96c8f609ec8b8373a619cb4cc3542e07747e3a1ad026bb31b",
+    "binary": "../q2q3-native-final/tagged-source-weight-tiles",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5e15179c92616c7f5f56dcdd9e72e3ea9b7425a10dd216f3f8ec4875453202bb"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "90b18429968204d40d1a94d0d195cc7a09b6e943c35579a00ce9dba9f6a59c1c",
+    "binary": "../q2q3-native-final/tagged-source-weight-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "63fee64ff28d0ee0a8e94b202c4faabde5df1c19a1baaf5facf3be07a92083ca"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/storage_estimate.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "8dd0e72c3b870023351a24d8b07647a24f5190bf87ec1c5142594d86d3038aae",
+    "binary": "../q2q3-native-final/tagged-storage-estimate",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6f57732c7081b7338806f78f4e611f45b6d0edb2bbb845635161e67053793a95"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_storage_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "a2d55fe802c71a24685ca141dd61e2c63aadead7bfde8f3479e899cede6644db",
+    "binary": "../q2q3-native-final/tagged-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "76977860ae15c2f6bf9d5c3f89c5a043cf57515abad7510672bce1915e2fc0a2"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_inventory.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "6d101990a931c889654ee315370c91f4d4a3145516a73b7b86ed5ecc8aab5c2a",
+    "binary": "../q2q3-native-final/tagged-source-inventory",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "802157975800ebe1d2935c70e64fb7f74e84bf72ce3e775b9b514b8a6c28b094"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/typed_decoder.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "6b450f7ab2f942657aa30e90ed54c178db3f3448fec98c16a7abed39eb66f89c",
+    "binary": "../q2q3-native-final/tagged-typed-decoder",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e5033c6565c559b393caf66aba911d2bea811885fc06a465a28c953d82a96bb4"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/semantic_storage.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "e3f80f5a852770f1d07b6c2ab97a50f8c7c89bc430a15815b396c6217593aa48",
+    "binary": "../q2q3-native-final/tagged-semantic-storage",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3c4f1fac4ecd5107a153a65e7dc5394d53e0f00e8d22d7b74752cdcb8d55b6ac"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "814b5e81d891c1d2f966e119f20626bb12000bd120a7870880d028fa854bb4ef",
+    "binary": "../q2q3-native-final/tagged-semantic-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5f9fb0b2f8d0afabeb6119ac10e094002dd48d9bcee0569ac58d11a2f0f8546b"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_float_constants.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "4ad9293c9b3c7090544603d5b4bc4f5f06e75398eacd9bca323d2aa1210d2da1",
+    "binary": "../q2q3-native-final/tagged-float-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9ed544f44e6985be4670a152da54ee6ccc037c9eeb202b0f492c23fd87791a05"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_float_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "516b8733f10b26de22fdd3f29f73b3d9d85244c8be2302228a2b2d24db065a53",
+    "binary": "../q2q3-native-final/tagged-float-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "334c840352e5ce36910a216c9976c54a44fb5549a609f7f096866ab5da1dd90f"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "1ef8e5e8d1e64f593bf7d6fc6a5ef25c288df5303d6879aeac62fa8616c93966",
+    "binary": "../q2q3-native-final/tagged-q4k-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5834acdf59e23b404dd2ff145f231d0f8613a8f11cc5b0e57c3d2023ea2a2f2a"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "e290048df98c1496e51872553e5c8b2610131f3fa100bbb9011de6853913f8e5",
+    "binary": "../q2q3-native-final/tagged-q4k-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5411d6bfb4f2a08b0ddabd40b02d5750e00ef233edaf199119c26d5362c12e3a"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "174ccf3915d9caab12319cffb3370bd5fa743bf2287619634e8c119d9ede24d7",
+    "binary": "../q2q3-native-final/tagged-q5q6-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1d6aa39c651089a42aec0fc7ddb5de8feb754272112d74a4087f7a5a7ea30ef8"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5940b6cba0bfd462f772843cfb9a0504e958489efd2f3246a75d5db3c7048902",
+    "binary": "../q2q3-native-final/tagged-q5q6-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a3395e3787f94bf6f88063f4f29f7c11f9a3061f0eea7bda828c8215109ad81d"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "f0650d050047111d2ad396a2a7b02452bdd5e77e79e7da1b6aef92e52c055443",
+    "binary": "../q2q3-native-final/decoder-graph-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e50022bfb3ba9c0e2fb5a19f0ab624868d3460da48777c99932540fe71128576"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "bd7f0d048a084fb3ea85bf0d627343517fa660d7f242409ca0960fa1a4dbc9f5",
+    "binary": "../q2q3-native-final/decoder-graph-policy-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5e29301945295eec2d7874f383c7636e68cb85903afa3700561fcd6ff3220862"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "8a80dc7e80fef30e1ab4250508d655fe026c49b011c49cd072af2e2504f24d67",
+    "binary": "../q2q3-native-final/rotary-recipes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "453b96417b974f47936d436a48e707dce4c298f8e150a8bd290867662d8f1b53"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "607fc07f0c55f83bd982e19a227ccf3a26c055387cc2722da8733b622825393a",
+    "binary": "../q2q3-native-final/rotary-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "34698997113d5bfd5730cbceaa23897aa726c6b38e88fd5a1948390852e6159c"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "f6c28f5661aadda226f6283454d95441456301c097fe53c3e23db26e5cd9cdd0",
+    "binary": "../q2q3-native-final/decoder-scalar-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "63f585a4f0d9ba376fd6ee3f49b1c3c89a49721e9023b45df1bb0e1f0e0f982f"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "bdf21b334ecf76ae3f20e1aeca3d21f3615e895f167a6b70fe717fb8a78b79b9",
+    "binary": "../q2q3-native-final/source-scalars-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "86c77d26c53e00f2eb1fd4f2ca600d5761ed2f5a4f7e219e603902b7d612edac"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "50535e8db009ba9d65bebbc56060a758088c9aca6ae2eae82a21f6798116b9db",
+    "binary": "../q2q3-native-final/ordinary-schema",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "217615110480b950122a90dcae1dcd32dbf9ad2af2f1a692098e69a10a5159c4"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "ffb8b72d0b8de992ec7f1c5af9b62f2b4530cba85ff0f65b9a1d961fcebf47cd",
+    "binary": "../q2q3-native-final/ordinary-schema-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0510fe93e3b15834c9ae178ac82e02d2ae271373b7661af3280669f3aeb3337c"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_projections.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "53c55a47fa0e232b3de32ebe727656aed85a0ffb451ef2aa924b9756ec9f23d0",
+    "binary": "../q2q3-native-final/decoder-projections",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "91e07af9f7e844dc187a002cd5133a42bbcd08130321a37aceedbb553ffc5cc2"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "d6f4877f4787c5dc0d0c1496d86844a36ce5aedb94872e12e27f339e4b6c36a2",
+    "binary": "../q2q3-native-final/decoder-projections-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "cca48c32c72c8e4c8bc05c447e9412b7adc6bfa1f271d2dc8e02f6484a0f10f4"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "88cceec384b42461fabe7c2ea4191657bf29ae5ea6abc2f9bf6c2f891e325825",
+    "binary": "../q2q3-native-final/decoder-bias-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a95a1e51a41a08aaa517160269231dc88fe5c07bf6e48a53340b898908620db1"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "0fcbdbfc007496dcbfb9952e874221a982ddb7740d50ff15d8f341d59042889b",
+    "binary": "../q2q3-native-final/decoder-bias-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c2ca0255454248582debcfcd79e97218f3b55c81c397befdaca5ac9c151fc966"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_bias_ownership.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "be45265f61b0d6836683ddc6bf35c0ed4533c41c1e9501cdf745252f1d394523",
+    "binary": "../q2q3-native-final/bias-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a057200d3287a84bd0312129919aaeb08177ed8989cb2c3abbe1658fc49619e9"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_bias_gguf.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "de18648bd6ca6d03bd7c87c900e130cee842cb7f9ee0102832beaf41eb97b3fc",
+    "binary": "../q2q3-native-final/bias-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d768c37badaae04efd8fb4d3dbc6d625f4819a4ce1035e255725659cefb65289"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_bias_consumers.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "461eb00dc7b7b74d74b4544b5a2eebeec873050e63d33893bac1ac851d91ce5c",
+    "binary": "../q2q3-native-final/bias-consumers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6aecfe7cdf8e669451fd40e71b4a4b591c1a854e30a931b80879947513fb5c02"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "1811e855568276805b20fb23d97c2902f2a04096c43329df324f030e88a564e1",
+    "binary": "../q2q3-native-final/activation-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "55af8b48b15096b05295b73c069237fe812fe46fb30e9bbfecdf6325a1d2b5cb"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "cc0cf249ae5e3bc1d71b5b0e2d4de076b691a18d8842146c221b17faf109bb6c",
+    "binary": "../q2q3-native-final/activation-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a8ea8402aa864c466e3dcb1dfe5da21266c876270bbdc24305b11af7d00eb4ab"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_activation_ownership.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "e3ad694e01f5134e1c6d7b373f6fd282a5a4264d70874f42bf33c383c73f4d2f",
+    "binary": "../q2q3-native-final/activation-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8334a53c4378f4881e7d1663c417788f98889bd3d4ec4b2448401fd256d2e385"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_activation_gguf.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "108e0a6fc241075b93e1fea583f96570e2cecd1fa6066e9f5f14a27866db4b97",
+    "binary": "../q2q3-native-final/activation-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9acfc6e7e912d606e1af247dbdacd69a7e9d0d149beb6a31d0e96f306a8b40f8"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_activation_consumers.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5ffd425973d383ec84ab6bb6e24d60a25530273bde2906045f17cffd23a5a82b",
+    "binary": "../q2q3-native-final/activation-consumers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "abe7adcb6a002d1c8c54a298855f5b1e58f82535d4c48a1be1a3ec0c727f9d4e"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_session_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "c037074fc5b63bbdbb5272d9a450038a5dc2e8dfdfd4711b09163d7e87e8e1f1",
+    "binary": "../q2q3-native-final/session-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "83dcd041305d99fbf6752a67e4060baea77913bc5284ec29543b946d397c18e1"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_session_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "b8308aba04fcc3a536df8f37eb8e72860cb127bf0f57619dd86b27e89229e96a",
+    "binary": "../q2q3-native-final/session-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "777e48ac3fb6a7e8b48a2bfc36825c30e3b77eb2c637743413c6bddf6ee50241"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_session_ownership.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "450f1d769afbee46da826a7ee5b24329751c36cf9bd9d478d8c0eedc8339ba65",
+    "binary": "../q2q3-native-final/session-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a927714951178620cee021b58711300991915b789b069cf2e8103127c833bd02"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_session_gguf.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5d40fb52b151faa2f8faa7db83f0f17741a6001d05a42f33f1128fcc81f839ec",
+    "binary": "../q2q3-native-final/session-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e504ab6728cf1550da5978dd2cde0c60b4529aeb689cbdd7308b63e449c8b704"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_session_source.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "cb8a08a650062dd6622eff39626f07f6601217655ba7726913976d07331a610f",
+    "binary": "../q2q3-native-final/session-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2dcfeaf7f12b5343e5027bf55249c15fd2831769a38e91b50188f187ff32e2e1"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_window_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "ca55e2415f436153044b5f0352ba419742e0b987f4595b0e6fcccb93bf0f37b3",
+    "binary": "../q2q3-native-final/window-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "907ed8822c375cd411f1a1d09fc44072df634943292c4e05965aed241c26a41e"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_window_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "4b0638396503d643ac2d7b4589401baf72c743df5c146b29f3b60be9541aef6a",
+    "binary": "../q2q3-native-final/window-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2f3f2a4fe25053684ce355844c8873698d9d3f3278005f27899b14ed68c08fe7"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_window_source.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "94db02aba6d06613b9941c65d55a5ae04c02b1f999da5fee987d7680d08fb012",
+    "binary": "../q2q3-native-final/window-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5ff8f8c163e4e74fdd93574ea8080189af788cd86e5f3d383e9b25006ed77e6f"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_window_ownership.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "394645f313e8d9a4a8bc20af442073ef15e2e9472a2dd6f7e80647c756dee555",
+    "binary": "../q2q3-native-final/window-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "460080a78d6a2592df681584b1b96e62c3737a38b1c569517b5aa32f781181f4"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_window_gguf.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "f2a04587787549076c562f1e27fce96ba48a52511476b26b325de507e7a7aa6c",
+    "binary": "../q2q3-native-final/window-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a69983dbcc316086dae455d6542131ee1b306f8e0cb518640e64da4da7ffed4b"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_window_indices.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "160e084c5ef82aaa0d0ec6002515c9f7d849617aa618ba79329e5a1d7a7279ea",
+    "binary": "../q2q3-native-final/window-indices",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_window_policy.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "c7b2d7d8a0f70eef0d563e9356bd279ea7336fad3725502ffec94bd5f603021b",
+    "binary": "../q2q3-native-final/window-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "9e48fb412f4441e53d243c40d439ac6bc4b36e5962489fa3fe5776f37fe8f6f3",
+    "binary": "../q2q3-native-final/scaling-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8636f14749063eecf82487e36e8cb9a0ed66830416ad2a9b07886265ce666d76"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5fd6fed372541a1dc876ab23e11efad15263fcf2bff9c902e4e88604e67291df",
+    "binary": "../q2q3-native-final/scaling-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d66e6a11f5c8bb3c90c469bb7c1fc7af972f4c72162770c6190420721c38cd48"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_scaling_source.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "31e8f7a4c344d9b12362e8ebd7fd5ae7b0c714e7c97f5ad5565ba6e6650a1130",
+    "binary": "../q2q3-native-final/scaling-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "21b9fa05de8609a8e236ce85f86e8fabe05686e7c0717aea0c1a58c77c19aad8"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_scaling_ownership.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "c65f30b93090d6f3e3b416935ce7a96328b5659feb6352c46cb3d94dff92f57a",
+    "binary": "../q2q3-native-final/scaling-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7d6a4f33cf6ca58bab4bec9a09bd482a619e5d6c85e14c9d369d695f8ce46c1e"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_scaling_gguf.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "55f0de912080e0e1d8eb145baafd33b509de9149c2c4481418398e765c0c56da",
+    "binary": "../q2q3-native-final/scaling-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d93cde4edd48d735d1f3f3050055967cbb4cc6e1056cf923ce57817af092cac"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_scaling_policy.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "1b4844436960e313af0468b468f5ebf87b97538d237317f48f07e2fc23a82d8e",
+    "binary": "../q2q3-native-final/scaling-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_dynamic_rotary_context.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5407c33604779034afd3988afa0de309c9ea143da5616bb8a3116e9f28e344e0",
+    "binary": "../q2q3-native-final/dynamic-context",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "03a62e883d76c3bb642c1ad5cea45090d46ef863494aeacb9b69716cf785db8d",
+    "binary": "../q2q3-native-final/dynamic-history",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b6f16d6f50c9515746357c965a48211ed971409901688c26eb6fafaa7a9d3fc5"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "0808309a476133bab1c0556c1153e5fa11efb7aa1533754b71fdc7a9b2740421",
+    "binary": "../q2q3-native-final/dynamic-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "901c48558e8dddf29ed44cab4845dce65fe51bd87aece9b5cdfca430850bf53b"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/dynamic_decoder_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "4bb7c54b9e874be061a83b5a612d88169f88850721a7dd2d41593c48cfa750f1",
+    "binary": "../q2q3-native-final/dynamic-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "dd0789874384aea4cb1c5dae67e98a2a52ac458ec964ddaa5059b55a992e1973"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_dynamic_decoder_graph.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "e42d50f42095b8b79d36b7b2d7a6d29f8a783670d93dff1a031b5e7122ac657d",
+    "binary": "../q2q3-native-final/dynamic-graph-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3f077e8f3bcde5d79c34c2487419b79c78ca815b2b4a308f708a5a0dcf158004"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_dynamic_graph_gguf.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "2e887743be59025c5475ec31238ab4e68c0bc113c71722ac05070b8035a89083",
+    "binary": "../q2q3-native-final/dynamic-graph-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c60bb11540d19a7de0d17db72d72c5c26a133faf2bc56742974822e1e7e96ee0"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/context_actions.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "2519eaf411624c93d2132726c6988b66df6a5cfa671f6fcd6fac0ca72593b4c9",
+    "binary": "../q2q3-native-final/old-inspector",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "daf26af8df4ba53e0bb62eb122c9c80d6b794cf2a4075b54bbf98cf481e20bf7"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_context_action_ownership.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "36bf1a0d05b77d47e5bc239116914605b4519fb9f042b8ed122120c5d053aaba",
+    "binary": "../q2q3-native-final/old-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96392e5c82488aa94840b47ee2673f3c7c9a72cf2e2332942efb915841f0d309"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/lcu_actions.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5a9954df78a0754a2770e99f545fbd0c3a81534aa44c54c76b04af6f28095b6f",
+    "binary": "../q2q3-native-final/inspector",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de039ce12b8e47eeee7626cb27da75a55c18a90b19fd0a58e562b4099de9594"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_lcu_action_ownership.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "debf0d7f384112d460ee3e1563062d73375478f341bae8c03f1f66f09bf87976",
+    "binary": "../q2q3-native-final/ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2342cba0412b5c5bc97661b944e2ac88404b99c6a617742332fa9d097b2c7b1c"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_q8_constants.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "06a16513ac33ead151b2c2eb3d486e629359a18f42c733f29f1b1793464bd5cb",
+    "binary": "../q2q3-native-final/q8-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e7580d6dcbfed9e00034a239e3d666be696ea90a92eaa0beeb823f4b228f51df"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_q8_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "ca9cc9b3f7203df92ce61b6390a23df762446381d7f5ecf2efc3f04404410d12",
+    "binary": "../q2q3-native-final/q8-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "86b87bca83138d7b86a4bae7940d9ea957d448a5dbec347a7225e42ba7570a8a"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_classic32_constants.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "220fba2dafc73d7543fcf50aac37d6f374eaece56393e668b3b3aac15a59f9c7",
+    "binary": "../q2q3-native-final/classic32-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "19c3171404d34f8b02adf7fa9541d5e9ae65326f5b14fec130baa809b9b5f430"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_classic32_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "ac7ba013a50679c176246b0ac761e14a53d9095c444de781d25fb3bfe76f7cef",
+    "binary": "../q2q3-native-final/classic32-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d414ba0aa9d1c70943e3fd5b6107196231e777a0c9383300dea2278a61d2bfad"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_storage.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "f2586baa2c072f629348617fc8a4a817fcbcf4d0f2c3e13fe36dd40407ecc7d4",
+    "binary": "../q2q3-native-final/current-source-storage",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9bc911a87d14b60541d2679c4cc80ded884c2f9a41f4a4fde313b1a04e8dd9b9"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_storage_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "6faa29c0cc9c586724ec62aac0cc5cf344c123c77bf9b042635a4530c34952e0",
+    "binary": "../q2q3-native-final/current-source-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "098592e520b534c57ee9ea1d09ba1bd2beebc009b4504f0cdc318071382faffc"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "95985c5980cd340ed5fade3d99e560784beeefaa5546dfc01aa7539c72d215b2",
+    "binary": "../q2q3-native-final/current-safe-inventory",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "94d772eac4871487046feec67d04420aabff1443be180d976e16b3e6ee196c18"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_q2q3_constants.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "777a6d5542aa6c494c22c6a11e4f1c965e339ba85a3c30bc57acb4c2ca2a6e13",
+    "binary": "../q2q3-native-final/q2q3-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e5d1bd00a921d15ad2b6a9d56c1856e4f302d239cf780983ce28d5707b402389"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_q2q3_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "316306bdd585db54a1055257388f65fc3fe216c95ea7118d24ae6fa693ebfb16",
+    "binary": "../q2q3-native-final/q2q3-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3f47ef5190ef48fcaddb98cee7ddbd06cee6847ebc41688d7a9ab8e58da39056"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "b639f980ec2688c059737e736e78c7b1ef7dcc4ec74dc1ac5a045e39d4976cc3",
+    "binary": "../q2q3-native-final/closure-decoder_architecture",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "06c7216ec3daa4ed807c50fb79037ece7000e376d59f8652943fcb91ca3b4a95"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/decoder_layers.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "0eea733ef57c297eed6fd8961beb3e7e19e66bb6475b1832b185b9812e9555aa",
+    "binary": "../q2q3-native-final/closure-decoder_layers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a9547e66aef92b81bee6afc79a5968b5c2a140ef05465a9d0ce65d4e1634bb57"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/gguf_shapes.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "b1fc316ab7734bb94ffd132297ea74ef86d9475a9b30d60669cc22bff1b13bc8",
+    "binary": "../q2q3-native-final/closure-gguf_shapes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0f05739e0ca8a138ff3b92a85363531dcbbb3a20ec49686f6e6fe98d107a6028"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "bb3cb0088913e475d00c828b670cd6c657fcf44fed47d836ab2384b7b07d694f",
+    "binary": "../q2q3-native-final/closure-safetensors_constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3982fcb098f8fb64a1bff2968ac880a5289fdf6087bde99b8f4985b48cc54352"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/shard_collection.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f",
+    "binary": "../q2q3-native-final/closure-shard_collection",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7dd4b1cee16b1be028c8eb480a79c74601c3e670baaee25a9cedff48087ef249"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_config.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "d1e6120a63018c5010b752c41c22a0f6cf8f07c64fb77c0e205b8eea661ace35",
+    "binary": "../q2q3-native-final/closure-source_config",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_index.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "02096c15bf3205d215c49d6c4aad17c678e7d3c5ac5adf327514dfa7c9c17851",
+    "binary": "../q2q3-native-final/closure-source_index",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/source_root.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "9ac47b4c115514746c82a757e96122b10399bf8597538d1d703fb25a68dc0760",
+    "binary": "../q2q3-native-final/closure-source_root",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5"
+  },
+  {
+    "side": "current",
+    "source": "smidr/tools/unindexed_source.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "e69c6c5190f8739ce8c3efc71b891379b3532e20c60d78251f3b53b59cc47383",
+    "binary": "../q2q3-native-final/closure-unindexed_source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f7d2d93a56d2ee4a01b7f390a803dd947ed1530f8d6fe1ecae3eff803683968d"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "b5df20fadb4179c44ddd39432b0f70d3a19a7098e8be86cc79af7039c1d3129b",
+    "binary": "../q2q3-native-final/closure-hailo_decoder_architecture_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a46ef3d212888b92f36ca74b84acb306648da8bc8579cc153cbd36398cb80a8c"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "2e4e7573d9bbe94be845369b5c27f06288a308e947bd0cbccbc3d909e5df4b9c",
+    "binary": "../q2q3-native-final/closure-hailo_decoder_layers_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9ae92311d04f59925b7eac723041e7068a6316337700813ec05ba8c5a5c020cd"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_gguf_shapes_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "bdddb6e0d1cb91aac130470eba1bd3ff0975c9e9aad706a170a562d7cd5a1a95",
+    "binary": "../q2q3-native-final/closure-hailo_gguf_shapes_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ce10104615e9fbe3a9c5cd10100382b6d1383601dc500b548749609ea9cc4b73"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_safetensors_constants_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "b6cb54fcdf9418c8481bdbacdfb07fa9614594a57a6b31a2e34de49b4acfce23",
+    "binary": "../q2q3-native-final/closure-hailo_safetensors_constants_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f0d84e0a0f7b0957748fc97c72779a5a9f7c2083e756aab8ee98e9423834044"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "8dbd3e5f1dc6f1157310927ddf1b460b410058cd23684adc8b2f29c620531fbe",
+    "binary": "../q2q3-native-final/closure-hailo_shard_collection_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5e498ac3620a88dd8d9fa3ae3093c2b8931f838715725481b19b26aaa825add1"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_config_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "6fed1f857d515de57e6067f3b556bfc8a65b897acf6dfa3781780d0155a05506",
+    "binary": "../q2q3-native-final/closure-hailo_source_config_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_source_index_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "39804a5484f5b574217779355ba706cf68829aa3e99838b5e5aa618487d1d847",
+    "binary": "../q2q3-native-final/closure-hailo_source_index_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94"
+  },
+  {
+    "side": "current",
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "cwd": "../Project-Aesir",
+    "source_sha256": "5cb539ccd02fbff97b2aa47c67ba6b8418929d104408b32dcedbe32805a08b03",
+    "binary": "../q2q3-native-final/closure-hailo_unindexed_source_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "55286ba9d2897a57fed348972b940231259b23beb6e12b3a9a98d9eb26a22cfa"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "b639f980ec2688c059737e736e78c7b1ef7dcc4ec74dc1ac5a045e39d4976cc3",
+    "binary": "../q2q3-native-final/snapshot-decoder_architecture",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "281744cd18aad43cbb356b4a6e468412a037c04df582094e15f9252a04b92440"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/decoder_layers.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "0eea733ef57c297eed6fd8961beb3e7e19e66bb6475b1832b185b9812e9555aa",
+    "binary": "../q2q3-native-final/snapshot-decoder_layers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "75db84ebb9bd8a6f9927c07d618e4201b207f06af839b6c724a3ac533992fe53"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/gguf_shapes.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "b1fc316ab7734bb94ffd132297ea74ef86d9475a9b30d60669cc22bff1b13bc8",
+    "binary": "../q2q3-native-final/snapshot-gguf_shapes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f2964cc93a80a5b9ae096b67046de2d0aae27a35f4044d600518f2cce9719888"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "bb3cb0088913e475d00c828b670cd6c657fcf44fed47d836ab2384b7b07d694f",
+    "binary": "../q2q3-native-final/snapshot-safetensors_constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f1a73cb3ea8106cbd12c8c00458bacf40f9d2460b8f9f311af3c2cdcf7e471b4"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/shard_collection.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f",
+    "binary": "../q2q3-native-final/snapshot-shard_collection",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "134f17c5e8c22319cd666f3339d125beb2e9b232ad8fb37ba37ca929e5996437"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/source_config.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "d1e6120a63018c5010b752c41c22a0f6cf8f07c64fb77c0e205b8eea661ace35",
+    "binary": "../q2q3-native-final/snapshot-source_config",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "44c1d507411a4659e15ed858e8c77fabf704e6904439b72bec4615c15223dd7b"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/source_index.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "02096c15bf3205d215c49d6c4aad17c678e7d3c5ac5adf327514dfa7c9c17851",
+    "binary": "../q2q3-native-final/snapshot-source_index",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "375a50be0f6850b750e21fdb7882d498bd7cdb80c2646be5aa950846dfce91fb"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/source_root.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "9ac47b4c115514746c82a757e96122b10399bf8597538d1d703fb25a68dc0760",
+    "binary": "../q2q3-native-final/snapshot-source_root",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "504e43c81825a5e1f1e94bafe6f62b1df4898e5a5aaadf03534355be2af082b2"
+  },
+  {
+    "side": "snapshot",
+    "source": "smidr/tools/unindexed_source.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "e69c6c5190f8739ce8c3efc71b891379b3532e20c60d78251f3b53b59cc47383",
+    "binary": "../q2q3-native-final/snapshot-unindexed_source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4b7bf0f542dff0b1a4c68e58d4806e3afbedfc3c71e436ea676e399dcffb7627"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "b5df20fadb4179c44ddd39432b0f70d3a19a7098e8be86cc79af7039c1d3129b",
+    "binary": "../q2q3-native-final/snapshot-hailo_decoder_architecture_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "26fcb4d75da24b54b0d08fc9ce866d6cab0bff19789e0c666841ced50d302a67"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "2e4e7573d9bbe94be845369b5c27f06288a308e947bd0cbccbc3d909e5df4b9c",
+    "binary": "../q2q3-native-final/snapshot-hailo_decoder_layers_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a8cb65b47de401269bbc9daf4edd25803a7f1d0e688940fafcf874ee6599ee68"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_gguf_shapes_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "bdddb6e0d1cb91aac130470eba1bd3ff0975c9e9aad706a170a562d7cd5a1a95",
+    "binary": "../q2q3-native-final/snapshot-hailo_gguf_shapes_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4690d4593beef5a320c4e3ecaf5cf02394d97a1374253a0b5b7ec6ecac165468"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_safetensors_constants_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "b6cb54fcdf9418c8481bdbacdfb07fa9614594a57a6b31a2e34de49b4acfce23",
+    "binary": "../q2q3-native-final/snapshot-hailo_safetensors_constants_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f0d84e0a0f7b0957748fc97c72779a5a9f7c2083e756aab8ee98e9423834044"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "8dbd3e5f1dc6f1157310927ddf1b460b410058cd23684adc8b2f29c620531fbe",
+    "binary": "../q2q3-native-final/snapshot-hailo_shard_collection_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b3dea436816e65fc61a1abddfa41a12c4149829e8f8c71c7debddd9e6d0bef81"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_source_config_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "6fed1f857d515de57e6067f3b556bfc8a65b897acf6dfa3781780d0155a05506",
+    "binary": "../q2q3-native-final/snapshot-hailo_source_config_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_source_index_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "39804a5484f5b574217779355ba706cf68829aa3e99838b5e5aa618487d1d847",
+    "binary": "../q2q3-native-final/snapshot-hailo_source_index_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94"
+  },
+  {
+    "side": "snapshot",
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "cwd": "../q2q3-native-baseline/source-snapshot",
+    "source_sha256": "5cb539ccd02fbff97b2aa47c67ba6b8418929d104408b32dcedbe32805a08b03",
+    "binary": "../q2q3-native-final/snapshot-hailo_unindexed_source_api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "dc9d8817444f7ea763fded357d3b5b5fce749d5960cbe3c4fd3f7b49459ba45d"
+  }
+]

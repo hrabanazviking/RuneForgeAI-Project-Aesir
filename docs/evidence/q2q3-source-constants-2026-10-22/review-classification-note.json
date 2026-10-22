@@ -1,0 +1,7 @@
+{
+  "failure": "Original wrapper matched a binary appearing as ldd argument, then incorrectly executed the baseline API without arguments. Safetensors97 native results and264204 word checks had already passed.",
+  "correction": "Pair direct API commands and strace-wrapped commands. ldd is dependency inspection, not an API request; separately inspect both binaries for forbidden runtime dependencies. No native API comparison is skipped.",
+  "production_changes": false,
+  "old_test_input_changes": false,
+  "all_original_artifacts_retained": true
+}

@@ -1,0 +1,9 @@
+{
+  "calls": 530,
+  "outcomes": {
+    "accepted": 339,
+    "refused": 191
+  },
+  "component_checks": 439026,
+  "byte_checks": 32248
+}

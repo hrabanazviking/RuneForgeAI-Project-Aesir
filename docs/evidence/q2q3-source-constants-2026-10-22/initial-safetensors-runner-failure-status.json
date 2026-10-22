@@ -1,0 +1,18 @@
+{
+  "suite": "safetensors_constants",
+  "returncode": 1,
+  "command": [
+    "/usr/bin/python3",
+    "../q2q3-native-development/pair-frozen.py",
+    "../q2q3-native-acceptance/pairs/safetensors_constants.json",
+    "tests/test_hailo_safetensors_constants.py",
+    "--binary",
+    "../q2q3-native-final/closure-safetensors_constants",
+    "--api",
+    "../q2q3-native-final/closure-hailo_safetensors_constants_api",
+    "--strace",
+    "/usr/bin/strace",
+    "--evidence",
+    "../q2q3-native-acceptance/safetensors_constants"
+  ]
+}

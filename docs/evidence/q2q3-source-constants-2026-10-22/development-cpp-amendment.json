@@ -1,0 +1,6 @@
+{
+  "path": "tests/hailo_q2q3_layout_oracle.cpp",
+  "before_sha256": "9d34cb84f4c85c8fceaf2d7663f9108b2211b8b720b6276b9a5b5e8269658116",
+  "after_sha256": "10cf47a7dd9ede474eeda4a5137d3b2861ea5505781341e4fd7e223ab7db41f9",
+  "reason": "Test-only public-header declaration macro and Q2 anonymous-union member paths reviewed after all Mojo closure builds. Initial scaffold was not compiled/executed; all frozen Mojo and Python inputs remain unchanged."
+}

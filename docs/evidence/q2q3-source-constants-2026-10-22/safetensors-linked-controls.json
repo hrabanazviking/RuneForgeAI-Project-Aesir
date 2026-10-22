@@ -1,0 +1,16 @@
+[
+  {
+    "binary": "../q2q3-native-final/closure-safetensors_constants",
+    "side": "current",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff36cfc000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff36b00000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff36920000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff36870000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff365d0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff36580000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff35a40000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff35a00000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff36cb0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff359d0000)\n",
+    "stderr": ""
+  },
+  {
+    "binary": "../q2q3-native-final/snapshot-safetensors_constants",
+    "side": "snapshot",
+    "returncode": 0,
+    "stdout": "\tlinux-vdso.so.1 (0x00007fff013e8000)\n\tlibKGENCompilerRTShared.so => <mojo-runtime>/.pixi/envs/default/lib/libKGENCompilerRTShared.so (0x00007fff01200000)\n\tlibc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x00007fff01020000)\n\tlibm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x00007fff00f70000)\n\tlibstdc++.so.6 => <mojo-runtime>/.pixi/envs/default/lib/libstdc++.so.6 (0x00007fff00cd0000)\n\tlibMSupportGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libMSupportGlobals.so (0x00007fff00c80000)\n\tlibAsyncRTRuntimeGlobals.so => <mojo-runtime>/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so (0x00007fff00140000)\n\tlibgcc_s.so.1 => <mojo-runtime>/.pixi/envs/default/lib/libgcc_s.so.1 (0x00007fff00100000)\n\t/lib/ld-linux-aarch64.so.1 (0x00007fff013b0000)\n\tlibdl.so.2 => /lib/aarch64-linux-gnu/libdl.so.2 (0x00007fff000d0000)\n",
+    "stderr": ""
+  }
+]
