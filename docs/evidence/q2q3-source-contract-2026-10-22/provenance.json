@@ -1,0 +1,49 @@
+{
+  "pin": "a05c9922613c6a2230dbb1d0de679519ecafb4f0",
+  "license": "MIT read before format bodies; no external implementation copied or translated",
+  "sources": [
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/ggml-org/ggml/a05c9922613c6a2230dbb1d0de679519ecafb4f0/LICENSE",
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+      "bytes": 1078,
+      "retained_source_matches": true
+    },
+    {
+      "path": "include/ggml.h",
+      "url": "https://raw.githubusercontent.com/ggml-org/ggml/a05c9922613c6a2230dbb1d0de679519ecafb4f0/include/ggml.h",
+      "sha256": "475beaa7e959be8c383279d9ce9d5191f37426e6b338270cfb12b26a798129d3",
+      "bytes": 116594,
+      "retained_source_matches": true
+    },
+    {
+      "path": "src/ggml-common.h",
+      "url": "https://raw.githubusercontent.com/ggml-org/ggml/a05c9922613c6a2230dbb1d0de679519ecafb4f0/src/ggml-common.h",
+      "sha256": "0061131b615c5721fc88a78feeb22c1f8c450f1c2646a317d80796a653bf595c",
+      "bytes": 135161,
+      "retained_source_matches": true
+    },
+    {
+      "path": "src/ggml-quants.c",
+      "url": "https://raw.githubusercontent.com/ggml-org/ggml/a05c9922613c6a2230dbb1d0de679519ecafb4f0/src/ggml-quants.c",
+      "sha256": "5574a2dccf7c07e75b143733e04a5412d3d8c819e7945f5217a7b83a2b2ff8ab",
+      "bytes": 226847,
+      "retained_source_matches": true
+    }
+  ],
+  "format": "GGUF Q2_K/Q3_K source block fields and independent bit-plane qualification",
+  "device_format_verified": false,
+  "device_access": false,
+  "model_forward": false,
+  "production_reference_dependency": false,
+  "prepared_original_probe_sha256": "140d067e4fdc53da70591849920c816f4551e3e7ad33f18ab1691cae7baa3908",
+  "field_oracles_executed": true,
+  "header_object_executed": true,
+  "qualified": true,
+  "production_implementation": false,
+  "oracle_record_kind_namespace": "Quant width2/3,corresponding to GGUF tags10/11;not a device dtype",
+  "static_expressions": {
+    "10": "d*scale*q - dmin*minimum",
+    "11": "d*scale*q"
+  }
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "path": "../q2q3-source-study/README-pending.md",
+    "bytes": 661,
+    "sha256": "9de17be2a792193d87b76dbdfd58b75457b7cf68da98a24becdafdddad3d09b1"
+  },
+  {
+    "path": "../q2q3-source-study/baseline.json",
+    "bytes": 232,
+    "sha256": "9a22438f798609e5534d1f7217d81383dde5f6c784798167e2a71800bee02337"
+  },
+  {
+    "path": "../q2q3-source-study/contract-pending.md",
+    "bytes": 3169,
+    "sha256": "f070626d85a4be9272e0cabe0673608edb21f67f3bd21502f9b7488f5b732934"
+  },
+  {
+    "path": "../q2q3-source-study/controls.json",
+    "bytes": 21047,
+    "sha256": "e2174078aa54f85435ed9e85cde071a2ea6902cd2ca174b48863d196abc259c2"
+  },
+  {
+    "path": "../q2q3-source-study/layout-oracle",
+    "bytes": 70456,
+    "sha256": "64e878b9ad10f09a64b8c4bbc3ffaa40952ffe474cfebadfd71c2469873a127a"
+  },
+  {
+    "path": "../q2q3-source-study/layout-oracle-build.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../q2q3-source-study/layout-oracle.cpp",
+    "bytes": 531,
+    "sha256": "a9e7e9425f454e3d0e49f1ffd59778a8af1e103d9aa5450b4f53d9bb0ce7d8e6"
+  },
+  {
+    "path": "../q2q3-source-study/layout-oracle.json",
+    "bytes": 50,
+    "sha256": "5fd18195481722edcb01f62dc875891ec59aaa2a738bfe78d03637f4d150f762"
+  },
+  {
+    "path": "../q2q3-source-study/provenance.json",
+    "bytes": 2052,
+    "sha256": "34c523bf1689b685f643cea8ec06109f2294eb11ad4c745c91edfde173d649f3"
+  },
+  {
+    "path": "../q2q3-source-study/qualification-results.txt",
+    "bytes": 217,
+    "sha256": "07369ee9daa9ef4f9e5f3982af41974788d768924b045b9f25ce564e54f184d9"
+  },
+  {
+    "path": "../q2q3-source-study/qualified-field-oracles.json",
+    "bytes": 421694,
+    "sha256": "53ffba0756da1bf20aeec0285b274adaac872b12f5877afc419e9935fdb519b7"
+  },
+  {
+    "path": "../q2q3-source-study/qualify-fields.py",
+    "bytes": 3195,
+    "sha256": "140d067e4fdc53da70591849920c816f4551e3e7ad33f18ab1691cae7baa3908"
+  },
+  {
+    "path": "../q2q3-source-study/source-hashes.json",
+    "bytes": 69870,
+    "sha256": "bd2009139f63f01c3de16cb83eaeba1cb50fe3ce15b5ae7bd9600712e2d37da2"
+  },
+  {
+    "path": "../q2q3-source-study/test-input-hashes.json",
+    "bytes": 7001,
+    "sha256": "387764b5c848d0eb46caccd96a3d17adbf9ac7eb71c89b5101d480eb35443ec7"
+  }
+]

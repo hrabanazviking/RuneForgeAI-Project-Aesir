@@ -6,8 +6,8 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
-no outside compiler or specially precompiled model prerequisite. Active numerical work: `TASK_hailo10h_numerical_encoding_sources.md`; the
-classic32 native slice is verified, with next source-format qualification in progress. Full controlling scope:
+no outside compiler or specially precompiled model prerequisite. Active native slice: `TASK_hailo10h_q2q3_source_constants.md`, alongside
+`TASK_hailo10h_numerical_encoding_sources.md`; the classic32 slice is verified. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -134,3 +134,9 @@ records the verified native conversion/byte-tile slice under5b8c132. Source-stor
 coverage and real kind2 arithmetic admission are independently closed after a
 runner wiring correction. Further formats/architectures/operations and actual
 H10H numerical configuration/placement/program delivery/results remain work.
+
+Next exact native contract: `TASK_hailo10h_q2q3_source_constants.md` and
+`HAILO10H_Q2Q3_SOURCE_LAYOUT.md`. Pinned header objects and1504 small static
+bit-plane cases/385024 constant comparisons qualify two source layouts. No
+production implementation, numerical Hailo or source-model execution is claimed
+by this contract.643 source identities/81 controls/64 Python tests are frozen.

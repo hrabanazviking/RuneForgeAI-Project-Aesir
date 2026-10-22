@@ -1,0 +1,1 @@
+{"cases": 1504, "complete_static_constant_comparisons": 385024, "production_implementation": false, "numerical_hailo_execution": false, "model_layer_attention_forward": false, "external_production_dependency": false}

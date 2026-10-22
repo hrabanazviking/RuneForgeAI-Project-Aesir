@@ -1,0 +1,9 @@
+{
+  "parent": "d6dfd7d569183add43d3de59000e15f3e12c588b",
+  "source_files": 643,
+  "native_controls": 81,
+  "old_python_tests": 64,
+  "implementation_started": false,
+  "model_forward": false,
+  "numerical_hailo_execution": false
+}
