@@ -1,0 +1,4 @@
+[
+  "aesir_engine/loader/packed_gguf.mojo",
+  "smidr/source_weight_tiles.mojo"
+]

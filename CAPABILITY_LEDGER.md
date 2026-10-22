@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 118 |
+| `verified` | 119 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **163** |
+| **Total** | **164** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3608,3 +3608,34 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Original compile and split-trace parser failures retained. Final
   native inputs unchanged;corrected audit and separately repeated report after
   runner filename collision preserve actual evidence without double counting.
+
+
+### AES-SOURCE-024 — Original classic Q4/Q5 source conversion and shared geometry
+
+- **Status:** `verified`
+- **Owner:** original source_classic32_constants reader, packed GGUF geometry
+  and source_weight_tiles consumer, with bounded native tools.
+- **Claim sources:** TASK_hailo10h_classic32_source_constants.md published5b8c132
+  before code; docs/HAILO10H_CLASSIC32_SOURCE_LAYOUT.md pins public MIT fields.
+- **Implementation evidence:** GGUF2/3/6/7, shared block geometry, exact scale/
+  bias bits and presence, quant fields, owned bounded windows and original
+  source-byte tiles. Existing source geometry/guards/diagnostics preserved.
+- **Executable evidence:** docs/HAILO10H_MOJO_CLASSIC32_SOURCE_CONSTANTS.md;
+  81 clean current Mojo builds plus3 clean pre-code-snapshot baseline builds,
+  643 actual source identities;32 suites/219 methods/10549 primary calls.
+  New12/788 with26611 complete components,11322 byte checks,2048 static reference
+  constants and45 traces/60 balanced readonly file lifecycles. All79 comparison
+  controls covered by4753 success/4167 error pairs;76 binaries were frozen before
+  code,3 compiled later from frozen actual pre-code sources. Full7/452 added
+  source-storage suite and corrected real kind2 admission proof pass.
+- **Evidence boundary:** Source conversion/byte integration only. No production
+  floating tensor product/addition,model/layer/attention forward,physical device
+  format/packing/fit/placement,Hailo numerical/source-model execution or whole
+  repository/hosted-CI pass. Other formats/ranks/architectures remain work.
+- **Next acceptance gate:** Remaining ordinary source/operation coverage and
+  actual H10H numerical/configuration fields,then original physical program
+  generation/delivery/activation/results/cleanup toward the fixed broad target.
+- **Audit:** Original final-runner wrong-tool assertion and omitted storage
+  suite retained,then closed with additive current/snapshot-baseline builds,
+  complete storage tests and genuine namespace proof. Selected trace-parser
+  whitespace and recorder trace-count failures retained; corrected audits pass.

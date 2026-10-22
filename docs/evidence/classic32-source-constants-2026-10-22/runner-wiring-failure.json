@@ -1,0 +1,12 @@
+{
+  "inherited_suites_passed": true,
+  "inherited_suite_count": 31,
+  "inherited_methods": 212,
+  "inherited_primary_calls": 10097,
+  "frozen_controls_covered": 76,
+  "original_driver_exit_code": 1,
+  "failure": "Final supplemental arithmetic proof targeted tests/hailo_storage_api.mojo,not tests/hailo_source_storage_api.mojo; baseline former-sentinel.json is a usage failure,not unsupported-tag evidence.",
+  "correction": "Build actual source-storage inspector/API and safetensors inspector from stable current643-source snapshot and separately from actual640-file pre-code snapshot;run full seven-method source-storage suite and actual namespace/tag2 comparison.",
+  "production_source_modified_for_correction": false,
+  "original_driver_or_control_overwritten": false
+}

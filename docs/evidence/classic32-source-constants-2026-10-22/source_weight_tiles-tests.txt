@@ -1,0 +1,6 @@
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 10.990s
+
+OK
+Native outcomes: {'accepted': 256, 'refused': 30} independent byte checks: 88368

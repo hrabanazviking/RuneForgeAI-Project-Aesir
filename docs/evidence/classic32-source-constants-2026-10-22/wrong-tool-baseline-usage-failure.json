@@ -1,0 +1,12 @@
+{
+  "arguments": [
+    "../q8-source-final/tagged-storage-api",
+    "arithmetic",
+    "gguf",
+    "2",
+    "256"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: usage: hailo_storage_api <source.gguf> <case>\n"
+}

@@ -1,0 +1,1 @@
+Selected audit failed before native finalbuild: mmap matching assumed a single space between closing parenthesis and equals. Raw PID2015032: mmap(NULL, 336, PROT_READ, MAP_SHARED, 3<source-140.gguf>, 0 )             = 0x7fff75928000. Preserve original rawtrace. Corrected externalreview parser allows whitespace there. Production sources/tests/frozen builddrivers unchanged.

@@ -1,0 +1,13 @@
+test_01_header_geometry_bias_grid (__main__.OrdinaryProjectionSchema.test_01_header_geometry_bias_grid) ... ok
+test_02_formats_defaults_ties_raw (__main__.OrdinaryProjectionSchema.test_02_formats_defaults_ties_raw) ... ok
+test_03_source_role_shape_and_flag_refusals (__main__.OrdinaryProjectionSchema.test_03_source_role_shape_and_flag_refusals) ... ok
+test_04_exact_work_and_bad_config_bounds (__main__.OrdinaryProjectionSchema.test_04_exact_work_and_bad_config_bounds) ... ok
+test_05_ownership_mutations_recovery (__main__.OrdinaryProjectionSchema.test_05_ownership_mutations_recovery) ... ok
+test_06_complete_legacy_output_comparison (__main__.OrdinaryProjectionSchema.test_06_complete_legacy_output_comparison) ... ok
+test_07_real_remote_headers_and_readonly_trace (__main__.OrdinaryProjectionSchema.test_07_real_remote_headers_and_readonly_trace) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 8.780s
+
+OK
+Native outcomes: {'accepted': 86, 'refused': 125}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "../classic32-source-extra/pair-extra.py",
+    "../classic32-source-extra/acceptance/frozen-pairs.json",
+    "tests/test_hailo_source_storage.py",
+    "--binary",
+    "../classic32-source-extra/build/current-source-storage",
+    "--api",
+    "../classic32-source-extra/build/current-source-storage-api",
+    "--gguf-inventory",
+    "../classic32-source-final/tagged-source-inventory",
+    "--safe-inventory",
+    "../classic32-source-extra/build/current-safe-inventory",
+    "--strace",
+    "/usr/bin/strace",
+    "--evidence",
+    "../classic32-source-extra/acceptance/source-storage"
+  ],
+  "returncode": 0
+}

@@ -1,0 +1,156 @@
+[
+  {
+    "source": "../classic32-source-final/source-hashes.json",
+    "original_sha256": "bd2009139f63f01c3de16cb83eaeba1cb50fe3ce15b5ae7bd9600712e2d37da2",
+    "published": "source-hashes.json",
+    "published_sha256": "bd2009139f63f01c3de16cb83eaeba1cb50fe3ce15b5ae7bd9600712e2d37da2",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-final/input-hashes.json",
+    "original_sha256": "dbe6e23e53fa1705a34e8b0de92c4044fde110b4ab6955a50b7f579b950db17d",
+    "published": "input-hashes.json",
+    "published_sha256": "dbe6e23e53fa1705a34e8b0de92c4044fde110b4ab6955a50b7f579b950db17d",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-final/build-results.json",
+    "original_sha256": "17363a33b66243db8f25084597e32527674054df24cc2a4b01f6227fce5ddeb6",
+    "published": "build-results.json",
+    "published_sha256": "17363a33b66243db8f25084597e32527674054df24cc2a4b01f6227fce5ddeb6",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-final/changed-prior-sources.json",
+    "original_sha256": "f88ddbc61e25947b2a7ad46793efa8aba2cb85bdc295e32248e205b13bde258c",
+    "published": "changed-prior-sources.json",
+    "published_sha256": "f88ddbc61e25947b2a7ad46793efa8aba2cb85bdc295e32248e205b13bde258c",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/test-results.json",
+    "original_sha256": "5eb1ac0c4460e3292f4697af953f2f583b9f84b9aebd784fdd550b2c1da39b5e",
+    "published": "test-results.json",
+    "published_sha256": "5eb1ac0c4460e3292f4697af953f2f583b9f84b9aebd784fdd550b2c1da39b5e",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/frozen-pair-summary.json",
+    "original_sha256": "84b982a80b6b84245f875c9fd6247eee3f3d7c288dbef556df3c4ffbff69b0f2",
+    "published": "frozen-pair-summary.json",
+    "published_sha256": "84b982a80b6b84245f875c9fd6247eee3f3d7c288dbef556df3c4ffbff69b0f2",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/layout-oracle.json",
+    "original_sha256": "4eb47bd2c63705a33f590b8def70dd3347f113c4ef260174a447009ccea4000d",
+    "published": "layout-oracle.json",
+    "published_sha256": "3f8b82012b8739f407cc5fa25dbf17ea6e7b40d208bc574e68e590878bf7db17",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/new/fixtures.json",
+    "original_sha256": "a99a285d4bd3e34250f9fa8c001c6194c7dad9260b98ed7190b846eed082a39f",
+    "published": "classic32-fixtures.json",
+    "published_sha256": "a99a285d4bd3e34250f9fa8c001c6194c7dad9260b98ed7190b846eed082a39f",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/new/trace-audit.json",
+    "original_sha256": "24c16043b710740f5289a6600c3241081116f3aa9dc3c70cd62cd30d854196e3",
+    "published": "classic32-trace-audit.json",
+    "published_sha256": "24c16043b710740f5289a6600c3241081116f3aa9dc3c70cd62cd30d854196e3",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/new/static-reference.json",
+    "original_sha256": "3b43916c7c3cddef225fac7aa637f4c1a9a382da4463c1299b90680d6662e6cd",
+    "published": "classic32-static-reference.json",
+    "published_sha256": "3b43916c7c3cddef225fac7aa637f4c1a9a382da4463c1299b90680d6662e6cd",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/q8/trace-audit.json",
+    "original_sha256": "cf8b4a067b7d5edfaef725d62d9576173f455ae540d26cbf9bf28fb555c583dc",
+    "published": "q8-trace-audit.json",
+    "published_sha256": "cf8b4a067b7d5edfaef725d62d9576173f455ae540d26cbf9bf28fb555c583dc",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-acceptance/graph/trace-audit.json",
+    "original_sha256": "b36404f42ab6e1e4923f890f38c402a7528da740856f970f4db42efea69afc37",
+    "published": "graph-trace-audit.json",
+    "published_sha256": "b36404f42ab6e1e4923f890f38c402a7528da740856f970f4db42efea69afc37",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-audit-review/review-input-hashes.json",
+    "original_sha256": "898c4d276ff59ba48e89aca5634b1f0bb3511e412d2317ca67f0a773c2a4466e",
+    "published": "audit-review-input-hashes.json",
+    "published_sha256": "898c4d276ff59ba48e89aca5634b1f0bb3511e412d2317ca67f0a773c2a4466e",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-audit-review/qualified-source-input-hashes.json",
+    "original_sha256": "3022568bfd22b476c992cd4834a626a64034df0669d4198273596be1b4b4c603",
+    "published": "qualified-source-input-hashes.json",
+    "published_sha256": "3022568bfd22b476c992cd4834a626a64034df0669d4198273596be1b4b4c603",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-baseline/former-sentinel.json",
+    "original_sha256": "a1cd6a9d6f30f634e9f5c54c138df6ca04bb5287d7eebb5531f3a490743d731f",
+    "published": "wrong-tool-baseline-usage-failure.json",
+    "published_sha256": "a1cd6a9d6f30f634e9f5c54c138df6ca04bb5287d7eebb5531f3a490743d731f",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-extra/acceptance/intentional-admission-delta.json",
+    "original_sha256": "7a1871d32700a3e0cb458c04e80ea9a0602294612eb288b00345c0fc0dfbdd89",
+    "published": "intentional-admission-delta.json",
+    "published_sha256": "57e892941e103cded2f481995394e296241fbefc2d73c7dd1dc29462caa3fc5a",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-extra/build/build-results.json",
+    "original_sha256": "ffe8cacbe47b0bb9d218b8fd88778e09dd37449eace2f6802d41afac29234361",
+    "published": "additional-build-results.json",
+    "published_sha256": "afc9ad5abcbbb51ae691b94bbd77bce39f296f10014929c8a6c0b2045e7d8678",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-extra/wiring-failure.json",
+    "original_sha256": "3cac68de783bdd7dd4905b3a80311b3121e8560330ffa20fd54b367c1c4d9ee1",
+    "published": "runner-wiring-failure.json",
+    "published_sha256": "3cac68de783bdd7dd4905b3a80311b3121e8560330ffa20fd54b367c1c4d9ee1",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-extra/input-hashes.json",
+    "original_sha256": "2381e4fe89ecae806df840ede935cd8215f92b5f4280900117f3f196c2ce80a1",
+    "published": "additional-input-hashes.json",
+    "published_sha256": "2381e4fe89ecae806df840ede935cd8215f92b5f4280900117f3f196c2ce80a1",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-extra/acceptance/source-storage/runs.json",
+    "original_sha256": "f165f2931152fffa9288829b90c6189b10528a1f859930cf591b845df71ecb3d",
+    "published": "source-storage-extra-runs.json",
+    "published_sha256": "e30c38ba5047953d14420b8403e0ab4feaabd40fb147f30bcf8602c44bb7c9e3",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-extra/acceptance/frozen-pairs.json",
+    "original_sha256": "2bd777bc6de03986ae994dd7ba2f8b4f653ddb7921aff82d7bb60aaab98ee80e",
+    "published": "source-storage-extra-pairs.json",
+    "published_sha256": "96f2e31f263fbc3c92546080f181a926306f6e402391e890a9ee89c00b643775",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  },
+  {
+    "source": "../classic32-source-extra/acceptance/status.json",
+    "original_sha256": "65d920d06513adfcad16faea0a075e3ad06466067daeafac7b3285694883602f",
+    "published": "source-storage-extra-status.json",
+    "published_sha256": "ad23aafcb6deeb8ffbe66bafa34f266f570fe5282b7cc25ccb972155dea52880",
+    "path_portability": "absolute work prefix replaced with ../; payload/source hashes unchanged"
+  }
+]

@@ -1,5 +1,5 @@
 # Original source byte streaming. No dequantization, model math or device code.
-from loader.packed_gguf import PackedGGUF, packed_row_bytes
+from loader.packed_gguf import PackedGGUF, packed_row_bytes, packed_block_geometry
 from smidr.source_inventory import SourceTensorBinding, SourceFileExtent
 from smidr.source_storage import SourceStorageTensor
 from smidr.semantic_plan import checked_product
@@ -58,16 +58,9 @@ def read_source_weight_tile(source: PackedGGUF, schedule: MatrixSchedule,
     if actual.offset != binding.file_offset or actual.columns != binding.columns or actual.rows != binding.rows or actual.kind != binding.source_kind or actual.byte_count != binding.byte_count:
         raise Error("SourceWeightTiles: live source binding differs from schedule")
     var row_bytes = packed_row_bytes(actual.kind, actual.columns)
-    var block_elements = 1
-    var block_bytes = 2
-    if actual.kind == 0:
-        block_bytes = 4
-    elif actual.kind == 8:
-        block_elements = 32
-        block_bytes = 34
-    elif actual.kind == 12 or actual.kind == 13 or actual.kind == 14:
-        block_elements = 256
-        block_bytes = row_bytes // (actual.columns // block_elements)
+    var geometry = packed_block_geometry(actual.kind)
+    var block_elements = geometry.elements
+    var block_bytes = geometry.bytes
     # Current packed scalar formats all have even byte spans. The kind and
     # exact extent were checked by matrix_tile and the live binding comparison.
     var first_block = tile.contraction // block_elements

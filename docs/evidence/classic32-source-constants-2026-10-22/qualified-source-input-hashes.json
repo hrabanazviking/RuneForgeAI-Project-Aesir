@@ -1,0 +1,8 @@
+{
+  "tests/hailo_lcu_action_oracle.cpp": "1440323212f7955cafa3b75aad7514abb0cb064f7c9bf7173630afca83bd26d5",
+  "tests/hailo_context_action_oracle.cpp": "85c2b0d292bebaa7211afd07ef251066db6ddb5ea813942c9feffe572560b59f",
+  "../ggml-format-study/LICENSE": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+  "../ggml-format-study/source/include/ggml.h": "475beaa7e959be8c383279d9ce9d5191f37426e6b338270cfb12b26a798129d3",
+  "../ggml-format-study/source/src/ggml-common.h": "0061131b615c5721fc88a78feeb22c1f8c450f1c2646a317d80796a653bf595c",
+  "../ggml-format-study/source/src/ggml-quants.c": "5574a2dccf7c07e75b143733e04a5412d3d8c819e7945f5217a7b83a2b2ff8ab"
+}

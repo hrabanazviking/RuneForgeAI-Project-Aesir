@@ -173,7 +173,7 @@ class SourceStorage(unittest.TestCase):
                 value=self.accepts(self.child([self.api,"arithmetic","gguf",kind,*shape]))
                 size=math.prod(shape)*(4 if kind==0 else 2) if kind not in (12,13,14) else math.prod(shape)//256*{12:144,13:176,14:210}[kind]
                 self.assertEqual(value,{"elements":math.prod(shape),"bytes":size})
-        for format,kind,shape in (("other",0,[8]),("gguf",2,[256]),("safetensors",30,[8]),
+        for format,kind,shape in (("other",0,[8]),("gguf",9,[256]),("safetensors",30,[8]),
             ("gguf",0,[]),("gguf",0,[0]),("gguf",0,[1,1,1]),("gguf",12,[255]),
             ("safetensors",0,[-1]),("safetensors",2,[MAX,2]),("safetensors",2,[MAX])):
             self.refuses(self.child([self.api,"arithmetic",format,kind,*shape]))

@@ -1,0 +1,93 @@
+{
+  "traces": [
+    {
+      "trace": "trace-121.strace",
+      "sha256": "e936183543462f73828cc617c317b1974a9ce4fc627d870503f198956229c6ae",
+      "fixture_opens": 1,
+      "fixture_closes": 1,
+      "whole_readonly_shared_maps": 1,
+      "matching_unmaps": 1
+    },
+    {
+      "trace": "trace-122.strace",
+      "sha256": "697c033d56c209a6809ad732ceda92cd1694b72b1a5552b28a98cbad757f2712",
+      "fixture_opens": 1,
+      "fixture_closes": 1,
+      "whole_readonly_shared_maps": 1,
+      "matching_unmaps": 1
+    },
+    {
+      "trace": "trace-39.strace",
+      "sha256": "df54935f2db098b63775fd051a015d1517dda2db1c250f98b1f31e023277f933",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "whole_readonly_shared_maps": 2,
+      "matching_unmaps": 2
+    },
+    {
+      "trace": "trace-41.strace",
+      "sha256": "4d3528a18c9dbfeea408deb086b09314065c43e2ec0060c1d73fa46a96d28138",
+      "fixture_opens": 1,
+      "fixture_closes": 1,
+      "whole_readonly_shared_maps": 1,
+      "matching_unmaps": 1
+    },
+    {
+      "trace": "trace-75.strace",
+      "sha256": "e786a17e6aae65ddfda1093027d72e60aabdd5d8355ac2c5b0f5115117926774",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "whole_readonly_shared_maps": 2,
+      "matching_unmaps": 2
+    },
+    {
+      "trace": "trace-76.strace",
+      "sha256": "d28973aeb29aebdfc54d24355d059c864f7423b04ffc2a230b94f26966faa483",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "whole_readonly_shared_maps": 2,
+      "matching_unmaps": 2
+    },
+    {
+      "trace": "trace-81.strace",
+      "sha256": "69904675ab9181e0ef97b39ba79b7c46bfb1a450dadff785ffc20ec1e6effe61",
+      "fixture_opens": 1,
+      "fixture_closes": 1,
+      "whole_readonly_shared_maps": 1,
+      "matching_unmaps": 1
+    },
+    {
+      "trace": "trace-83.strace",
+      "sha256": "88a231f421937019935a702e26906b953b029e996163555b28a7ccfebc7ddcf3",
+      "fixture_opens": 1,
+      "fixture_closes": 1,
+      "whole_readonly_shared_maps": 1,
+      "matching_unmaps": 1
+    },
+    {
+      "trace": "trace-93.strace",
+      "sha256": "7f9a33300da99ea73e798e8a75a03e4e10068ea3e6c340a55d033682b547f7e0",
+      "fixture_opens": 1,
+      "fixture_closes": 1,
+      "whole_readonly_shared_maps": 1,
+      "matching_unmaps": 1
+    },
+    {
+      "trace": "trace-97.strace",
+      "sha256": "52b8c1c5142d48b50b5f68ce2d1d62375a540c9d1699913526e51591b72018c4",
+      "fixture_opens": 1,
+      "fixture_closes": 1,
+      "whole_readonly_shared_maps": 1,
+      "matching_unmaps": 1
+    }
+  ],
+  "totals": {
+    "fixture_opens": 13,
+    "fixture_closes": 13,
+    "whole_readonly_shared_maps": 13,
+    "matching_unmaps": 13
+  },
+  "forbidden_access_matches": 0,
+  "whole_gguf_fixture_mmaps_include_payload": true,
+  "model_or_layer_evaluation": false
+}

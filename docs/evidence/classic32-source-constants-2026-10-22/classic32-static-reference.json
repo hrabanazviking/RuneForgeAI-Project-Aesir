@@ -1,0 +1,26 @@
+[
+  {
+    "kind": 2,
+    "constants": 512,
+    "exact_binary32_match": true,
+    "bits_sha256": "a9808758e322287cb5ead5591788dd5d69d3586ab13bfbc697b96a89c2a2a3aa"
+  },
+  {
+    "kind": 3,
+    "constants": 512,
+    "exact_binary32_match": true,
+    "bits_sha256": "ea9ce95933ebdacf926f82cfc2257d6b60f68c2f4711a221b450fb5baad03281"
+  },
+  {
+    "kind": 6,
+    "constants": 512,
+    "exact_binary32_match": true,
+    "bits_sha256": "9f7bdcf128521376f3c7aa02ac4988d8b65f64078cbb7ea13cc27c1288cdcab0"
+  },
+  {
+    "kind": 7,
+    "constants": 512,
+    "exact_binary32_match": true,
+    "bits_sha256": "14bf5d76b7072c186443ea3bd978ce2ed3b52b27baa3bd25e07be369d3e3787e"
+  }
+]

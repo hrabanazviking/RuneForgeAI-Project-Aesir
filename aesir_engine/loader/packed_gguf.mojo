@@ -16,26 +16,53 @@ struct PackedTensor(ImplicitlyCopyable, Movable):
     var byte_count: Int
 
 
+@fieldwise_init
+struct PackedBlockGeometry(ImplicitlyCopyable, Movable):
+    var elements: Int
+    var bytes: Int
+
+
+def packed_block_geometry(kind: Int) raises -> PackedBlockGeometry:
+    # GGUF source storage only, never a device precision or packing selector.
+    if kind == 0:
+        return PackedBlockGeometry(1, 4)
+    if kind == 1 or kind == 30:
+        return PackedBlockGeometry(1, 2)
+    if kind == 2:
+        return PackedBlockGeometry(32, 18)
+    if kind == 3:
+        return PackedBlockGeometry(32, 20)
+    if kind == 6:
+        return PackedBlockGeometry(32, 22)
+    if kind == 7:
+        return PackedBlockGeometry(32, 24)
+    if kind == 8:
+        return PackedBlockGeometry(32, 34)
+    if kind == 12:
+        return PackedBlockGeometry(256, 144)
+    if kind == 13:
+        return PackedBlockGeometry(256, 176)
+    if kind == 14:
+        return PackedBlockGeometry(256, 210)
+    raise Error("Packed GGUF: unsupported tensor type " + String(kind))
+
+
 def packed_row_bytes(kind: Int, columns: Int) raises -> Int:
     if columns <= 0 or columns > 1048576:
         raise Error("Packed GGUF: invalid row width")
-    if kind == 0:
-        return columns * 4
-    if kind == 1 or kind == 30:
-        return columns * 2
+    if kind == 0 or kind == 1 or kind == 30:
+        return columns * packed_block_geometry(kind).bytes
+    if kind == 2 or kind == 3 or kind == 6 or kind == 7:
+        if columns % 32 != 0:
+            raise Error("Packed GGUF: classic Q4/Q5 row is not block aligned")
+        return columns // 32 * packed_block_geometry(kind).bytes
     if kind == 8:
         if columns % 32 != 0:
             raise Error("Packed GGUF: Q8_0 row is not block aligned")
-        return columns // 32 * 34
+        return columns // 32 * packed_block_geometry(kind).bytes
     if columns % 256 != 0:
         raise Error("Packed GGUF: K-quant row is not block aligned")
-    if kind == 12:
-        return columns // 256 * 144
-    if kind == 13:
-        return columns // 256 * 176
-    if kind == 14:
-        return columns // 256 * 210
-    raise Error("Packed GGUF: unsupported tensor type " + String(kind))
+    return columns // 256 * packed_block_geometry(kind).bytes
 
 
 struct PackedGGUF:

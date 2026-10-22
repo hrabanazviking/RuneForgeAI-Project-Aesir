@@ -1,0 +1,19 @@
+{
+  "key": [
+    "tests/hailo_source_storage_api.mojo",
+    "arithmetic",
+    "gguf",
+    "2",
+    "256"
+  ],
+  "old_binary": "../classic32-source-extra/build/old-source-storage-api",
+  "new_binary": "../classic32-source-extra/build/current-source-storage-api",
+  "old_returncode": 1,
+  "old_stdout": "",
+  "old_stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: unsupported tensor type 2\n",
+  "new_returncode": 0,
+  "new_stdout": "{\"elements\":256,\"bytes\":144}\n",
+  "new_stderr": "",
+  "unrelated_comparisons_skipped": 0,
+  "baseline_built_after_implementation_from_pre_code_snapshot": true
+}

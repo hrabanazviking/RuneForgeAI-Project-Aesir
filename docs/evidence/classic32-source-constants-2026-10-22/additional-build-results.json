@@ -1,0 +1,62 @@
+[
+  {
+    "side": "current",
+    "cwd": "../Project-Aesir",
+    "source": "smidr/tools/source_storage.mojo",
+    "source_sha256": "f2586baa2c072f629348617fc8a4a817fcbcf4d0f2c3e13fe36dd40407ecc7d4",
+    "binary": "../classic32-source-extra/build/current-source-storage",
+    "sha256": "d74b5a30c0bf747979ee65bed2cd06cc3e725074da5cc248583180ffca5ea605",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "side": "current",
+    "cwd": "../Project-Aesir",
+    "source": "tests/hailo_source_storage_api.mojo",
+    "source_sha256": "6faa29c0cc9c586724ec62aac0cc5cf344c123c77bf9b042635a4530c34952e0",
+    "binary": "../classic32-source-extra/build/current-source-storage-api",
+    "sha256": "87933459a57a798375b1fa439ac7f737dd02080ad152d7488fdda0ffdb23538e",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "side": "current",
+    "cwd": "../Project-Aesir",
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "source_sha256": "95985c5980cd340ed5fade3d99e560784beeefaa5546dfc01aa7539c72d215b2",
+    "binary": "../classic32-source-extra/build/current-safe-inventory",
+    "sha256": "94d772eac4871487046feec67d04420aabff1443be180d976e16b3e6ee196c18",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "side": "old",
+    "cwd": "../q8-source-final/source-snapshot",
+    "source": "smidr/tools/source_storage.mojo",
+    "source_sha256": "f2586baa2c072f629348617fc8a4a817fcbcf4d0f2c3e13fe36dd40407ecc7d4",
+    "binary": "../classic32-source-extra/build/old-source-storage",
+    "sha256": "6fbdcf71e61d234abaf77cb3d7706a2c841a4d724cdbbc292eda67b033050c7d",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "side": "old",
+    "cwd": "../q8-source-final/source-snapshot",
+    "source": "tests/hailo_source_storage_api.mojo",
+    "source_sha256": "6faa29c0cc9c586724ec62aac0cc5cf344c123c77bf9b042635a4530c34952e0",
+    "binary": "../classic32-source-extra/build/old-source-storage-api",
+    "sha256": "16c50b7e6468f63c9c1bfcdad9ad9b400deab026e20d342314a7b5b39f1d1abb",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "side": "old",
+    "cwd": "../q8-source-final/source-snapshot",
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "source_sha256": "95985c5980cd340ed5fade3d99e560784beeefaa5546dfc01aa7539c72d215b2",
+    "binary": "../classic32-source-extra/build/old-safe-inventory",
+    "sha256": "aa38b5409abec3ff127903c65208598ec4362266b4d0c35cf104629f0d416f4d",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  }
+]

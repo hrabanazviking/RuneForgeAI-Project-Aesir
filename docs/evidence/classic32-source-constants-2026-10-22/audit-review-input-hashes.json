@@ -1,0 +1,6 @@
+{
+  "../classic32-source-audit-review/verify-reviewed.py": "4d13998548b8e8bfd14b02ad0281307cf6100568c7942964d3d9bd938c902fab",
+  "../classic32-source-audit-review/audit-traces.py": "11e5d50f50e8e2d0c419da75881993e3dfd0163855bf2a76f94094bdffa015af",
+  "../classic32-source-audit-review/original-audit-parser.py": "55c1be6a6472c01a9109a2be1d828d70f3c8d6e312f44c12962535f9b7284121",
+  "../classic32-source-audit-review/record-evidence.py": "b41fef1f4ebfed84fa120f9b182a5a4538d6a3ee5b4c7804f9a3b550ab85b878"
+}
