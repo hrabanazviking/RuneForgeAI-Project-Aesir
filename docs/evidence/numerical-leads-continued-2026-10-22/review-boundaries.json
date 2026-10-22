@@ -1,0 +1,11 @@
+{
+  "compiler_lead_commit": "c870419f7d6315e1277e06a9fa5eadd955b8e1af",
+  "license_observed_before_document_review": true,
+  "external_implementation_adopted": false,
+  "incidental_commit_diff_not_qualified_or_retained": true,
+  "misresolved_publication": "US11615297B2",
+  "correct_instruction_addressing_publication": "US11237894B1",
+  "target_numerical_encoding_qualified": false,
+  "device_access": false,
+  "source_model_execution": false
+}

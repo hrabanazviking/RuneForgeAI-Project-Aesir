@@ -49,3 +49,9 @@ the integrated clock field with deprecated NOT_AVAILABLE=0;schema RAM names do
 not qualify model budgets. No live request or new numerical/physical capability.
 Continue actual encoding/configuration/placement/program work;source-byte digest
 prerequisite follows its own native contract without claiming immutable binding.
+
+2026-10-22 continued bounded leads: MIT license and pinned compiler README,
+plus corrected patent publication identities, are recorded in
+docs/HAILO10H_NUMERICAL_LEADS_CONTINUED_2026-10-22.md. The inspected wrapper still
+requires DFC and the publication does not qualify H10H instruction fields. No
+external implementation, opcode, CRC parameter or device probe is adopted.

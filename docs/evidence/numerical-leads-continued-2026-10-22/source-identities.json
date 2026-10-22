@@ -1,0 +1,34 @@
+[
+  {
+    "name": "license",
+    "url": "https://raw.githubusercontent.com/l-nmch/hailo-10h-llm-compiler/c870419f7d6315e1277e06a9fa5eadd955b8e1af/LICENSE",
+    "bytes": 1087,
+    "sha256": "b88d9d476640d02a0fddb97e6ee3b4d0e4f78f245b4f9a5251a8972d93664a37",
+    "retrieved_utc": "2026-10-22T22:29:01.990230+00:00",
+    "source_kind": "license"
+  },
+  {
+    "name": "readme",
+    "url": "https://raw.githubusercontent.com/l-nmch/hailo-10h-llm-compiler/c870419f7d6315e1277e06a9fa5eadd955b8e1af/README.md",
+    "bytes": 16478,
+    "sha256": "a37b96ef4180c47b5a8bb42650f81e040bfed905821e8576b43d194352092489",
+    "retrieved_utc": "2026-10-22T22:29:02.240991+00:00",
+    "source_kind": "public documentation"
+  },
+  {
+    "name": "lcu-patent",
+    "url": "https://patents.google.com/patent/US11237894B1/en",
+    "bytes": 2050062,
+    "sha256": "b668a27a1bcf11da0dfee707a0dcdecb2e84ddfad5307003d9f9d9f142cbce52",
+    "retrieved_utc": "2026-10-22T22:29:03.201854+00:00",
+    "source_kind": "published patent disclosure; no implementation license inferred"
+  },
+  {
+    "name": "misresolved-patent",
+    "url": "https://patents.google.com/patent/US11615297B2/en",
+    "bytes": 1734175,
+    "sha256": "af117618a92ddbe9b9545379602dda1164241dd3a4a11825f0e02248f20673b3",
+    "retrieved_utc": "2026-10-22T22:29:04.011002+00:00",
+    "source_kind": "published patent disclosure; no implementation license inferred"
+  }
+]

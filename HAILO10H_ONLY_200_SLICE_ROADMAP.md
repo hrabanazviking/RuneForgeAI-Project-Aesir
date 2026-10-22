@@ -327,3 +327,10 @@ compilation and source-byte tile reads. Native evidence:
 program or numerical source execution. The broad100% ordinary-model target,
 remaining formats/architectures/operations and physical numerical configuration,
 packing/placement/delivery/results requirements remain unchanged.
+
+Next ordinary-format ownership work is contracted before production in
+`TASK_hailo10h_sealed_safetensors_source.md`: the original Safetensors mapped
+parser/constant reader will consume an Aesir-owned sealed fd. Bounded physical
+lead continuation is recorded in
+`docs/HAILO10H_NUMERICAL_LEADS_CONTINUED_2026-10-22.md`; it qualifies no numerical
+device encoding and is not implementation or execution evidence.

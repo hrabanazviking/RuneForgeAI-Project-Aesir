@@ -16,7 +16,9 @@ guards and existing source-reader integration are verified under
 `HAILO10H_MOJO_SEALED_GGUF_SOURCE.md`. Compiler-owned observed GGUF input and byte streaming are verified under
 `HAILO10H_MOJO_OWNED_GGUF_COMPILER.md`. Executable-artifact binding and remaining
 ordinary format/architecture/operation implementation stay open. The completed
-native contract is `TASK_hailo10h_owned_gguf_compiler.md`. Full controlling scope:
+native contract is `TASK_hailo10h_owned_gguf_compiler.md`. Next native contract:
+`TASK_hailo10h_sealed_safetensors_source.md` extends immutable observed input to
+another ordinary format using its existing parser and constant reader. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,

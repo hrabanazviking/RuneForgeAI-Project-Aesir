@@ -1,0 +1,23 @@
+# Compile-only closed-source wrapper type probe. Never executed.
+from armvegr.safetensors import SafetensorsLoader
+
+
+@fieldwise_init
+struct ProbeSealedSafetensors(Movable):
+    var source: SafetensorsLoader
+    var source_bytes: Int64
+    var digest_hex: String
+
+    def __deinit__(deinit self):
+        self.source.close()
+
+
+def _move(var source: ProbeSealedSafetensors) -> ProbeSealedSafetensors:
+    return source^
+
+
+def main():
+    var source = SafetensorsLoader()
+    var owner = ProbeSealedSafetensors(source^, 0, "")
+    var moved = _move(owner^)
+    moved.source.close()

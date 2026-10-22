@@ -1,0 +1,10 @@
+{
+  "before_exit": 1,
+  "after_exit": 1,
+  "inherited_issues": 23405,
+  "strict_old_schema_diagnostics": 9,
+  "raw_byte_identical": true,
+  "sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76",
+  "added": [],
+  "removed": []
+}
