@@ -1,0 +1,16 @@
+[
+  {
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/23.gguf",
+    "mode": "truncate",
+    "original_sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "final_sha256": "333e0a1e27815d0ceee55c473fe3dc93d56c63e3bee2b3b4aee8eed6d70191a3",
+    "complete_final_bytes_independently_equal": true
+  },
+  {
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/24.gguf",
+    "mode": "same_size",
+    "original_sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "final_sha256": "d3346238133a9e1fdc2246e4d7ded0c5e94cc8af2a5b61a31ed3661388eda9b9",
+    "complete_final_bytes_independently_equal": true
+  }
+]

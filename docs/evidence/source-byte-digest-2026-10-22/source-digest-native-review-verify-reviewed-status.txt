@@ -1,0 +1,4 @@
+source_weight_tiles 0
+source_float_constants 0
+gguf_shapes 0
+{'selected_controls': 6, 'success_pairs': 352, 'nonzero_pairs': 102, 'skipped_pairs': 0, 'old649_sources_unchanged': True, 'old66_python_inputs_unchanged': True, 'old102_controls_unchanged': True, 'dependency_inspection_separate_from_native_calls': True}

@@ -1,0 +1,10 @@
+{
+  "selected_controls": 6,
+  "success_pairs": 352,
+  "nonzero_pairs": 102,
+  "skipped_pairs": 0,
+  "old649_sources_unchanged": true,
+  "old66_python_inputs_unchanged": true,
+  "old102_controls_unchanged": true,
+  "dependency_inspection_separate_from_native_calls": true
+}

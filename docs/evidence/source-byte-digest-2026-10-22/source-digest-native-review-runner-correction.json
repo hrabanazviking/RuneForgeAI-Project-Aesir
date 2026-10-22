@@ -1,0 +1,8 @@
+{
+  "failure": "The original runner froze its own growing output status file as an input. New native digest suite already passed.",
+  "excluded_output_only": "../source-digest-native-development/verify-final-status.txt",
+  "native_sources_or_tests_changed": false,
+  "digest_suite_reexecuted": false,
+  "all_other_original_inputs_checked": true,
+  "original_failure_preserved": true
+}

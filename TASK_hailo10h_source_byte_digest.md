@@ -112,3 +112,10 @@ verify both clean checkouts,then continue automatically. No owner action needed.
 All LLM execution remains on Hailo-10H. Actual numerical lowering/configuration,
 precision/packing/placement,valid original program delivery/activation/results/
 cleanup and broad unmodified source-model execution remain required work.
+
+## Completed native slice
+
+2026-10-22: `docs/HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md` records eight clean builds,
+23 methods/905 primary calls,454 complete selected legacy comparisons and28 new
+traces. Existing sources/APIs/flags stay unchanged. Native observed hashing is
+verified; immutable source and coherent parsing/artifact binding remain open.

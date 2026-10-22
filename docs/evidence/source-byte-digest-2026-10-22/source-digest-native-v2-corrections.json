@@ -1,0 +1,8 @@
+{
+  "production_changes_after_first_pass": false,
+  "test_fixture_bug": "Unsafe test write pointer outlived its List owner; trace showed byte0 instead of173. Retain owner through os_pwrite.",
+  "strengthened_assertion": "Compare exact complete final synthetic mutation bytes, not only a second digest.",
+  "original_failed_audit_retained": true,
+  "all_native_and_legacy_tests_to_rerun": true,
+  "runner_output_hash_bug": "Exclude only mutable output logs from input identities; freeze py/json inputs."
+}

@@ -1,0 +1,11 @@
+source-digest 0
+Traceback (most recent call last):
+  File "../Project-Aesir/../source-digest-native-development/verify-final.py", line 27, in <module>
+    results.append(run(name,[sys.executable,'../source-digest-native-development/pair-selected.py',str(out/'pairs'/(name+'.json')),*new]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "../Project-Aesir/../source-digest-native-development/verify-final.py", line 14, in run
+    stable()
+  File "../Project-Aesir/../source-digest-native-development/verify-final.py", line 11, in stable
+    for p,h in {**sources,**inputs}.items():assert sha(p)==h,p
+                                                   ^^^^^^^^^
+AssertionError: ../source-digest-native-development/verify-final-status.txt

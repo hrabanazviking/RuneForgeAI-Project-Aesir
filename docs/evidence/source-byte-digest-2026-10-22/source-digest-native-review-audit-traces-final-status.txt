@@ -1,0 +1,7 @@
+{"trace_count": 28, "totals": {"source_opens": 28, "source_closes": 28, "whole_readonly_maps": 10, "matched_unmaps": 10, "same_descriptor_stat_calls": 40}, "kernel_positional_read_count": 78, "target_device_network_ioctl_external_crypto_matches": 0, "fault_shim_injected_errors_do_not_issue_a_kernel_read": true}
+legacy traces 3
+Traceback (most recent call last):
+  File "../Project-Aesir/../source-digest-native-review/audit-traces.py", line 95, in <module>
+    assert Path(path).read_bytes()==expected,path
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ../source-digest-native-acceptance/digest/fixtures/24.gguf

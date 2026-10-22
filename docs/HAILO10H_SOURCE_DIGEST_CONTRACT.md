@@ -36,3 +36,11 @@ Numerical H10H instructions/configuration/precision/packing/placement,valid
 original-program delivery/activation/results/cleanup and broad unmodified model
 execution remain open under the fixed owner target. This hash leaf does not
 change supported model formats,architectures or operation eligibility.
+
+## Native qualification completed
+
+The original leaf is verified under `HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md`: eight
+clean builds, 451 new calls and 454 complete selected legacy comparisons. All
+previous production sources and fingerprint flags remain unchanged. This advances
+observed byte hashing only; immutable source/coherent artifact binding remains
+the next content-identity gate.

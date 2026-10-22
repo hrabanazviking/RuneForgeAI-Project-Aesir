@@ -1,0 +1,198 @@
+[
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-0.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/0.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-1.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/0.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-2.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/0.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-3.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/0.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-20.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures",
+    "fault": null,
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-22.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "short",
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-23.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "short",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-24.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "eintr_once",
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-25.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "eintr_once",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-26.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "eintr",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-27.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "eof",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-28.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "eio",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-29.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "extra_count",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-30.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "stat_before",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-31.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "stat_after",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-32.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf",
+    "fault": "changed_size",
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-36.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/2.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-196.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/16.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-211.strace",
+    "path": null,
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-213.strace",
+    "path": null,
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-218.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/17.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 0
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-219.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/18.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-220.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/19.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-221.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/20.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-222.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/21.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-223.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/22.gguf",
+    "fault": null,
+    "mutation": false,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-224.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/23.gguf",
+    "fault": null,
+    "mutation": true,
+    "returncode": 1
+  },
+  {
+    "trace": "../source-digest-native-acceptance-v2/digest/trace-225.strace",
+    "path": "../source-digest-native-acceptance-v2/digest/fixtures/24.gguf",
+    "fault": null,
+    "mutation": true,
+    "returncode": 0
+  }
+]

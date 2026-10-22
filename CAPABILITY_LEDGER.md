@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 121 |
+| `verified` | 122 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **166** |
+| **Total** | **167** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3708,3 +3708,32 @@ No new capability ID or hardware/complete-source execution claim.
   versus ldd classification,dependency inspection on both sides,PID-aware
   split-syscall joins and actual trace census. Full original outputs archived;
   published large-output receipts follow complete component comparisons.
+
+### AES-SOURCE-027 — Original bounded observed source-byte digests
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/source_digest and smidr/source_byte_digest leaves.
+- **Claim sources:** TASK_hailo10h_source_byte_digest.md published at c2c678c
+  before code; docs/HAILO10H_SOURCE_DIGEST_CONTRACT.md retains scope and references.
+- **Implementation evidence:** Incremental owned SHA256 state reuses existing
+  original compression; exact state/count guards, bounded same-fd positional
+  reads, explicit attempt budgets and GGUF ownership adapter. All649 old Mojo
+  sources and66 old Python inputs remain unchanged.
+- **Executable evidence:** docs/HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md and
+  docs/evidence/source-byte-digest-2026-10-22/; eight clean builds, four suites,
+  23 methods/905 primary calls. New451 calls; six selected controls/454 complete
+  legacy pairs. All102 old controls preserved.28 new traces/28 matched descriptor
+  lifecycles, ten maps/unmaps and78 kernel positional reads; three legacy traces.
+- **Evidence boundary:** Observed byte-window hashing only. No atomic snapshot,
+  parsed-metadata/artifact coherence, immutable source or binding identity,
+  device precision/fit/placement, numerical Hailo or source-model execution.
+  All existing fingerprint/execution flags remain false; broader format and
+  architecture support remains implementation work under the fixed target.
+- **Next acceptance gate:** Qualify owned immutable source bytes and connect
+  parsing/conversion/artifact binding, alongside actual H10H numerical encoding,
+  physical configuration and original-program execution work.
+- **Audit:** Raw attempts and failures preserved. Runner output-log identity bug
+  and test-only unsafe-buffer lifetime bug corrected; all final suites/builds
+  and audits repeated. Independent exact mutation bytes, descriptor retention,
+  truncation refusal without new mapped payload reads, PID-aware split-syscall
+  joins, separate dependency inspection and zero skipped legacy pairs.

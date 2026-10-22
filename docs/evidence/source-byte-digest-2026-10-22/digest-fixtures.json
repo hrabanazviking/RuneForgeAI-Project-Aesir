@@ -1,0 +1,152 @@
+{
+  "../source-digest-native-acceptance-v2/digest/fixtures/0.gguf": {
+    "bytes": 69961,
+    "sha256": "391ee71c397d486fd56ee22d3e771b100af95122cddb298aabd8a566677f490b",
+    "kind": 23,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/1.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/2.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/3.gguf": {
+    "bytes": 1219,
+    "sha256": "e1df120dac139a06fc69ae8f320f50ac34d8aea5d2c99e46267d57d0125a1102",
+    "kind": 1,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/4.gguf": {
+    "bytes": 1219,
+    "sha256": "75a32f34d5ad00cc95ea7329ea154f82b99cbec3bd3249a1cc6f7b08fdeeaabb",
+    "kind": 30,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/5.gguf": {
+    "bytes": 9427,
+    "sha256": "131f2170cfecccff8ed3370c90dab01c367278fb4c686bf8d3db3a3fc5aab890",
+    "kind": 2,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/6.gguf": {
+    "bytes": 10453,
+    "sha256": "a9e30876cddfc5ec5a8306418f9b41182ffbfeb3c084bf4b36a490e68e1be2a2",
+    "kind": 3,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/7.gguf": {
+    "bytes": 11479,
+    "sha256": "2c4d625eef36d62a58760017512950fc66e062d9fa9176f4db3627d40fe6924e",
+    "kind": 6,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/8.gguf": {
+    "bytes": 12505,
+    "sha256": "5e67ea94f218914bcd696451dcdf5db353d8b72eb91d6582a85a0b691249be2e",
+    "kind": 7,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/9.gguf": {
+    "bytes": 17635,
+    "sha256": "1b35be0f5e14e2b9965f1a807ed9fb9af38e9c99631abe87e429a28764b5ddda",
+    "kind": 8,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/10.gguf": {
+    "bytes": 43285,
+    "sha256": "e6a1306d11125305301111912ab8ce11c333c575917ba60f5669609a4ca0efb2",
+    "kind": 10,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/11.gguf": {
+    "bytes": 56623,
+    "sha256": "9892708f260950271eb69efb7cfe60097fcc3a46e81a5eda081a193a54ea52a3",
+    "kind": 11,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/12.gguf": {
+    "bytes": 74065,
+    "sha256": "66940647c7838b1e889acdc2d8d440e32c8c9f863312859fcd5d3b656da75114",
+    "kind": 12,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/13.gguf": {
+    "bytes": 90481,
+    "sha256": "5d1679fad70f3f4d251c7d45ba5dfbb11313a3551ec4b63ae5e409df6509d55f",
+    "kind": 13,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/14.gguf": {
+    "bytes": 107923,
+    "sha256": "5c7f7380c9e26bb33dd7fe9c44bc02f3ec2f653a08682744c6f26e947502feb0",
+    "kind": 14,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/15.gguf": {
+    "bytes": 9427,
+    "sha256": "6b589ada6f4a2bc46a58c7b7cab6693425872381404229cfbdc9412db75675be",
+    "kind": 20,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/16.gguf": {
+    "bytes": 69961,
+    "sha256": "391ee71c397d486fd56ee22d3e771b100af95122cddb298aabd8a566677f490b",
+    "kind": 23,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/17.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/18.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/19.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/20.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/21.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/22.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/23.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  },
+  "../source-digest-native-acceptance-v2/digest/fixtures/24.gguf": {
+    "bytes": 2245,
+    "sha256": "ba8996712af89e2ed8425cfe8b7952c6782863941968e982f7afd68aa89cf4a6",
+    "kind": 0,
+    "origin": 192
+  }
+}

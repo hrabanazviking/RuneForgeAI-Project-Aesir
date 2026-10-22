@@ -1,0 +1,22 @@
+[
+  {
+    "suite": "source-digest",
+    "methods": 6,
+    "primary_calls": 451
+  },
+  {
+    "suite": "source_weight_tiles",
+    "methods": 5,
+    "primary_calls": 286
+  },
+  {
+    "suite": "source_float_constants",
+    "methods": 6,
+    "primary_calls": 64
+  },
+  {
+    "suite": "gguf_shapes",
+    "methods": 6,
+    "primary_calls": 104
+  }
+]

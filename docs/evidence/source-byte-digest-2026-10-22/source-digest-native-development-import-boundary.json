@@ -1,0 +1,23 @@
+{
+  "new_sources": [
+    "hailbru/source_digest.mojo",
+    "smidr/source_byte_digest.mojo",
+    "smidr/tools/source_byte_digest.mojo",
+    "tests/hailo_source_digest_api.mojo"
+  ],
+  "new_entrypoints": [
+    "smidr/tools/source_byte_digest.mojo",
+    "tests/hailo_source_digest_api.mojo"
+  ],
+  "old_sources_modified": [],
+  "old_controls_affected_by_new_imports": [],
+  "selected_regression_entrypoints": [
+    "smidr/tools/gguf_shapes.mojo",
+    "smidr/tools/source_float_constants.mojo",
+    "smidr/tools/source_weight_tiles.mojo",
+    "tests/hailo_gguf_shapes_api.mojo",
+    "tests/hailo_source_float_api.mojo",
+    "tests/hailo_source_weight_tiles_api.mojo"
+  ],
+  "reason": "New leaf imports existing SHA compression/syscall and GGUF owner. No old source imports new modules. All649 old source identities checked before and after builds."
+}

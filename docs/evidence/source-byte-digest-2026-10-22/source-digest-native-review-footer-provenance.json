@@ -1,0 +1,6 @@
+{
+  "source": "../source-digest-native-development/verify-final.py",
+  "source_sha256": "5571ac9e85fa05510da55e8021936574ea8fa9a5c6a0c8534ce08282ae3377ef",
+  "suffix_sha256": "148018985d97307382d3aedd6ab8e0885da1550e19f4c7c75b79e309dc83d5b9",
+  "scope": "Previously unexecuted regression/dependency/control-coverage suffix only"
+}

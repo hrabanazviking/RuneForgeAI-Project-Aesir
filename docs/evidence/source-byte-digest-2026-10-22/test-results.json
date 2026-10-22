@@ -1,0 +1,74 @@
+[
+  {
+    "suite": "source-digest",
+    "command": [
+      "/usr/bin/python3",
+      "tests/test_hailo_source_digest.py",
+      "--binary",
+      "../source-digest-native-final-v2/source-byte-digest",
+      "--api",
+      "../source-digest-native-final-v2/source-digest-api",
+      "--faults",
+      "../source-digest-native-final-v2/io-faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../source-digest-native-acceptance-v2/digest"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "source_weight_tiles",
+    "command": [
+      "/usr/bin/python3",
+      "../source-digest-native-v2/pair-selected.py",
+      "../source-digest-native-acceptance-v2/pairs/source_weight_tiles.json",
+      "tests/test_hailo_source_weight_tiles.py",
+      "--binary",
+      "../source-digest-native-final-v2/tagged-source-weight-tiles",
+      "--api-binary",
+      "../source-digest-native-final-v2/tagged-source-weight-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../source-digest-native-acceptance-v2/legacy/legacy/source_weight_tiles"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "source_float_constants",
+    "command": [
+      "/usr/bin/python3",
+      "../source-digest-native-v2/pair-selected.py",
+      "../source-digest-native-acceptance-v2/pairs/source_float_constants.json",
+      "tests/test_hailo_source_float_constants.py",
+      "--binary",
+      "../source-digest-native-final-v2/tagged-float-constants",
+      "--api-binary",
+      "../source-digest-native-final-v2/tagged-float-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../source-digest-native-acceptance-v2/legacy/legacy/source_float_constants"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "gguf_shapes",
+    "command": [
+      "/usr/bin/python3",
+      "../source-digest-native-v2/pair-selected.py",
+      "../source-digest-native-acceptance-v2/pairs/gguf_shapes.json",
+      "tests/test_hailo_gguf_shapes.py",
+      "--binary",
+      "../source-digest-native-final-v2/closure-gguf_shapes",
+      "--api",
+      "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../source-digest-native-acceptance-v2/legacy/gguf_shapes"
+    ],
+    "returncode": 0
+  }
+]

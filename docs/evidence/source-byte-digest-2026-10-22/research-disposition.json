@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-22",
+  "scope": "Bounded primary-publication lead discovery alongside native digest work",
+  "queries": [
+    "site.github.com/hailo-ai HAILO10H CCW",
+    "site.patents.google.com Hailo configuration words programmable neural network processor instruction configuration",
+    "site.patents.google.com/patent/ Layer control unit instruction addressing safety Hailo",
+    "site.patents.google.com/patent/ Hailo instruction opcode"
+  ],
+  "publication": "US11237894B1",
+  "url": "https://patents.google.com/patent/US11237894B1/en",
+  "provenance_policy": "Public patent disclosure read for conceptual field leads only. No software body copied or implementation license inferred; no patent licensing determination. Third-party compiler mirror search hit excluded without opening its source body.",
+  "disposition": "The publication describes compiler-provided program length and expected opcode/CRC checks for an illustrative LCU safety mechanism. It supplies no qualified Hailo-10H arithmetic opcode, register address, CRC polynomial, field width, packing or upload endpoint. These concepts are leads for later target-specific field qualification, not device-program encodings. No serializer or hardware experiment follows from this publication alone.",
+  "next_bounded_question": "Find primary target-specific declarations tying any LCU program-length/check fields to exact H10H widths and receiver behavior; otherwise preserve missing status and continue original source/compiler implementation.",
+  "new_physical_capability": false,
+  "device_access": false,
+  "source_execution": false
+}
