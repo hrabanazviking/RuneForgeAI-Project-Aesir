@@ -1,3 +1,4 @@
+from smidr.tools.dynamic_graph_state import describe_dynamic_state, describe_dynamic_numbers
 from smidr.tools.scaling_policy import describe_scaling_policy
 from smidr.tools.window_policy import describe_window_policy
 from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
@@ -51,6 +52,9 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
     if plan.explicit_scaling:
         text = text.replace("\"schema_version\":6", "\"schema_version\":7")
         text += ",\"scaling_policy\":" + describe_scaling_policy(plan.scaling_policy, plan.scaling_work)
+    if plan.explicit_dynamic:
+        text = text.replace("\"schema_version\":6", "\"schema_version\":8")
+        text += ",\"dynamic_state\":" + describe_dynamic_state(plan.dynamic_before, plan.dynamic_after, plan.past_tokens, plan.query_tokens, plan.dynamic_source_context, plan.dynamic_work, plan.source.policy.work, plan.session_policy.return_cache)
     text += ",\"source_bytes\":" + String(plan.source.source_bytes) + ",\"weight_bytes\":" + String(plan.source.weight_bytes) + ",\"weights\":{"
     var first = True
     for name in plan.used_weights:
@@ -74,6 +78,9 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
             text += ","
         var operation = plan.operations[i].copy()
         text += "{\"id\":" + String(i) + ",\"kind\":" + _quote(operation.kind) + ",\"inputs\":" + _integers(operation.inputs)
+        if plan.explicit_dynamic:
+            text += "," + describe_dynamic_numbers(operation.dynamic_reference, operation.dynamic_selected, operation.dynamic_factor)
+            text += ",\"position_start\":" + String(operation.position_start)
         if plan.explicit_window:
             text += ",\"window_tokens\":" + String(operation.window_tokens)
         if plan.explicit_scaling:

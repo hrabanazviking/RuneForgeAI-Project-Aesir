@@ -1,3 +1,4 @@
+from smidr.tools.dynamic_graph_state import describe_dynamic_state, describe_dynamic_numbers
 from smidr.tools.scaling_policy import describe_scaling_policy
 from smidr.tools.window_policy import describe_window_policy
 from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
@@ -33,6 +34,9 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
     if lowered.explicit_scaling:
         text = text.replace("\"schema_version\":6", "\"schema_version\":7")
         text += ",\"scaling_policy\":" + describe_scaling_policy(lowered.scaling_policy, lowered.scaling_work)
+    if lowered.explicit_dynamic:
+        text = text.replace("\"schema_version\":6", "\"schema_version\":8")
+        text += ",\"dynamic_state\":" + describe_dynamic_state(lowered.dynamic_before, lowered.dynamic_after, plan.past_tokens, plan.query_tokens, lowered.dynamic_source_context, lowered.dynamic_work, plan.source.policy.work, plan.session_policy.return_cache)
     text += ",\"unresolved_gates\":[\"finite_precision_reduction_and_overflow\",\"special_values_and_transcendental_approximations\",\"quantization_weight_and_activation_layout\",\"lowered_storage_and_device_placement\",\"CCW_encoding_upload_and_hardware_result\"]"
     text += ",\"recipes\":["
     for i in range(len(lowered.recipes)):
@@ -41,6 +45,8 @@ def describe_primitive_recipes(lowered: PrimitiveRecipes, plan: SemanticPlan) ra
         var recipe = lowered.recipes[i].copy()
         text += "{\"source_operation\":" + String(recipe.source_operation) + ",\"source_input\":" + String(recipe.source_input) + ",\"source_output\":" + String(recipe.source_output)
         text += ",\"kind\":" + _quote(recipe.kind) + ",\"weight_name\":" + _quote(recipe.weight_name) + ",\"divisor\":" + String(recipe.divisor) + ",\"epsilon_bits\":" + (String("null") if recipe.epsilon_scalar.width == 64 else String(recipe.epsilon_bits))
+        if lowered.explicit_dynamic:
+            text += "," + describe_dynamic_numbers(recipe.dynamic_reference, recipe.dynamic_selected, recipe.dynamic_factor)
         if lowered.explicit_window:
             text += ",\"window_tokens\":" + String(recipe.window_tokens)
         if lowered.explicit_scaling:

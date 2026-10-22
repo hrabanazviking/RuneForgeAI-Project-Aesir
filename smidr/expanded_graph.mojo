@@ -1,3 +1,4 @@
+from smidr.dynamic_decoder_policy import same_dynamic_decoder_history
 from smidr.scaling_policy import same_scaling_policy
 from smidr.window_policy import same_window_policy
 from smidr.session_graph import validate_plan_session_state
@@ -9,7 +10,7 @@ from std.collections import Dict
 from smidr.bias_policy import same_bias_policy
 from smidr.bias_graph import validate_plan_bias_state
 from smidr.source_inventory import validate_source_weight
-from smidr.semantic_plan import SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar, validate_plan_scaling_state
+from smidr.semantic_plan import validate_plan_dynamic_state, SemanticPlan, checked_product, validate_plan_scalar_state, rms_scalar, rotary_scalar, validate_plan_scaling_state
 from smidr.source_scalars import ScalarWord, same_scalar_word, same_decoder_scalars, scalar32_mirror
 from smidr.primitive_recipes import PrimitiveRecipes, lower_primitive_recipes
 from smidr.primitive_recipes import _rotary_recipe, _projection_bias_recipe, _activation_recipe, _selected_silu_recipe, _window_recipe
@@ -50,6 +51,10 @@ struct ExpandedOperation(Copyable, Movable):
     var window_tokens: Int
     var scaling_kind: String
     var scaling_factor: ScalarWord
+    var position_start: Int
+    var dynamic_reference: Int
+    var dynamic_selected: Int
+    var dynamic_factor: ScalarWord
 
     def __init__(out self, kind: String,
                  var inputs: List[Int],
@@ -66,7 +71,9 @@ struct ExpandedOperation(Copyable, Movable):
                  rotary_base_scalar: ScalarWord,
                  rotary_pairing: String,
                  rotary_provenance: String, window_tokens: Int = 0,
-                 scaling_kind: String = "", scaling_factor: ScalarWord = ScalarWord(0, 0)):
+                 scaling_kind: String = "", scaling_factor: ScalarWord = ScalarWord(0, 0), position_start: Int = -1,
+                 dynamic_reference: Int = 0, dynamic_selected: Int = 0,
+                 dynamic_factor: ScalarWord = ScalarWord(0, 0)):
         self.kind = kind
         self.inputs = inputs^
         self.output = output
@@ -85,6 +92,10 @@ struct ExpandedOperation(Copyable, Movable):
         self.window_tokens = window_tokens
         self.scaling_kind = scaling_kind
         self.scaling_factor = scaling_factor.copy()
+        self.position_start = position_start
+        self.dynamic_reference = dynamic_reference
+        self.dynamic_selected = dynamic_selected
+        self.dynamic_factor = dynamic_factor.copy()
 
 
 struct ExpandedGraph(Movable):
@@ -165,7 +176,9 @@ struct ExpandedGraph(Movable):
              epsilon_scalar: ScalarWord = ScalarWord(0, 0),
              rotary_base_scalar: ScalarWord = ScalarWord(0, 0),
              window_tokens: Int = 0, scaling_kind: String = "",
-             scaling_factor: ScalarWord = ScalarWord(0, 0)) raises -> Int:
+             scaling_factor: ScalarWord = ScalarWord(0, 0), position_start: Int = -1,
+             dynamic_reference: Int = 0, dynamic_selected: Int = 0,
+             dynamic_factor: ScalarWord = ScalarWord(0, 0)) raises -> Int:
         var step = len(self.operations)
         for input_id in inputs:
             if input_id < 0 or input_id >= len(self.values) or self.values[input_id].producer >= step:
@@ -174,7 +187,7 @@ struct ExpandedGraph(Movable):
         var output = self.value(name, shape^, domain, storage, step, alias_of, source_tensor)
         self.operations.append(ExpandedOperation(kind, inputs^, output, source_operation,
             recipe_step, width, epsilon_bits, epsilon_scalar.copy(), source_weight, preconditions.copy(),
-            rotary_dim, rotary_base_bits, rotary_base_scalar.copy(), rotary_pairing, rotary_provenance, window_tokens, scaling_kind, scaling_factor))
+            rotary_dim, rotary_base_bits, rotary_base_scalar.copy(), rotary_pairing, rotary_provenance, window_tokens, scaling_kind, scaling_factor, position_start, dynamic_reference, dynamic_selected, dynamic_factor))
         return output
 
 
@@ -252,7 +265,7 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
                     recipe.epsilon_bits, weight, recipe.runtime_preconditions,
                     -1, source_id, recipe.rotary_dim, recipe.rotary_base_bits,
                     recipe.rotary_pairing, recipe.rotary_provenance,
-                    recipe.epsilon_scalar, recipe.rotary_base_scalar, recipe.window_tokens, recipe.scaling_kind, recipe.scaling_factor)
+                    recipe.epsilon_scalar, recipe.rotary_base_scalar, recipe.window_tokens, recipe.scaling_kind, recipe.scaling_factor, -1, recipe.dynamic_reference, recipe.dynamic_selected, recipe.dynamic_factor)
             graph.source_values[source_op.output] = local[recipe.result]
         else:
             var inputs = List[Int]()
@@ -268,8 +281,8 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
                 alias_of = graph.source_values[source_out.alias_of]
                 storage = String("kv_view")
             var mapped = graph.emit(source_op.kind, source_out.name, inputs^,
-                source_out.shape.copy(), "real", storage, index, -1, 0, 0,
-                source_op.weight, List[String](), alias_of, source_op.output)
+                source_out.shape.copy(), "index" if source_op.kind == "position_range" else String("real"), storage, index, -1, 0, 0,
+                source_op.weight, List[String](), alias_of, source_op.output, 0, 0, "", "", ScalarWord(0, 0), ScalarWord(0, 0), 0, "", ScalarWord(0, 0), source_op.position_start)
             if graph.values[mapped].elements != source_out.elements:
                 raise Error("ExpandedGraph: source result shape/product mismatch")
             graph.source_values[source_op.output] = mapped
@@ -357,7 +370,7 @@ def validate_rotary_expansion(graph: ExpandedGraph) raises:
             var wanted = recipe.values[expected.output].copy()
             if value.shape != wanted.shape or value.elements != wanted.elements or value.domain != wanted.domain or value.storage != "activation" or value.producer != cursor or value.alias_of != -1:
                 raise Error("RotaryExpansion: changed recipe value")
-            if graph.source.explicit_scaling:
+            if graph.source.explicit_scaling or graph.source.explicit_dynamic:
                 var is_result = expected.output == recipe.result
                 var expected_name = graph.source.tensors[recipe.source_output].name
                 if not is_result:
@@ -649,6 +662,7 @@ def validate_window_expansion(graph: ExpandedGraph) raises:
 
 
 def validate_scaling_expansion(graph: ExpandedGraph) raises:
+    validate_dynamic_expansion(graph)
     validate_plan_scaling_state(graph.source)
     if graph.recipes.explicit_scaling != graph.source.explicit_scaling or graph.recipes.scaling_work != graph.source.scaling_work or not same_scaling_policy(graph.recipes.scaling_policy, graph.source.scaling_policy):
         raise Error("DecoderScaling: retained scaling policy snapshot changed")
@@ -678,7 +692,7 @@ def validate_scaling_expansion(graph: ExpandedGraph) raises:
                 raise Error("DecoderScaling: changed expanded factor/unused metadata")
         elif op.scaling_kind.byte_length() != 0 or op.scaling_factor.width != 0 or op.scaling_factor.bits != 0:
             raise Error("DecoderScaling: stray expanded scaling metadata")
-    if not graph.source.explicit_scaling:
+    if not graph.source.explicit_scaling and not graph.source.explicit_dynamic:
         return
     if len(graph.values) > graph.source.source.policy.work or len(graph.operations) > graph.source.source.policy.work:
         raise Error("DecoderScaling: expanded work bound exceeded")
@@ -706,3 +720,65 @@ def validate_scaling_expansion(graph: ExpandedGraph) raises:
             last[i] = len(graph.operations)
         if value.last_use != last[i]:
             raise Error("DecoderScaling: changed expanded lifetime")
+
+
+def validate_dynamic_expansion(graph: ExpandedGraph) raises:
+    # Pure source guard; no expansion/consumer recursion.
+    validate_plan_scaling_state(graph.source)
+    var work = graph.source.source.policy.work
+    if graph.recipes.explicit_dynamic != graph.source.explicit_dynamic or graph.recipes.dynamic_source_context != graph.source.dynamic_source_context or graph.recipes.dynamic_work != graph.source.dynamic_work or not same_dynamic_decoder_history(graph.recipes.dynamic_before, graph.source.dynamic_before, work) or not same_dynamic_decoder_history(graph.recipes.dynamic_after, graph.source.dynamic_after, work):
+        raise Error("DynamicDecoder: retained history snapshot changed")
+    if not graph.source.explicit_dynamic:
+        # Existing consumers own legacy identities/budgets and diagnostics.
+        # This guard adds only the new optional-state invariants on that path.
+        for r in graph.recipes.recipes:
+            if r.dynamic_reference != 0 or r.dynamic_selected != 0 or r.dynamic_factor.width != 0 or r.dynamic_factor.bits != 0:
+                raise Error("DynamicDecoder: stray recipe numeric metadata")
+        for op in graph.operations:
+            if op.position_start != -1 or op.dynamic_reference != 0 or op.dynamic_selected != 0 or op.dynamic_factor.width != 0 or op.dynamic_factor.bits != 0 or op.kind == "position_range" or op.kind == "dynamic_rotary_gain" or op.kind == "dynamic_rotary_frequency":
+                raise Error("DynamicDecoder: stray expanded optional state")
+        return
+    if len(graph.recipes.recipes) > work or len(graph.operations) > work or len(graph.values) > work:
+        raise Error("DynamicDecoder: expansion descriptor work exceeded")
+    if graph.source.explicit_dynamic and graph.recipes.rotary_policy.pairing.byte_length() == 0:
+        raise Error("DynamicDecoder: explicit rotary basis required")
+    for r in graph.recipes.recipes:
+        if r.source_operation < 0 or r.source_operation >= len(graph.source.operations):
+            raise Error("DynamicDecoder: retained source identity changed")
+        var source = graph.source.operations[r.source_operation].copy()
+        var rotary = source.kind == "rope_query" or source.kind == "rope_key"
+        if graph.source.explicit_dynamic and rotary:
+            if r.dynamic_reference != source.dynamic_reference or r.dynamic_selected != source.dynamic_selected or not same_scalar_word(r.dynamic_factor, source.dynamic_factor):
+                raise Error("DynamicDecoder: retained numeric metadata changed")
+            if r.epsilon_scalar.width != 0 or r.epsilon_scalar.bits != 0 or r.window_tokens != 0 or r.weight.file_offset != 0 or r.weight.columns != 0 or r.weight.rows != 0 or r.weight.source_kind != 0 or r.weight.byte_count != 0 or r.weight_extent.source_format.byte_length() != 0 or r.weight_extent.source_bytes != 0 or r.weight_extent.data_offset != 0:
+                raise Error("DynamicDecoder: stray rotary constant/extent")
+            var w = r.weight_storage.copy()
+            if w.source_format.byte_length() != 0 or w.source_kind != 0 or w.axis_order.byte_length() != 0 or w.original_name.byte_length() != 0 or len(w.source_shape) != 0 or w.source_path.byte_length() != 0 or w.file_offset != 0 or w.byte_count != 0 or w.elements != 0:
+                raise Error("DynamicDecoder: stray rotary storage")
+        elif r.dynamic_reference != 0 or r.dynamic_selected != 0 or r.dynamic_factor.width != 0 or r.dynamic_factor.bits != 0:
+            raise Error("DynamicDecoder: stray recipe numeric metadata")
+    var range_count = 0
+    for i in range(len(graph.operations)):
+        var op = graph.operations[i].copy()
+        if op.source_operation < 0 or op.source_operation >= len(graph.source.operations):
+            raise Error("DynamicDecoder: expanded source identity changed")
+        var source = graph.source.operations[op.source_operation].copy()
+        var rotary = source.kind == "rope_query" or source.kind == "rope_key"
+        if graph.source.explicit_dynamic and rotary:
+            if op.dynamic_reference != source.dynamic_reference or op.dynamic_selected != source.dynamic_selected or not same_scalar_word(op.dynamic_factor, source.dynamic_factor):
+                raise Error("DynamicDecoder: expanded numeric metadata changed")
+        elif op.dynamic_reference != 0 or op.dynamic_selected != 0 or op.dynamic_factor.width != 0 or op.dynamic_factor.bits != 0:
+            raise Error("DynamicDecoder: stray expanded numeric metadata")
+        if op.kind == "position_range":
+            range_count += 1
+            if not graph.source.explicit_dynamic or i != 0 or op.source_operation != 0 or source.kind != "position_range" or op.recipe_step != -1 or op.position_start != graph.source.past_tokens or len(op.inputs) != 0 or op.output < 0 or op.output >= len(graph.values) or source.output not in graph.source_values or graph.source_values[source.output] != op.output or op.source_weight.byte_length() != 0 or op.width != 0 or op.epsilon_bits != 0 or op.epsilon_scalar.width != 0 or op.epsilon_scalar.bits != 0 or op.rotary_dim != 0 or op.rotary_base_bits != 0 or op.rotary_base_scalar.width != 0 or op.rotary_base_scalar.bits != 0 or op.rotary_pairing.byte_length() != 0 or op.rotary_provenance.byte_length() != 0 or op.window_tokens != 0 or len(op.runtime_preconditions) != 0:
+                raise Error("DynamicDecoder: changed expanded position producer")
+            var v = graph.values[op.output].copy()
+            if v.name != "positions" or v.shape != List[Int]([graph.source.query_tokens]) or v.elements != graph.source.query_tokens or v.domain != "index" or v.storage != "activation" or v.producer != 0 or v.source_tensor != source.output or v.source_weight.byte_length() != 0 or v.alias_of != -1:
+                raise Error("DynamicDecoder: changed expanded position value")
+        elif op.position_start != -1 or source.kind == "position_range":
+            raise Error("DynamicDecoder: missing/stray expanded position range")
+        if not graph.source.explicit_dynamic and (op.kind == "dynamic_rotary_gain" or op.kind == "dynamic_rotary_frequency"):
+            raise Error("DynamicDecoder: unowned dynamic numerical operation")
+    if range_count != Int(graph.source.explicit_dynamic):
+        raise Error("DynamicDecoder: missing/duplicate expanded position producer")

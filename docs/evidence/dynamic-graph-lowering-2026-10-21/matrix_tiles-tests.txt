@@ -1,0 +1,6 @@
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 22.340s
+
+OK
+Native outcomes: {'accepted': 799, 'refused': 61} coordinate checks: 6672

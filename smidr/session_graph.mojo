@@ -1,3 +1,4 @@
+from smidr.semantic_plan import validate_plan_position_role
 # Original source session invariants; no numerical attention or device code.
 from std.collections import Dict
 from smidr.session_policy import empty_session_policy, same_session_policy, validate_session_policy
@@ -73,7 +74,9 @@ def validate_plan_session_state(plan: SemanticPlan) raises:
     if persistent_count != count or alias_count != count or append_count != count:
         raise Error("DecoderSession: mode/base/append/alias set mismatch")
     var positions = _session_tensor(plan, names, "positions", [plan.query_tokens])
-    if plan.tensors[positions].producer != -1:
+    if plan.explicit_dynamic:
+        validate_plan_position_role(plan, positions)
+    elif plan.tensors[positions].producer != -1:
         raise Error("DecoderSession: positions must be external input")
     var exports = List[Int]()
     for layer in range(plan.layers):

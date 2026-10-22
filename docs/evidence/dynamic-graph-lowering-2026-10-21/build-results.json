@@ -1,0 +1,492 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../dynamic-graph-final/tagged-semantic-plan",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "724b8ef8d9950c4ebd879885657e2bc9c899f49689aab41e73d2dcd365402265"
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-typed-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "84e1ec57ee096c270b7043d4e74e1446cd73d2bb55fa109eb245000dd4d05eb0"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../dynamic-graph-final/tagged-expanded-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b483eb0bda4bb7ef20a800c6510ae64f0b1940dbf44aa1d038e3ee3e9e1a864e"
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-expanded-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4b1f8502c1c577bddd9bdd34caa350b90b68e3ef7a531f85fff1c0cd692da40e"
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "../dynamic-graph-final/tagged-expanded-storage",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9fa905973f109b4f9f0763aa81872871fd27e9bbf860a254e279c38c57665428"
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-expanded-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2e4ec30b890812fac7cb9d49c8c74791cfbe431681a6b468761ab1f2e79297ad"
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "../dynamic-graph-final/tagged-matrix-tiles",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f7a1ada47500799b001dfb74d1cc403dcfaded46b682e4f09f2087c36cff3885"
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-matrix-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6dd279a0acf45853a73da0185b43c49de424e59df07f271ef5b96639758851d8"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../dynamic-graph-final/tagged-primitive-recipes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "09a9a25fcfd0584f5119d60e04d31a45f66ae70fecf138afcc02a070a21b920a"
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-primitive-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ac7a777f8beed681b27358324c45559df1770ea01fed17d2577bd1ca019842ab"
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../dynamic-graph-final/tagged-cache-layout",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "beecf9eabb542c04d6f8e443a9c1a38b354e1fd7d5c3a16fe4364504e1bf9fd6"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-cache-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ecf98380ca21a288b1b89425ba7246072f5108fcacfcbcda141601cea8be99c7"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../dynamic-graph-final/tagged-source-weight-tiles",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5f09f6ec37e8e128d899b36dad4342794c3d975c3ce0753baef081fc2a26cf43"
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-source-weight-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "70c03c89031c679e129e38c8e204ef4fac26ee6a08d0c8795ed3fc64a975728b"
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "../dynamic-graph-final/tagged-storage-estimate",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "67ee71be9d7af45fe72daa81a4c9f951baa1ccb59cbfe591d512eb4435633f3c"
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "354c9ff4181b8aa4f908f1d74e5c3e08bab6520460a26f97067c0dbc1f6b566e"
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "../dynamic-graph-final/tagged-source-inventory",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8353c67cc7d750835471fa1c11073074816be134332273736033cd95563fc477"
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "../dynamic-graph-final/tagged-typed-decoder",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5db252855629d55f7edf07ba0a9c2b5b8aaa01a446f94afaede36b4bf7f6107a"
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "../dynamic-graph-final/tagged-semantic-storage",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2f377591516ec288e3b96c028961c6d1580f760a4de676719a06e2faf9ec5265"
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-semantic-storage-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "dbdf5eaf7c454bd4488b367573befd1e73b486343b76d93f9d11ae605f6d4fff"
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "../dynamic-graph-final/tagged-float-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fd41a5c13647ea19de9fa704db5148c750bd0324e7eccd78baa2da3d88ed7aa5"
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-float-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2dc4931e60822c44702a0fe885a3b4aed17bb5ba56e547b6c3ab2e4b2d5ab068"
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "../dynamic-graph-final/tagged-q4k-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ba6f36c7c6c2990b4a6e3ae09d476faa6edeae2af3255475a386a958b7036e19"
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-q4k-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3ad2467051bfacf93f764fc05b12f22019c4d60c81b142d36a1f0b8cacd46418"
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "../dynamic-graph-final/tagged-q5q6-constants",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "277bb6aa04e928c72c2417e90828441a8ed81224df41b526f4440afde3528e04"
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "../dynamic-graph-final/tagged-q5q6-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d2cd726e01bc537ed86b8654f2bafd64128b43f2f37cf08ae6d96b9835f70633"
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../dynamic-graph-final/decoder-graph-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5bcd5d53faeb987f9a9a5f6fdb795b2173e0b89280581b4dc27533e8130e0735"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../dynamic-graph-final/decoder-graph-policy-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4f87627eb69e54a9396c8c4b7b3420eb27bdb1e86e31a4e92448267baea443b7"
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "../dynamic-graph-final/rotary-recipes",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c2cd57ca35f3f9951eb1b66559471bf3dc92b4f35ca19ec925ae1f5c1be02892"
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "../dynamic-graph-final/rotary-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a3f9b98c1d165655aaf76e903693e91ec1aa569b824269095b4b068dda3bba70"
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "binary": "../dynamic-graph-final/decoder-scalar-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "578f28e05b2b15198d7f20b71134a3d97e028400f52f5009d7972f5d62045b98"
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "binary": "../dynamic-graph-final/source-scalars-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "77d013537ae5f02de6994fda64d11533d437f44754a9b9da3852805febcd366c"
+  },
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "binary": "../dynamic-graph-final/ordinary-schema",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "70abf888de329edbf6185da564c3606ceb960ccffb579cf3d1971c4afed1ccd0"
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "binary": "../dynamic-graph-final/ordinary-schema-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d1d33744941ebdb93e361e0e37daa19944ffc4507ab42f4bc45457c65b56a2b5"
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "../dynamic-graph-final/decoder-projections",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "60c7c4ad5a337769cd7cefc07221eef57d6a7933eb692d187db1134753c26abd"
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "../dynamic-graph-final/decoder-projections-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d36ed53cdb191933f0c242ebdd25135a5683ae564086d7b2c203ede33a05fcdc"
+  },
+  {
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "binary": "../dynamic-graph-final/decoder-bias-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b5a93475762895b0624e9b425a83ab9b55660b651289ccb2b2b2885d6f9d9913"
+  },
+  {
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "binary": "../dynamic-graph-final/decoder-bias-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "60539164443b68aded348bc304fdb0ce1329561a9fabbe3f0f919c57101d45ca"
+  },
+  {
+    "source": "tests/hailo_bias_ownership.mojo",
+    "binary": "../dynamic-graph-final/bias-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4bf075c8a492ac72dc7cc5f58cac3dfcfb747eb8cef9f2e7c3561dcfc5ffa992"
+  },
+  {
+    "source": "tests/hailo_bias_gguf.mojo",
+    "binary": "../dynamic-graph-final/bias-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "71e5a21c1e110d1bf716897b9a26791996c82f8f0d636632ec8f0d6352d79767"
+  },
+  {
+    "source": "tests/hailo_bias_consumers.mojo",
+    "binary": "../dynamic-graph-final/bias-consumers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "bafbe4ff5817432561dabaf36c60ee7b8eb71d17fc33b5145ff019f8c8b8b982"
+  },
+  {
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "binary": "../dynamic-graph-final/activation-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a52f104ffa4342392f93023443e35a878aa3df4ef096fa232b7e659257f88bd8"
+  },
+  {
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "binary": "../dynamic-graph-final/activation-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c1f805c8757b68a5d16c25f2725706de1e6fd1d306c902831b1b112419d8c7c4"
+  },
+  {
+    "source": "tests/hailo_activation_ownership.mojo",
+    "binary": "../dynamic-graph-final/activation-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c0520bf8a397149ce64ffb9b03f081b69f44ea4c56760ff75c19fb59aba69afe"
+  },
+  {
+    "source": "tests/hailo_activation_gguf.mojo",
+    "binary": "../dynamic-graph-final/activation-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c42828a8d1b071282a77b5bc9a3fd1a424c0d00903a97993c802fe18379df2c0"
+  },
+  {
+    "source": "tests/hailo_activation_consumers.mojo",
+    "binary": "../dynamic-graph-final/activation-consumers",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "463f646b43730c150eee506d74162adb67c5ef7156d96bcf5ee4bdbb06ee31fa"
+  },
+  {
+    "source": "smidr/tools/decoder_session_graph.mojo",
+    "binary": "../dynamic-graph-final/session-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e91db6c8fe9c89451fe5ea9d1984b348e4976083d647398965d7bf7b83f4c89e"
+  },
+  {
+    "source": "tests/hailo_decoder_session_api.mojo",
+    "binary": "../dynamic-graph-final/session-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3e544704e36da52b4fd648f05c57bad6859b89446f0dd01d1639f2dbff82b75e"
+  },
+  {
+    "source": "tests/hailo_session_ownership.mojo",
+    "binary": "../dynamic-graph-final/session-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c13c3b02c87e024714710f361ac4715570f2ab5818887d7d66d3580853c3f097"
+  },
+  {
+    "source": "tests/hailo_session_gguf.mojo",
+    "binary": "../dynamic-graph-final/session-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e072011d2c68cca48685c25c7c0df9bf97379be7779bac4fc4bf26f53b7b6d2e"
+  },
+  {
+    "source": "tests/hailo_session_source.mojo",
+    "binary": "../dynamic-graph-final/session-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e73f01542f3d652dfee2e7a1c6548be6d8759367e13a6becd1add83b9fb867c6"
+  },
+  {
+    "source": "smidr/tools/decoder_window_graph.mojo",
+    "binary": "../dynamic-graph-final/window-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fc54ffce4cf6e5e67de3c9513c7c85458f2266c8b23b1d4d37d4ebafaf11c5c6"
+  },
+  {
+    "source": "tests/hailo_decoder_window_api.mojo",
+    "binary": "../dynamic-graph-final/window-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "557322f9cac029aaf3908ef80f8df4e80d00d5e1c0272a16816ca9c43d733ba6"
+  },
+  {
+    "source": "tests/hailo_window_source.mojo",
+    "binary": "../dynamic-graph-final/window-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ccb719fc4f8231fcd1693dcf63dffd20609f65aa4bb31aff74e3625308d3cada"
+  },
+  {
+    "source": "tests/hailo_window_ownership.mojo",
+    "binary": "../dynamic-graph-final/window-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8e1ec312c060b9df1c6804ba0d180a671af317fa7071537226a35d60a3b4a7bc"
+  },
+  {
+    "source": "tests/hailo_window_gguf.mojo",
+    "binary": "../dynamic-graph-final/window-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0e1005d73f510f7b0443d376033a58d7094ca8508a7e719504915da6547adb6d"
+  },
+  {
+    "source": "tests/hailo_window_indices.mojo",
+    "binary": "../dynamic-graph-final/window-indices",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "source": "tests/hailo_window_policy.mojo",
+    "binary": "../dynamic-graph-final/window-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "binary": "../dynamic-graph-final/scaling-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b0cea572c7ab02938e531bb4ba1ebc5f29a84f0f85985eec1661b7afec342327"
+  },
+  {
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "binary": "../dynamic-graph-final/scaling-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b135ee6655a2b89a46d255039087c3f2f764607b46f8250e61efc9778119906d"
+  },
+  {
+    "source": "tests/hailo_scaling_source.mojo",
+    "binary": "../dynamic-graph-final/scaling-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "49a8ea5a61ea54bde63f95eaf30769a1dad13977f0ca82c41d32dac116bae28e"
+  },
+  {
+    "source": "tests/hailo_scaling_ownership.mojo",
+    "binary": "../dynamic-graph-final/scaling-ownership",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "93e8ebd7f2e4c7b919a4bbfb631cabf69d147a898383ff7a2126024b16f14941"
+  },
+  {
+    "source": "tests/hailo_scaling_gguf.mojo",
+    "binary": "../dynamic-graph-final/scaling-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7b0ec999eba20db623d7008d624b1c9c49f60512012bfb4966dc28851cba7306"
+  },
+  {
+    "source": "tests/hailo_scaling_policy.mojo",
+    "binary": "../dynamic-graph-final/scaling-policy",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "source": "tests/hailo_dynamic_rotary_context.mojo",
+    "binary": "../dynamic-graph-final/dynamic-context",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "binary": "../dynamic-graph-final/dynamic-history",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b6f16d6f50c9515746357c965a48211ed971409901688c26eb6fafaa7a9d3fc5"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "binary": "../dynamic-graph-final/dynamic-source",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1d6c10e5fbe94d3d7ceda2b75c1290affe653a31670ded08c1ecb29eae8ad58c"
+  },
+  {
+    "source": "smidr/tools/dynamic_decoder_graph.mojo",
+    "binary": "../dynamic-graph-final/dynamic-graph",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0de2b200e8d853a64e8326523a9275d423d7662145b225741105b1cf00d6ff7f"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_graph.mojo",
+    "binary": "../dynamic-graph-final/dynamic-graph-api",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9f172cd88d12d876968702dae4fa0dcb7d415c8fe55a4779b4b327fa3013f2ff"
+  },
+  {
+    "source": "tests/hailo_dynamic_graph_gguf.mojo",
+    "binary": "../dynamic-graph-final/dynamic-graph-gguf",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b204f199ad26c0f194d9c483b3fad91a9f792f0347f4970ececfeeae682b2269"
+  }
+]

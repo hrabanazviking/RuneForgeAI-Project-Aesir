@@ -1,0 +1,206 @@
+{
+  "traces": 8,
+  "fixture_files": 121,
+  "fixture_opens": 19,
+  "fixture_closes": 19,
+  "weight_header_reads": 20,
+  "all_weight_reads_within_header": true,
+  "weight_payload_mmaps": 0,
+  "inference_library_or_device_opens": 0,
+  "connects": 0,
+  "ioctls": 0,
+  "per_trace": [
+    {
+      "trace": "dynamic-after_selected.trace",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 3278
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 3270,
+          "offset": 8,
+          "header_end": 3278
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "dynamic-global_gain_life.trace",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 3278
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 3270,
+          "offset": 8,
+          "header_end": 3278
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "dynamic-global_range_start.trace",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 3278
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 3270,
+          "offset": 8,
+          "header_end": 3278
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "dynamic-headers-1.trace",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-32/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 3278
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-32/source-0.weights",
+          "count": 3270,
+          "offset": 8,
+          "header_end": 3278
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "dynamic-headers-3.trace",
+      "fixture_opens": 5,
+      "fixture_closes": 5,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-33/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 1194
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-33/source-0.weights",
+          "count": 1186,
+          "offset": 8,
+          "header_end": 1194
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-33/source-1.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 1082
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-33/source-1.weights",
+          "count": 1074,
+          "offset": 8,
+          "header_end": 1082
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-33/source-2.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 1091
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-33/source-2.weights",
+          "count": 1083,
+          "offset": 8,
+          "header_end": 1091
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "dynamic-snapshot_after.trace",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 3278
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 3270,
+          "offset": 8,
+          "header_end": 3278
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "dynamic-source_position_start.trace",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 3278
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 3270,
+          "offset": 8,
+          "header_end": 3278
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    },
+    {
+      "trace": "dynamic-valid.trace",
+      "fixture_opens": 2,
+      "fixture_closes": 2,
+      "weight_header_reads": [
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 8,
+          "offset": 0,
+          "header_end": 3278
+        },
+        {
+          "path": "/tmp/aesir-decoder-projections-o1hwwssw/ordinary-31/source-0.weights",
+          "count": 3270,
+          "offset": 8,
+          "header_end": 3278
+        }
+      ],
+      "connects": 0,
+      "ioctls": 0
+    }
+  ]
+}

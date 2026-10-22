@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 115 |
+| `verified` | 116 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **160** |
+| **Total** | **161** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3527,3 +3527,32 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Preliminary argv/build/verification-order failures and identities
   preserved; final native-only refusals, unchanged build/test inputs, header/fd
   boundaries and no device/inference access independently checked.
+
+
+### AES-SOURCE-022 — Dynamic source graph, owned positions and frequency recipes
+
+- **Status:** `verified`
+- **Owner:** original semantic_plan/primitive_recipes/expanded_graph/storage
+  consumers and source-bound dynamic graph inspectors.
+- **Claim sources:** TASK_hailo10h_dynamic_graph_lowering.md and
+  docs/HAILO10H_DYNAMIC_GRAPH_LOWERING_DESIGN.md, published68ea3ff before code.
+- **Implementation evidence:** Separate source context/capacity/retained state,
+  before/after insertion histories, produced position_range, independent words,
+  explicit15-step dynamic Q/K recipes, NoPE/cache/export rules and real/index
+  lifetime/storage recomputation. Old constructor signatures and diagnostics stay.
+- **Executable evidence:** docs/HAILO10H_MOJO_DYNAMIC_GRAPH_LOWERING.md;70 clean
+  builds/208 relevant sources,27 suites/173 methods/7,059 primary calls. New4/306:
+  171 accepted/135 native refusals,84 mutation fields. All67 frozen controls covered
+  by3,129 full success outputs and3,287 handled-error comparisons.8 SafeTensors
+  traces/19 opens/19 closes/20 header reads; separate GGUF read-only shared map,
+  matching unmap and balanced descriptor. Extra repeated runs counted separately.
+- **Evidence boundary:** Selected mathematical source/recipe/consumer behavior
+  only. No actual cache-byte/model identity proof, native frequency/LLM tensor
+  evaluation, numerical Hailo program, physical packing/fit/placement/encoding,
+  source-model execution, whole-repository or hosted-CI pass.
+- **Next acceptance gate:** Remaining architecture/format/modifier coverage and
+  established numerical device fields, then original physical configuration,
+  program generation/delivery/activation/results/cleanup toward broad support.
+- **Audit:** Source/input/control identities and all development failures retained.
+  SafeTensors header traces and GGUF whole-file mapping are explicitly scoped;
+  no invented instruction, outside compiler, model forward or inference proxy.

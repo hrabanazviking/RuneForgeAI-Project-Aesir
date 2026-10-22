@@ -1,3 +1,4 @@
+from smidr.storage_estimate import StorageAssumptions, estimate_storage
 # Explicit basis compiler inspector; no numerical host/device execution.
 from std.sys import argv
 from smidr.semantic_plan import SemanticPlan, DecoderGraphPolicy, build_decoder_semantic_plan
@@ -55,6 +56,13 @@ def describe_rotary_graph(graph: ExpandedGraph, policy: RotaryLoweringPolicy) ra
     text += ",\"persistent_kv_bytes\":" + String(storage.persistent_kv_bytes) + ",\"input_bytes\":" + String(storage.input_bytes) + ",\"peak_activation_bytes\":" + String(storage.peak_activation_bytes) + ",\"peak_step\":" + String(storage.peak_step) + ",\"total_bytes\":" + String(storage.total_bytes) + "}}"
     if graph.source.explicit_window:
         text = text.replace("\"storage\":{", "\"storage\":{\"index_live_bytes\":" + _integers(storage.index_live_bytes) + ",")
+    if graph.source.explicit_dynamic:
+        var a = StorageAssumptions(2, 2, 8, 16, graph.source.source.weight_bytes, 0, 9223372036854775807, "explicit dynamic semantic scenario")
+        var semantic = estimate_storage(graph.source, a)
+        var extra = String(",\"semantic_storage\":{\"tensor_bytes\":") + _integers(semantic.tensor_bytes) + ",\"activation_live_bytes\":" + _integers(semantic.activation_live_bytes) + ",\"index_live_bytes\":" + _integers(semantic.index_live_bytes)
+        extra += ",\"persistent_kv_bytes\":" + String(semantic.persistent_kv_bytes) + ",\"input_bytes\":" + String(semantic.input_bytes) + ",\"peak_activation_bytes\":" + String(semantic.peak_activation_bytes) + ",\"peak_step\":" + String(semantic.peak_step)
+        extra += ",\"peak_temporary_bytes\":" + String(semantic.peak_temporary_bytes) + ",\"temporary_peak_step\":" + String(semantic.temporary_peak_step) + ",\"total_bytes\":" + String(semantic.total_bytes) + "}"
+        text = text[byte=0:text.byte_length() - 1] + extra + "}"
     return text
 
 

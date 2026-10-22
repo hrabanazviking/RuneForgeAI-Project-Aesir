@@ -1,0 +1,18 @@
+{
+  "mojo": "Mojo 1.1.0 (8189361e)",
+  "compiler_environment": "MODULAR_CACHE_DIR=../mojo-cache",
+  "build_arguments": [
+    "mojo",
+    "build",
+    "-I",
+    ".",
+    "-I",
+    "aesir_engine",
+    "-I",
+    "tests",
+    "SOURCE",
+    "-o",
+    "BINARY"
+  ],
+  "full_models_executed": 0
+}

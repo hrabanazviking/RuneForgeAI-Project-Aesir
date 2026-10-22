@@ -1,3 +1,4 @@
+from smidr.tools.dynamic_graph_state import describe_dynamic_state, describe_dynamic_numbers
 from smidr.tools.scaling_policy import describe_scaling_policy
 from smidr.tools.window_policy import describe_window_policy
 from smidr.tools.session_policy import describe_session_policy, describe_cache_exports
@@ -36,6 +37,9 @@ def describe_expanded_graph(graph: ExpandedGraph) raises -> String:
     if graph.source.explicit_scaling:
         text = text.replace("\"schema_version\":6", "\"schema_version\":7")
         text += ",\"scaling_policy\":" + describe_scaling_policy(graph.source.scaling_policy, graph.source.scaling_work)
+    if graph.source.explicit_dynamic:
+        text = text.replace("\"schema_version\":6", "\"schema_version\":8")
+        text += ",\"dynamic_state\":" + describe_dynamic_state(graph.source.dynamic_before, graph.source.dynamic_after, graph.source.past_tokens, graph.source.query_tokens, graph.source.dynamic_source_context, graph.source.dynamic_work, graph.source.source.policy.work, graph.source.session_policy.return_cache)
     text += ",\"architecture\":" + _quote(graph.source.source.architecture) + ",\"source_operation_count\":" + String(len(graph.source.operations)) + ",\"source_tensor_count\":" + String(len(graph.source.tensors))
     text += ",\"runtime_preconditions\":[\"token_ids_in_vocabulary\",\"positions_equal_past_plus_query_index\",\"kv_prefix_initialized_through_past\"]"
     if graph.source.explicit_session and graph.source.session_policy.mode == "full_prefix":
@@ -70,6 +74,9 @@ def describe_expanded_graph(graph: ExpandedGraph) raises -> String:
         var op = graph.operations[i].copy()
         text += "{\"id\":" + String(i) + ",\"kind\":" + _quote(op.kind) + ",\"inputs\":" + _integers(op.inputs) + ",\"output\":" + String(op.output)
         text += ",\"source_operation\":" + String(op.source_operation) + ",\"recipe_step\":" + String(op.recipe_step) + ",\"width\":" + String(op.width) + ",\"epsilon_bits\":" + (String("null") if op.epsilon_scalar.width == 64 else String(op.epsilon_bits))
+        if graph.source.explicit_dynamic:
+            text += "," + describe_dynamic_numbers(op.dynamic_reference, op.dynamic_selected, op.dynamic_factor)
+            text += ",\"position_start\":" + String(op.position_start)
         if graph.source.explicit_window:
             text += ",\"window_tokens\":" + String(op.window_tokens)
         if graph.source.explicit_scaling:

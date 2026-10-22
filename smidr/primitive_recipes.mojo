@@ -1,3 +1,5 @@
+from smidr.dynamic_decoder_policy import history_dynamic_rotary_coefficients, DynamicDecoderHistory, empty_dynamic_decoder_history
+from smidr.semantic_plan import validate_plan_position_role
 from smidr.scaling_policy import DecoderScalingPolicy, empty_scaling_policy
 from smidr.window_policy import DecoderWindowPolicy, empty_window_policy
 from smidr.session_policy import DecoderSessionPolicy, empty_session_policy
@@ -43,6 +45,9 @@ struct PrimitiveRecipe(Copyable, Movable):
     var weight: SourceTensorBinding
     var weight_storage: SourceStorageTensor
     var weight_extent: SourceFileExtent
+    var dynamic_reference: Int
+    var dynamic_selected: Int
+    var dynamic_factor: ScalarWord
     var scaling_kind: String
     var scaling_factor: ScalarWord
     var window_tokens: Int
@@ -71,6 +76,9 @@ struct PrimitiveRecipe(Copyable, Movable):
         self.weight = SourceTensorBinding(0, 0, 0, 0, 0)
         self.weight_storage = SourceStorageTensor("", 0, "", "", List[Int](), "", 0, 0, 0)
         self.weight_extent = SourceFileExtent("", 0, 0)
+        self.dynamic_reference = 0
+        self.dynamic_selected = 0
+        self.dynamic_factor = ScalarWord(0, 0)
         self.scaling_kind = String("")
         self.scaling_factor = ScalarWord(0, 0)
         self.window_tokens = 0
@@ -113,6 +121,11 @@ struct PrimitiveRecipes(Movable):
     var remaining_source_operations: List[Int]
     var rotary_policy: RotaryLoweringPolicy
     var rotary_work: Int
+    var explicit_dynamic: Bool
+    var dynamic_source_context: Int
+    var dynamic_before: DynamicDecoderHistory
+    var dynamic_after: DynamicDecoderHistory
+    var dynamic_work: Int
     var explicit_scaling: Bool
     var scaling_policy: DecoderScalingPolicy
     var scaling_work: Int
@@ -137,6 +150,11 @@ struct PrimitiveRecipes(Movable):
         self.remaining_source_operations = List[Int]()
         self.rotary_policy = RotaryLoweringPolicy("", "", 0, 0)
         self.rotary_work = 0
+        self.explicit_dynamic = False
+        self.dynamic_source_context = 0
+        self.dynamic_before = empty_dynamic_decoder_history()
+        self.dynamic_after = empty_dynamic_decoder_history()
+        self.dynamic_work = 0
         self.explicit_scaling = False
         self.scaling_policy = empty_scaling_policy()
         self.scaling_work = 0
@@ -174,6 +192,8 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
         if id < 0 or id >= len(plan.tensors) or plan.tensors[id].producer < -1 or plan.tensors[id].producer >= index or plan.tensors[id].last_use < index or plan.tensors[id].last_use > len(plan.operations):
             raise Error("RotaryRecipe: invalid source input/order/lifetime")
     var x = plan.tensors[op.inputs[0]].copy()
+    if plan.explicit_dynamic:
+        validate_plan_position_role(plan, op.inputs[1])
     var pos = plan.tensors[op.inputs[1]].copy()
     var out = plan.tensors[op.output].copy()
     var heads = plan.heads if op.kind == "rope_query" else plan.kv_heads
@@ -187,7 +207,7 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
         if x.shape[axis] != expected[axis] or out.shape[axis] != expected[axis]:
             raise Error("RotaryRecipe: source activation axes mismatch")
         elements = checked_product(elements, expected[axis])
-    if x.elements != elements or out.elements != elements or pos.name != "positions" or pos.producer != -1 or pos.persistent or pos.alias_of != -1 or len(pos.shape) != 1 or pos.shape[0] != plan.query_tokens or pos.elements != plan.query_tokens:
+    if x.elements != elements or out.elements != elements or pos.name != "positions" or pos.producer != (0 if plan.explicit_dynamic else -1) or pos.persistent or pos.alias_of != -1 or len(pos.shape) != 1 or pos.shape[0] != plan.query_tokens or pos.elements != plan.query_tokens:
         raise Error("RotaryRecipe: source product/position identity mismatch")
     var r = PrimitiveRecipe(index, op.inputs[0], op.output, op.kind)
     r.source_inputs = op.inputs.copy()
@@ -195,6 +215,10 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
     if plan.explicit_scaling:
         r.scaling_kind = plan.scaling_policy.kind
         r.scaling_factor = plan.scaling_policy.factor.copy()
+    if plan.explicit_dynamic:
+        r.dynamic_reference = op.dynamic_reference
+        r.dynamic_selected = op.dynamic_selected
+        r.dynamic_factor = op.dynamic_factor.copy()
     r.rotary_dim = plan.rope_dim
     r.rotary_base_scalar = rotary_scalar(plan)
     r.rotary_base_bits = scalar32_mirror(r.rotary_base_scalar)
@@ -209,6 +233,11 @@ def _rotary_recipe(plan: SemanticPlan, index: Int, policy: RotaryLoweringPolicy)
     var frequency = r.emit("rotary_inverse_frequency", List[Int](), [pairs])
     if plan.explicit_scaling and plan.scaling_policy.kind == "linear":
         frequency = r.emit("rotary_frequency_scale", [frequency], [pairs])
+    if plan.explicit_dynamic:
+        _ = history_dynamic_rotary_coefficients(plan.dynamic_after, plan.past_tokens + plan.query_tokens, plan.rope_dim, 0, plan.source.policy.work)
+        _ = history_dynamic_rotary_coefficients(plan.dynamic_after, plan.past_tokens + plan.query_tokens, plan.rope_dim, pairs - 1, plan.source.policy.work)
+        var gain = r.emit("dynamic_rotary_gain", List[Int](), [1])
+        frequency = r.emit("dynamic_rotary_frequency", [frequency, gain], [pairs])
     var angles = r.emit("rotary_angles", [positions, frequency], angle_shape.copy())
     var cosine = r.emit("cos", [angles], angle_shape.copy())
     var sine = r.emit("sin", [angles], angle_shape.copy())
@@ -248,9 +277,14 @@ def _lower_primitive_recipes(plan: SemanticPlan, policy: RotaryLoweringPolicy, r
     validate_plan_session_state(plan)
     validate_plan_bias_state(plan)
     validate_plan_activation_state(plan)
-    if plan.explicit_scaling and not rotary:
+    if (plan.explicit_scaling or plan.explicit_dynamic) and not rotary:
         raise Error("DecoderScaling: explicit mathematical rotary basis required")
     var lowered = PrimitiveRecipes()
+    lowered.explicit_dynamic = plan.explicit_dynamic
+    lowered.dynamic_source_context = plan.dynamic_source_context
+    lowered.dynamic_before = plan.dynamic_before.copy()
+    lowered.dynamic_after = plan.dynamic_after.copy()
+    lowered.dynamic_work = plan.dynamic_work
     lowered.explicit_scaling = plan.explicit_scaling
     lowered.scaling_policy = plan.scaling_policy.copy()
     lowered.scaling_work = plan.scaling_work

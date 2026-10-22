@@ -127,3 +127,22 @@ def history_dynamic_rotary_coefficients(history: DynamicDecoderHistory, past: In
     _ = validate_dynamic_decoder_history(history, past, source_work)
     var selected = history.initial_selected if len(history.selected_contexts) == 0 else history.selected_contexts[len(history.selected_contexts) - 1]
     return dynamic_rotary_coefficients(DynamicRotaryContext(history.policy.reference, selected, history.policy.limit), width, pair)
+
+
+# Optional legacy sentinels only. Positive explicit policies never accept these.
+def empty_dynamic_decoder_policy() -> DynamicDecoderPolicy:
+    return DynamicDecoderPolicy(ScalarWord(0, 0), ScalarWord(0, 0), 0, 0, "", "", "", 0)
+
+
+def empty_dynamic_decoder_history() -> DynamicDecoderHistory:
+    return DynamicDecoderHistory(empty_dynamic_decoder_policy(), 0, List[Int](), List[Int](), 0)
+
+
+def same_dynamic_decoder_history(a: DynamicDecoderHistory, b: DynamicDecoderHistory,
+                                 source_work: Int) raises -> Bool:
+    # Bound mutable lists and strings before equality scans, including sentinels.
+    if source_work < 0 or len(a.end_tokens) > source_work // 128 or len(b.end_tokens) > source_work // 128 or len(a.selected_contexts) > source_work // 128 or len(b.selected_contexts) > source_work // 128:
+        raise Error("DynamicDecoder: equality history work exceeded")
+    if a.policy.origin.byte_length() > source_work or b.policy.origin.byte_length() > source_work or a.policy.reference_origin.byte_length() > source_work or b.policy.reference_origin.byte_length() > source_work or a.policy.provenance.byte_length() > source_work or b.policy.provenance.byte_length() > source_work:
+        raise Error("DynamicDecoder: equality policy work exceeded")
+    return same_dynamic_decoder_policy(a.policy, b.policy) and a.initial_selected == b.initial_selected and a.end_tokens == b.end_tokens and a.selected_contexts == b.selected_contexts and a.work == b.work

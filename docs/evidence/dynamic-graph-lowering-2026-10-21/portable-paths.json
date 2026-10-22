@@ -1,0 +1,25 @@
+{
+  "scope": "Published JSON paths inside the task repository are relative to the repository root; neighboring work artifacts use ../. Raw machine-local originals are preserved outside Git. File-content hashes and actual test results are unchanged.",
+  "transformed": [
+    {
+      "file": "frozen-comparison-summary.json",
+      "original_sha256": "7241ba799f8716e1659cdecf0160e22cd9fa670286c39145a5cea9bb1e6bc3fe",
+      "portable_sha256": "edc53a9214118351209f0e3efe8acdc9ef8c03212c7571a59e64119e0e05d21c"
+    },
+    {
+      "file": "gguf-owner-audit.json",
+      "original_sha256": "d60ad967f2fc9aafe32dc980d456463e75369408835fd7cd340831d8da1377d7",
+      "portable_sha256": "7e339d7fb510c848966018c80fb5d3c28f34cc683901be7d1197f6af9eb44915"
+    },
+    {
+      "file": "archive-identities.json",
+      "original_sha256": "8e54e89f183eb558589d48244d68b8afda2f106053603043129772707df6e5ab",
+      "portable_sha256": "72a12b958c4027d08d6be8d09b3b5492a7f01ed8c54e1e0e6d0ae8981b7fcf50"
+    },
+    {
+      "file": "summary.json",
+      "original_sha256": "9e37636b6ee680dda26d137a3a3f9584f7c17f10dca90e4de211d23301577ac3",
+      "portable_sha256": "716a108d94c37195548238fd108409c4a214ad551c49ec87be43079a0a9bacdf"
+    }
+  ]
+}

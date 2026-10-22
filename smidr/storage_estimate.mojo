@@ -32,7 +32,6 @@ struct StorageAssumptions(Copyable, Movable):
     var provenance: String
 
 
-@fieldwise_init
 struct StorageEstimate(Copyable, Movable):
     var tensor_bytes: List[Int]
     var activation_live_bytes: List[Int]
@@ -42,6 +41,27 @@ struct StorageEstimate(Copyable, Movable):
     var peak_step: Int
     var total_bytes: Int
     var within_supplied_budget: Bool
+
+    var index_live_bytes: List[Int]
+    var peak_temporary_bytes: Int
+    var temporary_peak_step: Int
+
+    def __init__(out self, var tensor_bytes: List[Int], var activation_live_bytes: List[Int],
+                 persistent_kv_bytes: Int, input_bytes: Int, peak_activation_bytes: Int,
+                 peak_step: Int, total_bytes: Int, within_supplied_budget: Bool,
+                 var index_live_bytes: List[Int] = List[Int](),
+                 peak_temporary_bytes: Int = -1, temporary_peak_step: Int = -1):
+        self.tensor_bytes = tensor_bytes^
+        self.activation_live_bytes = activation_live_bytes^
+        self.persistent_kv_bytes = persistent_kv_bytes
+        self.input_bytes = input_bytes
+        self.peak_activation_bytes = peak_activation_bytes
+        self.peak_step = peak_step
+        self.total_bytes = total_bytes
+        self.within_supplied_budget = within_supplied_budget
+        self.index_live_bytes = index_live_bytes^
+        self.peak_temporary_bytes = peak_activation_bytes if peak_temporary_bytes == -1 else peak_temporary_bytes
+        self.temporary_peak_step = peak_step if temporary_peak_step == -1 else temporary_peak_step
 
 
 def estimate_storage(plan: SemanticPlan, policy: StorageAssumptions) raises -> StorageEstimate:
@@ -62,6 +82,11 @@ def estimate_storage(plan: SemanticPlan, policy: StorageAssumptions) raises -> S
     for _ in range(count + 2):
         births.append(0)
         deaths.append(0)
+    var index_births = List[Int]()
+    var index_deaths = List[Int]()
+    for _ in range(count + 2):
+        index_births.append(0)
+        index_deaths.append(0)
     var kv_bytes = 0
     var inputs = 0
     for i in range(len(plan.tensors)):
@@ -91,7 +116,7 @@ def estimate_storage(plan: SemanticPlan, policy: StorageAssumptions) raises -> S
         var width = policy.activation_width
         if tensor.persistent:
             width = policy.kv_width
-        elif tensor.producer == -1:
+        elif tensor.producer == -1 or (plan.explicit_dynamic and tensor.name == "positions"):
             width = policy.index_width
         var size = aligned_bytes(tensor.elements, width, policy.alignment)
         sizes.append(size)
@@ -100,6 +125,9 @@ def estimate_storage(plan: SemanticPlan, policy: StorageAssumptions) raises -> S
         elif tensor.producer == -1:
             # External token/position storage is conservatively retained.
             inputs = checked_sum(inputs, size)
+        elif plan.explicit_dynamic and tensor.name == "positions":
+            index_births[tensor.producer] = checked_sum(index_births[tensor.producer], size)
+            index_deaths[tensor.last_use + 1] = checked_sum(index_deaths[tensor.last_use + 1], size)
         else:
             births[tensor.producer] = checked_sum(births[tensor.producer], size)
             deaths[tensor.last_use + 1] = checked_sum(deaths[tensor.last_use + 1], size)
@@ -119,17 +147,31 @@ def estimate_storage(plan: SemanticPlan, policy: StorageAssumptions) raises -> S
     var peak = 0
     var peak_step = 0
     var timeline = List[Int]()
+    var index_timeline = List[Int]()
+    var index_live = 0
+    var temporary_peak = 0
+    var temporary_step = 0
     for i in range(count + 1):
         if deaths[i] > live:
             raise Error("StorageEstimate: inconsistent release accounting")
         live -= deaths[i]
         live = checked_sum(live, births[i])
         timeline.append(live)
+        if index_deaths[i] > index_live:
+            raise Error("StorageEstimate: inconsistent index release accounting")
+        index_live -= index_deaths[i]
+        index_live = checked_sum(index_live, index_births[i])
+        if plan.explicit_dynamic:
+            index_timeline.append(index_live)
+        var temporary = checked_sum(live, index_live)
+        if temporary > temporary_peak:
+            temporary_peak = temporary
+            temporary_step = i
         if live > peak:
             peak = live
             peak_step = i
-    var total = checked_sum(checked_sum(kv_bytes, inputs), peak)
+    var total = checked_sum(checked_sum(kv_bytes, inputs), temporary_peak)
     total = checked_sum(total, policy.device_weight_bytes)
     total = checked_sum(total, policy.workspace_bytes)
     return StorageEstimate(sizes^, timeline^, kv_bytes, inputs, peak,
-                           peak_step, total, total <= policy.budget_bytes)
+                           peak_step, total, total <= policy.budget_bytes, index_timeline^, temporary_peak, temporary_step)

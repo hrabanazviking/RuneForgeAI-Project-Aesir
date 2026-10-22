@@ -1,0 +1,433 @@
+[
+  {
+    "path": "../dynamic-graph-regressions/source_scalars-frozen-pairs.json",
+    "sha256": "2ecd6b548a16851c4f3b64fbe52bec32f8be55788dc17a4a5d3c590e005bfaa3",
+    "complete_stdout_pairs": 42,
+    "handled_diagnostic_pairs": 60,
+    "binary_count": 7,
+    "binaries": [
+      "../dynamic-graph-final/decoder-scalar-source",
+      "../dynamic-graph-final/rotary-recipes",
+      "../dynamic-graph-final/source-scalars-api",
+      "../dynamic-graph-final/tagged-expanded-graph",
+      "../dynamic-graph-final/tagged-expanded-storage",
+      "../dynamic-graph-final/tagged-primitive-recipes",
+      "../dynamic-graph-final/tagged-semantic-plan"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/decoder-scalar-source",
+      "../dynamic-graph-final/source-scalars-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/expanded_storage-frozen-pairs.json",
+    "sha256": "03b78c2e2f0347fed1343efd6bbeb22d62d0ae348a3064431a05a1b61b0e7ac0",
+    "complete_stdout_pairs": 34,
+    "handled_diagnostic_pairs": 54,
+    "binary_count": 3,
+    "binaries": [
+      "../dynamic-graph-final/tagged-expanded-graph",
+      "../dynamic-graph-final/tagged-expanded-storage",
+      "../dynamic-graph-final/tagged-expanded-storage-api"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-expanded-storage",
+      "../dynamic-graph-final/tagged-expanded-storage-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/storage_estimate-frozen-pairs.json",
+    "sha256": "5b381b97eaf47577bb39047d6c7a4ec04a6a2af3d9b894683c9173fc723a8db7",
+    "complete_stdout_pairs": 32,
+    "handled_diagnostic_pairs": 29,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/tagged-semantic-plan",
+      "../dynamic-graph-final/tagged-storage-estimate"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-storage-api",
+      "../dynamic-graph-final/tagged-storage-estimate"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/source_q5q6_constants-frozen-pairs.json",
+    "sha256": "cff294a7c2ae27656d8ee1780826368dabc0d4c9f9a50ad24c694145290fea75",
+    "complete_stdout_pairs": 40,
+    "handled_diagnostic_pairs": 48,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/tagged-q5q6-api",
+      "../dynamic-graph-final/tagged-q5q6-constants"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-q5q6-api",
+      "../dynamic-graph-final/tagged-q5q6-constants"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/matrix_tiles-frozen-pairs.json",
+    "sha256": "c03dea9d353fd91ec5160db779f76bc908406e521cee8648ec2b1a6faa953dc9",
+    "complete_stdout_pairs": 799,
+    "handled_diagnostic_pairs": 61,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/tagged-matrix-api",
+      "../dynamic-graph-final/tagged-matrix-tiles"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-matrix-api",
+      "../dynamic-graph-final/tagged-matrix-tiles"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/decoder_activation-frozen-pairs.json",
+    "sha256": "184ff2ee90fa87fa6fee9720043a180b77f9aaee41e1c12d03c2c1f1a5abade3",
+    "complete_stdout_pairs": 123,
+    "handled_diagnostic_pairs": 368,
+    "binary_count": 5,
+    "binaries": [
+      "../dynamic-graph-final/activation-api",
+      "../dynamic-graph-final/activation-consumers",
+      "../dynamic-graph-final/activation-gguf",
+      "../dynamic-graph-final/activation-graph",
+      "../dynamic-graph-final/activation-ownership"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/activation-api",
+      "../dynamic-graph-final/activation-graph"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/rotary_recipes-frozen-pairs.json",
+    "sha256": "638da8f1dbcfb2efc148dfd8ce5de2abbedf69fc6554e1e98deb67bd01582fbc",
+    "complete_stdout_pairs": 58,
+    "handled_diagnostic_pairs": 77,
+    "binary_count": 5,
+    "binaries": [
+      "../dynamic-graph-final/rotary-api",
+      "../dynamic-graph-final/rotary-recipes",
+      "../dynamic-graph-final/tagged-expanded-graph",
+      "../dynamic-graph-final/tagged-expanded-storage",
+      "../dynamic-graph-final/tagged-primitive-recipes"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/rotary-api",
+      "../dynamic-graph-final/rotary-recipes"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/source_float_constants-frozen-pairs.json",
+    "sha256": "2d4ccc1ff5dae2e9cef9a613ff00a3412cb4bc12fd1fd89e34dd74c5cadbab1b",
+    "complete_stdout_pairs": 40,
+    "handled_diagnostic_pairs": 24,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/tagged-float-api",
+      "../dynamic-graph-final/tagged-float-constants"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-float-api",
+      "../dynamic-graph-final/tagged-float-constants"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/source_q4k_constants-frozen-pairs.json",
+    "sha256": "4b3e1d766f14c95f4601a841bcc5f864b0d29c2958c139917cf5033d5475c9f2",
+    "complete_stdout_pairs": 28,
+    "handled_diagnostic_pairs": 29,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/tagged-q4k-api",
+      "../dynamic-graph-final/tagged-q4k-constants"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-q4k-api",
+      "../dynamic-graph-final/tagged-q4k-constants"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/semantic_storage-frozen-pairs.json",
+    "sha256": "b6961d9e0497b6dcefa565a962f0b104436b523892a77203d854300f51f33ba7",
+    "complete_stdout_pairs": 162,
+    "handled_diagnostic_pairs": 42,
+    "binary_count": 11,
+    "binaries": [
+      "../dynamic-graph-final/tagged-cache-layout",
+      "../dynamic-graph-final/tagged-expanded-graph",
+      "../dynamic-graph-final/tagged-expanded-storage",
+      "../dynamic-graph-final/tagged-matrix-tiles",
+      "../dynamic-graph-final/tagged-primitive-recipes",
+      "../dynamic-graph-final/tagged-semantic-plan",
+      "../dynamic-graph-final/tagged-semantic-storage",
+      "../dynamic-graph-final/tagged-semantic-storage-api",
+      "../dynamic-graph-final/tagged-source-weight-tiles",
+      "../dynamic-graph-final/tagged-storage-estimate",
+      "../dynamic-graph-final/tagged-typed-decoder"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-semantic-storage",
+      "../dynamic-graph-final/tagged-semantic-storage-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/typed_decoder-frozen-pairs.json",
+    "sha256": "229ca4259960fa79c217b0596f355bacb3908249df306e134ef49de24f7c99f5",
+    "complete_stdout_pairs": 213,
+    "handled_diagnostic_pairs": 240,
+    "binary_count": 3,
+    "binaries": [
+      "../dynamic-graph-final/tagged-semantic-plan",
+      "../dynamic-graph-final/tagged-typed-api",
+      "../dynamic-graph-final/tagged-typed-decoder"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-semantic-plan",
+      "../dynamic-graph-final/tagged-typed-api",
+      "../dynamic-graph-final/tagged-typed-decoder"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/expanded_graph-frozen-pairs.json",
+    "sha256": "558a31ad1fae76ca466039faa4fe3bf3b95a7ccc365d59c6575da1aa5c098fdd",
+    "complete_stdout_pairs": 32,
+    "handled_diagnostic_pairs": 13,
+    "binary_count": 4,
+    "binaries": [
+      "../dynamic-graph-final/tagged-expanded-api",
+      "../dynamic-graph-final/tagged-expanded-graph",
+      "../dynamic-graph-final/tagged-primitive-recipes",
+      "../dynamic-graph-final/tagged-semantic-plan"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-expanded-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/decoder_projections-frozen-pairs.json",
+    "sha256": "c6a5e995efcab62eb52ded11839014b347def4a2a4c3340d8cdd11bdd036123f",
+    "complete_stdout_pairs": 50,
+    "handled_diagnostic_pairs": 65,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/decoder-projections",
+      "../dynamic-graph-final/decoder-projections-api"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/decoder-projections",
+      "../dynamic-graph-final/decoder-projections-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/decoder_session-frozen-pairs.json",
+    "sha256": "283156112dad369681e1d96af9b9299dba2dc544c0bc589c9fe2dff57fe135fa",
+    "complete_stdout_pairs": 171,
+    "handled_diagnostic_pairs": 425,
+    "binary_count": 5,
+    "binaries": [
+      "../dynamic-graph-final/session-api",
+      "../dynamic-graph-final/session-gguf",
+      "../dynamic-graph-final/session-graph",
+      "../dynamic-graph-final/session-ownership",
+      "../dynamic-graph-final/session-source"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/session-api",
+      "../dynamic-graph-final/session-graph",
+      "../dynamic-graph-final/session-source"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/decoder_window-frozen-pairs.json",
+    "sha256": "1b0a417f100cd1b09301f76db2b6d1b854b7a09b97edb20e0db7abe463e3ce54",
+    "complete_stdout_pairs": 202,
+    "handled_diagnostic_pairs": 499,
+    "binary_count": 7,
+    "binaries": [
+      "../dynamic-graph-final/window-api",
+      "../dynamic-graph-final/window-gguf",
+      "../dynamic-graph-final/window-graph",
+      "../dynamic-graph-final/window-indices",
+      "../dynamic-graph-final/window-ownership",
+      "../dynamic-graph-final/window-policy",
+      "../dynamic-graph-final/window-source"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/window-api",
+      "../dynamic-graph-final/window-graph",
+      "../dynamic-graph-final/window-indices",
+      "../dynamic-graph-final/window-policy",
+      "../dynamic-graph-final/window-source"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/source_inventory-frozen-pairs.json",
+    "sha256": "e217e3a58bf72ee2dab41657e3538e34e4f2d09d274de576c930f27089961aa1",
+    "complete_stdout_pairs": 8,
+    "handled_diagnostic_pairs": 8,
+    "binary_count": 1,
+    "binaries": [
+      "../dynamic-graph-final/tagged-source-inventory"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-source-inventory"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/decoder_scaling-frozen-pairs.json",
+    "sha256": "2c18618834f37df483f77906a867754832aea713f739d71157d9dafd7498d198",
+    "complete_stdout_pairs": 268,
+    "handled_diagnostic_pairs": 632,
+    "binary_count": 6,
+    "binaries": [
+      "../dynamic-graph-final/scaling-api",
+      "../dynamic-graph-final/scaling-gguf",
+      "../dynamic-graph-final/scaling-graph",
+      "../dynamic-graph-final/scaling-ownership",
+      "../dynamic-graph-final/scaling-policy",
+      "../dynamic-graph-final/scaling-source"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/scaling-api",
+      "../dynamic-graph-final/scaling-graph",
+      "../dynamic-graph-final/scaling-policy",
+      "../dynamic-graph-final/scaling-source"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/cache_layout-frozen-pairs.json",
+    "sha256": "f33b96446709333b4ff9f9bb9858f17a0f8a79f600af538fa777de558d0cfd2f",
+    "complete_stdout_pairs": 18,
+    "handled_diagnostic_pairs": 71,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/tagged-cache-api",
+      "../dynamic-graph-final/tagged-cache-layout"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-cache-api",
+      "../dynamic-graph-final/tagged-cache-layout"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/source_weight_tiles-frozen-pairs.json",
+    "sha256": "7a5e05341c09af4bede6574e44432d3ff96570db552b98dc109456de17feeb62",
+    "complete_stdout_pairs": 256,
+    "handled_diagnostic_pairs": 30,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/tagged-source-weight-api",
+      "../dynamic-graph-final/tagged-source-weight-tiles"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-source-weight-api",
+      "../dynamic-graph-final/tagged-source-weight-tiles"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/semantic_plan-frozen-pairs.json",
+    "sha256": "0ec7e2fb4a27a5c1f96b5fec61ab0b21e6106dd265a0eec6af8927ce7e031b6a",
+    "complete_stdout_pairs": 14,
+    "handled_diagnostic_pairs": 42,
+    "binary_count": 1,
+    "binaries": [
+      "../dynamic-graph-final/tagged-semantic-plan"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-semantic-plan"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/decoder_bias-frozen-pairs.json",
+    "sha256": "e477e6346a142f87ad539447f14af0a0de5adf5621f0412723793419e973dfb4",
+    "complete_stdout_pairs": 139,
+    "handled_diagnostic_pairs": 152,
+    "binary_count": 5,
+    "binaries": [
+      "../dynamic-graph-final/bias-consumers",
+      "../dynamic-graph-final/bias-gguf",
+      "../dynamic-graph-final/bias-ownership",
+      "../dynamic-graph-final/decoder-bias-api",
+      "../dynamic-graph-final/decoder-bias-graph"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/bias-consumers",
+      "../dynamic-graph-final/decoder-bias-api",
+      "../dynamic-graph-final/decoder-bias-graph"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/primitive_recipes-frozen-pairs.json",
+    "sha256": "f8d7a8577fc81439937f08d7b185aacc900dd01495cc9f71f237061b76700889",
+    "complete_stdout_pairs": 27,
+    "handled_diagnostic_pairs": 17,
+    "binary_count": 3,
+    "binaries": [
+      "../dynamic-graph-final/tagged-primitive-api",
+      "../dynamic-graph-final/tagged-primitive-recipes",
+      "../dynamic-graph-final/tagged-semantic-plan"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/tagged-primitive-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/decoder_graph_policy-frozen-pairs.json",
+    "sha256": "c07a0596acb63881267b894139c5f51af43a903088ebf5d321c97f59340e449a",
+    "complete_stdout_pairs": 43,
+    "handled_diagnostic_pairs": 71,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/decoder-graph-policy",
+      "../dynamic-graph-final/decoder-graph-policy-api"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/decoder-graph-policy",
+      "../dynamic-graph-final/decoder-graph-policy-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-regressions/ordinary_projection_schema-frozen-pairs.json",
+    "sha256": "4a415416b3807f240e7d35c7e3adf47cee532b81aa868af1f60ab0e516405a30",
+    "complete_stdout_pairs": 77,
+    "handled_diagnostic_pairs": 125,
+    "binary_count": 3,
+    "binaries": [
+      "../dynamic-graph-final/decoder-projections",
+      "../dynamic-graph-final/ordinary-schema",
+      "../dynamic-graph-final/ordinary-schema-api"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/ordinary-schema",
+      "../dynamic-graph-final/ordinary-schema-api"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-acceptance/additional-frozen/context-frozen-pairs.json",
+    "sha256": "dde984ee2476a5635fa459ac110e48042f2b7b829de93cfed45d72456616eef3",
+    "complete_stdout_pairs": 91,
+    "handled_diagnostic_pairs": 31,
+    "binary_count": 1,
+    "binaries": [
+      "../dynamic-graph-final/dynamic-context"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/dynamic-context"
+    ]
+  },
+  {
+    "path": "../dynamic-graph-acceptance/additional-frozen/history-frozen-pairs.json",
+    "sha256": "2437346f93b0bb94ae3837e28f3009127fe37c083d4da7cf6f826f587ed5e6f8",
+    "complete_stdout_pairs": 162,
+    "handled_diagnostic_pairs": 74,
+    "binary_count": 2,
+    "binaries": [
+      "../dynamic-graph-final/dynamic-history",
+      "../dynamic-graph-final/dynamic-source"
+    ],
+    "diagnostic_binaries": [
+      "../dynamic-graph-final/dynamic-history",
+      "../dynamic-graph-final/dynamic-source"
+    ]
+  }
+]

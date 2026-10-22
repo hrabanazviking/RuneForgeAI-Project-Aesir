@@ -160,7 +160,10 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
         produced[op.output] = True
         if op.kind.byte_length() == 0 or op.source_operation < 0 or op.source_operation >= len(graph.source.operations):
             raise Error("ExpandedStorage: missing source operation identity")
-        if op.kind == "prefix_key_indices":
+        if op.kind == "position_range":
+            if not graph.source.explicit_dynamic or i != 0 or len(op.inputs) != 0 or output.domain != "index" or output.shape != List[Int]([graph.source.query_tokens]) or op.position_start != graph.source.past_tokens:
+                raise Error("ExpandedStorage: invalid produced position range")
+        elif op.kind == "prefix_key_indices":
             if len(op.inputs) != 0 or output.domain != "index":
                 raise Error("ExpandedStorage: key indices must be index-domain")
         elif op.kind == "causal_window_predicate":
@@ -171,6 +174,17 @@ def validate_expanded_storage_graph(graph: ExpandedGraph) raises:
                 raise Error("ExpandedStorage: comparison result must be a predicate")
         elif output.domain != "real":
             raise Error("ExpandedStorage: unexpected predicate result")
+        if op.kind == "dynamic_rotary_gain":
+            if not graph.source.explicit_dynamic or len(op.inputs) != 0 or output.domain != "real" or output.shape != List[Int]([1]):
+                raise Error("ExpandedStorage: invalid dynamic gain scalar")
+        if op.kind == "dynamic_rotary_frequency":
+            if not graph.source.explicit_dynamic or len(op.inputs) != 2 or output.domain != "real" or output.shape != List[Int]([graph.source.rope_dim // 2]):
+                raise Error("ExpandedStorage: invalid dynamic frequency vector")
+            for j in range(2):
+                var id = op.inputs[j]
+                var wanted = output.shape.copy() if j == 0 else List[Int]([1])
+                if id < 0 or id >= value_count or graph.values[id].domain != "real" or graph.values[id].shape != wanted:
+                    raise Error("ExpandedStorage: invalid dynamic frequency operand")
         if op.kind == "rotary_frequency_scale":
             if len(op.inputs) != 1 or output.domain != "real" or output.shape != List[Int]([graph.source.rope_dim // 2]) or op.scaling_kind != "linear":
                 raise Error("ExpandedStorage: scaled frequency vector role changed")

@@ -1,3 +1,4 @@
+from smidr.semantic_plan import validate_plan_position_role
 from smidr.session_graph import validate_plan_session_state
 from smidr.activation_graph import validate_plan_activation_state
 # Original explicit cache address scenario. No allocation, cache data or math.
@@ -191,8 +192,10 @@ def plan_cache_layout(plan: SemanticPlan, policy: CacheLayoutAssumptions) raises
                 var position_id = names["positions"]
                 if writer_op.inputs[0] != projection_id or writer_op.inputs[1] != position_id:
                     raise Error("CacheLayout: rotary key input identity mismatch")
+                if plan.explicit_dynamic:
+                    validate_plan_position_role(plan, position_id)
                 var positions = plan.tensors[position_id].copy()
-                if len(positions.shape) != 1 or positions.shape[0] != plan.query_tokens or positions.elements != plan.query_tokens or positions.producer != -1 or positions.persistent or positions.alias_of != -1:
+                if len(positions.shape) != 1 or positions.shape[0] != plan.query_tokens or positions.elements != plan.query_tokens or positions.producer != (0 if plan.explicit_dynamic else -1) or positions.persistent or positions.alias_of != -1:
                     raise Error("CacheLayout: invalid rotary positions")
                 _lifetime(plan, position_id)
             if biased:
