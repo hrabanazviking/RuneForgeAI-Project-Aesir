@@ -59,6 +59,10 @@ Map the actual admitted fd read-only/shared at offset zero, record its capacity
 before parsing, and retain the fd for the full mapping lifetime. Never reopen
 `file_path`, `/proc/self/fd`, `/dev/fd` or a source label. No descriptor duplicate,
 new syscall family, driver or firmware operation is needed. No writable mapping.
+Retain the sealed admission route across close: later _open_and_map, metadata
+inspection or load entrypoints must reuse the live sealed mapping or refuse a
+closed sealed source; they must never fall back to opening its label. Internal
+route state may be added to enforce this without changing the old path route.
 Ensure cleanup after mmap/header/table failures and fresh-source recovery.
 
 Add a `PackedGGUF(label:String,owned_sealed_fd:Int64,source_bytes:Int64)` constructor.

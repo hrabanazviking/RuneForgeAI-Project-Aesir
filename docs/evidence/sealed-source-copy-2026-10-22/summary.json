@@ -37,7 +37,7 @@
   "opaque_worker_exit_records_retained_without_effect_inference": 1,
   "audit_parser_failures_retained_and_corrected": true,
   "native_test_or_source_changes_for_audit": false,
-  "new_production_mojo_files": 3,
+  "new_production_mojo_files": 2,
   "kernel_sealed_copy_qualified": true,
   "original_atomic_snapshot_verified": false,
   "source_fingerprint_verified": false,
@@ -45,5 +45,7 @@
   "execution_tested": false,
   "device_access": false,
   "whole_repository_pass": false,
-  "hosted_ci_pass": false
+  "hosted_ci_pass": false,
+  "new_test_api_mojo_files": 1,
+  "new_mojo_files": 3
 }
