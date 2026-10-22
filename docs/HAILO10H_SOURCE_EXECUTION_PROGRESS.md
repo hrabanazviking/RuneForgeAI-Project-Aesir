@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_numerical_encoding_sources.md`, after the LCU serializer checkpoint. Full controlling scope:
+slice: `TASK_hailo10h_q8_source_constants.md`, alongside numerical configuration research. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -111,3 +111,8 @@ target namespace and partial-layout conditions, and qualifies three additional
 LCU record bodies for original Mojo serialization. Next native contract:
 `TASK_hailo10h_lcu_action_codec.md`. This is public-interface research, with no
 new capability ID,numerical instruction,physical acceptance or source execution.
+
+Next source representation work:`TASK_hailo10h_q8_source_constants.md`;
+`HAILO10H_Q8_SOURCE_LAYOUT.md` qualifies actual Q8_0 fields and an exact pre-code
+loader/constant/byte-tile contract.637 source identities/74 controls are frozen.
+No Q8 implementation or device execution is claimed by this contract.
