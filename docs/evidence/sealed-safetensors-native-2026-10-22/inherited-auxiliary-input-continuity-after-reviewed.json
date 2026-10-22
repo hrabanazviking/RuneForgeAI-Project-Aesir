@@ -1,0 +1,107 @@
+[
+  {
+    "path": "../classic32-source-audit-review/audit-traces.py",
+    "sha256": "11e5d50f50e8e2d0c419da75881993e3dfd0163855bf2a76f94094bdffa015af",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../q8-source-audit-review/audit-q8-traces.py",
+    "sha256": "d5d8543fe2c09f40bdb6598374c4d487b6108acf21539f23d752c5eef8cafeaa",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../dynamic-graph-development/audit-traces.py",
+    "sha256": "e3337ef5a697a76e69df28f57d81e2d2bf7cd77f66aa59bdc06734719fdfcb4f",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../dynamic-graph-development/mutations.json",
+    "sha256": "50958cab537b33eebff1dd50b33363a37936466bbcb338c6f737b09166dc343c",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../lcu-action-final/old-oracle",
+    "sha256": "8dc035a9d569cac42b01b55f4eb1b870132df2ccc89ee78cc7982bc7d9649f1c",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../lcu-action-final/oracle",
+    "sha256": "606ece9fd167da45873ed79a0e997646897951290bfa7833e37cbc7dfa3efe06",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../ggml-format-study/build/src/libggml-base.so.0.27.0",
+    "sha256": "45bd8cc3f12159e7b219a95d185be74a2ad83789045e6359acf49523aee23328",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../iq4-source-study/layout-oracle",
+    "sha256": "b93a56a5dd37e86cb0058678bffd80895256736292b638d12bae97c6f6d8184b",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../ggml-format-study/source/src/ggml-common.h",
+    "sha256": "0061131b615c5721fc88a78feeb22c1f8c450f1c2646a317d80796a653bf595c",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../ggml-format-study/LICENSE",
+    "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../ggml-format-study/build/CMakeCache.txt",
+    "sha256": "1c7ada1106a2c63cf6d7f0a4fc5dd946611eb5813802282d3a30b15cc9508ef6",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../source-root-api",
+    "sha256": "a83e68d0f61b7e9f4399a39c2f756dc7954c27b576430c98ffad5ec46028a04a",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../unindexed-baseline-collection",
+    "sha256": "6c6b4bd66a97d933777b9aa22c33584c67328160ba3aa9fa59bb2fb4aa4b4a83",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../source-index-study/io-faults.so",
+    "sha256": "996342866d4e319830b5bb49b87d99294f26abaf1841daa9350cde1c95c3c6c8",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../model-root-study/io-faults.so",
+    "sha256": "461a3570aa0e0e09c2215ba0aa76de1a767e4fb39a38665da29514a62651a2f1",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../owned-fd-study/io-faults.so",
+    "sha256": "854eb386250939754b2a56060516fced0d2fdb6252ae8c108e78c7acea27865f",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../q2q3-native-development/root-layout.json",
+    "sha256": "fe70b9b024799bf0fbe861499a58ac4949e4d69edb570062599b1bd97e84385a",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../ordinary-model-metadata-study/config.json",
+    "sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../ordinary-model-metadata-study/model.safetensors.index.json",
+    "sha256": "e3a7254c086c4a78f95ad5864f435d165ffed1ed8998326ce5107b4423c15b76",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../decoder-dynamic-baseline/scaling-graph",
+    "sha256": "a38086abaccaa0faa229a61a2c597f6a5a2edd99822e35b002d1f1b63b31b525",
+    "unchanged_from_frozen_prior_qualified_input": true
+  },
+  {
+    "path": "../decoder-graph-baseline/semantic-plan",
+    "sha256": "b9170a3cfbdd2875a6b2ae3ecf0ee30838e17ef631af31fe28683bae4c865264",
+    "unchanged_from_frozen_prior_qualified_input": true
+  }
+]

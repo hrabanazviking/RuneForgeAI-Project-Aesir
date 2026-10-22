@@ -1,0 +1,6 @@
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 2.239s
+
+OK
+Native outcomes: {'accepted': 77, 'refused': 20} raw/expanded word checks: 264204

@@ -1,0 +1,10 @@
+test_01_source_words_modes_positions_and_storage (__main__.DynamicGraph.test_01_source_words_modes_positions_and_storage) ... ok
+test_02_history_boundaries_extents_and_refusals (__main__.DynamicGraph.test_02_history_boundaries_extents_and_refusals) ... ok
+test_03_mutations_consumers_and_recovery (__main__.DynamicGraph.test_03_mutations_consumers_and_recovery) ... ok
+test_04_gguf_explicit_math (__main__.DynamicGraph.test_04_gguf_explicit_math) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 15.048s
+
+OK
+Native outcomes: {'accepted': 171, 'refused': 135}

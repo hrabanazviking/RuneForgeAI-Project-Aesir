@@ -1,0 +1,4 @@
+usage: test_hailo_dynamic_decoder_history.py [-h] --history HISTORY --source
+                                             SOURCE --frozen FROZEN --evidence
+                                             EVIDENCE
+test_hailo_dynamic_decoder_history.py: error: unrecognized arguments: -v

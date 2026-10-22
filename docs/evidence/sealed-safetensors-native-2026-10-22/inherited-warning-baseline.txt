@@ -1,0 +1,4 @@
+Included from ../sealed-safetensors-native-baseline/source-snapshot/tests/h043_st_check.mojo:20:
+./armvegr/safetensors.mojo:359:25: warning: assignment to 'out' was never used; assign to '_' instead?
+        var out = UInt16(0)
+                        ^

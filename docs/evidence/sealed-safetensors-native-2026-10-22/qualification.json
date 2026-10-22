@@ -1,0 +1,25 @@
+{
+  "precode_parent": "42686ee7f084240d89d2d663a28fe8bd5f898f5c",
+  "current_source_identities": 666,
+  "old_production_sources_modified": [
+    "armvegr/safetensors.mojo"
+  ],
+  "byte_identical_old_parser_conversion_query_bodies": 40,
+  "precode_native_controls": 111,
+  "late_frozen_source_controls": 4,
+  "current_native_entries": 117,
+  "current_native_builds": 117,
+  "late_frozen_control_builds": 4,
+  "c_fault_shim_builds": 5,
+  "all_linking_before_native_acceptance": true,
+  "raw_failed_attempts_retained": true,
+  "early_test_expression_and_temporary_rename_fixtures_reconstructed_and_explicitly_labeled": true,
+  "published_work_path_prefix_projection": "..",
+  "published_runtime_home_path_projection": "<host-home>",
+  "archive_files": 4889,
+  "prior_archive_manifests_verified": 3,
+  "no_old_python_test_modified": true,
+  "whole_repository_or_hosted_ci_pass": false,
+  "published_recording_recipe_runtime_home_parameterized": true,
+  "raw_recording_recipe_preserved_in_archive": true
+}

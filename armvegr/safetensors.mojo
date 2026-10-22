@@ -36,6 +36,8 @@ from std.memory.alloc import unsafe_alloc
 from std.origin import MutUntrackedOrigin
 
 from armvegr.quant import fp32_to_fp16
+from hailbru.syscall import os_host_architecture, os_mmap, os_munmap, os_close_descriptor
+from hailbru.source_sealed_copy import _require_sealed_source
 
 
 struct STTensorDesc(Copyable, Movable):
@@ -715,6 +717,8 @@ struct SafetensorsLoader:
     var fd: Int32
     var file_size: Int64
     var map: Pointer[UInt8, MutUntrackedOrigin]
+    var _mapping_extent: Int64
+    var _sealed_route: Bool
     var header_size: Int64
     var descs: List[STTensorDesc]
     var opened: Bool
@@ -729,6 +733,8 @@ struct SafetensorsLoader:
         self.fd = Int32(-1)
         self.file_size = Int64(0)
         self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=1)
+        self._mapping_extent = 0
+        self._sealed_route = False
         self.header_size = Int64(0)
         self.descs = List[STTensorDesc]()
         self.opened = False
@@ -744,7 +750,7 @@ struct SafetensorsLoader:
             raise Error("safetensors: live mapped source required")
         if offset < 0 or byte_count < 0:
             raise Error("safetensors: negative byte range")
-        if offset > self.file_size or byte_count > self.file_size - offset:
+        if offset > self.file_size or byte_count > self.file_size - offset or offset > self._mapping_extent or byte_count > self._mapping_extent - offset:
             raise Error("safetensors: truncated file or out-of-range offset")
 
     def _u64(self, offset: Int64) raises -> UInt64:
@@ -757,6 +763,8 @@ struct SafetensorsLoader:
     def open(mut self, path: String, header_bound: Int = 100000000,
              tensor_bound: Int = 100000, rank_bound: Int = 64,
              work_bound: Int = 100000000, depth_bound: Int = 64) raises:
+        if self._sealed_route:
+            raise Error("safetensors: sealed source cannot reopen a path")
         if self.opened:
             raise Error("safetensors: already open")
         if header_bound <= 0 or tensor_bound <= 0 or rank_bound <= 0 or work_bound <= 0 or depth_bound <= 0:
@@ -800,8 +808,44 @@ struct SafetensorsLoader:
             self.close()
             raise Error("safetensors: mmap failed on " + path)
         self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
+        self._mapping_extent = self.file_size
         self.opened = True
         try:
+            self._parse_header()
+        except e:
+            self.close()
+            raise e
+
+    def _adopt_owned_sealed_fd(mut self, owned_fd: Int64, source_bytes: Int64,
+            header_bound: Int, tensor_bound: Int, rank_bound: Int,
+            work_bound: Int, depth_bound: Int) raises:
+        # A busy alias remains owned by this loader. Distinct input is consumed.
+        if self.fd >= 0 or self.opened or self._sealed_route:
+            if owned_fd != Int64(self.fd):
+                _ = os_close_descriptor(owned_fd)
+            raise Error("safetensors: sealed admission requires a fresh owner")
+        self._sealed_route = True
+        if owned_fd < 0 or owned_fd > 2147483647:
+            raise Error("safetensors: exact live sealed descriptor required")
+        self.fd = Int32(owned_fd)
+        try:
+            _header_policies(header_bound, tensor_bound, rank_bound, work_bound, depth_bound)
+            var arch = os_host_architecture()
+            _require_sealed_source(arch, owned_fd, source_bytes)
+            if source_bytes < 8:
+                raise Error("safetensors: file smaller than the 8-byte header prefix")
+            self.header_bound = header_bound
+            self.tensor_bound = tensor_bound
+            self.rank_bound = rank_bound
+            self.work_bound = work_bound
+            self.depth_bound = depth_bound
+            var addr = os_mmap(arch, source_bytes, 1, 1, owned_fd, 0)
+            if addr == -1:
+                raise Error("safetensors: sealed mmap failed")
+            self.file_size = source_bytes
+            self._mapping_extent = source_bytes
+            self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=Int(addr))
+            self.opened = True
             self._parse_header()
         except e:
             self.close()
@@ -852,13 +896,20 @@ struct SafetensorsLoader:
 
     def close(mut self):
         if self.opened:
-            _ = external_call["munmap", Int32](self.map, Int(self.file_size))
+            if self._sealed_route:
+                _ = os_munmap("aarch64", Int64(Int(self.map)), self._mapping_extent)
+            else:
+                _ = external_call["munmap", Int32](self.map, Int(self._mapping_extent))
         if self.fd >= 0:
-            _ = external_call["close", Int32](self.fd)
+            if self._sealed_route:
+                _ = os_close_descriptor(Int64(self.fd))
+            else:
+                _ = external_call["close", Int32](self.fd)
         self.fd = Int32(-1)
         self.opened = False
         self.map = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=1)
         self.file_size = 0
+        self._mapping_extent = 0
         self.header_size = 0
         self.descs.clear()
         self.metadata.clear()

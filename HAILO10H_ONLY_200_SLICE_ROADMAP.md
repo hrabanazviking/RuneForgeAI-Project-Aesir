@@ -334,3 +334,14 @@ parser/constant reader will consume an Aesir-owned sealed fd. Bounded physical
 lead continuation is recorded in
 `docs/HAILO10H_NUMERICAL_LEADS_CONTINUED_2026-10-22.md`; it qualifies no numerical
 device encoding and is not implementation or execution evidence.
+
+
+## Owned ordinary Safetensors input update — 2026-10-22
+
+`docs/HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md` records the original sealed-fd
+parser/constant-input owner:117 current entries,115 frozen controls,50 suites/
+354 methods and14325 complete comparisons. All40 old parser/conversion/query
+bodies remain exact. This completes the published Safetensors ownership contract;
+it provides no numerical Hailo or source-model execution evidence. Owned ordinary
+config/index/shards and compiler bindings follow. The broad100% target and actual
+numerical configuration/packing/placement/program delivery/results remain work.

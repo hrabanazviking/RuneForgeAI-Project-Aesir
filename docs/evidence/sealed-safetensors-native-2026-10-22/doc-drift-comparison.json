@@ -1,0 +1,12 @@
+{
+  "before_sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76",
+  "after_sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76",
+  "byte_identical": true,
+  "inherited_issues": 23405,
+  "whole_repository_or_hosted_ci_pass": false,
+  "all_new_files_staged_before_final_gate": true,
+  "final_staged_sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76",
+  "initial_staged_runtime_path_diagnostic_retained": true,
+  "initial_ledger_summary_count_mismatch_corrected": true,
+  "legacy_ledger_schema_diagnostics": 9
+}

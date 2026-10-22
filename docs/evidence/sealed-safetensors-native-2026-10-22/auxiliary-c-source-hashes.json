@@ -1,0 +1,11 @@
+{
+  "tests/hailo_dma_observer.c": "c8bfe208f2d874384f6f86c9930af6dfd85dd6c78ca61748c1f819cae984caa2",
+  "tests/source_root_io_faults.c": "add4b1dda2be14495db59a80c9a77e047d49905d5bcf0b63dffccc22208cd9ad",
+  "tests/source_index_io_faults.c": "6c401ae0c531722c7edc5f879e0db7c69071d91846461792a07450b01f780321",
+  "tests/owned_gguf_faults.c": "03a19441b8efe6226e19ea9c8119407c4a96ebb31a507127e1257abd405fe265",
+  "tests/safetensors_fd_io_faults.c": "bbdab8681447f34afe2115c13b8eb1c43f1d7d0e3ca1ed5c5b73d1ae206a5a59",
+  "tests/source_sealed_copy_faults.c": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37",
+  "tests/sealed_gguf_faults.c": "d1446b85acdb3950b9f61b46185ea48a9b6a41fbdbae44469be11c677d0e7587",
+  "tests/sealed_safetensors_mutation.c": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9",
+  "tests/source_digest_io_faults.c": "99ad76524064c5d33a54366176d8c7bdb0bc5b2d2a55aa1ad82d17df1961a462"
+}

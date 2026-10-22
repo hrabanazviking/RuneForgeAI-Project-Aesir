@@ -1,0 +1,6 @@
+........
+----------------------------------------------------------------------
+Ran 8 tests in 5.717s
+
+OK
+{'calls': 176, 'outcomes': {0: 110, 1: 66}, 'traces': 102, 'comparisons': {'complete_component_windows': 21, 'raw_and_binary32_words': 263212, 'complete_header_metadata_axes_bindings_and_source': 15, 'exact_source_bytes': 62587, 'complete_lifetime_component_pairs': 4, 'complete_preimage_postimage_output_pairs': 3, 'complete_parser_refusal_pairs': 16, 'failure_then_fresh_success': 9, 'complete_same_extent_mutation_pairs': 1}}

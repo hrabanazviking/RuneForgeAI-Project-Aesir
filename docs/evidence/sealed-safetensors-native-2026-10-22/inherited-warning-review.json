@@ -1,0 +1,8 @@
+{
+  "normalized_complete_diagnostics": [
+    "Included from SOURCE/tests/h043_st_check.mojo:20:\n./armvegr/safetensors.mojo:UNCHANGED_BODY:25: warning: assignment to 'out' was never used; assign to '_' instead?\n        var out = UInt16(0)\n                        ^",
+    "Included from SOURCE/tests/h043_st_check.mojo:20:\n./armvegr/safetensors.mojo:UNCHANGED_BODY:25: warning: assignment to 'out' was never used; assign to '_' instead?\n        var out = UInt16(0)\n                        ^"
+  ],
+  "identical": true,
+  "old_conversion_body_changed": false
+}

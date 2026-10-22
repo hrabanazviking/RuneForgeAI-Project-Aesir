@@ -1,0 +1,55 @@
+{
+  "current_mojo_sources": 666,
+  "old_sources_unchanged": 662,
+  "old_sources_modified": [
+    "armvegr/safetensors.mojo"
+  ],
+  "old_python_inputs_unchanged": 70,
+  "current_python_inputs": 71,
+  "precode_controls_unchanged": 111,
+  "native_builds": 121,
+  "current_entries": 117,
+  "late_frozen_snapshot_controls": 4,
+  "zero_diagnostic_builds": 119,
+  "inherited_warning_builds": 2,
+  "suites": 50,
+  "methods": 354,
+  "qualified_native_entry_calls": 14519,
+  "qualified_native_kinds": {
+    "current": 14465,
+    "frozen": 54
+  },
+  "qualified_native_outcomes": {
+    "nonzero": 6275,
+    "zero": 8244
+  },
+  "frozen_control_outputs_compared": 14325,
+  "frozen_control_entries": 115,
+  "frozen_outcomes": {
+    "nonzero": 6209,
+    "zero": 8116
+  },
+  "complete_stderr_compared": true,
+  "new_tests": {
+    "calls": 176,
+    "outcomes": {
+      "0": 110,
+      "1": 66
+    },
+    "traces": 102,
+    "comparisons": {
+      "complete_component_windows": 21,
+      "raw_and_binary32_words": 263212,
+      "complete_header_metadata_axes_bindings_and_source": 15,
+      "exact_source_bytes": 62587,
+      "complete_lifetime_component_pairs": 4,
+      "complete_preimage_postimage_output_pairs": 3,
+      "complete_parser_refusal_pairs": 16,
+      "failure_then_fresh_success": 9,
+      "complete_same_extent_mutation_pairs": 1
+    }
+  },
+  "independent_complete_fault_log_pairs": 45,
+  "complete_mutation_pairs": 16,
+  "all_controls_compared": true
+}

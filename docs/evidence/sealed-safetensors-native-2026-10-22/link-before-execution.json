@@ -1,0 +1,12 @@
+{
+  "last_native_or_fault_library_link": [
+    1792711577208507508,
+    "../sealed-safetensors-native-supplement/safetensors_fd_io_faults.so"
+  ],
+  "first_reviewed_acceptance_input_snapshot": [
+    1792712126683034471,
+    "../sealed-safetensors-native-acceptance-v2/test-snapshot/tests/test_hailo10h_acceptance_contract.py"
+  ],
+  "all_linking_before_native_acceptance": true,
+  "no_linking_between_attempts": true
+}

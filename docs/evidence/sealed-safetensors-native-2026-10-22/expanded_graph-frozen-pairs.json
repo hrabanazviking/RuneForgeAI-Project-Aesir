@@ -1,0 +1,874 @@
+[
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "63f476e925f8caa5078cf2418c6a1b2d2440f43c76e765f460c1ec749273382f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e732df80a53b11f04b1b76ebae8a9ae8ad97ab203a3772ac5a6c77deb69ddf80",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "3146f695594ae1061f8e22928b562aa19b105dcc55a809f4484fac39a7091322",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-3.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "f159d886591466c62267a0c2e3b2ed3889216c83fe0d42c525a3dca83fe44609",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-3.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "956784fffa814ae7eefe525aed3d78b064ef8603aaed184bd2d1b4d9193c68c6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-3.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "8f60c3db201b616dae95340a20b63695bebebfb3e4c5d1df5adb3a319e40218c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-6.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "cbec5e3c38366cab79245ce6f38fce0742fe3607746964a41c1ecb66f8266006",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-6.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "3ca06f3bdee33b364d668b9ce7811bde913501e89f79cce2ad6ecf8debaacfd3",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-6.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "144fa4699c3c3893f6e5d4566e2c12a9cfb5b512f3620a1034ea26b1c201d45c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-9.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "09c19dd6ece30e608c74e7bc8fd7ebd4df62668113de3f52af2a8c7361799540",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-9.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "0fc395e3f91dbbd0c270a1fb3560ad9bd2844dc11e92718af05932eeb3c45562",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-9.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3a684e687a1f9caab6863f43ffb756d58684efe7f6411bd9ff30121a0135852",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-12.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "f6901122dd03dabd64cbef55a558307104748d13e68512ddb8ae17b7b5feecc4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-12.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "3aa4135a02b253a7793b409ad114faec91750698a187d11cb1d482c1249b30b9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-12.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "10b334d251bb88091b12b27cab4212bc9a650ea899fde1e0e814531d09b19f7a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e25eb8aa1a61f62fdafd0cae40bf2281fe4e9cc973d18cab0853c317e38a50ed",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "a0fdb774a9db99dab7d5fe8d5d414aff89b7257befd4b0a88ec7d925f969db7c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-15.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "8c3c3fe4c74b59e5d4d213d66d2a47c3a04da89d634d033ff808ca56127ac413",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-18.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "6c3782df95165a2755b7a8d6578d3cdd260ab49922986ff23362a51c77f820fa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-18.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "960d6c5b85b69c215da20339f943aa33093432069a204a0c72c2a5b8ad76eebc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-18.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "363c002b26f94fe02f63cc6a036bd2eb55b40d32cc500f0b773a5cd588974b97",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-21.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "bbfa6db40165b955ff3440a69fbcb5e86ebfa385d12c8e2fc6442cf13b6c7d2c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-21.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "6fd1f767e0a18f9a450e7aa66b22c7fe5b411d3383b3a122c2b9a40a03a1bbf2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-21.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "77436116e76339ef3f0016ebb67b4e269906b1e9cc4e7aac96c6b65ac7ba245e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "bad_output"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: duplicate or invalid source output",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "duplicate_output"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: duplicate or invalid source output",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "unmapped_input"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: unmapped or expired source input",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "short_index_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: unmapped or expired source input",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "index_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: external index shape is invalid",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "external_domain"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: external input domain is unresolved",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "persistent_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: persistent source lifetime is incomplete",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "alias_self"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: unmapped cache base",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "alias_extent"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: invalid persistent alias extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "bad_weight"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: missing source weight binding",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "weight_extent"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical projection differs from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "orphan"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: source value/export mapping is incomplete",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "lost_export"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "ExpandedGraph: source value/export mapping is incomplete",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "control_binary": "../sealed-gguf-native-final/old-003",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/api.gguf",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "996fc2e70e4662e3dad9b5cc5ef50896bbc1308712cd8973733a92ae943ec48d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-38.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-38.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-38.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-41.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "control_binary": "../owned-compiler-native-final/entry-001",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-41.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "5c80e98b1b4acdf0cd6564ba888a422a50a66b781171f5bdb3f1f81c33a8c621",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-41.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-expanded-graph-hlbwlu_q/fixture-41.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

@@ -1,0 +1,6 @@
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 27.282s
+
+OK
+Native calls: {'header_oracle': 456, 'mojo_encode': 456, 'mojo_decode': 456, 'ownership': 1, 'mojo_refusal': 492, 'header_layout': 1, 'trace_control': 7}

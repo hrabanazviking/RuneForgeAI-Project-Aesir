@@ -1,0 +1,5 @@
+usage: test_hailo_decoder_bias.py [-h] --binary BINARY --api API --ownership
+                                  OWNERSHIP --gguf GGUF --consumers CONSUMERS
+                                  --frozen FROZEN --strace STRACE --evidence
+                                  EVIDENCE
+test_hailo_decoder_bias.py: error: unrecognized arguments: -v

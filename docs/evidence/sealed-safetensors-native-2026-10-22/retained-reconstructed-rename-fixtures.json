@@ -1,0 +1,13 @@
+{
+  "provenance": "Reconstructed exactly from unchanged frozen Python fixture builder and recorded failing test parameters after TemporaryDirectory cleanup; not claimed as a raw pre-run capture.",
+  "fixtures": {
+    "replace-original.safetensors": {
+      "hex": "3d000000000000007b226f726967696e616c223a7b226474797065223a22463332222c227368617065223a5b315d2c22646174615f6f666673657473223a5b302c345d7d7d004992db",
+      "sha256": "1785a938e40aec575186c62d71284f2b13f4e2765ef7f506f3b0bf47a9bbc767"
+    },
+    "replace-new.safetensors": {
+      "hex": "41000000000000007b227265706c6163656d656e74223a7b226474797065223a22463136222c227368617065223a5b355d2c22646174615f6f666673657473223a5b302c31305d7d7d004992db246db6ff4891",
+      "sha256": "0ae4b2dbc8df1f45b45de7ed4c491fa42e0a537ff44dc4645512866a250a82e1"
+    }
+  }
+}

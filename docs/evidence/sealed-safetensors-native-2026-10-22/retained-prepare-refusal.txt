@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../sealed-safetensors-native-acceptance/prepare.py", line 31, in <module>
+    assert '--evidence' in args
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError

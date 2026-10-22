@@ -1,0 +1,8 @@
+../Project-Aesir/tests/hailo_sealed_safetensors_api.mojo:161:68: error: invalid call to '__add__': value passed to 'rhs' cannot be converted from 'Int' to 'Int64'
+            source._adopt_owned_sealed_fd(fd, bytes.source_bytes + (1 if mode == "adopt_size" else 0), header, tensors, rank, work, depth)
+                                              ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Imported from ../Project-Aesir/tests/hailo_sealed_safetensors_api.mojo:2:
+Mojo/stdlib/std/simd.mojo:1070:1: note: function declared here
+def __add__(self, rhs: Self) -> Self    # note - synthetic signature
+^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module

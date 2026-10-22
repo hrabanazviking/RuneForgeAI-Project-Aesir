@@ -1,0 +1,9 @@
+CAPABILITY_LEDGER.md:2416: missing required field 'Evidence boundary'
+CAPABILITY_LEDGER.md:2429: missing required field 'Evidence boundary'
+CAPABILITY_LEDGER.md:2441: missing required field 'Evidence boundary'
+CAPABILITY_LEDGER.md:2452: missing required field 'Evidence boundary'
+CAPABILITY_LEDGER.md:2463: missing required field 'Evidence boundary'
+CAPABILITY_LEDGER.md:2473: missing required field 'Evidence boundary'
+CAPABILITY_LEDGER.md:2480: missing required field 'Evidence boundary'
+CAPABILITY_LEDGER.md:2482: status must be one backticked canonical value
+CAPABILITY_LEDGER.md:2487: malformed capability heading

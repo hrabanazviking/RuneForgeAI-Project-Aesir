@@ -1,0 +1,3571 @@
+{
+  "baseline_schema_version": 1,
+  "source": "CAPABILITY_LEDGER.md",
+  "source_sha256": "baa4b859c92286f9d861619f3cfef46440acd0f9b7d4b05d6fe33b8d801223f3",
+  "capability_count": 171,
+  "duplicate_ids": [],
+  "status_counts": {
+    "missing": 15,
+    "partial": 29,
+    "verified": 126
+  },
+  "field_census": {
+    "Status": {
+      "present": 171,
+      "missing_ids": [],
+      "repeated_ids": [
+        "AES-INFER-059"
+      ]
+    },
+    "Owner": {
+      "present": 171,
+      "missing_ids": [],
+      "repeated_ids": [
+        "AES-INFER-059"
+      ]
+    },
+    "Claim sources": {
+      "present": 139,
+      "missing_ids": [
+        "AES-ARM-001",
+        "AES-ARM-002",
+        "AES-ARM-003",
+        "AES-ARM-004",
+        "AES-ARM-005",
+        "AES-ARM-006",
+        "AES-ARM-007",
+        "AES-ARM-008",
+        "AES-ARM-009",
+        "AES-ARM-010",
+        "AES-ARM-011",
+        "AES-ARM-012",
+        "AES-SRV-009",
+        "AES-SRV-010",
+        "AES-LOAD-041",
+        "AES-LOAD-042",
+        "AES-LOAD-043",
+        "AES-LOAD-044",
+        "AES-LOAD-045",
+        "AES-LOAD-059",
+        "AES-INFER-059",
+        "AES-SOURCE-001",
+        "AES-SOURCE-002",
+        "AES-SOURCE-003",
+        "AES-SOURCE-004",
+        "AES-SOURCE-005",
+        "AES-SOURCE-006",
+        "AES-SOURCE-007",
+        "AES-SOURCE-008",
+        "AES-SOURCE-009",
+        "AES-SOURCE-010",
+        "AES-SOURCE-011"
+      ],
+      "repeated_ids": []
+    },
+    "Implementation evidence": {
+      "present": 159,
+      "missing_ids": [
+        "AES-OPS-004",
+        "AES-SOURCE-001",
+        "AES-SOURCE-002",
+        "AES-SOURCE-003",
+        "AES-SOURCE-004",
+        "AES-SOURCE-005",
+        "AES-SOURCE-006",
+        "AES-SOURCE-007",
+        "AES-SOURCE-008",
+        "AES-SOURCE-009",
+        "AES-SOURCE-010",
+        "AES-SOURCE-011"
+      ],
+      "repeated_ids": [
+        "AES-INFER-059"
+      ]
+    },
+    "Executable evidence": {
+      "present": 171,
+      "missing_ids": [],
+      "repeated_ids": [
+        "AES-INFER-059"
+      ]
+    },
+    "Evidence boundary": {
+      "present": 164,
+      "missing_ids": [
+        "AES-LOAD-041",
+        "AES-LOAD-042",
+        "AES-LOAD-043",
+        "AES-LOAD-044",
+        "AES-LOAD-045",
+        "AES-LOAD-059",
+        "AES-INFER-059"
+      ],
+      "repeated_ids": []
+    },
+    "Next acceptance gate": {
+      "present": 121,
+      "missing_ids": [
+        "AES-FND-004",
+        "AES-MEM-005",
+        "AES-CPU-007",
+        "AES-ARM-002",
+        "AES-ARM-003",
+        "AES-ARM-004",
+        "AES-ARM-005",
+        "AES-ARM-006",
+        "AES-ARM-007",
+        "AES-ARM-008",
+        "AES-ARM-009",
+        "AES-ARM-010",
+        "AES-ARM-011",
+        "AES-ARM-012",
+        "AES-GEN-009",
+        "AES-CLI-003",
+        "AES-SRV-001",
+        "AES-SRV-002",
+        "AES-SRV-003",
+        "AES-SRV-004",
+        "AES-SRV-010",
+        "AES-RAG-001",
+        "AES-RAG-002",
+        "AES-QNT-001",
+        "AES-QNT-002",
+        "AES-QNT-004",
+        "AES-QNT-005",
+        "AES-QNT-006",
+        "AES-QNT-007",
+        "AES-QNT-008",
+        "AES-ACC-001",
+        "AES-ACC-002",
+        "AES-ACC-005",
+        "AES-ACC-007",
+        "AES-ECO-001",
+        "AES-ECO-002",
+        "AES-RES-001",
+        "AES-SWM-001",
+        "AES-SWM-002",
+        "AES-SWM-003",
+        "AES-SWM-004",
+        "AES-SWM-005",
+        "AES-OPS-006",
+        "AES-LOAD-041",
+        "AES-LOAD-042",
+        "AES-LOAD-043",
+        "AES-LOAD-044",
+        "AES-LOAD-045",
+        "AES-LOAD-059",
+        "AES-INFER-059"
+      ],
+      "repeated_ids": []
+    },
+    "Audit": {
+      "present": 137,
+      "missing_ids": [
+        "AES-FND-008",
+        "AES-ARM-001",
+        "AES-ARM-002",
+        "AES-ARM-003",
+        "AES-ARM-004",
+        "AES-ARM-005",
+        "AES-ARM-006",
+        "AES-ARM-007",
+        "AES-ARM-008",
+        "AES-ARM-009",
+        "AES-ARM-010",
+        "AES-ARM-011",
+        "AES-ARM-012",
+        "AES-CLI-014",
+        "AES-SRV-009",
+        "AES-SRV-010",
+        "AES-LOAD-041",
+        "AES-LOAD-042",
+        "AES-LOAD-043",
+        "AES-LOAD-044",
+        "AES-LOAD-045",
+        "AES-LOAD-059",
+        "AES-INFER-059",
+        "AES-SOURCE-001",
+        "AES-SOURCE-002",
+        "AES-SOURCE-003",
+        "AES-SOURCE-004",
+        "AES-SOURCE-005",
+        "AES-SOURCE-006",
+        "AES-SOURCE-007",
+        "AES-SOURCE-008",
+        "AES-SOURCE-009",
+        "AES-SOURCE-010",
+        "AES-SOURCE-011"
+      ],
+      "repeated_ids": []
+    }
+  },
+  "extension_field_occurrences": 168,
+  "extension_label_counts": {
+    "2026-10-01 3B extension": 1,
+    "2026-10-01 Turing integration": 1,
+    "2026-10-01 Turing/3B extension": 1,
+    "2026-10-01 measured subset": 1,
+    "AES500-211..218 schema-versioning evidence": 1,
+    "AES500-221..228 blob identity evidence": 1,
+    "AES500-231..238 atomic registration evidence": 1,
+    "AES500-241..248 socket lifecycle evidence": 1,
+    "AES500-251..259 bounded request parsing evidence": 1,
+    "AES500-261..269 strict framing evidence": 1,
+    "Activation-residual refinement (2026-10-02)": 1,
+    "Additional bounded component": 1,
+    "Additional measured subset (2026-10-01)": 1,
+    "Banked (F3)": 1,
+    "Boundary": 29,
+    "Bounded allocation-lifetime evidence (AES500-021–029)": 1,
+    "Bounded runtime-group32 staging (2026-10-03)": 1,
+    "Capability": 1,
+    "Captured F32 input gate (2026-10-01)": 1,
+    "Container admission": 1,
+    "Current narrow verified primitive": 1,
+    "Down-only captured F32 gate (2026-10-02)": 1,
+    "Down128 decode/sample trajectory (2026-10-03)": 1,
+    "Down128 full-model strategy3 (2026-10-02)": 1,
+    "Down128 opt-in cooperative recovery (2026-10-03)": 1,
+    "Down128 owned projection/resource trace (2026-10-03)": 1,
+    "Down128 sealed owning-context replay (2026-10-03)": 1,
+    "Enabled batched controls (2026-10-02)": 1,
+    "Evidence": 30,
+    "Executable evidence (host-side, on Mimir)": 1,
+    "Fallback": 1,
+    "Final controlled measurements": 1,
+    "First SPD-00 measurement slice (2026-10-01)": 1,
+    "First independent 3B logit gate (2026-10-01)": 1,
+    "Fixture control/reset acceptance (2026-10-02)": 1,
+    "Fixture decode/replay acceptance (2026-10-02)": 1,
+    "Fixture ownership admission (2026-10-02)": 1,
+    "Further efficiency subset (2026-10-01)": 1,
+    "Fused attention causal decode (2026-10-03)": 1,
+    "Fused attention complete model (2026-10-03)": 1,
+    "Fused cooperative controls (2026-10-03)": 1,
+    "Fused sealed replay (2026-10-03)": 1,
+    "Header reuse rejection (2026-10-02)": 1,
+    "Historical evidence only": 1,
+    "Isolated matrix-model gate (2026-10-01)": 1,
+    "Larger row CTA experiment (2026-10-02)": 1,
+    "Layering boundary": 1,
+    "Legacy implementation evidence": 1,
+    "Llama 3 evidence": 1,
+    "Long-token subset (2026-10-01)": 1,
+    "Measured on Mimir": 3,
+    "Measured on Mimir (TinyLlama-1.1B-Chat Q4_0, sha256 da3087fb...)": 1,
+    "Narrow16-column primitive experiment (2026-10-03)": 1,
+    "Native service evidence": 1,
+    "Native setup hardening": 1,
+    "Negative result (measured)": 1,
+    "Next": 2,
+    "Next gate": 1,
+    "Non-claims": 4,
+    "Not demonstrated": 2,
+    "Observation formatter evidence": 1,
+    "Optional Turing prerequisite (2026-10-01)": 1,
+    "Optional batched elementwise (2026-10-02)": 1,
+    "Optional batched rotary/cache (2026-10-02)": 1,
+    "Optional matrix primitive (2026-10-01)": 1,
+    "Optional packed Turing candidate (2026-10-01)": 1,
+    "Owned native CUDA trace (2026-10-01)": 1,
+    "Owned prefill timeline (2026-10-02)": 1,
+    "Owner target": 1,
+    "Owning-context checkpoint replay (2026-10-02)": 1,
+    "Paired gate/up primitive (2026-10-03)": 1,
+    "Platform-entry evidence": 1,
+    "Projection attribution (2026-10-02)": 1,
+    "Reproduction and threat model": 1,
+    "Runtime integration": 1,
+    "S01 correction (2026-09-12)": 1,
+    "S02 extension (2026-09-12)": 1,
+    "S03 extension (2026-09-13)": 1,
+    "S04 extension (2026-09-13)": 1,
+    "S07a settings evidence": 1,
+    "S07b1 admission": 1,
+    "S07b2 evidence": 1,
+    "S07b2 native resolution": 1,
+    "S07b3 config resolution": 1,
+    "S07b3 evidence": 1,
+    "S07b3 extension": 1,
+    "S07b4a request limits": 1,
+    "S07b4b handoff evidence": 1,
+    "S07b4b session handoff": 1,
+    "S08a inspection extension": 1,
+    "S08b fit-evidence extension": 1,
+    "S09 text-admission extension": 4,
+    "S10 crash-injection extension": 1,
+    "S15 lifecycle extension": 1,
+    "S16 lifecycle extension": 1,
+    "Scaled residual experiment (2026-10-02)": 1,
+    "Shared Turing refinement (2026-10-01)": 1,
+    "Slice 139": 1,
+    "Slice 140 (physical)": 1,
+    "Upload integration": 1,
+    "Wider Turing refinement (2026-10-01)": 1
+  },
+  "entries": [
+    {
+      "id": "AES-FND-001",
+      "name": "Counted fail-closed master-suite reporting",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 98
+    },
+    {
+      "id": "AES-FND-002",
+      "name": "External real-GGUF integration gate",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 109
+    },
+    {
+      "id": "AES-FND-003",
+      "name": "Clean native Mojo build on configured Linux platform",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 120
+    },
+    {
+      "id": "AES-FND-004",
+      "name": "Mojo runtime without Python imports",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 131
+    },
+    {
+      "id": "AES-FND-005",
+      "name": "Automated continuous integration",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 141
+    },
+    {
+      "id": "AES-FND-006",
+      "name": "Cross-platform runtime support",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 152
+    },
+    {
+      "id": "AES-FND-007",
+      "name": "Repository artifact and source hygiene",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 163
+    },
+    {
+      "id": "AES-FND-008",
+      "name": "Prepared-checkout offline build and terminal launch",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [
+        "Platform-entry evidence"
+      ],
+      "line": 174
+    },
+    {
+      "id": "AES-MEM-001",
+      "name": "Arena-backed `MimirWell` allocation",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 215
+    },
+    {
+      "id": "AES-MEM-002",
+      "name": "Borrowed zero-copy tensor descriptors",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 226
+    },
+    {
+      "id": "AES-MEM-003",
+      "name": "Request KV-cache reuse for pinned generation",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 237
+    },
+    {
+      "id": "AES-MEM-004",
+      "name": "PagedAttention cache management",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 248
+    },
+    {
+      "id": "AES-MEM-005",
+      "name": "Zero-allocation generation hot path",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 259
+    },
+    {
+      "id": "AES-MEM-006",
+      "name": "Memory-safe failure boundaries",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 269
+    },
+    {
+      "id": "AES-MEM-007",
+      "name": "Caller-bounded half-open arithmetic spans",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 280
+    },
+    {
+      "id": "AES-CPU-001",
+      "name": "F16 CPU GEMM for tested shapes",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 293
+    },
+    {
+      "id": "AES-CPU-002",
+      "name": "RMS normalization in pinned inference",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 304
+    },
+    {
+      "id": "AES-CPU-003",
+      "name": "Rotary position embedding in pinned inference",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 315
+    },
+    {
+      "id": "AES-CPU-004",
+      "name": "Grouped-query causal attention in pinned inference",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 326
+    },
+    {
+      "id": "AES-CPU-005",
+      "name": "Legacy `flash_attention_2` primitive",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 337
+    },
+    {
+      "id": "AES-CPU-006",
+      "name": "SiLU activation for tested values",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 348
+    },
+    {
+      "id": "AES-CPU-007",
+      "name": "GEGLU-named synthetic activation helper",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 359
+    },
+    {
+      "id": "AES-CPU-008",
+      "name": "Compute-kernel contract and numerical hardening",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 369
+    },
+    {
+      "id": "AES-ARM-001",
+      "name": "FP16 GEMM micro-kernel + blocking driver (H022/H023)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 388
+    },
+    {
+      "id": "AES-ARM-002",
+      "name": "FP16 GEMV (H024)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 397
+    },
+    {
+      "id": "AES-ARM-003",
+      "name": "Elementwise kernels (H025)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 405
+    },
+    {
+      "id": "AES-ARM-004",
+      "name": "Normalization kernels (H026/H027)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 413
+    },
+    {
+      "id": "AES-ARM-005",
+      "name": "Softmax (H028)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 421
+    },
+    {
+      "id": "AES-ARM-006",
+      "name": "Activations (H029)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 429
+    },
+    {
+      "id": "AES-ARM-007",
+      "name": "RoPE (H030)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 437
+    },
+    {
+      "id": "AES-ARM-008",
+      "name": "Q8_0 / Q4_0 quantization (H031/H032)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 445
+    },
+    {
+      "id": "AES-ARM-009",
+      "name": "Quantized GEMM (H033)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 453
+    },
+    {
+      "id": "AES-ARM-010",
+      "name": "Fused causal attention + MHA (H034/H035)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 461
+    },
+    {
+      "id": "AES-ARM-011",
+      "name": "Backend selection, Hailo-only fail-closed gate (H036)",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 469
+    },
+    {
+      "id": "AES-ARM-012",
+      "name": "Toy forward pass composition (H039)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 477
+    },
+    {
+      "id": "AES-LDR-001",
+      "name": "Malformed GGUF header rejection",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 487
+    },
+    {
+      "id": "AES-LDR-002",
+      "name": "Pinned Llama GGUF v3 metadata and tensor table",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 498
+    },
+    {
+      "id": "AES-LDR-003",
+      "name": "Zero-copy mmap of supported F16 matrices",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 509
+    },
+    {
+      "id": "AES-LDR-004",
+      "name": "One-time F32 norm conversion into workspace",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 520
+    },
+    {
+      "id": "AES-LDR-005",
+      "name": "General GGUF loader state machine and safety architecture",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 531
+    },
+    {
+      "id": "AES-LDR-006",
+      "name": "Quantized GGUF tensor loading",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S08a inspection extension",
+        "2026-10-01 3B extension"
+      ],
+      "line": 542
+    },
+    {
+      "id": "AES-TOK-001",
+      "name": "Synthetic model-driven SentencePiece-style BPE",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 573
+    },
+    {
+      "id": "AES-TOK-002",
+      "name": "Pinned real-model prompt encoding parity",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 584
+    },
+    {
+      "id": "AES-TOK-003",
+      "name": "Stateful byte and multi-token UTF-8 streaming decoder",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 595
+    },
+    {
+      "id": "AES-TOK-004",
+      "name": "Broad multilingual and tokenizer-metadata compatibility",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 606
+    },
+    {
+      "id": "AES-GEN-001",
+      "name": "Pinned Llama F16 CPU forward pass",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 619
+    },
+    {
+      "id": "AES-GEN-002",
+      "name": "Deterministic 32-token autoregressive generation",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 630
+    },
+    {
+      "id": "AES-GEN-003",
+      "name": "EOS/length/context stop-reason policy",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 641
+    },
+    {
+      "id": "AES-GEN-004",
+      "name": "Stateless greedy argmax selection",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 652
+    },
+    {
+      "id": "AES-GEN-005",
+      "name": "Temperature/top-k/top-p and penalty sampling",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S07a settings evidence",
+        "Additional bounded component"
+      ],
+      "line": 663
+    },
+    {
+      "id": "AES-GEN-006",
+      "name": "Custom stop tokens and stop strings",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 685
+    },
+    {
+      "id": "AES-GEN-007",
+      "name": "Chat-template and conversation formatting",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 696
+    },
+    {
+      "id": "AES-GEN-008",
+      "name": "Session context, cancellation, and cache isolation",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 707
+    },
+    {
+      "id": "AES-GEN-009",
+      "name": "Token suppression, logit masking & multi-prompt regression corpora",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 718
+    },
+    {
+      "id": "AES-GEN-010",
+      "name": "Bounded literal thought-block transcript redaction",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 728
+    },
+    {
+      "id": "AES-GEN-011",
+      "name": "Strict bounded tool schema formatting and call parsing",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 739
+    },
+    {
+      "id": "AES-CLI-001",
+      "name": "Positive integer `--max-tokens` parsing",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 752
+    },
+    {
+      "id": "AES-CLI-002",
+      "name": "Real local GGUF single-shot execution",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 763
+    },
+    {
+      "id": "AES-CLI-003",
+      "name": "Modelfile grammar, multiline directive parsing & GenerationConfig integration",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S07b1 admission",
+        "S07b2 native resolution",
+        "S07b2 evidence",
+        "S07b3 config resolution",
+        "S07b3 evidence",
+        "S07b4a request limits",
+        "S07b4b session handoff",
+        "Layering boundary"
+      ],
+      "line": 774
+    },
+    {
+      "id": "AES-CLI-004",
+      "name": "Durable model catalog and content-addressed blob store",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S10 crash-injection extension",
+        "S09 text-admission extension",
+        "S16 lifecycle extension",
+        "AES500-211..218 schema-versioning evidence",
+        "AES500-221..228 blob identity evidence",
+        "AES500-231..238 atomic registration evidence"
+      ],
+      "line": 831
+    },
+    {
+      "id": "AES-CLI-005",
+      "name": "`list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S03 extension (2026-09-13)"
+      ],
+      "line": 879
+    },
+    {
+      "id": "AES-CLI-006",
+      "name": "`pull`, `push`, and `create` operations",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 896
+    },
+    {
+      "id": "AES-CLI-007",
+      "name": "`rm`, `cp`, `stop`, and runtime lifecycle semantics",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 907
+    },
+    {
+      "id": "AES-CLI-008",
+      "name": "REPL slash-command state and interactive inference",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 918
+    },
+    {
+      "id": "AES-CLI-009",
+      "name": "CLI flag parsing",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S09 text-admission extension",
+        "S07b3 extension"
+      ],
+      "line": 929
+    },
+    {
+      "id": "AES-CLI-010",
+      "name": "Offline-safe system and model diagnosis",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S02 extension (2026-09-12)",
+        "S01 correction (2026-09-12)"
+      ],
+      "line": 948
+    },
+    {
+      "id": "AES-CLI-011",
+      "name": "Exact-token native conversation persistence",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S09 text-admission extension",
+        "S15 lifecycle extension"
+      ],
+      "line": 975
+    },
+    {
+      "id": "AES-CLI-012",
+      "name": "Durable model aliases and favorites",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S09 text-admission extension",
+        "S04 extension (2026-09-13)"
+      ],
+      "line": 998
+    },
+    {
+      "id": "AES-CLI-013",
+      "name": "Interactive native CUDA model hot switching",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "S07b4b handoff evidence"
+      ],
+      "line": 1026
+    },
+    {
+      "id": "AES-CLI-014",
+      "name": "Interactive terminal home launcher",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 1043
+    },
+    {
+      "id": "AES-SRV-001",
+      "name": "POSIX socket bind/listen setup",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1068
+    },
+    {
+      "id": "AES-SRV-002",
+      "name": "Request acceptance and HTTP parsing",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1078
+    },
+    {
+      "id": "AES-SRV-003",
+      "name": "Complete/write-safe HTTP responses",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1088
+    },
+    {
+      "id": "AES-SRV-004",
+      "name": "Raw file-descriptor generation chunk forwarding",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1098
+    },
+    {
+      "id": "AES-SRV-005",
+      "name": "Bounded OpenAI-shaped JSON serializer",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1108
+    },
+    {
+      "id": "AES-SRV-006",
+      "name": "OpenAI-compatible REST execution",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1119
+    },
+    {
+      "id": "AES-SRV-007",
+      "name": "llama.cpp HTTP compatibility routes",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1130
+    },
+    {
+      "id": "AES-SRV-008",
+      "name": "Ollama HTTP API compatibility",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1141
+    },
+    {
+      "id": "AES-SRV-009",
+      "name": "Concurrent, bounded, secure service operation",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 1152
+    },
+    {
+      "id": "AES-SRV-010",
+      "name": "Authenticated native loopback CUDA generation",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [
+        "Reproduction and threat model",
+        "Native setup hardening",
+        "2026-10-01 Turing integration"
+      ],
+      "line": 1161
+    },
+    {
+      "id": "AES-RAG-001",
+      "name": "Cosine similarity for tested F16 vectors",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1182
+    },
+    {
+      "id": "AES-RAG-002",
+      "name": "In-memory vector document store and top-k search",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1192
+    },
+    {
+      "id": "AES-RAG-003",
+      "name": "Query embedding generation",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1202
+    },
+    {
+      "id": "AES-RAG-004",
+      "name": "Corpus ingestion, chunking, metadata, and persistence",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1213
+    },
+    {
+      "id": "AES-RAG-005",
+      "name": "End-to-end retrieval-augmented generation",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1224
+    },
+    {
+      "id": "AES-QNT-001",
+      "name": "Compressed-format discriminants and names",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1245
+    },
+    {
+      "id": "AES-QNT-002",
+      "name": "Q4_K_M block dequantization transformation kernel",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1255
+    },
+    {
+      "id": "AES-QNT-003",
+      "name": "Real quantized-model inference",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1265
+    },
+    {
+      "id": "AES-QNT-004",
+      "name": "Legacy 4-bit and 5-bit block quantization transformation kernels",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1276
+    },
+    {
+      "id": "AES-QNT-005",
+      "name": "8-bit integer and FP8 floating-point block quantization transformation kernels",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1286
+    },
+    {
+      "id": "AES-QNT-006",
+      "name": "K-quantization 3-bit and 5-bit block quantization transformation kernels",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1296
+    },
+    {
+      "id": "AES-QNT-007",
+      "name": "Quantization system crash-proofing, error-correcting, and self-healing boundaries",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1306
+    },
+    {
+      "id": "AES-QNT-008",
+      "name": "K-quantization 2-bit and 6-bit block quantization transformation kernels",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1316
+    },
+    {
+      "id": "AES-QNT-009",
+      "name": "GPTQ, AWQ, EXL2, HQQ, and SmoothQuant fused quantization transformation kernels",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1326
+    },
+    {
+      "id": "AES-QNT-010",
+      "name": "Ternary and 1-bit extreme quantization transformation kernels",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1337
+    },
+    {
+      "id": "AES-QNT-011",
+      "name": "Comprehensive all-format quantization metadata store & hardware autotuning gateway",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1348
+    },
+    {
+      "id": "AES-ACC-001",
+      "name": "Host tensor row/column partitioning & all-reduce reduction",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1361
+    },
+    {
+      "id": "AES-ACC-002",
+      "name": "Sequential host sharded GEMM and reduction",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1371
+    },
+    {
+      "id": "AES-ACC-003",
+      "name": "Device topology discovery",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "Runtime integration",
+        "S08b fit-evidence extension",
+        "Upload integration",
+        "Container admission"
+      ],
+      "line": 1381
+    },
+    {
+      "id": "AES-ACC-004",
+      "name": "Real multi-GPU placement and inference",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1396
+    },
+    {
+      "id": "AES-ACC-005",
+      "name": "NPU backend discriminants and buffer descriptors",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1407
+    },
+    {
+      "id": "AES-ACC-006",
+      "name": "NPU execution dispatch",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1417
+    },
+    {
+      "id": "AES-ACC-007",
+      "name": "GPU realm discriminants and buffer descriptors",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1428
+    },
+    {
+      "id": "AES-ACC-008",
+      "name": "GPU execution dispatch",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "Bounded allocation-lifetime evidence (AES500-021–029)",
+        "Llama 3 evidence",
+        "2026-10-01 Turing/3B extension",
+        "First independent 3B logit gate (2026-10-01)",
+        "Owned native CUDA trace (2026-10-01)",
+        "Optional matrix primitive (2026-10-01)",
+        "Optional Turing prerequisite (2026-10-01)",
+        "Optional packed Turing candidate (2026-10-01)",
+        "Shared Turing refinement (2026-10-01)",
+        "Wider Turing refinement (2026-10-01)",
+        "Captured F32 input gate (2026-10-01)",
+        "Isolated matrix-model gate (2026-10-01)",
+        "Activation-residual refinement (2026-10-02)",
+        "Scaled residual experiment (2026-10-02)",
+        "Fixture ownership admission (2026-10-02)",
+        "Fixture control/reset acceptance (2026-10-02)",
+        "Fixture decode/replay acceptance (2026-10-02)",
+        "Owning-context checkpoint replay (2026-10-02)",
+        "Optional batched rotary/cache (2026-10-02)",
+        "Optional batched elementwise (2026-10-02)",
+        "Enabled batched controls (2026-10-02)",
+        "Owned prefill timeline (2026-10-02)",
+        "Projection attribution (2026-10-02)",
+        "Header reuse rejection (2026-10-02)",
+        "Larger row CTA experiment (2026-10-02)",
+        "Down-only captured F32 gate (2026-10-02)",
+        "Down128 full-model strategy3 (2026-10-02)",
+        "Down128 decode/sample trajectory (2026-10-03)",
+        "Down128 sealed owning-context replay (2026-10-03)",
+        "Down128 opt-in cooperative recovery (2026-10-03)",
+        "Down128 owned projection/resource trace (2026-10-03)",
+        "Narrow16-column primitive experiment (2026-10-03)",
+        "Bounded runtime-group32 staging (2026-10-03)",
+        "Paired gate/up primitive (2026-10-03)",
+        "Fused attention complete model (2026-10-03)",
+        "Fused attention causal decode (2026-10-03)",
+        "Fused sealed replay (2026-10-03)",
+        "Fused cooperative controls (2026-10-03)"
+      ],
+      "line": 1438
+    },
+    {
+      "id": "AES-ACC-009",
+      "name": "Direct mmap-to-GPU zero-copy model weights",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1771
+    },
+    {
+      "id": "AES-ACC-010",
+      "name": "Bounded shared-score causal CUDA GQA primitive",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1782
+    },
+    {
+      "id": "AES-ECO-001",
+      "name": "Hugging Face repository-tag normalization",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1809
+    },
+    {
+      "id": "AES-ECO-002",
+      "name": "Hugging Face resolve-URL construction",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1819
+    },
+    {
+      "id": "AES-ECO-003",
+      "name": "Hugging Face weight downloading",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1829
+    },
+    {
+      "id": "AES-ECO-004",
+      "name": "ONNX model parsing and execution",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1840
+    },
+    {
+      "id": "AES-ECO-005",
+      "name": "ExLlama/EXL2 conversion and inference",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1851
+    },
+    {
+      "id": "AES-ECO-006",
+      "name": "llama.cpp CLI subcommand compatibility",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1862
+    },
+    {
+      "id": "AES-ECO-007",
+      "name": "Limited grammar-shaped token checks and logit-mask bounds",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1873
+    },
+    {
+      "id": "AES-ECO-008",
+      "name": "Speculative token probability-ratio acceptance primitive",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1884
+    },
+    {
+      "id": "AES-RES-001",
+      "name": "Sentinel-address, index, and logit guard helpers",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1897
+    },
+    {
+      "id": "AES-RES-002",
+      "name": "Restart-safe checkpoint marker records",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1907
+    },
+    {
+      "id": "AES-RES-003",
+      "name": "Bounded synchronous local event journal and mailboxes",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1918
+    },
+    {
+      "id": "AES-RES-004",
+      "name": "Local task-list descriptor and worker-count bounds",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1929
+    },
+    {
+      "id": "AES-RES-005",
+      "name": "Self-healing crash recovery & checkpoint validation",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1940
+    },
+    {
+      "id": "AES-RES-006",
+      "name": "Caller-reported failure diagnostics",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1951
+    },
+    {
+      "id": "AES-SWM-001",
+      "name": "Peer roles, descriptors, and capacity arithmetic",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1964
+    },
+    {
+      "id": "AES-SWM-002",
+      "name": "In-memory least-used/capacity peer selection & empty cluster safety",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1974
+    },
+    {
+      "id": "AES-SWM-003",
+      "name": "Mesh join, liveness & parameter validation",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1984
+    },
+    {
+      "id": "AES-SWM-004",
+      "name": "Distributed inference dispatch & task dispatcher parameter validation",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 1994
+    },
+    {
+      "id": "AES-SWM-005",
+      "name": "Swarm REST and CLI operational status & subcommand bounds",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 2004
+    },
+    {
+      "id": "AES-OPS-001",
+      "name": "Measured performance benchmarking & CLI dispatcher validation",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "2026-10-01 measured subset",
+        "Additional measured subset (2026-10-01)",
+        "Final controlled measurements",
+        "Further efficiency subset (2026-10-01)",
+        "First SPD-00 measurement slice (2026-10-01)",
+        "Long-token subset (2026-10-01)"
+      ],
+      "line": 2016
+    },
+    {
+      "id": "AES-OPS-002",
+      "name": "Resource-efficiency, REPL parameter bounds & runtime safety",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 2093
+    },
+    {
+      "id": "AES-OPS-003",
+      "name": "Security posture for network/model inputs & socket port validation",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 2104
+    },
+    {
+      "id": "AES-OPS-004",
+      "name": "Runtime observability, route parameter safety & diagnosability",
+      "status": "partial",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [
+        "Native service evidence",
+        "Legacy implementation evidence",
+        "Observation formatter evidence",
+        "AES500-241..248 socket lifecycle evidence",
+        "AES500-251..259 bounded request parsing evidence",
+        "AES500-261..269 strict framing evidence"
+      ],
+      "line": 2115
+    },
+    {
+      "id": "AES-OPS-005",
+      "name": "Production readiness & single-shot prompt validation",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 2132
+    },
+    {
+      "id": "AES-OPS-006",
+      "name": "Documentation-to-evidence consistency",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 0,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 2143
+    },
+    {
+      "id": "AES-SYS-001",
+      "name": "Experimental CIA/WIC/NSFI/MQARI inference paradigms",
+      "status": "missing",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 2154
+    },
+    {
+      "id": "AES-LOAD-041",
+      "name": "GGUFSeer ARM64 full port (H041)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 0,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 2416
+    },
+    {
+      "id": "AES-LOAD-042",
+      "name": "GGUF tensor loader, mmap + dequantize to FP16 (H042)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 0,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 2429
+    },
+    {
+      "id": "AES-LOAD-043",
+      "name": "safetensors parser in pure Mojo (H043)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 0,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 2441
+    },
+    {
+      "id": "AES-LOAD-044",
+      "name": "safetensors tensor loader incl. BF16 (H044)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 0,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 2452
+    },
+    {
+      "id": "AES-LOAD-045",
+      "name": "weight layout planner (H045)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 0,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 2463
+    },
+    {
+      "id": "AES-LOAD-059",
+      "name": "Q6_K dequantizer (H059 partial)",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 0,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 2473
+    },
+    {
+      "id": "AES-INFER-059",
+      "name": "TinyLlama inference pipeline (H059)",
+      "status": null,
+      "status_field_count": 40,
+      "field_counts": {
+        "Status": 40,
+        "Owner": 35,
+        "Claim sources": 0,
+        "Implementation evidence": 9,
+        "Executable evidence": 4,
+        "Evidence boundary": 0,
+        "Next acceptance gate": 0,
+        "Audit": 0
+      },
+      "extension_fields": [
+        "Capability",
+        "Banked (F3)",
+        "Not demonstrated",
+        "Executable evidence (host-side, on Mimir)",
+        "Negative result (measured)",
+        "Fallback",
+        "Not demonstrated",
+        "Measured on Mimir (TinyLlama-1.1B-Chat Q4_0, sha256 da3087fb...)",
+        "Historical evidence only",
+        "Non-claims",
+        "Measured on Mimir",
+        "Non-claims",
+        "Measured on Mimir",
+        "Non-claims",
+        "Measured on Mimir",
+        "Non-claims",
+        "Evidence",
+        "Slice 139",
+        "Slice 140 (physical)",
+        "Next gate",
+        "Owner target",
+        "Current narrow verified primitive",
+        "Boundary",
+        "Next",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Next",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary",
+        "Evidence",
+        "Boundary"
+      ],
+      "line": 2480
+    },
+    {
+      "id": "AES-SOURCE-001",
+      "name": "Owned ordinary shard-index metadata",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3091
+    },
+    {
+      "id": "AES-SOURCE-002",
+      "name": "Owned ordinary configuration raw values",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3106
+    },
+    {
+      "id": "AES-SOURCE-003",
+      "name": "Actual owned beneath-root regular-file admission",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3121
+    },
+    {
+      "id": "AES-SOURCE-004",
+      "name": "Owned same-descriptor safetensors header inventory",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3136
+    },
+    {
+      "id": "AES-SOURCE-005",
+      "name": "Actual indexed source-file tensor binding",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3153
+    },
+    {
+      "id": "AES-SOURCE-006",
+      "name": "Ordinary unindexed weight/config metadata loading",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3169
+    },
+    {
+      "id": "AES-SOURCE-007",
+      "name": "Tagged semantic storage and checked operation views",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3185
+    },
+    {
+      "id": "AES-SOURCE-008",
+      "name": "Owned ordinary decoder-layer intent",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3202
+    },
+    {
+      "id": "AES-SOURCE-009",
+      "name": "Explicit typed decoder graph and cache policy",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3219
+    },
+    {
+      "id": "AES-SOURCE-010",
+      "name": "Owned ordinary decoder parameter intent",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3236
+    },
+    {
+      "id": "AES-SOURCE-011",
+      "name": "Owned ordinary source projection binding intent",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 0,
+        "Implementation evidence": 0,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 0
+      },
+      "extension_fields": [],
+      "line": 3252
+    },
+    {
+      "id": "AES-SOURCE-012",
+      "name": "Explicit source-bound rotary mathematical lowering",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3279
+    },
+    {
+      "id": "AES-SOURCE-013",
+      "name": "Exact source scalar words through mathematical lowering",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3301
+    },
+    {
+      "id": "AES-SOURCE-014",
+      "name": "Qualified ordinary head and bias source headers",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3328
+    },
+    {
+      "id": "AES-SOURCE-015",
+      "name": "Source-bound decoder projection bias arithmetic",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3348
+    },
+    {
+      "id": "AES-SOURCE-016",
+      "name": "Source activation selection and mathematical lowering",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3371
+    },
+    {
+      "id": "AES-SOURCE-017",
+      "name": "Source cache-return and decoder session semantics",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3396
+    },
+    {
+      "id": "AES-SOURCE-018",
+      "name": "Source windows and mathematical causal mask lowering",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3422
+    },
+    {
+      "id": "AES-SOURCE-019",
+      "name": "Owned source default/linear rotary scaling",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3449
+    },
+    {
+      "id": "AES-SOURCE-020",
+      "name": "Standalone dynamic rotary integer coefficient schedule",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3476
+    },
+    {
+      "id": "AES-SOURCE-021",
+      "name": "Source-bound dynamic context and declared insertion history",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3503
+    },
+    {
+      "id": "AES-SOURCE-022",
+      "name": "Dynamic source graph, owned positions and frequency recipes",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3532
+    },
+    {
+      "id": "AES-CONTROL-001",
+      "name": "Owned nondefault LCU control record serialization",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3561
+    },
+    {
+      "id": "AES-SOURCE-023",
+      "name": "Owned Q8_0 source constants and byte-tile integration",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3584
+    },
+    {
+      "id": "AES-SOURCE-024",
+      "name": "Original classic Q4/Q5 source conversion and shared geometry",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3613
+    },
+    {
+      "id": "AES-SOURCE-025",
+      "name": "Original Q2_K/Q3_K source components and byte tiles",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3644
+    },
+    {
+      "id": "AES-SOURCE-026",
+      "name": "Original nonlinear IQ4 source components and byte tiles",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3677
+    },
+    {
+      "id": "AES-SOURCE-027",
+      "name": "Original bounded observed source-byte digests",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3712
+    },
+    {
+      "id": "AES-SOURCE-028",
+      "name": "Original owned sealed observed source-byte copies",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3741
+    },
+    {
+      "id": "AES-SOURCE-029",
+      "name": "Owned sealed GGUF parser and source-reader integration",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3771
+    },
+    {
+      "id": "AES-SOURCE-030",
+      "name": "Compiler-owned observed GGUF input lifetime",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3801
+    },
+    {
+      "id": "AES-SOURCE-031",
+      "name": "Owned sealed Safetensors parser and constant-input lifetime",
+      "status": "verified",
+      "status_field_count": 1,
+      "field_counts": {
+        "Status": 1,
+        "Owner": 1,
+        "Claim sources": 1,
+        "Implementation evidence": 1,
+        "Executable evidence": 1,
+        "Evidence boundary": 1,
+        "Next acceptance gate": 1,
+        "Audit": 1
+      },
+      "extension_fields": [],
+      "line": 3828
+    }
+  ]
+}

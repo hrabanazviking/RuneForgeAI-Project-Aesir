@@ -1,0 +1,5 @@
+usage: test_hailo_dynamic_decoder_graph.py [-h] --binary BINARY --api API
+                                           --gguf GGUF --frozen FROZEN
+                                           --mutations MUTATIONS --strace
+                                           STRACE --evidence EVIDENCE
+test_hailo_dynamic_decoder_graph.py: error: unrecognized arguments: -v

@@ -1,0 +1,37 @@
+[
+  {
+    "source": "tests/sealed_gguf_faults.c",
+    "source_sha256": "d1446b85acdb3950b9f61b46185ea48a9b6a41fbdbae44469be11c677d0e7587",
+    "binary": "../sealed-safetensors-native-final/sealed_gguf_faults.so",
+    "binary_sha256": "37cf719fd7f659bc29847c7d573c54a4f0f90cbd738e9ca970c4ac27ab7563ac",
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/source_sealed_copy_faults.c",
+    "source_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37",
+    "binary": "../sealed-safetensors-native-final/source_sealed_copy_faults.so",
+    "binary_sha256": "b3b4c944f2d66c19b0bb1da332821312d548f4c4951855d8a903a4f9a16e2af8",
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/owned_gguf_faults.c",
+    "source_sha256": "03a19441b8efe6226e19ea9c8119407c4a96ebb31a507127e1257abd405fe265",
+    "binary": "../sealed-safetensors-native-final/owned_gguf_faults.so",
+    "binary_sha256": "012988ad658db2d56d36ec31a42fdbe97fe02cb2304bafc525ab3fbbe99e8fc0",
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/sealed_safetensors_mutation.c",
+    "source_sha256": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9",
+    "binary": "../sealed-safetensors-native-supplement/sealed_safetensors_mutation.so",
+    "binary_sha256": "5370ddcc2374cff6a8e93deaf48c3038f1ee8a178e9fa2cfaa90b0d77b04a43c",
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/safetensors_fd_io_faults.c",
+    "source_sha256": "bbdab8681447f34afe2115c13b8eb1c43f1d7d0e3ca1ed5c5b73d1ae206a5a59",
+    "binary": "../sealed-safetensors-native-supplement/safetensors_fd_io_faults.so",
+    "binary_sha256": "29fa8e3b09be218e3f94e8bc3193558ede16b1771f7b039997b396b68895db17",
+    "diagnostic_bytes": 0
+  }
+]

@@ -1,0 +1,846 @@
+[
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "1351727d09f1fe46517cb7da85885a31b57cf3e68704efb3253cfea4050ce2aa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-0.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "5f5b0d6f4d136e4894e9117a15547a1b97767f6734935ec1c5269e7c968ac507",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-2.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "3146f695594ae1061f8e22928b562aa19b105dcc55a809f4484fac39a7091322",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-2.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e732df80a53b11f04b1b76ebae8a9ae8ad97ab203a3772ac5a6c77deb69ddf80",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "8f60c3db201b616dae95340a20b63695bebebfb3e4c5d1df5adb3a319e40218c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-4.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "956784fffa814ae7eefe525aed3d78b064ef8603aaed184bd2d1b4d9193c68c6",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-6.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "afccd810fc04d4af6450af789e335042ae11375a39adea60a7a72cde88e65fdf",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-6.gguf",
+      "2",
+      "3",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "442ad4b884e187dfefa92973aaaac4ee86b9f56b7a8e13dcbf5162e276de7f41",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-8.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "3146f695594ae1061f8e22928b562aa19b105dcc55a809f4484fac39a7091322",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-8.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e732df80a53b11f04b1b76ebae8a9ae8ad97ab203a3772ac5a6c77deb69ddf80",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-10.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-10.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "input_count"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: invalid source operation extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "negative_input"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: invalid source operation extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "bad_output"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: invalid source operation extent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "forward_input"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: invalid source dependency/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "producer_mismatch"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: invalid source dependency/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "short_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: invalid source dependency/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "shape_mismatch"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: source operation changes shape",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "wrong_product"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: source shape product mismatch",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "missing_weight"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: normalization source weight is missing",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "weight_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical axes differ from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "weight_extent"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "SourceInventory: logical projection differs from tagged source",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "zero_epsilon"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: RMSNorm requires a matrix and finite positive epsilon",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "nan_epsilon"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: RMSNorm requires a matrix and finite positive epsilon",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "silu_weight"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: SiLU has an unexpected source weight",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "softmax_weight"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: softmax has an unexpected source weight",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "softmax_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: source operation changes shape",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "softmax_lifetime"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "PrimitiveRecipe: invalid source dependency/lifetime",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "control_binary": "../sealed-gguf-native-final/old-009",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/api.gguf",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "0d8d76b3dd4164ff863ee9a398ba9e76575aab3b8f86a42f695416309c4f34dc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-30.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e6d294c9ccd0dd24f2f98772bb614c61d5677f2e18f8f7db3e2fc5e9c46e0243",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-30.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "92aba53ed26267d6de81b779eb2c37b1e73585cd8a5ba707e83edfd9d68f8ecb",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-32.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "144fa4699c3c3893f6e5d4566e2c12a9cfb5b512f3620a1034ea26b1c201d45c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-32.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "3ca06f3bdee33b364d668b9ce7811bde913501e89f79cce2ad6ecf8debaacfd3",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-34.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "e3a684e687a1f9caab6863f43ffb756d58684efe7f6411bd9ff30121a0135852",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-34.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "0fc395e3f91dbbd0c270a1fb3560ad9bd2844dc11e92718af05932eeb3c45562",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-36.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "10b334d251bb88091b12b27cab4212bc9a650ea899fde1e0e814531d09b19f7a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-36.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "3aa4135a02b253a7793b409ad114faec91750698a187d11cb1d482c1249b30b9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-38.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "8c3c3fe4c74b59e5d4d213d66d2a47c3a04da89d634d033ff808ca56127ac413",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-38.gguf",
+      "2",
+      "0",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "a0fdb774a9db99dab7d5fe8d5d414aff89b7257befd4b0a88ec7d925f969db7c",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-40.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "363c002b26f94fe02f63cc6a036bd2eb55b40d32cc500f0b773a5cd588974b97",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-40.gguf",
+      "1",
+      "7",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "960d6c5b85b69c215da20339f943aa33093432069a204a0c72c2a5b8ad76eebc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "control_binary": "../owned-compiler-native-final/entry-002",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-42.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "77436116e76339ef3f0016ebb67b4e269906b1e9cc4e7aac96c6b65ac7ba245e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  },
+  {
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "control_binary": "../owned-compiler-native-final/entry-000",
+    "arguments": [
+      "/tmp/aesir-primitive-recipes-e7hhmd88/fixture-42.gguf",
+      "3",
+      "4",
+      "16"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "complete_stderr_equal": true,
+    "stdout_sha256": "6fd1f767e0a18f9a450e7aa66b22c7fe5b411d3383b3a122c2b9a40a03a1bbf2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false,
+    "complete_mutation_images": [],
+    "independent_complete_fault_logs_equal": false,
+    "control_fault_logs": []
+  }
+]

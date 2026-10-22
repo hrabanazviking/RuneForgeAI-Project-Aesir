@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 125 |
+| `verified` | 126 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **170** |
+| **Total** | **171** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3823,3 +3823,32 @@ No new capability ID or hardware/complete-source execution claim.
   post-map hash phases/3 intentional partial phases. Complete original-change,
   cache/move/close/refusal/recovery tests;7 selected old controls fully paired,
   no directory consumers or omitted comparisons. Initial harness failures retained.
+
+
+### AES-SOURCE-031 — Owned sealed Safetensors parser and constant-input lifetime
+
+- **Status:** `verified`
+- **Owner:** Original Mojo SMIÐR source owner and shared Safetensors reader.
+- **Claim sources:** TASK_hailo10h_sealed_safetensors_source.md published at42686ee
+  before production; docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+- **Implementation evidence:** Exclusive sealed-fd admission, independently
+  captured map capacity, persistent sealed-route guard and wrapper cleanup.
+  ONE existing header/constant reader;40 old bodies byte-identical. Only the
+  permitted old armvegr/safetensors.mojo changes;662 old Mojo/70 Python unchanged.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md and
+  docs/evidence/sealed-safetensors-native-2026-10-22/;117 current entries plus
+  four late frozen-source controls built,119 zero-diagnostic builds/two identical
+  inherited warnings, five clean C shims;50 suites/354 methods,14325 complete
+  pairs across115 controls. New176 calls/263212 component words/15 full snapshots.
+- **Evidence boundary:** Immutable observed source-input lifetime and static
+  representation only. No atomic original version, global source/binding/artifact
+  identity, numerical Hailo format/fit/placement or source-model execution.
+  Broad ordinary support stays100%; remaining dtypes/ranks/formats remain work.
+- **Next acceptance gate:** Owned ordinary config/index/shards and compiler
+  bindings, remaining architecture/operation coverage and actual H10H numerical
+  configuration/packing/placement/original program delivery/results/cleanup.
+- **Audit:**102 new/630 other disjoint traces;110 source and96 sealed fd
+  lifetimes,72 exact unmaps,172 complete sealed hash phases/one intentional
+  partial phase. Three unreturned worker records stay opaque. Full mutation,
+  independent fault-log and rename-deletion comparisons; initial harness
+  failures preserved and full rerun passes without omitted comparisons.

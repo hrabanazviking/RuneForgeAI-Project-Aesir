@@ -1,0 +1,35 @@
+test_complete_frozen_baseline_and_independent_fields (__main__.SafetensorsFd.test_complete_frozen_baseline_and_independent_fields) ... ok
+test_faults_and_repeated_consumed_fd_cleanup (__main__.SafetensorsFd.test_faults_and_repeated_consumed_fd_cleanup) ... ok
+test_header_only_reads_offsets_and_path_replacement (__main__.SafetensorsFd.test_header_only_reads_offsets_and_path_replacement) ... ERROR
+test_malformed_headers_and_real_special_files (__main__.SafetensorsFd.test_malformed_headers_and_real_special_files) ... ok
+test_prefix_header_extent_and_policy_edges (__main__.SafetensorsFd.test_prefix_header_extent_and_policy_edges) ... ok
+
+======================================================================
+ERROR: test_header_only_reads_offsets_and_path_replacement (__main__.SafetensorsFd.test_header_only_reads_offsets_and_path_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_safetensors_fd.py", line 187, in test_header_only_reads_offsets_and_path_replacement
+    value=self.accept(self.child([self.api,"replace",self.root,path.name,alternate],"replace.strace"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_safetensors_fd.py", line 47, in child
+    r=subprocess.run(command,capture_output=True,text=True,timeout=15,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "../sealed-safetensors-native-acceptance/pair-all.py", line 21, in pair
+    i,key=found;after={v:Path(v).read_bytes() for v in before};changed={v for v in before if before[v]!=after[v]}
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "../sealed-safetensors-native-acceptance/pair-all.py", line 21, in <dictcomp>
+    i,key=found;after={v:Path(v).read_bytes() for v in before};changed={v for v in before if before[v]!=after[v]}
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/pathlib.py", line 1051, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/pathlib.py", line 1045, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/aesir-owned-header-5yas29ok/replace-new.safetensors'
+
+----------------------------------------------------------------------
+Ran 5 tests in 6.606s
+
+FAILED (errors=1)
+Native outcomes: {'accepted': 224, 'refused': 139}

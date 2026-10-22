@@ -1,0 +1,17 @@
+[
+  {
+    "manifest": "docs/evidence/owned-compiler-native-2026-10-22/archive-identities.json",
+    "files_verified": 2181,
+    "sha256": "12dd6c876d2b442b8641852e623debfe34dd21b95f87aacea9732f3c3ff4944e"
+  },
+  {
+    "manifest": "docs/evidence/sealed-safetensors-contract-2026-10-22/archive-identities.json",
+    "files_verified": 80,
+    "sha256": "bddc621f4334186af827249d701a6131bb5b07e297e5c1e401ae5ea2cfce2b1e"
+  },
+  {
+    "manifest": "docs/evidence/sealed-gguf-source-2026-10-22/archive-identities.json",
+    "files_verified": 3984,
+    "sha256": "5f243f45a6a7691521d667fe69ba6b1e446fcf1029285a561702dc204e7260a6"
+  }
+]

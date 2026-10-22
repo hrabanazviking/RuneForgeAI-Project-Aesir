@@ -1,0 +1,793 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "278ac61b887c8699bf099558172007578ed65ccf606d524dcc52a5db4be55e25"
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "84f5b95631dfd00c3c05952af13aede66c1aca36965d9b84cd94bf37d7942ec8"
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "834308adbcd073ca09ac557bc24dc72ca6bf019bc50006289573f988d0fa1466"
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b32eb9efbfce03fdf02e5457786199e23c9a3d84c9f35e308aa7549b2bf29fd3"
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "11eda85b8d715eb3a901c9620753f13be34549c294ced6a92f817c2525d3c50f"
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-005",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "89badc7dfae2357d6086a2e06fc1e31f4f645a1fcc1e5dfb6cdaa4f4b06aaca1"
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-006",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "16d4f67417dd6b9c6a4478802d3f8d9bfc32f0c322b45ea783aea010e17ea608"
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-007",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "00dd01ef8c383090d4bf82992c2007425cf8834ce98382aea0a9508dfe8bda68"
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-008",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0f2c1d759c130e096af804d03fcb422ab5dba170411d4e4c9a7508732757aac9"
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-009",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "085a3b72f86c40d8ec0d994c394c37ef515868d05d5f3080cdd765da0ea40782"
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-010",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "859fc35dea2d22ceea9e5156fe8d5b35e9e77303e92dca4bb1c5f539e7848130"
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-011",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "41156f8ffcfaab2e336569ed48946a4c7bfa7d9151739d3e25acbc4fafe1ef35"
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-012",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "39928802ab417ac7c71982a0094242cd54f74aaef245ec0afa86248c082d1d8f"
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-013",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0353199ed624b8f9c1409876831b61e1722d041e4463c6a801d83d1fc010130a"
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-014",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d9c7807dc904da1b42ae534931ed5ec1c715cb39738e6cea896cf09854ab6602"
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-015",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8426daf9f41b490323cd9b1a2ee434233f270c26720d2ad14c4be885e3b1b70a"
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-016",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d2f12270fe1a4cc5a72c6d9701039e2ef36db16e68713afd5954875d150545dc"
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-017",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6b9730895bc8867dee0e93eb3490897d22ec857f74171081b32f3f97785fb84a"
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-018",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "abebd37556391c85590fafc1f4f79e758296c8e7ac53ab9a95b3e12c20db649e"
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-019",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "10ca33980efe1091877e612ec4fb067181f574735aff649668867c9eda405f06"
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-020",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "732fd96ce34e6db4201d922781b458b9b6969d974e833972570031ac64887e3b"
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-021",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "86c2a7c7cc6a325a4a6b86904dcd3e6389e9a789ef2ac33189a6c9e1603e1251"
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-022",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "12eb21daf99c2c0024e752bc69e6684115eb9ef7680c14c8317e9296dc68c75a"
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-023",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "85d5e96719ba70512cee1509409c0510d2c9cd4c1eb59309aa8b87298a9fdc2c"
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-024",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "af9c8c6dd15a054494da455b92d1ceffb866829f3d8c414566758eccc53a151b"
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-025",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d1a7247f51b0d2e6315b13dd95f397fd9493ff3c5575e62646e82c898bfd9c1b"
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-026",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9f9ac84e046a9622c5126b4190ef10341c15337782795bb2c82dab269be56476"
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-027",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fb8e9edab0a3a5deb90b0078b1eb2b1bf31c11bdabbc53fdeeb1104601a1509b"
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-028",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3bd93ccf787188ccb9ec98e76e203f5de4e8865645d05aa5296b57b2fbe59e58"
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-029",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6a1b9a60c0a61ba76292495961525ff30cae177e67fca4d2cd869717054b629f"
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-030",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "dd2c758f91d989aea6745ac9d49a2fa7bed0dc42ef2af407d7849c01b99d92f1"
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-031",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "03597360cb30b4d30acd9dee208b2b49d612f21ca9ee837dd01601117ddb26d3"
+  },
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-032",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3f924b633734288681f7797a14faf6d9f6205b71ec953d87c228d7211d595553"
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-033",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "30e2e9ced209e941f8fe7857e9043ed8b0951417029a75ed07ebec4b31919096"
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-034",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "da6f3fdf877de08d0144d69a2926060bd4af8314dd450945c4f3883de2ad16f6"
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-035",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a30b598a150295d95cd5ab0316faa368c33a9cd641a73ba09bc10e79c0cc6988"
+  },
+  {
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-036",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c49a43a118063dafe51a865d341f196538fab823f6459a8b15ded15f63aa3683"
+  },
+  {
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-037",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ee0099cec09bc9c252d69a34820181991c73d339e67e1a87c5fdd8c5b246fc05"
+  },
+  {
+    "source": "tests/hailo_bias_ownership.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-038",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "607d2c3eb9732fc42847a5e309b139a71ab43cfacf152ad8912f550e10fdaca8"
+  },
+  {
+    "source": "tests/hailo_bias_gguf.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-039",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f4f81beb51bed996ce2d7fd0367901b37e1653bea87ef0f5c8c9aa53428ce3d4"
+  },
+  {
+    "source": "tests/hailo_bias_consumers.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-040",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f70ea6e1e85b5e02db2123c11dcc83f379982af3c0fef9e925f38ca953ed777c"
+  },
+  {
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-041",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7e671f0fe495e8074f081acb47e9487eb7cc7745b950cafb91ffd225ff29ff97"
+  },
+  {
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-042",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0c4c5be4d4e7f07a3325231da3e0faab2c4bc51fae9f3d6adcc28eae7d3aca53"
+  },
+  {
+    "source": "tests/hailo_activation_ownership.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-043",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "03e235f1369fa5fac49acf7ec46edc07accdc91e0d548ce5d35fc9962c5f8ca9"
+  },
+  {
+    "source": "tests/hailo_activation_gguf.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-044",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "78b0f26e00daeb52e3b2de28e16fc33f88c95040f18817c3ad6786b32916a6c6"
+  },
+  {
+    "source": "tests/hailo_activation_consumers.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-045",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4a25c23db3e020cc3f78dcc76de265c0813cc0df266ed72728975348ce379128"
+  },
+  {
+    "source": "smidr/tools/decoder_session_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-046",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "434827ff3c0776219333f9325a70e67dbc6d7d03aed721f9eda444a36a1bd076"
+  },
+  {
+    "source": "tests/hailo_decoder_session_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-047",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4a1fdac9dbcf206f6a39e9b3f04a49c678995b7c73efe70a1cb5069cbb9007cb"
+  },
+  {
+    "source": "tests/hailo_session_ownership.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-048",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "11a3ece44eb5eef88a4f522f9b2d17a99a47ffea12af6a8517c0eccc64358f32"
+  },
+  {
+    "source": "tests/hailo_session_gguf.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-049",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "56e8dd6489cbcf6189ca8731b4cd45f73d0777f0f74abc7abaca617752f73b8a"
+  },
+  {
+    "source": "tests/hailo_session_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-050",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3a2ee46abf1ec26071c7803135d1ca758a97743269edae9a735cf7c85f8d0fbf"
+  },
+  {
+    "source": "smidr/tools/decoder_window_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-051",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a0481f4774ece5dd6fde673f4afbc1c11f893fc8137d68dbfda4487541fd02d2"
+  },
+  {
+    "source": "tests/hailo_decoder_window_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-052",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2e6c13283b3a920356b99050a3c4099f413d9e7ca9cfe2a97dceb5a298ecfe43"
+  },
+  {
+    "source": "tests/hailo_window_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-053",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0055088e2818467e0edf64522902b384ef0639f4e7564710f130ec8449f50645"
+  },
+  {
+    "source": "tests/hailo_window_ownership.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-054",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "37e06b99f6f9ca4770cf767b3eedf7240448405e090e2755a2a17149f297d89a"
+  },
+  {
+    "source": "tests/hailo_window_gguf.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-055",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "af4e5c2f9683b4526fe4a3af3e28e42a05d934c8ea99ca2866f5a55cd088c53d"
+  },
+  {
+    "source": "tests/hailo_window_indices.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-056",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a"
+  },
+  {
+    "source": "tests/hailo_window_policy.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-057",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745"
+  },
+  {
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-058",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d8ab31e063890b7dbbcff20203d926820d25a8a1b822249303f8fb5a87fd0c0d"
+  },
+  {
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-059",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "592e609278ebe0065f1589ecaf1d71d7e21b9b663c27279ec827343d038e2742"
+  },
+  {
+    "source": "tests/hailo_scaling_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-060",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "40721bfbc73bb8593ee580e7fb71b39de982f277efae0ea235001397638dc8ce"
+  },
+  {
+    "source": "tests/hailo_scaling_ownership.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-061",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d2c08af9877f528ef78d2da523ace25c93a4681cc9d71f674bd1069fcd99b19f"
+  },
+  {
+    "source": "tests/hailo_scaling_gguf.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-062",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1ba982d5856700d205578be913d53c17279e76088a36b519c15695cbac799d48"
+  },
+  {
+    "source": "tests/hailo_scaling_policy.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-063",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336"
+  },
+  {
+    "source": "tests/hailo_dynamic_rotary_context.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-064",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-065",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b6f16d6f50c9515746357c965a48211ed971409901688c26eb6fafaa7a9d3fc5"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-066",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fca73e543783b78957a9a73f51c9dcbdbf44412a638dfb77d1d9ee9a6e8706c0"
+  },
+  {
+    "source": "smidr/tools/dynamic_decoder_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-067",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "732b02f88c64dd33647452044e5f31332cb2b940b8ebd28525cd5398d39df588"
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_graph.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-068",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3c2d06fd4ad5b580f8de0032114208de5fc3e556b00f66091c6a080a0f4ee5be"
+  },
+  {
+    "source": "tests/hailo_dynamic_graph_gguf.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-069",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "28f44f2a1a6e243cfe266e8cc86236ab077aaa51df80d7984a7a074bf5960108"
+  },
+  {
+    "source": "smidr/tools/context_actions.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-070",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "daf26af8df4ba53e0bb62eb122c9c80d6b794cf2a4075b54bbf98cf481e20bf7"
+  },
+  {
+    "source": "tests/hailo_context_action_ownership.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-071",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96392e5c82488aa94840b47ee2673f3c7c9a72cf2e2332942efb915841f0d309"
+  },
+  {
+    "source": "smidr/tools/lcu_actions.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-072",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de039ce12b8e47eeee7626cb27da75a55c18a90b19fd0a58e562b4099de9594"
+  },
+  {
+    "source": "tests/hailo_lcu_action_ownership.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-073",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2342cba0412b5c5bc97661b944e2ac88404b99c6a617742332fa9d097b2c7b1c"
+  },
+  {
+    "source": "smidr/tools/source_q8_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-074",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c11cff083393d9572ce64bc0f1696d56f6dd6996e48bf62fd61611f5bce25dad"
+  },
+  {
+    "source": "tests/hailo_source_q8_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-075",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa916e1b21765b3a61253b2af89f0d0563993a72da41f39bf36ff8916ef01e30"
+  },
+  {
+    "source": "smidr/tools/source_classic32_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-076",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "12d8747ee005af4eb8c2750d63a057e742a14d8ba59ded48ce977573c8fce976"
+  },
+  {
+    "source": "tests/hailo_source_classic32_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-077",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "37f80e324ee840ac63044554e7e041b9debd7392210e79e9705277b3c82566b8"
+  },
+  {
+    "source": "smidr/tools/source_storage.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-078",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "763fe76c4c40b4fe77d4f9781c59c55afd7c03304cafcdf7e2628d21bd049d33"
+  },
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-079",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c4406a923acb75ee295ce4364293b00fba4caa0b9d22d2738a86d46f0690c254"
+  },
+  {
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-080",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "dac8de8ccb20e7058f920753a885016069c7542b96e1cc76c1f2ce17c9faee50"
+  },
+  {
+    "source": "smidr/tools/source_q2q3_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-081",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "14ca85c8ca9227c7d9bdc9cb1cb390731fd4e043fbab5fe9ea929dd21d418a95"
+  },
+  {
+    "source": "tests/hailo_source_q2q3_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-082",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "95d106bc598d59f3fa096e92f737850254a734ca9577d035c68a20cfdda4da6a"
+  },
+  {
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-083",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "85ad6dd6bb4a02fe5d9e3464555617bffa85656cfd3ec7f10f5ca1e37ca61d88"
+  },
+  {
+    "source": "smidr/tools/decoder_layers.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-084",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "79387a73a697544662aae9032e56b66d76c1dde7cc67ecdc673b684dc3b253db"
+  },
+  {
+    "source": "smidr/tools/gguf_shapes.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-085",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "02b18f667ccba7642ec5bc90385d4009a722dc3b42320a768326bbaca5cf0e68"
+  },
+  {
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-086",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f824f26e991adcd1928fd829ac4cc14444972d35b88d30e93a788982181ddf2d"
+  },
+  {
+    "source": "smidr/tools/shard_collection.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-087",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "583d40cd4f4e4c6994c9948256212e69a6aa3b82f1ca7a7644c578a496a0675f"
+  },
+  {
+    "source": "smidr/tools/source_config.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-088",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a"
+  },
+  {
+    "source": "smidr/tools/source_index.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-089",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a"
+  },
+  {
+    "source": "smidr/tools/source_root.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-090",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5"
+  },
+  {
+    "source": "smidr/tools/unindexed_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-091",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "139f017116637cf46327e92a1804b20d4926ff2515207a50a051ea79ba3a3385"
+  },
+  {
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-092",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "51e0b3af104fc9d8b47fb5655f5703eab8734b87556ae8ac1a1508cd00629f3d"
+  },
+  {
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-093",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4337e3ef9325fb797cdeb65287304d1b19ea79f568513974fa18e473f0e85696"
+  },
+  {
+    "source": "tests/hailo_gguf_shapes_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-094",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a9c76087748b088278af8071f901965af8e9951e70c5f9fd0fc8734249155813"
+  },
+  {
+    "source": "tests/hailo_safetensors_constants_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-095",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "de3283e585441f7337a11082587394acd189bc85a4787760c37e4a6f859361f6"
+  },
+  {
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-096",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de1ddf6b0371c0069cd38827d6edb92266337ca7fa1fade3e7e1a256a5b3598"
+  },
+  {
+    "source": "tests/hailo_source_config_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-097",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f"
+  },
+  {
+    "source": "tests/hailo_source_index_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-098",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94"
+  },
+  {
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-099",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2bdf5f7bebf723ad9b1856ab7a8b6a03a9d4ce03467d38bad1f9be8f1e18f1a5"
+  },
+  {
+    "source": "smidr/tools/source_iq4_constants.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-100",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c5d5953e8cbc4aefa18da5997120b1ab6e0f0de7246e5730756ef96caf0dcc05"
+  },
+  {
+    "source": "tests/hailo_source_iq4_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-101",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "00a75fce9087a23cb74ffb88dcdb75e1cc71e39402cef67fd9637a8600d801a5"
+  },
+  {
+    "source": "smidr/tools/source_byte_digest.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-102",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "db1b01d5fa60e6b11ef3f9cd9f11111e9c99c55e4862d698ba94e6dbef6e570f"
+  },
+  {
+    "source": "tests/hailo_source_digest_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-103",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "bbfd7db872b8100914a554fecb32de3bfd25f9a4d2f4cedfb79cbcc26318ea72"
+  },
+  {
+    "source": "smidr/tools/sealed_source_copy.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-104",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "271387902ab33e3a424d47729273b71ad1c0dd5c28178c2441a9b1e99203340f"
+  },
+  {
+    "source": "tests/hailo_sealed_source_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-105",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b9e7ebf9a12f509dd364608e19feee32e3c27f30e48bbead2dd749c586569144"
+  },
+  {
+    "source": "smidr/tools/sealed_gguf_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-106",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d31b5d8f13068c7d956008f574e365996ac6db12653fe46f409d67ac1105a49"
+  },
+  {
+    "source": "tests/hailo_sealed_gguf_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-107",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "46cc897b23f87d666f9a711599904707b82369f4bdbfb8407fc6c54550274709"
+  },
+  {
+    "source": "tests/hailo_sealed_semantic_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-108",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f81cac3a92c7c9a80c30fd8f0e49cbdf3f28cebc4e4f52e6feea1d8dc87f6f4"
+  },
+  {
+    "source": "smidr/tools/owned_gguf_compiler.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-109",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4ce78f8e60f1806c328875e55a31e2438bcb26aaa52443397d4f57a42533d3b1"
+  },
+  {
+    "source": "tests/hailo_owned_gguf_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-110",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "18b18d9cb2b3e131f450311a61f125c2666f0c3428760d9c748d1e8ca1ab9fed"
+  },
+  {
+    "source": "smidr/tools/sealed_safetensors_source.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-111",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ee77014bf02b906a7f0627a90400cfc009d5d975b583e19d2cdea8b77ac27c00"
+  },
+  {
+    "source": "tests/hailo_sealed_safetensors_api.mojo",
+    "binary": "../sealed-safetensors-native-final/entry-112",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fe21c5600b2a8a64b8354e4ef34c9323bb3c3ff6969c800994e09b1c64362f29"
+  }
+]

@@ -1,0 +1,6 @@
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 4.780s
+
+OK
+Q8 native outcomes {'accepted': 78, 'refused': 59} component checks 2098473 byte checks 3774
