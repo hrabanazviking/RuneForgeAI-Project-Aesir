@@ -1,0 +1,1428 @@
+[
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-0.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "93d9747095cae0677319a9f2ca68cf2b75905ec33aa2f50c16cde63604c59be9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-1.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f830de9329c6560ecd0c9071adafccd9e21b8e7d4756fddaf3e283e25802c5f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-2.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "93d9747095cae0677319a9f2ca68cf2b75905ec33aa2f50c16cde63604c59be9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-3.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f830de9329c6560ecd0c9071adafccd9e21b8e7d4756fddaf3e283e25802c5f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-4.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "93d9747095cae0677319a9f2ca68cf2b75905ec33aa2f50c16cde63604c59be9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-5.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f830de9329c6560ecd0c9071adafccd9e21b8e7d4756fddaf3e283e25802c5f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-6.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "93d9747095cae0677319a9f2ca68cf2b75905ec33aa2f50c16cde63604c59be9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-7.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f830de9329c6560ecd0c9071adafccd9e21b8e7d4756fddaf3e283e25802c5f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-8.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "93d9747095cae0677319a9f2ca68cf2b75905ec33aa2f50c16cde63604c59be9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-9.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f830de9329c6560ecd0c9071adafccd9e21b8e7d4756fddaf3e283e25802c5f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-10.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "93d9747095cae0677319a9f2ca68cf2b75905ec33aa2f50c16cde63604c59be9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-11.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f830de9329c6560ecd0c9071adafccd9e21b8e7d4756fddaf3e283e25802c5f4",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-12.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: only dense vectors/matrices supported: a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-13.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: only dense vectors/matrices supported: a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-14.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: only dense vectors/matrices supported: a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-15.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: only dense vectors/matrices supported: a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-16.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: invalid row width",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-17.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: invalid row width",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-18.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: invalid tensor extent: a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-19.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: invalid row width",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-20.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: invalid tensor extent: a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-21.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF file is smaller than the v3 header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-22.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF file is smaller than the v3 header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-23.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF file is smaller than the v3 header",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-24.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF is truncated or contains an out-of-range offset",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-25.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "GGUF is truncated or contains an out-of-range offset",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-26.gguf"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: duplicate tensor a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-27.gguf",
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "173242191f7a309746b4a908aca16840acf481bd9947f319785a37ffb3ac244d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-28.gguf",
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-29.gguf",
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-30.gguf",
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-31.gguf",
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-32.gguf",
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-33.gguf",
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-34.gguf",
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-35.gguf",
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-36.gguf",
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "59830f53cf81d777d82350fd4f88cfd3da223777c92988dd3e6e015e560c0653",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-37.gguf",
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-38.gguf",
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-39.gguf",
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-40.gguf",
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-41.gguf",
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-42.gguf",
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-43.gguf",
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-44.gguf",
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-45.gguf",
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b0bbddf2bedd1a287640ebe54ff0ec3d3519c4e2d5dfed5ec32303dbd6052617",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-46.gguf",
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-47.gguf",
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-48.gguf",
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-49.gguf",
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-50.gguf",
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-51.gguf",
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-52.gguf",
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-53.gguf",
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-54.gguf",
+      "a",
+      "ownership"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ccabc3a846195e8bb1610ca8aaa494b519940795f233d81b5071a5de6b66615e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-55.gguf",
+      "a",
+      "missing_shape"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-56.gguf",
+      "a",
+      "missing_tensor"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-57.gguf",
+      "a",
+      "empty"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-58.gguf",
+      "a",
+      "rank"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-59.gguf",
+      "a",
+      "columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-60.gguf",
+      "a",
+      "rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-61.gguf",
+      "a",
+      "vector_rows"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-62.gguf",
+      "a",
+      "zero_columns"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: inconsistent source shape a",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+    "control_binary": "../source-digest-native-final-v2/closure-hailo_gguf_shapes_api",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-63.gguf",
+      "absent",
+      "ownership"
+    ],
+    "returncode": 1,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "handled_error": "Packed GGUF: missing source shape absent",
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-64.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3ca1ac9244572a35327cb82b541be2ad691db01d4f3ef00830e466d0df1b9db2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-65.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "146f2c27f8ff7010ce3fe7e053f0d4099f98514034195a54d264942d33a1e900",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-66.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "9b5845f90f8f3d50884b3e8b145d2d4ed937f95ce595b71a5881f116ca0713c5",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-67.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "019642007f51af4087e7cadb5f6a6cf68ce1c06d5187a0e29ba2ac8e99b66f51",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-68.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1e8d81a0f33b6ca4184d1e499ddb9f0a663a16bbeba4909de9cd03ff2351e89f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-69.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "32f4e1a724099f75680ab420463a3a302648237e667acd47f0086032315e7533",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-70.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e24ef3c7725c76e90090a6130b205c07e5594b7d22db846eb2168e3d4677b5de",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-71.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "973f0d445cec7647e71f2f0a735775f19913ffa41b762f827fafe13514554049",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-72.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d99d53971a8a02764965e6936184f03b19f5d52734df26cf1ba48557828ecae1",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-73.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "6a02b54cc83acdfdc4eda5ae83eb708bde08140c507727904adad55eae828ede",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-74.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3b8d50e307fc54f74b3279a45b98c377f83393ee401d3bc105c2ad36111c65bc",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-75.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d23cc7a3839ed5e68b53fe9f8842cb4af07848becf5b9f5553eed2c7b1b7c7b8",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-76.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "92ef0b685dbf7cf82478fda5dde903cfe5f7e15616c1e3461eade239d20f4791",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-77.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "bbbde4e56479d57547e3d2c45d901b99a1946d3b494431f3222ec2cad52d3ed2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-78.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8a316f5508a5ceb57ca720d308d447aa304937e0a877dd001364a378019e4973",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-79.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "dac036c42f970ffb1ead4966ffc473037992b689c2e3a0d0a61c9ff94fa71f98",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-80.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e85557829c81bb8d32a4102480e6590e5081307713c304d6315dd616316e6865",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-81.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "927e7e1cb719ce03d2ba645d536cb8074afc7e607c9f9c48f32234ac973c78f9",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-82.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "43c0cd297eecff6c1d74854486c64eaa800d9c17c7d8b670ab7de039f61a268d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-83.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "322a9c138392e427e456a07af561dbe50debab12e19588865292e4afcdb6c6a2",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-84.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "e8a649b851832b560967c24794709904b90c8287fdc5274336a7f1159209bbe7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-85.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "1dfa51aa45317358ab16a0bae476745589871e72f97455fe82491082ae7b3d20",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-86.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ae23c992ffb61c587b0d671e6a6e95bd0f2319f127766cba77cc6865bf0e55d7",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-87.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "129de0c6938f181eb11c36aa0ffee589abc72b549b16ad3e1f370123037febba",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-88.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "7380fa3e4e03a8413c3acbed36d5e2ee949036f0972b03aebd155018de35d4d0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-89.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "60ab83d7188ebb4cbe9b9166f6d49cf0033e40b3ce097ce5611933503d3a1f31",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-90.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8c43e7950b810256c945480a0b2f490239672c7999ea34dd627cd2f5b53a2cbe",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-91.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3181786bc83fc4cf346d95088114ad88e243216fb3c246191f88cc558d77fbfa",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-92.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a83563dabea2edd6c52ef620fa7e5c1b12380d81e0e897a8dd31d1b1262ff82e",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-93.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "c41b99807d7ec6b05069212837d81161164b36e2ef1d480e19c4d4baa6c020ca",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-94.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "ae2818e39e46f265425e1c0befa72ce3525be22efb35e6b7b1a7cbc611ce5f0f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-95.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "824c98f81be4d5ab1dcdb6ae52076031a57ed818369493fb0b9044f345eaddf0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-96.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "3f699fa54d6deeaa7a103a1cd67e1402e2f1178cae135b2ffc3c0c102040d54f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-97.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "66ca13ff4445bb8d43a36661b48a19125d902947dd5ed048114d021c18afd53a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-98.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "b6954dcbb93af12a16309cdf167b70093cfe595c532d5684bc65d4f901c3f13d",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-99.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "d45f5bb1e8fb7a16f04a5d30c96b389136e884b8a9fb8a86add6364fc8a33523",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-100.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "23dbc204ee16e4ff16c1c01a061ab35337d7ab3d96980cdc00803460a07508e0",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-101.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "8e8257b4054cc67e8c8ddf02434950022bf9c97bbddfe59108f55b8d6afebc9a",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-102.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "f8730dd47a53d68f311101c0dc475a03e0157bd68051a416fc9dc5d57891a993",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  },
+  {
+    "binary": "../sealed-copy-native-final/closure-gguf_shapes",
+    "control_binary": "../source-digest-native-final-v2/closure-gguf_shapes",
+    "arguments": [
+      "/tmp/aesir-gguf-shapes-hxlqu5_z/fixture-103.gguf"
+    ],
+    "returncode": 0,
+    "complete_stdout_equal": true,
+    "stdout_sha256": "a13c35e41503f994fc13c3cdc492b242352a659a0aad865226985b42f2af2a8f",
+    "handled_error": null,
+    "intentional_fixture_mutation_restored_for_control": [],
+    "complete_post_mutation_bytes_equal": false
+  }
+]

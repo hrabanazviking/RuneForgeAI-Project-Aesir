@@ -1,0 +1,10 @@
+{
+  "selected_controls": 8,
+  "success_pairs": 770,
+  "nonzero_pairs": 135,
+  "skipped_pairs": 0,
+  "complete_mutation_pairs": 2,
+  "old653_sources_unchanged": true,
+  "old67_python_inputs_unchanged": true,
+  "old104_controls_unchanged": true
+}

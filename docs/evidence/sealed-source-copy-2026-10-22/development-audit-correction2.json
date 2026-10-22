@@ -1,0 +1,9 @@
+{
+  "original_auditor": "audit-sealed-traces.py",
+  "original_failure": "A forbidden-token search matched normal rt_sigaction(SIGBUS/SEGV/ABRT) handler registration during handled Mojo exceptions.",
+  "correction": "Retain all access/lifetime/extent/budget checks and reject actual fatal-signal delivery/termination records, allowing handler registration.",
+  "native_tests_reexecuted": false,
+  "native_source_or_test_changes": false,
+  "original_trace_and_failure_preserved": true,
+  "additional_trace_join_correction": "Accept the literal ??? syscall name only when PID and unfinished/resumed name match; preserve this opaque worker-exit record without treating it as a qualified syscall effect."
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "trace": "../sealed-copy-native-acceptance/legacy/gguf_shapes/shapes.strace",
+    "sha256": "94bd1f909c3a7885c18a9d423c7ed6af44434ca31618fe39e34339c7b5e6dd5e",
+    "opens": 1,
+    "closes": 1,
+    "maps": 1,
+    "unmaps": 1
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/legacy/legacy/source_float_constants/constants.strace",
+    "sha256": "e74357fed32b6df3d847252703709180d3220fddc067a32549a086308a3498ea",
+    "opens": 1,
+    "closes": 1,
+    "maps": 1,
+    "unmaps": 1
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/legacy/legacy/source_weight_tiles/bytes.strace",
+    "sha256": "49c6d2db69a0aa711dbf4d06302b77ae49267d321280a89e0e9fccff80e81c30",
+    "opens": 2,
+    "closes": 2,
+    "maps": 2,
+    "unmaps": 2
+  }
+]

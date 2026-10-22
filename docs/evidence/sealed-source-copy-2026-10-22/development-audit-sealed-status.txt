@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../sealed-copy-native-development/audit-sealed-traces.py", line 21, in <module>
+    for token in ('/dev/h1x-','/dev/hailo','connect(','socket(','ioctl(','libhailort','libcuda','libtorch','libonnxruntime','libcrypto','libssl','SIGBUS','SIGSEGV','SIGABRT'):assert token not in text,(trace,token)
+                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^
+AssertionError: (PosixPath('../sealed-copy-native-acceptance/sealed/trace-5.strace'), 'SIGBUS')

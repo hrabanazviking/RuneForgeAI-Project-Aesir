@@ -1,0 +1,6 @@
+sealed-copy 0
+source_weight_tiles 0
+source_float_constants 0
+gguf_shapes 0
+source-digest 0
+all5 native suites,8 complete frozen controls and C header/kernel oracle pass

@@ -1,0 +1,374 @@
+[
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-5.strace",
+    "run_index": 5
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-11.strace",
+    "run_index": 11
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-51.strace",
+    "run_index": 51
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-58.strace",
+    "run_index": 58
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-71.strace",
+    "run_index": 71
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-97.strace",
+    "run_index": 97
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-98.strace",
+    "run_index": 98
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-99.strace",
+    "run_index": 99
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-100.strace",
+    "run_index": 100
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-101.strace",
+    "run_index": 101
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-102.strace",
+    "run_index": 102
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-103.strace",
+    "run_index": 103
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-104.strace",
+    "run_index": 104
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-105.strace",
+    "run_index": 105
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-106.strace",
+    "run_index": 106
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-107.strace",
+    "run_index": 107
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-108.strace",
+    "run_index": 108
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-109.strace",
+    "run_index": 109
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-110.strace",
+    "run_index": 110
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-111.strace",
+    "run_index": 111
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-112.strace",
+    "run_index": 112
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-113.strace",
+    "run_index": 113
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-114.strace",
+    "run_index": 114
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-115.strace",
+    "run_index": 115
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-116.strace",
+    "run_index": 116
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-117.strace",
+    "run_index": 117
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-118.strace",
+    "run_index": 118
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-119.strace",
+    "run_index": 119
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-120.strace",
+    "run_index": 120
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-121.strace",
+    "run_index": 121
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-122.strace",
+    "run_index": 122
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-123.strace",
+    "run_index": 123
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-124.strace",
+    "run_index": 124
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-125.strace",
+    "run_index": 125
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-126.strace",
+    "run_index": 126
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-127.strace",
+    "run_index": 127
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-128.strace",
+    "run_index": 128
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-129.strace",
+    "run_index": 129
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-130.strace",
+    "run_index": 130
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-131.strace",
+    "run_index": 131
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-132.strace",
+    "run_index": 132
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-133.strace",
+    "run_index": 133
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-134.strace",
+    "run_index": 134
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-135.strace",
+    "run_index": 135
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-136.strace",
+    "run_index": 136
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-137.strace",
+    "run_index": 137
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-138.strace",
+    "run_index": 138
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-139.strace",
+    "run_index": 139
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-140.strace",
+    "run_index": 140
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-141.strace",
+    "run_index": 141
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-142.strace",
+    "run_index": 142
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-143.strace",
+    "run_index": 143
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-144.strace",
+    "run_index": 144
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-145.strace",
+    "run_index": 145
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-146.strace",
+    "run_index": 146
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-147.strace",
+    "run_index": 147
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-148.strace",
+    "run_index": 148
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-149.strace",
+    "run_index": 149
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-150.strace",
+    "run_index": 150
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-151.strace",
+    "run_index": 151
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-152.strace",
+    "run_index": 152
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-153.strace",
+    "run_index": 153
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-154.strace",
+    "run_index": 154
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-155.strace",
+    "run_index": 155
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-156.strace",
+    "run_index": 156
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-157.strace",
+    "run_index": 157
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-158.strace",
+    "run_index": 158
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-159.strace",
+    "run_index": 159
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-160.strace",
+    "run_index": 160
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-161.strace",
+    "run_index": 161
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-162.strace",
+    "run_index": 162
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-163.strace",
+    "run_index": 163
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-164.strace",
+    "run_index": 164
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-165.strace",
+    "run_index": 165
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-166.strace",
+    "run_index": 166
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-167.strace",
+    "run_index": 167
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-168.strace",
+    "run_index": 168
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-169.strace",
+    "run_index": 169
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-170.strace",
+    "run_index": 170
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-171.strace",
+    "run_index": 171
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-172.strace",
+    "run_index": 172
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-173.strace",
+    "run_index": 173
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-174.strace",
+    "run_index": 174
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-175.strace",
+    "run_index": 175
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-176.strace",
+    "run_index": 176
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-177.strace",
+    "run_index": 177
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-178.strace",
+    "run_index": 178
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-179.strace",
+    "run_index": 179
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-180.strace",
+    "run_index": 180
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-181.strace",
+    "run_index": 181
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-182.strace",
+    "run_index": 182
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-183.strace",
+    "run_index": 183
+  },
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-184.strace",
+    "run_index": 184
+  }
+]

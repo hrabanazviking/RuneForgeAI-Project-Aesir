@@ -10,8 +10,9 @@ no outside compiler or specially precompiled model prerequisite. The Q2_K/Q3_K s
 `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`. Active numerical/backend work remains
 `TASK_hailo10h_numerical_encoding_sources.md`; the IQ4 native source reader
 is verified under `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`. The source-byte digest leaf is verified under
-`HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md`. Next native contract:
-`TASK_hailo10h_sealed_source_copy.md`, followed by coherent parsing/artifact binding, alongside remaining ordinary architecture/
+`HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md`. Owned sealed source copies are verified under
+`HAILO10H_MOJO_SEALED_SOURCE_COPY.md`. Next is sealed-descriptor parsing with
+mapped-capacity guards, followed by coherent artifact binding and remaining ordinary architecture/
 operation implementation. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
@@ -63,6 +64,7 @@ verify, publish and advance each bounded work slice.
 | Expanded graph / updated lifetimes | Verified compiler integration | `HAILO10H_MOJO_EXPANDED_GRAPH.md`; global source/local mapping, explicit constants/predicates/indices/KV aliases, new lifetimes; five methods/45 native calls. No numerical execution. |
 | Expanded storage accounting | Verified hypothetical compiler scenario | `HAILO10H_MOJO_EXPANDED_STORAGE.md`; typed roles, exact last uses and explicit predicate width; seven methods/88 native calls. Not physical placement or hardware fit. |
 | Floating source constants | Verified source representation reader | `HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`; bounded owned F32/F16/BF16 windows; six methods/64 native calls, all 131,072 16-bit patterns, source inventory/storage regressions. Not device format or execution. |
+| Owned sealed observed source-byte copies | Verified host byte ownership | `HAILO10H_MOJO_SEALED_SOURCE_COPY.md`; ten clean Mojo builds,28 methods/1091 primary calls,new186 calls and905 complete old-control pairs.93 new traces/69 balanced anonymous destinations. No atomic original snapshot,parser/artifact binding or numerical/source-model execution. |
 | Bounded observed source-byte digests | Verified byte primitive | `HAILO10H_MOJO_SOURCE_BYTE_DIGEST.md`; eight clean builds,23 methods/905 primary calls,new451 calls and454 complete selected legacy pairs.28 new traces/28 matched descriptor lifecycles. All old sources/APIs preserved. No immutable snapshot,artifact coherence or source-model execution. |
 | Original nonlinear IQ4 source components and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_IQ4_SOURCE_CONSTANTS.md`;102 clean current Mojo builds,305 methods/13399 primary calls. New14/546,327602 complete components,27584 bytes;100 pre-code controls and27 traces/36 balanced file lifecycles. No numerical Hailo/source-model execution. |
 | Original Q2_K/Q3_K source components and byte tiles | Verified source representation/conversion | `HAILO10H_MOJO_Q2Q3_SOURCE_CONSTANTS.md`;100 clean current Mojo builds plus17 pre-code-snapshot controls,291 methods/12853 calls. New13/530,439026 complete components,32248 bytes;98 controls/11410 pairs and27 traces/36 balanced file lifecycles. Runner dependency-inspection failure retained and corrected;no numerical Hailo/source-model execution. |

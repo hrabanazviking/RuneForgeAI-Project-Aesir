@@ -1,0 +1,24 @@
+{
+  "new_sources": [
+    "hailbru/source_sealed_copy.mojo",
+    "smidr/tools/sealed_source_copy.mojo",
+    "tests/hailo_sealed_source_api.mojo"
+  ],
+  "old_sources_changed": [],
+  "new_affected_entrypoints": [
+    "smidr/tools/sealed_source_copy.mojo",
+    "tests/hailo_sealed_source_api.mojo"
+  ],
+  "old_import_closures_affected": [],
+  "selected_regression_entrypoints": [
+    "smidr/tools/source_weight_tiles.mojo",
+    "tests/hailo_source_weight_tiles_api.mojo",
+    "smidr/tools/source_float_constants.mojo",
+    "tests/hailo_source_float_api.mojo",
+    "smidr/tools/gguf_shapes.mojo",
+    "tests/hailo_gguf_shapes_api.mojo",
+    "smidr/tools/source_byte_digest.mojo",
+    "tests/hailo_source_digest_api.mojo"
+  ],
+  "reason": "New leaf imports existing syscall and digest modules. No old source imports the new leaf. Rebuild only affected new leaves and selected source-owner/digest/constant/byte-tile controls."
+}

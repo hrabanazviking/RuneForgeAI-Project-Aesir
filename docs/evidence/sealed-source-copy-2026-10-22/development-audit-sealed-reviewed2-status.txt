@@ -1,0 +1,1 @@
+{"trace_count": 93, "totals": {"source_opens": 92, "source_closes": 92, "memfd_creates": 69, "memfd_closes": 69, "writable_shared_map_refusals": 3}, "kernel_read_count": 409, "kernel_write_count": 179, "independent_mutation_cases": 4, "forbidden_access_matches": 0, "all_fixture_bytes_checked": true, "trace_fault_injections_have_independent_attempt_logs": true}

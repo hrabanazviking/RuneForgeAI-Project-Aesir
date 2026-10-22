@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 122 |
+| `verified` | 123 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **167** |
+| **Total** | **168** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3737,3 +3737,33 @@ No new capability ID or hardware/complete-source execution claim.
   and audits repeated. Independent exact mutation bytes, descriptor retention,
   truncation refusal without new mapped payload reads, PID-aware split-syscall
   joins, separate dependency inspection and zero skipped legacy pairs.
+
+### AES-SOURCE-028 — Original owned sealed observed source-byte copies
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/source_sealed_copy owner and bounded native tool.
+- **Claim sources:** TASK_hailo10h_sealed_source_copy.md published at caf3240
+  before production; docs/HAILO10H_SEALED_SOURCE_COPY_CONTRACT.md qualifies
+  license-first UAPI fields and actual installed-kernel behavior.
+- **Implementation evidence:** Bounded positional copy with independent attempt
+  budgets, owned destination cleanup, exact same-fd extent checks, four kernel
+  seals and final hash of actual sealed bytes. Old653 Mojo modules,67 Python
+  inputs and104 frozen binary controls remain unchanged.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEALED_SOURCE_COPY.md and
+  docs/evidence/sealed-source-copy-2026-10-22/; ten clean Mojo/two clean C builds,
+  five suites/28 methods/1091 primary calls. New186 calls and208069 complete
+  copied-byte comparisons. Eight controls/905 complete pairs;93 new traces,
+  69 balanced anonymous destinations and92 source-path descriptor lifecycles.
+- **Evidence boundary:** Immutable owned observed byte copy only. No atomic
+  original-file snapshot, existing parser/artifact coherence, device precision,
+  fit, placement, numerical Hailo or source-model execution. Existing source
+  fingerprint/immutable-source/binding/execution flags remain false. Host bounds
+  are policies; missing formats and architectures remain implementation work.
+- **Next acceptance gate:** Owned sealed-descriptor parser and mapped-capacity
+  integration, then coherent conversion/artifact binding, alongside actual H10H
+  numerical configuration and original program execution work.
+- **Audit:** All native suites passed; audit handler-registration/opaque-exit
+  parsing and recorder path failures retained and corrected without native
+  reruns. One opaque worker termination record remains unclassified. Full old
+  outputs compared, two mutation fixtures restored and final bytes compared,
+  no skipped pairs; independent fault budgets and exact cleanup traces.

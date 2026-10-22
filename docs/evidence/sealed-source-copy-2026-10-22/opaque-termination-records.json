@@ -1,0 +1,8 @@
+[
+  {
+    "trace": "../sealed-copy-native-acceptance/sealed/trace-104.strace",
+    "pid": "2835161",
+    "name": "???",
+    "scope": "Opaque worker termination record after exit_group(1). Unfinished/resumed name and PID match; no effect inferred."
+  }
+]

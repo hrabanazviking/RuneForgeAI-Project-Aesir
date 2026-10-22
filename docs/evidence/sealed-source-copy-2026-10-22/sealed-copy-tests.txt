@@ -1,0 +1,6 @@
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 4.321s
+
+OK
+{'calls': 186, 'outcomes': {'accepted': 130, 'refused': 56}, 'complete_copied_byte_comparisons': 208069, 'fixtures': 52, 'traces': 93}

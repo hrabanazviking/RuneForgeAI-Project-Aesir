@@ -1,0 +1,7 @@
+{
+  "failure": "Recorder expected the old digest audit in its subdirectory; the audited report is at the acceptance root.",
+  "correction": "Use the exact root report for digest traces. No report or native comparison omitted.",
+  "original_script_log_partial_outputs_preserved": true,
+  "native_sources_tests_binaries_changed": false,
+  "native_test_reruns": 0
+}

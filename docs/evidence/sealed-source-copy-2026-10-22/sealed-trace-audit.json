@@ -1,0 +1,6085 @@
+{
+  "trace_count": 93,
+  "totals": {
+    "source_opens": 92,
+    "source_closes": 92,
+    "memfd_creates": 69,
+    "memfd_closes": 69,
+    "writable_shared_map_refusals": 3
+  },
+  "kernel_read_count": 409,
+  "kernel_write_count": 179,
+  "independent_mutation_cases": 4,
+  "forbidden_access_matches": 0,
+  "all_fixture_bytes_checked": true,
+  "trace_fault_injections_have_independent_attempt_logs": true,
+  "traces": [
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-5.strace",
+      "sha256": "cd86fb33ec568d32bc39933a16d30dec67f15fd53a8d3198da5d35a22decfafa",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-11.strace",
+      "sha256": "7a44f184a6c2ca3cf3f32df6cf61e1dd296abe41e1b3e9b35e5a3f0bff4af48f",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2834615",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2834615",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2834615",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2834615",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2834615",
+          "fd": 4,
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-51.strace",
+      "sha256": "4fda254df51a336c7a84033e9e4ccd427b35138af0d5a43e0a71d316503f2b86",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2834832",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834832",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834832",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-58.strace",
+      "sha256": "99c5c9674c28d8e42ddb869a9d8f74722a671c6504fa5fe550c2c693a5b9f81b",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2834874",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834874",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-71.strace",
+      "sha256": "c99b4cac02a9aee58c20b2a52c5a876eb6c1d1e09a0774c481423819ae1c8d45",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2834954",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 3,
+          "target": "source",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 3,
+          "target": "source",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2834954",
+          "fd": 4,
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-97.strace",
+      "sha256": "bedb8fb777dfa7c3454234cdb9bd8a989630d44a7c175218613330fc50494206",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 3,
+          "target": "source",
+          "offset": 69,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835094",
+          "fd": 4,
+          "offset": 69,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "read_short",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-98.strace",
+      "sha256": "5cffc672545ea629efeeacbe401bd261ce0edb386fb4c44dfde0d2c9d2c6b5e3",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 3,
+          "target": "source",
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835109",
+          "fd": 4,
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        }
+      ],
+      "seal_operations": [],
+      "fault": "read_short",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-99.strace",
+      "sha256": "03a1d2c268069a044b8b18e9623658ff08164a8b52971bcec9756091ddb4cd97",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835118",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835118",
+          "fd": 4,
+          "offset": 69,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "write_short",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-100.strace",
+      "sha256": "6a914e20c7734005ed41f415239c843725a426de53a39283c74fb839d60fe7d9",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835126",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835126",
+          "fd": 4,
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        }
+      ],
+      "seal_operations": [],
+      "fault": "write_short",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-101.strace",
+      "sha256": "cbe11875cb5e820c48425a554943be4798ca50ad82f68bef5ab03fb325d9680b",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835134",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 69,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 69,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 69,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835134",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_short",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-102.strace",
+      "sha256": "13f066d64bdf51bcac741e44dbd6822618e778040b30f0065106d67eaef21e7b",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835143",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 3,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 6,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 9,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 15,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 18,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 21,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 24,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 27,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 30,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 33,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 36,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 39,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 42,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 45,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 48,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 51,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 54,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 57,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 60,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 63,
+          "requested": 3,
+          "returned": 3
+        },
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 66,
+          "requested": 3,
+          "returned": 3
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835143",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_short",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-103.strace",
+      "sha256": "6b0dd6dcc76b8b36e7836f2eac61944b405bda23c5c172bb2d02477821240730",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835151",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835151",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835151",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835151",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835151",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "read_eintr_once",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-104.strace",
+      "sha256": "b2f715faa8723e0610997b0dc6d218f89887b8ef6a37bbf37419cfd5f05f6b18",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "read_eintr_once",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-105.strace",
+      "sha256": "97852d6d6973930f203d4e6b88165f85c9aaa076b350dcdeae4d08135275153a",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835167",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835167",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835167",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835167",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835167",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "write_eintr_once",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-106.strace",
+      "sha256": "7c3bf961d9b1aebd8d2e816b8fbbb00077f333127366df309617dd0762255ca1",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835175",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "write_eintr_once",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-107.strace",
+      "sha256": "c0a0a3d1fc99ad80889b8cdce18627d211122a8bc0043c0bb76344bf236376f5",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835183",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835183",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835183",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835183",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835183",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_eintr_once",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-108.strace",
+      "sha256": "2b7f7c9797ad7883a88e217c88bdaf994e8e302f8a19411a1a2624763ba2ae60",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835191",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835191",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_eintr_once",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-109.strace",
+      "sha256": "565d4d4b07c8abe62d46821226af80775539f89070a65c65a81b94a55adc1702",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "create",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-110.strace",
+      "sha256": "7ca082d0c1abecf8d2cb8f70318b93439054152ef770e9f3e80f6ce165d2e103",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "alias",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-111.strace",
+      "sha256": "8918d7efd76d5787fb5849631c51db6a5d0424d25f5ef8a626bcd907d8a40b03",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "large_fd",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-112.strace",
+      "sha256": "1169f4f44e444e3446d6a850ca1e5c68427c5f59ae28510fda5519e668ace9af",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "source_stat_before",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-113.strace",
+      "sha256": "8c75d9cbe1f1b12fdc5f8729354d5b79f65f434895399df3110ec55613b6a799",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835232",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835232",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [],
+      "fault": "source_stat_after",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-114.strace",
+      "sha256": "ee715be40dd6d7e5f1cc887f9bdf0549e8e248e139d6eda689af59fb98facf9b",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835240",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835240",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [],
+      "fault": "source_extent",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-115.strace",
+      "sha256": "5d9010d2dee80693c2903647954f2930143aa0336afb0c8f0b96cbda05c6737f",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835249",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835249",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [],
+      "fault": "destination_stat",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-116.strace",
+      "sha256": "b1ecec0eb50928aaa899bd8c4b962f495c7def53cedb78bf9f4dcee1baf6fe73",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835257",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835257",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [],
+      "fault": "destination_extent",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-117.strace",
+      "sha256": "9003439e19cde80d1de007a6ff0eb7862a2823284163bc91a933be243b51e825",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835265",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835265",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [],
+      "fault": "seal",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-118.strace",
+      "sha256": "c2067584606681fa40371c22a679e2864cf186bb102a76c1808f97565df25813",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835273",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835273",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "seal_after",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-119.strace",
+      "sha256": "4f1eab72e1bc250c109d47d726ddedcdd3231aa4848607d7f1417444978ca6de",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835281",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835281",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "get_seals",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-120.strace",
+      "sha256": "a9d1ebf170da8a12144402d16f9f9729ccce52718093df83289fab3c46002fc1",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835289",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835289",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "missing_seals",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-121.strace",
+      "sha256": "47f40505a10a6a414ab2ae6d42fae4a68274e1021bb10c725d1dded2d15eb13d",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835297",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835297",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_stat_before",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-122.strace",
+      "sha256": "eceda570e68958b6f74d72f958fdfc60f9df0836ad8cc9df9c92eea8c283ea89",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835305",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835305",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835305",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_stat_after",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-123.strace",
+      "sha256": "f562630a6d5fe101aa31b2d7ab28f08a00573d9d1a6196acb15622bbf0537089",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "read_eintr",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-124.strace",
+      "sha256": "4e67c12023e10819077bc837f0d76bd5b61b55e44182f1703afad839f9675965",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835321",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "write_eintr",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-125.strace",
+      "sha256": "b560fd74ed08d8f82fbe7e40e6f24869d36d128ef3077d9c0ab5fd30c42426bd",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835329",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835329",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_eintr",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-126.strace",
+      "sha256": "8ee8d8eb640b0efc4a8100f858611fc3614dac549ce0185e1ac3739844278c98",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "read_error",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-127.strace",
+      "sha256": "a06dc0a186d2b2be1ee087de015f656ffd3da49d34388a7635dd0128dd4f17d8",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835348",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "write_error",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-128.strace",
+      "sha256": "6859dc2884edfd8288064444852df7e4ffbd05b277ecb57a37fb8f4283e0a5d7",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835359",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835359",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_error",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-129.strace",
+      "sha256": "979b03e67238680711bd48be084cc196ffa8e75ce5f3ec5381d855e9788d1ac3",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "read_eof",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-130.strace",
+      "sha256": "fe6830dea80681f6b29ef02a66d5d9b0e3a511ac04de7132c1a3cce4276af482",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835382",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "write_zero",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-131.strace",
+      "sha256": "3279f826b0a0dce82d9c2528b1bf1b09116f747fd9858f10520603d13dd9fb48",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835394",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835394",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_eof",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-132.strace",
+      "sha256": "8fe8347d58fcd220475205474b9a986297cd289997c83d177921b9b254d39c0c",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "read_extra",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-133.strace",
+      "sha256": "d44cd16f25aab1d6a44c7f5b4201a6fb192d2cbb02adfb146c76a75ae2124d29",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835412",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": "write_extra",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-134.strace",
+      "sha256": "4196f3752e582cc257705c31c8005940340a8bd12f7fcf8b2a579dd1a7c78af6",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835420",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835420",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "digest_extra",
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-135.strace",
+      "sha256": "93976a61f40ec9625d9d3a049e36af834c54430a3ace6a22f4b83f0c2adeb9e3",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835428",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835428",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835428",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835428",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835428",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "extra_seals",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-136.strace",
+      "sha256": "5fe71bd8183d25040e4ecff3c8ab3b95cdee9198950ba489022478790e7af863",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835436",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835436",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835436",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835436",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835436",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": "close_after",
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-137.strace",
+      "sha256": "c99cad505e091297541a800465af72ccfcf4e8da6371d3c34e0c4e8ced8ce25a",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835444",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835444",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835444",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835444",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835444",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-138.strace",
+      "sha256": "f5fdd3c78bfa43d748cc4e4dc2fcca4203b9c1a2cd1c334418fc21f426992364",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-139.strace",
+      "sha256": "38871ecdb0e461b6f3d8a86cc390319be2e04e39bd85814c4d135c8faa0dff64",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-140.strace",
+      "sha256": "c0588a4baaefd61cc5d33ed16c5c8e85bc39c48e31cb19bd5f858fda45fb8730",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-141.strace",
+      "sha256": "88d27a2b4fe0f7a318df811b38c6b70e026fa0e15eaa7b17a9dd0e415f1de631",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-142.strace",
+      "sha256": "84d2f1d3373d76f4fe53ebf7b797a550beeeaddf4395d705fc7cf0ef30d02190",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-143.strace",
+      "sha256": "410eeb962ce6a32e010dd66f91da1e6a01fc643415a9799f2c847ae97d78ec59",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-144.strace",
+      "sha256": "ce346e69160c3dad340c352e71dc272b1b369c54602e69b9e3bda3e8e521489d",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-145.strace",
+      "sha256": "c852d6af60fc2e85c2068a72547b4a5fd430b1608b98107a50e571a8ad92cdc4",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-146.strace",
+      "sha256": "5de6abef21e4a3d437f917978efaba0e5291b9fe1f7e8d13873c93e40450a1fb",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-147.strace",
+      "sha256": "2fd61223e9551fc96dc8a160083bfc99cc34aa528c6b3202fd118ababbc18853",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-148.strace",
+      "sha256": "0abaeb69294ea6241fafe554438123d0b677eba99e54fe907211fca690c754c4",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-149.strace",
+      "sha256": "64dd88e1481df885cef86827ffcfeb2e338ccf47f722a729c5f5683a25ee2dfc",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-150.strace",
+      "sha256": "93affcd00682bd86d8edfe71982a363e5385d22ff4a44e59c6149080b5e01374",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-151.strace",
+      "sha256": "504170cb2ec54942bae696ee8b56cb21d296e59e2efcf346700a93e7b5a23c62",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-152.strace",
+      "sha256": "7640b1e80c056dd7e89210edeb562da656737cb838849bf800a77e614b575566",
+      "source_opens": 0,
+      "source_closes": 0,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-153.strace",
+      "sha256": "871b941678bf0142e34fe9378ce3ba9fc542b31e4428a49305859dd6a7e5d854",
+      "source_opens": 0,
+      "source_closes": 0,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-154.strace",
+      "sha256": "dfbb586575e0aa7035b7f1cf3c1825b65abf3dd659b5af646fe93687ab5caba9",
+      "source_opens": 0,
+      "source_closes": 0,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-155.strace",
+      "sha256": "41feff5097f2951090dcdbb1f5324ecf03686b5a68d5740da67b9d377008ce14",
+      "source_opens": 0,
+      "source_closes": 0,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-156.strace",
+      "sha256": "50842952771aaad0cec514152652cffe7b3441c8e669cb2865fca1c04a7f42da",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-157.strace",
+      "sha256": "d7896bed46c0d940d8ae89ce27ac317cec076c7fcf048e7a698e8c4cc64d20f7",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835612",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835612",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835612",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-158.strace",
+      "sha256": "4e75bd18b2111577626c1126e2ee24f7931c6604391a40e1e3a69a342b228ecb",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835622",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835622",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835622",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-159.strace",
+      "sha256": "3eae5e5ea2461d96054eb950422b2e0a56b478f75879a7b0bc085c40295f49dc",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835630",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835630",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835630",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-160.strace",
+      "sha256": "f65be45c53d7050953c41630c71076e00983402855145e1ec46dabe33d3d939f",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835638",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835638",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835638",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-161.strace",
+      "sha256": "9ecfa4991603115cd308efa3a4455179c883668dc46e45b28d6ac85822da72d3",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835646",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835646",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835646",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 1
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-162.strace",
+      "sha256": "6f1b8496fcd60480f48108208ba0ab0758cde9ddbfd3de5754ae9cbe3b8232be",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [
+        {
+          "pid": "2835654",
+          "fd": 4,
+          "offset": 0,
+          "requested": 1,
+          "returned": -1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-163.strace",
+      "sha256": "15655858bddc16c370bff1750d6f748ba5f299590d1e194473f493a060cca515",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-164.strace",
+      "sha256": "133fd83fd8b8c7359141774ee41b38f072cf4459286c198c625d8b2e95327bed",
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-165.strace",
+      "sha256": "6e160542510ccab485d07e241d0b1bf0afd2545fd423e7b44e2ce08928d40f45",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-166.strace",
+      "sha256": "027dbfec27d8bc1c0e3f80ff79a2af16171b04b80e3bbdf77f64bedd95bcf776",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 1,
+      "kernel_reads": [
+        {
+          "pid": "2835686",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835686",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835686",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835686",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835686",
+          "fd": 4,
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835686",
+          "fd": 4,
+          "offset": 0,
+          "requested": 1,
+          "returned": -1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-167.strace",
+      "sha256": "0c3c4d056269a0c8cbf1b5a46f2646a10ed2171a9c974cc220b664070b10fbc7",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835694",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835694",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835694",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835694",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835694",
+          "fd": 4,
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-168.strace",
+      "sha256": "f75182b3ba2cfcf929c1336a6642174600a6649c7afa05e821cb208c9e8ad808",
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835702",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835702",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835702",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835702",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835702",
+          "fd": 4,
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-169.strace",
+      "sha256": "bc93c2aedac669de5860c1f868d0073c093280a3a2ef7007573137443ba856c4",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835710",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835710",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835710",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        },
+        {
+          "pid": "2835710",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835710",
+          "fd": 4,
+          "offset": 0,
+          "requested": 17,
+          "returned": 17
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-170.strace",
+      "sha256": "bf7dd6d49a463ba180f07c1afaa7f8e642bf510bad99c4fc1e0b4b98d1b723bf",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 1,
+      "kernel_reads": [
+        {
+          "pid": "2835718",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835718",
+          "fd": 4,
+          "offset": 0,
+          "requested": 1,
+          "returned": -1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-171.strace",
+      "sha256": "e7d4f8bf07f4f226e0a4f3708c51fba9c6c23e1361b8157e1c2fd84db3f48bf2",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835726",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835726",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-172.strace",
+      "sha256": "23b5d1e8d6dcf2a68ba845c0998371770956486cbd2a60d75b6e4aa70e0d0c94",
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835734",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835734",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-173.strace",
+      "sha256": "d67642f43079acdcea7daf99876274a85eefcc407c6271a6257ef5816e24f5fe",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835742",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835742",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-174.strace",
+      "sha256": "ccc36342bc6f937bc413006d27f30158e3c8574f9834894c070da8ef5410dbd0",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 1,
+      "kernel_reads": [
+        {
+          "pid": "2835750",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 3,
+          "target": "source",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 3,
+          "target": "source",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835750",
+          "fd": 4,
+          "offset": 0,
+          "requested": 1,
+          "returned": -1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-175.strace",
+      "sha256": "95f9d83730f599ed04fc3cfd4d94a35cb41fbcf3bd113d1cf579ffdd0d683af8",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835758",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 3,
+          "target": "source",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 3,
+          "target": "source",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835758",
+          "fd": 4,
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-176.strace",
+      "sha256": "e300702d140db2f254f494d0b0ff630840b51ab934629074306dde8f59eb889a",
+      "source_opens": 2,
+      "source_closes": 2,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835766",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 3,
+          "target": "source",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 3,
+          "target": "source",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835766",
+          "fd": 4,
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-177.strace",
+      "sha256": "b97d2b231d4b8f8fd0752559d2a209ae1c2ba728d17d51bea42e94e9e5b02ebb",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835774",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 3,
+          "target": "source",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 3,
+          "target": "source",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 3,
+          "target": "source",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 3,
+          "target": "source",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "offset": 0,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "offset": 4096,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "offset": 8192,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "offset": 12288,
+          "requested": 4096,
+          "returned": 4096
+        },
+        {
+          "pid": "2835774",
+          "fd": 4,
+          "offset": 16384,
+          "requested": 1,
+          "returned": 1
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-178.strace",
+      "sha256": "4c97b8640697b38938aac8e9724a7366953d98b9e03fd7416ff631a2748af3df",
+      "source_opens": 0,
+      "source_closes": 0,
+      "memfd_creates": 0,
+      "memfd_closes": 0,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [],
+      "kernel_writes": [],
+      "seal_operations": [],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-179.strace",
+      "sha256": "fe85d3be0d1ed2d3b90a38c18e964bd094480d3a4b85b9dee2d34c2fd01e983a",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835791",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835791",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835791",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-180.strace",
+      "sha256": "618ea4d1a52a9b0b1e48a8c2acc8953b0c8b8ccbf451fd43d693c042b5e10559",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835799",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835799",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835799",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835799",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-181.strace",
+      "sha256": "aa789c138750bc43643d36600ea8f8c9565290be183d0ee5b92842832be605fa",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835807",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835807",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835807",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835807",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-182.strace",
+      "sha256": "3f86abc64ec9ad3e7a4ab32df594c557e104fad812c50f8e436e1f99d6726ec3",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835815",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835815",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835815",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835815",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-183.strace",
+      "sha256": "6ae5f21f12911b102180da0014261bf9cceb525912d2d9a1c9db6da723278145",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835823",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835823",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835823",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835823",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    },
+    {
+      "trace": "../sealed-copy-native-acceptance/sealed/trace-184.strace",
+      "sha256": "3624443101b9311f2ccf3acdd476822416232ddbd507a55e2444c3182086087e",
+      "source_opens": 1,
+      "source_closes": 1,
+      "memfd_creates": 1,
+      "memfd_closes": 1,
+      "writable_shared_map_refusals": 0,
+      "kernel_reads": [
+        {
+          "pid": "2835831",
+          "fd": 3,
+          "target": "source",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835831",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        },
+        {
+          "pid": "2835831",
+          "fd": 4,
+          "target": "sealed",
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "kernel_writes": [
+        {
+          "pid": "2835831",
+          "fd": 4,
+          "offset": 0,
+          "requested": 70,
+          "returned": 70
+        }
+      ],
+      "seal_operations": [
+        "fcntl(4</memfd:aesir-source-copy>(deleted), F_ADD_SEALS, F_SEAL_SEAL|F_SEAL_SHRINK|F_SEAL_GROW|F_SEAL_WRITE) = 0"
+      ],
+      "fault": null,
+      "returncode": 0
+    }
+  ],
+  "mutations": [
+    {
+      "source": "../sealed-copy-native-acceptance/sealed/fixtures/37.source",
+      "complete_final_bytes_equal": true,
+      "sealed_original_digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "../sealed-copy-native-acceptance/sealed/fixtures/41.source",
+      "complete_final_bytes_equal": true,
+      "sealed_original_digest": "d6ef72ccf1dc07afb3074967c93919b8c410f0b633fec60ee3c7233441ceff44"
+    },
+    {
+      "source": "../sealed-copy-native-acceptance/sealed/fixtures/45.source",
+      "complete_final_bytes_equal": true,
+      "sealed_original_digest": "d37426b71db09954cacd4d2be0059f5dbd7ad5d32fc42ab0eeda4ed1a4e1bebc"
+    },
+    {
+      "source": "../sealed-copy-native-acceptance/sealed/fixtures/49.source",
+      "complete_final_bytes_equal": true,
+      "sealed_original_digest": "5e73ca9fc03d81e49a3451b60dc22dab107d0515d80636f97d95d68d117515ff"
+    }
+  ]
+}

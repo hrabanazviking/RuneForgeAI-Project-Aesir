@@ -1,0 +1,11 @@
+{
+  "pin": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "path": "common/include/context_switch_defs.h",
+  "sha256": "fa8fa9f979e58285ad52ba6287a613e61324f297a3f283306acdc217cd46568b",
+  "license_reviewed_first": "MIT;local pinned LICENSE reread",
+  "question": "Can known kernel_done_count qualify the patent program length/opcode-check lead?",
+  "disposition": "Public records expose uint32 kernel_done_count in completion/control contexts, including dynamic-batch switching. No qualified mapping to microcode instruction count, opcode width, CRC polynomial or H10H arithmetic encoding follows. Existing host codecs already preserve these fields; no new serializer or hardware probe is warranted. The bounded local search adds no source-execution capability and is not a universal absence proof.",
+  "new_implementation": false,
+  "device_access": false,
+  "source_execution": false
+}

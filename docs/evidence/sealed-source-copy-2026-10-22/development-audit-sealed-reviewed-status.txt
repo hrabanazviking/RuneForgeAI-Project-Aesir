@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../sealed-copy-native-development/audit-sealed-reviewed.py", line 23, in <module>
+    for pid,line in logical(text):
+                    ^^^^^^^^^^^^^
+  File "../Project-Aesir/../sealed-copy-native-development/audit-sealed-reviewed.py", line 16, in logical
+    assert not pending,pending
+AssertionError: {'2835161': '???( '}

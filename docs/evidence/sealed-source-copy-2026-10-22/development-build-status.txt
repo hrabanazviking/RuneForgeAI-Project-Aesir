@@ -1,0 +1,11 @@
+tagged-float-constants 0 0
+tagged-float-api 0 0
+closure-gguf_shapes 0 0
+closure-hailo_gguf_shapes_api 0 0
+tagged-source-weight-api 0 0
+tagged-source-weight-tiles 0 0
+source-byte-digest 0 0
+source-digest-api 0 0
+sealed-source-copy 0 0
+sealed-source-api 0 0
+10 stable Mojo builds and two clean C builds; all linking before execution

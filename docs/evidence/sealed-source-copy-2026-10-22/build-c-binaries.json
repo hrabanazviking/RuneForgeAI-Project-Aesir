@@ -1,0 +1,10 @@
+[
+  {
+    "binary": "../sealed-copy-native-final/io-faults.so",
+    "sha256": "4510abb333c16c4211fdea5b724126dcef33420b10d0fcdc4bae2c81ea5446e4"
+  },
+  {
+    "binary": "../sealed-copy-native-final/header-seals-oracle",
+    "sha256": "f6f92853f094a6e45a1665e3fb0875b8d854e9ba04764a09c46d7187d4b87047"
+  }
+]

@@ -1,0 +1,94 @@
+[
+  {
+    "suite": "sealed-copy",
+    "command": [
+      "/usr/bin/python3",
+      "tests/test_hailo_sealed_source_copy.py",
+      "--binary",
+      "../sealed-copy-native-final/sealed-source-copy",
+      "--api",
+      "../sealed-copy-native-final/sealed-source-api",
+      "--faults",
+      "../sealed-copy-native-final/io-faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-copy-native-acceptance/sealed"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "source_weight_tiles",
+    "command": [
+      "/usr/bin/python3",
+      "../sealed-copy-native-development/pair-selected.py",
+      "../sealed-copy-native-acceptance/pairs/source_weight_tiles.json",
+      "tests/test_hailo_source_weight_tiles.py",
+      "--binary",
+      "../sealed-copy-native-final/tagged-source-weight-tiles",
+      "--api-binary",
+      "../sealed-copy-native-final/tagged-source-weight-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-copy-native-acceptance/legacy/legacy/source_weight_tiles"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "source_float_constants",
+    "command": [
+      "/usr/bin/python3",
+      "../sealed-copy-native-development/pair-selected.py",
+      "../sealed-copy-native-acceptance/pairs/source_float_constants.json",
+      "tests/test_hailo_source_float_constants.py",
+      "--binary",
+      "../sealed-copy-native-final/tagged-float-constants",
+      "--api-binary",
+      "../sealed-copy-native-final/tagged-float-api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-copy-native-acceptance/legacy/legacy/source_float_constants"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "gguf_shapes",
+    "command": [
+      "/usr/bin/python3",
+      "../sealed-copy-native-development/pair-selected.py",
+      "../sealed-copy-native-acceptance/pairs/gguf_shapes.json",
+      "tests/test_hailo_gguf_shapes.py",
+      "--binary",
+      "../sealed-copy-native-final/closure-gguf_shapes",
+      "--api",
+      "../sealed-copy-native-final/closure-hailo_gguf_shapes_api",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-copy-native-acceptance/legacy/gguf_shapes"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "source-digest",
+    "command": [
+      "/usr/bin/python3",
+      "../sealed-copy-native-development/pair-selected.py",
+      "../sealed-copy-native-acceptance/pairs/source-digest.json",
+      "tests/test_hailo_source_digest.py",
+      "--binary",
+      "../sealed-copy-native-final/source-byte-digest",
+      "--api",
+      "../sealed-copy-native-final/source-digest-api",
+      "--faults",
+      "../source-digest-native-final-v2/io-faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-copy-native-acceptance/digest"
+    ],
+    "returncode": 0
+  }
+]

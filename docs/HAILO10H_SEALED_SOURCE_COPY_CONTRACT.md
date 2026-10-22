@@ -48,3 +48,10 @@ architecture or model eligibility restriction.
 Physical numerical lowering/configuration/precision/packing/placement and valid
 original program delivery/activation/results/cleanup remain open. The owner's
 broad ordinary unmodified model target and Hailo-only execution remain unchanged.
+
+## Native qualification completed
+
+The original owned copy is now verified under
+`HAILO10H_MOJO_SEALED_SOURCE_COPY.md`: ten clean Mojo builds,186 new calls and
+905 complete selected old-control comparisons. This establishes immutable owned
+observed bytes, not an atomic original version or parser/artifact coherence.

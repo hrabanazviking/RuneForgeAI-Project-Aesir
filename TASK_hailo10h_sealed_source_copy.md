@@ -123,3 +123,10 @@ The next integration gate is source parsing/conversion/artifact coherence using
 owned sealed bytes. Actual H10H numerical instructions/configuration/precision/
 packing/placement, original program delivery/activation/results/cleanup and broad
 ordinary unmodified source-model execution remain required under the full target.
+
+## Native slice completed
+
+2026-10-22: `docs/HAILO10H_MOJO_SEALED_SOURCE_COPY.md` records ten clean Mojo
+builds,1091 primary calls,905 complete frozen-control pairs and93 new traces.
+Immutable owned observed copies are verified. Sealed-descriptor parsing and
+source/artifact coherence remain separate required work; old flags stay false.
