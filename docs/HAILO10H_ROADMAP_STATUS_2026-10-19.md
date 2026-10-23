@@ -1,3 +1,9 @@
+> **2026-10-23 ordinary backing update:** indexed/unindexed sealed collection
+> ownership passes7 selected suites/41 methods and971 complete frozen pairs.
+> `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md` records the bounded input lifetime;
+> compiler binding and actual numerical Hailo configuration/delivery/results
+> remain open under the fixed broad target.
+
 > **2026-10-23 source ownership update:** sealed ordinary config/index metadata
 > passes4 selected suites/27 methods and892 complete frozen pairs, with zero old
 > production edits. `HAILO10H_MOJO_SEALED_SOURCE_METADATA.md` records the scoped

@@ -1,0 +1,11 @@
+{
+  "doc_drift_exit": 1,
+  "raw_output_bytes": 2471216,
+  "raw_output_sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76",
+  "byte_identical_to_precode": true,
+  "inherited_issue_count": 23405,
+  "inherited_ledger_schema_errors": 9,
+  "ledger_unique_capabilities": 173,
+  "ledger_verified": 128,
+  "whole_repository_or_hosted_ci_pass": false
+}

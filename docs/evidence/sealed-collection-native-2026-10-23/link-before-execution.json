@@ -1,0 +1,9 @@
+{
+  "all_final_linking_before_second_and_third_acceptance": true,
+  "stable_current_entries": 14,
+  "c_shims": 6,
+  "stable_source_snapshot": "../sealed-collection-native-final-v2/source-snapshot",
+  "stable_test_snapshot": "../sealed-collection-native-final-v2/test-snapshot",
+  "no_source_or_test_edit_after_final_builds": true,
+  "third_acceptance_only_runner_routing_changed": true
+}

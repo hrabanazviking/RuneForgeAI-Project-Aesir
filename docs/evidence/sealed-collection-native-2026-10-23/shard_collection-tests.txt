@@ -1,0 +1,11 @@
+test_actual_multishard_names_shapes_and_metadata (__main__.ShardCollection.test_actual_multishard_names_shapes_and_metadata) ... ok
+test_exact_aggregate_and_parser_policies (__main__.ShardCollection.test_exact_aggregate_and_parser_policies) ... ok
+test_metadata_owned_fd_bytes_and_faults (__main__.ShardCollection.test_metadata_owned_fd_bytes_and_faults) ... ok
+test_missing_extra_misdirected_duplicate_and_totals (__main__.ShardCollection.test_missing_extra_misdirected_duplicate_and_totals) ... ok
+test_traced_admission_header_reads_and_late_cleanup (__main__.ShardCollection.test_traced_admission_header_reads_and_late_cleanup) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 5.488s
+
+OK
+Native outcomes: {'accepted': 132, 'refused': 73}

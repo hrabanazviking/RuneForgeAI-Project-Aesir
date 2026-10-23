@@ -1,0 +1,28 @@
+test_before_parser_original_changes_after_actual_copy (__main__.SealedCollection.test_before_parser_original_changes_after_actual_copy) ... ok
+test_complete_seeded_indexed_unindexed_bytes_and_components (__main__.SealedCollection.test_complete_seeded_indexed_unindexed_bytes_and_components) ... ok
+test_exact_page_hash_and_metadata_read_boundaries (__main__.SealedCollection.test_exact_page_hash_and_metadata_read_boundaries) ... ok
+test_full_original_mutations_and_independent_repeats (__main__.SealedCollection.test_full_original_mutations_and_independent_repeats) ... FAIL
+test_invalid_joins_headers_symlinks_and_fresh_recovery (__main__.SealedCollection.test_invalid_joins_headers_symlinks_and_fresh_recovery) ... ok
+test_late_shard_fault_cleanup_reported_close_and_fresh_success (__main__.SealedCollection.test_late_shard_fault_cleanup_reported_close_and_fresh_success) ... ok
+test_move_retained_copied_values_caches_recovery_and_bounds (__main__.SealedCollection.test_move_retained_copied_values_caches_recovery_and_bounds) ... ok
+test_root_parser_aggregate_and_separate_copy_limits (__main__.SealedCollection.test_root_parser_aggregate_and_separate_copy_limits) ... ok
+
+======================================================================
+FAIL: test_full_original_mutations_and_independent_repeats (__main__.SealedCollection.test_full_original_mutations_and_independent_repeats)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_sealed_source_collection.py", line 173, in test_full_original_mutations_and_independent_repeats
+    self.exact(r,root,files,want,indexed,old);outputs.append((r.returncode,r.stdout,r.stderr))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_sealed_source_collection.py", line 97, in exact
+    self.assertEqual(result.returncode,0,result.stdout+result.stderr);self.assertEqual(result.stderr,'')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: test: unlink failed
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 16.665s
+
+FAILED (failures=1)
+{'calls': 382, 'outcomes': {'accepted': 227, 'refused': 155}, 'comparisons': {'exact_component_words': 5576, 'full_shard_bytes': 238868, 'complete_byte_and_component_snapshots': 166, 'complete_metadata_storage_and_counter_projections': 174}}

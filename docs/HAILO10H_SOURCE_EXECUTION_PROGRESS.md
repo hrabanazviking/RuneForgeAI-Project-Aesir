@@ -19,10 +19,10 @@ constant-input lifetime are now verified under
 `HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md` against the pre-code
 `TASK_hailo10h_sealed_safetensors_source.md`. Owned ordinary config/index observed bytes are now verified under
 `HAILO10H_MOJO_SEALED_SOURCE_METADATA.md`, with zero old production edits.
-Owned ordinary shards/compiler/artifact bindings and remaining format/architecture/
-operation implementation stay open. Next native work order:
-`TASK_hailo10h_sealed_source_collection.md`; retain actual config/index/shard
-backing owners under existing beneath-root and collection rules. Full controlling scope:
+Owned ordinary indexed/unindexed backing lifetime is now verified under
+`HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md`, using existing beneath-root and
+collection rules. Compiler/artifact bindings and remaining format/architecture/
+operation implementation stay open. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -30,6 +30,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Owned ordinary collection backing | Verified observed compiler-input lifetime | `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md`;14 clean current Mojo/6 C builds,7 suites/41 methods,971 complete frozen pairs across12 controls.290 new lifetime traces;no compiler/artifact identity or numerical execution. |
 | Owned sealed config/index metadata | Verified observed compiler-input lifetime | `HAILO10H_MOJO_SEALED_SOURCE_METADATA.md`;8 clean Mojo/4 C builds,4 suites/27 methods,892 complete frozen pairs across six controls.253 new lifetime traces;no global identity or numerical execution. |
 | Owned sealed Safetensors input | Verified parser/constant-input lifetime | `HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md`;117 current entries/115 frozen controls,50 suites/354 methods/14325 complete pairs. New263212 component words,15 full snapshots and102 lifetime traces. No atomic original version, artifact identity or numerical device execution. |
 | Compiler-owned observed GGUF source | Verified compiler-input lifetime | `HAILO10H_MOJO_OWNED_GGUF_COMPILER.md`;9 clean Mojo builds,23 methods/596 primary calls,7 controls/480 complete frozen pairs. Rehydrated parser caches, owned lowering and same-source tiles;209 lifetime traces. No executable-artifact identity or numerical Hailo execution. |

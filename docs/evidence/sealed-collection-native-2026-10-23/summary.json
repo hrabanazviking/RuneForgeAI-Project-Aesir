@@ -1,0 +1,45 @@
+{
+  "parent": "d218e01955651c338bfec558b20416eaafabc7f5",
+  "old_mojo_sources_unchanged": 669,
+  "current_mojo_sources": 672,
+  "old_python_inputs_unchanged": 72,
+  "current_python_inputs": 73,
+  "precode_primary_controls_unchanged": 119,
+  "additional_historical_auxiliary_root_control": 1,
+  "qualified_auxiliary_inputs_unchanged": 21,
+  "stable_current_mojo_builds": 14,
+  "clean_c_builds": 6,
+  "all_stable_linking_before_native_acceptance": true,
+  "suites": 7,
+  "methods": 41,
+  "qualified_entry_calls": 1484,
+  "qualified_entry_kinds": {
+    "frozen": 169,
+    "current": 1315
+  },
+  "complete_frozen_pairs": 971,
+  "frozen_entries": 12,
+  "frozen_outcomes": {
+    "accepted": 556,
+    "refused": 415
+  },
+  "complete_stdout_stderr_exit_handled_messages_equal": true,
+  "complete_file_mutation_pairs": 28,
+  "complete_directory_rename_pairs": 1,
+  "independent_fault_log_pairs": 65,
+  "new_suite": {
+    "calls": 398,
+    "outcomes": {
+      "accepted": 244,
+      "refused": 154
+    },
+    "comparisons": {
+      "exact_component_words": 6120,
+      "full_shard_bytes": 245684,
+      "complete_byte_and_component_snapshots": 182,
+      "complete_metadata_storage_and_counter_projections": 190
+    }
+  },
+  "independent_mutation_runs": 44,
+  "whole_repository_or_hosted_ci_pass": false
+}

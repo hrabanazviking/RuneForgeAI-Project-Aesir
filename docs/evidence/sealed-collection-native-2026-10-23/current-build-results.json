@@ -1,0 +1,282 @@
+[
+  {
+    "source": "smidr/tools/source_root.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_root.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-000"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_root_api.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a83e68d0f61b7e9f4399a39c2f756dc7954c27b576430c98ffad5ec46028a04a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_root_api.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-001"
+    ]
+  },
+  {
+    "source": "smidr/tools/shard_collection.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "583d40cd4f4e4c6994c9948256212e69a6aa3b82f1ca7a7644c578a496a0675f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/shard_collection.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-002"
+    ]
+  },
+  {
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de1ddf6b0371c0069cd38827d6edb92266337ca7fa1fade3e7e1a256a5b3598",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_shard_collection_api.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-003"
+    ]
+  },
+  {
+    "source": "smidr/tools/unindexed_source.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "139f017116637cf46327e92a1804b20d4926ff2515207a50a051ea79ba3a3385",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/unindexed_source.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-004"
+    ]
+  },
+  {
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-005",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2bdf5f7bebf723ad9b1856ab7a8b6a03a9d4ce03467d38bad1f9be8f1e18f1a5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_unindexed_source_api.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-005"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_source_metadata.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-006",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ac6452616f119fe6a4ed7c4ffd2579934cc6ad66311b091c885fee2c39d36fb7",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_metadata.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-006"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_metadata_api.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-007",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b324ed41bb16c2f1a204fc9dd5220dac82264970204c6eaeff26f40d9b2c7d59",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_metadata_api.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-007"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_safetensors_source.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-008",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ee77014bf02b906a7f0627a90400cfc009d5d975b583e19d2cdea8b77ac27c00",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_safetensors_source.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-008"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_safetensors_api.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-009",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fe21c5600b2a8a64b8354e4ef34c9323bb3c3ff6969c800994e09b1c64362f29",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_safetensors_api.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-009"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_source_copy.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-010",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "271387902ab33e3a424d47729273b71ad1c0dd5c28178c2441a9b1e99203340f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_copy.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-010"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_source_api.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-011",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b9e7ebf9a12f509dd364608e19feee32e3c27f30e48bbead2dd749c586569144",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_source_api.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-011"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_collection_api.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-012",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "333c17ba57d808c3424248f7f111995cb3552a30a72516dca6322fe649ac9abc",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_collection_api.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-012"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_source_collection.mojo",
+    "binary": "../sealed-collection-native-final-v2/entry-013",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1d9720a6db910214d0ff267736825e4970ef65d7c6872ff41db741b12898b5b7",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_collection.mojo",
+      "-o",
+      "../sealed-collection-native-final-v2/entry-013"
+    ]
+  }
+]

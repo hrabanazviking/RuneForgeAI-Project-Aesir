@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 127 |
+| `verified` | 128 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **172** |
+| **Total** | **173** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3879,3 +3879,32 @@ No new capability ID or hardware/complete-source execution claim.
   no source mappings.109 disjoint old traces;three unreturned worker records
   opaque. Valid-exponent test expectation and generation/empty-source auditor
   corrections retained; complete selected rerun passes without omitted pairs.
+
+
+### AES-SOURCE-033 — Owned ordinary indexed and unindexed backing lifetime
+
+- **Status:** `verified`
+- **Owner:** Original Mojo SMIÐR sealed source collection orchestration.
+- **Claim sources:** TASK_hailo10h_sealed_source_collection.md published atd218e01
+  before production; docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+- **Implementation evidence:** New retained config/index/shard owners, consuming
+  beneath-root file bridge, checked aggregate source bytes and complete joins;
+  existing parsers/storage validators and bounded byte/constant helpers reused.
+  All669 old Mojo sources/72 Python inputs exact; zero old production edits.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md and
+  docs/evidence/sealed-collection-native-2026-10-23/;14 clean current Mojo/6 C
+  builds,7 suites/41 methods/1484 qualified entry calls,971 complete pairs across
+  12 controls. New398 calls,182 full backing/component snapshots,245684 bytes,
+  6120 component words and44 independent original-mutation runs.
+- **Evidence boundary:** Observed compiler-input backing lifetime only. Writable
+  caches/labels/claims are not identity; no atomic multi-file original revision,
+  compiler/artifact identity, numerical format/fit/placement or model execution.
+  Broad ordinary support100%; remaining formats/architectures/operations stay work.
+- **Next acceptance gate:** Rehydrated owned ordinary compiler binding and actual
+  H10H numerical configuration/packing/placement/original delivery/results/cleanup.
+- **Audit:**290 new traces balance269 root/868 original/778 sealed lifetimes and
+  336 exact maps/unmaps;1490 observed full hashes/930 metadata EOF phases.491
+  disjoint other traces;two unreturned worker records opaque.28 full file mutation
+  pairs,one full directory rename/deletion pair and65 independent fault-log pairs.
+  Failed type/test/auditor/entry-routing attempts retained; full selected rerun
+  covers all14 current entries and all12 controls without omitted comparisons.

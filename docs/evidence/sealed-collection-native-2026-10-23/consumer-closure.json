@@ -1,0 +1,44 @@
+{
+  "old_sources_unchanged": 669,
+  "current_sources": 672,
+  "new_leaf": "smidr/sealed_source_collection.mojo",
+  "actual_transitive_consumers": [
+    "tests/hailo_sealed_collection_api.mojo",
+    "smidr/tools/sealed_source_collection.mojo"
+  ],
+  "new_sources": [
+    "smidr/sealed_source_collection.mojo",
+    "smidr/tools/sealed_source_collection.mojo",
+    "tests/hailo_sealed_collection_api.mojo"
+  ],
+  "current_entries": {
+    "smidr/tools/source_root.mojo": "../sealed-collection-native-final-v2/entry-000",
+    "tests/hailo_source_root_api.mojo": "../sealed-collection-native-final-v2/entry-001",
+    "smidr/tools/shard_collection.mojo": "../sealed-collection-native-final-v2/entry-002",
+    "tests/hailo_shard_collection_api.mojo": "../sealed-collection-native-final-v2/entry-003",
+    "smidr/tools/unindexed_source.mojo": "../sealed-collection-native-final-v2/entry-004",
+    "tests/hailo_unindexed_source_api.mojo": "../sealed-collection-native-final-v2/entry-005",
+    "smidr/tools/sealed_source_metadata.mojo": "../sealed-collection-native-final-v2/entry-006",
+    "tests/hailo_sealed_metadata_api.mojo": "../sealed-collection-native-final-v2/entry-007",
+    "smidr/tools/sealed_safetensors_source.mojo": "../sealed-collection-native-final-v2/entry-008",
+    "tests/hailo_sealed_safetensors_api.mojo": "../sealed-collection-native-final-v2/entry-009",
+    "smidr/tools/sealed_source_copy.mojo": "../sealed-collection-native-final-v2/entry-010",
+    "tests/hailo_sealed_source_api.mojo": "../sealed-collection-native-final-v2/entry-011",
+    "tests/hailo_sealed_collection_api.mojo": "../sealed-collection-native-final-v2/entry-012",
+    "smidr/tools/sealed_source_collection.mojo": "../sealed-collection-native-final-v2/entry-013"
+  },
+  "frozen_comparison_pairs": {
+    "../sealed-collection-native-final-v2/entry-000": "../sealed-safetensors-native-final/entry-090",
+    "../sealed-collection-native-final-v2/entry-001": "../source-root-api",
+    "../sealed-collection-native-final-v2/entry-002": "../sealed-safetensors-native-final/entry-087",
+    "../sealed-collection-native-final-v2/entry-003": "../sealed-safetensors-native-final/entry-096",
+    "../sealed-collection-native-final-v2/entry-004": "../sealed-safetensors-native-final/entry-091",
+    "../sealed-collection-native-final-v2/entry-005": "../sealed-safetensors-native-final/entry-099",
+    "../sealed-collection-native-final-v2/entry-006": "../sealed-metadata-native-final/entry-007",
+    "../sealed-collection-native-final-v2/entry-007": "../sealed-metadata-native-final/entry-006",
+    "../sealed-collection-native-final-v2/entry-008": "../sealed-safetensors-native-final/entry-111",
+    "../sealed-collection-native-final-v2/entry-009": "../sealed-safetensors-native-final/entry-112",
+    "../sealed-collection-native-final-v2/entry-010": "../sealed-metadata-native-final/entry-004",
+    "../sealed-collection-native-final-v2/entry-011": "../sealed-metadata-native-final/entry-005"
+  }
+}

@@ -1,0 +1,11 @@
+test_descriptor_transfer_and_cleanup (__main__.SourceRoot.test_descriptor_transfer_and_cleanup) ... ok
+test_exact_policies_and_mutated_state (__main__.SourceRoot.test_exact_policies_and_mutated_state) ... ok
+test_injected_failures_close_same_descriptors (__main__.SourceRoot.test_injected_failures_close_same_descriptors) ... ok
+test_nested_paths_and_symlinks (__main__.SourceRoot.test_nested_paths_and_symlinks) ... ok
+test_public_abi_and_host_guard (__main__.SourceRoot.test_public_abi_and_host_guard) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.312s
+
+OK
+Native outcomes: {'accepted': 16, 'refused': 61}

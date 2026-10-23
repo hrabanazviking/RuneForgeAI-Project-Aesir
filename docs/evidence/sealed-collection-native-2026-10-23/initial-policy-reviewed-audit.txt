@@ -1,0 +1,33 @@
+{
+  "new_traces": 275,
+  "totals": {
+    "root_opens": 254,
+    "root_closes": 254,
+    "source_opens": 784,
+    "source_closes": 784,
+    "sealed_creates": 738,
+    "sealed_closes": 738,
+    "sealed_maps": 316,
+    "exact_unmaps": 316,
+    "complete_hashes": 1410,
+    "partial_hashes": 0,
+    "metadata_phases": 866,
+    "observed_eof_phases": 866
+  },
+  "new_opaque": [],
+  "other_traces": 491,
+  "other_opaque": [
+    {
+      "trace": "../sealed-collection-native-acceptance/sealed-safetensors/trace-63.strace",
+      "pid": "1393826",
+      "record": "sigaltstack({ss_sp=0x7ffee4000b70, ss_flags=0, ss_size=86016},   <unfinished ...>) = ?",
+      "classification": "opaque; no effect inferred"
+    },
+    {
+      "trace": "../sealed-collection-native-acceptance/sealed-copy/trace-153.strace",
+      "pid": "1392378",
+      "record": "sigaltstack(NULL,   <unfinished ...>) = ?",
+      "classification": "opaque; no effect inferred"
+    }
+  ]
+}

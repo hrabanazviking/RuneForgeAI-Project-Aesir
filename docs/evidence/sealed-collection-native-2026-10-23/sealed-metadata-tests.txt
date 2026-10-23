@@ -1,0 +1,12 @@
+test_actual_original_mutations_with_independent_repeats (__main__.SealedMetadata.test_actual_original_mutations_with_independent_repeats) ... ok
+test_complete_fields_raw_spans_and_independent_counters (__main__.SealedMetadata.test_complete_fields_raw_spans_and_independent_counters) ... ok
+test_injected_copy_hash_seal_and_metadata_fault_recovery (__main__.SealedMetadata.test_injected_copy_hash_seal_and_metadata_fault_recovery) ... ok
+test_minimal_boundaries_and_full_tool_flags (__main__.SealedMetadata.test_minimal_boundaries_and_full_tool_flags) ... ok
+test_move_close_copied_values_cache_and_bad_owners (__main__.SealedMetadata.test_move_close_copied_values_cache_and_bad_owners) ... ok
+test_parser_refusals_and_policy_recovery (__main__.SealedMetadata.test_parser_refusals_and_policy_recovery) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 17.215s
+
+OK
+Native outcomes: {'accepted': 260, 'refused': 116}

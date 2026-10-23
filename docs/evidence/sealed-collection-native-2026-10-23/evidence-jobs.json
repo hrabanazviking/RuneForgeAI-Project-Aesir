@@ -1,0 +1,149 @@
+[
+  {
+    "suite": "source_root",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_source_root.py",
+    "args": [
+      "--binary",
+      "../sealed-collection-native-final-v2/entry-000",
+      "--api",
+      "../sealed-collection-native-final-v2/entry-001",
+      "--faults",
+      "../sealed-collection-native-final-v2/source_root_io_faults.so",
+      "--layout",
+      "../q2q3-native-development/root-layout.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-collection-native-acceptance-v3/source_root"
+    ]
+  },
+  {
+    "suite": "shard_collection",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_shard_collection.py",
+    "args": [
+      "--binary",
+      "../sealed-collection-native-final-v2/entry-002",
+      "--api",
+      "../sealed-collection-native-final-v2/entry-003",
+      "--storage",
+      "../sealed-safetensors-native-final/entry-078",
+      "--faults",
+      "../owned-fd-study/io-faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-collection-native-acceptance-v3/shard_collection"
+    ]
+  },
+  {
+    "suite": "unindexed_source",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_unindexed_source.py",
+    "args": [
+      "--binary",
+      "../sealed-collection-native-final-v2/entry-004",
+      "--api",
+      "../sealed-collection-native-final-v2/entry-005",
+      "--indexed",
+      "../sealed-collection-native-final-v2/entry-002",
+      "--baseline",
+      "../unindexed-baseline-collection",
+      "--faults",
+      "../owned-fd-study/io-faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-collection-native-acceptance-v3/unindexed_source"
+    ]
+  },
+  {
+    "suite": "sealed-copy",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_sealed_source_copy.py",
+    "args": [
+      "--binary",
+      "../sealed-collection-native-final-v2/entry-010",
+      "--api",
+      "../sealed-collection-native-final-v2/entry-011",
+      "--faults",
+      "../sealed-collection-native-final-v2/source_sealed_copy_faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-collection-native-acceptance-v3/sealed-copy"
+    ]
+  },
+  {
+    "suite": "sealed-safetensors",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_sealed_safetensors_source.py",
+    "args": [
+      "--binary",
+      "../sealed-collection-native-final-v2/entry-008",
+      "--api",
+      "../sealed-collection-native-final-v2/entry-009",
+      "--constants",
+      "../sealed-safetensors-native-final/entry-086",
+      "--inventory",
+      "../sealed-safetensors-native-final/entry-080",
+      "--faults",
+      "../sealed-collection-native-final-v2/sealed_gguf_faults.so",
+      "--copy-faults",
+      "../sealed-collection-native-final-v2/source_sealed_copy_faults.so",
+      "--mutation-faults",
+      "../sealed-collection-native-final-v2/sealed_safetensors_mutation.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-collection-native-acceptance-v3/sealed-safetensors"
+    ]
+  },
+  {
+    "suite": "sealed-metadata",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_sealed_source_metadata.py",
+    "args": [
+      "--binary",
+      "../sealed-collection-native-final-v2/entry-006",
+      "--api",
+      "../sealed-collection-native-final-v2/entry-007",
+      "--config-control",
+      "../sealed-safetensors-native-final/entry-088",
+      "--index-control",
+      "../sealed-safetensors-native-final/entry-089",
+      "--faults",
+      "../sealed-collection-native-final-v2/sealed_metadata_faults.so",
+      "--copy-faults",
+      "../sealed-collection-native-final-v2/source_sealed_copy_faults.so",
+      "--mutation-faults",
+      "../sealed-collection-native-final-v2/sealed_safetensors_mutation.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-collection-native-acceptance-v3/sealed-metadata"
+    ]
+  },
+  {
+    "suite": "sealed-collection",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_sealed_source_collection.py",
+    "args": [
+      "--binary",
+      "../sealed-collection-native-final-v2/entry-013",
+      "--api",
+      "../sealed-collection-native-final-v2/entry-012",
+      "--indexed-control",
+      "../sealed-safetensors-native-final/entry-087",
+      "--unindexed-control",
+      "../sealed-safetensors-native-final/entry-091",
+      "--faults",
+      "../sealed-collection-native-final-v2/sealed_collection_faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-collection-native-acceptance-v3/sealed-collection"
+    ]
+  }
+]

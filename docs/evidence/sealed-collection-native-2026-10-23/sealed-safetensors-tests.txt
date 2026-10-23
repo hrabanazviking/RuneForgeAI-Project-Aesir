@@ -1,0 +1,14 @@
+test_exhaustive_f16_bf16_and_seeded_f32_complete_words (__main__.SealedSafetensors.test_exhaustive_f16_bf16_and_seeded_f32_complete_words) ... ok
+test_moving_busy_owners_close_capacity_and_recovery (__main__.SealedSafetensors.test_moving_busy_owners_close_capacity_and_recovery) ... ok
+test_original_changes_after_copy_before_parse (__main__.SealedSafetensors.test_original_changes_after_copy_before_parse) ... ok
+test_parser_policy_window_bounds_and_stale_source_refusals (__main__.SealedSafetensors.test_parser_policy_window_bounds_and_stale_source_refusals) ... ok
+test_parser_refusals_match_existing_complete_messages (__main__.SealedSafetensors.test_parser_refusals_match_existing_complete_messages) ... ok
+test_path_factory_positive_budgets_flags_and_fault_cleanup (__main__.SealedSafetensors.test_path_factory_positive_budgets_flags_and_fault_cleanup) ... ok
+test_rank_scalar_empty_metadata_unicode_and_page_boundaries (__main__.SealedSafetensors.test_rank_scalar_empty_metadata_unicode_and_page_boundaries) ... ok
+test_same_extent_original_write_after_copy_before_parse (__main__.SealedSafetensors.test_same_extent_original_write_after_copy_before_parse) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 7.097s
+
+OK
+{'calls': 176, 'outcomes': {0: 110, 1: 66}, 'traces': 102, 'comparisons': {'complete_component_windows': 21, 'raw_and_binary32_words': 263212, 'complete_header_metadata_axes_bindings_and_source': 15, 'exact_source_bytes': 62587, 'complete_lifetime_component_pairs': 4, 'complete_preimage_postimage_output_pairs': 3, 'complete_parser_refusal_pairs': 16, 'failure_then_fresh_success': 9, 'complete_same_extent_mutation_pairs': 1}}

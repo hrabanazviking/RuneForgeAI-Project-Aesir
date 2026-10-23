@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../sealed-collection-native-recording/audit.py", line 24, in <module>
+    if op=='openat2':assert 'O_RDONLY' in line and 'O_NONBLOCK' in line and 'RESOLVE_BENEATH' in line and 'RESOLVE_NO_SYMLINKS' in line,(trace,line)
+                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (PosixPath('../sealed-collection-native-acceptance/sealed-collection/trace-0001.strace'), 'openat2(3<../sealed-collection-native-acceptance/sealed-collection/model-0001>, "index.json", {flags=O_RDONLY|O_NONBLOCK|O_CLOEXEC, resolve=RESOLVE_NO_MAGICLINKS|RESOLVE_BENEATH}, 24) = 4<../sealed-collection-native-acceptance/sealed-collection/model-0001/index.json>')
