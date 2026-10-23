@@ -105,6 +105,13 @@ That bounded comparison is now verified under
 preserve both bindings and freshly revalidate actual bytes. The old tied-output
 compiler refusals remain;actual numerical/physical source-model execution is open.
 
+Next exact compiler integration contract:
+`TASK_hailo10h_owned_tied_output_compiler.md`. Typed sharing must preserve both
+source identities,operation-use coverage and complete expanded source storage,
+with fresh full retained-source byte checks at graph/read boundaries. Design:
+`HAILO10H_TIED_OUTPUT_GRAPH_DESIGN_2026-10-23.md`. No implementation or new
+execution claim follows from this pre-code contract.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

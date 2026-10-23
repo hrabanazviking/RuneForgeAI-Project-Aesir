@@ -1,0 +1,10 @@
+{
+  "parent": "a299331a321d5e79cb13a0163e008233e41bda89",
+  "sources": 698,
+  "python_tests": 84,
+  "controls": 152,
+  "affected_qualified": 101,
+  "all_affected_entries": 101,
+  "probe_executed": false,
+  "production_started": false
+}
