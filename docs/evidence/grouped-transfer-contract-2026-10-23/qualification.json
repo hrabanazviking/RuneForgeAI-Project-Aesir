@@ -1,0 +1,13 @@
+{
+  "parent": "29db9db667ae82b6a7db9a0d8fa1ee5b50647a05",
+  "actual_mojo_copies": 684,
+  "actual_python_copies": 78,
+  "controls": 134,
+  "probe_calls": 9,
+  "warning_free_final_cpp": true,
+  "object_vectors": 8,
+  "program_payload_dma": false,
+  "source_model_execution": false,
+  "license": "Driver root GPL-2.0 and exact UAPI SPDX (GPL-2.0 WITH Linux-syscall-note) AND MIT retained before probe;declarations only,no external implementation adopted.",
+  "initial_probe_failure": "Missing climits include;actual source/diagnostic retained;no failed binary executed."
+}

@@ -51,3 +51,9 @@ Original owned payload staging is now verified under
 frozen comparisons. This supplies copied byte preparation,not DMA submission or
 immutable/executable identity. Continue grouped-buffer driver constraints,sealed
 output,in-flight ownership/deadlines/cleanup and actual numerical program work.
+
+Next grouped USERPTR wire gap is qualified in
+`docs/HAILO10H_GROUPED_TRANSFER_BOUNDARY_2026-10-23.md`:actual header objects
+establish8 entries and141-byte layout;existing original codec emits one entry.
+Original codec contract:`TASK_hailo10h_soc_group_codec.md`. No production group
+implementation,physical DMA or numerical execution is claimed by that contract.
