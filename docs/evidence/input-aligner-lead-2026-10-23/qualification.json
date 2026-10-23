@@ -1,0 +1,19 @@
+{
+  "publication": "US11238334B2",
+  "pdf_sha256": "79653d82dab6c098c3142d9334057ebdae8156b3f9f06f5a2bcc160147bc7a2e",
+  "extracted_text_sha256": "d4bff550d0c3d81dade0b1071b36b2d3e27681039060f1c2ab8d728a240a8ba6",
+  "extraction": [
+    "pdftotext",
+    "-layout",
+    "publication.pdf",
+    "publication.txt"
+  ],
+  "public_hardware_description_only": true,
+  "no_external_software_implementation": true,
+  "numerical_instruction_fields_qualified": false,
+  "diagram_callouts_are_not_addresses": true,
+  "native_head": "776263afeacc5fbe1dd4e60ab7027f85951c052b",
+  "device_access": false,
+  "model_forward": false,
+  "scope": "Inspected controller/input-aligner passages only; no whole-publication or public-specification absence claim."
+}

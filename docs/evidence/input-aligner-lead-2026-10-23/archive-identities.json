@@ -1,0 +1,32 @@
+[
+  {
+    "path": "../numerical-input-aligner-lead-2026-10-23/pdf-retrieval.json",
+    "bytes": 347,
+    "sha256": "73de13f688f7fec53c0b6d8a8914fd8fe75b2e564b24d5f78b43e495ef09381e"
+  },
+  {
+    "path": "../numerical-input-aligner-lead-2026-10-23/publication.pdf",
+    "bytes": 6152852,
+    "sha256": "79653d82dab6c098c3142d9334057ebdae8156b3f9f06f5a2bcc160147bc7a2e"
+  },
+  {
+    "path": "../numerical-input-aligner-lead-2026-10-23/publication.txt",
+    "bytes": 323658,
+    "sha256": "d4bff550d0c3d81dade0b1071b36b2d3e27681039060f1c2ab8d728a240a8ba6"
+  },
+  {
+    "path": "../numerical-input-aligner-lead-2026-10-23/qualification.json",
+    "bytes": 740,
+    "sha256": "5f80e50f021c9d6ec57540ea501f036bc7436df45f12dfd30b887be25055a8b2"
+  },
+  {
+    "path": "../numerical-input-aligner-lead-2026-10-23/research-boundary.json",
+    "bytes": 336,
+    "sha256": "32d4f2f6385aebe659d501d59e02ff3d16efd01f22f9050d843e4d72d91fadac"
+  },
+  {
+    "path": "../numerical-input-aligner-lead-2026-10-23/retrieval-failure.json",
+    "bytes": 302,
+    "sha256": "3ef81d1d296d07fd457863ac8ea1210fa424881bfc9309dad2c976c1d454b78c"
+  }
+]

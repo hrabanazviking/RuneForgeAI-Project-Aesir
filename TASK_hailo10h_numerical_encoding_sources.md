@@ -75,3 +75,9 @@ Original sequencer codec now passes the pre-code contract under
 678 new refusals and1611 complete frozen comparisons. This is host wire intent
 only. Continue actual numerical/physical/program endpoint work automatically;
 the fixed broad source-model target and all unresolved coverage remain work.
+
+After publishing the codec, bounded primary input-aligner publication study is
+recorded in `docs/HAILO10H_INPUT_ALIGNER_LEAD_2026-10-23.md`. Named controls and
+diagram callouts do not establish H10H addresses/bitfields or numerical code.
+Continue qualifying actual register/microcode/placement interfaces; no native
+source change, device request or execution claim follows from that study.
