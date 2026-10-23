@@ -93,6 +93,12 @@ separate program bytes have sealed host owners. No grouped DMA,numerical
 admission or source-model execution follows. Continue actual physical transport,
 exact numerical configuration/results and broad remaining model coverage.
 
+Next source compiler prerequisite:`TASK_hailo10h_ordinary_tensor_identity.md`.
+Qualify complete raw representation comparison before resolving present tied
+output aliases;keep both bindings and current compiler refusals. Public boundary:
+`HAILO10H_TIED_OUTPUT_IDENTITY_BOUNDARY_2026-10-23.md`. No new native capability
+is claimed by that pre-code contract. Actual physical/numerical work stays open.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

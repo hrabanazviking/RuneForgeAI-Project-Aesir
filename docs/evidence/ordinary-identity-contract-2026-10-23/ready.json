@@ -1,0 +1,9 @@
+{
+  "mojo_sources": 695,
+  "python_tests": 83,
+  "frozen_controls": 150,
+  "selected_controls": 7,
+  "production_started": false,
+  "physical_calls": false,
+  "compiler_sha256": "be46936245ae995680155dcc2f61af5dac8678254c634110e99ceff25ce57c39"
+}
