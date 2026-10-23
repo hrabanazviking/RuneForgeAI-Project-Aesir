@@ -345,3 +345,10 @@ bodies remain exact. This completes the published Safetensors ownership contract
 it provides no numerical Hailo or source-model execution evidence. Owned ordinary
 config/index/shards and compiler bindings follow. The broad100% target and actual
 numerical configuration/packing/placement/program delivery/results remain work.
+
+
+Next input-ownership contract: `TASK_hailo10h_sealed_source_metadata.md` and
+`docs/HAILO10H_SEALED_SOURCE_METADATA_CONTRACT.md`. A new leaf will retain sealed
+ordinary config/index bytes through existing parsers.666 source identities,
+117 controls and71 Python inputs are frozen; a closed type probe builds without
+execution. No production or numerical/source-model execution claim follows.

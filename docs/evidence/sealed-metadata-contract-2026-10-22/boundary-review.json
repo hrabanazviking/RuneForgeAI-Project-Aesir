@@ -1,0 +1,22 @@
+{
+  "existing_sources": {
+    "smidr/source_metadata_file.mojo": "8b30dd87e327a01c7e5c2cb176d7f91b8a8e2d27fd91753403640e9b18b3f06b",
+    "smidr/source_config.mojo": "0fec17eabf811e5436d4567eed971d887f206901cb7fa6921d60e9d65547b8d1",
+    "smidr/source_index.mojo": "2dad8dec65589a1129f952eaa9fe5f23db545973d93f17bc9e74990e88adf012",
+    "hailbru/source_sealed_copy.mojo": "f69b22c4309fd8b938cf497977f3d38cc6c58cf59507bff558271a326c9e0de0"
+  },
+  "existing_json_parsers": [
+    "parse_source_config",
+    "parse_source_index"
+  ],
+  "existing_borrowed_read_helper": "smidr.source_metadata_file._regular_bytes",
+  "helper_max_request_bytes": 8192,
+  "helper_lookahead_bytes": 1,
+  "successful_metadata_bytes": "exact source_bytes",
+  "derived_max_metadata_read_calls": "source_bytes + 1; every positive read progresses, negative/early EOF refuses",
+  "existing_reader_changes": [],
+  "temporary_borrowed_fd_owner_permitted": false,
+  "compiled_probe_only": true,
+  "probe_executed": false,
+  "probe_scope": "closed movable config/index owner types; no parsing, read, numerical or device execution"
+}

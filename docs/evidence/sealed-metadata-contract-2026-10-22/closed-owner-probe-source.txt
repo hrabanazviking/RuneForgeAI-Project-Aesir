@@ -1,0 +1,39 @@
+# Compile-only closed owners; never execute this probe.
+from std.collections import Dict
+from hailbru.source_sealed_copy import SealedSourceBytes
+from smidr.source_config import SourceConfiguration
+from smidr.source_index import SourceShardIndex
+
+@fieldwise_init
+struct ProbeConfig(Movable):
+    var source: SealedSourceBytes
+    var config: SourceConfiguration
+
+    def close(mut self) raises:
+        self.source.close()
+
+@fieldwise_init
+struct ProbeIndex(Movable):
+    var source: SealedSourceBytes
+    var index: SourceShardIndex
+
+    def close(mut self) raises:
+        self.source.close()
+
+def move_config(var value: ProbeConfig) -> ProbeConfig:
+    return value^
+
+def move_index(var value: ProbeIndex) -> ProbeIndex:
+    return value^
+
+def main() raises:
+    var a = SealedSourceBytes()
+    var config = SourceConfiguration("", 0, Dict[String, String](), 0)
+    var owner = ProbeConfig(a^, config^)
+    var moved = move_config(owner^)
+    moved.close()
+    var b = SealedSourceBytes()
+    var index = SourceShardIndex("", 0, Dict[String, String](), Dict[String, String](), Dict[String, String](), False, -1, 0, 0)
+    var indexed = ProbeIndex(b^, index^)
+    var index_moved = move_index(indexed^)
+    index_moved.close()

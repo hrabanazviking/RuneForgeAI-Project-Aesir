@@ -1,0 +1,15 @@
+{
+  "parent": "3d3b3a4231874f123ea65cbea54f9d0a0125c75c",
+  "tree": "f5a427876df8829a7b056558fdaa5e9567666dfe",
+  "sources_verified": 666,
+  "native_controls_verified": 117,
+  "python_inputs_verified": 71,
+  "actual_prior_source_snapshots_verified": true,
+  "planned_old_production_changes": [],
+  "planned_new_leaf": "smidr/sealed_source_metadata.mojo",
+  "production_started": false,
+  "probe_executed": false,
+  "probe_build_returncode": 0,
+  "probe_diagnostic_bytes": 0,
+  "probe_sha256": "b6a3f2bfb9c7d6a30cc821885af31fc6910a2d760763a450e49e3078536b428c"
+}
