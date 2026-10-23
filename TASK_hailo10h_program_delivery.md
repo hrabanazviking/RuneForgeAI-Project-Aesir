@@ -100,3 +100,9 @@ under`TASK_hailo10h_session_finalization.md`:the current code marks storage
 finalized after a close exception. This new host-only contract preserves backing
 and poisons uncertain sessions;it authorizes no real device request. Continue
 grouped storage/descriptor/deadline and numerical program work after publication.
+
+The scoped close-error correction is verified under
+`docs/HAILO10H_MOJO_SESSION_FINALIZATION.md`:18 selected methods,210 full frozen
+pairs and permanent retention/refusal on unconfirmed finalization. This closes
+the tested host lifetime gap only. Physical grouped descriptor/DMA/deadline/late
+cleanup and numerical source-model execution remain required implementation work.

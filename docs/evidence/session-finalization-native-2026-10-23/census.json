@@ -1,0 +1,41 @@
+{
+  "counts": {
+    "native_children": 132,
+    "owner_vmas": 180,
+    "owner_unmaps": 132,
+    "driver_close_attempts": 115,
+    "actual_driver_file_closes": 95,
+    "uncertain_retained_vmas": 48,
+    "direct_reuse_refusals": 236,
+    "session_frozen_pairs": 12,
+    "old_gap_demonstrations": 2,
+    "abi_primary_calls": 323,
+    "abi_frozen_pairs": 198
+  },
+  "methods": 18,
+  "affected_existing_consumers": 7,
+  "actual_consumer_closure": [
+    "smidr/tools/soc_rpc_device.mojo",
+    "smidr/tools/soc_session.mojo",
+    "smidr/tools/soc_storage.mojo",
+    "smidr/tools/soc_wait.mojo",
+    "tests/hailo_session_finalization_api.mojo",
+    "tests/hailo_soc_pending_storage.mojo",
+    "tests/hailo_soc_session_unwind.mojo",
+    "tests/hailo_soc_storage_unwind.mojo"
+  ],
+  "mojo_links": 9,
+  "new_c_links": 1,
+  "additional_frozen_c_oracle": 1,
+  "elf_tables": 22,
+  "old_mojo": 691,
+  "old_python": 81,
+  "final_mojo": 692,
+  "final_python": 82,
+  "old_controls": 141,
+  "supplementary_controls": 6,
+  "new_api_inherited_warnings": 11,
+  "new_statement_warnings": 0,
+  "physical_calls": false,
+  "source_model_execution": false
+}

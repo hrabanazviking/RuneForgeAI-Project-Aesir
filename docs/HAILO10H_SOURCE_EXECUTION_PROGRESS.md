@@ -74,6 +74,12 @@ Immediate original transport prerequisite:
 driver close is unconfirmed before reusing that lifetime path for grouped output.
 This does not alter the sealed map-only receipt or certify grouped DMA.
 
+That original correction now passes under`HAILO10H_MOJO_SESSION_FINALIZATION.md`:
+18 selected methods/210 complete frozen pairs;uncertain close retains backing
+and refuses session reuse. Host mocks establish no physical close-error or DMA
+safety. Continue original grouped storage/descriptor/deadline qualification and
+actual numerical configuration/program/results toward the same broad target.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

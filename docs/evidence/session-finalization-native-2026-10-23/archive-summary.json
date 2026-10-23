@@ -1,0 +1,13 @@
+{
+  "files": 2964,
+  "bytes": 29356958,
+  "roots": [
+    "session-finalization-native-baseline",
+    "session-finalization-native-development",
+    "session-finalization-native-final",
+    "session-finalization-native-host",
+    "session-finalization-native-audit"
+  ],
+  "manifest_sha256": "73f69c73adae842e3954e486d0dd4e17bec9cc2b498d67f956d732e2b5671900",
+  "physical_calls": false
+}

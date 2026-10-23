@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 135 |
+| `verified` | 136 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **180** |
+| **Total** | **181** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4094,3 +4094,27 @@ No new capability ID or hardware/complete-source execution claim.
   5 C links,4 inherited new-consumer warnings,zero new-code warnings;20 ELF tables.
   Actual691 Mojo/81 Python final copies and139+1 pre-code controls. Failed close
   seam,build snapshot refusal and reused-address census assumption preserved.
+
+
+### AES-CONTROL-007 — RPC backing retention after unconfirmed file close
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/soc_session.mojo and isolated host API/fault tests.
+- **Claim sources:** TASK_hailo10h_session_finalization.md published715862b
+  before production;docs/HAILO10H_MOJO_SESSION_FINALIZATION.md.
+- **Implementation evidence:** Permanent uncertain-finalization state;both
+  allocations retained,CPU access revoked,combined errors preserved;repeated
+  close/session reuse refused before fd retry.18 scoped original production lines.
+- **Executable evidence:**18 methods,132 traced session children,210 complete
+  frozen pairs,236 direct reuse refusals and10 combined cleanup-error checks.
+  Seven affected old consumers plus new API linked;9 Mojo/1 C stable before tests.
+- **Evidence boundary:** Host-only mocked close uncertainty and backing lifetime.
+  No physical close-error behavior,DMA cancellation/late completion,grouped
+  transport,numerical operation or source-model execution follows.
+- **Next acceptance gate:** Original grouped backing/descriptor/completion/
+  deadline/late cleanup and numerical program generation/delivery/activation/
+  results toward broad ordinary UNMODIFIED source-model support100%.
+- **Audit:**48 VMAs deliberately retained until exit;two frozen old consumers
+  demonstrate the superseded release gap separately.11 artifacts/22 ELF tables;
+  actual691/81 old and692/82 final Mojo/Python copies,141+6 frozen controls.
+  Two C warning refusals preserved;final suites pass;inherited warnings scoped.

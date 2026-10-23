@@ -18,6 +18,8 @@ struct SocSession(Movable):
     var waiter: BlockingCall
     var interrupts_enabled: Bool
     var wait_failed: Bool
+    var finalization_unconfirmed: Bool
+    var finalization_errors: String
     var cancel_attempts: Int
     var cancel_errors: String
     var input_storage: SocRpcStorage
@@ -35,6 +37,8 @@ struct SocSession(Movable):
         self.waiter = BlockingCall()
         self.interrupts_enabled = False
         self.wait_failed = False
+        self.finalization_unconfirmed = False
+        self.finalization_errors = String("")
         self.cancel_attempts = 0
         self.cancel_errors = String("")
         self.input_storage = SocRpcStorage()
@@ -55,6 +59,8 @@ struct SocSession(Movable):
             print(String(error))
 
     def require_open(self) raises:
+        if self.finalization_unconfirmed:
+            raise herror("SocCleanupFailed", "unconfirmed finalization; backing retained" + self.finalization_errors)
         if not self.connected or self.driver.fd < 0:
             raise herror("SocSessionClosed", "assigned PCIe connection is closed")
         if self.wait_failed:
@@ -136,6 +142,9 @@ struct SocSession(Movable):
             raise error
 
     def close(mut self) raises:
+        if self.finalization_unconfirmed:
+            # Never retry a close whose fd may already have been reused.
+            raise herror("SocCleanupFailed", "unconfirmed finalization; backing retained" + self.finalization_errors)
         self._stop_waiter()
         if self.driver.fd < 0:
             return
@@ -187,6 +196,15 @@ struct SocSession(Movable):
             self.driver.close()
         except error:
             failures += "; " + String(error)
+            self.finalization_unconfirmed = True
+            self.finalization_errors = failures
+            # Even an earlier confirmed unmap does not authorize teardown after
+            # an unconfirmed context close. Keep every allocation until exit.
+            self.output_storage.mapping_attempted = self.output_storage.address != 0
+            self.input_storage.mapping_attempted = self.input_storage.address != 0
+            self.output_storage.cpu_owned = False
+            self.input_storage.cpu_owned = False
+            raise herror("SocCleanupFailed", "unconfirmed finalization; backing retained" + failures)
         self.interrupts_enabled = False
         # File-context finalization is the fallback for uncertain map/unmap.
         # Host memory is retained until after the driver fd has been closed.
