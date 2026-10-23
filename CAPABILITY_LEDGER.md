@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 137 |
+| `verified` | 138 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **182** |
+| **Total** | **183** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4143,3 +4143,26 @@ No new capability ID or hardware/complete-source execution claim.
   retentions until exit.17 artifacts/34 ELF tables;actual692/82 old and695/83
   final Mojo/Python copies,148 controls. Both new consumers warning-free,9 old
   hashes exact. Failed CLI parser scope,C warnings and census correction preserved.
+
+
+### AES-SOURCE-036 — Complete retained ordinary tensor representation comparison
+
+- **Status:** `verified`
+- **Owner:** Original smidr/ordinary_tensor_identity.mojo and scoped inspector.
+- **Claim sources:** TASK_hailo10h_ordinary_tensor_identity.md published1a1516d
+  before code;docs/HAILO10H_MOJO_ORDINARY_TENSOR_IDENTITY.md.
+- **Implementation evidence:** Fresh actual retained indexed/unindexed binding
+  revalidation;compatible exact source layouts;complete chunked raw-word scan;
+  owned source descriptions and mismatch statistics. Zero old production edits.
+- **Executable evidence:**33 selected methods,3588 primary calls,2412 complete
+  frozen comparisons;640 actual payload-byte mutations,184192 independent bytes,
+  379 new refusals,39 independent fault pairs.14 Mojo/2 C links stable before run.
+- **Evidence boundary:** Observed full stored representations only;no persistent
+  identity token,source-name merge,tied-output graph alias,numerical/device or
+  source-model execution. Current duplicate tied-output compiler refusals remain.
+- **Next acceptance gate:** Typed source alias with both bindings preserved and
+  actual byte revalidation;actual H10H numerical configuration/packing/placement/
+  program/results toward broad ordinary unmodified source-model support100%.
+- **Audit:**1176 new traces,3660 original fds,3656 sealed files and1847 mappings
+  with balanced cleanup.32 ELF tables;695/83 old and698/84 final source/test
+  copies,150 controls. Failed API/harness/audit attempts remain immutable.

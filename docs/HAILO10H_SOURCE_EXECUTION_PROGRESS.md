@@ -99,6 +99,12 @@ output aliases;keep both bindings and current compiler refusals. Public boundary
 `HAILO10H_TIED_OUTPUT_IDENTITY_BOUNDARY_2026-10-23.md`. No new native capability
 is claimed by that pre-code contract. Actual physical/numerical work stays open.
 
+That bounded comparison is now verified under
+`HAILO10H_MOJO_ORDINARY_TENSOR_IDENTITY.md`:33 methods,2412 full frozen pairs,
+640 payload-byte mutations and1176 new traces. Next typed graph aliases must
+preserve both bindings and freshly revalidate actual bytes. The old tied-output
+compiler refusals remain;actual numerical/physical source-model execution is open.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

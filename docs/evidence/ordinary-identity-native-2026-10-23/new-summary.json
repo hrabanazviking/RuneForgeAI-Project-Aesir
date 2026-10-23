@@ -1,0 +1,15 @@
+{
+  "calls": 1176,
+  "comparisons": {
+    "complete_comparisons": 797,
+    "independent_source_bytes": 184192,
+    "individual_byte_mutations": 640,
+    "refusals": 379,
+    "complete_original_mutation_pairs": 8,
+    "complete_fault_pairs": 39
+  },
+  "outcomes": {
+    "accepted": 797,
+    "refused": 379
+  }
+}

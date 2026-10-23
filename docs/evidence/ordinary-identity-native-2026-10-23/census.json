@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "primary": 1176,
+    "frozen_pairs": 0,
+    "methods": 7
+  },
+  "owned-ordinary-compiler": {
+    "primary": 1174,
+    "frozen_pairs": 1174,
+    "methods": 10,
+    "frozen_accept": 375,
+    "frozen_refuse": 799
+  },
+  "sealed-collection": {
+    "primary": 398,
+    "frozen_pairs": 398,
+    "methods": 8,
+    "frozen_accept": 244,
+    "frozen_refuse": 154
+  },
+  "owned-binding": {
+    "primary": 840,
+    "frozen_pairs": 840,
+    "methods": 8,
+    "frozen_accept": 461,
+    "frozen_refuse": 379
+  },
+  "total": {
+    "primary": 3588,
+    "frozen_pairs": 2412,
+    "methods": 33,
+    "frozen_accept": 1080,
+    "frozen_refuse": 1332
+  },
+  "new_trace_counts": {
+    "original_fds": 3660,
+    "memfds": 3656,
+    "sealed_digest_reads": 61020,
+    "successful_add_seals": 3636,
+    "actual_seal_checks": 48981,
+    "original_closes": 3660,
+    "sealed_readonly_maps": 1847,
+    "memfd_closes": 3656,
+    "sealed_unmaps": 1847,
+    "new_traces": 1176
+  },
+  "independent_reconstructed_source_bytes": 184192,
+  "individual_byte_mutations": 640,
+  "opaque_trace_records": [],
+  "scope": {
+    "old_mojo": 695,
+    "old_python": 83,
+    "final_mojo": 698,
+    "final_python": 84,
+    "controls": 150,
+    "mojo_links": 14,
+    "c_links": 2,
+    "old_binary_hashes_exact": 12,
+    "elf_tables": 32,
+    "new_consumer_closure": [
+      "smidr/tools/ordinary_tensor_identity.mojo",
+      "tests/hailo_ordinary_identity_api.mojo"
+    ],
+    "physical_calls": false,
+    "graph_alias_resolved": false,
+    "source_model_execution": false
+  }
+}

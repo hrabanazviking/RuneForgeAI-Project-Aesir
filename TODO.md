@@ -1,3 +1,12 @@
+## 2026-10-23 — Retained ordinary raw representation comparison
+
+- [x] AES-SOURCE-036 complete source-bit comparison through actual retained
+  ordinary owners;33 methods/2412 complete frozen comparisons. Evidence:
+  `docs/HAILO10H_MOJO_ORDINARY_TENSOR_IDENTITY.md`. No graph alias or execution.
+- [ ] Qualify typed tied-output source aliases preserving both bindings with
+  fresh byte checks;continue actual H10H numerical configuration/program/results
+  and every remaining format/architecture/operation toward broad support100%.
+
 ## 2026-10-20 — Current native source-model frontier
 
 - [x] Merge all current original remote/local committed branch heads into main;
