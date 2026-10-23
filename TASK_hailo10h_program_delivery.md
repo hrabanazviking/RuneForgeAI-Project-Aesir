@@ -39,3 +39,9 @@ may be a required output of our compiler; that fact would not authorize a
 vendor-catalog-only product or replacing original program generation with
 borrowed numerical programs. Report unsolved gaps honestly, publish verified
 slices, and advance automatically toward the unchanged owner objective.
+
+2026-10-23 separate payload qualification:
+`docs/HAILO10H_PROGRAM_PAYLOAD_BOUNDARY_2026-10-23.md` distinguishes full2068-byte
+metadata from the exact separate program buffer and the grouped request/read
+boundary. Original owned staging follows `TASK_hailo10h_program_payload_staging.md`;
+no arbitrary chunking,live payload transfer or numerical execution follows.
