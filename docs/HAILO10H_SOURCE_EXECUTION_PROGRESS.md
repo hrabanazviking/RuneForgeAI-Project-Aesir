@@ -24,8 +24,9 @@ Owned ordinary indexed/unindexed backing lifetime is now verified under
 collection rules. Retained ordinary compiler projection binding and guarded component reads are now
 verified under `HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md`. Owned graph integration,
 global artifact identity and remaining format/architecture/operation work stay
-open. Next: qualify the owned ordinary graph/compiler contract; continue actual
-numerical configuration/program/results under the same broad target. Full controlling scope:
+open. Next native work order: `TASK_hailo10h_owned_ordinary_compiler.md`; carry
+retained ordinary inputs through existing mathematical graph lowering, while
+continuing actual numerical configuration/program/results under the same target. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,

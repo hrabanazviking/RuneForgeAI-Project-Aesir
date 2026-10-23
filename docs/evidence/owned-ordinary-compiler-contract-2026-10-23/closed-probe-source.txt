@@ -1,0 +1,46 @@
+# Type/move/cleanup feasibility only. NEVER EXECUTE this closed-input binary.
+from std.collections import Dict
+from hailbru.source_sealed_copy import SealedSourceBytes
+from smidr.sealed_source_metadata import SealedSourceConfig, SealedSourceIndex
+from smidr.source_config import SourceConfiguration, SourceConfigPolicy
+from smidr.source_index import SourceShardIndex, SourceIndexPolicy
+from smidr.source_storage import SourceStorageInventory
+from smidr.source_inventory import SourceTensorInventory, SourceSemanticPolicy
+from smidr.safetensors_fd import SafetensorsFdPolicy
+from smidr.shard_collection import ShardCollectionPolicy
+from smidr.sealed_source_collection import SealedIndexedSourceCollection, SealedCollectionShard
+from smidr.decoder_layers import DecoderLayerPolicy
+from smidr.decoder_architecture import DecoderArchitecturePolicy
+from smidr.decoder_projections import DecoderProjectionPolicy
+from smidr.owned_ordinary_binding import OrdinaryBindingPolicy, OwnedIndexedOrdinaryBinding, compile_owned_indexed_ordinary, _refresh_indexed, _same_schema
+from smidr.semantic_plan import DenseDecoderParameters, build_dense_semantic_plan
+from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
+
+@fieldwise_init
+struct ClosedIndexedCompiler(Movable):
+    var binding: OwnedIndexedOrdinaryBinding
+    var graph: ExpandedGraph
+
+    def close(mut self) raises:
+        self.binding.close()
+
+
+def compose(var binding: OwnedIndexedOrdinaryBinding) raises -> ClosedIndexedCompiler:
+    var fresh = _refresh_indexed(binding.owner, binding.policy)
+    _same_schema(binding.schema, fresh, binding.policy)
+    var source = fresh.binding.source^
+    fresh.binding.source = SourceTensorInventory()
+    var plan = build_dense_semantic_plan(source^,
+        DenseDecoderParameters(1, 8, 16, 4, 2, 2, 2, 2, 8, 8, 10000, 0.00001, "row_major_outermost_first"), 1, 0, 8)
+    var graph = expand_semantic_graph(plan^)
+    return ClosedIndexedCompiler(binding^, graph^)
+
+
+def main() raises:
+    var config = SealedSourceConfig(SealedSourceBytes(), SourceConfiguration("", 0, Dict[String, String](), 0), "", "")
+    var index = SealedSourceIndex(SealedSourceBytes(), SourceShardIndex("", 0, Dict[String, String](), Dict[String, String](), Dict[String, String](), False, -1, 0, 0), "", "")
+    var owner = SealedIndexedSourceCollection("", config^, index^, List[SealedCollectionShard](), 0, 0, 0, 0, 0)
+    var policy = OrdinaryBindingPolicy(SourceConfigPolicy(1048576, 10000, 10000000, 64), SourceIndexPolicy(1048576, 10000, 100000, 10000000, 64), SafetensorsFdPolicy(1048576, 10000, 64, 10000000, 64, 1048584), ShardCollectionPolicy(8, 10000, 16777216, 16777216, 100000000), DecoderLayerPolicy(4096, 100000, 10000000), DecoderArchitecturePolicy(100000, 10000000), DecoderProjectionPolicy(SourceSemanticPolicy(8, 10000, 64, 10000000), 10000000, "closed type probe only"), 16777216, 16384)
+    var binding = compile_owned_indexed_ordinary(owner^, policy)
+    var compiler = compose(binding^)
+    compiler.close()
