@@ -1,0 +1,8 @@
+{
+  "path": "<host-home>/mojo-dev/.pixi/envs/default/bin/mojo",
+  "sha256": "be46936245ae995680155dcc2f61af5dac8678254c634110e99ceff25ce57c39",
+  "version_stdout": "Mojo 1.1.0 (8189361e)\n",
+  "version_stderr": "",
+  "returncode": 0,
+  "contract_compiler_unchanged": true
+}

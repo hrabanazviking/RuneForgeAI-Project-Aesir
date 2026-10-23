@@ -1,0 +1,11 @@
+{
+  "gate": "source/Mojo/C identity checks execute before the first native child in run-v4.py",
+  "runner": "../owned-ordinary-compiler-native-development/run-v4.py",
+  "runner_sha256": "b93cd6ab0854ff9a8f7faafc538151606efd0672f05a01e5ec910bd063ac69d6",
+  "source_identities": 678,
+  "python_inputs": 75,
+  "mojo_entries": 30,
+  "c_seams": 9,
+  "all_stable_linking_before_native_acceptance": true,
+  "production_unchanged_after_stable_build": true
+}

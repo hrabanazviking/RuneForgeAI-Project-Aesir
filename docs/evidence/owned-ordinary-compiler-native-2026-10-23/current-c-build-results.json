@@ -1,0 +1,200 @@
+[
+  {
+    "source": "tests/sealed_collection_faults.c",
+    "source_sha256": "76c4dfa6a0fbaa2b8e720e784dda5fe6e2bdfc6a561e7e4940ca70436ea69160",
+    "binary": "../owned-ordinary-compiler-native-final-v2/sealed_collection_faults.so",
+    "binary_sha256": "9e693a24b759a928eb1aa5097771d840af24d8243ead9d9633149cf303dcc05a",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/sealed_collection_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/sealed_collection_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/sealed_collection_faults.so"
+  },
+  {
+    "source": "tests/source_sealed_copy_faults.c",
+    "source_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37",
+    "binary": "../owned-ordinary-compiler-native-final-v2/source_sealed_copy_faults.so",
+    "binary_sha256": "b3b4c944f2d66c19b0bb1da332821312d548f4c4951855d8a903a4f9a16e2af8",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/source_sealed_copy_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/source_sealed_copy_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/source_sealed_copy_faults.so"
+  },
+  {
+    "source": "tests/sealed_gguf_faults.c",
+    "source_sha256": "d1446b85acdb3950b9f61b46185ea48a9b6a41fbdbae44469be11c677d0e7587",
+    "binary": "../owned-ordinary-compiler-native-final-v2/sealed_gguf_faults.so",
+    "binary_sha256": "37cf719fd7f659bc29847c7d573c54a4f0f90cbd738e9ca970c4ac27ab7563ac",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/sealed_gguf_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/sealed_gguf_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/sealed_gguf_faults.so"
+  },
+  {
+    "source": "tests/sealed_safetensors_mutation.c",
+    "source_sha256": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9",
+    "binary": "../owned-ordinary-compiler-native-final-v2/sealed_safetensors_mutation.so",
+    "binary_sha256": "5370ddcc2374cff6a8e93deaf48c3038f1ee8a178e9fa2cfaa90b0d77b04a43c",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/sealed_safetensors_mutation.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/sealed_safetensors_mutation.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/sealed_safetensors_mutation.so"
+  },
+  {
+    "source": "tests/sealed_metadata_faults.c",
+    "source_sha256": "d97fb24b61fb0c850069ce19aae32d05c3ac4cf66ecb4263c1f44fe0a54e7bf6",
+    "binary": "../owned-ordinary-compiler-native-final-v2/sealed_metadata_faults.so",
+    "binary_sha256": "a4cce8ecea9721b41c57723c43d63882f22f85ba865b0db5df7f361f4ce88a76",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/sealed_metadata_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/sealed_metadata_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/sealed_metadata_faults.so"
+  },
+  {
+    "source": "tests/source_root_io_faults.c",
+    "source_sha256": "add4b1dda2be14495db59a80c9a77e047d49905d5bcf0b63dffccc22208cd9ad",
+    "binary": "../owned-ordinary-compiler-native-final-v2/source_root_io_faults.so",
+    "binary_sha256": "9d41ac4cd1dd2d8bf8049b70fefb36ded22c99e3037fbc3b5959199f77b369b6",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/source_root_io_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/source_root_io_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/source_root_io_faults.so"
+  },
+  {
+    "source": "tests/ordinary_binding_faults.c",
+    "source_sha256": "4863c986d0164d5cff70514bfe47675e2384ca09576cfa15ece8835bbaf4babf",
+    "binary": "../owned-ordinary-compiler-native-final-v2/ordinary_binding_faults.so",
+    "binary_sha256": "7839c76c9fb4c601b04f13b78fbf95bb5ed1044ac71418c8b0675ec1bdfb1e39",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/ordinary_binding_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/ordinary_binding_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/ordinary_binding_faults.so"
+  },
+  {
+    "source": "tests/owned_gguf_faults.c",
+    "source_sha256": "03a19441b8efe6226e19ea9c8119407c4a96ebb31a507127e1257abd405fe265",
+    "binary": "../owned-ordinary-compiler-native-final-v2/owned_gguf_faults.so",
+    "binary_sha256": "012988ad658db2d56d36ec31a42fdbe97fe02cb2304bafc525ab3fbbe99e8fc0",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/owned_gguf_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/owned_gguf_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/owned_gguf_faults.so"
+  },
+  {
+    "source": "tests/safetensors_fd_io_faults.c",
+    "source_sha256": "bbdab8681447f34afe2115c13b8eb1c43f1d7d0e3ca1ed5c5b73d1ae206a5a59",
+    "binary": "../owned-ordinary-compiler-native-final-v2/safetensors_fd_io_faults.so",
+    "binary_sha256": "29fa8e3b09be218e3f94e8bc3193558ede16b1771f7b039997b396b68895db17",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/safetensors_fd_io_faults.c",
+      "-ldl",
+      "-o",
+      "../owned-ordinary-compiler-native-final/safetensors_fd_io_faults.so"
+    ],
+    "actual_slice_build": "../owned-ordinary-compiler-native-final/safetensors_fd_io_faults.so"
+  }
+]

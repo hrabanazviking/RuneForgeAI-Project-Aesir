@@ -1,0 +1,15 @@
+{
+  "old_sources_unchanged": 675,
+  "current_sources": 678,
+  "new_leaf": "smidr/owned_ordinary_compiler.mojo",
+  "actual_transitive_consumers": [
+    "smidr/tools/owned_ordinary_compiler.mojo",
+    "tests/hailo_owned_ordinary_compiler_api.mojo"
+  ],
+  "new_sources": [
+    "smidr/owned_ordinary_compiler.mojo",
+    "smidr/tools/owned_ordinary_compiler.mojo",
+    "tests/hailo_owned_ordinary_compiler_api.mojo"
+  ],
+  "immutable_controls": 124
+}

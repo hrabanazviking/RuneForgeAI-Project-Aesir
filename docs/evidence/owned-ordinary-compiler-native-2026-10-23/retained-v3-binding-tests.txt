@@ -1,0 +1,32 @@
+test_01_all_roles_representations_and_factories (__main__.OwnedOrdinaryBinding.test_01_all_roles_representations_and_factories) ... ok
+test_02_rehydrate_move_close_copied_windows_and_recovery (__main__.OwnedOrdinaryBinding.test_02_rehydrate_move_close_copied_windows_and_recovery) ... ok
+test_03_every_schema_and_canonical_descriptor_field (__main__.OwnedOrdinaryBinding.test_03_every_schema_and_canonical_descriptor_field) ... ok
+test_04_every_owned_and_external_policy_field (__main__.OwnedOrdinaryBinding.test_04_every_owned_and_external_policy_field) ... ok
+test_05_complete_original_mutations_before_bind_and_after_return (__main__.OwnedOrdinaryBinding.test_05_complete_original_mutations_before_bind_and_after_return) ... FAIL
+test_06_exact_hash_and_parser_boundaries (__main__.OwnedOrdinaryBinding.test_06_exact_hash_and_parser_boundaries) ... ok
+test_07_hash_metadata_parser_close_faults_and_fresh_success (__main__.OwnedOrdinaryBinding.test_07_hash_metadata_parser_close_faults_and_fresh_success) ... ok
+test_08_missing_formats_and_later_binding_failures_remain_work (__main__.OwnedOrdinaryBinding.test_08_missing_formats_and_later_binding_failures_remain_work) ... ok
+
+======================================================================
+FAIL: test_05_complete_original_mutations_before_bind_and_after_return (__main__.OwnedOrdinaryBinding.test_05_complete_original_mutations_before_bind_and_after_return)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_owned_ordinary_binding.py", line 128, in test_05_complete_original_mutations_before_bind_and_after_return
+    self.restore(f);r=self.call(root,indexed,when+mode);self.exact(r,f,indexed,ref)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_owned_ordinary_binding.py", line 61, in call
+    return self.child([CONFIG.binary,'indexed' if indexed else 'unindexed',*self.args(root,indexed,compiler,policies)] if tool else [CONFIG.api,'indexed' if indexed else 'unindexed',mode,*self.args(root,indexed,compiler,policies)],root,trace,env)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_owned_ordinary_binding.py", line 55, in child
+    r=subprocess.run(cmd,capture_output=True,text=True,timeout=90,stdin=subprocess.DEVNULL,env=env)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "../Project-Aesir/../owned-ordinary-compiler-native-acceptance-v3/pair-all.py", line 84, in pair
+    assert p.returncode==control.returncode,('exit',c,p.stderr,control.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('exit', ['/usr/bin/strace', '-f', '-yy', '-s', '4096', '-o', '../owned-ordinary-compiler-native-acceptance-v3/owned-binding/trace-0655.strace', '-e', 'trace=%file,%desc,%memory,%network,%process', '../owned-ordinary-compiler-native-final-v2/entry-025', 'indexed', 'before:truncate', '../owned-ordinary-compiler-native-acceptance-v3/owned-binding/model-0019', 'index.json', 'config.json', '4095', '1000', '10000000', '9223372036854775807', '1048576', '1000', '5000', '10000000', '64', '1048576', '5000', '10000000', '64', '1048576', '1000', '64', '10000000', '64', '1048584', '100', '1000', '10000000', '9223372036854775807', '100000000', '16777216', '16384', '16384', '16384', '4096', '100000', '10000000', '100000', '10000000', '8', '10000', '64', '10000000', '10000000', 'explicit ordinary projection test', '16777216', '16384'], '', 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n')
+
+----------------------------------------------------------------------
+Ran 8 tests in 120.093s
+
+FAILED (failures=1)
+{'calls': 799, 'outcomes': {'accepted': 420, 'refused': 379}, 'comparisons': {'complete_frozen_schemas': 379, 'exact_component_words': 1021734, 'complete_component_snapshots': 367, 'selected_component_windows': 367, 'complete_schema_oracles': 379, 'independent_complete_fault_pairs': 16}}

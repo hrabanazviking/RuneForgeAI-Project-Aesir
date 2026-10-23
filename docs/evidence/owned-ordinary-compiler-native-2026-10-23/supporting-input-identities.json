@@ -1,0 +1,682 @@
+[
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-028",
+    "sha256": "9849f87becfd11061f1c63903e5433669d401ab9a64a1e70ece43a057a70d4d9",
+    "bytes": 1651336,
+    "elf": true,
+    "source": "smidr/tools/owned_ordinary_compiler.mojo",
+    "supporting_current_source_sha256": "657fef6bd407157fe6f569deb69bf72cc890271cabef0d43d909bedc2b19d1a8",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/owned_ordinary_compiler.mojo",
+    "actual_supporting_source_copy_sha256": "657fef6bd407157fe6f569deb69bf72cc890271cabef0d43d909bedc2b19d1a8"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-029",
+    "sha256": "e2cfa14d2cec54378ee27407d6977f0f28f145f7b41cc7ad831e42bdd65047e7",
+    "bytes": 1803512,
+    "elf": true,
+    "source": "tests/hailo_owned_ordinary_compiler_api.mojo",
+    "supporting_current_source_sha256": "2ff8df7b3d509fbd26218db25209cdf38fe8a8ea382d26320d5479247a00fb03",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_owned_ordinary_compiler_api.mojo",
+    "actual_supporting_source_copy_sha256": "2ff8df7b3d509fbd26218db25209cdf38fe8a8ea382d26320d5479247a00fb03"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-026",
+    "sha256": "d8ab31e063890b7dbbcff20203d926820d25a8a1b822249303f8fb5a87fd0c0d",
+    "bytes": 1508064,
+    "elf": true,
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "supporting_current_source_sha256": "9e48fb412f4441e53d243c40d439ac6bc4b36e5962489fa3fe5776f37fe8f6f3",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/decoder_scaling_graph.mojo",
+    "actual_supporting_source_copy_sha256": "9e48fb412f4441e53d243c40d439ac6bc4b36e5962489fa3fe5776f37fe8f6f3"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-027",
+    "sha256": "592e609278ebe0065f1589ecaf1d71d7e21b9b663c27279ec827343d038e2742",
+    "bytes": 1501840,
+    "elf": true,
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "supporting_current_source_sha256": "5fd6fed372541a1dc876ab23e11efad15263fcf2bff9c902e4e88604e67291df",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_decoder_scaling_api.mojo",
+    "actual_supporting_source_copy_sha256": "5fd6fed372541a1dc876ab23e11efad15263fcf2bff9c902e4e88604e67291df"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-020",
+    "sha256": "3f924b633734288681f7797a14faf6d9f6205b71ec953d87c228d7211d595553",
+    "bytes": 568744,
+    "elf": true,
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "supporting_current_source_sha256": "50535e8db009ba9d65bebbc56060a758088c9aca6ae2eae82a21f6798116b9db",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/ordinary_projection_schema.mojo",
+    "actual_supporting_source_copy_sha256": "50535e8db009ba9d65bebbc56060a758088c9aca6ae2eae82a21f6798116b9db"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/ordinary_binding_faults.so",
+    "sha256": "7839c76c9fb4c601b04f13b78fbf95bb5ed1044ac71418c8b0675ec1bdfb1e39",
+    "bytes": 70328,
+    "elf": true,
+    "source": "tests/ordinary_binding_faults.c",
+    "supporting_current_source_sha256": "4863c986d0164d5cff70514bfe47675e2384ca09576cfa15ece8835bbaf4babf",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/ordinary_binding_faults.c",
+    "actual_supporting_source_copy_sha256": "4863c986d0164d5cff70514bfe47675e2384ca09576cfa15ece8835bbaf4babf"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-development/mutations.json",
+    "sha256": "56232e45498faf9f5853379ad62939c112d266574091b43cb1fa199ff9316c71",
+    "bytes": 4194,
+    "elf": false
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-000",
+    "sha256": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5",
+    "bytes": 95448,
+    "elf": true,
+    "source": "smidr/tools/source_root.mojo",
+    "supporting_current_source_sha256": "9ac47b4c115514746c82a757e96122b10399bf8597538d1d703fb25a68dc0760",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/source_root.mojo",
+    "actual_supporting_source_copy_sha256": "9ac47b4c115514746c82a757e96122b10399bf8597538d1d703fb25a68dc0760"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-001",
+    "sha256": "a83e68d0f61b7e9f4399a39c2f756dc7954c27b576430c98ffad5ec46028a04a",
+    "bytes": 94544,
+    "elf": true,
+    "source": "tests/hailo_source_root_api.mojo",
+    "supporting_current_source_sha256": "3782b24febec0f56613b51fefb170d4530756143afa8ced3ea13db7528ef5ef1",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_source_root_api.mojo",
+    "actual_supporting_source_copy_sha256": "3782b24febec0f56613b51fefb170d4530756143afa8ced3ea13db7528ef5ef1"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/source_root_io_faults.so",
+    "sha256": "9d41ac4cd1dd2d8bf8049b70fefb36ded22c99e3037fbc3b5959199f77b369b6",
+    "bytes": 69984,
+    "elf": true,
+    "source": "tests/source_root_io_faults.c",
+    "supporting_current_source_sha256": "add4b1dda2be14495db59a80c9a77e047d49905d5bcf0b63dffccc22208cd9ad",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/source_root_io_faults.c",
+    "actual_supporting_source_copy_sha256": "add4b1dda2be14495db59a80c9a77e047d49905d5bcf0b63dffccc22208cd9ad"
+  },
+  {
+    "path": "../q2q3-native-development/root-layout.json",
+    "sha256": "fe70b9b024799bf0fbe861499a58ac4949e4d69edb570062599b1bd97e84385a",
+    "bytes": 220,
+    "elf": false
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-002",
+    "sha256": "583d40cd4f4e4c6994c9948256212e69a6aa3b82f1ca7a7644c578a496a0675f",
+    "bytes": 256016,
+    "elf": true,
+    "source": "smidr/tools/shard_collection.mojo",
+    "supporting_current_source_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/shard_collection.mojo",
+    "actual_supporting_source_copy_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-003",
+    "sha256": "5de1ddf6b0371c0069cd38827d6edb92266337ca7fa1fade3e7e1a256a5b3598",
+    "bytes": 258448,
+    "elf": true,
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "supporting_current_source_sha256": "8dbd3e5f1dc6f1157310927ddf1b460b410058cd23684adc8b2f29c620531fbe",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_shard_collection_api.mojo",
+    "actual_supporting_source_copy_sha256": "8dbd3e5f1dc6f1157310927ddf1b460b410058cd23684adc8b2f29c620531fbe"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-078",
+    "sha256": "763fe76c4c40b4fe77d4f9781c59c55afd7c03304cafcdf7e2628d21bd049d33",
+    "bytes": 250256,
+    "elf": true,
+    "source": "smidr/tools/source_storage.mojo",
+    "supporting_current_source_sha256": "f2586baa2c072f629348617fc8a4a817fcbcf4d0f2c3e13fe36dd40407ecc7d4",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/source_storage.mojo",
+    "actual_supporting_source_copy_sha256": "f2586baa2c072f629348617fc8a4a817fcbcf4d0f2c3e13fe36dd40407ecc7d4"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/safetensors_fd_io_faults.so",
+    "sha256": "29fa8e3b09be218e3f94e8bc3193558ede16b1771f7b039997b396b68895db17",
+    "bytes": 70040,
+    "elf": true,
+    "source": "tests/safetensors_fd_io_faults.c",
+    "supporting_current_source_sha256": "bbdab8681447f34afe2115c13b8eb1c43f1d7d0e3ca1ed5c5b73d1ae206a5a59",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/safetensors_fd_io_faults.c",
+    "actual_supporting_source_copy_sha256": "bbdab8681447f34afe2115c13b8eb1c43f1d7d0e3ca1ed5c5b73d1ae206a5a59"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-004",
+    "sha256": "139f017116637cf46327e92a1804b20d4926ff2515207a50a051ea79ba3a3385",
+    "bytes": 185624,
+    "elf": true,
+    "source": "smidr/tools/unindexed_source.mojo",
+    "supporting_current_source_sha256": "e69c6c5190f8739ce8c3efc71b891379b3532e20c60d78251f3b53b59cc47383",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/unindexed_source.mojo",
+    "actual_supporting_source_copy_sha256": "e69c6c5190f8739ce8c3efc71b891379b3532e20c60d78251f3b53b59cc47383"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-005",
+    "sha256": "2bdf5f7bebf723ad9b1856ab7a8b6a03a9d4ce03467d38bad1f9be8f1e18f1a5",
+    "bytes": 251592,
+    "elf": true,
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "supporting_current_source_sha256": "5cb539ccd02fbff97b2aa47c67ba6b8418929d104408b32dcedbe32805a08b03",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_unindexed_source_api.mojo",
+    "actual_supporting_source_copy_sha256": "5cb539ccd02fbff97b2aa47c67ba6b8418929d104408b32dcedbe32805a08b03"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-002",
+    "sha256": "583d40cd4f4e4c6994c9948256212e69a6aa3b82f1ca7a7644c578a496a0675f",
+    "bytes": 256016,
+    "elf": true,
+    "source": "smidr/tools/shard_collection.mojo",
+    "supporting_current_source_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/shard_collection.mojo",
+    "actual_supporting_source_copy_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f"
+  },
+  {
+    "path": "../sealed-collection-native-final-v2/entry-002",
+    "sha256": "583d40cd4f4e4c6994c9948256212e69a6aa3b82f1ca7a7644c578a496a0675f",
+    "bytes": 256016,
+    "elf": true,
+    "source": "smidr/tools/shard_collection.mojo",
+    "supporting_current_source_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/shard_collection.mojo",
+    "actual_supporting_source_copy_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/safetensors_fd_io_faults.so",
+    "sha256": "29fa8e3b09be218e3f94e8bc3193558ede16b1771f7b039997b396b68895db17",
+    "bytes": 70040,
+    "elf": true,
+    "source": "tests/safetensors_fd_io_faults.c",
+    "supporting_current_source_sha256": "bbdab8681447f34afe2115c13b8eb1c43f1d7d0e3ca1ed5c5b73d1ae206a5a59",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/safetensors_fd_io_faults.c",
+    "actual_supporting_source_copy_sha256": "bbdab8681447f34afe2115c13b8eb1c43f1d7d0e3ca1ed5c5b73d1ae206a5a59"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-010",
+    "sha256": "271387902ab33e3a424d47729273b71ad1c0dd5c28178c2441a9b1e99203340f",
+    "bytes": 97776,
+    "elf": true,
+    "source": "smidr/tools/sealed_source_copy.mojo",
+    "supporting_current_source_sha256": "1b3d6397b9a9b94557ff486b588bc3f6ad2d20d5afec32328ceb9a38fdaa0f58",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/sealed_source_copy.mojo",
+    "actual_supporting_source_copy_sha256": "1b3d6397b9a9b94557ff486b588bc3f6ad2d20d5afec32328ceb9a38fdaa0f58"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-011",
+    "sha256": "b9e7ebf9a12f509dd364608e19feee32e3c27f30e48bbead2dd749c586569144",
+    "bytes": 99760,
+    "elf": true,
+    "source": "tests/hailo_sealed_source_api.mojo",
+    "supporting_current_source_sha256": "8d57440603badb185ac728011d43354095ab765b71df785ed717e449ed8d25fc",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_sealed_source_api.mojo",
+    "actual_supporting_source_copy_sha256": "8d57440603badb185ac728011d43354095ab765b71df785ed717e449ed8d25fc"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/source_sealed_copy_faults.so",
+    "sha256": "b3b4c944f2d66c19b0bb1da332821312d548f4c4951855d8a903a4f9a16e2af8",
+    "bytes": 70440,
+    "elf": true,
+    "source": "tests/source_sealed_copy_faults.c",
+    "supporting_current_source_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/source_sealed_copy_faults.c",
+    "actual_supporting_source_copy_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-008",
+    "sha256": "ee77014bf02b906a7f0627a90400cfc009d5d975b583e19d2cdea8b77ac27c00",
+    "bytes": 178080,
+    "elf": true,
+    "source": "smidr/tools/sealed_safetensors_source.mojo",
+    "supporting_current_source_sha256": "dd1fa4237cc50587ca51a5f1f6ceb3816c85270df6e3c68e2659c99c91425d44",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/sealed_safetensors_source.mojo",
+    "actual_supporting_source_copy_sha256": "dd1fa4237cc50587ca51a5f1f6ceb3816c85270df6e3c68e2659c99c91425d44"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-009",
+    "sha256": "fe21c5600b2a8a64b8354e4ef34c9323bb3c3ff6969c800994e09b1c64362f29",
+    "bytes": 256168,
+    "elf": true,
+    "source": "tests/hailo_sealed_safetensors_api.mojo",
+    "supporting_current_source_sha256": "8d97a7f241eb6561d4ef356e2f6599aa915e1dbb5eeec7a0090045c490d12ae5",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_sealed_safetensors_api.mojo",
+    "actual_supporting_source_copy_sha256": "8d97a7f241eb6561d4ef356e2f6599aa915e1dbb5eeec7a0090045c490d12ae5"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-086",
+    "sha256": "f824f26e991adcd1928fd829ac4cc14444972d35b88d30e93a788982181ddf2d",
+    "bytes": 172984,
+    "elf": true,
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "supporting_current_source_sha256": "bb3cb0088913e475d00c828b670cd6c657fcf44fed47d836ab2384b7b07d694f",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/safetensors_constants.mojo",
+    "actual_supporting_source_copy_sha256": "bb3cb0088913e475d00c828b670cd6c657fcf44fed47d836ab2384b7b07d694f"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-080",
+    "sha256": "dac8de8ccb20e7058f920753a885016069c7542b96e1cc76c1f2ce17c9faee50",
+    "bytes": 172592,
+    "elf": true,
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "supporting_current_source_sha256": "95985c5980cd340ed5fade3d99e560784beeefaa5546dfc01aa7539c72d215b2",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/safetensors_inventory.mojo",
+    "actual_supporting_source_copy_sha256": "95985c5980cd340ed5fade3d99e560784beeefaa5546dfc01aa7539c72d215b2"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/sealed_gguf_faults.so",
+    "sha256": "37cf719fd7f659bc29847c7d573c54a4f0f90cbd738e9ca970c4ac27ab7563ac",
+    "bytes": 69944,
+    "elf": true,
+    "source": "tests/sealed_gguf_faults.c",
+    "supporting_current_source_sha256": "d1446b85acdb3950b9f61b46185ea48a9b6a41fbdbae44469be11c677d0e7587",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/sealed_gguf_faults.c",
+    "actual_supporting_source_copy_sha256": "d1446b85acdb3950b9f61b46185ea48a9b6a41fbdbae44469be11c677d0e7587"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/source_sealed_copy_faults.so",
+    "sha256": "b3b4c944f2d66c19b0bb1da332821312d548f4c4951855d8a903a4f9a16e2af8",
+    "bytes": 70440,
+    "elf": true,
+    "source": "tests/source_sealed_copy_faults.c",
+    "supporting_current_source_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/source_sealed_copy_faults.c",
+    "actual_supporting_source_copy_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/sealed_safetensors_mutation.so",
+    "sha256": "5370ddcc2374cff6a8e93deaf48c3038f1ee8a178e9fa2cfaa90b0d77b04a43c",
+    "bytes": 69896,
+    "elf": true,
+    "source": "tests/sealed_safetensors_mutation.c",
+    "supporting_current_source_sha256": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/sealed_safetensors_mutation.c",
+    "actual_supporting_source_copy_sha256": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-006",
+    "sha256": "ac6452616f119fe6a4ed7c4ffd2579934cc6ad66311b091c885fee2c39d36fb7",
+    "bytes": 178992,
+    "elf": true,
+    "source": "smidr/tools/sealed_source_metadata.mojo",
+    "supporting_current_source_sha256": "7d9c0ea1c91474ac6e673ee5a2daa2f86385f8a675092376c108707eb5283c1c",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/sealed_source_metadata.mojo",
+    "actual_supporting_source_copy_sha256": "7d9c0ea1c91474ac6e673ee5a2daa2f86385f8a675092376c108707eb5283c1c"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-007",
+    "sha256": "b324ed41bb16c2f1a204fc9dd5220dac82264970204c6eaeff26f40d9b2c7d59",
+    "bytes": 246608,
+    "elf": true,
+    "source": "tests/hailo_sealed_metadata_api.mojo",
+    "supporting_current_source_sha256": "570a3733717fc38aef8f0b6fc021547ca9d1c9eed9024c0463ba98110ad48687",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_sealed_metadata_api.mojo",
+    "actual_supporting_source_copy_sha256": "570a3733717fc38aef8f0b6fc021547ca9d1c9eed9024c0463ba98110ad48687"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-088",
+    "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a",
+    "bytes": 168744,
+    "elf": true,
+    "source": "smidr/tools/source_config.mojo",
+    "supporting_current_source_sha256": "d1e6120a63018c5010b752c41c22a0f6cf8f07c64fb77c0e205b8eea661ace35",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/source_config.mojo",
+    "actual_supporting_source_copy_sha256": "d1e6120a63018c5010b752c41c22a0f6cf8f07c64fb77c0e205b8eea661ace35"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-089",
+    "sha256": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a",
+    "bytes": 170832,
+    "elf": true,
+    "source": "smidr/tools/source_index.mojo",
+    "supporting_current_source_sha256": "02096c15bf3205d215c49d6c4aad17c678e7d3c5ac5adf327514dfa7c9c17851",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/source_index.mojo",
+    "actual_supporting_source_copy_sha256": "02096c15bf3205d215c49d6c4aad17c678e7d3c5ac5adf327514dfa7c9c17851"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/sealed_metadata_faults.so",
+    "sha256": "a4cce8ecea9721b41c57723c43d63882f22f85ba865b0db5df7f361f4ce88a76",
+    "bytes": 70248,
+    "elf": true,
+    "source": "tests/sealed_metadata_faults.c",
+    "supporting_current_source_sha256": "d97fb24b61fb0c850069ce19aae32d05c3ac4cf66ecb4263c1f44fe0a54e7bf6",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/sealed_metadata_faults.c",
+    "actual_supporting_source_copy_sha256": "d97fb24b61fb0c850069ce19aae32d05c3ac4cf66ecb4263c1f44fe0a54e7bf6"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/source_sealed_copy_faults.so",
+    "sha256": "b3b4c944f2d66c19b0bb1da332821312d548f4c4951855d8a903a4f9a16e2af8",
+    "bytes": 70440,
+    "elf": true,
+    "source": "tests/source_sealed_copy_faults.c",
+    "supporting_current_source_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/source_sealed_copy_faults.c",
+    "actual_supporting_source_copy_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/sealed_safetensors_mutation.so",
+    "sha256": "5370ddcc2374cff6a8e93deaf48c3038f1ee8a178e9fa2cfaa90b0d77b04a43c",
+    "bytes": 69896,
+    "elf": true,
+    "source": "tests/sealed_safetensors_mutation.c",
+    "supporting_current_source_sha256": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/sealed_safetensors_mutation.c",
+    "actual_supporting_source_copy_sha256": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-013",
+    "sha256": "1d9720a6db910214d0ff267736825e4970ef65d7c6872ff41db741b12898b5b7",
+    "bytes": 330680,
+    "elf": true,
+    "source": "smidr/tools/sealed_source_collection.mojo",
+    "supporting_current_source_sha256": "0a0b786338043020fda9748810c898ca90c6a3612e2de286262490e14eed6797",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/sealed_source_collection.mojo",
+    "actual_supporting_source_copy_sha256": "0a0b786338043020fda9748810c898ca90c6a3612e2de286262490e14eed6797"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-012",
+    "sha256": "333c17ba57d808c3424248f7f111995cb3552a30a72516dca6322fe649ac9abc",
+    "bytes": 341480,
+    "elf": true,
+    "source": "tests/hailo_sealed_collection_api.mojo",
+    "supporting_current_source_sha256": "b636590f937316b07985da52182579e1b93009de376ad324134f76c385a441f8",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_sealed_collection_api.mojo",
+    "actual_supporting_source_copy_sha256": "b636590f937316b07985da52182579e1b93009de376ad324134f76c385a441f8"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-002",
+    "sha256": "583d40cd4f4e4c6994c9948256212e69a6aa3b82f1ca7a7644c578a496a0675f",
+    "bytes": 256016,
+    "elf": true,
+    "source": "smidr/tools/shard_collection.mojo",
+    "supporting_current_source_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/shard_collection.mojo",
+    "actual_supporting_source_copy_sha256": "eb1081b935bcab3060fd2eb82fddde66da82296227fbd4d9062f0dfe77e2ff8f"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-004",
+    "sha256": "139f017116637cf46327e92a1804b20d4926ff2515207a50a051ea79ba3a3385",
+    "bytes": 185624,
+    "elf": true,
+    "source": "smidr/tools/unindexed_source.mojo",
+    "supporting_current_source_sha256": "e69c6c5190f8739ce8c3efc71b891379b3532e20c60d78251f3b53b59cc47383",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/unindexed_source.mojo",
+    "actual_supporting_source_copy_sha256": "e69c6c5190f8739ce8c3efc71b891379b3532e20c60d78251f3b53b59cc47383"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/sealed_collection_faults.so",
+    "sha256": "9e693a24b759a928eb1aa5097771d840af24d8243ead9d9633149cf303dcc05a",
+    "bytes": 70336,
+    "elf": true,
+    "source": "tests/sealed_collection_faults.c",
+    "supporting_current_source_sha256": "76c4dfa6a0fbaa2b8e720e784dda5fe6e2bdfc6a561e7e4940ca70436ea69160",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/sealed_collection_faults.c",
+    "actual_supporting_source_copy_sha256": "76c4dfa6a0fbaa2b8e720e784dda5fe6e2bdfc6a561e7e4940ca70436ea69160"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-018",
+    "sha256": "da6f3fdf877de08d0144d69a2926060bd4af8314dd450945c4f3883de2ad16f6",
+    "bytes": 567720,
+    "elf": true,
+    "source": "smidr/tools/decoder_projections.mojo",
+    "supporting_current_source_sha256": "53c55a47fa0e232b3de32ebe727656aed85a0ffb451ef2aa924b9756ec9f23d0",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/decoder_projections.mojo",
+    "actual_supporting_source_copy_sha256": "53c55a47fa0e232b3de32ebe727656aed85a0ffb451ef2aa924b9756ec9f23d0"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-019",
+    "sha256": "a30b598a150295d95cd5ab0316faa368c33a9cd641a73ba09bc10e79c0cc6988",
+    "bytes": 568384,
+    "elf": true,
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "supporting_current_source_sha256": "d6f4877f4787c5dc0d0c1496d86844a36ce5aedb94872e12e27f339e4b6c36a2",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_decoder_projections_api.mojo",
+    "actual_supporting_source_copy_sha256": "d6f4877f4787c5dc0d0c1496d86844a36ce5aedb94872e12e27f339e4b6c36a2"
+  },
+  {
+    "path": "../ordinary-model-metadata-study/config.json",
+    "sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+    "bytes": 1915,
+    "elf": false
+  },
+  {
+    "path": "../ordinary-binding-study/0-header.json",
+    "sha256": "cdd0dc0377bd070ab35957191d16615409ed881e469c55532c2d288037ea15ba",
+    "bytes": 29944,
+    "elf": false
+  },
+  {
+    "path": "../ordinary-binding-study/1-header.json",
+    "sha256": "ce09ebf71dcf9f4e0937b76532d39a8b1257c5e74b9329071ccebbe191cf6a57",
+    "bytes": 7800,
+    "elf": false
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-020",
+    "sha256": "3f924b633734288681f7797a14faf6d9f6205b71ec953d87c228d7211d595553",
+    "bytes": 568744,
+    "elf": true,
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "supporting_current_source_sha256": "50535e8db009ba9d65bebbc56060a758088c9aca6ae2eae82a21f6798116b9db",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/ordinary_projection_schema.mojo",
+    "actual_supporting_source_copy_sha256": "50535e8db009ba9d65bebbc56060a758088c9aca6ae2eae82a21f6798116b9db"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-021",
+    "sha256": "30e2e9ced209e941f8fe7857e9043ed8b0951417029a75ed07ebec4b31919096",
+    "bytes": 570208,
+    "elf": true,
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "supporting_current_source_sha256": "ffb8b72d0b8de992ec7f1c5af9b62f2b4530cba85ff0f65b9a1d961fcebf47cd",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_ordinary_projection_schema_api.mojo",
+    "actual_supporting_source_copy_sha256": "ffb8b72d0b8de992ec7f1c5af9b62f2b4530cba85ff0f65b9a1d961fcebf47cd"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-018",
+    "sha256": "da6f3fdf877de08d0144d69a2926060bd4af8314dd450945c4f3883de2ad16f6",
+    "bytes": 567720,
+    "elf": true,
+    "source": "smidr/tools/decoder_projections.mojo",
+    "supporting_current_source_sha256": "53c55a47fa0e232b3de32ebe727656aed85a0ffb451ef2aa924b9756ec9f23d0",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/decoder_projections.mojo",
+    "actual_supporting_source_copy_sha256": "53c55a47fa0e232b3de32ebe727656aed85a0ffb451ef2aa924b9756ec9f23d0"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-034",
+    "sha256": "da6f3fdf877de08d0144d69a2926060bd4af8314dd450945c4f3883de2ad16f6",
+    "bytes": 567720,
+    "elf": true,
+    "source": "smidr/tools/decoder_projections.mojo",
+    "supporting_current_source_sha256": "53c55a47fa0e232b3de32ebe727656aed85a0ffb451ef2aa924b9756ec9f23d0",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/decoder_projections.mojo",
+    "actual_supporting_source_copy_sha256": "53c55a47fa0e232b3de32ebe727656aed85a0ffb451ef2aa924b9756ec9f23d0"
+  },
+  {
+    "path": "../ordinary-model-metadata-study/config.json",
+    "sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+    "bytes": 1915,
+    "elf": false
+  },
+  {
+    "path": "../ordinary-binding-study/0-header.json",
+    "sha256": "cdd0dc0377bd070ab35957191d16615409ed881e469c55532c2d288037ea15ba",
+    "bytes": 29944,
+    "elf": false
+  },
+  {
+    "path": "../ordinary-binding-study/1-header.json",
+    "sha256": "ce09ebf71dcf9f4e0937b76532d39a8b1257c5e74b9329071ccebbe191cf6a57",
+    "bytes": 7800,
+    "elf": false
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-016",
+    "sha256": "85ad6dd6bb4a02fe5d9e3464555617bffa85656cfd3ec7f10f5ca1e37ca61d88",
+    "bytes": 330088,
+    "elf": true,
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "supporting_current_source_sha256": "b639f980ec2688c059737e736e78c7b1ef7dcc4ec74dc1ac5a045e39d4976cc3",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/decoder_architecture.mojo",
+    "actual_supporting_source_copy_sha256": "b639f980ec2688c059737e736e78c7b1ef7dcc4ec74dc1ac5a045e39d4976cc3"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-017",
+    "sha256": "51e0b3af104fc9d8b47fb5655f5703eab8734b87556ae8ac1a1508cd00629f3d",
+    "bytes": 417576,
+    "elf": true,
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "supporting_current_source_sha256": "b5df20fadb4179c44ddd39432b0f70d3a19a7098e8be86cc79af7039c1d3129b",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_decoder_architecture_api.mojo",
+    "actual_supporting_source_copy_sha256": "b5df20fadb4179c44ddd39432b0f70d3a19a7098e8be86cc79af7039c1d3129b"
+  },
+  {
+    "path": "../ordinary-model-metadata-study/config.json",
+    "sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+    "bytes": 1915,
+    "elf": false
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-014",
+    "sha256": "79387a73a697544662aae9032e56b66d76c1dde7cc67ecdc673b684dc3b253db",
+    "bytes": 177544,
+    "elf": true,
+    "source": "smidr/tools/decoder_layers.mojo",
+    "supporting_current_source_sha256": "0eea733ef57c297eed6fd8961beb3e7e19e66bb6475b1832b185b9812e9555aa",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/decoder_layers.mojo",
+    "actual_supporting_source_copy_sha256": "0eea733ef57c297eed6fd8961beb3e7e19e66bb6475b1832b185b9812e9555aa"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-015",
+    "sha256": "4337e3ef9325fb797cdeb65287304d1b19ea79f568513974fa18e473f0e85696",
+    "bytes": 329152,
+    "elf": true,
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "supporting_current_source_sha256": "2e4e7573d9bbe94be845369b5c27f06288a308e947bd0cbccbc3d909e5df4b9c",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_decoder_layers_api.mojo",
+    "actual_supporting_source_copy_sha256": "2e4e7573d9bbe94be845369b5c27f06288a308e947bd0cbccbc3d909e5df4b9c"
+  },
+  {
+    "path": "../ordinary-model-metadata-study/config.json",
+    "sha256": "c72b1031274ff4626e434d0019e88e95a767460135db9ee492eb80652b786af1",
+    "bytes": 1915,
+    "elf": false
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-022",
+    "sha256": "4ce78f8e60f1806c328875e55a31e2438bcb26aaa52443397d4f57a42533d3b1",
+    "bytes": 930440,
+    "elf": true,
+    "source": "smidr/tools/owned_gguf_compiler.mojo",
+    "supporting_current_source_sha256": "4711b7e9551a29135e8df29dbb69adb27f688f8f7cb44cc4e3aa1766d24a7cb2",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/owned_gguf_compiler.mojo",
+    "actual_supporting_source_copy_sha256": "4711b7e9551a29135e8df29dbb69adb27f688f8f7cb44cc4e3aa1766d24a7cb2"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-023",
+    "sha256": "18b18d9cb2b3e131f450311a61f125c2666f0c3428760d9c748d1e8ca1ab9fed",
+    "bytes": 1152856,
+    "elf": true,
+    "source": "tests/hailo_owned_gguf_api.mojo",
+    "supporting_current_source_sha256": "0e8fee9103c71b78f845c506a5d0206b7b624ce8cf59321ece21ab182e99f278",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_owned_gguf_api.mojo",
+    "actual_supporting_source_copy_sha256": "0e8fee9103c71b78f845c506a5d0206b7b624ce8cf59321ece21ab182e99f278"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-000",
+    "sha256": "278ac61b887c8699bf099558172007578ed65ccf606d524dcc52a5db4be55e25",
+    "bytes": 485888,
+    "elf": true,
+    "source": "smidr/tools/semantic_plan.mojo",
+    "supporting_current_source_sha256": "2ec61c90dcb15b593a5462159882ce2da742ae6fedf760663f7726e154756dc3",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/semantic_plan.mojo",
+    "actual_supporting_source_copy_sha256": "2ec61c90dcb15b593a5462159882ce2da742ae6fedf760663f7726e154756dc3"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-008",
+    "sha256": "0f2c1d759c130e096af804d03fcb422ab5dba170411d4e4c9a7508732757aac9",
+    "bytes": 775288,
+    "elf": true,
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "supporting_current_source_sha256": "1d9ddf8a3450d9bb076eaf09391623727687a0c2ba85535ea8db01da9dfc844b",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/primitive_recipes.mojo",
+    "actual_supporting_source_copy_sha256": "1d9ddf8a3450d9bb076eaf09391623727687a0c2ba85535ea8db01da9dfc844b"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-002",
+    "sha256": "834308adbcd073ca09ac557bc24dc72ca6bf019bc50006289573f988d0fa1466",
+    "bytes": 847304,
+    "elf": true,
+    "source": "smidr/tools/expanded_graph.mojo",
+    "supporting_current_source_sha256": "9cd3d7962469a3fb9d0f2e8b9bd78040ab4ca7b6b5f758e58cf81922567684f3",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/expanded_graph.mojo",
+    "actual_supporting_source_copy_sha256": "9cd3d7962469a3fb9d0f2e8b9bd78040ab4ca7b6b5f758e58cf81922567684f3"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-107",
+    "sha256": "46cc897b23f87d666f9a711599904707b82369f4bdbfb8407fc6c54550274709",
+    "bytes": 421112,
+    "elf": true,
+    "source": "tests/hailo_sealed_gguf_api.mojo",
+    "supporting_current_source_sha256": "187bcdabcc07ef650f1eb328db350ef1c0f83e5c5b1ff84d921bbc1a98475bb6",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_sealed_gguf_api.mojo",
+    "actual_supporting_source_copy_sha256": "187bcdabcc07ef650f1eb328db350ef1c0f83e5c5b1ff84d921bbc1a98475bb6"
+  },
+  {
+    "path": "../sealed-safetensors-native-final/entry-012",
+    "sha256": "39928802ab417ac7c71982a0094242cd54f74aaef245ec0afa86248c082d1d8f",
+    "bytes": 626032,
+    "elf": true,
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "supporting_current_source_sha256": "d1cf67bed33922a96c8f609ec8b8373a619cb4cc3542e07747e3a1ad026bb31b",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/source_weight_tiles.mojo",
+    "actual_supporting_source_copy_sha256": "d1cf67bed33922a96c8f609ec8b8373a619cb4cc3542e07747e3a1ad026bb31b"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/owned_gguf_faults.so",
+    "sha256": "012988ad658db2d56d36ec31a42fdbe97fe02cb2304bafc525ab3fbbe99e8fc0",
+    "bytes": 69976,
+    "elf": true,
+    "source": "tests/owned_gguf_faults.c",
+    "supporting_current_source_sha256": "03a19441b8efe6226e19ea9c8119407c4a96ebb31a507127e1257abd405fe265",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/owned_gguf_faults.c",
+    "actual_supporting_source_copy_sha256": "03a19441b8efe6226e19ea9c8119407c4a96ebb31a507127e1257abd405fe265"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-024",
+    "sha256": "910f17aa3ea791f1b9485d7f4998db0e99655c4f19b9c7ae09b1100f31252c42",
+    "bytes": 645728,
+    "elf": true,
+    "source": "smidr/tools/owned_ordinary_binding.mojo",
+    "supporting_current_source_sha256": "538da0e73dcf6b00c6a4f3e7cdc5029818d06ff211a0432cfecc71f0fa93e48a",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/owned_ordinary_binding.mojo",
+    "actual_supporting_source_copy_sha256": "538da0e73dcf6b00c6a4f3e7cdc5029818d06ff211a0432cfecc71f0fa93e48a"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-025",
+    "sha256": "0777d709f33294769efdcc7178e77d5380bf21c3a6e5b54a013d91f65435d821",
+    "bytes": 792648,
+    "elf": true,
+    "source": "tests/hailo_owned_ordinary_binding_api.mojo",
+    "supporting_current_source_sha256": "b138f05826793d924fe54275275b0c4a36f14b9392d4467887fe2b07d39cae94",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/hailo_owned_ordinary_binding_api.mojo",
+    "actual_supporting_source_copy_sha256": "b138f05826793d924fe54275275b0c4a36f14b9392d4467887fe2b07d39cae94"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/entry-020",
+    "sha256": "3f924b633734288681f7797a14faf6d9f6205b71ec953d87c228d7211d595553",
+    "bytes": 568744,
+    "elf": true,
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "supporting_current_source_sha256": "50535e8db009ba9d65bebbc56060a758088c9aca6ae2eae82a21f6798116b9db",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/smidr/tools/ordinary_projection_schema.mojo",
+    "actual_supporting_source_copy_sha256": "50535e8db009ba9d65bebbc56060a758088c9aca6ae2eae82a21f6798116b9db"
+  },
+  {
+    "path": "../owned-ordinary-compiler-native-final-v2/ordinary_binding_faults.so",
+    "sha256": "7839c76c9fb4c601b04f13b78fbf95bb5ed1044ac71418c8b0675ec1bdfb1e39",
+    "bytes": 70328,
+    "elf": true,
+    "source": "tests/ordinary_binding_faults.c",
+    "supporting_current_source_sha256": "4863c986d0164d5cff70514bfe47675e2384ca09576cfa15ece8835bbaf4babf",
+    "actual_supporting_source_copy": "../owned-ordinary-compiler-native-final-v2/supporting-source-snapshot/tests/ordinary_binding_faults.c",
+    "actual_supporting_source_copy_sha256": "4863c986d0164d5cff70514bfe47675e2384ca09576cfa15ece8835bbaf4babf"
+  }
+]

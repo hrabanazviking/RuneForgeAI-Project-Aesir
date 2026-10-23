@@ -1,0 +1,17 @@
+...E......
+======================================================================
+ERROR: test_04_source_policy_cache_and_ownership (__main__.OwnedOrdinaryCompiler.test_04_source_policy_cache_and_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_owned_ordinary_compiler.py", line 132, in test_04_source_policy_cache_and_ownership
+    if not indexed and field=='label':self.exact(r,f,indexed)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_owned_ordinary_compiler.py", line 62, in exact
+    for sh in obj['collection']['shards'] if indexed else [obj['collection']['source']]:self.assertEqual(sh['digest_hex'],hashlib.sha256(f[1][sh['label']]).hexdigest())
+                                                                                                                                         ~~~~^^^^^^^^^^^^^
+KeyError: 'wrong label'
+
+----------------------------------------------------------------------
+Ran 10 tests in 84.878s
+
+FAILED (errors=1)

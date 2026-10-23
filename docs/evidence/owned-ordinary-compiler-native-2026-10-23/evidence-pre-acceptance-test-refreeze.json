@@ -1,0 +1,7 @@
+{
+  "reason": "add source bias-off and exact hash/page guard coverage before any native acceptance; no Mojo/C input changed",
+  "source": "tests/test_hailo_owned_ordinary_compiler.py",
+  "initial_sha256": "d91f516f5fae0c12d92cff76bd081446b08b543b22800030eeaa7bf4c04884fb",
+  "final_sha256": "1072aa47ab511712c85d1791a09c4ae305c1732feca248476315caf32115a3da",
+  "native_execution_before_refreeze": false
+}

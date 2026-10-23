@@ -1,3 +1,9 @@
+> **2026-10-23 ordinary mathematical compiler update:** retained source owners
+> now reach existing graph lowering and guarded semantic component reads.
+> `HAILO10H_MOJO_OWNED_ORDINARY_COMPILER.md` records14 selected suites/95 methods
+> and3264 full frozen comparisons. Numerical Hailo execution and broad remaining
+> source/architecture/operation coverage remain required work.
+
 > **2026-10-23 ordinary backing update:** indexed/unindexed sealed collection
 > ownership passes7 selected suites/41 methods and971 complete frozen pairs.
 > `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md` records the bounded input lifetime;

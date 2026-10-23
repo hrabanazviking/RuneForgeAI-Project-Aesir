@@ -22,11 +22,14 @@ constant-input lifetime are now verified under
 Owned ordinary indexed/unindexed backing lifetime is now verified under
 `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md`, using existing beneath-root and
 collection rules. Retained ordinary compiler projection binding and guarded component reads are now
-verified under `HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md`. Owned graph integration,
-global artifact identity and remaining format/architecture/operation work stay
-open. Next native work order: `TASK_hailo10h_owned_ordinary_compiler.md`; carry
-retained ordinary inputs through existing mathematical graph lowering, while
-continuing actual numerical configuration/program/results under the same target. Full controlling scope:
+verified under `HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md`. Retained ordinary
+source-to-mathematical-graph lifetime and guarded semantic component selection
+are now verified under `HAILO10H_MOJO_OWNED_ORDINARY_COMPILER.md`, against the
+pre-code `TASK_hailo10h_owned_ordinary_compiler.md`. Global artifact identity,
+duplicate tied-output identity, complete source/architecture/operation coverage
+and numerical Hailo execution remain open. Continue actual numerical
+configuration/program/results under `TASK_hailo10h_numerical_encoding_sources.md`
+and the same fixed target. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -34,6 +37,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Retained ordinary mathematical compiler | Verified observed input-to-IR lifetime and guarded semantic selection | `HAILO10H_MOJO_OWNED_ORDINARY_COMPILER.md`;30 clean Mojo/9 C,14 suites/95 methods,3264 full frozen pairs across28 controls. New34238 exact static words,904 balanced traces;no numerical model execution. |
 | Retained ordinary compiler binding | Verified observed input/projection binding | `HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md`;26 clean Mojo/9 C builds,13 suites/85 methods,2251 complete frozen pairs across24 controls. New1133814 exact component words,455 balanced lifetime traces;no numerical model execution. |
 | Owned ordinary collection backing | Verified observed compiler-input lifetime | `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md`;14 clean current Mojo/6 C builds,7 suites/41 methods,971 complete frozen pairs across12 controls.290 new lifetime traces;no compiler/artifact identity or numerical execution. |
 | Owned sealed config/index metadata | Verified observed compiler-input lifetime | `HAILO10H_MOJO_SEALED_SOURCE_METADATA.md`;8 clean Mojo/4 C builds,4 suites/27 methods,892 complete frozen pairs across six controls.253 new lifetime traces;no global identity or numerical execution. |

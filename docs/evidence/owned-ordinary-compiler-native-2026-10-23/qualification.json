@@ -1,0 +1,29 @@
+{
+  "parent": "fb77664580adac1f11ade87bdf8d1951068936bd",
+  "old_production_changes": [],
+  "stable_current_mojo_builds": 30,
+  "current_clean_c_builds": 9,
+  "immutable_precode_controls": 124,
+  "selected_current_control_pairs": 28,
+  "all_stable_linking_before_native_acceptance": true,
+  "selected_old_entries_rebuilt_in_this_slice_with_exact_transitive_sources_unchanged": true,
+  "both_new_consumers_rebuilt_from_final_source": true,
+  "test_expectation_and_oracle_failures_retained": true,
+  "production_unchanged_after_stable_build": true,
+  "archive_files": 57111,
+  "work_path_projection": "..",
+  "dependency_home_projection": "<host-home>",
+  "prior": [
+    {
+      "manifest": "docs/evidence/owned-ordinary-binding-native-2026-10-23/archive-identities.json",
+      "files": 21453,
+      "sha256": "e76b01e77c36a6d86b83323964d3ecb11ccf62b7be857a89e0d94cd01b2afa56"
+    },
+    {
+      "manifest": "docs/evidence/owned-ordinary-compiler-contract-2026-10-23/archive-identities.json",
+      "files": 757,
+      "sha256": "378a66555d7ad6440f7afae89a8e839fb66bd2036da3a6601c6122dc8b67c58d"
+    }
+  ],
+  "whole_repository_or_hosted_ci_pass": false
+}

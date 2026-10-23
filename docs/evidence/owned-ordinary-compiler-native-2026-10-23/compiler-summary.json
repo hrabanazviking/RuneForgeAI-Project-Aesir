@@ -1,0 +1,17 @@
+{
+  "calls": 1174,
+  "outcomes": {
+    "accepted": 375,
+    "refused": 799
+  },
+  "comparisons": {
+    "complete_frozen_graph_comparisons": 103,
+    "complete_source_and_structural_oracles": 167,
+    "exact_static_component_words": 34238,
+    "operation_component_windows": 370,
+    "selected_windows": 159,
+    "duplicate_tied_output_required_work_refusals": 4,
+    "independent_original_mutation_pairs": 16,
+    "independent_complete_fault_pairs": 15
+  }
+}

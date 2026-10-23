@@ -1,0 +1,53 @@
+{
+  "parent": "fb77664580adac1f11ade87bdf8d1951068936bd",
+  "old_mojo_sources_unchanged": 675,
+  "current_mojo_sources": 678,
+  "old_python_inputs_unchanged": 74,
+  "current_python_inputs": 75,
+  "precode_controls_unchanged": 124,
+  "qualified_auxiliary_inputs_unchanged": 72,
+  "stable_current_mojo_builds": 30,
+  "clean_c_builds": 9,
+  "all_stable_linking_before_native_acceptance": true,
+  "suites": 14,
+  "methods": 95,
+  "qualified_entry_calls": 4541,
+  "qualified_entry_kinds": {
+    "current": 4223,
+    "frozen": 318
+  },
+  "complete_frozen_pairs": 3264,
+  "frozen_entries": 28,
+  "frozen_outcomes": {
+    "accepted": 1836,
+    "refused": 1428
+  },
+  "complete_stdout_stderr_exit_handled_messages_equal": true,
+  "full_native_outputs_retained": 7805,
+  "full_stdout_stderr_files": 15610,
+  "complete_file_mutation_pairs": 34,
+  "complete_directory_tree_pairs": 1143,
+  "complete_changed_directory_tree_pairs": 85,
+  "explicit_root_rename_pairs": 1,
+  "independent_fault_log_pairs": 193,
+  "new_suite": {
+    "calls": 1174,
+    "outcomes": {
+      "accepted": 375,
+      "refused": 799
+    },
+    "comparisons": {
+      "complete_frozen_graph_comparisons": 103,
+      "complete_source_and_structural_oracles": 167,
+      "exact_static_component_words": 34238,
+      "operation_component_windows": 370,
+      "selected_windows": 159,
+      "duplicate_tied_output_required_work_refusals": 4,
+      "independent_original_mutation_pairs": 16,
+      "independent_complete_fault_pairs": 15
+    }
+  },
+  "independent_mutation_runs": 32,
+  "independent_fault_runs": 30,
+  "whole_repository_or_hosted_ci_pass": false
+}

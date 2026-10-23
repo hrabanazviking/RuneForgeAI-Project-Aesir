@@ -1,0 +1,5 @@
+Included from ../Project-Aesir/tests/hailo_owned_ordinary_compiler_api.mojo:7:
+Included from ./smidr/tools/owned_ordinary_compiler.mojo:3:
+./smidr/owned_ordinary_compiler.mojo:106:9: warning: ref 'i' was never used, remove it?
+    for i in range(geometry.layers):
+        ^

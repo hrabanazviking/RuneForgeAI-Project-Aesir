@@ -1,0 +1,6 @@
+........
+----------------------------------------------------------------------
+Ran 8 tests in 28.011s
+
+OK
+{'calls': 398, 'outcomes': {'accepted': 244, 'refused': 154}, 'comparisons': {'exact_component_words': 6120, 'full_shard_bytes': 245684, 'complete_byte_and_component_snapshots': 182, 'complete_metadata_storage_and_counter_projections': 190}}

@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "command": [
+        "python3",
+        "scripts/check_doc_drift.py"
+      ],
+      "returncode": 1,
+      "bytes": 2471216,
+      "sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/ledger_schema.py",
+        "check"
+      ],
+      "returncode": 1,
+      "bytes": 1132,
+      "sha256": "731f174e5e6e09b66de5e7143f5790b6d86cb6ce68553ee9e9df4c1f0b0005ca"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/census_capability_ledger.py"
+      ],
+      "returncode": 0,
+      "bytes": 96957,
+      "sha256": "eb7e7660fb3a5686a36e8b7f1a7fbecfe318849b2d0c9e657f2482deddfcfc92"
+    }
+  ],
+  "doc_drift_byte_identical_to_inherited_baseline": true,
+  "doc_drift_inherited_issues": 23405,
+  "ledger_schema_inherited_errors": 9,
+  "capabilities": 175,
+  "verified": 130,
+  "partial": 29,
+  "missing": 15,
+  "old_noncanonical_entries": 1,
+  "whole_repository_or_hosted_ci_pass": false
+}

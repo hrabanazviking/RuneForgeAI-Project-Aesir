@@ -1,0 +1,3 @@
+smidr/tools/owned_ordinary_compiler.mojo 0 0
+tests/hailo_owned_ordinary_compiler_api.mojo 0 0
+30 clean slice builds, 9 clean C, exact actual dependency identities; all links stable before native

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 129 |
+| `verified` | 130 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **174** |
+| **Total** | **175** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3935,3 +3935,33 @@ No new capability ID or hardware/complete-source execution claim.
   910 disjoint other traces;one literal unreturned worker record opaque. Full
   stdout/stderr for5660 executions;34 file/345 directory-tree comparisons,
   45 changed trees and161 independent fault-log pairs. Failed attempts retained.
+
+
+### AES-SOURCE-035 — Retained ordinary mathematical graph compiler lifetime
+
+- **Status:** `verified`
+- **Owner:** Original Mojo SMIÐR ordinary source compiler orchestration.
+- **Claim sources:** TASK_hailo10h_owned_ordinary_compiler.md atfb77664 before
+  production; docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+- **Implementation evidence:** New indexed/unindexed wrappers retain owned
+  bindings, independent ExpandedGraph and bounded request copies. Existing
+  source interpreters/builders preserve exact scalars and modifiers; guarded
+  semantic component selection rederives actual sources and consumed intent.
+  Zero old production edits;675 Mojo/74 Python inputs exact.
+- **Executable evidence:** docs/HAILO10H_MOJO_OWNED_ORDINARY_COMPILER.md and
+  docs/evidence/owned-ordinary-compiler-native-2026-10-23/;30 clean Mojo/9 C,
+  14 suites/95 methods,3264 complete frozen pairs across28 controls. New10
+  methods/1174 calls,103 full graph comparisons,34238 exact component words.
+- **Evidence boundary:** Observed input-to-mathematical-IR lifetime and scoped
+  static semantic selection. No generic immutable graph/artifact identity,
+  complete adapter, numerical H10H format/fit/placement/program execution or
+  device access. Duplicate tied-output semantics and other missing coverage
+  remain required implementation toward broad ordinary-model support100%.
+- **Next acceptance gate:** Actual numerical configuration/packing/placement,
+  original program transport/activation/results/cleanup and remaining source
+  format/architecture/operation implementation under the fixed owner scope.
+- **Audit:**904 new traces balance904 root/3234 original/3160 sealed lifetimes;
+  1807 exact maps/unmaps.7805 full output pairs retained.1143 full directory-tree
+  comparisons,85 changed trees;193 independent frozen fault-log comparisons.
+  New32 independent original-mutation runs/16 pairs and30 fault runs/15 pairs.
+  Type/build, test expectation/oracle and frozen-directory runner failures retained.

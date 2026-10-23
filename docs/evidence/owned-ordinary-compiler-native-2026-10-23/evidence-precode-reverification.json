@@ -1,0 +1,17 @@
+{
+  "parent": "fb77664580adac1f11ade87bdf8d1951068936bd",
+  "checks": [
+    {
+      "manifest": "source-hashes.json",
+      "count": 675,
+      "both_actual_copies": true
+    },
+    {
+      "manifest": "test-input-hashes.json",
+      "count": 74,
+      "both_actual_copies": true
+    }
+  ],
+  "controls": 124,
+  "new_module_absent": true
+}

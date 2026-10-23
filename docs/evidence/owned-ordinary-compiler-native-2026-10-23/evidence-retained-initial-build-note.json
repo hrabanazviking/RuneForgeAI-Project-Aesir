@@ -1,0 +1,10 @@
+{
+  "first_attempt": "../owned-ordinary-compiler-native-final",
+  "mojo_builds": 30,
+  "clean_c_builds": 9,
+  "all_entry_compiles_clean": true,
+  "native_execution": false,
+  "final_source_freeze_check": "refused: new module and API were revised after the initial tree snapshot, before their entry builds",
+  "recovery": "fresh stable source/test copies, verify every old entry's complete transitive source identities and rebuild both new consumers before native execution",
+  "type_probe": "initial API parse refused unescaped test field quotes; second type probe intentionally terminated after an unused loop variable warning; neither executed"
+}
