@@ -1,0 +1,62 @@
+[
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/LICENSE-APACHE.txt",
+    "bytes": 10280,
+    "sha256": "bdedf90452514454b9e742954d8ce65b22c4f417c342c7d49b420c995995eb95"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/LICENSE-MIT.txt",
+    "bytes": 1068,
+    "sha256": "f6cc4e412b95235a743c132f0746e64d79a01cf0b241a8b1cd102bb05b7e4ee6"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/README.md.txt",
+    "bytes": 12971,
+    "sha256": "6b9371eee2b5b484cbdaa7029379b3705fe883a6f01cf142f28a3eec13fbded1"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/architecture-documentation.md.txt",
+    "bytes": 12875,
+    "sha256": "2430cb6d2c94217db958ba798d4fcc64785cd56c94de1486c3a16d3b47e826ca"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/crate-metadata.json",
+    "bytes": 64909,
+    "sha256": "d0dd1b59f47a432a68276ca68f83782d9c42b3d4554c32949dc0d3f2ad576770"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/identity.json",
+    "bytes": 427,
+    "sha256": "6cbd9dc8740d77132a5137ca710e4f83260b437f7e344775eae46a980036d96e"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/qualification.json",
+    "bytes": 1323,
+    "sha256": "729020fd370ec36308c5141eefa3519ebe2f7c585580b6d2e1ef38683e4a2e01"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/repo-metadata.json",
+    "bytes": 6213,
+    "sha256": "b091eeff315f97e9a83dc7e7955f66a3df29eaecb0411c3e21679ab74da46d4b"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/repo-ref.json",
+    "bytes": 334,
+    "sha256": "e5dc6c7ccc083a10a6e9f8640d89c51b12cbba6250a7b5a0bacb7d85c3cd89fc"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/retrieval-crate.json",
+    "bytes": 945,
+    "sha256": "5ca2a9b543cddcf9f9e59e69bd5ffa0f09ce49332cfd5e83b80d5e5450fda765"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/retrievals.json",
+    "bytes": 11680,
+    "sha256": "daac7294cee1756873286bd2788f58dfaa3ae39506c8dfa661596954a4b654a9"
+  },
+  {
+    "path": "../numerical-lead-llama-gguf-2026-10-23/root-metadata.json",
+    "bytes": 17251,
+    "sha256": "1d2e728b1960d2965f86b637eae5141f75e85ef70d6e4e38614be3f32a5c5bd4"
+  }
+]

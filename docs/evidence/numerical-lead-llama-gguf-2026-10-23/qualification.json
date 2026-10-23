@@ -1,0 +1,25 @@
+{
+  "contract": "TASK_hailo10h_numerical_encoding_sources.md",
+  "native_parent": "e85282b103f672398e7e7c919e29a4ffe87c964b",
+  "repository": "Lexmata/llama-gguf",
+  "commit": "6e9f194206450080d47101c6f88a80f604ce69be",
+  "license_gate": "actual LICENSE-MIT read before README/project architecture documentation; LICENSE-APACHE also retained; crate metadata separately advertises MIT OR Apache-2.0",
+  "inspected": [
+    "crate/repository/ref/root metadata",
+    "licenses",
+    "README",
+    "authored project architecture documentation"
+  ],
+  "implementation_source_bodies_read": false,
+  "external_instructions_adopted": false,
+  "external_compiler_installed_or_invoked": false,
+  "model_download": false,
+  "host_or_device_inference": false,
+  "hardware_probe": false,
+  "code_adopted": false,
+  "arithmetic_encoding_qualified": false,
+  "original_program_upload_qualified": false,
+  "selected_result": "documented DFC/HEF and hybrid CPU route excluded from owner target; no entire-repository absence claim",
+  "search_incidental_material": "mirrors, proprietary guide excerpts, unrelated implementations and initial documentation snippets excluded from qualified retained material",
+  "next": "continue primary target interface evidence and original Mojo implementation when exact fields permit; same broad target"
+}

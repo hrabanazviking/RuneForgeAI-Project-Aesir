@@ -55,3 +55,10 @@ plus corrected patent publication identities, are recorded in
 docs/HAILO10H_NUMERICAL_LEADS_CONTINUED_2026-10-22.md. The inspected wrapper still
 requires DFC and the publication does not qualify H10H instruction fields. No
 external implementation, opcode, CRC parameter or device probe is adopted.
+
+2026-10-23 bounded Rust-backend lead:
+docs/HAILO10H_NUMERICAL_LEAD_LLAMA_GGUF_2026-10-23.md. Actual pinned licenses
+preceded documentation. Its documented DFC/HEF and CPU hybrid route is excluded;
+no implementation body, compiler, model or opcode is adopted. No arithmetic or
+original-program interface is qualified from those inspected documents; this is
+not a whole-repository absence claim. Continue original numerical/physical work.
