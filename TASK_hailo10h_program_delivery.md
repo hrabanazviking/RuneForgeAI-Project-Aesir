@@ -57,3 +57,10 @@ Next grouped USERPTR wire gap is qualified in
 establish8 entries and141-byte layout;existing original codec emits one entry.
 Original codec contract:`TASK_hailo10h_soc_group_codec.md`. No production group
 implementation,physical DMA or numerical execution is claimed by that contract.
+
+
+Original grouped USERPTR value codec is now verified under
+`docs/HAILO10H_MOJO_SOC_GROUP.md`:20 selected methods,218 complete frozen pairs
+and1609 new traces. This supersedes only the preceding no-production-code status.
+Actual descriptor accounting,owned immutable output and in-flight DMA/deadline/
+cleanup qualification remain required before physical metadata/program delivery.

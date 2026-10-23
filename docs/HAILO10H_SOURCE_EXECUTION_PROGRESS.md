@@ -42,6 +42,11 @@ Original program metadata and separate copied payload staging are verified under
 comparisons. This is internal byte preparation;actual payload DMA,immutable output,
 numerical configuration and source-model execution remain required work.
 
+Original grouped USERPTR value serialization is verified under
+`HAILO10H_MOJO_SOC_GROUP.md`:20 selected methods,218 complete frozen comparisons
+and1609 traced new calls. These are scalar wire values;physical grouped storage,
+descriptor/deadline/cleanup and numerical source-model execution remain open.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 
@@ -121,6 +126,7 @@ verify, publish and advance each bounded work slice.
 | Nondefault LCU control record codec | Verified host byte primitive | `HAILO10H_MOJO_LCU_ACTIONS.md`;6 clean builds,17 methods/2113 primary calls,244 additional frozen pairs. New456 vectors/492 refusals,seven traces. No physical LCU/numerical/source execution. |
 | Public context-action byte codec | Verified host primitive | `HAILO10H_MOJO_CONTEXT_ACTIONS.md`; four public record types, owned values, exact field widths and 244 native calls against independent struct and C++ header oracles. No numerical program or upload. |
 | Configuration upload/activation endpoint | Public program receiver mapped; physical original upload open | `HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md`; matching driver rejects NNC firmware controls on the Pi SoC path. hRPC action 2 accepts separate compiled-program bytes, followed by configure/activate lifecycles. Original metadata/lifecycle codec is verified as host bytes; active `TASK_hailo10h_program_delivery.md` continues container/CCW facts. Actual upload, raw-context endpoint and numerical encoding remain open. |
+| Grouped USERPTR launch value codec | Verified host serialization | `HAILO10H_MOJO_SOC_GROUP.md`;3 Mojo/2 C++ links,20 selected methods,218 full frozen pairs;227 independent header vectors and177 direct recovery cycles. No mapping,pinning,DMA or source-model execution. |
 | Original program metadata/lifecycle codec | Verified host wire primitive | `HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`; eight methods/140 calls against generated public-schema protobuf, ten device codec regressions pass. No program transfer or activation. |
 | Original configure/stream codec | Verified host wire primitive | `HAILO10H_MOJO_CONFIGURE_RPC_CODEC.md`; eight methods/83 calls, exact public-schema fields/raw float words/NMS sentinels/body limits/strict replies. Program/device regressions pass. No hardware configure or resource ownership. |
 | Original program outer integrity | Verified host corruption-check primitive | `HAILO10H_MOJO_PROGRAM_INTEGRITY.md`; eleven methods/2072 calls, all length classes, pinned isolated oracle, 8 MiB/bounds/tamper/ownership. Selected checksum range only; no numerical program/firmware CRC/device acceptance. |

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 132 |
+| `verified` | 133 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **177** |
+| **Total** | **178** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4017,3 +4017,29 @@ No new capability ID or hardware/complete-source execution claim.
   no observed Hailo/network/ioctl/excluded runtime effects. Actual684 Mojo/78
   Python copies and128 inherited plus4 supplementary pre-code controls pinned.
   Snapshot-copy setup refusal retained;no native build or acceptance failure.
+
+
+### AES-CONTROL-004 — Owned grouped USERPTR launch value serialization
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/soc_group.mojo and bounded host diagnostic.
+- **Claim sources:** TASK_hailo10h_soc_group_codec.md published6e70ff2 before
+  production;docs/HAILO10H_GROUPED_TRANSFER_BOUNDARY_2026-10-23.md.
+- **Implementation evidence:** Copied ordered span values;fresh complete mutable
+  field/count validation before allocation;canonical141-byte1..8 USERPTR codec.
+  Exact profile/types/unused slots and checked pointer extents. Zero old edits.
+- **Executable evidence:** docs/HAILO10H_MOJO_SOC_GROUP.md;3 Mojo/2 C++ links,
+  20 methods/2179 primary calls,218 full frozen comparisons and227 independent
+  public-header vectors.177 direct refusal/recovery cycles and ownership pass.
+- **Evidence boundary:** Host scalar intent only. No physical mapping/pinning,
+  descriptor accounting,DMA submission,live payload transaction,numerical program
+  admission,activation or source-model execution. New overflow check is stricter
+  than the unchanged old helper;one-span compatible-domain bytes match.
+- **Next acceptance gate:** Actual grouped descriptor/owned storage/deadline/
+  cleanup contract and numerical/physical program generation/results toward the
+  same fixed broad ordinary unmodified model goal100%.
+- **Audit:**1609 complete new traces;5 executables/10 ELF tables;no observed
+  Hailo/network/ioctl/excluded runtime effects. Actual687 Mojo/79 Python copies,
+  134 inherited and1 supplementary pre-code control. Inherited warnings scoped;
+  baseline assumption/test naming/trace census corrections retained. Both
+  selected acceptance suites pass;no native compile or test failure.
