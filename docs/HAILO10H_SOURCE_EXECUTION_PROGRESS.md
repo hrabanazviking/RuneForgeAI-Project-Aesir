@@ -55,6 +55,10 @@ physical pinning/DMA,numerical admission or source-model execution.
 interface frontier without promoting size-based capacity to descriptor proof.
 Actual physical and numerical source-model execution work remains open.
 
+Next bounded physical storage qualification:
+`TASK_hailo10h_sealed_program_pin_probe.md`. No read-only sealed USERPTR acceptance
+or DMA/coherence result is inferred from kernel sealing or UAPI declarations.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

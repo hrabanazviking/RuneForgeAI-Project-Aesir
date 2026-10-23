@@ -79,3 +79,11 @@ Original sealed program output ownership is now verified under
 frozen pairs and2326 balanced memfds. Exact sealed bytes are available to future
 owned transport;pinning compatibility,grouped descriptor accounting,in-flight
 lifetime/deadlines/late cleanup and actual numerical program work remain open.
+
+
+Next bounded physical qualification:
+`TASK_hailo10h_sealed_program_pin_probe.md`,with boundary facts in
+`docs/HAILO10H_SEALED_PROGRAM_PIN_BOUNDARY_2026-10-23.md`. Establish actual
+read-only/private versus writable/private H2D mapping compatibility of sealed
+backing using only existing typed map/unmap and known cleanup. No transfer,
+channel/server/program request or numerical operation is permitted by this probe.
