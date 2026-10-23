@@ -1,0 +1,17 @@
+{
+  "files": 48040,
+  "bytes": 379138714,
+  "roots": [
+    "sealed-transfer-backing-native-baseline",
+    "sealed-transfer-backing-native-baseline-v2",
+    "sealed-transfer-backing-native-development",
+    "sealed-transfer-backing-native-final",
+    "sealed-transfer-backing-native-final-v2",
+    "sealed-transfer-backing-native-host",
+    "sealed-transfer-backing-native-host-v2",
+    "sealed-transfer-backing-native-audit"
+  ],
+  "manifest_sha256": "dde40cf5fe3b5af3ec92b1d9ea571fdcee1422f8740b0151e6deba1882e6d8a5",
+  "physical_calls": false,
+  "source_model_execution": false
+}

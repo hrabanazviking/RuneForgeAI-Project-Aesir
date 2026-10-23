@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 136 |
+| `verified` | 137 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **181** |
+| **Total** | **182** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4118,3 +4118,28 @@ No new capability ID or hardware/complete-source execution claim.
   demonstrate the superseded release gap separately.11 artifacts/22 ELF tables;
   actual691/81 old and692/82 final Mojo/Python copies,141+6 frozen controls.
   Two C warning refusals preserved;final suites pass;inherited warnings scoped.
+
+
+### AES-CONTROL-008 — Owned sealed two-part transaction byte backing
+
+- **Status:** `verified`
+- **Owner:** Original smidr/sealed_transfer_backing.mojo and bounded host tool.
+- **Claim sources:** TASK_hailo10h_sealed_transfer_backing.md published5e977a4
+  before code;docs/HAILO10H_MOJO_SEALED_TRANSFER_BACKING.md.
+- **Implementation evidence:** Moved sealed program plus distinct sealed2068-
+  byte metadata file;fresh full canonical/program integrity and actual same-fd
+  byte/seal/extent/flag checks per window. Independent I/O bounds and owned copies;
+  combined independent close errors retained. Zero old production/test edits.
+- **Executable evidence:**57 selected methods,5291 primary calls,4699 complete
+  frozen comparisons and236 new traces.2099 direct guard refusals;2246 actual
+  metadata C/kernel checks and8984 protection refusals.11 Mojo/6 C links stable.
+- **Evidence boundary:** Immutable actual host parts only;no historical global
+  artifact identity,source-to-executable coherence,grouped descriptor/DMA,
+  numerical admission,program activation or source-model execution.
+- **Next acceptance gate:** Actual grouped storage/descriptor/completion/total
+  deadline/late cleanup and numerical program generation/delivery/results toward
+  broad ordinary UNMODIFIED source-model support100%.
+- **Audit:**6622 memfds,6619 explicit closes and3 injected before-effect close
+  retentions until exit.17 artifacts/34 ELF tables;actual692/82 old and695/83
+  final Mojo/Python copies,148 controls. Both new consumers warning-free,9 old
+  hashes exact. Failed CLI parser scope,C warnings and census correction preserved.

@@ -1,0 +1,12 @@
+{
+  "primary": 2,
+  "new_traces": 2,
+  "actual_memfds": 8,
+  "actual_memfd_closes": 8,
+  "successful_seals": 7,
+  "positional_reads": 27,
+  "positional_writes": 13,
+  "kernel_refusals": 12,
+  "independent_bytes": 0,
+  "actual_metadata_kernel_oracles": 3
+}

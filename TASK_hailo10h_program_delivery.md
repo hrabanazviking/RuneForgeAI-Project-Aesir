@@ -113,3 +113,9 @@ alongside the retained sealed program,using existing interfaces and independent
 full-byte oracles. This host-only slice permits no device request or transfer;
 actual grouped descriptors/deadlines and numerical configuration/results remain
 open under the same broad target.
+
+That host backing slice is now verified under
+`docs/HAILO10H_MOJO_SEALED_TRANSFER_BACKING.md`:57 methods/4699 full frozen
+comparisons and independent actual metadata kernel checks. Both ordered parts
+retain sealed host bytes;physical grouped storage/descriptors/completion/total
+deadlines/late cleanup and actual numerical program/results remain open.
