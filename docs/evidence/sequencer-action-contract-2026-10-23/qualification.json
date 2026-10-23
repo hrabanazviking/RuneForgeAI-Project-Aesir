@@ -1,0 +1,10 @@
+{
+  "parent": "4181fdb6b9f26a17aea6914f22aaa19c228abd6d",
+  "source_count": 678,
+  "python_count": 76,
+  "controls": 126,
+  "compiler_sha256": "be46936245ae995680155dcc2f61af5dac8678254c634110e99ceff25ce57c39",
+  "license_before_bodies": true,
+  "device_access": false,
+  "external_implementation_adopted": false
+}

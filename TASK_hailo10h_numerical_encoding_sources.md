@@ -62,3 +62,10 @@ preceded documentation. Its documented DFC/HEF and CPU hybrid route is excluded;
 no implementation body, compiler, model or opcode is adopted. No arithmetic or
 original-program interface is qualified from those inspected documents; this is
 not a whole-repository absence claim. Continue original numerical/physical work.
+
+2026-10-23 sequencer field qualification:
+`docs/HAILO10H_SEQUENCER_INTERFACE_2026-10-23.md` pins packed trigger1 and
+completion17 with exact configuration widths; the distinct protobuf layout is
+not implicitly convertible. Original host codec follows the pre-code contract
+`TASK_hailo10h_sequencer_actions.md`. No arithmetic opcode, physical placement,
+callable raw-context upload or numerical execution is qualified by these fields.
