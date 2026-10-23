@@ -47,7 +47,10 @@ Original grouped USERPTR value serialization is verified under
 and1609 traced new calls. These are scalar wire values;physical grouped storage,
 descriptor/deadline/cleanup and numerical source-model execution remain open.
 
-Next native output-lifetime contract:`TASK_hailo10h_sealed_program_payload.md`.
+Original sealed program output is now verified under
+`HAILO10H_MOJO_SEALED_PROGRAM_PAYLOAD.md`:38 selected methods,2842 complete frozen
+pairs and2326 balanced actual memfds. This verifies sealed host bytes,not
+physical pinning/DMA,numerical admission or source-model execution.
 `HAILO10H_GROUPED_PHYSICAL_BOUNDARY_2026-10-23.md` records the qualified public
 interface frontier without promoting size-based capacity to descriptor proof.
 Actual physical and numerical source-model execution work remains open.
@@ -131,6 +134,7 @@ verify, publish and advance each bounded work slice.
 | Nondefault LCU control record codec | Verified host byte primitive | `HAILO10H_MOJO_LCU_ACTIONS.md`;6 clean builds,17 methods/2113 primary calls,244 additional frozen pairs. New456 vectors/492 refusals,seven traces. No physical LCU/numerical/source execution. |
 | Public context-action byte codec | Verified host primitive | `HAILO10H_MOJO_CONTEXT_ACTIONS.md`; four public record types, owned values, exact field widths and 244 native calls against independent struct and C++ header oracles. No numerical program or upload. |
 | Configuration upload/activation endpoint | Public program receiver mapped; physical original upload open | `HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md`; matching driver rejects NNC firmware controls on the Pi SoC path. hRPC action 2 accepts separate compiled-program bytes, followed by configure/activate lifecycles. Original metadata/lifecycle codec is verified as host bytes; active `TASK_hailo10h_program_delivery.md` continues container/CCW facts. Actual upload, raw-context endpoint and numerical encoding remain open. |
+| Sealed original program output | Verified actual host ownership | `HAILO10H_MOJO_SEALED_PROGRAM_PAYLOAD.md`;8 clean Mojo/3 C,38 methods,2842 full frozen pairs and294 new traces;2326 balanced memfds/72 kernel refusals. No historical artifact identity,DMA or numerical/source execution. |
 | Grouped USERPTR launch value codec | Verified host serialization | `HAILO10H_MOJO_SOC_GROUP.md`;3 Mojo/2 C++ links,20 selected methods,218 full frozen pairs;227 independent header vectors and177 direct recovery cycles. No mapping,pinning,DMA or source-model execution. |
 | Original program metadata/lifecycle codec | Verified host wire primitive | `HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`; eight methods/140 calls against generated public-schema protobuf, ten device codec regressions pass. No program transfer or activation. |
 | Original configure/stream codec | Verified host wire primitive | `HAILO10H_MOJO_CONFIGURE_RPC_CODEC.md`; eight methods/83 calls, exact public-schema fields/raw float words/NMS sentinels/body limits/strict replies. Program/device regressions pass. No hardware configure or resource ownership. |

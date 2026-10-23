@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 133 |
+| `verified` | 134 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **178** |
+| **Total** | **179** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4043,3 +4043,28 @@ No new capability ID or hardware/complete-source execution claim.
   134 inherited and1 supplementary pre-code control. Inherited warnings scoped;
   baseline assumption/test naming/trace census corrections retained. Both
   selected acceptance suites pass;no native compile or test failure.
+
+
+### AES-CONTROL-005 — Owned kernel-sealed original program output bytes
+
+- **Status:** `verified`
+- **Owner:** Original smidr/sealed_program_payload.mojo and bounded host tool.
+- **Claim sources:** TASK_hailo10h_sealed_program_payload.md published73760c1
+  before production;docs/HAILO10H_SEALED_SOURCE_COPY_CONTRACT.md.
+- **Implementation evidence:** Exact staged program copied to owned anonymous
+  sealed file;independent bounded positional I/O,full sealed readback comparison,
+  fresh same-fd seals/extent/CLOEXEC/request/integrity/metadata guards per access.
+  Original helpers reused;zero old production/test edits.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEALED_PROGRAM_PAYLOAD.md;8 clean
+  Mojo/3 C,38 selected methods/3136 primary calls and2842 full frozen pairs.
+  New294 traces,277987 exact bytes,2086 direct recovery cycles,29 injected runs.
+- **Evidence boundary:** Immutable bytes in the actual sealed host object only.
+  No historical global artifact identity,source-to-executable coherence,numerical
+  program admission,USERPTR pin compatibility,physical DMA or source execution.
+- **Next acceptance gate:** Qualified actual grouped DMA storage/descriptor/
+  lifetime/deadline/late-cleanup boundary plus numerical/physical program
+  generation,activation/results toward broad ordinary unmodified model support100%.
+- **Audit:**2326 actual memfds/2326 closes,72 kernel protection refusals;11 ELF
+  artifacts/22 tables. No observed Hailo/network/ioctl/excluded runtime effects.
+  Actual690 Mojo/80 Python copies,137 controls. Failed type probe and initial
+  runner ldd/import failures retained;final five suites pass unchanged old inputs.
