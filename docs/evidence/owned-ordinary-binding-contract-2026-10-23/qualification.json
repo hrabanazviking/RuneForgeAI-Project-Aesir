@@ -1,0 +1,11 @@
+{
+  "parent": "b61c0bc7e036c8dd4e936f4b02c20e9fa79d027e",
+  "source_identities": 672,
+  "python_inputs": 73,
+  "native_controls": 122,
+  "production_started": false,
+  "old_sources_exact": true,
+  "probe_executed": false,
+  "probe_compile_diagnostic_bytes": 0,
+  "probe_binary_sha256": "9d9c070563f7ce8364c8e2cc37e96366f65e48031663940995d4cc5329231b0c"
+}

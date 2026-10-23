@@ -1,0 +1,41 @@
+# Type/cleanup feasibility only. NEVER EXECUTE this closed-input binary.
+from std.collections import Dict
+from hailbru.source_sealed_copy import SealedSourceBytes
+from smidr.sealed_source_metadata import SealedSourceConfig, SealedSourceIndex
+from smidr.source_config import SourceConfiguration
+from smidr.source_index import SourceShardIndex
+from smidr.source_storage import SourceStorageInventory
+from smidr.sealed_source_collection import SealedIndexedSourceCollection, SealedUnindexedSourceCollection, SealedCollectionShard
+from smidr.decoder_layers import source_decoder_layers, DecoderLayerPolicy
+from smidr.decoder_architecture import source_decoder_architecture, DecoderArchitecturePolicy
+from smidr.decoder_projections import DecoderProjectionPolicy
+from smidr.source_inventory import SourceSemanticPolicy
+from smidr.ordinary_projection_schema import OrdinaryProjectionSchema, bind_ordinary_projection_schema
+from smidr.tools.decoder_projections import _snapshot
+
+@fieldwise_init
+struct ClosedIndexedBinding(Movable):
+    var owner: SealedIndexedSourceCollection
+    var intent: OrdinaryProjectionSchema
+
+@fieldwise_init
+struct ClosedUnindexedBinding(Movable):
+    var owner: SealedUnindexedSourceCollection
+    var intent: OrdinaryProjectionSchema
+
+def compose(var owner: SealedIndexedSourceCollection) raises -> ClosedIndexedBinding:
+    var layers = source_decoder_layers(owner.config.config, DecoderLayerPolicy(16, 10000, 1000000))
+    var architecture = source_decoder_architecture(layers, DecoderArchitecturePolicy(10000, 1000000))
+    var files = List[SourceStorageInventory]()
+    for i in range(len(owner.shards)):
+        files.append(_snapshot(owner.shards[i].storage))
+    var intent = bind_ordinary_projection_schema(architecture, files,
+        DecoderProjectionPolicy(SourceSemanticPolicy(8, 1000, 64, 1000000), 1000000, "closed type probe only"))
+    return ClosedIndexedBinding(owner^, intent^)
+
+def main() raises:
+    var config = SealedSourceConfig(SealedSourceBytes(), SourceConfiguration("", 0, Dict[String, String](), 0), "", "")
+    var index = SealedSourceIndex(SealedSourceBytes(), SourceShardIndex("", 0, Dict[String, String](), Dict[String, String](), Dict[String, String](), False, -1, 0, 0), "", "")
+    var owner = SealedIndexedSourceCollection("", config^, index^, List[SealedCollectionShard](), 0, 0, 0, 0, 0)
+    var binding = compose(owner^)
+    binding.owner.close()

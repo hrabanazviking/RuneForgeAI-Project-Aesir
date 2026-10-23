@@ -22,7 +22,9 @@ constant-input lifetime are now verified under
 Owned ordinary indexed/unindexed backing lifetime is now verified under
 `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md`, using existing beneath-root and
 collection rules. Compiler/artifact bindings and remaining format/architecture/
-operation implementation stay open. Full controlling scope:
+operation implementation stay open. Next native work order:
+`TASK_hailo10h_owned_ordinary_binding.md`; rehydrate actual retained bytes into
+the existing ordinary projection schema and guard bound component reads. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
