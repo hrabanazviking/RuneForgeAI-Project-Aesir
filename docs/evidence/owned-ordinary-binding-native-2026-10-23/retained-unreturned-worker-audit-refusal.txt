@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../owned-ordinary-binding-native-development/audit-v3.py", line 84, in <module>
+    calls=logical(raw)
+          ^^^^^^^^^^^^
+  File "../owned-ordinary-binding-native-development/logical.py", line 23, in logical
+    assert not pending,pending
+AssertionError: {'1798194': 'rt_sigprocmask(SIG_SETMASK, [],  '}

@@ -1,0 +1,29 @@
+{
+  "staged_new_sources_included": true,
+  "documentation_baseline_byte_identical": true,
+  "ledger_schema_nine_inherited_errors_byte_identical": true,
+  "ledger_verified": 129,
+  "ledger_unique": 174,
+  "whole_repository_or_hosted_ci_pass": false,
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "scripts/check_doc_drift.py"
+      ],
+      "returncode": 1,
+      "output_bytes": 2471216,
+      "output_sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/ledger_schema.py",
+        "check"
+      ],
+      "returncode": 1,
+      "output_bytes": 1132,
+      "output_sha256": "731f174e5e6e09b66de5e7143f5790b6d86cb6ce68553ee9e9df4c1f0b0005ca"
+    }
+  ]
+}

@@ -21,10 +21,11 @@ constant-input lifetime are now verified under
 `HAILO10H_MOJO_SEALED_SOURCE_METADATA.md`, with zero old production edits.
 Owned ordinary indexed/unindexed backing lifetime is now verified under
 `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md`, using existing beneath-root and
-collection rules. Compiler/artifact bindings and remaining format/architecture/
-operation implementation stay open. Next native work order:
-`TASK_hailo10h_owned_ordinary_binding.md`; rehydrate actual retained bytes into
-the existing ordinary projection schema and guard bound component reads. Full controlling scope:
+collection rules. Retained ordinary compiler projection binding and guarded component reads are now
+verified under `HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md`. Owned graph integration,
+global artifact identity and remaining format/architecture/operation work stay
+open. Next: qualify the owned ordinary graph/compiler contract; continue actual
+numerical configuration/program/results under the same broad target. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -32,6 +33,7 @@ verify, publish and advance each bounded work slice.
 
 | Work slice | State | Evidence / next action |
 |---|---|---|
+| Retained ordinary compiler binding | Verified observed input/projection binding | `HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md`;26 clean Mojo/9 C builds,13 suites/85 methods,2251 complete frozen pairs across24 controls. New1133814 exact component words,455 balanced lifetime traces;no numerical model execution. |
 | Owned ordinary collection backing | Verified observed compiler-input lifetime | `HAILO10H_MOJO_SEALED_SOURCE_COLLECTION.md`;14 clean current Mojo/6 C builds,7 suites/41 methods,971 complete frozen pairs across12 controls.290 new lifetime traces;no compiler/artifact identity or numerical execution. |
 | Owned sealed config/index metadata | Verified observed compiler-input lifetime | `HAILO10H_MOJO_SEALED_SOURCE_METADATA.md`;8 clean Mojo/4 C builds,4 suites/27 methods,892 complete frozen pairs across six controls.253 new lifetime traces;no global identity or numerical execution. |
 | Owned sealed Safetensors input | Verified parser/constant-input lifetime | `HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md`;117 current entries/115 frozen controls,50 suites/354 methods/14325 complete pairs. New263212 component words,15 full snapshots and102 lifetime traces. No atomic original version, artifact identity or numerical device execution. |

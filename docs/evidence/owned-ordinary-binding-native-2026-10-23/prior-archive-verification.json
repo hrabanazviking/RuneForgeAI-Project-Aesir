@@ -1,0 +1,12 @@
+[
+  {
+    "manifest": "docs/evidence/sealed-collection-native-2026-10-23/archive-identities.json",
+    "files": 6569,
+    "sha256": "784d3f9b55e960a7acb54766dd88e14adfe42316d2dbd38eaf0c7cc6a1e3345f"
+  },
+  {
+    "manifest": "docs/evidence/owned-ordinary-binding-contract-2026-10-23/archive-identities.json",
+    "files": 81,
+    "sha256": "941527c9df9df2cbb43a708fe41fa20ee75bca79f378d629e4fc1580b0ef2068"
+  }
+]

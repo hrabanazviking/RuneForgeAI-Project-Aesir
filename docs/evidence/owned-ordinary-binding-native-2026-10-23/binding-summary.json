@@ -1,0 +1,16 @@
+{
+  "calls": 840,
+  "outcomes": {
+    "accepted": 461,
+    "refused": 379
+  },
+  "comparisons": {
+    "complete_frozen_schemas": 419,
+    "exact_component_words": 1133814,
+    "complete_component_snapshots": 407,
+    "selected_component_windows": 407,
+    "complete_schema_oracles": 419,
+    "independent_complete_mutation_pairs": 20,
+    "independent_complete_fault_pairs": 16
+  }
+}

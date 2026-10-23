@@ -1,0 +1,6 @@
+........
+----------------------------------------------------------------------
+Ran 8 tests in 22.642s
+
+OK
+{'calls': 319, 'outcomes': {0: 275, 1: 44}, 'comparisons': {'complete_semantic_recipe_global_triples': 38, 'complete_source_components': 9952, 'complete_byte_tiles': 173, 'exact_payload_bytes': 25740, 'complete_legacy_tile_outputs': 38, 'full_handled_refusal_pairs': 6, 'complete_parser_snapshot': 1, 'complete_mutation_preimage_postimage_pairs': 3, 'complete_path_factory_outputs': 1}, 'traces': 113}

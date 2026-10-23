@@ -1,0 +1,28 @@
+{
+  "parent": "9a0a91ea141480ea905da4ef5dbf5a3eb4dd4286",
+  "old_production_changes": [],
+  "stable_current_mojo_builds": 26,
+  "current_clean_c_builds": 9,
+  "retained_first_and_second_builds": true,
+  "immutable_precode_controls": 122,
+  "selected_current_control_pairs": 24,
+  "all_stable_linking_before_native_acceptance": true,
+  "failed_build_test_runner_and_auditor_attempts_retained": true,
+  "native_production_leaf_unchanged_after_initial_clean_module_compile": true,
+  "archive_files": 21453,
+  "work_path_projection": "..",
+  "dependency_home_projection": "<host-home>",
+  "prior": [
+    {
+      "manifest": "docs/evidence/sealed-collection-native-2026-10-23/archive-identities.json",
+      "files": 6569,
+      "sha256": "784d3f9b55e960a7acb54766dd88e14adfe42316d2dbd38eaf0c7cc6a1e3345f"
+    },
+    {
+      "manifest": "docs/evidence/owned-ordinary-binding-contract-2026-10-23/archive-identities.json",
+      "files": 81,
+      "sha256": "941527c9df9df2cbb43a708fe41fa20ee75bca79f378d629e4fc1580b0ef2068"
+    }
+  ],
+  "whole_repository_or_hosted_ci_pass": false
+}

@@ -1,0 +1,17 @@
+source_root 0
+shard_collection 0
+unindexed_source 0
+sealed-copy 0
+sealed-safetensors 0
+sealed-metadata 0
+sealed-collection 1
+decoder_projections 0
+ordinary_projection_schema 2
+decoder_architecture 0
+decoder_layers 0
+owned-compiler 0
+owned-binding 1
+Traceback (most recent call last):
+  File "../Project-Aesir/../owned-ordinary-binding-native-development/run-acceptance.py", line 8, in <module>
+    assert all(r['returncode']==0 for r in rows),[(r['suite'],r['returncode']) for r in rows]
+AssertionError: [('source_root', 0), ('shard_collection', 0), ('unindexed_source', 0), ('sealed-copy', 0), ('sealed-safetensors', 0), ('sealed-metadata', 0), ('sealed-collection', 1), ('decoder_projections', 0), ('ordinary_projection_schema', 2), ('decoder_architecture', 0), ('decoder_layers', 0), ('owned-compiler', 0), ('owned-binding', 1)]

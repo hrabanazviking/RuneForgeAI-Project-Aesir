@@ -1,0 +1,50 @@
+test_before_parser_original_changes_after_actual_copy (__main__.SealedCollection.test_before_parser_original_changes_after_actual_copy) ... FAIL
+test_complete_seeded_indexed_unindexed_bytes_and_components (__main__.SealedCollection.test_complete_seeded_indexed_unindexed_bytes_and_components) ... ok
+test_exact_page_hash_and_metadata_read_boundaries (__main__.SealedCollection.test_exact_page_hash_and_metadata_read_boundaries) ... ok
+test_full_original_mutations_and_independent_repeats (__main__.SealedCollection.test_full_original_mutations_and_independent_repeats) ... FAIL
+test_invalid_joins_headers_symlinks_and_fresh_recovery (__main__.SealedCollection.test_invalid_joins_headers_symlinks_and_fresh_recovery) ... ok
+test_late_shard_fault_cleanup_reported_close_and_fresh_success (__main__.SealedCollection.test_late_shard_fault_cleanup_reported_close_and_fresh_success) ... ok
+test_move_retained_copied_values_caches_recovery_and_bounds (__main__.SealedCollection.test_move_retained_copied_values_caches_recovery_and_bounds) ... ok
+test_root_parser_aggregate_and_separate_copy_limits (__main__.SealedCollection.test_root_parser_aggregate_and_separate_copy_limits) ... ok
+
+======================================================================
+FAIL: test_before_parser_original_changes_after_actual_copy (__main__.SealedCollection.test_before_parser_original_changes_after_actual_copy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_sealed_source_collection.py", line 242, in test_before_parser_original_changes_after_actual_copy
+    r=self.call(root,mode='snapshot',env=env);self.exact(r,root,files,want,True,old)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_sealed_source_collection.py", line 90, in call
+    return self.child([self.api,mode,'indexed' if indexed else 'unindexed',*args] if mode else [self.binary,'indexed' if indexed else 'unindexed',*args],root,trace,env)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_sealed_source_collection.py", line 84, in child
+    r=subprocess.run(command,capture_output=True,text=True,timeout=90,stdin=subprocess.DEVNULL,env=env)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "../Project-Aesir/../owned-ordinary-binding-native-acceptance/pair-all.py", line 68, in pair
+    assert p.returncode==control.returncode,('exit',c,p.stderr,control.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('exit', ['/usr/bin/strace', '-f', '-yy', '-s', '4096', '-o', '../owned-ordinary-binding-native-acceptance/sealed-collection/trace-0001.strace', '-e', 'trace=%file,%desc,%memory,%network,%process', '../owned-ordinary-binding-native-final-v2/entry-012', 'snapshot', 'indexed', '../owned-ordinary-binding-native-acceptance/sealed-collection/model-0001', 'index.json', 'config.json', '4095', '1000', '10000000', '9223372036854775807', '1048576', '1000', '5000', '10000000', '64', '1048576', '5000', '10000000', '64', '1048576', '1000', '64', '10000000', '64', '1048584', '100', '1000', '10000000', '9223372036854775807', '100000000', '16777216', '16384', '16384', '16384'], '', 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON value\n')
+
+======================================================================
+FAIL: test_full_original_mutations_and_independent_repeats (__main__.SealedCollection.test_full_original_mutations_and_independent_repeats)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_sealed_source_collection.py", line 172, in test_full_original_mutations_and_independent_repeats
+    self.restore(root,files);r=self.call(root,indexed,mode=mode)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_sealed_source_collection.py", line 90, in call
+    return self.child([self.api,mode,'indexed' if indexed else 'unindexed',*args] if mode else [self.binary,'indexed' if indexed else 'unindexed',*args],root,trace,env)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_sealed_source_collection.py", line 84, in child
+    r=subprocess.run(command,capture_output=True,text=True,timeout=90,stdin=subprocess.DEVNULL,env=env)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "../Project-Aesir/../owned-ordinary-binding-native-acceptance/pair-all.py", line 68, in pair
+    assert p.returncode==control.returncode,('exit',c,p.stderr,control.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('exit', ['/usr/bin/strace', '-f', '-yy', '-s', '4096', '-o', '../owned-ordinary-binding-native-acceptance/sealed-collection/trace-0090.strace', '-e', 'trace=%file,%desc,%memory,%network,%process', '../owned-ordinary-binding-native-final-v2/entry-012', 'truncate', 'indexed', '../owned-ordinary-binding-native-acceptance/sealed-collection/model-0046', 'index.json', 'config.json', '4095', '1000', '10000000', '9223372036854775807', '1048576', '1000', '5000', '10000000', '64', '1048576', '5000', '10000000', '64', '1048576', '1000', '64', '10000000', '64', '1048584', '100', '1000', '10000000', '9223372036854775807', '100000000', '16777216', '16384', '16384', '16384'], '', 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: expected JSON string\n')
+
+----------------------------------------------------------------------
+Ran 8 tests in 19.278s
+
+FAILED (failures=2)
+{'calls': 353, 'outcomes': {'accepted': 199, 'refused': 154}, 'comparisons': {'exact_component_words': 4624, 'full_shard_bytes': 225960, 'complete_byte_and_component_snapshots': 138, 'complete_metadata_storage_and_counter_projections': 146}}

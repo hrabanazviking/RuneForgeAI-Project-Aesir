@@ -1,0 +1,12 @@
+{
+  "time_ns": 1792731484030055301,
+  "mojo_builds": 26,
+  "c_builds": 9,
+  "all_linking_before_native_acceptance": true,
+  "source_snapshot": "../owned-ordinary-binding-native-final-v3/source-snapshot",
+  "test_snapshot": "../owned-ordinary-binding-native-final-v3/test-snapshot",
+  "no_source_or_test_edit_after_final_builds": true,
+  "only_test_or_runner_corrections_since_initial_production": true,
+  "final_full_output_retention_run": true,
+  "only_runner_changed_since_previous_passing_run": true
+}

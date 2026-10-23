@@ -1,0 +1,28 @@
+test_01_all_roles_representations_and_factories (__main__.OwnedOrdinaryBinding.test_01_all_roles_representations_and_factories) ... ok
+test_02_rehydrate_move_close_copied_windows_and_recovery (__main__.OwnedOrdinaryBinding.test_02_rehydrate_move_close_copied_windows_and_recovery) ... ok
+test_03_every_schema_and_canonical_descriptor_field (__main__.OwnedOrdinaryBinding.test_03_every_schema_and_canonical_descriptor_field) ... FAIL
+test_04_every_owned_and_external_policy_field (__main__.OwnedOrdinaryBinding.test_04_every_owned_and_external_policy_field) ... ok
+test_05_complete_original_mutations_before_bind_and_after_return (__main__.OwnedOrdinaryBinding.test_05_complete_original_mutations_before_bind_and_after_return) ... ok
+test_06_exact_hash_and_parser_boundaries (__main__.OwnedOrdinaryBinding.test_06_exact_hash_and_parser_boundaries) ... ok
+test_07_hash_metadata_parser_close_faults_and_fresh_success (__main__.OwnedOrdinaryBinding.test_07_hash_metadata_parser_close_faults_and_fresh_success) ... ok
+test_08_missing_formats_and_later_binding_failures_remain_work (__main__.OwnedOrdinaryBinding.test_08_missing_formats_and_later_binding_failures_remain_work) ... ok
+
+======================================================================
+FAIL: test_03_every_schema_and_canonical_descriptor_field (__main__.OwnedOrdinaryBinding.test_03_every_schema_and_canonical_descriptor_field)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_owned_ordinary_binding.py", line 111, in test_03_every_schema_and_canonical_descriptor_field
+    self.refused(self.call(f[0],indexed,'schema:'+mode));self.exact(self.call(f[0],indexed,trace=False),f,indexed,ref)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_owned_ordinary_binding.py", line 86, in refused
+    self.assertNotEqual(r.returncode,0,r.stdout);self.assertEqual(r.stdout,'');self.assertIn('Unhandled exception caught during execution:',r.stderr)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'At: /home/pi/Documents/Codex/2026-10-19/u[132 chars]-1\n' != ''
+- At: ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:175:55: Assert Error: index 0 is out of bounds, valid range is 0 to -1
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 69.252s
+
+FAILED (failures=1)
+{'calls': 682, 'outcomes': {'accepted': 378, 'refused': 304}, 'comparisons': {'complete_frozen_schemas': 337, 'exact_component_words': 903408, 'complete_component_snapshots': 325, 'complete_schema_oracles': 337, 'independent_complete_mutation_pairs': 20, 'independent_complete_fault_pairs': 16}}

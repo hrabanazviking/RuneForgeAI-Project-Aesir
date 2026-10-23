@@ -1,0 +1,211 @@
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:289:44: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_shard(owner.shards[0], mode[10:])
+                                       ~~~~^~~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:289:44: error: invalid call to '_damage_shard': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_shard(owner.shards[0], mode[10:])
+        ~~~~~~~~~~~~~                  ~~~~^~~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:42:5: note: function declared here
+def _damage_shard(mut shard: SealedCollectionShard, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:301:41: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(owner.config.label, mode[7:])
+                                    ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:301:41: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(owner.config.label, mode[7:])
+        ~~~~~~~                     ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:302:40: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(owner.index.label, mode[7:])
+                                   ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:302:40: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(owner.index.label, mode[7:])
+        ~~~~~~~                    ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:304:54: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+            _mutate(owner.shards[i].owner.label, mode[7:])
+                                                 ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:304:54: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+            _mutate(owner.shards[i].owner.label, mode[7:])
+            ~~~~~~~                              ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:314:49: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(context.owner.config.label, mode[6:])
+                                            ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:314:49: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(context.owner.config.label, mode[6:])
+        ~~~~~~~                             ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:315:48: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(context.owner.index.label, mode[6:])
+                                           ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:315:48: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(context.owner.index.label, mode[6:])
+        ~~~~~~~                            ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:317:62: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+            _mutate(context.owner.shards[i].owner.label, mode[6:])
+                                                         ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:317:62: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+            _mutate(context.owner.shards[i].owner.label, mode[6:])
+            ~~~~~~~                                      ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:319:44: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_schema(context.schema, mode[7:])
+                                       ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:319:44: error: invalid call to '_damage_schema': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_schema(context.schema, mode[7:])
+        ~~~~~~~~~~~~~~                 ~~~~^~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:57:5: note: function declared here
+def _damage_schema(mut intent: OrdinaryProjectionSchema, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:321:44: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_policy(context.policy, mode[7:])
+                                       ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:321:44: error: invalid call to '_damage_policy': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_policy(context.policy, mode[7:])
+        ~~~~~~~~~~~~~~                 ~~~~^~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:196:5: note: function declared here
+def _damage_policy(mut policy: OrdinaryBindingPolicy, mode: String):
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:323:36: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_policy(policy, mode[9:])
+                               ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:323:36: error: invalid call to '_damage_policy': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_policy(policy, mode[9:])
+        ~~~~~~~~~~~~~~         ~~~~^~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:196:5: note: function declared here
+def _damage_policy(mut policy: OrdinaryBindingPolicy, mode: String):
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:325:52: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_shard(context.owner.shards[0], mode[11:])
+                                               ~~~~^~~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:325:52: error: invalid call to '_damage_shard': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_shard(context.owner.shards[0], mode[11:])
+        ~~~~~~~~~~~~~                          ~~~~^~~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:42:5: note: function declared here
+def _damage_shard(mut shard: SealedCollectionShard, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:385:40: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_shard(owner.shard, mode[10:])
+                                   ~~~~^~~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:385:40: error: invalid call to '_damage_shard': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_shard(owner.shard, mode[10:])
+        ~~~~~~~~~~~~~              ~~~~^~~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:42:5: note: function declared here
+def _damage_shard(mut shard: SealedCollectionShard, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:391:41: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(owner.config.label, mode[7:])
+                                    ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:391:41: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(owner.config.label, mode[7:])
+        ~~~~~~~                     ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:392:46: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(owner.shard.owner.label, mode[7:])
+                                         ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:392:46: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(owner.shard.owner.label, mode[7:])
+        ~~~~~~~                          ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:400:49: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(context.owner.config.label, mode[6:])
+                                            ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:400:49: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(context.owner.config.label, mode[6:])
+        ~~~~~~~                             ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:401:54: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _mutate(context.owner.shard.owner.label, mode[6:])
+                                                 ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:401:54: error: invalid call to '_mutate': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _mutate(context.owner.shard.owner.label, mode[6:])
+        ~~~~~~~                                  ~~~~^~~~
+Imported from ../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:13:
+../Project-Aesir/tests/hailo_sealed_collection_api.mojo:21:5: note: function declared here
+def _mutate(path: String, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:403:44: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_schema(context.schema, mode[7:])
+                                       ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:403:44: error: invalid call to '_damage_schema': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_schema(context.schema, mode[7:])
+        ~~~~~~~~~~~~~~                 ~~~~^~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:57:5: note: function declared here
+def _damage_schema(mut intent: OrdinaryProjectionSchema, mode: String) raises:
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:405:44: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_policy(context.policy, mode[7:])
+                                       ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:405:44: error: invalid call to '_damage_policy': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_policy(context.policy, mode[7:])
+        ~~~~~~~~~~~~~~                 ~~~~^~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:196:5: note: function declared here
+def _damage_policy(mut policy: OrdinaryBindingPolicy, mode: String):
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:407:36: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_policy(policy, mode[9:])
+                               ~~~~^~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:407:36: error: invalid call to '_damage_policy': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_policy(policy, mode[9:])
+        ~~~~~~~~~~~~~~         ~~~~^~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:196:5: note: function declared here
+def _damage_policy(mut policy: OrdinaryBindingPolicy, mode: String):
+    ^
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:409:48: error: String does not support direct positional slicing like `s[a:b]` because Mojo strings are UTF-8 encoded, and the same range can mean different things. Use `s[byte=a:b]` to slice by raw UTF-8 byte positions, or `s[codepoint=a:b]` to slice by Unicode code points.
+        _damage_shard(context.owner.shard, mode[11:])
+                                           ~~~~^~~~~
+<unknown>:0: note: '__getitem__' declared here
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:409:48: error: invalid call to '_damage_shard': value passed to 'mode' cannot be converted from 'StringSpan[origin_of(mode)]' to 'String'
+        _damage_shard(context.owner.shard, mode[11:])
+        ~~~~~~~~~~~~~                      ~~~~^~~~~
+../Project-Aesir/tests/hailo_owned_ordinary_binding_api.mojo:42:5: note: function declared here
+def _damage_shard(mut shard: SealedCollectionShard, mode: String) raises:
+    ^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module

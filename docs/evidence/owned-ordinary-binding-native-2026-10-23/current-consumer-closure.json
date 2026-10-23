@@ -1,0 +1,15 @@
+{
+  "old_sources_unchanged": 672,
+  "current_sources": 675,
+  "new_leaf": "smidr/owned_ordinary_binding.mojo",
+  "actual_transitive_consumers": [
+    "smidr/tools/owned_ordinary_binding.mojo",
+    "tests/hailo_owned_ordinary_binding_api.mojo"
+  ],
+  "new_sources": [
+    "smidr/owned_ordinary_binding.mojo",
+    "smidr/tools/owned_ordinary_binding.mojo",
+    "tests/hailo_owned_ordinary_binding_api.mojo"
+  ],
+  "immutable_controls": 122
+}

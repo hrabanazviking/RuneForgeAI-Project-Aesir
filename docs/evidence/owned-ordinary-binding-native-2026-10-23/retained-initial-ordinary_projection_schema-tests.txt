@@ -1,0 +1,8 @@
+usage: test_hailo_ordinary_projection_schema.py [-h] --binary BINARY --api API
+                                                --legacy LEGACY --frozen
+                                                FROZEN --public-config
+                                                PUBLIC_CONFIG --header0
+                                                HEADER0 --header1 HEADER1
+                                                --strace STRACE --evidence
+                                                EVIDENCE
+test_hailo_ordinary_projection_schema.py: error: unrecognized arguments: -v

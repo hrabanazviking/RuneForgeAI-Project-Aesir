@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 128 |
+| `verified` | 129 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **173** |
+| **Total** | **174** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3908,3 +3908,30 @@ No new capability ID or hardware/complete-source execution claim.
   pairs,one full directory rename/deletion pair and65 independent fault-log pairs.
   Failed type/test/auditor/entry-routing attempts retained; full selected rerun
   covers all14 current entries and all12 controls without omitted comparisons.
+
+
+### AES-SOURCE-034 — Retained ordinary compiler projection binding
+
+- **Status:** `verified`
+- **Owner:** Original Mojo SMIÐR retained ordinary compiler-input orchestration.
+- **Claim sources:** TASK_hailo10h_owned_ordinary_binding.md published at9a0a91e
+  before production; docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+- **Implementation evidence:** New indexed/unindexed wrappers retain actual sealed
+  owners, schema and policies. Existing parsers/interpretation/binder rehydrate
+  actual bytes and guard canonical component reads. All672 old Mojo/73 Python
+  inputs exact; zero old production edits.
+- **Executable evidence:** docs/HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md and
+  docs/evidence/owned-ordinary-binding-native-2026-10-23/;26 clean Mojo/9 C builds,
+  13 suites/85 methods,2251 complete frozen pairs across24 controls. New840 calls,
+  419 complete schemas,407 full/selected component snapshots,1133814 exact words.
+- **Evidence boundary:** Observed compiler-input binding/static source conversion.
+  No atomic multi-file original revision, global source/artifact identity, complete
+  adapter, numerical format/fit/placement/program execution or device access.
+  Broad ordinary-model support100%; missing coverage remains required work.
+- **Next acceptance gate:** Owned mathematical graph integration and actual H10H
+  numerical configuration/packing/placement/original delivery/results/cleanup.
+- **Audit:**455 new traces balance455 root/1748 original/1608 sealed lifetimes,
+  919 exact maps/unmaps;15162 complete/16 partial hashes and5818 metadata EOFs.
+  910 disjoint other traces;one literal unreturned worker record opaque. Full
+  stdout/stderr for5660 executions;34 file/345 directory-tree comparisons,
+  45 changed trees and161 independent fault-log pairs. Failed attempts retained.
