@@ -20,7 +20,9 @@ constant-input lifetime are now verified under
 `TASK_hailo10h_sealed_safetensors_source.md`. Owned ordinary config/index observed bytes are now verified under
 `HAILO10H_MOJO_SEALED_SOURCE_METADATA.md`, with zero old production edits.
 Owned ordinary shards/compiler/artifact bindings and remaining format/architecture/
-operation implementation stay open. Full controlling scope:
+operation implementation stay open. Next native work order:
+`TASK_hailo10h_sealed_source_collection.md`; retain actual config/index/shard
+backing owners under existing beneath-root and collection rules. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,

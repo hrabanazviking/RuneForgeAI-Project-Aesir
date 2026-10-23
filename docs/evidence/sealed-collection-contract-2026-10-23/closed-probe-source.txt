@@ -1,0 +1,16 @@
+from hailbru.source_sealed_copy import SealedSourceBytes, seal_source_copy
+from smidr.source_root import SourceRegularFile
+from hailbru.syscall import os_host_architecture
+
+# Closed-owner type/cleanup feasibility only. This binary is NEVER EXECUTED.
+def consume(var file: SourceRegularFile) raises -> SealedSourceBytes:
+    if file.arch != os_host_architecture():
+        raise Error("probe: actual host mismatch")
+    var bytes = seal_source_copy(file.arch, file.fd, file.source_bytes, 64, 64, 64, 64)
+    file.close()
+    return bytes^
+
+def main() raises:
+    var file = SourceRegularFile()
+    var bytes = consume(file^)
+    bytes.close()
