@@ -32,6 +32,11 @@ configuration/program/results under `TASK_hailo10h_numerical_encoding_sources.md
 and the same fixed target. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
+Original sequencer trigger/completion serialization is now verified under
+`HAILO10H_MOJO_SEQUENCER_ACTIONS.md`:27 selected methods and1611 complete
+frozen comparisons. These are explicit host control bytes; physical placement,
+numerical instructions and original source-model execution remain open.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

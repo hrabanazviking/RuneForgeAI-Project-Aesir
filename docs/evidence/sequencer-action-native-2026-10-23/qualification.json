@@ -1,0 +1,23 @@
+{
+  "contract": "a7ca592334ea547f5ea151da749efc5995b6d198",
+  "pre_code_mojo": 678,
+  "pre_code_python_including_existing_auxiliary": 76,
+  "pre_code_controls": 126,
+  "final_mojo": 681,
+  "final_python_including_existing_auxiliary": 77,
+  "new_mojo_consumers": [
+    "smidr/tools/sequencer_actions.mojo",
+    "tests/hailo_sequencer_action_ownership.mojo"
+  ],
+  "clean_mojo_links": 6,
+  "clean_cpp_links": 3,
+  "header_files": 15,
+  "header_license_boundary": "14 per-file MIT notices; md5.h public-domain dedication with permissive fallback inspected before C compilation; declarations only, no MD5 implementation linked",
+  "immutable_raw_files": 18916,
+  "raw_bytes": 98726643,
+  "compiler_sha256": "be46936245ae995680155dcc2f61af5dac8678254c634110e99ceff25ce57c39",
+  "all_selected_suites_pass": true,
+  "numerical_program": false,
+  "device_access": false,
+  "source_model_execution": false
+}

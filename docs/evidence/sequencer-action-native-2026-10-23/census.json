@@ -1,0 +1,35 @@
+{
+  "context": {
+    "primary_calls": 244,
+    "complete_frozen_pairs": 199,
+    "methods": 7
+  },
+  "lcu": {
+    "primary_calls": 1869,
+    "complete_frozen_pairs": 1412,
+    "methods": 10
+  },
+  "sequencer": {
+    "primary_calls": 3981,
+    "scopes": {
+      "mojo_refusal": 678,
+      "header_oracle": 1100,
+      "mojo_encode": 1100,
+      "mojo_decode": 1100,
+      "mojo_uppercase": 1,
+      "ownership": 1,
+      "header_layout": 1
+    },
+    "methods": 10,
+    "complete_new_traces": 2880,
+    "independent_vectors": 1100,
+    "internal_refusal_recovery_cycles": 30
+  },
+  "total": {
+    "primary_calls": 6094,
+    "methods": 27,
+    "complete_frozen_pairs": 1611,
+    "frozen_accept": 1010,
+    "frozen_refuse": 601
+  }
+}

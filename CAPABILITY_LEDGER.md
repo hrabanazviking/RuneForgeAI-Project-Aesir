@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 130 |
+| `verified` | 131 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **175** |
+| **Total** | **176** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3965,3 +3965,28 @@ No new capability ID or hardware/complete-source execution claim.
   comparisons,85 changed trees;193 independent frozen fault-log comparisons.
   New32 independent original-mutation runs/16 pairs and30 fault runs/15 pairs.
   Type/build, test expectation/oracle and frozen-directory runner failures retained.
+
+
+### AES-CONTROL-002 — Owned sequencer configuration and completion serialization
+
+- **Status:** `verified`
+- **Owner:** Original Mojo smidr/sequencer_actions.mojo and bounded host tool.
+- **Claim sources:** TASK_hailo10h_sequencer_actions.md published at a7ca592
+  before production; docs/HAILO10H_SEQUENCER_INTERFACE_2026-10-23.md.
+- **Implementation evidence:** Independent width,kind,exact extent and absent-
+  field checks for packed context records1/17. Owned unsigned64 values preserve
+  complete high-bit bitmap/offset data. Zero old source/test edits.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEQUENCER_ACTIONS.md;6 clean Mojo
+  and3 C++ builds;27 methods/6094 primary calls and1611 complete frozen pairs.
+  New1100 independent Python/header vectors,678 refusals and30 direct recovery
+  cycles. Actual enum,packed size/offset and canonical ownership checks pass.
+- **Evidence boundary:** Host wire intent only. No physical resource count,
+  index/address validity,protobuf conversion,numerical instruction,placement,
+  raw-context endpoint,original program delivery or source-model execution.
+- **Next acceptance gate:** Established numerical encoding/configuration/
+  packing/placement and original upload/activation/results/cleanup under the
+  fixed broad ordinary unmodified model target. Missing coverage remains work.
+- **Audit:**2880 new traces contain no observed Hailo/network/ioctl or excluded
+  inference runtime effects;9 executables separately inspected. Actual681 Mojo/
+  77 Python input copies and126 pre-code controls pinned. Development refusals
+  retained with second type-probe source explicitly labelled reconstructed.

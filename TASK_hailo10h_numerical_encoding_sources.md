@@ -69,3 +69,9 @@ completion17 with exact configuration widths; the distinct protobuf layout is
 not implicitly convertible. Original host codec follows the pre-code contract
 `TASK_hailo10h_sequencer_actions.md`. No arithmetic opcode, physical placement,
 callable raw-context upload or numerical execution is qualified by these fields.
+
+Original sequencer codec now passes the pre-code contract under
+`docs/HAILO10H_MOJO_SEQUENCER_ACTIONS.md`:1100 independent byte vectors,
+678 new refusals and1611 complete frozen comparisons. This is host wire intent
+only. Continue actual numerical/physical/program endpoint work automatically;
+the fixed broad source-model target and all unresolved coverage remain work.
