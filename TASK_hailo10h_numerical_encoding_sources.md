@@ -81,3 +81,11 @@ recorded in `docs/HAILO10H_INPUT_ALIGNER_LEAD_2026-10-23.md`. Named controls and
 diagram callouts do not establish H10H addresses/bitfields or numerical code.
 Continue qualifying actual register/microcode/placement interfaces; no native
 source change, device request or execution claim follows from that study.
+
+2026-10-23 bounded memory-window configuration check:
+`docs/HAILO10H_WINDOW_CONFIGURATION_LEAD_2026-10-23.md`. Primary publication
+diagrams distinguish selectors/contention signaling but qualify no H10H address/
+bitfield/microcode or resource map. No invented device serialization follows.
+Original transport continues under`TASK_hailo10h_session_finalization.md` before
+reusing old RPC lifetime cleanup for grouped sealed output. Numerical and broad
+remaining source-model implementation work continues under the same fixed target.

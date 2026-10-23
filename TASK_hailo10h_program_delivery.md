@@ -94,3 +94,9 @@ pass,including all six sealed variants. Read-only/private H2D USERPTR acceptance
 is now observed for the tested profile;DMA/coherence,grouped descriptor counts,
 in-flight ownership/deadlines/late cleanup and numerical execution remain open.
 Use these actual results for the next original grouped storage contract.
+
+Before reusing existing session cleanup,resolve its concrete close-error gap
+under`TASK_hailo10h_session_finalization.md`:the current code marks storage
+finalized after a close exception. This new host-only contract preserves backing
+and poisons uncertain sessions;it authorizes no real device request. Continue
+grouped storage/descriptor/deadline and numerical program work after publication.

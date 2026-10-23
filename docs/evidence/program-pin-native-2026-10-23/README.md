@@ -11,3 +11,8 @@ the actual13 returned observations with exact-byte SHA256s;full output hex and
 traces remain in the pinned raw files. `physical-census.json` audits lifetimes
 and the four permitted ioctl kinds. `physical-gate.json` records the pre-call
 host gate. No transfer,coherence,numerical or source-model execution is claimed.
+
+Tracked binary/argument paths are normalized relative to the repository root.
+Exact local gate/command bytes remain in the pinned raw archive. The initial
+publication retained36 absolute path occurrences in two public summaries;the
+next staged drift check caught and corrected those without changing raw evidence.

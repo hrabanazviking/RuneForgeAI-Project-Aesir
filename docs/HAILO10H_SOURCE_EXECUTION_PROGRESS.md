@@ -69,6 +69,11 @@ is claimed. Continue separately contracted original grouped storage ownership,
 actual descriptor/deadline/late cleanup and numerical configuration/results
 toward the same broad ordinary unmodified model target100%.
 
+Immediate original transport prerequisite:
+`TASK_hailo10h_session_finalization.md`. Qualify refusal/retention when existing
+driver close is unconfirmed before reusing that lifetime path for grouped output.
+This does not alter the sealed map-only receipt or certify grouped DMA.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

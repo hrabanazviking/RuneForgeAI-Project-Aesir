@@ -1,0 +1,18 @@
+{
+  "parent": "194b95985907e73644a953ed3ce2f3eacb0b8068",
+  "mojo": 691,
+  "python": 81,
+  "controls": 141,
+  "affected_existing_consumers": [
+    "tests/hailo_soc_storage_unwind.mojo",
+    "tests/hailo_soc_pending_storage.mojo",
+    "tests/hailo_soc_session_unwind.mojo",
+    "smidr/tools/soc_wait.mojo",
+    "smidr/tools/soc_storage.mojo",
+    "smidr/tools/soc_rpc_device.mojo",
+    "smidr/tools/soc_session.mojo"
+  ],
+  "compiler_sha256": "be46936245ae995680155dcc2f61af5dac8678254c634110e99ceff25ce57c39",
+  "production_started": false,
+  "hardware_attempted": false
+}
