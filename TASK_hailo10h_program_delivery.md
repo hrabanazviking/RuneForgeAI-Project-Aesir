@@ -106,3 +106,10 @@ The scoped close-error correction is verified under
 pairs and permanent retention/refusal on unconfirmed finalization. This closes
 the tested host lifetime gap only. Physical grouped descriptor/DMA/deadline/late
 cleanup and numerical source-model execution remain required implementation work.
+
+Next original grouped preparation contract:
+`TASK_hailo10h_sealed_transfer_backing.md`. Own sealed canonical2068-byte metadata
+alongside the retained sealed program,using existing interfaces and independent
+full-byte oracles. This host-only slice permits no device request or transfer;
+actual grouped descriptors/deadlines and numerical configuration/results remain
+open under the same broad target.

@@ -80,6 +80,12 @@ and refuses session reuse. Host mocks establish no physical close-error or DMA
 safety. Continue original grouped storage/descriptor/deadline qualification and
 actual numerical configuration/program/results toward the same broad target.
 
+Next bounded original implementation:
+`TASK_hailo10h_sealed_transfer_backing.md`,owning sealed metadata plus the separate
+retained program bytes. Its host preparation does not establish grouped DMA,
+numerical admission or source-model execution. Continue those required physical
+and numerical gaps automatically under broad support100%.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 
