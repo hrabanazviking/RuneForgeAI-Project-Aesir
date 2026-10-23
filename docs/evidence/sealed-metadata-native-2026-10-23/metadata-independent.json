@@ -1,0 +1,722 @@
+[
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20333735382c2022ceba5c75303030303022203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "3758",
+      "\u03ba\u00000": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e30223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a302c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.0": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "0",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 695
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20373330352c2022ceba5c75303030303122203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "7305",
+      "\u03ba\u00001": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e31223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a31372c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.1": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "17",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 699
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20373330312c2022ceba5c75303030303222203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "7301",
+      "\u03ba\u00002": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e32223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a33342c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.2": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "34",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 699
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20363034302c2022ceba5c75303030303322203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "6040",
+      "\u03ba\u00003": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e33223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a35312c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.3": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "51",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 699
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20343432312c2022ceba5c75303030303422203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "4421",
+      "\u03ba\u00004": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e34223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a36382c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.4": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "68",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 699
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20353530382c2022ceba5c75303030303522203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "5508",
+      "\u03ba\u00005": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e35223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a38352c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.5": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "85",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 699
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a203635352c2022ceba5c75303030303622203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "655",
+      "\u03ba\u00006": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 758
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e36223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3130322c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.6": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "102",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 703
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20373330332c2022ceba5c75303030303722203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "7303",
+      "\u03ba\u00007": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e37223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3131392c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.7": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "119",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 703
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20363338342c2022ceba5c75303030303822203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "6384",
+      "\u03ba\u00008": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e38223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3133362c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.8": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "136",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 703
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20343733352c2022ceba5c75303030303922203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "4735",
+      "\u03ba\u00009": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 762
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e39223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3135332c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.9": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "153",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 703
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20313938302c2022ceba5c7530303030313022203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "1980",
+      "\u03ba\u000010": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3130223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3137302c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.10": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "170",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20313837322c2022ceba5c7530303030313122203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "1872",
+      "\u03ba\u000011": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3131223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3138372c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.11": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "187",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20313237382c2022ceba5c7530303030313222203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "1278",
+      "\u03ba\u000012": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3132223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3230342c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.12": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "204",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20353435392c2022ceba5c7530303030313322203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "5459",
+      "\u03ba\u000013": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3133223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3232312c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.13": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "221",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20313639382c2022ceba5c7530303030313422203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "1698",
+      "\u03ba\u000014": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3134223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3233382c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.14": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "238",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a2032312c2022ceba5c7530303030313522203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "21",
+      "\u03ba\u000015": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 758
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3135223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3235352c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.15": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "255",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20353534332c2022ceba5c7530303030313622203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "5543",
+      "\u03ba\u000016": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3136223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3237322c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.16": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "272",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20343730352c2022ceba5c7530303030313722203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "4705",
+      "\u03ba\u000017": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3137223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3238392c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.17": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "289",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20343338312c2022ceba5c7530303030313822203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "4381",
+      "\u03ba\u000018": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3138223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3330362c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.18": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "306",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20313735362c2022ceba5c7530303030313922203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "1756",
+      "\u03ba\u000019": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3139223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3332332c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.19": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "323",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20333433362c2022ceba5c7530303030323022203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "3436",
+      "\u03ba\u000020": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3230223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3334302c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.20": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "340",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20353131362c2022ceba5c7530303030323122203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "5116",
+      "\u03ba\u000021": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3231223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3335372c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.21": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "357",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20323035382c2022ceba5c7530303030323222203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "2058",
+      "\u03ba\u000022": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3232223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3337342c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.22": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "374",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  },
+  {
+    "kind": "config",
+    "source_hex": "7b20226d6f64656c5f7479706522203a20226c6c616d61222c2022726f70655f7363616c696e6722203a206e756c6c2c2022686561645f64696d22203a206e756c6c2c202268696464656e5f73697a6522203a20363830302c2022ceba5c7530303030323322203a205b312c20322e35652b322c207b2278223a66616c73657d5d2c2022756e6b6e6f776e22203a207b202264656661756c7422203a206e756c6c2c20226974656d7322203a205b747275652c2022cebb225d207d207d0a",
+    "fields_raw": {
+      "model_type": "\"llama\"",
+      "rope_scaling": "null",
+      "head_dim": "null",
+      "hidden_size": "6800",
+      "\u03ba\u000023": "[1, 2.5e+2, {\"x\":false}]",
+      "unknown": "{ \"default\" : null, \"items\" : [true, \"\u03bb\"] }"
+    },
+    "work_units": 766
+  },
+  {
+    "kind": "index",
+    "source_hex": "7b227765696768745f6d6170223a7b226c617965722ecebb5c75303030302e3233223a226f7264696e6172792d312e7361666574656e736f7273222c22712e776569676874223a222e2e2f756e6f70656e65642e62696e227d2c226d65746164617461223a7b22746f74616c5f73697a65223a3339312c22637573746f6d223a5b6e756c6c2c207b22cebb223a317d5d7d2c22657874656e73696f6e223a7b20226b656570223a206e756c6c207d7d",
+    "weight_map": {
+      "layer.\u03bb\u0000.23": "ordinary-1.safetensors",
+      "q.weight": "../unopened.bin"
+    },
+    "metadata_raw": {
+      "total_size": "391",
+      "custom": "[null, {\"\u03bb\":1}]"
+    },
+    "unknown_fields_raw": {
+      "extension": "{ \"keep\": null }"
+    },
+    "schema_fields": 7,
+    "work_units": 707
+  }
+]

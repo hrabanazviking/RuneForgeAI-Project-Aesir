@@ -1,0 +1,28 @@
+{
+  "current": {
+    "smidr/tools/source_config.mojo": "../sealed-metadata-native-final/entry-000",
+    "tests/hailo_source_config_api.mojo": "../sealed-metadata-native-final/entry-001",
+    "smidr/tools/source_index.mojo": "../sealed-metadata-native-final/entry-002",
+    "tests/hailo_source_index_api.mojo": "../sealed-metadata-native-final/entry-003",
+    "smidr/tools/sealed_source_copy.mojo": "../sealed-metadata-native-final/entry-004",
+    "tests/hailo_sealed_source_api.mojo": "../sealed-metadata-native-final/entry-005",
+    "tests/hailo_sealed_metadata_api.mojo": "../sealed-metadata-native-final/entry-006",
+    "smidr/tools/sealed_source_metadata.mojo": "../sealed-metadata-native-final/entry-007"
+  },
+  "frozen": {
+    "smidr/tools/source_config.mojo": "../sealed-safetensors-native-final/entry-088",
+    "smidr/tools/source_index.mojo": "../sealed-safetensors-native-final/entry-089",
+    "tests/hailo_source_config_api.mojo": "../sealed-safetensors-native-final/entry-097",
+    "tests/hailo_source_index_api.mojo": "../sealed-safetensors-native-final/entry-098",
+    "smidr/tools/sealed_source_copy.mojo": "../sealed-safetensors-native-final/entry-104",
+    "tests/hailo_sealed_source_api.mojo": "../sealed-safetensors-native-final/entry-105"
+  },
+  "pairs": {
+    "../sealed-metadata-native-final/entry-000": "../sealed-safetensors-native-final/entry-088",
+    "../sealed-metadata-native-final/entry-002": "../sealed-safetensors-native-final/entry-089",
+    "../sealed-metadata-native-final/entry-001": "../sealed-safetensors-native-final/entry-097",
+    "../sealed-metadata-native-final/entry-003": "../sealed-safetensors-native-final/entry-098",
+    "../sealed-metadata-native-final/entry-004": "../sealed-safetensors-native-final/entry-104",
+    "../sealed-metadata-native-final/entry-005": "../sealed-safetensors-native-final/entry-105"
+  }
+}

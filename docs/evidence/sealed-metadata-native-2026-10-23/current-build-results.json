@@ -1,0 +1,162 @@
+[
+  {
+    "source": "smidr/tools/source_config.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_config.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-000"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a"
+  },
+  {
+    "source": "tests/hailo_source_config_api.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_config_api.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-001"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f"
+  },
+  {
+    "source": "smidr/tools/source_index.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_index.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-002"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a"
+  },
+  {
+    "source": "tests/hailo_source_index_api.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_index_api.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-003"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94"
+  },
+  {
+    "source": "smidr/tools/sealed_source_copy.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_copy.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-004"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "271387902ab33e3a424d47729273b71ad1c0dd5c28178c2441a9b1e99203340f"
+  },
+  {
+    "source": "tests/hailo_sealed_source_api.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_source_api.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-005"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-005",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b9e7ebf9a12f509dd364608e19feee32e3c27f30e48bbead2dd749c586569144"
+  },
+  {
+    "source": "tests/hailo_sealed_metadata_api.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_metadata_api.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-006"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-006",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b324ed41bb16c2f1a204fc9dd5220dac82264970204c6eaeff26f40d9b2c7d59"
+  },
+  {
+    "source": "smidr/tools/sealed_source_metadata.mojo",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_metadata.mojo",
+      "-o",
+      "../sealed-metadata-native-final/entry-007"
+    ],
+    "binary": "../sealed-metadata-native-final/entry-007",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ac6452616f119fe6a4ed7c4ffd2579934cc6ad66311b091c885fee2c39d36fb7"
+  }
+]

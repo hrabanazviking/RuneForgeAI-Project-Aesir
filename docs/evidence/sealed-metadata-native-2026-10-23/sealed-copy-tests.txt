@@ -1,0 +1,11 @@
+test_byte_sizes_chunk_tails_and_full_source_formats (__main__.SealedCopy.test_byte_sizes_chunk_tails_and_full_source_formats) ... ok
+test_fault_progress_independent_attempt_budgets_and_cleanup (__main__.SealedCopy.test_fault_progress_independent_attempt_budgets_and_cleanup) ... ok
+test_input_bounds_and_pre_effect_guards (__main__.SealedCopy.test_input_bounds_and_pre_effect_guards) ... ok
+test_kernel_seals_detachment_mutation_and_return_ownership (__main__.SealedCopy.test_kernel_seals_detachment_mutation_and_return_ownership) ... ok
+test_owner_guards_restore_and_fresh_recovery (__main__.SealedCopy.test_owner_guards_restore_and_fresh_recovery) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 9.153s
+
+OK
+{'calls': 186, 'outcomes': {'accepted': 130, 'refused': 56}, 'complete_copied_byte_comparisons': 208069, 'fixtures': 52, 'traces': 93}

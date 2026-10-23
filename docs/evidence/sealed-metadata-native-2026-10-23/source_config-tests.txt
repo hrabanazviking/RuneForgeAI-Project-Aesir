@@ -1,0 +1,12 @@
+test_exact_policies (__main__.SourceConfig.test_exact_policies) ... ok
+test_file_admission_and_cleanup (__main__.SourceConfig.test_file_admission_and_cleanup) ... ok
+test_malformed_json_utf8_and_truncation (__main__.SourceConfig.test_malformed_json_utf8_and_truncation) ... ok
+test_owned_raw_values_and_modifiers (__main__.SourceConfig.test_owned_raw_values_and_modifiers) ... ok
+test_pinned_ordinary_configuration (__main__.SourceConfig.test_pinned_ordinary_configuration) ... ok
+test_seeded_configurations (__main__.SourceConfig.test_seeded_configurations) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 6.639s
+
+OK
+Native outcomes: {'accepted': 85, 'refused': 105}

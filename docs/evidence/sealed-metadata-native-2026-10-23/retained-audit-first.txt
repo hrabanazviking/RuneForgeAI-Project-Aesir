@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../sealed-metadata-native-recording/audit.py", line 72, in <module>
+    assert phases and all(len(gs)>=3 for gs in phases.values()),(trace,'hash/read phases',phases)
+AssertionError: (PosixPath('../sealed-metadata-native-acceptance/sealed-metadata/run-0267.strace'), 'hash/read phases', {('1196897', '4', 1): [{'covered': 10, 'calls': 1, 'complete': True, 'eof': False, 'metadata': False}], ('1196897', '4', 2): [{'covered': 10, 'calls': 1, 'complete': True, 'eof': False, 'metadata': False}, {'covered': 10, 'calls': 1, 'complete': True, 'eof': False, 'metadata': False}, {'covered': 10, 'calls': 2, 'complete': True, 'eof': True, 'metadata': True}, {'covered': 10, 'calls': 2, 'complete': True, 'eof': True, 'metadata': True}]})

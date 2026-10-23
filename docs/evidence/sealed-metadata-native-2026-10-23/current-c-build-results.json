@@ -1,0 +1,82 @@
+[
+  {
+    "source": "tests/sealed_metadata_faults.c",
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/sealed_metadata_faults.c",
+      "-ldl",
+      "-o",
+      "../sealed-metadata-native-final/sealed_metadata_faults.so"
+    ],
+    "source_sha256": "d97fb24b61fb0c850069ce19aae32d05c3ac4cf66ecb4263c1f44fe0a54e7bf6",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "binary_sha256": "a4cce8ecea9721b41c57723c43d63882f22f85ba865b0db5df7f361f4ce88a76"
+  },
+  {
+    "source": "tests/source_sealed_copy_faults.c",
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/source_sealed_copy_faults.c",
+      "-ldl",
+      "-o",
+      "../sealed-metadata-native-final/source_sealed_copy_faults.so"
+    ],
+    "source_sha256": "fdb15ba9dd0a790c7169cda6752cee6150b5d3928b6dd7b804f406a3a6cc6d37",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "binary_sha256": "b3b4c944f2d66c19b0bb1da332821312d548f4c4951855d8a903a4f9a16e2af8"
+  },
+  {
+    "source": "tests/sealed_safetensors_mutation.c",
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/sealed_safetensors_mutation.c",
+      "-ldl",
+      "-o",
+      "../sealed-metadata-native-final/sealed_safetensors_mutation.so"
+    ],
+    "source_sha256": "ebd7da7d0c01c8bdb11c29f4ea046b2ecd21a31eec6964f7684218fe0a4091b9",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "binary_sha256": "5370ddcc2374cff6a8e93deaf48c3038f1ee8a178e9fa2cfaa90b0d77b04a43c"
+  },
+  {
+    "source": "tests/source_index_io_faults.c",
+    "arguments": [
+      "cc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "tests/source_index_io_faults.c",
+      "-ldl",
+      "-o",
+      "../sealed-metadata-native-final/source_index_io_faults.so"
+    ],
+    "source_sha256": "6c401ae0c531722c7edc5f879e0db7c69071d91846461792a07450b01f780321",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "binary_sha256": "17a804d836a313539cffec65dbf163e1fe9532b11f0195372fac6ea22f2e7c77"
+  }
+]

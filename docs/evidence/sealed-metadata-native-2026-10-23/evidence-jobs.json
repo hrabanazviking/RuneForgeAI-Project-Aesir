@@ -1,0 +1,80 @@
+[
+  {
+    "suite": "source_config",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_source_config.py",
+    "args": [
+      "--binary",
+      "../sealed-metadata-native-final/entry-000",
+      "--api",
+      "../sealed-metadata-native-final/entry-001",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/source_config"
+    ]
+  },
+  {
+    "suite": "source_index",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_source_index.py",
+    "args": [
+      "--binary",
+      "../sealed-metadata-native-final/entry-002",
+      "--api",
+      "../sealed-metadata-native-final/entry-003",
+      "--faults",
+      "../sealed-metadata-native-final/source_index_io_faults.so",
+      "--public-index",
+      "../ordinary-model-metadata-study/model.safetensors.index.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/source_index"
+    ]
+  },
+  {
+    "suite": "sealed-copy",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_sealed_source_copy.py",
+    "args": [
+      "--binary",
+      "../sealed-metadata-native-final/entry-004",
+      "--api",
+      "../sealed-metadata-native-final/entry-005",
+      "--faults",
+      "../sealed-metadata-native-final/source_sealed_copy_faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/sealed-copy"
+    ]
+  },
+  {
+    "suite": "sealed-metadata",
+    "python": "/usr/bin/python3",
+    "script": "tests/test_hailo_sealed_source_metadata.py",
+    "args": [
+      "--binary",
+      "../sealed-metadata-native-final/entry-007",
+      "--api",
+      "../sealed-metadata-native-final/entry-006",
+      "--config-control",
+      "../sealed-safetensors-native-final/entry-088",
+      "--index-control",
+      "../sealed-safetensors-native-final/entry-089",
+      "--faults",
+      "../sealed-metadata-native-final/sealed_metadata_faults.so",
+      "--copy-faults",
+      "../sealed-metadata-native-final/source_sealed_copy_faults.so",
+      "--mutation-faults",
+      "../sealed-metadata-native-final/sealed_safetensors_mutation.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/sealed-metadata"
+    ]
+  }
+]

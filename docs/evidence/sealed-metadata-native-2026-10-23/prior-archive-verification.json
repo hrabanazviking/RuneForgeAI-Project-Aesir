@@ -1,0 +1,17 @@
+[
+  {
+    "manifest": "docs/evidence/sealed-safetensors-native-2026-10-22/archive-identities.json",
+    "files": 4889,
+    "sha256": "0e58786b766f87470bf7a31923479546844a0aed5d01a5aa44af4a48f5a16773"
+  },
+  {
+    "manifest": "docs/evidence/sealed-metadata-contract-2026-10-22/archive-identities.json",
+    "files": 83,
+    "sha256": "b79fb02385739bb47be74677df54406903bc11095f0ec991ee24faec9d5e8cf9"
+  },
+  {
+    "manifest": "docs/evidence/owned-compiler-native-2026-10-22/archive-identities.json",
+    "files": 2181,
+    "sha256": "12dd6c876d2b442b8641852e623debfe34dd21b95f87aacea9732f3c3ff4944e"
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "precode_parent": "06c7158a106701873c90a5c0b601e5f883e21721",
+  "old_production_changes": [],
+  "immutable_precode_controls": 117,
+  "stable_selected_old_entries": 6,
+  "new_entries": 2,
+  "all_linking_before_acceptance": true,
+  "failed_test_and_auditor_attempts_retained": true,
+  "final_python_test_source": "tests/test_hailo_sealed_source_metadata.py",
+  "raw_files_pinned": 2614,
+  "work_path_prefix_projection": "..",
+  "dependency_host_home_projection": "<host-home>",
+  "prior": [
+    {
+      "manifest": "docs/evidence/sealed-safetensors-native-2026-10-22/archive-identities.json",
+      "files": 4889,
+      "sha256": "0e58786b766f87470bf7a31923479546844a0aed5d01a5aa44af4a48f5a16773"
+    },
+    {
+      "manifest": "docs/evidence/sealed-metadata-contract-2026-10-22/archive-identities.json",
+      "files": 83,
+      "sha256": "b79fb02385739bb47be74677df54406903bc11095f0ec991ee24faec9d5e8cf9"
+    },
+    {
+      "manifest": "docs/evidence/owned-compiler-native-2026-10-22/archive-identities.json",
+      "files": 2181,
+      "sha256": "12dd6c876d2b442b8641852e623debfe34dd21b95f87aacea9732f3c3ff4944e"
+    }
+  ],
+  "whole_repository_or_hosted_ci_pass": false,
+  "final_test_path_namespace": "repository-relative; corrected public provenance label, raw recipe retained"
+}

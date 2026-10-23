@@ -1,0 +1,109 @@
+{
+  "scope": "ELF dependency inspection separate from observed syscall effects",
+  "entries": [
+    {
+      "source": "smidr/tools/source_config.mojo",
+      "binary": "../sealed-metadata-native-final/entry-000",
+      "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-000"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0x1fda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xc50\n 0x000000000000000d (FINI)               0xe440\n 0x0000000000000019 (INIT_ARRAY)         0x2fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x2fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x5b8\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              685 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x2ffe8\n 0x0000000000000002 (PLTRELSZ)           648 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x9c8\n 0x0000000000000007 (RELA)               0x8d8\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x8a8\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x866\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "source": "tests/hailo_source_config_api.mojo",
+      "binary": "../sealed-metadata-native-final/entry-001",
+      "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-001"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0x1fda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xc50\n 0x000000000000000d (FINI)               0x107a0\n 0x0000000000000019 (INIT_ARRAY)         0x2fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x2fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x5b8\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              685 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x2ffe8\n 0x0000000000000002 (PLTRELSZ)           648 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x9c8\n 0x0000000000000007 (RELA)               0x8d8\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x8a8\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x866\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "source": "smidr/tools/source_index.mojo",
+      "binary": "../sealed-metadata-native-final/entry-002",
+      "sha256": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-002"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0x1fda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xc50\n 0x000000000000000d (FINI)               0x118a0\n 0x0000000000000019 (INIT_ARRAY)         0x2fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x2fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x5b8\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              685 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x2ffe8\n 0x0000000000000002 (PLTRELSZ)           648 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x9c8\n 0x0000000000000007 (RELA)               0x8d8\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x8a8\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x866\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "source": "tests/hailo_source_index_api.mojo",
+      "binary": "../sealed-metadata-native-final/entry-003",
+      "sha256": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-003"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0x1fda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xc50\n 0x000000000000000d (FINI)               0x15440\n 0x0000000000000019 (INIT_ARRAY)         0x2fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x2fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x5b8\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              685 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x2ffe8\n 0x0000000000000002 (PLTRELSZ)           648 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x9c8\n 0x0000000000000007 (RELA)               0x8d8\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x8a8\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x866\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "source": "smidr/tools/sealed_source_copy.mojo",
+      "binary": "../sealed-metadata-native-final/entry-004",
+      "sha256": "271387902ab33e3a424d47729273b71ad1c0dd5c28178c2441a9b1e99203340f",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-004"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0xfda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xc80\n 0x000000000000000d (FINI)               0xb6e4\n 0x0000000000000019 (INIT_ARRAY)         0x1fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x1fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x5d0\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              685 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x1ffe8\n 0x0000000000000002 (PLTRELSZ)           672 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x9e0\n 0x0000000000000007 (RELA)               0x8f0\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x8c0\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x87e\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "source": "tests/hailo_sealed_source_api.mojo",
+      "binary": "../sealed-metadata-native-final/entry-005",
+      "sha256": "b9e7ebf9a12f509dd364608e19feee32e3c27f30e48bbead2dd749c586569144",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-005"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0xfda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xcc0\n 0x000000000000000d (FINI)               0xd5bc\n 0x0000000000000019 (INIT_ARRAY)         0x1fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x1fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x5e8\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              695 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x1ffe8\n 0x0000000000000002 (PLTRELSZ)           696 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0xa08\n 0x0000000000000007 (RELA)               0x918\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x8e8\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x8a0\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "source": "tests/hailo_sealed_metadata_api.mojo",
+      "binary": "../sealed-metadata-native-final/entry-006",
+      "sha256": "b324ed41bb16c2f1a204fc9dd5220dac82264970204c6eaeff26f40d9b2c7d59",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-006"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0x2fda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xcf8\n 0x000000000000000d (FINI)               0x1e4c0\n 0x0000000000000019 (INIT_ARRAY)         0x3fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x3fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x600\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              702 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x3ffe8\n 0x0000000000000002 (PLTRELSZ)           720 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0xa28\n 0x0000000000000007 (RELA)               0x938\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x908\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x8be\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "source": "smidr/tools/sealed_source_metadata.mojo",
+      "binary": "../sealed-metadata-native-final/entry-007",
+      "sha256": "ac6452616f119fe6a4ed7c4ffd2579934cc6ad66311b091c885fee2c39d36fb7",
+      "arguments": [
+        "readelf",
+        "-d",
+        "../sealed-metadata-native-final/entry-007"
+      ],
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0x1fda8 contains 28 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libKGENCompilerRTShared.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [<host-home>/mojo-dev/.pixi/envs/default/lib]\n 0x000000000000000c (INIT)               0xc80\n 0x000000000000000d (FINI)               0x19760\n 0x0000000000000019 (INIT_ARRAY)         0x2fd98\n 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x2fda0\n 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x298\n 0x0000000000000005 (STRTAB)             0x5d0\n 0x0000000000000006 (SYMTAB)             0x2b8\n 0x000000000000000a (STRSZ)              685 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x2ffe8\n 0x0000000000000002 (PLTRELSZ)           672 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x9e0\n 0x0000000000000007 (RELA)               0x8f0\n 0x0000000000000008 (RELASZ)             240 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffb (FLAGS_1)            Flags: PIE\n 0x000000006ffffffe (VERNEED)            0x8c0\n 0x000000006fffffff (VERNEEDNUM)         1\n 0x000000006ffffff0 (VERSYM)             0x87e\n 0x000000006ffffff9 (RELACOUNT)          6\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    }
+  ]
+}

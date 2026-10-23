@@ -1,0 +1,22 @@
+{
+  "sources": 669,
+  "actual_transitive_new_leaf_consumers": [
+    "tests/hailo_sealed_metadata_api.mojo",
+    "smidr/tools/sealed_source_metadata.mojo"
+  ],
+  "no_preexisting_consumers": true,
+  "source_changes": [],
+  "new_sources": [
+    "smidr/sealed_source_metadata.mojo",
+    "smidr/tools/sealed_source_metadata.mojo",
+    "tests/hailo_sealed_metadata_api.mojo"
+  ],
+  "selected_old_entries": [
+    "smidr/tools/sealed_source_copy.mojo",
+    "smidr/tools/source_config.mojo",
+    "smidr/tools/source_index.mojo",
+    "tests/hailo_sealed_source_api.mojo",
+    "tests/hailo_source_config_api.mojo",
+    "tests/hailo_source_index_api.mojo"
+  ]
+}

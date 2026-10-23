@@ -1,0 +1,16 @@
+test_exact_policy_limits_and_global_nesting (__main__.SourceIndex.test_exact_policy_limits_and_global_nesting) ... ok
+test_json_utf8_escapes_numbers_trailing_and_every_truncation (__main__.SourceIndex.test_json_utf8_escapes_numbers_trailing_and_every_truncation) ... ok
+test_owned_original_names_labels_unknown_values_and_raw_spelling (__main__.SourceIndex.test_owned_original_names_labels_unknown_values_and_raw_spelling) ... ok
+test_pinned_public_index_metadata_only (__main__.SourceIndex.test_pinned_public_index_metadata_only) ... ok
+test_real_file_admission_byte_exact_reads_and_special_files (__main__.SourceIndex.test_real_file_admission_byte_exact_reads_and_special_files) ... ok
+test_real_file_faults_short_reads_and_cleanup_trace (__main__.SourceIndex.test_real_file_faults_short_reads_and_cleanup_trace) ... ok
+test_required_types_duplicate_decoded_keys_and_total_size_refusals (__main__.SourceIndex.test_required_types_duplicate_decoded_keys_and_total_size_refusals) ... ok
+test_seeded_index_collections_and_member_order (__main__.SourceIndex.test_seeded_index_collections_and_member_order) ... ok
+test_shared_cursor_state_and_raw_depth (__main__.SourceIndex.test_shared_cursor_state_and_raw_depth) ... ok
+test_shared_raw_span_checks (__main__.SourceIndex.test_shared_raw_span_checks) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 13.266s
+
+OK
+Native outcomes: {'accepted': 175, 'refused': 341}

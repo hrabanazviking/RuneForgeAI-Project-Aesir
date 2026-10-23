@@ -1,0 +1,96 @@
+[
+  {
+    "suite": "source_config",
+    "arguments": [
+      "/usr/bin/python3",
+      "../sealed-metadata-native-acceptance-v2/pair-all.py",
+      "../sealed-metadata-native-acceptance-v2/source_config-pairs.json",
+      "tests/test_hailo_source_config.py",
+      "--binary",
+      "../sealed-metadata-native-final/entry-000",
+      "--api",
+      "../sealed-metadata-native-final/entry-001",
+      "--public-config",
+      "../ordinary-model-metadata-study/config.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/source_config",
+      "-v"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "source_index",
+    "arguments": [
+      "/usr/bin/python3",
+      "../sealed-metadata-native-acceptance-v2/pair-all.py",
+      "../sealed-metadata-native-acceptance-v2/source_index-pairs.json",
+      "tests/test_hailo_source_index.py",
+      "--binary",
+      "../sealed-metadata-native-final/entry-002",
+      "--api",
+      "../sealed-metadata-native-final/entry-003",
+      "--faults",
+      "../sealed-metadata-native-final/source_index_io_faults.so",
+      "--public-index",
+      "../ordinary-model-metadata-study/model.safetensors.index.json",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/source_index",
+      "-v"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "sealed-copy",
+    "arguments": [
+      "/usr/bin/python3",
+      "../sealed-metadata-native-acceptance-v2/pair-all.py",
+      "../sealed-metadata-native-acceptance-v2/sealed-copy-pairs.json",
+      "tests/test_hailo_sealed_source_copy.py",
+      "--binary",
+      "../sealed-metadata-native-final/entry-004",
+      "--api",
+      "../sealed-metadata-native-final/entry-005",
+      "--faults",
+      "../sealed-metadata-native-final/source_sealed_copy_faults.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/sealed-copy",
+      "-v"
+    ],
+    "returncode": 0
+  },
+  {
+    "suite": "sealed-metadata",
+    "arguments": [
+      "/usr/bin/python3",
+      "../sealed-metadata-native-acceptance-v2/pair-all.py",
+      "../sealed-metadata-native-acceptance-v2/sealed-metadata-pairs.json",
+      "tests/test_hailo_sealed_source_metadata.py",
+      "--binary",
+      "../sealed-metadata-native-final/entry-007",
+      "--api",
+      "../sealed-metadata-native-final/entry-006",
+      "--config-control",
+      "../sealed-safetensors-native-final/entry-088",
+      "--index-control",
+      "../sealed-safetensors-native-final/entry-089",
+      "--faults",
+      "../sealed-metadata-native-final/sealed_metadata_faults.so",
+      "--copy-faults",
+      "../sealed-metadata-native-final/source_sealed_copy_faults.so",
+      "--mutation-faults",
+      "../sealed-metadata-native-final/sealed_safetensors_mutation.so",
+      "--strace",
+      "/usr/bin/strace",
+      "--evidence",
+      "../sealed-metadata-native-acceptance-v2/sealed-metadata",
+      "-v"
+    ],
+    "returncode": 0
+  }
+]

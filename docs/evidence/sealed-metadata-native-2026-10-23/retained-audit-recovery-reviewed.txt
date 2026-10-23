@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "../Project-Aesir/../sealed-metadata-native-recording/audit.py", line 47, in <module>
+    assert offset<=size and want<=size+(1 if g['metadata'] else 0)-offset,(trace,line,size,g)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (PosixPath('../sealed-metadata-native-acceptance/sealed-metadata/run-0308.strace'), 'pread64(4</memfd:aesir-source-copy>(deleted), "", 1, 0) = 0', 0, {'covered': 0, 'calls': 0, 'complete': False, 'eof': False, 'metadata': False})

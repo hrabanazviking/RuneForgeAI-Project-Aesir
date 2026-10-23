@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 126 |
+| `verified` | 127 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **171** |
+| **Total** | **172** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3852,3 +3852,30 @@ No new capability ID or hardware/complete-source execution claim.
   partial phase. Three unreturned worker records stay opaque. Full mutation,
   independent fault-log and rename-deletion comparisons; initial harness
   failures preserved and full rerun passes without omitted comparisons.
+
+
+### AES-SOURCE-032 — Owned sealed ordinary config and index metadata
+
+- **Status:** `verified`
+- **Owner:** Original Mojo SMIÐR observed source metadata owner.
+- **Claim sources:** TASK_hailo10h_sealed_source_metadata.md published at06c7158
+  before production; docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md.
+- **Implementation evidence:** Movable sealed config/index owners, consuming
+  parsers, full actual digest and bounded borrowed bytes; ONE existing JSON
+  parser/helper. Zero old production edits;666 old Mojo/71 Python inputs exact.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEALED_SOURCE_METADATA.md and
+  docs/evidence/sealed-metadata-native-2026-10-23/;8 clean Mojo/4 C builds,
+  4 suites/27 methods/1268 qualified entry calls,892 complete pairs across six
+  selected controls. New376 calls,48 independent raw JSON/counter vectors and
+  16 independently restored original mutation runs;40 separate fault-log pairs.
+- **Evidence boundary:** Scoped observed metadata byte ownership only. Writable
+  caches/claimed hashes are not identity. No atomic original version, global
+  source/binding/artifact identity, numerical format/fit/placement or execution.
+- **Next acceptance gate:** Owned ordinary shards/compiler bindings, remaining
+  formats/architectures/operations and actual H10H numerical configuration,
+  packing/placement/original program delivery/results/cleanup. Broad support100%.
+- **Audit:**253 new traces,273 source/251 sealed fd lifetimes balanced;416
+  complete/2 bounded partial hash phases,294 metadata phases/292 observed EOFs,
+  no source mappings.109 disjoint old traces;three unreturned worker records
+  opaque. Valid-exponent test expectation and generation/empty-source auditor
+  corrections retained; complete selected rerun passes without omitted pairs.

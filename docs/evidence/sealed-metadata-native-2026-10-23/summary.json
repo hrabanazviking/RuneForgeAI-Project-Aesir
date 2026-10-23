@@ -1,0 +1,34 @@
+{
+  "precode_parent": "06c7158a106701873c90a5c0b601e5f883e21721",
+  "old_mojo_sources_unchanged": 666,
+  "current_mojo_sources": 669,
+  "old_python_inputs_unchanged": 71,
+  "precode_native_controls_unchanged": 117,
+  "stable_mojo_builds": 8,
+  "clean_c_builds": 4,
+  "zero_diagnostics": true,
+  "suites": 4,
+  "methods": 27,
+  "qualified_entry_calls": 1268,
+  "qualified_kinds": {
+    "frozen": 79,
+    "current": 1189
+  },
+  "frozen_pairs": 892,
+  "frozen_entries": 6,
+  "frozen_outcomes": {
+    "accepted": 390,
+    "refused": 502
+  },
+  "complete_stdout_stderr_exit_messages_compared": true,
+  "complete_mutation_pairs": 4,
+  "independent_complete_fault_log_pairs": 40,
+  "new_suite_calls": 376,
+  "new_suite_outcomes": {
+    "accepted": 260,
+    "refused": 116
+  },
+  "independent_complete_json_vectors": 48,
+  "independent_mutation_runs": 16,
+  "whole_repository_or_hosted_ci_pass": false
+}

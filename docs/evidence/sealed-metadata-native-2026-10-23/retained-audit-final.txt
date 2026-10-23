@@ -1,0 +1,37 @@
+{
+  "new_traces": 253,
+  "totals": {
+    "original_opens": 273,
+    "original_closes": 273,
+    "sealed_creates": 251,
+    "sealed_closes": 251,
+    "positional_reads": 1485,
+    "positional_writes": 309,
+    "full_hash_phases": 416,
+    "partial_hash_phases": 2,
+    "metadata_phases": 294,
+    "metadata_eof_phases": 292
+  },
+  "opaque_records": [],
+  "legacy_traces": 109,
+  "legacy_opaque": [
+    {
+      "trace": "../sealed-metadata-native-acceptance-v2/sealed-copy/trace-149.strace",
+      "pid": "1215595",
+      "record": "sigaltstack(NULL,   <unfinished ...>) = ?",
+      "classification": "opaque; no effect inferred"
+    },
+    {
+      "trace": "../sealed-metadata-native-acceptance-v2/sealed-copy/trace-155.strace",
+      "pid": "1215728",
+      "record": "sigaltstack({ss_sp=0x7fffa0000b70, ss_flags=0, ss_size=86016},   <unfinished ...>) = ?",
+      "classification": "opaque; no effect inferred"
+    },
+    {
+      "trace": "../sealed-metadata-native-acceptance-v2/sealed-copy/trace-157.strace",
+      "pid": "1215772",
+      "record": "sigaltstack(NULL,   <unfinished ...>) = ?",
+      "classification": "opaque; no effect inferred"
+    }
+  ]
+}

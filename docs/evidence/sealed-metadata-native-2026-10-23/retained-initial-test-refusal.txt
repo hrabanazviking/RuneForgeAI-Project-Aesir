@@ -1,0 +1,25 @@
+test_actual_original_mutations_with_independent_repeats (__main__.SealedMetadata.test_actual_original_mutations_with_independent_repeats) ... ok
+test_complete_fields_raw_spans_and_independent_counters (__main__.SealedMetadata.test_complete_fields_raw_spans_and_independent_counters) ... ok
+test_injected_copy_hash_seal_and_metadata_fault_recovery (__main__.SealedMetadata.test_injected_copy_hash_seal_and_metadata_fault_recovery) ... ok
+test_minimal_boundaries_and_full_tool_flags (__main__.SealedMetadata.test_minimal_boundaries_and_full_tool_flags) ... ok
+test_move_close_copied_values_cache_and_bad_owners (__main__.SealedMetadata.test_move_close_copied_values_cache_and_bad_owners) ... ok
+test_parser_refusals_and_policy_recovery (__main__.SealedMetadata.test_parser_refusals_and_policy_recovery) ... FAIL
+
+======================================================================
+FAIL: test_parser_refusals_and_policy_recovery (__main__.SealedMetadata.test_parser_refusals_and_policy_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_sealed_source_metadata.py", line 205, in test_parser_refusals_and_policy_recovery
+    self.refused(self.call(kind, self.fixture(raw)))
+  File "tests/test_hailo_sealed_source_metadata.py", line 92, in refused
+    self.assertNotEqual(result.returncode, 0, result.stdout)
+AssertionError: 0 == 0 : 4eebf412dc3caadbe4ba1b2b22e3db7e90b9eaec86f359f3b1649672f97c3f2d
+{"schema_version":1,"scope":"ordinary_source_configuration","source_path":"/tmp/aesir-sealed-metadata-oc0o3mj5/source-0320.json","source_bytes":32,"fields_raw":{"x":"1e999999999999999999999999"},"root_fields":1,"work_units":129,"tensors_loaded":false,"shards_opened":false,"semantic_adapter_verified":false,"source_fingerprint_verified":false,"hardware_fit_verified":false,"execution_tested":false}
+7b2278223a31653939393939393939393939393939393939393939393939397d
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 9.840s
+
+FAILED (failures=1)
+Native outcomes: {'accepted': 255, 'refused': 66}

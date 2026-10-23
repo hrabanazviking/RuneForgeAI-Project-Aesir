@@ -1,0 +1,7 @@
+{
+  "all_builds_linked_before_native_execution": true,
+  "native_build_sources_unchanged": true,
+  "stable_source_snapshot": "../sealed-metadata-native-final/source-snapshot",
+  "python_only_valid_json_expectation_corrected_after_first_attempt": true,
+  "final_test_sha256": "3031a4cfaf977cf74e24a90f999c8f539d3c293f7ccd67984390468b283ec55c"
+}
