@@ -47,6 +47,11 @@ Original grouped USERPTR value serialization is verified under
 and1609 traced new calls. These are scalar wire values;physical grouped storage,
 descriptor/deadline/cleanup and numerical source-model execution remain open.
 
+Next native output-lifetime contract:`TASK_hailo10h_sealed_program_payload.md`.
+`HAILO10H_GROUPED_PHYSICAL_BOUNDARY_2026-10-23.md` records the qualified public
+interface frontier without promoting size-based capacity to descriptor proof.
+Actual physical and numerical source-model execution work remains open.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

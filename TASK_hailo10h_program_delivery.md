@@ -64,3 +64,11 @@ Original grouped USERPTR value codec is now verified under
 and1609 new traces. This supersedes only the preceding no-production-code status.
 Actual descriptor accounting,owned immutable output and in-flight DMA/deadline/
 cleanup qualification remain required before physical metadata/program delivery.
+
+
+Next qualified physical-interface frontier:
+`docs/HAILO10H_GROUPED_PHYSICAL_BOUNDARY_2026-10-23.md`;public size-based channel
+readiness is explicitly unsuitable as descriptor accounting. No grouped formula
+or physical submission is qualified. Continue original sealed output ownership
+under pre-code `TASK_hailo10h_sealed_program_payload.md`,then actual descriptor/
+pinning/deadline/cleanup and numerical program work. No external algorithm adopted.
