@@ -45,3 +45,9 @@ slices, and advance automatically toward the unchanged owner objective.
 metadata from the exact separate program buffer and the grouped request/read
 boundary. Original owned staging follows `TASK_hailo10h_program_payload_staging.md`;
 no arbitrary chunking,live payload transfer or numerical execution follows.
+
+Original owned payload staging is now verified under
+`docs/HAILO10H_MOJO_PROGRAM_PAYLOAD.md`:43 selected methods and2495 complete
+frozen comparisons. This supplies copied byte preparation,not DMA submission or
+immutable/executable identity. Continue grouped-buffer driver constraints,sealed
+output,in-flight ownership/deadlines/cleanup and actual numerical program work.

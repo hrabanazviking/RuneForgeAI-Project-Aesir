@@ -37,6 +37,11 @@ Original sequencer trigger/completion serialization is now verified under
 frozen comparisons. These are explicit host control bytes; physical placement,
 numerical instructions and original source-model execution remain open.
 
+Original program metadata and separate copied payload staging are verified under
+`HAILO10H_MOJO_PROGRAM_PAYLOAD.md`:43 selected methods and2495 full frozen
+comparisons. This is internal byte preparation;actual payload DMA,immutable output,
+numerical configuration and source-model execution remain required work.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 131 |
+| `verified` | 132 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **176** |
+| **Total** | **177** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -3990,3 +3990,30 @@ No new capability ID or hardware/complete-source execution claim.
   inference runtime effects;9 executables separately inspected. Actual681 Mojo/
   77 Python input copies and126 pre-code controls pinned. Development refusals
   retained with second type-probe source explicitly labelled reconstructed.
+
+
+### AES-CONTROL-003 — Owned original program payload byte preparation
+
+- **Status:** `verified`
+- **Owner:** Original smidr/program_payload.mojo and bounded host diagnostic.
+- **Claim sources:** TASK_hailo10h_program_payload_staging.md published c21df88
+  before production;docs/HAILO10H_PROGRAM_PAYLOAD_BOUNDARY_2026-10-23.md.
+- **Implementation evidence:** Separate copied2068-byte canonical action2 metadata
+  and exact program bytes. Actual size/full-residue integrity,complete request
+  comparison and fresh canonical metadata guards precede bounded window copies.
+  Reuses original codecs/hashes;zero old production/test edits.
+- **Executable evidence:** docs/HAILO10H_MOJO_PROGRAM_PAYLOAD.md;6 clean Mojo,
+  43 selected methods/2885 primary calls and2495 complete frozen comparisons.
+  New390 calls,2092 direct mutable-field/recovery cycles and complete independent
+  struct/protobuf/hash byte oracles;copies/moves/scope/UTF8/NUL boundaries pass.
+- **Evidence boundary:** Copied byte preparation only. Rehashed replacement and
+  valid different header layout can be new wire intent;no immutable/executable
+  artifact identity,protobuf semantics,numerical admission,DMA submission,live
+  receiver acceptance,physical placement or source-model execution is claimed.
+- **Next acceptance gate:** Actual grouped-buffer driver constraints,sealed output,
+  in-flight DMA/deadline/late-failure cleanup and numerical/physical program
+  generation/upload/activation/results toward the fixed broad source-model goal.
+- **Audit:**390 complete new traces and6 executable dependency/symbol inspections;
+  no observed Hailo/network/ioctl/excluded runtime effects. Actual684 Mojo/78
+  Python copies and128 inherited plus4 supplementary pre-code controls pinned.
+  Snapshot-copy setup refusal retained;no native build or acceptance failure.

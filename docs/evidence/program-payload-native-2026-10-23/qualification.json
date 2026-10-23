@@ -1,0 +1,26 @@
+{
+  "contract": "c21df88df4f26cc6f2d78c3aff7e05c4bc3ef029",
+  "old_mojo_unchanged": 681,
+  "old_python_unchanged": 77,
+  "final_mojo": 684,
+  "final_python": 78,
+  "inherited_controls": 128,
+  "supplementary_clean_precode_controls": 4,
+  "all_new_mojo_consumers": [
+    "smidr/tools/program_payload.mojo",
+    "tests/hailo_program_payload_ownership.mojo"
+  ],
+  "stable_clean_links": 6,
+  "selected_methods": 43,
+  "primary_calls": 2885,
+  "complete_frozen_pairs": 2495,
+  "complete_native_output_pairs": 5380,
+  "new_complete_traces": 390,
+  "internal_refusal_recovery_cycles": 2092,
+  "raw_files": 13555,
+  "raw_bytes": 49689033,
+  "immutable_executable_identity": false,
+  "program_transferred": false,
+  "source_model_execution": false,
+  "compiler_sha256": "be46936245ae995680155dcc2f61af5dac8678254c634110e99ceff25ce57c39"
+}

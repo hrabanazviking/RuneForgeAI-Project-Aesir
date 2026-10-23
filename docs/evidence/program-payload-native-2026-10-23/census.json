@@ -1,0 +1,48 @@
+{
+  "payload": {
+    "methods": 8,
+    "primary_calls": 390,
+    "complete_frozen_pairs": 0
+  },
+  "envelope": {
+    "methods": 8,
+    "primary_calls": 194,
+    "complete_frozen_pairs": 194
+  },
+  "integrity": {
+    "methods": 11,
+    "primary_calls": 2072,
+    "complete_frozen_pairs": 2072
+  },
+  "program-rpc": {
+    "methods": 8,
+    "primary_calls": 140,
+    "complete_frozen_pairs": 140
+  },
+  "frame": {
+    "methods": 8,
+    "primary_calls": 89,
+    "complete_frozen_pairs": 89
+  },
+  "new_detail": {
+    "scopes": {
+      "malformed": 17,
+      "ownership": 1,
+      "refuse": 151,
+      "accept": 221
+    },
+    "complete_new_traces": 390,
+    "internal_mutable_refusal_recovery_cycles": 2092,
+    "all_metadata_bytes_mutated": 2068,
+    "source_residue_bytes_mutated": 14,
+    "immutable_or_executable_identity_claimed": false
+  },
+  "total": {
+    "methods": 43,
+    "primary_native_calls": 2885,
+    "complete_frozen_pairs": 2495,
+    "frozen_accept": 2260,
+    "frozen_refuse": 235,
+    "complete_native_output_pairs": 5380
+  }
+}
