@@ -1,0 +1,9 @@
+{
+  "host_cases": 6,
+  "exact_bytes": 41104,
+  "kernel_refusals": 24,
+  "ro_writes_sigsegv": 3,
+  "all_closed": true,
+  "driver_calls": 0,
+  "production_started": false
+}

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 134 |
+| `verified` | 135 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **179** |
+| **Total** | **180** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4068,3 +4068,29 @@ No new capability ID or hardware/complete-source execution claim.
   artifacts/22 tables. No observed Hailo/network/ioctl/excluded runtime effects.
   Actual690 Mojo/80 Python copies,137 controls. Failed type probe and initial
   runner ldd/import failures retained;final five suites pass unchanged old inputs.
+
+
+### AES-CONTROL-006 — Bounded sealed output USERPTR map/unmap compatibility
+
+- **Status:** `verified`
+- **Owner:** Original smidr/tools/sealed_program_pin_probe.mojo diagnostic.
+- **Claim sources:** TASK_hailo10h_sealed_program_pin_probe.md published1717edb
+  before code;docs/HAILO10H_SEALED_PROGRAM_PIN_BOUNDARY_2026-10-23.md.
+- **Implementation evidence:** Enumerated owned RO/private and RW/private sealed
+  views;actual locally retained mmap returns;uncertainty armed before map;full
+  original tuple validation;driver close before byte reads/backing release.
+  Zero old production/test edits;no new raw OS interface.
+- **Executable evidence:** docs/HAILO10H_MOJO_SEALED_PROGRAM_PIN_PROBE.md;
+  24 host methods/672 primary calls/478 complete frozen pairs;55 new host traces.
+  Actual13 physical cases:6 sealed profile/size variants and7 fresh controls,
+  all map/unmap;13 file closes and13 owner unmaps;55580 exact bytes compared.
+- **Evidence boundary:** Map-only compatibility on actual H10H driver5.3.0;
+  no DMA transfer,cache coherence,grouped descriptor/in-flight safety,program
+  admission,numerical operation or source-model execution.
+- **Next acceptance gate:** Original grouped storage ownership,actual descriptor/
+  completion/deadline/late cleanup and numerical program generation/delivery/
+  activation/results toward broad ordinary UNMODIFIED source-model support100%.
+- **Audit:** Independent C/kernel oracle6 cases/24 protection refusals;5 Mojo/
+  5 C links,4 inherited new-consumer warnings,zero new-code warnings;20 ELF tables.
+  Actual691 Mojo/81 Python final copies and139+1 pre-code controls. Failed close
+  seam,build snapshot refusal and reused-address census assumption preserved.

@@ -1,0 +1,58 @@
+{
+  "pin-host": {
+    "primary": 55,
+    "methods": 6,
+    "traces": 55,
+    "memfds": 43,
+    "owned_file_vmas": 40,
+    "owned_file_unmaps": 37,
+    "memfd_closes": 41,
+    "mock_driver_closes": 32,
+    "uncertain_host_unmap": 1,
+    "retained_until_exit": 2
+  },
+  "sealed-program": {
+    "primary": 294,
+    "methods": 6,
+    "frozen_pairs": 280,
+    "frozen_accept": 181,
+    "frozen_refuse": 99
+  },
+  "abi": {
+    "primary": 323,
+    "methods": 12,
+    "frozen_pairs": 198,
+    "frozen_accept": 136,
+    "frozen_refuse": 62
+  },
+  "total": {
+    "primary": 672,
+    "methods": 24,
+    "traces": 55,
+    "memfds": 43,
+    "owned_file_vmas": 40,
+    "owned_file_unmaps": 37,
+    "memfd_closes": 41,
+    "mock_driver_closes": 32,
+    "uncertain_host_unmap": 1,
+    "retained_until_exit": 2,
+    "frozen_pairs": 478,
+    "frozen_accept": 317,
+    "frozen_refuse": 161,
+    "independent_bytes": 87884
+  },
+  "scope": {
+    "old_mojo": 690,
+    "old_python": 80,
+    "final_mojo": 691,
+    "final_python": 81,
+    "controls": 139,
+    "supplement": 1,
+    "mojo_links": 5,
+    "c_links": 5,
+    "elf_tables": 20,
+    "inherited_warnings": 4,
+    "new_code_warnings": 0,
+    "hardware_attempted": false
+  }
+}

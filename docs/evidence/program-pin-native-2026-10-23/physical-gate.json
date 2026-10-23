@@ -1,0 +1,12 @@
+{
+  "host_ready_sha256": "f265f2ee83298b566393387405162f070401c31b861fe86cdf3c1855fa35fb20",
+  "mock_environment_removed": true,
+  "deadline_seconds": 10,
+  "max_children": 13,
+  "sole_device_ops": [
+    "driver-info",
+    "properties",
+    "buffer-map",
+    "buffer-unmap"
+  ]
+}

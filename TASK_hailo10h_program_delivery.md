@@ -87,3 +87,10 @@ Next bounded physical qualification:
 read-only/private versus writable/private H2D mapping compatibility of sealed
 backing using only existing typed map/unmap and known cleanup. No transfer,
 channel/server/program request or numerical operation is permitted by this probe.
+
+The bounded probe is complete under
+`docs/HAILO10H_MOJO_SEALED_PROGRAM_PIN_PROBE.md`:all13 physical map/unmap cases
+pass,including all six sealed variants. Read-only/private H2D USERPTR acceptance
+is now observed for the tested profile;DMA/coherence,grouped descriptor counts,
+in-flight ownership/deadlines/late cleanup and numerical execution remain open.
+Use these actual results for the next original grouped storage contract.

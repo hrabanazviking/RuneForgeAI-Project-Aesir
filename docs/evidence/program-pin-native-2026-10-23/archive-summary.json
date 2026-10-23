@@ -1,0 +1,20 @@
+{
+  "files": 7035,
+  "bytes": 40112634,
+  "roots": [
+    "program-pin-native-baseline",
+    "program-pin-host-oracle",
+    "program-pin-native-development",
+    "program-pin-native-final",
+    "program-pin-native-final-v2",
+    "program-pin-native-host",
+    "program-pin-native-host-v2",
+    "program-pin-native-audit",
+    "program-pin-physical",
+    "program-pin-physical-audit",
+    "program-pin-physical-audit-v2"
+  ],
+  "manifest_sha256": "3f237b30e5febd036525efffb8bbc84a216a826c7a78a0e01da2690da69b9064",
+  "immutable_local_raw": true,
+  "source_execution": false
+}

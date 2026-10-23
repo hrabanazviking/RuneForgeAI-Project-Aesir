@@ -59,6 +59,16 @@ Next bounded physical storage qualification:
 `TASK_hailo10h_sealed_program_pin_probe.md`. No read-only sealed USERPTR acceptance
 or DMA/coherence result is inferred from kernel sealing or UAPI declarations.
 
+That bounded probe is now complete under
+`HAILO10H_MOJO_SEALED_PROGRAM_PIN_PROBE.md`:all six read-only/private and writable/
+private sealed variants plus seven fresh anonymous controls map/unmap on the
+actual driver5.3.0. All13 owning files close before backing release. Host gates
+pass24 methods/478 complete frozen pairs. This establishes bounded mapping
+compatibility only;no transfer/coherence/grouped descriptor or numerical result
+is claimed. Continue separately contracted original grouped storage ownership,
+actual descriptor/deadline/late cleanup and numerical configuration/results
+toward the same broad ordinary unmodified model target100%.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 
