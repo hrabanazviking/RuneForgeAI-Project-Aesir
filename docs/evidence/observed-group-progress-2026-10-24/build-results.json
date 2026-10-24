@@ -1,0 +1,78 @@
+[
+  {
+    "source": "smidr/tools/soc_exchange_progress.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-000",
+    "sha256": "a8f8d1b1ec782ff1800eb69fee94501aa45a13174c463b58c1f7d51cdafb9a07",
+    "returncode": 0,
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_exchange_progress.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-000"
+    ]
+  },
+  {
+    "source": "tests/hailo_soc_exchange_progress_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-001",
+    "sha256": "e551ea7afa43f59cba3c612eccdeb9b31fc83807ddbd2023f5161974f27372c2",
+    "returncode": 0,
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_exchange_progress_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-001"
+    ]
+  },
+  {
+    "source": "tests/hailo_soc_progress.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-002",
+    "sha256": "06f72132721761079a6dc2caf922d5049a6896ccab4eb1cbdb0afdad8e139cf0",
+    "returncode": 0,
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_progress.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-002"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_rpc_device.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-003",
+    "sha256": "9168520b192ed2348a9d50817f5457479be605f5d5b6606aeeaf2db8577d661a",
+    "returncode": 0,
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_rpc_device.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-final-v3/entry-003"
+    ]
+  }
+]

@@ -155,3 +155,9 @@ Next original progress prerequisite:`TASK_hailo10h_observed_group_progress.md`.
 Separate actual per-direction launch returns from IRQ transfer completion and
 bound all admitted events by one total deadline. Host-only qualification must
 precede same-file ownership or any live grouped control-RPC request.
+
+That host progress prerequisite is verified under
+`docs/HAILO10H_MOJO_OBSERVED_GROUP_PROGRESS.md`:15 methods/1928 complete frozen
+comparisons,including44 legacy pre-edit observations. Actual same-file sealed
+ownership,host fault/late cleanup and physical grouped control RPC remain open;
+no capacity prediction or numerical source-model execution is inferred.

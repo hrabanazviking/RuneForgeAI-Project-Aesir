@@ -1,3 +1,12 @@
+## 2026-10-24 — Observed grouped exchange progress
+
+- [x] AES-CONTROL-011 separate actual launch counts from IRQ transfer completion
+  and bound events by total deadline/budget;15 methods/1928 full frozen pairs.
+  `docs/HAILO10H_MOJO_OBSERVED_GROUP_PROGRESS.md`.
+- [ ] Continue same-file channel/list/sealed-buffer ownership,host faults and
+  bounded physical control RPC,then actual numerical configuration/program/
+  results and broad remaining source-model implementation work.
+
 ## 2026-10-24 — Prepare and cancellation wire codecs
 
 - [x] AES-CONTROL-010 own exact139/8-byte prepare/cancellation values while

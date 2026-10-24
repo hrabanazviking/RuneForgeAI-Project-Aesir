@@ -18,6 +18,10 @@ struct SocRpcProgress:
     var input_channel: UInt8
     var output_channel: UInt8
     var expected_descriptors: Int64
+    var input_capacity: UInt64
+    var output_capacity: UInt64
+    var input_descriptors: Int64
+    var output_descriptors: Int64
     var input_submitted: Bool
     var output_submitted: Bool
     var input_done: Bool
@@ -29,18 +33,50 @@ struct SocRpcProgress:
         self.input_channel = input_channel
         self.output_channel = output_channel
         self.expected_descriptors = expected_descriptors
+        self.input_capacity = 0
+        self.output_capacity = 0
+        self.input_descriptors = 0
+        self.output_descriptors = 0
+        self.input_submitted = False
+        self.output_submitted = False
+        self.input_done = False
+        self.output_done = False
+
+    def __init__(out self, input_channel: UInt8, output_channel: UInt8,
+                 input_capacity: UInt64, output_capacity: UInt64) raises:
+        if input_channel >= 16 or output_channel < 16 or output_channel >= 32:
+            raise herror("SocTransferBounds", "invalid owned directional channels")
+        for index in range(2):
+            var capacity = input_capacity if index == 0 else output_capacity
+            if capacity < 2 or capacity > 65536 or (capacity & (capacity - 1)) != 0:
+                raise herror("SocTransferBounds", "invalid allocated descriptor ring capacity")
+        self.input_channel = input_channel
+        self.output_channel = output_channel
+        # Zero selects observed-return policy. It is never a launch count.
+        self.expected_descriptors = 0
+        self.input_capacity = input_capacity
+        self.output_capacity = output_capacity
+        self.input_descriptors = 0
+        self.output_descriptors = 0
         self.input_submitted = False
         self.output_submitted = False
         self.input_done = False
         self.output_done = False
 
     def launched(mut self, channel: UInt8, descriptors: Int64) raises:
-        if descriptors != self.expected_descriptors:
-            raise herror("SocTransferCount", "launch count differs from the exact owned RPC extent")
+        if self.expected_descriptors != 0:
+            if descriptors != self.expected_descriptors:
+                raise herror("SocTransferCount", "launch count differs from the exact owned RPC extent")
+        else:
+            var capacity = self.input_capacity if channel == self.input_channel else self.output_capacity
+            if descriptors < 1 or UInt64(descriptors) >= capacity:
+                raise herror("SocTransferCount", "returned launch count is outside the allocated ring bound")
         if channel == self.output_channel and not self.output_submitted:
             self.output_submitted = True
+            self.output_descriptors = descriptors
         elif channel == self.input_channel and self.output_submitted and not self.input_submitted:
             self.input_submitted = True
+            self.input_descriptors = descriptors
         else:
             raise herror("SocTransferState", "launch is duplicate, unowned or precedes D2H posting")
 

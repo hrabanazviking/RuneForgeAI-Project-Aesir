@@ -1,0 +1,29 @@
+{
+  "build-000.stderr": [
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-001.stderr": [
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "./hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-002.stderr": [
+    "./hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-003.stderr": [
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_rpc_device.mojo:22:24: warning: assignment to 'handle_known' was never used; assign to '_' instead?",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/blocking_call.mojo:64:13: warning: ref 'index' was never used, remove it?",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_rpc.mojo:67:17: warning: ref 'snapshot' was never used, remove it?",
+    "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ]
+}

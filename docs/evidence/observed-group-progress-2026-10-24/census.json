@@ -1,0 +1,69 @@
+{
+  "observed": {
+    "primary": 1884,
+    "methods": 9,
+    "complete_frozen_pairs": 1884,
+    "frozen_accept": 1113,
+    "new_consumer_traces": 1884,
+    "observed_file_fd_generations": 35796,
+    "runtime_mmap_calls": 101703,
+    "runtime_munmap_calls": 40600,
+    "observed_file_fd_closes": 35796,
+    "frozen_refuse": 771,
+    "refusal_to_fresh_success_joins": 771
+  },
+  "legacy": {
+    "primary": 44,
+    "methods": 6,
+    "complete_frozen_pairs": 44,
+    "frozen_refuse": 28,
+    "frozen_accept": 16
+  },
+  "total": {
+    "primary": 1928,
+    "methods": 15,
+    "complete_frozen_pairs": 1928,
+    "frozen_accept": 1129,
+    "new_consumer_traces": 1884,
+    "observed_file_fd_generations": 35796,
+    "runtime_mmap_calls": 101703,
+    "runtime_munmap_calls": 40600,
+    "observed_file_fd_closes": 35796,
+    "frozen_refuse": 799,
+    "refusal_to_fresh_success_joins": 771
+  },
+  "scope": {
+    "old_mojo": 708,
+    "old_python": 87,
+    "final_mojo": 711,
+    "final_python": 88,
+    "current_controls": 158,
+    "contract_archive_paths": 806,
+    "old_mojo_edits": 1,
+    "old_test_edits": 0,
+    "mojo_links": 4,
+    "elf_tables": 8,
+    "affected_closure": {
+      "modules": [
+        "hailbru.soc_exchange_progress",
+        "hailbru.soc_progress",
+        "hailbru.soc_rpc",
+        "smidr.tools.soc_exchange_progress",
+        "smidr.tools.soc_rpc_device",
+        "tests.hailo_soc_exchange_progress_api",
+        "tests.hailo_soc_progress"
+      ],
+      "executables": [
+        "smidr/tools/soc_exchange_progress.mojo",
+        "smidr/tools/soc_rpc_device.mojo",
+        "tests/hailo_soc_exchange_progress_api.mojo",
+        "tests/hailo_soc_progress.mojo"
+      ],
+      "excluded_physical_run": "smidr/tools/soc_rpc_device.mojo"
+    },
+    "physical_calls": false,
+    "numerical_execution": false,
+    "new_binary_pairs": "same-image frozen reproducibility;not a pre-existing capability",
+    "legacy_pairs": "pre-edit vs final observable triples"
+  }
+}

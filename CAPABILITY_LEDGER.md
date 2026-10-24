@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 141 |
+| `verified` | 142 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **186** |
+| **Total** | **187** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4236,3 +4236,27 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:**2988 new traces,52684 observed descriptor generations and closes,
   5 Mojo/3 C++ links,16 ELF tables.705/86 old and708/87 final inputs,156 controls
   and868 contract paths exact. Old production/tests remain unchanged.
+
+
+### AES-CONTROL-011 — Observed launch counts and bounded exchange events
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/soc_progress.mojo and soc_exchange_progress.mojo.
+- **Claim sources:** TASK_hailo10h_observed_group_progress.md publishedca6dcc6
+  before code;docs/HAILO10H_MOJO_OBSERVED_GROUP_PROGRESS.md.
+- **Implementation evidence:** Distinct observed per-direction launch-count
+  policy retains actual return values;existing exact RPC policy/IRQ parser stay.
+  Original total deadline,snapshot budget and permanent failed-owner refusal.
+- **Executable evidence:**15 methods/1928 primary calls and complete frozen
+  comparisons:44 legacy pre-edit comparisons and1884 new-image reproducibility
+  comparisons.771 inspector refusal/fresh-success joins;34 direct API cycles.
+- **Evidence boundary:** Host event accounting using synthetic timestamps/counts;
+  no device request,capacity prediction,coherence,memory release or numerical/
+  source-model execution. Existing RPC device consumer was linked only.
+- **Next acceptance gate:** Same-file channel/list/sealed-buffer owner and host
+  fault/late cleanup qualification before bounded physical control RPC;actual
+  numerical configuration/packing/placement/program/results remain required.
+- **Audit:**1884 new traces,35796 file-fd generations/closes,4 final Mojo links,
+  8 ELF tables;708/87 old and711/88 final inputs,158 controls and806 pre-code
+  archive paths verified. One old production edit,zero old test edits;failed
+  builds/warning gate retained. No whole-repository or hosted-CI pass.

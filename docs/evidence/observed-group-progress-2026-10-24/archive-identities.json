@@ -1,0 +1,30 @@
+{
+  "roots": [
+    "soc-observed-progress-baseline",
+    "soc-observed-progress-development",
+    "soc-observed-progress-final",
+    "soc-observed-progress-final-v2",
+    "soc-observed-progress-final-v3",
+    "soc-observed-progress-host",
+    "soc-observed-progress-audit"
+  ],
+  "files": 12894,
+  "source_bytes": 158530791,
+  "pages": [
+    {
+      "path": "archive-001.json",
+      "files": 8000,
+      "source_bytes": 88064026,
+      "bytes": 1523858,
+      "sha256": "8d3867d07399b43006a95bedb224ff3264f06b9448c69d845886681e777cbf5b"
+    },
+    {
+      "path": "archive-002.json",
+      "files": 4894,
+      "source_bytes": 70466765,
+      "bytes": 878753,
+      "sha256": "2597ffad05976cd6f8fbf36fc54f863ad6ee0322fbdbb5d96e2082ff97c1ccf2"
+    }
+  ],
+  "path_base": "task work directory containing the repository and named archive roots"
+}

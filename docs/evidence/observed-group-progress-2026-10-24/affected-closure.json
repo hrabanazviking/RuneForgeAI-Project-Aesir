@@ -1,0 +1,18 @@
+{
+  "modules": [
+    "hailbru.soc_exchange_progress",
+    "hailbru.soc_progress",
+    "hailbru.soc_rpc",
+    "smidr.tools.soc_exchange_progress",
+    "smidr.tools.soc_rpc_device",
+    "tests.hailo_soc_exchange_progress_api",
+    "tests.hailo_soc_progress"
+  ],
+  "executables": [
+    "smidr/tools/soc_exchange_progress.mojo",
+    "smidr/tools/soc_rpc_device.mojo",
+    "tests/hailo_soc_exchange_progress_api.mojo",
+    "tests/hailo_soc_progress.mojo"
+  ],
+  "excluded_physical_run": "smidr/tools/soc_rpc_device.mojo"
+}

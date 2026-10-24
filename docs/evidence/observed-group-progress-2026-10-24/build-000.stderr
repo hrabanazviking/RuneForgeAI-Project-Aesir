@@ -1,0 +1,6 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_exchange_progress.mojo:4:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_exchange_progress.mojo:3:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_progress.mojo:3:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?
+    for index in range(SOC_MAX_ENGINES):
+        ^

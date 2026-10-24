@@ -324,3 +324,11 @@ are recorded in`HAILO10H_PREPARE_DRIVER_BOUNDARY_2026-10-24.md`. Matching source
 files/build-ID metadata and queue-status facts are not numerical or hardware
 execution proof. Next same-file ownership/completion/deadline qualification and
 actual numerical/source-model execution remain open under the fixed broad target.
+
+Original observed launch/deadline accounting now passes15 methods and1928 full
+frozen comparisons under`HAILO10H_MOJO_OBSERVED_GROUP_PROGRESS.md`. Only44 compare
+legacy pre-edit behavior;1884 compare frozen new images. Distinct returned counts
+and IRQ transfer counts,771 refusal/fresh-success joins and permanent poison
+have host evidence. No device request,grouped capacity/coherence/quiescence or
+source-model execution follows. Continue same-file ownership/late cleanup and
+actual numerical configuration/packing/placement/program/results automatically.

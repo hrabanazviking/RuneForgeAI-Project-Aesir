@@ -407,3 +407,11 @@ Next input-ownership contract: `TASK_hailo10h_sealed_source_metadata.md` and
 ordinary config/index bytes through existing parsers.666 source identities,
 117 controls and71 Python inputs are frozen; a closed type probe builds without
 execution. No production or numerical/source-model execution claim follows.
+
+## 2026-10-24 observed exchange progress
+
+Original returned-count/deadline state now has15 methods/1928 full frozen
+comparisons;`docs/HAILO10H_MOJO_OBSERVED_GROUP_PROGRESS.md`. This is host event
+accounting,not grouped submission or source-model execution. Continue actual
+same-file ownership,late cleanup,physical control RPC and numerical program/
+results toward broad ordinary UNMODIFIED source-model support100%.
