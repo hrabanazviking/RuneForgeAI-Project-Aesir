@@ -1,0 +1,3162 @@
+[
+  {
+    "source": "smidr/tools/semantic_plan.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-029",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "60944c8f55bbc445d8cbd8410981b7f029d61a82d13dccd2944bbf9029783afb",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/semantic_plan.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-029"
+    ]
+  },
+  {
+    "source": "tests/hailo_typed_decoder_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-098",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b9c13a0f88dbb6b266417bc37848530ebe2f93a487625c7cfa0a663b9002b649",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_typed_decoder_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-098"
+    ]
+  },
+  {
+    "source": "smidr/tools/expanded_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-015",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "db3f234bc31c22df565efe9a23c53502d14375ae7168fece55c2e65628dd7f58",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/expanded_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-015"
+    ]
+  },
+  {
+    "source": "tests/hailo_expanded_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-063",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d34ac34d86324cb2e8624483e45f40bbe279dc7068f74cd675e79f4488d543a3",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_expanded_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-063"
+    ]
+  },
+  {
+    "source": "smidr/tools/expanded_storage.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-016",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96ce9bc8d092da993018520a216818fdd7e31246853f082232a5f6aae9645670",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/expanded_storage.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-016"
+    ]
+  },
+  {
+    "source": "tests/hailo_expanded_storage_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-064",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d8144ac42f477dcc21cb27f2e8196daaaeef6602c03db0c11d81afe4e220dbfc",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_expanded_storage_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-064"
+    ]
+  },
+  {
+    "source": "smidr/tools/matrix_tiles.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-018",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9a57e15fd98437ee74c33029c60346953647a3d401743a897abf545b800b5d64",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/matrix_tiles.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-018"
+    ]
+  },
+  {
+    "source": "tests/hailo_matrix_tiles_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-066",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c4d979030e1619dc53674789c93316478b5f31fab868f9ba4c845763e08fb306",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_matrix_tiles_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-066"
+    ]
+  },
+  {
+    "source": "smidr/tools/primitive_recipes.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-024",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "893f843cdf09d753bf31a3dbb7bc894e744a5d3ff597224d303778cbb1afdb99",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/primitive_recipes.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-024"
+    ]
+  },
+  {
+    "source": "tests/hailo_recipe_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-072",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0deddbe47d34d21f14bbc41952948553c3f0a66c9d1e98ed11daebb0307c02b5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_recipe_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-072"
+    ]
+  },
+  {
+    "source": "smidr/tools/cache_layout.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fb271e52240cd8de935c1f33122184c2a4068774cdff6d8128364fa47a65e50b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/cache_layout.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-002"
+    ]
+  },
+  {
+    "source": "tests/hailo_cache_layout_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-050",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "935171686eeb1154ba0f056add7013f79a791d8ff22721f99e5310745b027509",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_cache_layout_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-050"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_weight_tiles.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-040",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "31ab88301ac2e6c3229bd61f1a385eadb1c5bcd86e2afa8fc0cad864878f8d60",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_weight_tiles.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-040"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_weight_tiles_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-096",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8e203d88e2f3679c06c18bfc8af3c4756acb998cd70e6343bf4b77e9a10efd22",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_weight_tiles_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-096"
+    ]
+  },
+  {
+    "source": "smidr/tools/storage_estimate.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-041",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9e90fcb105f3eb6873b0cc7de7609934f96cc9a2107506e53257fad48dbd74c2",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/storage_estimate.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-041"
+    ]
+  },
+  {
+    "source": "tests/hailo_storage_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-097",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6e6f37f832b92343c83595d92aac5352ed8d8f106d19c2c3173c193294c74455",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_storage_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-097"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_inventory.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d2f12270fe1a4cc5a72c6d9701039e2ef36db16e68713afd5954875d150545dc",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_inventory.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-004"
+    ]
+  },
+  {
+    "source": "smidr/tools/typed_decoder.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-042",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a48661f69959de9a51a5169580c042f50bc99c82a04359cfa7d79627b4d24525",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/typed_decoder.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-042"
+    ]
+  },
+  {
+    "source": "smidr/tools/semantic_storage.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-030",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "abebd37556391c85590fafc1f4f79e758296c8e7ac53ab9a95b3e12c20db649e",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/semantic_storage.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-030"
+    ]
+  },
+  {
+    "source": "tests/hailo_semantic_storage_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-082",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "101578caf7675c0fdc8f7522ab6c758659c1f0f017b935472f70659e2c658463",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_semantic_storage_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-082"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_float_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-033",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "732fd96ce34e6db4201d922781b458b9b6969d974e833972570031ac64887e3b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_float_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-033"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_float_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-088",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "86c2a7c7cc6a325a4a6b86904dcd3e6389e9a789ef2ac33189a6c9e1603e1251",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_float_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-088"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_q4k_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-036",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "12eb21daf99c2c0024e752bc69e6684115eb9ef7680c14c8317e9296dc68c75a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_q4k_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-036"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_q4k_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-091",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "85d5e96719ba70512cee1509409c0510d2c9cd4c1eb59309aa8b87298a9fdc2c",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_q4k_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-091"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_q5q6_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-037",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "af9c8c6dd15a054494da455b92d1ceffb866829f3d8c414566758eccc53a151b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_q5q6_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-037"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_q5q6_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-092",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d1a7247f51b0d2e6315b13dd95f397fd9493ff3c5575e62646e82c898bfd9c1b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_q5q6_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-092"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_graph_policy.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-007",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "871fd2ec843be44d158380960c3f4c3da6c7e8cc115083fbe0062cb1f1b91693",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_graph_policy.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-007"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_graph_policy_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-054",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a9fb2517d844c0487e5559f28a4185b4a92bda6cfec71f365a6cc5e7ae8749eb",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_graph_policy_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-054"
+    ]
+  },
+  {
+    "source": "smidr/tools/rotary_recipes.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-025",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e74ad7aabad12718210107758297991f5e0c64407aefea1c666f34f8aeb66d2b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/rotary_recipes.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-025"
+    ]
+  },
+  {
+    "source": "tests/hailo_rotary_recipes_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-073",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f6ad4fb4be3f1433e5bb565517f1e9b0b020904d5396bf7ba9d8b4d0acc70e9e",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_rotary_recipes_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-073"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_scalar_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-010",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "185cb9972734a8ddec252840c659d623cc06084f42a955360085c14eecc47c73",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_scalar_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-010"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_scalars_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-094",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d398c37de3e0b6f67ac8c67781b11a0ac3a41ef8e460395a32159bc67beac378",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_scalars_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-094"
+    ]
+  },
+  {
+    "source": "smidr/tools/ordinary_projection_schema.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-019",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3f924b633734288681f7797a14faf6d9f6205b71ec953d87c228d7211d595553",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/ordinary_projection_schema.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-019"
+    ]
+  },
+  {
+    "source": "tests/hailo_ordinary_projection_schema_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-068",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "30e2e9ced209e941f8fe7857e9043ed8b0951417029a75ed07ebec4b31919096",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_ordinary_projection_schema_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-068"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_projections.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-009",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "da6f3fdf877de08d0144d69a2926060bd4af8314dd450945c4f3883de2ad16f6",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_projections.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-009"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_projections_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-056",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a30b598a150295d95cd5ab0316faa368c33a9cd641a73ba09bc10e79c0cc6988",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_projections_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-056"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_bias_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-006",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e55792abb0400882510af14e3e15e20cec5c7275235b88d4429bef6c9044629e",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_bias_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-006"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_bias_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-053",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "eddbf375130248edb74e55cb95a7192dda23dd0a4c82ada73e80c28f5b625d4c",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_bias_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-053"
+    ]
+  },
+  {
+    "source": "tests/hailo_bias_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-049",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8138a4ed4a7678dbd31554e980c5ff6858166077451069254d12422899a7f4f2",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_bias_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-049"
+    ]
+  },
+  {
+    "source": "tests/hailo_bias_gguf.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-048",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "540af7659f61f537ee803596059eba63665dc073b8fad1f07dceef1b48ff9727",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_bias_gguf.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-048"
+    ]
+  },
+  {
+    "source": "tests/hailo_bias_consumers.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-047",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ccbf64c217252c454a0ed117e51b3c817034e6c6e4edda491181d1a96514ca21",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_bias_consumers.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-047"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_activation_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8a74d53392e93c89f41f28a439eaae8ed935ad7acc270db19aee77767d0a6b7e",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_activation_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-004"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_activation_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-051",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2a1e12dec44eb1efd0ee313aac8999872d86bad9a05592fea2e7f1acad88f358",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_activation_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-051"
+    ]
+  },
+  {
+    "source": "tests/hailo_activation_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-046",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9a324b500f29af7b7522986aeeb006500aa1e57c4437976d62011e075262b86b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_activation_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-046"
+    ]
+  },
+  {
+    "source": "tests/hailo_activation_gguf.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-045",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "52f31c4e6a57246c7e0e90a2f83d3c4420da65ed6e88922c5b7a473d8cecf3ed",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_activation_gguf.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-045"
+    ]
+  },
+  {
+    "source": "tests/hailo_activation_consumers.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-044",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a2ae337ac868261fe1b088ddce20819687e14d4c2de91dc2a2983664b77e4875",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_activation_consumers.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-044"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_session_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-012",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2cbd3324bfdfc1da1e9663781855690437515cf0a1203c88d9f337d43c7ef5bd",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_session_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-012"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_session_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-058",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "93bc65a70753034cca7fc7dc4d636a5c23625e4960b8c05947d9ac67537c228d",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_session_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-058"
+    ]
+  },
+  {
+    "source": "tests/hailo_session_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-084",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "92995a338c7c14c4da24a915350ac50a12a1f370b255d61d321da822f872d0ec",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_session_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-084"
+    ]
+  },
+  {
+    "source": "tests/hailo_session_gguf.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-083",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "80fb5e0ca45fb51b9a9a1c7d9d554785bdc4ecf130a3a6b13768eaa6ad474d18",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_session_gguf.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-083"
+    ]
+  },
+  {
+    "source": "tests/hailo_session_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-085",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "3a2ee46abf1ec26071c7803135d1ca758a97743269edae9a735cf7c85f8d0fbf",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_session_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-085"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_window_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-013",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4eb7bd1a966a81ceb760d75a79ef1b63f7da9f3265df976b41e030740469ce18",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_window_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-013"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_window_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-059",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5403ef522371209bbf9c3277849efb75e459a4c0fe0deaf5a4148e68a96952ae",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_window_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-059"
+    ]
+  },
+  {
+    "source": "tests/hailo_window_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-102",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0055088e2818467e0edf64522902b384ef0639f4e7564710f130ec8449f50645",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_window_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-102"
+    ]
+  },
+  {
+    "source": "tests/hailo_window_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-101",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b53fe4b21e3a7223ba6c910a8379f0e1051e88a2fd6280a0d05ed812c7bcdc6d",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_window_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-101"
+    ]
+  },
+  {
+    "source": "tests/hailo_window_gguf.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-100",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "253297365f9ff6dc00dd67f4eb9668fd26b19cae0117bccc88ee201aa29b444d",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_window_gguf.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-100"
+    ]
+  },
+  {
+    "source": "tests/hailo_window_indices.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-016",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f59565fe16a81080a8208fd2b5e693966d8ea9c447e1e8ad6bc1d0fe55f146a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_window_indices.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-016"
+    ]
+  },
+  {
+    "source": "tests/hailo_window_policy.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-017",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d033cc2082a5ac2cd4aa11be132ecb595ea3abd72a803ae83182951cf5b3b745",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_window_policy.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-017"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_scaling_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-011",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2950dcd25fc8ef2fc243b3817a19e014f3ded3a762c28ed6369c26445964f97c",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_scaling_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-011"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_scaling_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-057",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "df737700ccc199af770808033d343c6cc499e4234bc506ea515b567c252102d0",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_scaling_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-057"
+    ]
+  },
+  {
+    "source": "tests/hailo_scaling_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-077",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "40721bfbc73bb8593ee580e7fb71b39de982f277efae0ea235001397638dc8ce",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_scaling_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-077"
+    ]
+  },
+  {
+    "source": "tests/hailo_scaling_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-076",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "efd045155189a577b652078a594b076a1926080316e6865c5ef1fdb2f221500a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_scaling_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-076"
+    ]
+  },
+  {
+    "source": "tests/hailo_scaling_gguf.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-075",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "08c2ce97799d3cbf6dc4b5cb6cd4184b74b89d8338d4b32195266cc17ef4589b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_scaling_gguf.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-075"
+    ]
+  },
+  {
+    "source": "tests/hailo_scaling_policy.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-012",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e780086b3ac18e78cfbf8ed260cb9a22b2d090a15f283abdfa2a14e31a7f3336",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_scaling_policy.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-012"
+    ]
+  },
+  {
+    "source": "tests/hailo_dynamic_rotary_context.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-008",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa0a7daac2335e984cf8be8076fdcc3c6d42108bd4b915b069eff7307ee568cc",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_dynamic_rotary_context.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-008"
+    ]
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_history.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-007",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b6f16d6f50c9515746357c965a48211ed971409901688c26eb6fafaa7a9d3fc5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_dynamic_decoder_history.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-007"
+    ]
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-061",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fca73e543783b78957a9a73f51c9dcbdbf44412a638dfb77d1d9ee9a6e8706c0",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_dynamic_decoder_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-061"
+    ]
+  },
+  {
+    "source": "smidr/tools/dynamic_decoder_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-014",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d5386d62623d8733d171ef0e717f9a1692b028e6a6471420fc6a82aa0469f7d6",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/dynamic_decoder_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-014"
+    ]
+  },
+  {
+    "source": "tests/hailo_dynamic_decoder_graph.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-060",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9e2db159e2b80b4039929ab625256aa600fd83cd90fc14dffd671011b8140871",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_dynamic_decoder_graph.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-060"
+    ]
+  },
+  {
+    "source": "tests/hailo_dynamic_graph_gguf.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-062",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6b526363ad1aea51c876334a2f7d2f2766a9c7185e5cd301948c56d203f8fe66",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_dynamic_graph_gguf.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-062"
+    ]
+  },
+  {
+    "source": "smidr/tools/context_actions.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "daf26af8df4ba53e0bb62eb122c9c80d6b794cf2a4075b54bbf98cf481e20bf7",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/context_actions.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-003"
+    ]
+  },
+  {
+    "source": "tests/hailo_context_action_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-006",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "96392e5c82488aa94840b47ee2673f3c7c9a72cf2e2332942efb915841f0d309",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_context_action_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-006"
+    ]
+  },
+  {
+    "source": "smidr/tools/lcu_actions.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de039ce12b8e47eeee7626cb27da75a55c18a90b19fd0a58e562b4099de9594",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/lcu_actions.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-000"
+    ]
+  },
+  {
+    "source": "tests/hailo_lcu_action_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-009",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2342cba0412b5c5bc97661b944e2ac88404b99c6a617742332fa9d097b2c7b1c",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_lcu_action_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-009"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_q8_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-038",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c11cff083393d9572ce64bc0f1696d56f6dd6996e48bf62fd61611f5bce25dad",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_q8_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-038"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_q8_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-093",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "aa916e1b21765b3a61253b2af89f0d0563993a72da41f39bf36ff8916ef01e30",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_q8_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-093"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_classic32_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-032",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "12d8747ee005af4eb8c2750d63a057e742a14d8ba59ded48ce977573c8fce976",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_classic32_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-032"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_classic32_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-087",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "37f80e324ee840ac63044554e7e041b9debd7392210e79e9705277b3c82566b8",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_classic32_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-087"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_storage.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-039",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "763fe76c4c40b4fe77d4f9781c59c55afd7c03304cafcdf7e2628d21bd049d33",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_storage.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-039"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_storage_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-095",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c4406a923acb75ee295ce4364293b00fba4caa0b9d22d2738a86d46f0690c254",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_storage_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-095"
+    ]
+  },
+  {
+    "source": "smidr/tools/safetensors_inventory.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-107",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "dac8de8ccb20e7058f920753a885016069c7542b96e1cc76c1f2ce17c9faee50",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/safetensors_inventory.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-107"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_q2q3_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-035",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "14ca85c8ca9227c7d9bdc9cb1cb390731fd4e043fbab5fe9ea929dd21d418a95",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_q2q3_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-035"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_q2q3_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-090",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "95d106bc598d59f3fa096e92f737850254a734ca9577d035c68a20cfdda4da6a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_q2q3_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-090"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_architecture.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-005",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "85ad6dd6bb4a02fe5d9e3464555617bffa85656cfd3ec7f10f5ca1e37ca61d88",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_architecture.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-005"
+    ]
+  },
+  {
+    "source": "smidr/tools/decoder_layers.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-008",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "79387a73a697544662aae9032e56b66d76c1dde7cc67ecdc673b684dc3b253db",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/decoder_layers.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-008"
+    ]
+  },
+  {
+    "source": "smidr/tools/gguf_shapes.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-017",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "02b18f667ccba7642ec5bc90385d4009a722dc3b42320a768326bbaca5cf0e68",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/gguf_shapes.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-017"
+    ]
+  },
+  {
+    "source": "smidr/tools/safetensors_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-026",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f824f26e991adcd1928fd829ac4cc14444972d35b88d30e93a788982181ddf2d",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/safetensors_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-026"
+    ]
+  },
+  {
+    "source": "smidr/tools/shard_collection.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-031",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "583d40cd4f4e4c6994c9948256212e69a6aa3b82f1ca7a7644c578a496a0675f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/shard_collection.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-031"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_config.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-110",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4a07af574825b625ddb39fdd8abf5f5db755331d8d4c99d472caf481a64a9f3a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_config.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-110"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_index.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-111",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e63bb0ff4a1d9e3efd3de8ad8f64672d896671cc9123276a00a213a56eba375a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_index.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-111"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_root.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-103",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "7ed2b4ccfb4141476ee6847728f11cb0f45e1f9a0b04f4c7389312ac13f425d5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_root.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-103"
+    ]
+  },
+  {
+    "source": "smidr/tools/unindexed_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-043",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "139f017116637cf46327e92a1804b20d4926ff2515207a50a051ea79ba3a3385",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/unindexed_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-043"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_architecture_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-052",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "51e0b3af104fc9d8b47fb5655f5703eab8734b87556ae8ac1a1508cd00629f3d",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_architecture_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-052"
+    ]
+  },
+  {
+    "source": "tests/hailo_decoder_layers_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-055",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4337e3ef9325fb797cdeb65287304d1b19ea79f568513974fa18e473f0e85696",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_decoder_layers_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-055"
+    ]
+  },
+  {
+    "source": "tests/hailo_gguf_shapes_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-065",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a9c76087748b088278af8071f901965af8e9951e70c5f9fd0fc8734249155813",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_gguf_shapes_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-065"
+    ]
+  },
+  {
+    "source": "tests/hailo_safetensors_constants_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-074",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "de3283e585441f7337a11082587394acd189bc85a4787760c37e4a6f859361f6",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_safetensors_constants_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-074"
+    ]
+  },
+  {
+    "source": "tests/hailo_shard_collection_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-086",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "5de1ddf6b0371c0069cd38827d6edb92266337ca7fa1fade3e7e1a256a5b3598",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_shard_collection_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-086"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_config_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-013",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "33d342e03ea3c9c2eeb05310c1ae170914cf5ee961ab2c2bfe0197e8c4deda5f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_config_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-013"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_index_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-015",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "d3fe7e0f5ebde60874a5b247c4756da17946f44bf98a320867647bcca5dbcd94",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_index_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-015"
+    ]
+  },
+  {
+    "source": "tests/hailo_unindexed_source_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-099",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "2bdf5f7bebf723ad9b1856ab7a8b6a03a9d4ce03467d38bad1f9be8f1e18f1a5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_unindexed_source_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-099"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_iq4_constants.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-034",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c5d5953e8cbc4aefa18da5997120b1ab6e0f0de7246e5730756ef96caf0dcc05",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_iq4_constants.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-034"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_iq4_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-089",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "00a75fce9087a23cb74ffb88dcdb75e1cc71e39402cef67fd9637a8600d801a5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_iq4_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-089"
+    ]
+  },
+  {
+    "source": "smidr/tools/source_byte_digest.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "db1b01d5fa60e6b11ef3f9cd9f11111e9c99c55e4862d698ba94e6dbef6e570f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/source_byte_digest.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-003"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_digest_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-014",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "bbfd7db872b8100914a554fecb32de3bfd25f9a4d2f4cedfb79cbcc26318ea72",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_digest_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-014"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_source_copy.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-105",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "271387902ab33e3a424d47729273b71ad1c0dd5c28178c2441a9b1e99203340f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_copy.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-105"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_source_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-106",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b9e7ebf9a12f509dd364608e19feee32e3c27f30e48bbead2dd749c586569144",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_source_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-106"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_gguf_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8d31b5d8f13068c7d956008f574e365996ac6db12653fe46f409d67ac1105a49",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_gguf_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-002"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_gguf_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-079",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "46cc897b23f87d666f9a711599904707b82369f4bdbfb8407fc6c54550274709",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_gguf_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-079"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_semantic_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-081",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "535aacd8a8d1fdc825dbbd6147bb30113659d78eea3b6ead5168db50ffe18dec",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_semantic_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-081"
+    ]
+  },
+  {
+    "source": "smidr/tools/owned_gguf_compiler.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-021",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "69b4271ff53733ac9afc1b72cd298fa2bbf0b166142e4cf967aecf203775fe1a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/owned_gguf_compiler.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-021"
+    ]
+  },
+  {
+    "source": "tests/hailo_owned_gguf_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-069",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1f5ab0530d97e06c164f5eaeba4d0cfb3a04b700e8b3957e3e8bf326ac0d4691",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_owned_gguf_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-069"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_safetensors_source.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-027",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ee77014bf02b906a7f0627a90400cfc009d5d975b583e19d2cdea8b77ac27c00",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_safetensors_source.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-027"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_safetensors_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-080",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "fe21c5600b2a8a64b8354e4ef34c9323bb3c3ff6969c800994e09b1c64362f29",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_safetensors_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-080"
+    ]
+  },
+  {
+    "source": "smidr/tools/safetensors_fd.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "61f2e78d72e333c18c07e4e446f3af431a7a0e643559d5ff01ecfa920da3704d",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/safetensors_fd.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-001"
+    ]
+  },
+  {
+    "source": "tests/hailo_safetensors_fd_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-010",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "63623bcbd0a429a1eaec41dcd49e35d7897ba504f5d0dd6c9dc3e5a78f5f5043",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_safetensors_fd_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-010"
+    ]
+  },
+  {
+    "source": "tests/hailo_safetensors_inventory_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-011",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "f3b714e3b5cc8f1d57c91b8a155d9d61b334488ec49b5b620c17fbf2e1b8e843",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_safetensors_inventory_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-011"
+    ]
+  },
+  {
+    "source": "tests/h043_st_check.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-005",
+    "returncode": 0,
+    "diagnostic_bytes": 257,
+    "sha256": "bdf045d2f3d71f08077ae88c8993f5cf879c921fc7de033904fe9fd6bab9d408",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/h043_st_check.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-compatibility/entry-005"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_metadata_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-109",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "b324ed41bb16c2f1a204fc9dd5220dac82264970204c6eaeff26f40d9b2c7d59",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_metadata_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-109"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_source_metadata.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-108",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "ac6452616f119fe6a4ed7c4ffd2579934cc6ad66311b091c885fee2c39d36fb7",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_metadata.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-108"
+    ]
+  },
+  {
+    "source": "tests/hailo_source_root_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-104",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "a83e68d0f61b7e9f4399a39c2f756dc7954c27b576430c98ffad5ec46028a04a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_source_root_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-104"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_collection_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-078",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "333c17ba57d808c3424248f7f111995cb3552a30a72516dca6322fe649ac9abc",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_collection_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-078"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_source_collection.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-028",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "1d9720a6db910214d0ff267736825e4970ef65d7c6872ff41db741b12898b5b7",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_source_collection.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-028"
+    ]
+  },
+  {
+    "source": "smidr/tools/owned_ordinary_binding.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-022",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "910f17aa3ea791f1b9485d7f4998db0e99655c4f19b9c7ae09b1100f31252c42",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/owned_ordinary_binding.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-022"
+    ]
+  },
+  {
+    "source": "tests/hailo_owned_ordinary_binding_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-070",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0777d709f33294769efdcc7178e77d5380bf21c3a6e5b54a013d91f65435d821",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_owned_ordinary_binding_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-070"
+    ]
+  },
+  {
+    "source": "smidr/tools/owned_ordinary_compiler.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-023",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "cb0d4bb3536715f0ec41db4c3e4e829ae5571f8b316882833bfdfaa3b5c8a4ec",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/owned_ordinary_compiler.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-023"
+    ]
+  },
+  {
+    "source": "tests/hailo_owned_ordinary_compiler_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-071",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "0175f6052465836b9139f8ccc27b51da093b28aedaacc3da522c4f5166a06eeb",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_owned_ordinary_compiler_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-071"
+    ]
+  },
+  {
+    "source": "smidr/tools/sequencer_actions.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sequencer-action-native-final/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "42803700062454a9124fa06d89858bc85a7d32d285482a62d069c08eb1011244",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sequencer_actions.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sequencer-action-native-final/entry-000"
+    ]
+  },
+  {
+    "source": "tests/hailo_sequencer_action_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sequencer-action-native-final/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "cc8ea8d8245b9d446940c7c8d50fa7ca06681bb4365f9e3ebfb6c0e903bd5605",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sequencer_action_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sequencer-action-native-final/entry-001"
+    ]
+  },
+  {
+    "source": "smidr/tools/program_envelope.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/program-payload-native-baseline/supplement-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "e25fdfeededc0085b43881acce539900e32d19019b0e9d7d5adddbe4d0321230",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/program_envelope.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/program-payload-native-baseline/supplement-000"
+    ]
+  },
+  {
+    "source": "smidr/tools/program_integrity.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-005",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "50ce189c6a6e001dd4441cd7cf3a158d3a6137f819276e7c2649c2f7a84f576b",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/program_integrity.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-005"
+    ]
+  },
+  {
+    "source": "smidr/tools/hrpc_program.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/program-payload-native-baseline/supplement-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "43db06663596f12119c33352a7c22e8bfb7f7551e897927de198aa3e2d98f3c4",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/hrpc_program.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/program-payload-native-baseline/supplement-002"
+    ]
+  },
+  {
+    "source": "smidr/tools/hrpc_frame.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/program-payload-native-baseline/supplement-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6def2c45810e95947740d2b946d2213713a43d74820f68ed5ca3f2c5e9df3bd3",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/hrpc_frame.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/program-payload-native-baseline/supplement-003"
+    ]
+  },
+  {
+    "source": "smidr/tools/program_payload.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8990eb7cdc98b6da13b7700866543fa1cc9ada78239a9657182ab8bb92e4c85c",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/program_payload.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-004"
+    ]
+  },
+  {
+    "source": "tests/hailo_program_payload_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-012",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "36e166714f932e53d0b62b90e9f3b7f4d79ba50848a1ddefc087bd2f019e20ed",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_program_payload_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-012"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_abi.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-004",
+    "returncode": 0,
+    "diagnostic_bytes": 769,
+    "sha256": "23036175bf278c1d4fdb9478038d9691b7704b3ef0cbf9225c1aef052834b5b6",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_abi.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-004"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_group.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 370,
+    "sha256": "cfa4eedc7420d7968f811bf1e4da11b8cdf41e426eca944286b5e7df42bf2941",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_group.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-002"
+    ]
+  },
+  {
+    "source": "tests/hailo_soc_group_ownership.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 228,
+    "sha256": "b9949059225ec0600c13a38188d35011ec09a6884a29cfba5c5fe9c5c9d4299e",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_group_ownership.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-003"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_program_payload.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-003",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "8c8eb6bebce3f063e088b3be3e2708c9ed6f487922a8be1847c40140aa3b586a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_program_payload.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-003"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_program_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-011",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "c7e373ae2a0849df61f536786439a11aec625990d8e2906cad4958cf98f8d9db",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_program_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-011"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_storage.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-018",
+    "returncode": 0,
+    "diagnostic_bytes": 4455,
+    "sha256": "e452445dd9e5d64c5e2d209b3e348f18b5152ae4ea77540b8d1c955e7cd753a7",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_storage.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-018"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_program_pin_probe.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-009",
+    "returncode": 0,
+    "diagnostic_bytes": 1467,
+    "sha256": "06ed3b4c369252304d0d5690a57c16a19f061aec43f862c2c9b8f51de3b0037e",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_program_pin_probe.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-009"
+    ]
+  },
+  {
+    "source": "tests/hailo_soc_storage_unwind.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-014",
+    "returncode": 0,
+    "diagnostic_bytes": 3652,
+    "sha256": "0b483167f9fd625b1f2e257df70e18ae8831010497afd7a3e710843f9c341a78",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_storage_unwind.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-014"
+    ]
+  },
+  {
+    "source": "tests/hailo_soc_pending_storage.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-015",
+    "returncode": 0,
+    "diagnostic_bytes": 3663,
+    "sha256": "0377717d006468fa1c12b2c31c3e66b1169522d1404411a38694bc3ea18b3f53",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_pending_storage.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-015"
+    ]
+  },
+  {
+    "source": "tests/hailo_soc_session_unwind.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-016",
+    "returncode": 0,
+    "diagnostic_bytes": 3652,
+    "sha256": "9f3186b09777264d8413d79929340d06e6830125949c0987acb0f3c69e1676b5",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_session_unwind.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-016"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_wait.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-017",
+    "returncode": 0,
+    "diagnostic_bytes": 5008,
+    "sha256": "6b9a827c631c357d08ac8a14a2b0926a47525b228011bfa75041d5875f70650c",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_wait.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-017"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_rpc_device.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-019",
+    "returncode": 0,
+    "diagnostic_bytes": 6847,
+    "sha256": "f3da6d56c90a01bfeab7796f6c37ed7fb98dbf9c1fb3aed65cdf83d45c68e2c3",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_rpc_device.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-019"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_session.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-020",
+    "returncode": 0,
+    "diagnostic_bytes": 4455,
+    "sha256": "6fef8480b8698eb15c3710314dc4dce5353bb05c3f6a996eee898d5223eb3618",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_session.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-020"
+    ]
+  },
+  {
+    "source": "tests/hailo_session_finalization_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-008",
+    "returncode": 0,
+    "diagnostic_bytes": 3718,
+    "sha256": "86ceacab58baa091cf44ed74be125326b2f7b9af39181887996a40e600ac1e8f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_session_finalization_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-008"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_transfer_backing.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-002",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "6f4a8fd8109bcc3a4e4fb08d8776528ea26a18a735d941fbdb152f731432e5d3",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_transfer_backing.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-002"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_transfer_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-010",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "37f603c90c62e6bcf99d2a888d89ddc1c1cbe5389a8b624c703e114f9c45372c",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_transfer_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-010"
+    ]
+  },
+  {
+    "source": "smidr/tools/ordinary_tensor_identity.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-020",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "65b5d5ca0b092cb9a49b5766fd3d9be7fb65f39f668058ac5ba800ce76820338",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/ordinary_tensor_identity.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-020"
+    ]
+  },
+  {
+    "source": "tests/hailo_ordinary_identity_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-067",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "4603c4a15089e271f4b0b469b38a65d7c4365d174cc39e100d7248713ebc7605",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_ordinary_identity_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-067"
+    ]
+  },
+  {
+    "source": "smidr/tools/owned_tied_output_compiler.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "32efa86ba1a84ae4c45ce72d2fc2eea75803cc6d22be56b54b3581df27dd794a",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/owned_tied_output_compiler.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-000"
+    ]
+  },
+  {
+    "source": "tests/hailo_owned_tied_output_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 0,
+    "sha256": "9e67e0a290c1071ad26b8b3b31db9a1bf8eb1906e5212b82e2a645af84924a4d",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_owned_tied_output_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-001"
+    ]
+  },
+  {
+    "source": "smidr/tools/sealed_transfer_pin.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 1763,
+    "sha256": "3252417eea8d40f88a94b3a0232baf0c6fb283a0e1a6251a5ca6606e753f320f",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/sealed_transfer_pin.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-000"
+    ]
+  },
+  {
+    "source": "tests/hailo_sealed_transfer_pin_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 1432,
+    "sha256": "5814571813472e09f1fcd7e01941478c68ff1cceb192bff7281a8f490caffbac",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_sealed_transfer_pin_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/sealed-group-pin-native-final-v3/entry-001"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_prepare.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-000",
+    "returncode": 0,
+    "diagnostic_bytes": 374,
+    "sha256": "7be10edb0a1ecde1e8804e3407c5991bb85e1d6645ede712fe5ddf5311c47beb",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_prepare.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-000"
+    ]
+  },
+  {
+    "source": "tests/hailo_soc_prepare_api.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-001",
+    "returncode": 0,
+    "diagnostic_bytes": 224,
+    "sha256": "a5d47a02260e559dc0911f3b9737f6affcd0e690706d121a9ce15484dadf90f1",
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_prepare_api.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-prepare-native-final/entry-001"
+    ]
+  }
+]

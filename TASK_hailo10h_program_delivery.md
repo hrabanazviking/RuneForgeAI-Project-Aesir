@@ -150,3 +150,8 @@ match the pinned public revision. Selected preparation effects include buffer
 ownership/sync and prepared-queue insertion status;active DMA cancellation is
 not established. No device call,new native capability or count formula follows.
 Next original same-file group/control-RPC work needs its own bounded contract.
+
+Next original progress prerequisite:`TASK_hailo10h_observed_group_progress.md`.
+Separate actual per-direction launch returns from IRQ transfer completion and
+bound all admitted events by one total deadline. Host-only qualification must
+precede same-file ownership or any live grouped control-RPC request.

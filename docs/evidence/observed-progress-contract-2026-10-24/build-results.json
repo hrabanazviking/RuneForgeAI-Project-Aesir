@@ -1,0 +1,40 @@
+[
+  {
+    "source": "tests/hailo_soc_progress.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-baseline/entry-000",
+    "sha256": "2a4f4c8832c29c01924bc5968b4ab4e936fa6ff33f6f6fe23bc2e7c38c13ceee",
+    "returncode": 0,
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "tests/hailo_soc_progress.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-baseline/entry-000"
+    ]
+  },
+  {
+    "source": "smidr/tools/soc_rpc_device.mojo",
+    "binary": "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-baseline/entry-001",
+    "sha256": "f3da6d56c90a01bfeab7796f6c37ed7fb98dbf9c1fb3aed65cdf83d45c68e2c3",
+    "returncode": 0,
+    "arguments": [
+      "mojo",
+      "build",
+      "-I",
+      ".",
+      "-I",
+      "aesir_engine",
+      "-I",
+      "tests",
+      "smidr/tools/soc_rpc_device.mojo",
+      "-o",
+      "/home/pi/Documents/Codex/2026-10-19/u/work/soc-observed-progress-baseline/entry-001"
+    ]
+  }
+]
