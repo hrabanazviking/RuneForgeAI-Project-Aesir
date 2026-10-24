@@ -472,3 +472,12 @@ no destroy retry and uncertain logical/file cleanup are exercised. No real Hailo
 ioctl/DMA or numerical execution occurs. Continue separately bounded physical
 control evidence and actual numerical configuration/packing/placement/original
 program/results toward broad ordinary UNMODIFIED source-model support100%.
+
+
+Next bounded physical control contract:`TASK_hailo10h_grouped_device_probe.md`.
+Fresh722 Mojo/92 Python inputs,171 retained controls and831 archive paths are
+frozen before code. Host-qualify the new diagnostic and direct-syscall observer
+first;then exactly one new typed20/22/21 grouped lifecycle may observe actual
+returns/completion and cleanup on a fresh matched profile. No implementation or
+physical call follows merely from the contract. Actual numerical/packing/
+placement/original program/results and broad remaining models remain work.
