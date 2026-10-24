@@ -119,3 +119,9 @@ That host backing slice is now verified under
 comparisons and independent actual metadata kernel checks. Both ordered parts
 retain sealed host bytes;physical grouped storage/descriptors/completion/total
 deadlines/late cleanup and actual numerical program/results remain open.
+
+Next original two-part pin ownership contract:
+`TASK_hailo10h_sealed_transfer_pin.md`. Actual702/85 inputs and154 current controls
+are frozen before code;the closed composition probe is never executed. Host
+fault/cleanup qualification precedes a separately bounded two-buffer map-only
+batch. No descriptor count,DMA,numerical admission or execution is inferred.

@@ -120,6 +120,12 @@ Eight new methods include1280 byte refusals and41 complete fault pairs. No
 physical deduplication,numerical H10H configuration or source-model execution
 is established. Continue those gaps and remaining broad source/model coverage.
 
+Next original transport prerequisite:`TASK_hailo10h_sealed_transfer_pin.md`.
+Own both actual sealed metadata/program mappings through one identity-checked
+driver and confirmed close,with host faults before a bounded map-only batch.
+The published contract and closed type probe claim no implementation,DMA or
+source-model execution. Descriptor/deadline and numerical work remain open.
+
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.
 

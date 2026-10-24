@@ -1,0 +1,20 @@
+{
+  "parent": "c975b30b02a16331332b289f45b49f483b50c186",
+  "sources": 702,
+  "python_tests": 85,
+  "controls": 154,
+  "selected_controls": [
+    "smidr/tools/sealed_transfer_backing.mojo",
+    "smidr/tools/sealed_program_payload.mojo",
+    "smidr/tools/program_payload.mojo",
+    "smidr/tools/program_integrity.mojo",
+    "smidr/tools/soc_group.mojo",
+    "smidr/tools/soc_abi.mojo",
+    "tests/hailo_session_finalization_api.mojo",
+    "smidr/tools/sealed_program_pin_probe.mojo"
+  ],
+  "compiler_sha256": "be46936245ae995680155dcc2f61af5dac8678254c634110e99ceff25ce57c39",
+  "probe_executed": false,
+  "production_started": false,
+  "physical_calls": false
+}
