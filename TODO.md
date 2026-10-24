@@ -1,3 +1,12 @@
+## 2026-10-24 — Typed grouped device lifecycle,host qualification
+
+- [x] AES-CONTROL-015 fresh typed create/identify/destroy ownership,one lifecycle
+  deadline,no destroy retry and uncertain cleanup;90 methods/5134 full frozen
+  comparisons. `docs/HAILO10H_MOJO_GROUP_DEVICE_RPC.md`.
+- [ ] Continue separately bounded physical grouped lifecycle and actual numerical
+  configuration/packing/placement/program/results plus remaining ordinary source
+  formats/architectures/operations toward broad UNMODIFIED model support100%.
+
 ## 2026-10-24 — Owned grouped control frames,host qualification
 
 - [x] AES-CONTROL-014 bind natural header/body spans to owned session storage,

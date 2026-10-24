@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 145 |
+| `verified` | 146 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **190** |
+| **Total** | **191** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4332,3 +4332,29 @@ No new capability ID or hardware/complete-source execution claim.
   per image;33761 file generations/33754 closes plus7 retained mock fds.19 Mojo/
   4 C/C++ links,46 ELF tables;715/90 old,718/91 final inputs,164 controls and833
   contract paths exact. Zero old production/test edits;all failures retained.
+
+
+### AES-CONTROL-015 — Typed grouped device lifecycle (host qualification)
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/soc_group_device.mojo.
+- **Claim sources:** TASK_hailo10h_grouped_device_rpc.md published626e9d6 before
+  code;docs/HAILO10H_MOJO_GROUP_DEVICE_RPC.md.
+- **Implementation evidence:** Fresh grouped owner reuses create20/identify22/
+  destroy21 codecs;separate handle presence,one lifecycle admission deadline,
+  preserved primary error,no destroy retry/poisoned reuse,and uncertain backing
+  retention. At most three exchange attempts are observed.
+- **Executable evidence:**90 methods/5134 complete frozen comparisons,including
+  392 typed fault-state pairs,actual protobuf/header oracles,new bounded worker
+  consumer and four clock/late-census refusals. All old source/test bodies remain.
+- **Evidence boundary:** Host mocks only. Synthetic identity and grouped frames
+  establish no real Hailo ioctl/DMA,RPC packet,descriptor capacity,all-failure
+  hardware idle/remote closure,program activation or numerical source execution.
+- **Next acceptance gate:** Separately bounded physical grouped lifecycle,then
+  numerical configuration/packing/placement/original program/results and broad
+  ordinary UNMODIFIED source-model support100%.
+- **Audit:**1768 actual IRQ workers per image exit before owning close attempts;
+  1466 VMAs/1454 unmaps plus12 deliberate retentions,118652 file generations/
+  118649 closes plus3 retained mock fds per image.22 Mojo/5 C/C++ links,58 ELF
+  tables;718/91 old,722/92 final inputs,168 controls and823 contract paths exact.
+  All failures and superseded replays are retained;no global/hosted-CI pass.

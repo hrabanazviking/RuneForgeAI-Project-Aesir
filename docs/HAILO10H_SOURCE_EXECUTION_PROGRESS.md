@@ -387,3 +387,12 @@ exchange attempts. Fresh718 Mojo/91 Python inputs,168 current controls and
 823 contract archive paths are frozen before code. Manifest SHA-256:
 `97825114ea5507bbb2ba31d342c1f99bc821950e5e2a5c90de2dc75fb2ae4ddb`. No new implementation,device call or numerical/source-model execution
 is claimed by this contract.
+
+
+Original typed grouped lifecycle host qualification is verified under
+`docs/HAILO10H_MOJO_GROUP_DEVICE_RPC.md`:90 methods/5134 full frozen comparisons.
+Fresh ownership,known-handle presence,one total lifecycle admission deadline,
+no destroy retry and uncertain logical/file cleanup are exercised. No real Hailo
+ioctl/DMA or numerical execution occurs. Continue separately bounded physical
+control evidence and actual numerical configuration/packing/placement/original
+program/results toward broad ordinary UNMODIFIED source-model support100%.

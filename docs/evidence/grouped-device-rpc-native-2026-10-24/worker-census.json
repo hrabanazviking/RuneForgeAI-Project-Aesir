@@ -1,0 +1,21 @@
+{
+  "metrics": {
+    "file_fd_generations": 2390,
+    "file_fd_closes": 2386,
+    "all_native_threads": 518,
+    "runtime_pool_threads": 416,
+    "owned_pipes": 104,
+    "actual_callback_workers": 102,
+    "successful_bounded_censuses": 88,
+    "traces": 106,
+    "cancelled_blocking_reads_at_fail_closed_exit": 0,
+    "pipes_reclaimed_by_process_exit": 2
+  },
+  "full_pairs": 53,
+  "old_source_test_edits": 0,
+  "full_syscall_traces": true,
+  "all_owned_fds_accounted": true,
+  "all_actual_workers_exit": true,
+  "physical_calls": false,
+  "source_model_execution": false
+}

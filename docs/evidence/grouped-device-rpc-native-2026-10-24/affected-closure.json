@@ -1,0 +1,34 @@
+{
+  "modules": [
+    "hailbru.soc_group_device",
+    "smidr.tools.group_rpc_device_mock",
+    "tests.hailo_group_device_api"
+  ],
+  "new_executables": [
+    "smidr/tools/group_rpc_device_mock.mojo",
+    "tests/hailo_group_device_api.mojo"
+  ],
+  "selected_controls": [
+    "smidr/tools/group_rpc.mojo",
+    "tests/hailo_group_control_rpc_api.mojo",
+    "smidr/tools/soc_rpc_device.mojo",
+    "smidr/tools/soc_session.mojo",
+    "smidr/tools/soc_storage.mojo",
+    "smidr/tools/soc_wait.mojo",
+    "smidr/tools/soc_abi.mojo",
+    "smidr/tools/soc_group.mojo",
+    "smidr/tools/hrpc_frame.mojo",
+    "smidr/tools/hrpc_device.mojo",
+    "smidr/tools/soc_exchange_progress.mojo",
+    "tests/hailo_soc_group_ownership.mojo",
+    "tests/hailo_soc_progress.mojo",
+    "tests/hailo_soc_exchange_progress_api.mojo",
+    "tests/hailo_soc_session_unwind.mojo",
+    "tests/hailo_soc_storage_unwind.mojo",
+    "tests/hailo_soc_pending_storage.mojo",
+    "tests/hailo_session_finalization_api.mojo",
+    "tests/hailo_blocking_worker.mojo",
+    "tests/hailo_group_device_worker.mojo"
+  ],
+  "physical_tests_forbidden": true
+}

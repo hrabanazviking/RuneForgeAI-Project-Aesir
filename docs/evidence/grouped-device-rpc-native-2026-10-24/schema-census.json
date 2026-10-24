@@ -1,0 +1,19 @@
+{
+  "actual_schema_fixture_checks": 4607,
+  "logical_policy": {
+    "outcomes": 733,
+    "confirmed_logical_destroys": 390,
+    "single_cleanup_attempts": 43,
+    "unconfirmed_file_contexts": 6
+  },
+  "auxiliary": {
+    "file_fd_generations": 22,
+    "file_fd_closes": 22,
+    "traces": 2
+  },
+  "full_auxiliary_pairs": 1,
+  "field_definitions_from_actual_pinned_proto": true,
+  "model_compiler": false,
+  "production_protobuf_dependency": false,
+  "physical_calls": false
+}

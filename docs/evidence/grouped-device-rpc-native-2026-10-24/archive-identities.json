@@ -1,0 +1,91 @@
+{
+  "path_base": "task work directory containing the repository and raw roots",
+  "roots": [
+    "grouped-device-rpc-native-baseline",
+    "grouped-device-rpc-native-baseline-v2",
+    "grouped-device-rpc-native-development",
+    "grouped-device-rpc-native-final",
+    "grouped-device-rpc-native-final-v2",
+    "grouped-device-rpc-native-final-v3",
+    "grouped-device-rpc-native-final-v4",
+    "grouped-device-rpc-native-final-v5",
+    "grouped-device-rpc-native-final-v6",
+    "grouped-device-rpc-native-final-v7",
+    "grouped-device-rpc-native-final-v8",
+    "grouped-device-rpc-native-host",
+    "grouped-device-rpc-native-host-v2",
+    "grouped-device-rpc-native-host-v3",
+    "grouped-device-rpc-native-host-v4",
+    "grouped-device-rpc-native-host-v5",
+    "grouped-device-rpc-native-host-v6",
+    "grouped-device-rpc-native-selected",
+    "grouped-device-rpc-native-selected-v3",
+    "grouped-device-rpc-native-selected-audit",
+    "grouped-device-rpc-native-group-audit",
+    "grouped-device-rpc-native-selected-audit-v8",
+    "grouped-device-rpc-native-group-audit-v8",
+    "grouped-device-rpc-native-worker-final-v8",
+    "grouped-device-rpc-native-worker-audit-v8",
+    "grouped-device-rpc-native-worker-replay",
+    "grouped-device-rpc-native-worker-final",
+    "grouped-device-rpc-native-worker-audit",
+    "grouped-device-rpc-native-worker-audit-v2",
+    "grouped-device-rpc-native-schema",
+    "grouped-device-rpc-native-schema-replay",
+    "grouped-device-rpc-native-audit",
+    "grouped-device-rpc-native-audit-v2"
+  ],
+  "files": 52416,
+  "source_bytes": 2478514275,
+  "pages": [
+    {
+      "path": "archive-001.json",
+      "files": 8000,
+      "source_bytes": 108513780,
+      "bytes": 1631815,
+      "sha256": "1e5413d1139c724985df14d1b7e3511cd141e5fa00f18044fb0dd33aa8127315"
+    },
+    {
+      "path": "archive-002.json",
+      "files": 8000,
+      "source_bytes": 997917191,
+      "bytes": 1428666,
+      "sha256": "6ebdfbb451923bea55bf8bcb7f21cc877baa076159e114a371425407d5560f25"
+    },
+    {
+      "path": "archive-003.json",
+      "files": 8000,
+      "source_bytes": 624169583,
+      "bytes": 1455805,
+      "sha256": "61a1060d370413cb73366d53b47c99e8e38f0fb53282defa35e9cd222150b0dc"
+    },
+    {
+      "path": "archive-004.json",
+      "files": 8000,
+      "source_bytes": 178543688,
+      "bytes": 1529885,
+      "sha256": "7a746c0fe3faaad63134e30829fc7c3850267b10d37080f507162c3ba44cf1ce"
+    },
+    {
+      "path": "archive-005.json",
+      "files": 8000,
+      "source_bytes": 250680987,
+      "bytes": 1499728,
+      "sha256": "d3c8f3eeacb1399d76f4eb16f25d03b22af44fd42c830a2667f38518cebf36b3"
+    },
+    {
+      "path": "archive-006.json",
+      "files": 8000,
+      "source_bytes": 168938898,
+      "bytes": 1502360,
+      "sha256": "0ff180f7c1bbadb2e52b9a642eb88ba9b6cc72cceda2d096b8d513b4b8553ffc"
+    },
+    {
+      "path": "archive-007.json",
+      "files": 4416,
+      "source_bytes": 149750148,
+      "bytes": 827268,
+      "sha256": "667d2931861a74560b63e1d0520b00d55f688ba902930ed5f38e7a612930685b"
+    }
+  ]
+}

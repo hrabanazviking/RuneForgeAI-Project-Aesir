@@ -1,0 +1,174 @@
+[
+  {
+    "source": "smidr/tools/group_rpc_device_mock.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-000",
+    "sha256": "e7c40fb87e22da6e63c98360ecec92f1924d4f964a52a1c44e05e5e13855293d",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_group_device_api.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-001",
+    "sha256": "90b145a8854d6bde71c56f34015ed5a4b1e84c42613fa85e9c9f73ac8548524f",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/group_rpc.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-002",
+    "sha256": "05927ca94deaeca45408f708d92ecb7d58eeec7ca91f0c49b61ab878dde681bb",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_group_control_rpc_api.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-003",
+    "sha256": "9989cbfff3e928faa3fead395db144703c4aa843572a8352727ef5d515267ff7",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/soc_rpc_device.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-004",
+    "sha256": "9168520b192ed2348a9d50817f5457479be605f5d5b6606aeeaf2db8577d661a",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/soc_session.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-005",
+    "sha256": "6fef8480b8698eb15c3710314dc4dce5353bb05c3f6a996eee898d5223eb3618",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/soc_storage.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-006",
+    "sha256": "e452445dd9e5d64c5e2d209b3e348f18b5152ae4ea77540b8d1c955e7cd753a7",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/soc_wait.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-007",
+    "sha256": "6b9a827c631c357d08ac8a14a2b0926a47525b228011bfa75041d5875f70650c",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/soc_abi.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-008",
+    "sha256": "23036175bf278c1d4fdb9478038d9691b7704b3ef0cbf9225c1aef052834b5b6",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/soc_group.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-009",
+    "sha256": "cfa4eedc7420d7968f811bf1e4da11b8cdf41e426eca944286b5e7df42bf2941",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/hrpc_frame.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-010",
+    "sha256": "6def2c45810e95947740d2b946d2213713a43d74820f68ed5ca3f2c5e9df3bd3",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/hrpc_device.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-011",
+    "sha256": "ea452454a5664513c77749fd4936e795ff0156fd73b38ceaec817192b694431c",
+    "returncode": 0
+  },
+  {
+    "source": "smidr/tools/soc_exchange_progress.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-012",
+    "sha256": "a8f8d1b1ec782ff1800eb69fee94501aa45a13174c463b58c1f7d51cdafb9a07",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_soc_group_ownership.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-013",
+    "sha256": "b9949059225ec0600c13a38188d35011ec09a6884a29cfba5c5fe9c5c9d4299e",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_soc_progress.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-014",
+    "sha256": "06f72132721761079a6dc2caf922d5049a6896ccab4eb1cbdb0afdad8e139cf0",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_soc_exchange_progress_api.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-015",
+    "sha256": "e551ea7afa43f59cba3c612eccdeb9b31fc83807ddbd2023f5161974f27372c2",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_soc_session_unwind.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-016",
+    "sha256": "9f3186b09777264d8413d79929340d06e6830125949c0987acb0f3c69e1676b5",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_soc_storage_unwind.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-017",
+    "sha256": "0b483167f9fd625b1f2e257df70e18ae8831010497afd7a3e710843f9c341a78",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_soc_pending_storage.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-018",
+    "sha256": "0377717d006468fa1c12b2c31c3e66b1169522d1404411a38694bc3ea18b3f53",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_session_finalization_api.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-019",
+    "sha256": "86ceacab58baa091cf44ed74be125326b2f7b9af39181887996a40e600ac1e8f",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_blocking_worker.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-020",
+    "sha256": "9e610b5cf9b3f24530590decc0ab1332ecf83ef8a4b03cba67fcea4d26060c05",
+    "returncode": 0
+  },
+  {
+    "source": "tests/hailo_group_device_worker.mojo",
+    "binary": "grouped-device-rpc-native-final-v8/entry-021",
+    "sha256": "16a549fa8deea4909abe3af1be7e29e01eb19e86a36a8b53c83caa89f685fa54",
+    "returncode": 0
+  },
+  {
+    "role": "faults",
+    "source": "tests/group_device_rpc_faults.c",
+    "source_sha256": "37509d7b943fdcb3e4c48fbf345e183c28d319c5c8d66288d65bf17e5a8cbe4a",
+    "binary": "grouped-device-rpc-native-final-v8/faults.so",
+    "sha256": "df522b6f65295abecd9c8ecc4971abc74091a1b119c6f2503aec4e4e01b45602",
+    "returncode": 0
+  },
+  {
+    "role": "group-faults",
+    "source": "tests/group_control_rpc_faults.c",
+    "source_sha256": "8c5ecd791a68d162be5c7963f917a778e2d7226e926b14fc6da9c5734a4429ff",
+    "binary": "grouped-device-rpc-native-final-v8/group-faults.so",
+    "sha256": "f9b8c3e6c90dc512f2026bb096265ba8dfe6c7a041e50700abe62bc5ffe58e02",
+    "returncode": 0
+  },
+  {
+    "role": "session-faults",
+    "source": "tests/session_finalization_faults.c",
+    "source_sha256": "adf5344b087efd853b35bb35458589e617a888713dccfd3010520e0911963ec6",
+    "binary": "grouped-device-rpc-native-final-v8/session-faults.so",
+    "sha256": "8f5b6fc5cbdee6d4943c01b2f143c8c4fda22bd265f4704e4b5d3de250b81c8e",
+    "returncode": 0
+  },
+  {
+    "role": "abi-oracle",
+    "source": "tests/hailo_soc_abi_oracle.cpp",
+    "source_sha256": "b4da0408eb91bad032c3bb1e10b7f7ace44f08889a1dcb3c39e361faaae2e1bc",
+    "binary": "grouped-device-rpc-native-final-v8/abi-oracle",
+    "sha256": "e54af94b67954cc6b5ede2375395825d7b6a39dc0b0019790b7cb2cfab290c32",
+    "returncode": 0
+  },
+  {
+    "role": "group-oracle",
+    "source": "tests/hailo_soc_group_oracle.cpp",
+    "source_sha256": "1bba3361d289431be08be300b25252cd60d1261200b59e643b8956478cbac95d",
+    "binary": "grouped-device-rpc-native-final-v8/group-oracle",
+    "sha256": "c257ca63c88394a311b35640393c37bed2e114c67593514d6831329c165ed029",
+    "returncode": 0
+  }
+]
