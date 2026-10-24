@@ -1,0 +1,45 @@
+{
+  "path_base": "task work directory containing repository and private evidence roots",
+  "roots": [
+    "grouped-device-probe-baseline",
+    "grouped-device-probe-boundary-study",
+    "grouped-device-probe-development",
+    "grouped-device-probe-final",
+    "grouped-device-probe-final-v2",
+    "grouped-device-probe-final-v3",
+    "grouped-device-probe-final-v4",
+    "grouped-device-probe-host",
+    "grouped-device-probe-host-audit",
+    "grouped-device-probe-host-audit-v2",
+    "grouped-device-probe-host-audit-v3",
+    "grouped-device-probe-host-v2",
+    "grouped-device-probe-host-v3",
+    "grouped-device-probe-host-v4",
+    "grouped-device-probe-kernel-readback",
+    "grouped-device-probe-physical",
+    "grouped-device-probe-physical-audit",
+    "grouped-device-probe-physical-audit-v2",
+    "grouped-device-probe-physical-audit-v3",
+    "grouped-device-probe-physical-audit-v4",
+    "grouped-device-probe-physical-audit-v5",
+    "grouped-device-probe-physical-inputs",
+    "grouped-device-probe-reused-control-review",
+    "grouped-device-probe-schema",
+    "grouped-device-probe-schema-replay"
+  ],
+  "files": 9318,
+  "source_bytes": 375493142,
+  "pages": [
+    {
+      "path": "archive-paths-000.json",
+      "files": 8000,
+      "sha256": "7e87bc518b1570eaf0b10d906830295d60225feea48fd4ce5d8e824d09606d5d"
+    },
+    {
+      "path": "archive-paths-001.json",
+      "files": 1318,
+      "sha256": "44325cb7c2510fa50e87869a6bc70ef479791491a3d5c5250ebfd8ebdf99d298"
+    }
+  ],
+  "private_wire_contents_published": false
+}

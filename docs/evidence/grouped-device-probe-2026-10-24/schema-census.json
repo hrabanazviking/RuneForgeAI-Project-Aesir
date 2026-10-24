@@ -1,0 +1,9 @@
+{
+  "actual_schema_fixture_checks": 704,
+  "successful_diagnostic_scenarios": 13,
+  "full_schema_auxiliary_pair": 1,
+  "full_uapi_auxiliary_pair": 1,
+  "physical_calls": false,
+  "production_protobuf_dependency": false,
+  "model_compiler": false
+}

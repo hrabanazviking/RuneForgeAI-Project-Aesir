@@ -86,12 +86,12 @@ this integration does not promote historical statuses or hide checker failures.
 | Status | Count |
 |---|---:|
 | `verified` | 146 |
-| `partial` | 29 |
+| `partial` | 30 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **191** |
+| **Total** | **192** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4358,3 +4358,27 @@ No new capability ID or hardware/complete-source execution claim.
   118649 closes plus3 retained mock fds per image.22 Mojo/5 C/C++ links,58 ELF
   tables;718/91 old,722/92 final inputs,168 controls and823 contract paths exact.
   All failures and superseded replays are retained;no global/hosted-CI pass.
+
+
+### AES-CONTROL-016 — One physical grouped control attempt (offset rejection)
+
+- **Status:** `partial`
+- **Owner:** Original group_device_probe.mojo and test-only syscall observer.
+- **Claim sources:** TASK_hailo10h_grouped_device_probe.md,published4d9f14c;
+  docs/HAILO10H_GROUPED_DEVICE_PROBE_2026-10-24.md.
+- **Implementation evidence:** Explicit5000ms typed lifecycle diagnostic and
+  CPU-owned pass-through observation;all old source/test bodies preserved.
+- **Executable evidence:**7 host methods/88 four-way comparisons (176 complete
+  frozen pairs),2 auxiliary pairs and704 actual-schema checks. Inherited27 exact
+  rebuilt images retain90 methods/5134 prior pairs without counting reruns.
+- **Evidence boundary:** ONE real child:scalar D2H returns5,adjacent20/2048 H2D
+  returns EINVAL;kernel reports map offset20 versus descriptor page512. No
+  accepted handle,identity,destroy or assigned IRQ completion. Physical batch
+  closed without repeat. This is negative transport evidence,not execution.
+- **Next acceptance gate:** Original aligned backing/scatter/gather host work,
+  then a separately published physical contract;actual numerical configuration/
+  placement/program/results and full broad UNMODIFIED model support100% remain.
+- **Audit:**19 actual ioctls;33 fd generations/33 closes;2 owned VMAs released
+  after owning-file close. Disable/channel-close/unmaps/list releases succeed.
+  No all-failure hardware idle or remote-close proof.723/93 final inputs,
+  23 Mojo/7 C links,60 ELF tables. Failures retained;no global/hosted-CI pass.

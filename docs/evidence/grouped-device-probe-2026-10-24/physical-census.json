@@ -1,0 +1,68 @@
+{
+  "physical_children": 1,
+  "result": "D2H launch returned5; grouped H2D rejected EINVAL; no accepted handle or identity; no repeat",
+  "actual_ioctls": 19,
+  "ioctl_census": {
+    "HAILO_QUERY_DRIVER_INFO": 1,
+    "HAILO_QUERY_DEVICE_PROPERTIES": 1,
+    "HAILO_DESC_LIST_CREATE": 2,
+    "HAILO_SOC_CONNECT": 1,
+    "HAILO_VDMA_BUFFER_MAP": 2,
+    "HAILO_VDMA_BUFFER_SYNC": 3,
+    "HAILO_VDMA_ENABLE_CHANNELS": 1,
+    "HAILO_VDMA_LAUNCH_TRANSFER": 2,
+    "HAILO_VDMA_DISABLE_CHANNELS": 1,
+    "HAILO_SOC_CLOSE": 1,
+    "HAILO_VDMA_BUFFER_UNMAP": 2,
+    "HAILO_DESC_LIST_RELEASE": 2
+  },
+  "actual_launch_returns": [
+    5,
+    -1
+  ],
+  "failed_launch_errno": 22,
+  "allocated_ring_policy": 65536,
+  "descriptor_page": 512,
+  "input_map_bytes": 2068,
+  "output_map_bytes": 2068,
+  "input_spans": [
+    20,
+    2048
+  ],
+  "second_span_map_offset": 20,
+  "assigned_channels": [
+    0,
+    16
+  ],
+  "driver_version": [
+    5,
+    3,
+    0
+  ],
+  "device_properties": [
+    4096,
+    2,
+    0,
+    1,
+    1
+  ],
+  "fd_generations": 33,
+  "fd_closes": 33,
+  "owning_file_opens": 1,
+  "owning_file_closes": 1,
+  "owned_vmas": 2,
+  "owned_unmaps_after_close": 2,
+  "assigned_irq_records": 0,
+  "owned_irq_workers_started": 0,
+  "startup_runtime_threads": 4,
+  "cpu_owned_outgoing_snapshots": 1,
+  "cpu_owned_incoming_snapshots": 0,
+  "observer_dropped": 0,
+  "watchdog_expired": false,
+  "local_file_and_vma_release_confirmed": true,
+  "remote_logical_destroy_confirmed": false,
+  "all_failure_hardware_idle_confirmed": false,
+  "source_model_execution": false,
+  "numerical_execution": false,
+  "private_raw_wire_sha256": "b5d47fb87ce1839e92f7424ef1b4e467ed8dae323843ce3afa233983c489ead8"
+}

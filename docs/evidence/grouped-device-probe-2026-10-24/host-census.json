@@ -1,0 +1,29 @@
+{
+  "metrics": {
+    "four_way_complete_comparisons": 88,
+    "current_frozen_pairs": 176,
+    "accepted_comparisons": 17,
+    "refused_comparisons": 71,
+    "irq_workers_joined_before_close": 520,
+    "fd_generations": 45184,
+    "fd_closes": 45180,
+    "mock_context_opens": 316,
+    "owned_vmas": 612,
+    "mprotect_changes": 4340,
+    "cpu_blocks": 2216,
+    "mock_context_closes": 312,
+    "owned_vma_releases_after_close": 596,
+    "retained_vmas": 16,
+    "retained_mock_fds": 4,
+    "verified_loaded_bindings": 164,
+    "complete_observer_calls": 4314,
+    "cpu_owned_outgoing_snapshots": 276,
+    "cpu_owned_incoming_snapshots": 194,
+    "observer_dropped_records": 310,
+    "traces": 352
+  },
+  "physical_calls": false,
+  "full_fd_vma_census": true,
+  "loaded_symbol_bindings": true,
+  "old_bodies_unchanged": true
+}

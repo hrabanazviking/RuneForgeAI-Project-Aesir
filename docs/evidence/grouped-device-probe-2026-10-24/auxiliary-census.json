@@ -1,0 +1,9 @@
+{
+  "full_pairs": 2,
+  "traces": 4,
+  "metrics": {
+    "opens": 32,
+    "closes": 32
+  },
+  "physical_calls": false
+}

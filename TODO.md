@@ -1,3 +1,15 @@
+## 2026-10-24 — One grouped physical attempt,offset rejection
+
+- [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
+  and2 auxiliary pairs;preserve complete raw and failure evidence.
+- [ ] AES-CONTROL-016 physical grouped lifecycle remains partial:one D2H return5,
+  H2D EINVAL at map offset20/page512;no accepted handle/identity. Batch closed;
+  no repeat. `docs/HAILO10H_GROUPED_DEVICE_PROBE_2026-10-24.md`.
+- [ ] Continue aligned grouped backing and CPU-owned scatter/gather under its
+  host contract,then numerical configuration/packing/placement/program/results
+  and broad ordinary UNMODIFIED source-model support100%. No DFC/external
+  compiler/machine,precompiled prerequisite or host/proxy LLM inference.
+
 ## 2026-10-24 — Typed grouped device lifecycle,host qualification
 
 - [x] AES-CONTROL-015 fresh typed create/identify/destroy ownership,one lifecycle

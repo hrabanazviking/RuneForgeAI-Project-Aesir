@@ -52,3 +52,12 @@ and inference proxies remain excluded. Preserve historical/negative evidence
 and concurrent work. Continue verify → publish → verify remote → next slice
 automatically. The recurring continuation prompt has been updated to retain
 these exact scope requirements.
+
+
+2026-10-24 negative grouped physical boundary:
+`docs/HAILO10H_GROUPED_DEVICE_PROBE_2026-10-24.md`. Exactly one contracted child
+observes D2H return5,H2D EINVAL and kernel offset20/page512 refusal. No accepted
+handle/identity/assigned completion;local cleanup is accounted separately from
+remote/hardware idle. The batch is closed without repeat. Next host work follows
+`TASK_hailo10h_aligned_grouped_control.md`;numerical/packing/placement/program/
+results and broad ordinary UNMODIFIED source-model support100% remain work.
