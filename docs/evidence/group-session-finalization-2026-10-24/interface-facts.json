@@ -1,0 +1,54 @@
+{
+  "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+  "license_first": true,
+  "external_algorithms_adopted": false,
+  "device_calls": false,
+  "facts": [
+    {
+      "source": "linux/pcie/src/fops.c",
+      "lines": "63-75,181-218",
+      "fact": "release finalizes valid file contexts under the board mutex;SoC finalization precedes VDMA finalization;normal path returns0 without a propagated SoC close result"
+    },
+    {
+      "source": "linux/pcie/src/soc.c",
+      "lines": "204-269,279-286",
+      "fact": "typed close validates owning bitmap,stops selected channels before remote close and clears ownership only on success;file finalizer calls close_channels but drops its return"
+    },
+    {
+      "source": "common/vdma_common.c",
+      "lines": "783-825",
+      "fact": "stop helper is void;idle wait may time out and log;abort is still requested;no userspace idle-status result is returned"
+    },
+    {
+      "source": "linux/vdma/vdma.c",
+      "lines": "254-282,294-307",
+      "fact": "file finalization disables enabled channel state then clears mapped buffers,descriptor lists and continuous buffers"
+    },
+    {
+      "source": "common/vdma_common.c",
+      "lines": "546-581",
+      "fact": "software disable drains ongoing transfer records through completion release and clears bookkeeping;not itself hardware idle proof"
+    },
+    {
+      "source": "linux/vdma/ioctl.c",
+      "lines": "50-99",
+      "fact": "disable request returns after software channel disable;transfer release requests CPU sync and drops references"
+    },
+    {
+      "source": "linux/vdma/memory.c",
+      "lines": "270-296,415-422,467-474,484-495,677-694",
+      "fact": "mapped cleanup destroys mapped objects;descriptor release frees prepared queue storage and descriptor allocation;USERPTR cleanup releases scatter-gather page references"
+    },
+    {
+      "source": "common/vdma_common.h",
+      "lines": "224-230",
+      "fact": "queue-storage free helper frees the queue;this is not the prepared cancellation loop"
+    },
+    {
+      "source": "common/vdma_common.c",
+      "lines": "427-439",
+      "fact": "prepared cancellation explicitly releases prepared transfer references;not equivalent to active channel quiescence"
+    }
+  ],
+  "conclusion": "software cleanup order is qualified;no returned all-failure hardware idle/remote closure proof;next original same-file map-only owner must keep these distinct"
+}

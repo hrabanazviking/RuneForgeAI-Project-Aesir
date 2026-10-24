@@ -332,3 +332,10 @@ and IRQ transfer counts,771 refusal/fresh-success joins and permanent poison
 have host evidence. No device request,grouped capacity/coherence/quiescence or
 source-model execution follows. Continue same-file ownership/late cleanup and
 actual numerical configuration/packing/placement/program/results automatically.
+
+Same-file cleanup research continues in
+`HAILO10H_GROUP_SESSION_FINALIZATION_BOUNDARY_2026-10-24.md`:seven matching
+public/installed files qualify software release order but expose no returned
+all-failure idle/remote-close confirmation. Next original host-only ownership
+contract:`TASK_hailo10h_session_transfer_pin.md`,with fresh711/88 inputs and161
+controls. No new native capability,device request or numerical execution follows.

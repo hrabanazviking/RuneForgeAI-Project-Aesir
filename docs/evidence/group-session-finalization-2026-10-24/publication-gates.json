@@ -1,0 +1,64 @@
+{
+  "raw_paths_reverified": 827,
+  "all_hashes_exact": true,
+  "gates": {
+    "schema": {
+      "arguments": [
+        "python3",
+        "scripts/ledger_schema.py",
+        "check"
+      ],
+      "exit_code": 1,
+      "outputs": {
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "bytes": 1132,
+          "sha256": "731f174e5e6e09b66de5e7143f5790b6d86cb6ce68553ee9e9df4c1f0b0005ca"
+        }
+      }
+    },
+    "census": {
+      "arguments": [
+        "python3",
+        "scripts/census_capability_ledger.py"
+      ],
+      "exit_code": 0,
+      "outputs": {
+        "stdout": {
+          "bytes": 102729,
+          "sha256": "032781e57d2898ced3d8ae7b256fe39d98d3d30a9afbfe00dd4c350397224610"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    "drift": {
+      "arguments": [
+        "python3",
+        "scripts/check_doc_drift.py"
+      ],
+      "exit_code": 1,
+      "outputs": {
+        "stdout": {
+          "bytes": 2507245,
+          "sha256": "0f54060600d59582b119d231f633ffc4fe8bed2fea203c7787d30dff486e5902"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  },
+  "inherited_schema_errors": 9,
+  "drift_findings": 23757,
+  "new_drift_findings": [],
+  "native_capability_added": false,
+  "source_model_execution": false,
+  "whole_repository_or_hosted_ci_pass": false
+}

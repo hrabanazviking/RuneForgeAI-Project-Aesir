@@ -1,0 +1,9 @@
+{
+  "mojo": 711,
+  "python_tests": 88,
+  "controls": 161,
+  "compiler_exact": true,
+  "native_commit": "77acc166eb123c8b7fad9df9cbc7b3bebf10adb8",
+  "new_native_source": false,
+  "device_calls": false
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "path": "linux/pcie/src/fops.c",
+    "bytes": 16509,
+    "sha256": "c9ecf4fda35c6956c9322865f9b19727dee811990e1ba87d125101c464e51c78",
+    "git_blob_sha": "b46f1c8b8c569430b72e29a2b41b5c2b99be70e4",
+    "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "notice": "// SPDX-License-Identifier: GPL-2.0"
+  },
+  {
+    "path": "linux/pcie/src/soc.c",
+    "bytes": 11030,
+    "sha256": "450c95e77c11d69bc37521a1eee1d12af98de893d3e9f65960cb71fa1612505e",
+    "git_blob_sha": "2faa5571b9dd6732b2c6bb4575711af31d4d1194",
+    "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "notice": "// SPDX-License-Identifier: GPL-2.0"
+  },
+  {
+    "path": "linux/vdma/vdma.c",
+    "bytes": 14823,
+    "sha256": "21b6108768c3c2eac2586893f1bb7d0969ab99c67bfb56fab5f5d39870f112cf",
+    "git_blob_sha": "06e962678a3d339796a79e929d67685b1ebc8888",
+    "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "notice": "// SPDX-License-Identifier: GPL-2.0"
+  },
+  {
+    "path": "linux/vdma/ioctl.c",
+    "bytes": 29736,
+    "sha256": "f402e741270e3ffd92545630b6b6872ec04cb9ca4acc0a4a8b4d8397c3283a06",
+    "git_blob_sha": "a58234a566c99dc6a1ccf10a371acf8ba10f5be0",
+    "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "notice": "// SPDX-License-Identifier: GPL-2.0"
+  },
+  {
+    "path": "linux/vdma/memory.c",
+    "bytes": 24139,
+    "sha256": "ae6055ffc86d1842bac6893c58be5bcf72f9fe01e2e7d0d932afcc8bbb6d47ef",
+    "git_blob_sha": "2e06c60f9be090f7c72b4dd9fdf69e85a08b468e",
+    "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "notice": "// SPDX-License-Identifier: GPL-2.0"
+  },
+  {
+    "path": "common/vdma_common.c",
+    "bytes": 32443,
+    "sha256": "eec40d2a23b211fb06b05a888c097e0a79d9fde1cb701fcdae3fd29f581de675",
+    "git_blob_sha": "f31df32b997b922f478864ed6cb5c65b5abcbeb4",
+    "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "notice": "// SPDX-License-Identifier: MIT"
+  },
+  {
+    "path": "common/vdma_common.h",
+    "bytes": 10645,
+    "sha256": "5cc01593df7e9fb5c82ebd846a1fa3b77b7f0ddb72de4ff77ec55663a0f2967e",
+    "git_blob_sha": "6a8282e168c5a7444f48b3be586f1ad1a787498a",
+    "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+    "notice": "// SPDX-License-Identifier: MIT"
+  }
+]
