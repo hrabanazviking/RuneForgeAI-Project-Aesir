@@ -131,3 +131,9 @@ That original ownership slice is verified under
 one fresh owning driver;7 physical children,10 maps/unmaps,69 selected methods
 and4976 complete frozen pairs. No descriptor capacity,DMA/coherence,original
 program activation or numerical result is inferred. Continue those actual gaps.
+
+Next bounded wire prerequisite:`TASK_hailo10h_soc_prepare_codec.md`,qualified in
+`docs/HAILO10H_PREPARE_INTERFACE_2026-10-24.md`. The139-byte prepare and8-byte
+cancellation objects have17 independent public-header probes. Their original
+host codec introduces no device operation or descriptor-count/capacity proof.
+Actual numerical and grouped transport/result work remains open.

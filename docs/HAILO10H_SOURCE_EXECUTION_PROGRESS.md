@@ -307,3 +307,8 @@ actual map-only children,including3 two-part sealed cases. All10 maps/unmaps
 complete and driver close precedes owned host release. This establishes no DMA,
 descriptor capacity,numerical admission or source-model execution. Continue
 actual descriptors/deadlines/late cleanup and numerical configuration/results.
+
+Next bounded original wire contract:`TASK_hailo10h_soc_prepare_codec.md`.
+17 public-header objects qualify prepare139/cancel8 byte boundaries;actual705/86
+inputs and156 controls are frozen before code. No new implementation or execution
+is claimed by the contract. Actual descriptors/deadlines/numerical work remains.

@@ -1,0 +1,17 @@
+{
+  "parent": "517d0aa673882f4e2e76304f312f2e36fac95969",
+  "sources": 705,
+  "python_tests": 86,
+  "controls": 156,
+  "selected_controls": 3,
+  "header_probes": 17,
+  "header_layout": {
+    "prepare_bytes": 139,
+    "cancel_bytes": 8,
+    "prepare_ioctl": 2156623373,
+    "cancel_ioctl": 2148038158,
+    "span_bytes": 16
+  },
+  "device_calls": false,
+  "production_started": false
+}
