@@ -318,3 +318,9 @@ Original prepare/cancellation values are now verified under
 2988 new traces. Existing checked group/scalar rules own139/8-byte values;
 no device request or descriptor count is inferred. Continue actual grouped
 transport/deadline and numerical/source-model execution work.
+
+Read-only installed-driver provenance and selected prepared-transfer boundaries
+are recorded in`HAILO10H_PREPARE_DRIVER_BOUNDARY_2026-10-24.md`. Matching source
+files/build-ID metadata and queue-status facts are not numerical or hardware
+execution proof. Next same-file ownership/completion/deadline qualification and
+actual numerical/source-model execution remain open under the fixed broad target.

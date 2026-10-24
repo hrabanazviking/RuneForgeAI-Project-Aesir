@@ -1,0 +1,192 @@
+[
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/LICENSE",
+    "bytes": 18091,
+    "sha256": "f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/MIT-LICENSE",
+    "bytes": 1115,
+    "sha256": "b7f9de8a9180e5e47f14a34c8291778bd543e144afbf21ddfd191e0b057da4d7"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/initial-query-correction.json",
+    "bytes": 309,
+    "sha256": "b4edf641f7b7ef5076d87f8674c299cda5f7f5f8ab99bab33aaff9ac0ccdc94d"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/installed-source-identities.json",
+    "bytes": 23679,
+    "sha256": "f00996f0c8df7b093e5cbd435b8ef78319daa2ac50c0bfd42b14512495054562"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/interface-facts.json",
+    "bytes": 1390,
+    "sha256": "9cb43c1b2199ecef63178ed0bec641c50dc3cc1f2ef95b1b7551177d25343b9f"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/live-build-id.note",
+    "bytes": 36,
+    "sha256": "308efc5c1924855e9e7e04241000af4513ef6e0e21acae3415497090b4b90426"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/module-file-identity.json",
+    "bytes": 220,
+    "sha256": "64027e4ca2a3660510440cff18216285bf160f7f6b68084d6cc90e176e01cb9b"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/module-notes.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/module-notes.stdout",
+    "bytes": 638,
+    "sha256": "bb49396656415e96b28433241d2f6632bd048aa60f1c1bde43e95994a0aed939"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/package-copyright",
+    "bytes": 222,
+    "sha256": "758ab47b772d2a242dd9cf1558c8171af6aaf810a41e1799b34c32411209d7a1"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/public-tree.json",
+    "bytes": 21939,
+    "sha256": "a63682a7ad909151a3ed02cf663761eb259b1260c45385c23f3f32fb50f4870f"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/qualified-source/common/vdma_common.c",
+    "bytes": 32443,
+    "sha256": "eec40d2a23b211fb06b05a888c097e0a79d9fde1cb701fcdae3fd29f581de675"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/qualified-source/common/vdma_common.h",
+    "bytes": 10645,
+    "sha256": "5cc01593df7e9fb5c82ebd846a1fa3b77b7f0ddb72de4ff77ec55663a0f2967e"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/qualified-source/linux/vdma/ioctl.c",
+    "bytes": 29736,
+    "sha256": "f402e741270e3ffd92545630b6b6872ec04cb9ca4acc0a4a8b4d8397c3283a06"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/qualified-source/linux/vdma/vdma.c",
+    "bytes": 14823,
+    "sha256": "21b6108768c3c2eac2586893f1bb7d0969ab99c67bfb56fab5f5d39870f112cf"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/queries.json",
+    "bytes": 1253,
+    "sha256": "63452be5d3398e457467630c2785e5455b6e6a2a284fed64d5455fea30053ec9"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-0.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-0.stdout",
+    "bytes": 23,
+    "sha256": "20e4c60f7b914bb1cba87b24cb9886a12adacfe680c5a125678def889d44c668"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-1.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-1.stdout",
+    "bytes": 64,
+    "sha256": "df5540a6362940175033b76289cb2e912f038cbc296e51ea1e299f187d971cd2"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-2.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-2.stdout",
+    "bytes": 6,
+    "sha256": "d92973800706e6107fce68570df8589348db4a4127663e491f5bc2ff630f1450"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-3.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-3.stdout",
+    "bytes": 24,
+    "sha256": "2a16f50a6c840cbd85664be7af5caaffcbcd57814df415c271366729c7ecfc63"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-4.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-4.stdout",
+    "bytes": 66,
+    "sha256": "8dbf2976af3cd1d97f534c8088926acb529f34c642ade3afcc9ce9b1355b7a91"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-5.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-5.stdout",
+    "bytes": 7,
+    "sha256": "dc71a91b752d7c0a1aadc4c52d676def24fbfbb554df9c67f475086757e53222"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-6.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-6.stdout",
+    "bytes": 24,
+    "sha256": "70dedeeb9e9a0d17051d89d6e7a0bd370f663548c3802461828fcdb0168e97aa"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-7.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-7.stdout",
+    "bytes": 27,
+    "sha256": "774db117d34ba9e300bbd1c7c2d91541e0b98bb9841f117ce2c97039f217700c"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-8.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-8.stdout",
+    "bytes": 30,
+    "sha256": "23b3bb522441a84da5bcfd5861698faefcac9e15f9d243ee9bd26bf2310618e2"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-9.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/query-9.stdout",
+    "bytes": 26,
+    "sha256": "b538d7e50f4e3c04987c73f3331b56e6cb160aaeba840c2bfffeea2eabfdfa00"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/recording-correction.json",
+    "bytes": 273,
+    "sha256": "daefe7f7d5d2aba9bc96310ab0396e1626180d8d881f893870586d901d591b39"
+  },
+  {
+    "path": "../prepare-driver-provenance-study-2026-10-24/verified.json",
+    "bytes": 595,
+    "sha256": "05bc96d390d7092501656b09227f44a28f7528126d1e322cc1c76fbe431a9417"
+  }
+]

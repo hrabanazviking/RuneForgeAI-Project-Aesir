@@ -1,0 +1,69 @@
+{
+  "dispatch": {
+    "source": "linux/vdma/vdma.c",
+    "prepare_lines": [
+      339,
+      340
+    ],
+    "cancel_lines": [
+      341,
+      342
+    ]
+  },
+  "linux_prepare": {
+    "source": "linux/vdma/ioctl.c",
+    "lines": [
+      629,
+      660
+    ],
+    "descriptor_lookup": "owning file context",
+    "result": "prepared-queue insertion status; internal count is not exported"
+  },
+  "linux_buffers": {
+    "source": "linux/vdma/ioctl.c",
+    "lines": [
+      569,
+      627
+    ],
+    "effects": [
+      "get or map referenced buffers",
+      "USERPTR synchronization for device",
+      "retain referenced buffers in prepared transfer"
+    ]
+  },
+  "cancel": {
+    "source": "linux/vdma/ioctl.c",
+    "lines": [
+      662,
+      681
+    ],
+    "scope": "descriptor-list prepared queue; not active-channel quiescence"
+  },
+  "common_prepare": {
+    "source": "common/vdma_common.c",
+    "lines": [
+      371,
+      425
+    ],
+    "result": "internal descriptor count; not ioctl return"
+  },
+  "common_cancel": {
+    "source": "common/vdma_common.c",
+    "lines": [
+      427,
+      439
+    ],
+    "effects": [
+      "release prepared queue",
+      "reset descriptor-list programmed/launched counters"
+    ]
+  },
+  "launch": {
+    "source": "common/vdma_common.c",
+    "lines": [
+      441,
+      481
+    ],
+    "effect": "separate launch path publishes channel availability"
+  }
+}

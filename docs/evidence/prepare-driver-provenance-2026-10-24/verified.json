@@ -1,0 +1,14 @@
+{
+  "live_and_file_build_id": "380557783212772d9b067ff0163631a222c26d64",
+  "live_and_file_srcversion": "91195A5A35A8DAAA5717B7D",
+  "live_and_file_driver_version": "5.3.0",
+  "source_files_each_tree": 37,
+  "source_trees": 2,
+  "all_74_source_file_blob_matches": true,
+  "public_revision": "45e5fc53c6922fd6985febfc09399653497a2082",
+  "module_file_sha256": "756d58f7ffb51ca5999e09b7ae14b422b3b0450cf29d2cdabf8babc9491481e4",
+  "whole_build_or_loaded_bytes_identity_proven": false,
+  "new_ioctl_or_device_open": false,
+  "kernel_state_changed": false,
+  "numerical_encoding_qualified": false
+}

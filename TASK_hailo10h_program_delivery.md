@@ -142,3 +142,11 @@ That bounded codec is verified under`docs/HAILO10H_MOJO_SOC_PREPARE.md`:
 25 methods/2763 complete frozen comparisons,zero old production/test edits.
 This supplies original139/8-byte intent only. Actual preparation side effects,
 descriptor counts,active cancellation and numerical program execution remain open.
+
+Read-only driver qualification continues in
+`docs/HAILO10H_PREPARE_DRIVER_BOUNDARY_2026-10-24.md`:live/file build IDs and
+source-version strings agree;all37 C/header files in each installed source tree
+match the pinned public revision. Selected preparation effects include buffer
+ownership/sync and prepared-queue insertion status;active DMA cancellation is
+not established. No device call,new native capability or count formula follows.
+Next original same-file group/control-RPC work needs its own bounded contract.
