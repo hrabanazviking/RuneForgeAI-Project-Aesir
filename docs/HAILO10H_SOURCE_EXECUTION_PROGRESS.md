@@ -300,3 +300,10 @@ implementation or fingerprint/binding/execution claim is made by this contract.
 Physical metadata lead disposition: `HAILO10H_EXTENDED_INFO_BOUNDARY_2026-10-22.md`
 qualifies the deprecated/unavailable clock field and limits of schema-only RAM
 names. No query,new numerical field,physical capability or execution is claimed.
+
+Original two-part mapping lifetime is now verified under
+`HAILO10H_MOJO_SEALED_TRANSFER_PIN.md`:69 methods/4976 full frozen pairs and7
+actual map-only children,including3 two-part sealed cases. All10 maps/unmaps
+complete and driver close precedes owned host release. This establishes no DMA,
+descriptor capacity,numerical admission or source-model execution. Continue
+actual descriptors/deadlines/late cleanup and numerical configuration/results.

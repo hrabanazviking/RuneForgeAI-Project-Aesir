@@ -1,0 +1,873 @@
+{
+  "new": {
+    "new_calls": 92,
+    "new_methods": 6,
+    "actual_kernel_views": 163,
+    "independent_kernel_view_bytes": 215930,
+    "mock_map_effects": 140,
+    "mock_unmap_effects": 124,
+    "pid_trace_files": 460,
+    "observed_fd_generations": 4954,
+    "actual_observed_closes": 4927,
+    "actual_memfds": 192,
+    "actual_sealed_positional_reads": 1013,
+    "actual_readonly_private_vmas": 163,
+    "actual_owned_unmaps": 141,
+    "actual_sealed_closes": 170,
+    "separate_sealed_close_retentions": 2,
+    "separate_host_unmap_retentions": 2,
+    "actual_mock_files": 76,
+    "actual_mock_file_closes": 71,
+    "actual_sealed_reads_after_driver_close": 222,
+    "refusal_or_poison_then_fresh_success": 42,
+    "cases_retaining_both_parts_until_exit": 10
+  },
+  "old": {
+    "methods": 63,
+    "primary": 5342,
+    "frozen_pairs": 4976,
+    "frozen_accept": 3251,
+    "frozen_refuse": 1725
+  },
+  "old_suites": {
+    "transfer": {
+      "methods": 6,
+      "primary": 234,
+      "frozen_pairs": 234,
+      "frozen_accept": 127,
+      "frozen_refuse": 107
+    },
+    "sealed-program": {
+      "methods": 6,
+      "primary": 294,
+      "frozen_pairs": 280,
+      "frozen_accept": 181,
+      "frozen_refuse": 99
+    },
+    "payload": {
+      "methods": 8,
+      "primary": 390,
+      "frozen_pairs": 390,
+      "frozen_refuse": 168,
+      "frozen_accept": 222
+    },
+    "integrity": {
+      "methods": 11,
+      "primary": 2072,
+      "frozen_pairs": 2072,
+      "frozen_accept": 1977,
+      "frozen_refuse": 95
+    },
+    "group": {
+      "methods": 8,
+      "primary": 1856,
+      "frozen_pairs": 1629,
+      "frozen_accept": 476,
+      "frozen_refuse": 1153
+    },
+    "abi": {
+      "methods": 12,
+      "primary": 323,
+      "frozen_pairs": 198,
+      "frozen_accept": 136,
+      "frozen_refuse": 62
+    },
+    "session": {
+      "methods": 6,
+      "primary": 118,
+      "frozen_pairs": 118,
+      "frozen_accept": 96,
+      "frozen_refuse": 22
+    },
+    "pin": {
+      "methods": 6,
+      "primary": 55,
+      "frozen_pairs": 55,
+      "frozen_refuse": 19,
+      "frozen_accept": 36
+    }
+  },
+  "scope": {
+    "old_mojo": 702,
+    "old_python": 85,
+    "final_mojo": 705,
+    "final_python": 86,
+    "controls": 154,
+    "old_edits": 0,
+    "mojo_links": 21,
+    "c_links": 9,
+    "elf_tables": 60,
+    "physical_attempted": true,
+    "physical_dma_or_numerical_execution": false
+  },
+  "per_call": [
+    {
+      "call": 0,
+      "pid": "1882173",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 1,
+      "pid": "1882182",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 2,
+      "pid": "1882201",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 3,
+      "pid": "1882217",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 4,
+      "pid": "1882249",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 5,
+      "pid": "1882271",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 6,
+      "pid": "1882297",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 7,
+      "pid": "1882319",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 8,
+      "pid": "1882342",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 9,
+      "pid": "1882359",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 10,
+      "pid": "1882380",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 11,
+      "pid": "1882392",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 12,
+      "pid": "1882413",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 13,
+      "pid": "1882430",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 14,
+      "pid": "1882443",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 15,
+      "pid": "1882459",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 16,
+      "pid": "1882480",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 17,
+      "pid": "1882501",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 18,
+      "pid": "1882514",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 19,
+      "pid": "1882531",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 20,
+      "pid": "1882552",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 21,
+      "pid": "1882586",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 22,
+      "pid": "1882598",
+      "fault": "page_size",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 23,
+      "pid": "1882615",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 24,
+      "pid": "1882632",
+      "fault": "open",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 25,
+      "pid": "1882649",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 26,
+      "pid": "1882675",
+      "fault": "identity",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 27,
+      "pid": "1882691",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 28,
+      "pid": "1882712",
+      "fault": "mmap0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 29,
+      "pid": "1882729",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 30,
+      "pid": "1882746",
+      "fault": "mmap1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 31,
+      "pid": "1882771",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 32,
+      "pid": "1882792",
+      "fault": "map_before0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 33,
+      "pid": "1882813",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 34,
+      "pid": "1882825",
+      "fault": "map_before1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 35,
+      "pid": "1882844",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 36,
+      "pid": "1882867",
+      "fault": "map_after0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 37,
+      "pid": "1882884",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 38,
+      "pid": "1882905",
+      "fault": "map_after1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 39,
+      "pid": "1882918",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 40,
+      "pid": "1882944",
+      "fault": "bad_tuple0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 41,
+      "pid": "1882960",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 42,
+      "pid": "1882977",
+      "fault": "bad_tuple1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 43,
+      "pid": "1882998",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 44,
+      "pid": "1883019",
+      "fault": "bad_handle0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 45,
+      "pid": "1883041",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 46,
+      "pid": "1883058",
+      "fault": "bad_handle1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 47,
+      "pid": "1883075",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 48,
+      "pid": "1883093",
+      "fault": "unmap_before0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 49,
+      "pid": "1883114",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 50,
+      "pid": "1883134",
+      "fault": "unmap_before1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 51,
+      "pid": "1883155",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 52,
+      "pid": "1883172",
+      "fault": "unmap_after0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 53,
+      "pid": "1883194",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 54,
+      "pid": "1883217",
+      "fault": "unmap_after1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 55,
+      "pid": "1883234",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 56,
+      "pid": "1883255",
+      "fault": "munmap_before0",
+      "retained_sealed": 0,
+      "retained_vmas": 1
+    },
+    {
+      "call": 57,
+      "pid": "1883277",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 58,
+      "pid": "1883299",
+      "fault": "munmap_before1",
+      "retained_sealed": 0,
+      "retained_vmas": 1
+    },
+    {
+      "call": 59,
+      "pid": "1883320",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 60,
+      "pid": "1883341",
+      "fault": "munmap_after0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 61,
+      "pid": "1883363",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 62,
+      "pid": "1883386",
+      "fault": "munmap_after1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 63,
+      "pid": "1883408",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 64,
+      "pid": "1883421",
+      "fault": "sealed_close_before0",
+      "retained_sealed": 1,
+      "retained_vmas": 0
+    },
+    {
+      "call": 65,
+      "pid": "1883438",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 66,
+      "pid": "1883450",
+      "fault": "sealed_close_before1",
+      "retained_sealed": 1,
+      "retained_vmas": 0
+    },
+    {
+      "call": 67,
+      "pid": "1883468",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 68,
+      "pid": "1883486",
+      "fault": "sealed_close_after0",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 69,
+      "pid": "1883502",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 70,
+      "pid": "1883527",
+      "fault": "sealed_close_after1",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 71,
+      "pid": "1883549",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 72,
+      "pid": "1883566",
+      "fault": "close_before",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 73,
+      "pid": "1883574",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 74,
+      "pid": "1883587",
+      "fault": "close_after",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 75,
+      "pid": "1883615",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 76,
+      "pid": "1883631",
+      "fault": "identity_close_before",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 77,
+      "pid": "1883649",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 78,
+      "pid": "1883661",
+      "fault": "identity_close_after",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 79,
+      "pid": "1883678",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 80,
+      "pid": "1883702",
+      "fault": "unmap_close_before",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 81,
+      "pid": "1883715",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 82,
+      "pid": "1883735",
+      "fault": "unmap_close_after",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 83,
+      "pid": "1883756",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 84,
+      "pid": "1883773",
+      "fault": "close_before",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 85,
+      "pid": "1883786",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 86,
+      "pid": "1883807",
+      "fault": "close_after",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 87,
+      "pid": "1883823",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 88,
+      "pid": "1883844",
+      "fault": "unmap_close_before",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 89,
+      "pid": "1883865",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    },
+    {
+      "call": 90,
+      "pid": "1883886",
+      "fault": "unmap_close_after",
+      "retained_sealed": 2,
+      "retained_vmas": 2
+    },
+    {
+      "call": 91,
+      "pid": "1883907",
+      "fault": "none",
+      "retained_sealed": 0,
+      "retained_vmas": 0
+    }
+  ],
+  "physical": {
+    "children": 7,
+    "other_runtime_partial_unmap_records": 51,
+    "device_opens": 7,
+    "actual_identity_ioctls": 7,
+    "actual_properties_ioctls": 7,
+    "actual_map_ioctls": 10,
+    "actual_unmap_ioctls": 10,
+    "confirmed_device_closes": 7,
+    "anonymous_control_unmaps_after_device_close": 4,
+    "control_cases": 4,
+    "actual_memfds": 6,
+    "readonly_private_sealed_vmas": 6,
+    "sealed_unmaps_after_device_close": 6,
+    "actual_sealed_closes_after_device_close": 6,
+    "group_cases": 3,
+    "actual_sealed_reads_after_device_close": 22
+  },
+  "physical_cases": [
+    {
+      "child": 0,
+      "kind": "control",
+      "size": 2068,
+      "page_size": 16384,
+      "operations": [
+        "identity",
+        "properties",
+        "map",
+        "unmap"
+      ],
+      "owning_file_closed_before_release": true,
+      "postfinalization_backing_reads": 0
+    },
+    {
+      "child": 1,
+      "kind": "group",
+      "size": 70,
+      "page_size": 16384,
+      "operations": [
+        "identity",
+        "properties",
+        "map",
+        "map",
+        "unmap",
+        "unmap"
+      ],
+      "owning_file_closed_before_release": true,
+      "postfinalization_backing_reads": 4
+    },
+    {
+      "child": 2,
+      "kind": "control",
+      "size": 2068,
+      "page_size": 16384,
+      "operations": [
+        "identity",
+        "properties",
+        "map",
+        "unmap"
+      ],
+      "owning_file_closed_before_release": true,
+      "postfinalization_backing_reads": 0
+    },
+    {
+      "child": 3,
+      "kind": "group",
+      "size": 4097,
+      "page_size": 16384,
+      "operations": [
+        "identity",
+        "properties",
+        "map",
+        "map",
+        "unmap",
+        "unmap"
+      ],
+      "owning_file_closed_before_release": true,
+      "postfinalization_backing_reads": 6
+    },
+    {
+      "child": 4,
+      "kind": "control",
+      "size": 2068,
+      "page_size": 16384,
+      "operations": [
+        "identity",
+        "properties",
+        "map",
+        "unmap"
+      ],
+      "owning_file_closed_before_release": true,
+      "postfinalization_backing_reads": 0
+    },
+    {
+      "child": 5,
+      "kind": "group",
+      "size": 16385,
+      "page_size": 16384,
+      "operations": [
+        "identity",
+        "properties",
+        "map",
+        "map",
+        "unmap",
+        "unmap"
+      ],
+      "owning_file_closed_before_release": true,
+      "postfinalization_backing_reads": 12
+    },
+    {
+      "child": 6,
+      "kind": "control",
+      "size": 2068,
+      "page_size": 16384,
+      "operations": [
+        "identity",
+        "properties",
+        "map",
+        "unmap"
+      ],
+      "owning_file_closed_before_release": true,
+      "postfinalization_backing_reads": 0
+    }
+  ]
+}

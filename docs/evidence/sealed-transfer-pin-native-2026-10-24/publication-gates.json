@@ -1,0 +1,68 @@
+{
+  "reverification": {
+    "raw_paths": 27656,
+    "aggregate_bytes": 223873126,
+    "all_raw_hashes_exact": true,
+    "controls_exact": 154,
+    "compiler_exact": true,
+    "old_source_test_copies_exact": true,
+    "affected_consumer_closure": [
+      "smidr/tools/sealed_transfer_pin.mojo",
+      "tests/hailo_sealed_transfer_pin_api.mojo"
+    ],
+    "physical_batch_finished": true
+  },
+  "gates": {
+    "drift": {
+      "exit_code": 1,
+      "outputs": {
+        "stdout": {
+          "bytes": 2471619,
+          "sha256": "76f5124ec5e5945f934a6f340041fcbfa8f0deb6d92dc8d0217c417423baab06"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    "schema": {
+      "exit_code": 1,
+      "outputs": {
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "bytes": 1132,
+          "sha256": "731f174e5e6e09b66de5e7143f5790b6d86cb6ce68553ee9e9df4c1f0b0005ca"
+        }
+      }
+    },
+    "census": {
+      "exit_code": 0,
+      "outputs": {
+        "stdout": {
+          "bytes": 101769,
+          "sha256": "ef4f3d6dc54c5342421919bad048c4a9c0ac970391a4574e49d2b4fcd3917e12"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  },
+  "schema_inherited_errors": 9,
+  "drift_inherited_issues": 23408,
+  "drift_current_issues": 23409,
+  "new_drift_findings": [
+    " - docs/evidence/sealed-transfer-pin-native-2026-10-24/audit-host-v2.py:95: machine-local absolute path"
+  ],
+  "census": {
+    "verified": 140,
+    "total": 185,
+    "new_entry_complete": true
+  },
+  "whole_repository_or_hosted_ci_pass": false
+}

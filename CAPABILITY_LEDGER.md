@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 139 |
+| `verified` | 140 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **184** |
+| **Total** | **185** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4190,3 +4190,26 @@ No new capability ID or hardware/complete-source execution claim.
   exact map/unmaps,all observed fd generations closed.130 Mojo/11 C links,
   282 ELF tables,698/84 old and702/85 final copies,152 immutable controls.
   One inherited warning and all failed type/harness attempts remain preserved.
+
+
+### AES-CONTROL-009 — Owned two-part sealed USERPTR mapping lifetime
+
+- **Status:** `verified`
+- **Owner:** Original smidr/sealed_transfer_pin.mojo.
+- **Claim sources:** TASK_hailo10h_sealed_transfer_pin.md published314de97 before
+  code;docs/HAILO10H_MOJO_SEALED_TRANSFER_PIN.md.
+- **Implementation evidence:** Moved actual sealed metadata/program owners,two
+  read-only private views,fresh qualified driver,guarded map/cleanup and permanent
+  both-part retention/refusal after unconfirmed file finalization.
+- **Executable evidence:**69 methods,4976 full frozen comparisons and92 new
+  calls.7 actual physical children,3 two-part cases,10 maps/unmaps and7 driver
+  closes before host release. Six complete kernel permission cases also pass.
+- **Evidence boundary:** Bounded two-part map/unmap compatibility and observed
+  lifetime only;no DMA/coherence,descriptor count,transfer deadline,numerical
+  program admission or source-model execution. Close-error effects are host mocks.
+- **Next acceptance gate:** Actual grouped descriptors,completion/total deadlines/
+  late cleanup and numerical encoding/packing/placement/program/results toward
+  broad ordinary UNMODIFIED source-model support100%.
+- **Audit:**21 Mojo/9 C links,60 ELF tables,702/85 old and705/86 final inputs,
+  154 controls.163 actual kernel-view checks and10 deliberate both-part lifetime
+  retentions. All failed probes/harness/audit attempts remain immutable.

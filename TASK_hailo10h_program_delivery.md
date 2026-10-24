@@ -125,3 +125,9 @@ Next original two-part pin ownership contract:
 are frozen before code;the closed composition probe is never executed. Host
 fault/cleanup qualification precedes a separately bounded two-buffer map-only
 batch. No descriptor count,DMA,numerical admission or execution is inferred.
+
+That original ownership slice is verified under
+`docs/HAILO10H_MOJO_SEALED_TRANSFER_PIN.md`:both actual sealed parts map/unmap on
+one fresh owning driver;7 physical children,10 maps/unmaps,69 selected methods
+and4976 complete frozen pairs. No descriptor capacity,DMA/coherence,original
+program activation or numerical result is inferred. Continue those actual gaps.

@@ -1,3 +1,12 @@
+## 2026-10-24 — Owned two-part sealed driver mappings
+
+- [x] AES-CONTROL-009 retain both actual sealed parts through driver mapping and
+  confirmed finalization;69 methods/4976 complete frozen pairs,7 physical children.
+  `docs/HAILO10H_MOJO_SEALED_TRANSFER_PIN.md`.
+- [ ] Continue actual grouped descriptors,completion/total deadlines/late cleanup,
+  numerical encoding/packing/placement/program/results and remaining source/model
+  coverage toward broad ordinary UNMODIFIED model support100%.
+
 ## 2026-10-23 — Retained tied-output mathematical source integration
 
 - [x] AES-SOURCE-037 preserve both ordinary source tensors through typed sharing,
