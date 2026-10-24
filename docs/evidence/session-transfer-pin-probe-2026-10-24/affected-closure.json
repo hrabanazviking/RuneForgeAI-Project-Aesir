@@ -1,0 +1,10 @@
+{
+  "new_executables": [
+    "smidr/tools/session_transfer_pin_probe.mojo"
+  ],
+  "selected_controls": [
+    "smidr/tools/soc_session.mojo",
+    "smidr/tools/soc_abi.mojo"
+  ],
+  "other_importers": []
+}

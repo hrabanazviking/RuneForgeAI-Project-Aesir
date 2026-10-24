@@ -1,0 +1,23 @@
+{
+  "path_base": "task work directory containing the repository and archive roots",
+  "roots": [
+    "session-transfer-pin-probe-development",
+    "session-transfer-pin-probe-final",
+    "session-transfer-pin-probe-host",
+    "session-transfer-pin-probe-host-audit",
+    "session-transfer-pin-probe-physical",
+    "session-transfer-pin-probe-physical-audit",
+    "session-transfer-pin-probe-recording-failure"
+  ],
+  "files": 1111,
+  "source_bytes": 14623862,
+  "pages": [
+    {
+      "path": "archive-001.json",
+      "files": 1111,
+      "source_bytes": 14623862,
+      "bytes": 219678,
+      "sha256": "2b548088d2c2bd64d6ff19d8ecd19d1967dc3dd56be7921d5223948600371e28"
+    }
+  ]
+}

@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 143 |
+| `verified` | 144 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **188** |
+| **Total** | **189** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4284,3 +4284,26 @@ No new capability ID or hardware/complete-source execution claim.
   image.23 Mojo/10 test C/C++ links,66 ELF tables;711/88 old,714/89 final inputs,
   161 controls and827 contract paths exact. Zero old production/test edits;
   initial oracle failure and all superseded attempts retained. No global CI pass.
+
+
+### AES-CONTROL-013 — Same-file sealed session maps (physical acceptance)
+
+- **Status:** `verified`
+- **Owner:** Original smidr/tools/session_transfer_pin_probe.mojo.
+- **Claim sources:** TASK_hailo10h_session_transfer_pin_physical.md published
+  8a3d263 before code;docs/HAILO10H_MOJO_SESSION_TRANSFER_PIN_PROBE.md.
+- **Implementation evidence:** Bounded synthetic two-part group uses published
+  same-file owner;post-finalization full bytes and closed-group refusal.
+- **Executable evidence:**3 host methods/29 complete frozen pairs and exactly
+  4 physical children (one unchanged baseline,three new-owner sizes),all pass.
+  Six real H2D maps,6 sealed-fd closes and6 exact owned unmaps after file close.
+- **Evidence boundary:** Map-only observed success on driver5.3.0/H10H PCIe;
+  no descriptor usage/capacity,coherence,DMA,RPC packet,all-failure hardware idle/
+  remote cleanup confirmation,program activation or source-model execution.
+- **Next acceptance gate:** Actual grouped transfer/count/completion/total
+  deadline/late cleanup and numerical configuration/packing/placement/program/
+  results toward broad ordinary UNMODIFIED source-model support100%.
+- **Audit:**38 real permitted ioctls;130 physical file generations/130 closes.
+  3 Mojo/2 C/C++ links,10 ELF tables;714/89 old,715/90 final inputs,163 controls
+  and811 contract paths exact. Zero old production/test edits. Recorder-field
+  failure retained;no repeated physical child. No whole-repository/hosted-CI pass.

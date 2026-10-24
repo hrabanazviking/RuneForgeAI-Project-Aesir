@@ -1,3 +1,12 @@
+## 2026-10-24 — Same-file physical session maps
+
+- [x] AES-CONTROL-013 qualify one baseline plus three same-file two-part map-only
+  children;6 real mappings and complete owning-file/host cleanup.
+  `docs/HAILO10H_MOJO_SESSION_TRANSFER_PIN_PROBE.md`.
+- [ ] Continue actual grouped counts/completion/total deadlines/late cleanup and
+  numerical configuration/packing/placement/program/results toward broad ordinary
+  UNMODIFIED source-model support100%. No DMA or numerical execution follows.
+
 ## 2026-10-24 — Same-file sealed session ownership
 
 - [x] AES-CONTROL-012 bind both actual sealed views/backing to the session file

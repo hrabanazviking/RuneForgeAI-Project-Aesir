@@ -1,0 +1,18 @@
+{
+  "raw_paths": 1111,
+  "contract_paths": 811,
+  "controls": 163,
+  "source_inputs": 715,
+  "test_inputs": 90,
+  "old_source_test_edits": 0,
+  "images_exact": true,
+  "schema_unchanged": true,
+  "drift_unchanged": true,
+  "capability_count": 189,
+  "status_counts": {
+    "missing": 15,
+    "partial": 29,
+    "verified": 144
+  },
+  "global_ci_pass": false
+}

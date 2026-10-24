@@ -347,3 +347,13 @@ confirmed file cleanup;8 uncertainty cases retain both actual fds/VMAs per image
 This is host qualification,not physical pin/DMA or source-model execution.
 Continue separately bounded physical map-only session qualification,actual
 transfer/late cleanup and numerical configuration/packing/placement/results.
+
+
+Same-file physical mapping is now qualified under
+`HAILO10H_MOJO_SESSION_TRANSFER_PIN_PROBE.md`:3 host methods/29 full frozen pairs,one unchanged session baseline and
+three new-owner children. Six real mappings and their owning-file/host release
+complete;38 permitted ioctls,zero DMA/RPC packet/program/model submission. This
+is map-only acceptance,not numerical source-model execution or all-failure
+hardware/remote cleanup confirmation. Actual grouped counts/completion/total
+deadlines/late cleanup and numerical configuration/packing/placement/program/
+results remain required toward broad ordinary UNMODIFIED models100%.

@@ -423,3 +423,13 @@ and retains both actual fd/VMA pairs after uncertain finalization.
 `docs/HAILO10H_MOJO_SESSION_TRANSFER_PIN.md`. This is host qualification;physical
 map-only session evidence,actual grouped transfer/late cleanup and numerical
 program/results remain required toward broad ordinary UNMODIFIED models100%.
+
+
+Same-file physical mapping is now qualified under
+`docs/HAILO10H_MOJO_SESSION_TRANSFER_PIN_PROBE.md`:3 host methods/29 full frozen pairs,one unchanged session baseline and
+three new-owner children. Six real mappings and their owning-file/host release
+complete;38 permitted ioctls,zero DMA/RPC packet/program/model submission. This
+is map-only acceptance,not numerical source-model execution or all-failure
+hardware/remote cleanup confirmation. Actual grouped counts/completion/total
+deadlines/late cleanup and numerical configuration/packing/placement/program/
+results remain required toward broad ordinary UNMODIFIED models100%.

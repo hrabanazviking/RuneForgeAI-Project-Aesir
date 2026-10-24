@@ -1,0 +1,27 @@
+{
+  "host_methods": 3,
+  "host_runs": 58,
+  "metrics": {
+    "full_pairs": 29,
+    "accept": 18,
+    "refuse": 11,
+    "file_fd_generations": 2916,
+    "fd_closes": 2906,
+    "traces": 56,
+    "retained_sealed_fds": 8,
+    "retained_vmas": 8,
+    "mock_files": 40,
+    "mock_file_closes": 38,
+    "sealed_fds": 76,
+    "readonly_private_views": 76,
+    "cpu_inaccessible_views": 76,
+    "owned_unmaps": 68,
+    "sealed_closes": 68
+  },
+  "binary_manifest_sha256": "a4e104a424609544c6bdc64a28df71b0f47c16dcceafa26a242b660b4d3c64f4",
+  "ready_sha256": "f88c9f8cd6f438649812014ec274f1c8423ff9a2bd2d433355928f06e83518de",
+  "physical_calls": false,
+  "all_links_before_host": true,
+  "source_inputs_exact": true,
+  "excluded_runtime_links": false
+}

@@ -180,3 +180,13 @@ Next separately bounded physical contract:
 at467e495;fresh714/89 inputs and163 controls precede a new probe. At most one
 unchanged session control plus three same-file two-buffer map-only children;
 no DMA/prepare/RPC/program/model request and no all-failure quiescence claim.
+
+
+Same-file physical mapping is now qualified under
+`docs/HAILO10H_MOJO_SESSION_TRANSFER_PIN_PROBE.md`:3 host methods/29 full frozen pairs,one unchanged session baseline and
+three new-owner children. Six real mappings and their owning-file/host release
+complete;38 permitted ioctls,zero DMA/RPC packet/program/model submission. This
+is map-only acceptance,not numerical source-model execution or all-failure
+hardware/remote cleanup confirmation. Actual grouped counts/completion/total
+deadlines/late cleanup and numerical configuration/packing/placement/program/
+results remain required toward broad ordinary UNMODIFIED models100%.

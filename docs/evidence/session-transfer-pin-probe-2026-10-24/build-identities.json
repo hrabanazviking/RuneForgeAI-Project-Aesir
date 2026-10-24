@@ -1,0 +1,35 @@
+[
+  {
+    "source": "smidr/tools/session_transfer_pin_probe.mojo",
+    "binary": "session-transfer-pin-probe-final/entry-000",
+    "sha256": "a576a7cd78a790b7ddbaacd8f18313fe41eab33a454042e47440ce342a4183f8",
+    "returncode": 0,
+    "diagnostic_bytes": 4530
+  },
+  {
+    "source": "smidr/tools/soc_session.mojo",
+    "binary": "session-transfer-pin-probe-final/entry-001",
+    "sha256": "6fef8480b8698eb15c3710314dc4dce5353bb05c3f6a996eee898d5223eb3618",
+    "returncode": 0,
+    "diagnostic_bytes": 4455
+  },
+  {
+    "source": "smidr/tools/soc_abi.mojo",
+    "binary": "session-transfer-pin-probe-final/entry-002",
+    "sha256": "23036175bf278c1d4fdb9478038d9691b7704b3ef0cbf9225c1aef052834b5b6",
+    "returncode": 0,
+    "diagnostic_bytes": 769
+  },
+  {
+    "source": "session-transfer-pin-physical-contract-2026-10-24/oracle-inputs/session_transfer_pin_faults.c",
+    "source_sha256": "0ec3ae119c4f2a7d54ca3ee36b940b5cceec49b00c1401caf2ff5f74f4d83139",
+    "binary": "session-transfer-pin-probe-final/faults.so",
+    "sha256": "cc93fd64a36327144016d149bad56bb40c103b9a05edb932152cddf48cf9dc02"
+  },
+  {
+    "source": "session-transfer-pin-physical-contract-2026-10-24/oracle-inputs/hailo_soc_abi_oracle.cpp",
+    "source_sha256": "b4da0408eb91bad032c3bb1e10b7f7ace44f08889a1dcb3c39e361faaae2e1bc",
+    "binary": "session-transfer-pin-probe-final/abi-oracle",
+    "sha256": "e54af94b67954cc6b5ede2375395825d7b6a39dc0b0019790b7cb2cfab290c32"
+  }
+]
