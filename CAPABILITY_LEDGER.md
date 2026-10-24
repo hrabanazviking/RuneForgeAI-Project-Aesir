@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 140 |
+| `verified` | 141 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **185** |
+| **Total** | **186** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4213,3 +4213,26 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:**21 Mojo/9 C links,60 ELF tables,702/85 old and705/86 final inputs,
   154 controls.163 actual kernel-view checks and10 deliberate both-part lifetime
   retentions. All failed probes/harness/audit attempts remain immutable.
+
+
+### AES-CONTROL-010 — Owned grouped prepare and cancellation wire values
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/soc_prepare.mojo.
+- **Claim sources:** TASK_hailo10h_soc_prepare_codec.md publishedaf2406f before
+  production;docs/HAILO10H_MOJO_SOC_PREPARE.md.
+- **Implementation evidence:** Exact139-byte prepare and8-byte cancellation
+  codecs reuse existing checked group/scalar semantics and independent copied
+  results,with bounded inspector and no device submission.
+- **Executable evidence:**25 methods/5459 primary calls,2763 complete frozen
+  comparisons.224 independent full prepare and68 cancellation vectors;977
+  inspector refusal→fresh-success joins and324 direct API recovery cycles.
+- **Evidence boundary:** Host wire values only;no mapping/prepare/cancel/transfer
+  request,descriptor accounting/capacity,numerical admission or source-model
+  execution. Active-DMA cancellation semantics remain unqualified.
+- **Next acceptance gate:** Actual grouped descriptor/status/channel/storage/
+  completion/deadline/late cleanup and numerical encoding/packing/placement/
+  program/results toward broad ordinary UNMODIFIED model support100%.
+- **Audit:**2988 new traces,52684 observed descriptor generations and closes,
+  5 Mojo/3 C++ links,16 ELF tables.705/86 old and708/87 final inputs,156 controls
+  and868 contract paths exact. Old production/tests remain unchanged.

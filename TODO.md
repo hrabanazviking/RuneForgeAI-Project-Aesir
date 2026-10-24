@@ -1,3 +1,12 @@
+## 2026-10-24 — Prepare and cancellation wire codecs
+
+- [x] AES-CONTROL-010 own exact139/8-byte prepare/cancellation values while
+  reusing existing group/scalar guards;25 methods/2763 complete frozen pairs.
+  `docs/HAILO10H_MOJO_SOC_PREPARE.md`.
+- [ ] Continue actual same-file channel/storage/descriptor/status/completion/
+  deadline/late cleanup and numerical configuration/program/results,with broad
+  remaining source/model coverage and no metadata-as-execution claim.
+
 ## 2026-10-24 — Owned two-part sealed driver mappings
 
 - [x] AES-CONTROL-009 retain both actual sealed parts through driver mapping and

@@ -137,3 +137,8 @@ Next bounded wire prerequisite:`TASK_hailo10h_soc_prepare_codec.md`,qualified in
 cancellation objects have17 independent public-header probes. Their original
 host codec introduces no device operation or descriptor-count/capacity proof.
 Actual numerical and grouped transport/result work remains open.
+
+That bounded codec is verified under`docs/HAILO10H_MOJO_SOC_PREPARE.md`:
+25 methods/2763 complete frozen comparisons,zero old production/test edits.
+This supplies original139/8-byte intent only. Actual preparation side effects,
+descriptor counts,active cancellation and numerical program execution remain open.

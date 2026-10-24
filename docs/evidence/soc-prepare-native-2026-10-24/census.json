@@ -1,0 +1,57 @@
+{
+  "prepare": {
+    "primary": 3280,
+    "methods": 5,
+    "new_consumer_traces": 2988,
+    "observed_fd_generations": 52684,
+    "actual_observed_closes": 52684,
+    "complete_frozen_pairs": 584,
+    "frozen_accept": 584,
+    "individual_refusal_to_fresh_success_joins": 977
+  },
+  "group": {
+    "primary": 1856,
+    "methods": 8,
+    "complete_frozen_pairs": 1856,
+    "frozen_accept": 703,
+    "frozen_refuse": 1153
+  },
+  "abi": {
+    "primary": 323,
+    "methods": 12,
+    "complete_frozen_pairs": 323,
+    "frozen_accept": 261,
+    "frozen_refuse": 62
+  },
+  "total": {
+    "primary": 5459,
+    "methods": 25,
+    "new_consumer_traces": 2988,
+    "observed_fd_generations": 52684,
+    "actual_observed_closes": 52684,
+    "complete_frozen_pairs": 2763,
+    "frozen_accept": 1548,
+    "individual_refusal_to_fresh_success_joins": 977,
+    "frozen_refuse": 1215
+  },
+  "scope": {
+    "old_mojo": 705,
+    "old_python": 86,
+    "final_mojo": 708,
+    "final_python": 87,
+    "controls": 156,
+    "contract_paths": 868,
+    "old_edits": 0,
+    "affected_consumer_closure": [
+      "smidr/tools/soc_prepare.mojo",
+      "tests/hailo_soc_prepare_api.mojo"
+    ],
+    "mojo_links": 5,
+    "cxx_links": 3,
+    "elf_tables": 16,
+    "new_statement_warnings": 0,
+    "physical_calls": false,
+    "descriptor_count_inferred": false,
+    "source_model_execution": false
+  }
+}

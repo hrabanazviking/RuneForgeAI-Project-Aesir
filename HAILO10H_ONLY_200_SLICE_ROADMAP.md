@@ -86,6 +86,12 @@ before release;`docs/HAILO10H_MOJO_SEALED_TRANSFER_PIN.md`. Actual grouped DMA,
 descriptors/deadlines and numerical/source-model execution remain open under
 broad ordinary unmodified source-model support100%.
 
+**Original prepare/cancel values (2026-10-24):**139/8-byte owned wire codecs
+reuse existing checked group/scalar semantics;25 methods/2763 complete frozen
+pairs and2988 new traces. `docs/HAILO10H_MOJO_SOC_PREPARE.md`. No actual
+preparation/cancellation,descriptor count or source-model execution follows.
+Actual transport and numerical/broad compiler gaps remain required work.
+
 **Execution model:** 20 phases × 10 slices = exactly 200 slices. Every model operation must execute on Hailo-10H. Host CPU may perform ordinary application orchestration, tokenization, request handling, and I/O; it may not execute, shadow, serve, or fall back to LLM inference. Implement the Mojo-owned source-model import, lowering, device-program generation and execution needed for the owner's fixed target. The existing vendor-precompiled GenAI route is historical integration evidence and cannot define completion or supported-model scope. Do not route inference through Hailo-Ollama, another service, CPU, CUDA, or cloud. When a gate fails, keep working through bounded diagnostics, version/model alternatives supported by Hailo, and implementation fixes; record temporary blockers without converting them into terminal project decisions.
 
 **Slice execution:** Work through the numbered slices in order, completing the action and leaving a reviewable artifact, verified behavior, or evidence-backed decision. Build Æsir as the Mojo owner of the source-model-to-Hailo execution path; close the actual compiler, operation, configuration and transport gaps without substituting a catalog-only product. Keep the runtime boundary in-process; Hailo-Ollama is not the target.

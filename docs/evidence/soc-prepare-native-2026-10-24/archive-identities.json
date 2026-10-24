@@ -1,0 +1,28 @@
+{
+  "format": "aesir-paged-archive-v1",
+  "files": 21120,
+  "source_bytes": 204112014,
+  "pages": [
+    {
+      "path": "archive-identities-000.json",
+      "files": 10000,
+      "source_bytes": 14614956,
+      "bytes": 1817832,
+      "sha256": "04bcb2f675926e909335ca2851fa49dc1248465e3d6e10b2f0044be5fe2bae91"
+    },
+    {
+      "path": "archive-identities-001.json",
+      "files": 10000,
+      "source_bytes": 176992830,
+      "bytes": 1790424,
+      "sha256": "4def234c4eb79b6c7fdabd7f51aeb17ac995bf844420193c8e79c3a9a0d0797e"
+    },
+    {
+      "path": "archive-identities-002.json",
+      "files": 1120,
+      "source_bytes": 12504228,
+      "bytes": 199779,
+      "sha256": "31449b6ce8ab93eb4143b477a0bcb02f8e80e212e7fb9848ddb8c0a2ab621c98"
+    }
+  ]
+}

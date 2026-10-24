@@ -312,3 +312,9 @@ Next bounded original wire contract:`TASK_hailo10h_soc_prepare_codec.md`.
 17 public-header objects qualify prepare139/cancel8 byte boundaries;actual705/86
 inputs and156 controls are frozen before code. No new implementation or execution
 is claimed by the contract. Actual descriptors/deadlines/numerical work remains.
+
+Original prepare/cancellation values are now verified under
+`HAILO10H_MOJO_SOC_PREPARE.md`:25 methods,2763 complete frozen comparisons and
+2988 new traces. Existing checked group/scalar rules own139/8-byte values;
+no device request or descriptor count is inferred. Continue actual grouped
+transport/deadline and numerical/source-model execution work.

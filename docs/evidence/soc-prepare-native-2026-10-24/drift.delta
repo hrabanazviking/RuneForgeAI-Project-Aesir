@@ -1,0 +1,19 @@
+--- prior
+
++++ current
+
+@@ -2,5 +2,5 @@
+
+ WARNING: legacy tracked artifacts pending deletion approval: generated_executable=7 (aesir_engine/aesir_main, aesir_engine/main, aesir_engine/test, aesir_engine/test_engine, aesir_engine/test_server_loop, aesir_main, main)
+ WARNING: legacy tracked artifacts pending deletion approval: placeholder_model=1 (aesir_engine/model.gguf)
+-FAILED: 23409 repository consistency issue(s)
++FAILED: 23410 repository consistency issue(s)
+  - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2416: missing required field 'Evidence boundary'
+  - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2429: missing required field 'Evidence boundary'
+@@ -17022,4 +17022,5 @@
+
+  - docs/evidence/shard-collection-2026-10-20/storage-regression/runs.json:17769: machine-local absolute path
+  - docs/evidence/shard-collection-2026-10-20/storage-regression/runs.json:17783: machine-local absolute path
++ - docs/evidence/soc-prepare-native-2026-10-24/audit-v2.py:43: machine-local absolute path
+  - docs/evidence/source-config-2026-10-20/config-first-runs.json:4: machine-local absolute path
+  - docs/evidence/source-config-2026-10-20/config-first-runs.json:18: machine-local absolute path
