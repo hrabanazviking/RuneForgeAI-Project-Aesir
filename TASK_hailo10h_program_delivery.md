@@ -174,3 +174,9 @@ That original same-file owner is host-qualified under
 comparisons,zero old production/test edits. No physical request or all-failure
 hardware/remote cleanup confirmation follows. Next separately bounded physical
 map-only session qualification precedes live grouped transfer/numerical work.
+
+Next separately bounded physical contract:
+`TASK_hailo10h_session_transfer_pin_physical.md`. Host qualification is published
+at467e495;fresh714/89 inputs and163 controls precede a new probe. At most one
+unchanged session control plus three same-file two-buffer map-only children;
+no DMA/prepare/RPC/program/model request and no all-failure quiescence claim.

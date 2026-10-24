@@ -1,0 +1,9 @@
+{
+  "raw_paths": 811,
+  "source_bytes": 6228569,
+  "manifest_sha256": "888f6bc22d090f1fdedd7635e90387586218f6debea3ceb944537e9aeb159b10",
+  "mojo_inputs": 714,
+  "python_inputs": 89,
+  "controls": 163,
+  "device_calls": false
+}
