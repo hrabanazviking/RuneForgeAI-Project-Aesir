@@ -210,3 +210,13 @@ ioctl/DMA,RPC packet,program or numerical execution occurs. Continue typed
 non-inference grouped lifecycle/cleanup,then separately bounded physical evidence
 and actual numerical configuration/packing/placement/program/results toward
 broad ordinary UNMODIFIED source-model support100%.
+
+
+Next original HOST-ONLY typed lifecycle contract:
+`TASK_hailo10h_grouped_device_rpc.md`. Reuse existing create20/identify22/
+destroy21 codecs on the published grouped client;track handle presence and
+uncertain logical cleanup under one lifecycle deadline,with at most four
+exchange attempts. Fresh718 Mojo/91 Python inputs,168 current controls and
+823 contract archive paths are frozen before code. Manifest SHA-256:
+`97825114ea5507bbb2ba31d342c1f99bc821950e5e2a5c90de2dc75fb2ae4ddb`. No new implementation,device call or numerical/source-model execution
+is claimed by this contract.

@@ -1,0 +1,13 @@
+{
+  "contract_paths": 823,
+  "source_inputs": 718,
+  "test_inputs": 91,
+  "controls": 168,
+  "compiler_exact": true,
+  "schema_and_drift_unchanged": true,
+  "capability_count_unchanged": 190,
+  "verified_count_unchanged": 145,
+  "no_new_native_implementation": true,
+  "physical_device_calls": false,
+  "source_model_execution": false
+}
