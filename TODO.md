@@ -1,3 +1,12 @@
+## 2026-10-24 — Same-file sealed session ownership
+
+- [x] AES-CONTROL-012 bind both actual sealed views/backing to the session file
+  that owns assigned channels/lists;76 methods/5554 full frozen comparisons.
+  `docs/HAILO10H_MOJO_SESSION_TRANSFER_PIN.md`.
+- [ ] Qualify a separately bounded physical map-only session,then actual grouped
+  transfer/completion/late cleanup and numerical program/results toward broad
+  ordinary UNMODIFIED source-model support100%.
+
 ## 2026-10-24 — Observed grouped exchange progress
 
 - [x] AES-CONTROL-011 separate actual launch counts from IRQ transfer completion

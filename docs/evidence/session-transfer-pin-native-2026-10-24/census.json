@@ -1,0 +1,756 @@
+{
+  "suites": {
+    "session-group": {
+      "primary": 102,
+      "methods": 7,
+      "full_frozen_pairs": 102,
+      "accept": 60,
+      "refuse": 42
+    },
+    "transfer": {
+      "primary": 235,
+      "methods": 6,
+      "full_frozen_pairs": 235,
+      "accept": 128,
+      "refuse": 107
+    },
+    "sealed-program": {
+      "primary": 295,
+      "methods": 6,
+      "full_frozen_pairs": 295,
+      "accept": 196,
+      "refuse": 99
+    },
+    "payload": {
+      "primary": 391,
+      "methods": 8,
+      "full_frozen_pairs": 391,
+      "accept": 223,
+      "refuse": 168
+    },
+    "integrity": {
+      "primary": 2072,
+      "methods": 11,
+      "full_frozen_pairs": 2072,
+      "accept": 1977,
+      "refuse": 95
+    },
+    "group": {
+      "primary": 1856,
+      "methods": 8,
+      "full_frozen_pairs": 1856,
+      "accept": 703,
+      "refuse": 1153
+    },
+    "abi": {
+      "primary": 323,
+      "methods": 12,
+      "full_frozen_pairs": 323,
+      "accept": 261,
+      "refuse": 62
+    },
+    "session": {
+      "primary": 132,
+      "methods": 6,
+      "full_frozen_pairs": 132,
+      "accept": 101,
+      "refuse": 31
+    },
+    "pin": {
+      "primary": 55,
+      "methods": 6,
+      "full_frozen_pairs": 55,
+      "refuse": 19,
+      "accept": 36
+    },
+    "old-group-pin": {
+      "primary": 93,
+      "methods": 6,
+      "full_frozen_pairs": 93,
+      "accept": 55,
+      "refuse": 38
+    }
+  },
+  "total": {
+    "primary": 5554,
+    "methods": 76,
+    "full_frozen_pairs": 5554,
+    "accept": 3740,
+    "refuse": 1814
+  },
+  "new_primary_calls": 101,
+  "new_metrics": {
+    "current_traces": 101,
+    "current_file_fd_generations": 7292,
+    "current_actual_file_fd_closes": 7270,
+    "current_actual_sealed_fds": 258,
+    "current_actual_sealed_positional_reads": 1244,
+    "current_actual_readonly_private_views": 225,
+    "current_actual_mock_files": 111,
+    "current_actual_owned_views_cpu_inaccessible": 204,
+    "current_actual_mock_file_closes": 107,
+    "current_actual_sealed_reads_after_context_close": 246,
+    "current_actual_owned_unmaps": 207,
+    "current_actual_sealed_closes": 240,
+    "current_actual_kernel_views": 225,
+    "current_kernel_compared_view_bytes": 261866,
+    "current_mock_map_effects": 192,
+    "current_deliberate_retained_fds": 18,
+    "current_deliberate_retained_vmas": 18,
+    "frozen_traces": 101,
+    "frozen_file_fd_generations": 7292,
+    "frozen_actual_file_fd_closes": 7270,
+    "frozen_actual_sealed_fds": 258,
+    "frozen_actual_sealed_positional_reads": 1244,
+    "frozen_actual_readonly_private_views": 225,
+    "frozen_actual_mock_files": 111,
+    "frozen_actual_owned_views_cpu_inaccessible": 204,
+    "frozen_actual_mock_file_closes": 107,
+    "frozen_actual_sealed_reads_after_context_close": 246,
+    "frozen_actual_owned_unmaps": 207,
+    "frozen_actual_sealed_closes": 240,
+    "frozen_actual_kernel_views": 225,
+    "frozen_kernel_compared_view_bytes": 261866,
+    "frozen_mock_map_effects": 192,
+    "frozen_deliberate_retained_fds": 18,
+    "frozen_deliberate_retained_vmas": 18,
+    "refusal_or_poison_fresh_success_joins": 44,
+    "current_two_part_retention_cases": 8,
+    "frozen_two_part_retention_cases": 8
+  },
+  "per_call": [
+    {
+      "call": 0,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 1,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 2,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 3,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 4,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 5,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 6,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 7,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 8,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 9,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 10,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 11,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 12,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 13,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 14,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 15,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 16,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 17,
+      "fault": "none",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 18,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 19,
+      "fault": "none",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 20,
+      "fault": "none",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 21,
+      "fault": "page_size",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 22,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 23,
+      "fault": "open",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 24,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 25,
+      "fault": "identity",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 26,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 27,
+      "fault": "desc_create0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 28,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 29,
+      "fault": "desc_create1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 30,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 31,
+      "fault": "connect_before",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 32,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 33,
+      "fault": "connect_after",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 34,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 35,
+      "fault": "foreign_desc",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 36,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 37,
+      "fault": "foreign_map",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 38,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 39,
+      "fault": "desc_create2_cleanup",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 40,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 41,
+      "fault": "mmap0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 42,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 43,
+      "fault": "mmap1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 44,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 45,
+      "fault": "map_before0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 46,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 47,
+      "fault": "map_before1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 48,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 49,
+      "fault": "map_after0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 50,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 51,
+      "fault": "map_after1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 52,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 53,
+      "fault": "bad_tuple0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 54,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 55,
+      "fault": "bad_tuple1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 56,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 57,
+      "fault": "bad_handle0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 58,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 59,
+      "fault": "bad_handle1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 60,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 61,
+      "fault": "munmap_before0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 62,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 63,
+      "fault": "munmap_before1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 64,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 65,
+      "fault": "munmap_after0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 66,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 67,
+      "fault": "munmap_after1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 68,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 69,
+      "fault": "sealed_close_before0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 70,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 71,
+      "fault": "sealed_close_before1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 72,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 73,
+      "fault": "sealed_close_after0",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 74,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 75,
+      "fault": "sealed_close_after1",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 76,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 77,
+      "fault": "channel_before",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 78,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 79,
+      "fault": "channel_after",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 80,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 81,
+      "fault": "desc_release0",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 82,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 83,
+      "fault": "desc_release1",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 84,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 85,
+      "fault": "close_before",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 86,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 87,
+      "fault": "close_after",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 88,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 89,
+      "fault": "identity_close_before",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 90,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 91,
+      "fault": "identity_close_after",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 92,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 93,
+      "fault": "map_close_before",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 94,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 95,
+      "fault": "map_close_after",
+      "api": false,
+      "returncode": 1
+    },
+    {
+      "call": 96,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 97,
+      "fault": "close_before",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 98,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    },
+    {
+      "call": 99,
+      "fault": "close_after",
+      "api": true,
+      "returncode": 0
+    },
+    {
+      "call": 100,
+      "fault": "none",
+      "api": false,
+      "returncode": 0
+    }
+  ],
+  "scope": {
+    "old_mojo": 711,
+    "old_python": 88,
+    "final_mojo": 714,
+    "final_python": 89,
+    "controls": 161,
+    "contract_paths": 827,
+    "old_production_edits": 0,
+    "old_test_edits": 0,
+    "mojo_links": 23,
+    "c_links": 10,
+    "elf_tables": 66,
+    "closure": {
+      "modules": [
+        "smidr.session_transfer_pin",
+        "smidr.tools.session_transfer_pin",
+        "tests.hailo_session_transfer_pin_api"
+      ],
+      "executables": [
+        "smidr/tools/session_transfer_pin.mojo",
+        "tests/hailo_session_transfer_pin_api.mojo"
+      ]
+    },
+    "physical_calls": false,
+    "numerical_execution": false,
+    "new_pairs": "new frozen-image reproducibility;legacy comparisons use qualified prior images"
+  }
+}

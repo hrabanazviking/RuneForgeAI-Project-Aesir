@@ -1,0 +1,76 @@
+{
+  "path_base": "task work directory containing the repository and archive roots",
+  "roots": [
+    "session-group-pin-native-baseline",
+    "session-group-pin-native-development",
+    "session-group-pin-native-final",
+    "session-group-pin-native-final-v2",
+    "session-group-pin-native-final-v3",
+    "session-group-pin-native-final-v4",
+    "session-group-pin-native-host",
+    "session-group-pin-native-host-v3",
+    "session-group-pin-native-host-v4",
+    "session-group-pin-native-audit",
+    "session-group-pin-native-audit-v4"
+  ],
+  "files": 57948,
+  "source_bytes": 333236188,
+  "pages": [
+    {
+      "path": "archive-001.json",
+      "files": 8000,
+      "source_bytes": 59299290,
+      "bytes": 1561649,
+      "sha256": "9a071b23c808d5f8c36e9d6b6f251875ca83268971e2f3edaa31d0eec146f7c3"
+    },
+    {
+      "path": "archive-002.json",
+      "files": 8000,
+      "source_bytes": 3573009,
+      "bytes": 1479913,
+      "sha256": "b6298cb957b403bfc642d6573bebf402b4590f12456fc70b95990d7d0f5df48a"
+    },
+    {
+      "path": "archive-003.json",
+      "files": 8000,
+      "source_bytes": 33824922,
+      "bytes": 1514017,
+      "sha256": "5cdb47a87552abf1d0872e099c56bfeac75726134bfc496908f5151f3561d299"
+    },
+    {
+      "path": "archive-004.json",
+      "files": 8000,
+      "source_bytes": 98804207,
+      "bytes": 1489116,
+      "sha256": "ae740e170c743da026fbb1a13efd32941fb2668dd14661d8f8ce20e95316c09d"
+    },
+    {
+      "path": "archive-005.json",
+      "files": 8000,
+      "source_bytes": 1162374,
+      "bytes": 1468627,
+      "sha256": "4dfed43fe16143950558c07781b2141ae89f410ec2d48243f25f534fd07bd460"
+    },
+    {
+      "path": "archive-006.json",
+      "files": 8000,
+      "source_bytes": 3290427,
+      "bytes": 1502740,
+      "sha256": "9aa1399d124e3d54cc772263c49f85cbbde3fdf2459d3ce82a5616ed32363fbb"
+    },
+    {
+      "path": "archive-007.json",
+      "files": 8000,
+      "source_bytes": 123069827,
+      "bytes": 1506832,
+      "sha256": "3524636e4bae25c6a170e3c485808c6498112e62e24582cca433d93d075633e2"
+    },
+    {
+      "path": "archive-008.json",
+      "files": 1948,
+      "source_bytes": 10212132,
+      "bytes": 362468,
+      "sha256": "773dee2b963265c4936dc5505622f91de5b966140df85bb90be9c2d716dd95bb"
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+[
+  {
+    "source": "smidr/tools/session_transfer_pin.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-000",
+    "sha256": "6d57a1f429340fc3f28c7cb05a99d2ce4471dcf9104d478362a2aaf8210f89f6",
+    "returncode": 0,
+    "diagnostic_bytes": 5612
+  },
+  {
+    "source": "tests/hailo_session_transfer_pin_api.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-001",
+    "sha256": "bb48e9f5be194751b0c14912c970a5314cc7bd3e9f026ffdbed3d6e524a283f6",
+    "returncode": 0,
+    "diagnostic_bytes": 4225
+  },
+  {
+    "source": "smidr/tools/sealed_transfer_pin.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-002",
+    "sha256": "3252417eea8d40f88a94b3a0232baf0c6fb283a0e1a6251a5ca6606e753f320f",
+    "returncode": 0,
+    "diagnostic_bytes": 1763
+  },
+  {
+    "source": "tests/hailo_sealed_transfer_pin_api.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-003",
+    "sha256": "5814571813472e09f1fcd7e01941478c68ff1cceb192bff7281a8f490caffbac",
+    "returncode": 0,
+    "diagnostic_bytes": 1432
+  },
+  {
+    "source": "smidr/tools/sealed_transfer_backing.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-004",
+    "sha256": "6f4a8fd8109bcc3a4e4fb08d8776528ea26a18a735d941fbdb152f731432e5d3",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "smidr/tools/sealed_program_payload.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-005",
+    "sha256": "8c8eb6bebce3f063e088b3be3e2708c9ed6f487922a8be1847c40140aa3b586a",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "smidr/tools/program_payload.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-006",
+    "sha256": "8990eb7cdc98b6da13b7700866543fa1cc9ada78239a9657182ab8bb92e4c85c",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "smidr/tools/program_integrity.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-007",
+    "sha256": "50ce189c6a6e001dd4441cd7cf3a158d3a6137f819276e7c2649c2f7a84f576b",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "smidr/tools/soc_group.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-008",
+    "sha256": "cfa4eedc7420d7968f811bf1e4da11b8cdf41e426eca944286b5e7df42bf2941",
+    "returncode": 0,
+    "diagnostic_bytes": 370
+  },
+  {
+    "source": "smidr/tools/soc_abi.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-009",
+    "sha256": "23036175bf278c1d4fdb9478038d9691b7704b3ef0cbf9225c1aef052834b5b6",
+    "returncode": 0,
+    "diagnostic_bytes": 769
+  },
+  {
+    "source": "tests/hailo_session_finalization_api.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-010",
+    "sha256": "86ceacab58baa091cf44ed74be125326b2f7b9af39181887996a40e600ac1e8f",
+    "returncode": 0,
+    "diagnostic_bytes": 3718
+  },
+  {
+    "source": "smidr/tools/sealed_program_pin_probe.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-011",
+    "sha256": "06ed3b4c369252304d0d5690a57c16a19f061aec43f862c2c9b8f51de3b0037e",
+    "returncode": 0,
+    "diagnostic_bytes": 1467
+  },
+  {
+    "source": "tests/hailo_sealed_transfer_api.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-012",
+    "sha256": "37f603c90c62e6bcf99d2a888d89ddc1c1cbe5389a8b624c703e114f9c45372c",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/hailo_sealed_program_api.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-013",
+    "sha256": "c7e373ae2a0849df61f536786439a11aec625990d8e2906cad4958cf98f8d9db",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/hailo_program_payload_ownership.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-014",
+    "sha256": "36e166714f932e53d0b62b90e9f3b7f4d79ba50848a1ddefc087bd2f019e20ed",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/hailo_soc_group_ownership.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-015",
+    "sha256": "b9949059225ec0600c13a38188d35011ec09a6884a29cfba5c5fe9c5c9d4299e",
+    "returncode": 0,
+    "diagnostic_bytes": 228
+  },
+  {
+    "source": "tests/hailo_soc_storage_unwind.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-016",
+    "sha256": "0b483167f9fd625b1f2e257df70e18ae8831010497afd7a3e710843f9c341a78",
+    "returncode": 0,
+    "diagnostic_bytes": 3652
+  },
+  {
+    "source": "tests/hailo_soc_pending_storage.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-017",
+    "sha256": "0377717d006468fa1c12b2c31c3e66b1169522d1404411a38694bc3ea18b3f53",
+    "returncode": 0,
+    "diagnostic_bytes": 3663
+  },
+  {
+    "source": "tests/hailo_soc_session_unwind.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-018",
+    "sha256": "9f3186b09777264d8413d79929340d06e6830125949c0987acb0f3c69e1676b5",
+    "returncode": 0,
+    "diagnostic_bytes": 3652
+  },
+  {
+    "source": "smidr/tools/soc_wait.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-019",
+    "sha256": "6b9a827c631c357d08ac8a14a2b0926a47525b228011bfa75041d5875f70650c",
+    "returncode": 0,
+    "diagnostic_bytes": 5008
+  },
+  {
+    "source": "smidr/tools/soc_storage.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-020",
+    "sha256": "e452445dd9e5d64c5e2d209b3e348f18b5152ae4ea77540b8d1c955e7cd753a7",
+    "returncode": 0,
+    "diagnostic_bytes": 4455
+  },
+  {
+    "source": "smidr/tools/soc_rpc_device.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-021",
+    "sha256": "9168520b192ed2348a9d50817f5457479be605f5d5b6606aeeaf2db8577d661a",
+    "returncode": 0,
+    "diagnostic_bytes": 6847
+  },
+  {
+    "source": "smidr/tools/soc_session.mojo",
+    "binary": "session-group-pin-native-final-v4/entry-022",
+    "sha256": "6fef8480b8698eb15c3710314dc4dce5353bb05c3f6a996eee898d5223eb3618",
+    "returncode": 0,
+    "diagnostic_bytes": 4455
+  },
+  {
+    "source": "sealed-transfer-backing-native-final-v2/transfer-faults.so.c",
+    "source_sha256": "50767f085b52fa10b980cc8c04e88252c235f6e40c4801616ce1bbc5a477e7c3",
+    "binary": "session-group-pin-native-final-v4/transfer-faults.so",
+    "sha256": "45932e06cd9420a3b06fc353f152b37acea25d77656b9daf8f4e2daaed4ad7b8",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "sealed-transfer-backing-native-final-v2/old-faults.so.c",
+    "source_sha256": "65897cf36df8065e20946607aea5e51753418a115075d5bcd05a00834085bc82",
+    "binary": "session-group-pin-native-final-v4/old-faults.so",
+    "sha256": "eecb64535b48534b1bca32162277044b0d9979341b5b3021dff10e84a8b47b2f",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "sealed-transfer-backing-native-final-v2/old-kernel-oracle.c",
+    "source_sha256": "f11b0e2e87fa9fb8b91a44fb529e8d40448575306bd2fb34d672654a5f90517b",
+    "binary": "session-group-pin-native-final-v4/old-kernel-oracle",
+    "sha256": "432a57bcfb39d9aa012eb4feefa62d70e4e0124f8906b6ef3aef6c0610db6f5f",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "sealed-transfer-backing-native-final-v2/group-oracle.cpp",
+    "source_sha256": "1bba3361d289431be08be300b25252cd60d1261200b59e643b8956478cbac95d",
+    "binary": "session-group-pin-native-final-v4/group-oracle",
+    "sha256": "ef21d3d7eea64de6270bfc8ef14dfcb77b5094699d98297af098ca7ceaf5648f",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "sealed-transfer-backing-native-final-v2/abi-oracle.cpp",
+    "source_sha256": "b4da0408eb91bad032c3bb1e10b7f7ace44f08889a1dcb3c39e361faaae2e1bc",
+    "binary": "session-group-pin-native-final-v4/abi-oracle",
+    "sha256": "24c58661f9bdcf8e06c6a00649afa179dcf60028305337f834a58e5c4b1613bb",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "sealed-transfer-backing-native-final-v2/session-faults.so.c",
+    "source_sha256": "adf5344b087efd853b35bb35458589e617a888713dccfd3010520e0911963ec6",
+    "binary": "session-group-pin-native-final-v4/session-faults.so",
+    "sha256": "d4ea4289fa0e1814face3c0666c8657eb47befd7b2c0053fa607c85251e36ed1",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/sealed_transfer_pin_faults.c",
+    "source_sha256": "7c9f22aa7a6c969dd3abfb0868228dbaac8b6db85b72a978225cb653eec5736f",
+    "binary": "session-group-pin-native-final-v4/group-pin-faults.so",
+    "sha256": "287f493e41fbf9d78c144509e2a1d8f380f216ae7f5834738a57fd170684805a",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/program_pin_faults.c",
+    "source_sha256": "6212912dc055e8b8ff6b181f6673cb414813c0cae02b4a4ac5cff3ec0f921425",
+    "binary": "session-group-pin-native-final-v4/program-pin-faults.so",
+    "sha256": "6cee6e55b0a2d1b009ba20ab0be7cbb39929fbfc87abb30d8abe3339b9cebb61",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/hailo_program_pin_oracle.c",
+    "source_sha256": "b5bfb41b8abc76b8df7af7cb5ae56ac478e2b69487b6695f9250fcf70992492a",
+    "binary": "session-group-pin-native-final-v4/program-pin-oracle",
+    "sha256": "3edd0d01bcfe30fe8534829c9224baa6fbe63c66b2e6272d8b6dda3e9673d338",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  },
+  {
+    "source": "tests/session_transfer_pin_faults.c",
+    "source_sha256": "0ec3ae119c4f2a7d54ca3ee36b940b5cceec49b00c1401caf2ff5f74f4d83139",
+    "binary": "session-group-pin-native-final-v4/session-transfer-faults.so",
+    "sha256": "cc93fd64a36327144016d149bad56bb40c103b9a05edb932152cddf48cf9dc02",
+    "returncode": 0,
+    "diagnostic_bytes": 0
+  }
+]

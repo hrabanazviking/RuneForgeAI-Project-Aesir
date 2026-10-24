@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 142 |
+| `verified` | 143 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **187** |
+| **Total** | **188** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4260,3 +4260,27 @@ No new capability ID or hardware/complete-source execution claim.
   8 ELF tables;708/87 old and711/88 final inputs,158 controls and806 pre-code
   archive paths verified. One old production edit,zero old test edits;failed
   builds/warning gate retained. No whole-repository or hosted-CI pass.
+
+
+### AES-CONTROL-012 — Same-file sealed session ownership (host qualification)
+
+- **Status:** `verified`
+- **Owner:** Original smidr/session_transfer_pin.mojo.
+- **Claim sources:** TASK_hailo10h_session_transfer_pin.md published4fd644d before
+  code;docs/HAILO10H_MOJO_SESSION_TRANSFER_PIN.md.
+- **Implementation evidence:** One movable session owns assigned channels/lists
+  and both actual sealed views/backing;existing original helpers are reused.
+  Confirmed file cleanup differs from permanent uncertain-close retention.
+- **Executable evidence:**76 methods/5554 primary/full frozen comparisons,
+  including101 new native frozen-image checks;44 refusal/poison recovery joins,
+  22 direct API fresh-owner guard cycles and8 poison reuse refusals.
+- **Evidence boundary:** Host mocked driver mapping only;225 real kernel views,
+  no physical Hailo pin/DMA,capacity prediction,hardware idle/remote closure
+  confirmation,program activation or numerical source-model execution.
+- **Next acceptance gate:** Separately bounded same-file physical map-only
+  session qualification,then actual grouped transfer/completion/late cleanup and
+  numerical configuration/packing/placement/program/results toward broad100%.
+- **Audit:**101 current+101 frozen traces;8 actual both-part retention cases per
+  image.23 Mojo/10 test C/C++ links,66 ELF tables;711/88 old,714/89 final inputs,
+  161 controls and827 contract paths exact. Zero old production/test edits;
+  initial oracle failure and all superseded attempts retained. No global CI pass.

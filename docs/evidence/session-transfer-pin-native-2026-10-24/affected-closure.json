@@ -1,0 +1,11 @@
+{
+  "modules": [
+    "smidr.session_transfer_pin",
+    "smidr.tools.session_transfer_pin",
+    "tests.hailo_session_transfer_pin_api"
+  ],
+  "executables": [
+    "smidr/tools/session_transfer_pin.mojo",
+    "tests/hailo_session_transfer_pin_api.mojo"
+  ]
+}

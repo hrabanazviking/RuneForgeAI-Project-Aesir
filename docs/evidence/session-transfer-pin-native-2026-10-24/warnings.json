@@ -1,0 +1,174 @@
+{
+  "build-000.stderr": [
+    "hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-001.stderr": [
+    "./hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "./hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-002.stderr": [
+    "hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-003.stderr": [
+    "./hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-004.stderr": [],
+  "build-005.stderr": [],
+  "build-006.stderr": [],
+  "build-007.stderr": [],
+  "build-008.stderr": [
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-009.stderr": [
+    "smidr/tools/soc_abi.mojo:47:27: warning: assignment to 'data' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-010.stderr": [
+    "./hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "./hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-011.stderr": [
+    "hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-012.stderr": [],
+  "build-013.stderr": [],
+  "build-014.stderr": [],
+  "build-015.stderr": [
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?"
+  ],
+  "build-016.stderr": [
+    "./hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "./hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-017.stderr": [
+    "./hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "./hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-018.stderr": [
+    "./hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "./hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "./hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-019.stderr": [
+    "hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/blocking_call.mojo:64:13: warning: ref 'index' was never used, remove it?",
+    "hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-020.stderr": [
+    "hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-021.stderr": [
+    "hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "smidr/tools/soc_rpc_device.mojo:22:24: warning: assignment to 'handle_known' was never used; assign to '_' instead?",
+    "hailbru/blocking_call.mojo:64:13: warning: ref 'index' was never used, remove it?",
+    "hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_abi.mojo:207:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_rpc.mojo:67:17: warning: ref 'snapshot' was never used, remove it?",
+    "hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ],
+  "build-022.stderr": [
+    "hailbru/soc_session.mojo:238:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:241:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:245:31: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:161:36: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:185:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_session.mojo:191:40: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result",
+    "hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?",
+    "hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?",
+    "hailbru/soc_session.mojo:92:13: warning: ref 'attempt' was never used, remove it?"
+  ]
+}
