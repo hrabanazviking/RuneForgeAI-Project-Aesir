@@ -33,6 +33,8 @@ from smidr.semantic_plan import (
 from smidr.rotary_policy import RotaryLoweringPolicy, validate_rotary_policy
 from smidr.expanded_graph import ExpandedGraph, expand_semantic_graph
 from smidr.safetensors_constants import SafetensorsConstantWindow
+from smidr.source_weight_sharing import SourceWeightSharingPolicy, empty_source_weight_sharing, _same_sharing_policy
+from smidr.semantic_plan import validate_plan_source_sharing
 
 
 @fieldwise_init
@@ -89,7 +91,8 @@ def _same_request(a: OrdinaryCompilationRequest, b: OrdinaryCompilationRequest) 
 
 
 def _ordinary_plan(mut schema: OrdinaryProjectionSchema,
-                   r: OrdinaryCompilationRequest) raises -> SemanticPlan:
+                   r: OrdinaryCompilationRequest,
+                   source_sharing: SourceWeightSharingPolicy = empty_source_weight_sharing()) raises -> SemanticPlan:
     _admit_request(schema, r)
     ref architecture = schema.binding.architecture
     var geometry = DecoderGeometry(architecture.layers.layer_count,
@@ -117,7 +120,7 @@ def _ordinary_plan(mut schema: OrdinaryProjectionSchema,
     var source = schema.binding.source^
     schema.binding.source = SourceTensorInventory()
     return build_decoder_semantic_plan(source^, geometry, scalars, policy, bias,
-        activation, session, window, scaling, r.query_tokens, r.past_tokens, r.context_capacity)
+        activation, session, window, scaling, r.query_tokens, r.past_tokens, r.context_capacity, source_sharing)
 
 
 def compile_owned_indexed_ordinary_graph(var binding: OwnedIndexedOrdinaryBinding,
@@ -155,6 +158,10 @@ def load_owned_unindexed_ordinary_compiler(path: String, weight_label: String, c
 
 
 def _selected_weight(plan: SemanticPlan, actual: SemanticPlan, operation: Int) raises -> String:
+    _same_sharing_policy(plan.source_sharing, actual.source_sharing)
+    if plan.sharing_work != actual.sharing_work:
+        raise Error("SourceWeightSharing: retained compiler sharing charge differs")
+    validate_plan_source_sharing(plan)
     # This guards a semantic operation's static component selection. It is not a
     # generic immutable identity for every expanded value, recipe or operation.
     _same_source(plan.source, actual.source)

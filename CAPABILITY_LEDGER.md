@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 138 |
+| `verified` | 139 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **183** |
+| **Total** | **184** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4166,3 +4166,27 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:**1176 new traces,3660 original fds,3656 sealed files and1847 mappings
   with balanced cleanup.32 ELF tables;695/83 old and698/84 final source/test
   copies,150 controls. Failed API/harness/audit attempts remain immutable.
+
+
+### AES-SOURCE-037 — Retained tied-output sources through mathematical lowering
+
+- **Status:** `verified`
+- **Owner:** Original smidr/source_weight_sharing.mojo and owned_tied_output_compiler.mojo.
+- **Claim sources:** TASK_hailo10h_owned_tied_output_compiler.md published155d153
+  before code;docs/HAILO10H_MOJO_OWNED_TIED_OUTPUT_COMPILER.md.
+- **Implementation evidence:** Typed structural sharing,actual operation-use
+  coverage,distinct full-byte source constants,fresh complete retained-source
+  comparisons before graph construction and guarded static component selection.
+- **Executable evidence:**56 selected suites/401 methods,23440 primary calls,
+  18405 complete frozen pairs. New8 methods/4284 calls,1280 payload-byte refusals,
+  2027 refusal-to-fresh-success controls,18 mutation and41 independent fault pairs.
+- **Evidence boundary:** Observed source-sharing reconciliation and mathematical
+  lowering only;no generic artifact identity,complete architecture admission,
+  physical weight deduplication,numerical/device or source-model execution.
+- **Next acceptance gate:** Actual H10H numerical configuration/packing/placement/
+  program transport/activation/results/cleanup and every missing format/model/
+  operation toward broad ordinary UNMODIFIED source-model support100%.
+- **Audit:**4241 new traces,12717 beneath-root opens,12717 sealed files and6298
+  exact map/unmaps,all observed fd generations closed.130 Mojo/11 C links,
+  282 ELF tables,698/84 old and702/85 final copies,152 immutable controls.
+  One inherited warning and all failed type/harness attempts remain preserved.

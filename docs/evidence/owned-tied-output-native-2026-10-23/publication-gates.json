@@ -1,0 +1,67 @@
+{
+  "archive_verification": {
+    "files": 183903,
+    "aggregate_bytes": 7525543854,
+    "pages": 19,
+    "all_raw_hashes_exact": true
+  },
+  "gates": {
+    "drift": {
+      "exit_code": 1,
+      "outputs": {
+        "stdout": {
+          "bytes": 2471515,
+          "sha256": "a94834c367d29aea5c03a8aab7a90fe3bc4c6f442451e50340e7572503bd7c40"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    "schema": {
+      "exit_code": 1,
+      "outputs": {
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "bytes": 1132,
+          "sha256": "731f174e5e6e09b66de5e7143f5790b6d86cb6ce68553ee9e9df4c1f0b0005ca"
+        }
+      }
+    },
+    "census": {
+      "exit_code": 0,
+      "outputs": {
+        "stdout": {
+          "bytes": 101293,
+          "sha256": "6a6030b86285e90f7952efca3f0f2b1422e7dfee795f62d00fc2486b41da88cd"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  },
+  "drift_baseline": {
+    "bytes": 2471216,
+    "sha256": "0c91ff4607a365c7df8311852a8412f34162e5e4b82e7a166dcfbd7212e24d76",
+    "issues": 23405
+  },
+  "drift_current_issues": 23408,
+  "new_drift_findings": [
+    " - docs/evidence/owned-tied-output-native-2026-10-23/audit-final-v4.py:17: machine-local absolute path",
+    " - docs/evidence/owned-tied-output-native-2026-10-23/census.json:448: machine-local absolute path",
+    " - docs/evidence/owned-tied-output-native-2026-10-23/census.json:449: machine-local absolute path"
+  ],
+  "schema_errors": 9,
+  "census": {
+    "capabilities": 184,
+    "verified": 139,
+    "new_entry_complete": true
+  },
+  "whole_repository_or_hosted_ci_pass": false
+}

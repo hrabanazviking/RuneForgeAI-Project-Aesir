@@ -1,7 +1,8 @@
 # Original projection-wide bias source/edge checks. Mathematical IR only.
 from std.collections import Dict
 from smidr.bias_policy import empty_bias_policy, same_bias_policy, validate_bias_policy
-from smidr.semantic_plan import validate_plan_window_state, SemanticPlan, checked_product, is_plan_export
+from smidr.semantic_plan import validate_plan_window_state, SemanticPlan, checked_product, is_plan_export, validate_plan_source_sharing
+from smidr.source_weight_sharing import validate_shared_source_coverage
 from smidr.source_inventory import validate_source_weight
 
 
@@ -30,6 +31,7 @@ def projection_bias_width(plan: SemanticPlan, index: Int) raises -> Int:
 
 
 def validate_plan_bias_state(plan: SemanticPlan) raises:
+    validate_plan_source_sharing(plan)
     validate_plan_window_state(plan)
     if not plan.explicit_bias:
         if not same_bias_policy(plan.bias_policy, empty_bias_policy()) or plan.bias_work != 0:
@@ -42,11 +44,12 @@ def validate_plan_bias_state(plan: SemanticPlan) raises:
         len(plan.source.bindings), plan.source.policy.work)
     if work != plan.bias_work or len(plan.operations) > plan.source.policy.work or len(plan.tensors) > plan.source.policy.work:
         raise Error("DecoderBias: policy/graph work state changed")
-    if len(plan.used_weights) != len(plan.source.bindings):
-        raise Error("DecoderBias: incomplete consumed source set")
-    for name in plan.source.bindings:
-        if name not in plan.used_weights or not plan.used_weights[name]:
-            raise Error("DecoderBias: source binding was not consumed")
+    if len(plan.source_sharing.aliases) == 0:
+        if len(plan.used_weights) != len(plan.source.bindings):
+            raise Error("DecoderBias: incomplete consumed source set")
+        for name in plan.source.bindings:
+            if name not in plan.used_weights or not plan.used_weights[name]:
+                raise Error("DecoderBias: source binding was not consumed")
     var wanted = Dict[String, List[Int]]()
     for layer in range(plan.layers):
         var p = String("blk.") + String(layer) + "."
@@ -92,8 +95,11 @@ def validate_plan_bias_state(plan: SemanticPlan) raises:
             if id < 0 or id >= len(plan.tensors) or plan.tensors[id].producer >= i:
                 raise Error("DecoderBias: unavailable source input")
             last[id] = i
-    if len(actual_weights) != len(plan.source.bindings):
-        raise Error("DecoderBias: retained source tensor has no operation use")
+    if len(plan.source_sharing.aliases) == 0:
+        if len(actual_weights) != len(plan.source.bindings):
+            raise Error("DecoderBias: retained source tensor has no operation use")
+    else:
+        validate_shared_source_coverage(plan.source, actual_weights, plan.source_sharing)
     if len(seen) != len(wanted) or len(linear_seen) != len(wanted):
         raise Error("DecoderBias: incomplete selected bias/linear set")
     for i in range(len(plan.operations)):

@@ -1,0 +1,461 @@
+{
+  "tied-output": {
+    "methods": 8,
+    "primary": 4284,
+    "frozen_pairs": 0
+  },
+  "identity": {
+    "methods": 7,
+    "primary": 1176,
+    "frozen_pairs": 1176,
+    "frozen_accept": 797,
+    "frozen_refuse": 379
+  },
+  "owned-ordinary-compiler": {
+    "methods": 10,
+    "primary": 1174,
+    "frozen_pairs": 1174,
+    "frozen_accept": 375,
+    "frozen_refuse": 799
+  },
+  "source_root": {
+    "methods": 5,
+    "primary": 77,
+    "frozen_pairs": 77,
+    "frozen_accept": 16,
+    "frozen_refuse": 61
+  },
+  "shard_collection": {
+    "methods": 5,
+    "primary": 205,
+    "frozen_pairs": 205,
+    "frozen_accept": 132,
+    "frozen_refuse": 73
+  },
+  "unindexed_source": {
+    "methods": 4,
+    "primary": 178,
+    "frozen_pairs": 178,
+    "frozen_accept": 135,
+    "frozen_refuse": 43
+  },
+  "sealed-copy": {
+    "methods": 5,
+    "primary": 186,
+    "frozen_pairs": 186,
+    "frozen_accept": 130,
+    "frozen_refuse": 56
+  },
+  "sealed-safetensors": {
+    "methods": 8,
+    "primary": 176,
+    "frozen_pairs": 176,
+    "frozen_accept": 110,
+    "frozen_refuse": 66
+  },
+  "sealed-metadata": {
+    "methods": 6,
+    "primary": 376,
+    "frozen_pairs": 376,
+    "frozen_accept": 260,
+    "frozen_refuse": 116
+  },
+  "sealed-collection": {
+    "methods": 8,
+    "primary": 398,
+    "frozen_pairs": 398,
+    "frozen_accept": 244,
+    "frozen_refuse": 154
+  },
+  "decoder_projections": {
+    "methods": 7,
+    "primary": 115,
+    "frozen_pairs": 115,
+    "frozen_accept": 50,
+    "frozen_refuse": 65
+  },
+  "ordinary_projection_schema": {
+    "methods": 7,
+    "primary": 211,
+    "frozen_pairs": 202,
+    "frozen_accept": 77,
+    "frozen_refuse": 125
+  },
+  "decoder_architecture": {
+    "methods": 7,
+    "primary": 200,
+    "frozen_pairs": 200,
+    "frozen_accept": 69,
+    "frozen_refuse": 131
+  },
+  "decoder_layers": {
+    "methods": 7,
+    "primary": 207,
+    "frozen_pairs": 207,
+    "frozen_accept": 93,
+    "frozen_refuse": 114
+  },
+  "owned-compiler": {
+    "methods": 8,
+    "primary": 319,
+    "frozen_pairs": 319,
+    "frozen_accept": 275,
+    "frozen_refuse": 44
+  },
+  "owned-binding": {
+    "methods": 8,
+    "primary": 840,
+    "frozen_pairs": 840,
+    "frozen_accept": 461,
+    "frozen_refuse": 379
+  },
+  "sealed-gguf": {
+    "methods": 6,
+    "primary": 221,
+    "frozen_pairs": 221,
+    "frozen_accept": 156,
+    "frozen_refuse": 65
+  },
+  "iq4": {
+    "methods": 14,
+    "primary": 546,
+    "frozen_pairs": 546,
+    "frozen_accept": 345,
+    "frozen_refuse": 201
+  },
+  "source_inventory": {
+    "methods": 6,
+    "primary": 16,
+    "frozen_pairs": 16,
+    "frozen_accept": 8,
+    "frozen_refuse": 8
+  },
+  "semantic_plan": {
+    "methods": 9,
+    "primary": 56,
+    "frozen_pairs": 56,
+    "frozen_accept": 14,
+    "frozen_refuse": 42
+  },
+  "typed_decoder": {
+    "methods": 7,
+    "primary": 493,
+    "frozen_pairs": 453,
+    "frozen_refuse": 240,
+    "frozen_accept": 213
+  },
+  "storage_estimate": {
+    "methods": 7,
+    "primary": 61,
+    "frozen_pairs": 61,
+    "frozen_accept": 32,
+    "frozen_refuse": 29
+  },
+  "primitive_recipes": {
+    "methods": 7,
+    "primary": 44,
+    "frozen_pairs": 44,
+    "frozen_accept": 27,
+    "frozen_refuse": 17
+  },
+  "expanded_graph": {
+    "methods": 5,
+    "primary": 45,
+    "frozen_pairs": 45,
+    "frozen_accept": 32,
+    "frozen_refuse": 13
+  },
+  "expanded_storage": {
+    "methods": 7,
+    "primary": 88,
+    "frozen_pairs": 88,
+    "frozen_accept": 34,
+    "frozen_refuse": 54
+  },
+  "matrix_tiles": {
+    "methods": 7,
+    "primary": 860,
+    "frozen_pairs": 860,
+    "frozen_accept": 799,
+    "frozen_refuse": 61
+  },
+  "source_weight_tiles": {
+    "methods": 5,
+    "primary": 286,
+    "frozen_pairs": 286,
+    "frozen_accept": 256,
+    "frozen_refuse": 30
+  },
+  "cache_layout": {
+    "methods": 6,
+    "primary": 89,
+    "frozen_pairs": 89,
+    "frozen_refuse": 71,
+    "frozen_accept": 18
+  },
+  "source_float_constants": {
+    "methods": 6,
+    "primary": 64,
+    "frozen_pairs": 64,
+    "frozen_accept": 40,
+    "frozen_refuse": 24
+  },
+  "source_q4k_constants": {
+    "methods": 8,
+    "primary": 57,
+    "frozen_pairs": 57,
+    "frozen_accept": 28,
+    "frozen_refuse": 29
+  },
+  "source_q5q6_constants": {
+    "methods": 7,
+    "primary": 88,
+    "frozen_pairs": 88,
+    "frozen_refuse": 48,
+    "frozen_accept": 40
+  },
+  "semantic_storage": {
+    "methods": 7,
+    "primary": 216,
+    "frozen_pairs": 204,
+    "frozen_accept": 162,
+    "frozen_refuse": 42
+  },
+  "source_scalars": {
+    "methods": 4,
+    "primary": 102,
+    "frozen_pairs": 102,
+    "frozen_accept": 42,
+    "frozen_refuse": 60
+  },
+  "rotary_recipes": {
+    "methods": 5,
+    "primary": 135,
+    "frozen_pairs": 135,
+    "frozen_accept": 58,
+    "frozen_refuse": 77
+  },
+  "decoder_graph_policy": {
+    "methods": 5,
+    "primary": 152,
+    "frozen_pairs": 114,
+    "frozen_accept": 43,
+    "frozen_refuse": 71
+  },
+  "decoder_bias": {
+    "methods": 9,
+    "primary": 299,
+    "frozen_pairs": 291,
+    "frozen_accept": 139,
+    "frozen_refuse": 152
+  },
+  "decoder_activation": {
+    "methods": 9,
+    "primary": 503,
+    "frozen_pairs": 491,
+    "frozen_accept": 123,
+    "frozen_refuse": 368
+  },
+  "decoder_session": {
+    "methods": 7,
+    "primary": 606,
+    "frozen_pairs": 596,
+    "frozen_accept": 171,
+    "frozen_refuse": 425
+  },
+  "decoder_window": {
+    "methods": 7,
+    "primary": 725,
+    "frozen_pairs": 701,
+    "frozen_accept": 202,
+    "frozen_refuse": 499
+  },
+  "decoder_scaling": {
+    "methods": 7,
+    "primary": 932,
+    "frozen_pairs": 900,
+    "frozen_accept": 268,
+    "frozen_refuse": 632
+  },
+  "q8": {
+    "methods": 10,
+    "primary": 137,
+    "frozen_pairs": 137,
+    "frozen_accept": 78,
+    "frozen_refuse": 59
+  },
+  "classic32": {
+    "methods": 12,
+    "primary": 788,
+    "frozen_pairs": 788,
+    "frozen_accept": 488,
+    "frozen_refuse": 300
+  },
+  "q2q3": {
+    "methods": 13,
+    "primary": 530,
+    "frozen_pairs": 530,
+    "frozen_accept": 339,
+    "frozen_refuse": 191
+  },
+  "context": {
+    "methods": 4,
+    "primary": 122,
+    "frozen_pairs": 122,
+    "frozen_accept": 91,
+    "frozen_refuse": 31
+  },
+  "history": {
+    "methods": 4,
+    "primary": 244,
+    "frozen_pairs": 236,
+    "frozen_accept": 162,
+    "frozen_refuse": 74
+  },
+  "graph": {
+    "methods": 4,
+    "primary": 306,
+    "frozen_pairs": 304,
+    "frozen_accept": 169,
+    "frozen_refuse": 135
+  },
+  "context-actions": {
+    "methods": 7,
+    "primary": 244,
+    "frozen_pairs": 199,
+    "frozen_accept": 90,
+    "frozen_refuse": 109
+  },
+  "lcu-actions": {
+    "methods": 10,
+    "primary": 1869,
+    "frozen_pairs": 1412,
+    "frozen_accept": 920,
+    "frozen_refuse": 492
+  },
+  "source_storage": {
+    "methods": 7,
+    "primary": 452,
+    "frozen_pairs": 452,
+    "frozen_refuse": 85,
+    "frozen_accept": 367
+  },
+  "gguf_shapes": {
+    "methods": 6,
+    "primary": 104,
+    "frozen_pairs": 104,
+    "frozen_accept": 56,
+    "frozen_refuse": 48
+  },
+  "safetensors_constants": {
+    "methods": 9,
+    "primary": 97,
+    "frozen_pairs": 97,
+    "frozen_accept": 77,
+    "frozen_refuse": 20
+  },
+  "source_config": {
+    "methods": 6,
+    "primary": 190,
+    "frozen_pairs": 190,
+    "frozen_accept": 85,
+    "frozen_refuse": 105
+  },
+  "source_index": {
+    "methods": 10,
+    "primary": 516,
+    "frozen_pairs": 516,
+    "frozen_accept": 175,
+    "frozen_refuse": 341
+  },
+  "source-digest": {
+    "methods": 6,
+    "primary": 451,
+    "frozen_pairs": 451,
+    "frozen_accept": 418,
+    "frozen_refuse": 33
+  },
+  "safetensors-inventory": {
+    "methods": 11,
+    "primary": 219,
+    "frozen_pairs": 219,
+    "frozen_refuse": 110,
+    "frozen_accept": 109
+  },
+  "safetensors-fd": {
+    "methods": 5,
+    "primary": 365,
+    "frozen_pairs": 311,
+    "frozen_accept": 172,
+    "frozen_refuse": 139
+  },
+  "total": {
+    "methods": 401,
+    "primary": 23440,
+    "frozen_pairs": 18405,
+    "frozen_accept": 10270,
+    "frozen_refuse": 8135
+  },
+  "new": {
+    "independent_recipe_source_locations": 22150,
+    "all_static_operation_windows": 971,
+    "independent_complete_raw_source_bytes": 714880,
+    "accepted_full_graphs": 2214,
+    "actual_replaced_owner_byte_refusals": 4,
+    "individual_payload_byte_refusals": 1280
+  },
+  "new_traces": {
+    "other_open_fds": 182080,
+    "all_observed_closes": 207514,
+    "original_fds": 12717,
+    "memfds": 12717,
+    "sealed_digest_reads": 321256,
+    "successful_add_seals": 12697,
+    "actual_seal_checks": 487722,
+    "original_closes": 12717,
+    "sealed_readonly_maps": 6298,
+    "memfd_closes": 12717,
+    "sealed_unmaps": 6298,
+    "new_traces": 4241
+  },
+  "opaque_trace_records": [],
+  "retained_failed_attempts": [
+    "First sharing driver reference inserted an absent NoPE mask",
+    "First identity comparison omitted full source directory restoration"
+  ],
+  "scope": {
+    "old_mojo": 698,
+    "final_mojo": 702,
+    "old_python": 84,
+    "final_python": 85,
+    "old_modified": [
+      "smidr/bias_graph.mojo",
+      "smidr/expanded_graph.mojo",
+      "smidr/owned_ordinary_compiler.mojo",
+      "smidr/semantic_plan.mojo",
+      "smidr/tools/semantic_plan.mojo"
+    ],
+    "old_python_edits": 0,
+    "immutable_controls": 152,
+    "qualified_affected": 101,
+    "all_consumer_closure": 103,
+    "mojo_links": 130,
+    "c_links": 11,
+    "elf_tables": 282,
+    "inherited_warning_reviews": [
+      {
+        "source": "tests/h043_st_check.mojo",
+        "full_current": "Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/h043_st_check.mojo:20:\n./armvegr/safetensors.mojo:361:25: warning: assignment to 'out' was never used; assign to '_' instead?\n        var out = UInt16(0)\n                        ^\n",
+        "full_frozen": "Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/h043_st_check.mojo:20:\n./armvegr/safetensors.mojo:361:25: warning: assignment to 'out' was never used; assign to '_' instead?\n        var out = UInt16(0)\n                        ^\n",
+        "normalized": "Included from SOURCE/tests/h043_st_check.mojo:20:\n./armvegr/safetensors.mojo:UNCHANGED_BODY:25: warning: assignment to 'out' was never used; assign to '_' instead?\n        var out = UInt16(0)\n                        ^"
+      }
+    ],
+    "physical_calls": false,
+    "source_model_execution": false
+  },
+  "independent_control_audit": {
+    "individual_refusals_followed_by_fresh_success": 2027,
+    "complete_original_mutation_and_restoration_pairs": 18,
+    "independent_complete_fault_log_pairs": 41
+  }
+}

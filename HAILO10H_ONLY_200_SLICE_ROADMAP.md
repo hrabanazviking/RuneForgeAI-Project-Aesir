@@ -72,6 +72,13 @@ owners. Evidence:`docs/HAILO10H_MOJO_ORDINARY_TENSOR_IDENTITY.md`. Both source
 names remain;typed graph alias integration and actual numerical H10H execution
 remain work toward the unchanged broad model target100%.
 
+**Retained tied-output compiler update (2026-10-23):** typed sharing now retains
+both original source bindings and full packed bytes,with fresh byte guards and
+mathematical graph/constant integration.56 suites/401 methods and18405 complete
+frozen pairs;`docs/HAILO10H_MOJO_OWNED_TIED_OUTPUT_COMPILER.md`. Actual H10H numerical
+configuration,placement,transport/results and broad remaining model coverage
+stay open under the fixed broad ordinary unmodified source-model target100%.
+
 **Execution model:** 20 phases × 10 slices = exactly 200 slices. Every model operation must execute on Hailo-10H. Host CPU may perform ordinary application orchestration, tokenization, request handling, and I/O; it may not execute, shadow, serve, or fall back to LLM inference. Implement the Mojo-owned source-model import, lowering, device-program generation and execution needed for the owner's fixed target. The existing vendor-precompiled GenAI route is historical integration evidence and cannot define completion or supported-model scope. Do not route inference through Hailo-Ollama, another service, CPU, CUDA, or cloud. When a gate fails, keep working through bounded diagnostics, version/model alternatives supported by Hailo, and implementation fixes; record temporary blockers without converting them into terminal project decisions.
 
 **Slice execution:** Work through the numbered slices in order, completing the action and leaving a reviewable artifact, verified behavior, or evidence-backed decision. Build Æsir as the Mojo owner of the source-model-to-Hailo execution path; close the actual compiler, operation, configuration and transport gaps without substituting a catalog-only product. Keep the runtime boundary in-process; Hailo-Ollama is not the target.

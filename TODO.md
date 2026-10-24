@@ -1,3 +1,12 @@
+## 2026-10-23 — Retained tied-output mathematical source integration
+
+- [x] AES-SOURCE-037 preserve both ordinary source tensors through typed sharing,
+  fresh raw-byte guards and mathematical lowering;401 methods/18405 complete
+  frozen pairs. `docs/HAILO10H_MOJO_OWNED_TIED_OUTPUT_COMPILER.md`.
+- [ ] Continue actual H10H numerical configuration,packing,placement,program
+  transport/activation/results and remaining format/architecture/operation work
+  toward broad ordinary UNMODIFIED source-model support100%.
+
 ## 2026-10-23 — Retained ordinary raw representation comparison
 
 - [x] AES-SOURCE-036 complete source-bit comparison through actual retained

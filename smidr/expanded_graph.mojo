@@ -289,6 +289,11 @@ def _expand_semantic_graph(var plan: SemanticPlan, var recipes: PrimitiveRecipes
     if len(graph.source_values) != len(graph.source.tensors) or graph.source.logits not in graph.source_values:
         raise Error("ExpandedGraph: source value/export mapping is incomplete")
     graph.result = graph.source_values[graph.source.logits]
+    # Keep each original duplicate source as a distinct constant reference.
+    # The explicit source relation accounts for its semantic use via the target.
+    for i in range(len(graph.source.source_sharing.aliases)):
+        var alias_name = graph.source.source_sharing.aliases[i].alias_name
+        _ = graph.weight_reference(alias_name, False)
     var end = len(graph.operations)
     graph.values[graph.result].last_use = end
     for id in graph.source.cache_exports:

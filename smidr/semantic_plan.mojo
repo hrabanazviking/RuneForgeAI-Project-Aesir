@@ -12,6 +12,7 @@ from std.memory import bitcast
 from smidr.source_scalars import ScalarWord, DecoderScalars, empty_decoder_scalars, validate_decoder_scalars, validate_scalar_word, same_decoder_scalars, same_scalar_word
 from loader.packed_gguf import PackedGGUF
 from smidr.source_inventory import SourceTensorInventory, inventory_from_source, validate_source_inventory, validate_source_weight
+from smidr.source_weight_sharing import SourceWeightSharingPolicy, empty_source_weight_sharing, validate_source_weight_sharing, validate_shared_source_coverage
 
 
 def checked_product(a: Int, b: Int) raises -> Int:
@@ -127,6 +128,8 @@ struct SemanticOperation(Copyable, Movable):
 
 
 struct SemanticPlan(Movable):
+    var source_sharing: SourceWeightSharingPolicy
+    var sharing_work: Int
     var source: SourceTensorInventory
     var tensors: List[SemanticTensor]
     var operations: List[SemanticOperation]
@@ -173,6 +176,8 @@ struct SemanticPlan(Movable):
     var source_scalars: DecoderScalars
 
     def __init__(out self, var source: SourceTensorInventory):
+        self.source_sharing = empty_source_weight_sharing()
+        self.sharing_work = 0
         self.source = source^
         self.tensors = List[SemanticTensor]()
         self.operations = List[SemanticOperation]()
@@ -262,6 +267,16 @@ def is_plan_export(plan: SemanticPlan, tensor: Int) raises -> Bool:
             if id == tensor:
                 return True
     return False
+
+
+def validate_plan_source_sharing(plan: SemanticPlan) raises:
+    var charge = validate_source_weight_sharing(plan.source, plan.source_sharing)
+    if charge != plan.sharing_work:
+        raise Error("SourceWeightSharing: retained source sharing charge changed")
+    if len(plan.source_sharing.aliases) != 0:
+        if not plan.explicit_scalars or not plan.explicit_bias or not plan.explicit_activation or not plan.explicit_session or not plan.explicit_window or not plan.explicit_scaling or plan.explicit_dynamic or plan.decoder_policy.output_weight != "token_embd.weight":
+            raise Error("SourceWeightSharing: complete ordinary source recipe required")
+        validate_shared_source_coverage(plan.source, plan.used_weights, plan.source_sharing)
 
 
 def validate_plan_scalar_state(plan: SemanticPlan) raises:
@@ -559,7 +574,8 @@ def build_decoder_semantic_plan(var source: SourceTensorInventory,
                               policy: DecoderGraphPolicy, bias: DecoderBiasPolicy,
                               activation: DecoderActivationPolicy, session: DecoderSessionPolicy, window: DecoderWindowPolicy, scaling: DecoderScalingPolicy,
                               query_tokens: Int, past_tokens: Int,
-                              context_capacity: Int) raises -> SemanticPlan:
+                              context_capacity: Int,
+                              source_sharing: SourceWeightSharingPolicy = empty_source_weight_sharing()) raises -> SemanticPlan:
     _ = validate_decoder_scalars(scalars)
     if scalars.work_limit > source.policy.work:
         raise Error("SourceScalar: scalar work limit exceeds source policy")
@@ -567,7 +583,7 @@ def build_decoder_semantic_plan(var source: SourceTensorInventory,
         geometry.heads, geometry.kv_heads, geometry.key_dim, geometry.value_dim,
         geometry.rope_dim, geometry.vocabulary, geometry.source_context, 0, 0, geometry.source_layout)
     return _build_decoder_semantic_plan(source^, p, scalars, True, policy,
-        query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True, window, True, scaling, True)
+        query_tokens, past_tokens, context_capacity, bias, True, activation, True, session, True, window, True, scaling, True, source_sharing=source_sharing)
 
 
 def build_dynamic_decoder_semantic_plan(var source: SourceTensorInventory,
@@ -634,7 +650,8 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
                                scaling_policy: DecoderScalingPolicy = empty_scaling_policy(),
                                explicit_scaling: Bool = False,
                                dynamic_before: DynamicDecoderHistory = empty_dynamic_decoder_history(),
-                               explicit_dynamic: Bool = False) raises -> SemanticPlan:
+                               explicit_dynamic: Bool = False,
+                               source_sharing: SourceWeightSharingPolicy = empty_source_weight_sharing()) raises -> SemanticPlan:
     """Build an explicitly selected mathematical recipe from tagged values."""
     validate_source_inventory(source)
     var dynamic_after = empty_dynamic_decoder_history()
@@ -678,6 +695,8 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
             raise Error("DecoderScaling: explicit session/window ownership required")
         scaling_work = validate_scaling_policy(scaling_policy, source.policy.work)
     var plan = SemanticPlan(source^)
+    plan.sharing_work = validate_source_weight_sharing(plan.source, source_sharing)
+    plan.source_sharing = source_sharing.copy()
     plan.explicit_dynamic = explicit_dynamic
     if explicit_dynamic:
         plan.dynamic_source_context = parameters.source_context
@@ -798,9 +817,11 @@ def _build_decoder_semantic_plan(var source: SourceTensorInventory,
     x = plan.emit("rms_norm", "output_norm", [x], [query_tokens, plan.hidden], "output_norm.weight")
     plan.logits = plan.emit("linear", "logits", [x], [query_tokens, plan.vocabulary], output_weight)
     # Exact consumed tensor set: do not silently omit biases, norms or factors.
-    for name in plan.source.bindings:
-        if name not in plan.used_weights:
-            raise Error("SemanticPlan: source tensor semantics unresolved: " + name)
+    if len(plan.source_sharing.aliases) == 0:
+        for name in plan.source.bindings:
+            if name not in plan.used_weights:
+                raise Error("SemanticPlan: source tensor semantics unresolved: " + name)
+    validate_plan_source_sharing(plan)
     var end = len(plan.operations)
     plan.tensors[plan.logits].last_use = end
     for i in range(len(plan.tensors)):

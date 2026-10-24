@@ -1,0 +1,21 @@
+--- ../ordinary-identity-native-review/drift-v2.stdout
+
++++ current
+
+@@ -2,5 +2,5 @@
+
+ WARNING: legacy tracked artifacts pending deletion approval: generated_executable=7 (aesir_engine/aesir_main, aesir_engine/main, aesir_engine/test, aesir_engine/test_engine, aesir_engine/test_server_loop, aesir_main, main)
+ WARNING: legacy tracked artifacts pending deletion approval: placeholder_model=1 (aesir_engine/model.gguf)
+-FAILED: 23405 repository consistency issue(s)
++FAILED: 23408 repository consistency issue(s)
+  - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2416: missing required field 'Evidence boundary'
+  - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2429: missing required field 'Evidence boundary'
+@@ -12158,4 +12158,7 @@
+
+  - docs/evidence/owned-compiler-contract-2026-10-22/controls.json:753: machine-local absolute path
+  - docs/evidence/owned-compiler-contract-2026-10-22/controls.json:760: machine-local absolute path
++ - docs/evidence/owned-tied-output-native-2026-10-23/audit-final-v4.py:17: machine-local absolute path
++ - docs/evidence/owned-tied-output-native-2026-10-23/census.json:448: machine-local absolute path
++ - docs/evidence/owned-tied-output-native-2026-10-23/census.json:449: machine-local absolute path
+  - docs/evidence/rotary-recipes-2026-10-21/archive-identities.json:3: machine-local absolute path
+  - docs/evidence/rotary-recipes-2026-10-21/archive-identities.json:8: machine-local absolute path

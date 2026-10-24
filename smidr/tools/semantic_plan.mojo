@@ -9,6 +9,7 @@ from smidr.tools.bias_policy import describe_bias_policy
 from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
 from smidr.tools.source_inventory import _quote
 from smidr.tools.source_scalars import describe_decoder_scalars, describe_scalar_word
+from smidr.semantic_plan import validate_plan_source_sharing
 
 
 def _integers(values: List[Int]) -> String:
@@ -55,6 +56,16 @@ def describe_semantic_plan(plan: SemanticPlan) raises -> String:
     if plan.explicit_dynamic:
         text = text.replace("\"schema_version\":6", "\"schema_version\":8")
         text += ",\"dynamic_state\":" + describe_dynamic_state(plan.dynamic_before, plan.dynamic_after, plan.past_tokens, plan.query_tokens, plan.dynamic_source_context, plan.dynamic_work, plan.source.policy.work, plan.session_policy.return_cache)
+    if len(plan.source_sharing.aliases) != 0:
+        validate_plan_source_sharing(plan)
+        text = text.replace("\"schema_version\":7", "\"schema_version\":9")
+        text += ",\"source_weight_sharing\":{\"scope\":\"structural_source_relation\",\"byte_identity_verified\":false,\"provenance\":" + _quote(plan.source_sharing.provenance) + ",\"work_limit\":" + String(plan.source_sharing.work) + ",\"charged_work\":" + String(plan.sharing_work) + ",\"aliases\":["
+        for i in range(len(plan.source_sharing.aliases)):
+            if i != 0:
+                text += ","
+            ref relation = plan.source_sharing.aliases[i]
+            text += "{\"alias_name\":" + _quote(relation.alias_name) + ",\"target_name\":" + _quote(relation.target_name) + ",\"source_origin\":" + _quote(relation.source_origin) + "}"
+        text += "]}"
     text += ",\"source_bytes\":" + String(plan.source.source_bytes) + ",\"weight_bytes\":" + String(plan.source.weight_bytes) + ",\"weights\":{"
     var first = True
     for name in plan.used_weights:

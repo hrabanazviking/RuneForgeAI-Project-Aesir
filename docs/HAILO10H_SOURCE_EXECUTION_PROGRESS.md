@@ -26,7 +26,7 @@ verified under `HAILO10H_MOJO_OWNED_ORDINARY_BINDING.md`. Retained ordinary
 source-to-mathematical-graph lifetime and guarded semantic component selection
 are now verified under `HAILO10H_MOJO_OWNED_ORDINARY_COMPILER.md`, against the
 pre-code `TASK_hailo10h_owned_ordinary_compiler.md`. Global artifact identity,
-duplicate tied-output identity, complete source/architecture/operation coverage
+wider duplicate-output conversion semantics, complete source/architecture/operation coverage
 and numerical Hailo execution remain open. Continue actual numerical
 configuration/program/results under `TASK_hailo10h_numerical_encoding_sources.md`
 and the same fixed target. Full controlling scope:
@@ -111,6 +111,14 @@ source identities,operation-use coverage and complete expanded source storage,
 with fresh full retained-source byte checks at graph/read boundaries. Design:
 `HAILO10H_TIED_OUTPUT_GRAPH_DESIGN_2026-10-23.md`. No implementation or new
 execution claim follows from this pre-code contract.
+
+That retained tied-output integration is now verified under
+`HAILO10H_MOJO_OWNED_TIED_OUTPUT_COMPILER.md`:56 suites/401 methods and18405 complete
+frozen pairs. Both original bindings and full packed source bytes remain,with
+fresh full comparisons at construction/read and distinct source constants.
+Eight new methods include1280 byte refusals and41 complete fault pairs. No
+physical deduplication,numerical H10H configuration or source-model execution
+is established. Continue those gaps and remaining broad source/model coverage.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
 verify, publish and advance each bounded work slice.

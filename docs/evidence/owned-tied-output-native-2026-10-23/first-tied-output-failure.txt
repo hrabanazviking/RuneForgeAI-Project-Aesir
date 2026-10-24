@@ -1,0 +1,30 @@
+test_01_equal_sources_both_kinds_collections_and_names (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_01_equal_sources_both_kinds_collections_and_names) ... ok
+test_02_source_modifier_geometry_and_full_mathematics (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_02_source_modifier_geometry_and_full_mathematics) ... ok
+test_03_every_sharing_source_policy_request_and_operation_guard (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_03_every_sharing_source_policy_request_and_operation_guard) ... ok
+test_04_bounds_source_semantics_unequal_bits_and_recovery (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_04_bounds_source_semantics_unequal_bits_and_recovery) ... ok
+test_05_complete_original_mutations_and_actual_owner_replacement (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_05_complete_original_mutations_and_actual_owner_replacement) ... ok
+test_06_copy_hash_read_close_faults_and_actual_fresh_recovery (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_06_copy_hash_read_close_faults_and_actual_fresh_recovery) ... ok
+test_07_additional_source_modifiers (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_07_additional_source_modifiers) ... FAIL
+
+======================================================================
+FAIL: test_07_additional_source_modifiers (test_hailo_owned_tied_output_compiler.OwnedTiedOutput.test_07_additional_source_modifiers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-host/qualify-tied-output.py", line 19, in additional_modifiers
+    f=self.fixture(indexed,layers=2);f[3].pop('no_rope_layers');f[3]['no_rope_layer_interval']=2;raw=json.dumps(f[3],ensure_ascii=False,separators=(',',':')).encode();f[1]['config.json']=raw;(f[0]/'config.json').write_bytes(raw);self.fixtures[-1]['files']['config.json']=raw.hex();self.exact(self.call(f,'all'),f,reference=True)
+                                                                                                                                                                                                                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_owned_tied_output_compiler.py", line 83, in exact
+    old=self.reference(f,req);other=old['source_graph'];self.assertEqual(sg['operations'],other['operations']);self.assertEqual(sg['tensors'],other['tensors']);self.assertEqual(sg['parameters'],other['parameters']);self.assertEqual(expanded['operations'],old['expanded']['operations']);self.assertEqual(expanded['values'][:-1],old['expanded']['values']);self.assertEqual(expanded['source_to_global'],old['expanded']['source_to_global'])
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [{'id[1288 chars]d': 'rope_query', 'inputs': [7, 1], 'window_to[7008 chars]ht'}] != [{'id[1288 chars]d': 'gqa_scaled_dot', 'inputs': [7, 8], 'windo[7008 chars]ht'}]
+
+First differing element 8:
+{'id': 8, 'kind': 'rope_query', 'inputs': [7, 1], 'window_to[120 chars]: ''}
+{'id': 8, 'kind': 'gqa_scaled_dot', 'inputs': [7, 8], 'windo[80 chars]: ''}
+
+Diff is 14974 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 7 tests in 241.022s
+
+FAILED (failures=1)

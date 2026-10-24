@@ -1,0 +1,17 @@
+{
+  "calls": 4284,
+  "outcomes": {
+    "accepted": 2257,
+    "refused": 2027
+  },
+  "comparisons": {
+    "complete_schema_oracles": 187,
+    "exact_static_component_words": 93988,
+    "complete_independent_math_references": 43,
+    "complete_tied_graphs": 187,
+    "failure_then_fresh_success": 2027,
+    "unequal_payload_byte_refusals": 1280,
+    "complete_original_mutation_pairs": 18,
+    "complete_fault_pairs": 41
+  }
+}

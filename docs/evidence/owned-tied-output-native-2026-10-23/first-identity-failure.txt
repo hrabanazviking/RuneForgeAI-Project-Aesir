@@ -1,0 +1,30 @@
+test_01_representations_chunks_and_complete_mismatches (__main__.OrdinaryTensorIdentity.test_01_representations_chunks_and_complete_mismatches) ... ok
+test_02_every_actual_output_payload_byte (__main__.OrdinaryTensorIdentity.test_02_every_actual_output_payload_byte) ... ok
+test_03_bounds_layout_missing_and_same_shape_roles (__main__.OrdinaryTensorIdentity.test_03_bounds_layout_missing_and_same_shape_roles) ... ok
+test_04_policy_schema_owner_cache_move_and_close (__main__.OrdinaryTensorIdentity.test_04_policy_schema_owner_cache_move_and_close) ... ok
+test_05_original_mutation_pairs_keep_complete_observed_bytes (__main__.OrdinaryTensorIdentity.test_05_original_mutation_pairs_keep_complete_observed_bytes) ... FAIL
+test_06_reported_fault_pairs_and_fresh_recovery (__main__.OrdinaryTensorIdentity.test_06_reported_fault_pairs_and_fresh_recovery) ... ok
+test_07_actual_seal_copy_mapping_faults_and_short_reads (__main__.OrdinaryTensorIdentity.test_07_actual_seal_copy_mapping_faults_and_short_reads) ... ok
+
+======================================================================
+FAIL: test_05_original_mutation_pairs_keep_complete_observed_bytes (__main__.OrdinaryTensorIdentity.test_05_original_mutation_pairs_keep_complete_observed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/test_hailo_ordinary_tensor_identity.py", line 109, in test_05_original_mutation_pairs_keep_complete_observed_bytes
+    self.restore(f);before=self.tree(f);r=self.call(f,'original:'+action);self.exact(r,f);post=self.tree(f);self.assertNotEqual(before,post);outputs.append((r.returncode,r.stdout,r.stderr));after.append(post);self.mutations.append(dict(root=str(f[0]),action=action,repeat=repeat,before=before,after=post));self.restore(f);self.assertEqual(self.tree(f),before)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_ordinary_tensor_identity.py", line 51, in call
+    return self.child([CONFIG.binary,'indexed' if indexed else 'unindexed',*args,left,right,bound,chunk] if tool else [CONFIG.api,'indexed' if indexed else 'unindexed',mode,*args,left,right,bound,chunk],env)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "tests/test_hailo_ordinary_tensor_identity.py", line 46, in child
+    r=subprocess.run(cmd,capture_output=True,text=True,timeout=120,stdin=subprocess.DEVNULL,env=env)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-host/pair-all.py", line 85, in pair
+    assert p.returncode==control.returncode,('exit',c,p.stderr,control.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('exit', ['/usr/bin/strace', '-f', '-yy', '-s', '512', '-o', '/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-host/identity/trace-1041.strace', '-e', 'trace=%file,%desc,%memory,%network,%process', '/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-final/entry-067', 'unindexed', 'original:same_size', '/home/pi/Documents/Codex/2026-10-19/u/work/tied-output-native-host/identity/model-0047', 'source-0.weights', 'config.json', '4095', '1000', '10000000', '9223372036854775807', '1048576', '5000', '10000000', '64', '1048576', '1000', '64', '10000000', '64', '1048584', '100', '1000', '10000000', '9223372036854775807', '100000000', '16777216', '16384', '16384', '16384', '4096', '100000', '10000000', '100000', '10000000', '8', '10000', '64', '10000000', '10000000', 'explicit ordinary projection test', '16777216', '16384', 'token_embd.weight', 'output.weight', '100000', '7'], '', 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: safetensors: malformed JSON object\n')
+
+----------------------------------------------------------------------
+Ran 7 tests in 59.674s
+
+FAILED (failures=1)
