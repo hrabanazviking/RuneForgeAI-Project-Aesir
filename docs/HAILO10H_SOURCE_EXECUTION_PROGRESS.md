@@ -357,3 +357,12 @@ is map-only acceptance,not numerical source-model execution or all-failure
 hardware/remote cleanup confirmation. Actual grouped counts/completion/total
 deadlines/late cleanup and numerical configuration/packing/placement/program/
 results remain required toward broad ordinary UNMODIFIED models100%.
+
+
+Prepared/direct launch continuation:
+`HAILO10H_GROUP_LAUNCH_BOUNDARY_2026-10-24.md` qualifies queue-status versus
+actual launch-return distinctions without adopting a count algorithm or a
+zero-buffer trigger. Next original HOST-ONLY grouped control owner follows
+`TASK_hailo10h_grouped_control_rpc.md` on the existing natural20/2048 frame
+boundary.715/90 actual inputs and164 controls are frozen before code. No new
+implementation,device request,DMA or source-model execution is claimed here.

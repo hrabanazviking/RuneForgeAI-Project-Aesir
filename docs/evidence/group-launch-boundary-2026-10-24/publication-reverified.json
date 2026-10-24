@@ -1,0 +1,13 @@
+{
+  "archive_paths": 833,
+  "source_inputs": 715,
+  "test_inputs": 90,
+  "controls": 164,
+  "images_and_compiler_exact": true,
+  "no_native_implementation": true,
+  "no_device_calls": true,
+  "schema_and_drift_unchanged": true,
+  "capability_count_unchanged": 189,
+  "verified_count_unchanged": 144,
+  "global_ci_pass": false
+}
