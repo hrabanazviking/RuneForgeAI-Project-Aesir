@@ -1,3 +1,13 @@
+## 2026-10-24 — Owned grouped control frames,host qualification
+
+- [x] AES-CONTROL-014 bind natural header/body spans to owned session storage,
+  actual returned-count policy,total deadline and permanent failure refusal;
+  78 methods/4737 complete frozen comparisons.
+  `docs/HAILO10H_MOJO_GROUP_CONTROL_RPC.md`. No physical DMA or model execution.
+- [ ] Continue typed non-inference grouped lifecycle/cleanup and separately
+  bounded physical evidence,then actual numerical configuration/program/results
+  and remaining broad ordinary UNMODIFIED source-model support100%.
+
 ## 2026-10-24 — Same-file physical session maps
 
 - [x] AES-CONTROL-013 qualify one baseline plus three same-file two-part map-only

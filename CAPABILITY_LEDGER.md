@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 144 |
+| `verified` | 145 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **189** |
+| **Total** | **190** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4307,3 +4307,28 @@ No new capability ID or hardware/complete-source execution claim.
   3 Mojo/2 C/C++ links,10 ELF tables;714/89 old,715/90 final inputs,163 controls
   and811 contract paths exact. Zero old production/test edits. Recorder-field
   failure retained;no repeated physical child. No whole-repository/hosted-CI pass.
+
+
+### AES-CONTROL-014 — Owned grouped control-frame exchange (host qualification)
+
+- **Status:** `verified`
+- **Owner:** Original hailbru/soc_group_rpc.mojo.
+- **Claim sources:** TASK_hailo10h_grouped_control_rpc.md published5af009a before
+  code;docs/HAILO10H_MOJO_GROUP_CONTROL_RPC.md.
+- **Implementation evidence:** Same-file session/storage owner forms natural
+  header/body H2D spans,observes asymmetric positive launch returns,correlates
+  IRQ transfer completions and enforces one total admission deadline/poison.
+- **Executable evidence:**78 methods/4737 complete frozen comparisons,including
+  287 new native pairs with complete normalized fault-state comparisons.
+  Scope/preflight/partial/late/error/uncertain-close recovery cases pass.
+- **Evidence boundary:** Host mocked exchange only;synthetic action1 frames do
+  not qualify a server endpoint. No real Hailo ioctl/DMA,RPC packet,descriptor
+  usage/capacity,all-failure hardware idle/remote closure or numerical execution.
+- **Next acceptance gate:** Typed non-inference grouped lifecycle/cleanup,then
+  separately bounded physical evidence;actual numerical configuration/packing/
+  placement/program/results and broad ordinary UNMODIFIED model support100%.
+- **Audit:**287 current+287 frozen traces;354 actual IRQ workers per image exit
+  before owning close attempts.742 VMAs/712 unmaps plus30 deliberate retentions
+  per image;33761 file generations/33754 closes plus7 retained mock fds.19 Mojo/
+  4 C/C++ links,46 ELF tables;715/90 old,718/91 final inputs,164 controls and833
+  contract paths exact. Zero old production/test edits;all failures retained.

@@ -366,3 +366,14 @@ zero-buffer trigger. Next original HOST-ONLY grouped control owner follows
 `TASK_hailo10h_grouped_control_rpc.md` on the existing natural20/2048 frame
 boundary.715/90 actual inputs and164 controls are frozen before code. No new
 implementation,device request,DMA or source-model execution is claimed here.
+
+
+Original grouped control-frame host qualification now passes78 methods/4737
+complete frozen comparisons under`HAILO10H_MOJO_GROUP_CONTROL_RPC.md`.
+Natural20/2048 spans share one owned input mapping;actual return policy,IRQ
+correlation,total deadline and permanent poison have host fault evidence.354
+actual IRQ workers per image exit before context-close attempts. No real Hailo
+ioctl/DMA,RPC packet,program or numerical execution occurs. Continue typed
+non-inference grouped lifecycle/cleanup,then separately bounded physical evidence
+and actual numerical configuration/packing/placement/program/results toward
+broad ordinary UNMODIFIED source-model support100%.

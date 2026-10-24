@@ -1,0 +1,56 @@
+{
+  "metrics": {
+    "methods": 68,
+    "traces": 8900,
+    "full_pairs": 4450,
+    "accept_pairs": 2336,
+    "selected_current_pairs": 4436,
+    "refuse_pairs": 2114,
+    "historical_known_gap_pairs": 14
+  },
+  "suites": [
+    {
+      "suite": "group",
+      "methods": 8,
+      "full_pairs": 1856
+    },
+    {
+      "suite": "abi",
+      "methods": 12,
+      "full_pairs": 323
+    },
+    {
+      "suite": "frame",
+      "methods": 8,
+      "full_pairs": 89
+    },
+    {
+      "suite": "device",
+      "methods": 10,
+      "full_pairs": 73
+    },
+    {
+      "suite": "progress",
+      "methods": 6,
+      "full_pairs": 44
+    },
+    {
+      "suite": "exchange",
+      "methods": 9,
+      "full_pairs": 1884
+    },
+    {
+      "suite": "session",
+      "methods": 6,
+      "full_pairs": 132
+    },
+    {
+      "suite": "worker",
+      "methods": 9,
+      "full_pairs": 49
+    }
+  ],
+  "physical_device_calls": false,
+  "old_production_and_tests_unchanged": true,
+  "all_full_pairs": true
+}

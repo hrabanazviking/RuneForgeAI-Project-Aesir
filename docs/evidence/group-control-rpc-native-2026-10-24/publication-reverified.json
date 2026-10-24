@@ -1,0 +1,24 @@
+{
+  "raw_paths": 37093,
+  "contract_paths": 833,
+  "controls": 164,
+  "old_source_test_edits": 0,
+  "source_inputs": 718,
+  "test_inputs": 91,
+  "final_images_and_compiler_exact": true,
+  "all_primary_and_selected_images_exact": true,
+  "methods": 78,
+  "full_pairs": 4737,
+  "full_new_fault_state_pairs": 287,
+  "schema_unchanged": true,
+  "drift_unchanged": true,
+  "capability_count": 190,
+  "status_counts": {
+    "missing": 15,
+    "partial": 29,
+    "verified": 145
+  },
+  "physical_device_calls": false,
+  "source_model_execution": false,
+  "global_ci_pass": false
+}

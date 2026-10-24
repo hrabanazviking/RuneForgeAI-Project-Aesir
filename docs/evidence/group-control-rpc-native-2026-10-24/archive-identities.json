@@ -1,0 +1,57 @@
+{
+  "path_base": "task work directory containing the repository and archive roots",
+  "roots": [
+    "group-control-rpc-native-baseline",
+    "group-control-rpc-native-development",
+    "group-control-rpc-native-final",
+    "group-control-rpc-native-final-v2",
+    "group-control-rpc-native-final-v3",
+    "group-control-rpc-native-final-v4",
+    "group-control-rpc-native-final-v5",
+    "group-control-rpc-native-host",
+    "group-control-rpc-native-host-v5",
+    "group-control-rpc-native-selected",
+    "group-control-rpc-native-selected-audit",
+    "group-control-rpc-native-audit-v5",
+    "group-control-rpc-native-audit-v6"
+  ],
+  "files": 37093,
+  "source_bytes": 853976464,
+  "pages": [
+    {
+      "path": "archive-001.json",
+      "files": 8000,
+      "source_bytes": 181175795,
+      "bytes": 1542608,
+      "sha256": "0534630d88d778a385bdd54aa7b49310793642261d168f28c351b87e442ca8f2"
+    },
+    {
+      "path": "archive-002.json",
+      "files": 8000,
+      "source_bytes": 224085858,
+      "bytes": 1465183,
+      "sha256": "550a019bc0a64c4942b908eb97c8a6bce2d5c35ab3424661b584a1524ce78c08"
+    },
+    {
+      "path": "archive-003.json",
+      "files": 8000,
+      "source_bytes": 184645701,
+      "bytes": 1518722,
+      "sha256": "dacb0a48d33b3cffcc911b55315c4da01bade032105e03712805361bfdabe4a4"
+    },
+    {
+      "path": "archive-004.json",
+      "files": 8000,
+      "source_bytes": 155766077,
+      "bytes": 1498876,
+      "sha256": "5ff4fde6673ffc2fac816f680279dac6df1e2df6ed014bff51f81d3ebd67d91f"
+    },
+    {
+      "path": "archive-005.json",
+      "files": 5093,
+      "source_bytes": 108303033,
+      "bytes": 946775,
+      "sha256": "28605fd701f183955424f310233c4e665da17ce914b9edc947116ffb5efe3658"
+    }
+  ]
+}
