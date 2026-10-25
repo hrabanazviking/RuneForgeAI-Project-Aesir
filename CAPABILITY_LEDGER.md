@@ -6241,3 +6241,40 @@ No new capability ID or hardware/complete-source execution claim.
   rare-burst datum check vs the frozen champion map
   (slice 4.48).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-048 — datum-order hunt, motif pooled, rare check
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_DATUM_ORDER_MOTIF_RARE_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef48.py (sha256 4757f16c...) and hef48b.py (08c76a5a...).
+  (i) Pair order is NOT a function of the body datum stream:
+  single head datums acc 0.847-0.928,head datum seq and
+  datum-minus-pair each 383 keys with the same ONE mixed
+  group (0856a10c cidx 15/27 reversed + 39 normal),inside
+  which datum-minus-pair is IDENTICAL (1 distinct in 3) and
+  the full datum sequences differ only at the pair slots
+  15/16 (the swap itself) — refining AES-NUM-047. Head-level
+  combined keys (op+sizes,op+dat,dat+sizes) still fail on
+  the triple (acc 0.9993);full datum/full size/combined
+  full separations (0 mixed) are uniqueness/tautology
+  (1,111 distinct full size seqs),not laws. (ii) 156 motif
+  pooled (312 blocks): leads private — 82 values,8104-8832,
+  all multiples of 8,19-24 distinct per block index,26
+  distinct lead seqs,none monotonic;block shape is positional
+  — block 0 no-30480 and block 4 no-32784 in 26/26,blocks
+  1-3,5-10 full in 26/26,block 11 full 25/26 (exemplar
+  truncated);channel tuples an exact per-index law
+  ((0,0,0,0,0) b0/1/4,(0,0,1,1,1) b2/3/5,(1,1,2,2,2)
+  b6/7/8/11,(2,2,2,2,2) b9/10). (iii) Rare-ladder bursts
+  (15 occ,6 distinct pairs, ladders 0x2a82/0x2a8e) are
+  EXACT under the frozen channel-appropriate champion
+  datum maps (15/15,6/6,zero wrong/refused),as is the
+  whole body champion population (43,631 occ,1,451
+  distinct pairs,all exact) — no rare-specific rule.
+- **Next:** pair-order vs middle action stream;motif leads
+  vs contexts' large-action sizes;block-0/4 variant roles
+  vs standard middles (slice 4.49).
+- **Audit:** Host-side analysis only;no device child.

@@ -1496,3 +1496,27 @@ datum sequence, anatomize the motif blocks pooled, and
 check the rare bursts' datums against the frozen
 champion map. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 datum-order hunt, motif pooled, rare check
+(AES-NUM-048,slice4.48):
+`docs/HAILO10H_DATUM_ORDER_MOTIF_RARE_2026-10-24.md`.
+The datum stream falls to the same counterexample as
+the operand stream: the 0856a10c triple's non-pair
+datum streams are byte-identical, and their only
+datum difference anywhere is the pair swap itself —
+two of the order bit's three candidate homes are now
+closed, and the formal full-stream separations are
+recorded as uniqueness, not laws. The 156 motif,
+pooled, is positional: blocks 0 and 4 are structural
+variants in every context, channels follow an exact
+per-index table, and the lead sizes are private
+values in an aligned band. The rare-ladder bursts
+need no new rule: the frozen champion datum maps
+predict them — and the entire body champion
+population — exactly. Next: hunt the bit in the
+middle action stream, test the motif leads against
+the contexts' own large sizes, and compare the
+variant blocks' roles with standard middles. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.

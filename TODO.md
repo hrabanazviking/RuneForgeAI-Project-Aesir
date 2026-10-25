@@ -575,13 +575,24 @@
   pre-motif positions) — correcting the 4.45 unit
   wording.
   `docs/HAILO10H_PAIR_ORDER_ZONE_BODY_156_MOTIF_2026-10-24.md`.
-- [ ] Slice4.48 pair-order vs body datum sequence
-  (head datums + full datum stream function tests;
-  combined champion + size-stream test on the
-  counterexample stack);motif block anatomy pooled
-  (lead-size law,channel progression,shortened-block
-  frequency);rare-burst datum check vs the frozen
-  champion map;then broad ordinary UNMODIFIED
+- [x] Slice4.48 pair-order vs body datum sequence:
+  datum stream does NOT determine order either (the
+  0856a10c triple's non-pair datum streams are
+  byte-identical;only datum diff is the pair swap
+  itself);head-level combined keys still fail on
+  the triple;full-stream separations are uniqueness/
+  tautology,not laws;motif variants are positional
+  (block0 no-30480 + block4 no-32784 in 26/26;
+  channel tuples an exact per-index law;leads
+  private,82 values 8104-8832 all mult of 8);rare
+  bursts 15/15 EXACT under the frozen champion maps
+  (body champion control 43,631/43,631 exact).
+  `docs/HAILO10H_DATUM_ORDER_MOTIF_RARE_2026-10-24.md`.
+- [ ] Slice4.49 pair-order vs middle action stream
+  (size-stream law hunt beyond uniqueness);motif
+  lead values vs contexts' own large-action sizes;
+  block-0/block-4 variant roles vs standard
+  contexts' middles;then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
