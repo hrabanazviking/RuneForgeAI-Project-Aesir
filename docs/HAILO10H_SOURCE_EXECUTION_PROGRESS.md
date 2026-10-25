@@ -1774,3 +1774,27 @@ first. Next: the rail's grades, +137 profile-recurrence
 rates over all cc9, and the windowed populations of
 the other two artifacts. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 rail grades, +137 profile rates, windowed populations (AES-NUM-059,slice4.59):
+`docs/HAILO10H_RAIL_GRADES_137_PROFILE_WINDOWED_POPS_2026-10-24.md`.
+The step-4 rail does not have four grades. Its 55 contexts
+carry seventeen different window counts, and each count is
+a +137 pair: the same family-dose profile, the same 32016
+x32, the same champion body 29, drawn twice — once in each
+network group, with ng flipped and one action fewer. The
+all-97 quartet is simply the 32-count pair family filled
+entirely by the capped 97xx module. Across all of cc9 the
++137 recurrence is now rated, not anecdotal: window count
+preserved in 131 of 134 pairs, population in 132, against
+baselines near one-in-four at other offsets — profiles
+recur, sequences (last slice) do not. And the other two
+windowed artifacts turn out to run the same window
+mechanism as a band monoculture: over nine in ten of their
+leads are band-family, from pools of barely a hundred
+step-8 values, in quantised 16/24/28/140 count classes,
+where cc9 mixes the whole ladder. Next: the 140-count
+class both monocultures share, the three stream-head pairs
+whose counts differ, and the rail's unpaired head. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.

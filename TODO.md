@@ -734,10 +734,25 @@
   606/607 class is a step-4 rail of 55 cc9-only
   contexts (2-110,143-247).
   `docs/HAILO10H_MIRROR_EXTENT_REDUCED_SIX_BLOCK0_EXCEPTIONS_2026-10-24.md`.
-- [ ] Slice4.59 step-4 rail grades (32/54-62/81/96
-  windows) and the all-97 quartet;+137 profile-
-  recurrence rates over all cc9;windowed
-  populations of 0856a10c/76c3a8ff;then broad
+- [x] Slice4.59 step-4 rail grades:seventeen window
+  counts (32-96) organised as +137 pairs with
+  (near-)identical family-dose profiles (the four
+  TODO values are members,not the grade set);the
+  all-97 quartet (50/54/110/187) is the 32-count
+  grade filled by the capped 97xx module;+137
+  profile recurrence over all cc9 (nwin 0.978,pop
+  0.985,n32016 0.985,segment 0.978,cls97 0.843,
+  order 0.769,nacts 0.582 vs baselines 0.099-0.671;
+  ng flips 0/134);0856a10c/76c3a8ff windowed
+  populations are band monocultures (92.8%/91.7%
+  band,pools 112/139,quantised 16/24/28/140 and
+  24/28/140 classes) vs cc9's mixed vocabulary.
+  `docs/HAILO10H_RAIL_GRADES_137_PROFILE_WINDOWED_POPS_2026-10-24.md`.
+- [ ] Slice4.60 the shared 140-count class in both
+  monocultures (lead pool,n32016 x24 dose,stream
+  position);cidx 0-2,the three +137 pairs whose
+  window counts differ;unpaired rail head cidx 2
+  vs non-rail partner cidx 139;then broad
   ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

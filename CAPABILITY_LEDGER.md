@@ -6695,3 +6695,35 @@ No new capability ID or hardware/complete-source execution claim.
   profile-recurrence rates over all cc9; windowed populations
   of 0856/76c3 (slice 4.59).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-059 — Rail grades, +137 profile rates, windowed populations
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_RAIL_GRADES_137_PROFILE_WINDOWED_POPS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...058 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef59.py (sha256 30fc7722...). (i) The rail's window
+  counts are SEVENTEEN values (32,33,36,38,41,47,48,50,53,54,
+  62,70,81,84,91,95,96), not the TODO's four grades: each count
+  is one +137 pair (91 x2 pairs, 95 x3, 96 x5 + unpaired cidx 2)
+  with (near-)identical family-dose profiles, n32016 32 and
+  champion 29 in both members; no cidx residue, rail half, ng,
+  order or nacts feature selects a count. (ii) The all-97
+  quartet (cidx 50, 54, 110, 187) is the 32-count grade filled
+  by the capped 97xx module: 110 pure 32/32, 50/187 a +137 pair
+  at 31/32, 54 at 31/32 with a 98-led exception, partners 191/
+  247 near-all-97 at 30/32. (iii) +137 profile recurrence over
+  all 134 cc9 pairs: nwin 0.978, pop 0.985, n32016 0.985,
+  segment 0.978, cls97 0.843, order 0.769, nacts 0.582 against
+  baselines 0.099-0.671 over offsets 2..269; ng preserved 0/134
+  (boundary between cidx 133 and 137). (iv) 0856a10c (112
+  windowed) and 76c3a8ff (90 windowed) are band monocultures:
+  92.8% / 91.7% band leads over pools of 112 / 139 step-8
+  values, quantised count classes (16/24/28/140; 24/28/140),
+  against cc9's mixed ladder vocabulary (97 2128, 94 1622,
+  low 1235, excl 900, band 34).
+- **Next:** the shared 140-count class in both monocultures;
+  cidx 0-2 (the three +137 pairs whose window counts differ);
+  unpaired rail head cidx 2 vs non-rail cidx 139 (slice 4.60).
+- **Audit:** Host-side analysis only; no device child.
