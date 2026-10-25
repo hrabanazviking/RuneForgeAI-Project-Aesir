@@ -4788,3 +4788,39 @@ No new capability ID or hardware/complete-source execution claim.
   order,with the payload successor contract when specified.
 - **Audit:** soc_program/soc_transfer unchanged by the study
   half. Failures retained;no global/hosted-CI pass.
+
+### AES-NUM-001 — Device-program field table (Campaign 4 entry)
+
+- **Status:** `verified` (specification scope:evidence-graded field
+  inventory;no emitter,no bytes,no operation claimed).
+- **Owner:** docs/HAILO10H_NUMERICAL_FIELD_TABLE_2026-10-24.md.
+- **Claim sources:** Pinned HailoRT d503417f (hef.proto,
+  context_switch_defs.h,control_protocol.h,config_buffer and
+  rpc_connection sources — MIT,interface facts only);repo
+  evidence AES-CONTROL-001/002/015..018,AES-TRANSFER-001..004,
+  AES-PROG-001..004;LCU boundary study 2026-10-22.
+- **Content:** Five groups. A container metadata (arch=HAILO1XH
+  103 IN as metadata;CCW pointer/inline actions IN as references/
+  carriers only;partial-layout bitmap OUT for this target).
+  B context action records (packed layouts IN via public defs and
+  AES-CONTROL-001/002 owners;ID35 typed-write ADDRESS VALUES out —
+  no safe address in evidence). C config units (8-byte CCW header
+  unit and zero NOP IN as units;CCW WORDS out entirely — no public
+  bit layout found). D transport fields (the physically
+  corroborated minority:HRPC framing,action numbers,512
+  descriptor policy,span divisibility,launch-return counts,IRQ
+  data semantics). E numerical semantics — quantization,
+  accumulator,tile,assignment,weight layout — ALL OUT.
+- **Track R addendum (in the doc):** rpc_connection.cpp at the
+  pin:messages capped at 2048;buffers ride one async session read
+  of the total declared size after a readiness wait — the B2
+  payload phase is a single logical transfer,not messages. The
+  session readiness protocol on the SoC engine remains NOT
+  ESTABLISHED and still gates payload contracts.
+- **Evidence boundary/prediction (recorded in advance):** no
+  operation can clear Campaign 4's eight layers until the CCW
+  word layout or an equivalent device-consumed encoding is
+  established;4.2 selects by evidence strength knowing this.
+- **Next acceptance gate:** Slice 4.2 operation selection record;
+  Track R session-layer study continues.
+- **Audit:** Specification only. No global/hosted-CI pass.

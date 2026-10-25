@@ -593,6 +593,26 @@ program/results and broad ordinary UNMODIFIED source-model
 support100% remain work.
 
 
+2026-10-24 numerical field table:
+`docs/HAILO10H_NUMERICAL_FIELD_TABLE_2026-10-24.md`
+(AES-NUM-001,Campaign4 slice4.1). Every candidate device-program
+field is now graded:container metadata admitted only as
+references and carriers;context-action packed layouts admitted
+with typed-write address values excluded;CCW words and the whole
+numerical-semantics group (quantization,accumulator,tiling,
+assignment,weight packing) marked OUT for lack of any public
+definition;the transport fields stand as the physically
+corroborated minority. The table predicts,in advance,that no
+operation clears Campaign4's eight layers until a CCW word layout
+or equivalent device-consumed encoding is established. Track R
+addendum:the payload phase is one async session read of exactly
+the declared size after a readiness wait — not messages;the SoC
+session readiness protocol is the remaining unknown. Next:slice
+4.2 operation selection by evidence strength. Numerical/
+packing/placement/program/results and broad ordinary UNMODIFIED
+source-model support100% remain work.
+
+
 2026-10-24 grouped transfer primitive host qualification:
 `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`
 (AES-TRANSFER-003,Campaign2 slice2.3). The derived aligned suite

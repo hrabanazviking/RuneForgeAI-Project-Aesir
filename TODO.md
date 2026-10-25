@@ -91,12 +91,22 @@
   resources. The SoC connection layer's read/write realization
   remains NOT ESTABLISHED and gates any payload contract.
   `docs/HAILO10H_PROGRAM_FAILURE_TEARDOWN_2026-10-24.md`.
-- [ ] Campaign4 slice4.1 field-table discipline for candidate
-  device-program fields (source + physical corroboration per
-  field;insufficient fields stay out),in parallel with the
-  Track R connection-layer study;then 4.2 operation selection,
-  4.3 eight-layer description,4.4 review gate;then broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-001 Campaign4 slice4.1 field table:five groups
+  graded (container metadata IN as references;context action
+  layouts IN with ID35 address values OUT;CCW words OUT
+  entirely;numerical semantics group E ALL OUT;transport group
+  D the physically corroborated minority). Recorded prediction:
+  no operation clears all eight layers until a CCW word layout
+  or equivalent encoding exists. Track R addendum:the payload
+  phase is ONE async session read of the declared size after a
+  readiness wait;the SoC session readiness protocol remains
+  NOT ESTABLISHED. `docs/HAILO10H_NUMERICAL_FIELD_TABLE_2026-10-24.md`.
+- [ ] Slice4.2 first-operation selection by evidence strength
+  (record the chosen operation + alternates scored against the
+  field table);then 4.3 eight-layer description of the chosen
+  operation;then 4.4 review gate;Track R session study
+  continues;then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
