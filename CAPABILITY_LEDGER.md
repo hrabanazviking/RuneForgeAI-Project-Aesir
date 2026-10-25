@@ -5701,3 +5701,25 @@ No new capability ID or hardware/complete-source execution claim.
   tests + frozen-encoder cross-prediction (slice 4.30);
   then small-form word anatomy (4.31).
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-030 — channel-0 burst treatment
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_CHANNEL0_BURST_TREATMENT_2026-10-24.md.
+- **Evidence:** 104 lane0 families,43,486 channel-0 bursts:
+  AGGREGATE 0 families with a function violation,0 with
+  an affine inconsistency,0 width-law breaks — the three
+  laws are now three-channel over 79,001 bursts. Frozen
+  family encoders cross-predict exactly where families
+  coincide (2 families,51/51 distinct,108/108 bursts,0
+  wrong;1 burst honestly refused out-of-span). Frozen
+  champion encoder does NOT extend:channel-0 champion
+  operands disjoint from channels 1/2 (0 shared;1,120 vs
+  1,189 distinct),1 in-span operand predicted correctly
+  (1,504 bursts),never a wrong datum. Channel-0 champion
+  map is itself GF(2)-linear,rank 27,0 inconsistencies.
+  Pooled frozen coverage 35,192/79,001 (44.5%).
+- **Next:** freeze the channel-0 champion basis + largest
+  channel-0 families,Mojo-proven on Mimir (slice 4.31);
+  then small-form word anatomy (4.32).
+- **Audit:** Host-side analysis only;no device child.

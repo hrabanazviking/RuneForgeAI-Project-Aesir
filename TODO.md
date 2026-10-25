@@ -372,11 +372,23 @@
   79,001. Small forms <=512 B:128,787 actions,structured
   ladder,15.8% zero words;large forms weights-class.
   `docs/HAILO10H_REMAINING_CCW_SURFACE_CENSUS_2026-10-24.md`.
-- [ ] Slice4.30 channel-0 burst treatment:family census,
-  function/affine/width tests on the 43,486 channel-0
-  bursts + cross-prediction by the frozen encoders;then
-  slice4.31 small-form word anatomy;then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] AES-NUM-030 slice4.30 channel-0 burst treatment:104
+  families,43,486 bursts across all 7 artifacts;function
+  + affine + width laws hold in EVERY family (aggregate
+  zeros). Frozen family encoders predict their channel-0
+  bursts exactly (51/51 distinct,0 wrong);the frozen
+  champion encoder does NOT extend — channel-0 champion
+  operands are disjoint from channels 1/2 (0 shared of
+  1,120 vs 1,189;1 in-span,predicted correctly) and its
+  own map is linear rank 27. Pooled frozen coverage
+  35,192/79,001 (44.5%).
+  `docs/HAILO10H_CHANNEL0_BURST_TREATMENT_2026-10-24.md`.
+- [ ] Slice4.31 channel-0 freezes:freeze the channel-0
+  champion basis (linear,rank 27) + largest channel-0
+  non-champion families as Aesir-owned encoders,Mojo-
+  proven on Mimir;then slice4.32 small-form word
+  anatomy;then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

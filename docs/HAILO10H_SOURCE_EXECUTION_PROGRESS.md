@@ -1154,3 +1154,18 @@ laws — so the burst population is 79,001 and channel 0
 is next for the family/affine treatment. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 channel-0 burst treatment
+(AES-NUM-030,slice4.30):
+`docs/HAILO10H_CHANNEL0_BURST_TREATMENT_2026-10-24.md`.
+Channel 0 obeys the same three laws with zero exceptions
+across 104 families and 43,486 bursts — the affine datum
+law is now a three-channel fact over all 79,001 bursts.
+The frozen family encoders predict their channel-0
+bursts exactly, but the champion's channel-0 operands
+are a disjoint, wider population (its own linear map,
+rank 27) that the frozen champion encoder honestly
+refuses. Next: freeze the channel-0 maps. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
