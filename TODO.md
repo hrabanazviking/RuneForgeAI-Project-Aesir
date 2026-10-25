@@ -999,15 +999,42 @@
   slots (modal rung 6160), every pair at
   cidx +137 / ngpos +3.
   `docs/HAILO10H_PROTO_TRAIN_CENSUS_S76_S82_CC9_STRAYS_2026-10-24.md`.
-- [ ] Slice4.75 cc9 ngpos+3 context pairing
+- [x] Slice4.75 cc9 ngpos+3 context pairing
   at artifact scope (paired contexts' slot
   values generally vs rare draws only);
   S76 diff runs as channel transforms
   (per-run flip maps vs G10); 0a0d tail
   singletons 85/92 and the 758/760/768
-  cross-group mismatch; then broad
-  ordinary UNMODIFIED source-model
-  support100%.
+  cross-group mismatch: the +3 pairing is
+  artifact-wide (134/134 paired; multiset
+  overlap 0.9695 vs 0.60-0.64 elsewhere,
+  -1 secondary 0.7689; 250/266 doubletons
+  hosted by +3 pairs, zero rare sharing at
+  +1/+2/+4; class map identity/-3/-1 with
+  one exception; partners are
+  near-permutations, positional median
+  0.36); S76 is no relabelling (flip map
+  non-functional) - its runs are local
+  two-direction pair swaps (84.6%
+  adjacent flips; two one-way 2->0 runs),
+  S82 by contrast a near-pure 0<->2 swap
+  (51/54); 758/760/768 mismatch is
+  body-only (last 55 identical in size AND
+  channel 55/55 x3; no shift repairs;
+  class pairing ~ cross-class background);
+  85/92 share head 12/13 + end block,
+  multiset 76/85, differ by 7 actions with
+  +7 channel alignment 65/85 (insertion
+  NOT PROVEN).
+  `docs/HAILO10H_CC9_PAIRING_S76_TRANSFORMS_TAIL_SINGLETONS_2026-10-24.md`.
+- [ ] Slice4.76 +3 pair order structure
+  (how the ng-1 partner permutes the ng-0
+  original at block/seam level; what the
+  -3/-1 class deltas 259->256 / 607->606
+  drop); S76 swap-run converse test (pair
+  agreement inside runs); 85->92 insertion
+  alignment test; then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

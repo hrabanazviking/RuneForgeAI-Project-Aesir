@@ -7215,3 +7215,34 @@ No new capability ID or hardware/complete-source execution claim.
   as channel transforms; 0a0d tail singletons 85/92 and the
   758/760/768 cross-group mismatch (slice 4.75).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-075 — cc9 +3 pairing is artifact-wide (near-permutation partners), S76 runs are local pair swaps, tail bodies are strangers
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_CC9_PAIRING_S76_TRANSFORMS_TAIL_SINGLETONS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...074 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef75.py (sha256 760da4fd...; first build died at arm (ii)
+  on a missing modal helper after arm (i) — the fixed build
+  reproduced arm (i) byte-identically). (i) cc9b9d1c's groups
+  are paired at ngpos +3 artifact-wide: 134/134 ng-0 contexts
+  paired, size-multiset overlap 0.9695 vs 0.60-0.64 at other
+  offsets (-1 secondary at 0.7689 / 42.9% same class), 250/266
+  doubleton sizes hosted by +3 pairs vs zero rare sharing at
+  +1/+2/+4, systematic class map (identity / -3 / -1, one
+  exception), partners near-permutations (positional median
+  0.36). (ii) S76's flip map is non-functional per ref channel
+  — no relabelling; runs are local two-direction pair swaps
+  (0<->1, 1<->2; 84.6% adjacent flips; two near-one-way 2->0
+  runs), size exceptions coincide only 86/180; S82 by contrast
+  is a near-pure 0<->2 swap (51/54). (iii) 758/760/768 mismatch
+  is body-only: last 55 identical in size AND channel (55/55
+  x3), no shift repairs the bodies, class pairing adds ~nothing
+  over cross-class background; 85/92 share head 12/13 and the
+  end block, multiset 76/85, differ by exactly 7 actions with
+  +7 channel alignment 65/85 (insertion NOT PROVEN).
+- **Next:** +3 pair order structure and the -3/-1 class deltas;
+  S76 swap-run converse test; 85->92 insertion alignment
+  (slice 4.76).
+- **Audit:** Host-side analysis only; no device child.

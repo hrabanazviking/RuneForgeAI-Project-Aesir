@@ -2128,3 +2128,25 @@ three. Next: whether that pairing holds artifact-wide in
 cc9b9d1c, S76's diff runs as channel transforms, and the tail
 singletons. Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 cc9 +3 pairing, S76 transforms, tail singletons (AES-NUM-075,slice4.75):
+`docs/HAILO10H_CC9_PAIRING_S76_TRANSFORMS_TAIL_SINGLETONS_2026-10-24.md`.
+The cc9 stray pairing turns out to be an artifact-wide
+law: the two network groups pair context-by-context at
+ngpos +3, and partners carry essentially the same
+inventory of action sizes (multiset overlap 0.97 against
+0.61-0.64 at every other offset) — including the rarest
+draws, with 250 of 266 twice-occurring sizes hosted by
++3 pairs and none shared at neighbouring offsets — yet
+in different order, so pairs are near-permutations, not
+copies. S76's channel divergence refuses any
+relabelling: its runs are local swaps where two channels
+trade places position-by-position, while S82 is almost
+a pure single swap. And the tail singletons split in
+two: 758/760/768 share only their (fully identical)
+final 55 actions across groups, while 85 and 92 look
+like the same context differing by seven body actions.
+Next: how the +3 partner's order is built from the
+original, the swap-run converse test, and the 85-to-92
+insertion alignment. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
