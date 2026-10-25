@@ -871,11 +871,26 @@
   13/22 = 59.1% vs 0/1,609 major in same contexts;
   76c3 -> 4368 7/8, 0856 -> 3856 5/14).
   `docs/HAILO10H_290_TRAIN_623_EXTRA_FOLLOWER_2026-10-24.md`.
-- [ ] Slice4.68 fixed 8-size 290-vs-623 difference
+- [x] Slice4.68 fixed 8-size 290-vs-623 difference
   (identity + recurrence); nine-size residue core
   outside collapsed/zero contexts; per-artifact
-  follower identity at larger scope; then broad
-  ordinary UNMODIFIED source-model support100%.
+  follower identity at larger scope: the 8-size
+  difference is one identical set {200x3, 360, 8576,
+  13176, 13480, 14224, 20488, 32600} at fixed counts
+  and first positions in all six pairs, in all 16
+  290-class contexts and no 419/623 context; the
+  nine-size core is a 623-class invariant (16/16,
+  eight counts frozen, 32784 = B dose; eight non-B
+  sizes in zero 290/419 contexts); the band follower
+  does not generalise (population B adds no case;
+  0a0d minors follow 2824/21408/26896, cc9's 424,
+  MiniLM + sisters hold no minors).
+  `docs/HAILO10H_8SIZE_RESIDUE_FOLLOWER_SCOPE_2026-10-24.md`.
+- [ ] Slice4.69 290 signature positions/neighbours;
+  264 + 2824 companions of the 623 fixture;
+  0a0d scattered-B 26896 follower mechanism; then
+  broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

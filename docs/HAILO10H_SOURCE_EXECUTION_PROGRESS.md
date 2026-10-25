@@ -1969,3 +1969,23 @@ Next: the fixed eight-size difference, the residue
 core outside the collapsed contexts, and the follower
 identity at larger scope. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 8-size difference, residue core, follower scope (AES-NUM-068,slice4.68):
+`docs/HAILO10H_8SIZE_RESIDUE_FOLLOWER_SCOPE_2026-10-24.md`.
+The fixed eight is a single set, not six coincidences:
+the same eight sizes at the same counts and the same
+early positions in every pair, carried by all sixteen
+290-class contexts and by no context of the other two
+classes. The nine-size residue core turns out to be
+no residue at all — it is a fixture of the whole 623
+class, present in every one of its sixteen contexts
+with eight counts frozen and the ninth equal to the
+32784 dose, and wholly absent from the neighbouring
+classes. The band follower, tested at larger scope,
+stays local: the widened minor population adds no new
+case, the other artifacts' minors follow their own
+fixture sizes, and two artifacts hold no minors at
+all. Next: where the 290 signature sits inside its
+contexts, the fixture's two companions, and the
+26896 follower mechanism. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

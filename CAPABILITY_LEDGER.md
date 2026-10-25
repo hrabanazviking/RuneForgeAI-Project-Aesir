@@ -6993,3 +6993,32 @@ No new capability ID or hardware/complete-source execution claim.
   residue core outside collapsed/zero contexts; per-artifact
   follower identity at larger scope (slice 4.68).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-068 — Fixed 8-size difference, residue core as class invariant, follower scope
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_8SIZE_RESIDUE_FOLLOWER_SCOPE_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...067 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef68.py (sha256 9dc873e9...). (i) The fixed 8-size
+  difference is ONE identical set {200 x3, 360, 8576, 13176,
+  13480, 14224, 20488, 32600} — same counts and same first
+  positions (13-26) in all six pairs; present in all 16
+  290-class contexts, absent from all 419/623 class contexts;
+  the 623-only intersection is 11 sizes (nine core + 264 +
+  2824). (ii) The nine-size core is a 623-CLASS invariant:
+  all nine present in 16/16 class contexts, eight at frozen
+  counts (280 x2, seven x1), 32784 = the B dose (2 collapsed/
+  zero; 24-130 otherwise); the eight non-B sizes occur in
+  zero 290/419 contexts; corpus-wide only the 16 class
+  contexts hold all nine. (iii) Follower identity at larger
+  scope does NOT generalise: population B (34 minor occ,
+  29 contexts) adds no new band case (13/34, the same 13;
+  major baseline 0/1,694); 0a0d minors follow 2824/21408
+  (head) and 26896 (scattered), cc9 minors follow 424,
+  MiniLM and both sisters hold no minor population at all.
+- **Next:** 290 signature positions/neighbours; 264 + 2824
+  companions of the 623 fixture; 0a0d scattered-B 26896
+  follower mechanism (slice 4.69).
+- **Audit:** Host-side analysis only; no device child.
