@@ -5657,3 +5657,27 @@ No new capability ID or hardware/complete-source execution claim.
   bases for the largest non-champion families;then the
   Campaign-4 stocktake toward the Campaign-5 encoder gate.
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-028 — corpus family census, six freezes, stocktake
+
+- **Status:** `verified` (complete populations,7 artifacts;
+  Mojo build + harness on Mimir).
+- **Owner:** docs/HAILO10H_FAMILY_CENSUS_FREEZE_STOCKTAKE_2026-10-24.md.
+- **Evidence:** 174 lane0 families,35,515 bursts pooled
+  across all 7 artifacts:AGGREGATE 0 families with a
+  function violation,0 with an affine inconsistency,0
+  width-law breaks. Champion = 33,097 bursts / 1,189 keys
+  (the AES-NUM-025 population reproduced exactly). Six
+  largest non-champion families frozen:
+  hailbru/ccw_family_bases.json (ranks 13–15;all six
+  canonical sha256 reproduced on the VM) +
+  hailbru/ccw_family_datum.mojo (affine,out-of-span
+  refuses);module crossed byte-identical (sha256
+  67df4a9e…);on-device harness over all 177 distinct
+  pairs:CHECKED 177 FAILED 0. Frozen datum coverage =
+  33,580/35,515 bursts (94.6%).
+- **Next:** census of the remaining CCW surface — every
+  pointer-action form (size × channel) beyond the 24 B
+  channel-1/2 burst (slice 4.29);Campaign-5 may be
+  contracted for the datum component only.
+- **Audit:** Host-side analysis/build only;no device child.

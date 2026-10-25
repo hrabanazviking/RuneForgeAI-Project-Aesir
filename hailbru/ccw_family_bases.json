@@ -1,0 +1,522 @@
+{
+ "artifact": "ccw family datum bases (non-champion lane-0 families)",
+ "provenance": "Fitted by exact GF(2) affine algebra over the operand->datum maps of the six largest non-champion lane-0 families across all 7 HEF artifacts on Mimir (AES-NUM-028); per-family canonical sha256 over (family, rank, rows) as fitted on-device.",
+ "semantics": "Per family: datum(u24) = affine GF(2) image of the 64-bit lane1 word; augmented input a = lane1 | (1<<64); reduce by rows (pivot = highest set bit of the augmented vector); a nonzero remainder is OUT OF SPAN and must refuse, never guess.",
+ "families": [
+  {
+   "lane0_hex": "0028000000802419",
+   "bursts": 112,
+   "distinct_operands": 28,
+   "artifacts_sha_prefixes": [
+    "5ab3537d",
+    "773470cd"
+   ],
+   "rank": 13,
+   "affine_inconsistencies": 0,
+   "verify_checked": 28,
+   "verify_failed": 0,
+   "frozen": true,
+   "canonical_sha256": "7b63e379f6f4b04ad4c80eda0e2d736202c914c8f27909de65630874f52e1b16",
+   "rows": [
+    {
+     "pivot": 48,
+     "x": "0x1000100010001",
+     "y": "0x20742f"
+    },
+    {
+     "pivot": 49,
+     "x": "0x3000300030003",
+     "y": "0x609c71"
+    },
+    {
+     "pivot": 50,
+     "x": "0x5000500050005",
+     "y": "0x9bf72"
+    },
+    {
+     "pivot": 51,
+     "x": "0x8000800080008",
+     "y": "0x5396ba"
+    },
+    {
+     "pivot": 52,
+     "x": "0x14001400140014",
+     "y": "0x26fdc8"
+    },
+    {
+     "pivot": 53,
+     "x": "0x32003200320032",
+     "y": "0x51b3e1"
+    },
+    {
+     "pivot": 54,
+     "x": "0x4b004b004b004b",
+     "y": "0xfd09f"
+    },
+    {
+     "pivot": 55,
+     "x": "0xd400d400d400d4",
+     "y": "0x639334"
+    },
+    {
+     "pivot": 56,
+     "x": "0x1ec01ec01ec01ec",
+     "y": "0x736b29"
+    },
+    {
+     "pivot": 57,
+     "x": "0x3a303a303a303a3",
+     "y": "0x59013a"
+    },
+    {
+     "pivot": 58,
+     "x": "0x70c070c070c070c",
+     "y": "0x3cfa8c"
+    },
+    {
+     "pivot": 60,
+     "x": "0x10c710c710c710c7",
+     "y": "0x6fb758"
+    },
+    {
+     "pivot": 64,
+     "x": "0x17ffe7ffe7ffe7ffe",
+     "y": "0x5d21bd"
+    }
+   ]
+  },
+  {
+   "lane0_hex": "0228000000001c11",
+   "bursts": 112,
+   "distinct_operands": 38,
+   "artifacts_sha_prefixes": [
+    "5ab3537d",
+    "773470cd"
+   ],
+   "rank": 15,
+   "affine_inconsistencies": 0,
+   "verify_checked": 38,
+   "verify_failed": 0,
+   "frozen": true,
+   "canonical_sha256": "7eb67060b91f16fb54134700401c5b23751a710a834f9ce54bfc9a5f0a2d02bc",
+   "rows": [
+    {
+     "pivot": 48,
+     "x": "0x1000100010001",
+     "y": "0x20742f"
+    },
+    {
+     "pivot": 49,
+     "x": "0x3000300030003",
+     "y": "0x609c71"
+    },
+    {
+     "pivot": 50,
+     "x": "0x6000600060006",
+     "y": "0x692303"
+    },
+    {
+     "pivot": 51,
+     "x": "0xd000d000d000d",
+     "y": "0x5a29c8"
+    },
+    {
+     "pivot": 52,
+     "x": "0x1a001a001a001a",
+     "y": "0x1c4871"
+    },
+    {
+     "pivot": 53,
+     "x": "0x37003700370037",
+     "y": "0x580c93"
+    },
+    {
+     "pivot": 54,
+     "x": "0x5c005c005c005c",
+     "y": "0x49b126"
+    },
+    {
+     "pivot": 55,
+     "x": "0x80008000800080",
+     "y": "0x79b4a8"
+    },
+    {
+     "pivot": 56,
+     "x": "0x181018101810181",
+     "y": "0xbf59f"
+    },
+    {
+     "pivot": 57,
+     "x": "0x394039403940394",
+     "y": "0x10da9"
+    },
+    {
+     "pivot": 58,
+     "x": "0x547054705470547",
+     "y": "0x3f5bc2"
+    },
+    {
+     "pivot": 59,
+     "x": "0xe200e200e200e20",
+     "y": "0x3b381d"
+    },
+    {
+     "pivot": 60,
+     "x": "0x17e117e117e117e1",
+     "y": "0x5e5e1a"
+    },
+    {
+     "pivot": 61,
+     "x": "0x372b372b372b372b",
+     "y": "0x6748f3"
+    },
+    {
+     "pivot": 64,
+     "x": "0x17b4f7b4f7b4f7b4f",
+     "y": "0x6c8496"
+    }
+   ]
+  },
+  {
+   "lane0_hex": "01080000f8bf1812",
+   "bursts": 83,
+   "distinct_operands": 28,
+   "artifacts_sha_prefixes": [
+    "5ab3537d",
+    "773470cd",
+    "cc9b9d1c"
+   ],
+   "rank": 13,
+   "affine_inconsistencies": 0,
+   "verify_checked": 28,
+   "verify_failed": 0,
+   "frozen": true,
+   "canonical_sha256": "8b021abe46b7cf38f4eabfff77f768752b338c30155ba0c87632c8988dea33ad",
+   "rows": [
+    {
+     "pivot": 48,
+     "x": "0x1000100010001",
+     "y": "0x20742f"
+    },
+    {
+     "pivot": 49,
+     "x": "0x3000300030003",
+     "y": "0x609c71"
+    },
+    {
+     "pivot": 50,
+     "x": "0x7000700070007",
+     "y": "0x49572c"
+    },
+    {
+     "pivot": 51,
+     "x": "0xe000e000e000e",
+     "y": "0x3ab5b9"
+    },
+    {
+     "pivot": 52,
+     "x": "0x15001500150015",
+     "y": "0x689e7"
+    },
+    {
+     "pivot": 53,
+     "x": "0x38003800380038",
+     "y": "0x42cd05"
+    },
+    {
+     "pivot": 54,
+     "x": "0x47004700470047",
+     "y": "0x758d78"
+    },
+    {
+     "pivot": 55,
+     "x": "0xa200a200a200a2",
+     "y": "0x2731dc"
+    },
+    {
+     "pivot": 56,
+     "x": "0x12a012a012a012a",
+     "y": "0x5f26d6"
+    },
+    {
+     "pivot": 57,
+     "x": "0x355035503550355",
+     "y": "0x64177a"
+    },
+    {
+     "pivot": 58,
+     "x": "0x53e053e053e053e",
+     "y": "0x6138bc"
+    },
+    {
+     "pivot": 59,
+     "x": "0x8ce08ce08ce08ce",
+     "y": "0x4e1c01"
+    },
+    {
+     "pivot": 64,
+     "x": "0x10101010101010101",
+     "y": "0x623341"
+    }
+   ]
+  },
+  {
+   "lane0_hex": "0028000000002c15",
+   "bursts": 60,
+   "distinct_operands": 24,
+   "artifacts_sha_prefixes": [
+    "5ab3537d",
+    "76c3a8ff",
+    "773470cd",
+    "cc9b9d1c"
+   ],
+   "rank": 14,
+   "affine_inconsistencies": 0,
+   "verify_checked": 24,
+   "verify_failed": 0,
+   "frozen": true,
+   "canonical_sha256": "5aecc18b7d5bafb93432f92f0f4abec5f8ccfba7e171256a8a3685165843bc47",
+   "rows": [
+    {
+     "pivot": 48,
+     "x": "0x1000100010001",
+     "y": "0x20742f"
+    },
+    {
+     "pivot": 49,
+     "x": "0x2000200020002",
+     "y": "0x40e85e"
+    },
+    {
+     "pivot": 50,
+     "x": "0x6000600060006",
+     "y": "0x692303"
+    },
+    {
+     "pivot": 51,
+     "x": "0xf000f000f000f",
+     "y": "0x1ac196"
+    },
+    {
+     "pivot": 52,
+     "x": "0x19001900190019",
+     "y": "0x7cd400"
+    },
+    {
+     "pivot": 53,
+     "x": "0x2c002c002c002c",
+     "y": "0x6430cd"
+    },
+    {
+     "pivot": 54,
+     "x": "0x47004700470047",
+     "y": "0x758d78"
+    },
+    {
+     "pivot": 55,
+     "x": "0x9e009e009e009e",
+     "y": "0x4c3784"
+    },
+    {
+     "pivot": 56,
+     "x": "0x16d016d016d016d",
+     "y": "0x2aabae"
+    },
+    {
+     "pivot": 57,
+     "x": "0x288028802880288",
+     "y": "0x2653c3"
+    },
+    {
+     "pivot": 58,
+     "x": "0x772077207720772",
+     "y": "0x2bcede"
+    },
+    {
+     "pivot": 59,
+     "x": "0xf950f950f950f95",
+     "y": "0x85d60"
+    },
+    {
+     "pivot": 61,
+     "x": "0x31c531c531c531c5",
+     "y": "0x126cef"
+    },
+    {
+     "pivot": 64,
+     "x": "0x1788c788c788c788c",
+     "y": "0x501cdb"
+    }
+   ]
+  },
+  {
+   "lane0_hex": "0228000000002c17",
+   "bursts": 58,
+   "distinct_operands": 30,
+   "artifacts_sha_prefixes": [
+    "5ab3537d",
+    "773470cd"
+   ],
+   "rank": 13,
+   "affine_inconsistencies": 0,
+   "verify_checked": 30,
+   "verify_failed": 0,
+   "frozen": true,
+   "canonical_sha256": "d210e10bfe12114927ca15492fc5dafa3e4e1a3419bfd4f2c96477a9b3945180",
+   "rows": [
+    {
+     "pivot": 48,
+     "x": "0x1000100010001",
+     "y": "0x20742f"
+    },
+    {
+     "pivot": 49,
+     "x": "0x2000200020002",
+     "y": "0x40e85e"
+    },
+    {
+     "pivot": 50,
+     "x": "0x6000600060006",
+     "y": "0x692303"
+    },
+    {
+     "pivot": 51,
+     "x": "0xc000c000c000c",
+     "y": "0x7a5de7"
+    },
+    {
+     "pivot": 52,
+     "x": "0x12001200120012",
+     "y": "0x4fdecb"
+    },
+    {
+     "pivot": 53,
+     "x": "0x20002000200020",
+     "y": "0x1e6d2a"
+    },
+    {
+     "pivot": 54,
+     "x": "0x72007200720072",
+     "y": "0x6d69b5"
+    },
+    {
+     "pivot": 55,
+     "x": "0xf500f500f500f5",
+     "y": "0x5d8a31"
+    },
+    {
+     "pivot": 56,
+     "x": "0x160016001600160",
+     "y": "0x708266"
+    },
+    {
+     "pivot": 57,
+     "x": "0x36c036c036c036c",
+     "y": "0x6ae50"
+    },
+    {
+     "pivot": 58,
+     "x": "0x6c806c806c806c8",
+     "y": "0x26a35"
+    },
+    {
+     "pivot": 59,
+     "x": "0xfcc0fcc0fcc0fcc",
+     "y": "0x485334"
+    },
+    {
+     "pivot": 64,
+     "x": "0x17936793679367936",
+     "y": "0x1fb197"
+    }
+   ]
+  },
+  {
+   "lane0_hex": "0228000000001311",
+   "bursts": 58,
+   "distinct_operands": 29,
+   "artifacts_sha_prefixes": [
+    "5ab3537d",
+    "773470cd"
+   ],
+   "rank": 14,
+   "affine_inconsistencies": 0,
+   "verify_checked": 29,
+   "verify_failed": 0,
+   "frozen": true,
+   "canonical_sha256": "b00d1b835833f6cc9bcd63daf0c001c3a708f3f9d0faa74cfb59a94976a34486",
+   "rows": [
+    {
+     "pivot": 48,
+     "x": "0x1000100010001",
+     "y": "0x20742f"
+    },
+    {
+     "pivot": 49,
+     "x": "0x2000200020002",
+     "y": "0x40e85e"
+    },
+    {
+     "pivot": 50,
+     "x": "0x6000600060006",
+     "y": "0x692303"
+    },
+    {
+     "pivot": 51,
+     "x": "0xe000e000e000e",
+     "y": "0x3ab5b9"
+    },
+    {
+     "pivot": 52,
+     "x": "0x18001800180018",
+     "y": "0x5ca02f"
+    },
+    {
+     "pivot": 53,
+     "x": "0x2d002d002d002d",
+     "y": "0x4444e2"
+    },
+    {
+     "pivot": 54,
+     "x": "0x5e005e005e005e",
+     "y": "0x95978"
+    },
+    {
+     "pivot": 55,
+     "x": "0x99009900990099",
+     "y": "0x560a8"
+    },
+    {
+     "pivot": 56,
+     "x": "0x185018501850185",
+     "y": "0x223ec2"
+    },
+    {
+     "pivot": 57,
+     "x": "0x28c028c028c028c",
+     "y": "0xf989e"
+    },
+    {
+     "pivot": 58,
+     "x": "0x5c005c005c005c0",
+     "y": "0xfb846"
+    },
+    {
+     "pivot": 59,
+     "x": "0x9e309e309e309e3",
+     "y": "0x586dfb"
+    },
+    {
+     "pivot": 63,
+     "x": "0xfff0fff0fff0fff0",
+     "y": "0x1dfcf1"
+    },
+    {
+     "pivot": 64,
+     "x": "0x17d727d727d727d72",
+     "y": "0x3bb470"
+    }
+   ]
+  }
+ ]
+}

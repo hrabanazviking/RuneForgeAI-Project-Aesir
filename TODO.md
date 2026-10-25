@@ -353,11 +353,20 @@
   5,699 bursts — operand→datum function + GF(2)-affine +
   width law hold in EVERY family (aggregate zeros).
   `docs/HAILO10H_LANE0_FAMILIES_CENSUS_2026-10-24.md`.
-- [ ] Slice4.28 family census across all 7 artifacts;
-  per-family basis freezes for the largest non-champion
-  families;Campaign-4 stocktake toward the Campaign-5
-  encoder gate;then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] AES-NUM-028 slice4.28 corpus family census:174
+  families,35,515 bursts across all 7 artifacts;function
+  + affine + width laws hold in EVERY family (aggregate
+  zeros);champion 1,189 keys reproduced exactly. Six
+  largest non-champion families frozen
+  (hailbru/ccw_family_bases.json + ccw_family_datum.mojo;
+  Mimir harness CHECKED 177 FAILED 0);frozen datum
+  coverage 94.6% of bursts. Stocktake: Campaign-5 may be
+  contracted for the datum component only.
+  `docs/HAILO10H_FAMILY_CENSUS_FREEZE_STOCKTAKE_2026-10-24.md`.
+- [ ] Slice4.29 census of the remaining CCW surface:
+  every pointer-action form (size x channel) beyond the
+  24 B channel-1/2 burst, across the corpus;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

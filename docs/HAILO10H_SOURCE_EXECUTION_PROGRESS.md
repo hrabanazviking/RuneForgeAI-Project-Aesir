@@ -1124,3 +1124,19 @@ bursts,zero exceptions. The champion encoder is one
 instance of a general pattern. Next:corpus-wide family
 census + per-family freezes. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 corpus family census + freezes + stocktake
+(AES-NUM-028,slice4.28):
+`docs/HAILO10H_FAMILY_CENSUS_FREEZE_STOCKTAKE_2026-10-24.md`.
+All 174 lane-0 families across the seven artifacts obey
+the three laws with zero exceptions over 35,515 bursts —
+the affine datum law is corpus-universal. The six largest
+non-champion families are frozen as Aesir-owned affine
+bases + a Mojo encoder, proven on Mimir over all 177
+distinct pairs with zero failures; frozen datum coverage
+is now 94.6% of all bursts. Stocktake: the Campaign-5
+encoder may be contracted for the datum component; the
+remaining CCW surface (non-24 B forms, lane-0/1
+generation) is next. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
