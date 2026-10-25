@@ -994,3 +994,18 @@ Next cuts are specific questions now:ladder origin,enum
 meanings,datum identity,non-champion families. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 ladder/datum/non-champion (AES-NUM-018,slice4.18):
+`docs/HAILO10H_LADDER_DATUM_NONCHAMPION_2026-10-24.md`. The
+ladder is a fixed six-value slot set (0x10f0-0x18f0 stride
+0x200 plus special 0x2d80 twice per context),identical in
+a 6-context embedding net and a 219-context LLM;the datum's
+top pair is the same at full 24-bit width in both networks
+and its vocabulary is a shared pool (float identity
+excluded,identity still open);non-champion bursts are a
+data-bearing kind that keeps the lane-2 width law but not
+the champion's lane-1 anatomy. Next:4.19 the 0x2d80 slot's
+skeleton context,datum pool at full corpus,the 0x08xx
+class. Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

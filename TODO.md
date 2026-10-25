@@ -283,10 +283,20 @@
   address ladder (stride 0x200);lane2 = 24-bit datum with
   per-network constants repeated once per context.
   `docs/HAILO10H_LANE1_STRUCTURE_HUNT_2026-10-24.md`.
-- [ ] Slice4.18 ladder origin/range;lane2 datum identity
-  vs known network constants;non-champion lane0 family
-  anatomy;then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-018 slice4.18 ladder/datum/non-champion:
+  ladder = fixed slot set (5 rungs 0x10f0-0x18f0 stride
+  0x200 + special 0x2d80,2/context,same in both
+  artifacts);datum top pair identical at u24 across both
+  networks (shared pool,38/62 overlap;float reading
+  excluded,identity NOT PROVEN);non-champion lane0
+  classes 0x28xx/0x08xx carry data-class lane1 (champion
+  anatomy does not transfer) but keep the lane2 width
+  law;enum refined to class x low-bit.
+  `docs/HAILO10H_LADDER_DATUM_NONCHAMPION_2026-10-24.md`.
+- [ ] Slice4.19 0x2d80 special-slot context in the
+  skeleton;datum-pool structure across the full
+  7-artifact corpus;0x08xx lane0 class anatomy;then
+  broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

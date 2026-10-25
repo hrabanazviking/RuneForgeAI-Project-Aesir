@@ -5432,3 +5432,31 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Host-side analysis only. (Transport note: one
   base64 re-emission corrupted a byte and was caught by a
   sha256 gate;the clean retry matched exactly.)
+
+### AES-NUM-018 — ladder, datum, non-champion families
+
+- **Status:** `verified` (exact statistics,2 artifacts).
+- **Owner:** docs/HAILO10H_LADDER_DATUM_NONCHAMPION_2026-10-24.md.
+- **Evidence:** Ladder ANSWERED as a fixed slot set:five
+  rungs 0x10f0-0x18f0 (stride 0x200,residue 0xf0) + special
+  slot 0x2d80 (exactly 2/context in both artifacts);
+  per-context ladder sets identical in all 6 MiniLM
+  contexts and the same 6 values intersect all 219 blob
+  contexts (one single-context anomaly 0x2a8e recorded).
+  Ladder independent of pointer offset (132 distinct
+  offsets,6 ladder values). Datum:the top pair 0x60e517 /
+  0x56898c is identical at full u24 width across BOTH
+  networks,each repeated exactly context-count times;
+  38 of MiniLM's 62 u24 values occur in the blob's 417 —
+  a shared cross-network pool. Float32-high-zero reading
+  excluded (all subnormal ~1e-39);identity NOT PROVEN.
+  Non-champion families:lane0 classes 0x28xx / 0x08xx;
+  champion lane1 anatomy does NOT carry over (no 0x0250,
+  no enum,no ladder — data-class lane1),lane2 width law
+  DOES (tail zero in all top families). Enum refined:
+  class {0,0x1000,0x2000} x low bit {0,1} (0x1001 new).
+- **Next:** 0x2d80 slot context in the skeleton;datum-pool
+  structure at full corpus;0x08xx class anatomy.
+- **Audit:** Host-side analysis only on Mimir;artifacts
+  unmoved. Script hef18.py sha256 3ec7963f... landed via
+  sha-gated chunked file.write,verified on-device.
