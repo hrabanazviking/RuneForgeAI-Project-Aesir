@@ -1140,3 +1140,17 @@ encoder may be contracted for the datum component; the
 remaining CCW surface (non-24 B forms, lane-0/1
 generation) is next. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 census of the remaining CCW surface
+(AES-NUM-029,slice4.29):
+`docs/HAILO10H_REMAINING_CCW_SURFACE_CENSUS_2026-10-24.md`.
+Every write in the seven-artifact corpus rides the one
+pointer action (745,849 actions,11.1 GB referenced);
+inline and compressed forms are zero everywhere. The
+24-byte burst turns out to live on channel 0 as well —
+43,486 more bursts obeying the same champion and width
+laws — so the burst population is 79,001 and channel 0
+is next for the family/affine treatment. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

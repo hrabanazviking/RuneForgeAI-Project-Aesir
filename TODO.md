@@ -363,10 +363,20 @@
   coverage 94.6% of bursts. Stocktake: Campaign-5 may be
   contracted for the datum component only.
   `docs/HAILO10H_FAMILY_CENSUS_FREEZE_STOCKTAKE_2026-10-24.md`.
-- [ ] Slice4.29 census of the remaining CCW surface:
-  every pointer-action form (size x channel) beyond the
-  24 B channel-1/2 burst, across the corpus;then broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-029 slice4.29 census of the remaining CCW
+  surface:745,849 pointer actions / 11,096,892,840 bytes
+  across all 7 artifacts;inline/write/compressed forms
+  ZERO everywhere;channels only 0/1/2,all sizes mult of
+  8. Channel-0 carries 43,486 more 24 B bursts (champion
+  42,118,width law 43,486/43,486) — total 24 B population
+  79,001. Small forms <=512 B:128,787 actions,structured
+  ladder,15.8% zero words;large forms weights-class.
+  `docs/HAILO10H_REMAINING_CCW_SURFACE_CENSUS_2026-10-24.md`.
+- [ ] Slice4.30 channel-0 burst treatment:family census,
+  function/affine/width tests on the 43,486 channel-0
+  bursts + cross-prediction by the frozen encoders;then
+  slice4.31 small-form word anatomy;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

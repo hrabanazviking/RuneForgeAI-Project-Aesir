@@ -5681,3 +5681,23 @@ No new capability ID or hardware/complete-source execution claim.
   channel-1/2 burst (slice 4.29);Campaign-5 may be
   contracted for the datum component only.
 - **Audit:** Host-side analysis/build only;no device child.
+
+### AES-NUM-029 — census of the remaining CCW surface
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_REMAINING_CCW_SURFACE_CENSUS_2026-10-24.md.
+- **Evidence:** 745,849 pointer actions (field 16) of
+  788,726 total,11,096,892,840 referenced bytes;inline
+  CCW / write_data / compressed forms ZERO in all 7
+  artifacts;channels only 0/1/2;every size a multiple
+  of 8;max 32,784. Control counts reproduce AES-NUM-028
+  exactly. NEW:the 24 B burst lives on channel 0 too —
+  43,486 bursts (42,118 champion-headed,width law
+  43,486/43,486),lifting the total 24 B population to
+  79,001. Small forms (<=512 B):128,787 actions in a
+  structured size ladder,15.8% zero words. Large forms
+  are weights-class bulk on the same action kind.
+- **Next:** channel-0 burst family census + affine/datum
+  tests + frozen-encoder cross-prediction (slice 4.30);
+  then small-form word anatomy (4.31).
+- **Audit:** Host-side analysis only.
