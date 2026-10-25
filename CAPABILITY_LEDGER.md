@@ -5771,3 +5771,30 @@ No new capability ID or hardware/complete-source execution claim.
   unique each side differing in operand words.
 - **Next:** skeleton-class deep-dive (slice 4.33).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-033 — skeleton-class deep-dive
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_SKELETON_CLASS_DEEP_DIVE_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032 exactly
+  (128,787 small actions;79,001 bursts). 96 B:exactly 2
+  distinct segments (1,504 each),positions 1-10 zero in
+  100%,p0/p11 values in perfect bijection (2 pairs),both
+  variants in equal numbers in every artifact,exactly
+  2 per context (1 of each). 80 B walking bit:ladder
+  word at position p is a single 08 byte at stored
+  offset 8-p;the ladder is ALL-OR-NOTHING (2,219 segments
+  carry all 8 positions,5,686 none,0 partial by the exact
+  ladder);the 2,219 are exactly 148 distinct segments
+  whose p0/p9 end words are in bijection (148/148/148),
+  on all 3 channels,in all 7 artifacts. Single-segment
+  classes 72/120/416 B:one segment corpus-wide each,
+  byte-identical in all 7 artifacts,exactly 1 per
+  context;416 B holds only 3 distinct words (zero x50,
+  header p0,trailer p51). Co-variation is total:all
+  1,504 contexts hold exactly the quartet {72x1,96x2,
+  120x1,416x1} and no other combination.
+- **Next:** walking-segment pool sharing across
+  artifacts,skeleton quartet intra-context ordering,
+  002c fragment vs the wider vocabulary (slice 4.34).
+- **Audit:** Host-side analysis only;no device child.

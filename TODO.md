@@ -407,11 +407,18 @@
   1,340 non-24 segments shared in >=2 artifacts;pair
   5ab3537d/773470cd shares 83.5% of segments.
   `docs/HAILO10H_SMALL_FORM_WORD_ANATOMY_2026-10-24.md`.
-- [ ] Slice4.33 skeleton-class deep-dive:96 B two-word
-  skeleton value pairs;80 B walking-bit full
-  distribution;single-segment classes (72/120/416 B)
-  identity across contexts/artifacts and co-variation;
-  then broad ordinary UNMODIFIED source-model
+- [x] AES-NUM-033 slice4.33 skeleton-class deep-dive:96 B
+  = 2 segments in perfect p0/p11 bijection,1+1 per
+  context in every artifact;80 B walking bit is
+  all-or-nothing (2,219 full,0 partial),148 distinct
+  end-determined segments;72/120/416 B one segment
+  corpus-wide each,1 per context;all 1,504 contexts
+  hold exactly the quartet {72x1,96x2,120x1,416x1}.
+  `docs/HAILO10H_SKELETON_CLASS_DEEP_DIVE_2026-10-24.md`.
+- [ ] Slice4.34 walking-segment pool sharing across
+  artifacts;skeleton quartet intra-context ordering;
+  002c fragment vs the wider word vocabulary;then
+  broad ordinary UNMODIFIED source-model
   support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

@@ -1197,3 +1197,19 @@ chunks). The 80 B class carries a walking-bit ladder
 across its middle positions. Next: skeleton-class
 deep-dive. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 skeleton-class deep-dive (AES-NUM-033,slice4.33):
+`docs/HAILO10H_SKELETON_CLASS_DEEP_DIVE_2026-10-24.md`. The
+96 B skeleton is two perfectly paired end-word variants
+in fixed 1+1 balance in every context; the 80 B walking
+bit is a single fixed diagonal block carried whole —
+2,219 segments, none partial — by exactly 148 distinct
+segments whose end words determine each other; the
+72/120/416 B classes are byte-identical single segments
+in all seven artifacts; and every one of the 1,504
+contexts holds exactly the same skeleton quartet
+{72x1, 96x2, 120x1, 416x1}. Next: walking-pool sharing,
+quartet ordering, the 002c fragment. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
