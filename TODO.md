@@ -916,13 +916,29 @@
   is a valid pair-specific rotation diagnostic
   (95.40% corpus, 99.35% 0a0d, vs C->A 0/4,603).
   `docs/HAILO10H_HEAD_TEMPLATES_2824_EXTRAS_BC_ADJACENCY_2026-10-24.md`.
-- [ ] Slice4.71 channel scaffold at corpus scope
-  (fixed channel windows beyond the class
-  contexts?); the A-boundary law (A never entered
-  adjacently — A's predecessor structure); C->A
-  gap distribution / rotation reset structure;
-  then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] Slice4.71 channel scaffold at corpus scope;
+  the A-boundary law; C->A gap distribution /
+  rotation reset structure: NO artifact-scope
+  scaffold (0 single-channel positions at artifact
+  alignment in all 7 artifacts; 623 windows carry
+  33/29 distinct channel sequences artifact-wide);
+  class-scope scaffold near-total in templated
+  classes (290: 290/290 positions single-channel,
+  419: 417/419, 623: 613/623; channel more rigid
+  than size, 0a0d classes 65.2% vs 26.0%); the
+  A-boundary is marked by a 5-7k data action on
+  A's own channel (99.7% / 98.99%, gap 1 into A
+  0/19,064 in 0a0d+cc9); C->A reset = that marker
+  alone at gap 2 in 92.6% (4,263/4,603), no fixed
+  reset sequence, long gaps 11/12 cc9 step-4 rail
+  only (54). `docs/HAILO10H_CHANNEL_SCAFFOLD_A_BOUNDARY_CA_RESET_2026-10-24.md`.
+- [ ] Slice4.72 marker action's exact size
+  selection (41/58-value pools vs context /
+  position / following A-B pair); channel-rigid
+  classes in cc9's loose population (the
+  39-window block); 763 class channel
+  dissolution vs its size stream; then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

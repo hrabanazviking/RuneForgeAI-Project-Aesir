@@ -2034,3 +2034,25 @@ the channel scaffold at corpus scope, the A-boundary
 law, and where the rotation resets after C. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+2026-10-24 Channel scaffold, A-boundary law, C→A reset (AES-NUM-071,slice4.71):
+`docs/HAILO10H_CHANNEL_SCAFFOLD_A_BOUNDARY_CA_RESET_2026-10-24.md`.
+The channel scaffold does not widen: at whole-artifact
+alignment there is not one single-channel position in
+any of the seven artifacts, and the 623 class's frozen
+windows dissolve into 33 and 29 distinct channel
+sequences. Inside classes the story flips — channel is
+more rigid than size, and in 0a0d378c's triplet classes
+it is near-total: the 290 class holds one channel at
+every one of its 290 positions. The A-boundary law is
+measured: A is never entered adjacently in the true
+rotation artifacts, because the action standing before
+every A is a 5–7k data action on A's own channel
+(99.7% / 99.0%), and the C→A reset is that same marker
+action alone in 92.6% of cases — no fixed reset
+segment exists, and cc9's long resets live only on its
+step-4 rail. Next: what selects the marker action's
+exact size, which cc9 classes carry the 39-window
+block, and how the 763 class's channels dissolve.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

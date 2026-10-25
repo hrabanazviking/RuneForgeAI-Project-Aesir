@@ -7085,3 +7085,37 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** channel scaffold at corpus scope; the
   A-boundary law; C->A gap/reset structure (slice 4.71).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-071 — Channel scaffold class-local, A-boundary law, C→A reset
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_CHANNEL_SCAFFOLD_A_BOUNDARY_CA_RESET_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...070 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef71.py (sha256 658d4703...) + hef71b.py (sha256 d893f9a0...).
+  (i) No artifact-scope channel scaffold: ZERO single-channel
+  positions at whole-artifact alignment in all 7 artifacts; the
+  623 class's 205-221 / 443-459 windows carry 33 / 29 distinct
+  channel sequences artifact-wide. Inside classes channel is
+  MORE rigid than size (0a0d pooled class positions 65.2% vs
+  26.0% single; 290 class single-channel at 290/290 positions,
+  419 at 417/419, 623 at 613/623; sisters' mid classes
+  single at every position; cc9/0856 classes loose at
+  12.6% / 14.3%). Artifact-scope single 17-windows are class
+  shadows only (sisters 966-1004 support 28; cc9 826-837
+  support 16, channel-only). (ii) A-boundary law: gap 1 into
+  A in 0/19,064 non-first entries in 0a0d+cc9 (sole pooled
+  exception in 76c3); the action before A is a 5,000-6,999
+  data action in 99.7% and on A's own channel in 98.99%
+  (controls B 69.1%, C 85.9%); first-seam A at position
+  median 34, never at position 0. (iii) C->A reset is gap 2
+  in 4,263/4,603 (92.6%) — exactly one intervening action,
+  always in the 5-7k band (41 distinct in 0a0d, 58 in cc9);
+  no fixed reset sequence (337 distinct, top share <=11%
+  per length); long gaps 11/12 only in cc9's step-4 rail
+  contexts (54 occurrences, cidx 4-108 / 141-245 step 4).
+- **Next:** marker action's exact size selection; cc9's
+  39-window block classes; 763 class channel dissolution
+  (slice 4.72).
+- **Audit:** Host-side analysis only; no device child.
