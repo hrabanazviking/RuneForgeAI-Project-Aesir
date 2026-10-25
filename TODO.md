@@ -333,10 +333,16 @@
   samples (~9,700 bit-constraints);ladder step XORs the
   datum by one of only 3 values in both artifacts.
   `docs/HAILO10H_DATUM_LINEARITY_PROOF_2026-10-24.md`.
-- [ ] Slice4.24 extract the 24x64 matrix;cross-validate
-  (fit blob,predict MiniLM);read matrix structure
-  (banded/CRC-like vs scramble);then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] AES-NUM-024 slice4.24 matrix extraction + cross-
+  validation:one global GF(2)-linear map (blob-fit predicts
+  MiniLM 62/62 exact;MiniLM-fit predicts blob 272/272
+  in-span exact;zero wrong);combined rank 14;determined
+  columns are dense mixes.
+  `docs/HAILO10H_DATUM_MATRIX_XVAL_2026-10-24.md`.
+- [ ] Slice4.25 span growth across all 7 artifacts;
+  saturation test vs field variety (enum 4,ladder 7,flags
+  open);then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

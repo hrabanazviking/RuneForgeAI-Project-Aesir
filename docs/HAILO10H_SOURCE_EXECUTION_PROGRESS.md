@@ -1082,3 +1082,13 @@ The encoding at the heart of the burst is a binary matrix.
 Next:extract it,cross-validate across artifacts,read its
 structure. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 the datum's closed form II (AES-NUM-024,slice4.24):
+`docs/HAILO10H_DATUM_MATRIX_XVAL_2026-10-24.md`. One global
+GF(2)-linear map governs both artifacts:fit on one predicts
+the other exactly wherever inputs are in-span (62/62 and
+272/272,zero wrong). Its determined columns are dense
+mixes. Next:span growth across all seven artifacts toward
+the full compiler variety. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

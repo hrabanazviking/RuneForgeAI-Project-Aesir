@@ -5590,3 +5590,19 @@ No new capability ID or hardware/complete-source execution claim.
   MiniLM prediction;read its structure (CRC-like banding
   vs designed scramble).
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-024 — one global linear map, cross-validated
+
+- **Status:** `verified` (exact prediction,2 artifacts).
+- **Owner:** docs/HAILO10H_DATUM_MATRIX_XVAL_2026-10-24.md.
+- **Evidence:** Fit blob→predict MiniLM 62/62 exact;
+  fit MiniLM→predict blob 272/272 in-span exact;zero wrong
+  anywhere;combined span rank 14 — SAME variety, SAME map.
+  Determined unit columns:10/64 (flags bits 10–15,enum bit
+  16,ladder bits 57–59),all dense (popcount 9–14/24) —
+  a mixing transform;some adjacent columns shift-related,
+  not a clean Toeplitz. Zero input → zero datum.
+- **Next:** fit across all 7 artifacts;measure span growth
+  / saturation;authorship needs the map on the full
+  compiler variety,not only the observed span.
+- **Audit:** Host-side analysis only.
