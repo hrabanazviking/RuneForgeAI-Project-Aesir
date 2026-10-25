@@ -38,7 +38,7 @@ static struct timespec base_clock;
 static pthread_mutex_t lock=PTHREAD_MUTEX_INITIALIZER;
 static int hex_digit(char c){if(c>='0'&&c<='9')return c-'0';if(c>='a'&&c<='f')return c-'a'+10;abort();}
 static int fixture_reply(unsigned char *out,unsigned mid){char name[64];snprintf(name,sizeof name,"AESIR_PROGRAM_REPLY%u",mid);const char *text=getenv(name);if(!text)return 0;if(strlen(text)!=4136)abort();for(int i=0;i<2068;i++)out[i]=(unsigned char)(hex_digit(text[2*i])*16+hex_digit(text[2*i+1]));return 1;}
-static const char *mode(void){const char *g=getenv("AESIR_GROUP_FAULT_GENERATION");if(g&&atoi(g)!=generation)return "none";const char *p=getenv("AESIR_GROUP_FAULT");return p?p:"none";}
+static const char *mode(void){const char *g=getenv("AESIR_GROUP_FAULT_GENERATION");if(g&&atoi(g)!=generation)return "none";const char *ph=getenv("AESIR_PROGRAM_PHASE");if(ph&&*ph&&atoi(ph)!=sequence+1)return "none";const char *p=getenv("AESIR_GROUP_FAULT");return p?p:"none";}
 static int is(const char *s){return !strcmp(mode(),s);}
 static int number(const char *name,int fallback){const char *g=getenv("AESIR_GROUP_FAULT_GENERATION");if(g&&atoi(g)!=generation&&strstr(name,"COUNT"))return fallback;const char *p=getenv(name);return p?atoi(p):fallback;}
 static int close_is(const char *which){

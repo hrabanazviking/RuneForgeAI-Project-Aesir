@@ -59,7 +59,7 @@ class ProgramLifecycleProbe(unittest.TestCase):
    preload=[]
    if observed: preload.append(self.bins['observer'][label])
    if role=='probe': preload.append(self.bins['faults'][label])
-   env.update(LD_PRELOAD=':'.join(preload),AESIR_GROUP_NODE=str(self.dev/'h1x-0'),AESIR_GROUP_LOG=str(mock),AESIR_GROUP_FAULT=fault,AESIR_GROUP_CLOSE=close,AESIR_GROUP_INPUT_COUNT=str(counts[0]),AESIR_GROUP_OUTPUT_COUNT=str(counts[1]),AESIR_DEVICE_PHASE=str(phase) if phase else '',AESIR_OBSERVER_NODE=str(self.dev/'h1x-0') if role=='probe' else '/dev/null',AESIR_OBSERVER_CAPACITY=str(cap))
+   env.update(LD_PRELOAD=':'.join(preload),AESIR_GROUP_NODE=str(self.dev/'h1x-0'),AESIR_GROUP_LOG=str(mock),AESIR_GROUP_FAULT=fault,AESIR_GROUP_CLOSE=close,AESIR_GROUP_INPUT_COUNT=str(counts[0]),AESIR_GROUP_OUTPUT_COUNT=str(counts[1]),AESIR_DEVICE_PHASE=str(phase) if phase else '',AESIR_PROGRAM_PHASE=str(phase) if phase else '',AESIR_OBSERVER_NODE=str(self.dev/'h1x-0') if role=='probe' else '/dev/null',AESIR_OBSERVER_CAPACITY=str(cap))
    env.update(fixtures)
    if logger!='missing': env['AESIR_OBSERVER_LOG']=str(log if logger!='invalid' else self.out/'absent'/'log')
    if logger=='exists' and observed: log.write_text('existing evidence\n')
@@ -111,7 +111,7 @@ class ProgramLifecycleProbe(unittest.TestCase):
   result,_=self.run_pair(typed={'1':'status'});j=self.data(result);self.assertEqual(result[0],0);self.assertTrue(j['accepted']);self.assertEqual(j['branch'],'B3');self.assertTrue(j['poisoned']);self.assertFalse(j['infer_destroy_attempted'] or j['vdevice_destroy_attempted']);self.assertEqual(j['exchanges'],2)
 
  def test_03_branch_b2_no_reply(self):
-  result,_=self.run_pair(fault='empty');j=self.data(result);self.assertEqual(result[0],0);self.assertTrue(j['accepted']);self.assertEqual(j['branch'],'B2');self.assertTrue(j['poisoned']);self.assertEqual(j['exchanges'],1);self.assertEqual(j['retained_views'],0)
+  result,_=self.run_pair(fault='empty',phase=2);j=self.data(result);self.assertEqual(result[0],0);self.assertTrue(j['accepted']);self.assertEqual(j['branch'],'B2');self.assertTrue(j['poisoned']);self.assertEqual(j['exchanges'],1);self.assertEqual(j['retained_views'],0)
 
  def test_04_phase_a_failure_admits_nothing(self):
   result,_=self.run_pair(typed={'0':'status'});j=self.data(result);self.assertNotEqual(result[0],0);self.assertFalse(j['accepted']);self.assertEqual(j['branch'],'A-failed');self.assertFalse(j['phase_a_ok']);self.assertEqual(j['exchanges'],1)
