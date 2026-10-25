@@ -1213,3 +1213,19 @@ contexts holds exactly the same skeleton quartet
 quartet ordering, the 002c fragment. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 walking-pool, quartet order, 002c vocabulary
+(AES-NUM-034,slice4.34):
+`docs/HAILO10H_WALK_POOL_QUARTET_ORDER_002C_2026-10-24.md`.
+The 148 walking segments are mostly private to one
+artifact (81), with no universal member; the sister pair
+shares 36. The skeleton quartet is an end-anchored
+trailer: order, gap sequence and offsets from the
+context end are invariant in all 1,504 contexts. The
+002c suffix marks a fixed vocabulary of exactly 19
+header/lane words, each appearing exactly once per
+context. Next: context head-block census, the 176 B
+heads, the 28 trailing actions' forms. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

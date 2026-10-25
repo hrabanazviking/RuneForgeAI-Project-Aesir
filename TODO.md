@@ -415,11 +415,19 @@
   corpus-wide each,1 per context;all 1,504 contexts
   hold exactly the quartet {72x1,96x2,120x1,416x1}.
   `docs/HAILO10H_SKELETON_CLASS_DEEP_DIVE_2026-10-24.md`.
-- [ ] Slice4.34 walking-segment pool sharing across
-  artifacts;skeleton quartet intra-context ordering;
-  002c fragment vs the wider word vocabulary;then
-  broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-034 slice4.34 walking-pool sharing,quartet
+  ordering,002c vocabulary:pool mostly private (81/148 in
+  1 artifact,none universal;sister pair shares 36);
+  quartet is an end-anchored trailer — order 72/416/96/
+  96/120,gaps (7,1,11,4) and end-offsets invariant in
+  all 1,504 contexts;002c = fixed 19-word vocabulary,
+  each word exactly once per context at rigid slots.
+  `docs/HAILO10H_WALK_POOL_QUARTET_ORDER_002C_2026-10-24.md`.
+- [ ] Slice4.35 context head-block census (first-N
+  pointer actions' forms vs the trailer's rigidity);
+  176 B four 002c heads' segment anatomy;forms of the
+  28 actions following the quartet;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

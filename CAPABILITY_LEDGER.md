@@ -5798,3 +5798,31 @@ No new capability ID or hardware/complete-source execution claim.
   artifacts,skeleton quartet intra-context ordering,
   002c fragment vs the wider vocabulary (slice 4.34).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-034 — walking-pool sharing, quartet ordering, 002c vocabulary
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_WALK_POOL_QUARTET_ORDER_002C_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions).
+  Walking pool:148 distinct split 2/49/27/41/41/40/52 per
+  artifact;sharing histogram {1:81,2:37,3:23,4:7},none in
+  >=5 artifacts,none universal;sister pair 5ab3537d/773470cd
+  shares 36;MiniLM's non-private segment is shared with
+  exactly that pair;39 segments occur once,max reuse 109x.
+  Quartet ordering:single invariant pattern 72/416/96/96/120
+  in all 1,504 contexts,96 variants always in fixed order,
+  gap sequence (7,1,11,4) invariant,end-offsets fixed
+  (72 at 51,416 at 44,96 at 43/32,120 at 28 from the end;
+  exactly 28 actions follow) — an end-anchored trailer.
+  002c vocabulary:28,576 occurrences in the small+burst
+  surface are exactly 19 distinct words,each appearing
+  exactly once in every context (per-context set == global
+  set 1,504/1,504),at rigid (size,position) slots (8 burst
+  lane-1,4x 176B heads,2x 96B heads,1 each 120/248/256/344/
+  416B heads;positions 0/1 only;8 of 42 size classes).
+  Large forms:125,918 occurrences in 1.386B words
+  (~9.1e-5,~6x chance),no fixed vocabulary measured.
+- **Next:** context head-block census,176 B 002c-head
+  anatomy,forms of the 28 trailing actions (slice 4.35).
+- **Audit:** Host-side analysis only;no device child.
