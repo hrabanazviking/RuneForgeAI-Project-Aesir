@@ -1140,7 +1140,7 @@
   payload pool fully shared cross-sister
   (28/28), the Y-slot pool fully private.
   `docs/HAILO10H_SEGMENT_EXEMPLARS_LEN89_CAMPS_SISTER496_2026-10-24.md`.
-- [ ] Slice4.80 exemplar head channel
+- [x] Slice4.80 exemplar head channel
   sequences vs the corpus (does either
   head channel pattern recur in other
   contexts?); len-89 position-18
@@ -1150,9 +1150,36 @@
   cidx 110); sister modal-tuple
   contexts ((18648,32776,15304) cidx
   pattern; what separates them at other
-  region signatures); then broad
-  ordinary UNMODIFIED source-model
-  support100%.
+  region signatures): 0a0d's head
+  patterns recur nowhere (0/1,503 each),
+  0856's recur joint-exact in 22/27
+  contexts as train heads in other
+  artifacts; the len-89 train is two
+  interleaved step-9 sub-trains, each
+  one uniform main form (25) plus one
+  shifted-region head, position 18 a
+  sub-train/head artefact, camps a
+  B-main choice alone; the sisters'
+  len-496 families hold 9 size
+  sequences each and share exactly one
+  (5ab's modal sequence, in 773 only
+  cidx 97), modal contexts separated
+  by positions {9,22,25,26} and
+  signature-poor (own region only).
+  `docs/HAILO10H_HEAD_RECURRENCE_LEN89_TRAIN_MODAL_TUPLE_2026-10-24.md`.
+- [ ] Slice4.81 head-pattern trains
+  (0a0d len-623 step-4 contexts with
+  0856 a's head; len-763 step-6 with
+  0856 b's head — whole-context
+  relation to the exemplars?); camp
+  choice vs the len-89 B-main form's
+  11 byte-variable positions (contents
+  at position 18 / offsets); len-496
+  template census (all 9 sequences per
+  sister: cluster sizes, tuple
+  mapping, cidx pattern per template);
+  then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

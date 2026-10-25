@@ -2249,3 +2249,33 @@ anywhere, the three-value train at position 18,
 and the modal tuple's contexts. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 exemplar head recurrence, len-89 train, sister modal tuple (AES-NUM-080,slice4.80):
+`docs/HAILO10H_HEAD_RECURRENCE_LEN89_TRAIN_MODAL_TUPLE_2026-10-24.md`.
+The exemplars' head channel patterns split cleanly:
+0a0d's irregular pattern is private — it occurs in
+its two contexts and nowhere else in the corpus —
+while 0856's two near-alternating patterns are
+shared vocabulary, heading whole trains of contexts
+in other artifacts (a step-4 train of 623-action
+contexts in 0a0d itself, a step-6 train of
+763-action ones, most of MiniLM, and more), even
+though both artifacts' size scaffolds are common
+and their 304 triples always run on channels
+0, 1, 2. The len-89 train resolves into two
+interleaved step-9 sub-trains, each with one
+uniform main form and a head whose region is the
+main form's region shifted a step or two later —
+so the famous 528 singleton is a displaced head,
+not a third camp, and position 18 is a sub-train
+property with the camp choice left as the one
+unexplained bit on the B side. And the sisters'
+modal tuple turns out to be a template: one
+constant 496-action sequence in 5ab, a sister
+variant in 773, and a single 773 context carrying
+5ab's exact sequence — the only whole sequence
+the two families share. Next: the head-pattern
+trains against the exemplars, the camp choice
+against the B form's payload positions, and the
+full template census. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

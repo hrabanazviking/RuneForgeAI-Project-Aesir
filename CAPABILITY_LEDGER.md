@@ -7395,3 +7395,39 @@ No new capability ID or hardware/complete-source execution claim.
   corpus; len-89 position-18 three-value train;
   sister modal-tuple context pattern (slice 4.80).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-080 — exemplar heads are private (0a0d) vs shared vocabulary (0856), len-89 train is two interleaved step-9 sub-trains with shifted-region heads, sister modal tuple is one template with a 13+1 split in 773
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_HEAD_RECURRENCE_LEN89_TRAIN_MODAL_TUPLE_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...079 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef80.py (sha256 748d6d97...) + hef80b.py (sha256
+  90ca293c...), all sha-verified on-device. (i) 0a0d's two
+  head-12 channel patterns recur NOWHERE (0/1,503 each; best
+  non-sibling channel prefix 5), while 0856's head-13 patterns
+  recur joint-exact in 22 (a) and 27 (b) contexts — heads of
+  the 0a0d len-623 step-4 and len-763 step-6 trains, MiniLM,
+  76c3a8ff, cc9b9d1c; both size scaffolds are common (271 /
+  137 contexts) with the 304 triple's channels fixed (0,1,2).
+  (ii) The 52 len-89 contexts are two interleaved step-9
+  sub-trains (cidx %9 = 2 / 4, 26 each, all ng 1), each with
+  one uniform main form (25 contexts, one stripped size +
+  channel sequence) and one shifted-region head (110 / 112):
+  A main position 18 = 24, B main = camp 21392/21648, A head
+  528 is its region run displaced +2, B head reads 24 at 18
+  with 21392 at 19; main forms differ only at original
+  positions 12-32 (17 sizes). (iii) Sister len-496 families
+  hold 9 distinct size sequences each and share exactly ONE
+  — 5ab's modal sequence (13 contexts, zero size/channel
+  variation), carried in 773 by cidx 97 alone; 773's other
+  13 modal contexts carry a sister variant. Modal contexts
+  are separated by exactly positions {9,22,25,26}, occur
+  only in their own region's signatures (M-N only; 773's
+  cidx 97 in none), and are byte-per-context like the rest.
+- **Next:** head-pattern trains vs the exemplars; camp
+  choice vs the B-main form's 11 byte-variable positions;
+  len-496 template census (all 9 sequences per sister)
+  (slice 4.81).
+- **Audit:** Host-side analysis only; no device child.
