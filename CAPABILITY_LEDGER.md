@@ -6958,3 +6958,38 @@ No new capability ID or hardware/complete-source execution claim.
   vocabulary vs surviving dose; singleton follower test
   (slice 4.67).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-067 — 290 ordinal train, 623 extra vocabulary vs dose, scattered-singleton follower test
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_290_TRAIN_623_EXTRA_FOLLOWER_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...066 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef67.py (sha256 729546fd...). (i) The ordinal train is
+  three-class: state sequences identical in 290/419/623
+  ([collapsed, zero, collapsed, collapsed, zero, zero]);
+  290<->623 matched J 0.564-0.641, all above the mismatched
+  control max 0.456; 290<->419 matched J 0.413-0.505 (mean
+  0.450 vs control mean 0.197 / max 0.431); the 290 vocabulary
+  lacks exactly 8 sizes against its 623 twin in all six pairs
+  (shared sizes cover 0.966 of its actions). (ii) The 623
+  extra vocabulary (34-49 sizes per pair, 169 distinct) has a
+  fixed nine-size all-six core (280 x2, 424, 1280, 4976,
+  21408, 31984, 32576, 32768 x1, 32784 x2; 16400 x2 in 5/6);
+  the surviving 623 B dose is CONSTANT at exactly 2 and C
+  at 0 in all six contexts while A varies 0-73, so the extra
+  vocabulary is not a function of surviving dose; class-wide
+  vocabulary anti-correlates with total triplet dose at
+  -0.979 in both classes; class-union difference one-sided
+  (623-only 95 sizes; 419-only the 7-size fixed core
+  {48, 80, 184, 232, 312, 11040, 27056}). (iii) Scattered
+  minors are followed by 4368/3856 in 13/22 (59.1%) against
+  0/1,609 major-member occurrences in the same contexts
+  (corpus-wide 4368 followers total exactly the 7 scattered
+  cases); the follower identity is per-artifact (76c3 ->
+  4368 in 7/8; 0856 -> 3856 in 5/14, 4368 never).
+- **Next:** the fixed 8-size 290-vs-623 difference; nine-size
+  residue core outside collapsed/zero contexts; per-artifact
+  follower identity at larger scope (slice 4.68).
+- **Audit:** Host-side analysis only; no device child.

@@ -1947,3 +1947,25 @@ the same ordinal train at lower dose, the 623 side's
 extra vocabulary, and the singleton follower test.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 290 train, 623 extra vocabulary, follower test (AES-NUM-067,slice4.67):
+`docs/HAILO10H_290_TRAIN_623_EXTRA_FOLLOWER_2026-10-24.md`.
+The ordinal train completes: all three classes carry
+the same six-state sequence in the same order, the
+290 class matches its 623 twins cleanly and its 419
+twins at the lower dose its size predicts, and its
+vocabulary is an almost-subset of the 623 twin's —
+exactly eight sizes short in every pair. The 623
+side's extra vocabulary is not fallout from a dying
+triplet: its surviving 32784 dose is a constant two
+(the fixed head pair) and its 26896 dose zero in all
+six contexts, while the extra sizes include a fixed
+nine-size core that recurs in every pair. And the
+scattered singletons do have a follower law — a small
+band size follows them three times in five, never
+once after the major member in the same contexts —
+with the concrete follower chosen per artifact.
+Next: the fixed eight-size difference, the residue
+core outside the collapsed contexts, and the follower
+identity at larger scope. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

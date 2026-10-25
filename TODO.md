@@ -855,9 +855,26 @@
   16 contexts, corpus rotation sense degraded — a
   projection, not a new block.
   `docs/HAILO10H_INSERTION_ZERO_PAIR_ALT123_2026-10-24.md`.
-- [ ] Slice4.67 290-class ordinal-matching at lower
+- [x] Slice4.67 290-class ordinal-matching at lower
   dose; 623 extra vocabulary vs surviving triplet
-  dose; scattered-singleton follower test; then broad
+  dose; scattered-singleton follower test: the train
+  is three-class (state sequences identical in
+  290/419/623; 290<->623 matched J 0.564-0.641 all
+  above mismatched max 0.456; 290<->419 mean 0.450 vs
+  control 0.197; 290 lacks exactly 8 sizes vs its 623
+  twin in all six pairs, coverage 0.966); 623 extra
+  vocabulary is a fixed residue, not dose debris
+  (nine-size all-six core; surviving B dose constant
+  at exactly 2, C at 0, A 0-73; class-wide vocab vs
+  total dose -0.979 both classes); scattered-minor
+  follower law is real and per-artifact (4368/3856 in
+  13/22 = 59.1% vs 0/1,609 major in same contexts;
+  76c3 -> 4368 7/8, 0856 -> 3856 5/14).
+  `docs/HAILO10H_290_TRAIN_623_EXTRA_FOLLOWER_2026-10-24.md`.
+- [ ] Slice4.68 fixed 8-size 290-vs-623 difference
+  (identity + recurrence); nine-size residue core
+  outside collapsed/zero contexts; per-artifact
+  follower identity at larger scope; then broad
   ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
