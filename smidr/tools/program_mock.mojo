@@ -35,7 +35,7 @@ def main() raises:
         if args[i].byte_length() == 0 or args[i].byte_length() >= 4096 or "\0" in args[i]:
             raise Error("ProgramMock: invalid mock root")
     var scenario = args[4]
-    if scenario != "full" and scenario != "no-attest" and scenario != "bad-attest" and scenario != "teardown-order" and scenario != "early-configure" and scenario != "early-destroy" and scenario != "double-create":
+    if scenario != "full" and scenario != "no-attest" and scenario != "bad-attest" and scenario != "teardown-order" and scenario != "early-configure" and scenario != "early-destroy" and scenario != "double-create" and not scenario.startswith("fail-at-"):
         raise Error("ProgramMock: unknown scenario")
     if os_page_size() != 4096 and os_page_size() != 16384:
         raise Error("ProgramMock: expected a qualified host page size (4096 or 16384)")
@@ -44,8 +44,50 @@ def main() raises:
     print(program.identity.describe())
     var identity_printed = True
     var refused = String("")
+    var failed_stage = String("")
     try:
-        if scenario == "full" or scenario == "no-attest" or scenario == "bad-attest" or scenario == "teardown-order":
+        if scenario.startswith("fail-at-"):
+            # Sequential runner: the first failing stage wins; later
+            # stages are never attempted (poison law). The suite's
+            # fixtures decide which stage fails.
+            try:
+                program.create(transfer, 7, "aesir-program", 4096, 1048576, 5000)
+            except:
+                failed_stage = "create"
+            if failed_stage.byte_length() == 0:
+                program.attest_payload_delivered(String(DIGEST))
+                try:
+                    program.configure(transfer, _streams(), _streams(), 1, 0, 0, False, 5000)
+                except:
+                    failed_stage = "configure"
+            if failed_stage.byte_length() == 0:
+                try:
+                    program.activate(transfer, 5000)
+                except:
+                    failed_stage = "activate"
+            if failed_stage.byte_length() == 0:
+                try:
+                    program.deactivate(transfer, 5000)
+                except:
+                    failed_stage = "deactivate"
+            if failed_stage.byte_length() == 0:
+                try:
+                    program.shutdown(transfer, 5000)
+                except:
+                    failed_stage = "shutdown"
+            if failed_stage.byte_length() == 0:
+                try:
+                    program.destroy_configured(transfer, 5000)
+                except:
+                    failed_stage = "destroy-configured"
+            if failed_stage.byte_length() == 0:
+                try:
+                    program.destroy_infer(transfer, 5000)
+                except:
+                    failed_stage = "destroy-infer"
+            if failed_stage.byte_length() != 0:
+                raise Error("ProgramMock: stage failed: " + failed_stage)
+        elif scenario == "full" or scenario == "no-attest" or scenario == "bad-attest" or scenario == "teardown-order":
             program.create(transfer, 7, "aesir-program", 4096, 1048576, 5000)
         if scenario == "full":
             program.attest_payload_delivered(String(DIGEST))
@@ -70,6 +112,8 @@ def main() raises:
         elif scenario == "double-create":
             program.create(transfer, 7, "aesir-program", 4096, 1048576, 5000)
             program.create(transfer, 7, "aesir-program", 4096, 1048576, 5000)
+        elif scenario.startswith("fail-at-"):
+            pass  # handled by the sequential runner above
         else:
             raise Error("ProgramMock: unknown scenario")
     except e:
@@ -80,6 +124,6 @@ def main() raises:
     except:
         close_failed = True
     var accepted = refused.byte_length() == 0 and not close_failed and not program.poisoned and program.stages_completed == 7 and program.stage == 0 and transfer.exchanges == 7
-    print("{\"accepted\":" + _bool(accepted) + ",\"scenario\":\"" + scenario + "\",\"identity_printed\":" + _bool(identity_printed) + ",\"stages_completed\":" + String(program.stages_completed) + ",\"stage\":" + String(program.stage) + ",\"exchanges\":" + String(transfer.exchanges) + ",\"infer_known\":" + _bool(program.infer_known) + ",\"configured_known\":" + _bool(program.configured_known) + ",\"payload_attested\":" + _bool(program.payload_attested) + ",\"poisoned\":" + _bool(program.poisoned or transfer.poisoned) + ",\"refused\":" + _bool(refused.byte_length() != 0) + ",\"close_failed\":" + _bool(close_failed) + ",\"physical_calls\":false}")
+    print("{\"accepted\":" + _bool(accepted) + ",\"scenario\":\"" + scenario + "\",\"identity_printed\":" + _bool(identity_printed) + ",\"stages_completed\":" + String(program.stages_completed) + ",\"stage\":" + String(program.stage) + ",\"exchanges\":" + String(transfer.exchanges) + ",\"infer_known\":" + _bool(program.infer_known) + ",\"configured_known\":" + _bool(program.configured_known) + ",\"payload_attested\":" + _bool(program.payload_attested) + ",\"poisoned\":" + _bool(program.poisoned or transfer.poisoned) + ",\"refused\":" + _bool(refused.byte_length() != 0) + ",\"failed_stage\":\"" + failed_stage + "\",\"close_failed\":" + _bool(close_failed) + ",\"physical_calls\":false}")
     if not accepted:
         raise Error("ProgramMock: scenario unaccepted (refusal or failure recorded in the JSON line)")

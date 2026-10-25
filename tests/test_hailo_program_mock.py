@@ -139,6 +139,30 @@ class ProgramMock(unittest.TestCase):
   for args in ([],['physical-once'],['host-mock-aligned','/sys','/dev','full'],['host-mock-aligned',str(self.sys),str(self.dev),'bogus-scenario']):
    result,rows=self.run_pair(args=args);self.assertNotEqual(result[0],0)
 
+ def test_09_partial_creation_failure_accounting(self):
+  # Each stage's reply is corrupted in turn (typed status). The owner
+  # must stop at that stage, poison, attempt nothing further, and its
+  # printed accounting must name the exact residue tier.
+  cases=[
+   ('fail-at-create',{'0':'status'},0,'create',False,False,1),
+   ('fail-at-configure',{'1':'status'},1,'configure',True,False,2),
+   ('fail-at-activate',{'2':'status'},2,'activate',True,True,3),
+   ('fail-at-deactivate',{'3':'status'},3,'deactivate',True,True,4),
+   ('fail-at-shutdown',{'4':'status'},4,'shutdown',True,True,5),
+   ('fail-at-destroy-configured',{'5':'status'},5,'destroy-configured',True,True,6),
+   ('fail-at-destroy-infer',{'6':'status'},6,'destroy-infer',True,False,7),
+  ]
+  for scenario,typed,stages,failed,infer_known,configured_known,exchanges in cases:
+   result,_=self.run_pair(typed=typed,args=self.args(scenario));j=self.data(result)
+   self.assertNotEqual(result[0],0,(scenario,j));self.assertFalse(j['accepted'])
+   self.assertEqual(j['failed_stage'],failed,(scenario,j));self.assertEqual(j['stages_completed'],stages,(scenario,j))
+   self.assertEqual(j['infer_known'],infer_known,(scenario,j));self.assertEqual(j['configured_known'],configured_known,(scenario,j))
+   self.assertEqual(j['exchanges'],exchanges,(scenario,j));self.assertTrue(j['poisoned'],(scenario,j))
+
+ def test_10_transport_failure_at_create(self):
+  result,_=self.run_pair(fault='launch_after1',args=self.args('fail-at-create'));j=self.data(result)
+  self.assertNotEqual(result[0],0);self.assertEqual(j['failed_stage'],'create');self.assertEqual(j['stages_completed'],0);self.assertEqual(j['exchanges'],0);self.assertTrue(j['poisoned'])
+
 if __name__=='__main__':
  parser=argparse.ArgumentParser()
  for name in ('binaries','evidence'):parser.add_argument('--'+name,required=True)
