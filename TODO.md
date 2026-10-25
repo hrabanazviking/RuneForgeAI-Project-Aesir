@@ -1079,13 +1079,43 @@
   swaps, all 10 at edge distance <=2; 4/10
   match neither neighbour; S82 stays 0).
   `docs/HAILO10H_SEGMENT_SUBSTITUTION_MOTIFS_SPILLOVER_2026-10-24.md`.
-- [ ] Slice4.78 region census extended to
+- [x] Slice4.78 region census extended to
   the remaining five artifacts (localized
   substitution corpus-wide); the four
   unexplained S76 flips (173, 517, 618,
   619) vs second-neighbour runs and span
-  extension; then broad ordinary
-  UNMODIFIED source-model support100%.
+  extension: the remaining five give 377
+  K2 hits / 374 localized (corpus 531 /
+  375); localized hits split by scale —
+  micro (region <=5) 373, a repeated-family
+  property (76c3a8ff 156 hits = one len-89
+  signature, position 18 = 21392/21648
+  across 25 step-9 contexts, 13x12
+  cross-camp; sisters 109/107, 11
+  signatures each), and segment scale
+  exactly ONE more: 0856a10c 85->91
+  (region 16->22, (9144,184)x4 ->
+  (528,80)x3, suffix 56, ng0->ng1) — the
+  segment class has exactly 2 members
+  corpus-wide, both the same motif
+  rewrite at a-len 85; single-replace 299
+  in the five vs 0 in 0a0d+cc9. The S76
+  residue fails every radius-2 test
+  (second-neighbour swap, span extension
+  by 2, gap-bridged super-run internality
+  all 0/4); it stands, mechanism NOT
+  PROVEN.
+  `docs/HAILO10H_REGION_CENSUS_CORPUS_S76_RESIDUE_2026-10-24.md`.
+- [ ] Slice4.79 the two segment exemplars
+  compared whole-context (0856a10c 85->91
+  vs 0a0d378c 85->92: a/b contexts related
+  across artifacts? head 13 vs 12, suffix
+  identity); 76c3a8ff len-89 camp anatomy
+  (what besides position 18 separates the
+  21392/21648 camps); sister len-496
+  5->5 signature region contents; then
+  broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

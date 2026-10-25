@@ -2194,3 +2194,28 @@ while four match no neighbour. Next: the census at corpus
 scope, and the second-neighbour test for the four residue
 flips. Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 region census at corpus scope, S76 residue (AES-NUM-078,slice4.78):
+`docs/HAILO10H_REGION_CENSUS_CORPUS_S76_RESIDUE_2026-10-24.md`.
+At corpus scope the singleton breaks in two. Small
+substitutions are everywhere the corpus repeats itself:
+in the three train-heavy artifacts, hundreds of context
+pairs differ by a region of five actions or fewer — in
+one artifact a single position in a family of
+eighty-nine-action contexts takes just two values, and
+every pair across the two camps is such a hit. But at
+the scale of the original exemplar there is exactly one
+more in the whole corpus, and it is the same story told
+again: an eighty-five-action context in 0856a10c
+rewrites its (9144,184) segment into a (528,80) segment,
+gains six actions, and lands over the same
+fifty-six-action suffix. Two members, one rewrite. The
+four stray S76 flips, meanwhile, refuse every wider
+net: no second neighbour's swap makes them, no
+two-position span extension reaches them, and merging
+runs across small gaps does not absorb them — three of
+them carry a flip type their whole neighbourhood
+lacks. Next: the two exemplars compared whole-context,
+the two-camp anatomy, and the sister signature
+regions. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

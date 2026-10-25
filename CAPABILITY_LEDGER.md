@@ -7314,3 +7314,43 @@ No new capability ID or hardware/complete-source execution claim.
   artifacts; the four unexplained S76 flips vs
   second-neighbour runs and span extension (slice 4.78).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-078 — region census at corpus scope: segment substitution has exactly two members (85→92 + 0856 85→91), micro-substitution is a repeated-family property, S76 residue fails second-neighbour + span-extension tests (0/4)
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_REGION_CENSUS_CORPUS_S76_RESIDUE_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...077 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef78.py (sha256 cc356034...) + hef78b.py (sha256
+  08c73b44...) + hef78c.py (sha256 416e98c4...), all
+  sha-verified on-device. (i) The AES-NUM-077 region
+  definition over the remaining five artifacts: 7,238
+  candidates, 377 K2 hits, 374 localized, 3 whole-body
+  (all 76c3a8ff); corpus totals 531 hits / 375 localized.
+  Localized hits split by scale: micro (region <=5) 373 —
+  a repeated-family property (76c3a8ff: 156 hits are ONE
+  signature, len-89 position 18 taking 21392/21648 across
+  25 step-9-train contexts, 13x12 cross-camp pairs;
+  sisters 109/107 hits, 11 signatures each, regions <=5)
+  — and segment scale (8-40) exactly ONE more:
+  0856a10c cidx 99 (ng0, len 85) -> cidx 255 (ng1, len
+  91), head 13, suffix 56, region 16->22, (9144,184)x4
+  -> (528,80)x3. Segment-scale substitution is NOT
+  unique corpus-wide: its class has exactly 2 members,
+  both the same motif rewrite at a-len 85 over a
+  56-action suffix, ng0->ng1; AES-NUM-077's uniqueness
+  stands only in 0a0d+cc9. Single-replace: 299 hits in
+  the remaining five vs 0 in 0a0d+cc9. (ii) S76 residue:
+  construction reproduced exactly (182 diffs, 49 runs,
+  10 outside, 6 first-neighbour; S82 0); second-neighbour
+  swap, span extension by 2, and gap-bridged super-run
+  internality (49->27 super-runs) each explain 0/4 of
+  the residue flips (173, 517, 618, 619) — 173/618/619
+  carry a (0,2)-class flip their neighbourhoods lack
+  (nearest same flip 34/502/503 away); the residue
+  stands, mechanism NOT PROVEN.
+- **Next:** the two segment exemplars compared
+  whole-context; 76c3a8ff len-89 camp anatomy; sister
+  len-496 5->5 signature region contents (slice 4.79).
+- **Audit:** Host-side analysis only; no device child.
