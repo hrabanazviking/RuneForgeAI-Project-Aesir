@@ -42,12 +42,17 @@
   only on reply-framing faults — resolved as a qualified
   consumer-layer poison contract (the primitive stays framing-free).
   `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`.
-- [ ] Slice2.4 separately contracted bounded physical confirmation
-  (one control-class exchange through the primitive),then Campaign3
-  program resource lifecycle;then numerical configuration/packing/
+- [x] Slice2.4 contract published before code:
+  `TASK_hailo10h_grouped_transfer_physical.md` — exactly one physical
+  child,one CREATE exchange through the primitive on aligned backing,
+  consumer-layer reply validation,known handle residue stated up
+  front,host gates on the Pi first.
+- [ ] Slice2.4 implementation:physical diagnostic for the primitive,
+  host-qualified on the Pi,then exactly ONE physical child under the
+  contract;write-up AES-TRANSFER-004. Then Campaign3 program
+  resource lifecycle;then numerical configuration/packing/
   placement/program/results and broad ordinary UNMODIFIED
-  source-model support100%. Any physical attempt requires its OWN
-  published one-shot contract first.
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
