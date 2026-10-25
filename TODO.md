@@ -1498,16 +1498,30 @@
   (257/257), +31 = repeated
   pair at 80-spacing.
   `docs/HAILO10H_PERMASK_ANATOMY_DATABLOCK_SHIFTSET_2026-10-24.md`.
-- [ ] Slice4.99 the 22 zero
-  pairs' neighbourhoods vs
-  same-offset other-mask
-  counterparts; block
-  per-segment head values as
-  a population; positional-law
-  test for the middles' other
-  byte pairs; then broad
-  ordinary UNMODIFIED
-  source-model support100%.
+- [x] Slice4.99 zero pairs
+  have almost no counterparts
+  (2 total in 2,280, both
+  non-zero 11011; offsets are
+  mask-exclusive); block head
+  values = one constant per
+  segment per family (fam0
+  ffffff7f everywhere, fam1/2
+  injective labels, disjoint
+  across families/camps);
+  positional law exact for
+  ALL byte pairs (0 differing
+  triples, 602 pairs).
+  `docs/HAILO10H_ZERO_PAIR_COUNTERPARTS_HEAD_POPULATION_POSITIONAL_LAW_2026-10-24.md`.
+- [ ] Slice4.100 the 22 zero
+  offsets across all forms
+  (DENSE/MID at same offsets);
+  family-1/2 label values vs
+  segment metadata; positional
+  law on ungrown ranks + the
+  reverse (B, A) direction;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

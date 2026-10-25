@@ -2711,3 +2711,24 @@ Next: what singles out the 22 zero pairs, the block's per-segment
 head values read as a population, and whether every byte pair's
 lag census factors through positions the same way. Broad
 ordinary UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 zero-pair counterparts, head population, all-pairs positional law (AES-NUM-099,slice4.99):
+`docs/HAILO10H_ZERO_PAIR_COUNTERPARTS_HEAD_POPULATION_POSITIONAL_LAW_2026-10-24.md`.
+The hunt for what separates the 22 zero pairs from their neighbours
+ends in an emptier room than expected: across all 2,280 sparse
+candidates there are exactly two same-offset candidates of any
+other mask at those offsets, both non-zero — the zero offsets are
+not merely mask-and-offset deterministic, they are mask-exclusive,
+and each pair's neighbourhood is a single rigid template. The
+region-0 block's per-segment head values, read as a population,
+are one constant per segment per family: ffffff7f in family 0
+everywhere, and in families 1 and 2 a unique label per segment,
+never reused across segments, families, or camps — the old x36
+"consensus" word is just the first segment's own label. And the
+middles' positional law, proved for one byte pair in 4.98, holds
+for all of them: predicted from byte-position sets alone, the lag
+census matches at every one of 602 ordered pairs with zero
+differing triples. Next: the 22 offsets across all forms, the
+head labels against segment metadata, and the positional law on
+the ungrown ranks and in reverse. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

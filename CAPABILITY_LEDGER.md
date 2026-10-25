@@ -8188,3 +8188,73 @@ No new capability ID or hardware/complete-source execution claim.
   values as a population; positional-law test for the
   middles' other byte pairs (slice 4.99).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-099 — the 22 zero pairs have almost no same-offset counterparts (2 total, both non-zero), the block's per-segment head values are one constant per segment per family (injective labels, family 0 = ffffff7f everywhere), and the middles' positional law holds for every byte pair (0 differing triples over 602 pairs)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_ZERO_PAIR_COUNTERPARTS_HEAD_POPULATION_POSITIONAL_LAW_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...098 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
+  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
+  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
+  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
+  x12, rank-2 middles 21 mismatches at k = 111, AES-NUM-095
+  counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898, MID
+  21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6),
+  AES-NUM-097 counts (mask table 1088/6, 549/108, 348/30,
+  61/0, 234/0; region 0 2,056 words / 02-count 150 /
+  distinct 104; six-pair totals s = 0: 28, s = +64: 44;
+  20>3e 21 shifts x8 at +31; a9>3e at -16/+64) and
+  AES-NUM-098 counts (22 zero (mask, offset) pairs, no
+  partial offset; block 26 units x 7 words, 110/182
+  unanimous offsets; 20>3e prediction exact at 257 shifts),
+  in hef99.py (sha256 9b87f53d... = hef98 lineage +
+  hef99_arms.py 09237a15..., script sha verified
+  on-device); output sha256 02bd57b8....
+  Contract docs/TASK_CONTRACT_4.99.md published @ a2da97bc
+  before implementation. (i) Re-collection with full
+  neighbourhood words matches the hef98 sn population
+  EXACTLY (2,280 candidates); the 22 zero pairs re-derive;
+  every pair's zero side carries exactly ONE distinct
+  neighbourhood tuple (22/22) and 0 non-zero candidates.
+  Counterparts: exactly 2 same-offset other-mask candidates
+  in the whole population (at 7632 and 28768, both mask
+  11011, both non-zero); 20/22 pairs have none; aggregate
+  counterpart zeros 0, identical-tuple counterparts 0;
+  pooled per-position overlaps pos0 (1,21,1), pos1 (1,21,1),
+  pos2 (0,22,2), pos3 (2,20,0), pos4 (2,20,0). No separating
+  law credited — the offsets are mask-exclusive as
+  measured; selecting mechanism NOT PROVEN. (ii) All 75
+  (camp, segment, family) head populations are a SINGLE
+  constant across all slots (fam0 32, fam1/fam2 36);
+  family 0 = ffffff7f in all 25 segments, deviations 0;
+  family 1: A 13 distinct values (low3 a20000 x11 /
+  a30000 x2, variation in byte 0 only), B 12 distinct
+  (a20000 x9 / b30000 x3), none shared by >= 2 segments;
+  family 2: A 13 distinct with 13 distinct low3 patterns,
+  B 12 distinct with 11 low3 patterns (020200 shared as
+  a pattern by two segments whose full words differ);
+  per-segment fam1/fam2 intersections empty in all 25
+  segments for full words AND low3 patterns; cross-camp
+  fam1 and fam2 intersections empty. Labels are injective
+  across segments, families and camps; what they encode
+  NOT PROVEN. (iii) Positional law EXACT for ALL ordered
+  byte pairs: A middles 24 distinct bytes, B middles 28;
+  position lists identical across the 4 ranks for 18/24
+  A bytes and 22/28 B bytes (differing bytes exactly
+  {00, 80, 85, 87, 89, 8b} on both sides); 602 ordered
+  pairs with >= 1 tally, 131,360 total tallies,
+  predicted-vs-census differing triples 0; out-of-range
+  position pairs 24,544 over 269 ordered pairs; all six
+  copy-span pairs individually predicted-equal (20>3e
+  21 shifts oor 0; a9>3e {-16, +64} oor 0; 02>00 168
+  shifts oor 0; 80>00 257 shifts oor 638; 00>10 202
+  shifts oor 304; 00>20 203 shifts oor 1,562).
+- **Next:** the 22 zero offsets across all forms;
+  family-1/2 label values vs segment metadata;
+  positional law on ungrown ranks and the reverse
+  direction (slice 4.100).
+- **Audit:** Host-side analysis only; no device child.
