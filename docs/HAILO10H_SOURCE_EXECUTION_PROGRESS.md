@@ -632,3 +632,20 @@ only. Next is slice2.4:a separately contracted bounded physical
 confirmation (one control-class exchange through the primitive).
 Numerical/packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 first operation selection:
+`docs/HAILO10H_FIRST_OPERATION_SELECTION_2026-10-24.md`
+(AES-NUM-002,Campaign4 slice4.2). The first operation is the
+elementwise identity copy of a single tensor — the only
+candidate whose correctness depends on no OUT field,with a
+byte-exact independent oracle and the smallest complete shape.
+ReLU waits as alternate #1 (element representation unknown);
+constant fill, elementwise add and GEMV were scored and
+rejected for now. The selection states its 4.3 prediction in
+advance:layers 1-4,7,8 completable at source level,5-6 blocked
+on CCW content and action sequencing,Campaign4 not exiting this
+pass. Next:slice4.3,the eight-layer description tested against
+that prediction. Numerical/packing/placement/program/results
+and broad ordinary UNMODIFIED source-model support100% remain
+work.

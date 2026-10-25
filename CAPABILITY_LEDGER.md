@@ -4824,3 +4824,32 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next acceptance gate:** Slice 4.2 operation selection record;
   Track R session-layer study continues.
 - **Audit:** Specification only. No global/hosted-CI pass.
+
+### AES-NUM-002 — First operation selection (Campaign 4)
+
+- **Status:** `verified` (specification scope:selection record
+  with scored alternates and a pre-stated layer prediction).
+- **Owner:** docs/HAILO10H_FIRST_OPERATION_SELECTION_2026-10-24.md.
+- **Claim sources:** AES-NUM-001 field table (all dependency
+  grades inherited from it).
+- **Decision:** The first operation is the ELEMENTWISE IDENTITY
+  COPY of a single tensor — the only candidate whose correctness
+  depends on no OUT field (bytes in = bytes out under any
+  representation), with a byte-exact independent oracle and the
+  smallest complete shape (1 in,1 out,no parameters). ReLU is
+  alternate #1 (first true arithmetic op;adds the element
+  representation unknown). Constant fill,elementwise add and
+  GEMV rejected for now with reasons recorded. Named risk:the
+  device vocabulary may lack a copy primitive — a layer-2
+  question the description process exists to surface;if shown,
+  selection falls to ReLU on this record.
+- **Pre-stated prediction for 4.3:** layers 1,2,3,4,7,8
+  completable at source level (layer 2 with the vocabulary
+  caveat);layers 5-6 INCOMPLETE on CCW content + action
+  sequencing;Campaign 4 does not exit this pass;iteration item
+  = CCW layout research (Track R lane D / Campaign 5 gate).
+- **Evidence boundary:** No operation is described yet (that is
+  4.3),nothing is emitted,and no device behavior is claimed.
+- **Next acceptance gate:** Slice 4.3 eight-layer description
+  tested against this prediction;then 4.4 review gate.
+- **Audit:** Specification only. No global/hosted-CI pass.

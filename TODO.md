@@ -101,12 +101,18 @@
   phase is ONE async session read of the declared size after a
   readiness wait;the SoC session readiness protocol remains
   NOT ESTABLISHED. `docs/HAILO10H_NUMERICAL_FIELD_TABLE_2026-10-24.md`.
-- [ ] Slice4.2 first-operation selection by evidence strength
-  (record the chosen operation + alternates scored against the
-  field table);then 4.3 eight-layer description of the chosen
-  operation;then 4.4 review gate;Track R session study
-  continues;then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-002 slice4.2 selection:the ELEMENTWISE IDENTITY
+  COPY (only candidate depending on no OUT field;byte-exact
+  oracle;1-in/1-out). ReLU = alternate#1;fill/add/GEMV rejected
+  with reasons. Pre-stated 4.3 prediction:layers 1-4,7,8
+  completable at source level;5-6 blocked on CCW/sequencing;
+  Campaign4 does not exit this pass.
+  `docs/HAILO10H_FIRST_OPERATION_SELECTION_2026-10-24.md`.
+- [ ] Slice4.3 eight-layer complete description of the identity
+  copy,tested against the AES-NUM-002 prediction (any
+  contradiction is the finding);then 4.4 independent review
+  gate;Track R lane D (CCW layout) + session studies continue;
+  then broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
