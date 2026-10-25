@@ -932,12 +932,35 @@
   alone at gap 2 in 92.6% (4,263/4,603), no fixed
   reset sequence, long gaps 11/12 cc9 step-4 rail
   only (54). `docs/HAILO10H_CHANNEL_SCAFFOLD_A_BOUNDARY_CA_RESET_2026-10-24.md`.
-- [ ] Slice4.72 marker action's exact size
+- [x] Slice4.72 marker action's exact size
   selection (41/58-value pools vs context /
   position / following A-B pair); channel-rigid
   classes in cc9's loose population (the
   39-window block); 763 class channel
-  dissolution vs its size stream; then broad
+  dissolution vs its size stream: marker pools
+  are COMPLETE step-8 ladders (0a0d 5,536-5,856
+  41 rungs, cc9 6,112-6,568 58 rungs, no gaps;
+  C-predecessor markers in-ladder 100%) but no
+  tested feature selects the rung (all function
+  tests at chance; rung recurs as an ordinary
+  in-context size 98.6%/84.0%) - selection NOT
+  PROVEN; the 39-window block is the universal
+  55-action end block (last-55 size+channel
+  sequences 1 distinct per artifact; 39 =
+  55-17+1) and cc9/0856 loose classes hold no
+  single window outside it; 763 dissolution is
+  subgroup mixing (9 channel sequences over 32
+  contexts, groups 12/10/4 periodic + 6
+  singletons; size single ~588/763 within
+  subgroups vs 72 class-wide).
+  `docs/HAILO10H_MARKER_LADDER_CC9_ENDBLOCK_763_SUBGROUPS_2026-10-24.md`.
+- [ ] Slice4.73 763 subgroup anatomy (subgroup
+  size templates vs each other; singletons vs
+  subgroups; cidx periodicity vs proto
+  ordering); marker-rung distribution vs the
+  contexts' own 5-7k data-action size
+  distribution; 321 class's 57-action end
+  region vs the universal 55; then broad
   ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

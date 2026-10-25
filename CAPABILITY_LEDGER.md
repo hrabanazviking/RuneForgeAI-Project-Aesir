@@ -7119,3 +7119,38 @@ No new capability ID or hardware/complete-source execution claim.
   39-window block classes; 763 class channel dissolution
   (slice 4.72).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-072 — Marker ladder complete, cc9 39-window block = end block, 763 subgroups
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_MARKER_LADDER_CC9_ENDBLOCK_763_SUBGROUPS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...071 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef72.py (sha256 c3c29a1f...) + hef72b.py (sha256 2f9d1f6a...).
+  (i) The C->A marker pools are complete step-8 ladders with no
+  missing rung (0a0d378c 5,536-5,856, 41 rungs; cc9b9d1c
+  6,112-6,568, 58 rungs); C-predecessor markers lie in the
+  ladder 100% in both artifacts (all-A totals 93 / 59 distinct
+  incl. a sparse 0a0d extension and size 24). No tested feature
+  selects the rung (cidx / position / ordinal / channel / next
+  pair / p-2 size all mixed at chance level; only (cidx,k) is
+  exact, a tautology); consecutive rungs move both ways and
+  the rung recurs as an ordinary size in its own context in
+  98.6% / 84.0% — exact selection NOT PROVEN. (ii) Every cc9
+  and 0856 class with n>=8 holds EXACTLY 39 single-channel
+  17-windows, one block starting at nacts-55, because the
+  last-55 size and channel sequences are each 1 distinct per
+  artifact over ALL contexts (the universal end block;
+  39 = 55-17+1; trailing ch0 run is 1 in all 1,504 contexts);
+  no cc9 class holds a single window outside it — no hidden
+  channel-rigid classes. (iii) The 763 class's dissolution is
+  between-subgroup mixing: only 9 distinct full channel
+  sequences over 32 contexts (groups 12 / 10 / 4 on periodic
+  cidx + six singletons), size single at ~588/763 positions
+  within each big subgroup vs 72 class-wide; its only single
+  windows are the end block's 39.
+- **Next:** 763 subgroup anatomy; marker-rung distribution vs
+  the contexts' own 5-7k data sizes; 321 class's 57-action
+  end region (slice 4.73).
+- **Audit:** Host-side analysis only; no device child.

@@ -2056,3 +2056,29 @@ exact size, which cc9 classes carry the 39-window
 block, and how the 763 class's channels dissolve.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 Marker ladder, cc9 end-block windows, 763 subgroups (AES-NUM-072,slice4.72):
+`docs/HAILO10H_MARKER_LADDER_CC9_ENDBLOCK_763_SUBGROUPS_2026-10-24.md`.
+The 41/58 marker pools turn out to be complete ladders:
+every step-8 size from 5,536 to 5,856 in 0a0d378c and
+from 6,112 to 6,568 in cc9b9d1c occurs as a C-to-A
+marker, with no rung missing, and C-predecessor markers
+never leave the ladder. But nothing structural picks
+the rung — context, position, ordinal, channel and the
+following pair all fail at chance level, consecutive
+rungs wander both ways, and the rung is usually also
+an ordinary data size elsewhere in its own context.
+The cc9 mystery block dissolves too: every loose class
+holds exactly the 39 windows that fit inside the
+universal 55-action end block, whose size and channel
+sequences are one fixed sequence per artifact over all
+its contexts, and no cc9 class has a rigid window
+anywhere else. And the 763 class is not dissolving
+gradually — it is nine channel subgroups (12, 10 and 4
+contexts on periodic indices, plus six singletons)
+mixed together; inside a subgroup even the size stream
+holds at about 588 of 763 positions. Next: the 763
+subgroups' own templates, the marker-rung distribution
+against the contexts' data sizes, and the 321 class's
+57-action end region. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
