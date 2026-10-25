@@ -261,9 +261,22 @@
   triggers measure an addressing floor of >=5 clusters x
   >=16 LCUs (indices 0-4 / 0-15).
   `docs/HAILO10H_CENSUS_HUNT_AND_ADDRESSING_FLOOR_2026-10-24.md`.
-- [ ] Slice4.15 pair acquisition (model zoo) + cross-
-  artifact differential;per-context lane comparison;then
-  broad ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-015 slice4.15 pair acquisition:the hailo-
+  ollama store is FOUND (six HEF blobs,12 GB,corpus
+  1 -> 7 artifacts) + cross-artifact differential (two
+  GenAI HEFs walked by an mmap walker whose MiniLM
+  control reproduces -011/013/014 exactly):lane0's
+  dominant header word is the same across three network
+  families;lane2 is a <=3-byte field (bytes3-7 all-zero
+  in 9,757 bursts);per-context lane comparison done
+  (lane0 fixed at 17/24 aligned positions);census
+  floor not raised.
+  `docs/HAILO10H_PAIR_ACQUISITION_AND_CROSS_ARTIFACT_DIFFERENTIAL_2026-10-24.md`.
+- [ ] Slice4.16 walk the remaining four ollama-store
+  blobs (lane0/lane2 universality + census floor at
+  full corpus scale);slice4.17 lane-1 structure hunt;
+  then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

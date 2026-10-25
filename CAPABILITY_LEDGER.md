@@ -5317,3 +5317,53 @@ No new capability ID or hardware/complete-source execution claim.
   ranges are exact. AES-NUM-007's NOT PROVEN stands for the
   census itself,with this floor now beneath it.
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-015 — pair acquired (ollama store) + cross-artifact differential
+
+- **Status:** `verified` (measured, three artifacts).
+- **Owner:** docs/HAILO10H_PAIR_ACQUISITION_AND_CROSS_ARTIFACT_DIFFERENTIAL_2026-10-24.md.
+- **Evidence:** (1) The hailo-ollama store AES-NUM-010/012
+  could not locate is FOUND: ~/.local/share/hailo-ollama/
+  models/blob/ on Mimir — six blobs,12 GB,all HEF-magic;
+  corpus 1 -> 7 artifacts,no download. Per-blob model
+  identity NOT claimed (manifests empty;size/sha only).
+  (2) Per-context lane comparison (MiniLM,order-aligned,
+  24 positions): lane0 identical across all 6 contexts at
+  17/24 positions (pairwise 0.811);lane1 varies at 24/24;
+  channel agrees at only 6/24. (3) Cross-artifact (mmap
+  walker,control on MiniLM reproduces -011/013/014
+  exactly): two GenAI HEFs (219 and 180 contexts) — lane0
+  dominant word is the SAME 0528000000000000 (4,820/5,564
+  and 3,960/4,040);lane2 bytes3-7 all-zero in both.
+- **Grades:** lane2 = a <=3-byte field in a 64-bit lane,
+  EMPIRICAL cross-artifact (9,757 bursts,3 networks);
+  lane0 dominant word = fixed burst-header constant,
+  EMPIRICAL-CANDIDATE (meaning unclaimed);zero-point
+  formula corroborated on 3 artifacts;LCU floor >=5 x
+  >=16 NOT raised by 399 further contexts.
+- **Evidence boundary:** 3 of 7 corpus artifacts walked;
+  no same-family one-parameter pair yet,so parameter-
+  tracking remains open (recipe/zoo pair's job).
+- **Audit:** Host-side analysis only.
+
+### AES-NUM-015 — per-context lane differential: the layer skeleton
+
+- **Status:** `verified` (exact value-set statistics).
+- **Owner:** docs/HAILO10H_PER_CONTEXT_LANE_DIFFERENTIAL_2026-10-24.md.
+- **Evidence:** 153 channel-1/2 24 B bursts across the 6
+  contexts (25/24/25/24/26/29). Lane0:exactly ONE value
+  common to all six contexts (the champion 05280000...) of
+  18 in union,and it appears EXACTLY 22 times per context —
+  a structural constant. Lane0 sequences match position-wise
+  21-22/24 across contexts 1-4 (ctx5 18 — end-of-network
+  extras). Lanes1-2:only 2 values each common to all six
+  (of 82/83) — operand lanes are layer-specific.
+- **Reading (behavioural):** fixed skeleton (22 champion
+  bursts/layer) + layer-specific operands;champion bursts
+  are the prime pure-configuration candidates.
+- **Pair route:** the twister zoo checkout's HAILO10H
+  public-model docs confirmed present;pair download is the
+  next acquisition step.
+- **Evidence boundary:** no field named;byte-entropy anatomy
+  of the 132 champion bursts queued (needs no new artifact).
+- **Audit:** Host-side analysis only.

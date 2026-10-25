@@ -940,3 +940,32 @@ R3's NOT PROVEN. Next:4.15 model-zoo pair acquisition +
 cross-artifact differential;per-context lane comparison.
 Broad ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+
+2026-10-24 pair acquired + cross-artifact differential
+(AES-NUM-015,slice4.15):
+`docs/HAILO10H_PAIR_ACQUISITION_AND_CROSS_ARTIFACT_DIFFERENTIAL_2026-10-24.md`.
+The hailo-ollama store is found (six HEF blobs,12 GB —
+corpus 1 -> 7). Per-context lanes:lane0 fixed across
+contexts at 17/24 aligned positions;lane2's high five
+bytes are always zero. Cross-artifact:two GenAI HEFs show
+the SAME lane0 header word dominant (86.6% and 98.0% of
+small bursts) and the same all-zero lane2 tail — 9,757
+bursts,three networks. Lane2 is a <=3-byte field;the
+census floor (>=5 x >=16) is not raised. Next:4.16 walk
+the remaining four blobs;4.17 lane-1 structure hunt.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+
+2026-10-24 per-context lane differential (AES-NUM-015,
+slice4.15):
+`docs/HAILO10H_PER_CONTEXT_LANE_DIFFERENTIAL_2026-10-24.md`.
+The six layers share a skeleton:lane0 has exactly one value
+common to all contexts — the champion header word — carried
+exactly 22 times per layer,with near-identical sequences;
+lanes1-2 are layer-specific operands. The model-zoo HAILO10H
+catalogue is confirmed present locally for pair acquisition.
+Next:byte-entropy anatomy of the 132 champion bursts;pair
+download + cross-artifact differential. Broad ordinary
+UNMODIFIED source-model support100% remains the destination.
