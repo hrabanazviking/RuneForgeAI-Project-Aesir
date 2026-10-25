@@ -5624,3 +5624,20 @@ No new capability ID or hardware/complete-source execution claim.
   encoder artifact + reference encoder,host-tested on all
   1,189 samples;then non-champion lane0 families.
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-026 — encoder frozen and proven in Mojo
+
+- **Status:** `verified` (Mojo build + full-corpus run on Mimir).
+- **Owner:** docs/HAILO10H_ENCODER_FREEZE_2026-10-24.md.
+- **Artifacts:** hailbru/ccw_datum_basis.json (16 rows;
+  canonical sha256 7a1635cb…a7e5a,VM-reproduced) and
+  hailbru/ccw_datum.mojo (reference encoder;out-of-span
+  returns None — refuses,never guesses).
+- **Evidence:** module crossed byte-identical;standalone
+  run datum(0)=0,special word → 0x56898c;on-device harness
+  over all 1,189 corpus pairs:CHECKED 1189 FAILED 0.
+- **Toolchain:** Pi Mojo removed `fn` (repo uses `def`);
+  no bare InlineArray — unrolled reduction + List harness.
+- **Next:** non-champion lane0 families (same treatment);
+  wider CCW forms beyond 24 B bursts.
+- **Audit:** Host-side build/run only;no device child.

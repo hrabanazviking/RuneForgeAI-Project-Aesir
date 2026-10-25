@@ -344,10 +344,14 @@
   artifacts;field varieties closed (flags 65,enum 5,
   ladder 7);variety ceiling ≈16 = rank (saturation
   hypothesis). `docs/HAILO10H_SPAN_SATURATION_2026-10-24.md`.
-- [ ] Slice4.26 freeze the fitted basis as an Aesir-side
-  encoder artifact (basis table + reference encoder,
-  host-tested on all 1,189 samples);non-champion lane0
-  families next;then broad ordinary UNMODIFIED
+- [x] AES-NUM-026 slice4.26 encoder freeze:basis frozen
+  (hailbru/ccw_datum_basis.json, canonical sha 7a1635cb…)
+  + Mojo encoder (hailbru/ccw_datum.mojo);built on Mimir,
+  CHECKED 1189 FAILED 0;out-of-span refuses.
+  `docs/HAILO10H_ENCODER_FREEZE_2026-10-24.md`.
+- [ ] Slice4.27 non-champion lane0 families:census per
+  family + operand-to-datum structure per family (same
+  treatment as champion);then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

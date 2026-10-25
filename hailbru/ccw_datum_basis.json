@@ -1,0 +1,88 @@
+{
+ "artifact": "ccw datum basis (champion burst form)",
+ "provenance": "Fitted by exact GF(2) linear algebra over the champion-burst operand->datum maps of 7 HEF artifacts on Mimir (AES-NUM-023/024/025); canonical byte form sha256 7a1635cb32fbd48e935d7902e532a3f700ef28edfed4bee09d2470a8a92a7e5a",
+ "rank": 16,
+ "semantics": "datum(u24) = XOR of rows[i].y for a GF(2) reduction of the 64-bit lane1 word by rows[i].x (pivot = highest set bit of x). Inputs that do not reduce to zero are OUT OF SPAN: the encoder must refuse, never guess.",
+ "rows": [
+  {
+   "pivot": 10,
+   "x": "0x400",
+   "y": "0x3858a9"
+  },
+  {
+   "pivot": 11,
+   "x": "0xc00",
+   "y": "0x48e9fb"
+  },
+  {
+   "pivot": 12,
+   "x": "0x1000",
+   "y": "0x497945"
+  },
+  {
+   "pivot": 13,
+   "x": "0x3000",
+   "y": "0x73902e"
+  },
+  {
+   "pivot": 14,
+   "x": "0x6000",
+   "y": "0x4f3bbd"
+  },
+  {
+   "pivot": 15,
+   "x": "0xc000",
+   "y": "0x366c9b"
+  },
+  {
+   "pivot": 16,
+   "x": "0x17800",
+   "y": "0x7d0633"
+  },
+  {
+   "pivot": 29,
+   "x": "0x30000000",
+   "y": "0x4a4ed8"
+  },
+  {
+   "pivot": 34,
+   "x": "0x400000000",
+   "y": "0x462fa0"
+  },
+  {
+   "pivot": 47,
+   "x": "0x828800000001",
+   "y": "0x3b71fa"
+  },
+  {
+   "pivot": 56,
+   "x": "0x10e00980000a001",
+   "y": "0x22c43d"
+  },
+  {
+   "pivot": 57,
+   "x": "0x200000000003000",
+   "y": "0x23a7ec"
+  },
+  {
+   "pivot": 58,
+   "x": "0x400000000001000",
+   "y": "0x410d20"
+  },
+  {
+   "pivot": 59,
+   "x": "0xe00000000001c00",
+   "y": "0x493bd3"
+  },
+  {
+   "pivot": 60,
+   "x": "0x18f0025020000c00",
+   "y": "0x1b0633"
+  },
+  {
+   "pivot": 61,
+   "x": "0x2d80025000008000",
+   "y": "0x56898c"
+  }
+ ]
+}

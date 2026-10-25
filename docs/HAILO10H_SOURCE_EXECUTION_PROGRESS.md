@@ -1103,3 +1103,14 @@ ceiling. The champion burst's datum is computable,by us,
 for the compiler's whole observed variety. Next:freeze the
 basis as an encoder artifact. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 encoder freeze (AES-NUM-026,slice4.26):
+`docs/HAILO10H_ENCODER_FREEZE_2026-10-24.md`. The fitted
+basis is frozen as hailbru/ccw_datum_basis.json + the Mojo
+reference encoder hailbru/ccw_datum.mojo — built on Mimir
+and verified against all 1,189 corpus pairs with ZERO
+failures. Aesir now computes the champion burst's datum
+itself. Next:the non-champion lane-0 families. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.
