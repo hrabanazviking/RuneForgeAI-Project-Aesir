@@ -394,10 +394,24 @@
   CHECKED 1120 + 133,FAILED 0. Channel-0 frozen
   coverage 42,627/43,486 (98.0%);pooled 76,207/79,001
   (96.5%). `docs/HAILO10H_CHANNEL0_FREEZES_2026-10-24.md`.
-- [ ] Slice4.32 small-form word anatomy:pointer actions
-  of size <=512 B (128,787 actions,structured size
-  ladder,15.8% zero words per AES-NUM-029),per size
-  class;then broad ordinary UNMODIFIED source-model
+- [x] AES-NUM-032 slice4.32 small-form word anatomy:42
+  size classes <=512 B (controls exact:128,787 actions,
+  79,001 bursts);41 non-24 classes = 49,786 actions /
+  1,289,731 words,33.0% all-zero words vs ZERO in all
+  237,003 burst words. Three species:skeleton templates
+  (72/120/416 B one segment x1,504;96 B two-word
+  skeleton),framed sparse arrays (176/248/344/376/424 B),
+  dense data (328 B,uniform-byte classes). 80 B walking-
+  bit ladder across positions 1-8. Chunk test:champion
+  heads zero chunks — small forms are NOT burst strings.
+  1,340 non-24 segments shared in >=2 artifacts;pair
+  5ab3537d/773470cd shares 83.5% of segments.
+  `docs/HAILO10H_SMALL_FORM_WORD_ANATOMY_2026-10-24.md`.
+- [ ] Slice4.33 skeleton-class deep-dive:96 B two-word
+  skeleton value pairs;80 B walking-bit full
+  distribution;single-segment classes (72/120/416 B)
+  identity across contexts/artifacts and co-variation;
+  then broad ordinary UNMODIFIED source-model
   support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

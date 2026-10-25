@@ -5744,3 +5744,30 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** small-form word anatomy per size class
   (slice 4.32).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-032 — small-form word anatomy
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_SMALL_FORM_WORD_ANATOMY_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029 exactly
+  (128,787 small actions;79,001 bursts). 42 size classes
+  <=512 B;the 41 non-24 classes hold 49,786 actions /
+  1,289,731 words,425,699 all-zero words (33.0%) — while
+  the burst's 237,003 words contain ZERO all-zero words.
+  Three species:skeleton templates (72/120/416 B = ONE
+  segment x1,504;96 B = 2 segs,positions 1-10 always
+  zero),framed sparse arrays (176 B p18 always zero,
+  zero fraction climbing to 98%;424 B strict marker/data
+  alternation from p13),dense data (328 B 0.2% zero,
+  uniform-byte classes 400/496/504/512 B). 80 B carries
+  a walking-bit ladder (single 08 byte walking across
+  positions 1-8,2,219 segs each). 24 B-chunk test:
+  champion heads ZERO chunks in every divisible class;
+  width law fails broadly except vacuously in skeleton
+  classes — small forms are NOT burst strings. Non-24
+  segments:13,340 distinct,1,340 shared in >=2
+  artifacts. Pair 5ab3537d/773470cd:identical form
+  census,83.5% of segments shared byte-for-byte,3,287
+  unique each side differing in operand words.
+- **Next:** skeleton-class deep-dive (slice 4.33).
+- **Audit:** Host-side analysis only;no device child.

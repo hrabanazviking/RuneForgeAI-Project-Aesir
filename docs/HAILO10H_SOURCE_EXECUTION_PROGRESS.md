@@ -1182,3 +1182,18 @@ datum coverage is now 98.0% on channel 0 and 96.5%
 pooled across all 79,001 bursts. Next: small-form word
 anatomy. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 small-form word anatomy (AES-NUM-032,slice4.32):
+`docs/HAILO10H_SMALL_FORM_WORD_ANATOMY_2026-10-24.md`. The
+<=512 B surface is 42 size classes in three species —
+skeleton templates repeated per context (one segment
+1,504 times at 72/120/416 B; a two-word skeleton at
+96 B), framed sparse arrays, and dense data. A third of
+non-24 words are the all-zero NOP word, which never
+occurs inside a burst; small forms are not burst
+concatenations (the champion heads zero of their 24 B
+chunks). The 80 B class carries a walking-bit ladder
+across its middle positions. Next: skeleton-class
+deep-dive. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
