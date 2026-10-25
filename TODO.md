@@ -1484,12 +1484,28 @@
   six pairs at all 257 lags,
   a9->3e only at -16/+64.
   `docs/HAILO10H_MASK_LAW_REGION0_02FIELD_LAG_CENSUS_2026-10-24.md`.
-- [ ] Slice4.98 per-mask x
-  group/offset anatomy of the
-  sparse zeros; region-0
-  36-occurrence data-block
-  anatomy; 20>3e shift set +
-  +31 doubling; then broad
+- [x] Slice4.98 sparse zeros
+  per-offset deterministic
+  (22 zero (mask, offset)
+  pairs, no partial offset;
+  11011 only in the two
+  0856a10c groups); region-0
+  block = 26x7 units, 3
+  families, x36 words are
+  per-segment values not
+  consensus content; 20>3e
+  shift set exactly positional
+  (257/257), +31 = repeated
+  pair at 80-spacing.
+  `docs/HAILO10H_PERMASK_ANATOMY_DATABLOCK_SHIFTSET_2026-10-24.md`.
+- [ ] Slice4.99 the 22 zero
+  pairs' neighbourhoods vs
+  same-offset other-mask
+  counterparts; block
+  per-segment head values as
+  a population; positional-law
+  test for the middles' other
+  byte pairs; then broad
   ordinary UNMODIFIED
   source-model support100%.
 

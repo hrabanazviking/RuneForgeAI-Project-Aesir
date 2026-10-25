@@ -2692,3 +2692,22 @@ lags that line A's single a9 byte up with B's two 3e bytes.
 Next: where each mask's zeros live, the region's repeated data
 blocks, and why the 20->3e pair picks its 21 lags. Broad
 ordinary UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 per-mask anatomy, data block, shift set (AES-NUM-098,slice4.98):
+`docs/HAILO10H_PERMASK_ANATOMY_DATABLOCK_SHIFTSET_2026-10-24.md`.
+The sparse zeros turn out to be pinned to addresses, not groups:
+across all 2,280 sparse candidates no offset is ever half-zero —
+a candidate is zero exactly at 22 (mask, offset) pairs, disjoint
+across masks, while inside any single group the zeros split.
+The region-0 block resolves into 26 rigid seven-word units in
+three families, and its two most-counted "words" dissolve: no
+segment actually carries them — each segment carries its own
+value there, sharing only the low bytes, so the x36 counts were
+a tie-break artefact. And the 20->3e lag census is pure position
+arithmetic: predicted from the two middles' byte-position sets,
+it matches the measured census at all 257 shifts, and the +31
+doubling is one pair repeated eighty bytes apart in both middles.
+Next: what singles out the 22 zero pairs, the block's per-segment
+head values read as a population, and whether every byte pair's
+lag census factors through positions the same way. Broad
+ordinary UNMODIFIED source-model support100% remains the destination.

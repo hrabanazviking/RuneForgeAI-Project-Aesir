@@ -8132,3 +8132,59 @@ No new capability ID or hardware/complete-source execution claim.
   zeros; region-0 36-occurrence data-block anatomy;
   the 20>3e shift set and the +31 doubling (slice 4.98).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-098 — sparse zeros are per-offset deterministic (22 zero (mask, offset) pairs, no partial offset), the region-0 data block is three rigid unit families whose x36 words are per-segment values, and the 20>3e shift set is exactly positional with the +31 doubling a repeated pair
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_PERMASK_ANATOMY_DATABLOCK_SHIFTSET_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...097 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
+  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
+  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
+  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
+  x12, rank-2 middles 21 mismatches at k = 111, AES-NUM-095
+  counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898, MID
+  21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6; zeros
+  at 37/869 pairs) and AES-NUM-097 counts (mask table
+  1088/6, 549/108, 348/30, 61/0, 234/0; region 0 2,056 words /
+  02-count 150 / distinct 104; six-pair totals s = 0: 28,
+  s = +64: 44; 20>3e 21 shifts x8 at +31; a9>3e at -16/+64),
+  in hef98.py (sha256 55910584... = hef97 lineage + hef98_arms.py
+  c611b065..., landed via sha-gated chunked file.write transfer,
+  gz sha256 232e20bd... verified on-device; script sha verified
+  on-device); output sha256 6bdd2058....
+  Contract docs/TASK_CONTRACT_4.98.md published @ c4a43663
+  before implementation. (i) Per-offset determinism EXACT:
+  no partial offset in any mask (01011 4 all-zero of 289
+  offsets; 10011 16 of 119; 11011 2 of 154; 11001/11010
+  none); 22 zero (mask, offset) pairs, pairwise disjoint
+  across masks (shared zero offsets/pairs 0); per-group
+  tables partial (10011 6 groups, pos9 30/95, pos10 45/171,
+  share 75/108; 11011 ONLY pos9/pos10 at offsets
+  28964/29156, share 30/30; 01011 6 groups x 1 zero,
+  share 1/6; F share re-derived 106/144). Mechanism
+  selecting the 22 pairs NOT PROVEN. (ii) Block 6184..6912
+  = 26 units x 7 words, exactly 3 unit patterns per camp
+  (units 0-7 ffffff7f-headed, 8-16 first-x36-headed with
+  00020000 tails, 17-25 second-x36-headed); consensus
+  distinct 5 per camp (00000000 x51, ffffff7f x32,
+  00020000 x27, x36 x2); unanimity 110/182 offsets — the
+  72 x36 offsets are non-unanimous in both camps, every
+  segment carrying a different word sharing only the low
+  bytes (x36 words REFUTED as segment content; modal
+  count 1/13 A, 0/12 B second population). Meaning NOT
+  PROVEN. (iii) Positional law EXACT: A-middle 0x20 at 11
+  positions, B-middle 0x3e at [103, 183], identical at all
+  4 ranks; predicted == census at all 257 shifts (0
+  differing, 0 triples out of range), 21-shift set
+  reproduced; +31 doubling = the pair repeated at
+  80-spacing in both middles ((72,103) and (152,183) per
+  rank).
+- **Next:** the 22 zero pairs' neighbourhoods vs same-offset
+  other-mask counterparts; the block's per-segment head
+  values as a population; positional-law test for the
+  middles' other byte pairs (slice 4.99).
+- **Audit:** Host-side analysis only; no device child.
