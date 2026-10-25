@@ -6474,3 +6474,49 @@ No new capability ID or hardware/complete-source execution claim.
   chain context selection in the sisters (which 112
   contexts;shared between sisters?) (slice 4.53).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-053 — cluster-context selection, 32016 dialect, chain context selection
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_CLUSTER_SELECTION_DIALECT_CHAIN_SELECTION_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef53.py (sha256 a9d093a5...) and hef53b.py (b0b47c1b...).
+  (i) cc9b9d1c cluster membership is whole-context and
+  band-exclusive:19 positives (cidx 1,14,18,29,30,33,34,57,
+  65,85,151,155,166,167,170,171,194,202,222) hold 1,758
+  windows = 688 cluster + 0 band + 1,070 other;252 negatives
+  hold 0 cluster + 34 band.Corpus-wide exclusion fails only
+  in 76c3a8ff cidx 3 (41+68) and cidx 4 (14+37).Window
+  density does NOT select (61 negatives hold 81-96 windows,
+  6,466/6,484 other-led,0 cluster);nor do nacts class (POS
+  only 606/607/738,yet 105 negatives in range),champion
+  count (29 everywhere),pair order or ng index.Positive
+  cidx gaps [13,4,11,1,3,1,23,8,20,66,4,11,1,3,1,23,8,20]:
+  the sequence from 14 repeats exactly from 155,paired
+  contexts not copies (offsets 138-160,counts differ).
+  Positives' top other leads hug the window:9264 56,9160
+  51,9280 50,9256 48,9272 48 — a wider family is queued.
+  (ii) 32016 dialect:cluster windows contain 32016 in
+  352/743 (47.4%,multiplicity to 3) and 30480 in 55 (7.4%);
+  band windows 32016 in 365/10,334 (3.5%) and 30480 in
+  7,934 (76.8%);32784 64.9% vs 91.2%;next-3856 85.5% vs
+  82.7% (rhythm comparable,gap medians 5/5);first-32016
+  offset peaks at 3 in both (122/184) but cluster also
+  opens at offsets 1-2.32016 global 8,131 occ,7,162 in
+  cc9b9d1c (88.1%),172 contexts.
+  (iii) Chain selection SETTLED:the sisters share the
+  chain cidx set EXACTLY (56/56,symdiff 0) on one periodic
+  train — step 3 cidx 2..80 (27 gaps),break 14+1 at
+  80->94->95,step 4 cidx 99..203 (27 gaps) — and chain
+  contexts are EXACTLY the isolated 232-239-action class
+  (56 contexts in range,all chain,none outside;151-231
+  bin empty;histogram identical in both sisters).Chain
+  positions identical at 54/56 shared cidx;the 2
+  exceptions are the break pair cidx 94/95.
+- **Next:** wider lead-family census around the cluster
+  (9100-9350 step-8 leads,positives vs dense negatives);
+  lead vocabulary of the 61 window-dense cc9 negatives;
+  cidx-1 single-cluster-window anatomy (slice 4.54).
+- **Audit:** Host-side analysis only;no device child.

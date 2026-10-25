@@ -1632,3 +1632,28 @@ Next: what selects a cc9b9d1c context for the cluster,
 the 32016 dialect's full anatomy, and which sister
 contexts carry the chains. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 cluster-context selection, 32016 dialect, chain selection
+(AES-NUM-053,slice4.53):
+`docs/HAILO10H_CLUSTER_SELECTION_DIALECT_CHAIN_SELECTION_2026-10-24.md`.
+In cc9b9d1c the cluster dialect is a whole-context
+property: its 19 contexts hold 688 cluster-led windows
+and not one band-led window, while 61 equally
+window-dense negative contexts hold no cluster lead at
+all — density, size class, champion count, pair order
+and network group all fail to select it, and its
+context-index gap pattern repeats once exactly. The
+32016 dialect behind cluster windows is a full
+vocabulary swap at the band's rhythm: 32016 in 47.4%
+of cluster windows (up to three per window) against
+30480 in 7.4%, the exact mirror of band windows. And
+the sisters' chain contexts are settled: exactly their
+shared 232–239-action class, on one identical
+step-3/step-4 context train whose single break pair
+is also the only place their chain positions differ.
+Next: the wider lead family around the cluster, what
+leads the dense negative contexts, and the lone
+cluster window in cc9b9d1c context 1. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

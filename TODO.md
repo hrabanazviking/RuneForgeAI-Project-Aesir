@@ -656,15 +656,30 @@
   (cc9b9d1c 688 in 19 contexts;76c3a8ff 55 in 2;
   32016 dialect behind its 3856s).
   `docs/HAILO10H_LASTRUNS_POS121_CHAIN_CLUSTER_2026-10-24.md`.
-- [ ] Slice4.53 cluster-context selection in
-  cc9b9d1c (19 cluster contexts vs the other 252:
-  size/order/champion features);32016 dialect
-  anatomy (cluster windows' full size shapes vs
-  band windows');chain context selection in the
-  sisters (which 112 contexts carry exactly 6;
-  same cidx set in both sisters? chain positions
-  within those contexts);then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] Slice4.53 cluster-context selection in
+  cc9b9d1c:whole-context and band-exclusive (0 band
+  leads in the 19 positives' 1,758 windows;corpus
+  exclusion fails only in 76c3a8ff cidx 3/4);window
+  density/size/champion/order/ng do NOT select (61
+  negatives equally window-dense,0 cluster);positive
+  cidx gap sequence repeats once exactly (from 14
+  and from 155) without paired copies;positives'
+  other leads hug the window (9160,9256-9280);
+  32016 dialect = full vocabulary swap at comparable
+  rhythm (32016 in 47.4% of cluster windows,multi-
+  plicity to 3,30480 in 7.4%;band mirror 3.5%/76.8%);
+  chain contexts = the sisters' shared 232-239-action
+  class on an identical step-3 (2-80) / break (94,95)
+  / step-4 (99-203) train,positions identical 54/56
+  (exceptions = the break pair).
+  `docs/HAILO10H_CLUSTER_SELECTION_DIALECT_CHAIN_SELECTION_2026-10-24.md`.
+- [ ] Slice4.54 wider lead-family census around
+  the cluster (step-8 leads 9100-9350 in positives
+  vs dense negatives;family extent and membership
+  re-grade);lead vocabulary of the 61 window-dense
+  cc9b9d1c negatives;cidx-1 single-cluster-window
+  anatomy;then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
