@@ -6059,3 +6059,37 @@ No new capability ID or hardware/complete-source execution claim.
   high-7 operand->datum function + affine test,displaced
   contexts outside the pair region (slice 4.43).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-043 — parameter-family template, high-7 function + affine, displaced-context type
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_PARAM_TEMPLATE_HIGH7_FUNCTION_DISPLACED_TYPE_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
+  (i) cc9b9d1c family is one construction across 232-464 B:
+  small-form slot pattern exact [1..12,evens to words-5]
+  (hits=slots 18/22/23/24/26);head byte 6 <-> parameter
+  bijection over all 12 segments (64<->19,70<->1c,b0<->2c,
+  f8<->3e),no other head byte a function of the parameter;
+  non-param word vocab small 29 vs 464 27,shared exactly
+  {zero,0100000000000000};both vocabularies carry the
+  0100<param+1>00 word family;360 B pair is one template
+  under two parameters,312/328 pairs differ only in data
+  fields. (ii) High-7 datum map: per lane-0 family a
+  GF(2)-affine function with ZERO violations in all 68
+  families (ranks 1-13;width law 1,839/1,839);pooled by
+  operand alone it FAILS (189/345 operands multi-datum,
+  1,269 viols;pooled affine rank 13 inc 332);pooled by
+  (lane0,operand) exact (626 keys,0 viols) — the family
+  is part of the key. (iii) Displaced contexts are a
+  distinct low-action type: tails equal the modal
+  adjacent tail (symdiff 0 in 3 artifacts),heads never
+  shared with any adjacent context,actions 85-123 vs
+  adjacent minima 232-280,periodic placement (0a0d378c
+  81+6k + last;76c3a8ff ~9-step;sisters = last context);
+  exceptions: 4 small adjacent contexts,one 336-action
+  displaced outlier (18,15).
+- **Next:** low-action context class census,parameter+1
+  slot census,336-action outlier anatomy (slice 4.44).
+- **Audit:** Host-side analysis only;no device child.

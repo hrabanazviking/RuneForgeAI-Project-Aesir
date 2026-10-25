@@ -509,13 +509,33 @@
   address field (no formula,no monotonicity,one
   indivisible co-varying unit per family).
   `docs/HAILO10H_DISPLACED_GAP_PARAM_HIGH7_2026-10-24.md`.
-- [ ] Slice4.43 232-360 B parameter-family template
-  anatomy vs the 464 B form (shared constants outside
-  the parameter slots;head-byte pairing);high-7
-  families' operand->datum function + GF(2) affine
-  test;displaced contexts vs adjacent contexts outside
-  the pair region;then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] AES-NUM-043 slice4.43 232-360 B parameter-family
+  template anatomy vs the 464 B form;high-7 function +
+  affine test;displaced contexts outside the pair
+  region: the family is one construction across
+  232-464 B (exact dense slot pattern [1..12,evens to
+  words-5];head byte 6 <-> parameter bijection over
+  all 12 segments;parameter+1 slot word in both
+  vocabularies) sharing no substantive constant word
+  (intersection = zero + 0100000000000000 only);the
+  high-7 datum map is a per-family GF(2)-affine
+  function,zero violations in all 68 families,and is
+  NOT an operand-only function (the family is part of
+  the key);displaced contexts are a periodically
+  placed low-action context type (private head,
+  standard tail,actions 85-123 vs adjacent minima
+  232-280).
+  `docs/HAILO10H_PARAM_TEMPLATE_HIGH7_FUNCTION_DISPLACED_TYPE_2026-10-24.md`.
+- [ ] Slice4.44 low-action context class census
+  (corpus-wide definition by action count,positions
+  and periodicity per artifact,full size-sequence
+  anatomy of exemplars vs standard contexts);
+  parameter+1 slot census across the structured
+  forms (cc9b9d1c small + 464 B family incl. the
+  0x72 / 0x46 artifacts);336-action displaced
+  outlier's context anatomy vs its stream neighbours;
+  then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

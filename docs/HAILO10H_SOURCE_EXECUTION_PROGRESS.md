@@ -1385,3 +1385,25 @@ operand-to-datum function and affine test, and the
 displaced contexts outside the pair region. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+
+2026-10-24 parameter-family template, high-7 function test, displaced-context type
+(AES-NUM-043,slice4.43):
+`docs/HAILO10H_PARAM_TEMPLATE_HIGH7_FUNCTION_DISPLACED_TYPE_2026-10-24.md`.
+The cc9b9d1c parameter family turns out to be one
+construction across the 232-464 B forms: an exact dense
+slot pattern in the small forms, a head byte that pairs
+bijectively with the parameter across all twelve
+segments, and a parameter+1 slot word in both
+vocabularies — yet the forms share no substantive
+constant word verbatim. The high-7 datum map obeys the
+universal laws per family (function + GF(2)-affine,
+zero violations in 68 families) and fails pooled by
+operand alone: the lane-0 family is part of the key.
+The displaced pair contexts resolve as a distinct,
+periodically placed, low-action context type with a
+private head and the standard tail. Next: the
+low-action context class census, the parameter+1 slot
+census, and the 336-action outlier's anatomy. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.
