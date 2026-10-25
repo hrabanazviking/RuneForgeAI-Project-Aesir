@@ -2789,3 +2789,20 @@ Next: the five singleton DENSE zeros and the one short run,
 the two labels of a segment read as a pair, and the positional
 law on the consensus camps themselves. Broad ordinary
 UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 singletons raw-verified, label pair independence, consensus positional law (AES-NUM-103,slice4.103):
+`docs/HAILO10H_SINGLETON_RAW_RUN_LABEL_PAIR_CONSENSUS_POSITIONAL_2026-10-24.md`.
+The five DENSE zeros that sat in no run turn out to sit in no raw
+run either: each is a lone ff000000 word in its segment, three of
+them in one MiniLM instance. The one short run of three is a raw
+run of four whose first word simply carries no candidate in its
+own instance, though its sister instance carries all four. The
+two labels stamped into every segment's block share nothing any
+stated test can find: no function, no affine map, no constant XOR
+or difference between them. And the positional law holds exactly
+on the consensus camps themselves, with the same tally total as
+the first cross-camp pair. Next: why the 17344 word carries no
+candidate, what distinguishes the singletons' neighbourhoods,
+and the labels against the segments' own context indices. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.

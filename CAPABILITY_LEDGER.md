@@ -8413,3 +8413,55 @@ No new capability ID or hardware/complete-source execution claim.
   law on the consensus-camp pair consA x consB
   (slice 4.103).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-103 — the five singleton DENSE zeros are raw singletons too (agreement 64/64), the length-3 offset run is a raw run of four whose first word carries no candidate in its instance, the fam1/fam2 label pair shares no tested relation, and the positional law is exact on the consensus camps
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_SINGLETON_RAW_RUN_LABEL_PAIR_CONSENSUS_POSITIONAL_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...102 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  camps A 21392 x13 / B 21648 x12, trains 52 (28/13/11), whole
+  re-collection exact (7,484; SPARSE 2,280/144, MID 2,306/21,
+  DENSE 2,898/64); DONE102 at line 2,892 of the output.
+  (i) Exactly 5 offset-set singletons, each with maximal raw
+  ff-run length 1 (position 0): (0a0d378c,21,32560) q 6156
+  cidx 74 mask 00000; (5ab3537d,9,32584) q 5040 cidx 28 mask
+  00000; MiniLM q 6700 / 11408 / 32248, all cidx 5, masks
+  00000/00010/00010 (the two 00010 share the frame
+  01000800 ... ff, 00000000, 01000800). Raw word at q is
+  ff000000 for 64/64; raw-run lengths over the zeros
+  {1: 5, 4: 59} across 20 distinct raw runs (15 of length 4,
+  5 of length 1); position-in-run {0: 19, 1: 15, 2: 15,
+  3: 15}; raw vs offset singleton classification agrees
+  64/64, disagreements 0. The length-3 run's instance
+  (0a0d378c,20,32752) cidx 44 carries a raw run
+  17344..17356 of length 4 whose first word (17344) has no
+  candidate in this instance, while the sister group
+  (20,32688) cidx 8 carries all four candidates on the same
+  raw interval; its three candidates sit at raw positions
+  1/2/3. Exclusion mechanism NOT PROVEN.
+  (ii) All 25 segments carry exactly one label per family;
+  25 distinct label1, 25 distinct label2, 25 distinct pairs,
+  no value of either family repeated across camps. Label1:
+  byte0 25 distinct, byte1 {a2 x20, a3 x2, b3 x3}, bytes 2-3
+  zero. Label2: byte0 20 distinct, byte1 21 distinct,
+  byte2 {01 x12, 02 x13}, byte3 zero. Every as-function
+  'True' is degenerate (injective determiner or constant
+  target); all non-degenerate tests mixed in both
+  directions (sole sub-case: label2 byte1 -> label1 byte0
+  inside camp A, where byte1 is injective — degenerate;
+  mixed in B and pooled). Affine a != 0 hits 0 and
+  XOR-constant hits 0 in all scopes; label1 XOR label2
+  25 distinct, u32le difference 25 distinct, neither
+  constant in any scope. Label identity NOT PROVEN.
+  (iii) Positional law EXACT on consA x consB (consA len
+  21392 / 151 distinct bytes, consB len 21648 / 150):
+  7,011 pairs, 5,489,488 tallies, differing 0, out-of-range
+  457,604,528 over 22,552 pairs — tally total equal to
+  A0 x B0's, pair counts slightly distinct.
+- **Next:** the candidate-less raw word at 17344 in
+  (0a0d378c, 20, 32752) cidx 44; singleton neighbourhoods
+  vs run-member neighbourhoods; label values vs segment
+  cidx arithmetic (slice 4.104).
+- **Audit:** Host-side analysis only; no device child.

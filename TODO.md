@@ -1562,7 +1562,7 @@
   on B0xA0 (mirror of A0xB0)
   and B0xB1 (0 differing).
   `docs/HAILO10H_DENSE_RUN_BLOCK_VARIATION_POSITIONAL_COMPLETION_2026-10-24.md`.
-- [ ] Slice4.103 the 5 singleton
+- [x] Slice4.103 the 5 singleton
   DENSE zeros and the length-3
   run (maximal raw ff000000 run
   anatomy for all 64 DENSE
@@ -1574,6 +1574,20 @@
   consA x consB; then broad
   ordinary UNMODIFIED source-
   model support100%.
+
+- [ ] Slice4.104 the candidate-
+  less raw word at 17344 in
+  (0a0d378c, 20, 32752) cidx 44
+  (common-offset test + the same
+  exclusion at other raw runs'
+  edges); singleton neighbourhoods
+  vs run-member neighbourhoods;
+  label values vs segment cidx
+  arithmetic (stated-function /
+  affine hunts on cidx and camp
+  rank); then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
