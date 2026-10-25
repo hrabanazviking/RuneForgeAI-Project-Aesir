@@ -432,11 +432,21 @@
   after the quartet are a single invariant size+channel
   sequence — a fixed end block with the quartet.
   `docs/HAILO10H_HEAD_176B_TRAIL_2026-10-24.md`.
-- [ ] Slice4.36 end-block burst datum treatment (21
-  trailing bursts vs the frozen encoders);176 B
-  variable-head pools' structure (99/98 segments);
-  head burst-run length distribution;then broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-036 slice4.36 end-block burst datum,
+  176 B variable pools,head burst-runs:all 31,584
+  trailing bursts champion-headed and PERFECTLY
+  predicted by the frozen encoders (2,049/2,049
+  distinct,0 wrong,0 out-of-span);t0 = the invariant
+  special-slot burst;five disjoint operand pools for
+  t1-t20 with no intra-context reuse;176 B pools are
+  sparse frames with a unique trailer word and no
+  pairwise varying-position law;head runs 4-10.
+  `docs/HAILO10H_END_BLOCK_176B_HEADRUN_2026-10-24.md`.
+- [ ] Slice4.37 trailing operand pools vs the global
+  champion operand pool;176 B joint cluster structure
+  (p11-13/p19-20 varying block);304 B head-break form
+  anatomy at positions 4-10;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

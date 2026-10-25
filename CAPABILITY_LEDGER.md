@@ -5850,3 +5850,26 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** end-block burst datum treatment,176 B variable-pool
   structure,head burst-run lengths (slice 4.36).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-036 — end-block datum, 176 B pools, head runs
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_END_BLOCK_176B_HEADRUN_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts). Trailing 21 bursts:all 31,584 champion-headed
+  (single lane-0,3 channel families),function/affine/width laws
+  zero-exception;cross-prediction by the frozen encoders PERFECT
+  (31,584/31,584 bursts,2,049/2,049 distinct,0 wrong,0 out-of-span);
+  t0 is the invariant special-slot burst (operand 0x2d80025000002000,
+  datum 0x2fdeaa);t1-t20 form five 4-position groups with pairwise
+  DISJOINT operand pools (98/104/103/100/107) and no intra-context
+  operand reuse. 176 B variable pools (99/98 segments):sparse framed
+  forms,p18 always zero,p21 unique per segment and the only
+  (trivial) full determiner;no pairwise law between varying
+  positions;pools mostly single-artifact (73/99,72/98). Head
+  burst-runs bounded 4-10 (mean 7.90,median 8),broken by 304 B in
+  70.9% of contexts.
+- **Next:** trailing operand pools vs the global champion pool,
+  176 B joint cluster structure,304 B head-break anatomy (slice 4.37).
+- **Audit:** Host-side analysis only;no device child.

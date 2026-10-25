@@ -1246,3 +1246,20 @@ form one fixed end block. Next: end-block burst datum
 treatment, the 176 B variable pools, head run lengths.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 end-block datum, 176 B pools, head runs
+(AES-NUM-036,slice4.36):
+`docs/HAILO10H_END_BLOCK_176B_HEADRUN_2026-10-24.md`.
+All 31,584 trailing bursts are champion-headed, and the
+already-frozen encoders predict every one exactly —
+2,049 distinct operands, zero wrong, zero out-of-span;
+the block opens with the invariant special-slot burst
+and its other positions draw on five disjoint operand
+pools with no reuse inside a context. The 176 B
+variable pools are sparse frames identified by their
+unique trailer word. Head burst-runs run 4-10, usually
+broken by a 304 B form. Next: the trailing pools vs
+the global champion pool, 176 B joint structure, the
+304 B break form. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
