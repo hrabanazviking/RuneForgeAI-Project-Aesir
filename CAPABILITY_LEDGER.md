@@ -8323,3 +8323,49 @@ No new capability ID or hardware/complete-source execution claim.
   the head positions; positional-law scope test on a
   non-camp segment pair (slice 4.101).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-101 — the lone DENSE zero at 28768 shares only the centre ff word with the SPARSE zeros there, the block tails are one constant per family in every segment (no label reading from tails exists), and the positional law is exact on non-camp segment pairs
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_DENSE_ZERO_TAIL_CONSTANCY_NONCAMP_POSITIONAL_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...100 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  camps A 21392 x13 / B 21648 x12, whole re-collection exact
+  (7,484; SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64),
+  ungrown positional aggregate reproduced (36 regions,
+  4,392,812 tallies, 0 differing, out-of-range 68,733,956),
+  reverse pooled reproduced (602 pairs, 131,360 tallies, 0
+  differing, out-of-range 24,544 over 269), AES-NUM-099
+  grown positional differing 0. (i) At 28768 exactly 3
+  candidates; the single DENSE zero corpus-wide there is
+  group (0a0d378c, 16, 32776), cidx 5, mask 00000, value 0,
+  tuple (ff000000 x4, 01000600). SPARSE at 28768: zero =
+  (5ab3537d, 8, 32784) cidx 89 mask 10011; non-zero
+  counterpart = (0a0d378c, 20, 32688) cidx 140 mask 11011
+  value 15. DENSE word matches a SPARSE word at 28768 at
+  exactly 1/5 neighbourhood positions (the centre, the ff
+  word at q); tuple equality false; (group, cidx)
+  coincidence false; its group is among neither the
+  SPARSE groups at 28768 nor the 11 SPARSE-zero groups.
+  Of 64 DENSE zeros exactly 1 sits at a SPARSE-zero
+  offset; its own group carries 4 DENSE zeros at
+  28760/28764/28768/28772. (ii) Tail words are constant
+  per family in all 25 segments, both camps (fam0
+  00000000 x24, fam1 00020000 x27, fam2 00000000 x27;
+  per (camp, family) exactly 1 distinct tail word).
+  Verbatim label-in-tails 0/25 every family and scope;
+  slot-exact 0 hits in 324 tests per family; as-function
+  and affine hits 0 of any kind (every X constant in
+  scope, label byte0 varying — no mapping exists).
+  (iii) Positional law EXACT on non-camp pairs:
+  cross-camp A0 (cidx 130) x B0 (cidx 121): 7,021 pairs,
+  5,489,488 tallies, differing 0, out-of-range
+  457,604,528 over 22,548 pairs; within-camp A0 x A1
+  (cidx 139): 6,996 pairs, 5,481,232 tallies, differing
+  0, out-of-range 452,136,432 over 22,354 pairs.
+- **Next:** the DENSE-zero run of four at 28760..28772;
+  the whole-block per-segment variation census;
+  positional-law completion pairs B0 x A0 and B0 x B1
+  (slice 4.102).
+- **Audit:** Host-side analysis only; no device child.

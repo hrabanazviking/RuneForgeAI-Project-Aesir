@@ -2752,3 +2752,21 @@ the lone DENSE zero at 28768, the label byte0 values
 against the segments' own block words, and the positional
 law on a non-camp segment pair. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 the lone DENSE zero, tail constancy, non-camp positional law (AES-NUM-101,slice4.101):
+`docs/HAILO10H_DENSE_ZERO_TAIL_CONSTANCY_NONCAMP_POSITIONAL_2026-10-24.md`.
+The one candidate that broke form-exclusivity turns out to share
+almost nothing with the SPARSE zeros at its own offset: a different
+group, a different instance, a neighbourhood that matches theirs
+only at the centre word every candidate there carries, and a tuple
+of four ff words in a row. In its own group it is not alone at all
+— it is the third of four DENSE zeros spaced four bytes apart.
+The block's tails, the last untested in-block label source, are
+dead ground: one constant word per family in every segment of both
+camps, so no function of them can determine a varying label. And
+the positional law, tested now on single segments rather than
+consensus camps, holds exactly in both a cross-camp and a
+within-camp pair. Next: the DENSE-zero run of four, which block
+offsets vary across segments at all, and the two remaining
+segment-pair directions. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

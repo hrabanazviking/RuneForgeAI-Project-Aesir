@@ -1526,13 +1526,34 @@
   region pairs + in reverse
   (pooled = forward exactly).
   `docs/HAILO10H_ZERO_OFFSET_FORMS_LABELS_POSITIONAL_2026-10-24.md`.
-- [ ] Slice4.101 the single
-  DENSE zero at 28768; family
-  label byte0 values vs the
-  segments' own block words
-  beyond the head positions;
-  positional-law scope test on
-  a non-camp segment pair;
+- [x] Slice4.101 the single
+  DENSE zero at 28768 shares
+  only the centre ff word with
+  the SPARSE zeros there
+  (tuple/instance/group all
+  disjoint; its group holds a
+  run of 4 DENSE zeros at
+  28760..28772); block tails
+  are one constant per family
+  in all 25 segments (fam0
+  00000000, fam1 00020000,
+  fam2 00000000 — no label
+  reading from tails exists);
+  positional law exact on
+  non-camp segment pairs
+  (A0xB0 and A0xA1, 0 differing
+  triples on 5.49M/5.48M
+  tallies).
+  `docs/HAILO10H_DENSE_ZERO_TAIL_CONSTANCY_NONCAMP_POSITIONAL_2026-10-24.md`.
+- [ ] Slice4.102 the DENSE-zero
+  run of four at 28760..28772
+  in its group; whole-block
+  per-segment variation census
+  (which of the 182 block
+  offsets vary across a camp's
+  segments at all); positional-
+  law completion pairs (B0xA0
+  reverse, B0xB1 within-camp B);
   then broad ordinary
   UNMODIFIED source-model
   support100%.
