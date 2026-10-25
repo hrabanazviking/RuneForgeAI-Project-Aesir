@@ -423,11 +423,20 @@
   all 1,504 contexts;002c = fixed 19-word vocabulary,
   each word exactly once per context at rigid slots.
   `docs/HAILO10H_WALK_POOL_QUARTET_ORDER_002C_2026-10-24.md`.
-- [ ] Slice4.35 context head-block census (first-N
-  pointer actions' forms vs the trailer's rigidity);
-  176 B four 002c heads' segment anatomy;forms of the
-  28 actions following the quartet;then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] AES-NUM-035 slice4.35 head census,176 B anatomy,
+  trailing 28:head positions 0-3 always 24 B with
+  monotonically decaying rigidity and no fixed head
+  block or channel law;176 B = 4 once-per-context
+  002c heads partitioning 199 segments (2 byte-fixed,
+  p18 always zero,p21 segment-unique);the 28 actions
+  after the quartet are a single invariant size+channel
+  sequence — a fixed end block with the quartet.
+  `docs/HAILO10H_HEAD_176B_TRAIL_2026-10-24.md`.
+- [ ] Slice4.36 end-block burst datum treatment (21
+  trailing bursts vs the frozen encoders);176 B
+  variable-head pools' structure (99/98 segments);
+  head burst-run length distribution;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

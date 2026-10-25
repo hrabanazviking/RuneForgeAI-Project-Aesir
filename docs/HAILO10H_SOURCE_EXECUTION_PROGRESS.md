@@ -1229,3 +1229,20 @@ context. Next: context head-block census, the 176 B
 heads, the 28 trailing actions' forms. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 head census, 176 B anatomy, trailing 28
+(AES-NUM-035,slice4.35):
+`docs/HAILO10H_HEAD_176B_TRAIL_2026-10-24.md`. Every
+context opens with at least four 24 B bursts, but head
+rigidity decays position by position and channels are
+never fixed — no head block rivals the trailer. The
+176 B class is four once-per-context heads partitioning
+199 segments, two byte-fixed, with an always-zero word
+and a segment-unique trailer. The 28 actions after the
+quartet are a single invariant size-and-channel
+sequence in all 1,504 contexts: with the quartet they
+form one fixed end block. Next: end-block burst datum
+treatment, the 176 B variable pools, head run lengths.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

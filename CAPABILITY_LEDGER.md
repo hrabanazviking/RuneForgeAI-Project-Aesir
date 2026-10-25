@@ -5826,3 +5826,27 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** context head-block census,176 B 002c-head
   anatomy,forms of the 28 trailing actions (slice 4.35).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-035 — head census, 176 B anatomy, trailing 28
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_HEAD_176B_TRAIL_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts). Head:positions 0-3 are 24 B in every context
+  (first action 24 B 1,504/1,504);rigidity decays monotonically
+  (distinct sizes 2 at pos4 to 111 at pos11;modal flips to 304 B
+  at pos9);only 24 distinct first-8 size sequences but 242
+  first-12 — no fixed head block;head channels never fixed (all
+  3 channels at every position 0-11). 176 B:6,016 segments,
+  exactly 4 per context,exactly 4 distinct p0 heads each once
+  per context (one multiset corpus-wide,all ending 002c);two
+  heads own 1 fixed segment each,the others 99/98 distinct
+  (199 total,pools disjoint);p18 always zero,p14-17 near-always
+  zero,p21 distinct for all 199 segments. Trailing 28:exactly
+  28 actions after the quartet in every context with a SINGLE
+  size sequence (24/64/24/216/328x3/24x21) and fixed per-position
+  channels — a fixed end block with the quartet.
+- **Next:** end-block burst datum treatment,176 B variable-pool
+  structure,head burst-run lengths (slice 4.36).
+- **Audit:** Host-side analysis only;no device child.
