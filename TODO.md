@@ -901,11 +901,27 @@
   at gap 1 in 3/4 (adjacent rotation C), head-fixed
   B's take template followers (2824/21408, 0/6).
   `docs/HAILO10H_290_TEMPLATE_264_2824_SCATTERED_B_2026-10-24.md`.
-- [ ] Slice4.70 shared head template at positions
+- [x] Slice4.70 shared head template at positions
   0-35 across the 290/419/623 classes; extra 2824
   occurrences at 213/451 and their surroundings;
   B->C seam adjacency as a rotation diagnostic at
-  corpus scope; then broad ordinary UNMODIFIED
+  corpus scope: ONE shared scaffold at 0-12 (419
+  deviates at 9/12 only), THREE distinct
+  single-sequence class templates at 13-28 (623
+  runs to 31), then dissolution at 29 (290/419) /
+  32 (623); extra 2824s are channel-normal in-band
+  body occurrences (channel windows at 205-221 and
+  443-459 single-valued in 16/16; cidx 7's extra
+  displaces no seam member); B->C gap-1 adjacency
+  is a valid pair-specific rotation diagnostic
+  (95.40% corpus, 99.35% 0a0d, vs C->A 0/4,603).
+  `docs/HAILO10H_HEAD_TEMPLATES_2824_EXTRAS_BC_ADJACENCY_2026-10-24.md`.
+- [ ] Slice4.71 channel scaffold at corpus scope
+  (fixed channel windows beyond the class
+  contexts?); the A-boundary law (A never entered
+  adjacently — A's predecessor structure); C->A
+  gap distribution / rotation reset structure;
+  then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

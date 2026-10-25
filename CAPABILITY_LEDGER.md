@@ -7054,3 +7054,34 @@ No new capability ID or hardware/complete-source execution claim.
   213/451; B->C seam adjacency at corpus scope
   (slice 4.70).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-070 — Shared head scaffold + three class templates, extra 2824s in-band, B→C adjacency diagnostic
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_HEAD_TEMPLATES_2824_EXTRAS_BC_ADJACENCY_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...069 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef70.py (sha256 08b60859...) + hef70b.py (sha256 81a3f72b...).
+  (i) The three classes share ONE head scaffold at positions
+  0-12 (modal-equal at 11/13 positions; 419 deviates at 9 and
+  12 only) and carry THREE distinct single-sequence templates
+  at 13-28: every position single-valued in all 16 contexts
+  per class (29 positions in 290/419, 32 in 623, whose
+  template runs to 31 via 1280@29/264@30/24@31 before
+  dissolving). (ii) The extra 2824s (623 @213 x2, @451;
+  419 @204/@268 x2) are body occurrences, channel-normal
+  and in-band: the channel windows at 205-221 and 443-459
+  are each ONE sequence in 16/16 contexts, position
+  channels fixed (213 -> 0, 451 -> 1), 2824 inside both
+  positions' 2600-3088 bands; cidx 7's extra displaces no
+  seam member (counts 386 A128/B130/C128, identical to
+  full-dose peers). (iii) B->C seam adjacency is a valid
+  rotation diagnostic: 7,009/7,347 gap 1 (95.40%) corpus-
+  wide, 99.35% in 0a0d, 95.36% cc9, 89.13% 76c3, against
+  C->A at exactly 0/4,603 and B->A 1/8,509 — pair-specific
+  and artifact-scoped (undefined in the B-only sisters;
+  0% for 0856's remnant C's).
+- **Next:** channel scaffold at corpus scope; the
+  A-boundary law; C->A gap/reset structure (slice 4.71).
+- **Audit:** Host-side analysis only; no device child.

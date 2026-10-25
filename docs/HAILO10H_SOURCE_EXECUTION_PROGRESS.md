@@ -2011,3 +2011,26 @@ three classes share one head template at positions
 B-to-C adjacency at corpus scope. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 Shared scaffold + three templates, 2824 extras, B→C diagnostic (AES-NUM-070,slice4.70):
+`docs/HAILO10H_HEAD_TEMPLATES_2824_EXTRAS_BC_ADJACENCY_2026-10-24.md`.
+The three classes do not share one head template — they
+share one opening: positions 0-12 are a common scaffold
+(nine bursts, then 304s; the 419 class deviates only at
+positions 9 and 12), and then each class writes its own
+fixture at 13-28, a single frozen sequence in all
+sixteen of its contexts. The 623 template runs three
+positions longer than the others, ending at 31. The
+extra 2824 occurrences turn out to be ordinary body
+sizes sitting in fixed channel scaffolds — the channel
+window around position 213 is one single sequence in
+every 623 context — and the 2824 at position 14 is the
+template borrowing a body size. And B-to-C seam
+adjacency graduates to a named diagnostic: a B whose
+next seam member stands immediately beside it is
+mid-rotation 95% of the time corpus-wide and 99% in
+0a0d, while C-to-A adjacency is exactly zero. Next:
+the channel scaffold at corpus scope, the A-boundary
+law, and where the rotation resets after C. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.
