@@ -81,7 +81,5 @@ def main() raises:
         close_failed = True
     var accepted = refused.byte_length() == 0 and not close_failed and not program.poisoned and program.stages_completed == 7 and program.stage == 0 and transfer.exchanges == 7
     print("{\"accepted\":" + _bool(accepted) + ",\"scenario\":\"" + scenario + "\",\"identity_printed\":" + _bool(identity_printed) + ",\"stages_completed\":" + String(program.stages_completed) + ",\"stage\":" + String(program.stage) + ",\"exchanges\":" + String(transfer.exchanges) + ",\"infer_known\":" + _bool(program.infer_known) + ",\"configured_known\":" + _bool(program.configured_known) + ",\"payload_attested\":" + _bool(program.payload_attested) + ",\"poisoned\":" + _bool(program.poisoned or transfer.poisoned) + ",\"refused\":" + _bool(refused.byte_length() != 0) + ",\"close_failed\":" + _bool(close_failed) + ",\"physical_calls\":false}")
-    if scenario == "full" and not accepted:
-        raise Error("ProgramMock: full lifecycle scenario unaccepted")
-    if scenario != "full" and refused.byte_length() == 0:
-        raise Error("ProgramMock: refusal scenario was not refused")
+    if not accepted:
+        raise Error("ProgramMock: scenario unaccepted (refusal or failure recorded in the JSON line)")
