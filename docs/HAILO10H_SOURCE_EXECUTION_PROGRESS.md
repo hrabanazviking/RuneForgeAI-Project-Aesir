@@ -1322,3 +1322,23 @@ Next: the class-to-channel mapping, the 464 B
 preamble, the invariant singletons' positions. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+
+2026-10-24 class = channel, 464 B preamble, singleton positions
+(AES-NUM-040,slice4.40):
+`docs/HAILO10H_CLASS_CHANNEL_464PREAMBLE_SINGLETONS_2026-10-24.md`.
+The three-vs-four enum-class question dissolves: in the
+body the enum class is the channel index, exactly, on
+every rung, and the trailing block's fourth class is a
+position slot (0x4000) riding channel 0 — corpus-wide the
+enum high values are only {0,1,2,4,8}, single bits, and
+class 3 never occurs. The 464 B form opens with a
+constant 21-word preamble that shares nothing with the
+framed 304 B form beyond zero and two generic markers.
+Twelve of the fourteen invariant singletons turn out to
+be end-block furniture at fixed offsets from the end of
+every context; the 0x2d80 pair roams. Next: the enum-bit
+test on non-champion families, the 0x2d80 pair's
+burst-ordinal separation, and the cc9b9d1c 464 B preamble.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

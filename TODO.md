@@ -473,11 +473,23 @@
   census-exhaustive;never-break sizes carry ~72.5%
   of large occurrences).
   `docs/HAILO10H_BODY_ENUM_FRAMED464_SISTER_CENSUS_2026-10-24.md`.
-- [ ] Slice4.40 class-channel mapping (three body
-  classes vs four trailing);464 B preamble anatomy
-  vs framed 304 B head words;14 invariant body
-  singletons' positions in context;then broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-040 slice4.40 class-channel mapping,464 B
+  preamble,singleton positions:body enum class = channel
+  index exactly on all five rungs;trailing fourth class
+  0x4000 shares channel 0 (position slot,512 ops);
+  corpus-wide enum-high values exactly {0,1,2,4,8} —
+  class 3 never occurs (single-bit pattern);464 B
+  preamble is a constant 21-word header sharing only
+  zero + two generic markers with the framed 304 B form;
+  12 of 14 invariant singletons are end-anchored at fixed
+  from-end offsets in one invariant order (two inside the
+  trailing head),the 0x2d80 pair roams in the body.
+  `docs/HAILO10H_CLASS_CHANNEL_464PREAMBLE_SINGLETONS_2026-10-24.md`.
+- [ ] Slice4.41 enum-bit test on non-champion lane-0
+  families;0x2d80 body pair burst-ordinal separation vs
+  skeleton-unit adjacency;464 B preamble anatomy for
+  the cc9b9d1c four-head variant;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

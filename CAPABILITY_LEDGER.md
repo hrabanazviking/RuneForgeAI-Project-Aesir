@@ -5967,3 +5967,32 @@ No new capability ID or hardware/complete-source execution claim.
   four trailing), 464 B preamble anatomy, invariant
   singleton positions (slice 4.40).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-040 — class-channel mapping, 464 B preamble, singleton positions
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_CLASS_CHANNEL_464PREAMBLE_SINGLETONS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
+  Body: enum class = channel index EXACTLY on all five rungs
+  (ch0->0,ch1->1,ch2->2;pool sizes 89/93/98/89/108 per cell);
+  the only multi-class (channel,ladder) group is 0x2c00 ch0
+  {0,8}. Trailing: t0 (0,0);each group of four cycles
+  (0,0),(1,1),(2,2),(0,4) — the fourth class 0x4000 shares
+  channel 0 (512 distinct operands,exactly the five closing
+  positions). Corpus-wide enum-high values are exactly
+  {0,1,2,4,8} (bursts 36,111/15,040/15,040/7,520/1,504);
+  class 3 NEVER occurs — a single-bit pattern,meaning
+  NOT PROVEN. 464 B preamble (0a0d378c): constant 21 words
+  (14 distinct,zero at 5,6,8,9,12,13;0072 family enters at
+  15,17,19),shares exactly 3 words with framed 304 B (zero
+  + two generic markers),framed head NOT in it;tail
+  embedding re-verified 35/37 on all 63 pairs. Singletons:
+  12 (0x2900/2a00/2c00,all ch0) are end-anchored at fixed
+  distinct from-end offsets in one invariant order (two
+  inside the trailing 24/64/24 head);the 0x2d80 pair roams
+  in the body population (separation -32..+49,both orders).
+- **Next:** enum-bit test on non-champion families,0x2d80
+  burst-ordinal separation,cc9b9d1c 464 B preamble (slice 4.41).
+- **Audit:** Host-side analysis only;no device child.
