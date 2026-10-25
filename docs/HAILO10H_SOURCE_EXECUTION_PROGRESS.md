@@ -788,3 +788,37 @@ not contracted. Next:slice4.8,R4 — action sequencing (plus
 the F1 result-path qualification question). Numerical/
 packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 Action sequencing study (Track R R4):
+`docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md`
+(AES-NUM-008,Campaign4 slice4.8). R4 PARTIALLY ESTABLISHED.
+The ordering discipline is ESTABLISHED at source level:the
+pinned configure path (resource_manager_builder.cpp @pin,
+with builder/manager/header sha256 cross-checked against
+this repo's recorded study hashes) transforms each context's
+action list deterministically — fetch insertion per
+WriteDataCcw carrying its total_ccw_burst,edge-layer
+activation inserted before the single TriggerNewData group
+(outputs,then DDR inputs,then inputs;StartBurstCreditsTask
+after),config-channel activate prepended and deactivate
+appended per config buffer,repeated-action compression,
+end-of-context terms last. Context build order is sourced
+(activation → batch-switching → preliminary → dynamics in
+HEF index order);device execution order is NOT PROVEN and
+build order is not read as execution order. Counts and
+completion terms are established as functions of the base
+list,plus the default literal (kernel-done address 1 /
+count 2 — the 4.7 ancillary lands);no safe non-default
+completion address exists (NOT PROVEN). A minimal AUTHORABLE
+sequence is NOT PROVEN:the base list is parsed from the HEF
+(hef/core_op_metadata.cpp @pin) and is DFC-authored content
+blocked jointly by R1 (CCW) and R3 (placement). F1 does not
+move — the result path stays source-described and Aesir-
+unqualified,layer7 unchanged. Layer6 re-graded by addendum
+(discipline established,base list not proven — stays
+INCOMPLETE);4.4 gate re-run on layer6 only:PASS. Campaign4
+exit still NOT MET;Campaign5 not contracted. Next:slice4.9,
+R5 — partial-state teardown preconditions,the last Track R
+item. Numerical/packing/placement/program/results and broad
+ordinary UNMODIFIED source-model support100% remain work.

@@ -294,3 +294,27 @@ Effect on this spec, gate re-run on the changed layers only
 
 All other layers unchanged. Operation remains UNQUALIFIED;
 Campaign 4 exit NOT MET; Campaign 5 NOT contracted.
+
+## Addendum 2026-10-24 (AES-NUM-008, Track R R4)
+
+R4 landed PARTIALLY ESTABLISHED; the study and full citations
+live in `docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md`.
+Effect on this spec, gate re-run on the changed layer only
+(PASS, AES-NUM-008 §8):
+
+- **Layer 6:** the ordering discipline for context actions is
+  ESTABLISHED at source level (the pinned configure path's
+  deterministic transformations of a context's action list:
+  fetch insertion per CCW write, edge activation around the
+  trigger group, config-channel head/tail wrap, repeated-action
+  compression, end-of-context terms; context build order
+  activation → batch-switching → preliminary → dynamics), and
+  counts/completion terms are established as functions of the
+  base list plus the default literal (kernel-done address 1 /
+  count 2). The layer stays **INCOMPLETE**: the base action
+  list itself is HEF/DFC-authored content whose values are
+  NOT PROVEN (blocked jointly by R1 and R3), so "which actions
+  this operation requires" still cannot be stated.
+
+All other layers unchanged. Operation remains UNQUALIFIED;
+Campaign 4 exit NOT MET; Campaign 5 NOT contracted.

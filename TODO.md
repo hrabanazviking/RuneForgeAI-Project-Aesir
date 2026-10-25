@@ -174,10 +174,33 @@
   Layer3 unchanged (no re-grade, no gate re-run); Campaign4
   exit NOT met.
   `docs/HAILO10H_PLACEMENT_VALUES_STUDY_2026-10-24.md`.
+- [x] AES-NUM-008 slice4.8 Track R R4 action sequencing
+  study:PARTIALLY ESTABLISHED — the ordering discipline is
+  ESTABLISHED at source level (pinned configure path,
+  resource_manager_builder.cpp @pin:fetch insertion per
+  WriteDataCcw with its total_ccw_burst;edge activation
+  before the single TriggerNewData group,outputs→DDR
+  inputs→inputs;config-channel activate/deactivate wrap
+  per config buffer;repeated-action compression;end-of-
+  context terms last;context build order activation→
+  batch-switching→preliminary→dynamics — build order NOT
+  execution order,device execution order NOT PROVEN).
+  Counts/addresses established as functions + the default
+  literal (kernel-done address 1 / count 2 lands from 4.7);
+  no safe non-default completion address (NOT PROVEN).
+  A minimal AUTHORABLE sequence is NOT PROVEN:the base
+  list is HEF-parsed (hef/core_op_metadata.cpp @pin),
+  DFC-authored,blocked by R1+R3. F1 unchanged (path stays
+  unqualified;layer7 not re-graded). Layer6 re-graded by
+  addendum (discipline in,base list out — stays
+  INCOMPLETE);4.4 gate re-run on layer6 only:PASS.
+  Campaign4 exit NOT met.
+  `docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md`.
 - [ ] Campaign4 iteration (Track R,dependency order):R1 done
   (NOT PROVEN,above);R2 done (ESTABLISHED,above) — slice4.6;
-  R3 placement values — slice4.7;R4 action sequencing;R5 partial-state
-  teardown. Each landing re-grades its layers by addendum and
+  R3 done (NOT PROVEN,above) — slice4.7;R4 done (PARTIAL,
+  above) — slice4.8;R5 partial-state teardown — slice4.9,
+  the last item. Each landing re-grades its layers by addendum and
   re-runs the 4.4 gate on changed layers only;then broad
   ordinary UNMODIFIED source-model support100%.
 

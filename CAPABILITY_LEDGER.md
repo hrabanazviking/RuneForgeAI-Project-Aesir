@@ -5088,3 +5088,55 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next acceptance gate:** R4 action sequencing (+F1
   result-path qualification question),slice 4.8.
 - **Audit:** Research only. No global/hosted-CI pass.
+
+### AES-NUM-008 — Action sequencing for a real program, Track R R4 (Campaign 4)
+
+- **Status:** `verified` (research scope:bounded study of the
+  pinned configure-path sources for a sourced minimal-program
+  context-action sequence;no emitter,no bytes,no physical run).
+- **Owner:** docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md.
+- **Verdict: R4 PARTIALLY ESTABLISHED.** The ordering
+  discipline is ESTABLISHED at source level:the pinned
+  configure path (resource_manager_builder.cpp @d503417,
+  sha256 035af3cc…;builder/resource-manager/header hashes
+  cross-checked against this repo's recorded study hashes)
+  transforms each context's action list deterministically —
+  fetch insertion per WriteDataCcw (its own total_ccw_burst;
+  code inserts per write action despite the "group" comment),
+  edge-layer activation inserted before the single
+  TriggerNewData group (outputs → DDR inputs → inputs;
+  mapping/DDR/resume;StartBurstCreditsTask after),config-
+  channel activate prepended / deactivate appended per config
+  buffer,repeated-action compression,end-of-context terms
+  last (disable replaced by deactivates;single-context →
+  WaitForNetworkGroupChange). Context BUILD order sourced:
+  activation → batch-switching → preliminary → dynamics in
+  HEF index order,then configure(). Device EXECUTION order
+  NOT PROVEN (build order is not execution order).
+- **Counts/addresses:** established as FUNCTIONS of the base
+  list + resources (fetch bursts,descriptor counts,config-
+  buffer counts,batch-switch kernel-done derivation),plus
+  the default literal:default LCU-enable completion =
+  kernel-done address 1 / count 2 @pin (the 4.7 ancillary
+  lands). Non-default records carry address u16 + count u32
+  in the action;no safe non-default address value is
+  established — NOT PROVEN,ID35 addresses stay OUT.
+- **Minimal authorable sequence: NOT PROVEN.** The base list
+  is ContextMetadata::get_actions() — parsed from the HEF
+  (hef/core_op_metadata.cpp @pin),i.e. DFC-authored;its
+  contents depend on R1 (CCW,NOT PROVEN) and R3 (placement,
+  NOT PROVEN). The builder orders insertions,it does not
+  validate or generate base contents.
+- **F1:** unchanged — the result path stays source-described
+  and Aesir-unqualified;research cannot qualify it;layer 7
+  not re-graded.
+- **Effect:** AES-NUM-003 layer 6 re-graded by addendum
+  (appended to the spec + study §8):discipline ESTABLISHED,
+  base list NOT PROVEN,layer stays INCOMPLETE. 4.4 gate
+  re-run on layer 6 only:PASS (0 Do Not Infer violations;
+  hRPC ids ≠ context actions;HEF parsing ≠ DFC knowledge).
+  Campaign 4 EXIT NOT MET;operation UNQUALIFIED;Campaign 5
+  NOT contracted.
+- **Next acceptance gate:** R5 partial-state teardown
+  preconditions,slice 4.9 — the last Track R item.
+- **Audit:** Research only. No global/hosted-CI pass.
