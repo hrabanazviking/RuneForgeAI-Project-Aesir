@@ -7942,3 +7942,44 @@ No new capability ID or hardware/complete-source execution claim.
   per-ng forms inside the classified CONST/NGIDX
   population (slice 4.94).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-094 — the deviating ff instances are exactly the sparse-neighbourhood instances (value-0 instances in T3/T4/T5 share one byte-identical sparse neighbourhood across artifacts), the camp middles differ across the four grown ranks only in unit 0 (units 1–4 shared at every rank; no B unit at index >= 5 occurs in any A middle), and the per-ng lens adds no form inside the classified population (pooled CONST equal across ngs in all 6,805 both-ng cases; NGIDX degeneracy is exactly single-instance network groups; only 19 both-ng NGIDX offsets are non-degenerate in both ngs)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_DEVIATING_INSTANCES_RANK_UNITS_PERNG_CLASSIFIED_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...093 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
+  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
+  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
+  firsts' D 3,089, control D 176, rank-2 middles 168/232 with
+  21 mismatches at k = 111, in hef94.py (sha256 12244648...),
+  landed via sha-gated chunked file.write transfer (gz sha256
+  60b34428... verified on-device; script sha verified
+  on-device); output sha256 077fd0e0.... Contract
+  docs/TASK_CONTRACT_4.94.md published @ 0eb6c64f before
+  implementation. (i) Each target group has exactly 1 common
+  ff offset; separators: T1 first-by-cidx + train-first, T2
+  first-by-cidx, T4 last-by-cidx + in-no-train, all five
+  unique word neighbourhood + unique neighbour actions.
+  Sparse form (>= 3 of 5 neighbourhood words zero) marks D
+  in all five; T3/T4/T5 value-0 instances share the tuple
+  (00000000, ff0f0000, ff000000, 00000000, 00000000). Twin
+  5ab3537d pos 15 is per-ng CONST {0: 0, 1: 38}; sisters
+  share cidx 84 (0) and 132 (38). (ii) All 4 ranks: shared
+  distinct units 4 at indices 1–4; mismatch list
+  [1,0,0,0,0,2,2,4,7,2,3] = 21 at k = 111 and 112; cross-rank
+  middles differ only in unit 0 bytes 6–7 (8780/8900/8500/
+  8b80); B vocabulary at indices >= 5: zero verbatim hits in
+  any A middle, and vice versa. (iii) Five populations
+  re-classified with exact MATCH in all: CONST 46,140
+  (single-ng 39,335, both-ng 6,805, per-ng differ 0);
+  NGIDX 8,532 (SINGLE 7,473, ALL-DEG 950, ONE-DEG 90,
+  BOTH-NONDEG 19; neither-ng 0; const-degenerate with
+  varying ngidx 0).
+- **Next:** sparse-form census across OTHER-habitat and
+  per-ng-covered groups; middle unit-0 byte hunt; B06/B11
+  recurrence anatomy (slice 4.95).
+- **Audit:** Host-side analysis only; no device child.

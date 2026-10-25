@@ -1433,15 +1433,30 @@
   a function of the consensus
   pair under any tested key.
   `docs/HAILO10H_PERNG_FORMS_UNIT_ANATOMY_PAIR_FUNCTION_2026-10-24.md`.
-- [ ] Slice4.94 residual ff
-  deviating-instance anatomy +
-  sister-twin comparison; per-
-  rank middle unit anatomy;
-  per-ng forms inside the
-  classified CONST/NGIDX
-  population; then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+- [x] Slice4.94 the deviating ff
+  instances are exactly the
+  sparse-neighbourhood instances
+  (value-0 instances share one
+  byte-identical sparse tuple
+  across artifacts; twin is
+  per-ng CONST); middles differ
+  across ranks only in unit 0
+  (units 1-4 shared everywhere,
+  B vocabulary >= 5 disjoint);
+  per-ng adds no form inside the
+  classified population (CONST
+  equal across ngs 6,805/6,805;
+  NGIDX degeneracy = single-
+  instance ngs).
+  `docs/HAILO10H_DEVIATING_INSTANCES_RANK_UNITS_PERNG_CLASSIFIED_2026-10-24.md`.
+- [ ] Slice4.95 sparse-form
+  census (neighbourhood form vs
+  value law across OTHER-habitat
+  and per-ng-covered groups);
+  middle unit-0 byte hunt;
+  B06/B11 recurrence anatomy;
+  then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

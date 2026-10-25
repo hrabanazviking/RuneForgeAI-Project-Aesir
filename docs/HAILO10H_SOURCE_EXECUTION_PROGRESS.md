@@ -2605,3 +2605,26 @@ Next: what distinguishes the deviating instances, the middles
 unit by unit across ranks, and per-group forms inside the
 already-classified ff population. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 deviating instances, rank units, per-ng inside classified (AES-NUM-094,slice4.94):
+`docs/HAILO10H_DEVIATING_INSTANCES_RANK_UNITS_PERNG_CLASSIFIED_2026-10-24.md`.
+The five leftover ff offsets resolve into segment forms: each target
+group has only the one common offset, and the deviating instance is
+always the one sitting in a sparse neighbourhood — in three of the
+five, every value-0 instance across two sister artifacts shares the
+exact same five words, a second ff word with value 15 parked four
+bytes before the target and zeros around it, while value-carrying
+instances share a dense neighbourhood instead. The sister twin of
+the strangest offset turns out to be quietly lawful (constant per
+network group), broken in its sister only by extra sparse instances.
+The camp middles, cut per rank, differ across the four grown ranks
+in exactly one unit — two bytes in unit 0 — with units 1–4 shared
+at every rank, the same 21-mismatch profile at both insertion
+offsets, and no later B unit anywhere in any A middle. And the
+per-group lens that cracked the sparse offsets adds nothing inside
+the classified bulk: a pooled constant is the same constant in both
+network groups in all 6,805 two-group cases, and the index form is
+degenerate exactly where a group contributes a single instance.
+Next: census the sparse form itself, hunt the unit-0 bytes, and
+anatomise the B middle's one repeated unit. Broad ordinary
+UNMODIFIED source-model support100% remains the destination.
