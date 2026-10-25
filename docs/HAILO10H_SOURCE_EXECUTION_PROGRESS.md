@@ -679,3 +679,33 @@ action sequencing,partial-state teardown). Next:slice4.4,the
 spec review gate against the Do Not Infer table. Numerical/
 packing/placement/program/results and broad ordinary UNMODIFIED
 source-model support100% remain work.
+
+
+2026-10-24 identity copy spec review gate:
+`docs/HAILO10H_IDENTITY_COPY_SPEC_REVIEW_2026-10-24.md`
+(AES-NUM-004,Campaign4 slice4.4). The AES-NUM-003 spec was
+audited field by field against the AES-NUM-001 field table and
+all 16 Do Not Infer entries:0 violations. Every field the spec
+uses carries a source and a known meaning or is explicitly
+graded UNKNOWN/OUT;the IRQ,closed-file and math≠executable
+entries are actively enforced by the spec's own layer7/8 terms
+and its UNQUALIFIED grade. Finding F1 tightens layer7:its
+"qualified result path" overreaches — no program-result
+readback path is qualified (AES-TRANSFER-004 proved a CREATE
+control exchange,not program results),so that question joins
+the R2/R4 dependency set;the byte-equal readback term itself
+stands. Finding F2 confirms the fixed-shape rationale's
+context-only disclaimer is load-bearing (the 2048 cap governs
+RPC messages,not the session-read payload). AES-NUM-003's
+corrected AES-NUM-002 layer mapping is CERTIFIED as the
+Campaign4 record. Gate verdict:the spec passes review as an
+honest specification,but Campaign4's EXIT is NOT MET — fields
+graded OUT have a sourced unknown status,not a known meaning —
+so the operation remains unqualified and Campaign5 is NOT
+contracted. Campaign4 enters its Track R iteration loop
+(R1 CCW layout,R2 session readiness,R3 placement values,R4
+action sequencing,R5 partial-state teardown),each item
+closing only on IN-grade evidence or recorded NOT PROVEN.
+Next:slice4.5,the R1 CCW layout study (lane D),research only.
+Numerical/packing/placement/program/results and broad ordinary
+UNMODIFIED source-model support100% remain work.

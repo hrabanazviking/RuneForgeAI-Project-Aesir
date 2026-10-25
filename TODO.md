@@ -118,12 +118,25 @@
   different layer list than the roadmap's — corrected mapping
   recorded. Operation UNQUALIFIED;Campaign4 does not exit.
   `docs/HAILO10H_IDENTITY_COPY_EIGHT_LAYER_SPEC_2026-10-24.md`.
-- [ ] Slice4.4 spec review gate against the Do Not Infer table
-  (inherits AES-NUM-003's corrected layer mapping);Track R
-  iteration items R1 CCW layout (lane D),R2 session readiness,
-  R3 placement values,R4 action sequencing,R5 partial-state
-  teardown;then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-004 slice4.4 spec review gate:field-by-field
+  audit of AES-NUM-003 against AES-NUM-001 + all 16 Do Not
+  Infer entries — 0 violated (IRQ/closed-file/math≠executable
+  actively enforced by the spec's own terms). F1:L7's
+  "qualified result path" overreaches (no program-result
+  readback qualified;joins R2/R4). F2:2048 cap is messages,
+  not the payload read;spec's context-only disclaimer
+  confirmed load-bearing. Corrected AES-NUM-002 layer mapping
+  CERTIFIED. Spec PASSES as an honest specification;Campaign4
+  EXIT NOT MET (OUT fields have sourced unknown status,not
+  known meanings);Campaign5 NOT contracted.
+  `docs/HAILO10H_IDENTITY_COPY_SPEC_REVIEW_2026-10-24.md`.
+- [ ] Campaign4 iteration (Track R,dependency order):R1 CCW
+  layout (lane D) — slice4.5, research only, ESTABLISHED or
+  NOT PROVEN;R2 session readiness (+F1 readback question);
+  R3 placement values;R4 action sequencing;R5 partial-state
+  teardown. Each landing re-grades its layers by addendum and
+  re-runs the 4.4 gate on changed layers only;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

@@ -4902,3 +4902,56 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next acceptance gate:** Slice 4.4 spec review gate against
   the Do Not Infer table.
 - **Audit:** Specification only. No global/hosted-CI pass.
+
+### AES-NUM-004 — Identity copy spec review gate (Campaign 4)
+
+- **Status:** `verified` (review scope:field-by-field audit of
+  AES-NUM-003 against AES-NUM-001 and the roadmap §2.2 Do Not
+  Infer table;no emitter,no bytes,no physical run).
+- **Owner:** docs/HAILO10H_IDENTITY_COPY_SPEC_REVIEW_2026-10-24.md.
+- **Claim sources:** AES-NUM-003 spec (document under review);
+  AES-NUM-001 field table (grades A–E);roadmap §2.2 (16 Do Not
+  Infer entries);AES-NUM-002 (prediction under correction).
+- **Audit result:** Every field/value the spec uses carries a
+  source and a known meaning or is explicitly graded
+  UNKNOWN/OUT — fixed shape (Aesir-side choices,declared as
+  such),L1 proofs of non-applicability,L2/L3 group-E OUT
+  grades,L4 IN facts with readiness NOT ESTABLISHED,L5
+  carriers/layouts with CCW words OUT,L6 layouts with sequence
+  and ID35 address values OUT,L7 sourced completion terms,L8
+  host terms with partial-state ordering NOT ESTABLISHED. No
+  tile size,resource value,bank/offset,CCW word,sequence,
+  address,format semantic or readiness mechanism is asserted
+  anywhere in the spec.
+- **Do Not Infer:** 0 of 16 entries violated;entries 3 (IRQ),
+  4 (closed file) and 10 (math ≠ executable) are actively
+  enforced by the spec's own layer 7/8 terms and its
+  UNQUALIFIED grade;the rest are complied with or not engaged
+  (recorded per entry in the doc).
+- **Finding F1 (tightening):** AES-NUM-003 layer 7's phrase
+  "the qualified result path" overreaches — no PROGRAM RESULT
+  readback path is qualified (AES-TRANSFER-004 proved a CREATE
+  control exchange,not program results). The byte-equal
+  readback term stands;its path qualification is NOT
+  ESTABLISHED and joins the R2/R4 dependency set. Correction of
+  record lives in the review doc;the spec is not retro-edited.
+- **Finding F2 (clarification):** the fixed-shape rationale's
+  2048-byte citation governs RPC messages,not the session-read
+  payload;the spec's own context-only disclaimer is
+  load-bearing and is confirmed by this gate.
+- **Mapping certified:** AES-NUM-003's corrected AES-NUM-002 →
+  roadmap layer mapping and scoreboard are certified as the
+  Campaign 4 record (definition/shapes/parameters → fixed
+  shape + L1;result mapping/oracle → L1 + L7;"layers 1–4
+  completable" does NOT transfer to roadmap L2/L3/L4).
+- **Gate verdict:** Spec PASSES review as an honest
+  specification. Campaign 4 EXIT NOT MET — OUT-graded fields
+  have a sourced unknown status,not a known meaning,so the
+  exit condition's own terms are unmet. Operation remains
+  UNQUALIFIED;Campaign 5 is NOT contracted.
+- **Next acceptance gate:** Campaign 4 iteration through
+  Track R R1–R5 (each closes only on IN-grade evidence or is
+  recorded NOT PROVEN);slice 4.5 = R1 CCW layout study (lane
+  D),research only. Affected layers re-graded by addendum and
+  this gate re-runs on changed layers only.
+- **Audit:** Review only. No global/hosted-CI pass.
