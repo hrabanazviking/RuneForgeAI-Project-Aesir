@@ -39,9 +39,16 @@ class ProgramMock(unittest.TestCase):
   configure=hb(41)+bytes([0x12,0x02,0x08,0x07])+bytes([0x1A,len(stream)])+stream+bytes([0x22,len(stream)])+stream+bytes([0x28,0x01])
   requests=[packet(0,2,create,1),packet(1,4,configure,1),packet(2,10,hb(42),1),packet(3,11,hb(42),1),packet(4,12,hb(42),1),packet(5,5,hb(42),1),packet(6,3,hb(41),1)]
   replies=[packet(0,2,hb(41),0),packet(1,4,hb(42)+bytes([0x10,0x03]),0),packet(2,10,b'',0),packet(3,11,b'',0),packet(4,12,b'',0),packet(5,5,b'',0),packet(6,3,b'',0)]
+  if typed:
+   for i,kind in typed.items():
+    raw=bytearray.fromhex(replies[int(i)])
+    if kind=='id': struct.pack_into('<I',raw,8,struct.unpack_from('<I',raw,8)[0]+1)
+    elif kind=='action': struct.pack_into('<I',raw,12,struct.unpack_from('<I',raw,12)[0]+1)
+    elif kind=='status': struct.pack_into('<I',raw,16,7)
+    replies[int(i)]=bytes(raw).hex()
   env={}
   for i in range(7):
-   env['AESIR_DEVICE_REQUEST'+str(i)]=requests[i];env['AESIR_DEVICE_REPLY'+str(i)]=replies[i];env['AESIR_DEVICE_GOODREPLY'+str(i)]=replies[i]
+   env['AESIR_PROGRAM_REQUEST'+str(i)]=requests[i];env['AESIR_PROGRAM_REPLY'+str(i)]=replies[i]
   return env
 
  def run_pair(self, *, fault='none', phase=0, handle=0, counts=(7,5), close='none',
@@ -100,15 +107,15 @@ class ProgramMock(unittest.TestCase):
   self.assertEqual((result[0],result[2]),(0,b''));j=self.data(result);self.assertTrue(j['accepted']);self.assertTrue(j['identity_printed']);self.assertEqual(j['stages_completed'],7);self.assertEqual(j['exchanges'],7);self.assertEqual(j['stage'],0);self.assertFalse(j['poisoned'])
   for r in rows[:2]:
    wires=[o['wire'] for o in r['observer'][1:] if o['wire']]
-   self.assertEqual(wires,[r['fixtures']['AESIR_DEVICE_'+kind+str(n)] for n in range(7) for kind in ('REQUEST','REPLY')])
+   self.assertEqual(wires,[r['fixtures']['AESIR_PROGRAM_'+kind+str(n)] for n in range(7) for kind in ('REQUEST','REPLY')])
 
  def test_02_fail_closed_gates(self):
   for scenario,stages,exchanges in [('no-attest',1,1),('bad-attest',1,1),('early-configure',0,0),('early-destroy',0,0),('double-create',1,1),('teardown-order',2,2)]:
    result,_=self.run_pair(args=self.args(scenario));j=self.data(result);self.assertNotEqual(result[0],0,(scenario,j));self.assertTrue(j['refused'],(scenario,j));self.assertEqual(j['stages_completed'],stages,(scenario,j));self.assertEqual(j['exchanges'],exchanges,(scenario,j));self.assertFalse(j['accepted'])
 
  def test_03_reply_corruption_poisons(self):
-  for fault,phase in [('reply_id',1),('reply_status',2),('reply_action',2)]:
-   result,_=self.run_pair(fault=fault,phase=phase,args=self.args('full'));self.assertNotEqual(result[0],0);self.assertTrue(self.data(result)['poisoned'])
+  for typed in [{'0':'id'},{'1':'status'},{'1':'action'}]:
+   result,_=self.run_pair(typed=typed,args=self.args('full'));self.assertNotEqual(result[0],0);self.assertTrue(self.data(result)['poisoned'])
 
  def test_04_sync_and_launch_faults_poison(self):
   for fault in ('sync_before1','sync_after1','launch_before1','launch_after1'):
