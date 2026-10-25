@@ -2504,3 +2504,28 @@ exactly 64 times the step index. Next: the constant ff offsets
 under the unified law, the full camp stream alignment, and whether
 first-in-train distinction repeats in other trains. Broad ordinary
 UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 every ff word classified, tails are shared region-final content, first-in-train is the norm (AES-NUM-090,slice4.90):
+`docs/HAILO10H_FF_CLASSIFICATION_CAMP_ALIGNMENT_TRAINS_2026-10-24.md`.
+The ff vocabulary of the scanned populations is now closed: of
+20,645 common aligned ff offsets in 374 groups, 17,351 carry a
+constant (29 values, 15 dominant) and 3,290 carry exactly the
+within-network-group index — except four offsets in the single
+0a0d exception group, which are two-valued steps that flip only
+at the group's first instance (15/0 at one repeated pair, 1/7 at
+the other) while their sibling offset carries the index itself.
+The camp question left by slice 4.89 resolves against both of
+its candidate answers: the four extra tails are the final 64
+bytes of their regions in BOTH camps, present exactly once in
+each, and camp 21648's extra length lives instead in the grown
+regions' middle windows (168 bytes against 232, between a common
+prefix and a common 172-byte suffix). And cidx 113's distinction
+turns out to be ordinary: of 52 context trains across the corpus,
+28 have their first member as the unique schedule outlier — the
+largest reaching D = 342, beyond the sibling train's 249 — while
+13 trains are fully unanimous and in 11 the outlier sits
+elsewhere; the sibling and camp controls reproduce exactly.
+Next: what camp 21648's extra middle bytes are, whether the
+ngidx==1 step pattern recurs elsewhere, and a cross-train test
+of the first-context mechanism. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

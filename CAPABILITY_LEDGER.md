@@ -7786,3 +7786,51 @@ No new capability ID or hardware/complete-source execution claim.
   camp 21392's region map); first-in-train distinction test
   in other artifacts/trains (slice 4.90).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-090 — every aligned ff word in the scanned populations is CONST or the within-ng index (17,351 / 3,290 of 20,645; the only OTHER offsets are 4 two-valued ngidx==1 step pairs in the single 0a0d exception group), the camp tails are shared region-final content in both camps (neither duplicated nor displaced; camp B's +64 per grown region lives in its middle window, 168 vs 232 B), and first-in-train distinction is the norm (28 of 52 trains have a unique first-member outlier, up to D = 342; sibling and camp controls reproduce exactly)
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_FF_CLASSIFICATION_CAMP_ALIGNMENT_TRAINS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...089 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef90.py (sha256 06717154...), landed via one-shot
+  proxy-receiver transfer (gz sha256 cfac8e97... returned by
+  the receiver, matching; script sha verified on-device);
+  output sha256 6d48a700.... Labelled follow-up hef90b.py
+  (sha256 256c2bbc..., output sha256 2c8ee4fa...) corrects
+  one indexing expression in hef90's content arm
+  (hashes[j][j] for hashes[j][i]; all content counts in
+  hef90 were 0); non-content results identical in both
+  outputs, content numbers are hef90b's. Contract
+  docs/TASK_CONTRACT_4.90.md published @ 364159d3 before
+  implementation. (i) 374 groups pass >= 10 common ff
+  (of 505 in band; 372 variable, 2 constant-only),
+  20,645 common offsets: CONST 17,351, NGIDX 3,290,
+  OTHER 4 — all four in 0a0d378c pos 25 size 32,632,
+  where offset 10976 is NGIDX and offsets 11820/11824
+  (15 at ngidx 1, else 0) and 31512/31704 (1 at ngidx 1,
+  else 7) are two-valued first-instance steps; CONST
+  vocabulary 29 values, 15 dominant (11,007). MiniLM
+  contributes no scan group. (ii) Camp region map
+  reproduces 088 (44 regions, grown ranks 2/8/22/26 at
+  +64 only); each grown region = common prefix (132 /
+  148 / 204 / 204) + middle (A 168 B, B 232 B) + common
+  suffix 172; each tail is region-final in BOTH camps
+  (A in-region offsets 408/424/480/480 = lenA - 64),
+  once per representative; INSERTION test fails (583
+  differing bytes), contracted DISPLACEMENT test is
+  length-degenerate (21,136 vs 21,392): tails are
+  neither duplicated nor displaced. (iii) 52 trains
+  corpus-wide: 28 unique first-member outliers (max
+  D = 342, 773470cd ng 1 / 496), 13 fully unanimous,
+  11 with the outlier elsewhere; content-distinguished
+  in 25 of the 28 (three schedule-only cases, all
+  5ab3537d). Controls exact: sibling D(113) = 249 and
+  content = 23 at the AES-NUM-087 positions; camp
+  two-valued 72 / 72, first deviations 36 / 36.
+- **Next:** grown-region middle windows under
+  camp-consensus alignment (camp B's extra 64 B: home
+  search in both camps); ngidx==1 step pairs elsewhere;
+  first-in-train cross-train mechanism test (slice 4.91).
+- **Audit:** Host-side analysis only; no device child.

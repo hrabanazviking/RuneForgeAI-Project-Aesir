@@ -1365,17 +1365,44 @@
   and occur once in BOTH camps,
   displaced by 64 x step index.
   `docs/HAILO10H_NG_SCALAR_LAW_KINSHIP_TAILS_2026-10-24.md`.
-- [ ] Slice4.90 constant ff
-  offsets + the 0a0d exception's
-  second offset under the unified
-  law (every aligned ff word:
-  constant or within-ng index?);
-  camp stream alignment
-  (duplicated vs displaced
-  chunks; tail chunks' homes in
-  camp 21392's region map);
-  first-in-train distinction
-  test in other artifacts/trains;
+- [x] Slice4.90 every aligned ff
+  word in the scanned populations
+  is CONST (17,351) or the
+  within-ng index (3,290) of
+  20,645 common offsets in 374
+  groups; the only OTHER offsets
+  are 4 two-valued ngidx==1 step
+  pairs (15/0 and 1/7) in the
+  single 0a0d exception group,
+  whose offset 10976 is NGIDX;
+  camp tails are region-final
+  content present once in BOTH
+  camps (neither duplicated nor
+  displaced — camp B's +64 per
+  grown region lives in the
+  middle window, A 168 B vs
+  B 232 B, between common prefix
+  and common suffix 172);
+  first-in-train distinction is
+  the norm (52 trains: 28 unique
+  first-member outliers up to
+  D = 342, 13 unanimous, 11 with
+  the outlier elsewhere; content
+  in 25 of 28; sibling D = 249
+  and content = 23 reproduce).
+  `docs/HAILO10H_FF_CLASSIFICATION_CAMP_ALIGNMENT_TRAINS_2026-10-24.md`.
+- [ ] Slice4.91 grown-region
+  middle windows under
+  camp-consensus alignment
+  (camp B's extra 64 B per grown
+  region: home search in both
+  camps — duplicated, displaced
+  or new?); ngidx==1 step pairs
+  elsewhere (below the scan band
+  / other artifacts);
+  first-in-train mechanism test
+  (distinguished firsts vs their
+  ng's other trains' firsts);
   then broad ordinary UNMODIFIED
   source-model support100%.
 
