@@ -797,13 +797,29 @@
   (244/247 singletons,186 pair),ng flip at cidx 134,
   zone2 stream-final at cidx 270.
   `docs/HAILO10H_TRIPLET_ROTATION_SPARSE_ZONES_2026-10-24.md`.
-- [ ] Slice4.63 rotation-direction census over the
+- [x] Slice4.63 rotation-direction census over the
   remaining block classes corpus-wide (0a0d 48-dose
   290 class + 80-dose 419 class,76c3a8ff tail triplet
   contexts); 186 pair + 244/247 singleton anatomy;
-  cidx20 dose-14 scatter vs 32016 block slots; then
-  broad ordinary UNMODIFIED source-model
-  support100%.
+  cidx20 dose-14 scatter vs 32016 block slots:ONE
+  rotational sense corpus-wide (anti-sorted cyclic;
+  290 seam-fwd 0.664/pooled 0.622,419 0.753/0.695,
+  623 0.769 — AES-NUM-062's forward/reverse split
+  was a letter-assignment artefact,corrected);
+  76c3 has NO triplet rotation (32784 runs + 14
+  two-member 32784/26896 alternations);186 pair are
+  both rotations (135 purest 0.958/0.936) but only
+  97/186 positions shared;244/247 copy rotates
+  cleaner (0.823 vs 0.646),+3 = 3088 smalls;cidx20
+  scatter tail-clustered (5/14 in 356-367) but
+  slot-free (union 7/14,per-template <=4).
+  `docs/HAILO10H_ROTATION_CENSUS_186_244_SCATTER_2026-10-24.md`.
+- [ ] Slice4.64 two-member alternation anatomy
+  (76c3 B/C pairs + 0a0d seam-pair subsequences);
+  collapsed/degraded members inside 290/419/623;
+  135 near-perfect cycle vs 134 interruptions at
+  position level; then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

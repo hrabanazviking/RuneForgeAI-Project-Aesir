@@ -1860,3 +1860,29 @@ remaining block classes, the unique zone-tail
 contexts, and the dose-14 scatter. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 rotation census, 186 pair + 244/247 anatomy, dose-14 scatter (AES-NUM-063,slice4.63):
+`docs/HAILO10H_ROTATION_CENSUS_186_244_SCATTER_2026-10-24.md`.
+The census closes with a correction: there are not two
+rotational directions in the corpus but one. Every
+interleaved triplet block — the cc9 seam block, the
+newly measured 0a0d 290 and 419 classes, the 623 class,
+the 25872-member classes — turns in the same
+anti-sorted sense once a single labelling frame is
+held; the earlier forward-versus-reverse split was an
+artefact of two scripts labelling the members
+differently, and the magnitudes were always right.
+76c3a8ff never rotates at all: its contexts are single
+32784 runs and a handful of two-member alternations.
+The mysterious 186-action pair turn out to be the
+purest rotations measured (one of them nearly
+perfect) yet share barely half their positions, and
+the stream-final 247 copy of the 244 singleton
+rotates cleaner than its source. The dose-14 scatter
+clusters in the templates' tail zone but follows none
+of their slots. Next: the two-member alternations,
+the collapsed members inside the rotation classes,
+and the near-perfect cycle at position level. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.

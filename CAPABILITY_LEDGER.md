@@ -6827,3 +6827,39 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** rotation-direction census over remaining block
   classes; 186-pair + 244/247 anatomy; dose-14 scatter vs
   block slots (slice 4.63).
+
+### AES-NUM-063 — Rotation census, 186 pair + 244/247 anatomy, dose-14 scatter
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_ROTATION_CENSUS_186_244_SCATTER_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...062 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef63.py (sha256 70651a6d...) and hef63b.py (5e91b8d5...).
+  (i) ONE rotational sense corpus-wide (anti-sorted cyclic):
+  0a0d seam-set classes seam-forward pooled 290 0.622 (full
+  contexts 0.664, dose 48), 419 0.695 (full 0.753, dose 80),
+  623 0.708 (full 0.769); alt-set classes sorted-reverse
+  0.614-0.873 — the same sense in a single frame.
+  CORRECTED: AES-NUM-062's forward-vs-reverse opposition
+  (incl. the 623 verdict) was a letter-assignment artefact
+  of hef62b; magnitudes stand, the split is retracted.
+  Degraded/collapsed members ride inside 290/419/623.
+  (ii) 76c3a8ff has NO triplet rotation: 311/325 contexts
+  carry <=1 seam member (pure 32784 runs, self 1.000);
+  14 contexts are two-member 32784/26896 alternations
+  (B<->C symmetric, cyclic=anti=0), tail included.
+  (iii) The 186 pair are both rotations — 135 the corpus's
+  purest (forward 0.958, cyclic 0.936, self 0.000), 134 at
+  0.755 — but share only 97/186 positions (mid Jaccard
+  0.475): a count pair, not twins; 134 alone is normal-order
+  with the pair's only window. (iv) 244/247: the +137 copy
+  rotates cleaner (0.823/0.695 vs 0.646/0.411) and its +3
+  actions are 3088x16 smalls. (v) Cidx 20 dose-14 scatter
+  is tail-clustered but slot-free: 7/14 template-union hits
+  (expected ~3.3 uniform) driven by 5 tail-zone positions
+  (356-367, 3 on-slot), per-template <=4, no lattice.
+- **Next:** two-member alternation anatomy; collapsed/
+  degraded members in 290/419/623; 135 vs 134 cycle at
+  position level (slice 4.64).
+- **Audit:** Host-side analysis only; no device child.
