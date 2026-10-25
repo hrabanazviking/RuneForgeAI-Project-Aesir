@@ -4853,3 +4853,52 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next acceptance gate:** Slice 4.3 eight-layer description
   tested against this prediction;then 4.4 review gate.
 - **Audit:** Specification only. No global/hosted-CI pass.
+
+### AES-NUM-003 — Identity copy eight-layer description (Campaign 4)
+
+- **Status:** `verified` (specification scope:eight-layer
+  description graded against AES-NUM-001,with the prediction
+  contradiction recorded as the slice's finding).
+- **Owner:** docs/HAILO10H_IDENTITY_COPY_EIGHT_LAYER_SPEC_2026-10-24.md.
+- **Claim sources:** AES-NUM-001 field table;AES-NUM-002
+  selection + prediction;AES-PROG-001..004;AES-TRANSFER-001..004;
+  roadmap §2.2 Do Not Infer law.
+- **Fixed shape:** 16 elements × 1 opaque byte,1-D,contiguous,
+  distinct in/out buffers;parameters NONE (proved from the
+  definition — its only argument is the input sequence).
+- **Layer grades (roadmap 4.3 list):** L1 numerical definition
+  COMPLETE (signedness/scaling/accumulator/rounding/saturation
+  proved not applicable — bytes in = bytes out). L2 tile plan
+  INCOMPLETE at device level (one logical tile specified
+  Aesir-side;tile geometry expression + allowed dimensions are
+  group-E/CCW OUT). L3 physical resource plan INCOMPLETE
+  (assignment values,banks/windows,L2/L3 offsets OUT;only a
+  requirement can be stated,no values). L4 data-movement plan
+  SPECIFIED host-side,NOT ESTABLISHED device-side (payload =
+  one async session read of declared size after readiness wait;
+  SoC session readiness protocol NOT ESTABLISHED;the -004 CREATE
+  control exchange explicitly NOT credited as stream proof).
+  L5 static configuration INCOMPLETE (CCW words OUT). L6 dynamic
+  actions INCOMPLETE (layouts IN;real-program sequencing and
+  safe ID35 address values unestablished). L7 completion
+  contract SPECIFIED with fully sourced terms (IRQ data 1 =
+  completed;0xFF NOT_ACTIVE never credited;byte-equal readback
+  required) — satisfiability is Campaign 5's physical question.
+  L8 cleanup contract SPECIFIED host-side (AES-PROG-002/004
+  ordering,failure tiers,residue honesty),NOT ESTABLISHED for
+  device partial states (AES-PROG-001 ordering unknown stands).
+- **Finding — prediction contradiction:** AES-NUM-002's
+  prediction was scored against a DIFFERENT layer list than the
+  roadmap's 4.3 list. Under the governing roadmap list,L2/L3 do
+  not clear;the prediction's substance survives where contents
+  agree (shape/parameters in the fixed-shape section;oracle in
+  L1/L7),and L5/L6 agree as predicted. The corrected mapping is
+  recorded in the doc;4.4 inherits it.
+- **Evidence boundary:** The operation remains UNQUALIFIED;
+  Campaign 4 does NOT exit;no Campaign 5 encoder may be
+  contracted from this spec. Iteration items R1 CCW layout
+  (lane D),R2 session readiness,R3 placement values,R4 action
+  sequencing,R5 partial-state teardown preconditions.
+- **Next acceptance gate:** Slice 4.4 spec review gate against
+  the Do Not Infer table.
+- **Audit:** Specification only. No global/hosted-CI pass.

@@ -108,11 +108,22 @@
   completable at source level;5-6 blocked on CCW/sequencing;
   Campaign4 does not exit this pass.
   `docs/HAILO10H_FIRST_OPERATION_SELECTION_2026-10-24.md`.
-- [ ] Slice4.3 eight-layer complete description of the identity
-  copy,tested against the AES-NUM-002 prediction (any
-  contradiction is the finding);then 4.4 independent review
-  gate;Track R lane D (CCW layout) + session studies continue;
-  then broad ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-003 slice4.3 eight-layer description of the identity
+  copy (roadmap layer list):L1 COMPLETE;L2 tile plan + L3
+  resource plan INCOMPLETE (group-E/CCW OUT);L4 specified host /
+  not established device (session readiness);L5/L6 INCOMPLETE as
+  predicted;L7 completion contract SPECIFIED (terms sourced,
+  satisfiability = Campaign5);L8 cleanup specified host / device
+  partial states open. FINDING:AES-NUM-002's prediction used a
+  different layer list than the roadmap's — corrected mapping
+  recorded. Operation UNQUALIFIED;Campaign4 does not exit.
+  `docs/HAILO10H_IDENTITY_COPY_EIGHT_LAYER_SPEC_2026-10-24.md`.
+- [ ] Slice4.4 spec review gate against the Do Not Infer table
+  (inherits AES-NUM-003's corrected layer mapping);Track R
+  iteration items R1 CCW layout (lane D),R2 session readiness,
+  R3 placement values,R4 action sequencing,R5 partial-state
+  teardown;then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

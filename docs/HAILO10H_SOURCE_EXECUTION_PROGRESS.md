@@ -649,3 +649,33 @@ pass. Next:slice4.3,the eight-layer description tested against
 that prediction. Numerical/packing/placement/program/results
 and broad ordinary UNMODIFIED source-model support100% remain
 work.
+
+
+2026-10-24 identity copy eight-layer description:
+`docs/HAILO10H_IDENTITY_COPY_EIGHT_LAYER_SPEC_2026-10-24.md`
+(AES-NUM-003,Campaign4 slice4.3). The identity copy is now
+described on all eight roadmap layers for a fixed 16-byte shape
+with proved-zero parameters. Layer1 (numerical definition)
+clears completely — every group-E question is proved not
+applicable to a byte identity. Layers2 (tile plan) and 3
+(physical resource plan) do NOT clear:tile geometry,assignment
+values,banks/windows and offsets are the group-E/CCW unknowns
+AES-NUM-001 already graded OUT. Layer4's plan is specified from
+IN facts (one async session read of the declared size after a
+readiness wait) but its device half waits on the SoC session
+readiness protocol. Layers5-6 stay incomplete exactly as
+predicted (CCW words;action sequencing). Layer7's completion
+contract is fully specified from sourced terms (IRQ data law +
+byte-equal readback);whether the device can be brought to meet
+it is Campaign5's question. Layer8's cleanup terms are
+host-specified,with device partial-state ordering still open.
+The slice's finding is a contradiction in the AES-NUM-002
+prediction:it was scored against a different layer list than
+the roadmap's 4.3 list — the corrected mapping is recorded in
+the spec and the ledger,and 4.4 inherits it. The operation
+remains unqualified and Campaign4 does not exit;iteration items
+R1-R5 are named (CCW layout,session readiness,placement values,
+action sequencing,partial-state teardown). Next:slice4.4,the
+spec review gate against the Do Not Infer table. Numerical/
+packing/placement/program/results and broad ordinary UNMODIFIED
+source-model support100% remain work.
