@@ -5530,3 +5530,26 @@ No new capability ID or hardware/complete-source execution claim.
   failed its whole-file sha once and was discarded;
   the gzipped parts each verified,assembly sha
   matched on-device).
+
+### AES-NUM-021 — datum/varint closure, pair co-determination, scalar distribution
+
+- **Status:** `verified` (exact counts,2 artifacts).
+- **Owner:** docs/HAILO10H_DATUM_VARINT_PAIRDIFF_REPL28_2026-10-24.md.
+- **Evidence:** (1) Datum is NOT a proto varint value:
+  MiniLM pool∩varints = 0/62 on both walks;blob top-pair
+  values occur 0× in 576,769 varints;strays at chance.
+  Third identity route closed. (2) Sister-unit differential
+  (95 pairs × 22 positions):lane0 + 0x0250 const always
+  equal;DATUM EQUALITY ⟺ (lane0+lane1) EQUALITY with zero
+  counterexamples — operand word and datum co-determined;
+  positions 10–11 most conserved (0.474);second-half ladder
+  sister-invariant. (3) 0x28xx scalars:625/656 exact ×4;
+  172 distinct;0x7ffe ×264 dominant;0x8282 exactly once in
+  each of 22 contexts;disjoint from datum pool + direct
+  varints;MiniLM regime is tiny scalars.
+- **Next:** co-determination corpus-wide;what splits the
+  conserved 10–11 pairs;datum-as-function-of-header across
+  contexts.
+- **Audit:** Host-side analysis only. (Transport: gzipped
+  900 B parts + per-part md5;deterministic corruption of
+  one part healed by halving it;whole-file sha matched.)

@@ -1045,3 +1045,17 @@ pool value — identity NOT PROVEN,two routes closed.
 Next:4.21 datum vs proto varint fields. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 datum identity III + pairs + scalars
+(AES-NUM-021,slice4.21):
+`docs/HAILO10H_DATUM_VARINT_PAIRDIFF_REPL28_2026-10-24.md`.
+The datum is not a protobuf varint value (third identity
+route closed;leading pair occurs 0× in 576,769 varints).
+Sister units reveal a co-determination law:datum equality
+coincides exactly with operand-word equality at all 22
+positions across 95 pairs. The 0x28xx replicated scalars
+form their own structured population (0x7ffe dominant),
+disjoint from the datum pool. Next:co-determination at
+corpus scale. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

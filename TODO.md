@@ -316,11 +316,16 @@
   (tensor/gap triples at chance,proto-float encodings
   zero intersection) — identity NOT PROVEN.
   `docs/HAILO10H_SKELETON_UNIT_28XX_DATUM_IDENTITY_2026-10-24.md`.
-- [ ] Slice4.21 datum vs proto varint fields (op-
-  parameter identity test);blob unit-pair differential
-  (first-half variance between sister units);replicated-
-  scalar distribution vs burst/context counts;then
-  broad ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-021 slice4.21 datum vs proto varints (route
+  CLOSED — leading pair 0× in 576,769 varints);sister-unit
+  co-determination (datum equality ⟺ operand equality,
+  95×22, zero counterexamples);0x28xx scalar distribution
+  (0x7ffe ×264, disjoint from pool).
+  `docs/HAILO10H_DATUM_VARINT_PAIRDIFF_REPL28_2026-10-24.md`.
+- [ ] Slice4.22 co-determination corpus-wide;conserved
+  10-11 pair splitter;datum-as-function-of-header across
+  contexts;then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
