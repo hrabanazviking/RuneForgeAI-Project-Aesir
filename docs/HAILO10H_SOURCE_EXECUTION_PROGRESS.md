@@ -526,6 +526,29 @@ placement/program/results and broad ordinary UNMODIFIED
 source-model support100% remain work.
 
 
+2026-10-24 program-object lifecycle,host implementation:
+`docs/HAILO10H_PROGRAM_LIFECYCLE_HOST_2026-10-24.md`
+(AES-PROG-002,Campaign3 slice3.2). hailbru/soc_program.mojo
+composes the qualified program/configure codecs over the
+Campaign2 primitive:seven stages (create,attested configure,
+activate,deactivate,shutdown,destroy-configured,destroy-infer)
+with consumer-layer validation throughout and the
+ProgramIdentity record (seven digests) printable before any run.
+The AES-PROG-001 unknowns are fail-closed laws:configure refuses
+until delivery of exactly the identity's encoded-program digest
+is attested (the owner never moves program bytes),and teardown
+order is enforced conservatively client-side. Qualified on Mimir
+against a NEW dedicated program-action oracle — the -018 device
+oracle is hardcoded to actions 20/22/21 and aborts on program
+actions (its first-run failures are recorded in the evidence
+doc):8 tests OK,116 runs,observer wires byte-identical to
+fixtures computed independently from the pinned field contract.
+Host evidence only. Next is slice3.3:a one-shot physical
+contract beginning from the payload-phase observation question.
+Numerical/packing/placement/program/results and broad ordinary
+UNMODIFIED source-model support100% remain work.
+
+
 2026-10-24 grouped transfer primitive host qualification:
 `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`
 (AES-TRANSFER-003,Campaign2 slice2.3). The derived aligned suite

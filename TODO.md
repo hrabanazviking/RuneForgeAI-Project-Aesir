@@ -64,10 +64,16 @@
   actions 3/5/10/11/12 exist (ordering for partial states NOT
   ESTABLISHED);two handle tiers never interchangeable.
   `docs/HAILO10H_PROGRAM_LIFECYCLE_INTERFACE_2026-10-24.md`.
-- [ ] Slice3.2 host implementation:program-object lifecycle in Mojo
-  over the Campaign2 primitive with the ProgramIdentity record
-  (printable pre-run),Q2/Q6 modelled as fail-closed stages;then
-  3.3 bounded physical lifecycle under its own contract;then
+- [x] AES-PROG-002 slice3.2 host implementation:SocProgram lifecycle
+  owner over the primitive (7 stages,consumer validation,
+  ProgramIdentity printable pre-run,payload-attestation gate +
+  conservative teardown order as fail-closed laws);dedicated
+  program-action test oracle (the -018 device oracle is hardcoded
+  to actions 20/22/21 and cannot serve program actions);suite on
+  Mimir:8 tests OK,116 runs. `docs/HAILO10H_PROGRAM_LIFECYCLE_HOST_2026-10-24.md`.
+- [ ] Slice3.3 bounded physical program lifecycle under its own
+  one-shot contract,beginning from the payload-phase observation
+  question (AES-PROG-001 Q2);then 3.4 failure teardown;then
   numerical configuration/packing/placement/program/results and
   broad ordinary UNMODIFIED source-model support100%.
 

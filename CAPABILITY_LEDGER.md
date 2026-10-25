@@ -4669,3 +4669,42 @@ No new capability ID or hardware/complete-source execution claim.
   modelling Q2/Q6 as explicit fail-closed stages.
 - **Audit:** No source code changed by this slice beyond
   documentation. Failures retained;no global/hosted-CI pass.
+
+### AES-PROG-002 — Program-object lifecycle owner, host qualification
+
+- **Status:** `host-verified` (mock transport;no physical run)
+- **Owner:** Original hailbru/soc_program.mojo composing the
+  qualified hrpc_program/hrpc_configure codecs over
+  hailbru/soc_transfer.mojo (AES-TRANSFER-002);diagnostic
+  smidr/tools/program_mock.mojo;new test-only oracle
+  tests/group_program_rpc_aligned_faults.c.
+- **Claim sources:** AES-PROG-001 interface qualification;
+  docs/HAILO10H_PROGRAM_LIFECYCLE_HOST_2026-10-24.md.
+- **Executable evidence:** tests/test_hailo_program_mock.py on
+  Mimir (Mojo 1.1.0):8 tests OK,116 runs,zero physical calls.
+  Full seven-stage lifecycle (create -> attested configure ->
+  activate -> deactivate -> shutdown -> destroy-configured ->
+  destroy-infer) with observer wires byte-identical to fixtures
+  the suite computed independently in Python from the pinned
+  public field contract. All six fail-closed gates refuse at the
+  designed stage/exchange counts (configure without attestation
+  of the identity's exact encoded-program digest;bad digest;
+  early configure/destroy;double create;destroy-configured before
+  shutdown). Crafted reply corruption (id/status/action) poisons;
+  sync/launch faults poison;close faults block acceptance;
+  observer logging failure/overflow inert;errno passthrough;
+  argument refusals. ProgramIdentity (seven digests) prints
+  before any exchange.
+- **Recorded oracle fact:** the AES-CONTROL-018 device oracle is
+  hardcoded to the device lifecycle sequence (actions 20/22/21,
+  sequence <4) and aborts on program actions;the first Pi run's
+  5 failures were those aborts,root-caused and resolved with the
+  dedicated program oracle — the code under test was unchanged.
+- **Evidence boundary:** Host mocks only. The action-2 payload
+  phase,receiver teardown ordering,structural acceptance of any
+  program object and all numerical content remain unproven.
+- **Next acceptance gate:** Slice 3.3 — one-shot physical contract
+  for the program lifecycle, beginning from the payload-phase
+  observation question (AES-PROG-001 Q2).
+- **Audit:** soc_transfer/soc_group_rpc/soc_group_device untouched.
+  Failures retained;no global/hosted-CI pass.
