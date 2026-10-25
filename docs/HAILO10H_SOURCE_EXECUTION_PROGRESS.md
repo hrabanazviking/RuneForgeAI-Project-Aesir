@@ -1302,3 +1302,23 @@ position. Next: enum-relabelling on the body pools,
 the framed position-21 form, sister break sizes vs
 the large-action census. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 body enum pools, framed 304 B as 464 B tail, sister census
+(AES-NUM-039,slice4.39):
+`docs/HAILO10H_BODY_ENUM_FRAMED464_SISTER_CENSUS_2026-10-24.md`.
+The enum-relabelling law is corpus-wide: each body
+ladder rung is one pool written in three enum classes
+with identical flags and projection sets, and the only
+exceptions are 14 invariant once-per-context singletons
+plus six rare operands. In 0a0d378c the framed 304 B
+form turns out to be the tail of a 464 B form, sharing
+no family vocabulary with the 176 B or 424 B frames.
+Sister head breaks draw on the rare tail of the
+sisters' own large censuses — most break sizes occur
+nowhere else, while the bulk sizes that carry nearly
+three quarters of large actions never break a run.
+Next: the class-to-channel mapping, the 464 B
+preamble, the invariant singletons' positions. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.

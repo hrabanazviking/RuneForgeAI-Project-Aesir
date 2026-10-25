@@ -5935,3 +5935,35 @@ No new capability ID or hardware/complete-source execution claim.
   position-21 framed form comparison,sister large-break
   sizes vs large-action census (slice 4.39).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-039 — body enum relabelling, framed 304 B as 464 B tail, sister census
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_BODY_ENUM_FRAMED464_SISTER_CENSUS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049). Body champion: 43,631
+  bursts,1,451 distinct operands. Per ladder rung the body
+  pools are EXACT enum relabellings: three classes per rung
+  (enum-high 0/1/2), equal pool sizes 89/93/98/89/108 per
+  rung, flags sets identical, (flags,enum-low,const,ladder)
+  projection sets equal and injective, const 0x0250
+  throughout; grouping by (channel,ladder) leaves only one
+  multi-class group (the 0x2c00 exception). Exceptions are
+  20 operands: 14 invariant singletons occurring exactly
+  once per context with one datum each (incl. the 0x2d80
+  special-slot pair) plus 6 rare operands (2-4 bursts,
+  ladders 0x2a82/0x2a8e). In 0a0d378c the framed 304 B form
+  shares only generic marker words with the 176 B (2) and
+  424 B (1) frames, but its whole body sits inside the
+  464 B form at words 21-57 (19 shared constant words;
+  464 B = one 7-segment template, head 0328700300801c15).
+  Sister large censuses: 109,789/109,790 actions >512 B,
+  179 common sizes with 113 exact count matches; break
+  sizes are 22/21 distinct, 13/14 of them census-exhaustive
+  (131/135 breaks), and the 178/175 never-break sizes carry
+  72.6%/72.5% of large occurrences.
+- **Next:** class-channel mapping (three body classes vs
+  four trailing), 464 B preamble anatomy, invariant
+  singleton positions (slice 4.40).
+- **Audit:** Host-side analysis only;no device child.

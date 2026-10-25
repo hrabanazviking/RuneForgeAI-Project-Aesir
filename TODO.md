@@ -461,11 +461,23 @@
   exact enum relabellings (ladder = group rung,flags
   sets identical,enum sole separator).
   `docs/HAILO10H_SISTER_BREAK_NONBREAKER_304_SISTER_POOLS_2026-10-24.md`.
-- [ ] Slice4.39 enum-relabelling on body champion
-  pools;position-21 framed 304 B vs other framed
-  forms;sister large-break sizes vs large-action
-  census;then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] AES-NUM-039 slice4.39 body enum,framed 464 B,
+  sister census:body rungs are exact enum relabellings
+  (three classes per rung,equal pools,flags/projection
+  identical and injective;exceptions = 14 invariant
+  once-per-context singletons + 6 rare operands);
+  framed 304 B is the tail of the 464 B form in
+  0a0d378c (words 21-57,19 shared constant words),not
+  kin to the 176 B/424 B frames;sister breaks are the
+  rare tail of their large censuses (13/14 break sizes
+  census-exhaustive;never-break sizes carry ~72.5%
+  of large occurrences).
+  `docs/HAILO10H_BODY_ENUM_FRAMED464_SISTER_CENSUS_2026-10-24.md`.
+- [ ] Slice4.40 class-channel mapping (three body
+  classes vs four trailing);464 B preamble anatomy
+  vs framed 304 B head words;14 invariant body
+  singletons' positions in context;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
