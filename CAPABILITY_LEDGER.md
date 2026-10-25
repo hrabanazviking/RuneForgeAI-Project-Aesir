@@ -7431,3 +7431,40 @@ No new capability ID or hardware/complete-source execution claim.
   len-496 template census (all 9 sequences per sister)
   (slice 4.81).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-081 — head trains share only the 13-action head, camp choice is written in position-18's segment content from byte 0, len-496 census: nine templates per sister and cidx 97 a full joint transplant
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_HEAD_TRAINS_CAMP_CONTENT_TEMPLATE_CENSUS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...080 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef81.py (sha256 770a004e...) + hef81b.py (sha256
+  fdfe962b...), all sha-verified on-device. (i) 0a0d len-623
+  (ng 0, step 4, 16 contexts) carries 0856 a's head-13 exactly
+  (joint prefix exactly 13 in all 16; 16 distinct size seqs,
+  4 chan seqs, sizes fixed to pos 31, channels to pos 187);
+  len-763 splits by ng — the ng 1 step-6 half (16) carries
+  0856 b's head (prefix 13; channel prefix 28), the ng 0
+  step-4 half (16) carries neither head (joint prefix 0).
+  (ii) Camp choice (len-89 B-main, 25 contexts) is readable
+  at position 18 alone: within-camp segment common prefix
+  exactly 6,408 B (144/144 pairs), cross-camp exactly 0 B
+  (156/156), first bytes 02 28 f0 a6 vs 03 28 f0 a8; the
+  other ten variable positions are camp-blind in size,
+  channel, hash/offset sharing (25/25 unique at each) and
+  content prefix (identical within/cross distributions,
+  e.g. pos 12 exactly 7,585 B for all 300 pairs). (iii)
+  Len-496 census: 9 templates per sister (5ab 13/6/2/2/1x5;
+  773 13/5/4 + six singletons), tuple follows template
+  bijectively but for one leak per sister, frames fixed at
+  (18,22,473) in all 56 contexts, 5ab has ONE channel
+  sequence family-wide and 773 two — the second is 5ab's,
+  carried by cidx 97 alone, which is therefore a full joint
+  transplant (sizes + channels + tuple) of 5ab's modal
+  template into 773.
+- **Next:** position-18 segment anatomy (camp word,
+  6,408 B prefix, +256 placement); ng 1 channel-prefix-28
+  extension vs exemplar b; sister singleton templates'
+  nearest-template distances (slice 4.82).
+- **Audit:** Host-side analysis only; no device child.

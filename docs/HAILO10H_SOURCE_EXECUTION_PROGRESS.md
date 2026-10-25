@@ -2279,3 +2279,31 @@ trains against the exemplars, the camp choice
 against the B form's payload positions, and the
 full template census. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 head trains vs exemplars, camp content, len-496 template census (AES-NUM-081,slice4.81):
+`docs/HAILO10H_HEAD_TRAINS_CAMP_CONTENT_TEMPLATE_CENSUS_2026-10-24.md`.
+The trains that borrow 0856's head patterns borrow
+nothing else: the len-623 train carries exemplar a's
+13-action head exactly in all sixteen contexts and
+diverges at position 13 into per-context weights-class
+bodies, and the len-763 length class turns out to be
+two trains — the step-6 half in the second network
+group carrying b's head (its channels agreeing fifteen
+positions past the sizes), the step-4 half in the first
+group carrying neither head at all. The len-89 camp
+choice, unexplained since slice 4.79, is written in
+exactly one place: the position-18 segment itself,
+whose first byte differs by camp and whose contents
+share a 6,408-byte prefix inside a camp and not one
+byte across camps, while the other ten variable
+positions are per-context payload blind to the camp in
+every test. And the sisters' len-496 families are now
+fully censused: nine templates each, one dominant, a
+singleton tail, the tuple a template property with one
+leak per sister — and 773's cidx 97 stands as a whole
+transplant of 5ab's modal template, sizes, channels
+and tuple together. Next: the position-18 segment's
+anatomy, the channel agreement past the size break,
+and the singleton templates' nearest neighbours.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

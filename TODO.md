@@ -1167,7 +1167,7 @@
   by positions {9,22,25,26} and
   signature-poor (own region only).
   `docs/HAILO10H_HEAD_RECURRENCE_LEN89_TRAIN_MODAL_TUPLE_2026-10-24.md`.
-- [ ] Slice4.81 head-pattern trains
+- [x] Slice4.81 head-pattern trains
   (0a0d len-623 step-4 contexts with
   0856 a's head; len-763 step-6 with
   0856 b's head — whole-context
@@ -1177,9 +1177,34 @@
   at position 18 / offsets); len-496
   template census (all 9 sequences per
   sister: cluster sizes, tuple
-  mapping, cidx pattern per template);
-  then broad ordinary UNMODIFIED
-  source-model support100%.
+  mapping, cidx pattern per template):
+  the trains share ONLY the 13-action
+  head (len-623 joint prefix exactly
+  13 in 16/16, per-context bodies;
+  len-763 splits by ng — ng1 step-6
+  carries b's head with channel prefix
+  28, ng0 step-4 carries neither);
+  camp choice is written at position
+  18 alone (within-camp content prefix
+  exactly 6,408 B 144/144, cross-camp
+  0 B 156/156, first bytes 02..a6 vs
+  03..a8; other ten positions
+  camp-blind); len-496 census 9
+  templates per sister (13-dominant,
+  singleton tails), tuple ~bijective
+  to template, frames fixed (18,22,
+  473), 773 cidx 97 a full joint
+  transplant of 5ab's modal template.
+  `docs/HAILO10H_HEAD_TRAINS_CAMP_CONTENT_TEMPLATE_CENSUS_2026-10-24.md`.
+- [ ] Slice4.82 position-18 segment
+  anatomy (byte-0/byte-3 camp word;
+  6,408 B shared prefix vs per-context
+  tail; where the +256 sits); ng1
+  channel-prefix-28 extension vs
+  exemplar b; sister singleton
+  templates' nearest-template
+  distances; then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
