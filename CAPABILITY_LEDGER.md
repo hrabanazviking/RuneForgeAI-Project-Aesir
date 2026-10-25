@@ -4630,3 +4630,42 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** One child only;contract-first order preserved
   (contract 55a4b9ba,diagnostic+suite c88b2753). Failures retained;
   no global/hosted-CI pass.
+
+### AES-PROG-001 — Program resource lifecycle interface qualification (specification)
+
+- **Status:** `verified` (specification scope only;no code,no physical run)
+- **Owner:** Analysis over the pinned-source delivery-boundary study
+  and the original host-qualified codecs (hrpc_program.mojo,
+  hrpc_configure.mojo,hrpc_device.mojo).
+- **Claim sources:** docs/HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md
+  (HailoRT d503417f,drivers 45e5fc53 v5.3.0 — interface facts only);
+  docs/HAILO10H_PROGRAM_LIFECYCLE_INTERFACE_2026-10-24.md;
+  AES-CONTROL-008/-009 two-part payload work;AES-TRANSFER-001..004.
+- **Specification evidence:** Q1 ESTABLISHED:creation = hRPC action2
+  create-infer-model (nested vdevice handle,declared program byte
+  count u64,UTF-8 name;reply = infer-model handle;all-ones =
+  invalid sentinel). Q2 PARTIAL:program bytes are a separate phase
+  of exactly the declared count,never inside the 2048-byte protobuf
+  body;Aesir's two-part staged form (AES-CONTROL-008/-009) has
+  physically verified two-part USERPTR mappings — as mappings,not
+  delivery;the phase's transport mechanics are NOT ESTABLISHED.
+  Q3 NOT ESTABLISHED for the payload phase (no chunk/offset
+  assumption admitted). Q4 ESTABLISHED at interface level:each
+  stage completes by its typed reply under the Campaign2 completion
+  law;readiness is the distinct action4 stage,whose reply
+  (configured handle + async queue size) is the readiness artifact;
+  no async readiness signal is established or assumed. Q5
+  ESTABLISHED:action4 configure (infer+vdevice handles,stream
+  formats,batch,power,latency,KV-cache) finalizes. Q6 PARTIAL:
+  teardown actions 3/5/10/11/12 exist as host-qualified handle-only
+  codecs;their ordering/preconditions for partial states are NOT
+  ESTABLISHED. Q7 ESTABLISHED:two handle tiers — infer handle
+  (actions 4,3) vs configured handle (actions 10,11,12,5).
+- **Evidence boundary:** Interface specification only. Payload-phase
+  mechanics,teardown ordering and everything numerical (CCW,
+  configuration values,placement,execution) remain unproven.
+- **Next acceptance gate:** Slice 3.2 — program-object lifecycle in
+  Mojo over the Campaign2 primitive with the ProgramIdentity record,
+  modelling Q2/Q6 as explicit fail-closed stages.
+- **Audit:** No source code changed by this slice beyond
+  documentation. Failures retained;no global/hosted-CI pass.

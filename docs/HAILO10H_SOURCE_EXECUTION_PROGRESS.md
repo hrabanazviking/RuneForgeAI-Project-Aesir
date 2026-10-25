@@ -502,6 +502,30 @@ qualification. Numerical/packing/placement/program/results and
 broad ordinary UNMODIFIED source-model support100% remain work.
 
 
+2026-10-24 program resource lifecycle interface qualification:
+`docs/HAILO10H_PROGRAM_LIFECYCLE_INTERFACE_2026-10-24.md`
+(AES-PROG-001,Campaign3 slice3.1). From the pinned-source delivery
+boundary study and the repo's host-qualified codecs:creation is
+hRPC action2 create-infer-model (nested vdevice handle,declared
+program byte count,UTF-8 name;reply is the infer-model handle;
+all-ones is the invalid sentinel). Program bytes are a separate
+phase of exactly the declared count,never inside the 2048-byte
+protobuf body — its transport mechanics and chunk/offset
+representation are NOT ESTABLISHED and no assumption is admitted
+(Aesir's two-part staged form has physically verified mappings,
+which are not a delivery). Stage completion is the typed reply
+under the Campaign2 law;readiness/finalization is action4
+configure,replying with the configured handle and async queue
+size. Teardown actions 3/5/10/11/12 exist as handle-only codecs;
+their ordering for partial states is NOT ESTABLISHED. Two handle
+tiers (infer vs configured) are never interchangeable.
+Specification only. Next is slice3.2:the program-object lifecycle
+in Mojo over the Campaign2 primitive,carrying the ProgramIdentity
+record,with Q2/Q6 as fail-closed stages. Numerical/packing/
+placement/program/results and broad ordinary UNMODIFIED
+source-model support100% remain work.
+
+
 2026-10-24 grouped transfer primitive host qualification:
 `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`
 (AES-TRANSFER-003,Campaign2 slice2.3). The derived aligned suite

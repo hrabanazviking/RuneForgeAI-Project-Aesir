@@ -55,9 +55,19 @@
   confirmed). Campaign2 exit MET. The created handle was not
   logically destroyed (contract-stated residue);Campaign1 exit
   still unmet. `docs/HAILO10H_GROUPED_TRANSFER_PHYSICAL_2026-10-24.md`.
-- [ ] Campaign3 slice3.1 program resource lifecycle interface
-  qualification (from qualified public interfaces + the Campaign2
-  primitive;no invented values),then 3.2 host implementation;then
+- [x] AES-PROG-001 Campaign3 slice3.1 program lifecycle interface
+  qualification:creation = hRPC action2 (vdevice handle + declared
+  byte count + name -> infer handle);program bytes are a separate
+  phase of exactly the declared count (transport mechanics NOT
+  ESTABLISHED;no chunk assumption);readiness/finalization =
+  action4 configure -> configured handle + queue size;teardown
+  actions 3/5/10/11/12 exist (ordering for partial states NOT
+  ESTABLISHED);two handle tiers never interchangeable.
+  `docs/HAILO10H_PROGRAM_LIFECYCLE_INTERFACE_2026-10-24.md`.
+- [ ] Slice3.2 host implementation:program-object lifecycle in Mojo
+  over the Campaign2 primitive with the ProgramIdentity record
+  (printable pre-run),Q2/Q6 modelled as fail-closed stages;then
+  3.3 bounded physical lifecycle under its own contract;then
   numerical configuration/packing/placement/program/results and
   broad ordinary UNMODIFIED source-model support100%.
 
