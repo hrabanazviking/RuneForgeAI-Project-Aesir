@@ -1474,12 +1474,23 @@
   rank-invariant, k=112 chunk =
   B units 7-10 verbatim.
   `docs/HAILO10H_SPARSE_ZERO_8900_PAIR_COPY_SPANS_2026-10-24.md`.
-- [ ] Slice4.97 mask law test
-  over all sparse non-common
-  candidates; region-0 02-field
-  anatomy; substitution-pair
-  census at other lags; then
-  broad ordinary UNMODIFIED
+- [x] Slice4.97 mask law test
+  (trailing pair necessary —
+  FN 0/2,280 — not sufficient:
+  1,841 FP; mask 10011 richest
+  108/549); region 0 zero-
+  dominated (02 = 150/2,056),
+  89/82 unanimous singletons;
+  six pairs at all 257 lags,
+  a9->3e only at -16/+64.
+  `docs/HAILO10H_MASK_LAW_REGION0_02FIELD_LAG_CENSUS_2026-10-24.md`.
+- [ ] Slice4.98 per-mask x
+  group/offset anatomy of the
+  sparse zeros; region-0
+  36-occurrence data-block
+  anatomy; 20>3e shift set +
+  +31 doubling; then broad
+  ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

@@ -8071,3 +8071,64 @@ No new capability ID or hardware/complete-source execution claim.
   candidates; region-0 02-field anatomy; substitution-pair
   census at other lags (slice 4.97).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-097 — the trailing zero pair is necessary but not sufficient for a sparse zero, region 0 is zero-dominated with a local 02-field and a unanimous 89/82 singleton pair, and the copy substitution pairs occur at every lag with a9->3e confined to two shifts
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_MASK_LAW_REGION0_02FIELD_LAG_CENSUS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...096 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
+  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
+  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
+  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
+  x12, rank-2 middles 21 mismatches at k = 111, AES-NUM-095
+  counts (7,690 / 7,484; SPARSE zero 144/2,280, DENSE 64/2,898,
+  MID 21/2,306) and AES-NUM-096 counts (F 144; z3 114/1,932,
+  z4 30/348; F masks 108/30/6; zeros at 37/869 pairs, shared
+  131/1,671 vs singleton 13/609; window6 hits [own, 1510];
+  copy mismatches 2 and 4 at both k), in hef97.py (sha256
+  12adaa12... = sha-verified hef96.py 3f2475aa... + hef97_arms.py
+  72600fee..., landed via sha-gated chunked file.write transfer,
+  gz sha256 35ebdd55... verified on-device; script sha verified
+  on-device); output sha256 817d3b50....
+  Contract docs/TASK_CONTRACT_4.97.md published @ 0e5a60f6
+  before implementation. (i) Only 5 masks occur in the 2,280
+  sparse non-common candidates: 01011 1,088 (zero 6, 0.55%),
+  10011 549 (zero 108, 19.67%), 11011 348 (zero 30, 8.62%),
+  11001 61 (zero 0), 11010 234 (zero 0). The three contract
+  aggregates coincide (positive class = the ending-in-11
+  masks = F's exact set): 1,985 candidates, 144 zero, 1,841
+  non-zero (7.25%); negative class 295 candidates, zero zeros
+  — law TP 144 FP 1,841 FN 0 TN 295, NOT exact: the trailing
+  pair is necessary (exact in this population) but not
+  sufficient. Ends-11 z-split z3 114/1,637, z4 30/348.
+  (ii) Region 0 (0-8224, both camps): 2,056 aligned words,
+  02-words 150 (7.3%), distinct 104, dominant word 00000000
+  x1,389 — zero-dominated, the 02-field is local. Non-02
+  distinct 103 per camp, 100 shared with identical counts;
+  differences exactly the offset-0 header word (0228f0a6 A /
+  0328f0a8 B) and two x36 data words (A 3fa20000/50ce0200,
+  B daa20000/68020100). 02-runs 16 per camp, identical
+  histogram {1:7, 3:1, 5:1, 6:2, 14:1, 22:1, 23:1, 32:2};
+  run before 1512 = 1492-1512 (5 words), after 1520 =
+  1520-1544 (6 words), longest 32 words. 89 word at 1512
+  and 82 word at 1516: exactly 1 aligned occurrence per
+  camp in region 0, unanimous in all individual segments
+  (13/13, 12/12), pooled aligned exactly 1 per segment.
+  (iii) Six-pair census over shifts -128..+128 pooled over
+  4 ranks: every shift total > 0 (16-98; 14,426 total);
+  s = 0 total 28 (20>3e 4, 80>00 20, 02>00 4; mismatches
+  128/672), s = +64 total 44 (a9>3e 4, 00>10 8, 00>20 16,
+  02>00 4, 80>00 12; mismatches 232/672); maxima 98 at
+  +23/+39/+47/+55 — the copy alignments are not
+  distinguished. Span controls exact per rank. 20>3e at
+  21 shifts (x4, x8 at +31); a9>3e at exactly shifts -16
+  and +64, x4 each — the shifts aligning A's unique a9
+  (pos 119) with B's two 3e bytes (pos 103 / 183).
+- **Next:** per-mask x group/offset anatomy of the sparse
+  zeros; region-0 36-occurrence data-block anatomy;
+  the 20>3e shift set and the +31 doubling (slice 4.98).
+- **Audit:** Host-side analysis only; no device child.

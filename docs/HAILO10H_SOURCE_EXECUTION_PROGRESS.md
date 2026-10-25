@@ -2671,3 +2671,24 @@ Next: whether the trailing-zero shape separates zeros from
 non-zeros across all sparse candidates, the 02-field mapped whole,
 and the copy spans' substitution pairs hunted at other lags. Broad
 ordinary UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 mask law, region-0 02-field, lag census (AES-NUM-097,slice4.97):
+`docs/HAILO10H_MASK_LAW_REGION0_02FIELD_LAG_CENSUS_2026-10-24.md`.
+The neighbourhood shape that every sparse zero candidate wore turns
+out to be a one-way gate: across all 2,280 sparse non-common
+candidates, none with anything but zero words in both following
+slots is ever zero-valued — but 1,841 of the 1,985 candidates that
+do wear the shape are not zero, and the rate swings 36-fold with
+which preceding word is zero (the far word alone richest, at
+108 of 549). Region 0, walked whole, is not the 02-field the
+8900 pair's neighbourhood suggested: nine of every ten aligned
+words there are zero words, the 02-words are a 150-word minority
+in 16 short runs, and the 89/82 pair sits bracketed by the local
+5- and 6-word runs as a unanimous once-per-segment singleton.
+And the camp middles' six substitution pairs are not a signature
+of the two copy alignments at all — they occur at every one of
+257 lags — save the rarest pair, which occurs at exactly the two
+lags that line A's single a9 byte up with B's two 3e bytes.
+Next: where each mask's zeros live, the region's repeated data
+blocks, and why the 20->3e pair picks its 21 lags. Broad
+ordinary UNMODIFIED source-model support100% remains the destination.
