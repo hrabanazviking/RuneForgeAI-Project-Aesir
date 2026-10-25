@@ -5460,3 +5460,34 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Host-side analysis only on Mimir;artifacts
   unmoved. Script hef18.py sha256 3ec7963f... landed via
   sha-gated chunked file.write,verified on-device.
+
+### AES-NUM-019 — special slot, corpus datum pool, 0x08xx class
+
+- **Status:** `verified` (exact statistics,2 artifacts
+  for arms 1/3;full 7-artifact corpus for arm 2).
+- **Owner:** docs/HAILO10H_SPECIAL_SLOT_DATUM_POOL_08XX_2026-10-24.md.
+- **Evidence:** The 0x2d80 slot is a fixed adjacent
+  pair at skeleton indices 10-11 of the 22-burst unit
+  (MiniLM all 6 contexts;blob units repeat at 32-33
+  of 44):exactly 2 distinct bursts,flag 0x8000/0x4000,
+  enum 0,const 0x0250,channels split evenly,carrying
+  one each the datum constants 0x56898c / 0x60e517
+  (438/438 blob specials). Datum pool corpus-wide:
+  union 1,189 u24,30 values in all 7 artifacts,the
+  top pair repeats exactly proto-context-count times
+  in every artifact (6..353),MiniLM and blob 773470cd
+  have ZERO private values — a graded shared pool,
+  identity NOT PROVEN. 0x08xx class:lane0 carries a
+  constant 0xbff8 half-word,never 0x0250,never ladder,
+  lane2 width law holds 86/86;MiniLM's are data-like
+  (14/byte entropy),the blob's low-entropy structured
+  (8 data in 71 bursts,34 contexts).
+- **Next:** 4.20 full 22-burst unit anatomy;0x28xx
+  non-champion lane-1 pattern;datum identity vs the
+  artifacts' tensor data.
+- **Audit:** Host-side analysis only on Mimir;
+  artifacts unmoved. Script hef19.py sha256 35ee89b0...
+  landed via per-chunk sha-gated file.write + a
+  gzipped tail (one chunk's base64 was repeatedly
+  stripped in transit;the gzip stream landed clean
+  and the whole-file sha256 verified on-device).

@@ -1009,3 +1009,19 @@ the champion's lane-1 anatomy. Next:4.19 the 0x2d80 slot's
 skeleton context,datum pool at full corpus,the 0x08xx
 class. Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 special slot,datum pool,0x08xx class
+(AES-NUM-019,slice4.19):
+`docs/HAILO10H_SPECIAL_SLOT_DATUM_POOL_08XX_2026-10-24.md`.
+The 0x2d80 slot is a fixed pair at indices 10-11 of
+the 22-burst skeleton unit,its two bursts carrying
+one each the corpus datum constants 0x56898c and
+0x60e517;the datum pool is a graded pool shared by
+all seven artifacts (union 1,189 values,30 universal,
+MiniLM with zero private values),and the 0x08xx class
+is a structured minority kind with a constant 0xbff8
+lane-0 marker that still obeys the lane-2 width law.
+Next:4.20 the full skeleton unit's per-position
+anatomy and a datum identity test against tensor
+data. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

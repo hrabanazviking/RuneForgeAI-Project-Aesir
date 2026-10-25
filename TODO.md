@@ -293,9 +293,21 @@
   anatomy does not transfer) but keep the lane2 width
   law;enum refined to class x low-bit.
   `docs/HAILO10H_LADDER_DATUM_NONCHAMPION_2026-10-24.md`.
-- [ ] Slice4.19 0x2d80 special-slot context in the
-  skeleton;datum-pool structure across the full
-  7-artifact corpus;0x08xx lane0 class anatomy;then
+- [x] AES-NUM-019 slice4.19 special-slot/datum-pool/
+  0x08xx:0x2d80 = fixed pair at skeleton indices
+  10-11 of the 22-burst unit,carrying the two datum
+  constants one each;datum pool = graded shared pool
+  (union 1,189 u24,30 in all 7 artifacts,top pair
+  repeats exactly context-count times everywhere,
+  MiniLM zero private values;identity NOT PROVEN);
+  0x08xx = structured minority (lane0 const 0xbff8,
+  no 0x0250/ladder,lane2 law holds;data-like in
+  MiniLM,low-entropy in the blob).
+  `docs/HAILO10H_SPECIAL_SLOT_DATUM_POOL_08XX_2026-10-24.md`.
+- [ ] Slice4.20 full 22-burst skeleton-unit anatomy
+  (per-position lanes,MiniLM + one blob);0x28xx
+  non-champion lane-1 alternating pattern;datum-pool
+  identity test vs artifacts' own tensor data;then
   broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
