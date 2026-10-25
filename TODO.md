@@ -974,13 +974,39 @@
   class fixture ((25872, ch1) 15/16, (24, ch1)
   16/16), no 56th universal action.
   `docs/HAILO10H_763_TRAINS_MARKER_DISTRIBUTION_321_END_2026-10-24.md`.
-- [ ] Slice4.74 proto-train census across all
+- [x] Slice4.74 proto-train census across all
   0a0d classes (strides / per-ng families /
   cross-class family relations); S76/S82
   early-train divergence in the ng1 train;
   cc9 band strays (5480, 5616, 5808, 5904,
-  6880 at x2 each) and their contexts; then
-  broad ordinary UNMODIFIED source-model
+  6880 at x2 each) and their contexts:
+  0a0d is a complete residue partition (ng0
+  stride-4 residues 0-3 over ngpos 0-63; ng1
+  stride-6 residues 0-5 over ngpos 0-95; 763
+  the only dual-group class) plus a mirrored
+  ten-context tail per group with the same
+  class sequence; cross-class relations are
+  the universal last-55, a shared head size
+  scaffold (9-13/13) with private channels,
+  and 759/950 tail families shared across
+  groups where jointly single (75/76, 65/65);
+  S76/S82 divergence is a two-slot step at
+  the ng1 train head (182 + 180 size
+  exceptions / 54 + 4; slots 2-15 exact),
+  confined to positions <=673/<=621; cc9's
+  five strays occur exactly twice each,
+  never as markers, as paired draws at band
+  slots (modal rung 6160), every pair at
+  cidx +137 / ngpos +3.
+  `docs/HAILO10H_PROTO_TRAIN_CENSUS_S76_S82_CC9_STRAYS_2026-10-24.md`.
+- [ ] Slice4.75 cc9 ngpos+3 context pairing
+  at artifact scope (paired contexts' slot
+  values generally vs rare draws only);
+  S76 diff runs as channel transforms
+  (per-run flip maps vs G10); 0a0d tail
+  singletons 85/92 and the 758/760/768
+  cross-group mismatch; then broad
+  ordinary UNMODIFIED source-model
   support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

@@ -2106,3 +2106,25 @@ classes, the early ng-1 train members' divergence, and
 cc9b9d1c's five stray band sizes. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 Proto-train census, S76/S82 divergence, cc9 strays (AES-NUM-074,slice4.74):
+`docs/HAILO10H_PROTO_TRAIN_CENSUS_S76_S82_CC9_STRAYS_2026-10-24.md`.
+The whole of 0a0d378c turns out to be arithmetic: each network
+group's main body is a perfect residue partition — stride-4
+trains in the first group, stride-6 trains in the second, every
+residue holding one class of sixteen contexts — and each group
+ends with the same ten-context tail sequence. Classes relate to
+each other only through the universal end block, a shared head
+size scaffold with private channels, and the two small tail
+trains that share a family across groups. The 763 train's two
+odd members are a step, not a slope: the head slot is far in
+channels and sizes, the second slot is near and channel-only,
+and from the third slot on the train is family-exact, with all
+divergence confined to the head and middle. And cc9b9d1c's five
+off-ladder band sizes are not strays in kind: each occurs
+exactly twice, as paired draws at ordinary band slots, and
+every pair stands at the same context offset — ngpos plus
+three. Next: whether that pairing holds artifact-wide in
+cc9b9d1c, S76's diff runs as channel transforms, and the tail
+singletons. Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

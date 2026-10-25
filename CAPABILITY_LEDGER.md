@@ -7180,3 +7180,38 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** proto-train census across all 0a0d classes;
   S76/S82 early-train divergence; cc9 band strays (slice 4.74).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-074 — Proto-train census (residue partition + mirrored tail), S76/S82 step divergence, cc9 strays paired at ngpos+3
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_PROTO_TRAIN_CENSUS_S76_S82_CC9_STRAYS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...073 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef74.py (sha256 cb384a8e...) + hef74b.py (sha256 f66ff357...),
+  both sha-verified on-device. (i) 0a0d378c's classes are a complete
+  residue partition: ng0 stride-4 trains at residues 0-3 cover
+  ngpos 0-63 (321/763/620/623, 16 slots each), ng1 stride-6 trains
+  at residues 0-5 cover ngpos 0-95 (280/123/763/617/419/290);
+  763 is the only dual-group class. Each group's last ten contexts
+  carry the identical tail class sequence (768, 758, 759, 950,
+  759, 950, 759, 950, 760, singleton 85/92); 759/950 are stride-2
+  tail trains sharing one size family across groups where jointly
+  single (75/76, 65/65), singleton classes share none. Cross-class:
+  last-55 universal (55/55), head size scaffold shared (9-13/13),
+  head channels private (2-11/13; near-pair 290/623 at 11/13,
+  763-ng1 at 12/13 to both). (ii) S76/S82 divergence is a two-slot
+  step at the ng1 train head (hef74b, G10 reference; hef74's G12
+  cross-train numbers superseded): slot 0 S76 Hamming 182 with
+  180 size exceptions, slot 1 S82 Hamming 54 with 4 size
+  exceptions, slots 2-15 family-exact (0/3); diffs confined to
+  positions <=673 / <=621, S82's 88-122 zone a two-sided 0<->2
+  flip block. (iii) cc9's five off-ladder band sizes (5480, 5616,
+  5808, 5904, 6880) occur exactly twice each, never as markers,
+  as paired draws at band slots (modal rung 6160 at 259@104 and
+  256@180; 6880 at 839@461 in a size-near-identical context pair,
+  826/839), every pair at cidx +137 / ngpos +3.
+- **Next:** cc9 ngpos+3 pairing at artifact scope; S76 diff runs
+  as channel transforms; 0a0d tail singletons 85/92 and the
+  758/760/768 cross-group mismatch (slice 4.75).
+- **Audit:** Host-side analysis only; no device child.
