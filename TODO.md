@@ -526,16 +526,28 @@
   standard tail,actions 85-123 vs adjacent minima
   232-280).
   `docs/HAILO10H_PARAM_TEMPLATE_HIGH7_FUNCTION_DISPLACED_TYPE_2026-10-24.md`.
-- [ ] Slice4.44 low-action context class census
-  (corpus-wide definition by action count,positions
-  and periodicity per artifact,full size-sequence
-  anatomy of exemplars vs standard contexts);
-  parameter+1 slot census across the structured
-  forms (cc9b9d1c small + 464 B family incl. the
-  0x72 / 0x46 artifacts);336-action displaced
-  outlier's context anatomy vs its stream neighbours;
-  then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-044 slice4.44 low-action context class
+  census;parameter+1 slot census;336-action outlier
+  anatomy: the low-action class is 79 contexts at
+  <=150 actions (75 displaced + 4 adjacent) separated
+  by empty gaps of 115-157,skeleton + trailer
+  complete,data body nearly removed;the parameter+1
+  marker is universal — exactly one (X+1) word at
+  word (words-3) in 210/212 dense-skeleton segments
+  (71 distinct X) and all 20 family segments (0856a10c
+  in the 0200 shape);the 336-action outlier is a
+  standard context whose pair straddles the
+  rare-ladder pair in a local anomaly zone at
+  76c3a8ff cidx 105-106.
+  `docs/HAILO10H_LOW_ACTION_CENSUS_PARAMPLUS1_OUTLIER_2026-10-24.md`.
+- [ ] Slice4.45 marker-word anatomy across the 210
+  class (byte-4 step + tail fields vs the preceding
+  slot word,per size);the two 296 B no-marker
+  exceptions' anatomy;reversed-adjacent pair census
+  corpus-wide + the cidx 105 anomaly (champion 33,
+  rare ladders doubled);76c3a8ff ~173-action
+  intermediate class anatomy;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

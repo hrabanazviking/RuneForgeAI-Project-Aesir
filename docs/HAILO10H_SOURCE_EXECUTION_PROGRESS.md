@@ -1407,3 +1407,26 @@ low-action context class census, the parameter+1 slot
 census, and the 336-action outlier's anatomy. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+
+2026-10-24 low-action census, parameter+1 census, outlier anatomy
+(AES-NUM-044,slice4.44):
+`docs/HAILO10H_LOW_ACTION_CENSUS_PARAMPLUS1_OUTLIER_2026-10-24.md`.
+The low-action contexts are a clean class: 79 contexts
+at <=150 actions, separated from standard contexts by
+empty gaps in every artifact that holds them,
+periodically placed, carrying the full champion
+skeleton and trailer with the data body nearly removed.
+The parameter+1 word turns out to be a universal marker
+of the structured skeleton construction: exactly one
+(X+1) word at word (words-3) in 210 of 212 dense
+segments and in every family segment, the 0856a10c form
+carrying it in a different word shape. The 336-action
+outlier resolves as a standard context whose pair
+straddles the rare-ladder pair, inside a local anomaly
+zone at 76c3a8ff cidx 105-106. Next: the marker word's
+anatomy across the 210 class, the two 296 B exceptions,
+the reversed-adjacent pair census, and the 76c3a8ff
+~173-action intermediate class. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

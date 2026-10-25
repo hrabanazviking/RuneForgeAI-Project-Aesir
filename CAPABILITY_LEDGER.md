@@ -6093,3 +6093,44 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** low-action context class census,parameter+1
   slot census,336-action outlier anatomy (slice 4.44).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-044 — low-action context census, parameter+1 slot census, 336-action outlier anatomy
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_LOW_ACTION_CENSUS_PARAMPLUS1_OUTLIER_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
+  (i) Low-action class = 79 contexts at <=150 actions (75
+  displaced + 4 adjacent),separated by empty gaps of 115-157
+  in every artifact holding it (0a0d378c 18 all displaced at
+  73,75,81+6k,179;76c3a8ff 57 in a (2,9) pair train from
+  cidx 110,patterns (12,16)x25/(16,14)x26/(12,14)x2/(16,10)x1;
+  sisters + 0856a10c single low contexts at stream ends);
+  skeleton + trailer complete (79/79),data body nearly
+  removed (large-action means 9-40 vs standard 343-504);
+  exemplars = standard head + short private middle + the
+  identical 56-action end block. 76c3a8ff alone holds a
+  ~173-action intermediate class (28 contexts). MiniLM and
+  cc9b9d1c hold no low contexts. (ii) The parameter+1
+  marker is UNIVERSAL: exactly one strict (X+1) word at
+  word (words-3) in 210 of 212 dense-skeleton cc9b9d1c
+  segments at 232-464 B (71 distinct X values;2 exceptions
+  at 296 B) and in all 20 family segments (cc9 small at
+  words 26/34/36/38/42;cc9 + 0a0d 464 B at word 55,
+  0100<p+1>009801b... with byte4 0x88->0x98;0856a10c
+  carries it at word 55 in the 0200 shape,
+  020047009401b080,byte4 0x84->0x94). (iii) The 336-action
+  outlier (76c3a8ff cidx 106,pattern (18,15)) is a
+  standard full-size context whose pair straddles the
+  rare-ladder pair (ordinals 16/17,ladders 0x2a82/0x2a8e,
+  const 0x02cc);champion count 31 = 29 + the 2 rare
+  bursts;neighbours 105 (reversed-adjacent (20,19),
+  champion 33,rare ladders doubled) and 107
+  (reversed-adjacent) form a local anomaly zone,not the
+  periodic class.
+- **Next:** marker-word anatomy across the 210 class,
+  the two 296 B exceptions,reversed-adjacent pair census
+  + cidx 105 anomaly,76c3a8ff ~173 class anatomy
+  (slice 4.45).
+- **Audit:** Host-side analysis only;no device child.
