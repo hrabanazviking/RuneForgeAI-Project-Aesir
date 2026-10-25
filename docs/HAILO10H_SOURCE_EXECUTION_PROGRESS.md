@@ -1574,3 +1574,31 @@ sequence the separation emerges, census the band's
 non-3856 followers, and dissect the one both-pinned
 standard context. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 channel emergence thresholds, band followers, cidx-4 anatomy
+(AES-NUM-051,slice4.51):
+`docs/HAILO10H_CHANNEL_EMERGENCE_FOLLOWERS_CIDX4_2026-10-24.md`.
+The channel order function now has exact finite
+thresholds: the first 35 channel runs (34 with run
+lengths), the last 18 channels, and the first 122
+channels each separate all 1,428 binary contexts
+with zero mixed groups, and below those thresholds
+the failures shrink to named groups — from run
+prefix 22 upward, a single periodic stack in
+0a0d378c is the corpus's only holdout. That stack
+splits at one action: at middle position 121 its
+reversed member carries channel 0 where all 14
+normal members carry channel 2, and the run phase
+cascades from there. The band's non-3856 followers
+split into a second rigid construction — the fixed
+8208→4112→3088→32784 chain — and the scattered,
+3856-avoiding 4368 continuation. And the one
+both-pinned standard context is no motif relative:
+its window-4 pin is led from outside the band, by
+a 9168–9248 lead cluster nobody had counted. Next:
+pin the last-runs threshold, dissect the diverging
+action at position 121, measure the 4112 chain's
+full extent, and census the 9xxx lead cluster.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

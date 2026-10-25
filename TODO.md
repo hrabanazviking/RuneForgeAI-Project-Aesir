@@ -621,13 +621,31 @@
   the motif's double pin occurs once,76c3a8ff
   cidx 4).
   `docs/HAILO10H_CHANNEL_SEQ_BAND_ROLE_VARIANT_CONCENTRATION_2026-10-24.md`.
-- [ ] Slice4.51 channel-separation emergence
-  (run prefixes 20-40,last-20 refinement,0a0d378c
-  first-50 stack's run-order split);band non-3856
-  followers (4368-led structures);both-pinned
-  76c3a8ff cidx-4 anatomy vs the 156 class;then
-  broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] Slice4.51 channel-separation emergence:
+  exact thresholds all zero-mixed (35 channel runs /
+  34 full runs / last 18 channels / last-runs in
+  16-20 / first 122 channels);from run-prefix 22
+  the only mixed group corpus-wide is the 0a0d378c
+  stack,which splits at ONE channel-0 vs channel-2
+  divergence at middle position 121 (228 differing
+  positions vs every normal;rev = unique sequence);
+  band non-3856 followers are 49.4% two forms —
+  the FIXED 8208->4112->3088->32784 chain (673/672/
+  597 of 683) and the scattered 3856-avoiding 4368
+  continuation (never followed directly by 3856,
+  0/2,594);76c3a8ff cidx 4 is NOT a motif relative
+  (its window-4 pin is led by 9216,out of band;
+  windows 4-7 led by a 9168-9248 cluster).
+  `docs/HAILO10H_CHANNEL_EMERGENCE_FOLLOWERS_CIDX4_2026-10-24.md`.
+- [ ] Slice4.52 last-runs exact emergence (16-20)
+  + sister-group run-22 resolution detail;
+  position-121 diverging action anatomy (size +
+  neighbourhood in stack members);8208->4112->
+  3088 chain full extent (length,terminator,
+  segment identity across contexts);9168-9248
+  lead cluster census in standard middles
+  (a second lead band?);then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

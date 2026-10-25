@@ -6366,3 +6366,56 @@ No new capability ID or hardware/complete-source execution claim.
   non-3856 followers (4368-led structures);both-pinned
   76c3a8ff cidx-4 anatomy vs the 156 class (slice 4.51).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-051 — channel emergence thresholds, band followers, cidx-4 anatomy
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_CHANNEL_EMERGENCE_FOLLOWERS_CIDX4_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef51.py (sha256 fa64869c...) and hef51b.py (91991d87...).
+  (i) Exact emergence thresholds for the AES-NUM-050 channel
+  order function,all zero-mixed: channel run prefixes 35 runs
+  (388 keys,114 multi / 1,154 ctx; progression 15:6 mixed /
+  18:4 / 20-21:2 / 22-34:1 / 35:0),full run prefixes 34,
+  last-N channels 18 (last-17 sole mixed = cross-artifact
+  pair 5ab3537d cidx 210 rev / 76c3a8ff cidx 88 nor),
+  last-N runs in 16-20 (15:1 mixed 0856a10c group,20:0),
+  first-N channels 122 via the stack. The run-20 second
+  mixed group is the sister pair (5ab3537d cidx 87 nor /
+  773470cd cidx 87/211 rev,841 actions),resolving at run 22;
+  from run 22 to 34 the ONLY mixed group corpus-wide is the
+  0a0d378c stack. (ii) Stack split: 15 members,4 distinct
+  channel sequences (reversed singleton; normals 3 seqs,
+  run counts 172/174/177 vs rev 178); rev differs from
+  EVERY normal at exactly 228 channel positions, first at
+  position 121 (rev channel 0, all normals channel 2;
+  position 120 both 2); first differing run index 34
+  (rev inserts a channel-0 run into the 1,2 alternation,
+  phase cascade 79-85 runs); min separating prefixes vs
+  all normals = 122 chans / 35 chan-runs / 34 full runs.
+  (iii) Band non-3856 followers 5,771: 4368 2,168 (80 ctx)
+  + 4112 683 (119) = 49.4%; rest 2,920 over 251 sizes.
+  4112 is a FIXED CHAIN: band value 8208 in 673/683, next
+  3088 in 672/683, 5-gram (8208,4112,3088,32784,32784)
+  597/683, only 17 distinct 5-grams. 4368 is scattered
+  (1,645 distinct 6-grams; only 0856a10c + 76c3a8ff;
+  window-analog classes 398/150/288/1,332); 4368 globally
+  2,594 occ, 83.6% band-preceded, NEVER followed directly
+  by 3856 (0/2,594), no 3856 within 9 after band->4368 in
+  1,147/2,168; predecessors 27280 455 / 4368 414 (chains).
+  (iv) 76c3a8ff cidx 4 is NOT a motif relative: 609 actions,
+  middle 541, 52 windows (classes full 8 / no30480 11 /
+  no32784 3 / other 30), motif-form 13/52, best motif run
+  4 (rank 91/311; pool best 14 in 0856a10c cidx 100),
+  champion 29 = the 156 class mean exactly, distinct mid
+  sizes 55 vs 24.5. Its pin decomposes: window 0 genuine
+  in-band (lead 8576, back-to-back windows), window 4 led
+  by 9216 OUT of band; windows 4-7 led by a 9168-9248
+  cluster; 15/52 windows have out-of-band leads.
+- **Next:** last-runs exact emergence (16-20) + sister
+  run-22 resolution;position-121 diverging action anatomy;
+  8208->4112->3088 chain full extent;9168-9248 lead cluster
+  census (second lead band?) (slice 4.52).
+- **Audit:** Host-side analysis only;no device child.
