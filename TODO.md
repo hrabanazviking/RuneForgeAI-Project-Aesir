@@ -339,10 +339,16 @@
   in-span exact;zero wrong);combined rank 14;determined
   columns are dense mixes.
   `docs/HAILO10H_DATUM_MATRIX_XVAL_2026-10-24.md`.
-- [ ] Slice4.25 span growth across all 7 artifacts;
-  saturation test vs field variety (enum 4,ladder 7,flags
-  open);then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-025 slice4.25 span growth:1,189 operand
+  words,rank 16,zero inconsistencies across all 7
+  artifacts;field varieties closed (flags 65,enum 5,
+  ladder 7);variety ceiling ≈16 = rank (saturation
+  hypothesis). `docs/HAILO10H_SPAN_SATURATION_2026-10-24.md`.
+- [ ] Slice4.26 freeze the fitted basis as an Aesir-side
+  encoder artifact (basis table + reference encoder,
+  host-tested on all 1,189 samples);non-champion lane0
+  families next;then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

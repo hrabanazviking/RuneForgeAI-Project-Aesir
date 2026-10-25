@@ -5606,3 +5606,21 @@ No new capability ID or hardware/complete-source execution claim.
   / saturation;authorship needs the map on the full
   compiler variety,not only the observed span.
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-025 — span saturation across all 7 artifacts
+
+- **Status:** `verified` (exact counts,full corpus).
+- **Owner:** docs/HAILO10H_SPAN_SATURATION_2026-10-24.md.
+- **Evidence:** Incremental fit over 7 artifacts:1,189
+  distinct operand words (= the AES-NUM-019 datum pool
+  union — bijection at corpus scale),ZERO inconsistencies,
+  rank growth 12→14→15→15→15→16→16 (last 479 words added
+  1 dimension). Field varieties closed:flags 65 values
+  (k×0x400 counter + rare 0x0001),enum 5,ladder 7. Variety
+  dimension ceiling ≈16 = measured rank — saturation
+  plausibly complete (hypothesis,stated with arithmetic,
+  falsifiable by any dimension-adding artifact).
+- **Next:** freeze the fitted basis as an Aesir-side
+  encoder artifact + reference encoder,host-tested on all
+  1,189 samples;then non-champion lane0 families.
+- **Audit:** Host-side analysis only.

@@ -1092,3 +1092,14 @@ the other exactly wherever inputs are in-span (62/62 and
 mixes. Next:span growth across all seven artifacts toward
 the full compiler variety. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 span saturation (AES-NUM-025,slice4.25):
+`docs/HAILO10H_SPAN_SATURATION_2026-10-24.md`. Across all
+seven artifacts:1,189 operand words,one linear map,zero
+inconsistencies,and the input span saturates at rank 16 —
+matching the closed field varieties' own dimension
+ceiling. The champion burst's datum is computable,by us,
+for the compiler's whole observed variety. Next:freeze the
+basis as an encoder artifact. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
