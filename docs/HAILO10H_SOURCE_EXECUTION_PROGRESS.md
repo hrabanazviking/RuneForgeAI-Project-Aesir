@@ -2651,3 +2651,23 @@ the skipped chunk; the first copy merely ends where the chunk
 begins. Next: which sparse candidates carry the zeros, what holds
 the stray rank-8 pair, and the copy spans byte by byte. Broad
 ordinary UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 sparse zeros, second 8900 pair, copy spans (AES-NUM-096,slice4.96):
+`docs/HAILO10H_SPARSE_ZERO_8900_PAIR_COPY_SPANS_2026-10-24.md`.
+The 144 sparse zero-valued candidates left over from the enrichment
+measurement turn out to be tightly placed: they live at only 37 of
+869 offsets, mostly at offsets many instances share, two groups of
+one artifact carry three quarters of them, their rate rises only
+modestly with neighbourhood emptiness, and every single one is the
+last non-zero word before two zero words in a row. The stray second
+8900 pair is no stray: it sits unanimously in every camp segment,
+in both camps alike, inside the first region's field of 02 words —
+the same six-byte window in a wholly different habitat from the
+rank-8 unit it was first found in. And the camp middles' copy spans
+do not vary with rank at all; the chunk the insertion skips is, at
+the second candidate offset, exactly four whole B units end to
+end, and at the first it is that same block read one byte early.
+Next: whether the trailing-zero shape separates zeros from
+non-zeros across all sparse candidates, the 02-field mapped whole,
+and the copy spans' substitution pairs hunted at other lags. Broad
+ordinary UNMODIFIED source-model support100% remains the destination.

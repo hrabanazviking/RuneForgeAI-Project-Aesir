@@ -8029,3 +8029,45 @@ No new capability ID or hardware/complete-source execution claim.
   segment offset 1510; copy-span byte anatomy + chunk /
   unit alignment (slice 4.96).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-096 — sparse zeros concentrate at 37 shared offsets and always sit before a trailing zero pair (no law), the second 8900 pair is a unanimous region-0 02-field feature in both camps, and the copy spans are rank-invariant with the k=112 chunk exactly B units 7–10
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_SPARSE_ZERO_8900_PAIR_COPY_SPANS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...095 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
+  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
+  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
+  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
+  x12, rank-2 middles 21 mismatches at k = 111, in hef96.py
+  (sha256 3f2475aa...), landed via sha-gated chunked file.write
+  transfer (gz sha256 b9bd9566... verified on-device; script
+  sha verified on-device); output sha256 dd9e175b....
+  Contract docs/TASK_CONTRACT_4.96.md published @ dd61cd52
+  before implementation. (i) F = 144 exact: z-split z3
+  114/1,932 (5.90%), z4 30/348 (8.62%), z5 0 candidates;
+  F masks exactly 3, all trailing 11 (10011 x108, 11011
+  x30, 01011 x6), target word zero 0/144; 869 distinct
+  (group, offset), zeros at only 37 (histogram 1:13, 2:7,
+  4:3, 6:7, 9:7); shared-offset zero rate 131/1,671
+  (7.84%) vs singleton 13/609 (2.13%); 0856a10c pos 9/10
+  carry 106/144. (ii) Window at 1510 in region 0
+  (0–8224, not grown) in both camps; aligned words
+  02,02,89,82,02 (x000000); camps identical over
+  1496–1543; individual segments unanimous 13/13, 12/12;
+  surrounding 32 B vs rank-8 unit-0 surroundings share
+  19/32 bytes per camp. (iii) Copy spans + all mismatch
+  byte pairs rank-invariant: copy1 (103: 20/3e, 111:
+  80/00), copy2 (116: 00/10, 119: a9/3e, 125: 02/00,
+  126: 00/20); B-side 3e 0x in A middle, 2x in B middle;
+  a9 1x in A middle, 0x in B; chunks rank-invariant,
+  k=112 chunk = B units 7–10 verbatim (64/64, units at
+  0/16/32/48), k=111 = unit 6 last byte + units 7–9 +
+  unit 10 first 15 B (63/63 at shift -1).
+- **Next:** mask law test over all sparse non-common
+  candidates; region-0 02-field anatomy; substitution-pair
+  census at other lags (slice 4.97).
+- **Audit:** Host-side analysis only; no device child.

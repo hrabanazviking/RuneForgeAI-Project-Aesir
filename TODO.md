@@ -1463,15 +1463,24 @@
   copies, aligned mismatches
   2 vs 4, neither in the chunk.
   `docs/HAILO10H_SPARSE_FORM_UNIT0_B06B11_2026-10-24.md`.
-- [ ] Slice4.96 sparse
-  zero-enrichment anatomy
-  (z-split + offset sharing);
-  second 8900 pair structure at
-  segment offset 1510; copy-span
-  byte anatomy + chunk/unit
-  alignment; then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+- [x] Slice4.96 sparse zero
+  anatomy (F 144 exact; z3 5.9%,
+  z4 8.6%, z5 none; masks 3, all
+  trailing-11; zeros at 37/869
+  offsets, shared 7.8% vs single
+  2.1%); second 8900 pair in
+  region 0's 02-field, unanimous
+  in both camps; copy spans
+  rank-invariant, k=112 chunk =
+  B units 7-10 verbatim.
+  `docs/HAILO10H_SPARSE_ZERO_8900_PAIR_COPY_SPANS_2026-10-24.md`.
+- [ ] Slice4.97 mask law test
+  over all sparse non-common
+  candidates; region-0 02-field
+  anatomy; substitution-pair
+  census at other lags; then
+  broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
