@@ -10,10 +10,20 @@
   (574+784 runs);storage bytes4 and session finalization6 pass.
   `docs/HAILO10H_ALIGNED_GROUPED_CONTROL_2026-10-24.md`. No physical child
   was built or run under this contract.
-- [ ] Separately published one-shot physical contract for exactly one
-  grouped lifecycle on the aligned backing (roadmap slice1.4),then
-  numerical configuration/packing/placement/program/results and broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] AES-CONTROL-018 one-shot physical grouped lifecycle on the aligned
+  backing under `TASK_hailo10h_aligned_grouped_physical.md` (roadmap
+  slice1.4):exactly one child on the real Hailo-10H. CREATE completed
+  end-to-end (both launches return5;the -016 EINVAL is gone;exact typed
+  reply,real handle);IDENTIFY launched (5/5,spans@0/512) but its
+  directional completions were not established,no reply CPU-visible;
+  client poisoned correctly,no destroy on poisoned transport,retained
+  views0,finalization confirmed. Acceptance FAILED (attempts2,identity
+  unmatched);batch CLOSED,no rerun. Campaign1 exit NOT met.
+  `docs/HAILO10H_ALIGNED_GROUPED_PHYSICAL_2026-10-24.md`.
+- [ ] Campaign2 slice2.1 transfer-semantics extraction on the -017/-018
+  evidence only,then numerical configuration/packing/placement/program/
+  results and broad ordinary UNMODIFIED source-model support100%. Any
+  further physical lifecycle attempt requires a NEW one-shot contract.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

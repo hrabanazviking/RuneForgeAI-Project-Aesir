@@ -4421,3 +4421,49 @@ No new capability ID or hardware/complete-source execution claim.
   One transient legacy-control failure under triple-suite CPU contention
   passed individually and on full rerun;recorded as contention flakiness.
   Failures retained;no global/hosted-CI pass.
+
+### AES-CONTROL-018 — Aligned grouped lifecycle, one bounded physical attempt (partial)
+
+- **Status:** `partial` (physical scope; acceptance failed, batch closed)
+- **Owner:** Original smidr/tools/group_device_probe_aligned.mojo over the
+  AES-CONTROL-017 aligned grouped owner;test-only aligned observer variant.
+- **Claim sources:** TASK_hailo10h_aligned_grouped_physical.md published
+  7bcfd81c before code;docs/HAILO10H_ALIGNED_GROUPED_PHYSICAL_2026-10-24.md.
+- **Implementation evidence:** Aligned probe diagnostic and suite derived
+  from the -016 probe (7 methods);aligned observer variant registers an
+  aligned input extent (2048+power-of-two page in[64,32768]) and gathers
+  the outgoing wire (header20@0,body2048@extent-2048) at the FOR_DEVICE
+  sync boundary;the -016 observer is untouched. Host qualification ran on
+  Mimir itself (the probe's 16384 page gate is the Pi profile):7 tests OK
+  with the aligned observer;the legacy observer captured replies only.
+- **Executable evidence:** Exactly ONE physical child on the real
+  Hailo-10H (kernel 6.12.112-v8-16k-hailo+,page16384,PCIe 0x1e60/0x45c4,
+  driver 5.3.0 profile validated before allocation),setsid plus a 20 s
+  process-group watchdog,rc=1 in ~0.16 s. CREATE completed end-to-end:
+  both launches returned the positive count5 (the -016 H2D EINVAL is
+  gone),directional completions observed,exact typed reply after output
+  CPU-sync,real handle known (value unpublished). IDENTIFY launched
+  (D2H5,H2D5;spans at storage+0/20 B and storage+512/2048 B in the actual
+  launch parameters) but its required distinct directional completions
+  were not established within the client's progress snapshots;no reply
+  became CPU-visible. Probe:attempts2,poisoned,identity unmatched,
+  destroy not attempted (poisoned transport admits no cleanup destroy),
+  retained_views0,finalization confirmed;observer 68 calls,0 dropped,
+  owner_at_exit -1,all teardown calls returned0. Raw evidence stays
+  local on the Pi;hashes are published in the evidence document.
+- **Evidence boundary:** Acceptance failed:success,identity matched,
+  attempts==3 and no-poison were required. The device-side handle from
+  CREATE was NOT logically destroyed;local close is not hardware-idle
+  or remote-close proof. Campaign 1's exit condition is not met. The
+  cause of identify's incomplete completions is not established and
+  none is claimed. Numerical configuration/packing/placement,program
+  execution and source-model support remain unproven.
+- **Next acceptance gate:** Any further physical lifecycle attempt
+  requires a NEW one-shot contract (never a rerun of this batch).
+  Host-side work continues at Campaign 2 slice 2.1 (transfer-semantics
+  extraction on this evidence only),then numerical configuration/
+  packing/placement/original program/results and broad ordinary
+  UNMODIFIED source-model support100%.
+- **Audit:** One child only;no repeat,no follow-on child. Contract-first
+  order preserved (contract 7bcfd81c,probe 4448a7e5,observer a8a4f415).
+  Failures retained;no global/hosted-CI pass.

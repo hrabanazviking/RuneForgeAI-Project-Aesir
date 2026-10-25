@@ -420,3 +420,24 @@ run. Next is a separately published one-shot physical contract for one
 grouped lifecycle on the aligned backing (roadmap slice1.4);numerical/
 packing/placement/program/results and broad ordinary UNMODIFIED
 source-model support100% remain work.
+
+
+2026-10-24 aligned grouped lifecycle,one bounded physical attempt (partial):
+`docs/HAILO10H_ALIGNED_GROUPED_PHYSICAL_2026-10-24.md` (AES-CONTROL-018).
+Exactly one child on the real Hailo-10H under
+`TASK_hailo10h_aligned_grouped_physical.md`. CREATE completed end-to-end
+(both launches return5;the -016 H2D EINVAL is gone;directional completions
+observed;exact typed reply after output CPU-sync;real handle known).
+IDENTIFY launched in both directions (5/5;H2D spans at storage+0 and
+storage+512 in the actual launch parameters) but its required distinct
+directional completions were not established within the client's progress
+snapshots and no reply became CPU-visible;the client poisoned the
+transport,attempted no destroy (poisoned transport admits none),retained
+0 views and confirmed local finalization. Acceptance failed (attempts2,
+identity unmatched,poisoned);the device-side handle was not logically
+destroyed and no hardware-idle claim is made. Batch closed without
+repeat;Campaign1 exit is not met. Next host work is Campaign2 slice2.1
+transfer-semantics extraction on this evidence only;any further physical
+lifecycle attempt requires a new one-shot contract. Numerical/packing/
+placement/program/results and broad ordinary UNMODIFIED source-model
+support100% remain work.
