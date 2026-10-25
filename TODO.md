@@ -551,14 +551,21 @@
   class is exact (156 x26 at 111+9k,173 x2 at 94/102,
   two middle species).
   `docs/HAILO10H_MARKER_FUNCTION_PAIR_ORDER_ANOMALY_ZONES_2026-10-24.md`.
-- [ ] Slice4.46 freeze the marker derivation as an
+- [x] Slice4.46 freeze the marker derivation as an
   Aesir-side encoder rule + host-test against all 212
   dense segments and the 20 family segments (incl.
-  the 0856a10c 0200 shape);pair-order determination
-  hunt (order vs head-operand identity / first-middle
-  operands);zone-pair body comparison (97 vs 105,
-  98 vs 106 outside the rare/pair region);156 middle
-  unit segment anatomy (the 12-fold unit's distinct
+  the 0856a10c 0200 shape):`hailbru/ccw_marker.mojo`
+  (copy,byte2 +1,byte4 -4 small / +16 at 464 B,form 2
+  sets byte0 02),segment rule check 220/220 and the
+  on-device Mojo harness CHECKED 78 FAILED 0 over the
+  distinct triples.Contract scope was the freeze only
+  (TASK_hailo10h_marker_encoder_2026-10-25.md).
+  `docs/HAILO10H_MARKER_ENCODER_FREEZE_2026-10-24.md`.
+- [ ] Slice4.47 pair-order determination hunt (order
+  vs head-operand identity / first-middle operands);
+  zone-pair body comparison (97 vs 105,98 vs 106
+  outside the rare/pair region);156 middle unit
+  segment anatomy (the 12-fold unit's distinct
   segments);then broad ordinary UNMODIFIED
   source-model support100%.
 

@@ -1452,3 +1452,24 @@ hunt the pair-order bit's determinant, compare the
 zone pairs' bodies, and anatomize the 156 middle unit.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 marker encoder freeze (AES-NUM-046,slice4.46):
+`docs/HAILO10H_MARKER_ENCODER_FREEZE_2026-10-24.md`.
+The marker derivation of AES-NUM-045 is frozen as an
+Aesir-owned encoder, `hailbru/ccw_marker.mojo`: copy the
+preceding strict word, add one to byte 2, step byte 4
+(-4 in the small forms, +16 in the 464 B form, with the
+0856a10c 0200 head shape as an explicit third form).
+It is proven, not just written: the segment-level rule
+check passes 220 of 220 (all 212 dense segments plus
+the family segments outside cc9b9d1c), and a Mojo
+harness generated on Mimir from the seven artifacts
+checks all 78 distinct (predecessor, marker, form)
+triples with zero failures; out-of-domain inputs are
+refused, never guessed. The slice's contract covered
+the freeze only, so the pair-order hunt, the zone-pair
+body comparison, and the 156 middle unit anatomy move
+to slice 4.47 with nothing dropped. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

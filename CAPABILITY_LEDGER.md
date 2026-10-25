@@ -6175,3 +6175,31 @@ No new capability ID or hardware/complete-source execution claim.
   comparison; 156 middle unit segment anatomy
   (slice 4.46).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-046 — marker encoder freeze
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_MARKER_ENCODER_FREEZE_2026-10-24.md.
+- **Evidence:** contract TASK_hailo10h_marker_encoder_2026-10-25.md
+  published + pushed at f5d1c087 before implementation;its scope
+  (the freeze only) governed — the pair-order hunt,zone-pair
+  comparison and 156 middle anatomy are re-queued as slice 4.47.
+  Controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/
+  040/041/042/043/044/045 exactly (128,787 small actions;79,001
+  bursts;745,849 pointer actions;1,504 contexts;trailing pairs
+  2,049;champion bursts 75,215;427 cc9 segments). Populations
+  reproduced exactly: 212 dense cc9 marker segments under modal X
+  and the 20 family segments (cc9 12,0a0d378c 7,0856a10c 1).
+  Frozen: hailbru/ccw_marker.mojo (sha256 17d51cca...,crossed
+  byte-identical to Mimir) — ccw_marker(predecessor,form):
+  copy,byte2 +1,byte4 -4 (form 0,small) / +16 (form 1,464 B;
+  form 2 = 464 B 0200 shape,also byte0 01->02);non-strict
+  predecessor,byte2 0xFF,unsteppable byte4 or unknown form
+  returns None. Segment-level rule check 220/220 FAILED 0
+  (hef46.py sha256 2812db65...);78 distinct
+  (predecessor,marker,form) triples;on-device Mojo harness
+  CHECKED 78 FAILED 0;standalone smoke: the three recorded
+  examples produce their recorded markers,both refusals fire.
+- **Next:** pair-order determination hunt,zone-pair body
+  comparison,156 middle unit segment anatomy (slice 4.47).
+- **Audit:** Host-side analysis only;no device child.
