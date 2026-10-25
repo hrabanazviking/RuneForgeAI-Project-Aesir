@@ -47,11 +47,18 @@
    size, with >= 1 common aligned ff offset (aligned
    as hef90/91: offsets p step 4 with s[p] = 0xff,
    s[p+2] = 0, s[p+3] = 0 in EVERY instance).
-   (b) S2: instance count >= 8 with a common-offset
-   count that no earlier scan classified — 1..2
-   common offsets outside the original band
-   (position <= 30, size 8,000-40,000 B), or 1..9
-   inside it — any position, any size.
+   (b) S2: instance count >= 8 whose common offsets
+   no earlier scan classified, any position, any
+   size — i.e. NOT (in a previously scanned band
+   with a common count at or above that band's
+   floor). This covers 1..2 common offsets outside
+   the original band (position <= 30, size
+   8,000-40,000 B), 1..9 inside it, >= 3 common
+   offsets in territory neither the original band
+   nor bands X/Y reached (position > 30 with size
+   outside 8,000-40,000 B; position <= 30 with
+   size < 2,000 B or > 120,000 B), and groups over
+   the earlier scans' 600-instance cap.
    (c) Also count, without classifying: singleton
    groups (1 instance; classification is undefined,
    every value is trivially constant), groups with
