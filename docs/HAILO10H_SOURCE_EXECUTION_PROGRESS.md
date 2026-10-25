@@ -1676,3 +1676,24 @@ dose and dialect are separate variables. Next: the
 role in both dialects, and the shoulder-dose gap.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 94xx ladder, shared 97xx, shoulder gap (AES-NUM-055,slice4.55):
+`docs/HAILO10H_94XX_97XX_SHOULDER_GAP_2026-10-24.md`.
+The 94xx ladder is not a second family: it is the
+dense-heavy middle of one continuous ladder, its
+high-dose carriers are a bimodal sub-population
+defined by carrying none of the low ladder at all,
+and they speak the same 32016 dialect as everyone
+else in cc9b9d1c. The 97xx ladder turns out to be a
+fixed-size common module — only in cc9b9d1c, carried
+by a subset of contexts in every sub-population,
+never more than exactly 32 windows, identical in
+form across dialects. And the family's shoulder gap
+is one shoulder per context, lower or upper, never
+both, at a dose that does not follow the core dose.
+Next: what selects the shoulder side, what else
+splits the dense sub-populations, and where the
+97xx module sits inside a context. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

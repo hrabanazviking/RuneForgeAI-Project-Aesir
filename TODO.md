@@ -684,10 +684,22 @@
   member (1 ordinary core window,exclusive dose 9,
   32016 dialect full strength 96/0 — dose != dialect).
   `docs/HAILO10H_WIDER_FAMILY_DENSE_VOCAB_CIDX1_2026-10-24.md`.
-- [ ] Slice4.55 94xx ladder anatomy (exclusive zone,
-  dose law,its own dialect behind its windows);
-  shared 97xx ladder's role in both dialects;
-  exclusive-minus-core dose gap per context;then
+- [x] Slice4.55 94xx ladder anatomy:NOT a family —
+  continuous 9352-9696 ladder,no exclusive zone;
+  dose bimodal (26 high carriers 45-63,10 low,235
+  cc9 zero);high carriers marked by total low-ladder
+  absence (0.0 vs 34.4) and speak the shared 32016
+  dialect (30480 behind 94xx windows 0/1,508);97xx
+  ladder is cc9-only,a fixed-dose common module
+  (carriers capped at exactly 32,identical anatomy
+  in both dialects);shoulder gap = ONE shoulder per
+  context (9 lower-only,10 upper-only,0 both in cc9;
+  gap 220/963,uncorrelated with core dose).
+  `docs/HAILO10H_94XX_97XX_SHOULDER_GAP_2026-10-24.md`.
+- [ ] Slice4.56 shoulder-side selection (pair order,
+  97xx carriage,cidx,positions);dense sub-population
+  split features (high-94xx vs low-ladder);97xx
+  module position structure (contiguous run?);then
   broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

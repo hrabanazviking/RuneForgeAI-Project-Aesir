@@ -6559,3 +6559,38 @@ No new capability ID or hardware/complete-source execution claim.
   both dialects;exclusive-minus-core dose gap per context
   (slice 4.55).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-055 — 94xx ladder, shared 97xx ladder, shoulder gap
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_94XX_97XX_SHOULDER_GAP_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...054 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef55.py (sha256 b3f4a458...) and hef55b.py (e0fe1cfd...).
+  (i) The 94xx segment is NOT a family:the step-8 ladder is
+  continuous 9352-9696 with no exclusive zone (POS zero
+  9352-9504,then entering at 9512+);core 9408-9488 = 1,508
+  windows in only 33/61 DENSE contexts + 3 sparse (38/139/175);
+  dose BIMODAL (26 negative high carriers 45-63,10 low 1-26,
+  235 cc9 zero;corr with window count 0.217).High carriers are
+  marked by total low-ladder absence (mean 0.0 vs 34.4 in
+  zero-94xx dense;corr -0.575) and speak the shared 32016
+  dialect (dense middles 32016 mean 79.2,30480 mean 0.1;
+  30480 in next-8 of 94xx windows 0/1,508) — no dialect of
+  their own. (ii) The 97xx ladder (9696-9792) is cc9-ONLY
+  corpus-wide (2,128 windows,74 contexts),present in every
+  sub-population (POS 9/19,DENSE 41/61,OTHER 24/191),dose
+  CAPPED at exactly 32 in carriers (POS 29-32 pstdev 0.99;
+  correlations ~0 with all dialect doses),window anatomy
+  identical in both dialects — a fixed-dose common module.
+  (iii) Shoulder gap pooled 220 of 963 exclusive (lo 112,
+  hi 108;per-ctx 0-23,corr with core -0.290):in cc9 every
+  family context carries exactly ONE shoulder (9 lower-only,
+  10 upper-only,0 both,0 neither;lo/hi corr -0.562);only
+  corpus exceptions are 76c3a8ff cidx 3 (both,4+4) and
+  cidx 4 (neither,gap 0).Shoulder windows anatomically
+  ordinary;gap share 0.016 (cidx 85/222) to 0.889 (cidx 1).
+- **Next:** shoulder-side selection;dense sub-population
+  split features;97xx module position structure (slice 4.56).
+- **Audit:** Host-side analysis only;no device child.
