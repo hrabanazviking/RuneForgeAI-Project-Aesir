@@ -322,10 +322,16 @@
   95×22, zero counterexamples);0x28xx scalar distribution
   (0x7ffe ×264, disjoint from pool).
   `docs/HAILO10H_DATUM_VARINT_PAIRDIFF_REPL28_2026-10-24.md`.
-- [ ] Slice4.22 co-determination corpus-wide;conserved
-  10-11 pair splitter;datum-as-function-of-header across
-  contexts;then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-022 slice4.22 codetermination corpus-wide:
+  datum is a bijective context-free image of lane1
+  (62↔62,417↔417,zero violations);minimal set flags+enum+
+  ladder;special-pair splitter = flags bit (0x4000/0x8000
+  ⟺ datum pair, complementary positions).
+  `docs/HAILO10H_CODETERMINATION_BIJECTION_SPLITTER_2026-10-24.md`.
+- [ ] Slice4.23 closed-form hunt:GF(2) affine test on the
+  (lane1→datum) sample maps;arithmetic/permutation
+  candidates if linearity fails;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

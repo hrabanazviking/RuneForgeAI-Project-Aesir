@@ -1059,3 +1059,15 @@ form their own structured population (0x7ffe dominant),
 disjoint from the datum pool. Next:co-determination at
 corpus scale. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 codetermination at scale (AES-NUM-022,slice4.22):
+`docs/HAILO10H_CODETERMINATION_BIJECTION_SPLITTER_2026-10-24.md`.
+The lane2 datum is a bijective,context-free image of the
+lane1 operand word (62↔62 and 417↔417,zero violations);
+all three variable fields are individually necessary. The
+special pair splits on the flags field alone — a one-bit
+choice whose two values map exactly onto the famous datum
+pair. Next:the closed form (GF(2) affine test). Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.

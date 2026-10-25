@@ -5553,3 +5553,20 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Host-side analysis only. (Transport: gzipped
   900 B parts + per-part md5;deterministic corruption of
   one part healed by halving it;whole-file sha matched.)
+
+### AES-NUM-022 — datum = bijective image of the operand word
+
+- **Status:** `verified` (exact counts,2 artifacts).
+- **Owner:** docs/HAILO10H_CODETERMINATION_BIJECTION_SPLITTER_2026-10-24.md.
+- **Evidence:** Datum↔lane1 is a BIJECTION with zero
+  violations both directions (MiniLM 62↔62;blob 417↔417),
+  context-free. Minimal determining set = flags+enum+
+  ladder jointly;every proper subset fails (all three
+  variable fields individually necessary). Special-pair
+  splitter:flags only (enum/ladder 0/50 differ);two flag
+  values 0x4000/0x8000 map perfectly to the datum pair
+  0x60e517/0x56898c;positions 10/11 complementary.
+- **Reading:** the datum behaves as an ENCODING of lane1.
+- **Next:** closed-form hunt — GF(2) affine test on the
+  417-sample map,then arithmetic/permutation candidates.
+- **Audit:** Host-side analysis only.
