@@ -6594,3 +6594,38 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** shoulder-side selection;dense sub-population
   split features;97xx module position structure (slice 4.56).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-056 — Shoulder-side selection, dense split, 97xx positions
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_SHOULDER_SIDE_DENSE_SPLIT_97XX_POSITIONS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...055 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef56.py (sha256 30bc87a3...) and hef56b.py (64c23e5a...).
+  (i) Shoulder side is selected by NONE of pair order (LO 4/5,
+  HI 4/6 normal/reversed),97xx carriage (4/9 vs 5/10,same
+  doses),cidx (spans overlap,corr -0.210) or window position
+  (shoulder frac 0.487 vs core 0.482;179/212 inside core span).
+  Two one-way laws:low family dose (excl<30) is always upper
+  (5/5;LO uniformly excl 51-64) and upper is always low-ladder-
+  free (nlow 0 in 10/10;LO 0-7).Side runs in 8 stretches over
+  the 19 family contexts.Selector NOT PROVEN. (ii) Dense
+  negatives are FOUR populations:high94 25 (dose 45-63,all
+  exactly 96 windows,nlow exactly 0,32784-rich),low94 8
+  (dose 1-18;empty 19-44),zero94/low-high 16 (nlow 51-64),
+  zero94/low-none 12 (nlow 0-1;93xx/89xx-led,all exactly
+  738 actions,32016 exactly 96.0,all reversed) — low dose
+  bimodal inside zero94 with no middle group. (iii) 97xx
+  module is clustered,never one run except the all-module
+  OTHER cidx 110 (32/32):599 runs over 73 carriers,gap-1
+  adjacency 1,529/2,054 (74.4%),last window frac >=0.947
+  in all 74;canonical ~21-block at ordinal 0 (18 max-run
+  starts) or 43 (13),exact templates [21,2,1,3,1,1,2,1] x10
+  and [21,2,1,1,1,1,1,2,1] x8 crossing sub-populations;
+  23 scattered carriers (maxrun <=7);lead sequences
+  unordered (1/74 sorted).Block placement NOT PROVEN.
+- **Next:** low-none population corpus-wide;97xx block
+  placement (0 vs 43 vs scatter);shoulder stretches vs
+  intervening contexts (slice 4.57).
+- **Audit:** Host-side analysis only;no device child.

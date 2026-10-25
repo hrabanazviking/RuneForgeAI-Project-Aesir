@@ -1697,3 +1697,28 @@ splits the dense sub-populations, and where the
 97xx module sits inside a context. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 shoulder side, dense split, 97xx positions (AES-NUM-056,slice4.56):
+`docs/HAILO10H_SHOULDER_SIDE_DENSE_SPLIT_97XX_POSITIONS_2026-10-24.md`.
+Nothing Volmarr's queue named selects the shoulder
+side: pair order is balanced on both sides, 97xx
+carriage is the same rate at the same dose, context
+indices overlap, and shoulder windows sit interleaved
+through the core span at the core's own positions.
+What does hold is one-directional: every low-dose
+family context takes the upper shoulder, every upper
+context is completely free of the low ladder, and
+the side runs in stretches along the family
+contexts. The dense negatives resolve into four
+ladder-dose populations, the fourth a hidden
+93xx/89xx-led group of twelve maximal, all-reversed
+contexts inside the zero-94xx class. And the 97xx
+module is not a contiguous run: it clusters, with a
+canonical 21-window block placed at window 0 or
+window 43 and a scattered tail, spanning every
+carrier context. Next: the low-none population
+corpus-wide, what places the 97xx block, and the
+shoulder stretches against their intervening
+contexts. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

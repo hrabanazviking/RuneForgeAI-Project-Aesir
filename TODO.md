@@ -696,11 +696,23 @@
   context (9 lower-only,10 upper-only,0 both in cc9;
   gap 220/963,uncorrelated with core dose).
   `docs/HAILO10H_94XX_97XX_SHOULDER_GAP_2026-10-24.md`.
-- [ ] Slice4.56 shoulder-side selection (pair order,
-  97xx carriage,cidx,positions);dense sub-population
-  split features (high-94xx vs low-ladder);97xx
-  module position structure (contiguous run?);then
-  broad ordinary UNMODIFIED source-model support100%.
+- [x] Slice4.56 shoulder-side selection:NONE of pair
+  order/97xx carriage/cidx/position selects the side;
+  low family dose always upper (5/5),upper always
+  low-ladder-free (10/10),side runs in 8 stretches;
+  dense negatives are FOUR populations (high94 25
+  full-window,low94 8,zero94/low-high 16,zero94/
+  low-none 12 = 93xx/89xx-led maximal all-reversed);
+  97xx module clustered never one run (599 runs,
+  gap-1 74.4%,canonical 21-block at ordinal 0 or
+  43,exact templates x10/x8).
+  `docs/HAILO10H_SHOULDER_SIDE_DENSE_SPLIT_97XX_POSITIONS_2026-10-24.md`.
+- [ ] Slice4.57 low-none population corpus-wide
+  (93xx/89xx form outside the 12 dense contexts?);
+  97xx block placement (0 vs 43 vs scatter — what
+  differs);shoulder-side stretches vs the contexts
+  between family contexts;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
