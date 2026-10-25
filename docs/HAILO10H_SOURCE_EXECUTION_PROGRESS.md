@@ -1263,3 +1263,24 @@ broken by a 304 B form. Next: the trailing pools vs
 the global champion pool, 176 B joint structure, the
 304 B break form. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 trailing pools vs global, 176 B joint, 304 B break
+(AES-NUM-037,slice4.37):
+`docs/HAILO10H_TRAILING_POOL_176B_JOINT_304B_BREAK_2026-10-24.md`.
+The end block's operands are mostly ordinary body
+operands (1,191 of 2,049 shared; every champion
+operand lives on exactly one channel corpus-wide),
+but its private core is exactly located: the special
+slot and each group's closing position draw only on
+operands found nowhere else, and each group's four
+position pools are equal-sized disjoint sisters. The
+176 B varying block is near-unique per segment yet
+determines nothing beyond itself. The 304 B head
+breaker is one fixed sparse segment per artifact —
+absent from the sister pair — with a complementary
+walking byte pair through its first body half. Next:
+sister-pair head breaks, the non-breaker 304 B
+population, sister-pool subfield comparison. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.

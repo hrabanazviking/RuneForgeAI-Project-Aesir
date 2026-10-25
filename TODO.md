@@ -442,11 +442,21 @@
   sparse frames with a unique trailer word and no
   pairwise varying-position law;head runs 4-10.
   `docs/HAILO10H_END_BLOCK_176B_HEADRUN_2026-10-24.md`.
-- [ ] Slice4.37 trailing operand pools vs the global
-  champion operand pool;176 B joint cluster structure
-  (p11-13/p19-20 varying block);304 B head-break form
-  anatomy at positions 4-10;then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] AES-NUM-037 slice4.37 trailing pools vs global,
+  176 B joint,304 B break:trailing 2,049 operands =
+  1,191 shared + 858 private (t0 + five closing
+  positions + remainders);champion operands are
+  channel-exclusive corpus-wide (2,309);four sister
+  pools per group equal-sized and disjoint;176 B
+  joint block near-unique but non-determining;304 B
+  breaker = one fixed sparse segment per artifact,
+  sister pair never breaks at 304 B,complementary
+  walking byte pair p2-p17.
+  `docs/HAILO10H_TRAILING_POOL_176B_JOINT_304B_BREAK_2026-10-24.md`.
+- [ ] Slice4.38 sister-pair head-break anatomy;
+  non-breaker 304 B population (11 distinct);
+  sister-pool lane-1 subfield comparison;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

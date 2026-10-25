@@ -5873,3 +5873,36 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** trailing operand pools vs the global champion pool,
   176 B joint cluster structure,304 B head-break anatomy (slice 4.37).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-037 — trailing pools vs global, 176 B joint, 304 B break
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_TRAILING_POOL_176B_JOINT_304B_BREAK_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing distinct pairs 2,049). Global champion:
+  75,215 bursts,2,309 distinct operands = 2,309 distinct pairs —
+  every champion operand lives on exactly ONE channel (ch0 1,120;
+  ch1 596;ch2 593). Trailing 2,049 = 1,191 shared with the body +
+  858 trailing-only;body-only = 260;shared operands carry 20,937
+  of 43,631 body champion bursts. Per group the four position
+  pools are equal-sized (98/104/103/100/107) and pairwise
+  disjoint;the first three positions share identical
+  shared/exclusive splits,the closing channel-0 position and
+  t0 are entirely trailing-only (private core = 1 + 512 + 345).
+  176 B joint block (p11-13/p19-20):96/91 distinct for 99/98
+  segments,neither sub-block determines the other,no pairwise
+  law,biggest clusters are the sparse zero cases;even minus
+  p21 the block does not determine the segment. 304 B class:
+  3,207 occ,21 distinct corpus-wide;breakers are 10 — one
+  fixed segment per blob artifact for ALL its contexts
+  (256/180/353/271),six singletons for MiniLM,all on
+  channel 0;the sister pair NEVER breaks at 304 B. Breaker
+  anatomy:constant head 012830020000002e,p1 zero,p2-p28
+  exactly two nonzero bytes (positions 0 and 4) with a
+  dominant complementary walking pair (k,256-k),k = p-1
+  for p2-p17,p29 byte 0 only,p30-35 zero,p36 constant,
+  p37 a distinct 3-byte trailer per segment.
+- **Next:** sister-pair head-break anatomy,non-breaker 304 B
+  population,sister-pool lane-1 subfield comparison (slice 4.38).
+- **Audit:** Host-side analysis only;no device child.
