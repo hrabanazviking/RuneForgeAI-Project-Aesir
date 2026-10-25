@@ -2578,3 +2578,30 @@ outlier differs at a few early positions in one aspect only. Next:
 what form the 26 OTHER offsets follow, the middles cut into 16-byte
 units, and whether a first's pair is a function of the consensus.
 Broad ordinary UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 per-ng ff forms, middle unit anatomy, pair function negative (AES-NUM-093,slice4.93):
+`docs/HAILO10H_PERNG_FORMS_UNIT_ANATOMY_PAIR_FUNCTION_2026-10-24.md`.
+The 26 sparse OTHER ff offsets turn out to speak network-group:
+pooled index forms cover none of them credibly (their affine and
+progression passes all sit on two-instance groups), but split by
+network group, 19 of the 26 are exact — constant within each
+group on 14 (the constants differ between groups: 3 in one,
+11 in the other, 45 against 15, 5 against 1), and on five more
+the value is the within-group index in one group and constant
+in the other, including an 18-instance offset that is the index
+in group 0 and a flat 11 across nine instances of group 1. The
+residue is small and strange: four offsets that are the index
+with exactly one deviating instance, one whose value equals
+the index at a single instance and is zero elsewhere, and two
+two-instance pairs too small to judge. Cut into 16-byte units,
+the camp middles share exactly units 1–4 verbatim and nothing
+else; the insertion-aligned mismatches crowd into units 7–10
+(unit 8 loses 7 of its 16 bytes), and no 16-byte unit repeats
+at any lag in either middle, so the 16-byte rhythm is not unit
+repetition. And a distinguished first's pair is not a function
+of the consensus pair under any key — position, band, train
+step, artifact and group all leave hundreds of mixed keys.
+Next: what distinguishes the deviating instances, the middles
+unit by unit across ranks, and per-group forms inside the
+already-classified ff population. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

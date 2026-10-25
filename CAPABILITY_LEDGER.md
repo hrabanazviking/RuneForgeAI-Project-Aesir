@@ -7899,3 +7899,46 @@ No new capability ID or hardware/complete-source execution claim.
   forms); middle 16-byte unit anatomy; firsts' pair-function
   test (slice 4.93).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-093 — the 26 sparse OTHER ff offsets are mostly per-network-group forms (per-ng CONST exact on 14, mixed per-ng CONST/NGIDX covering 19 of 26 combined; residue: 4 NGIDX offsets with exactly one deviating instance, 1 index-at-one-instance offset, 2 uninformative n=2 pairs), the camp middles share only units 1–4 verbatim at 16-byte granularity (mismatch crowd in units 7–10, unit 8 worst at 7/16; no unit repeats at any lag 1–9 in either middle), and a distinguished first's pair is not a function of the consensus pair under any tested key ((cons,pos) finest: 440 multi keys, 242 mixed, accuracy 0.9068 by uniqueness)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_PERNG_FORMS_UNIT_ANATOMY_PAIR_FUNCTION_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...092 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band OTHER 4
+  all STEP; band X 60 / 3,335; band Y 27 / 354; S1 OTHER 16;
+  S2b OTHER 10), trains 52 (28/13/11), D(113) = 249, firsts'
+  D 3,089, control D 176, in hef93.py (sha256 a9438c70...),
+  landed via one-shot proxy-receiver transfer (gz sha256
+  0faee9ea... returned by the receiver, matching; script sha
+  verified on-device); output sha256 48eade8e.... Labelled
+  follow-up hef93b.py (sha256 040ad04e..., output 390dd8f1...)
+  ran the per-ng form tests. Contract
+  docs/TASK_CONTRACT_4.93.md published @ 965a1389 before
+  implementation. (i) Pooled affine/AP passes are all on
+  n = 2 groups (recorded, not credited); no OTHER group
+  lies in a single train. Per-ng CONST 14/26 (incl.
+  0856a10c {3,11}, 0a0d378c {45,15} and {0,1}, sister
+  pos-21 {5,1} and {5,15} at n = 10); mixed per-ng
+  (NGIDX in ng0, CONST 11 in ng1) at 0856a10c pos 10
+  n = 18 and sister offsets 17272/32192 (NGIDX in ng0,
+  single ng1 instance deviating); combined per-ng
+  coverage 19/26. Residue: 4 one-deviation NGIDX, 1
+  index-at-one-instance (773470cd pos 15 / 29184), 2
+  uninformative pairs. (ii) A 11 distinct units, B 14;
+  shared verbatim exactly units 1–4 at the same index;
+  aligned mismatches per unit 1/0/0/0/0/2/2/4/7/2/3;
+  tails differ; unit lags 1–9 match 0 everywhere but
+  one B unit at lag 5. (iii) Function test: every key
+  mixed — (cons) 123 multi / 113 mixed acc 0.2298;
+  (cons,pos) 440 / 242 acc 0.9068; (cons,third) 252 /
+  221; (cons,decile) 405 / 349; (cons,step) 178 / 161;
+  (cons,art,ng) 208 / 200. Control (cons,pos): 5 multi
+  / 3 mixed.
+- **Next:** residual ff deviating-instance anatomy +
+  sister-twin comparison; per-rank middle unit anatomy;
+  per-ng forms inside the classified CONST/NGIDX
+  population (slice 4.94).
+- **Audit:** Host-side analysis only; no device child.

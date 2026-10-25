@@ -1419,14 +1419,27 @@
   kind (3,089 vs 176 D-positions;
   both-changed 47.3% vs 15.9%).
   `docs/HAILO10H_MISMATCH_ANATOMY_SPARSE_FF_DPOSITIONS_2026-10-24.md`.
-- [ ] Slice4.93 ff OTHER form
-  hunt (within-train / subgroup
-  index forms for the 26 sparse
-  OTHER offsets); middle 16-byte
-  unit anatomy; firsts' pair-
-  function test (own pair as a
-  function of consensus pair +
-  position); then broad ordinary
+- [x] Slice4.93 the 26 sparse
+  OTHER ff offsets are mostly
+  per-ng forms (per-ng CONST 14,
+  combined per-ng CONST/NGIDX
+  19/26; residue 4 one-deviation
+  NGIDX, 1 index-at-one-instance,
+  2 uninformative pairs); middle
+  16 B units share only units
+  1-4 verbatim (crowd in units
+  7-10, no unit repetition at
+  any lag); firsts' pair is not
+  a function of the consensus
+  pair under any tested key.
+  `docs/HAILO10H_PERNG_FORMS_UNIT_ANATOMY_PAIR_FUNCTION_2026-10-24.md`.
+- [ ] Slice4.94 residual ff
+  deviating-instance anatomy +
+  sister-twin comparison; per-
+  rank middle unit anatomy;
+  per-ng forms inside the
+  classified CONST/NGIDX
+  population; then broad ordinary
   UNMODIFIED source-model
   support100%.
 
