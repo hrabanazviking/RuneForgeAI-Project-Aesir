@@ -2529,3 +2529,27 @@ Next: what camp 21648's extra middle bytes are, whether the
 ngidx==1 step pattern recurs elsewhere, and a cross-train test
 of the first-context mechanism. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 camp middles camp-constant not pure insertion, step pairs unique, no first-train separator (AES-NUM-091,slice4.91):
+`docs/HAILO10H_CAMP_MIDDLE_STEP_RECURRENCE_TRAIN_MECHANISM_2026-10-24.md`.
+Consensus alignment shows the grown regions never needed it: at all
+four grown ranks the region bytes are identical in every segment of
+each camp, so the representatives were already exact. Camp 21648's
+middle is insertion-shaped — deleting one 64-byte chunk at offset
+111 or 112 matches 147 of camp 21392's 168 middle bytes — but it is
+not a pure insertion (21 mismatches remain), and the deleted chunk
+itself is camp-B material: it occurs zero times in camp 21392 and
+48 times in camp 21648, four per segment, once in each grown region.
+The step pairs turn out to be unique in the corpus so far: extending
+the ff scan to positions beyond 30 and to sizes below and above the
+original band adds 87 groups and 3,689 offsets, every one constant
+or the within-ng index, no step and no other exception anywhere.
+And the first-in-train hunt closes its feature round with no
+separator: the property is all-or-nothing in some network-group
+pools and mixed in others — the same artifact can hold both — while
+the strongest single signal, step 9, covers only 7 of 28
+distinguished firsts; comparing firsts across trains is possible in
+exactly one group in the whole corpus. Next: the 21 mismatch
+positions anatomised, the sparse groups below the scan floors, and
+the anatomy of the distinguishing positions themselves. Broad
+ordinary UNMODIFIED source-model support100% remains the destination.

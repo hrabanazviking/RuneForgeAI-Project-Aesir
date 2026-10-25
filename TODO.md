@@ -1391,20 +1391,34 @@
   in 25 of 28; sibling D = 249
   and content = 23 reproduce).
   `docs/HAILO10H_FF_CLASSIFICATION_CAMP_ALIGNMENT_TRAINS_2026-10-24.md`.
-- [ ] Slice4.91 grown-region
-  middle windows under
-  camp-consensus alignment
-  (camp B's extra 64 B per grown
-  region: home search in both
-  camps — duplicated, displaced
-  or new?); ngidx==1 step pairs
-  elsewhere (below the scan band
-  / other artifacts);
-  first-in-train mechanism test
-  (distinguished firsts vs their
-  ng's other trains' firsts);
-  then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] Slice4.91 grown-region
+  middles are camp-constant and
+  insertion-shaped but not a pure
+  insertion (best k 111/112,
+  21/168 mismatches, all ranks);
+  extra chunk 0x in camp 21392,
+  48x in camp 21648 (4/segment);
+  step pairs do NOT recur in the
+  extension bands (87 groups,
+  3,689 offsets, CONST/NGIDX
+  only; in-band OTHER 4 all
+  STEP reproduce); no feature
+  separates distinguished firsts
+  (pools ALL/NONE/SOME by ng;
+  step==9 7/28 vs 0/24 only).
+  `docs/HAILO10H_CAMP_MIDDLE_STEP_RECURRENCE_TRAIN_MECHANISM_2026-10-24.md`.
+- [ ] Slice4.92 middle-mismatch
+  anatomy (21 positions at best
+  k; chunk 1-byte shift
+  tolerance / period); sparse-
+  group ff scan below the floors
+  (<8 instances / <3 common);
+  D-position anatomy of
+  distinguished firsts (pairs
+  carried vs consensus, head vs
+  tail); then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

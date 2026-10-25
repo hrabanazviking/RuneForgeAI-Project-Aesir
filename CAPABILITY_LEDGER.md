@@ -7834,3 +7834,34 @@ No new capability ID or hardware/complete-source execution claim.
   search in both camps); ngidx==1 step pairs elsewhere;
   first-in-train cross-train mechanism test (slice 4.91).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-091 — grown-region middles are camp-constant and insertion-shaped but not a pure insertion (best offset 147/168, 21 mismatches at every grown rank; the extra chunk occurs 0x in camp 21392 and 48x in camp 21648, four per segment), the ngidx==1 step pairs do NOT recur in the extension bands (87 groups, 3,689 offsets, CONST/NGIDX only; in-band sanity reproduces OTHER 4, all STEP), and no tested feature separates distinguished train firsts (pool-dependent: 76c3a8ff ng 0 none vs ng 1 all; step==9 is 7/28 vs 0/24, not a separator; cross-train first comparison exists in exactly one group)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_CAMP_MIDDLE_STEP_RECURRENCE_TRAIN_MECHANISM_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...090 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef91.py (sha256 88920cfd...), landed via one-shot
+  proxy-receiver transfer (gz sha256 6eadb3dc... returned by
+  the receiver, matching; script sha verified on-device);
+  output sha256 c36e8df9.... Contract docs/TASK_CONTRACT_4.91.md
+  published @ c7a09970 before implementation. (i) Grown ranks
+  2/8/22/26 are camp-constant (0 variable positions in both
+  camps); middles 168 vs 232 B, left/right common 0; best
+  insertion k = 111/112 with 21/168 mismatches (k=0: 58,
+  k=168: 32); extra chunk 0x in camp A segments, 48x in camp
+  B (4 per segment, same offsets), 0 A-consensus windows.
+  (ii) Band X (pos>30, 8-40 kB): 60 groups, CONST 2,802 /
+  NGIDX 533 / OTHER 0. Band Y (pos<=30, 2-8 kB or 40-120 kB):
+  27 groups, CONST 285 / NGIDX 69 / OTHER 0. In-band sanity
+  = hef90 exactly (374 groups, OTHER 4, all STEP).
+  (iii) 52 trains, controls exact; pools ALL (5ab3537d ng 0,
+  76c3a8ff ng 1), NONE (0856a10c ng 0, 76c3a8ff ng 0), SOME
+  (8 pools); seven separator features all fail; cross-train
+  first agreement measurable in exactly one group
+  (0856a10c ng 0 / 280: 82/280, both undistinguished).
+- **Next:** middle-mismatch anatomy + chunk shift tolerance;
+  sparse-group ff scan below the floors; D-position anatomy
+  of distinguished firsts (slice 4.92).
+- **Audit:** Host-side analysis only; no device child.
