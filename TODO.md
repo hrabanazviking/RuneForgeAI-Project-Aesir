@@ -20,8 +20,18 @@
   views0,finalization confirmed. Acceptance FAILED (attempts2,identity
   unmatched);batch CLOSED,no rerun. Campaign1 exit NOT met.
   `docs/HAILO10H_ALIGNED_GROUPED_PHYSICAL_2026-10-24.md`.
-- [ ] Campaign2 slice2.1 transfer-semantics extraction on the -017/-018
-  evidence only,then numerical configuration/packing/placement/program/
+- [x] AES-TRANSFER-001 Campaign2 slice2.1 transfer-semantics extraction
+  on the Campaign1 evidence only:span description and the physical
+  offset-admission rule,launch-return = descriptor count under the
+  observed-return policy,IRQ completion records (data 0xFE/0xFF are
+  failure indications,never counts),cache-sync sequence,ownership until
+  completion,late-completion quarantine.
+  `docs/HAILO10H_GROUPED_TRANSFER_SEMANTICS_2026-10-24.md`. New decoded
+  datum:identify's second wait in -018 reported 0xFF NOT_ACTIVE for both
+  owned channels;cause not established.
+- [ ] Slice2.2 minimal transfer primitive in Mojo on S1-S6 only,then
+  2.3 host qualification and a separately contracted 2.4 physical
+  confirmation;then numerical configuration/packing/placement/program/
   results and broad ordinary UNMODIFIED source-model support100%. Any
   further physical lifecycle attempt requires a NEW one-shot contract.
 

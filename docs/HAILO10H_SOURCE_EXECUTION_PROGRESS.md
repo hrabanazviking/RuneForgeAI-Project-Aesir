@@ -441,3 +441,23 @@ transfer-semantics extraction on this evidence only;any further physical
 lifecycle attempt requires a new one-shot contract. Numerical/packing/
 placement/program/results and broad ordinary UNMODIFIED source-model
 support100% remain work.
+
+
+2026-10-24 grouped transfer semantics extraction:
+`docs/HAILO10H_GROUPED_TRANSFER_SEMANTICS_2026-10-24.md`
+(AES-TRANSFER-001,Campaign2 slice2.1). The Campaign1 evidence is now a
+six-section specification:span description with the physical
+offset-admission rule;the launch return as descriptor count under the
+observed-return policy (all four -018 launches returned5);IRQ
+completion records against the pinned UAPI (data1 completed,0 none,
+0xFE channel-with-error,0xFF channel-not-active — failure indications,
+never counts;correlation by channel under the one-outstanding law,not
+timestamp);the exact cache-sync sequence;ownership until validated
+completion;and late-completion quarantine under one total deadline.
+Decoded during extraction:-018 identify's second wait reported 0xFF
+NOT_ACTIVE for both owned channels (addendum filed in the -018
+document);whether its transfers completed device-side first is not
+established. Specification only — no code,no physical run. Next is
+slice2.2,the minimal transfer primitive on these facts only;then
+numerical/packing/placement/program/results and broad ordinary
+UNMODIFIED source-model support100% remain work.

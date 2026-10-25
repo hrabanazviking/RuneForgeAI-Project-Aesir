@@ -4467,3 +4467,51 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** One child only;no repeat,no follow-on child. Contract-first
   order preserved (contract 7bcfd81c,probe 4448a7e5,observer a8a4f415).
   Failures retained;no global/hosted-CI pass.
+
+### AES-TRANSFER-001 — Grouped transfer semantics extraction (specification)
+
+- **Status:** `verified` (specification scope only;no code,no physical run)
+- **Owner:** Analysis over the original grouped owner sources
+  (soc_group.mojo,soc_group_rpc.mojo,soc_exchange_progress.mojo,
+  soc_progress.mojo,soc_storage.mojo,soc_session.mojo).
+- **Claim sources:** AES-CONTROL-015 host battery,AES-CONTROL-016 and
+  AES-CONTROL-018 physical attempts,AES-CONTROL-017 aligned backing;
+  docs/HAILO10H_GROUPED_TRANSFER_SEMANTICS_2026-10-24.md.
+- **Specification evidence:** Six sections traced to code and evidence:
+  S1 span description (1-8 spans,packed launch record;physical admission
+  rule:span map-offset divisible by descriptor page — offset20 EINVAL,
+  0/512 admitted);S2 launch return = actual descriptor count programmed,
+  observed-return policy (admitted iff 1<=returned<65536 ring capacity;
+  scalar 2068@512 = 5,grouped 20+2048 also 5,all four -018 launches
+  returned 5;D2H posted before H2D);S3 completion evidence (IRQ wait
+  records (engine,channel,data) against the pinned UAPI:data1 =
+  completed,0 = none yet,0xFE channel-with-error,0xFF channel-not-
+  active — failure indications,never counts;atomic snapshot validation,
+  mask equality,one-outstanding correlation by channel,not timestamp);
+  S4 cache-sync sequence (input FOR_CPU -> scatter -> input FOR_DEVICE
+  whole extent -> output FOR_DEVICE -> launches -> per-direction
+  transfer_finished -> output FOR_CPU -> gather;failed sync grants
+  neither ownership);S5 ownership until completion (transfer_pending
+  armed before the launch ioctl,owner re-verification per exchange,one
+  outstanding pair,any error poisons and reuse requires a fresh owner,
+  retained views accounted);S6 late-completion quarantine (single total
+  deadline,<=32 snapshots,monotonic clock;no consumer after the loop;
+  fresh owner/session for any later exchange).
+- **New decoded datum:** Identify's second wait in -018 reported data
+  0xFF (CHANNEL_NOT_ACTIVE) for BOTH owned channels (0 and 16) —
+  recorded as an addendum in the -018 evidence document. Whether the
+  transfers completed device-side before inactivation is NOT
+  established;the primitive must specify this presentation explicitly
+  and must not credit it as success.
+- **Evidence boundary:** Specification only. The per-span descriptor
+  sum, finer sync granularity, multi-outstanding exchanges, >8 spans,
+  grouped output and timestamp correlation are all recorded as NOT
+  established. Numerical configuration/packing/placement,program
+  execution and source-model support remain unproven.
+- **Next acceptance gate:** Slice 2.2 — implement the minimal transfer
+  primitive in Mojo on S1-S6 only (not a general arbitrary-RPC API),
+  then 2.3 host qualification and a separately contracted 2.4 bounded
+  physical confirmation.
+- **Audit:** No source code changed by this slice beyond documentation;
+  the -018 evidence document gained a clearly marked decode addendum.
+  Failures retained;no global/hosted-CI pass.

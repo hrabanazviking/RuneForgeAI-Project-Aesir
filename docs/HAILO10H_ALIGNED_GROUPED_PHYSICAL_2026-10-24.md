@@ -77,7 +77,13 @@ observer log (36,933 bytes) sha256
   directional completions the client requires were not established
   within its progress snapshots: no output CPU-sync followed and no
   reply became CPU-visible. The client declared a primary error and
-  poisoned the transport.
+  poisoned the transport. (Addendum, decoded during the slice 2.1
+  extraction against the pinned UAPI: identify's second wait reported
+  `data = 0xFF` — CHANNEL_NOT_ACTIVE — for **both** owned channels,
+  0 (input) and 16 (output). 0xFF is a failure indication under the
+  UAPI defines, never a completion count; whether the transfers had
+  completed device-side before the channels went inactive is not
+  established. See `docs/HAILO10H_GROUPED_TRANSFER_SEMANTICS_2026-10-24.md` §S6.)
 - **Failure discipline behaved exactly as contracted.** On a poisoned
   transport the client attempted **no** destroy (cleanup destroy is
   admitted only for a healthy transport), retained no views
