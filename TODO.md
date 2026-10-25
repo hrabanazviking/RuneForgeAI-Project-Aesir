@@ -1407,16 +1407,26 @@
   (pools ALL/NONE/SOME by ng;
   step==9 7/28 vs 0/24 only).
   `docs/HAILO10H_CAMP_MIDDLE_STEP_RECURRENCE_TRAIN_MECHANISM_2026-10-24.md`.
-- [ ] Slice4.92 middle-mismatch
-  anatomy (21 positions at best
-  k; chunk 1-byte shift
-  tolerance / period); sparse-
-  group ff scan below the floors
-  (<8 instances / <3 common);
-  D-position anatomy of
-  distinguished firsts (pairs
-  carried vs consensus, head vs
-  tail); then broad ordinary
+- [x] Slice4.92 the 21 middle
+  mismatches are one rank-
+  identical tail list (thirds
+  1/4/16; 16 B rhythm, no exact
+  period); the sparse ff scan
+  completes the census (31,568
+  offsets; 26 non-step OTHER,
+  step does not recur); firsts
+  differ from other outliers in
+  kind (3,089 vs 176 D-positions;
+  both-changed 47.3% vs 15.9%).
+  `docs/HAILO10H_MISMATCH_ANATOMY_SPARSE_FF_DPOSITIONS_2026-10-24.md`.
+- [ ] Slice4.93 ff OTHER form
+  hunt (within-train / subgroup
+  index forms for the 26 sparse
+  OTHER offsets); middle 16-byte
+  unit anatomy; firsts' pair-
+  function test (own pair as a
+  function of consensus pair +
+  position); then broad ordinary
   UNMODIFIED source-model
   support100%.
 

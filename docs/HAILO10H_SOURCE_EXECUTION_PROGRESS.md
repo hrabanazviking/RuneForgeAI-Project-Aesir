@@ -2553,3 +2553,28 @@ exactly one group in the whole corpus. Next: the 21 mismatch
 positions anatomised, the sparse groups below the scan floors, and
 the anatomy of the distinguishing positions themselves. Broad
 ordinary UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 mismatch anatomy, sparse ff census complete, firsts differ in kind (AES-NUM-092,slice4.92):
+`docs/HAILO10H_MISMATCH_ANATOMY_SPARSE_FF_DPOSITIONS_2026-10-24.md`.
+The 21 camp-middle mismatches turn out to be a single list shared by
+all four grown ranks and both best insertion offsets: position 0,
+then nothing until position 91, then a scattered zero-heavy crowd
+through the tail (thirds 1/4/16). Both middles breathe with a
+16-byte rhythm — every autocorrelation peak sits at a multiple of
+16 — but at fractions under 0.76 it is not an exact period, and the
+chunk's shift-16 self-overlap (30–31 of 48) says the same. The ff
+census is now complete for every group with at least two instances
+and one common offset: the sparse scan below all earlier floors
+classifies 31,568 more offsets, finds the step form nowhere new,
+and leaves exactly 26 non-step OTHER offsets in the whole corpus,
+all inside 32.5–32.8 kB segments — several shared byte-for-byte in
+offset and value pattern between the sister artifacts, stepping by
+3 in a way that is neither constant nor the within-ng index. And
+the D-position anatomy separates distinguished firsts from ordinary
+outliers in kind: 3,089 distinguishing positions against 176, spread
+through the action list with the final decile almost empty, and
+nearly half changing size and channel together, where a non-first
+outlier differs at a few early positions in one aspect only. Next:
+what form the 26 OTHER offsets follow, the middles cut into 16-byte
+units, and whether a first's pair is a function of the consensus.
+Broad ordinary UNMODIFIED source-model support100% remains the destination.

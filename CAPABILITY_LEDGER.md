@@ -7865,3 +7865,37 @@ No new capability ID or hardware/complete-source execution claim.
   sparse-group ff scan below the floors; D-position anatomy
   of distinguished firsts (slice 4.92).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-092 — the 21 camp-middle mismatches are one rank-identical tail list (positions 1–90 clean but for position 0; 16 of 21 in the last third; B byte 0x00 in 11; a 16-byte autocorrelation rhythm at fractions 0.63–0.75, exact at no shift), the sparse ff scan completes the census (31,568 further offsets classified; 26 non-step OTHER offsets, all in 32.5–32.8 kB segments; the step form does NOT recur), and distinguished firsts differ from non-first outliers in kind (3,089 vs 176 D-positions; both-changed 47.3% vs 15.9%; last-decile collapse 31 vs spread)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_MISMATCH_ANATOMY_SPARSE_FF_DPOSITIONS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...091 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  and the new scanner re-derives AES-NUM-090/091 exactly (in-band
+  374 groups / OTHER 4 all STEP; band X 60 / 3,335; band Y 27 /
+  354) in hef92.py (sha256 d67eef3b...), landed via one-shot
+  proxy-receiver transfer (gz sha256 2b67a6c5... returned by
+  the receiver, matching; script sha verified on-device);
+  output sha256 fa7d88c8.... Contract docs/TASK_CONTRACT_4.92.md
+  published @ 5fac6557, amended @ d0abc122, before implementation.
+  (i) Mismatch list identical at all 4 ranks and both best
+  k (111/112): positions 0, 91, 94, 103, 111, 116, 119, 125,
+  126, 130–133, 135, 142, 143, 148, 151, 160, 163, 167; thirds
+  1/4/16; chunk self-overlap best at shift 16 (30–31/48);
+  autocorrelation peaks at multiples of 16, max 0.750, no
+  exact period. (ii) Census: 141,456 groups, 86,461 singletons;
+  S1 719 groups / 30,336 offsets (OTHER 16); S2a 0 groups;
+  S2b 15 / 32 (OTHER 10); S2c 128 / 1,200 (OTHER 0); S2d 0;
+  zero-common groups 32,617 (S1-range) + 21,055 (S2-range);
+  sister artifacts share 4 S2b offsets with step-3 patterns.
+  (iii) Firsts: 3,089 D-positions, thirds 1381/1000/708,
+  decile 9 = 31, channel-only 582 / size-only 1,046 / both
+  1,461, top transitions are 32,784 B channel rotations.
+  Control arm: 29 members, 176 D-positions, decile 0 = 56,
+  channel-only 69 / size-only 79 / both 28.
+- **Next:** ff OTHER form hunt (within-train/subgroup index
+  forms); middle 16-byte unit anatomy; firsts' pair-function
+  test (slice 4.93).
+- **Audit:** Host-side analysis only; no device child.
