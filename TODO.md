@@ -242,10 +242,16 @@
   3 CCW words in sequential twin streams. Offset base and
   word meanings open by design.
   `docs/HAILO10H_CCW_ISOLATION_MINILM_2026-10-24.md`.
-- [ ] Slice4.12 differential design + offset-base
-  discrimination (structured targets;second artifact with
-  one known parameter changed,via the recipe/model-zoo
-  routes);4.13 census hunt in the local driver trees;then
+- [x] AES-NUM-012 slice4.12 offset base RESOLVED (pinned
+  hef.cpp:offsets are CCWS-section-relative,zero = header +
+  proto + padding;numeric consistency vs the artifact
+  verified) + differential design (same-family pair,one
+  declared parameter;fall-back = intra-artifact layer-block
+  differential).
+  `docs/HAILO10H_OFFSET_BASE_AND_DIFFERENTIAL_DESIGN_2026-10-24.md`.
+- [ ] Slice4.13 run the differential (intra-artifact layer
+  blocks first — corpus in hand;pair acquisition in
+  parallel) + census hunt in the local driver trees;then
   broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

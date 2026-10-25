@@ -5251,3 +5251,27 @@ No new capability ID or hardware/complete-source execution claim.
   kind. Next:4.12 differential + base discrimination,4.13
   census hunt in the driver trees.
 - **Audit:** Host-side analysis only;no device bytes.
+
+### AES-NUM-012 — CCW pointer offset base RESOLVED + differential design
+
+- **Status:** `verified` (base resolution + design scope).
+- **Owner:** docs/HAILO10H_OFFSET_BASE_AND_DIFFERENTIAL_DESIGN_2026-10-24.md.
+- **Evidence:** Pinned hef.cpp @d503417f defines the v3 zero
+  point: HEF_HEADER_SIZE_V3 + hef_proto_size + hef_padding —
+  pointer offsets are relative to the CCWS section start
+  (file layout header|protobuf|padding|CCWS). Numerically
+  consistent with the MiniLM artifact (zero ~56.8 KB + max
+  referenced end 11,698,480 <= 11,759,616,trailing ~4.3 KB
+  additional-info). The reader coalesces consecutive pointer
+  actions into config-buffer writes (hef.cpp ~2873).
+- **Design:** pair of same-family HEFs differing by one
+  declared parameter (routes: model-zoo pair > recipe rebuild
+  > hailo-ollama store); align action lists,diff triples,
+  extract changed words under the resolved base; fallback =
+  intra-artifact layer-block differential the corpus already
+  contains. Vendor compiler used only to manufacture evidence
+  artifacts;the product path stays DFC-free (owner scope).
+- **Evidence boundary:** exact zero-point integer awaits a
+  mechanical v3 header decode;word meaning untouched until
+  the differential runs.
+- **Audit:** Source read + host analysis only.

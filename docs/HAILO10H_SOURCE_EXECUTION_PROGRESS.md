@@ -897,3 +897,18 @@ burst unit the field table described,now observed in a real
 artifact. Offset base and word meanings stay open by design;
 the differential slice (4.12) attacks both. The empirical
 road is producing what the document studies could not.
+
+
+2026-10-24 offset base resolved + differential design
+(AES-NUM-012,slice4.12):
+`docs/HAILO10H_OFFSET_BASE_AND_DIFFERENTIAL_DESIGN_2026-10-24.md`.
+The pinned reader source settles what sampling could not:
+CCW pointer offsets are relative to the CCWS section start
+(header|protobuf|padding|CCWS),numerically consistent with
+the MiniLM artifact to within its trailing additional-info.
+The differential experiment is designed (same-family pair,
+one declared parameter changed;model-zoo pair first,recipe
+rebuild second,intra-artifact layer differential as the
+built-in fallback). Next:run the differential;4.13 census
+hunt in the local driver trees. Broad ordinary UNMODIFIED
+source-model support100% remains the campaign's destination.
