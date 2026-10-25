@@ -7983,3 +7983,49 @@ No new capability ID or hardware/complete-source execution claim.
   per-ng-covered groups; middle unit-0 byte hunt; B06/B11
   recurrence anatomy (slice 4.95).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-095 — the sparse neighbourhood form does NOT predict values across the OTHER habitat (zero values enriched ~3x in whole segments, no law; the residue-target pattern is a small-group phenomenon), middle unit 0 is a genuine per-rank form (camps differ only in byte 0; present byte-exact in every individual camp segment; recurs nowhere else in the segment), and the B middle's repeated unit has two copies with different aligned mismatch profiles (2 vs 4), neither inside the skipped chunk
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_SPARSE_FORM_UNIT0_B06B11_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...094 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
+  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
+  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
+  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
+  x12, rank-2 middles 21 mismatches at k = 111, in hef95.py
+  (sha256 ae71d85f...), landed via sha-gated chunked file.write
+  transfer (gz sha256 842dcdf4... verified on-device; script
+  sha verified on-device); output sha256 cf6884e8....
+  Contract docs/TASK_CONTRACT_4.95.md published @ 69d4d2fb
+  before implementation. (i) Common arm: 26 entries in 18
+  unique groups, 11 entries with exactly 1 common offset,
+  480 observations (forms DENSE 220 / SPARSE 141 / MID 119):
+  value == 0 SPARSE 8/141, DENSE 3/220, MID 0/119; per-ng
+  prediction follow rates SPARSE 79/135, DENSE 93/196,
+  MID 55/118 — form independent of the value law. Whole
+  arm: 7,690 candidates, 0 boundary; non-common zero rates
+  SPARSE 144/2,280 (6.3%), DENSE 64/2,898 (2.2%), MID
+  21/2,306 (0.9%) — enrichment, no law. (ii) Unit 0:
+  A 50... / B 60..., differ only in byte 0; bytes 6–7 =
+  8780/8900/8500/8b80 per rank in both camps; every
+  individual segment carries consensus unit 0 exactly
+  (13/13, 12/12, all ranks); full16 recurs only at its
+  own position; window6 recurs only for rank 8 at 1510
+  in both camps (second 8900 pair at 1512, outside the
+  grown region); 2-byte values occur 1x per segment
+  (8900 2x), 0 in own prefix / middle-outside / suffix.
+  (iii) Repeated B unit 010000801080003e2000000000002000
+  at B offsets 96 and 176 only, all ranks, nowhere in A;
+  copy 1 aligned mismatches 2 (A 103, 111), copy 2 4
+  (A 116, 119, 125, 126) at k = 111 and 112; chunk
+  overlaps copy 1 by 1 byte at k = 111, neither at
+  k = 112, and contains no copy of the unit.
+- **Next:** sparse zero-enrichment anatomy (z-split +
+  offset sharing); the second 8900 pair's structure at
+  segment offset 1510; copy-span byte anatomy + chunk /
+  unit alignment (slice 4.96).
+- **Audit:** Host-side analysis only; no device child.

@@ -1449,14 +1449,29 @@
   NGIDX degeneracy = single-
   instance ngs).
   `docs/HAILO10H_DEVIATING_INSTANCES_RANK_UNITS_PERNG_CLASSIFIED_2026-10-24.md`.
-- [ ] Slice4.95 sparse-form
-  census (neighbourhood form vs
-  value law across OTHER-habitat
-  and per-ng-covered groups);
-  middle unit-0 byte hunt;
-  B06/B11 recurrence anatomy;
-  then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] Slice4.95 sparse-form
+  census (sparse does NOT predict
+  values habitat-wide: common-arm
+  zero rates SPARSE 8/141, per-ng
+  follow 79/135 vs DENSE 93/196;
+  whole-arm zero enrichment 6.3%
+  vs 2.2%/0.9%, no law); unit 0
+  is a per-rank form (camps differ
+  only byte 0; every segment
+  carries it exactly; recurs
+  nowhere else); B06/B11 two
+  copies, aligned mismatches
+  2 vs 4, neither in the chunk.
+  `docs/HAILO10H_SPARSE_FORM_UNIT0_B06B11_2026-10-24.md`.
+- [ ] Slice4.96 sparse
+  zero-enrichment anatomy
+  (z-split + offset sharing);
+  second 8900 pair structure at
+  segment offset 1510; copy-span
+  byte anatomy + chunk/unit
+  alignment; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

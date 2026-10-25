@@ -2628,3 +2628,26 @@ degenerate exactly where a group contributes a single instance.
 Next: census the sparse form itself, hunt the unit-0 bytes, and
 anatomise the B middle's one repeated unit. Broad ordinary
 UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 sparse census, unit-0 hunt, B06/B11 anatomy (AES-NUM-095,slice4.95):
+`docs/HAILO10H_SPARSE_FORM_UNIT0_B06B11_2026-10-24.md`.
+The sparse neighbourhood that marked all five leftover ff targets
+does not generalise: across the whole OTHER habitat, sparse
+instances are zero-valued only 8 times in 141 at common offsets,
+and they follow or break their offsets' per-network-group laws at
+the same rates as dense ones — the form and the value law are
+independent there, and the residue pattern stays a small-group
+phenomenon. Walked through whole segments, sparse words do carry
+zero values about three times as often as dense ones (6.3% against
+2.2%), an enrichment and not a law. The camp middles' first unit
+turns out to be a genuine per-rank form: both camps carry it in
+every single segment byte-for-byte, the camps differ only in its
+first byte, the rank lives in two bytes, and the unit recurs
+nowhere else in the segment — save one stray copy of the rank-8
+pair early in both camps. And the B middle's one repeated unit
+sits in exactly two copies that face different A content (two
+aligned mismatches against four) and neither copy lives inside
+the skipped chunk; the first copy merely ends where the chunk
+begins. Next: which sparse candidates carry the zeros, what holds
+the stray rank-8 pair, and the copy spans byte by byte. Broad
+ordinary UNMODIFIED source-model support100% remains the destination.
