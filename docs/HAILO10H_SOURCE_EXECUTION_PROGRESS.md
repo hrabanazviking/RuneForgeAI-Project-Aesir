@@ -1722,3 +1722,26 @@ corpus-wide, what places the 97xx block, and the
 shoulder stretches against their intervening
 contexts. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 low-none corpus, 97xx placement, stretches (AES-NUM-057,slice4.57):
+`docs/HAILO10H_LOWNONE_CORPUS_97XX_PLACEMENT_STRETCHES_2026-10-24.md`.
+The low-none form found inside the dense negatives is
+not theirs alone: it is a cc9b9d1c-only population of
+21 contexts — 15 maximal and reversed, 6 reduced and
+normal — each led by exactly one of three step-8
+segments that never mix (a 93 ladder, an 89 ladder
+that is the low ladder's missing lower half, and a
+98 ladder running through the 97xx band), and three
+of its maximal members are family contexts. The
+97xx module's canonical block turns out to follow
+the network group: at ordinal 43 only in maximal
+ng0 contexts, at ordinal 0 predominantly in ng1.
+And the shoulder stretches are short-gap runs in a
+stream that mirrors its own window-lead sequences
+at context offset +137 — family contexts recur
+there, eight times out of nine with the same
+shoulder side. Next: the mirror's full extent, the
+reduced low-none six, and the two ng0 block0
+exceptions. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

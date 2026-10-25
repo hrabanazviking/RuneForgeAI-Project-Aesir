@@ -6629,3 +6629,39 @@ No new capability ID or hardware/complete-source execution claim.
   placement (0 vs 43 vs scatter);shoulder stretches vs
   intervening contexts (slice 4.57).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-057 — Low-none corpus-wide, 97xx placement, shoulder stretches
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_LOWNONE_CORPUS_97XX_PLACEMENT_STRETCHES_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...056 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef57.py (sha256 10f6275f...) and hef57b.py (8aa9fb00...).
+  (i) The low-none form is cc9b9d1c-only: refined signature
+  (nlow<=1, n94==0, one segment dose>=20) hits exactly 21
+  contexts corpus-wide, all cc9 — 15 maximal (738 acts, 32016
+  x96, reversed: the 12 dense + POS cidx 1/29/166) and 6 reduced
+  (606-607 acts, 32016 x32, normal). Three mutually exclusive
+  lead segments, never co-occurring: 93-led 9288-9392 x6 of the
+  12 (dose 56-64), 89-led 8888-8952 x4 (53-58; the low ladder's
+  missing lower half), 98-led 9800-9856 x2 (63-64, ladder
+  running through the 97xx band to 9840). Outside cc9 the 93
+  segment is in zero contexts, the 89 in one (dose 1).
+  (ii) 97xx placement follows network group: block43 x12 are
+  ALL ng0 and ALL maximal (738/96/96; 10 exact late template;
+  no 97 lead before ordinal 43); block0 x13 are 11 ng1 maximal
+  + ng0 exceptions cidx 54/110. Mid x26 / scatter x23 span both
+  groups. Placement rule beyond the ng correlation NOT PROVEN.
+  (iii) Shoulder stretches are short-gap runs (within gaps mean
+  4.9 vs switch 23.9; the 66-gap crosses the midpoint); the cc9
+  stream mirrors at cidx +137 in LEAD sequences (72/134 pairs
+  byte-identical leads, 0/134 mid-sizes, 0 at offsets 1-139 for
+  sizes); POS recurs at +137 in 9/10 eligible, side preserved
+  8/9 (exception 85 hi -> 222 lo). Intervening contexts do not
+  select side (32016 24.6 vs 24.9); only low-ladder dose
+  differs (0.91 within-stretch vs 5.29 switch).
+- **Next:** +137 lead-mirror extent corpus-wide; reduced-grade
+  low-none six anatomy; block0 ng0 exceptions cidx 54/110
+  (slice 4.58).
+- **Audit:** Host-side analysis only; no device child.

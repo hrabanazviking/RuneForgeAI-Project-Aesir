@@ -707,12 +707,24 @@
   gap-1 74.4%,canonical 21-block at ordinal 0 or
   43,exact templates x10/x8).
   `docs/HAILO10H_SHOULDER_SIDE_DENSE_SPLIT_97XX_POSITIONS_2026-10-24.md`.
-- [ ] Slice4.57 low-none population corpus-wide
-  (93xx/89xx form outside the 12 dense contexts?);
-  97xx block placement (0 vs 43 vs scatter — what
-  differs);shoulder-side stretches vs the contexts
-  between family contexts;then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] Slice4.57 low-none population corpus-wide:
+  form is cc9-only,21 contexts (15 maximal reversed
+  + 6 reduced normal),three mutually exclusive lead
+  segments 93-led 9288-9392 / 89-led 8888-8952 /
+  98-led 9800-9856,spans POS/DENSE/OTHER;97xx block
+  at ordinal 43 only in maximal ng0 contexts,at 0
+  predominantly ng1 (11/13);shoulder stretches are
+  short-gap runs (4.9 vs 23.9) and the cc9 stream
+  mirrors at cidx +137 in lead sequences (72/134
+  identical,POS 9/10 recurring,side 8/9 preserved);
+  intervening contexts differ only in low-ladder
+  dose (0.91 vs 5.29).
+  `docs/HAILO10H_LOWNONE_CORPUS_97XX_PLACEMENT_STRETCHES_2026-10-24.md`.
+- [ ] Slice4.58 +137 lead-mirror extent corpus-wide
+  (which contexts/artifacts);reduced-grade low-none
+  six anatomy vs the maximal 15;block0 ng0
+  exceptions (cidx 54,110) anatomy;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
