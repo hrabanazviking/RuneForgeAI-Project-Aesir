@@ -4594,3 +4594,39 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Additive test files plus the one recorded primitive
   comment/pre-check change;oracle and fault library untouched.
   Failures retained;no global/hosted-CI pass.
+
+### AES-TRANSFER-004 — Grouped transfer primitive, one bounded physical exchange
+
+- **Status:** `verified` (physical scope: one control-class exchange)
+- **Owner:** Original smidr/tools/group_transfer_probe.mojo over
+  hailbru/soc_transfer.mojo (AES-TRANSFER-002),consumer layer as
+  qualified under AES-TRANSFER-003.
+- **Claim sources:** TASK_hailo10h_grouped_transfer_physical.md
+  published 55a4b9ba before code;
+  docs/HAILO10H_GROUPED_TRANSFER_PHYSICAL_2026-10-24.md.
+- **Executable evidence:** Host gates on Mimir:derived probe suite
+  (same device oracle/aligned observer as AES-CONTROL-018) 7 tests
+  OK. Profile re-checked read-only immediately before the run
+  (kernel 6.12.112-v8-16k-hailo+,page16384,PCIe 0x1e60/0x45c4;
+  driver 5.3.0 profile validated by the owner query before
+  allocation). Exactly ONE physical child (setsid,20 s process-group
+  watchdog,aligned observer),rc=0:accepted,exchange completed,
+  descriptor returns exactly 5/5 as spec S2 predicts,3 interrupt
+  snapshots,input/output completions 1/1,typed CREATE reply
+  validated at the consumer layer (id/action exact,status 0,handle
+  present;value unpublished),not poisoned,retained_views 0,
+  finalization confirmed. Observer:54 calls,0 dropped,
+  owner_at_exit -1. Hashes published in the evidence document;raw
+  evidence stays local on the Pi.
+- **Evidence boundary:** One exchange only. IDENTIFY completion and
+  DESTROY remain unproven (AES-CONTROL-018);the handle this CREATE
+  made was NOT logically destroyed — the residue stated in the
+  contract before the run. Campaign 1's exit condition remains
+  unmet. Numerical configuration/packing/placement,program
+  transfer/activation/execution and source-model support unproven.
+- **Next acceptance gate:** Campaign 3 slice 3.1 (program resource
+  lifecycle interface qualification). Campaign 2's exit condition
+  is met by AES-TRANSFER-001..004.
+- **Audit:** One child only;contract-first order preserved
+  (contract 55a4b9ba,diagnostic+suite c88b2753). Failures retained;
+  no global/hosted-CI pass.

@@ -484,6 +484,24 @@ Numerical/packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
 
 
+2026-10-24 grouped transfer primitive,one bounded physical exchange:
+`docs/HAILO10H_GROUPED_TRANSFER_PHYSICAL_2026-10-24.md`
+(AES-TRANSFER-004,Campaign2 slice2.4). Under the contract published
+at 55a4b9ba,the primitive's diagnostic was host-qualified on Mimir
+(7 tests OK) and exactly one physical child ran one CREATE exchange
+through SocGroupedTransfer on the real Hailo-10H:ACCEPTED —
+descriptor returns exactly5/5 as the S2 semantics predict,
+directional completions 1/1 across 3 snapshots,typed reply validated
+at the consumer layer,not poisoned,retained views0,finalization
+confirmed,observer 54 calls with the device fd closed. Campaign2's
+exit condition is met. The created handle was not logically
+destroyed (the residue stated in the contract);IDENTIFY completion
+and DESTROY remain unproven and Campaign1's exit remains unmet.
+Next is Campaign3 slice3.1,program resource lifecycle interface
+qualification. Numerical/packing/placement/program/results and
+broad ordinary UNMODIFIED source-model support100% remain work.
+
+
 2026-10-24 grouped transfer primitive host qualification:
 `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`
 (AES-TRANSFER-003,Campaign2 slice2.3). The derived aligned suite

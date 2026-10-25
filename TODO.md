@@ -47,12 +47,19 @@
   child,one CREATE exchange through the primitive on aligned backing,
   consumer-layer reply validation,known handle residue stated up
   front,host gates on the Pi first.
-- [ ] Slice2.4 implementation:physical diagnostic for the primitive,
-  host-qualified on the Pi,then exactly ONE physical child under the
-  contract;write-up AES-TRANSFER-004. Then Campaign3 program
-  resource lifecycle;then numerical configuration/packing/
-  placement/program/results and broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] AES-TRANSFER-004 slice2.4 physical confirmation:diagnostic
+  host-qualified on the Pi (7 tests OK),then exactly ONE physical
+  child under the contract — ACCEPTED:one CREATE exchange through
+  the primitive completed on the real Hailo-10H (descriptors 5/5,
+  completions 1/1,typed reply validated,retained 0,finalization
+  confirmed). Campaign2 exit MET. The created handle was not
+  logically destroyed (contract-stated residue);Campaign1 exit
+  still unmet. `docs/HAILO10H_GROUPED_TRANSFER_PHYSICAL_2026-10-24.md`.
+- [ ] Campaign3 slice3.1 program resource lifecycle interface
+  qualification (from qualified public interfaces + the Campaign2
+  primitive;no invented values),then 3.2 host implementation;then
+  numerical configuration/packing/placement/program/results and
+  broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
