@@ -763,12 +763,27 @@
   whose 64 windows are all 9400-9488, lead set a
   strict subset of cidx 2's, missing its 97xx family.
   `docs/HAILO10H_SHARED140_SEAM_PAIRS_139_2026-10-24.md`.
-- [ ] Slice4.61 seam trio anatomy (137/138 windowless
-  499/507 vs cycle classes); companion table
-  completion (0856 24-class variable n32016 0-24 vs
-  position; 0856 cidx 7/19/31 139-companion
-  exceptions); second-pass cycle (245,256,738,606)
-  class anatomy vs the first pass's; then broad
+- [x] Slice4.61 seam trio anatomy:137/138 are complete
+  contexts (skeleton,trailer,champion 29,ng 1;499/507
+  unique corpus-wide) built on a 96-fold triplet block
+  (7952/32784/26896 x96,disjoint 6160s/6500s small
+  vocabularies);0856 24-class n32016 dose = filled
+  amount of a templated middle block (two full-dose
+  position templates,8-dose = exact prefix,sparse
+  off-template,no selector);per-window companion
+  pairing REFUTED (30480 intervals irregular in all
+  140-class contexts;count equality is global only;
+  exceptions are a step-12 sub-rail 7/19/31);second
+  pass cycle = first pass merged+shifted (738/245
+  preserved,259->256 by -3x80B/-1x32784,607+606
+  merged into 606 with rail head cidx 2 replaced by
+  seam 139;classes 28->27,ng flips).
+  `docs/HAILO10H_SEAM_TRIO_COMPANION_CYCLE2_2026-10-24.md`.
+- [ ] Slice4.62 96-fold triplet block anatomy (cycle
+  period/order,small-size vocabulary;128/160-dose
+  form in 0a0d378c); sparse-dose 32016 positions vs
+  templates (third template?); interruption zones
+  compared (cc9 cidx 111-135 vs 248-270); then broad
   ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

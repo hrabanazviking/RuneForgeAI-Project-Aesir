@@ -6759,3 +6759,34 @@ No new capability ID or hardware/complete-source execution claim.
   (0856 24-class variable n32016; 139-companion exceptions);
   second-pass cycle class anatomy (slice 4.61).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-061 — Seam trio, companion completion, second-pass cycle
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_SEAM_TRIO_COMPANION_CYCLE2_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...060 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef61.py (sha256 7b820e6b...) and hef61b.py (dcdc1c43...).
+  (i) Seam contexts 137/138 are complete (skeleton quartet,
+  invariant end block, champion 29, ng 1; action counts 499/507
+  unique corpus-wide) built on a 96-fold interleaved triplet
+  block (7952/32784/26896 x96 each; disjoint small-size
+  vocabularies 6160s vs 6500s; champion first-15 share zero
+  positions, coda universal). (ii) The 0856 24-class n32016
+  dose is the filled amount of a templated middle block
+  (full-dose position templates in two variants; 8-dose =
+  exact template prefix; sparse doses off-template; no
+  position/channel/ng/order selector). REFUTED: per-window
+  companion pairing in the 140 class — 30480-per-window
+  intervals are irregular (0-5, 8-9 trailing) in regular
+  contexts too; n30480==nwin and the 139 exceptions
+  (step-12 sub-rail cidx 7/19/31) are global count
+  equalities only. (iii) Second-pass cycle = first pass
+  merged and shifted: 738/245 preserved (245 order flips
+  to normal), 259->256 by -3x80B and -1x32784 per context,
+  607+606 merged into 606 (27 members) with the rail head
+  cidx 2 (n32016 87) replaced by seam context 139; all
+  classes 28->27, ng flips to 1.
+- **Next:** 96-fold triplet block anatomy; sparse-dose
+  template test; interruption-zone comparison (slice 4.62).

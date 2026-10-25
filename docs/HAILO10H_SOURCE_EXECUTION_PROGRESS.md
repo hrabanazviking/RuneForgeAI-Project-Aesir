@@ -1819,3 +1819,21 @@ Next: the seam trio's anatomy, the companion table's
 loose ends, and the second pass's shifted cycle.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 seam trio, companion completion, second-pass cycle (AES-NUM-061,slice4.61):
+`docs/HAILO10H_SEAM_TRIO_COMPANION_CYCLE2_2026-10-24.md`.
+The two windowless seam contexts turn out to be complete
+contexts in their own right, built on a 96-fold triplet
+block that appears at that dose nowhere else in their
+artifact. The companion table's loose ends resolve two
+ways: the variable dose in one monoculture class is how
+much of a templated block a context carries, while the
+other class's companion equality is proven to be a global
+count only — there is no per-window pairing to encode.
+And the second pass's shifted cycle is the first pass's
+classes merged, with the rail head's slot taken by the
+seam fragment itself. Next: the triplet block's anatomy,
+the sparse-dose template test, and the two interruption
+zones compared. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
