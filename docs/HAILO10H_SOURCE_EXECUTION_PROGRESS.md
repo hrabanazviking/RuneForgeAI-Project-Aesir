@@ -2485,3 +2485,22 @@ Next: what separates the +1 populations from the negative-constant
 ones and what sets each artifact's constant, the 113/302/311 kinship,
 and the four extra tails compared byte-for-byte. Broad ordinary
 UNMODIFIED source-model support100% remains the destination.
+
+2026-10-24 ng scalar law unified, kinship dissolved, tails compared (AES-NUM-089,slice4.89):
+`docs/HAILO10H_NG_SCALAR_LAW_KINSHIP_TAILS_2026-10-24.md`.
+The +1-versus-negative mystery ends in a single law: every variable
+ff population is pure to one network group, ng 0 populations read
+cidx + 1 and ng 1 populations read cidx minus a constant, and that
+constant is exactly one less than the cidx where ng 1 begins — so
+the scalar is simply the context's 1-based position inside its own
+network group, in all 372 populations, no exceptions. The supposed
+kinship between cidx 113 and contexts 302/311 dissolves under the
+same lens: 302 and 311 are ordinary siblings (296 agreements with
+the consensus, 298 with each other, zero byte-identical actions),
+while 113 agrees with everyone at the same 62 tail positions only.
+And the staircase's four extra tails are one family — 58 shared
+bytes, one varying byte — present once in both camps, displaced by
+exactly 64 times the step index. Next: the constant ff offsets
+under the unified law, the full camp stream alignment, and whether
+first-in-train distinction repeats in other trains. Broad ordinary
+UNMODIFIED source-model support100% remains the destination.

@@ -1341,17 +1341,41 @@
   ff ranks 2/8/22/26, and the four
   extra tails share a 32 B opening.
   `docs/HAILO10H_CIDX_LAW_CORPUS_SCHEDULE_REGIONS_2026-10-24.md`.
-- [ ] Slice4.89 what distinguishes
-  the C = +1 ff populations from
-  the negative-C ones (network
-  group / position / size / cidx
-  range) and what sets each
-  artifact's negative constant;
-  cidx 113 vs 302/311 kinship
-  (where the boundary matches
-  sit); the four extra 64 B
-  tails byte-for-byte (identical,
-  shifted, or same-headed only);
+- [x] Slice4.89 the separator is
+  network-group membership
+  exactly (ng 0 -> C = +1, 181
+  groups; ng 1 -> the artifact's
+  negative constant, 191; every
+  other feature mixed) and the
+  constant is 1 minus the ng-1
+  start cidx (100/74/95/93/134 ->
+  -99/-73/-94/-92/-133): ONE law,
+  scalar = cidx - ng_start + 1,
+  the context's 1-based position
+  in its own network group; the
+  113/302/311 kinship DISSOLVES
+  (302/311 agree with consensus
+  at 296, with each other at
+  298, content-equal 0 incl.
+  0/155; 113 agrees with all at
+  the same 62 tail positions);
+  the four extra tails share
+  bytes 0-57, differ at byte 58
+  (86/88/84/8a), are camp-constant
+  and occur once in BOTH camps,
+  displaced by 64 x step index.
+  `docs/HAILO10H_NG_SCALAR_LAW_KINSHIP_TAILS_2026-10-24.md`.
+- [ ] Slice4.90 constant ff
+  offsets + the 0a0d exception's
+  second offset under the unified
+  law (every aligned ff word:
+  constant or within-ng index?);
+  camp stream alignment
+  (duplicated vs displaced
+  chunks; tail chunks' homes in
+  camp 21392's region map);
+  first-in-train distinction
+  test in other artifacts/trains;
   then broad ordinary UNMODIFIED
   source-model support100%.
 

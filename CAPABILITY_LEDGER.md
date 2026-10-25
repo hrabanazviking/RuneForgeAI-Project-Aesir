@@ -7746,3 +7746,43 @@ No new capability ID or hardware/complete-source execution claim.
   cidx 113 vs 302/311 kinship anatomy; the four extra tails
   byte-for-byte (slice 4.89).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-089 — the variable ff scalar is the context's 1-based within-network-group index (ng membership separates the +1 / negative classes exactly; each artifact's negative constant is 1 minus its ng-1 start cidx), the 113/302/311 kinship dissolves (302/311 are ordinary near-consensus siblings; 113 agrees with everyone at the same 62 tail positions; content kinship zero), and the four extra tails are one 58-byte-shared family present once in both camps, displaced by exactly 64 x step index
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_NG_SCALAR_LAW_KINSHIP_TAILS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...088 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef89.py (sha256 26a4fb71...), landed via 14 individually
+  sha256-gated 373 B parts (assembled gz sha256 1ee67f30...
+  matching; script sha verified on-device; one earlier
+  single-shot receiver write failed its sha gate and was
+  discarded uncommitted); output sha256 8dd30e87....
+  Contract docs/TASK_CONTRACT_4.89.md published @ b5b5e8ab
+  before implementation. (i) All 372 variable ff groups are
+  ng-pure and ng separates C exactly: ng 0 -> C = +1 (181
+  groups), ng 1 -> the artifact's negative constant (191);
+  position/size/counts/artifact all mixed. -C = (first cidx
+  of ng 1) - 1 in every artifact (100->-99, 74->-73, 95->-94
+  sisters, 93->-92, 134->-133): one law, scalar = cidx -
+  ng_start + 1, the context's 1-based position inside its
+  own network group. (ii) 113 vs 302/311: per-position
+  agreements from 41 are exactly 62 for both, identical
+  thirds (6/0/56 — the shared tail); 302 vs 311 agree at
+  298 and each at 296 vs consensus, while 113 vs consensus
+  is the same 62; content-equal actions ZERO in every
+  equal-count matched group (incl. 0/155 for 302 vs 311).
+  No special kinship; 088's counts were a total-byte
+  artefact. (iii) The four extra tails are identical across
+  all 12 camp-21648 segments, share bytes 0-57, first differ
+  at byte 58 (0x86/0x88/0x84/0x8a), occur exactly once in
+  each camp's representative, with B-minus-A offsets
+  64/128/192/256 = 64 x step index; no tail equals its
+  neighbouring or own-head 64 B.
+- **Next:** constant ff offsets + the 0a0d exception's second
+  offset under the unified law; camp stream alignment
+  (duplicated vs displaced chunks; tail chunks' homes in
+  camp 21392's region map); first-in-train distinction test
+  in other artifacts/trains (slice 4.90).
+- **Audit:** Host-side analysis only; no device child.
