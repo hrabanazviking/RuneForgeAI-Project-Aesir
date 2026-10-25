@@ -1,7 +1,7 @@
 # Original typed grouped lifecycle. A fresh owner per call; no borrowed handle.
 # Host qualified only. File finalization never confirms logical destruction.
 from hailbru.errors import herror
-from hailbru.soc_group_rpc import open_soc_group_rpc
+from hailbru.soc_group_rpc import SocGroupRpcClient, open_soc_group_rpc, open_soc_group_rpc_aligned
 from hailbru.hrpc_device import HrpcDeviceIdentity, device_create_request, device_create_reply, device_identify_request, device_identify_reply, device_destroy_request, device_destroy_reply
 from hailbru.syscall import os_clock_ms
 
@@ -67,10 +67,7 @@ struct GroupDeviceResult(Movable):
         return self.primary_error.byte_length() == 0 and self.close_error.byte_length() == 0 and self.identity_present and self.destroy_confirmed
 
 
-def run_group_device(sysfs_root: String, dev_root: String, timeout_ms: Int64) raises -> GroupDeviceResult:
-    # Establishment has its existing owner/unwind behavior. The single lifecycle
-    # budget begins only after fresh transport/storage establishment succeeds.
-    var client = open_soc_group_rpc(sysfs_root, dev_root)
+def _group_device_lifecycle(var client: SocGroupRpcClient, timeout_ms: Int64) -> GroupDeviceResult:
     var result = GroupDeviceResult()
     try:
         var clock = GroupDeviceDeadline(os_clock_ms(client.session.driver.arch), timeout_ms)
@@ -130,3 +127,15 @@ def run_group_device(sysfs_root: String, dev_root: String, timeout_ms: Int64) ra
     result.retained_views = Int(client.session.input_storage.address != 0) + Int(client.session.output_storage.address != 0)
     result.finalization_unconfirmed = client.session.finalization_unconfirmed
     return result^
+
+
+def run_group_device(sysfs_root: String, dev_root: String, timeout_ms: Int64) raises -> GroupDeviceResult:
+    # Establishment has its existing owner/unwind behavior. The single lifecycle
+    # budget begins only after fresh transport/storage establishment succeeds.
+    return _group_device_lifecycle(open_soc_group_rpc(sysfs_root, dev_root), timeout_ms)
+
+
+def run_group_device_aligned(sysfs_root: String, dev_root: String, timeout_ms: Int64) raises -> GroupDeviceResult:
+    # The same typed lifecycle over the explicit aligned grouped backing.
+    # Host qualification only until a separate physical contract.
+    return _group_device_lifecycle(open_soc_group_rpc_aligned(sysfs_root, dev_root), timeout_ms)

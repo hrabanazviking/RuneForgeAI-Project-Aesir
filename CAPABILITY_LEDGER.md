@@ -4382,3 +4382,42 @@ No new capability ID or hardware/complete-source execution claim.
   after owning-file close. Disable/channel-close/unmaps/list releases succeed.
   No all-failure hardware idle or remote-close proof.723/93 final inputs,
   23 Mojo/7 C links,60 ELF tables. Failures retained;no global/hosted-CI pass.
+
+### AES-CONTROL-017 — Aligned grouped control backing (host qualification)
+
+- **Status:** `verified` (host scope only)
+- **Owner:** Original hailbru/soc_storage.mojo,soc_session.mojo,
+  soc_group_rpc.mojo,soc_group_device.mojo (aligned entry points only).
+- **Claim sources:** TASK_hailo10h_aligned_grouped_control.md published
+  be9db5d6 before code;docs/HAILO10H_ALIGNED_GROUPED_CONTROL_2026-10-24.md.
+- **Implementation evidence:** Typed SocRpcLayout admitted only for
+  power-of-two descriptor pages in[64,32768];aligned backing places the
+  20-byte header at map offset0 and the 2048-byte body at offset page
+  (extent page+2048;512 policy→512/2560). CPU-owned scatter/gather clears the
+  whole mapped extent and projects the exact2068-byte logical wire;legacy
+  layout(0,20,2068) and all legacy entry points/defaults are preserved.
+- **Executable evidence:** New aligned suites pass in full:storage layout/
+  scatter6 tests,grouped control10 tests,typed grouped lifecycle12 tests
+  (oracle asserts map extents2560/2068,H2D span offset512,gap[20,512) zero,
+  gathered canonical wire). Legacy grouped control10 and device12 suites pass
+  rebuilt from edited sources with per-run stdout/stderr/exit byte-identical
+  to pristine baselines across574+784 runs;storage bytes4 and session
+  finalization6 pass. soc_group codec suite fails5/8 only on refusal-stream
+  placement (this VM's Mojo build prints unhandled exceptions to stdout,not
+  stderr);the pristine codec tool fails the identical5 — environment
+  artifact,codec files untouched. Hardware suites (soc_storage/soc_session/
+  soc_rpc) skip without --hardware and were not run.
+- **Evidence boundary:** Host mocks only. No physical child was built or run
+  under this contract;the AES-CONTROL-016 offset rejection remains the only
+  physical grouped evidence. Aligned acceptance by the real driver,DMA,
+  descriptor or IRQ completion,numerical configuration/packing/placement,
+  program execution and source-model support are all unproven.
+- **Next acceptance gate:** A separately published one-shot physical
+  contract for exactly one grouped lifecycle on the aligned backing
+  (roadmap slice1.4),then numerical configuration/packing/placement/original
+  program/results and broad ordinary UNMODIFIED source-model support100%.
+- **Audit:** Changes confined to the contract's four scoped modules plus new
+  aligned tools/tests;15 final source files frozen with a SHA-256 manifest.
+  One transient legacy-control failure under triple-suite CPU contention
+  passed individually and on full rerun;recorded as contention flakiness.
+  Failures retained;no global/hosted-CI pass.

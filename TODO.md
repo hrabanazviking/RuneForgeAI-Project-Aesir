@@ -1,3 +1,20 @@
+## 2026-10-24 — Aligned grouped backing,host qualification
+
+- [x] AES-CONTROL-017 aligned backing under
+  `TASK_hailo10h_aligned_grouped_control.md`:typed layout admission
+  (power-of-two page in[64,32768]),header@0/body@page,extent page+2048,
+  CPU-owned scatter/gather with deterministic gap clearing and exact
+  2068-byte projection;legacy defaults preserved. New aligned suites pass
+  (storage6,control10,lifecycle12);legacy grouped control10/device12 pass
+  rebuilt with byte-identical observable outputs vs pristine baselines
+  (574+784 runs);storage bytes4 and session finalization6 pass.
+  `docs/HAILO10H_ALIGNED_GROUPED_CONTROL_2026-10-24.md`. No physical child
+  was built or run under this contract.
+- [ ] Separately published one-shot physical contract for exactly one
+  grouped lifecycle on the aligned backing (roadmap slice1.4),then
+  numerical configuration/packing/placement/program/results and broad
+  ordinary UNMODIFIED source-model support100%.
+
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

@@ -405,3 +405,18 @@ handle/identity/assigned completion;local cleanup is accounted separately from
 remote/hardware idle. The batch is closed without repeat. Next host work follows
 `TASK_hailo10h_aligned_grouped_control.md`;numerical/packing/placement/program/
 results and broad ordinary UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 aligned grouped backing host qualification:
+`docs/HAILO10H_ALIGNED_GROUPED_CONTROL_2026-10-24.md` (AES-CONTROL-017). The
+grouped owner now admits a typed aligned layout (descriptor page a power of
+two in[64,32768];header at map offset0,body at offset page,extent page+2048)
+behind new explicit entry points,with CPU-owned scatter/gather projecting
+the exact2068-byte logical wire and the gap deterministically zero. Aligned
+storage6,control10 and typed lifecycle12 suites pass;legacy grouped
+control10/device12 pass rebuilt with byte-identical observable outputs
+across574+784 pristine-baseline scenarios. No physical child was built or
+run. Next is a separately published one-shot physical contract for one
+grouped lifecycle on the aligned backing (roadmap slice1.4);numerical/
+packing/placement/program/results and broad ordinary UNMODIFIED
+source-model support100% remain work.

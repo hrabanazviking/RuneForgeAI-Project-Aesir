@@ -2,7 +2,7 @@
 # separate physical contract;no prepared queue or numerical/model operation.
 from hailbru.errors import herror
 from hailbru.soc_session import SocSession, open_soc_session, SOC_SESSION_DESC_COUNT
-from hailbru.soc_storage import SOC_RPC_STORAGE_SIZE
+from hailbru.soc_storage import SOC_RPC_STORAGE_SIZE, SOC_RPC_HEADER_SIZE
 from hailbru.soc_exchange_progress import SocExchangeProgress
 from hailbru.soc_group import SocUserptrSpan, SocUserptrGroup, encode_soc_group
 from hailbru.soc_abi import soc_transfer
@@ -24,6 +24,8 @@ struct SocGroupRpcClient(Movable):
     var output_address: UInt64
     var input_mapping: UInt64
     var output_mapping: UInt64
+    var input_body_offset: UInt64
+    var input_mapped_size: UInt64
     var exchanges: UInt64
     var input_completions: UInt64
     var output_completions: UInt64
@@ -45,6 +47,8 @@ struct SocGroupRpcClient(Movable):
         self.output_address = 0
         self.input_mapping = 0
         self.output_mapping = 0
+        self.input_body_offset = SOC_RPC_HEADER_SIZE
+        self.input_mapped_size = SOC_RPC_STORAGE_SIZE
         self.exchanges = 0
         self.input_completions = 0
         self.output_completions = 0
@@ -66,6 +70,8 @@ struct SocGroupRpcClient(Movable):
             raise herror("SocGroupOwner", "session assignment differs from its captured owner")
         if self.session.input_storage.address != self.input_address or self.session.output_storage.address != self.output_address or self.session.input_storage.handle != self.input_mapping or self.session.output_storage.handle != self.output_mapping:
             raise herror("SocGroupOwner", "control storage differs from its captured owner")
+        if self.session.input_storage.body_offset() != self.input_body_offset or self.session.input_storage.mapped_size() != self.input_mapped_size:
+            raise herror("SocGroupOwner", "control storage layout differs from its captured owner")
         if self.input_address == 0 or self.output_address == 0 or not self.session.input_storage.mapped or not self.session.output_storage.mapped or self.session.input_storage.owner_fd != self.owned_fd or self.session.output_storage.owner_fd != self.owned_fd or self.session.input_storage.direction != 1 or self.session.output_storage.direction != 2:
             raise herror("SocGroupOwner", "control storage is not mapped on its owning file")
 
@@ -78,7 +84,7 @@ struct SocGroupRpcClient(Movable):
         self._owned()
         var spans = List[SocUserptrSpan]()
         spans.append(SocUserptrSpan(self.input_address, UInt64(HRPC_HEADER_BYTES)))
-        spans.append(SocUserptrSpan(self.input_address + UInt64(HRPC_HEADER_BYTES), UInt64(HRPC_MAX_BODY_BYTES)))
+        spans.append(SocUserptrSpan(self.input_address + self.input_body_offset, UInt64(HRPC_MAX_BODY_BYTES)))
         return SocUserptrGroup(UInt64(self.input_channel), self.input_handle, spans)
 
     def exchange(mut self, frame: HrpcFrame, timeout_ms: Int64) raises -> HrpcFrame:
@@ -154,11 +160,14 @@ struct SocGroupRpcClient(Movable):
             raise Error(original)
 
 
-def open_soc_group_rpc(sysfs_root: String, dev_root: String) raises -> SocGroupRpcClient:
+def _open_soc_group_rpc(sysfs_root: String, dev_root: String, aligned: Bool) raises -> SocGroupRpcClient:
     var client = SocGroupRpcClient()
     client.session = open_soc_session(sysfs_root,dev_root)
     try:
-        client.session.allocate_rpc_storage()
+        if aligned:
+            client.session.allocate_rpc_storage_aligned()
+        else:
+            client.session.allocate_rpc_storage()
         client.owned_fd = client.session.driver.fd
         client.input_handle = client.session.input_handle
         client.output_handle = client.session.output_handle
@@ -168,6 +177,8 @@ def open_soc_group_rpc(sysfs_root: String, dev_root: String) raises -> SocGroupR
         client.output_address = client.session.output_storage.address
         client.input_mapping = client.session.input_storage.handle
         client.output_mapping = client.session.output_storage.handle
+        client.input_body_offset = client.session.input_storage.body_offset()
+        client.input_mapped_size = client.session.input_storage.mapped_size()
         client.available = True
         client._owned()
     except error:
@@ -178,3 +189,14 @@ def open_soc_group_rpc(sysfs_root: String, dev_root: String) raises -> SocGroupR
             raise herror("SocCleanupFailed", original + "; " + String(cleanup))
         raise Error(original)
     return client^
+
+
+def open_soc_group_rpc(sysfs_root: String, dev_root: String) raises -> SocGroupRpcClient:
+    return _open_soc_group_rpc(sysfs_root, dev_root, False)
+
+
+def open_soc_group_rpc_aligned(sysfs_root: String, dev_root: String) raises -> SocGroupRpcClient:
+    # Explicit aligned backing: the grouped input spans sit at descriptor
+    # page aligned offsets inside one larger mapping. Host qualification
+    # only until a separate physical contract admits a device child.
+    return _open_soc_group_rpc(sysfs_root, dev_root, True)

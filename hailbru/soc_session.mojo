@@ -76,6 +76,19 @@ struct SocSession(Movable):
         self.output_storage.allocate(self.driver.arch, 2)
         self.output_storage.map(self.driver)
 
+    def allocate_rpc_storage_aligned(mut self) raises:
+        self.require_open()
+        if self.input_storage.address != 0 or self.output_storage.address != 0:
+            raise herror("SocStorageState", "RPC storage already allocated")
+        # Aligned backing applies to the grouped input storage only; the
+        # output storage remains the scalar 2068-byte layout. The descriptor
+        # page policy is the one this session's descriptor lists were
+        # created with, readmitted by the storage layout before allocation.
+        self.input_storage.allocate_aligned(self.driver.arch, 1, self.page_size)
+        self.input_storage.map(self.driver)
+        self.output_storage.allocate(self.driver.arch, 2)
+        self.output_storage.map(self.driver)
+
     def _interrupt_mask(self) -> UInt64:
         return (UInt64(1) << UInt64(self.input_channel)) | (UInt64(1) << UInt64(self.output_channel))
 
