@@ -912,3 +912,18 @@ rebuild second,intra-artifact layer differential as the
 built-in fallback). Next:run the differential;4.13 census
 hunt in the local driver trees. Broad ordinary UNMODIFIED
 source-model support100% remains the campaign's destination.
+
+
+2026-10-24 zero point confirmed + burst structure
+(AES-NUM-013,slice4.13):
+`docs/HAILO10H_ZERO_POINT_AND_BURST_STRUCTURE_2026-10-24.md`.
+The header-derived zero point (57,344) is confirmed by
+structure emergence:at that base the 153 small bursts show
+18/82/83 distinct lane values (lane0 top word x132);at base
+0 they are pure noise. The six contexts are aligned
+repetitions (57/57/56/58/56/59 small bursts),and lane0 is a
+near-constant header word with lanes1-2 carrying packed
+operands — the differential's foothold. Next:4.14 census
+hunt in the driver trees,4.15 pair acquisition. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination;the empirical road keeps producing.

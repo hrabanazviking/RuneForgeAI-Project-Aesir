@@ -249,10 +249,16 @@
   declared parameter;fall-back = intra-artifact layer-block
   differential).
   `docs/HAILO10H_OFFSET_BASE_AND_DIFFERENTIAL_DESIGN_2026-10-24.md`.
-- [ ] Slice4.13 run the differential (intra-artifact layer
-  blocks first — corpus in hand;pair acquisition in
-  parallel) + census hunt in the local driver trees;then
-  broad ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-013 slice4.13 zero point CONFIRMED empirically
+  (57,344:header decode + source formula + lane-structure
+  emergence,three-way agreement) + burst lane structure
+  (lane0 header word x132/153;6 aligned contexts at
+  57/57/56/58/56/59 small bursts;lanes1-2 packed operands).
+  `docs/HAILO10H_ZERO_POINT_AND_BURST_STRUCTURE_2026-10-24.md`.
+- [ ] Slice4.14 census hunt in the local driver trees
+  (twister fork/fork-5.3);4.15 pair acquisition (model zoo)
+  + cross-artifact differential;per-context lane comparison;
+  then broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

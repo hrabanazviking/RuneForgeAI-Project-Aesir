@@ -5275,3 +5275,25 @@ No new capability ID or hardware/complete-source execution claim.
   mechanical v3 header decode;word meaning untouched until
   the differential runs.
 - **Audit:** Source read + host analysis only.
+
+### AES-NUM-013 — zero point confirmed empirically;burst lane structure
+
+- **Status:** `verified` (zero point + observed statistics).
+- **Owner:** docs/HAILO10H_ZERO_POINT_AND_BURST_STRUCTURE_2026-10-24.md.
+- **Evidence:** Header decode (BE u32s):proto 56,844;ccws
+  11,700,652;padding 444 -> zero 57,344. Lane-distinct test
+  over 153 channel-1/2 24 B bursts:at 57,344 lanes show
+  18/82/83 distinct values with lane0 top count 132/153;at
+  base 0 fully random;at 56,900 (off by the padding) blurred.
+  Three-way agreement (source formula,header,emergence).
+  File arithmetic closes (residue 1,620 B additional-info).
+- **Structure:** 6 contexts x 251-279 ptr actions;small-24
+  counts 57/57/56/58/56/59 per context (aligned repetitions).
+  Lane0 near-constant header word 0x...2805 x132;second
+  family 03080000f8bf...;lanes1-2 packed small-number
+  operands (first burst recorded). No lane named yet.
+- **Evidence boundary:** statistics observed,semantics not
+  claimed. Next:4.14 census hunt (driver trees);4.15 pair
+  acquisition + cross-artifact differential;per-context lane
+  comparison.
+- **Audit:** Host-side analysis only.
