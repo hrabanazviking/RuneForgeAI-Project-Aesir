@@ -1473,3 +1473,26 @@ body comparison, and the 156 middle unit anatomy move
 to slice 4.47 with nothing dropped. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 pair-order hunt, zone bodies, 156 motif
+(AES-NUM-047,slice4.47):
+`docs/HAILO10H_PAIR_ORDER_ZONE_BODY_156_MOTIF_2026-10-24.md`.
+The pair-order bit survives its strongest test: it is
+not a function of the champion operand sequence at any
+granularity — three contexts in 0856a10c share the
+identical non-pair champion stream and pair datums yet
+take both orders, so the head sequence's 0.9993 grouping
+accuracy is a proxy, not a law; the bit must live in the
+datum stream, the size stream, or outside the bursts.
+The five bursts after the pair are a universal constant
+coda in every binary context. The anomaly-zone pairs
+share only the skeleton tail outside their rare/pair
+region — the mirroring is shape, not body. And the 156
+middle resolves as a twelve-block size/channel motif
+with private payload segments, correcting the earlier
+"repeated unit" reading. Next: hunt the bit in the
+datum sequence, anatomize the motif blocks pooled, and
+check the rare bursts' datums against the frozen
+champion map. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

@@ -561,12 +561,27 @@
   distinct triples.Contract scope was the freeze only
   (TASK_hailo10h_marker_encoder_2026-10-25.md).
   `docs/HAILO10H_MARKER_ENCODER_FREEZE_2026-10-24.md`.
-- [ ] Slice4.47 pair-order determination hunt (order
-  vs head-operand identity / first-middle operands);
-  zone-pair body comparison (97 vs 105,98 vs 106
-  outside the rare/pair region);156 middle unit
-  segment anatomy (the 12-fold unit's distinct
-  segments);then broad ordinary UNMODIFIED
+- [x] Slice4.47 pair-order determination hunt;zone-pair
+  body comparison;156 middle motif anatomy: order is
+  NOT a function of the champion operand sequence
+  (0856a10c cidx 15/27/39 share the identical non-pair
+  champion stream and pair datums yet take both orders;
+  headseq accuracy 0.9993 is a proxy,not a law);the
+  five post-pair bursts are one universal coda;zone
+  pairs share only the skeleton tail outside the
+  rare/pair region;the 156 middle is a 12-block motif
+  (3856 x12 per context) with private payloads (1,924
+  distinct segments / 2,288 occurrences,8 universal
+  pre-motif positions) — correcting the 4.45 unit
+  wording.
+  `docs/HAILO10H_PAIR_ORDER_ZONE_BODY_156_MOTIF_2026-10-24.md`.
+- [ ] Slice4.48 pair-order vs body datum sequence
+  (head datums + full datum stream function tests;
+  combined champion + size-stream test on the
+  counterexample stack);motif block anatomy pooled
+  (lead-size law,channel progression,shortened-block
+  frequency);rare-burst datum check vs the frozen
+  champion map;then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

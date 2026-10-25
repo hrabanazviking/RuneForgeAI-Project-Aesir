@@ -6203,3 +6203,41 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** pair-order determination hunt,zone-pair body
   comparison,156 middle unit segment anatomy (slice 4.47).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-047 — pair-order hunt, zone bodies, 156 motif
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_PAIR_ORDER_ZONE_BODY_156_MOTIF_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef47.py (sha256 ddd81ba0...) and hef47b.py (b4a89157...).
+  (i) Pair order is NOT a function of the champion operand
+  sequence at any tested granularity: single head ordinals
+  0-14 leave 36-51 mixed keys (majority accuracy 0.847-0.928),
+  subfields and joint subsets stay mixed,action-size keys
+  stay mixed;head-sequence grouping (383 keys) has exactly
+  ONE mixed group — 0856a10c cidx 15/27 (reversed) and 39
+  (normal) share a byte-identical non-pair champion stream
+  and identical pair datums,yet take both orders (headseq
+  majority accuracy 1427/1428 is a proxy,not a law;their
+  datum and size sequences differ). The five post-pair
+  champion bursts are a UNIVERSAL coda: one operand sequence
+  and one datum sequence in all 1,428 binary contexts.
+  (ii) Zone pairs outside the rare/pair region share only
+  the skeleton tail: champion position-equality 12/27 (the
+  common suffix) in both pairs,set symdiff stays 30,size
+  multiset symdiffs unchanged (154/110);bodies differ
+  outside as much as inside. (iii) The 156 middle has NO
+  exact period: it is a 12-block motif (3856 exactly 12x
+  per context,312 pooled; block (82xx-84xx,3856,32784,
+  32784,30480) with one shortened and one truncated block
+  in the exemplar) carrying private payloads — 1,924
+  distinct segments in 2,288 occurrences,only 8 universal
+  middle positions,all pre-motif. Corrects AES-NUM-045's
+  "12-fold repeated unit" wording.
+- **Next:** pair-order vs body datum sequence + combined
+  champion/size function test;motif block anatomy pooled;
+  rare-burst datum check vs the frozen champion map
+  (slice 4.48).
+- **Audit:** Host-side analysis only;no device child.
