@@ -453,10 +453,19 @@
   sister pair never breaks at 304 B,complementary
   walking byte pair p2-p17.
   `docs/HAILO10H_TRAILING_POOL_176B_JOINT_304B_BREAK_2026-10-24.md`.
-- [ ] Slice4.38 sister-pair head-break anatomy;
-  non-breaker 304 B population (11 distinct);
-  sister-pool lane-1 subfield comparison;then broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-038 slice4.38 sister breaks,non-breaker
+  304 B,sister-pool subfields:sisters break head runs
+  only at large unique data actions (215/219 >=9,336 B,
+  zero shared segments);non-breaker 304 B = 11 channel-2
+  singletons in two slots/anatomies;sister pools are
+  exact enum relabellings (ladder = group rung,flags
+  sets identical,enum sole separator).
+  `docs/HAILO10H_SISTER_BREAK_NONBREAKER_304_SISTER_POOLS_2026-10-24.md`.
+- [ ] Slice4.39 enum-relabelling on body champion
+  pools;position-21 framed 304 B vs other framed
+  forms;sister large-break sizes vs large-action
+  census;then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

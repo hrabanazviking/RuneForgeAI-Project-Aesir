@@ -5906,3 +5906,32 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** sister-pair head-break anatomy,non-breaker 304 B
   population,sister-pool lane-1 subfield comparison (slice 4.38).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-038 — sister breaks, non-breaker 304 B, sister-pool subfields
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_SISTER_BREAK_NONBREAKER_304_SISTER_POOLS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049). Sister pair NEVER breaks
+  at 304 B:its head runs (5-10) end at large data actions —
+  215/219 breaks >=9,336 B in each artifact,4 at 528 B,22/21
+  distinct sizes (17 common,7 counts exact),216/217 distinct
+  segments over 219 breaks,zero segments shared between the
+  sisters,channels vary 0/1/2. Non-breaker 304 B = 11 distinct
+  segments,ONE occurrence each,all channel 2,only 3 artifacts:
+  9 framed forms in 0a0d378c at position 21 (head
+  0328300200801c15,23 nonzero words,p36 0100000000000000) and
+  2 breaker-like forms at position 12 (head 082830020000002e —
+  breaker head with first byte 0x08,p1/p30-35 zero,31 nonzero
+  words). Sister pools:ladder CONSTANT per group = the group
+  rung (0x10f0..0x18f0),const 0x0250 everywhere,flags sets
+  IDENTICAL across the four pools of every group,enum the
+  SOLE separator — position j carries exactly {0x1000*j,
+  0x1000*j+1} with identical low-bit splits;projection
+  (flags,enum-low,const,ladder) sets are EQUAL and injective
+  in all four pools of all five groups (sizes 98/104/103/100/107).
+- **Next:** enum-relabelling corpus-wide on body pools,
+  position-21 framed form comparison,sister large-break
+  sizes vs large-action census (slice 4.39).
+- **Audit:** Host-side analysis only;no device child.

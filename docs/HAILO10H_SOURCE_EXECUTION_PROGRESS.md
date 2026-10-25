@@ -1284,3 +1284,21 @@ sister-pair head breaks, the non-breaker 304 B
 population, sister-pool subfield comparison. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 sister breaks, non-breaker 304 B, sister-pool subfields
+(AES-NUM-038,slice4.38):
+`docs/HAILO10H_SISTER_BREAK_NONBREAKER_304_SISTER_POOLS_2026-10-24.md`.
+The sister pair has no fixed head-break form at all:
+its runs end at large, almost always unique data
+actions, with near-identical size multisets and zero
+shared segments. The eleven non-breaker 304 B
+segments are channel-2 singletons in two fixed slots
+and two anatomies. The trailing sister pools turn
+out to be one pool written four times: ladder is
+pinned to the group rung, the flags sets are
+identical, and the enum field alone relabels each
+position. Next: enum-relabelling on the body pools,
+the framed position-21 form, sister break sizes vs
+the large-action census. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
