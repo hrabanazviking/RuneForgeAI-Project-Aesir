@@ -4515,3 +4515,39 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** No source code changed by this slice beyond documentation;
   the -018 evidence document gained a clearly marked decode addendum.
   Failures retained;no global/hosted-CI pass.
+
+### AES-TRANSFER-002 — Minimal grouped transfer primitive (implementation)
+
+- **Status:** `implemented` (host build only;qualification is slice 2.3)
+- **Owner:** Original hailbru/soc_transfer.mojo (SocGroupedTransfer) plus
+  smidr/tools/group_transfer_mock.mojo host-mock diagnostic.
+- **Claim sources:** AES-TRANSFER-001 specification S1-S6;
+  docs/HAILO10H_GROUPED_TRANSFER_PRIMITIVE_2026-10-24.md.
+- **Implementation evidence:** One outstanding raw grouped exchange:
+  exchange_raw takes caller-owned logical packet bytes (<=2068) and
+  returns the raw 2068-byte reply extent;no framing or payload
+  semantics. S1 two-span input group over legacy/aligned layouts;S2
+  D2H-before-H2D launch order with observed-return admission via the
+  shared SocExchangeProgress;S3 shared atomic completion consumer
+  (0xFE/0xFF = failure,never completion — the -018 NOT_ACTIVE
+  presentation is a specified poison path);S4 the extracted sync
+  sequence;S5 captured-owner re-verification,busy flag,any error
+  poisons and reuse requires a fresh owner;S6 one total deadline,
+  <=32 snapshots,monotonic clock. Shares all lower owners with the
+  RPC client (SocSession,SocStorage,progress,group codec,ABI).
+- **Executable evidence:** Mojo 1.0.0 build of the host-mock
+  diagnostic is clean (the one warning is pre-existing in
+  soc_session.mojo);argument/physical-root refusals verified by smoke
+  (rc=1 before any owner exists). No mock-oracle exchange has run yet.
+- **Evidence boundary:** soc_group_rpc.mojo and soc_group_device.mojo
+  are deliberately untouched — the AES-CONTROL-015/-017 qualification
+  and -018 physical evidence stand on those exact sources. Host
+  qualification (deadline accounting,poison-on-uncertainty,ownership
+  lifetimes,late-completion quarantine,behavioral comparison with the
+  RPC client) is slice 2.3;physical confirmation is a separately
+  contracted slice 2.4. Numerical configuration/packing/placement,
+  program execution and source-model support remain unproven.
+- **Next acceptance gate:** Slice 2.3 host qualification battery for
+  the primitive against the qualified device oracle.
+- **Audit:** Additive slice:two new files plus documentation. No
+  existing source modified. Failures retained;no global/hosted-CI pass.

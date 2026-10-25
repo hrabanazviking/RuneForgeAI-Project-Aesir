@@ -29,11 +29,20 @@
   `docs/HAILO10H_GROUPED_TRANSFER_SEMANTICS_2026-10-24.md`. New decoded
   datum:identify's second wait in -018 reported 0xFF NOT_ACTIVE for both
   owned channels;cause not established.
-- [ ] Slice2.2 minimal transfer primitive in Mojo on S1-S6 only,then
-  2.3 host qualification and a separately contracted 2.4 physical
-  confirmation;then numerical configuration/packing/placement/program/
-  results and broad ordinary UNMODIFIED source-model support100%. Any
-  further physical lifecycle attempt requires a NEW one-shot contract.
+- [x] AES-TRANSFER-002 slice2.2 minimal transfer primitive in Mojo on
+  S1-S6 only:`hailbru/soc_transfer.mojo` (SocGroupedTransfer,one
+  outstanding raw grouped exchange;framing stays the caller's) +
+  `smidr/tools/group_transfer_mock.mojo` diagnostic. Builds clean
+  (Mojo1.0.0);physical-root/argument refusals smoked. The qualified
+  RPC client sources are deliberately untouched.
+  `docs/HAILO10H_GROUPED_TRANSFER_PRIMITIVE_2026-10-24.md`.
+- [ ] Slice2.3 host qualification battery for the primitive (deadline
+  accounting,poison-on-uncertainty,ownership lifetimes,late-completion
+  quarantine incl. NOT_ACTIVE),then a separately contracted 2.4
+  physical confirmation;then numerical configuration/packing/
+  placement/program/results and broad ordinary UNMODIFIED
+  source-model support100%. Any further physical lifecycle attempt
+  requires a NEW one-shot contract.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

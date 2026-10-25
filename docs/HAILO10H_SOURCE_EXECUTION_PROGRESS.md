@@ -461,3 +461,24 @@ established. Specification only — no code,no physical run. Next is
 slice2.2,the minimal transfer primitive on these facts only;then
 numerical/packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 minimal grouped transfer primitive:
+`docs/HAILO10H_GROUPED_TRANSFER_PRIMITIVE_2026-10-24.md`
+(AES-TRANSFER-002,Campaign2 slice2.2). `hailbru/soc_transfer.mojo`
+implements SocGroupedTransfer:one outstanding raw grouped exchange
+(exchange_raw moves caller-framed logical packets <=2068 bytes and
+returns the raw reply extent) embodying S1-S6 — two-span input group
+over legacy/aligned layouts,D2H-before-H2D launch order with
+observed-return admission,the shared atomic completion consumer
+(0xFE/0xFF failure,never completion),the extracted sync sequence,
+captured-owner re-verification with poison-on-any-error,and one total
+deadline with <=32 snapshots. A host-mock-aligned diagnostic
+(`smidr/tools/group_transfer_mock.mojo`) builds clean under Mojo1.0.0
+and refuses physical roots/arguments before any owner exists. The
+qualified RPC client and lifecycle sources are deliberately
+untouched,so the -015/-017/-018 evidence stands as-is. No mock-oracle
+exchange has run yet:the full host qualification battery is slice2.3
+and physical confirmation a separately contracted slice2.4.
+Numerical/packing/placement/program/results and broad ordinary
+UNMODIFIED source-model support100% remain work.
