@@ -35,8 +35,14 @@ across the whole run on one grouped transfer session.
     mechanics remain unestablished; attestation is never given).
     Admitted teardown on the same owners: destroy-infer (action
     3), then device DESTROY (action 21). Configure is NOT
-    attempted. Infer-destroy failure is recorded and still admits
-    the device destroy attempt.
+    attempted. If destroy-infer fails, the transport is poisoned
+    by law (AES-TRANSFER-003) and the device destroy is then NOT
+    attempted on it — recorded as not-attempted-due-to-poisoning,
+    never improvised on a fresh session (whether handles survive
+    a session boundary is itself unestablished).
+    *Refinement recorded 2026-10-24 before any diagnostic code:
+    the original sentence admitted the device destroy
+    unconditionally; the poison law governs.*
   - **B2 — no reply** (deadline, transport failure, or a
     NOT_ACTIVE-class presentation): the receiver does not answer
     metadata alone on this channel — consistent with awaiting the
