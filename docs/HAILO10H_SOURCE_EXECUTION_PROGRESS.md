@@ -1906,3 +1906,21 @@ remnants, the collapsed contexts' vocabularies
 compared, and 134's sparse tail. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 small remnants, zero vocabularies, 134 tail (AES-NUM-065,slice4.65):
+`docs/HAILO10H_REMNANTS_ZERO_VOCAB_134_TAIL_2026-10-24.md`.
+The small two-member remnants turn out not to be
+alternations at all: outside 76c3, the minor member is
+one to four isolated singletons inside a stream carried
+by 32784 — in the cc9 pair, a single 26896 prefix before
+a 64-long 32784 run. The collapsed contexts' replacement
+vocabularies are one shared pool, not private inventions:
+across the nine zero contexts, not one size is private
+to a single context, and the closest vocabulary pairs
+cross class lines at matched stream positions. And
+134's sparse tail stays in the body — the fixed end
+block is written intact after it, identical to 135's.
+Next: where the remnant singletons are inserted, what
+carries the zero pairs' overlap, and the 123-class
+pattern in the alt frame. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

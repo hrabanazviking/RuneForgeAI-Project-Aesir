@@ -6899,3 +6899,31 @@ No new capability ID or hardware/complete-source execution claim.
   zero-context replacement vocabularies compared; 134 tail
   members vs end block (slice 4.65).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-065 — Remnants, zero-context vocabularies, 134 tail vs end block
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_REMNANTS_ZERO_VOCAB_134_TAIL_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...064 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef65.py (sha256 c7ee3dd8...). (i) The small remnants are
+  NOT alternations: 0856 B/C x5 and the A/B remnants are
+  B-carrier streams with 1-4 isolated minor-member singletons
+  (B runs mean 7.8-140, minor runs all length 1); cc9 151/203
+  are one C head prefix + a single 64-B run. 76c3's regimes
+  remain the only alternation laws. A repeated 16-context
+  A/B pattern in 0a0d's 123 class (identical letters, step-6
+  train) is recorded ungraded (25872 in its gaps). (ii) Zero
+  vocabularies are ONE shared pool: 389-size union over 9
+  zero contexts, 22 universal (the fixed skeleton/end sizes),
+  ZERO private sizes; pairwise Jaccard bimodal by family
+  (collapsed-vs-zero 0.087-0.208; collapsed-collapsed to
+  0.768; zero-zero to 0.774 cross-class at matched positions).
+  (iii) 134's tail members (positions 103-129) are NOT end
+  block bursts (end block starts 158, identical in 134/135,
+  written intact after the tail); 135's tail is earlier and
+  pure; the pair's champion order differs (normal/reversed).
+- **Next:** remnant insertion positions; zero-pair overlap
+  anatomy; 123-class pattern in the alt frame (slice 4.66).
+- **Audit:** Host-side analysis only; no device child.

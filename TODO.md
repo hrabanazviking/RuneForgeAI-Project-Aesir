@@ -828,11 +828,22 @@
   119-251 vs 46-56); 135 has one block interruption,
   134 breaks at head + tail.
   `docs/HAILO10H_TWO_MEMBER_COLLAPSED_135_134_2026-10-24.md`.
-- [ ] Slice4.65 small genuine two-member remnants
+- [x] Slice4.65 small genuine two-member remnants
   (0856 B/C x5, cc9 B/C 151/203) vs 76c3 regimes;
   zero-context replacement vocabularies compared
   across classes; 134 sparse tail members vs the
-  end block's bursts; then broad ordinary
+  end block's bursts:remnants are NOT alternations
+  (B-carrier streams with 1-4 isolated minor-member
+  insertions; cc9 pair = one C head prefix + 64-B
+  run); zero vocabularies are ONE shared pool (union
+  389, 22 universal, ZERO private sizes, cross-class
+  zero pairs to J0.774, collapsed-vs-zero <=0.208);
+  134 tail sits in the body (pos 103-129 vs end
+  block at 158), end block written intact after it.
+  `docs/HAILO10H_REMNANTS_ZERO_VOCAB_134_TAIL_2026-10-24.md`.
+- [ ] Slice4.66 remnant singleton insertion positions;
+  cross-class zero-pair overlap anatomy; 123-class
+  A/B pattern in the alt frame; then broad ordinary
   UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
