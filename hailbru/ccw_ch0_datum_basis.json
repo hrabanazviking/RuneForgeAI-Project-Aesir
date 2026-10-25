@@ -1,0 +1,143 @@
+{
+ "artifact": "ccw datum basis (channel-0 champion burst form)",
+ "provenance": "Fitted by exact GF(2) linear algebra over the channel-0 champion-burst operand->datum map of 7 HEF artifacts on Mimir (AES-NUM-031); canonical byte form sha256 cfd5c48878dc378c461376b38786e17c4ad9e2c55cfde39a001d2208a704a7bd",
+ "rank": 27,
+ "semantics": "datum(u24) = XOR of rows[i].y for a GF(2) reduction of the 64-bit lane1 word by rows[i].x (pivot = highest set bit of x). Inputs that do not reduce to zero are OUT OF SPAN: the encoder must refuse, never guess.",
+ "rows": [
+  {
+   "pivot": 0,
+   "x": "0x1",
+   "y": "0x2f677b"
+  },
+  {
+   "pivot": 10,
+   "x": "0x400",
+   "y": "0x3858a9"
+  },
+  {
+   "pivot": 11,
+   "x": "0xc00",
+   "y": "0x48e9fb"
+  },
+  {
+   "pivot": 12,
+   "x": "0x1001",
+   "y": "0x661e3e"
+  },
+  {
+   "pivot": 13,
+   "x": "0x3000",
+   "y": "0x73902e"
+  },
+  {
+   "pivot": 14,
+   "x": "0x6000",
+   "y": "0x4f3bbd"
+  },
+  {
+   "pivot": 15,
+   "x": "0x8000",
+   "y": "0x43be4d"
+  },
+  {
+   "pivot": 16,
+   "x": "0x15400",
+   "y": "0xf06a3"
+  },
+  {
+   "pivot": 30,
+   "x": "0x40000400",
+   "y": "0x10a337"
+  },
+  {
+   "pivot": 34,
+   "x": "0x400002000",
+   "y": "0x7cc6cb"
+  },
+  {
+   "pivot": 35,
+   "x": "0x800000000",
+   "y": "0x2444a1"
+  },
+  {
+   "pivot": 36,
+   "x": "0x1c00000000",
+   "y": "0x2ae243"
+  },
+  {
+   "pivot": 37,
+   "x": "0x2080000fff",
+   "y": "0x49cfc5"
+  },
+  {
+   "pivot": 38,
+   "x": "0x7400000000",
+   "y": "0x45bd4d"
+  },
+  {
+   "pivot": 39,
+   "x": "0xd800000000",
+   "y": "0x52e15c"
+  },
+  {
+   "pivot": 42,
+   "x": "0x4f000002000",
+   "y": "0x340d50"
+  },
+  {
+   "pivot": 43,
+   "x": "0x94880002000",
+   "y": "0x799bbb"
+  },
+  {
+   "pivot": 44,
+   "x": "0x12ec00002000",
+   "y": "0x7e1b5f"
+  },
+  {
+   "pivot": 47,
+   "x": "0x828800000001",
+   "y": "0x3b71fa"
+  },
+  {
+   "pivot": 49,
+   "x": "0x201c000000001",
+   "y": "0x55c8ae"
+  },
+  {
+   "pivot": 55,
+   "x": "0x80026000000000",
+   "y": "0x89e9e"
+  },
+  {
+   "pivot": 56,
+   "x": "0x100015800000000",
+   "y": "0x589de8"
+  },
+  {
+   "pivot": 57,
+   "x": "0x200000000000000",
+   "y": "0x5037c2"
+  },
+  {
+   "pivot": 58,
+   "x": "0x400000000002000",
+   "y": "0x329d0e"
+  },
+  {
+   "pivot": 59,
+   "x": "0x800000000000c00",
+   "y": "0x580131"
+  },
+  {
+   "pivot": 60,
+   "x": "0x10f0025000000000",
+   "y": "0x577acd"
+  },
+  {
+   "pivot": 61,
+   "x": "0x2a00016800000000",
+   "y": "0x1d7710"
+  }
+ ]
+}

@@ -1169,3 +1169,16 @@ rank 27) that the frozen champion encoder honestly
 refuses. Next: freeze the channel-0 maps. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 channel-0 freezes (AES-NUM-031,slice4.31):
+`docs/HAILO10H_CHANNEL0_FREEZES_2026-10-24.md`. The
+channel-0 champion datum map is frozen as a linear
+rank-27 basis + Mojo encoder, and the six largest
+channel-0 families as affine bases + a Mojo encoder —
+all canonical hashes reproduced on the VM, all proven
+on Mimir with zero failures (1,120 + 133 pairs). Frozen
+datum coverage is now 98.0% on channel 0 and 96.5%
+pooled across all 79,001 bursts. Next: small-form word
+anatomy. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

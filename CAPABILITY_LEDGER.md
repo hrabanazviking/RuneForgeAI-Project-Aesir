@@ -5723,3 +5723,24 @@ No new capability ID or hardware/complete-source execution claim.
   channel-0 families,Mojo-proven on Mimir (slice 4.31);
   then small-form word anatomy (4.32).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-031 — channel-0 freezes: champion + six families
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_CHANNEL0_FREEZES_2026-10-24.md.
+- **Evidence:** channel-0 champion map frozen as a
+  GF(2)-linear rank-27 basis (1,120 distinct pairs,0
+  inconsistencies;canonical sha256 cfd5c488…a7bd,
+  reproduced on the VM) + hailbru/ccw_ch0_datum.mojo;
+  six largest non-champion channel-0 families frozen
+  affine (ranks 9–16,133 distinct pairs;all six
+  canonical sha256 reproduced on the VM) +
+  hailbru/ccw_ch0_family_datum.mojo. Mojo-proven on
+  Mimir: champion harness CHECKED 1120 FAILED 0;
+  family harness CHECKED 133 FAILED 0; both modules
+  crossed byte-identical; family encoder refuses the
+  champion lane-0. Channel-0 frozen coverage
+  42,627/43,486 (98.0%); pooled 76,207/79,001 (96.5%).
+- **Next:** small-form word anatomy per size class
+  (slice 4.32).
+- **Audit:** Host-side analysis only;no device child.

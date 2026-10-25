@@ -383,11 +383,21 @@
   own map is linear rank 27. Pooled frozen coverage
   35,192/79,001 (44.5%).
   `docs/HAILO10H_CHANNEL0_BURST_TREATMENT_2026-10-24.md`.
-- [ ] Slice4.31 channel-0 freezes:freeze the channel-0
-  champion basis (linear,rank 27) + largest channel-0
-  non-champion families as Aesir-owned encoders,Mojo-
-  proven on Mimir;then slice4.32 small-form word
-  anatomy;then broad ordinary UNMODIFIED source-model
+- [x] AES-NUM-031 slice4.31 channel-0 freezes:channel-0
+  champion basis frozen linear rank 27 (1,120 pairs,0
+  inc;canonical sha cfd5c488…a7bd) in
+  hailbru/ccw_ch0_datum_basis.json +
+  hailbru/ccw_ch0_datum.mojo;six largest channel-0
+  non-champion families frozen affine (ranks 9–16,133
+  pairs) in hailbru/ccw_ch0_family_bases.json +
+  hailbru/ccw_ch0_family_datum.mojo. Mimir harnesses
+  CHECKED 1120 + 133,FAILED 0. Channel-0 frozen
+  coverage 42,627/43,486 (98.0%);pooled 76,207/79,001
+  (96.5%). `docs/HAILO10H_CHANNEL0_FREEZES_2026-10-24.md`.
+- [ ] Slice4.32 small-form word anatomy:pointer actions
+  of size <=512 B (128,787 actions,structured size
+  ladder,15.8% zero words per AES-NUM-029),per size
+  class;then broad ordinary UNMODIFIED source-model
   support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
