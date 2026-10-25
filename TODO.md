@@ -80,12 +80,23 @@
   payload phase precedes any reply. Phase-A handle residue
   recorded (contract pre-stated). Campaign3 exit NOT met.
   `docs/HAILO10H_PROGRAM_LIFECYCLE_PHYSICAL_2026-10-24.md`.
-- [ ] Next:(a) Lane A/B source study of the receiver's
-  create-infer-model read path to SPECIFY the payload phase
-  (feeds a successor physical contract);(b) slice3.4 failure
-  teardown host contracts;then Campaign4 numerical interface
-  specification;then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-PROG-004 slice3.4 failure teardown + payload source
+  study:fail-at-<stage> accounting qualified on Mimir (10 tests
+  OK,148 runs;create failure = handle-never-learned worst class;
+  adoption deliberately not implemented). Track R:the payload
+  phase's SHAPE is established from the pinned receiver —
+  read_buffer of exactly hef_size bytes between metadata and
+  reply (matches B2);destroy-configured performs shutdown
+  receiver-side;disconnect cleanup releases all client
+  resources. The SoC connection layer's read/write realization
+  remains NOT ESTABLISHED and gates any payload contract.
+  `docs/HAILO10H_PROGRAM_FAILURE_TEARDOWN_2026-10-24.md`.
+- [ ] Campaign4 slice4.1 field-table discipline for candidate
+  device-program fields (source + physical corroboration per
+  field;insufficient fields stay out),in parallel with the
+  Track R connection-layer study;then 4.2 operation selection,
+  4.3 eight-layer description,4.4 review gate;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

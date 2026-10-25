@@ -4747,3 +4747,44 @@ No new capability ID or hardware/complete-source execution claim.
   (failure teardown) proceeds host-side meanwhile.
 - **Audit:** One child only;contract-first order preserved.
   Failures and harness history retained;no global/hosted-CI pass.
+
+### AES-PROG-004 — Failure teardown accounting + payload-phase source study
+
+- **Status:** `host-verified` (failure accounting) + `verified`
+  (source-study scope);no physical run in this slice.
+- **Owner:** smidr/tools/program_mock.mojo fail-at-<stage>
+  scenarios over hailbru/soc_program.mojo;source study of the
+  pinned receiver (hailort_server.cpp @ d503417f,MIT).
+- **Claim sources:** docs/HAILO10H_PROGRAM_FAILURE_TEARDOWN_2026-10-24.md;
+  AES-PROG-001 Q2/Q6;AES-PROG-003 branch B2.
+- **Executable evidence:** tests/test_hailo_program_mock.py on
+  Mimir:10 tests OK,148 runs,zero physical calls. Corrupting
+  each stage's reply in turn yields the exact designed
+  accounting — stop at the failing stage,poison,no further
+  exchange,and the correct residue tier (create failure = worst
+  class:infer possibly created,handle never learned;
+  destroy-infer failure = infer-only residue with configured
+  destroyed). A transport failure at create accounts 0/0.
+  Recovery-by-adoption is deliberately NOT implemented (handle
+  validity across sessions unestablished).
+- **Source-study evidence:** parse_request for action2 reads
+  exactly hef_size bytes via client_connection->read_buffer
+  (LONG_RPC_ACTION_TIMEOUT) between metadata and reply — the
+  payload phase's shape is ESTABLISHED and matches B2.
+  Destroy-configured performs shutdown() receiver-side before
+  release (Q6 precondition answered at source level;the owner's
+  conservative order is retained). cleanup_client_resources
+  releases ALL of a client's resources on connection cleanup —
+  a named reclaim mechanism for the recorded residue class;
+  whether our sessions' termination triggers it on this
+  transport is NOT established.
+- **Evidence boundary:** The SoC connection layer's realization
+  of read_buffer/write_buffer (chunking,transfer pairing,who
+  launches) remains NOT ESTABLISHED — the next Track R step and
+  the gate for any payload-sending successor contract.
+  Campaign 3 exit still unmet.
+- **Next acceptance gate:** Track R connection-layer study;then
+  Campaign 4 slice 4.1 (field-table discipline) per roadmap
+  order,with the payload successor contract when specified.
+- **Audit:** soc_program/soc_transfer unchanged by the study
+  half. Failures retained;no global/hosted-CI pass.

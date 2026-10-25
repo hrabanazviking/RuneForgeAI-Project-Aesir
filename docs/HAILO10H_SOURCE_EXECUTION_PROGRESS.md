@@ -570,6 +570,29 @@ Numerical/packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
 
 
+2026-10-24 program failure teardown + payload-phase source study:
+`docs/HAILO10H_PROGRAM_FAILURE_TEARDOWN_2026-10-24.md`
+(AES-PROG-004,Campaign3 slice3.4). Failure accounting is now
+host-qualified (10 tests OK,148 runs):corrupting each stage's
+reply stops the owner at that stage with the exact residue tier
+printed;create failure is the worst class (object possibly
+created,handle never learned) and recovery-by-adoption is
+deliberately not implemented. The Track R study of the pinned
+receiver established the payload phase's shape:the server reads
+exactly the declared byte count from the connection between the
+action-2 metadata and its reply — precisely the B2 behavior seen
+physically. Destroy-configured performs shutdown receiver-side,
+and connection cleanup releases all of a client's resources (a
+named reclaim path for the recorded residue class;whether our
+sessions trigger it here is not established). The SoC connection
+layer's read/write realization remains NOT ESTABLISHED and gates
+any payload-sending contract. Campaign3 exit remains unmet.
+Next:Campaign4 slice4.1 field-table discipline,in parallel
+with the connection-layer study. Numerical/packing/placement/
+program/results and broad ordinary UNMODIFIED source-model
+support100% remain work.
+
+
 2026-10-24 grouped transfer primitive host qualification:
 `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`
 (AES-TRANSFER-003,Campaign2 slice2.3). The derived aligned suite
