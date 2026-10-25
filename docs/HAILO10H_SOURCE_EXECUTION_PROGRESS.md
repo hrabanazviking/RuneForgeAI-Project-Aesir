@@ -865,3 +865,22 @@ evidence no searched source contains);Campaign5 not
 contracted. Numerical/packing/placement/program/results
 and broad ordinary UNMODIFIED source-model support100%
 remain work.
+
+
+2026-10-24 empirical program start (Volmarr's never-stop order):
+`docs/HAILO10H_HEF_CORPUS_INVENTORY_2026-10-24.md`
+(AES-NUM-010,Campaign4 iteration slice4.10). The document-study
+negatives (R1/R3) are route markers,not an end:real artifacts
+are now the evidence. Inventory found one complete HEF in
+reach (MiniLM-L6 for Hailo-10H,11,759,616 B,sha256 3c535080...)
+with source+recipe,in a Pi workshop tree that also holds
+unmined HailoRT forks (incl. the hef schema),a model zoo
+checkout and compiler notes. First wire-level map:56-byte
+header,protobuf from byte56,arch 103 observed in the real
+artifact,6,183 regions,the large regions are weights-class
+(high entropy,no zero words);CCW configuration is not a blob —
+it sits in small structured core fields awaiting a schema-
+guided walk. Next:4.11 schema-guided CCW isolation,4.12
+differential design,4.13 fork census hunt. Numerical/packing/
+placement/program/results and broad ordinary UNMODIFIED
+source-model support100% remain work — the campaign continues.

@@ -5201,3 +5201,30 @@ No new capability ID or hardware/complete-source execution claim.
   placement census) that no searched source contains;no
   further Track R study slice is named for this iteration.
 - **Audit:** Research only. No global/hosted-CI pass.
+
+### AES-NUM-010 — HEF corpus inventory + first static map (empirical program start)
+
+- **Status:** `verified` (inventory + wire-level map scope).
+- **Owner:** docs/HAILO10H_HEF_CORPUS_INVENTORY_2026-10-24.md.
+- **Context:** Opened under Volmarr's 2026-10-24 never-stop
+  order;the document-study negatives (AES-NUM-005/007) stand as
+  grades,but the campaign now works empirical evidence.
+- **Evidence:** Targeted inventory found ONE HEF in reach —
+  minilm-l6-ruvector.hef (11,759,616 B,sha256 3c535080...,an
+  all-MiniLM-L6-v2 network for Hailo-10H) in the Pi's twister
+  workshop tree,with source+recipe beside it;the tree also
+  holds unmined HailoRT forks (incl. the hef schema),a model
+  zoo checkout and compiler notes. No other HEF in the repo
+  trees/Pi home/caches searched;hailo-ollama's model store not
+  yet located (named next target).
+- **First map (schema-free wire walk,artifact unmoved):** file
+  header 56 bytes;protobuf from byte 56;arch value 103
+  (HAILO1XH) observed in a real artifact;6,183 regions;largest
+  (/2,56,193 B) is high-entropy weights-class data (0 zero
+  words);repeated ~7-8 KB per-layer payloads;NO large NOP/CCW
+  blob — CCW configuration must sit in small structured core
+  fields,needing the schema field map to isolate.
+- **Evidence boundary:** No CCW meaning is established by this
+  slice. Next:4.11 schema-guided CCW isolation from the fork's
+  hef.proto;4.12 differential design;4.13 fork census hunt.
+- **Audit:** Research only;no bytes sent to the device.

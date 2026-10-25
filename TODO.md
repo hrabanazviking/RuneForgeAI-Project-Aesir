@@ -226,6 +226,20 @@
   census) no searched source contains;Campaign5 NOT
   contracted. Then broad
   ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-010 slice4.10 empirical program start (Volmarr's
+  never-stop order,2026-10-24 — the study-pass endpoint above
+  is a route marker,not a stop):HEF corpus inventory (one
+  real MiniLM HEF + twister workshop sources in reach) and
+  first wire-level static map (header 56 B,arch 103 observed
+  in a real artifact,6,183 regions,weights/config separation
+  mapped;CCW sits in small structured fields,not a blob).
+  `docs/HAILO10H_HEF_CORPUS_INVENTORY_2026-10-24.md`.
+- [ ] Slice4.11 schema-guided CCW isolation in the MiniLM HEF
+  (field map from the local fork's hef.proto) + word
+  statistics of the isolated region;4.12 differential design
+  (second artifact,one known parameter changed);4.13 driver/
+  fork census hunt;then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
