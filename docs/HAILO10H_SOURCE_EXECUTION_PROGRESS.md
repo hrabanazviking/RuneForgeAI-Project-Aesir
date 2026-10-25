@@ -2174,3 +2174,23 @@ Next: how widespread segment substitution is, the
 two motif families, and the spillover test for the
 outside-pair flips. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 segment substitution, motifs, spillover (AES-NUM-077,slice4.77):
+`docs/HAILO10H_SEGMENT_SUBSTITUTION_MOTIFS_SPILLOVER_2026-10-24.md`.
+Segment substitution turns out to be a singleton: no pair
+in 0a0d or cc9 is a single replace at all (85-to-92 itself
+is several replaces between equal islands), and under the
+region definition the exemplar satisfies, exactly one pair
+in either artifact rewrites a single short segment while
+head and suffix stand — 85-to-92 itself. Every other
+region hit is a whole body, 191 actions or more. The two
+motif pairs are real but never touch themselves: the rare
+(9144,184) pair is always framed by 24s on both sides, the
+common (528,80) pair appears in 339 contexts yet never
+twice in a row. And most of S76's stray flips are its
+neighbours' swaps leaking across a boundary drawn a step
+or two too tight — six of ten, all at the span's edge —
+while four match no neighbour. Next: the census at corpus
+scope, and the second-neighbour test for the four residue
+flips. Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

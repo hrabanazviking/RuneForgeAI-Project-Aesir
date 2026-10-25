@@ -1054,13 +1054,37 @@
   (528,80) motif + 80-run, +7 exactly,
   head 12 and suffix 56 untouched).
   `docs/HAILO10H_PLUS3_ORDER_S76_CONVERSE_85_92_SEGMENT_2026-10-24.md`.
-- [ ] Slice4.77 segment-substitution census
+- [x] Slice4.77 segment-substitution census
   (other context pairs sharing head+suffix
   with one rewritten motif segment; the
   (9144,184)/(528,80) motif families
   wherever they occur); S76 outside-pair
   span positions vs neighbouring runs
-  (spillover test); then broad ordinary
+  (spillover test): the single-replace form
+  occurs NOWHERE (0 hits in 3,478 strict +
+  7,930 loose candidates; 85->92 itself is
+  several replaces between equal islands);
+  under the region definition (islands <=2,
+  head >=12, suffix >=20) localized
+  substitution (region <=40) is UNIQUE to
+  85->92 in 0a0d+cc9 (1 hit; all 153 other
+  region hits are whole-body >=191, cc9's
+  five all involve outlier cidx 132); the
+  motif pairs never repeat contiguously
+  ((9144,184) 7 occ / 2 contexts, always
+  24-flanked 7/7; (528,80) 551 occ / 339
+  contexts, all artifacts; x2/x3 and both
+  full motifs all 0); S76 spillover PARTIAL
+  (6/10 outside-pair flips are neighbour-run
+  swaps, all 10 at edge distance <=2; 4/10
+  match neither neighbour; S82 stays 0).
+  `docs/HAILO10H_SEGMENT_SUBSTITUTION_MOTIFS_SPILLOVER_2026-10-24.md`.
+- [ ] Slice4.78 region census extended to
+  the remaining five artifacts (localized
+  substitution corpus-wide); the four
+  unexplained S76 flips (173, 517, 618,
+  619) vs second-neighbour runs and span
+  extension; then broad ordinary
   UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

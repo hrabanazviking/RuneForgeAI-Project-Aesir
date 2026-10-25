@@ -7281,3 +7281,36 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** segment-substitution census and the motif
   families; S76 outside-pair spillover test (slice 4.77).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-077 — segment substitution is unique to 85→92 at substitution scale, motif pairs never repeat contiguously, S76 spillover partial (6/10 neighbour swaps)
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_SEGMENT_SUBSTITUTION_MOTIFS_SPILLOVER_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...076 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef77.py (sha256 71cea705...) + hef77b.py (sha256
+  4e51bcca...), both sha-verified on-device. (i) The strict
+  single-replace census finds ZERO pairs in 0a0d+cc9 (1,067 +
+  2,411 candidates; loose tier +7,930 candidates, still zero) —
+  85->92 itself is several replaces separated by equal islands.
+  Under the region definition (islands <=2, head >=12, suffix
+  >=20): 149 hits in 0a0d, 5 in cc9, but region lengths split
+  them — exactly ONE at substitution scale (17->24: the 85->92
+  exemplar, cidx 73->179, recovered), all 153 others >=191
+  (whole-body; cc9's five all involve outlier cidx 132).
+  Localized segment substitution is UNIQUE to 85->92 in
+  0a0d+cc9. (ii) Motif pairs: (9144,184) 7 occ in 2 contexts,
+  always flanked by 24 on both sides (7/7); (528,80) 551 occ
+  in 339 contexts across all 7 artifacts, 330 preceded by 24;
+  contiguous repetition NEVER occurs ((9144,184,9144),
+  (528,80)x2/x3 and both full AES-NUM-076 motifs all 0).
+  (iii) S76 spillover PARTIAL: 6/10 outside-pair flips are
+  exactly a neighbouring run's pair swap (172 prev, 449/450
+  next, 557/558 next, 615 prev), all 10 at edge distance <=2;
+  4/10 (173, 517, 618, 619) match neither neighbour; S82
+  control stays at 0 outside-pair positions.
+- **Next:** region census extended to the remaining five
+  artifacts; the four unexplained S76 flips vs
+  second-neighbour runs and span extension (slice 4.78).
+- **Audit:** Host-side analysis only; no device child.
