@@ -1837,3 +1837,26 @@ seam fragment itself. Next: the triplet block's anatomy,
 the sparse-dose template test, and the two interruption
 zones compared. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+
+2026-10-24 triplet rotation, sparse-dose templates, interruption zones (AES-NUM-062,slice4.62):
+`docs/HAILO10H_TRIPLET_ROTATION_SPARSE_ZONES_2026-10-24.md`.
+The seam's triplet block turns out to rotate forwards,
+A to B to C to A, with the small member pinned to the
+rotation boundary — but it is the only forward block
+measured: at 128 and 160 dose in 0a0d the third member
+is a different size altogether and every block there,
+including one with the seam's own member set, rotates
+backwards on a lower small band. The sparse-dose hunt
+closes with no third template: near-full doses are
+exact subsets of the four full templates (and one
+earlier prefix claim does not survive re-measurement),
+while true sparse doses are one-off scatter. And the
+two interruption zones are a single fixed block of
+non-cycle contexts written twice, 137 apart, with
+unique tails — the second writing is the last thing
+in its stream. Next: a rotation census over the
+remaining block classes, the unique zone-tail
+contexts, and the dose-14 scatter. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

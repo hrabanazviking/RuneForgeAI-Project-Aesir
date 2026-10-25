@@ -779,12 +779,31 @@
   merged into 606 with rail head cidx 2 replaced by
   seam 139;classes 28->27,ng flips).
   `docs/HAILO10H_SEAM_TRIO_COMPANION_CYCLE2_2026-10-24.md`.
-- [ ] Slice4.62 96-fold triplet block anatomy (cycle
-  period/order,small-size vocabulary;128/160-dose
-  form in 0a0d378c); sparse-dose 32016 positions vs
-  templates (third template?); interruption zones
-  compared (cc9 cidx 111-135 vs 248-270); then broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] Slice4.62 triplet block anatomy:seam block is a
+  FORWARD A->B->C->A rotation (0.742/0.649 forward
+  share,cyclic trigram 0.587/0.467,modal gap 4,smalls
+  at the C->A boundary,strict period REFUTED);0a0d
+  128/160-dose blocks differ in third member (25872,
+  not 26896) and run REVERSE (0.594/0.616),as does
+  the true-triplet 623 class (0.769,band 5648-5704);
+  sparse doses are NOT a third template (near-full =
+  exact subsets 23=F3-363,22=F0-231/264,8=F0 subseq
+  idx 0,1,3,5,7,8,11,12 — correcting 4.61's prefix
+  wording;true sparse = per-context scatter);four
+  exact full-dose templates F0-F3; interruption
+  zones are one fixed 21-context non-cycle block
+  written twice at +137 (identical count sequence,
+  classes nowhere else in corpus),unique tails
+  (244/247 singletons,186 pair),ng flip at cidx 134,
+  zone2 stream-final at cidx 270.
+  `docs/HAILO10H_TRIPLET_ROTATION_SPARSE_ZONES_2026-10-24.md`.
+- [ ] Slice4.63 rotation-direction census over the
+  remaining block classes corpus-wide (0a0d 48-dose
+  290 class + 80-dose 419 class,76c3a8ff tail triplet
+  contexts); 186 pair + 244/247 singleton anatomy;
+  cidx20 dose-14 scatter vs 32016 block slots; then
+  broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

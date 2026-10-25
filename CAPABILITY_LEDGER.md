@@ -6790,3 +6790,40 @@ No new capability ID or hardware/complete-source execution claim.
   classes 28->27, ng flips to 1.
 - **Next:** 96-fold triplet block anatomy; sparse-dose
   template test; interruption-zone comparison (slice 4.62).
+
+### AES-NUM-062 — Triplet rotation, sparse-dose templates, interruption zones
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_TRIPLET_ROTATION_SPARSE_ZONES_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...061 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef62.py (sha256 4c3c8047...) and hef62b.py (5cfb8b96...).
+  (i) The seam triplet block is a FORWARD A->B->C->A rotation
+  (forward share 0.742/0.649 in cidx 137/138; cyclic trigram
+  share 0.587/0.467; modal member gap 4; smalls pinned to the
+  C->A boundary, step-8 bands 6160-6240 / 6160+6480-6544;
+  strict periodicity REFUTED at lag 3/4). The 0a0d 128/160-dose
+  blocks are a different anatomy: third member 25872 (620/617/
+  763 classes) and REVERSE rotation throughout (anti-cyclic
+  share 0.594/0.616); the true-triplet 623 class with the
+  seam's member set also reverses (0.769) on band 5648-5704,
+  trigram vocabulary Jaccard 0.963 with weights inverted.
+  (ii) Full-dose 32016 templates are FOUR exact sets (F0/F1/
+  F2/F3; pairwise inter 1-7, no shift relation). REFUTED:
+  a third sparse template — near-full sparse are subsets
+  (23 = F3 minus pos 363; 22 = F0 minus 231/264; 8 = F0
+  subsequence at indices 0,1,3,5,7,8,11,12, CORRECTING
+  AES-NUM-061's exact-prefix wording); true sparse doses
+  (14/5/2/1/1/1) are per-context scatter, pooled inter empty.
+  (iii) Interruption zones 111-135 / 248-270 are one fixed
+  21-context non-cycle block written twice at +137 (identical
+  count sequence 727...686; 22/23 pairs count-exact, mid-mult
+  Jaccard >=0.98 in 22/23; classes occur nowhere else in the
+  corpus); tails unique (244/247 singletons, the pair that
+  differs +3; corpus-unique 186 pair at 134/135); ng flip
+  starts at cidx 134; zone 2 is stream-final (cc9 271 ctx,
+  last cidx 270).
+- **Next:** rotation-direction census over remaining block
+  classes; 186-pair + 244/247 anatomy; dose-14 scatter vs
+  block slots (slice 4.63).
