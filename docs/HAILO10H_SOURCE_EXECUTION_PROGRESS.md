@@ -969,3 +969,15 @@ catalogue is confirmed present locally for pair acquisition.
 Next:byte-entropy anatomy of the 132 champion bursts;pair
 download + cross-artifact differential. Broad ordinary
 UNMODIFIED source-model support100% remains the destination.
+
+
+2026-10-24 full-corpus walk (AES-NUM-016,slice4.16):
+`docs/HAILO10H_FULL_CORPUS_WALK_2026-10-24.md`. All seven
+artifacts are now walked. The lane0 champion word dominates
+every artifact (86-97%);the lane2 <=3-byte law holds with
+zero exceptions in 25,758 more bursts;and the census floor
+did not move at full scale — 5 clusters x 16 LCUs stands as
+the leading census candidate. Next:4.17 lane-1 structure
+hunt incl. byte-entropy anatomy of champion bursts. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.

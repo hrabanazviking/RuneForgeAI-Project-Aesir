@@ -272,11 +272,15 @@
   (lane0 fixed at 17/24 aligned positions);census
   floor not raised.
   `docs/HAILO10H_PAIR_ACQUISITION_AND_CROSS_ARTIFACT_DIFFERENTIAL_2026-10-24.md`.
-- [ ] Slice4.16 walk the remaining four ollama-store
-  blobs (lane0/lane2 universality + census floor at
-  full corpus scale);slice4.17 lane-1 structure hunt;
-  then broad ordinary UNMODIFIED source-model
-  support100%.
+- [x] AES-NUM-016 slice4.16 full-corpus walk (remaining
+  four ollama blobs):lane0 champion universal across all
+  7 artifacts (86-97%);lane2 <=3-byte law zero exceptions
+  in 25,758 bursts;census floor unmoved at scale (5x16
+  leading candidate).
+  `docs/HAILO10H_FULL_CORPUS_WALK_2026-10-24.md`.
+- [ ] Slice4.17 lane-1 structure hunt incl. byte-entropy
+  anatomy of champion-headed bursts;then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

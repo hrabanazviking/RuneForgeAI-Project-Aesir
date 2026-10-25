@@ -5387,3 +5387,24 @@ No new capability ID or hardware/complete-source execution claim.
   slice claims go in the state file AND the firing cadence
   is 10 minutes — expect company; write so merges stay
   additive.
+
+### AES-NUM-016 — full-corpus walk: universality at 7 artifacts
+
+- **Status:** `verified` (corpus-scale statistics).
+- **Owner:** docs/HAILO10H_FULL_CORPUS_WALK_2026-10-24.md.
+- **Evidence:** The four remaining ollama blobs walked
+  (mmap;header zero per blob re-confirmed by structure):
+  contexts 219/256/353/271;ptr actions ~124-138k each;
+  bursts 5,546/5,836/8,089/6,287. Lane0 champion
+  0528000000000000 dominant in EVERY artifact at 86-97%
+  (24,185/25,758 this slice). Lane2 bytes3-7 zero in
+  25,758/25,758 bursts (zero exceptions corpus-wide with
+  AES-NUM-015's 9,757). Census maxima 4/15 in all four.
+- **Grades:** lane0-champion universality + lane2 <=3-byte
+  law = EMPIRICAL LAWS over the 7-artifact corpus. Census
+  stays a FLOOR (>=5 clusters x >=16 LCUs),with 5x16 now
+  the leading candidate hypothesis (no artifact of seven
+  exceeds 4/15 across ~48k trigger pairs).
+- **Evidence boundary:** blob identities unclaimed;lane1
+  unopened (4.17). No word named.
+- **Audit:** Host-side analysis only;blobs unmoved.
