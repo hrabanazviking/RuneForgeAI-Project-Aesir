@@ -2082,3 +2082,27 @@ subgroups' own templates, the marker-rung distribution
 against the contexts' data sizes, and the 321 class's
 57-action end region. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 763 proto trains, marker distribution, 321 end fixture (AES-NUM-073,slice4.73):
+`docs/HAILO10H_763_TRAINS_MARKER_DISTRIBUTION_321_END_2026-10-24.md`.
+The 763 class turns out to be two trains running through
+proto order — one in each network group, at stride 4 and
+stride 6, sixteen slots apiece — and each train carries
+one size family: in the second group the 10- and
+4-context subgroups are the same template split by three
+channel positions, and in the first group two supposed
+singletons are family members with one and three channel
+flips, restoring the family to fourteen slots. The two
+trains' families share nothing. The marker mystery
+softens too: judged against the data sizes of the very
+contexts that bear markers, the rung distribution
+matches almost exactly in 0a0d378c — the rung behaves
+like a draw from the local band population, even though
+no structural feature picks it. And the 321 class's
+longer end block is the universal 55 plus a two-action
+fixture of its own; there is no 56th universal action.
+Next: a proto-train census across all of 0a0d378c's
+classes, the early ng-1 train members' divergence, and
+cc9b9d1c's five stray band sizes. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

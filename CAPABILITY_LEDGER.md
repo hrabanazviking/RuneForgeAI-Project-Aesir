@@ -7154,3 +7154,29 @@ No new capability ID or hardware/complete-source execution claim.
   the contexts' own 5-7k data sizes; 321 class's 57-action
   end region (slice 4.73).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-073 — 763 proto trains, marker distribution mirrors local band, 321 end = 55 + 2
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_763_TRAINS_MARKER_DISTRIBUTION_321_END_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...072 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef73.py (sha256 77db0504...) + hef73b.py (sha256 655ecbf6...),
+  delivered by sha-verified proxy upload. (i) The 763 class is
+  two proto-order trains (ng0 cidx = 1+4k, ng1 cidx = 76+6k,
+  16 slots each); one size family per train — G10 and G4 agree
+  wherever both are single (586 eq / 0 diff; channel Hamming 3),
+  G12 is restored to 14 slots by S13 (1 channel flip, 588/588
+  size match) and S37 (3 flips, 587/588); the two trains'
+  families are unrelated (Hamming ~465). (ii) The CA2 marker
+  rung mirrors the 5-7k band distribution of the marker-bearing
+  contexts themselves (0a0d378c Pearson 0.968 / TV 0.091 over
+  30 contexts; cc9b9d1c 0.868 / 0.213 over 171); structural
+  selection remains NOT PROVEN. (iii) The 321 class's end
+  region is the universal 55 plus a two-action class fixture
+  ((25872, ch1) 15/16, (24, ch1) 16/16); no 56th universal
+  action exists (24 sizes / 3 channels at -56 artifact-wide).
+- **Next:** proto-train census across all 0a0d classes;
+  S76/S82 early-train divergence; cc9 band strays (slice 4.74).
+- **Audit:** Host-side analysis only; no device child.

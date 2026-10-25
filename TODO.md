@@ -954,14 +954,34 @@
   singletons; size single ~588/763 within
   subgroups vs 72 class-wide).
   `docs/HAILO10H_MARKER_LADDER_CC9_ENDBLOCK_763_SUBGROUPS_2026-10-24.md`.
-- [ ] Slice4.73 763 subgroup anatomy (subgroup
+- [x] Slice4.73 763 subgroup anatomy (subgroup
   size templates vs each other; singletons vs
   subgroups; cidx periodicity vs proto
   ordering); marker-rung distribution vs the
   contexts' own 5-7k data-action size
   distribution; 321 class's 57-action end
-  region vs the universal 55; then broad
-  ordinary UNMODIFIED source-model support100%.
+  region vs the universal 55: the 763 class is
+  two proto-order trains (ng0 cidx 1+4k, ng1
+  76+6k, 16 slots each), one size family per
+  train (G10 == G4 wherever both single, split
+  by 3 channel positions; S13/S37 restore G12
+  to 14 slots at 1/3 channel flips; trains
+  unrelated, Hamming ~465); marker rung mirrors
+  the marker-bearing contexts' own band
+  distribution (0a0d Pearson 0.968 / TV 0.091;
+  cc9 0.868 / 0.213) — selection still NOT
+  PROVEN; 321 end = universal 55 + two-action
+  class fixture ((25872, ch1) 15/16, (24, ch1)
+  16/16), no 56th universal action.
+  `docs/HAILO10H_763_TRAINS_MARKER_DISTRIBUTION_321_END_2026-10-24.md`.
+- [ ] Slice4.74 proto-train census across all
+  0a0d classes (strides / per-ng families /
+  cross-class family relations); S76/S82
+  early-train divergence in the ng1 train;
+  cc9 band strays (5480, 5616, 5808, 5904,
+  6880 at x2 each) and their contexts; then
+  broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
