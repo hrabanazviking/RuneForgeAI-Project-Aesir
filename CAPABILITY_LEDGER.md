@@ -5367,3 +5367,23 @@ No new capability ID or hardware/complete-source execution claim.
 - **Evidence boundary:** no field named;byte-entropy anatomy
   of the 132 champion bursts queued (needs no new artifact).
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-015 RECONCILIATION — twin slice,merged
+
+- Two crews ran slice4.15 concurrently and both halves are
+  canonical: (a) pair acquisition + cross-artifact
+  differential (worker: hailo-ollama store found,corpus
+  1 -> 7 artifacts;lane0 header word universal across three
+  network families;lane2 a <=3-byte field over 9,757
+  bursts); (b) per-context lane differential (main thread:
+  champion exactly 22x per context;skeleton constant).
+  Both docs stand;the two AES-NUM-015 ledger entries are the
+  two halves,not a duplication error. Commit baabfc1d
+  carries both (the main thread's add -A swept the worker's
+  files in;no work was overwritten). Canonical queue per
+  the merged TODO: 4.16 walk the remaining four ollama
+  blobs;4.17 lane-1 structure hunt (incl. the champion
+  byte-entropy anatomy). Coordination lesson re-learned:
+  slice claims go in the state file AND the firing cadence
+  is 10 minutes — expect company; write so merges stay
+  additive.
