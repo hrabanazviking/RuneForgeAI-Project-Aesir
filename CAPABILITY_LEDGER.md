@@ -4708,3 +4708,42 @@ No new capability ID or hardware/complete-source execution claim.
   observation question (AES-PROG-001 Q2).
 - **Audit:** soc_transfer/soc_group_rpc/soc_group_device untouched.
   Failures retained;no global/hosted-CI pass.
+
+### AES-PROG-003 — Program lifecycle, one bounded physical observation run
+
+- **Status:** `verified` (observation scope: branch B2 established
+  physically;no program object created)
+- **Owner:** Original smidr/tools/program_lifecycle_probe.mojo over
+  hailbru/soc_program.mojo + hailbru/soc_transfer.mojo.
+- **Claim sources:** TASK_hailo10h_program_lifecycle_physical.md
+  published b34e11e1 before code (one poison-law refinement
+  recorded in it pre-code);
+  docs/HAILO10H_PROGRAM_LIFECYCLE_PHYSICAL_2026-10-24.md.
+- **Executable evidence:** Host gates on Mimir:branch-table suite
+  against the program oracle 6 tests OK (B1/B2/B3 paths,Phase-A
+  failure,close faults,argument refusals;qualification history
+  retained,including the S6 32-snapshot corroboration). Profile
+  re-checked read-only immediately before the run. Exactly ONE
+  physical child (setsid,20 s watchdog,aligned observer),rc=0:
+  Phase A device CREATE completed and validated (1 completed
+  exchange);Phase B action-2 metadata exchange did NOT complete —
+  no reply CPU-visible,no directional completion credited,5
+  snapshots total,child finished far inside its 5 s budget (the
+  failure presented promptly,not as a hang),owner poisoned by law,
+  no further attempt,retained_views 0,finalization confirmed,
+  observer 68 calls/0 dropped/fd closed.
+- **Evidence boundary:** B2 rules out metadata-alone replies on
+  this channel and is consistent with the receiver reading the
+  separate program-bytes phase before answering (AES-PROG-001
+  Q2);it does NOT establish the phase's mechanism or the failure's
+  interrupt-record class (not captured,not claimed). No infer
+  handle obtained;no payload sent (per contract);no configure or
+  program teardown exercised. This run's Phase-A virtual-device
+  handle was NOT logically destroyed — the contract's pre-stated
+  B2 residue,joining the -018/-004 record. Campaign 3 exit NOT met.
+- **Next acceptance gate:** Lane A/B source study of the
+  receiver's create-infer-model read path to specify the payload
+  phase;only then a successor physical contract. Slice 3.4
+  (failure teardown) proceeds host-side meanwhile.
+- **Audit:** One child only;contract-first order preserved.
+  Failures and harness history retained;no global/hosted-CI pass.

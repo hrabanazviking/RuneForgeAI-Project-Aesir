@@ -71,11 +71,21 @@
   program-action test oracle (the -018 device oracle is hardcoded
   to actions 20/22/21 and cannot serve program actions);suite on
   Mimir:8 tests OK,116 runs. `docs/HAILO10H_PROGRAM_LIFECYCLE_HOST_2026-10-24.md`.
-- [ ] Slice3.3 bounded physical program lifecycle under its own
-  one-shot contract,beginning from the payload-phase observation
-  question (AES-PROG-001 Q2);then 3.4 failure teardown;then
-  numerical configuration/packing/placement/program/results and
-  broad ordinary UNMODIFIED source-model support100%.
+- [x] AES-PROG-003 slice3.3 physical observation:contract at
+  b34e11e1,diagnostic host-qualified on the Pi (6 tests OK),one
+  physical child — branch B2:Phase A device CREATE completed;
+  action-2 metadata earned NO reply and did not complete (5
+  snapshots,prompt failure,owner poisoned,clean close). The
+  receiver does not answer metadata alone on this channel;the
+  payload phase precedes any reply. Phase-A handle residue
+  recorded (contract pre-stated). Campaign3 exit NOT met.
+  `docs/HAILO10H_PROGRAM_LIFECYCLE_PHYSICAL_2026-10-24.md`.
+- [ ] Next:(a) Lane A/B source study of the receiver's
+  create-infer-model read path to SPECIFY the payload phase
+  (feeds a successor physical contract);(b) slice3.4 failure
+  teardown host contracts;then Campaign4 numerical interface
+  specification;then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

@@ -549,6 +549,27 @@ Numerical/packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
 
 
+2026-10-24 program lifecycle,one bounded physical observation:
+`docs/HAILO10H_PROGRAM_LIFECYCLE_PHYSICAL_2026-10-24.md`
+(AES-PROG-003,Campaign3 slice3.3). Under the contract published
+at b34e11e1,the diagnostic was host-qualified on Mimir (6 tests
+OK across the pre-written branch table) and exactly one physical
+child ran:Phase A device CREATE completed and validated;the
+action-2 create-infer-model metadata exchange earned no reply
+and did not complete — branch B2 (5 snapshots,prompt failure,
+owner poisoned by law,retained views 0,finalization confirmed,
+observer 68 calls with the fd closed). The receiver does not
+answer metadata alone on this channel,consistent with reading
+the separate program-bytes phase before replying;the phase's
+mechanism is still NOT ESTABLISHED and no payload was sent. No
+infer handle was obtained;Campaign3's exit is not met;this run's
+device handle joins the recorded residue class. Next:specify the
+payload phase from the receiver's pinned sources (Track R lane
+A/B),slice3.4 failure teardown host-side, then Campaign4.
+Numerical/packing/placement/program/results and broad ordinary
+UNMODIFIED source-model support100% remain work.
+
+
 2026-10-24 grouped transfer primitive host qualification:
 `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`
 (AES-TRANSFER-003,Campaign2 slice2.3). The derived aligned suite
