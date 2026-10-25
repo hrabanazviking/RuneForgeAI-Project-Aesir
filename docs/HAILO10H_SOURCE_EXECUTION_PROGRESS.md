@@ -1798,3 +1798,24 @@ class both monocultures share, the three stream-head pairs
 whose counts differ, and the rail's unpaired head. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 shared 140 class, seam pairs, cidx 139 (AES-NUM-060,slice4.60):
+`docs/HAILO10H_SHARED140_SEAM_PAIRS_139_2026-10-24.md`.
+The 140-window class both monocultures share is a
+step-3 rail in the interleaved windowed head block
+that opens both streams, drawing on lead pools that
+overlap in exactly two contiguous step-8 runs. This
+slice also corrects the last one: the class's
+companion count is 30480 at the window count itself,
+not the 32016 x24 dose — that dose belongs to two
+smaller classes in the other artifact. And cc9's
+three +137 failures dissolve into a seam: the second
+pass does not resume its period-4 cycle until cidx
+140, and the three partners before the lock-in are
+off-cycle uniques, two of them windowless, the third
+carrying only the 94xx half of its source's windows.
+Next: the seam trio's anatomy, the companion table's
+loose ends, and the second pass's shifted cycle.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

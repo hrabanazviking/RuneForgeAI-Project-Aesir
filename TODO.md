@@ -748,11 +748,27 @@
   band,pools 112/139,quantised 16/24/28/140 and
   24/28/140 classes) vs cc9's mixed vocabulary.
   `docs/HAILO10H_RAIL_GRADES_137_PROFILE_WINDOWED_POPS_2026-10-24.md`.
-- [ ] Slice4.60 the shared 140-count class in both
-  monocultures (lead pool,n32016 x24 dose,stream
-  position);cidx 0-2,the three +137 pairs whose
-  window counts differ;unpaired rail head cidx 2
-  vs non-rail partner cidx 139;then broad
+- [x] Slice4.60 the shared 140-count class in both
+  monocultures: a step-3 rail in the interleaved
+  windowed head block (cidx 0-83) of both streams,
+  lead pools intersecting in 58 step-8 values (two
+  contiguous runs); companion CORRECTED to n30480
+  at the window count (140; 139 at 0856 cidx
+  7/19/31) — the n32016 x24 dose belongs to 76c3's
+  24/52-count classes, not the 140 class; cidx 0-2
+  differ at +137 because partners 137-139 are
+  off-cycle seam uniques (137/138 windowless) before
+  the second pass's shifted period-4 cycle locks in
+  at 140; cidx 139 is a unique 432-action context
+  whose 64 windows are all 9400-9488, lead set a
+  strict subset of cidx 2's, missing its 97xx family.
+  `docs/HAILO10H_SHARED140_SEAM_PAIRS_139_2026-10-24.md`.
+- [ ] Slice4.61 seam trio anatomy (137/138 windowless
+  499/507 vs cycle classes); companion table
+  completion (0856 24-class variable n32016 0-24 vs
+  position; 0856 cidx 7/19/31 139-companion
+  exceptions); second-pass cycle (245,256,738,606)
+  class anatomy vs the first pass's; then broad
   ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

@@ -6727,3 +6727,35 @@ No new capability ID or hardware/complete-source execution claim.
   cidx 0-2 (the three +137 pairs whose window counts differ);
   unpaired rail head cidx 2 vs non-rail cidx 139 (slice 4.60).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-060 — Shared 140 class, seam pairs, cidx 139
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_SHARED140_SEAM_PAIRS_139_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...059 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef60.py (sha256 a86267a9...) and hef60b.py (86d25962...).
+  (i) The 140-count class exists only in the two monocultures
+  as a step-3 rail in the interleaved windowed head block
+  (cidx 0-83) of both streams (0856 cidx 1-82 =1 mod 3, 76c3
+  cidx 6-81 =0 mod 3); lead pools intersect in exactly 58
+  step-8 values (runs 8192-8440 and 8560-8760, Jaccard 0.483);
+  per-context lead use narrow (mean 16.7 / 23.3 distinct of
+  140) with all sequences distinct; ng 0, champion 29, fixed
+  nacts per artifact. CORRECTED: its companion is n30480 at
+  the window count (140; 139 at 0856 cidx 7/19/31), NOT the
+  n32016 x24 dose AES-NUM-059 assigned it — x24 belongs to
+  76c3's 24-count and 52-count classes. (ii) The three
+  differing +137 pairs (cidx 0, 1, 2) are seam effects:
+  partners 137/138/139 are off-cycle uniques (499/507/432
+  actions; 137/138 windowless) before the second pass's
+  shifted period-4 cycle (245, 256, 738, 606) locks in at
+  cidx 140. (iii) Cidx 139 is a unique 432-action context
+  whose 64 windows are all 9400-9488, its 12 distinct leads
+  a strict subset of cidx 2's 21, missing exactly the
+  source's 97xx family; n32016 55 vs 87.
+- **Next:** seam trio anatomy; companion table completion
+  (0856 24-class variable n32016; 139-companion exceptions);
+  second-pass cycle class anatomy (slice 4.61).
+- **Audit:** Host-side analysis only; no device child.
