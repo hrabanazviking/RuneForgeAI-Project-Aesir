@@ -7547,3 +7547,50 @@ No new capability ID or hardware/complete-source execution claim.
   or per-slot?); 02 28 50 71 sibling occurrences inside
   76c3a8ff; sparse-slot drift landmarks (slice 4.84).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-084 — the binary tier is two single-bit blocks of 36, the sibling word lives at position-20 action starts in a step-9 train (correcting AES-NUM-083), and four sparse slots are one repeated per-context scalar in an ff-word frame
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_BINARY_BLOCKS_SIBLING_HOME_SPARSE_SCALAR_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...083 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef84.py (sha256 d8bed40c...) + labelled follow-up
+  hef84b.py (sha256 0e64a05a...), both sha-verified on-device
+  after one-shot proxy-receiver transfers (gz sha256s returned
+  by the receivers matched). (i) Binary-tier choice is neither
+  one bit per context nor per-slot: popcounts take only
+  {0, 36, 72} (camp 21392: 5/6/2; camp 21648: 6/4/2) and the
+  72 slots partition into exactly two distinct columns per
+  camp — two positional blocks of 36 sharing one bit each:
+  head block Q (rel 1..., pair {0xa2,0xa3} / {0xa2,0xb3}
+  camp-flavoured) and late block P (rel 254...490, pair
+  {0x01,0x02} in both camps). Camp 21392 combos (Q,P):
+  (0,0)x5, (0,1)x6, (1,1)x2, (1,0)x0 — Q implies P there;
+  camp 21648 shows all four combos (6/3/1/2). (ii) The
+  02 28 50 71 sibling pattern's 26 occurrences in 76c3a8ff
+  ALL sit at action starts (position 20, size 14,528,
+  channel 0) in one train: ng 1, 400-action contexts,
+  cidx 113-338 step 9 (cidx %9 == 5); the 26 segments are
+  all distinct and share exactly a 108 B prefix; host size
+  sequences all distinct, channel sequences 2 variants.
+  This CORRECTS AES-NUM-083's "never at an action start"
+  clause (its census tested only the 28 f0 forms at starts).
+  The 5 suffix-less sibling words are mid-segment residents
+  in five other segments, never at starts. (iii) Sparse
+  landmarks: four of the seven sparse slots (shared rel
+  2161, the +64, the +128 and the first +256 slot) are one
+  repeated per-context scalar per camp — byte 1 of an
+  aligned ff <scalar> 00 00 word in a recurring frame
+  (lead word stepping 44/48/4c 01 a1.., fourth frame
+  1c 01 b3 80), values distinct per context, stepping
+  mostly +9; the remaining three sparse bytes are the
+  tail's final word (end_dist 8/7/6). End-relative drift
+  diffs are +192, +128, 0, 0, 0, 0: rel 2161 is
+  start-anchored, the first +256 slot and the final word
+  end-anchored, the +64/+128 copies stretched between.
+- **Next:** sibling segments past their 108 B prefix
+  (own camp/prefix/tail anatomy?); the two block bits vs
+  the tail's other per-context scalars; ff-frame census
+  inside the position-18 segments (slice 4.85).
+- **Audit:** Host-side analysis only; no device child.

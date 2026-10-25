@@ -2368,3 +2368,33 @@ its own (1,2) rhythm to its end. Next: the binary tier's
 choice structure, the sibling word's home inside 76c3a8ff, and
 the sparse slots' drift landmarks. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 binary blocks, sibling home, sparse scalar (AES-NUM-084,slice4.84):
+`docs/HAILO10H_BINARY_BLOCKS_SIBLING_HOME_SPARSE_SCALAR_2026-10-24.md`.
+The binary tier's choice is neither one bit per context nor
+a free choice at every slot: the seventy-two binary slots
+fall into two positional blocks of thirty-six, each block
+governed by a single per-context bit — a head block whose
+pair is flavoured by the camp ({a2, a3} against {a2, b3})
+and a late block whose pair {01, 02} is the same in both
+camps — so a context's popcount can only ever be 0, 36 or
+72, and in the smaller camp the head bit never appears
+without the late bit, while the larger camp shows all four
+combinations. The sibling word's home is found, and it
+corrects the previous slice: all twenty-six sibling
+patterns sit at action starts after all — position 20 of
+a step-9 train of 400-action contexts — sharing exactly
+108 bytes of prefix and otherwise entirely distinct, while
+the five suffix-less sibling words live mid-segment
+elsewhere. And the sparse slots resolve into two objects:
+four of them are a single per-context scalar repeated in
+an ff-word frame down the tail (start-anchored at rel
+2161, end-anchored at 159 bytes from the end, the middle
+copies stretched by the camp's extra length, its values
+climbing mostly in steps of nine), and the last three are
+simply the tail's final data word. Next: the sibling
+segments past their 108-byte prefix, the two block bits
+against the tail's other per-context scalars, and a census
+of the ff frame inside the position-18 segments. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.

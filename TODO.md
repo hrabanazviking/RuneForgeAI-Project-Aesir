@@ -1243,14 +1243,42 @@
   group-zero slots, never at a
   group-1 slot).
   `docs/HAILO10H_POS18_TAIL_HEADER_CENSUS_PLATEAU_PAST28_2026-10-24.md`.
-- [ ] Slice4.84 binary-tier choice
-  structure (one bit per context
-  across all 72 slots, or per-slot?);
-  02 28 50 71 sibling occurrences
-  inside 76c3a8ff (segments/offsets);
-  sparse-slot drift landmarks (rel
-  2161; the +64/+128 steps); then
-  broad ordinary UNMODIFIED
+- [x] Slice4.84 binary-tier choice
+  structure (two positional blocks
+  of 36 slots, one bit per block:
+  head block Q pair {a2,a3|b3},
+  late block P pair {01,02};
+  popcounts only {0,36,72}; camp
+  21392 Q implies P, camp 21648
+  all four combos); 02 28 50 71
+  sibling occurrences inside
+  76c3a8ff (all 26 at action starts:
+  position 20, size 14,528, channel
+  0, step-9 ng1 train of 400-action
+  contexts, cidx %9 == 5; segments
+  share exactly 108 B prefix, all
+  distinct — correcting AES-NUM-083's
+  never-at-an-action-start clause;
+  5 suffix-less words mid-segment);
+  sparse-slot drift landmarks (four
+  ff-word slots = one repeated
+  per-context scalar, mostly +9
+  steps; final 3 sparse bytes =
+  tail's last word; drift is
+  start-anchored at rel 2161,
+  end-anchored at end-159 and the
+  final word, stretched between).
+  `docs/HAILO10H_BINARY_BLOCKS_SIBLING_HOME_SPARSE_SCALAR_2026-10-24.md`.
+- [ ] Slice4.85 sibling segments
+  past their 108 B prefix (own
+  camp/prefix/tail anatomy?); the
+  two block bits vs the tail's
+  other per-context scalars
+  (sparse scalar, byte 0); ff-frame
+  census inside the position-18
+  segments (constant-scalar copies
+  beyond the four variable ones?);
+  then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
