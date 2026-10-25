@@ -7703,3 +7703,46 @@ No new capability ID or hardware/complete-source execution claim.
   (permutation or different multiset); where the staircase's
   +64 insertions live between ff words (slice 4.88).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-088 — the variable ff scalar is cidx + C in all 372 scanned ff populations corpus-wide (C = +1 in 181, one negative per-artifact constant in 191; sisters share -94), context 92 is ordinary, cidx 113's schedule is a different multiset (not permutation, not re-grouping), and each staircase +64 lives in the single inter-ff region before its threshold word
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_CIDX_LAW_CORPUS_SCHEDULE_REGIONS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...087 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef88.py (sha256 65ae0a53...), sha-verified on-device after a
+  one-shot proxy-receiver transfer (gz sha256 438d6537... returned
+  by the receiver matched); output sha256 547fb3f9....
+  Contract docs/TASK_CONTRACT_4.88.md published @ 36f07682 before
+  implementation. (i) Scan of (position <= 30, 8,000–40,000 B)
+  segment groups: 505 groups, 372 with variable ff offsets; in
+  ALL 372 the per-segment scalar equals cidx + C exactly (slope
+  1, zero exceptions; 371/372 repeat one scalar per segment —
+  sole exception 0a0d378c pos 25 size 32,632, adjacent offset
+  pair). Constants: +1 x181 in every blob; negatives per
+  artifact 0856a10c -99 x30, 0a0d378c -73 x32, 5ab3537d -94
+  x32, 76c3a8ff -92 x43, 773470cd -94 x35, cc9b9d1c -133 x19.
+  The three known 76c3 populations are re-derived untouched.
+  Context 92 is ordinary in all six blobs (standard head,
+  universal tail, 5 skeleton forms); MiniLM has no cidx 92.
+  (ii) Cidx 113 vs consensus (331 defined positions): joint
+  multiset symdiff 176, size-only 112, channel-only 28; full
+  joint multiset equal to 0/25 siblings (symdiffs 242–260);
+  totals differ (113: 6,434,744 B; others 6,416,880–6,434,800);
+  consecutive-sum boundary matches from position 41 are 0–2
+  for 23/25 — NOT a permutation, NOT a re-grouping; partial
+  kinship with cidx 302 (22 boundary groups) and 311 (16).
+  (iii) Rank-aligned camp diff: exactly four inter-ff regions
+  carry +64 (472->536, 488->552, 544->608, 544->608), each
+  immediately before ff ranks 2/8/22/26; the other 40 regions
+  are length-identical and the region after each carrying
+  region is byte-identical across camps; carrying regions are
+  camp-constant but differ between camps (106–107 diff bytes);
+  camp 21648's four extra 64 B tails open with one identical
+  32-byte pattern.
+- **Next:** what distinguishes the C = +1 populations from the
+  negative-C ones and what sets each artifact's constant;
+  cidx 113 vs 302/311 kinship anatomy; the four extra tails
+  byte-for-byte (slice 4.89).
+- **Audit:** Host-side analysis only; no device child.

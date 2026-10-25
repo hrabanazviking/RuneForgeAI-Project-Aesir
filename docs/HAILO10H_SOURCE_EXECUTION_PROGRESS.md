@@ -2466,3 +2466,22 @@ context 92 is, whether 113's schedule is a permutation of the
 consensus schedule, and where between ff words the staircase's
 +64 insertions live. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+2026-10-24 cidx law corpus-wide, schedule verdict, staircase regions (AES-NUM-088,slice4.88):
+`docs/HAILO10H_CIDX_LAW_CORPUS_SCHEDULE_REGIONS_2026-10-24.md`.
+The cidx - 92 law turns out to be one artifact's instance of a corpus
+law: in every one of the 372 ff populations the scan can see, the
+variable scalar is exactly the context index plus a constant — slope
+one everywhere, no exceptions — with +1 in 181 populations and a
+single negative constant per artifact in the rest (the sisters share
+-94). Context 92 itself is an ordinary context in every blob that has
+one. Cidx 113's schedule is settled as a genuinely different multiset:
+not a permutation of the consensus, not a re-grouping of anyone's
+large actions, with only cidx 302 and 311 showing partial kinship.
+And the staircase's four +64 steps are placed: each is one inter-ff
+region, immediately before its threshold word, grown by exactly 64
+bytes, and the four grown tails all open with the same 32 bytes.
+Next: what separates the +1 populations from the negative-constant
+ones and what sets each artifact's constant, the 113/302/311 kinship,
+and the four extra tails compared byte-for-byte. Broad ordinary
+UNMODIFIED source-model support100% remains the destination.

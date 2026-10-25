@@ -1323,19 +1323,36 @@
   ladder is the same law (51/51
   segments).
   `docs/HAILO10H_DISTINGUISHED_CONTEXT_THRESHOLDS_CIDX_LAW_2026-10-24.md`.
-- [ ] Slice4.88 cidx - 92 law
-  across the other artifacts /
-  other ff populations, and what
-  context 92 itself is; cidx 113's
-  schedule vs the consensus
-  schedule (same (size,channel)
-  multiset/totals — permutation /
-  re-grouping — or a different
-  multiset?); where the staircase
-  +64 insertions live between ff
-  words (rank-aligned camp byte-
-  diff region by region); then
-  broad ordinary UNMODIFIED
+- [x] Slice4.88 the cidx law is
+  corpus-wide: scalar = cidx + C
+  in all 372 scanned ff populations
+  (slope exactly 1; C = +1 in 181
+  groups, one negative per-artifact
+  constant in 191 — 0856 -99, 0a0d
+  -73, sisters -94, 76c3 -92, cc9b
+  -133); context 92 is ordinary in
+  every blob and MiniLM has none;
+  cidx 113's schedule is a DIFFERENT
+  multiset (not a permutation, not
+  a re-grouping; totals differ;
+  partial kinship with 302/311);
+  each staircase +64 lives in the
+  single inter-ff region before
+  ff ranks 2/8/22/26, and the four
+  extra tails share a 32 B opening.
+  `docs/HAILO10H_CIDX_LAW_CORPUS_SCHEDULE_REGIONS_2026-10-24.md`.
+- [ ] Slice4.89 what distinguishes
+  the C = +1 ff populations from
+  the negative-C ones (network
+  group / position / size / cidx
+  range) and what sets each
+  artifact's negative constant;
+  cidx 113 vs 302/311 kinship
+  (where the boundary matches
+  sit); the four extra 64 B
+  tails byte-for-byte (identical,
+  shifted, or same-headed only);
+  then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
