@@ -1989,3 +1989,25 @@ all. Next: where the 290 signature sits inside its
 contexts, the fixture's two companions, and the
 26896 follower mechanism. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 290 template, 264/2824 companions, scattered-B mechanism (AES-NUM-069,slice4.69):
+`docs/HAILO10H_290_TEMPLATE_264_2824_SCATTERED_B_2026-10-24.md`.
+The 290 signature is not just a set of sizes — it is a
+fixed fifteen-action head template, written identically
+at positions 13 to 27 of every context in the class,
+collapsed and full-dose alike, with every neighbour
+frozen and its fillers fixed. The 623 fixture's two
+companions split two ways: 264 is a single fixed slot
+shared with the 419 class (position 30 in one, 17 in
+the other, and nowhere in 290), while 2824 sits at
+position 14 of every 623 context, immediately after
+the head 32784 — the supposed head-B follower was the
+template all along. And the scattered 26896 follower
+dissolves into seam adjacency: in three of four cases
+it is simply the rotation's next member, the C action
+standing immediately after the B. Next: whether the
+three classes share one head template at positions
+0-35, the extra 2824 occurrences at 213 and 451, and
+B-to-C adjacency at corpus scope. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

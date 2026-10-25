@@ -7022,3 +7022,35 @@ No new capability ID or hardware/complete-source execution claim.
   companions of the 623 fixture; 0a0d scattered-B 26896
   follower mechanism (slice 4.69).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-069 — 290 signature as fixed head template, 264/2824 companions, scattered-B mechanism
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_290_TEMPLATE_264_2824_SCATTERED_B_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...068 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef69.py (sha256 8a2f9499...). (i) The 290 signature is a
+  fixed head template: the ten occurrences sit at positions
+  13-27 in ONE order in all 16 class contexts (32600@13,
+  8576@14, 360@15, 14224@17, 200@18, 20488@20, 13176@23,
+  200@24, 13480@26, 200@27), identical in collapsed/zero and
+  full-dose contexts, with deterministic neighbours (304 ->
+  32600, 20488 -> 216, every 200 followed by 24) interleaved
+  with fixed fillers (24 at 16/19/22/25, 216 at 21).
+  (ii) 264 is a fixed slot x1 in 16/16 623 contexts (@30,
+  after core 1280, before 24) AND 16/16 419 contexts (@17),
+  absent 0/16 in 290; 2824 is a fixed @14 in 16/16 623
+  contexts (after 32784, before 328), extras only at 213
+  (cidx 7, 43) and 451 (cidx 43), absent 0/16 in 290.
+  (iii) The scattered-B 26896 follower IS the next seam
+  member at gap 1 in 3/4 cases (an adjacent rotation C;
+  the fourth's next seam is A at gap 3); head-fixed B's
+  take template followers instead (2824/21408, 0/6
+  seam-adjacent), against a corpus B->C gap-1 rate of
+  1,994/18,383.
+- **Next:** the shared head template at positions 0-35
+  across the three classes; extra 2824 occurrences at
+  213/451; B->C seam adjacency at corpus scope
+  (slice 4.70).
+- **Audit:** Host-side analysis only; no device child.

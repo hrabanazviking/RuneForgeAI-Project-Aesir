@@ -886,11 +886,27 @@
   0a0d minors follow 2824/21408/26896, cc9's 424,
   MiniLM + sisters hold no minors).
   `docs/HAILO10H_8SIZE_RESIDUE_FOLLOWER_SCOPE_2026-10-24.md`.
-- [ ] Slice4.69 290 signature positions/neighbours;
+- [x] Slice4.69 290 signature positions/neighbours;
   264 + 2824 companions of the 623 fixture;
-  0a0d scattered-B 26896 follower mechanism; then
-  broad ordinary UNMODIFIED source-model
-  support100%.
+  0a0d scattered-B 26896 follower mechanism: the
+  signature is a fixed head template at positions
+  13-27 (one order in 16/16, deterministic
+  neighbours, fixed fillers 24/216, identical in
+  collapsed/zero and full-dose contexts); 264 is a
+  fixed slot x1 in 16/16 623 (@30, after core 1280)
+  and 16/16 419 (@17), 0/16 in 290; 2824 is fixed
+  @14 in 16/16 623 (after 32784, before 328), extras
+  only at 213 (cidx 7, 43) and 451 (cidx 43); the
+  scattered-B 26896 follower is the next seam member
+  at gap 1 in 3/4 (adjacent rotation C), head-fixed
+  B's take template followers (2824/21408, 0/6).
+  `docs/HAILO10H_290_TEMPLATE_264_2824_SCATTERED_B_2026-10-24.md`.
+- [ ] Slice4.70 shared head template at positions
+  0-35 across the 290/419/623 classes; extra 2824
+  occurrences at 213/451 and their surroundings;
+  B->C seam adjacency as a rotation diagnostic at
+  corpus scope; then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
