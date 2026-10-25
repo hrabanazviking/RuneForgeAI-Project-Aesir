@@ -1602,3 +1602,33 @@ action at position 121, measure the 4112 chain's
 full extent, and census the 9xxx lead cluster.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 last-runs emergence, position-121 action, chain extent, lead cluster
+(AES-NUM-052,slice4.52):
+`docs/HAILO10H_LASTRUNS_POS121_CHAIN_CLUSTER_2026-10-24.md`.
+The channel order function's last thresholds are now
+exact: the last 17 channel runs separate all 1,428
+binary contexts (the 0856a10c cidx 3 group is the sole
+holdout through 16), and the length-carrying suffix
+form separates at five runs or fewer. The sister
+group's run-22 resolution is a single run-21 channel
+flip (0 normal, 2 reversed) after 21 runs of identical
+channel order. The 0a0d378c stack's diverging action
+at middle position 121 is a band-sized 8208 on
+channel 0, where every normal member runs a ~5.5 KB
+channel-2 pattern member — and the normals carry
+their own 8208 eleven slots later, on channel 2. The
+8208→4112→3088 chain turns out to live only in the
+sister artifacts: 672 chains, exactly six per context
+in 112 contexts, a rigid size template (32784 tails
+of 0–16, terminators led by 29712) over entirely
+private segment bytes. And the 9168–9248 cluster is a
+true second lead ladder — eleven step-8 rungs, 743
+windows — but a concentrated one: 688 of its windows
+sit in 19 cc9b9d1c contexts, speaking a dialect where
+32016 plays the role 30480 plays behind the band.
+Next: what selects a cc9b9d1c context for the cluster,
+the 32016 dialect's full anatomy, and which sister
+contexts carry the chains. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

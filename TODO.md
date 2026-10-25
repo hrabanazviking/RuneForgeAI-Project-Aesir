@@ -637,14 +637,33 @@
   (its window-4 pin is led by 9216,out of band;
   windows 4-7 led by a 9168-9248 cluster).
   `docs/HAILO10H_CHANNEL_EMERGENCE_FOLLOWERS_CIDX4_2026-10-24.md`.
-- [ ] Slice4.52 last-runs exact emergence (16-20)
-  + sister-group run-22 resolution detail;
-  position-121 diverging action anatomy (size +
-  neighbourhood in stack members);8208->4112->
-  3088 chain full extent (length,terminator,
-  segment identity across contexts);9168-9248
-  lead cluster census in standard middles
-  (a second lead band?);then broad ordinary
+- [x] Slice4.52 last-runs exact emergence:
+  RLE-channel last-N runs CLEAN at exactly 17
+  (sole holdout through 16 = 0856a10c cidx 3 rev
+  vs 25/37 nor);RLE-full last-N runs clean at
+  every scanned N from 5 (threshold <=5);sister
+  group resolves at run-prefix 22 via run 21's
+  flip (normal (0,5) vs reversed (2,2));position-
+  121 diverging action = 8208 on channel 0 (rev)
+  vs ~5.5 KB on channel 2 (all 14 normals),one-
+  slot phase shift (normals' own 8208 at pos 132
+  ch2);8208->4112->3088 chain is SISTERS-ONLY
+  (672 = 112 contexts x 6;32784 tail 0-16;
+  terminators led by 29712 x375;20 full size
+  sequences;segment bytes private 672/672);
+  9168-9248 cluster IS a second lead ladder
+  (11 step-8 values,743 windows) but concentrated
+  (cc9b9d1c 688 in 19 contexts;76c3a8ff 55 in 2;
+  32016 dialect behind its 3856s).
+  `docs/HAILO10H_LASTRUNS_POS121_CHAIN_CLUSTER_2026-10-24.md`.
+- [ ] Slice4.53 cluster-context selection in
+  cc9b9d1c (19 cluster contexts vs the other 252:
+  size/order/champion features);32016 dialect
+  anatomy (cluster windows' full size shapes vs
+  band windows');chain context selection in the
+  sisters (which 112 contexts carry exactly 6;
+  same cidx set in both sisters? chain positions
+  within those contexts);then broad ordinary
   UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

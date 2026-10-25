@@ -6419,3 +6419,58 @@ No new capability ID or hardware/complete-source execution claim.
   8208->4112->3088 chain full extent;9168-9248 lead cluster
   census (second lead band?) (slice 4.52).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-052 — last-runs emergence, position-121 action, chain extent, lead cluster
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_LASTRUNS_POS121_CHAIN_CLUSTER_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef52.py (sha256 5123fb68...) and hef52b.py (5610901f...).
+  (i) Last-runs emergence EXACT: RLE-channel last-N runs is
+  mixed at 15 and 16 (sole group both times: 0856a10c cidx 3
+  rev,280 actions,vs cidx 25/37 nor,832) and CLEAN at 17
+  (387 keys,118 multi / 1,159 ctx,0 mixed;18-21 also clean);
+  RLE-full last-N runs is clean at every scanned N from 5
+  (threshold <=5). Last-17 channels' sole mixed pair and
+  last-18 cleanliness reconfirmed. (ii) Sister group
+  (5ab3537d cidx 87 nor vs 773470cd cidx 87/211 rev,841
+  actions) resolves at run-prefix 22 because run index 21
+  flips: normal (0,5) vs reversed (2,2) then (1,29); the
+  reversed members are channel-identical to each other;
+  run lengths differ from run 0 ((0,1) vs (0,5)),so RLE-full
+  separates the sisters immediately — their holdout is
+  purely channel-order (raw streams differ at 461 positions
+  by length phase drift). (iii) Position-121 action: the
+  0a0d378c stack's reversed member carries size 8208 on
+  channel 0 at middle position 121,where all 14 normals
+  carry ~5.5 KB (5,480-5,656) on channel 2; positions
+  110-120 identical in class/channel across all 15; from
+  121 the reversed pattern is phase-shifted one slot,and
+  the normals carry their own 8208 at position 132 on
+  channel 2. (iv) Chain full extent: band->4112 683,band
+  8208 in 673,followed by 3088 in 672; the 672 chains are
+  SISTERS-ONLY (336+336),exactly 6 per context in 112
+  contexts; 32784 tail lengths 0-16 (mode 11,189),total
+  length 3-19,20 distinct full size sequences,terminators
+  29712 375 / 4112 114 / 80 70 / 12304 58 / 32 38 / 6160
+  16 / 8208 1; predecessors 29712 297 / 6160 110 / 32784
+  98 / 24 94 / 528 38 / 12304 18 / 80 17; segment bytes
+  PRIVATE (positions 0-3 distinct 672/672; combined tuples
+  672/672) — a rigid size template over unique payloads.
+  (v) 9168-9248 cluster IS a second lead ladder: exactly
+  11 step-8 values (9168..9248,counts 51-90),743 windows
+  of 20,411 (band 10,334); but concentrated — cc9b9d1c 688
+  in 19 of 271 contexts,76c3a8ff 55 in exactly 2 contexts
+  (cidx 3: 41,cidx 4: 14; cidx 4 cluster ordinals 4-7,
+  27-33,47-49),21 contexts total,none elsewhere. Dialect:
+  after a cluster-led 3856 comes 32784 (295) / 32016 (52)
+  / cluster (48) / 30480 (12); top after-4 patterns
+  interleave 32016 with 32784 — 32016 plays 30480's role;
+  classes other 557 / no30480 165 / no32784 12 / full 9.
+- **Next:** cluster-context selection in cc9b9d1c (19 vs
+  252 contexts);32016 dialect anatomy vs band windows;
+  chain context selection in the sisters (which 112
+  contexts;shared between sisters?) (slice 4.53).
+- **Audit:** Host-side analysis only;no device child.
