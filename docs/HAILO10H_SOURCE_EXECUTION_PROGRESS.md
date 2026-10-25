@@ -2307,3 +2307,38 @@ anatomy, the channel agreement past the size break,
 and the singleton templates' nearest neighbours.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 position-18 segment anatomy, channel-prefix-28 extension, singleton nearest templates (AES-NUM-082,slice4.82):
+`docs/HAILO10H_POS18_ANATOMY_CHAN28_SINGLETON_NEAREST_2026-10-24.md`.
+The position-18 segment now decomposes cleanly: a
+four-byte camp word (02 28 f0 a6 against 03 28 f0 a8 —
+bytes 0 and 3 camp-locked, the rest of the sixteen-byte
+header fixed), a single camp-constant prefix of exactly
+6,408 bytes held by every member of a camp at the same
+length in both camps, and a camp-shaped tail in which
+the whole +256 lives — the tails are 83% zero, constant
+at 98.8% of their positions within a camp, and distinct
+in their very first byte in every context; the idea
+that the longer camp is the shorter plus one inserted
+block is excluded in all 156 cross pairs. The len-763
+channel mystery dissolves: exemplar b's channels 13–27
+are all zero, so the prefix-28 agreement is a shared
+silence — that fifteen-zero pattern occurs 48,146 times
+across the corpus, while the full 28-channel head
+occurs exactly 27 times and only ever at offset 0; the
+ng 1 train's channels in fact stay group-constant to
+position 54 while its sizes diverge from 13. And the
+sisters' singleton tails are measured as local jitter —
+ten of eleven sit one or two size edits from a resident
+template with channels untouched — while 773's cidx 97
+stands 314 size positions, 193 channel positions and
+L1 4,641,152 from its nearest resident template, its
+foreign origin now a number and not just a story. This
+slice was resumed from a stalled transfer: the previous
+firing's script and on-device receiver were reused
+verbatim and the gz bytes crossed by proxy POST, never
+through tool re-emission. Next: the tail's per-context
+anatomy, a corpus census of the sixteen-byte header,
+and the channel plateau past position 28. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.

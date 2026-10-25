@@ -7468,3 +7468,41 @@ No new capability ID or hardware/complete-source execution claim.
   extension vs exemplar b; sister singleton templates'
   nearest-template distances (slice 4.82).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-082 — position-18 segment is camp word + camp-constant prefix + camp-shaped tail (the +256 is no insertion), channel-prefix-28 is a zero plateau, singletons are 1–2-edit locals except the quantitatively foreign cidx 97
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_POS18_ANATOMY_CHAN28_SINGLETON_NEAREST_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...081 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef82x.py (sha256 86c0a8e7...) + labelled control follow-up
+  hef82b.py (sha256 5674bdc8...), both sha-verified on-device
+  after one-shot proxy-receiver transfers (gz sha returned by
+  the receiver and matched; output files bf5742c7... /
+  d73a1872...). Slice resumed from the previous firing's
+  stalled transfer — its script and receiver were reused
+  verbatim, no analysis re-authored. (i) Position-18 segments
+  (76c3a8ff len-89 B-main, 25 contexts, camps 13/12): header
+  constant except bytes 0 (0x02 vs 0x03) and 3 (0xa6 vs 0xa8)
+  — camp word 02 28 f0 a6 vs 03 28 f0 a8, u32 LE 2800756738 vs
+  2834311171, meaning NOT PROVEN; within-camp GLOBAL common
+  prefix exactly 6,408 B in both camps; the whole +256 sits
+  in the tail (14,984 vs 15,240 B; ~83% zero; 98.8% of tail
+  positions constant within camp; first tail byte distinct
+  per context); one-block insertion excluded (0/156 cross
+  pairs). (ii) Exemplar b's chans[13:28] are all zero — the
+  ng 1 channel-prefix-28 is a zero plateau (the 15-zero
+  pattern occurs 48,146 times as a subsequence corpus-wide;
+  full chans[0:28] occurs exactly 27 times, always at offset
+  0; ng 1 channels group-constant to position 54 while sizes
+  diverge from 13). (iii) Singletons: ten of eleven sit 1–2
+  size edits from a resident template (channel Hamming 0,
+  L1 <= 4,896); 773 cidx 97 sits 314 size / 193 channel /
+  L1 4,641,152 from its nearest resident template — its
+  foreign origin is now quantitative.
+- **Next:** position-18 tail per-context anatomy (~187
+  variable positions, pattern word); corpus census of the
+  16 B header pattern; ng 1 channel plateau past 28 vs
+  exemplar b (slice 4.83).
+- **Audit:** Host-side analysis only; no device child.

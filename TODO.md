@@ -1196,15 +1196,42 @@
   473), 773 cidx 97 a full joint
   transplant of 5ab's modal template.
   `docs/HAILO10H_HEAD_TRAINS_CAMP_CONTENT_TEMPLATE_CENSUS_2026-10-24.md`.
-- [ ] Slice4.82 position-18 segment
+- [x] Slice4.82 position-18 segment
   anatomy (byte-0/byte-3 camp word;
   6,408 B shared prefix vs per-context
   tail; where the +256 sits); ng1
   channel-prefix-28 extension vs
   exemplar b; sister singleton
   templates' nearest-template
-  distances; then broad ordinary
-  UNMODIFIED source-model support100%.
+  distances: camp word 02 28 f0 a6 vs
+  03 28 f0 a8 (bytes 0 and 3 locked,
+  header rest fixed); global prefix
+  exactly 6,408 B both camps; the
+  whole +256 in the tail (14,984 vs
+  15,240 B, ~83% zero, 98.8% of tail
+  positions camp-constant, first tail
+  byte per-context distinct);
+  one-block insertion excluded 0/156;
+  channel-prefix-28 is a zero plateau
+  (b chans[13:28] all zero, 48,146
+  subsequence occurrences; full
+  chans[0:28] exactly 27, all at
+  offset 0; ng1 channels constant to
+  position 54); singletons 1–2 size
+  edits from resident templates
+  (channel Hamming 0) except 773
+  cidx 97 at 314/193/L1 4,641,152.
+  `docs/HAILO10H_POS18_ANATOMY_CHAN28_SINGLETON_NEAREST_2026-10-24.md`.
+- [ ] Slice4.83 position-18 tail
+  per-context anatomy (~187 variable
+  positions; repeating pattern word
+  per camp/context); corpus census of
+  the 16 B header pattern (other
+  positions/artifacts?); ng1 channel
+  plateau past 28 (group-constant
+  channels 28–53 vs exemplar b);
+  then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
