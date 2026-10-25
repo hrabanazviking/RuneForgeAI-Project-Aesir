@@ -6927,3 +6927,34 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** remnant insertion positions; zero-pair overlap
   anatomy; 123-class pattern in the alt frame (slice 4.66).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-066 — Remnant insertion positions, zero-pair overlap anatomy, 123-class alt frame
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_INSERTION_ZERO_PAIR_ALT123_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...065 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef66.py (sha256 31b3b020...). (i) Remnant insertions
+  (17 contexts, 32 minor occurrences) have NO universal slot:
+  two fixed head insertions (0a0d 623 collapsed BB pair at seam
+  ordinals 0-1, action positions 13/17, identical neighbours in
+  4/4 contexts; cc9 C prefix at ordinal 0, position 16, in 2/2),
+  the other 22 scattered (fractions 0.110-0.861, unique
+  ordinals; followers 4368 x7 / 3856 x6 recorded as counts).
+  (ii) The six J>=0.72 zero/collapsed pairs are EXACTLY the
+  ordinal-matched, state-matched 419<->623 pairs (k=1..6);
+  overlap is carried by large sizes (only 15 shared <=512 B of
+  132-202 intersections), covers 0.907-0.976 of actions at
+  unequal doses, and does NOT preserve stream positions
+  (first-occurrence agreement 1-2 per pair); the difference
+  is one-sided (419 lacks 9-11 sizes around a fixed core;
+  623 lacks 34-49). (iii) The 123 class shares ONE alt
+  template CBABCBAABCACBACBACBCBAAC (24 letters, 8/8/8) in
+  all 16 contexts and nowhere else; rotation is the corpus
+  sense at degraded strength (15/23 reverse) — a projection
+  of the triplet machinery, not a new block.
+- **Next:** 290 ordinal-matching at lower dose; 623 extra
+  vocabulary vs surviving dose; singleton follower test
+  (slice 4.67).
+- **Audit:** Host-side analysis only; no device child.

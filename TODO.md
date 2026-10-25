@@ -841,10 +841,24 @@
   134 tail sits in the body (pos 103-129 vs end
   block at 158), end block written intact after it.
   `docs/HAILO10H_REMNANTS_ZERO_VOCAB_134_TAIL_2026-10-24.md`.
-- [ ] Slice4.66 remnant singleton insertion positions;
+- [x] Slice4.66 remnant singleton insertion positions;
   cross-class zero-pair overlap anatomy; 123-class
-  A/B pattern in the alt frame; then broad ordinary
-  UNMODIFIED source-model support100%.
+  A/B pattern in the alt frame: no universal insertion
+  slot (two fixed head insertions — 623 collapsed BB
+  pair at positions 13/17 in 4/4, cc9 C prefix at 16
+  in 2/2; other 22 scattered); six J>=0.72 pairs are
+  exactly the ordinal-matched state-matched 419<->623
+  pairs k=1..6, overlap carried by large sizes (15
+  small of 132-202), positions not preserved, diff
+  one-sided (419 lacks 9-11, 623 lacks 34-49); 123
+  alt = one fixed balanced 24-letter template in all
+  16 contexts, corpus rotation sense degraded — a
+  projection, not a new block.
+  `docs/HAILO10H_INSERTION_ZERO_PAIR_ALT123_2026-10-24.md`.
+- [ ] Slice4.67 290-class ordinal-matching at lower
+  dose; 623 extra vocabulary vs surviving triplet
+  dose; scattered-singleton follower test; then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

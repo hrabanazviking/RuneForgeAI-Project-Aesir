@@ -1924,3 +1924,26 @@ Next: where the remnant singletons are inserted, what
 carries the zero pairs' overlap, and the 123-class
 pattern in the alt frame. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 remnant insertions, zero-pair anatomy, alt 123 (AES-NUM-066,slice4.66):
+`docs/HAILO10H_INSERTION_ZERO_PAIR_ALT123_2026-10-24.md`.
+The remnant singletons have no universal insertion slot:
+exactly two insertions are fixed — the collapsed 623
+contexts keep their surviving 32784 dose as a BB pair at
+fixed action positions 13 and 17, and the cc9 pair's
+single 26896 sits at position 16 — while the other
+twenty-two occurrences scatter across their contexts.
+The collapsed contexts' vocabulary kinship is ordinal:
+the six closest pairs are precisely the k-th collapsed
+or zero context of the 419 class against the k-th of
+the 623 class, their overlap carried by the large-size
+bands at unequal doses and with no stream positions
+preserved. And the 123 class in the alt frame is one
+fixed balanced 24-letter template, rotating in the
+corpus's single sense at degraded strength — the
+triplet machinery seen through the other member set,
+not a new block. Next: whether the 290 class completes
+the same ordinal train at lower dose, the 623 side's
+extra vocabulary, and the singleton follower test.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
