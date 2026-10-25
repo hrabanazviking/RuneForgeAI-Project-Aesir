@@ -328,9 +328,14 @@
   ladder;special-pair splitter = flags bit (0x4000/0x8000
   ⟺ datum pair, complementary positions).
   `docs/HAILO10H_CODETERMINATION_BIJECTION_SPLITTER_2026-10-24.md`.
-- [ ] Slice4.23 closed-form hunt:GF(2) affine test on the
-  (lane1→datum) sample maps;arithmetic/permutation
-  candidates if linearity fails;then broad ordinary
+- [x] AES-NUM-023 slice4.23 closed-form hunt I:the datum
+  map is GF(2)-LINEAR — zero inconsistencies over 479
+  samples (~9,700 bit-constraints);ladder step XORs the
+  datum by one of only 3 values in both artifacts.
+  `docs/HAILO10H_DATUM_LINEARITY_PROOF_2026-10-24.md`.
+- [ ] Slice4.24 extract the 24x64 matrix;cross-validate
+  (fit blob,predict MiniLM);read matrix structure
+  (banded/CRC-like vs scramble);then broad ordinary
   UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

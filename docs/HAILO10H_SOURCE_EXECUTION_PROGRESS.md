@@ -1071,3 +1071,14 @@ choice whose two values map exactly onto the famous datum
 pair. Next:the closed form (GF(2) affine test). Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 the datum's closed form I (AES-NUM-023,slice4.23):
+`docs/HAILO10H_DATUM_LINEARITY_PROOF_2026-10-24.md`. The
+operand→datum bijection is GF(2)-LINEAR:zero inconsistencies
+across 479 samples and ~9,700 bit-constraints;ladder steps
+XOR the datum by one of only three values in both artifacts.
+The encoding at the heart of the burst is a binary matrix.
+Next:extract it,cross-validate across artifacts,read its
+structure. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

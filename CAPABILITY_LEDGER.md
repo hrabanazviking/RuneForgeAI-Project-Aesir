@@ -5570,3 +5570,23 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** closed-form hunt — GF(2) affine test on the
   417-sample map,then arithmetic/permutation candidates.
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-023 — the datum map is GF(2)-linear
+
+- **Status:** `verified` (exact linear algebra,2 artifacts).
+- **Owner:** docs/HAILO10H_DATUM_LINEARITY_PROOF_2026-10-24.md.
+- **Evidence:** Incremental GF(2) basis test:MiniLM 62
+  samples rank 12,blob 417 samples rank 14 — ZERO
+  inconsistencies for affine AND pure-linear systems
+  (~9,700 bit-constraints satisfied in the blob alone;
+  random map passes with probability ~2^-24 per sample).
+  Probes concur:ladder +0x200 step ⇒ datum XORs by one of
+  only 3 values in both artifacts;arithmetic differences
+  all distinct (arithmetic form excluded).
+- **Reading:** datum = a fixed 24×64 binary matrix times
+  the operand word (on the observed rank-12–14 domain —
+  the compiler's own variety).
+- **Next:** extract the matrix;cross-validate blob-fit →
+  MiniLM prediction;read its structure (CRC-like banding
+  vs designed scramble).
+- **Audit:** Host-side analysis only.
