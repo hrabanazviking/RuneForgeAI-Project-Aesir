@@ -5641,3 +5641,19 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** non-champion lane0 families (same treatment);
   wider CCW forms beyond 24 B bursts.
 - **Audit:** Host-side build/run only;no device child.
+
+### AES-NUM-027 — lane0 families: the affine law is universal
+
+- **Status:** `verified` (complete populations,2 artifacts).
+- **Owner:** docs/HAILO10H_LANE0_FAMILIES_CENSUS_2026-10-24.md.
+- **Evidence:** 5,699 bursts in 61 lane0 families.
+  AGGREGATE over all 61:operand→datum a function in every
+  family (0 violations);GF(2)-affine in every family
+  (0 inconsistencies,ranks 1–15);lane2 width law holds in
+  5,699/5,699 bursts. Non-champion lane1 anatomy is
+  periodic (replicated-scalar construction);two families
+  are single fixed bursts ×28.
+- **Next:** family census across all 7 artifacts;freeze
+  bases for the largest non-champion families;then the
+  Campaign-4 stocktake toward the Campaign-5 encoder gate.
+- **Audit:** Host-side analysis only.

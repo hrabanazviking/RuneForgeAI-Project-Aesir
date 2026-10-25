@@ -349,9 +349,14 @@
   + Mojo encoder (hailbru/ccw_datum.mojo);built on Mimir,
   CHECKED 1189 FAILED 0;out-of-span refuses.
   `docs/HAILO10H_ENCODER_FREEZE_2026-10-24.md`.
-- [ ] Slice4.27 non-champion lane0 families:census per
-  family + operand-to-datum structure per family (same
-  treatment as champion);then broad ordinary UNMODIFIED
+- [x] AES-NUM-027 slice4.27 lane0 families:61 families,
+  5,699 bursts — operand→datum function + GF(2)-affine +
+  width law hold in EVERY family (aggregate zeros).
+  `docs/HAILO10H_LANE0_FAMILIES_CENSUS_2026-10-24.md`.
+- [ ] Slice4.28 family census across all 7 artifacts;
+  per-family basis freezes for the largest non-champion
+  families;Campaign-4 stocktake toward the Campaign-5
+  encoder gate;then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

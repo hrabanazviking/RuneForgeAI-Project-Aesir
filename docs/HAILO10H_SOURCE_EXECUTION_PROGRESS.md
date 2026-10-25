@@ -1114,3 +1114,13 @@ failures. Aesir now computes the champion burst's datum
 itself. Next:the non-champion lane-0 families. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 lane-0 families (AES-NUM-027,slice4.27):
+`docs/HAILO10H_LANE0_FAMILIES_CENSUS_2026-10-24.md`. All
+61 burst families obey the same laws:operand→datum is a
+function,GF(2)-affine,inside the lane-2 width law — 5,699
+bursts,zero exceptions. The champion encoder is one
+instance of a general pattern. Next:corpus-wide family
+census + per-family freezes. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
