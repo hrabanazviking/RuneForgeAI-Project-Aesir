@@ -673,13 +673,22 @@
   / step-4 (99-203) train,positions identical 54/56
   (exceptions = the break pair).
   `docs/HAILO10H_CLUSTER_SELECTION_DIALECT_CHAIN_SELECTION_2026-10-24.md`.
-- [ ] Slice4.54 wider lead-family census around
-  the cluster (step-8 leads 9100-9350 in positives
-  vs dense negatives;family extent and membership
-  re-grade);lead vocabulary of the 61 window-dense
-  cc9b9d1c negatives;cidx-1 single-cluster-window
-  anatomy;then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] Slice4.54 wider lead-family census:family is
+  exactly 9144-9264 (16 step-8 values,900 windows),
+  exclusive to the same 19 cc9b9d1c contexts (ZERO in
+  all 252 negatives) — membership does NOT re-grade,
+  dose grows 688->900,edges sharp;dense negatives run
+  a disjoint ladder vocabulary (94xx 0.288,low
+  8960-9136 0.194,97xx 0.194,band 0.000;vocab 64 vs
+  109,16 POS-only = the exclusive zone);cidx-1 edge
+  member (1 ordinary core window,exclusive dose 9,
+  32016 dialect full strength 96/0 — dose != dialect).
+  `docs/HAILO10H_WIDER_FAMILY_DENSE_VOCAB_CIDX1_2026-10-24.md`.
+- [ ] Slice4.55 94xx ladder anatomy (exclusive zone,
+  dose law,its own dialect behind its windows);
+  shared 97xx ladder's role in both dialects;
+  exclusive-minus-core dose gap per context;then
+  broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

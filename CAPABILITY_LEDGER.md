@@ -6520,3 +6520,42 @@ No new capability ID or hardware/complete-source execution claim.
   lead vocabulary of the 61 window-dense cc9 negatives;
   cidx-1 single-cluster-window anatomy (slice 4.54).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-054 — wider lead family, dense-negative vocabulary, cidx-1 anatomy
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_WIDER_FAMILY_DENSE_VOCAB_CIDX1_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052/053 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef54.py (sha256 5dfdc417...) and hef54b.py (ccf0a005...).
+  (i) The wider lead family is exactly 9144-9264 (16 step-8
+  values):900 windows in precisely the 19 cc9b9d1c cluster
+  contexts,ZERO in all 252 negatives (dense or sparse);
+  corpus 963 windows in 21 contexts (the 19 plus the known
+  76c3a8ff cidx 3/4 exceptions).Membership does NOT
+  re-grade — only the dose changes (900 vs the core's 688);
+  edges are sharp (below 9144 the ladder belongs to the
+  negatives,9000-9112 POS 0;above 9264 ownership flips by
+  9288-9344 to the dense pool).The naive 9104-9352 extent
+  would falsely admit 27 negative contexts on shoulders.
+  Exclusive dose tracks core dose (correlation 0.948;
+  per-ctx 9-64,mean 47.4). (ii) The 61 dense negatives run
+  a disjoint ladder vocabulary:94xx zone share 0.288
+  (9448 x176 top),low 8960-9136 0.194,97xx 0.194,band
+  0.000;positives mirror (family 0.512,97xx 0.159,94xx 0).
+  Vocab 64 vs 109 distinct,48 shared (jaccard 0.384);the
+  16 positive-only values are exactly the exclusive zone;
+  the whole 94xx ladder is dense-only. (iii) cidx 1 is an
+  edge member:its single core window (ordinal 32,lead
+  9232,channel 1,class other) is anatomically ordinary;
+  exclusive dose 9 (mean 47.4) with a shoulder-heavy lead
+  profile (9296 x14,9288 x12),yet its 32016 dialect is
+  full strength (32016 x96 in its middle,30480 x0;windows
+  40 no30480 / 56 other / 0 full) — dose and dialect are
+  separate variables.
+- **Next:** 94xx ladder anatomy (exclusive zone? dose law?
+  its own window dialect?);shared 97xx ladder's role in
+  both dialects;exclusive-minus-core dose gap per context
+  (slice 4.55).
+- **Audit:** Host-side analysis only;no device child.

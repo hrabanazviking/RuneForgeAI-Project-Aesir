@@ -1657,3 +1657,22 @@ leads the dense negative contexts, and the lone
 cluster window in cc9b9d1c context 1. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 wider lead family, dense vocabulary, cidx-1 (AES-NUM-054,slice4.54):
+`docs/HAILO10H_WIDER_FAMILY_DENSE_VOCAB_CIDX1_2026-10-24.md`.
+The cluster's wider family is exactly the 16 step-8
+values 9144-9264: 900 windows in precisely the same
+19 cc9b9d1c contexts and zero in all 252 negatives,
+so membership does not re-grade — only the dose
+grows. The 61 window-dense negatives speak entirely
+different ladders (a 94xx ladder above all), sharing
+only the 97xx ladder and a shoulder with the family.
+And context 1, the family's weakest member with one
+ordinary core window and an exclusive dose of 9,
+still speaks the 32016 dialect at full strength:
+dose and dialect are separate variables. Next: the
+94xx ladder's own anatomy, the shared 97xx ladder's
+role in both dialects, and the shoulder-dose gap.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
