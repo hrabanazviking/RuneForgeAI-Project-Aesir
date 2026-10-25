@@ -5297,3 +5297,23 @@ No new capability ID or hardware/complete-source execution claim.
   acquisition + cross-artifact differential;per-context lane
   comparison.
 - **Audit:** Host-side analysis only.
+
+### AES-NUM-014 — census hunt negative + empirical addressing floor
+
+- **Status:** `verified` (bounded negative + measured floor).
+- **Owner:** docs/HAILO10H_CENSUS_HUNT_AND_ADDRESSING_FLOOR_2026-10-24.md.
+- **Evidence:** (1) The twister driver trees (hailort-drivers
+  transport:PCIe/VDMA/fw-ops) contain NO cluster/APU/core
+  census constants — principled negative (census lives in
+  firmware/compiler,not the host transport driver);corpus
+  class exhausted. (2) The MiniLM HEF's 286 LCU triggers
+  (schema ProtoHEFTrigger.2 = {cluster,lcu}) address cluster
+  indices 1-4 (+elided 0) and LCU indices 1-15 (+elided 0),
+  near-uniform — an EMPIRICAL LOWER BOUND of >=5 clusters x
+  >=16 LCUs addressed by one small network.
+- **Evidence boundary:** the floor is a network's usage,not
+  the silicon census;assignment safety still unproven;proto3
+  zero-elision makes pair counts partial (240/286) while
+  ranges are exact. AES-NUM-007's NOT PROVEN stands for the
+  census itself,with this floor now beneath it.
+- **Audit:** Host-side analysis only.

@@ -255,10 +255,15 @@
   (lane0 header word x132/153;6 aligned contexts at
   57/57/56/58/56/59 small bursts;lanes1-2 packed operands).
   `docs/HAILO10H_ZERO_POINT_AND_BURST_STRUCTURE_2026-10-24.md`.
-- [ ] Slice4.14 census hunt in the local driver trees
-  (twister fork/fork-5.3);4.15 pair acquisition (model zoo)
-  + cross-artifact differential;per-context lane comparison;
-  then broad ordinary UNMODIFIED source-model support100%.
+- [x] AES-NUM-014 slice4.14 census hunt:driver trees hold
+  NO census constants (transport corpus class exhausted,
+  principled negative) — but the MiniLM artifact's 286 LCU
+  triggers measure an addressing floor of >=5 clusters x
+  >=16 LCUs (indices 0-4 / 0-15).
+  `docs/HAILO10H_CENSUS_HUNT_AND_ADDRESSING_FLOOR_2026-10-24.md`.
+- [ ] Slice4.15 pair acquisition (model zoo) + cross-
+  artifact differential;per-context lane comparison;then
+  broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

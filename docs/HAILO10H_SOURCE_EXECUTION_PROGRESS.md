@@ -927,3 +927,16 @@ operands — the differential's foothold. Next:4.14 census
 hunt in the driver trees,4.15 pair acquisition. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination;the empirical road keeps producing.
+
+
+2026-10-24 census hunt + addressing floor (AES-NUM-014,
+slice4.14):
+`docs/HAILO10H_CENSUS_HUNT_AND_ADDRESSING_FLOOR_2026-10-24.md`.
+The driver trees hold no census (transport driver — the
+class is exhausted honestly). The artifact itself pays out
+instead:its 286 LCU triggers address clusters 0-4 and LCUs
+0-15 — a measured floor (>=5 clusters x >=16 LCUs) under
+R3's NOT PROVEN. Next:4.15 model-zoo pair acquisition +
+cross-artifact differential;per-context lane comparison.
+Broad ordinary UNMODIFIED source-model support100% remains
+the destination.
