@@ -482,3 +482,24 @@ exchange has run yet:the full host qualification battery is slice2.3
 and physical confirmation a separately contracted slice2.4.
 Numerical/packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 grouped transfer primitive host qualification:
+`docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`
+(AES-TRANSFER-003,Campaign2 slice2.3). The derived aligned suite
+(11 tests,574 runs,same qualified oracle/fault library as -017)
+passes in full:exact and boundary frames,descriptor-return
+boundaries,all sync/launch/enable/wait/reply faults,IRQ atomicity
+and quarantine cases,the total deadline faulted at every observed
+clock stage,partial construction and cleanup faults,uncertain close
+retaining exactly2 views,12 guard refusals,6 primitive-layer
+preflight poisons — and test_11 shows the primitive's diagnostic
+output byte-identical to the qualified RPC client's on identical
+scenarios. Two earlier iterations failed only on reply-framing
+faults;the resolution is a qualified consumer-layer poison contract
+(the consumer validates decode/id/action/status and poisons the
+owner),leaving the primitive framing-free as designed. Host mocks
+only. Next is slice2.4:a separately contracted bounded physical
+confirmation (one control-class exchange through the primitive).
+Numerical/packing/placement/program/results and broad ordinary
+UNMODIFIED source-model support100% remain work.

@@ -95,8 +95,9 @@ struct SocGroupedTransfer(Movable):
     def exchange_raw(mut self, packet: List[UInt8], timeout_ms: Int64) raises -> List[UInt8]:
         if self.poisoned or not self.available or self.busy:
             raise herror("SocTransferState", "closed,failed or busy grouped transfer requires a fresh owner")
-        if len(packet) > Int(SOC_RPC_STORAGE_SIZE):
-            raise herror("SocTransferBounds", "packet exceeds the owned 2068-byte logical extent")
+        # Oversize packets are refused by the storage write inside the
+        # exchange (SocStorageBounds), exactly as the RPC client's are:
+        # the refusal poisons this owner, never silently reuses it.
         self.busy = True
         try:
             self._owned()

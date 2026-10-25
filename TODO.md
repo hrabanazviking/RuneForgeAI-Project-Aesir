@@ -36,13 +36,18 @@
   (Mojo1.0.0);physical-root/argument refusals smoked. The qualified
   RPC client sources are deliberately untouched.
   `docs/HAILO10H_GROUPED_TRANSFER_PRIMITIVE_2026-10-24.md`.
-- [ ] Slice2.3 host qualification battery for the primitive (deadline
-  accounting,poison-on-uncertainty,ownership lifetimes,late-completion
-  quarantine incl. NOT_ACTIVE),then a separately contracted 2.4
-  physical confirmation;then numerical configuration/packing/
+- [x] AES-TRANSFER-003 slice2.3 host qualification of the primitive:
+  11 tests OK,574 runs,byte-identical comparisons incl. test_11
+  cross-check vs the RPC client diagnostic. Two iterations failed
+  only on reply-framing faults — resolved as a qualified
+  consumer-layer poison contract (the primitive stays framing-free).
+  `docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md`.
+- [ ] Slice2.4 separately contracted bounded physical confirmation
+  (one control-class exchange through the primitive),then Campaign3
+  program resource lifecycle;then numerical configuration/packing/
   placement/program/results and broad ordinary UNMODIFIED
-  source-model support100%. Any further physical lifecycle attempt
-  requires a NEW one-shot contract.
+  source-model support100%. Any physical attempt requires its OWN
+  published one-shot contract first.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

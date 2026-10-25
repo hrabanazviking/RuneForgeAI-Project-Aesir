@@ -4551,3 +4551,46 @@ No new capability ID or hardware/complete-source execution claim.
   the primitive against the qualified device oracle.
 - **Audit:** Additive slice:two new files plus documentation. No
   existing source modified. Failures retained;no global/hosted-CI pass.
+
+### AES-TRANSFER-003 — Grouped transfer primitive host qualification
+
+- **Status:** `verified` (host scope only)
+- **Owner:** Original hailbru/soc_transfer.mojo exercised through
+  tests/hailo_group_transfer_aligned_api.mojo (direct consumer) and
+  smidr/tools/group_transfer_mock.mojo (probe diagnostic).
+- **Claim sources:** AES-TRANSFER-001 specification S1-S6;
+  docs/HAILO10H_GROUPED_TRANSFER_QUALIFICATION_2026-10-24.md.
+- **Executable evidence:** tests/test_hailo_group_transfer_aligned.py
+  (derived from the AES-CONTROL-017 aligned control suite;same
+  qualified oracle and fault library,unchanged):11 tests OK,574
+  recorded runs (374 probe,194 API,6 cross-check),every run compared
+  for byte-identical stdout/stderr/exit and oracle-event equality.
+  Exact/boundary frames {0,1,19,20,21,2047,2048}x{1,3};descriptor
+  return boundaries {(1,1),(1,65535),(65535,1),(65535,65535),(7,5)}
+  admitted,{-1,0,65536,2^31-1} poisoning per direction;all sync/
+  launch/enable/wait/reply faults poison with fresh recovery;IRQ
+  atomicity,partial,duplicate,foreign,count,error (0xFE/0xFF class),
+  mask and engine cases;total deadline faulted at every observed
+  clock stage;partial construction and cleanup faults;uncertain
+  close retains exactly 2 views with one file-close attempt;12 guard
+  refusals;6 primitive-layer preflight poisons. Test_11:the
+  primitive's diagnostic output is byte-identical to the qualified
+  RPC client's on identical scenarios.
+- **Qualification history:** Two iterations failed ONLY on
+  reply-framing faults (reply_magic,then reply_id):the framing-free
+  primitive completed the transport and nothing poisoned the owner.
+  Resolution is a consumer-layer contract,now qualified:the consumer
+  validates the reply (decode,id,action,status) and poisons+closes
+  the owner on framing failure,composing cleanup failure as the RPC
+  client's exchange does. The only primitive change was removing a
+  redundant pre-check so oversize packets refuse (and poison) at the
+  storage write,as the client's do. Run totals 538/558/574.
+- **Evidence boundary:** Host mocks only;no physical child. Slice
+  2.4 (separately contracted bounded physical confirmation) remains
+  for Campaign 2's exit. Numerical configuration/packing/placement,
+  program execution and source-model support remain unproven.
+- **Next acceptance gate:** Slice 2.4 contract,then Campaign 3
+  program resource lifecycle.
+- **Audit:** Additive test files plus the one recorded primitive
+  comment/pre-check change;oracle and fault library untouched.
+  Failures retained;no global/hosted-CI pass.
