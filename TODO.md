@@ -1512,13 +1512,27 @@
   ALL byte pairs (0 differing
   triples, 602 pairs).
   `docs/HAILO10H_ZERO_PAIR_COUNTERPARTS_HEAD_POPULATION_POSITIONAL_LAW_2026-10-24.md`.
-- [ ] Slice4.100 the 22 zero
-  offsets across all forms
-  (DENSE/MID at same offsets);
-  family-1/2 label values vs
-  segment metadata; positional
-  law on ungrown ranks + the
-  reverse (B, A) direction;
+- [x] Slice4.100 the 22 zero
+  offsets are DENSE/MID-poor
+  (4 candidates vs 616 at
+  control offsets) but NOT
+  form-exclusive (one DENSE
+  zero at 28768); label values
+  carry no non-degenerate
+  stated function of segment
+  metadata (501 hits, all
+  degenerate); positional law
+  exact on all 36 ungrown
+  region pairs + in reverse
+  (pooled = forward exactly).
+  `docs/HAILO10H_ZERO_OFFSET_FORMS_LABELS_POSITIONAL_2026-10-24.md`.
+- [ ] Slice4.101 the single
+  DENSE zero at 28768; family
+  label byte0 values vs the
+  segments' own block words
+  beyond the head positions;
+  positional-law scope test on
+  a non-camp segment pair;
   then broad ordinary
   UNMODIFIED source-model
   support100%.

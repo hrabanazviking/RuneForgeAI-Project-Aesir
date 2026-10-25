@@ -8258,3 +8258,68 @@ No new capability ID or hardware/complete-source execution claim.
   positional law on ungrown ranks and the reverse
   direction (slice 4.100).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-100 — the 22 zero offsets are almost form-exclusive (one DENSE zero at 28768 breaks it), the family labels carry no non-degenerate stated function of segment metadata (all 501 exact hits degenerate), and the positional law holds on every ungrown region and in reverse
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_ZERO_OFFSET_FORMS_LABELS_POSITIONAL_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...099 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
+  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
+  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
+  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
+  x12, rank-2 middles 21 mismatches at k = 111, AES-NUM-095
+  counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898, MID
+  21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6),
+  AES-NUM-097 counts (mask table; region 0 2,056 words /
+  02-count 150 / distinct 104; six-pair totals s = 0: 28,
+  s = +64: 44; 20>3e 21 shifts x8 at +31; a9>3e at -16/+64),
+  AES-NUM-098 counts (22 zero (mask, offset) pairs; 20>3e
+  positional exact at all 257 shifts) and AES-NUM-099 counts
+  (re-collection exact 2,280; counterparts 2; 75 head cells
+  constant; positional law 602 pairs / 131,360 tallies /
+  0 differing / out-of-range 24,544 over 269 — also this
+  slice's grown-direction control, reproduced in-run).
+  (i) Whole non-common re-collection exact (7,484;
+  SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64). At the
+  22 zero offsets: 146 SPARSE candidates, 144 zero (the 2
+  non-zero are the AES-NUM-099 counterparts); DENSE+MID
+  candidates total only 4 (DENSE at 3 offsets, MID at 1)
+  vs 616 at the 626 other SPARSE-carrying offsets (9 zeros
+  there); the four are 6180 MID 1/0, 28768 DENSE 1/1 ZERO
+  (mask 00000), 29336 DENSE 1/0, 30136 DENSE 1/0.
+  Form-exclusivity FAILS by exactly that one DENSE zero
+  at 28768; 21/22 offsets carry no DENSE/MID zero, 18/22
+  no DENSE/MID candidate at all. Mechanism NOT PROVEN.
+  (ii) Label table over 25 segments (ng 1, nact 89, act18
+  channel 0 throughout): fam1 byte0 25 distinct pooled,
+  byte1 3 values pooled, bytes 2–3 zero; fam2 bytes 0–1
+  20/21 distinct pooled, byte2 2 values, byte3 zero.
+  Stated-function hunt: 501 exact hits, ALL degenerate —
+  408 as-function on a constant byte, 27 affine all
+  (0, 0) on constant bytes, 55 as-function through an
+  injective X (tautology), 11 as-function on a byte with
+  <= 3 distinct values in scope. No a != 0 affine hit on
+  any varying byte; monotonicity inversions > 0 for every
+  varying byte/word in every scope; fam1^fam2 / byte-diff /
+  word-diff fully distinct (13/12/25); cross-family affine
+  hits only onto fam2's constant byte3. What the labels
+  encode NOT PROVEN. (iii) Positional law EXACT on all 36
+  non-empty ungrown region pairs (44 regions per camp;
+  grown {2, 8, 22, 26}; empty-in-both 15/17/19/37 skipped,
+  recorded): aggregate 4,392,812 tallies, 10,591 summed
+  pairs, differing triples 0, out-of-range 68,733,956.
+  Reverse direction on the grown middles: per-rank
+  differing 0; pooled 602 pairs / 131,360 tallies / 0
+  differing / out-of-range 24,544 over 269 — identical to
+  forward; all six copy pairs predicted-equal in reverse
+  (20>3e and a9>3e reverse censuses EMPTY — B middles hold
+  no 0x20 byte).
+- **Next:** the single DENSE zero at 28768; family label
+  byte0 values vs the segments' own block words beyond
+  the head positions; positional-law scope test on a
+  non-camp segment pair (slice 4.101).
+- **Audit:** Host-side analysis only; no device child.

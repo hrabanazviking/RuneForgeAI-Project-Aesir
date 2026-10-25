@@ -2732,3 +2732,23 @@ differing triples. Next: the 22 offsets across all forms, the
 head labels against segment metadata, and the positional law on
 the ungrown ranks and in reverse. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 zero offsets across forms, label functions, positional law ungrown + reverse (AES-NUM-100,slice4.100):
+`docs/HAILO10H_ZERO_OFFSET_FORMS_LABELS_POSITIONAL_2026-10-24.md`.
+The 22 zero offsets turn out to be poor in the other forms
+too — only four DENSE/MID candidates live at those offsets
+at all, against 616 at the other sparse-carrying offsets —
+but exclusivity breaks by a single candidate: one DENSE
+zero at offset 28768. The family labels refuse every honest
+reading as a function of segment metadata: of 501 exact
+test hits, every single one is a constant byte, an
+injective key, or a two-to-three-value byte — the varying
+label bytes are determined by nothing stated. And the
+positional law leaves the middles behind: it holds on all
+36 ungrown region pairs of the two camps and in the reverse
+direction with the forward numbers reproduced exactly, so
+it is a property of the census arithmetic itself. Next:
+the lone DENSE zero at 28768, the label byte0 values
+against the segments' own block words, and the positional
+law on a non-camp segment pair. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
