@@ -498,11 +498,23 @@
   sharing only six generic constants with the 0a0d378c
   preamble and embedding no 304 B tail.
   `docs/HAILO10H_NONCHAMPION_ENUM_PAIR464_2026-10-24.md`.
-- [ ] Slice4.42 displaced-pair gap contents (bursts at
-  the gap ordinals in the +4 / -2 patterns);cc9b9d1c
-  parameter recurrence outside the 464 B form;
-  non-champion high-7 families' lane-1 structure vs
-  pointer offset;then broad ordinary UNMODIFIED
+- [x] AES-NUM-042 slice4.42 displaced-pair gap contents,
+  cc9b9d1c parameter recurrence,high-7 vs pointer offset:
+  gap bursts are the contexts' own ladder rungs in fixed
+  enum = channel forms (displacement = reordering,no
+  inserted block,totals unchanged);the 464 B parameter
+  recurs in the 232-360 B classes under a denser slot
+  pattern [1..12,evens] while at data scale the values
+  are ordinary payload;the high-7 operand is NOT an
+  address field (no formula,no monotonicity,one
+  indivisible co-varying unit per family).
+  `docs/HAILO10H_DISPLACED_GAP_PARAM_HIGH7_2026-10-24.md`.
+- [ ] Slice4.43 232-360 B parameter-family template
+  anatomy vs the 464 B form (shared constants outside
+  the parameter slots;head-byte pairing);high-7
+  families' operand->datum function + GF(2) affine
+  test;displaced contexts vs adjacent contexts outside
+  the pair region;then broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

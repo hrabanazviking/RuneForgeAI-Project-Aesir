@@ -1363,3 +1363,25 @@ displaced-pair gap contents, the parameter's recurrence
 outside the 464 B form, and the high-7 families' lane-1
 structure. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 displaced-pair gaps, cc9 parameter recurrence, high-7 vs offset
+(AES-NUM-042,slice4.42):
+`docs/HAILO10H_DISPLACED_GAP_PARAM_HIGH7_2026-10-24.md`.
+The displaced pair's gaps turn out to be the contexts'
+own ladder rungs in their fixed enum = channel forms —
+the +4 gap is a fixed 0x14f0/0x16f0/0x18f0 run, the -2
+gap the channel-2 copy of the 0x18f0 rung — with burst
+totals unchanged: displacement is a reordering inside
+a fixed scaffold, not an inserted block. The cc9b9d1c
+464 B parameter is a family mechanism: it recurs in
+the 232-360 B classes under a denser slot pattern,
+while at data scale the same bytes are plain payload.
+The high-7 operand is not an address — no formula and
+no monotonicity against the pointer offset; each
+operand is one indivisible co-varying unit. Next: the
+232-360 B template vs the 464 B form, the high-7
+operand-to-datum function and affine test, and the
+displaced contexts outside the pair region. Broad
+ordinary UNMODIFIED source-model support100% remains
+the destination.

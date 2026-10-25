@@ -6026,3 +6026,36 @@ No new capability ID or hardware/complete-source execution claim.
   recurrence outside 464 B,non-champion high-7 lane-1
   structure (slice 4.42).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-042 — displaced-pair gaps, cc9 parameter recurrence, high-7 vs offset
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_DISPLACED_GAP_PARAM_HIGH7_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
+  (i) Gap bursts are the contexts' own ladder rungs: +4 pattern
+  (39 ctx) gap = 0x14f0 ch1 / 0x16f0 ch0 / 0x18f0 ch0 in fixed
+  enum = channel forms,flags artifact-fixed only; -2 pattern
+  (28 ctx) gap = the 0x18f0 ch2 copy (enum 0x2001,flags 0x8800);
+  champion totals unchanged (50;27/28 at 50 in -2);multiset
+  symdiff of displaced contexts sits inside the adjacent range
+  (76c3a8ff 36-42 vs adjacent mean 54.6) — displacement is a
+  reordering in a fixed scaffold,no inserted block. (ii) The
+  cc9b9d1c parameter DOES recur outside 464 B: 232/296/312/
+  328/360 B distinct segments carry one per-segment parameter
+  (all four values) at byte 2 in a DENSER slot pattern
+  [1..12,evens] (hits 18-26);80 B's 0x70 is a constant template
+  byte;at data scale the values are ordinary payload (93,594
+  non-464 occurrences >=3 hits by density;32,784 B position
+  sets intersect empty). (iii) High-7 operand is NOT an
+  address: no subfield equals any tested offset formula
+  (0 hits;oo//24 = 1/1,839 chance),no subfield monotonic in
+  offset in any top-10 family,correlations identical -0.2248
+  across all subfields because each operand is one indivisible
+  unit (distinct counts of every subfield equal per family);
+  offset->operand perfection is segment identity,not encoding.
+- **Next:** 232-360 B parameter-family template vs 464 B,
+  high-7 operand->datum function + affine test,displaced
+  contexts outside the pair region (slice 4.43).
+- **Audit:** Host-side analysis only;no device child.
