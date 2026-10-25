@@ -278,9 +278,15 @@
   in 25,758 bursts;census floor unmoved at scale (5x16
   leading candidate).
   `docs/HAILO10H_FULL_CORPUS_WALK_2026-10-24.md`.
-- [ ] Slice4.17 lane-1 structure hunt incl. byte-entropy
-  anatomy of champion-headed bursts;then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] AES-NUM-017 slice4.17 lane-1 structure hunt:lane1 =
+  flags + enum{0,0x1000,0x2000,0x2001} + const 0x0250 +
+  address ladder (stride 0x200);lane2 = 24-bit datum with
+  per-network constants repeated once per context.
+  `docs/HAILO10H_LANE1_STRUCTURE_HUNT_2026-10-24.md`.
+- [ ] Slice4.18 ladder origin/range;lane2 datum identity
+  vs known network constants;non-champion lane0 family
+  anatomy;then broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

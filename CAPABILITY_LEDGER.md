@@ -5408,3 +5408,27 @@ No new capability ID or hardware/complete-source execution claim.
 - **Evidence boundary:** blob identities unclaimed;lane1
   unopened (4.17). No word named.
 - **Audit:** Host-side analysis only;blobs unmoved.
+
+### AES-NUM-017 — lane anatomy: the burst decomposed
+
+- **Status:** `verified` (exact byte/u16 statistics,2 artifacts).
+- **Owner:** docs/HAILO10H_LANE1_STRUCTURE_HUNT_2026-10-24.md.
+- **Evidence:** Champion bursts (MiniLM 132,blob 5ab3537d
+  4,819). Lane1 = four u16 fields:pos2 constant 0x0250
+  (132/132;4,818/4,819,one 0x02c8 exception);pos1 tiny enum
+  {0,0x1000,0x2000,0x2001};pos3 arithmetic ladder stride
+  0x200 (the descriptor page) with context-symmetric
+  repeats;pos0 flag/select (power-of-two flavoured).
+  Lane2 = 24-bit datum + 5 zero bytes;the SAME datum words
+  (0xe517,0x898c) lead both artifacts,each repeated exactly
+  context-count times (219 blob,6 MiniLM) — per-network
+  constants written once per context.
+- **Reading:** burst = header word + packed operand word
+  (flags/enum/const/address-ladder) + 24-bit datum. No
+  field semantically named yet.
+- **Next:** ladder origin/range vs known regions;enum/flag
+  meanings via one-parameter differential;datum identity
+  vs known network constants;non-champion lane0 families.
+- **Audit:** Host-side analysis only. (Transport note: one
+  base64 re-emission corrupted a byte and was caught by a
+  sha256 gate;the clean retry matched exactly.)

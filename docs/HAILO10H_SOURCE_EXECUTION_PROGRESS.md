@@ -981,3 +981,16 @@ the leading census candidate. Next:4.17 lane-1 structure
 hunt incl. byte-entropy anatomy of champion bursts. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 lane-1 structure hunt (AES-NUM-017,slice4.17):
+`docs/HAILO10H_LANE1_STRUCTURE_HUNT_2026-10-24.md`. The
+24-byte burst is anatomized:lane1 packs a flag field,a
+tiny enum {0,0x1000,0x2000,0x2001},a constant 0x0250,and an
+address ladder striding 0x200 (the descriptor page);lane2
+is a 24-bit datum whose leading values are per-network
+constants repeated once per context in BOTH artifacts.
+Next cuts are specific questions now:ladder origin,enum
+meanings,datum identity,non-champion families. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.
