@@ -2219,3 +2219,33 @@ lacks. Next: the two exemplars compared whole-context,
 the two-camp anatomy, and the sister signature
 regions. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+2026-10-24 segment exemplars, len-89 camps, sister 496 region (AES-NUM-079,slice4.79):
+`docs/HAILO10H_SEGMENT_EXEMPLARS_LEN89_CAMPS_SISTER496_2026-10-24.md`.
+The two segment exemplars turn out to be one
+construction told twice: the eighty-five-action
+contexts in the two artifacts carry the identical
+size multiset, their final fifty-six actions are
+size-identical everywhere with exactly one channel
+slot left free — and its value crosses the lines,
+matching the other artifact's partner context —
+while heads and rewritten regions are built from
+private channels and bytes, and half the suffix
+segments are byte-identical in every pairing. The
+len-89 camps are simpler than they looked: a
+single size at position 18, 256 apart, is the
+whole difference — channels never separate them,
+and the same eleven positions carry each context's
+own payload in both camps while the other
+seventy-eight positions are byte-identical across
+all twenty-five. And the sisters' five-action
+region is a fixed frame with three size slots
+drawn from small pools, no slot determining
+another, filled with per-context bytes except one
+universal burst and a payload pool the sisters
+share whole at the constant slot. Next: whether
+the exemplars' head channel patterns recur
+anywhere, the three-value train at position 18,
+and the modal tuple's contexts. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

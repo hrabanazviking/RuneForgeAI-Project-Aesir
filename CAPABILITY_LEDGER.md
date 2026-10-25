@@ -7354,3 +7354,44 @@ No new capability ID or hardware/complete-source execution claim.
   whole-context; 76c3a8ff len-89 camp anatomy; sister
   len-496 5->5 signature region contents (slice 4.79).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-079 — segment exemplars are one construction (identical size suffix, one free channel slot), len-89 camps differ by the position-18 size alone, sister 496 5→5 region is a three-slot tuple frame over private payloads
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_SEGMENT_EXEMPLARS_LEN89_CAMPS_SISTER496_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...078 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef79.py (sha256 50030361...) + hef79b.py (sha256
+  da073b2a...) + hef79c.py (sha256 14c53d57...), all
+  sha-verified on-device. (i) The two segment exemplars
+  (0a0d cidx 73->179; 0856 cidx 99->255) are template
+  instances of one construction: a-side size multisets
+  identical (85/85), the 56-action suffix size-identical
+  in all four contexts with exactly ONE free channel
+  slot (suffix position 0: a0/b1 = 2, a1/b0 = 1), the
+  head scaffold offset by one 24 B burst (head 12 vs
+  13), head channels/bytes private (joint prefix 0,
+  bytes 0/9 cross-artifact), suffix bytes half-universal
+  (28/56 positions identical in all six pairings, 5
+  differing in all). (ii) The 76c3a8ff len-89 camps
+  (21392 x13 / 21648 x12 at position 18) are separated
+  by that size ALONE (delta 256): size sequences
+  identical within camp, in no cross pair; channel
+  sequences identical in all 300 pairs; the same 11
+  positions carry per-context offsets and segment
+  bytes (25 distinct hashes each) in both camps, the
+  other 78 positions are byte-identical across all 25.
+  (iii) The sister len-496 5->5 region is the frame
+  (X, 328, 24, Y, Z) at positions 22-26, channels all
+  2: 43 pairs in 5ab3537d, 15 in 773470cd; 8 distinct
+  tuples per sister over 28 contexts (4 shared; modal
+  (18648, 328, 24, 32776, 15304) x13/x14); no slot a
+  function of another; bytes per-context except the
+  universal position-24 burst, the 328 payload pool
+  fully shared cross-sister (28/28), the Y-slot pool
+  fully private (0 shared).
+- **Next:** exemplar head channel sequences vs the
+  corpus; len-89 position-18 three-value train;
+  sister modal-tuple context pattern (slice 4.80).
+- **Audit:** Host-side analysis only; no device child.

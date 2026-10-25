@@ -1106,16 +1106,53 @@
   all 0/4); it stands, mechanism NOT
   PROVEN.
   `docs/HAILO10H_REGION_CENSUS_CORPUS_S76_RESIDUE_2026-10-24.md`.
-- [ ] Slice4.79 the two segment exemplars
+- [x] Slice4.79 the two segment exemplars
   compared whole-context (0856a10c 85->91
   vs 0a0d378c 85->92: a/b contexts related
   across artifacts? head 13 vs 12, suffix
   identity); 76c3a8ff len-89 camp anatomy
   (what besides position 18 separates the
   21392/21648 camps); sister len-496
-  5->5 signature region contents; then
-  broad ordinary UNMODIFIED
-  source-model support100%.
+  5->5 signature region contents: the
+  exemplars are ONE construction — a-side
+  size multisets identical (85/85), the
+  56-action suffix size-identical in all
+  four contexts with exactly one free
+  channel slot (suffix pos 0: a0/b1 = 2,
+  a1/b0 = 1), head scaffold offset by one
+  24 B burst (head 12 vs 13), head
+  channels/bytes private, suffix bytes
+  28/56 universal across all pairings and
+  5 differing in all. The len-89 camps
+  differ by the position-18 size ALONE
+  (21392 vs 21648, delta 256): channels
+  identical in all 300 pairs, the same 11
+  positions carry per-context offsets and
+  bytes in both camps, the other 78 are
+  byte-identical across all 25. The
+  sister 5->5 region is the frame
+  (X, 328, 24, Y, Z) at positions 22-26,
+  channels all 2 — 8 tuples per sister
+  (4 shared; modal (18648,328,24,32776,
+  15304) x13/x14), no slot a function of
+  another; bytes per-context except the
+  universal position-24 burst, the 328
+  payload pool fully shared cross-sister
+  (28/28), the Y-slot pool fully private.
+  `docs/HAILO10H_SEGMENT_EXEMPLARS_LEN89_CAMPS_SISTER496_2026-10-24.md`.
+- [ ] Slice4.80 exemplar head channel
+  sequences vs the corpus (does either
+  head channel pattern recur in other
+  contexts?); len-89 position-18
+  three-value train (24/21392/21648
+  interleaving over the full step-9
+  train, incl. the 528 singleton at
+  cidx 110); sister modal-tuple
+  contexts ((18648,32776,15304) cidx
+  pattern; what separates them at other
+  region signatures); then broad
+  ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
