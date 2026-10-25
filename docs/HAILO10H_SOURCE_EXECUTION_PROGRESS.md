@@ -1547,3 +1547,30 @@ middles, and measure variant pinning in the
 standard contexts with motif-sized 3856 runs.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 channel-sequence order function, band role, variant concentration
+(AES-NUM-050,slice4.50):
+`docs/HAILO10H_CHANNEL_SEQ_BAND_ROLE_VARIANT_CONCENTRATION_2026-10-24.md`.
+The order bit is found — in the one stream not yet
+tested. The middle channel sequence's global forms
+determine the pair order exactly: the channel
+run-order alone, with no run lengths and no sizes,
+separates all 1,428 binary contexts with zero mixed
+groups over 129 multi-context groups covering 1,119
+contexts, and transitions, the full sequence, the
+last 20 channels, and the first 40 runs do the same.
+Every local reading still fails — prefixes up to 100
+channels, stride samples, run prefixes up to 20 — so
+the bit is distributed across the whole stream, and
+its minimal form and mechanism stay unproven. The
+lead band turns out to be a corpus-wide habit: half
+of all standard 3856 windows are band-led, and the
+156 motif is its pinned extreme. And the motif's
+variant pinning stays its alone: the 311 standard
+contexts with motif-sized 3856 runs show no ordinal
+concentration at all. Next: find where in the run
+sequence the separation emerges, census the band's
+non-3856 followers, and dissect the one both-pinned
+standard context. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

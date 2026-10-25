@@ -603,11 +603,31 @@
   scattered ordinals) — the motif's distinction is
   fixed-ordinal pinning at blocks 0 and 4.
   `docs/HAILO10H_MIDDLE_STREAM_LEAD_EXCLUSIVITY_VARIANTS_2026-10-24.md`.
-- [ ] Slice4.50 pair-order vs middle channel
-  sequence;lead-band neighbour role in standard
-  middles;variant-ordinal concentration in the
-  >=12-3856 standard subpopulation;then broad
-  ordinary UNMODIFIED source-model support100%.
+- [x] Slice4.50 pair-order vs middle channel
+  sequence:the bit IS a function of the channel
+  sequence's GLOBAL forms (run-order alone:438
+  keys,129 multi groups / 1,119 ctx,0 mixed;
+  transitions/full seq/last-20/first-40-runs the
+  same) — the first stream to pass the function
+  test;every local form fails (prefixes <=100,
+  strides,run prefixes <=20;first-50's one mixed
+  group is a periodic 0a0d378c stack);lead-band
+  role is corpus-wide (64.2% of standard band
+  actions lead a 3856 window vs 3.18% base;50.6%
+  of all standard windows band-led;band middle-
+  only 16,105/7/0);no variant-ordinal
+  concentration in the 311 >=12-3856 contexts
+  (no variant class >=0.90 at any ordinal 0-30;
+  the motif's double pin occurs once,76c3a8ff
+  cidx 4).
+  `docs/HAILO10H_CHANNEL_SEQ_BAND_ROLE_VARIANT_CONCENTRATION_2026-10-24.md`.
+- [ ] Slice4.51 channel-separation emergence
+  (run prefixes 20-40,last-20 refinement,0a0d378c
+  first-50 stack's run-order split);band non-3856
+  followers (4368-led structures);both-pinned
+  76c3a8ff cidx-4 anatomy vs the 156 class;then
+  broad ordinary UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

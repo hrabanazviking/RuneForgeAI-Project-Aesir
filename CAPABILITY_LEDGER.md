@@ -6319,3 +6319,50 @@ No new capability ID or hardware/complete-source execution claim.
   concentration in the >=12-3856 standard subpopulation
   (slice 4.50).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-050 — channel-sequence order function, band role, variant concentration
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_CHANNEL_SEQ_BAND_ROLE_VARIANT_CONCENTRATION_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef50.py (sha256 d9bff251...) and hef50b.py (b55e5db6...).
+  (i) Pair order IS a function of the middle channel sequence's
+  global forms — the first stream to pass the function test:
+  run-order alone (RLE channels,no lengths/sizes) 438 keys,
+  129 multi groups / 1,119 ctx,0 mixed,max group 56;transitions,
+  full RLE and full sequence 453 keys,133 multi / 1,108 ctx,
+  0 mixed;last-20 channels 384 keys,119 multi / 1,163 ctx,
+  0 mixed;first-40 runs 390 keys,115 multi / 1,153 ctx,0 mixed.
+  Every local form FAILS: single positions 0.51-0.77,prefixes
+  first-3 0.654 / first-20 0.981 (10 mixed) / first-50 and
+  first-100 0.9993 with ONE mixed group (the periodic 0a0d378c
+  763-action stack,cidx 5 reversed vs 14 normal;4 distinct
+  full sequences inside),strides 5/10/20 mixed,run prefixes
+  10 (28 mixed) / 20 (2 mixed),last-10 2 mixed. The 4.49
+  channel-count mixed groups resolve: 280-action group takes
+  exactly 2 run-order values,one per order (sequences identical
+  within order,184/212 positions differ across);the triple's
+  reversed members share an identical channel sequence (diff 0),
+  normal differs at 34. Boundary: run-order is near-isomorphic
+  to stack identity (2 of 438 keys span >1 nopair stack;34 of
+  111 multi stacks carry >1 run-order value) — minimal form and
+  mechanism NOT PROVEN. (ii) Band role is corpus-wide: standard-
+  middle band actions are followed by 3856 in 10,334/16,105
+  (64.2%) vs base rate 3.18%;10,334/20,411 standard windows
+  (50.6%) are band-led (motif 312/312);band values = the 82
+  motif leads (14,503 occ,61.7% lead-rate) + 10 extras (1,602
+  occ,86.8%);band-led window classes full 27.2% / no30480
+  15.3% / no32784 7.8% / other 49.7%;band by region middle
+  16,105 / head 7 / trailer 0. (iii) No variant-ordinal
+  concentration in the 311-context >=12-3856 subpopulation
+  (20,346 windows): no variant class >=0.90 at any ordinal
+  0-30 (top fractions all 'other',0.66-0.79);ord0 no30480
+  39/311,ord4 no32784 2/311,the motif's double pin occurs
+  exactly once (76c3a8ff cidx 4,609 actions,52 windows).
+- **Next:** channel-separation emergence (run prefixes 20-40,
+  last-20 refinement,0a0d378c first-50 stack split);band
+  non-3856 followers (4368-led structures);both-pinned
+  76c3a8ff cidx-4 anatomy vs the 156 class (slice 4.51).
+- **Audit:** Host-side analysis only;no device child.
