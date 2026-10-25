@@ -485,11 +485,25 @@
   from-end offsets in one invariant order (two inside the
   trailing head),the 0x2d80 pair roams in the body.
   `docs/HAILO10H_CLASS_CHANNEL_464PREAMBLE_SINGLETONS_2026-10-24.md`.
-- [ ] Slice4.41 enum-bit test on non-champion lane-0
-  families;0x2d80 body pair burst-ordinal separation vs
-  skeleton-unit adjacency;464 B preamble anatomy for
-  the cc9b9d1c four-head variant;then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] AES-NUM-041 slice4.41 non-champion enum test,0x2d80
+  pair burst ordinal,cc9b9d1c 464 B:the champion enum-bit /
+  class = channel law does NOT transfer (non-champion slot
+  takes all values 0-8,7 dominant at 48.6% of bursts,class
+  matches channel in only 6.3%);the 0x2d80 pair is adjacent
+  in champion burst ordinal in 94.9% of contexts (ordinals
+  15/16),exceptions = two fixed patterns (12->16 x39,
+  16->14 x28) concentrated in 76c3a8ff/0a0d378c;cc9b9d1c
+  464 B is one template with a per-segment parameter byte
+  (0xb0/0x64/0x70/0xf8;0x72 in 0a0d378c,0x46 in 0856a10c),
+  sharing only six generic constants with the 0a0d378c
+  preamble and embedding no 304 B tail.
+  `docs/HAILO10H_NONCHAMPION_ENUM_PAIR464_2026-10-24.md`.
+- [ ] Slice4.42 displaced-pair gap contents (bursts at
+  the gap ordinals in the +4 / -2 patterns);cc9b9d1c
+  parameter recurrence outside the 464 B form;
+  non-champion high-7 families' lane-1 structure vs
+  pointer offset;then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

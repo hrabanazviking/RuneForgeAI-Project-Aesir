@@ -1342,3 +1342,24 @@ test on non-champion families, the 0x2d80 pair's
 burst-ordinal separation, and the cc9b9d1c 464 B preamble.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+
+2026-10-24 non-champion enum test, pair burst ordinal, cc9b9d1c 464 B
+(AES-NUM-041,slice4.41):
+`docs/HAILO10H_NONCHAMPION_ENUM_PAIR464_2026-10-24.md`.
+The champion's enum-bit law turns out to be the champion's
+alone: in the 237 non-champion lane-0 families the same
+operand slot takes every value 0-8 (7 dominant), matches
+the channel only at coincidence level, and is often a
+family constant whose value the champion law forbids.
+The roaming 0x2d80 pair resolves in burst ordinal: the
+two bursts are neighbours in 94.9% of contexts, and the
+76 exceptions are two fixed displaced patterns, not
+noise. The cc9b9d1c 464 B form is a single template
+stamped with a per-segment parameter byte — the same
+family whose parameter is fixed at 0x72 in 0a0d378c —
+and unlike 0a0d378c it embeds no 304 B tail. Next: the
+displaced-pair gap contents, the parameter's recurrence
+outside the 464 B form, and the high-7 families' lane-1
+structure. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

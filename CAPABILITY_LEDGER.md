@@ -5996,3 +5996,33 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next:** enum-bit test on non-champion families,0x2d80
   burst-ordinal separation,cc9b9d1c 464 B preamble (slice 4.41).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-041 — non-champion enum test, 0x2d80 pair burst ordinal, cc9b9d1c 464 B
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_NONCHAMPION_ENUM_PAIR464_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
+  (i) The champion enum law does NOT transfer: 3,786 non-champion
+  bursts (237 lane-0 families,617 operands) take ALL high values
+  0-8 at the enum slot (7 dominant 1,839 = 48.6%;champion-set
+  values only 47.7%);class==channel in just 237/3,786 (6.3%);
+  185 families are single-high but with forbidden constants
+  (7 in 34 families/642 bursts,3,5 also occur). (ii) The 0x2d80
+  pair is adjacent in champion burst ordinal in 1,428/1,504
+  contexts (94.9%;ordinals 15/16;action separation control
+  -32..+49 and orders 738/766 reproduced exactly);76 exceptions
+  are two fixed patterns — (12,16) +4 x39 and (16,14) -2 x28 —
+  concentrated in 76c3a8ff (55) and 0a0d378c (18). (iii) cc9b9d1c
+  464 B: one template,four heads differing only in byte 6,
+  preamble varies at exactly 5 of 21 words (zero skeleton
+  5,6,8,9,12,13 as 0a0d378c),one per-segment parameter byte
+  (0xb0/0x64/0x70/0xf8;family parameter 0x72 in 0a0d378c,0x46
+  in 0856a10c) at 20 slots;preamble shares exactly the six
+  generic constants with 0a0d378c;NO 304 B tail embedding
+  (3/37;its 304 B is one breaker-head segment x813).
+- **Next:** displaced-pair gap contents,cc9b9d1c parameter
+  recurrence outside 464 B,non-champion high-7 lane-1
+  structure (slice 4.42).
+- **Audit:** Host-side analysis only;no device child.
