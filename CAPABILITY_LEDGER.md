@@ -7246,3 +7246,38 @@ No new capability ID or hardware/complete-source execution claim.
   S76 swap-run converse test; 85->92 insertion alignment
   (slice 4.76).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-076 — +3 permutation is blockwise (not seam-respecting), deltas are stereotyped swaps, S76 converse holds, 85→92 is one rewritten segment
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_PLUS3_ORDER_S76_CONVERSE_85_92_SEGMENT_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...075 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef76.py (sha256 9bd9bcd0...) + hef76b.py (sha256
+  a45a9164...), both sha-verified on-device. (i) Same-class +3
+  pairs: matching blocks cover 0.5615 of actions, 61.2% of
+  matched material in blocks >=16, displacement median 1
+  (58.8% within +-2) vs the -1 control (0.3619 matched, 35.1%
+  >=16, median 10); strength is class-dependent (686/626/839
+  near-copies, 738/606 heavily reordered); seam segmentation
+  is NOT respected (segment-length sequences identical 0/134,
+  seam positions 11.3% coincident). The -3/-1 deltas are net
+  effects of larger stereotyped swaps: 259->256 drops 12-13 /
+  adds 9-10 per pair with a common core of 9-out / 6-in in all
+  27 pairs; 607->606 drops exactly 10 / adds exactly 9,
+  identical multisets in 23/25 pairs; identity pairs churn
+  the same way (245 exactly 4-for-4). (ii) S76 converse
+  HOLDS: inside run spans, pair-channel positions flip
+  128/128 (long runs) and 162/162 (span >=2) with ZERO
+  agreements — the exchange is total over its spans; pure
+  swap reconstruction 121/131 (10 outside-pair/third flips),
+  S82 long runs exact 22/22. (iii) 85->92 literal insertion
+  REJECTED (difflib: 74 equal, replace 11->18, insert 0;
+  LCS sizes 75/85, joint 72/85, at control level) and
+  REPLACED: one rewritten segment a[12:29] -> b[12:36],
+  (9144,184)-motif -> (528,80)-motif plus an 80-run, +7
+  exactly, head 12 and suffix 56 size-identical.
+- **Next:** segment-substitution census and the motif
+  families; S76 outside-pair spillover test (slice 4.77).
+- **Audit:** Host-side analysis only; no device child.

@@ -2150,3 +2150,27 @@ Next: how the +3 partner's order is built from the
 original, the swap-run converse test, and the 85-to-92
 insertion alignment. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 +3 order, S76 converse, 85->92 segment (AES-NUM-076,slice4.76):
+`docs/HAILO10H_PLUS3_ORDER_S76_CONVERSE_85_92_SEGMENT_2026-10-24.md`.
+The +3 partner's order turns out to be built from
+long blocks that mostly stay near home — three
+fifths of the matched material rides in blocks of
+sixteen or more, half of it within a step or two of
+its original position — yet the blocks are not the
+seam segments: partners re-cut their segmentation
+even where its count survives. The small class
+deltas are not deletions at all: every pair performs
+a stereotyped swap of a dozen-ish actions out and
+nearly as many in, and minus-three / minus-one is
+just the swap's balance. S76's swap runs pass the
+converse test perfectly — no pair channel ever
+survives inside a run — though a tenth of its long
+run positions flip outside the run's own pair. And
+85-to-92 is not an insertion: one body segment is
+rewritten with a different repeated motif and
+seven extra actions, head and suffix untouched.
+Next: how widespread segment substitution is, the
+two motif families, and the spillover test for the
+outside-pair flips. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

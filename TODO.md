@@ -1027,13 +1027,40 @@
   +7 channel alignment 65/85 (insertion
   NOT PROVEN).
   `docs/HAILO10H_CC9_PAIRING_S76_TRANSFORMS_TAIL_SINGLETONS_2026-10-24.md`.
-- [ ] Slice4.76 +3 pair order structure
+- [x] Slice4.76 +3 pair order structure
   (how the ng-1 partner permutes the ng-0
   original at block/seam level; what the
   -3/-1 class deltas 259->256 / 607->606
   drop); S76 swap-run converse test (pair
   agreement inside runs); 85->92 insertion
-  alignment test; then broad ordinary
+  alignment test: the +3 permutation is
+  blockwise (61.2% of matched material in
+  blocks >=16, displacement median 1,
+  -1 control far weaker) but does NOT
+  respect seam segmentation (length
+  sequences identical 0/134); the deltas
+  are net effects of larger stereotyped
+  swaps (259->256 common core 9-out/6-in
+  in all 27 pairs; 607->606 exactly
+  10-out/9-in, identical 23/25), not fixed
+  deletions; the S76 converse HOLDS
+  (pair positions flip 128/128 long runs,
+  162/162 span>=2, ZERO agreements; pure
+  swap reconstruction 121/131, S82 exact
+  22/22); 85->92 insertion is REJECTED
+  (0 insert opcodes, LCS 75/85) and
+  replaced by ONE rewritten segment
+  a[12:29]->b[12:36] ((9144,184) motif ->
+  (528,80) motif + 80-run, +7 exactly,
+  head 12 and suffix 56 untouched).
+  `docs/HAILO10H_PLUS3_ORDER_S76_CONVERSE_85_92_SEGMENT_2026-10-24.md`.
+- [ ] Slice4.77 segment-substitution census
+  (other context pairs sharing head+suffix
+  with one rewritten motif segment; the
+  (9144,184)/(528,80) motif families
+  wherever they occur); S76 outside-pair
+  span positions vs neighbouring runs
+  (spillover test); then broad ordinary
   UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
