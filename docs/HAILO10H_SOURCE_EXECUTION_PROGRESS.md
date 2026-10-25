@@ -1430,3 +1430,25 @@ the reversed-adjacent pair census, and the 76c3a8ff
 ~173-action intermediate class. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+
+2026-10-24 marker function, pair-order census, anomaly zones,
+intermediate class (AES-NUM-045,slice4.45):
+`docs/HAILO10H_MARKER_FUNCTION_PAIR_ORDER_ANOMALY_ZONES_2026-10-24.md`.
+The parameter+1 marker turns out to be a closed-form
+function of the preceding strict word — copy it, add one
+to byte 2, step byte 4 (-4 in the small forms, +16 in
+the 464 B form) — and the law is universal at 212 of 212
+dense segments once X is read as the modal byte; the two
+recorded exceptions were a definitional artifact. The
+0x2d80 pair's internal order is a balanced two-state
+variable at fixed ordinals with no measured correlate.
+The rare-ladder anomaly in 76c3a8ff is two mirrored
+zones, not one, and the intermediate class is an exact
+periodic train: 156 actions twenty-six times on a
+9-step ladder plus two at 173. Next: freeze the marker
+derivation as an encoder rule and host-test it,
+hunt the pair-order bit's determinant, compare the
+zone pairs' bodies, and anatomize the 156 middle unit.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

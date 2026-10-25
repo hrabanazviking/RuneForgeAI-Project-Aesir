@@ -540,14 +540,27 @@
   rare-ladder pair in a local anomaly zone at
   76c3a8ff cidx 105-106.
   `docs/HAILO10H_LOW_ACTION_CENSUS_PARAMPLUS1_OUTLIER_2026-10-24.md`.
-- [ ] Slice4.45 marker-word anatomy across the 210
-  class (byte-4 step + tail fields vs the preceding
-  slot word,per size);the two 296 B no-marker
-  exceptions' anatomy;reversed-adjacent pair census
-  corpus-wide + the cidx 105 anomaly (champion 33,
-  rare ladders doubled);76c3a8ff ~173-action
-  intermediate class anatomy;then broad ordinary
-  UNMODIFIED source-model support100%.
+- [x] Slice4.45 marker-word anatomy,pair-order census,
+  anomaly zones,intermediate class: the marker is a
+  closed-form function of the preceding strict word
+  (byte2 +1,byte4 -4 small / +16 at 464 B) and the law
+  is 212/212 under modal X;pair order is a balanced
+  two-state variable (693/735) at fixed ordinals with
+  no measured correlate;76c3a8ff holds TWO mirrored
+  rare-ladder zones (97-98,105-106);the intermediate
+  class is exact (156 x26 at 111+9k,173 x2 at 94/102,
+  two middle species).
+  `docs/HAILO10H_MARKER_FUNCTION_PAIR_ORDER_ANOMALY_ZONES_2026-10-24.md`.
+- [ ] Slice4.46 freeze the marker derivation as an
+  Aesir-side encoder rule + host-test against all 212
+  dense segments and the 20 family segments (incl.
+  the 0856a10c 0200 shape);pair-order determination
+  hunt (order vs head-operand identity / first-middle
+  operands);zone-pair body comparison (97 vs 105,
+  98 vs 106 outside the rare/pair region);156 middle
+  unit segment anatomy (the 12-fold unit's distinct
+  segments);then broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

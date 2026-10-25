@@ -6134,3 +6134,44 @@ No new capability ID or hardware/complete-source execution claim.
   + cidx 105 anomaly,76c3a8ff ~173 class anatomy
   (slice 4.45).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-045 — marker function, pair-order census, anomaly zones, intermediate class
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_MARKER_FUNCTION_PAIR_ORDER_ANOMALY_ZONES_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215;
+  427 cc9 distinct segments at 232-464 B). (i) The marker
+  word is a closed-form function of the preceding strict
+  word: copy with byte2 +1 and byte4 stepped -4 (small
+  forms,208 segments) or +16 (464 B form,4 segments;
+  0a0d378c +16,0856a10c +16 in the 0200 shape);tails copied
+  verbatim;75 distinct (predecessor,marker) pairs in the
+  210 class,injective both ways. Under modal X (incl.
+  zero) the marker law is 212/212 — the AES-NUM-044
+  exceptions were a nonzero-dominant-X artifact (both
+  modal-0,marker 010001004c01f080);72 X values,only the
+  parameter family's four (64/70/b0/f8) own two markers,
+  split exactly by form class. (ii) Pair order is a
+  balanced two-state variable: 693 normal / 735 reversed /
+  76 displaced / 0 missing,at fixed ordinals (15,16) /
+  (16,15) in 692/693 and 733/735,no measured correlate
+  (champion 29 both,ng both,parity ~even,nacts direction
+  inconsistent across artifacts). (iii) TWO mirrored
+  rare-ladder anomaly zones in 76c3a8ff (97-98 and
+  105-106;rare operand sets identical within zone type,
+  400/336 actions,33/31 champions;corrects AES-NUM-044's
+  single-zone record;98 is the second 336 context,
+  reversed-adjacent). (iv) Intermediate class exact:
+  156 actions x26 at cidx 111+9k plus 173 x2 at 94/102,
+  all ng1,champion 29,trailer 28/28;156 middle = 12-fold
+  repeated unit (3856x12,30480x12,32784x24),26 distinct
+  size seqs but only 2 operand seqs;173 middle is a
+  different species (16400x24,32784x22,31120x8).
+- **Next:** freeze the marker derivation as an encoder
+  rule + host-test on all 212 + 20 family segments;
+  pair-order determination hunt; zone-pair body
+  comparison; 156 middle unit segment anatomy
+  (slice 4.46).
+- **Audit:** Host-side analysis only;no device child.
