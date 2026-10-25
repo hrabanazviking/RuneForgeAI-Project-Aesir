@@ -1284,15 +1284,35 @@
   over {15 x27, 35 x4, 2 x4, 71 x2,
   11 x2}).
   `docs/HAILO10H_SIBLING_ANATOMY_BLOCKBITS_FF_CENSUS_2026-10-24.md`.
-- [ ] Slice4.86 sibling 544
-  two-valued positions' column/block
-  structure; the 39 constant ff
-  offsets' cross-camp drift pattern;
-  the sibling segments' own 18
-  ff-words (constant offsets?
-  scalars?); then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+- [x] Slice4.86 sibling 544
+  two-valued positions are ONE
+  partition (cidx 113, the first
+  segment, deviates at all 544; the
+  other 25 are unanimous there —
+  no per-slot/block choice); the 39
+  constant ff offsets drift on one
+  monotonic +64 staircase
+  (thresholds 9044/11292/15508/
+  17204; scalars rank-locked,
+  identical 39/39 across camps);
+  the sibling segments' 18 ff-words
+  sit at one fixed offset set (15
+  constant {15 x11, 5 x2, 104 x2} +
+  3 variable slots repeating the
+  rank-ladder scalar 21+9xrank).
+  `docs/HAILO10H_DISTINGUISHED_SEGMENT_FF_STAIRCASE_SIBLING_FF_2026-10-24.md`.
+- [ ] Slice4.87 cidx 113
+  distinguished beyond the sibling
+  segments (whole context, other
+  classes, first-in-train privilege
+  elsewhere?); staircase-threshold
+  landmarks at 9044/11292/15508/
+  17204 inside position-18
+  segments; position-18 ff scalar
+  sequences vs a rank ladder
+  (exact form per camp); then
+  broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

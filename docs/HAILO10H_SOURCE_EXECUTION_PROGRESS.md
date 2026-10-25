@@ -2420,3 +2420,27 @@ and their possible block structure, the constant ff offsets'
 drift across camps, and the sibling segments' own 18
 ff-words. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+2026-10-24 distinguished segment, ff staircase, sibling ff (AES-NUM-086,slice4.86):
+`docs/HAILO10H_DISTINGUISHED_SEGMENT_FF_STAIRCASE_SIBLING_FF_2026-10-24.md`.
+The sibling segments' 544 two-valued positions turn out not to be a
+choice structure at all: they are the fingerprint of one segment.
+Cidx 113, the first segment of the train, carries a private byte at
+every one of the 544 positions while the other twenty-five segments
+share a single consensus byte at all of them — higher than consensus
+at 322 positions, lower at 222 — and the genuinely per-context
+variation is confined to the remaining 56 rich positions. The
+position-18 ff frame's camp drift resolves into one clean object:
+the 39 constant offsets carry identical scalars in identical order
+in both camps, and their offsets drift apart on a monotonic
+staircase, stepping up by 64 at offsets 9044, 11292, 15508 and
+17204 until the full 256-byte length difference is absorbed. And
+the sibling segments' own eighteen ff-words mirror the position-18
+fixture with a twist: fifteen offsets hold constant scalars, while
+the three variable offsets repeat a per-segment scalar that is
+exactly the segment's rank in the train written as 21 + 9 x rank.
+Next: whether cidx 113 is distinguished beyond its sibling
+segments, what sits at the staircase thresholds, and the exact
+form of the position-18 ff scalar sequences against a rank ladder.
+Broad ordinary UNMODIFIED source-model support100% remains the
+destination.

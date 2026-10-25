@@ -7628,3 +7628,39 @@ No new capability ID or hardware/complete-source execution claim.
   structure; the 39 constant ff offsets' cross-camp drift
   pattern; the sibling segments' own 18 ff-words (slice 4.86).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-086 — the sibling 544 two-valued positions are one distinguished segment (cidx 113 deviates at all 544, other 25 unanimous), the 39 constant ff offsets drift on a single +64 staircase with rank-locked scalars, and the sibling 18 ff-words are 15 constant offsets plus a repeated rank-ladder scalar (21+9xrank)
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_DISTINGUISHED_SEGMENT_FF_STAIRCASE_SIBLING_FF_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...085 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef86.py (sha256 23133e58...), sha-verified on-device after a
+  one-shot proxy-receiver transfer (gz sha256 bccf5420... returned
+  by the receiver matched); labelled follow-up hef86b.py
+  (sha256 2792fcc2..., gz sha256 c7a9556b...) crossed the same way.
+  Contract docs/TASK_CONTRACT_4.86.md published @ 261e0b70 before
+  implementation. (i) Exactly 2 exact columns over the 544
+  two-valued positions (322 popcount-1, 222 popcount-25), 1 up to
+  complement: cidx 113 (index 0, first segment) deviates from the
+  majority at 544/544, all other segments at 0; the other 25 are
+  unanimous at all 544; pair agreement is 0 (25 pairs with 113)
+  vs 544 (300 pairs among the 25); distinguished byte higher at
+  322, lower at 222; 72 distinct value pairs. The 56 richer
+  positions stay rich among the 25 alone (2-25 distinct).
+  (ii) Constant ff offsets: rank-wise scalar match 39/39,
+  identical scalar sequences and vocabulary counts in both
+  camps; rank delta is a monotonic staircase 0x1, +64x5,
+  +128x13, +192x4, +256x16 (all-43: step-ups at 9044, 11292,
+  15508, 17204; variable slots obey the same regions); only 2
+  absolute offsets coincide across camps. (iii) Sibling
+  ff-words: one fixed set of 18 offsets in all 26 segments;
+  15 constant-scalar offsets ({15 x11, 5 x2, 104 x2}); offsets
+  7360/11776/14384 repeat one per-segment scalar equal to
+  21 + 9 x rank in cidx order (26/26, all diffs +9); vocabulary
+  overlap with the position-18 {2,11,15,35,71} is exactly {15}.
+- **Next:** cidx 113 distinguished beyond the sibling segments?;
+  staircase-threshold landmarks; position-18 ff scalar
+  sequences vs a rank ladder (slice 4.87).
+- **Audit:** Host-side analysis only; no device child.
