@@ -196,12 +196,35 @@
   INCOMPLETE);4.4 gate re-run on layer6 only:PASS.
   Campaign4 exit NOT met.
   `docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md`.
-- [ ] Campaign4 iteration (Track R,dependency order):R1 done
+- [x] AES-NUM-009 slice4.9 Track R R5 partial-state teardown
+  study:PARTIALLY ESTABLISHED — handler-level preconditions
+  ESTABLISHED at source level (pinned hailort_server.cpp +
+  hrpc server/resource-manager + infer_model.cpp @pin):the
+  destroy actions carry NO preconditions (destroy-infer
+  checks nothing about live configured children — the tiers
+  are registered independently and the configured object
+  holds a shared network group,not the infer model;
+  destroy-configured shuts down internally,result void-cast,
+  any manager-held state;all destroy handlers reply success
+  even for missing handles,while use of a destroyed handle
+  fails NOT_FOUND). Partial-configure residue ESTABLISHED
+  (registration precedes the reply in create-configured).
+  Disconnect cleanup trigger + tier order ESTABLISHED for
+  the pinned server (serve loop runs it on any request-
+  handling exit);its applicability to Aesir's profile NOT
+  PROVEN,and firmware consequences of out-of-order teardown
+  NOT PROVEN. Layer8 re-graded by addendum (stays SPECIFIED
+  host / NOT ESTABLISHED device,partial states);4.4 gate
+  re-run on layer8 only:PASS. Campaign4 exit NOT met.
+  `docs/HAILO10H_PARTIAL_STATE_TEARDOWN_STUDY_2026-10-24.md`.
+- [x] Campaign4 iteration (Track R,dependency order):R1 done
   (NOT PROVEN,above);R2 done (ESTABLISHED,above) — slice4.6;
   R3 done (NOT PROVEN,above) — slice4.7;R4 done (PARTIAL,
-  above) — slice4.8;R5 partial-state teardown — slice4.9,
-  the last item. Each landing re-grades its layers by addendum and
-  re-runs the 4.4 gate on changed layers only;then broad
+  above) — slice4.8;R5 done (PARTIAL,above) — slice4.9.
+  Track R study pass COMPLETE. Campaign4 exit still turns
+  on R1/R3-class public evidence (CCW layout,placement
+  census) no searched source contains;Campaign5 NOT
+  contracted. Then broad
   ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

@@ -822,3 +822,46 @@ exit still NOT MET;Campaign5 not contracted. Next:slice4.9,
 R5 — partial-state teardown preconditions,the last Track R
 item. Numerical/packing/placement/program/results and broad
 ordinary UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 Partial-state teardown study (Track R R5):
+`docs/HAILO10H_PARTIAL_STATE_TEARDOWN_STUDY_2026-10-24.md`
+(AES-NUM-009,Campaign4 slice4.9). R5 PARTIALLY ESTABLISHED.
+Handler-level teardown preconditions are ESTABLISHED at
+source level (hailort_server.cpp @pin sha256 80b8c3c6…;
+hrpc/server.cpp,server_resource_manager.hpp and
+infer_model.cpp @pin read this slice):the destroy actions
+carry NO preconditions — destroy-infer releases only its
+own tier with no check for live configured children (the
+configured tier is registered independently and holds a
+shared ConfiguredNetworkGroup,not the InferModel),
+destroy-configured executes shutdown() internally with the
+result void-cast and succeeds on objects in any manager-
+held state,and all three destroy handlers reply
+HAILO_SUCCESS even for missing or already-released handles
+(release_resource logs INFO,returns null),while non-destroy
+use of a destroyed handle fails HAILO_NOT_FOUND via
+execute()+CHECK_SUCCESS. A partial-configure residue class
+is ESTABLISHED:the create-configured handler registers the
+info and configured objects before the buffer-pool steps
+and the reply,so a later failure leaves handles the client
+never learned. The disconnect cleanup's trigger and order
+are ESTABLISHED for the pinned server:serve_client runs
+shutdown_action_thread → cleanup_client_resources → close
+on ANY request-handling exit (communication-closed
+included),releasing configured models (+pools),then
+infos,then infer models,then the vdevice. NOT PROVEN:
+firmware/device consequences of out-of-order teardown,and
+whether Aesir's grouped-control session termination
+triggers that cleanup on the installed profile (AES-PROG-004's
+gap,unchanged) — the recorded residues stand. Layer8
+re-graded by addendum (handler preconditions in,device
+consequences + profile trigger out — stays SPECIFIED host /
+NOT ESTABLISHED device,partial states);4.4 gate re-run on
+layer8 only:PASS. Track R study pass COMPLETE:R1 NOT
+PROVEN,R2 ESTABLISHED,R3 NOT PROVEN,R4 PARTIAL,R5 PARTIAL.
+Campaign4 exit still NOT MET (turns on R1/R3-class public
+evidence no searched source contains);Campaign5 not
+contracted. Numerical/packing/placement/program/results
+and broad ordinary UNMODIFIED source-model support100%
+remain work.

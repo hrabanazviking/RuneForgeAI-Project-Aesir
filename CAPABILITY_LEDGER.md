@@ -5140,3 +5140,64 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next acceptance gate:** R5 partial-state teardown
   preconditions,slice 4.9 — the last Track R item.
 - **Audit:** Research only. No global/hosted-CI pass.
+
+### AES-NUM-009 — Partial-state teardown preconditions, Track R R5 (Campaign 4)
+
+- **Status:** `verified` (research scope:bounded study of the
+  pinned receiver sources for teardown ordering/preconditions
+  in partial states;no code,no emitter,no bytes,no physical run).
+- **Owner:** docs/HAILO10H_PARTIAL_STATE_TEARDOWN_STUDY_2026-10-24.md.
+- **Verdict: R5 PARTIALLY ESTABLISHED.** Handler-level
+  preconditions ESTABLISHED at source level (hailort_server.cpp
+  @d503417 sha256 80b8c3c6…; hrpc/server.cpp 278f5457…;
+  server_resource_manager.hpp a9445bfa…; infer_model.cpp
+  393be20f…):the destroy actions carry NO preconditions —
+  destroy-infer releases only its own tier with no check for
+  live configured children (the configured tier is registered
+  independently and holds a shared ConfiguredNetworkGroup,
+  not the InferModel), destroy-configured executes shutdown()
+  internally with its result void-cast and succeeds on objects
+  in any manager-held state, and all three destroy handlers
+  reply HAILO_SUCCESS even for missing/already-released
+  handles (release_resource logs INFO and returns null).
+  Non-destroy use of a destroyed handle is strict instead:
+  execute() lookup fails HAILO_NOT_FOUND and handlers
+  CHECK_SUCCESS it. One client's actions execute serially on
+  its single action thread.
+- **Partial-configure residue — ESTABLISHED:** the
+  create-configured handler registers the InferModelInfo and
+  the configured object BEFORE the buffer-pool / run-async
+  pool steps and the reply; a later TRY failure leaves both
+  registered with handles never sent — the handle-never-learned
+  residue class, now sourced for configure as well as create.
+  A configure() failure itself registers nothing.
+- **Disconnect cleanup — trigger and order ESTABLISHED,
+  profile applicability NOT PROVEN:** Server::serve_client
+  @pin exits its loop on ANY handle_client_request failure
+  (HAILO_COMMUNICATION_CLOSED disconnect included), then
+  shutdown_action_thread → cleanup_client_resources → close.
+  Cleanup order:configured models (+pools),infer-model infos,
+  infer models (+info-id map),vdevice (+remove_vdevice).
+  Configured-object release becomes a stop via the destructor's
+  shutdown() at source level (other outstanding references
+  would defer it — NOT PROVEN). Whether Aesir's grouped-control
+  session termination triggers this server's cleanup on the
+  installed profile remains NOT PROVEN (AES-PROG-004's gap,
+  unchanged); the recorded residues stand.
+- **NOT PROVEN:** firmware/device consequences of out-of-order
+  teardown (e.g. activated network group behaviour when its
+  vdevice tier is released first).
+- **Effect:** AES-NUM-003 layer 8 re-graded by addendum
+  (handler preconditions in,device consequences + profile
+  trigger out — stays SPECIFIED host / NOT ESTABLISHED
+  device,partial states);4.4 gate re-run on layer 8 only:PASS
+  (destroy success replies are not read as proof of prior
+  state or device destruction). Track R study pass COMPLETE:
+  R1 NOT PROVEN,R2 ESTABLISHED,R3 NOT PROVEN,R4 PARTIAL,
+  R5 PARTIAL. Campaign 4 EXIT NOT MET;operation UNQUALIFIED;
+  Campaign 5 NOT contracted.
+- **Next acceptance gate:** Campaign 4 exit — turns on
+  R1/R3-class public evidence (a public CCW layout and a
+  placement census) that no searched source contains;no
+  further Track R study slice is named for this iteration.
+- **Audit:** Research only. No global/hosted-CI pass.

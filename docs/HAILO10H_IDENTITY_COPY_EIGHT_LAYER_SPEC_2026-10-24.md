@@ -318,3 +318,40 @@ Effect on this spec, gate re-run on the changed layer only
 
 All other layers unchanged. Operation remains UNQUALIFIED;
 Campaign 4 exit NOT MET; Campaign 5 NOT contracted.
+
+## Addendum 2026-10-24 (AES-NUM-009, Track R R5)
+
+R5 landed PARTIALLY ESTABLISHED; the study and full citations
+live in
+`docs/HAILO10H_PARTIAL_STATE_TEARDOWN_STUDY_2026-10-24.md`.
+Effect on this spec, gate re-run on the changed layer only
+(PASS, AES-NUM-009 §6):
+
+- **Layer 8:** the receiver's handler-level teardown
+  preconditions are ESTABLISHED at source level — the
+  destroy actions carry no preconditions (destroy-infer
+  performs no check for live configured children and the
+  configured tier is structurally independent, holding a
+  shared configured network group, not the infer model;
+  destroy-configured performs its own shutdown internally
+  and succeeds on objects in any manager-held state;
+  destroy replies are tolerant and prove nothing about
+  prior state, while use of a destroyed handle fails with
+  NOT_FOUND). A partial-configure residue class is sourced
+  (registration precedes the reply in the create-configured
+  handler). The disconnect cleanup's trigger (the pinned
+  server's per-client serve loop runs it on any
+  request-handling exit) and tier order (configured →
+  infos → infer → vdevice) are ESTABLISHED. The layer stays
+  **SPECIFIED (host) / NOT ESTABLISHED (device, partial
+  states)**: the firmware consequences of out-of-order
+  teardown are NOT PROVEN, and whether Aesir's
+  grouped-control session termination triggers that cleanup
+  on this profile is NOT PROVEN — the reclaim path remains
+  named, never guaranteed, and the conservative host terms
+  stay load-bearing.
+
+All other layers unchanged. Track R is complete as a study
+pass (R1 NOT PROVEN, R2 ESTABLISHED, R3 NOT PROVEN, R4
+PARTIAL, R5 PARTIAL). Operation remains UNQUALIFIED;
+Campaign 4 exit NOT MET; Campaign 5 NOT contracted.
