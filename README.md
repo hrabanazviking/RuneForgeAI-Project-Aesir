@@ -2,6 +2,101 @@
 
 ---
 
+## 🔥 Live Development Update — October 25, 2026
+
+> **This is the current high-level status block.** The older dated September snapshots and historical updates below are deliberately preserved rather than deleted, because they show how Project A.E.S.I.R. evolved. When an older dated statement conflicts with this block, the newest implementation/evidence and the [Canonical Capability Ledger](CAPABILITY_LEDGER.md) take precedence.
+
+Project A.E.S.I.R. has moved substantially beyond the September snapshots preserved later in this README. The strongest practical end-to-end inference path remains native Mojo + NVIDIA CUDA, but October development has also pushed the **Hailo-10H NPU program from future architecture into real hardware bring-up, source-compiler work, transport ownership, and physically measured execution evidence.**
+
+### ⚡ Native CUDA and local-service progress
+
+- The October 1 native-efficiency work made the exercised **Llama 3.2 3B / RTX 2060** subset another **1.60–1.66× faster** than its preceding A.E.S.I.R. release while preserving complete replies and GPU allocation. See [Native Efficiency](docs/NATIVE_EFFICIENCY.md).
+- The [AESIR speed-lead roadmap](ROADMAP_AESIR_SPEED_LEAD.md) now explicitly targets a measured **2× lead over current Ollama** in designated meaningful workloads, with a **3× stretch target**. Those are targets, not yet blanket achieved claims.
+- Ollama-compatible generation/chat now supports **incremental NDJSON streaming** when `"stream": true` (the default), while `"stream": false` returns one JSON response.
+- The native local service now admits a bounded **FIFO queue of four waiting sockets by default**, runs one generation at a time, and returns HTTP 503 when the queue is full or a waiter expires. `--queue-limit` and `--queue-timeout-ms` expose bounded controls.
+- Foreground-service lifecycle support includes verified resident-process reporting through `aesir ps`, cooperative `aesir stop`, catalog updates while the service is running, and separate authenticated `/health/live` and `/health/ready` semantics.
+
+**Therefore, any older preserved text below saying Ollama NDJSON streaming or bounded concurrent-client queuing is still unimplemented should now be read as historical.** The service remains loopback-only and is still not a complete Ollama replacement.
+
+### 🧠 Hailo-10H: two routes now exist
+
+The October Hailo work is important enough that the old shorthand “NPU inference is future work” is no longer accurate without qualification.
+
+#### Route A — HailoRT + compatible compiled model: physically verified
+
+A.E.S.I.R. has a **physically verified Hailo-10H LLM route** using a compatible compiled artifact. The recorded acceptance path used **Qwen2.5-1.5B-Instruct** on the real Hailo-10H through A.E.S.I.R.'s Mojo/HailoRT integration. Evidence includes real device identity, HailoRT/firmware 5.3.0 generation, an approximately 2.46 GB compiled artifact, a simple arithmetic prompt returning `5.`, persistent conversation context, context-overflow refusal without corrupting history, reset behavior, post-reset generation, lifecycle cleanup, and the recorded boundary/lifecycle checks.
+
+This is real Hailo-10H inference, but it **does not satisfy A.E.S.I.R.'s harder native-source-model goal** because the model is already in a Hailo-compatible compiled form. See the [Yrsa Hailo-10H Finish-Line Codex](docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md).
+
+#### Route B — ordinary GGUF/Safetensors → A.E.S.I.R.-owned Mojo compiler → Hailo-10H: active, not end-to-end yet
+
+This is the major native Hailo target now under active development. The intended pipeline is:
+
+```text
+ordinary GGUF / Safetensors model
+        ↓
+A.E.S.I.R.-owned parser + semantic compiler
+        ↓
+A.E.S.I.R.-owned transformer IR / mathematical graph
+        ↓
+A.E.S.I.R.-owned Hailo numerical lowering
+        ↓
+A.E.S.I.R.-owned packing / placement / program generation
+        ↓
+A.E.S.I.R.-owned Hailo transport + control
+        ↓
+Hailo-10H executes the LLM
+        ↓
+A.E.S.I.R. returns tokens
+```
+
+October work has already established a large part of the machinery on both sides of that gap:
+
+- sealed and owned **GGUF** source lifetime through structural compilation and exact source-byte/tile reads;
+- sealed/owned **Safetensors** source work and source inventory integration;
+- retained ordinary source-model metadata, shard/config/index ownership, graph construction and source bindings;
+- mathematical lowering for transformer concepts including activation selection, projection/bias sources, rotary/context handling, windows/masks, decoder session modes and cache exports;
+- original bounded Mojo source decoding/components for **Q8**, classic **Q4/Q5**, **Q2_K/Q3_K**, and **IQ4_NL/IQ4_XS** work used by the Hailo source/compiler campaign;
+- Hailo driver discovery, properties, descriptor/channel work, USERPTR mapping, grouped storage, hRPC framing, typed grouped control/lifecycle ownership, total-deadline admission, bounded cleanup, sealed program backing, and host-side transport qualification.
+
+The native compiler/source side is **not the same thing as completed numerical model execution on Hailo**. The remaining bridge includes actual Hailo numerical encoding/configuration, precision/packing/placement, executable program generation/delivery, successful execution/results, cleanup proof, and broad ordinary unmodified source-model coverage.
+
+Useful current references include the [Hailo owner scope](docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md), [owned GGUF compiler evidence](docs/HAILO10H_MOJO_OWNED_GGUF_COMPILER.md), [sealed Safetensors source evidence](docs/HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md), and the [Yrsa Finish-Line Codex](docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md).
+
+### 🔬 October 24 physical grouped-control result
+
+On October 24 the project ran **one deliberately bounded physical grouped-control experiment** against the real Hailo-10H. It produced useful negative transport evidence rather than pretending a failed call was a model-execution success:
+
+- the D2H scalar launch returned **5**;
+- the adjacent H2D grouped launch returned **`EINVAL`**;
+- the kernel diagnostic identified an existing-map offset of **20** versus descriptor-page policy **512**;
+- no accepted grouped handle/identity/destroy sequence or assigned IRQ completion was established;
+- local cleanup was accounted for and the physical batch was closed without blind repetition.
+
+That result directly motivated the current **aligned grouped backing / CPU-owned scatter-gather** host work. See [the October 24 grouped physical probe](docs/HAILO10H_GROUPED_DEVICE_PROBE_2026-10-24.md). This is exactly how A.E.S.I.R. is meant to develop: preserve the failure, extract the hardware fact, and move the contract forward instead of papering over it.
+
+### 📊 Current evidence-ledger snapshot
+
+At the October 24 engineering head following the grouped physical probe, the canonical ledger recorded:
+
+| Status | Count |
+|---|---:|
+| `verified` | **146** |
+| `partial` | **30** |
+| `scaffold` | **0** |
+| `simulated` | **0** |
+| `missing` | **15** |
+| Historical noncanonical status | **1** |
+| **Total** | **192** |
+
+The ledger, not promotional language, remains the authority for whether a capability is verified, partial, missing, or otherwise bounded.
+
+### 🧭 Current truth boundary
+
+**A.E.S.I.R. already runs real local AI through native Mojo CPU/CUDA paths, already runs a real compiled LLM on the physical Hailo-10H through its HailoRT route, and now owns a rapidly growing native Mojo source/compiler + low-level Hailo transport stack. What it does not yet claim is arbitrary ordinary GGUF/Safetensors → fully A.E.S.I.R.-generated Hailo program → complete Hailo-only LLM execution across broad model coverage. That is the active finish line.**
+
+---
+
 > **2026-10-01: speed roadmap.** The [AESIR speed-lead roadmap](ROADMAP_AESIR_SPEED_LEAD.md) targets a measured 2× lead over current Ollama in each designated meaningful workload, with a 3× stretch goal. It starts from the [actual installed-provider comparison](docs/evidence/provider-speed-2026-10-01/COMPARISON.md): cached 32-token work is near parity, while new long input and 128-token output still trail Ollama. The roadmap defines future measurement, matrix-prefill, decode, memory and stability work; its targets are not achieved results.
 
 > **2026-10-01: native CUDA efficiency.** The exercised Llama 3.2 3B/RTX 2060 subset is another 1.60–1.66x faster than the preceding release, with matching complete replies and unchanged GPU allocation. [Operation and verification](docs/NATIVE_EFFICIENCY.md). Bifröst keeps its existing Ollama provider policy; native/Ollama templates and cache policies differ. [Second-brain setup](docs/SECOND_BRAIN.md).
@@ -28,6 +123,8 @@ and the [HTTP support matrix](docs/API_SUPPORT_MATRIX_V1.md).
 
 **Easy introduction for non-technical readers**  
 **Snapshot date: September 16, 2026**
+
+> **Historical snapshot retained intentionally:** this September 16 section is preserved as part of the project's development history. For present capability, read the October 25 live update above and the Capability Ledger.
 
 > This document describes Project A.E.S.I.R. as it exists on the date above. A.E.S.I.R. is developing quickly, so newer repository documentation may supersede details here.
 
@@ -61,11 +158,15 @@ A.E.S.I.R. works with **GGUF** model files in its currently verified model paths
 
 A.E.S.I.R. can inspect GGUF information, store model files in its own local model catalog, verify their contents, and run specific supported model families through native CPU or NVIDIA CUDA paths.
 
+> **October 25 update:** the Hailo-native source/compiler campaign also contains owned GGUF and Safetensors source-ingestion/compilation work. That does not mean arbitrary Safetensors or GGUF models already execute end-to-end on the NPU; source ownership/compilation and complete physical model execution are separate evidence gates.
+
 ---
 
 ## What is actually working right now?
 
 As of **September 16, 2026**, the repository contains real working implementations for a growing set of capabilities.
+
+> **October 25 update:** in addition to the September capabilities below, Project A.E.S.I.R. now has the physically verified compiled-model Hailo-10H route and a much larger A.E.S.I.R.-owned Hailo source/compiler + transport stack described in the live update at the top of this README.
 
 ### Real native inference
 
@@ -166,6 +267,8 @@ It also has OpenAI-compatible text API work in the current runtime.
 
 This is a major architectural step because other programs can eventually use A.E.S.I.R. as their AI engine instead of needing to know how A.E.S.I.R. performs inference internally.
 
+> **October 25 correction to this preserved September wording:** Ollama-compatible generation/chat now supports incremental NDJSON streaming and a bounded FIFO waiting queue. The later service section in this README documents the current behavior.
+
 ---
 
 ## What does "Ollama compatible" mean here?
@@ -182,6 +285,8 @@ It means A.E.S.I.R. already understands part of the same local HTTP language use
 - common generation settings
 
 Important pieces are still being developed, including streaming responses, embeddings, additional model-management endpoints, tool calling, multimodal messages, and broader concurrency/lifecycle behavior.
+
+> **October 25 correction:** streaming responses and bounded local waiting-client queueing have since landed. Embeddings, the remaining management surface, broad tool calling, multimodal support, public/remote serving, and full Ollama parity remain unfinished.
 
 Full application compatibility is therefore a development target, not a current blanket claim.
 
@@ -203,6 +308,8 @@ CUDA is NVIDIA's GPU computing platform. A GPU contains a huge number of small c
 
 A.E.S.I.R.'s most capable physically verified inference paths today use NVIDIA CUDA. That does **not** mean the project intends to remain NVIDIA-only. AMD, Intel, Apple, NPUs, heterogeneous execution, and multi-device work are longer-term goals, but they should not be confused with currently verified support.
 
+> **October 25 Hailo clarification:** CUDA remains the strongest general native-source inference path, but Hailo-10H is no longer only a roadmap idea. A compiled-model HailoRT route has physically run a real LLM on the NPU, while the A.E.S.I.R.-owned ordinary-source route is active and partial rather than end-to-end complete.
+
 ---
 
 ## What is quantization?
@@ -212,6 +319,8 @@ AI models can be extremely large. Quantization stores model numbers using fewer 
 A.E.S.I.R. contains substantial work around GGML/GGUF quantization formats, including checked K-quant decoding and experimental/host primitives for several additional quantization families.
 
 Some quantization code is verified as a mathematical primitive without yet being connected to complete model execution. The repository's Capability Ledger is the authority for that distinction.
+
+> **October 25 update:** the Hailo source/compiler campaign now includes additional original bounded source-component/byte integration work for Q8, classic Q4/Q5, Q2_K/Q3_K, and IQ4_NL/IQ4_XS. These source/compiler components do not by themselves prove complete Hailo model execution.
 
 ---
 
@@ -259,6 +368,8 @@ The goal is for these pieces to form reusable infrastructure for applications ra
 
 The current Ollama-compatible server is useful enough to test real clients that only need its implemented endpoints and non-streaming generation. It is not yet a complete replacement for all Ollama features or all applications built around Ollama.
 
+> **October 25 correction:** the service is no longer limited to non-streaming generation. It now supports bounded NDJSON streaming plus bounded waiting-client queueing, while still remaining a deliberately incomplete, local-only Ollama subset.
+
 A major future compatibility goal is to make polished applications able to use A.E.S.I.R. without needing application-specific inference code.
 
 ---
@@ -276,6 +387,8 @@ This is not the same as a native Windows Mojo binary. The current documented inf
 Those directions are part of the broader project vision, but the answer for ordinary supported use **today is not yet**.
 
 The strongest current accelerator evidence is the NVIDIA CUDA path. The project deliberately separates future architecture from verified present capability.
+
+> **October 25 Hailo-10H update:** this older general answer is now too broad for the NPU case. A.E.S.I.R. has physically executed a compiled Qwen2.5-1.5B-Instruct artifact on a real Hailo-10H through its HailoRT route. The independent A.E.S.I.R.-owned source-model compiler/runtime path is also under active development with real host and physical transport evidence, but ordinary unmodified GGUF/Safetensors → fully A.E.S.I.R.-generated Hailo program → broad Hailo-only inference is not complete yet. AMD, Intel, Apple Silicon and general phone/NPU support remain separate unfinished targets.
 
 ---
 
@@ -299,6 +412,13 @@ Start with these repository documents:
 6. `docs/LOCAL_LAUNCH.md` for Linux/WSL/Windows launch behavior.
 7. `BEST_IN_CLASS_GAMEPLAN.md` for the active ordered implementation campaign.
 
+For the October Hailo frontier, also read:
+
+8. `docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md` for the complete Hailo-10H technical handoff and finish-line map.
+9. `docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md` for the controlling native-source goal and non-negotiable boundaries.
+10. `docs/HAILO10H_GROUPED_DEVICE_PROBE_2026-10-24.md` for the latest bounded physical grouped-control evidence.
+11. `docs/HAILO10H_MOJO_OWNED_GGUF_COMPILER.md` and `docs/HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md` for source ownership/compiler evidence.
+
 For a dated practical snapshot written for ordinary users, see `HOW_TO_USE_PROJECT_AESIR_RIGHT_NOW_2026-09-16.md` and `PROJECT_AESIR_WHAT_WORKS_NOW_2026-09-16.md` in this directory.
 
 ---
@@ -313,6 +433,8 @@ For a dated practical snapshot written for ordinary users, see `HOW_TO_USE_PROJE
 
 **Easy practical guide**  
 **Current as of September 16, 2026**
+
+> **Historical snapshot retained intentionally:** the commands in this guide remain useful context, but this section is still dated September 16. Newer runtime/service/Hailo facts elsewhere in this README supersede conflicting September statements.
 
 > **Why this guide has a date:** A.E.S.I.R. is changing rapidly. Commands, supported models, setup requirements, and compatibility features are likely to change. Treat this as a September 16, 2026 snapshot and check newer repository documentation when available.
 
@@ -796,6 +918,9 @@ Because this document is dated **September 16, 2026**, check these sources for n
 - `docs/LOCAL_LAUNCH.md`
 - `docs/CONFIGURATION.md`
 - `docs/DEVLOG.md`
+- `docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md`
+- `docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`
+- `docs/HAILO10H_GROUPED_DEVICE_PROBE_2026-10-24.md`
 
 For a non-technical introduction, see:
 
@@ -816,11 +941,15 @@ If you remember only four things:
 3. **The terminal Home, model store, diagnostics, native chat, and early compatibility APIs are usable now.**
 4. **It is changing quickly, so always prefer newer dated documentation over this September 16 snapshot when the two disagree.**
 
+> **October 25 addendum:** A.E.S.I.R. also now has physically verified Hailo-10H inference through the compiled-model/HailoRT route, while its independent ordinary-source-model-to-Hailo compiler/runtime route remains active and incomplete.
+
 ---
 
 ## Project A.E.S.I.R.: What Works Right Now
 
 **Current-capabilities snapshot: September 16, 2026**
+
+> **Historical snapshot retained intentionally:** this section remains the September 16 capability snapshot. The October 25 live update at the top of the README contains newer Hailo, service, compiler, transport and evidence-ledger information.
 
 > A.E.S.I.R. changes quickly. This file is intentionally dated. It is a human-readable snapshot, not a permanent compatibility promise. `CAPABILITY_LEDGER.md` remains the repository's authoritative evidence ledger.
 
@@ -829,6 +958,8 @@ If you remember only four things:
 Project A.E.S.I.R. is no longer only a design or proof-of-concept repository. It can run real local AI inference through native Mojo CPU/CUDA code, hold interactive GPU chat sessions, manage a durable local model catalog, download and verify pinned model files, inspect models, reason about hardware/memory fit, expose local HTTP generation APIs, and speak a useful early subset of Ollama's API.
 
 It is still experimental. Its strongest end-to-end accelerator support is currently NVIDIA CUDA on Linux/WSL2, and several ambitious future systems in the repository are not yet connected to production inference.
+
+> **October 25 addendum:** Hailo-10H now has real physical LLM inference evidence through the compiled-model/HailoRT route plus extensive native-source compiler and low-level transport work. That newer evidence does not change the fact that CUDA remains the strongest broad native-source practical path today.
 
 ## Currently usable capabilities
 
@@ -979,6 +1110,8 @@ POST /api/chat
 
 Generation/chat currently require `"stream": false`.
 
+> **October 25 correction:** this is historical September wording. The current service supports incremental NDJSON streaming when `"stream": true` and one-shot JSON when `"stream": false`, plus a bounded FIFO waiting queue.
+
 Recognized Ollama generation options currently include:
 
 ```text
@@ -1012,6 +1145,8 @@ The important distinction is that **a verified quantization primitive is not aut
 
 Current repository evidence includes canonical GGML K-quant decoding work for Q2_K through Q6_K, real-row parity work for selected formats, host-side metadata-aware primitives for several other quantization systems, and extreme-quant host primitives. The Capability Ledger should be consulted before interpreting any of these as end-to-end model support.
 
+> **October 25 addendum:** the Hailo-native campaign has since added additional source-component/byte integration work for Q8, classic Q4/Q5, Q2_K/Q3_K and IQ4_NL/IQ4_XS as part of the ordinary-source compiler path.
+
 ### 17. Host paged-KV infrastructure
 
 A checked `PagedKVCache` exists for bounded host-side logical/physical page management, including allocation, exhaustion, release, reuse, and initialization guards.
@@ -1044,6 +1179,11 @@ As of this snapshot, do not assume complete support for:
 - speculative decoding
 - broad cross-platform performance claims
 
+> **October 25 corrections while preserving the historical list:**
+> - Hailo-10H now has a physically verified compiled-model LLM route, so the blanket September phrase “NPU inference” is too broad; the ordinary-source native Hailo route is the incomplete part.
+> - Ollama NDJSON streaming has landed.
+> - The service now supports a bounded FIFO queue of waiting clients, although it still performs one generation at a time and is not a general multi-request production server.
+
 Some of these areas have designs, scaffolding, partial components, or roadmaps. That is different from a verified working capability.
 
 ## What has changed since the older September 2 status document?
@@ -1071,6 +1211,18 @@ The repository has moved quickly since `docs/CURRENT_STATUS.md` was dated Septem
 - versioned native layout inspection evidence
 - more explicit memory-fit explanations
 
+**October additions now also include:**
+
+- native CUDA efficiency work and the measured speed-lead campaign;
+- NDJSON Ollama-compatible streaming and bounded local-client queueing;
+- a physically verified Hailo-10H compiled-model LLM route;
+- A.E.S.I.R.-owned GGUF and Safetensors source/compiler ownership work for the native Hailo target;
+- expanded source quantization/component decoding work for the Hailo compiler campaign;
+- transformer semantic/mathematical lowering work for the Hailo source path;
+- Hailo USERPTR mapping, program backing, grouped hRPC/control/lifecycle ownership, deadlines and cleanup;
+- the October 24 one-shot physical grouped-control probe and its aligned-backing follow-up;
+- the October 24 Yrsa Hailo-10H finish-line technical codex.
+
 This dated document exists partly because the older concise status file no longer tells the whole September 16 story.
 
 ## Best source of truth
@@ -1088,6 +1240,8 @@ When documents disagree, use this order:
 On September 16, 2026, A.E.S.I.R. can genuinely be used as an experimental native local-AI runtime on its supported paths. It can run real models, chat, manage models, inspect hardware/model information, expose local inference APIs, and begin impersonating familiar local-AI service protocols.
 
 The next leap is not proving that A.E.S.I.R. can generate text. It already can. The next leap is broadening model/hardware coverage and making the runtime sufficiently compatible, convenient, and complete that ordinary applications can rely on it.
+
+> **October 25 bottom-line update:** A.E.S.I.R. has also crossed the “real NPU hardware” line through its compiled-model Hailo-10H route. The active harder leap is eliminating the precompiled-model prerequisite by completing A.E.S.I.R.'s own ordinary-source compiler, numerical Hailo lowering, program generation and physical execution path.
 
 ---
 
@@ -1141,6 +1295,22 @@ HTTP requests to loaded CUDA models. Chat also supports cooperative Ctrl+C
 cancellation and deadlines. The loopback service exposes working Ollama and
 OpenAI-compatible model discovery and text-generation routes; embeddings,
 remaining model-management routes, and public deployment remain unfinished.
+
+---
+
+### Oct-25-2026 Project A.E.S.I.R. update ⚙️🔥🧠
+
+> **A.E.S.I.R. is now simultaneously a working native local-AI runtime and an active independent Hailo-10H compiler/runtime research project.**
+
+Since the September updates below, the CUDA runtime has continued to mature, the local compatibility service gained NDJSON streaming and bounded client queueing, and the Hailo-10H campaign crossed several important thresholds.
+
+A.E.S.I.R. has physically run a Qwen2.5-1.5B-Instruct compiled artifact on the real Hailo-10H through its HailoRT route. In parallel, the project is building the more ambitious route that removes the precompiled-artifact requirement entirely: ordinary GGUF/Safetensors input, A.E.S.I.R.-owned Mojo parsing and transformer compilation, A.E.S.I.R.-owned Hailo numerical lowering and program generation, native transport/control, physical execution, and returned tokens.
+
+The source/compiler side now owns substantially more of model ingestion, source lifetime, tensor representation, quantized source decoding, mathematical graph construction and transformer semantics. The device side now owns substantially more of USERPTR mapping, sealed program backing, grouped RPC/control frames, typed lifecycle, deadline accounting and bounded cleanup. The October 24 physical grouped-control experiment intentionally stopped on a real alignment/descriptor-page rejection rather than hiding it, giving the project a concrete next transport problem to solve.
+
+The new [Yrsa Hailo-10H Project Aesir Finish-Line Codex](docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md) consolidates the architecture, compiler, runtime, physical evidence, unknowns and finish-line roadmap so the remaining work can proceed without collapsing the distinction between host verification, physical transport evidence and actual model execution.
+
+> *The forge has moved beyond “can an NPU matter?” to “how much of the entire compiler/runtime stack can A.E.S.I.R. own?” ⚔️*
 
 ---
 
@@ -1259,6 +1429,8 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 * **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Restart-safe catalog commands are operational: `create --model` imports exact bytes into an immutable SHA-256-addressed blob store, `verify` rehashes the stored inode, pinned `pull --name` registers a verified Hub artifact, and `gc` reclaims unreachable blobs after full locked validation while preserving leased resident weights. Durable aliases resolve to canonical catalog identities and favorites rise to the top of path-free model selection. `aesir doctor` checks CUDA, storage integrity, disk visibility, local listeners, and model compatibility without requiring internet access. Ollama/OpenAI model discovery and text/chat generation work on the native loopback service; bounded native authentication and foreground `ps`/`stop` are implemented, while embeddings, hot model swap, and remaining management endpoints are unfinished. See the [model-store guide](docs/MODEL_STORE.md), [current status](docs/CURRENT_STATUS.md), and ledger.
 * **Accelerator & Swarm Matrix:** The native CUDA Gemma and Llama 3 profiles are real and narrowly verified. NPU, multi-GPU, non-NVIDIA backends, general accelerator support, and Swarm remain unimplemented or bounded; see the ledger before relying on them.
 
+> **October 25 accelerator clarification:** Hailo-10H now has a physically verified compiled-model inference route and a substantial partial native-source compiler/transport route. The bullet above is retained as historical wording, but “NPU” should no longer be read as meaning “no physical NPU inference exists anywhere in A.E.S.I.R.” General NPU support and the ordinary-source Hailo-native finish line remain incomplete.
+
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)
 The future of intelligence should not be gatekept by massive server farms, monthly subscription fees, or cloud outages. True technological sovereignty means owning your hardware and the intelligence that runs on it.
 
@@ -1269,6 +1441,8 @@ solo operator. Performance and resource-efficiency measurement remain open work.
  * **Uncensored:** You load the weights, you set the rules. No API guardrails.
 
 *Status: The CPU GGUF slice and narrow native CUDA Gemma/Llama 3 profiles work. Broader hardening and integration remain active work; [CURRENT_STATUS.md](docs/CURRENT_STATUS.md) states the live boundary.*
+
+> **October 25 status addendum:** the physically verified HailoRT/Hailo-10H compiled-model route and the active A.E.S.I.R.-owned Hailo source/compiler campaign are now part of that broader boundary as well.
 
 ---
 
