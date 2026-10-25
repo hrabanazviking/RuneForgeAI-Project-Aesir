@@ -8369,3 +8369,47 @@ No new capability ID or hardware/complete-source execution claim.
   positional-law completion pairs B0 x A0 and B0 x B1
   (slice 4.102).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-102 — the DENSE-zero run of four is a raw ff-word run and one of fifteen such runs, block variation is exactly the two family labels (110 constant / 72 varying, all label-exhausted), and the positional law completes its segment-pair square
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_DENSE_RUN_BLOCK_VARIATION_POSITIONAL_COMPLETION_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...101 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  camps A 21392 x13 / B 21648 x12, trains 52 (28/13/11), whole
+  re-collection exact (7,484; SPARSE 2,280/144, MID 2,306/21,
+  DENSE 2,898/64). (i) Group (0a0d378c, 16, 32776) carries
+  exactly 4 DENSE zeros (28760/28764/28768/28772), all in the
+  single instance cidx 5, all mask 00000, value 0, spacings
+  4/4/4; the group has no other candidate at 28752..28780;
+  the instance's raw segment words there are four consecutive
+  ff000000 words flanked by 9000a280 / 01000600. Corpus run
+  census: 15 maximal DENSE-zero runs at spacing 4, identical
+  at group and (group, cidx) level — 14 of length exactly 4,
+  1 of length 3 ((0a0d378c, 20, 32752) cidx 44 at
+  17348..17356); 59 of 64 DENSE zeros sit in runs, 5 are
+  singletons. Run-site selection NOT PROVEN. (ii) Block
+  variation census over individual camp segments: constant
+  110 / varying 72 in camp A, camp B and pooled — matching
+  AES-NUM-098's 110/182 exactly; fam0 all 56 indices
+  constant, all 78 tail indices constant, fam1/fam2 head
+  indices all vary (36 + 36); the varying t set is identical
+  across scopes (head slots of units 8..25); every varying
+  index is label-exhausted in both camps (72/72, distinct =
+  the family's per-segment label set, 13 in A / 12 in B,
+  each exactly once per index). The block holds no other
+  per-segment information; label identity NOT PROVEN.
+  (iii) Positional law EXACT on the completion pairs:
+  B0 x A0 reverse = the exact mirror of A0 x B0 (7,021
+  pairs, 5,489,488 tallies, 0 differing, out-of-range
+  457,604,528 over 22,548); B0 x B1 (7,044 pairs, 5,547,024
+  tallies, 0 differing, out-of-range 463,088,880 over
+  22,212). All four segment-pair directions now measured,
+  0 differing on 22,007,232 tallies.
+- **Next:** the 5 singleton DENSE zeros and the length-3
+  run (maximal raw ff-run anatomy for all 64 DENSE zeros);
+  the fam1/fam2 label pair within a segment; positional
+  law on the consensus-camp pair consA x consB
+  (slice 4.103).
+- **Audit:** Host-side analysis only; no device child.

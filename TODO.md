@@ -1545,18 +1545,35 @@
   triples on 5.49M/5.48M
   tallies).
   `docs/HAILO10H_DENSE_ZERO_TAIL_CONSTANCY_NONCAMP_POSITIONAL_2026-10-24.md`.
-- [ ] Slice4.102 the DENSE-zero
-  run of four at 28760..28772
-  in its group; whole-block
-  per-segment variation census
-  (which of the 182 block
-  offsets vary across a camp's
-  segments at all); positional-
-  law completion pairs (B0xA0
-  reverse, B0xB1 within-camp B);
-  then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+- [x] Slice4.102 the DENSE-zero
+  run of four is a raw ff-word
+  run in one instance (cidx 5,
+  mask 00000 x4) and one of 15
+  single-instance runs corpus-
+  wide (14 of length 4, 1 of
+  length 3; 59/64 DENSE zeros
+  in runs); block variation is
+  exactly the two family labels
+  (110/182 constant per camp
+  and pooled, 72 varying =
+  fam1/2 head slots only, all
+  72 label-exhausted in both
+  camps); positional law exact
+  on B0xA0 (mirror of A0xB0)
+  and B0xB1 (0 differing).
+  `docs/HAILO10H_DENSE_RUN_BLOCK_VARIATION_POSITIONAL_COMPLETION_2026-10-24.md`.
+- [ ] Slice4.103 the 5 singleton
+  DENSE zeros and the length-3
+  run (maximal raw ff000000 run
+  anatomy for all 64 DENSE
+  zeros); the fam1/fam2 label
+  pair within a segment (25
+  paired labels, as-function /
+  affine hunts); positional law
+  on the consensus-camp pair
+  consA x consB; then broad
+  ordinary UNMODIFIED source-
+  model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

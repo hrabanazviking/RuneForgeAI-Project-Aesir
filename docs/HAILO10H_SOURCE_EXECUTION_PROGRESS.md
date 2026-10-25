@@ -2770,3 +2770,22 @@ within-camp pair. Next: the DENSE-zero run of four, which block
 offsets vary across segments at all, and the two remaining
 segment-pair directions. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+2026-10-24 the DENSE-zero run, block variation census, positional completion (AES-NUM-102,slice4.102):
+`docs/HAILO10H_DENSE_RUN_BLOCK_VARIATION_POSITIONAL_COMPLETION_2026-10-24.md`.
+The run of four that held the lone form-exclusivity break is
+four consecutive ff000000 words in a single instance — and it
+is the typical shape of a DENSE zero, not a curiosity: fifteen
+such runs live in the corpus, fourteen of exactly four and one
+of three, covering fifty-nine of the sixty-four DENSE zeros.
+The region-0 block, read segment by segment, varies in exactly
+one way: of its 182 words, 110 never change and the 72 that do
+are precisely the family-1 and family-2 head slots, each one
+carrying nothing but that segment's own label for the family.
+And the positional law closes its square — the reverse
+cross-camp pair mirrors the forward pair number for number,
+and the within-camp B pair is exact like the other three.
+Next: the five singleton DENSE zeros and the one short run,
+the two labels of a segment read as a pair, and the positional
+law on the consensus camps themselves. Broad ordinary
+UNMODIFIED source-model support100% remains the destination.
