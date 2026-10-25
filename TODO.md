@@ -1301,16 +1301,40 @@
   3 variable slots repeating the
   rank-ladder scalar 21+9xrank).
   `docs/HAILO10H_DISTINGUISHED_SEGMENT_FF_STAIRCASE_SIBLING_FF_2026-10-24.md`.
-- [ ] Slice4.87 cidx 113
-  distinguished beyond the sibling
-  segments (whole context, other
-  classes, first-in-train privilege
-  elsewhere?); staircase-threshold
-  landmarks at 9044/11292/15508/
-  17204 inside position-18
-  segments; position-18 ff scalar
-  sequences vs a rank ladder
-  (exact form per camp); then
+- [x] Slice4.87 cidx 113 IS
+  distinguished context-wide
+  (private (size,channel) schedule
+  at 249/400 positions where the
+  other 25 are unanimous; private
+  content at 23 of the 80 consensus
+  positions — 15 skeleton bursts,
+  3x328 B, 2x48 B, 80 B, 5008 B,
+  32784 B; no first-segment
+  privilege in the pos18 camps and
+  no second len-400 train exists);
+  the staircase thresholds are
+  ordinary ff-15 fixture words
+  (ranks 2/8/22/26, next ff +192,
+  no variable positions nearby);
+  the pos18 variable ff scalar is
+  NOT a rank ladder but equals
+  cidx - 92 exactly in both camps
+  — and the sibling 21+9xrank
+  ladder is the same law (51/51
+  segments).
+  `docs/HAILO10H_DISTINGUISHED_CONTEXT_THRESHOLDS_CIDX_LAW_2026-10-24.md`.
+- [ ] Slice4.88 cidx - 92 law
+  across the other artifacts /
+  other ff populations, and what
+  context 92 itself is; cidx 113's
+  schedule vs the consensus
+  schedule (same (size,channel)
+  multiset/totals — permutation /
+  re-grouping — or a different
+  multiset?); where the staircase
+  +64 insertions live between ff
+  words (rank-aligned camp byte-
+  diff region by region); then
   broad ordinary UNMODIFIED
   source-model support100%.
 

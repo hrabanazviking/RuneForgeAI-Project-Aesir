@@ -7664,3 +7664,42 @@ No new capability ID or hardware/complete-source execution claim.
   staircase-threshold landmarks; position-18 ff scalar
   sequences vs a rank ladder (slice 4.87).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-087 — cidx 113 is distinguished context-wide (private schedule at 249/400 positions, private content at 23/80 consensus positions), the staircase thresholds are ordinary ff-15 fixture words, and the variable ff scalar is exactly cidx - 92 in all three populations
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_DISTINGUISHED_CONTEXT_THRESHOLDS_CIDX_LAW_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...086 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef87.py (sha256 75f7db4f...), sha-verified on-device after a
+  one-shot proxy-receiver transfer (gz sha256 458020e2... returned
+  by the receiver matched); output sha256 f4c981b0....
+  Contract docs/TASK_CONTRACT_4.87.md published @ 227f1a62 before
+  implementation. (i) All 26 sibling contexts have 400 actions;
+  (size, channel) is unanimous in all 26 at only 82 positions, and
+  at 249 positions the other 25 are unanimous while cidx 113
+  alone differs (channel flips in the head, re-grouped large
+  actions from position 41). Segment sha256 (all 400 covered):
+  consensus content exists at 80 positions — 57 identical in all
+  26, 23 where the other 25 are identical and 113 differs
+  (15 x 24 B bursts, 3 x 328 B, 2 x 48 B, 1 x 80 B, 1 x 5,008 B,
+  1 x 32,784 B); at 320 positions content is per-context.
+  No other len-400 train exists in the artifact (residues 6/7
+  are singletons), and the position-18 camps show no
+  first-segment privilege (deviations 0/36 in camp 21392,
+  0/36/72 in camp 21648; first segments deviate 36).
+  (ii) All four staircase thresholds are themselves ff-15
+  fixture words (ranks 2/8/22/26; next ff at +192; windows
+  byte-identical in the other camp; zero variable positions
+  in the surrounding 256 B windows; zero fraction steps
+  ~0.66 -> ~0.90 at each). (iii) The position-18 variable
+  ff scalar is NOT a rank ladder in either camp, but equals
+  cidx - 92 exactly for every segment in both camps, and the
+  sibling ladder 21 + 9 x rank is the same law (113 - 92 = 21):
+  one identity over all 51 segments.
+- **Next:** cidx - 92 across other artifacts/populations and
+  context 92 itself; cidx 113's schedule vs the consensus
+  (permutation or different multiset); where the staircase's
+  +64 insertions live between ff words (slice 4.88).
+- **Audit:** Host-side analysis only; no device child.

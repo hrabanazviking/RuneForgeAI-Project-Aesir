@@ -2444,3 +2444,25 @@ segments, what sits at the staircase thresholds, and the exact
 form of the position-18 ff scalar sequences against a rank ladder.
 Broad ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 distinguished context, thresholds, cidx law (AES-NUM-087,slice4.87):
+`docs/HAILO10H_DISTINGUISHED_CONTEXT_THRESHOLDS_CIDX_LAW_2026-10-24.md`.
+Cidx 113's distinction turns out to be context-wide: at 249 of its
+context's 400 action positions the other twenty-five contexts share
+one (size, channel) pair and 113 alone carries another — channel
+flips in the head, re-grouped large actions from position 41 — and
+where segment content has a consensus at all (80 positions), 113
+breaks it at 23, mostly the head and tail skeleton bursts. No other
+population has a distinguished first segment, and this artifact has
+no second 400-action train to test. The staircase thresholds are
+not landmarks: each is an ordinary ff-15 fixture word, windows
+byte-identical across camps, no variable byte nearby. And the
+position-18 variable ff scalar resolves exactly — not a rank
+ladder in either camp, but cidx minus 92 for every segment, a law
+that also produces the sibling train's 21 + 9 x rank ladder
+unchanged (113 - 92 = 21), one identity over all 51 segments.
+Next: whether cidx - 92 holds in the other artifacts and what
+context 92 is, whether 113's schedule is a permutation of the
+consensus schedule, and where between ff words the staircase's
++64 insertions live. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
