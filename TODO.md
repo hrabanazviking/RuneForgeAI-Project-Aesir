@@ -140,9 +140,26 @@
   header constants literal-only. Layers2/5 unchanged (no
   re-grade,no gate re-run);Campaign4 exit NOT met.
   `docs/HAILO10H_CCW_LAYOUT_STUDY_2026-10-24.md`.
+- [x] AES-NUM-006 slice4.6 Track R R2 SoC session readiness
+  study (+F1 readback question):R2 ESTABLISHED at source
+  level — NO wire-level readiness signal exists in any pinned
+  session implementation;readiness is a per-transport LOCAL
+  queue-admission rule (INTEGRATED/ETH → OsSession, size
+  ignored, wait_for_enqueue_ready; PCIe contrast is
+  size-sensitive — cross-transport inference forbidden);
+  size arrives via the preceding RPC message; one async
+  transfer of the total size, 10s default timeout. Firmware
+  transfer cap below the session layer NOT PROVEN. F1:a
+  program-result readback path IS described @pin (client
+  registers read_buffers; read after success reply, before
+  callback; configured-infer-model client builds them from
+  output bindings) but remains UNQUALIFIED in Aesir. Layers
+  4/7 re-graded by addendum;4.4 gate re-run on changed
+  layers only:PASS. Campaign4 exit NOT met.
+  `docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md`.
 - [ ] Campaign4 iteration (Track R,dependency order):R1 done
-  (NOT PROVEN,above);R2 session readiness (+F1 readback question) — slice4.6;
-  R3 placement values;R4 action sequencing;R5 partial-state
+  (NOT PROVEN,above);R2 done (ESTABLISHED,above) — slice4.6;
+  R3 placement values — slice4.7;R4 action sequencing;R5 partial-state
   teardown. Each landing re-grades its layers by addendum and
   re-runs the 4.4 gate on changed layers only;then broad
   ordinary UNMODIFIED source-model support100%.

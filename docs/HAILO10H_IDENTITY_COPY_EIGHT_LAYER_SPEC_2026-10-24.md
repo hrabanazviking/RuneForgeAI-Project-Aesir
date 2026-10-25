@@ -270,3 +270,27 @@ Next: slice 4.4, the spec review gate — this description
 reviewed in human-readable form against the Do Not Infer table
 before Campaign 5 is contracted (it will not be, on this pass:
 the gate's job is to certify exactly that, field by field).
+
+## Addendum 2026-10-24 (AES-NUM-006, Track R R2)
+
+R2 landed ESTABLISHED at source level (firmware-cap sub-part
+NOT PROVEN); the study and full citations live in
+`docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md`.
+Effect on this spec, gate re-run on the changed layers only
+(PASS, AES-NUM-006 §5):
+
+- **Layer 4:** the readiness gate in step 1 is resolved at
+  source level — there is no wire-level readiness signal; the
+  receiver's session admits transfers by a local bounded-queue
+  rule and the size comes from the preceding RPC message.
+  Layer 4 re-grades to SPECIFIED (host) / readiness
+  ESTABLISHED (device, source level); steps 2 and 4 remain
+  unsourced, and no payload movement is physically proven.
+- **Layer 7:** the F1 term now reads "read back through the
+  source-described, Aesir-unqualified result path" — the path
+  is described in the pinned client layer (registered read
+  buffers read after a success reply) and remains unqualified
+  in Aesir.
+
+All other layers unchanged. Operation remains UNQUALIFIED;
+Campaign 4 exit NOT MET; Campaign 5 NOT contracted.

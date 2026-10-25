@@ -728,3 +728,33 @@ NOT MET;Campaign5 not contracted. Next:slice4.6,R2 — the SoC
 session readiness protocol plus the F1 program-result readback
 question. Numerical/packing/placement/program/results and
 broad ordinary UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 SoC session readiness study (Track R R2 + F1):
+`docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md`
+(AES-NUM-006,Campaign4 slice4.6). R2 ESTABLISHED at source
+level:the pinned sources contain no wire-level readiness
+signal at all — readiness is a per-transport local admission
+rule on a bounded ongoing-transfer queue. On the INTEGRATED
+(SoC) path the session is OsSession (socket;dispatch @pin
+maps ETH+INTEGRATED there;no separate SoC session exists in
+the public tree),whose wait-ready ignores transfer_size and
+waits only for local queue room;the size reaches the
+receiver solely from the preceding RPC message,and one async
+transfer carries the total size (RpcConnection default
+timeout 10,000 ms). PCIe's size-sensitive rule is recorded
+as the contrast that forbids cross-transport inference. Any
+firmware transfer cap below the public session layer is NOT
+PROVEN. F1 answered:a program-result readback path IS
+described @pin (execute_request registers read_buffers;they
+are read after a HAILO_SUCCESS reply,before the callback;
+the configured-infer-model client builds them from output
+bindings) — unqualified in Aesir,so F1's caution stands as a
+qualification statement and layer7's term is corrected by
+addendum. Layer4 re-graded (readiness ESTABLISHED,device,
+source level;steps2/4 still unsourced);4.4 gate re-run on
+layers4+7 only:PASS. Campaign4 exit still NOT MET (R1 NOT
+PROVEN;R3/R4/R5 open);Campaign5 not contracted. Next:
+slice4.7,R3 — placement counts and safe assignment values.
+Numerical/packing/placement/program/results and broad
+ordinary UNMODIFIED source-model support100% remain work.

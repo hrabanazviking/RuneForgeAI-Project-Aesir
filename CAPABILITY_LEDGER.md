@@ -4984,3 +4984,55 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next acceptance gate:** R2 session readiness (+F1
   program-result readback question), slice 4.6.
 - **Audit:** Research only. No global/hosted-CI pass.
+
+### AES-NUM-006 — SoC session readiness study, Track R R2 + F1 (Campaign 4)
+
+- **Status:** `verified` (research scope:bounded study of the
+  pinned public sources for the SoC RPC session readiness
+  protocol and the F1 program-result readback question;no
+  payload contract,no bytes,no physical run).
+- **Owner:** docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md.
+- **Verdict: R2 ESTABLISHED at source level** (one sub-part
+  NOT PROVEN). Interface @pin (hailo_session.hpp):wait_for_
+  read/write_async_ready(transfer_size,timeout) — "each
+  session has a limited-size queue for ongoing transfers";
+  RpcConnection::read_buffers waits with the TOTAL size,then
+  posts ONE read_async of all buffers,callback+condvar,
+  TRANSFER_TIMEOUT default 10,000 ms. Mechanism:there is NO
+  wire-level readiness signal in any pinned session
+  implementation. Dispatch @pin (hailo_session.cpp):ETH and
+  INTEGRATED → OsSession (socket,port 12133);PCIe →
+  RawPcieSession;USB → UsbSession;no separate SoC session
+  exists in the public tree. OsSession readiness IGNORES
+  transfer_size and is AsyncActionsThread::wait_for_enqueue_
+  ready — local queue below max capacity;the transfer is one
+  exact-size socket recvall/sendall. RawPcieSession is the
+  contrast (size-sensitive is_read_ready) — readiness is a
+  per-transport LOCAL admission rule,not a protocol;cross-
+  transport inference forbidden. Size reaches the receiver
+  only via the preceding RPC message (payload case:action-2
+  hef_size,AES-PROG-004);host sends message+write buffers as
+  ONE write transfer (client.cpp),no chunking at this layer.
+- **NOT PROVEN sub-part:** any maximum size for one async
+  transfer / firmware acceptance rule below the public
+  session layer (2048 caps RPC messages only — F2 reconfirmed).
+- **F1 answered:** a program-result readback path IS described
+  @pin — Client::execute_request registers read_buffers per
+  message id;on a HAILO_SUCCESS reply the reply thread reads
+  them via RpcConnection::read_buffers BEFORE the callback;
+  ConfiguredInferModelHrpcClient builds read_buffers from
+  OUTPUT bindings. Path remains UNQUALIFIED in Aesir (no host
+  qualification,no physical exercise);F1's caution stands as
+  a qualification statement.
+- **Effect:** AES-NUM-003 re-graded by addendum (appended to
+  the spec + study §5):layer 4 → SPECIFIED (host) / readiness
+  ESTABLISHED (device,source level),steps 2/4 still
+  unsourced, nothing physically proven;layer 7 F1 term
+  corrected to "source-described,Aesir-unqualified result
+  path". 4.4 gate re-run on layers 4+7 only:PASS (0 Do Not
+  Infer violations). Campaign 4 EXIT NOT MET (R1 NOT PROVEN;
+  R3/R4/R5 open);operation UNQUALIFIED;Campaign 5 NOT
+  contracted.
+- **Next acceptance gate:** R3 placement counts and safe
+  assignment values,slice 4.7.
+- **Audit:** Research only. No global/hosted-CI pass.
