@@ -884,3 +884,16 @@ guided walk. Next:4.11 schema-guided CCW isolation,4.12
 differential design,4.13 fork census hunt. Numerical/packing/
 placement/program/results and broad ordinary UNMODIFIED
 source-model support100% remain work — the campaign continues.
+
+
+2026-10-24 CCW isolation (AES-NUM-011,slice4.11):
+`docs/HAILO10H_CCW_ISOLATION_MINILM_2026-10-24.md`. With the
+pinned hef.proto as the field map,the MiniLM HEF's
+configuration is isolated:1,605 actions,ALL pointer-form
+(write_data_ccw_ptr),zero inline;9,832,200 referenced bytes
+of file-resident bulk on channels 0/1/2;the modal burst is
+24 bytes = 3 CCW words in sequential twin streams — the
+burst unit the field table described,now observed in a real
+artifact. Offset base and word meanings stay open by design;
+the differential slice (4.12) attacks both. The empirical
+road is producing what the document studies could not.

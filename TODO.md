@@ -234,12 +234,19 @@
   in a real artifact,6,183 regions,weights/config separation
   mapped;CCW sits in small structured fields,not a blob).
   `docs/HAILO10H_HEF_CORPUS_INVENTORY_2026-10-24.md`.
-- [ ] Slice4.11 schema-guided CCW isolation in the MiniLM HEF
-  (field map from the local fork's hef.proto) + word
-  statistics of the isolated region;4.12 differential design
-  (second artifact,one known parameter changed);4.13 driver/
-  fork census hunt;then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] AES-NUM-011 slice4.11 schema-guided CCW isolation
+  (hef.proto fetched at the pin — the twister forks are
+  driver trees,holding no proto):ALL 1,605 configuration
+  actions in the MiniLM HEF are pointer-form;9,832,200
+  referenced bytes on channels 0/1/2;modal burst 24 B =
+  3 CCW words in sequential twin streams. Offset base and
+  word meanings open by design.
+  `docs/HAILO10H_CCW_ISOLATION_MINILM_2026-10-24.md`.
+- [ ] Slice4.12 differential design + offset-base
+  discrimination (structured targets;second artifact with
+  one known parameter changed,via the recipe/model-zoo
+  routes);4.13 census hunt in the local driver trees;then
+  broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

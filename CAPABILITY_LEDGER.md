@@ -5228,3 +5228,26 @@ No new capability ID or hardware/complete-source execution claim.
   slice. Next:4.11 schema-guided CCW isolation from the fork's
   hef.proto;4.12 differential design;4.13 fork census hunt.
 - **Audit:** Research only;no bytes sent to the device.
+
+### AES-NUM-011 — schema-guided CCW isolation in a real HEF
+
+- **Status:** `verified` (isolation scope,one artifact).
+- **Owner:** docs/HAILO10H_CCW_ISOLATION_MINILM_2026-10-24.md.
+- **Evidence:** hef.proto fetched at the HailoRT pin (GitHub
+  API;the twister forks are driver trees and hold no proto).
+  Containment path ProtoHEFHef.2 -> NetworkGroup.3 contexts
+  -> Operation.2 -> Action oneof (ccw inline = 3,ccw ptr =
+  16). Schema-guided walk of the MiniLM HEF:6 contexts,1,605
+  actions,ALL configuration writes are pointer-form (inline
+  CCW zero);other kinds counted (sequencer/input/dataflow).
+  Pointer triples reference 9,832,200 B across offsets
+  1,862,144..11,698,480 (file-resident bulk,not the 56 KB
+  protobuf);channels 0/1/2 = 753/452/400 actions;modal small
+  size 24 B = 3 words (343 actions) with sequential twin
+  streams (ch.1/ch.2 bases,offsets += 24) — the burst unit.
+- **Evidence boundary:** no CCW word meaning claimed;offset
+  base (file vs protobuf) NOT yet discriminated (both samples
+  weights-class);weights-class data rides the same action
+  kind. Next:4.12 differential + base discrimination,4.13
+  census hunt in the driver trees.
+- **Audit:** Host-side analysis only;no device bytes.
