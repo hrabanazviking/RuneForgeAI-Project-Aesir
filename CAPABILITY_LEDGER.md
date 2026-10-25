@@ -6863,3 +6863,39 @@ No new capability ID or hardware/complete-source execution claim.
   degraded members in 290/419/623; 135 vs 134 cycle at
   position level (slice 4.64).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-064 — Two-member alternations, collapsed members, 135 vs 134
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_TWO_MEMBER_COLLAPSED_135_134_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...063 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef64.py (sha256 4e11ab01...) and hef64b.py (e9f29aea...).
+  (i) The only genuine two-member alternation population is
+  76c3's B/C (14 contexts): dense regime = B-runs (mean 1.83)
+  punctuated by mostly-single C separators (mean 1.21), cross
+  transitions BC/CB near-equal in every context while self is
+  lopsided B-side (BB 55-121 vs CC 12-28); sparse 776 regime =
+  near-1:1 alternation (BC/CB 48-53, runs 97-106), gap mean
+  4.4-4.7 vs dense 1.5-1.9; gap mode 0 (1,809), then 2 (647);
+  between-sizes dominated by 1552 (1,735) and 14096 (1,609).
+  Every other two-member subsequence is a PROJECTION of a
+  triplet rotation (all 99 0a0d seam A/B contexts are
+  alt-triplet classes; cc9's 171 alt A/C contexts likewise,
+  self C-side 12,554). (ii) Collapse order in 290/419/623 is
+  fixed: 32784 dies first, 26896 second, 7952 last (partials:
+  290/109 A48 B4 C39; 419/108 B18; 623/23 B24). The 55xx band
+  is INVARIANT at class dose in all states (not the filler);
+  partials fill with 31-32k actions (45/64/108 vs 1-2), collapsed/
+  zero contexts with a diverse 74xx/25xxx vocabulary, distinct
+  sizes 119-251 vs full 46-56. (iii) 135 has exactly two
+  non-forward transitions (opening BA, one CB doubled pair at
+  seq 12); 134's cluster at the head (6 in seq 0-13), share
+  the middle doubled-pair pattern, and dissolve at the tail
+  (seq 42-49 sparse through non-block material); letter
+  sequences agree in only 12/49 positions.
+- **Next:** small genuine remnants (0856 B/C, cc9 151/203);
+  zero-context replacement vocabularies compared; 134 tail
+  members vs end block (slice 4.65).
+- **Audit:** Host-side analysis only; no device child.

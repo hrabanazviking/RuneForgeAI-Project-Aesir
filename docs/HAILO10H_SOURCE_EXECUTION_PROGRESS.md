@@ -1886,3 +1886,23 @@ the collapsed members inside the rotation classes,
 and the near-perfect cycle at position level. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+2026-10-24 two-member alternations, collapsed members, 135 vs 134 (AES-NUM-064,slice4.64):
+`docs/HAILO10H_TWO_MEMBER_COLLAPSED_135_134_2026-10-24.md`.
+The corpus turns out to hold only one genuine two-member
+alternation: in 76c3, 32784 runs are punctuated by single
+26896 separators in the dense contexts, while the sparse
+776-action contexts alternate almost one-to-one. Every
+other two-member pattern is a shadow — a three-member
+rotation with one member deleted. Inside the rotation
+classes, collapse always takes the same order: 32784
+dies first, 26896 second, 7952 last; partial contexts
+fill the space with 31-32k actions, fully collapsed
+ones with a diverse vocabulary several times wider than
+the original. And the zone-tail pair resolves: 135's
+cycle is broken once, while 134's breaks at its head
+and dissolves at its tail. Next: the small genuine
+remnants, the collapsed contexts' vocabularies
+compared, and 134's sparse tail. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

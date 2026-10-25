@@ -814,12 +814,26 @@
   scatter tail-clustered (5/14 in 356-367) but
   slot-free (union 7/14,per-template <=4).
   `docs/HAILO10H_ROTATION_CENSUS_186_244_SCATTER_2026-10-24.md`.
-- [ ] Slice4.64 two-member alternation anatomy
-  (76c3 B/C pairs + 0a0d seam-pair subsequences);
+- [x] Slice4.64 two-member alternation anatomy;
   collapsed/degraded members inside 290/419/623;
-  135 near-perfect cycle vs 134 interruptions at
-  position level; then broad ordinary UNMODIFIED
-  source-model support100%.
+  135 vs 134 at position level:76c3 B/C is the only
+  genuine two-member population (dense = B-runs +
+  single C separators,cross BC/CB symmetric,self
+  lopsided B; sparse 776 near-1:1); all other
+  two-member subsequences are projections of triplet
+  rotations (99 0a0d + 171 cc9 contexts); collapse
+  order fixed (32784 first,26896 second,7952 last),
+  55xx band invariant, partials fill 31-32k,
+  collapsed fill diverse 74xx/25xxx (distinct
+  119-251 vs 46-56); 135 has one block interruption,
+  134 breaks at head + tail.
+  `docs/HAILO10H_TWO_MEMBER_COLLAPSED_135_134_2026-10-24.md`.
+- [ ] Slice4.65 small genuine two-member remnants
+  (0856 B/C x5, cc9 B/C 151/203) vs 76c3 regimes;
+  zero-context replacement vocabularies compared
+  across classes; 134 sparse tail members vs the
+  end block's bursts; then broad ordinary
+  UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
