@@ -1222,15 +1222,35 @@
   (channel Hamming 0) except 773
   cidx 97 at 314/193/L1 4,641,152.
   `docs/HAILO10H_POS18_ANATOMY_CHAN28_SINGLETON_NEAREST_2026-10-24.md`.
-- [ ] Slice4.83 position-18 tail
-  per-context anatomy (~187 variable
-  positions; repeating pattern word
-  per camp/context); corpus census of
-  the 16 B header pattern (other
-  positions/artifacts?); ng1 channel
-  plateau past 28 (group-constant
-  channels 28–53 vs exemplar b);
-  then broad ordinary UNMODIFIED
+- [x] Slice4.83 position-18 tail
+  per-context anatomy (exactly 187
+  variable positions per camp: 180 in
+  a dense band at rel <=490, rel mod 4
+  in {0,1,2} only; 72 binary slots
+  with camp-flavoured alternate byte
+  0xa3 vs 0xb3; opening word
+  per-context; 37 single-position camp
+  separators; sparse slots drift
+  +64/+128/+256); corpus census of
+  the 16 B header pattern (exact only
+  at the 25 known starts; generalised
+  exactly twice, both 0856a10c; raw
+  suffix only in 76c3a8ff/0856a10c,
+  zero elsewhere); ng1 channel plateau
+  past 28 (group pattern (1,1,0,0)
+  over 33–53; b's prefix vs the group
+  exactly 28, agreements 11/26 all at
+  group-zero slots, never at a
+  group-1 slot).
+  `docs/HAILO10H_POS18_TAIL_HEADER_CENSUS_PLATEAU_PAST28_2026-10-24.md`.
+- [ ] Slice4.84 binary-tier choice
+  structure (one bit per context
+  across all 72 slots, or per-slot?);
+  02 28 50 71 sibling occurrences
+  inside 76c3a8ff (segments/offsets);
+  sparse-slot drift landmarks (rel
+  2161; the +64/+128 steps); then
+  broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

@@ -7506,3 +7506,44 @@ No new capability ID or hardware/complete-source execution claim.
   16 B header pattern; ng 1 channel plateau past 28 vs
   exemplar b (slice 4.83).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-083 — the tail's variable frame is tiered (72 binary slots, camp-flavoured alternates), the 16 B header lives only at the 25 known starts plus two generalised frames in 0856a10c, and exemplar b leaves the ng 1 plateau at position 28 for good
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_POS18_TAIL_HEADER_CENSUS_PLATEAU_PAST28_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...082 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef83.py (sha256 78f4e791...) + labelled follow-ups
+  hef83b.py (sha256 7dadd8a1...) and hef83c.py (sha256
+  acb4a922...), all sha-verified on-device. hef83b printed its
+  tail-tier arms and the ng 1 variable list, then stopped on an
+  index bug (exemplar b's context is 91 actions; the 28..119
+  window overran it) — the three owed numbers came from hef83c
+  over the corrected 28..90 window. (i) Exactly 187 variable
+  positions per camp: 180 in a dense band at rel <=490 (rel
+  mod 4 in {0,1,2} only; modal bytes all nonzero; per-context
+  vectors all distinct), tiered as 72 binary slots (identical
+  offsets in both camps; value pair {0xa2,0xa3} vs {0xa2,0xb3}
+  at the head; 36/72 pairs shared cross-camp) plus near-full /
+  full slots; the opening word is per-context (byte 0 distinct
+  everywhere, byte 1 = rel 1, the binary tier's first member),
+  correcting AES-NUM-082's first-context camp-word reading;
+  181 offsets shared, 37 single-position camp separators; the
+  6+6 sparse offsets drift +64/+128/+256x4. (ii) Header census:
+  exact form at action starts ONLY at the 25 known (position
+  18, len-89) segments; generalised form exactly twice, both
+  0856a10c (cidx 255 pos 19 size 528 bytes (2,3); cidx 33 pos
+  21 size 32,656 bytes (3,254)); raw 12 B suffix confined to
+  76c3a8ff (51, incl. 26 preceded by the sibling word
+  02 28 50 71) and 0856a10c (5), zero in the other five
+  artifacts. (iii) Ng 1 group-constant channels 28-53 are
+  [0x5, then (1,1,0,0) repeated]; b's channel prefix vs the
+  group is exactly 28, its agreements 11/26 are all at
+  group-zero slots and it NEVER equals a group-1 slot; over
+  28..90 b agrees with the group modal at 32/63 and carries
+  its own (1,2) period-4 tail pairs at 72-89.
+- **Next:** binary-tier choice structure (one bit per context
+  or per-slot?); 02 28 50 71 sibling occurrences inside
+  76c3a8ff; sparse-slot drift landmarks (slice 4.84).
+- **Audit:** Host-side analysis only; no device child.

@@ -2342,3 +2342,29 @@ anatomy, a corpus census of the sixteen-byte header,
 and the channel plateau past position 28. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+2026-10-24 position-18 tail anatomy, header census, plateau past 28 (AES-NUM-083,slice4.83):
+`docs/HAILO10H_POS18_TAIL_HEADER_CENSUS_PLATEAU_PAST28_2026-10-24.md`.
+The tail's per-context content turns out to live in a fixed
+frame of exactly 187 slots in each camp: 180 of them packed
+into a dense band in the tail's first 490 bytes, falling only
+on the first three bytes of each four-byte word, and tiered —
+72 slots are binary switches whose alternate byte is flavoured
+by the camp (a3 against b3), the rest near-full or fully
+per-context — while seven sparse slots beyond the band drift
+apart between the camps by growing steps of 64, 128 and 256
+bytes inside the longer tail. The sixteen-byte header that
+opens these segments is a closed form: at action starts it
+occurs only at the twenty-five known segments, its generalised
+frame occurs exactly twice more, both in 0856a10c, and its raw
+suffix footprint is confined to two artifacts, with a sibling
+word (02 28 50 71) appearing twenty-six times inside
+76c3a8ff. And the ng 1 channel plateau resolves: past the
+shared silence the train settles into a patterned (1,1,0,0)
+channel sequence, exemplar b breaks from it at position 28
+exactly, and every later agreement between them is a shared
+zero — b never once takes the group's channel-1 slots, carrying
+its own (1,2) rhythm to its end. Next: the binary tier's
+choice structure, the sibling word's home inside 76c3a8ff, and
+the sparse slots' drift landmarks. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
