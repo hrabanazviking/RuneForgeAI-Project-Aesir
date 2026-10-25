@@ -5036,3 +5036,55 @@ No new capability ID or hardware/complete-source execution claim.
 - **Next acceptance gate:** R3 placement counts and safe
   assignment values,slice 4.7.
 - **Audit:** Research only. No global/hosted-CI pass.
+
+### AES-NUM-007 — Placement counts and safe assignment values, Track R R3 (Campaign 4)
+
+- **Status:** `verified` (research scope:bounded study of the
+  pinned public sources,repo evidence and open web for the
+  Hailo-10H's physical placement counts and any publicly
+  established safe assignment values;no emitter,no bytes,no
+  physical run).
+- **Owner:** docs/HAILO10H_PLACEMENT_VALUES_STUDY_2026-10-24.md.
+- **Verdict: R3 NOT PROVEN on both parts.** R3a counts:no
+  searched source states the Hailo-10H's cluster,subcluster,
+  APU/compute-unit,input-aligner or local-memory bank counts.
+  R3b safe values:no searched source establishes any cluster
+  index,packed LCU id,`active_*` bitmap pattern or L2/L3
+  offset as safe/legal for a real program on this target.
+  The pinned placement-owning header
+  (common/include/context_switch_defs.h @d503417,read in
+  full this slice) contains NO count define of any kind —
+  full-text CLUSTER/MAX searches return only the packed-id
+  shift/mask macros and one unrelated write-size constant.
+  Hailo's own product brief/page publish TOPS,memory,
+  interface and power only — no compute geometry.
+- **Width facts confirmed @pin (group B confirmations,NOT
+  counts):** packed LCU id = LCU index width 4 (mask 0x0f) +
+  cluster index width 3 (mask 0x70,shift 4),bit 7 in neither
+  mask — 128 encodable combinations,a property of the byte,
+  not the silicon (the host-qualified LCU codec exercising
+  all 128 qualifies the ENCODING,per the 2026-10-22 evidence
+  warning,not a census). Trigger-sequencer carries a SEPARATE
+  full-u8 cluster_index — the width inconsistency itself
+  forbids reading either as a census. sequencer_config_t
+  widths:initial_l3_cut u8,initial_l3_offset u16,active_apu
+  u32,active_ia u32,active_sc u64,active_l2 u64,l2_offset_0/1
+  u64 — bitmap capacities only;bit meanings unestablished;
+  abbreviations recorded as field names,not expanded.
+- **Ancillary literal:** ENABLE_LCU_DEFAULT_KERNEL_ADDRESS
+  (1) / ENABLE_LCU_DEFAULT_KERNEL_COUNT (2) @pin — the
+  default LCU-enable record's kernel-done defaults;a
+  completion-reporting fact (belongs to R4),not a placement
+  value.
+- **Near-miss recorded:** DFC v3.29 guide's place(cluster_
+  number,layers) allocator hint (example place(2,...)) grades
+  NOTHING here — DFC 3.x/Hailo-8-era source,cross-target
+  inference forbidden;states no count,range or safety;DFC is
+  not Aesir's backend.
+- **Effect:** AES-NUM-001 group E placement rows stay OUT;
+  AES-NUM-003 layer 3 NOT re-graded (R3 did not land),4.4
+  gate not re-run (no changed layers). Campaign 4 EXIT NOT
+  MET;operation UNQUALIFIED;Campaign 5 NOT contracted.
+- **Next acceptance gate:** R4 action sequencing (+F1
+  result-path qualification question),slice 4.8.
+- **Audit:** Research only. No global/hosted-CI pass.

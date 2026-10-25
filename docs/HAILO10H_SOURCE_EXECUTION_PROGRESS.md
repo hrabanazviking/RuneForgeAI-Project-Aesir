@@ -758,3 +758,33 @@ PROVEN;R3/R4/R5 open);Campaign5 not contracted. Next:
 slice4.7,R3 — placement counts and safe assignment values.
 Numerical/packing/placement/program/results and broad
 ordinary UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 Placement counts and safe assignment values study (Track R R3):
+`docs/HAILO10H_PLACEMENT_VALUES_STUDY_2026-10-24.md`
+(AES-NUM-007,Campaign4 slice4.7). R3 NOT PROVEN on both
+parts:no searched source states the Hailo-10H's cluster,
+subcluster,APU/compute-unit,input-aligner or local-memory
+bank counts,and none establishes any cluster index,packed
+LCU id,active_* bitmap pattern or L2/L3 offset as safe for
+a real program on this target. The pinned placement-owning
+header (common/include/context_switch_defs.h @d503417) was
+read in full this slice:it contains no count define of any
+kind — only field widths (packed LCU id 4-bit unit + 3-bit
+cluster = 128 encodable combinations,encoding capacity not
+a census;a separate full-u8 sequencer cluster_index whose
+width inconsistency itself forbids a census reading;the
+sequencer_config bitmap widths). Hailo's own product brief
+and page publish TOPS,memory,interface and power only. The
+DFC v3 place() allocator hint is recorded as a non-grading
+near-miss (Hailo-8-era,cross-target inference forbidden,no
+count/range/safety stated,DFC not Aesir's backend). One
+ancillary literal was sourced:the default LCU-enable
+record's kernel-done address 1 / count 2 (an R4 completion
+fact,not a placement value). Layer3 is unchanged (no
+re-grade,no gate re-run — R3 did not land);Campaign4 exit
+still NOT MET (R1 and R3 NOT PROVEN;R4/R5 open);Campaign5
+not contracted. Next:slice4.8,R4 — action sequencing (plus
+the F1 result-path qualification question). Numerical/
+packing/placement/program/results and broad ordinary
+UNMODIFIED source-model support100% remain work.

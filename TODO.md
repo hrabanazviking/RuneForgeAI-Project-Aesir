@@ -157,6 +157,23 @@
   4/7 re-graded by addendum;4.4 gate re-run on changed
   layers only:PASS. Campaign4 exit NOT met.
   `docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md`.
+- [x] AES-NUM-007 slice4.7 Track R R3 placement counts and
+  safe assignment values study:NOT PROVEN on both parts —
+  no searched source states the Hailo-10H's cluster/
+  subcluster/APU/aligner/bank counts, and none establishes
+  any cluster index, packed LCU id, active_* bitmap pattern
+  or L2/L3 offset as safe for a real program. The pinned
+  placement-owning header (context_switch_defs.h @pin, read
+  in full) contains NO count define; widths confirmed as
+  group B only (packed id 4-bit unit + 3-bit cluster = 128
+  encodable combinations, encoding capacity not census;
+  separate full-u8 sequencer cluster_index; sequencer_config
+  bitmap widths). Ancillary literal: default LCU-enable
+  kernel-done address 1 / count 2 (an R4 completion fact).
+  DFC v3 place() hint recorded as a non-grading near-miss.
+  Layer3 unchanged (no re-grade, no gate re-run); Campaign4
+  exit NOT met.
+  `docs/HAILO10H_PLACEMENT_VALUES_STUDY_2026-10-24.md`.
 - [ ] Campaign4 iteration (Track R,dependency order):R1 done
   (NOT PROVEN,above);R2 done (ESTABLISHED,above) — slice4.6;
   R3 placement values — slice4.7;R4 action sequencing;R5 partial-state
