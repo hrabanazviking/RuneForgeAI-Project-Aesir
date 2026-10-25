@@ -588,12 +588,26 @@
   bursts 15/15 EXACT under the frozen champion maps
   (body champion control 43,631/43,631 exact).
   `docs/HAILO10H_DATUM_ORDER_MOTIF_RARE_2026-10-24.md`.
-- [ ] Slice4.49 pair-order vs middle action stream
-  (size-stream law hunt beyond uniqueness);motif
-  lead values vs contexts' own large-action sizes;
-  block-0/block-4 variant roles vs standard
-  contexts' middles;then broad ordinary UNMODIFIED
-  source-model support100%.
+- [x] Slice4.49 pair-order vs middle action stream:
+  no tested middle feature determines order (channel
+  counts strongest at 0.9979 yet carry two real
+  mixed groups in 0856a10c;combined separations
+  with nopair_op are single-counterexample
+  artefacts,not laws);motif leads are NOT copies
+  of own contexts' sizes (0/312 on every arm;band
+  actions inside 156 contexts are exactly the 312
+  leads;values are shared vocabulary,16,105 in
+  standard middles);variant forms are generic in
+  standard middles (20,411 windows:full 14.6% /
+  no30480 22.7% / no32784 4.3% / other 58.4%,at
+  scattered ordinals) — the motif's distinction is
+  fixed-ordinal pinning at blocks 0 and 4.
+  `docs/HAILO10H_MIDDLE_STREAM_LEAD_EXCLUSIVITY_VARIANTS_2026-10-24.md`.
+- [ ] Slice4.50 pair-order vs middle channel
+  sequence;lead-band neighbour role in standard
+  middles;variant-ordinal concentration in the
+  >=12-3856 standard subpopulation;then broad
+  ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

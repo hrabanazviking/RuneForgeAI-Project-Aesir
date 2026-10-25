@@ -1520,3 +1520,30 @@ the contexts' own large sizes, and compare the
 variant blocks' roles with standard middles. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+
+2026-10-24 middle-stream hunt, lead exclusivity, variant roles
+(AES-NUM-049,slice4.49):
+`docs/HAILO10H_MIDDLE_STREAM_LEAD_EXCLUSIVITY_VARIANTS_2026-10-24.md`.
+The middle action stream falls as an order-bit home
+at every tested grain: aggregates, histograms,
+multisets, positions and count triples all leave
+mixed groups, and the strongest feature — the
+middle's channel counts, right for 1,425 of 1,428
+contexts — still carries two real mixed groups in
+0856a10c. The formal separations that appear when
+middle features join the non-pair champion stream
+are recorded honestly as artefacts of resolving the
+corpus's one mixed group, not as laws. The motif
+leads are proven exclusive: a lead value occurs
+nowhere else in its own context, though the values
+are ordinary shared vocabulary in standard middles.
+And the variant block forms turn out to be generic
+window forms scattered through standard middles —
+what the 156 motif alone does is pin them to fixed
+ordinals. Next: test the middle channel sequence,
+ask what band actions neighbour in standard
+middles, and measure variant pinning in the
+standard contexts with motif-sized 3856 runs.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

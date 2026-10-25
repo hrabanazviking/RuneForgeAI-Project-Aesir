@@ -6278,3 +6278,44 @@ No new capability ID or hardware/complete-source execution claim.
   vs contexts' large-action sizes;block-0/4 variant roles
   vs standard middles (slice 4.49).
 - **Audit:** Host-side analysis only;no device child.
+
+### AES-NUM-049 — middle-stream order hunt, lead exclusivity, variant roles
+
+- **Status:** `verified` (complete populations,7 artifacts).
+- **Owner:** docs/HAILO10H_MIDDLE_STREAM_LEAD_EXCLUSIVITY_VARIANTS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048 exactly
+  (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
+  in hef49.py (sha256 e1891202...) and hef49b.py (9b454b99...).
+  (i) Pair order is NOT a function of any tested middle-stream
+  feature: aggregates (len acc 0.857,sum 0.993 near-unique),
+  coarse histogram 0.934,sorted multiset 0.994 (9 mixed),
+  count triple 0.849,single positions 0.65-0.84,head/tail
+  tuples 0.93-0.95;strongest = middle channel counts (438
+  keys,2 mixed groups / 8 ctx,acc 0.9979 — both mixed groups
+  in 0856a10c on other stacks: 448-action 14/41/50 and
+  280-action 18/30/48/60/72). Combined keys with nopair_op
+  separate formally (0 mixed: +midlen 386,+chan_counts 448,
+  +sum 1086) ONLY by resolving nopair_op's single mixed
+  group (the cidx 15/27/39 triple,among 111 multi groups /
+  1,156 ctx) — recorded as single-counterexample artefacts,
+  NOT laws;inside the triple the two reversed members differ
+  at 35 middle positions with identical coarse hist and
+  channel counts. (ii) Motif leads are NOT copies of own
+  contexts' sizes: 0/312 in same-ctx other sizes,middle
+  non-lead,head+trailer,and the next-ctx control;band
+  actions inside 156 contexts = exactly the 312 leads;the
+  82 values are shared vocabulary (16,112 band actions in
+  799 standard contexts,16,105 in middles). (iii) Variant
+  forms are generic: standard middles hold 20,411 3856
+  windows — full 14.6% / no30480 22.7% / no32784 4.3% /
+  other 58.4%,at scattered ordinals (ord0: 7/39/30/273;
+  ord4: 52/106/2/154);the 156 motif's distinction is
+  PINNING (ord0 no30480 + ord4 no32784 in 26/26);311
+  standard contexts carry >=12 middle 3856;173 class has
+  zero 3856.
+- **Next:** pair-order vs middle channel sequence;lead-band
+  neighbour role in standard middles;variant-ordinal
+  concentration in the >=12-3856 standard subpopulation
+  (slice 4.50).
+- **Audit:** Host-side analysis only;no device child.
