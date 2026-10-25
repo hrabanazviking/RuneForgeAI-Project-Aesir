@@ -720,10 +720,24 @@
   intervening contexts differ only in low-ladder
   dose (0.91 vs 5.29).
   `docs/HAILO10H_LOWNONE_CORPUS_97XX_PLACEMENT_STRETCHES_2026-10-24.md`.
-- [ ] Slice4.58 +137 lead-mirror extent corpus-wide
-  (which contexts/artifacts);reduced-grade low-none
-  six anatomy vs the maximal 15;block0 ng0
-  exceptions (cidx 54,110) anatomy;then broad
+- [x] Slice4.58 +137 lead-mirror extent corpus-wide:
+  mirror RETRACTED (057's 72/134 = 60 empty==empty +
+  12 trivial single-window [80] pairs;60 of 72
+  both-nonempty pairs differ;no non-trivial mirror
+  at any offset in any artifact;windowed contexts
+  in only 3 of 7 artifacts,all-distinct outside
+  cc9);reduced six are a separate grade (606-607
+  acts,32016 x32,normal,3088-led,three +137 profile
+  pairs with sequences differing ~90%);block0 ng0
+  exceptions 54/110 are reduced-grade all-97
+  contexts (31/32,32/32),their block degenerate;
+  606/607 class is a step-4 rail of 55 cc9-only
+  contexts (2-110,143-247).
+  `docs/HAILO10H_MIRROR_EXTENT_REDUCED_SIX_BLOCK0_EXCEPTIONS_2026-10-24.md`.
+- [ ] Slice4.59 step-4 rail grades (32/54-62/81/96
+  windows) and the all-97 quartet;+137 profile-
+  recurrence rates over all cc9;windowed
+  populations of 0856a10c/76c3a8ff;then broad
   ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

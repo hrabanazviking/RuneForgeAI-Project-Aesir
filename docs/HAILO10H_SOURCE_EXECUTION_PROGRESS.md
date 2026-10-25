@@ -1745,3 +1745,32 @@ shoulder side. Next: the mirror's full extent, the
 reduced low-none six, and the two ng0 block0
 exceptions. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 mirror extent, reduced six, block0 exceptions (AES-NUM-058,slice4.58):
+`docs/HAILO10H_MIRROR_EXTENT_REDUCED_SIX_BLOCK0_EXCEPTIONS_2026-10-24.md`.
+This slice corrects the last one. The +137 window-lead
+mirror does not survive audit: the 72-of-134 count was
+60 pairs of contexts with no windows at all (empty
+lists compare equal) plus 12 pairs of single-window
+contexts whose whole sequence is [80]; of the 72 pairs
+that both have windows, 60 differ. No non-trivial lead
+mirror exists at any offset in any artifact, and only
+three artifacts have windowed contexts at all. What
+recurs at +137 is profiles, not sequences: the reduced
+low-none six pair up across it (34/171, 66/203,
+86/223) with grade, window count and segment dose
+preserved exactly while ~90% of lead positions differ.
+The six are their own grade — 606-607 actions, 32016
+x32, normal order, a 3088-led mid vocabulary with no
+7952 — not truncated maximals. And block0's two ng0
+exceptions dissolve: cidx 54 and 110 are reduced-grade
+contexts whose 32 windows are (nearly) all 97xx-led,
+so a block at window 0 is forced, not a placement.
+Underneath them all sits a step-4 rail: exactly 55
+cc9-only contexts of 606/607 actions at every fourth
+cidx, in two blocks the second shifted +137 from the
+first. Next: the rail's grades, +137 profile-recurrence
+rates over all cc9, and the windowed populations of
+the other two artifacts. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

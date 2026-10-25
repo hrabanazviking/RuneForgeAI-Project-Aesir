@@ -6665,3 +6665,33 @@ No new capability ID or hardware/complete-source execution claim.
   low-none six anatomy; block0 ng0 exceptions cidx 54/110
   (slice 4.58).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-058 — Mirror extent, reduced six, block0 exceptions
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_MIRROR_EXTENT_REDUCED_SIX_BLOCK0_EXCEPTIONS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...057 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef58.py (sha256 aa635b23...) and hef58b.py (fc16205c...).
+  (i) The AES-NUM-057 +137 lead mirror is RETRACTED: its 72/134
+  decomposes as 60 empty==empty pairs + 12 trivial single-window
+  [80] pairs (sources all cidx 0 mod 4); of 72 both-nonempty
+  pairs 60 DIFFER. No non-trivial lead mirror at any offset in
+  any artifact; windowed contexts exist in only 3 artifacts
+  (cc9 147, 0856 112 all-distinct, 76c3 90 all-distinct).
+  (ii) Reduced low-none six are a separate grade (606-607 acts,
+  32016 x32, normal, 3088-led mid vocabulary, no 7952; not
+  truncated maximals, no subsequence relation), forming three
+  +137 profile pairs (34/171, 66/203, 86/223: ng flips, nwin
+  and segment dose preserved exactly, sequences differ at
+  ~90% of lead positions); segment leads are subsets of the
+  maximal pool. (iii) Block0 ng0 exceptions cidx 54/110 are
+  reduced-grade all-97 contexts (31/32, 32/32 windows 97-led);
+  their ordinal-0 block is degenerate and the maximal ng
+  placement rule stands. The 606/607 class is a step-4 rail
+  of 55 cc9-only contexts (2-110 and 143-247).
+- **Next:** step-4 rail grades and the all-97 quartet; +137
+  profile-recurrence rates over all cc9; windowed populations
+  of 0856/76c3 (slice 4.59).
+- **Audit:** Host-side analysis only; no device child.
