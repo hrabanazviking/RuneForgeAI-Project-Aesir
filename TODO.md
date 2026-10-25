@@ -304,10 +304,22 @@
   no 0x0250/ladder,lane2 law holds;data-like in
   MiniLM,low-entropy in the blob).
   `docs/HAILO10H_SPECIAL_SLOT_DATUM_POOL_08XX_2026-10-24.md`.
-- [ ] Slice4.20 full 22-burst skeleton-unit anatomy
-  (per-position lanes,MiniLM + one blob);0x28xx
-  non-champion lane-1 alternating pattern;datum-pool
-  identity test vs artifacts' own tensor data;then
+- [x] AES-NUM-020 slice4.20 skeleton-unit/28xx/datum-id:
+  ladder slot = palindrome over the 22-burst unit
+  (paired rungs descend to the 0x2d80 pair at 10-11,
+  ascend in mirror;blob second half rigid,first half
+  varies between sister units);datum = per-position
+  operand,positions 10-11 the only near-constant
+  bursts;0x28xx lane1 does NOT alternate across
+  bursts — it replicates one u16 x4 inside the burst
+  (0x7ffe x4 dominant);datum identity test NEGATIVE
+  (tensor/gap triples at chance,proto-float encodings
+  zero intersection) — identity NOT PROVEN.
+  `docs/HAILO10H_SKELETON_UNIT_28XX_DATUM_IDENTITY_2026-10-24.md`.
+- [ ] Slice4.21 datum vs proto varint fields (op-
+  parameter identity test);blob unit-pair differential
+  (first-half variance between sister units);replicated-
+  scalar distribution vs burst/context counts;then
   broad ordinary UNMODIFIED source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

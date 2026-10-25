@@ -1025,3 +1025,23 @@ Next:4.20 the full skeleton unit's per-position
 anatomy and a datum identity test against tensor
 data. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+
+2026-10-24 skeleton unit,0x28xx pattern,datum identity
+(AES-NUM-020,slice4.20):
+`docs/HAILO10H_SKELETON_UNIT_28XX_DATUM_IDENTITY_2026-10-24.md`.
+The 22-burst unit's ladder is a palindrome — paired
+rungs descend to the 0x2d80 pair at positions 10-11
+and ascend in mirror — while the datum is each
+position's per-layer operand and positions 10-11
+are the unit's only near-constant bursts. The
+0x28xx non-champion lane1 does not alternate across
+bursts; it replicates one u16 four times inside the
+burst (0x7ffe x4 dominant in the blob). The datum
+identity test is negative on every arm: its byte
+triples occur in tensor and gap data only at chance
+rate,and no proto float32 encoding produces any
+pool value — identity NOT PROVEN,two routes closed.
+Next:4.21 datum vs proto varint fields. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.

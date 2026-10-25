@@ -5491,3 +5491,42 @@ No new capability ID or hardware/complete-source execution claim.
   gzipped tail (one chunk's base64 was repeatedly
   stripped in transit;the gzip stream landed clean
   and the whole-file sha256 verified on-device).
+
+### AES-NUM-020 — skeleton unit, 0x28xx pattern, datum identity test
+
+- **Status:** `verified` (exact statistics,2 artifacts
+  for arms 1/2;MiniLM for arm 3).
+- **Owner:** docs/HAILO10H_SKELETON_UNIT_28XX_DATUM_IDENTITY_2026-10-24.md.
+- **Evidence:** The 22-burst unit's ladder slot is a
+  PALINDROME: paired rungs descend 0x18f0..0x10f0 to
+  the 0x2d80 pair at 10-11,then ascend in mirror
+  (single ladder value at 19/22 MiniLM positions;
+  blob positions 12-21 single-valued in 218-219 of
+  219 units,first half less rigid between sister
+  units). No position is fully constant:enum tracks
+  channel,const 0x0250 everywhere,the datum is the
+  per-layer operand;positions 10-11 are the only
+  near-constant positions (2-3 distinct bursts vs
+  21-35 elsewhere). 0x28xx non-champion lane1:NO
+  across-burst alternation (lag1-4 equality all
+  ~0.22-0.24 in the blob) — the pattern is INTRA-
+  burst:one u16 replicated x4 (MiniLM 6/6 exact;
+  blob top 0x7ffe x4 in 264/656,0x4000 x4 in 66).
+  Datum identity test NEGATIVE on all arms:tensor-
+  range byte-triples at chance rate (pool 33/62 vs
+  control 29/62),gap triples at chance (14 vs 14),
+  proto-float32 encodings intersect the pool 0
+  times in 3,858 candidates (top pair absent).
+  Identity NOT PROVEN;two routes closed. Side
+  datum:1,862,144 B immediately after the MiniLM
+  proto is referenced by no pointer-form action.
+- **Next:** 4.21 datum vs proto varint fields;
+  blob unit-pair differential;replicated-scalar
+  distribution vs counts.
+- **Audit:** Host-side analysis only on Mimir;
+  artifacts unmoved. Script hef20.py sha256
+  86ba61f9... landed via gzip + 4 sha-gated
+  1,000 B part files (the direct chunked write
+  failed its whole-file sha once and was discarded;
+  the gzipped parts each verified,assembly sha
+  matched on-device).
