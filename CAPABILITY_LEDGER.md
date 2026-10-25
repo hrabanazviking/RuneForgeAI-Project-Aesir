@@ -7594,3 +7594,37 @@ No new capability ID or hardware/complete-source execution claim.
   the tail's other per-context scalars; ff-frame census
   inside the position-18 segments (slice 4.85).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-085 — sibling segments are flat and camp-less (600 variable positions, 544 two-valued), block bits are independent of the tail's other scalars, and the ff frame is a fixed 43-instance fixture (4 variable + 39 constant)
+
+- **Status:** `verified` (complete populations, 7 artifacts).
+- **Owner:** docs/HAILO10H_SIBLING_ANATOMY_BLOCKBITS_FF_CENSUS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...084 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef85.py (sha256 97c8aadc...), sha-verified on-device after a
+  one-shot proxy-receiver transfer (gz sha256 4c18c52b... returned
+  by the receiver matched). Contract docs/TASK_CONTRACT_4.85.md
+  published @ c241fdd1 before implementation. (i) Sibling segments
+  (26, size 14,528): 13,928 constant / 600 variable positions,
+  common suffix 5 B; 544 variable positions are exactly two-valued,
+  only 38 rich (15-26 distinct); no 13/13 split, one size — no camp
+  structure and no prefix/tail split (353 variable in [108,6408),
+  247 after; zero bytes 83.96%; exactly 18 aligned ff-words per
+  segment). (ii) Block bits Q/P rebuilt per context ((Q,P) combos
+  reproduce AES-NUM-084 exactly) are independent of the ff scalar
+  and tail byte 0: every (Q,P) group carries one distinct scalar
+  and one distinct byte 0 per context, neither bit is threshold-
+  or parity-separable on the scalar (ranges overlap; parity at
+  chance 7/13, 7/13, 6/12, 6/12); reverse determination is the
+  uniqueness artefact (both scalars distinct per context).
+  (iii) ff census: exactly 43 aligned ff ?? 00 00 words in every
+  position-18 segment (559 = 13x43; 516 = 12x43), all in the
+  tail; 4 are the variable scalar slots, the other 39 are present
+  in all segments of their camp with constant scalars — vocabulary
+  {15 x27, 35 x4, 2 x4, 71 x2, 11 x2} with identical per-value
+  counts in both camps; zero partial or full-but-variable extras.
+- **Next:** sibling 544 two-valued positions' column/block
+  structure; the 39 constant ff offsets' cross-camp drift
+  pattern; the sibling segments' own 18 ff-words (slice 4.86).
+- **Audit:** Host-side analysis only; no device child.

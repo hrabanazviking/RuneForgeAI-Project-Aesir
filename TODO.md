@@ -1269,17 +1269,30 @@
   end-anchored at end-159 and the
   final word, stretched between).
   `docs/HAILO10H_BINARY_BLOCKS_SIBLING_HOME_SPARSE_SCALAR_2026-10-24.md`.
-- [ ] Slice4.85 sibling segments
-  past their 108 B prefix (own
-  camp/prefix/tail anatomy?); the
-  two block bits vs the tail's
-  other per-context scalars
-  (sparse scalar, byte 0); ff-frame
+- [x] Slice4.85 sibling segments
+  past their 108 B prefix (flat,
+  camp-less: 600 variable positions,
+  544 two-valued, diffuse, no
+  prefix/tail split); the two block
+  bits are independent of the tail's
+  other per-context scalars (ff
+  scalar, byte 0 — no determination,
+  threshold or parity law); ff-frame
   census inside the position-18
-  segments (constant-scalar copies
-  beyond the four variable ones?);
-  then broad ordinary UNMODIFIED
-  source-model support100%.
+  segments (exactly 43 ff-words per
+  segment: 4 variable + 39 constant
+  over {15 x27, 35 x4, 2 x4, 71 x2,
+  11 x2}).
+  `docs/HAILO10H_SIBLING_ANATOMY_BLOCKBITS_FF_CENSUS_2026-10-24.md`.
+- [ ] Slice4.86 sibling 544
+  two-valued positions' column/block
+  structure; the 39 constant ff
+  offsets' cross-camp drift pattern;
+  the sibling segments' own 18
+  ff-words (constant offsets?
+  scalars?); then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

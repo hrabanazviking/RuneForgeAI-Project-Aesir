@@ -2398,3 +2398,25 @@ against the tail's other per-context scalars, and a census
 of the ff frame inside the position-18 segments. Broad
 ordinary UNMODIFIED source-model support100% remains
 the destination.
+
+2026-10-24 sibling anatomy, block bits, ff census (AES-NUM-085,slice4.85):
+`docs/HAILO10H_SIBLING_ANATOMY_BLOCKBITS_FF_CENSUS_2026-10-24.md`.
+The twenty-six sibling segments turn out to be built nothing
+like the position-18 segments: past their shared 108-byte
+head they vary at only 600 of 14,528 positions, almost all
+of them (544) taking exactly two values, scattered diffusely
+across the whole body with no camps, no constant prefix and
+no tail zone. The position-18 tail's two block bits are
+independent of its other per-context scalars in every tested
+sense — each (Q,P) group carries a different ff scalar and a
+different byte 0 for every context it holds, and no threshold
+or parity law ties a bit to the scalar. And the ff frame is a
+fixed fixture: every position-18 segment carries exactly 43
+aligned ff-words in its tail, the four variable scalar slots
+plus 39 constant-scalar copies over a five-value vocabulary
+dominated by 15, with identical per-value counts in both
+camps. Next: the sibling segments' 544 two-valued positions
+and their possible block structure, the constant ff offsets'
+drift across camps, and the sibling segments' own 18
+ff-words. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
