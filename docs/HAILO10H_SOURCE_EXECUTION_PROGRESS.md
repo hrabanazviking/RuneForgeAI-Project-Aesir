@@ -709,3 +709,22 @@ closing only on IN-grade evidence or recorded NOT PROVEN.
 Next:slice4.5,the R1 CCW layout study (lane D),research only.
 Numerical/packing/placement/program/results and broad ordinary
 UNMODIFIED source-model support100% remain work.
+
+
+2026-10-24 CCW word layout study (Track R R1):
+`docs/HAILO10H_CCW_LAYOUT_STUDY_2026-10-24.md`
+(AES-NUM-005,Campaign4 slice4.5). Bounded search of the pinned
+public HailoRT sources,the lane-D external compiler and this
+repo's evidence for any definition of the CCW word layout:
+NOT PROVEN — no source defines the fields of a non-zero CCW
+word;the pinned config-buffer code carries CCW bytes opaquely
+and lane D delegates CCW generation to DFC entirely. Three
+ancillary group-C facts were newly sourced (64-bit word unit;
+all-zero NOP with defined CSM pop/no-forward/no-CRC/credit
+behaviour;two header constants recorded literally with their
+meaning not established). Layers2/5 are not re-graded and the
+4.4 gate is not re-run — nothing changed. Campaign4 exit still
+NOT MET;Campaign5 not contracted. Next:slice4.6,R2 — the SoC
+session readiness protocol plus the F1 program-result readback
+question. Numerical/packing/placement/program/results and
+broad ordinary UNMODIFIED source-model support100% remain work.

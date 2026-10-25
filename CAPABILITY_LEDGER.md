@@ -4955,3 +4955,32 @@ No new capability ID or hardware/complete-source execution claim.
   D),research only. Affected layers re-graded by addendum and
   this gate re-runs on changed layers only.
 - **Audit:** Review only. No global/hosted-CI pass.
+
+### AES-NUM-005 — CCW word layout study, Track R R1 (Campaign 4)
+
+- **Status:** `verified` (research scope:bounded search of the
+  pinned public sources, lane D and repo evidence for a CCW
+  word layout;no emitter,no bytes,no physical run).
+- **Owner:** docs/HAILO10H_CCW_LAYOUT_STUDY_2026-10-24.md.
+- **Verdict: R1 NOT PROVEN.** No searched source defines the
+  bit layout of a non-zero CCW word (opcode/address/data/
+  command field positions all undefined). Pinned
+  config_buffer.{hpp,cpp} @d503417 treat CCW data as opaque
+  bytes to copy/align/pad/DMA; lane D
+  (l-nmch/hailo-10h-llm-compiler @c870419,MIT) delegates all
+  CCW generation to DFC 5.3.0 and none of its 17 findings
+  addresses CCW words; repo evidence is uniformly carrier-only.
+- **Ancillary IN additions (group C, around the OUT row):**
+  CCW consumed as a 64-bit word, all-zero word = NOP (CSM pops
+  it without forwarding address/data/command, excluded from
+  CRC, returns credits — config_buffer.cpp pad_with_nops
+  comment @pin); header constants CCW_BYTES_IN_WORD=4 and
+  CCW_DATA_OFFSET=8 recorded literally, their use NOT traced
+  and their meaning NOT ESTABLISHED.
+- **Effect:** AES-NUM-001 CCW-words row stays OUT;
+  AES-NUM-003 layers 2/5 NOT re-graded (no change), 4.4 gate
+  not re-run. Campaign 4 EXIT NOT MET; operation
+  UNQUALIFIED; Campaign 5 NOT contracted.
+- **Next acceptance gate:** R2 session readiness (+F1
+  program-result readback question), slice 4.6.
+- **Audit:** Research only. No global/hosted-CI pass.

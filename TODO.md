@@ -130,9 +130,18 @@
   EXIT NOT MET (OUT fields have sourced unknown status,not
   known meanings);Campaign5 NOT contracted.
   `docs/HAILO10H_IDENTITY_COPY_SPEC_REVIEW_2026-10-24.md`.
-- [ ] Campaign4 iteration (Track R,dependency order):R1 CCW
-  layout (lane D) — slice4.5, research only, ESTABLISHED or
-  NOT PROVEN;R2 session readiness (+F1 readback question);
+- [x] AES-NUM-005 slice4.5 Track R R1 CCW layout study
+  (lane D + pinned sources + repo evidence):NOT PROVEN — no
+  source defines a non-zero CCW word's fields;pinned
+  config-buffer code carries CCW bytes opaquely;lane D
+  delegates CCW generation to DFC (none of its 17 findings
+  touches CCW words). Ancillary IN:64-bit word unit,all-zero
+  NOP with CSM pop/no-forward/no-CRC/credit semantics,two
+  header constants literal-only. Layers2/5 unchanged (no
+  re-grade,no gate re-run);Campaign4 exit NOT met.
+  `docs/HAILO10H_CCW_LAYOUT_STUDY_2026-10-24.md`.
+- [ ] Campaign4 iteration (Track R,dependency order):R1 done
+  (NOT PROVEN,above);R2 session readiness (+F1 readback question) — slice4.6;
   R3 placement values;R4 action sequencing;R5 partial-state
   teardown. Each landing re-grades its layers by addendum and
   re-runs the 4.4 gate on changed layers only;then broad
