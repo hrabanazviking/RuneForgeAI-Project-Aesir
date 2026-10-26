@@ -1662,18 +1662,46 @@
   determiner class closed.
   `docs/HAILO10H_SINGLETON_ONLY_9272_COUNTERPART_BLOCK_POSITIONAL_2026-10-24.md`.
 
-- [ ] Slice4.107 the camp-B
-  label-pair correlation under
-  a chance control (pooled
-  subsamples of camp-B size);
-  the population-rare singleton
-  words (fd000000, e9ff0000,
-  f6000000) against wider
-  segment populations beyond
-  the 18 groups; same-group
-  instance-pair neighbourhood
-  agreement at other common
-  offsets (is 0/5 the rule?);
+- [x] Slice4.107 the camp-B
+  label-pair correlation is
+  chance-consistent (both-byte
+  non-vacuous as-function in
+  4,179/20,000 seeded size-12
+  pooled subsamples and
+  3,439/20,000 permutations —
+  not a law; label-pair class
+  closed). The rare singleton
+  words are NOT rare wider:
+  542,905 distinct referenced
+  segments — fd000000 3,223
+  occurrences in 1,549 segments
+  (its uniqueness was a narrow-
+  population artefact),
+  e9ff0000 209, f6000000 2,286.
+  Instance-pair agreement at
+  common offsets: 789 pairs,
+  distribution {0:25, 1:172,
+  2:88, 3:2, 4:246, 5:256} —
+  0/5 is a 3.2% exception, not
+  the rule; centre position
+  least agreed (275/789), +4
+  most (742/789).
+  `docs/HAILO10H_CAMPB_CHANCE_RAREWORDS_PAIR_AGREEMENT_2026-10-24.md`.
+
+- [ ] Slice4.108 the 25
+  total-disagreement (0/5)
+  instance pairs as a class
+  (groups/offsets, forms and
+  zero patterns vs the 256
+  identical pairs); the
+  near-empty exactly-3 band
+  and the bimodality's group
+  structure (agreement as a
+  per-group property?); the
+  rare-word concentration in
+  cc9b9d1c (fd000000/f6000000
+  density per referred byte
+  vs the other artifacts);
   then broad ordinary
   UNMODIFIED source-model
   support100%.

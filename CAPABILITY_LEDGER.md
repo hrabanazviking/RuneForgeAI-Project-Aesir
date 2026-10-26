@@ -8641,3 +8641,50 @@ No new capability ID or hardware/complete-source execution claim.
   neighbourhood agreement at other common offsets
   (slice 4.107).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-107 — the camp-B label-pair correlation is chance-consistent (both-byte non-vacuous as-function in 20.9% of seeded size-12 pooled subsamples, 17.2% under permutation; not a law); the "unique" singleton words are not rare in the wider corpus (fd000000 3,223 aligned occurrences in 1,549 of 542,905 distinct referenced segments — a narrow-population artefact); instance-pair neighbourhood agreement at common offsets is usually high (502 of 789 pairs at 4–5 positions; 0/5 is a 3.2% exception, the 9272 pair one of 25)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_CAMPB_CHANCE_RAREWORDS_PAIR_AGREEMENT_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...106 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
+  DONE105 at line 3,576 and DONE106 at line 3,670 of this run's
+  output (hef107.py sha256 1377ed2b..., output sha256 252e5e17...,
+  633,975 B, DONE107 at line 3,701). Transfer note: the prior
+  firing stopped after the contract (8be87db8) with the script
+  built; this firing completed the proxy-upload (saved:38602,
+  gz + script sha256 verified on-device) and ran the script
+  detached to DONE107.
+  (i) Camp-B fact reproduced exactly (label1 byte1 as a
+  non-vacuous function of label2 byte0 and of byte1, one
+  agreeing collision each; camp A and pooled False both
+  bytes). Chance controls, 20,000 draws of size 12:
+  subsample-pooled both-byte hits 4,179 (byte0 7,059, byte1
+  9,786, either 12,666); permutation-pooled both 3,439
+  (byte0 8,218, byte1 7,878, either 12,657); exhaustive
+  camp-A size-12 subsamples 0/13. The camp-B pattern is
+  chance-consistent; NOT a law. Label-pair determiner class
+  closed in both directions; label identity NOT PROVEN.
+  (ii) Wider population = 542,905 distinct referenced
+  segments (745,849 references, 9,275,073,840 distinct
+  referenced bytes). fd000000: 3,223 distinct-segment
+  aligned occurrences, weighted 6,909, in 1,549 segments
+  (cc9b9d1c 1,878; MiniLM 20). e9ff0000: 209 / weighted 240 /
+  197 segments (cc9b9d1c 180; MiniLM 1). f6000000: 2,286 /
+  weighted 2,582 / 952 segments (cc9b9d1c 1,622). No
+  rare-word component remains in the singleton story.
+  (iii) 789 instance pairs at common offsets (206 records,
+  18 groups): position-equal distribution {0: 25, 1: 172,
+  2: 88, 3: 2, 4: 246, 5: 256}; mean 3.318; identical
+  tuples 256; mean differing bytes 2.738. Per-position
+  equality [527, 549, 275, 742, 525] — centre least, +4
+  most. Excluding the target: 788 pairs, 0/5 fraction
+  3.05% (all pairs 3.17%). Target pair reproduced (1 pair,
+  0/5, 10 differing bytes). 0/5 is an exception class of
+  25, not the rule; its separator is NOT PROVEN.
+- **Next:** the 25 total-disagreement pairs as a class;
+  the exactly-3 near-empty band and per-group agreement
+  structure; the cc9b9d1c rare-word concentration
+  (slice 4.108).
+- **Audit:** Host-side analysis only; no device child.

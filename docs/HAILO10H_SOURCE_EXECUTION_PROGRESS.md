@@ -2877,3 +2877,25 @@ chance control, the rare singleton words against wider segment
 populations, and instance-pair neighbourhood agreement at other
 common offsets. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+2026-10-24 camp-B chance control, rare words wider, pair agreement census (AES-NUM-107,slice4.107):
+`docs/HAILO10H_CAMPB_CHANCE_RAREWORDS_PAIR_AGREEMENT_2026-10-24.md`.
+The camp-B label correlation does not survive its chance
+control: the both-byte pattern that camp B shows appears in
+about one in five random camp-B-sized samples of the pooled
+segments, and almost as often when the label values are
+shuffled, so it is graded as chance, not a law — the
+label-pair question is closed. The singleton words lose
+their rarity the same way: widen the population to every
+distinct referenced segment in the corpus and fd000000,
+supposedly unique, turns up over three thousand times in
+more than fifteen hundred segments. And the neighbourhood
+agreement census answers the last slice's question plainly:
+instance pairs at common offsets usually agree almost
+completely — the total-disagreement pair at 9272 is one of
+twenty-five exceptions in 789, not the rule. Next: those
+twenty-five disagreement pairs as a class, the bimodal
+shape of the agreement distribution, and why the rare
+words concentrate in one artifact. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
