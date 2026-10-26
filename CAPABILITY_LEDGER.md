@@ -8573,3 +8573,71 @@ No new capability ID or hardware/complete-source execution claim.
   label values vs in-segment block positional structure
   (slice 4.106).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-106 — the singleton-only neighbourhood values are mostly ordinary corpus words (fd000000 unique in everything scanned; disjointness is specifically against the DENSE-zero run-members); the cidx-3 counterpart at 9272 shares no neighbourhood position with the cidx-5 DENSE zero (0/5 equal, 10/20 bytes differ); labels share no stated relation with in-segment block positional structure (one camp-B-local as-function fact for label1 byte1 from label2 head bytes; affine zero everywhere)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_SINGLETON_ONLY_9272_COUNTERPART_BLOCK_POSITIONAL_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...105 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  whole-arm candidates 7,690 boundary 0, non-common 7,484
+  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); common-arm
+  census reproduces AES-NUM-104 exactly (206 records, DENSE 95 /
+  SPARSE 65 / MID 46, exactly 2 common-arm DENSE zeros). DONE105
+  at line 3,576 and DONE106 at line 3,670 (output sha256
+  01b1fa25...). Transfer note: hef106.py (sha256 cd7d18cc...)
+  proxy-upload saved:35868, hashes verified on-device; the
+  first launch died with its timed-out launching invoke (line
+  2,653, no DONE106, nothing credited), relaunched setsid
+  detached and completed.
+  (i) Singleton-only values = the singleton sets themselves
+  (disjointness reproduced, intersections 0 at all four
+  positions): 17 (position, value) pairs, 13 distinct values.
+  Shared across singletons only inside the MiniLM cidx-5 pair
+  at 11408/32248 (01000800 at -8/+8, 00000000 at +4; tuples
+  identical at -8/+4/+8, differ only at -4). Recurrence
+  (7,484 whole neighbourhoods, 206 common-arm neighbourhoods,
+  102 instance segments raw = 833,858 tokens, 25 camp
+  segments raw = 134,468 tokens): 12 of 17 pairs recur at the
+  same position in non-singleton whole neighbourhoods
+  (ff7f0000@-8 x545, 00000000@+4 x4,580) — the values are
+  mostly corpus-common; the disjointness is against the
+  run-members specifically. Five pairs never recur at the
+  same position outside the singletons; of those fd000000
+  (-4, 5ab3537d singleton) is UNIQUE in everything scanned
+  (any-position 1 = itself, common-arm 0, raw totals 1/0)
+  and e9ff0000 (+4, MiniLM 6700) is raw-unique (raw total 1;
+  one further whole-neighbourhood occurrence at another
+  position). No singleton-only value class; identity NOT
+  PROVEN.
+  (ii) (MiniLM,23,32768) at 9272: both neighbourhoods match
+  the contract tuples exactly; position-equal 0/5, differing
+  bytes 10/20, centres differ only in the value byte
+  (ff7f0000 vs ff000000); the lone zero word sits at
+  opposite ends (+8 vs -4 — the 00001/01000 mask contrast);
+  the only word shared at any position is 00000000, at
+  different positions. The counterpart is not a near-copy.
+  (iii) Own-family head slots carry the label by
+  construction (36/36 both families, excluded). Slot hunt
+  over the other 146 slots (7,008 tests/family): full-word
+  exact 0; byte-equal hits only the constant-zero
+  coincidence (label constant 00 bytes x tail zero bytes,
+  counts matching exactly); affine non-degenerate 0 both
+  families; as-function non-degenerate 0 for family 2 and
+  72 for family 1, camp B only (label1 byte1 as a function
+  of label2 byte0 and of label2 byte1 at label2's head
+  slots; two determiner collisions, both agreeing; fails
+  in camp A and pooled; the reverse direction of
+  AES-NUM-103's pair hunt, recorded as measured, NOT
+  graded as a law). Positional aggregates (14 features,
+  constant or label-derived per scope): as-function and
+  affine non-degenerate 0 both families. Every stated
+  in-segment determiner class is now closed. Label
+  identity NOT PROVEN.
+- **Next:** camp-B label-pair correlation under a chance
+  control; the population-rare singleton words against
+  wider segment populations; same-group instance-pair
+  neighbourhood agreement at other common offsets
+  (slice 4.107).
+- **Audit:** Host-side analysis only; no device child.

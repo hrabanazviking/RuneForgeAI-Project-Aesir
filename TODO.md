@@ -1628,18 +1628,52 @@
   metadata determiner exhausted.
   `docs/HAILO10H_SECOND_COMMONARM_DISJOINT_CONTROL_NG_LABELS_2026-10-24.md`.
 
-- [ ] Slice4.106 the singleton-
+- [x] Slice4.106 the singleton-
   only neighbourhood values
-  themselves (identity across
-  the 5 singletons' groups /
-  offsets; recurrence anywhere
-  else in the corpus
-  populations); the cidx-3
-  counterpart at 9272 word-by-
-  word vs the cidx-5 DENSE
-  zero's neighbourhood; label
-  values vs the segments' own
-  block positional structure;
+  themselves: 17 (position,
+  value) pairs / 13 distinct —
+  shared across singletons only
+  inside the MiniLM cidx-5 pair
+  (11408/32248); 12 of 17 recur
+  at the same position in
+  non-singleton whole
+  neighbourhoods (the values are
+  mostly corpus-common; the
+  disjointness is against the
+  run-members specifically);
+  fd000000 UNIQUE in everything
+  scanned, e9ff0000 raw-unique.
+  The cidx-3 counterpart at
+  9272 vs the cidx-5 DENSE zero:
+  position-equal 0/5, differing
+  bytes 10/20, centres differ
+  only in the value byte — not
+  a near-copy. Labels vs block
+  positional structure: own
+  head slots definitional
+  (36/36, excluded); slot +
+  aggregate hunts affine 0
+  everywhere, as-function 0
+  except 72 camp-B-only hits
+  (label1 byte1 from label2
+  head bytes, both collisions
+  agreeing — recorded, not a
+  law); every in-segment
+  determiner class closed.
+  `docs/HAILO10H_SINGLETON_ONLY_9272_COUNTERPART_BLOCK_POSITIONAL_2026-10-24.md`.
+
+- [ ] Slice4.107 the camp-B
+  label-pair correlation under
+  a chance control (pooled
+  subsamples of camp-B size);
+  the population-rare singleton
+  words (fd000000, e9ff0000,
+  f6000000) against wider
+  segment populations beyond
+  the 18 groups; same-group
+  instance-pair neighbourhood
+  agreement at other common
+  offsets (is 0/5 the rule?);
   then broad ordinary
   UNMODIFIED source-model
   support100%.

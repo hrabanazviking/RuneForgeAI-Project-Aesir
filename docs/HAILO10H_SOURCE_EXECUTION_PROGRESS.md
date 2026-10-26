@@ -2851,3 +2851,29 @@ themselves, the cidx-3 counterpart at 9272 word by word, and
 the labels against the segments' own block structure. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 singleton-only values, 9272 counterpart, block positional hunts (AES-NUM-106,slice4.106):
+`docs/HAILO10H_SINGLETON_ONLY_9272_COUNTERPART_BLOCK_POSITIONAL_2026-10-24.md`.
+The singleton-only neighbourhood values turn out to be mostly
+ordinary corpus words: twelve of the seventeen (position, value)
+pairs recur at the very same relative position in neighbourhoods
+that are not DENSE zeros at all, so the famous disjointness is a
+property of the comparison against the run-members, not of the
+values themselves. Only three words are genuinely rare — one of
+them, fd000000, occurs nowhere else in any population scanned —
+and the only sharing between singletons happens inside one
+MiniLM instance's pair of singletons, whose tuples are otherwise
+near-identical. At 9272 the cidx-3 counterpart shares no
+neighbourhood position at all with the cidx-5 DENSE zero: the
+centres differ by the value byte alone, the lone zero words sit
+at opposite ends, and ten of twenty bytes differ. And the labels
+close out the block itself: apart from their own head slots,
+which carry them by construction, no block slot word and no
+positional aggregate determines them — the single exception is
+a camp-B-only correlation of label1's one varying byte against
+label2's bytes, held up by two agreeing collisions and graded
+as measured, not as a law. Next: that correlation under a
+chance control, the rare singleton words against wider segment
+populations, and instance-pair neighbourhood agreement at other
+common offsets. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
