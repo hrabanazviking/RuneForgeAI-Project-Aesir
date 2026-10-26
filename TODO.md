@@ -2345,32 +2345,86 @@
   corpus-wide.
   `docs/HAILO10H_THICKNESS_GRADED_VERDICTS_WORD_IDENTITY_UNIQUE_HEAD_ACTS_2026-10-24.md`.
 
-- [ ] Slice4.119 the thin-
+- [x] Slice4.119 the thin-
   common triples' extras
   read as sequences in
-  their own right (do the
-  extras of the length-1
-  and length-2 triples form
-  their own progressions,
-  interleaved with the
-  common sequence?);
-  lane-level (single-word)
-  cross-artifact identity
-  for the 37/96 differing
-  words (full-neighbourhood
-  identity is zero
-  everywhere) and a
-  context/ng census of why
-  only the mirror pair
-  shares cells; and train
-  48 rank 2's five
+  their own right;
+  lane-level cross-artifact
+  identity for the 37/96
+  differing words and a
+  context/ng census; and
+  train 48 rank 2's five
   cc9-unique acts (and its
-  whole head as a sequence)
-  searched across all seven
-  artifacts, not cc9b9d1c
-  alone; then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+  whole head) searched
+  across all seven artifacts
+  DONE (AES-NUM-119): the
+  thin extras form NO
+  progression of their own
+  -- where they continue
+  they are constant repeats
+  of the common centre
+  (253/315 at length 1;
+  58/58 at length 2
+  unanimous, 696/696
+  extras), never strictly
+  alternating with the
+  common sequence (0/383),
+  and the AP extras are not
+  arithmetic (strict-AP
+  1/10, step 0 vs common
+  38, never the common
+  step). Every differing
+  lane is novel: 0/2,584
+  differing B lanes occur
+  in any other artifact at
+  group/cell/same-cidx/
+  same-idx level (A control
+  1/2,584 group only),
+  while non-differing lanes
+  recur normally. The
+  census: the mirror pair
+  alone shares the skeleton
+  -- identical contexts
+  219/219, identical ng
+  sizes {95,124}, 2,890
+  identical-cidx-tuple
+  groups, 5,152 shared
+  triples (next best 41),
+  2,981 shared cells (all
+  other pairs 0). The five
+  acts are CORPUS-unique:
+  each exactly once in all
+  seven artifacts (cc9
+  cidx 144, own head
+  position), heading no
+  context; the whole head,
+  its 512-run, its 7-tail
+  and its opening pair each
+  occur contiguously
+  exactly once corpus-wide,
+  no window within 2
+  mismatches anywhere else.
+  `docs/HAILO10H_THIN_EXTRAS_LANE_IDENTITY_FIVE_ACTS_2026-10-24.md`.
+
+- [ ] Slice4.120 the 62
+  varying length-1 triples
+  and the 9 varying AP
+  triples against their
+  continuing twins (centre
+  sets, word sets, groups,
+  gap shapes); the A->B
+  differing-lane relation
+  over the 2,584 differing
+  lanes (is B's novel lane
+  value a function of A's?);
+  and train 48 rank 2's
+  remaining head acts
+  (positions 0, 5, 6) plus
+  cidx 144's whole context
+  against its train
+  neighbours; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

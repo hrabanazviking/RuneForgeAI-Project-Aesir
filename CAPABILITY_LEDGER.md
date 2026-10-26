@@ -9635,3 +9635,62 @@ No new capability ID or hardware/complete-source execution claim.
   sequence) searched across all seven artifacts, not
   cc9b9d1c alone (slice 4.119).
 - **Audit:** Host-side analysis only; no device child.
+### AES-NUM-119 — The thin-common triples' extras form NO progression of their own (where they continue they are constant repeats of the common centre: 253/315 at length 1, 58/58 and 696/696 extras at length 2 unanimous; strictly alternating interleave 0/383; AP extras strict-AP 1/10 with step 0 against a common step of 38, never the common step); every differing lane of the 37/96 words is novel in every other artifact (0/2,584 differing B lanes at group, cell, same-cidx and same-idx level; A control 1/2,584 at group level only; non-differing lanes recur normally); the context/ng census shows the mirror pair alone shares the deciding skeleton (identical context counts 219/219, identical ng-size multiset {95, 124}, 2,890 groups with identical cidx tuples, 5,152 shared analysable triples against a next best of 41, and 2,981 shared cells against 0 for every other pair); and train 48 rank 2's five cc9-unique acts are CORPUS-unique (each exactly once in all seven artifacts, in cc9b9d1c cidx 144 at its own head position, heading no context anywhere), with the whole 8-act head, its 512-spaced run, its 7-act tail and its opening pair each occurring contiguously exactly once corpus-wide and no other window within 2 mismatches in any artifact
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_THIN_EXTRAS_LANE_IDENTITY_FIVE_ACTS_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef119.py sha256
+  `97db6d8d20ec3a377a344d78e4b9a7a95707432aeaeebf71fa7fa903d3c9361d`,
+  gz sha256
+  `a964e05545c4e159222330667f1e92b11c206026b8a2a8dc724839db24044108`;
+  output 11,223 lines, 1,516,130 B, sha256
+  `05ce80218022edef31c4ffb43dee692104141326325f30e56e21008df2474704`,
+  retrieved gz sha256
+  `ae6e24205775ac47511c6302e3a826affcb1a31a3403d6e83bd5377d7471168a`
+  decompressing to the same output sha256, verified on the
+  VM at closing; DONE119 at output line 11,223). Inherited
+  controls exact: shared enumeration 55,902 cells /
+  527,236 obs; divergent triples 2,171 with verdicts
+  CONT 12,411 / BREAK 476 / INDET 2,365; the 37 and the
+  96/1,971 with centre lane 0; cc9 fit exact (union 929,
+  contexts 271, 10 exception identities unchanged).
+  (i) Thin triples 383 (315 length-1 UNANIMOUS, 58
+  length-2 UNANIMOUS, 10 length-2 AP), extras 2,435
+  (A 967 / B 1,468). Length 1: extras constant 253/315
+  merged, and in exactly those 253 the constant is the
+  common centre (constant-but-different 0, neither 62 —
+  the 62 any-BREAK triples); 1,254/1,627 extras equal the
+  common centre, 157 below, 216 above, 0 between; merged
+  patterns are blocks, never alternating (0/315); all-one-
+  word extras 241/315. Length-2 UNANIMOUS: constant
+  58/58 everywhere, 696/696 extras equal a common centre,
+  one shared pattern XXXXXXXCXCXXXX, gaps (7, 1, 4).
+  Length-2 AP: constant 1/10, 12 distinct centres in each
+  of the nine (71, 19392) triples, strict-AP readings
+  never with the common step (combined 1/10, step 0 vs
+  38); nine share the unanimous positional pattern.
+  (ii) Lane population 9,855, differing lanes 2,584
+  (lane dist {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738});
+  differing B lanes 0/2,584 at every level in every other
+  artifact, per lane 0/1,086, 0/354, 0/406, 0/738; the 37
+  alone 0/535; non-differing lanes hit normally
+  (all-lanes group 2,293/9,855). Census: only
+  5ab3537d x 773470cd shares cidx-keyed cells (2,981);
+  it alone has equal context counts, ng-size overlap
+  2/2, identical-cidx-tuple groups 2,890 (next 7),
+  shared triples 5,152 (next 41), act-count overlap 218
+  (next 19). (iii) Five acts each corpus-total 1
+  (cc9b9d1c cidx 144, head positions 1/2/3/4/7), heads
+  contexts none; sequences (whole head, head[1:5],
+  head[1:8], opening pair) each exactly 1 contiguous
+  occurrence corpus-wide; mismatch profile: all windows
+  in other artifacts 8/8 mismatched, cc9's only <=2
+  window is the head itself. Any mechanism NOT PROVEN.
+- **Next:** the 62 varying length-1 triples and the 9
+  varying AP triples against their continuing twins;
+  the A->B differing-lane relation over the 2,584
+  differing lanes; and train 48 rank 2's remaining head
+  acts (positions 0, 5, 6) plus cidx 144's whole context
+  against its train neighbours (slice 4.120).
+- **Audit:** Host-side analysis only; no device child.

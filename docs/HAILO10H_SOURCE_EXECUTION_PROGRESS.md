@@ -3268,3 +3268,38 @@ hunted lane by lane across networks, and the five
 lonely acts searched in every artifact. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 thin extras, lane identity and the five acts
+(AES-NUM-119,slice4.119):
+`docs/HAILO10H_THIN_EXTRAS_LANE_IDENTITY_FIVE_ACTS_2026-10-24.md`.
+The thin triples' extra instances, read as sequences in
+their own right, turn out to have no music of their own:
+where they continue, they are simply the common centre
+repeated — two hundred fifty-three of the three hundred
+fifteen single-shared triples constant at exactly that
+centre, and at two thick every constant triple without
+exception, all six hundred ninety-six extras — and they
+never weave alternately with the shared instance, only
+pile in blocks before and after it. The varying minority
+varies without forming any rival progression, and the
+AP extras are monotone but not arithmetic, never once
+keeping the common step. Lane by lane, the differing
+words prove novel in every part: not one of the two
+thousand five hundred eighty-four differing lanes is any
+other network's lane at the same address, though the
+lanes that do not differ recur freely — the difference
+is not assembled from other networks' parts at any
+grain. The census names what the mirror twins alone
+share: the same number of contexts, the same ng sizes,
+thousands of groups with identical context lists — a
+common skeleton no other pair comes near. And the five
+lonely acts are lonely in the whole corpus: each occurs
+exactly once in seven artifacts, in its own head, and
+the head itself, its evenly spaced run, its tail and
+its opening pair each occur exactly once anywhere, with
+no near copy in any window. Next: the varying thin
+triples against their continuing twins, the relation
+between the two sides' differing lane values, and the
+rank-2 head's remaining acts with its whole context.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
