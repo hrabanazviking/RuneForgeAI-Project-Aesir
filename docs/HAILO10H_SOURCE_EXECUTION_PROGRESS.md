@@ -3011,3 +3011,38 @@ ladder as a population, what seats the universal
 triple, and unanimity offsets across the corpus.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 centre ladder, 813 start function, corpus unanimity (AES-NUM-112,slice4.112):
+`docs/HAILO10H_CENTRE_LADDER_813_START_UNANIMITY_CORPUS_2026-10-24.md`.
+The centre-value ladder, taken as a whole
+population, is not one staircase but thousands of
+small ones: every byte value occurs somewhere as a
+centre, each cell climbs (or sits still) from its
+own base by its own step — most often +4, but +3,
++8, +9 and +12 climb beside it — and the value 1
+that crowned the unanimity seat at 11608 turns out
+to be nobody's root: not the smallest value, not
+the commonest (that honour belongs to 15 by a
+landslide), and not the value the first instance
+usually carries. The wandering seat of the
+universal triple defies every map drawn from its
+context: not its index, not its family, not its
+size, not its load, not its head or its neighbours
+— the seat is chosen by something the recorded
+fields do not contain, though the seats fall into
+locally repeating processions that hint at a
+sub-sequence not yet cut at the right joint. And
+unanimity itself is the corpus's ordinary weather:
+seven cells in ten speak with one voice, in every
+artifact and at every group size, under 71
+different centre values — 11608 was never a
+miracle, only a quiet seat in a talkative group.
+(A first run of this slice carried a
+stale-variable defect in one arm's union builder;
+it was caught against the 929 control, fixed in
+one line, and rerun — the record stands on the
+corrected run.) Next: the per-cell (base, step)
+parameters, the triple's seat against
+sub-sequence position, and unanimity among the
+large groups. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

@@ -8913,3 +8913,70 @@ No new capability ID or hardware/complete-source execution claim.
   referencing context; 11608-class unanimity offsets across the
   corpus (slice 4.112).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-112 — the centre ff-word value ladder is per-cell, and ff010000 is not its base (all 256 centre values occur across 55,902 analysable cells; mode is value 15 in both the full population and the all-distinct ladder cells; rank 0 spans 99 distinct values in ladder cells and equals 1 in only 188/11,242); ladder values are non-decreasing by rank in 11,212/11,242 all-distinct cells, with step +4 the modal AP step over a family {+3, +8, +9, +12, +6, ...}; the 813 triple's start position is determined by no tested function of the referencing context (NOT PROVEN); and 11608-class unanimity is the corpus norm — 39,673/55,902 cells (71.0%) unanimous, spanning 71 distinct centres with ff0f0000 dominant (24,276 cells) and ff010000 carrying only 1,016 (2.56%)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_CENTRE_LADDER_813_START_UNANIMITY_CORPUS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...111 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
+  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176;
+  CAMPS 21392/13, 21648/12); DONE105 at line 3,576, DONE106
+  at line 3,670, DONE107 at line 3,701 and DONE108 at line
+  3,910 of this run's output (hef112.py sha256 3f152865...,
+  arms sha256 eed36559...; output 11,026 lines, 1,583,758 B,
+  sha256 0cf729b7...). A first run (script sha256 5c25611d...)
+  carried a stale-variable defect in arm (ii)'s union builder
+  (union printed 1 vs the 929 control); the one-line fix was
+  applied and the corrected run above is the record — arms
+  (i)/(iii) are byte-identical between the runs.
+  Shared enumeration: 54,995 groups with >=2 instances, 1,323
+  with >=1 common offset, 55,902 analysable cells, 527,236
+  instance-cell observations.
+  (i) All cells: all 256 centre values occur; mode value 15
+  (298,610 obs, 56.64%); value 1 = 9,729 (1.85%); value 0 =
+  20,230. All-distinct ladder cells (11,242 cells, 87,178
+  obs): 255 distinct values (only 251 absent); mode 15
+  (5,064, 5.81%); value 1 = 190 (0.22%); min 0.
+  Non-decreasing by rank 11,212/11,242; strictly increasing
+  8,541; rank-AP (len>=3) 2,584 cells, steps {0: 352, +2: 26,
+  +3: 489, +4: 741, +6: 164, +8: 350, +9: 217, +12: 200,
+  +24: 34, +40: 11}; successive rank differences led by +4
+  (21,605), +3 (14,035), +9 (8,260). Rank alone does not
+  determine the value (rank 0: 99 distinct values in ladder
+  cells; rank 0 == 1 in 188/11,242; rank 0 == cell minimum
+  in 11,224/11,242); cidx alone does not either (351/1,403
+  (art,cidx) keys carry >1 value in ladder cells).
+  (ii) Start distribution reproduced {4: 1, 5: 47, 6: 31,
+  7: 83, 8: 56, 9: 44, 10: 9}; consecutive triples in all
+  271 contexts. Determinism tests ALL ambiguous: ng (2/2
+  keys), ngidx (100/137), total acts (14/20), class-ref
+  count (13/20), cohort (3/3 — exactly-3 spans 5-10, heavy
+  4-9), distinct segments (14/20), size sum (15/246),
+  first action full (14/65) and (size,ch) (3/3), first-4
+  sizes (1/1, spans all starts), first-4 channels (17/37),
+  preceding action full (14/52) and (size,ch) (3/3),
+  following action (18/40), previous context's start;
+  cidx/total-acts/ngidx mod k deterministic for no k in
+  2..64. Locally periodic stretches in cidx order noted;
+  the determining function is NOT PROVEN.
+  (iii) Unanimous cells 39,673/55,902 (0.7097); 71 distinct
+  centres {15: 24,276, 5: 2,881, 127: 2,846, 7: 2,122,
+  0: 1,354, 2: 1,070, 1: 1,016, 3: 548, ...}; centre
+  value 1 share 0.0256. By artifact (unanimous/analysable):
+  0856a10c 8,099/12,631; 0a0d378c 6,469/7,854; 5ab3537d
+  5,653/6,970; 76c3a8ff 6,165/9,470; 773470cd 6,120/7,485;
+  cc9b9d1c 7,167/11,488; MiniLM 0/4. By group size, rates
+  0.58-0.82 across sizes 2-27+ (size 2: 10,622/15,132;
+  size 8: 1,434/2,010; size 11: 1,492/1,825; size 17 dip
+  127/289). Target cell 773470cd pos-9/size-32784 off
+  11608 verified in the unanimous set exactly once,
+  centre ff010000.
+- **Next:** the per-cell ladder's (base, step) parameters
+  as a population (function of group/offset?); the 813
+  triple's start vs sub-sequence position (locally
+  periodic cidx-order stretches); unanimity restricted
+  to groups of >=8 instances and the value-15 unanimous
+  centre's own determination (slice 4.113).
+- **Audit:** Host-side analysis only; no device child.

@@ -1874,7 +1874,7 @@
   208 disjoint).
   `docs/HAILO10H_GENERAL_VARIATION_813_SEGMENT_POS9_UNANIMITY_2026-10-24.md`.
 
-- [ ] Slice4.112 the centre
+- [x] Slice4.112 the centre
   ff-word value ladder as a
   population (per-instance
   centre value vs instance
@@ -1889,6 +1889,53 @@
   cells are unanimous; do
   they share the value-1
   centre pattern?); then
+  broad ordinary UNMODIFIED
+  source-model support100%.
+  DONE (AES-NUM-112): the
+  ladder is per-cell —
+  ff010000 is NOT its base
+  (not minimum, not mode,
+  not index-zero; mode is
+  value 15 in all 256-value
+  population and in the
+  11,242 all-distinct ladder
+  cells, where values are
+  non-decreasing by rank in
+  11,212 cells and step +4
+  is modal over a step
+  family). The 813 start is
+  determined by NO tested
+  per-context field
+  (NOT PROVEN). Unanimity
+  is the corpus norm:
+  39,673/55,902 cells
+  (71.0%), 71 centres,
+  ff0f0000 dominant
+  (24,276), ff010000 only
+  1,016 (2.56%).
+  `docs/HAILO10H_CENTRE_LADDER_813_START_UNANIMITY_CORPUS_2026-10-24.md`.
+
+- [ ] Slice4.113 the per-cell
+  ladder's (base, step)
+  parameters as a population
+  (is the pair a function of
+  the cell's group/offset;
+  what governs the step
+  family {+4, +3, +8, +9,
+  +12, ...}?); the 813
+  triple's start vs
+  sub-sequence position
+  (cidx-order locally
+  periodic stretches — rank
+  within its own (ng, size)
+  train?); and unanimity in
+  the 11608 setting proper
+  (groups of >=8 instances:
+  counts, centres, value-1
+  share vs its 2.56% corpus
+  share; is the unanimous
+  centre a function of
+  group/offset?); then
   broad ordinary UNMODIFIED
   source-model support100%.
 
