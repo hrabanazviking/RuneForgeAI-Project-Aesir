@@ -2066,7 +2066,7 @@
   groups.
   `docs/HAILO10H_LADDER_EXCEPTIONS_TRAIN_REGIME_CENTRE1_2026-10-24.md`.
 
-- [ ] Slice4.115 the non-AP
+- [x] Slice4.115 the non-AP
   profile's last exceptions
   (the 2 groups of 520 whose
   non-AP profile varies
@@ -2095,6 +2095,72 @@
   centre sets per artifact
   in both settings?); then
   broad ordinary UNMODIFIED
+  source-model support100%.
+  DONE (AES-NUM-115): the 2
+  varying groups are mirror
+  groups (5ab3537d and
+  773470cd, both pos 21 /
+  segsize 32776, identical
+  cidxs and offsets), each
+  with exactly 2 cells whose
+  first nine centres are an
+  exact +3 ladder and whose
+  whole variation is the
+  tenth centre (15 vs 11,
+  the sole ng1 instance);
+  no tested field separates
+  the variants beyond cell
+  identity and tautology
+  (NOT PROVEN). Train 49's
+  deviant is an isolated
+  local anomaly with a
+  measured head cause (one
+  extra head act shifts the
+  identical triple block by
+  one position; not a phase
+  slip). The train-less
+  cidx 2 carries no mark —
+  its start is
+  in-distribution and its
+  isolation is purely the
+  missing cidx 6 classmate.
+  The two 873 classes share
+  cidx diffs [4,2,4,4,2];
+  no tested field or period
+  orders their 12 starts
+  (NOT PROVEN). The 2^k-1
+  completeness at >=8 is
+  0a0d378c-only; the mirror
+  pair shares one identical
+  13-centre >=8 set but not
+  its <8 set; the 42
+  vanishing centres split
+  88/13/9/4/1/1 per artifact
+  in the <8 frame.
+  `docs/HAILO10H_VARYING_GROUPS_DEVIANTS_CENTRE_SETS_2026-10-24.md`.
+
+- [ ] Slice4.116 the mirror
+  pair 5ab3537d/773470cd
+  anatomised (how deep the
+  mirroring goes across the
+  shared enumeration —
+  shared groups, cells and
+  centre distributions —
+  and where the pair
+  diverges, its <8 centre
+  sets included); the 10
+  steady exceptions of
+  trains 48/50/51 given
+  train 49's head-act
+  treatment (does an extra
+  head act mark them too?);
+  and the <8-only high
+  centres (>=192) per
+  artifact, with
+  cc9b9d1c's 199-255 cluster
+  and 255's >=8-absence in
+  0a0d378c; then broad
+  ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

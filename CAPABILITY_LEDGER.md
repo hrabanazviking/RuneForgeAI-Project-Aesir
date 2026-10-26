@@ -9197,3 +9197,102 @@ No new capability ID or hardware/complete-source execution claim.
   the 2^k-1 centre-set shape per artifact in the
   >=8 and <8 settings (slice 4.115).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-115 — the non-AP profile's two varying groups anatomised (mirror groups in 5ab3537d and 773470cd at pos 21 / segsize 32776, each with exactly two cells whose first nine centres are an exact +3 ladder and whose whole variation is the tenth centre — the sole ng1 instance — at 15 vs 11 across the same two offsets in both artifacts; no tested field separates the variants beyond cell identity and tautology); train 49's rank-10 deviant carries a measured head cause (one extra head act shifts the identical triple block by one position; an isolated local anomaly, not a phase slip), the train-less cidx 2 outlier carries no mark at all (start in-distribution, isolation purely the missing cidx 6 classmate), the two size-6 873-acts classes share the cidx difference pattern [4, 2, 4, 4, 2] with no tested field or period ordering their 12 starts; and the 2^k−1 centre-set completeness at >=8 is a 0a0d378c-only property (the mirror pair shares one identical 13-centre >=8 set), the 42 vanishing centres splitting 88/13/9/4/1/1 per artifact in the <8 frame
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_VARYING_GROUPS_DEVIANTS_CENTRE_SETS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...114 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
+  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176;
+  CAMPS 21392/13, 21648/12); DONE105 at line 3,576, DONE106
+  at line 3,670, DONE107 at line 3,701 and DONE108 at line
+  3,910 of this run's output (hef115.py sha256 fe16d492...,
+  arms sha256 7b970b00...; output 11,173 lines, 1,514,649 B,
+  sha256 d862ab5f...). Shared enumeration reproduces
+  AES-NUM-112/113/114 exactly: 54,995 groups with >=2 instances,
+  1,323 with >=1 common offset, 55,902 analysable cells,
+  527,236 observations; 11,242 all-distinct ladder cells;
+  39,673 unanimous cells; AP subset 2,584 with the exact
+  step distribution {0: 352, +2: 26, +3: 489, +4: 741,
+  +6: 164, +8: 350, +9: 217, +12: 200, +24: 34, +40: 11};
+  non-AP subset 4,148 with 317 ordered / 298 multiset /
+  174 set profiles and distinct-diff counts {2: 1,877,
+  3: 1,317, 4: 797, 5: 157}; cc9 union 929; 813 target
+  oo 0 / size 304 / 813 refs; start distribution reproduced
+  {4: 1, 5: 47, 6: 31, 7: 83, 8: 56, 9: 44, 10: 9};
+  >=8 cells 25,566, unanimous 18,286, 29 centres, centre-1
+  561; target cell 773470cd pos-9/size-32784 off 11608 in
+  the >=8 unanimous set exactly once, centre ff010000.
+  (i) The 2 varying groups are (5ab3537d, 21, 32776) and
+  (773470cd, 21, 32776) — mirror groups with identical
+  cidx list [0, 3, 6, 9, 12, 15, 18, 21, 24, 95], ng list
+  [0 x9, 1] and offsets {17272, 32192}; each carries
+  exactly 2 non-AP cells (its whole all-distinct
+  population), centres [1, 4, 7, 10, 13, 16, 19, 22, 25,
+  15] at off 17272 and the same ladder ending 11 at off
+  32192 in BOTH artifacts; the variation is entirely the
+  tenth centre (sole ng1 instance, cidx 95). All other
+  recorded fields are identical within each group (base0
+  1, span 24, mode/first diff +3, ndiff 2, zero sum 12);
+  separator tests are deterministic only trivially (exact
+  offset, offset mod 16/64 at two cells, first-instance
+  neighbourhood read at the cell's own offset) or
+  tautologically (last difference). The 518 determined
+  groups carry 4,144 cells and 296 multiset profiles;
+  neither varying profile occurs among them.
+  (ii) Train 49's deviant (cidx 181, ngidx 48, rank idx
+  10, start 10): its acts at positions 7-9 equal its
+  neighbours' at 6-8, the triple block is identical and
+  starts one position later, post-triple alignment is
+  restored (32608 act offset 1497424384 in the train's
+  progression), and its opening pair (1201406464, 24, 2),
+  (1201405440, 24, 0) replaces the modal opening
+  (33320960, 24, 2) x25 — one extra head act is the whole
+  deviation; prev/next acts, target count 3, ngidx mod 4
+  and cidx mod 4 are modal or universal in the train.
+  Train-less cidx 2 (ng 0, ngidx 3, start 6): its class
+  (0, 607) distributes starts {5: 13, 6: 13} (train-only
+  {5: 13, 6: 12}), its residue (cidx mod 4 = 2) and
+  ngidx mod 4 (= 3) match the train's, surrounding acts
+  are unmarked; it is the class minimum with the next
+  member 8 away (cidx 6 belongs to (0, 606)). The 873
+  classes: (0, 873) cidxs [113, 117, 119, 123, 127, 129]
+  starts [6, 7, 8, 6, 6, 4]; (1, 873) cidxs [250, 254,
+  256, 260, 264, 266] starts [5, 8, 8, 6, 6, 5]; both
+  share cidx diffs [4, 2, 4, 4, 2], longest stride-4 run
+  3; combined starts {4: 1, 5: 2, 6: 5, 7: 1, 8: 3};
+  cidx/ngidx mod 2 and mod 4, next act and target count
+  all ambiguous or single-valued; lag agreements at lags
+  1-3 are 1/5, 0/4, 1/3 (ng0) and 2/5, 0/4, 0/3 (ng1).
+  (iii) >=8 centre sets per artifact: 0a0d378c exactly
+  {0, 1, 3, 7, 15, 31, 63, 127}; 0856a10c 20 centres
+  (shape present {0, 1, 7, 15, 127}; 15 non-shape values,
+  573 cells); 5ab3537d and 773470cd the identical
+  13-centre set {0, 1, 2, 5, 7, 11, 15, 23, 34, 69, 95,
+  127, 139} (8 non-shape values, 699/708 cells);
+  76c3a8ff 25 centres (shape present {0, 1, 7, 15, 31,
+  63, 127}; 18 non-shape, 753 cells); cc9b9d1c 11
+  centres (shape present {0, 1, 3, 7, 15, 127}; 5
+  non-shape, 317 cells); MiniLM empty in both settings.
+  Corpus >=8: shape values to 127 all present, 255
+  absent, 21 non-shape values; corpus <8: all nine
+  shape values including 255, 59 non-shape values.
+  <8 departures: 0a0d378c adds only 255 (2 cells) and
+  non-shape 95 (3) / 128 (2); the mirror pair's <8 sets
+  diverge (5ab 13 centres with 239 replacing 139;
+  773470cd 21 centres). The 42 vanishing centres split
+  per artifact in <8: cc9b9d1c 88 cells / 31 centres,
+  0856a10c 13/6, 773470cd 9/8, 0a0d378c 4/2 {128, 255},
+  5ab3537d 1 {239}, 76c3a8ff 1 {49}; six vanishing
+  centres are shared between artifacts (128, 233, 239,
+  252, 254, 255), 36 single-artifact.
+- **Next:** the mirror pair 5ab3537d/773470cd anatomised
+  (how deep the mirroring goes across the shared
+  enumeration, and where the pair diverges); the 10
+  steady exceptions of trains 48/50/51 given train 49's
+  head-act treatment; and the <8-only high centres
+  (>=192) per artifact with cc9b9d1c's 199-255 cluster
+  (slice 4.116).
+- **Audit:** Host-side analysis only; no device child.

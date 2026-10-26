@@ -3126,3 +3126,39 @@ deviants and the 873 classes, and the 2^k-1
 centre-set shape per network. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 non-AP varying groups, train deviants and centre-set shape (AES-NUM-115,slice4.115):
+`docs/HAILO10H_VARYING_GROUPS_DEVIANTS_CENTRE_SETS_2026-10-24.md`.
+The non-AP profile's last two exceptions turn out
+to be mirror twins: the same group in two networks
+carries exactly two cells apiece, identical in
+their context lists and offsets, their first nine
+centres an exact +3 ladder and the whole quarrel
+living in the tenth centre — the one instance from
+the other graph — which reads 15 at one offset and
+11 at the other in both networks alike; no field
+separates the variants beyond the cells' own
+identity. The triple's absorbed deviants part
+ways under the knife: the train-49 deviant is a
+local anomaly with a visible cause, one extra act
+in its head shifting the identical triple block by
+a single position and nothing else marked, while
+the train-less outlier carries no mark at all —
+a start squarely inside its class's distribution,
+exiled only because its one stride-4 classmate
+seat is taken by another class. The two small
+873 classes share their very spacing pattern yet
+no field and no period orders their dozen starts.
+And the 2^k−1 centre shape belongs to the first
+network alone: at ≥8 every other network both
+lacks shape values and keeps centres of its own —
+the mirror pair sharing one identical
+thirteen-centre set there but parting in the
+small groups — while below 8 the whole shape,
+255 included, appears across the corpus and the
+forty-two vanishing centres prove to be mostly
+one network's small-group rarity. Next: the
+mirror pair itself, the remaining steady
+exceptions under the head-act knife, and the high
+centres. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
