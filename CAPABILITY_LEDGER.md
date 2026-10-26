@@ -9864,10 +9864,12 @@ No new capability ID or hardware/complete-source execution claim.
   `9307034c16f7b8c9cbeb2b45f06ee24ef55c7629482631cde0b8a329cfc91639`,
   arms gz sha256
   `835f684fc1ee29e2ae8b43b0ab04dcf15cece18b73103409a27c0cdf31e19ec1`,
-  landed sha-gated on-device — hef122.py alone; analysis
-  completed by a one-shot local fallback (arms122 on the
-  on-VM hef120 base, two recorded repairs) whose output
-  reproduced every inherited control exactly; output
+  landed on-device as 16 individually sha-gated parts,
+  concatenated and whole-verified; hef122.py assembled
+  on-device from the verified hef121 base + arms122,
+  on-device sha == VM; one argv launch fault recorded
+  and relaunched; ran detached to DONE122, EXIT:0;
+  output
   12,231 lines, 1,929,888 B, sha256
   `11e2103a8a13521ce73113eebe552c589c09f3e590b957a9726d5868d6799764`,
   retrieved gz sha256
@@ -9886,7 +9888,13 @@ No new capability ID or hardware/complete-source execution claim.
   36 mid + 44 thick; 40: 8; 43: 19; 51: 30 = 29 + 1;
   85/122: none); position classes start 33 / interior
   104 / END 0; every local step in the host's own step
-  set in 137/137. 40: index 1 ×8, prev 32 ×8, next 44
+  set in 137/137. Distinct hosts are few: 32's 80 ride
+  on 9 distinct sequences (carried by cidx 31 ×47 /
+  cidx 126 ×33); 40's hosts are the single sequence
+  (32, 40, 44, 48, 52, 56, 68); 43's 19 ride on two
+  sequences, with 51 co-occurring in all 19 at index 3;
+  51's single thick host is a 25-long sequence (steps
+  6 then 3 ×23), 51 at index 14 on the 3-run. 40: index 1 ×8, prev 32 ×8, next 44
   ×8, steps (8, 4) ×8, length 7 ×8. 43: index 1 ×19,
   next 47 ×19, step-out 4 ×19. 51: index {1: 10, 3: 19,
   14: 1}, lengths {3: 10, 6: 19, 25: 1}. Anchors: 7 —
@@ -9927,11 +9935,13 @@ No new capability ID or hardware/complete-source execution claim.
   1058, 0856a10c: 767, 0a0d378c: 540}; top other
   context cc9b9d1c cidx 130 (111 acts); 36 of the 133
   also in cidx 144. Mechanism NOT PROVEN.
-- **Next:** the rigid patterns' host sequences read as
-  wholes (clone structure for 40's eight, 43's nineteen,
-  51's length classes); lane 1's group (14, 9992) five
-  pairs in full and group (20, 32720)'s byte-3 table
-  alone; the four differing component-1 values read
-  corpus-wide; centre 139's two 28-occurrence cells in
-  full (slice 4.123).
+- **Next:** centre 139 read in full (its 79 cells, the
+  two 28-occurrence cells, its single non-divergent
+  triple) and anchors 7/11/95 read as sequence members;
+  lane 1 split the other way (group (20, 32720)'s 216
+  pairs per offset block, group (14, 9992)'s five pairs
+  in full, byte 3 retried as a function of (A byte 3,
+  group) and of A's low bytes); the region's two 2-act
+  breaks against the corpus and cidx 130 read against
+  cidx 267 in full (slice 4.123).
 - **Audit:** Host-side analysis only; no device child.

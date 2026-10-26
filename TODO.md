@@ -2557,28 +2557,42 @@
   @1060).
   `docs/HAILO10H_VARYING_CENTRE_MEMBERS_ANCHORS_LANE1_SPLIT_ALIGNED_REGION_2026-10-24.md`.
 
-- [ ] Slice4.123 the rigid
-  patterns' host sequences
-  read as wholes (are 40's
-  eight hosts clones? 43's
-  nineteen? 51's three
-  length classes?); lane
-  1's group (14, 9992) five
-  pairs tabulated in full
-  and group (20, 32720)'s
-  byte-3 table restricted
-  to that group alone; the
-  aligned region's four
-  differing component-1
-  values read corpus-wide
-  (where the B-side values
-  occur; whether the A-side
-  values pair with them
-  anywhere else); centre
-  139's two 28-occurrence
-  cells read in full; then
-  broad ordinary UNMODIFIED
-  source-model support100%.
+- [ ] Slice4.123 centre 139
+  read in full (its 79
+  cells, the two
+  28-occurrence cells, its
+  2 unanimous >=8 cells,
+  its single non-divergent
+  triple, its mirror cidx
+  tuples) and anchors
+  7/11/95 read as sequence
+  members (position/step/
+  neighbours in their
+  mid/thick hosts); lane 1
+  split the other way:
+  group (20, 32720)'s 216
+  pairs per offset block
+  (6796-7272 step 68 —
+  translates of each
+  other?), group (14,
+  9992)'s five repeated
+  pairs in full (2 diffs,
+  one shared XOR), byte 3
+  retried as a function of
+  (A byte 3, group) and of
+  A's low bytes jointly;
+  the region's two 2-act
+  breaks against the
+  corpus (the four 267-side
+  break acts elsewhere;
+  the 144-side break pairs
+  as pairs) and cidx 130
+  (111 of 267's 133
+  non-unique acts) read
+  against cidx 267 in full;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

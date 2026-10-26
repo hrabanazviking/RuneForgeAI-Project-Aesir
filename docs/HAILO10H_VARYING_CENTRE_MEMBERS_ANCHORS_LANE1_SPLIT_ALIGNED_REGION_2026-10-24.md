@@ -17,17 +17,25 @@ arms121 + the new arms122) sha256
 `9307034c16f7b8c9cbeb2b45f06ee24ef55c7629482631cde0b8a329cfc91639`
 (20,138 B), its gzip sha256
 `835f684fc1ee29e2ae8b43b0ab04dcf15cece18b73103409a27c0cdf31e19ec1`.
-Provenance, recorded honestly: the first delivery route
-landed hef122.py alone on the device (its sha256 verified
-on-device) and the arms were never delivered by it; the
-analysis was completed by a one-shot LOCAL fallback —
-arms122 appended to a reconstruction of the inherited base
-from the on-VM hef120.py, with two recorded repairs (the
-arms' lane-1 subset rebuilt from the inherited 96-cell
-lane extraction, and the cidx 267 act list rebuilt from
-the inherited (ng, cidx) records) — and the fallback's
-output reproduced EVERY inherited control exactly (next
-section), which is the gate that admits it. The retrieved
+Provenance, recorded honestly (corrected at closing
+from the worker's full handoff, which superseded a
+garbled interim summary): the arms gzip was split into
+16 binary parts (15 × 373 B + 182 B), each landed on
+Mimir as its own file via file.write with its own
+whole-part sha256 gate — all 16 passed first try;
+concatenated on-device, the whole-gzip and decompressed
+arms sha256 both matched the VM exactly. hef122.py was
+assembled on-device from the verified hef121 base plus
+arms122, and its on-device sha256 matched the VM-built
+file exactly before anything ran. One launch fault,
+recorded: the first detached launch omitted the argv
+corpus paths and died at base line 150 having produced
+no analysis; it was relaunched with the 7 artifact
+paths, detached via setsid, and ran to DONE122,
+EXIT:0. (The inherited base itself was verified before
+building: the VM's hef120 + arms121 reconstruction is
+byte-identical to the recorded hef121.py, and Mimir's
+/tmp/hef121.py carries that same sha.) The retrieved
 output is 12,231 lines / 1,929,888 B, sha256
 `11e2103a8a13521ce73113eebe552c589c09f3e590b957a9726d5868d6799764`;
 the retrieved gzip sha256
@@ -95,6 +103,26 @@ Per centre:
 - **85 and 122** — NO mid/thick common sequence contains
   either, confirming AES-NUM-121: beyond thin length 1
   they occur in no common sequence at all.
+
+Read as distinct wholes, the hosts are few: 32's 80
+occurrences ride on only **9 distinct sequences**
+((32, 35, 47, 50) ×10 triples, (32, 44, 48, 56) ×3,
+(23, 32, 35, 41) ×5, (32, 40, 44, 48, 52, 56, 68) ×8,
+(23, 32, 35, 38, 41, 50) ×10, (20, 23, 26, 32, 35, 38,
+41, 50) ×12, (32, 36, 44, 48, 52, 56, 60, 64, 68) ×12,
+(20, 23, 26, 32, 35, 38, 41, 47, 50) ×14, (28, 32, 44,
+48, 52, 56, 64, 68) ×6), carried by cidx 31 (47
+occurrences) or cidx 126 (33). 40's eight hosts are
+the single sequence (32, 40, 44, 48, 52, 56, 68). 43's
+nineteen ride on two sequences only — (31, 43, 47, 51,
+55, 67) ×16 and (27, 43, 47, 51, 55, 67) ×3 — and 51
+co-occurs with 43 in all nineteen of those, at index 3
+(prev 47, next 55, steps (4, 4)); 51's other forms are
+(39, 51, 59) ×10 at index 1, and its single thick
+occurrence at index 14 of a 25-long sequence (6, 12,
+15, 18, …, 81) whose steps are 6 then 3 ×23 — NONAP by
+the single 6 — where 51 sits on the 3-run (prev 48,
+next 54, steps (3, 3)).
 
 The other single-centre anchors, graded on AES-NUM-121's
 own terms against the varying six:
@@ -259,14 +287,25 @@ PROVEN.
 
 ## Next
 
-Slice 4.123 — the rigid member patterns' host sequences
-read as wholes (are 40's eight hosts clones of one
-sequence? 43's nineteen? 51's three length classes?);
-lane 1's group (14, 9992) five pairs tabulated in full
-and group (20, 32720)'s byte-3 table restricted to that
-group alone; the aligned region's four differing
-component-1 values read corpus-wide (where else do the
-B-side values occur, and do the A-side values pair with
-them anywhere else); centre 139's two 28-occurrence
-cells read in full. Host/artifact analysis only — no
-physical child.
+Slice 4.123 — (i) centre 139 read in full: its 79 cells
+(77 singletons and the two cells carrying it 28 times
+each), its 2 unanimous ≥8 cells, its single
+non-divergent triple, and whether its mirror-artifact
+cidx tuples are identical; and the anchors 7/11/95 read
+as sequence members on this slice's terms (position,
+step, neighbours inside their mid/thick hosts — do
+constant-like anchors sit at ends where varying centres
+never do?); (ii) lane 1 split the other way: group
+(20, 32720)'s 216 pairs read per offset block (offs
+6796–7272, step 68 — is each 27-pair cell block a
+translate of the others?), group (14, 9992)'s five
+repeated pairs tabulated in full (their 2 diffs and
+single shared XOR), and byte 3's difference retried as
+a function of (A byte 3, group) and of A's low bytes
+jointly; (iii) the region's two 2-act breaks read
+against the corpus (where else the four 267-side break
+acts occur; whether the 144-side break pairs occur as
+pairs anywhere else) and cidx 130 — the context holding
+111 of cidx 267's 133 non-unique acts — read against
+cidx 267 in full (length, overlap, shared runs).
+Host/artifact analysis only — no physical child.
