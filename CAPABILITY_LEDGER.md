@@ -9770,3 +9770,84 @@ No new capability ID or hardware/complete-source execution claim.
   prefix uniqueness followed past length 40 to the first
   repeated prefix (slice 4.121).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-121 — The disjoint centre sets are a thin length-1 property in exact form, but the varying centres never anchor unanimity anywhere in the corpus (unanimous-centre counts 0 at every other triple stratum, 0 of 18,286 unanimous ≥8 cells, 0 unanimous-word cells in any artifact, at most one occurrence per cell corpus-wide), while every constant centre anchors unanimity in every stratum and artifact; lane 1's 224-pair bijection carries none of the three closed forms (constant difference fails with 218 distinct differences, constant XOR fails with 217 distinct XORs, GF(2)-affine fails with 193 residuals over 223 — measured distribution only, most pairs differing in all four bytes, byte 3 shifting by small signed amounts), and the in-37 bijection is per-lane wherever lanes occur (lane 0: 431 lanes, 29 ↔ 29; lane 3: 104 lanes, 8 ↔ 8; lanes 1/2/4 contribute zero in-37 differing lanes); cidx 267 (842 acts, all distinct, in no train) shares 36 acts with cidx 144, its longest shared run is the same 15 acts at a constant +597 alignment, the swapped head pair sits isolated at positions 197/199 among corpus-unique neighbours with no head window of length ≥2 anywhere in it, and cidx 144's prefix uniqueness runs to the end of the context (every prefix through all 245 acts occurs exactly once corpus-wide)
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_CENTRE_SETS_LANE1_FORMS_CIDX267_PREFIX_END_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef121.py sha256
+  `ae8c168aa951c0f1d3061aa7caf64dc1e0a53bfe1615cac2ddcb2943f6539112`,
+  arms121.py sha256
+  `646df8bba81becdf016f0973c7f72249d86a88deda1c7503f535a897a8bb884b`,
+  arms gz sha256
+  `37a5a40574380d5d7189740c534b3cbbcb66cb66503af9e7caf8d00888910df0`,
+  landed as 16 individually sha-gated parts, concatenated
+  and whole-verified on-device; output 11,708 lines,
+  1,579,883 B, sha256
+  `01040c5b9e3887933bdd9e78de61d00da897896d2d07ad27112c8471edbc635b`,
+  retrieved gz sha256
+  `1621d662452007357bb8242ebdd72f3934f7c3ecd8cd905fac3312f60a41e74d`
+  decompressing to the same output sha256, verified on the
+  VM at closing; DONE121 at output line 11,708). Inherited
+  controls exact: shared enumeration 55,902 cells /
+  527,236 obs; divergent triples 2,171 with verdicts
+  CONT 12,411 / BREAK 476 / INDET 2,365; thin population
+  383; the 37 and the 96/1,971 with centre lane 0;
+  differing lanes 2,584 by lane {0: 1086, 1: 354, 2: 0,
+  3: 406, 4: 738}; cc9 fit exact (train 48 rank 2 =
+  cidx 144, start 8, steady 7, recorded head).
+  (i) Divergent strata: L1 315, L2 68, 3–7 508 (+166
+  SINGLE with 0 common), ≥8 1,114. Varying centres are
+  UNANIMOUS triple centres ONLY at length 1 (the 62) —
+  0 at every other stratum; as common members they occur
+  only in NONAP/AP sequences (32: 36 mid + 44 thick;
+  51: 29 + 1; 43: 19 mid; 40: 8 mid; 85/122: none beyond
+  L1), extras never equal to them (0 everywhere). All
+  nine constant centres anchor unanimity in every
+  stratum (15: 153/35/262/624). ≥8 cells: 0/18,286
+  unanimous centred on a varying centre; constant
+  centres 818/561/346/1267/11367/335/231/131/1030.
+  Full cells: varying-centre cells == observations
+  (674/724/770/848/509/217 — at most once per cell,
+  0 unanimous-word cells, all artifacts incl. beyond
+  the mirror pair); constant 15: 298,610 obs in 31,821
+  cells. Non-divergent triples: 2,520 single-centre,
+  values never a varying centre (0 ×6; 40/43/51/85 do
+  occur inside varying sequences). Extras with a
+  varying centre: 51/85 ZERO; 43: 10 INDET; 40: 30;
+  32: 9 BREAK (the AP clones); 122: 7 BREAK. Cause
+  NOT PROVEN. (ii) Lane 1: constant-diff FALSE (218
+  distinct, +50/−174, top −2^31 ×6); constant-XOR
+  FALSE (217 distinct, top 0x80000000 ×8); GF(2)-affine
+  FALSE (span rank 30, residuals 193/223, fitted check
+  193 wrong / 0 unpredictable). Bytes differing per
+  pair {1: 8, 2: 3, 3: 46, 4: 167}; byte 0 shared in
+  44, XOR top 0x80 ×34; bytes 1/2 XOR distinct 143/144;
+  byte 3 only 24 distinct signed diffs (top −1 ×43,
+  −7 ×17, −8 ×16). In-37 per lane: lane 0 431 lanes
+  29 ↔ 29 strict, lane 3 104 lanes 8 ↔ 8 strict, lanes
+  1/2/4 zero lanes — per-lane, not pooled-only. Source
+  NOT PROVEN. (iii) cidx 267: 842 acts all distinct,
+  ng 1, start 6, in no train row; multiset overlap
+  with 144 = 36 (union 1,051). Shared runs ≥3: only 4
+  — 15 acts (144@206 ↔ 267@803, the AES-NUM-120 run),
+  7 (197 ↔ 794), 5 (190 ↔ 787) all on one +597
+  alignment, and 3 (144@8 ↔ 267@6). Window 267
+  194–202: pos 197 = head pos-6 act, 198 corpus-unique
+  (2215660544, 296, 2), 199 = head pos-5 act, all
+  neighbours corpus-unique; 144's 194–202 are
+  corpus-common (counts 271/27/54/271×6). No other
+  head act in 267; no head window of length ≥2 in 267
+  (lengths 8–2 all empty). Prefix counts exactly 1 at
+  every length 41–245 (direct full scans at 41, 100,
+  245) — NO repeated prefix; the whole 245-act context
+  is corpus-unique. Mechanism NOT PROVEN.
+- **Next:** the varying centres as sequence members
+  (position/step inside the mid/thick common sequences)
+  and the other single-centre anchors {7, 11, 95, 139};
+  lane 1's pairs split by cell/group and byte 3's
+  small-difference law as a function of A's byte 3;
+  the +597 aligned region read in full and cidx 267's
+  own occurrence profile (slice 4.122).
+- **Audit:** Host-side analysis only; no device child.

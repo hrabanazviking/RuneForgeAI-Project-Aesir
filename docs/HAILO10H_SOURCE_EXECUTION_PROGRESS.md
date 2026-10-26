@@ -3339,3 +3339,36 @@ one's perfect mirror tabulated, the context that holds
 the swapped pair, and the prefix followed to its end.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 the centre sets corpus-wide, lane one's
+formless mirror and the context that holds the swapped
+pair (AES-NUM-121,slice4.121):
+`docs/HAILO10H_CENTRE_SETS_LANE1_FORMS_CIDX267_PREFIX_END_2026-10-24.md`.
+The disjoint centres of the thin triples prove to be a
+length-one exactness with a corpus-wide shadow: the six
+varying centres anchor nothing anywhere else — no
+unanimous triple at any other length, none of the
+eighteen thousand unanimous thick cells, no unanimous
+word in any of the seven networks, and never twice in
+one cell — while the nine constant centres anchor
+unanimity in every stratum and every network, fifteen
+above all. Lane one's perfect mirror, tabulated pair by
+pair, wears no closed form at all: not one difference,
+not one XOR, and the affine test fails a hundred
+ninety-three times over — yet inside the thirty-seven
+broken cells the mirror holds lane by lane, in the two
+lanes that have differing lanes there. The context
+holding the swapped pair is a stranger eight hundred
+forty-two acts long that belongs to no train; it shares
+thirty-six acts with its fellow, one fifteen-act run on
+a single alignment shifted by five hundred ninety-seven,
+and the swapped pair sits alone among acts found
+nowhere else, no two head acts ever adjacent. And the
+lonely context's uniqueness has no end to find: read as
+a sequence it is like nothing else in the corpus not
+forty acts deep but all two hundred forty-five.
+Next: the varying centres inside the sequences they
+travel in, the other lone anchors, lane one's pairs by
+cell, and the aligned region read in full.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

@@ -2454,7 +2454,7 @@
   stay unique through 40.
   `docs/HAILO10H_VARYING_THIN_LANE_FUNCTION_REMAINING_ACTS_2026-10-24.md`.
 
-- [ ] Slice4.121 the disjoint
+- [x] Slice4.121 the disjoint
   common-centre sets read
   corpus-wide (are {32, 40,
   43, 51, 85, 122} special
@@ -2472,7 +2472,54 @@
   window) and cidx 144's
   prefix uniqueness past
   length 40 to the first
-  repeated prefix; then
+  repeated prefix. DONE:
+  the disjointness is exact
+  only at thin length 1, but
+  no varying centre ever
+  anchors unanimity anywhere
+  (0 unanimous centres at
+  every other stratum, 0 of
+  18,286 unanimous >=8
+  cells, 0 unanimous-word
+  cells in any artifact, at
+  most once per cell), while
+  every constant centre
+  anchors it everywhere;
+  lane 1's bijection has NO
+  closed form (218 diffs,
+  217 XORs, GF(2)-affine
+  residuals 193/223); the
+  in-37 bijection is
+  per-lane (lane 0 29<->29
+  over 431, lane 3 8<->8
+  over 104, lanes 1/2/4
+  zero); cidx 267 (842 acts)
+  shares 36 acts with 144,
+  the swapped pair isolated
+  at 197/199, no head window
+  >=2; cidx 144's prefixes
+  stay unique through all
+  245 acts (no repeat).
+  `docs/HAILO10H_CENTRE_SETS_LANE1_FORMS_CIDX267_PREFIX_END_2026-10-24.md`.
+
+- [ ] Slice4.122 the varying
+  centres as sequence
+  members (position/step of
+  32/40/43/51 inside the
+  mid/thick common
+  sequences) and the other
+  single-centre anchors
+  {7, 11, 95, 139} against
+  the varying six; lane 1's
+  224 pairs split by
+  cell/group and byte 3's
+  small-difference law as a
+  function of A's byte 3;
+  the +597 aligned region
+  (144 pos 190-220 vs 267
+  pos 787-817) read in full
+  and cidx 267's own
+  occurrence profile; then
   broad ordinary UNMODIFIED
   source-model support100%.
 
