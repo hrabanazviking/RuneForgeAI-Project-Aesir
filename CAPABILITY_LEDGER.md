@@ -9694,3 +9694,79 @@ No new capability ID or hardware/complete-source execution claim.
   acts (positions 0, 5, 6) plus cidx 144's whole context
   against its train neighbours (slice 4.120).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-120 — The varying thin triples are distinguished by their common centre itself, not by group, gap shape, type pattern or extras count (the 62 varying length-1 triples' common centres {32, 40, 43, 51, 85, 122} and the 253 constant triples' {0, 1, 2, 5, 15, 23, 34, 69, 127} are DISJOINT, counted exactly; groups/gap shapes/type patterns identical sets; extras never repeat the centre in the 62, 0/373, against 1,254/1,254 in the 253); the 9 varying AP triples are clones of each other in every measured field except group offset (same (71, 19392) group, common pair (38, 44) step 6, gaps (7, 1, 4), the same 12-extra sequence verbatim); over the 2,584 differing lanes B is NOT a function of A pooled (52/934 distinct A values with counterexamples) nor in lanes 0, 3, 4, but lane 1 IS a strict bijection (224 ↔ 224 over 354 lanes, zero counterexamples either direction) and the 535 in-37 differing lanes are likewise a strict bijection (36 ↔ 36 ↔ 36); and train 48 rank 2's remaining head acts are near-lonely (position 0: 7 occurrences, all cc9b9d1c, heading five contexts; positions 5 and 6: exactly 2 each, in cidx 144 and together order-swapped in cidx 267), with cidx 144's act-wise uniqueness ending exactly at its start boundary (position 8, counts jump to 1,060) while its sequence stays corpus-unique through at least the first 40 acts
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_VARYING_THIN_LANE_FUNCTION_REMAINING_ACTS_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef120.py sha256
+  `8bb8ad4bbf10e854229e3529e6405701d5bfadb8836f6af1d72388638b061b84`,
+  gz sha256
+  `aa92bf9484b0e90435a91af89a137b59883296ab9090706d8008e82ce6745429`;
+  output 11,512 lines, 1,554,743 B, sha256
+  `e68b18781ee38315434e545a0bc91bc325eec90dcf6178fec172a96930203ca3`,
+  retrieved gz sha256
+  `6c5e050f5e0e35e7ac9aca9708186ae28440e5766eb1fd2c0ed588b2275916cd`
+  decompressing to the same output sha256, verified on the
+  VM at closing; DONE120 at output line 11,512). Inherited
+  controls exact: shared enumeration 55,902 cells /
+  527,236 obs; divergent triples 2,171 with verdicts
+  CONT 12,411 / BREAK 476 / INDET 2,365; thin population
+  383; the 37 and the 96/1,971 with centre lane 0;
+  differing lanes 2,584 by lane {0: 1086, 1: 354, 2: 0,
+  3: 406, 4: 738}; cc9 fit exact (train 48 rank 2 =
+  cidx 144, start 8, steady 7, recorded head).
+  (i) L1 split 62 varying / 253 constant: (pos,size) group
+  sets identical (8 groups), gap-shape sets identical
+  (6 shapes), type patterns the same six, extras-count
+  support shared {2, 3, 9, 11}; common-centre sets
+  DISJOINT ({32, 40, 43, 51, 85, 122} vs {0, 1, 2, 5, 15,
+  23, 34, 69, 127}, intersection empty); extras equal the
+  common centre 0/373 in the 62 (below 157, above 216)
+  vs 1,254/1,254 in the 253; every extra in the 62 has a
+  distinct centre/word (union 29 centres, 328 words;
+  all-one-word 0/62 vs 241/253). AP: 9 varying triples
+  identical except offset — group (71, 19392), common
+  pair (38, 44), step 6, gaps (7, 1, 4), pattern
+  XXXXXXXCXCXXXX, extras sequence (14, 20, 23, 26, 29,
+  32, 35, 41, 50, 53, 56, 80) verbatim in all 9; extras
+  108, verdicts BREAK 99 / CONT 9; the constant AP triple
+  shares nothing but AP-ness ((15, 32608), (0, 38), step
+  38, gaps (0, 2, 2)). Why the varying triples vary NOT
+  PROVEN. (ii) Pooled: 934 distinct A, 931 distinct B,
+  1,033 pairs; B=f(A) fails (52/934 counterexample A
+  values, 278 lanes, max 6 B per A), A=f(B) fails (48/931,
+  546 lanes). Lane 1 strict bijection (224 ↔ 224, 354
+  lanes, 0 counterexamples either direction); lanes 0/3/4
+  fail (26/244, 23/249, 24/309). In-37: strict bijection
+  (36 ↔ 36 ↔ 36 over 535 lanes, 10 distinct diffs, 9 XOR
+  patterns); all counterexamples are non-37. Diffs pooled:
+  826 distinct, top +131072 (2^17) in 756 (378 lane 0 +
+  378 lane 4), −2^31 in 331, +2^31 in 225; XOR 834
+  distinct, top 00000080 (556); bytes differing per lane
+  {1: 1648, 2: 484, 3: 135, 4: 317}. Source of the
+  difference NOT PROVEN. (iii) Head pos 0 act: 7 corpus
+  occurrences, all cc9b9d1c — heads cidx 119/144/158/178/
+  242 at position 0, plus position 604 in cidx 143/183.
+  Pos 5 act: 2 (cidx 144 pos 5; cidx 267 pos 199). Pos 6
+  act: 2 (cidx 144 pos 6; cidx 267 pos 197). Only contexts
+  with ≥2 of the three: 144 and 267. cidx 144: 245 acts,
+  all distinct; train 48 all 28 rows 245 acts, multiset
+  overlap 49–50 steady (cidx 140: 38, 180: 40, 184: 49),
+  shared prefix 0 everywhere; longest common contiguous
+  run 15 acts at position 206 (shared with cidx 136, and
+  the same run is the longest shared with train 47 cidx 57
+  at 699 and train 49 cidx 193 at 217); train 47 contexts
+  738 acts overlap 33, train 49 contexts 256 acts overlap
+  33–34. Head act corpus counts [7, 1, 1, 1, 1, 2, 2, 1],
+  positions 8–10 at 1,060/1,060/1,058; every prefix of
+  length 2–40 occurs exactly once corpus-wide. Any shift
+  or mechanism NOT PROVEN.
+- **Next:** the disjoint common-centre sets read
+  corpus-wide; lane 1's 224-pair bijection tabulated (affine,
+  constant-XOR, or neither) and the in-37 bijection split
+  per lane; cidx 267 against cidx 144, and cidx 144's
+  prefix uniqueness followed past length 40 to the first
+  repeated prefix (slice 4.121).
+- **Audit:** Host-side analysis only; no device child.

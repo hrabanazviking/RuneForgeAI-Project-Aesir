@@ -3303,3 +3303,39 @@ between the two sides' differing lane values, and the
 rank-2 head's remaining acts with its whole context.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 the varying twins, the lane relation and the
+remaining acts (AES-NUM-120,slice4.120):
+`docs/HAILO10H_VARYING_THIN_LANE_FUNCTION_REMAINING_ACTS_2026-10-24.md`.
+The sixty-two varying thin triples wear the same clothes
+as their continuing twins — the same eight groups, the
+same six gap shapes, the same patterns, the same counts —
+and are told apart only by the centre they share: the
+varying carry centres thirty-two, forty, forty-three,
+fifty-one, eighty-five and one hundred twenty-two, the
+constant carry nought through one hundred twenty-seven's
+small familiar set, and the two sets never touch. Their
+extras never once repeat the centre, while the twins'
+extras are the centre twelve hundred fifty-four times
+without exception. The nine varying AP triples are
+stranger still: nine copies of one triple, same group,
+same pair, same step, the same twelve extras in the same
+order, differing only in where they sit. Between the two
+sides' differing lanes there is mostly no law — pooled,
+a value on one side answers to several on the other —
+but one lane of the five is a perfect mirror: in lane
+one, and inside the thirty-seven broken cells taken
+together, each value answers to exactly one other, back
+and forth without a single exception. And the head's
+remaining acts are nearly as lonely as its five: the
+first heads five contexts and lives nowhere outside its
+own network, the fifth and sixth occur only twice each —
+in their own head, and together in one other context,
+their order swapped. The head's uniqueness ends act by
+act exactly where the head ends, yet read as a sequence
+the context is still like nothing else forty acts deep.
+Next: the disjoint centre sets read corpus-wide, lane
+one's perfect mirror tabulated, the context that holds
+the swapped pair, and the prefix followed to its end.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

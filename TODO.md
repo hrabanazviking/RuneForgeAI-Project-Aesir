@@ -2406,7 +2406,7 @@
   mismatches anywhere else.
   `docs/HAILO10H_THIN_EXTRAS_LANE_IDENTITY_FIVE_ACTS_2026-10-24.md`.
 
-- [ ] Slice4.120 the 62
+- [x] Slice4.120 the 62
   varying length-1 triples
   and the 9 varying AP
   triples against their
@@ -2422,8 +2422,58 @@
   (positions 0, 5, 6) plus
   cidx 144's whole context
   against its train
-  neighbours; then broad
-  ordinary UNMODIFIED
+  neighbours. DONE: the 62
+  are distinguished by their
+  common centre itself
+  ({32, 40, 43, 51, 85, 122}
+  DISJOINT from the 253's
+  {0, 1, 2, 5, 15, 23, 34,
+  69, 127}; groups/gaps/
+  patterns identical; extras
+  equal the centre 0/373 vs
+  1,254/1,254); the 9 AP are
+  clones except offset (same
+  group, pair (38, 44), step
+  6, gaps (7, 1, 4), same
+  12-extra sequence); B is
+  not a function of A pooled
+  (52/934 counterexamples)
+  nor in lanes 0/3/4, but
+  lane 1 is a strict
+  bijection (224<->224, 354
+  lanes, 0 counterexamples)
+  and the in-37 lanes are
+  too (36<->36<->36, 535);
+  head pos 0 occurs 7x (all
+  cc9, heads 5 contexts),
+  pos 5/6 exactly 2x each
+  (144 + cidx 267, swapped);
+  cidx 144 act-uniqueness
+  ends at position 8 (counts
+  1,060) but its prefixes
+  stay unique through 40.
+  `docs/HAILO10H_VARYING_THIN_LANE_FUNCTION_REMAINING_ACTS_2026-10-24.md`.
+
+- [ ] Slice4.121 the disjoint
+  common-centre sets read
+  corpus-wide (are {32, 40,
+  43, 51, 85, 122} special
+  in thick triples, >=8
+  cells, other artifacts,
+  against {0, 1, 2, 5, 15,
+  23, 34, 69, 127}?); lane
+  1's 224-pair bijection
+  tabulated (affine,
+  constant-XOR, or neither)
+  and the in-37 bijection
+  split per lane; cidx 267
+  against cidx 144 (length,
+  overlap, the 197-199
+  window) and cidx 144's
+  prefix uniqueness past
+  length 40 to the first
+  repeated prefix; then
+  broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
