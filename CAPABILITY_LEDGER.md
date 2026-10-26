@@ -8850,3 +8850,66 @@ No new capability ID or hardware/complete-source execution claim.
   non-distinct offset pair by pair + the sister pos-9
   asymmetry (slice 4.111).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-111 — cidx 44's distinctness outside its cell is general variation, never singleton-vs-many (31/31 outside events all-distinct; the only singleton-vs-shared-partner events in the 295-offset profile are the mixed cell's own 2); the 813-reference segment is cc9b9d1c's only size-304 segment, its rare membership resting on a single fd000000 word, referenced exactly 3x by all 271 contexts as a consecutive channel-rotating triple (starts 4–10, no stream period); exactly-3 cc9 contexts reference that segment only, heavy contexts add the wider rare pool (856 distinct segments) on the same universal triple; cidx 95's one non-distinct offset 11608 is a group-wide unanimity offset (all 8 instances, one neighbourhood, centre ff010000), and 5ab3537d's pos-9 group (25 instances, cidx 95 not a member) admits no common offset because its grids split (sub-families share 26 offsets; cidx 208 shares 0)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_GENERAL_VARIATION_813_SEGMENT_POS9_UNANIMITY_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...110 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
+  DONE105 at line 3,576, DONE106 at line 3,670, DONE107 at
+  line 3,701 and DONE108 at line 3,910 of this run's output
+  (hef111.py sha256 c4440231..., arms sha256 693dd1c7...;
+  output 10,855 lines, 1,473,699 B, sha256 2200a472...).
+  (i) Cidx 44 distinct events by (pos,size): {(12,32776): 3,
+  (13,22704): 9, (16,32584): 6, (20,32752): 2, (21,18608): 5,
+  (25,13712): 7, (30,1136): 1}; classification over all 33:
+  singleton-vs-shared-partners exactly 2 (the mixed cell's own
+  offsets 13664/17344), general-variation-all-distinct 31 —
+  every outside-cell event; singleton-neighbourhood counts per
+  outside event {7: 6, 9: 1, 13: 9, 14: 7, 15: 8}; at pos 12
+  off 12752 all 15 instances mutually distinct, neighbourhoods
+  differing essentially in the centre ff-word value byte
+  (ff05..ff3d stepping by 4); cidx 44's neighbourhood recurs at
+  exactly 1 analysable offset (itself) in these events.
+  (ii) cc9 size-304 population: exactly 1 distinct referenced
+  segment (oo 0), multiplicity {813: 1}, in the union; anatomy
+  76 words, 59 distinct, 17 zero words (13 consecutive at word
+  indices 62-74), 1 ff-word; rare contents fd000000 x1 at word
+  20 (byte 80), e9 x0, f6 x0. Referencing: refs-per-context
+  {3: 271} over all 271 contexts; per-context triples are
+  consecutive (pos,0),(pos+1,1),(pos+2,2) with 7 distinct
+  starts (pos 7 x83, 8 x56, 5 x47, 9 x44, 6 x31, 10 x9, 4 x1);
+  no exact stream period <=64; seq mod k (3,4,6,8,9,12) does not
+  determine (pos,channel). Exactly-3 cohort (182 contexts):
+  class refs 546, all to the 813 segment (distinct class
+  segments 1; channels exactly 182/182/182; per-word refs fd
+  546 / e9 0 / f6 0; mean total acts 425.9). Heavy cohort
+  (36 contexts, 21-48 class refs): class refs 1,071, 813 refs
+  108 (exactly 3 per context), 856 distinct class segments,
+  sizes {32784: 573, 17936: 130, 14864: 106, 304: 108, 2576:
+  68, 3856: 68, 18320: 18}; per-word refs fd 710 / e9 189 /
+  f6 528; mean total acts 787.0.
+  (iii) 773470cd pos-9/size-32784 group (8 instances
+  [95,103,107,111,115,119,123,127], commons [7232, 7304, 7376,
+  7448, 7520, 7592, 7664, 7724, 7736, 11608]): cidx 95
+  singleton [7,1] at 9 offsets (eq 3 x8 offsets SPARSE 3 zeros;
+  eq 2 at 7724 MID 2 zeros); @11608 NON-DISTINCT — one
+  neighbourhood shared by all 8 instances (00000000/01000000/
+  ff010000/00000000/000e0000, MID 2 zeros), cidx 95 eq 5 vs all
+  7 partners, all 28 pairs eq 5 / 0 differing bytes.
+  5ab3537d same group: 25 instances [103..208], cidx 95 not a
+  member, common offsets 0; candidate grids split — instances
+  103-127 (~94-95 candidates, mutual intersection 94),
+  instances 135-203 (94 candidates, shifted grid, share 26
+  offsets with the first sub-family incl. 11608), cidx 208
+  (159 candidates on a disjoint grid, shares 0 with all);
+  sequential intersection 95 -> 94 -> 26 -> 0; offset frequency
+  {1: 165, 6: 68, 18: 68, 24: 26}, union 327.
+- **Next:** the centre ff-word value ladder as a population
+  (function of instance index? unanimity value ff010000 at its
+  base?); the 813 triple's start position as a function of the
+  referencing context; 11608-class unanimity offsets across the
+  corpus (slice 4.112).
+- **Audit:** Host-side analysis only; no device child.

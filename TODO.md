@@ -1822,7 +1822,7 @@
   full-agreement offset).
   `docs/HAILO10H_SECOND_OFFSET_929_POINTING_SINGLETON_POSITIONS_2026-10-24.md`.
 
-- [ ] Slice4.111 cidx 44's
+- [x] Slice4.111 cidx 44's
   distinctness events outside
   its cell (33 offsets in the
   pos 12/13/16/21/25/30
@@ -1843,6 +1843,54 @@
   there); then broad ordinary
   UNMODIFIED source-model
   support100%.
+  DONE (AES-NUM-111): all 31
+  outside-cell distinctness
+  events are general variation
+  (partners mutually distinct;
+  singleton-vs-shared occurs
+  only at the cell's own 2
+  offsets). The 813 segment is
+  cc9's ONLY size-304 segment;
+  its class membership rests
+  on one fd000000 word (word
+  20); every one of the 271
+  contexts references it
+  exactly 3x as a consecutive
+  (pos,0),(pos+1,1),(pos+2,2)
+  triple (starts 4-10, no
+  stream period). Exactly-3
+  contexts reference it ONLY;
+  heavy contexts add the wider
+  pool (856 distinct segments)
+  on the same triple. Cidx
+  95's non-distinct offset
+  11608 is group-wide
+  unanimity (all 8 share one
+  neighbourhood, centre
+  ff010000); 5ab3537d's pos-9
+  group has 25 instances (95
+  not a member) and no common
+  offset (split grids, cidx
+  208 disjoint).
+  `docs/HAILO10H_GENERAL_VARIATION_813_SEGMENT_POS9_UNANIMITY_2026-10-24.md`.
+
+- [ ] Slice4.112 the centre
+  ff-word value ladder as a
+  population (per-instance
+  centre value vs instance
+  index; is ff010000 the
+  ladder's base?); the
+  813-triple start position
+  as a function of the
+  referencing context; and
+  11608-class unanimity
+  offsets across the corpus
+  (how many (group,offset)
+  cells are unanimous; do
+  they share the value-1
+  centre pattern?); then
+  broad ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

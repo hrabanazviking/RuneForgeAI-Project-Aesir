@@ -2979,3 +2979,35 @@ cell, the 813 segment's anatomy and rotation, heavy
 versus light cc9 contexts, and the singleton's one
 agreeing offset. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 general variation, 813 segment, pos-9 unanimity (AES-NUM-111,slice4.111):
+`docs/HAILO10H_GENERAL_VARIATION_813_SEGMENT_POS9_UNANIMITY_2026-10-24.md`.
+Outside its cell, cidx 44 is never a lone figure
+against a crowd: at every one of the 31 offsets
+where it differs from all partners elsewhere, the
+partners differ from each other too — the whole
+population varies, each instance carrying its own
+centre value on a stepping ladder, and cidx 44 is
+simply one varying instance among many; the
+stand-alone-against-unanimous-many shape exists
+only at its own cell's two offsets. The 813-times
+segment turns out to be the only segment of its
+size in its whole artifact, and its membership in
+the rare class hangs on a single word; every
+context in the artifact points at it exactly three
+times, in one neat channel-rotating triple whose
+starting seat wanders but whose shape never does —
+and the contexts that point at the rare class only
+three times point at this segment and nothing
+else, while the heavy contexts are heavy purely
+in the wider pool. The sister singleton's one
+agreeing offset is a seat where the entire group
+speaks with one voice — all eight instances
+identical — and the other sister's matching group
+simply has no such universal seat because its
+larger population is split across two grids plus
+one member off on its own. Next: the centre-value
+ladder as a population, what seats the universal
+triple, and unanimity offsets across the corpus.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
