@@ -3162,3 +3162,41 @@ mirror pair itself, the remaining steady
 exceptions under the head-act knife, and the high
 centres. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+2026-10-24 mirror pair anatomy, steady exceptions and high centres (AES-NUM-116,slice4.116):
+`docs/HAILO10H_MIRROR_PAIR_TRAIN_EXCEPTIONS_HIGH_CENTRES_2026-10-24.md`.
+The mirror twins, compared cell by cell, never
+once disagree about a centre: on all 2,981 cells
+the two networks share, every centre list and
+every one of the 48,988 instance readings matches,
+and where both are unanimous the centre is the
+same — the quarrel is never about content, only
+about membership, thousands of cells and groups
+existing in one network and not the other, and
+2,171 shared addresses carrying different context
+lists, usually one extra context in the second
+network slipping into the stride and extending
+the centre sequence by a single term. Below eight
+instances the second network also keeps eight
+small centres the first never shows, while at
+eight and above their centre sets are one
+identical thirteen. The triple's ten steady
+exceptions all carry a changed head and the same
+triple block, and train 49's extra-act mechanism
+explains seven of them outright — two in its very
+form, modal act restored after one inserted head
+act — while three keep the head mark without the
+measured shift, among them the one exception that
+steps down instead of up, correcting the record's
+older wording. And the high centres prove to be
+the vanishing population's upper tail: no centre
+of 192 or more ever reaches a group of eight, the
+whole clan lives in forty-nine small cells, most
+of them one network's pairs, and 255's absence at
+eight in the first network is the same rarity,
+not a separate law. Next: the divergent triples'
+inserted instances, the thirty-seven broken
+unanimities and the ninety-six word-only
+differences, and the three unshifted exceptions'
+heads. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

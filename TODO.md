@@ -2139,7 +2139,7 @@
   in the <8 frame.
   `docs/HAILO10H_VARYING_GROUPS_DEVIANTS_CENTRE_SETS_2026-10-24.md`.
 
-- [ ] Slice4.116 the mirror
+- [x] Slice4.116 the mirror
   pair 5ab3537d/773470cd
   anatomised (how deep the
   mirroring goes across the
@@ -2161,6 +2161,75 @@
   and 255's >=8-absence in
   0a0d378c; then broad
   ordinary UNMODIFIED
+  source-model support100%.
+  DONE (AES-NUM-116): on the
+  2,981 shared cells the pair
+  is centre-perfect (centres
+  equal 2,981/2,981 and
+  48,988/48,988 per instance,
+  zero differing centre
+  lists; words equal
+  2,885/2,981, 96 cells
+  centre-equal but
+  word-different); the pair
+  diverges by membership
+  (only-A 3,989 cells,
+  only-B 4,504; 2,171 shared
+  triples with different
+  cidx tuples) and by its
+  <8 centre sets (13 a
+  strict subset of 21),
+  the >=8 set verified
+  identical at 13 values.
+  The 10 exceptions are
+  nine at +1 and one at -1
+  (train 50 rank 26 — the
+  inherited "all +1" wording
+  corrected); all ten carry
+  an identical triple block
+  and a head mark, the
+  head-act explanation
+  covering 7 measured (train
+  49's form at train 48
+  ranks 11/12) and 3 head-
+  marked but unshifted
+  (NOT PROVEN). No centre
+  >=192 occurs at >=8
+  anywhere; 23 values live
+  in 49 <8 cells (cc9b9d1c
+  38 cells / 20 values, all
+  group size 2), and 255's
+  >=8 absence in 0a0d378c is
+  the same small-group
+  rarity.
+  `docs/HAILO10H_MIRROR_PAIR_TRAIN_EXCEPTIONS_HIGH_CENTRES_2026-10-24.md`.
+
+- [ ] Slice4.117 the mirror
+  pair's 2,171 membership-
+  divergent triples
+  anatomised (which side
+  carries the extra
+  instance, where it sits
+  in cidx order, and does
+  the inserted centre
+  continue the cell's
+  centre sequence?); the
+  37 shared cells unanimous
+  in 5ab3537d but not in
+  773470cd and the 96
+  centre-equal word-
+  different shared cells
+  (which instance / which
+  neighbourhood position
+  breaks or differs?); and
+  the three unshifted
+  exceptions (the train 48
+  ranks 1-2 pair's shared
+  head material; train 50
+  rank 26's head length
+  against its neighbours —
+  one act shorter?); then
+  broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

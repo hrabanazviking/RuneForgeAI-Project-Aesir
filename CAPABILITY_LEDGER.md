@@ -9296,3 +9296,109 @@ No new capability ID or hardware/complete-source execution claim.
   (>=192) per artifact with cc9b9d1c's 199-255 cluster
   (slice 4.116).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-116 — the mirror pair 5ab3537d/773470cd is centre-perfect on every shared cell (centres equal on 2,981 of 2,981 shared cells and all 48,988 shared instance observations, zero differing centre lists; full neighbourhood words equal on 2,885 of 2,981, the other 96 centre-equal but word-different), diverging by membership (3,989 cells only in 5ab3537d, 4,504 only in 773470cd; 2,171 shared (pos, segsize, offset) triples carrying different cidx tuples, typically one extra 773470cd instance extending the centre sequence by one term) and by its <8 centre sets (13 values a strict subset of 21), the >=8 set verified identical at 13 values; the 10 steady exceptions of trains 48/50/51 (4/2/4 at the recorded ranks under the reproduced fit) are nine at +1 above steady and one at -1 (train 50 rank 26, cidx 247 — the inherited "all +1" wording corrected), all ten carrying an identical triple block and a non-modal first act, with the head-act explanation covering some, not all: seven with the full train-49 signature (modal prev_act and neighbour-equal pre-triple windows; train 48 ranks 11/12 with exact head-insertion alignment), three with a head mark but no measured shift (the adjacent train 48 ranks 1/2 pair and train 50's -1 last rank); and no centre >=192 occurs at >=8 anywhere (23 values in 49 <8 cells: cc9b9d1c 38 cells / 20 values all at group size 2, 773470cd 7, 0a0d378c 2, 0856a10c 1, 5ab3537d 1), 255's >=8 absence in 0a0d378c verified as the same small-group rarity (its 2 <8 cells, group sizes 7 and 5, are the only high-centre cells above group size 2)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_MIRROR_PAIR_TRAIN_EXCEPTIONS_HIGH_CENTRES_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...115 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
+  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176;
+  CAMPS 21392/13, 21648/12); DONE105 at line 3,576, DONE106
+  at line 3,670, DONE107 at line 3,701 and DONE108 at line
+  3,910 of this run's output (hef116.py sha256 f45638fb...,
+  arms sha256 97e6fae0...; output 11,440 lines, 1,584,315 B,
+  sha256 ce267d39...). Shared enumeration reproduces
+  AES-NUM-112/113/114/115 exactly: 54,995 groups with >=2
+  instances, 1,323 with >=1 common offset, 55,902 analysable
+  cells, 527,236 observations; 11,242 all-distinct ladder
+  cells; 39,673 unanimous cells; AP subset 2,584 with the
+  exact step distribution {0: 352, +2: 26, +3: 489, +4: 741,
+  +6: 164, +8: 350, +9: 217, +12: 200, +24: 34, +40: 11};
+  non-AP subset 4,148 with 317 ordered / 298 multiset /
+  174 set profiles and distinct-diff counts {2: 1,877,
+  3: 1,317, 4: 797, 5: 157}; cc9 union 929; 813 target
+  oo 0 / size 304 / 813 refs; start distribution reproduced
+  {4: 1, 5: 47, 6: 31, 7: 83, 8: 56, 9: 44, 10: 9};
+  >=8 cells 25,566, unanimous 18,286, 29 centres, centre-1
+  561; target cell 773470cd pos-9/size-32784 off 11608 in
+  the >=8 unanimous set exactly once, centre ff010000.
+  (i) Groups: A 10,286 / B 10,196 total, shared 8,959,
+  only-A 1,327, only-B 1,237 (>=2 instances: A 7,531,
+  B 7,707, shared 6,464); shared groups with identical
+  (cidx, ng) instance lists 2,890, differing 6,069, of
+  which ng-only differences 0; the mirror group
+  (21, 32776) is identical at n 10 in both. Cells:
+  A 6,970, B 7,485, shared (pos, segsize, off, cidx-tuple)
+  2,981, only-A 3,989, only-B 4,504; (pos, segsize, off)
+  triples in both 5,152, cidx-tuple equal on 2,981,
+  different on 2,171. On shared cells centres equal
+  2,981/2,981, per-instance 48,988/48,988, differing
+  centre lists 0; words equal 2,885/2,981 (96.78%),
+  96 centre-equal but word-different; both-unanimous
+  2,386 with 0 centre disagreements; B-unanimous is a
+  subset of A-unanimous on shared cells, A holding 37
+  extra unanimous cells (centres 15 x28, 127 x9);
+  all-cells unanimous distribution L1 distance 499
+  (127: 495 vs 792; 15: 3,591 vs 3,729), shared-subset
+  L1 37. Breakdowns: A 5,653 unanimous / 1,191 distinct
+  / 126 other (521 AP, 399 non-AP); B 6,120 / 1,209 /
+  156 (595 AP, 363 non-AP); shared subset A 447 AP /
+  19 non-AP, B 449 AP / 19 non-AP. >=8 centre sets
+  identical 13 values {0, 1, 2, 5, 7, 11, 15, 23, 34,
+  69, 95, 127, 139} with counts within 6 per value;
+  <8 sets A 13 values a strict subset of B 21, B-only
+  {4, 17, 50, 192, 224, 233, 252, 255}.
+  (ii) Fit reproduced: trains 48/50/51 CONST_DOM steady
+  7/7/5, heads 0/1/0, exceptions (48: ranks 1, 2, 11, 12,
+  cidxs 140, 144, 180, 184, 7->8), (50: ranks 10, 26,
+  cidxs 183, 247, 7->8 and 7->6), (51: ranks 4, 9, 10,
+  25, cidxs 158, 178, 182, 242, 5->6). All ten: triple
+  block ((0, 304, 0), (0, 304, 1), (0, 304, 2)) identical
+  to both rank neighbours (19/19 comparisons),
+  next/next2 acts, target count 3, ngidx mod 4 and
+  cidx mod 4 universal, first act non-modal in all ten.
+  Head cause MEASURED for 7: train 48 ranks 11/12
+  (prev_act modal (1255554048, 24, 0); opening pair's
+  second act is the train modal first act (60413952,
+  24, 1); exact head-insertion alignment against one
+  neighbour each), train 50 rank 10 (prev_act modal,
+  all 24 steady members), train 51 ranks 4/9/10/25
+  (prev_act the shared (33324544, 24, 1); pre-triple
+  windows equal to both neighbours; ranks 4/9/25 share
+  one opening pair). NOT PROVEN (head mark, no shift)
+  for 3: train 48 ranks 1/2 (adjacent pair, unique
+  first acts and unique prev_acts, no alignment vs
+  any neighbour) and train 50 rank 26 (the -1
+  exception, last rank, unique prev_act (900765184,
+  24, 1)). Population: some, not all, not none;
+  prev_act modality separates the two classes exactly.
+  (iii) Centres >=192 at >=8 anywhere: none (corpus
+  >=8 maximum 191). Corpus <8 >=192: 23 values in 49
+  cells — cc9b9d1c 38 cells / 20 values {199: 9, 249:
+  3, 250: 3, 251: 3, 240: 2, 243: 2, 245: 2, 246: 2,
+  210/212/228/230/233/235/238/247/248/252/254/255: 1},
+  every cell group size 2, none in cc9b9d1c's >=8 set
+  or the corpus >=8 set; 773470cd 7 cells / 6 values
+  (192 x2, 224, 233, 239, 252, 255), all group size 2;
+  0a0d378c 255 x2; 0856a10c 254 x1; 5ab3537d 239 x1;
+  76c3a8ff and MiniLM 0. 255 in 0a0d378c: cells
+  (pos 16, size 32600, off 11888, n 7, cidxs [98, 104,
+  110, 122, 128, 146, 158]) and (pos 16, size 32712,
+  off 11888, n 5, cidxs [92, 116, 134, 152, 164]),
+  centre word ffff0000, >=8 count 0; corpus 255 =
+  4 <8 cells (0a0d378c 2, 773470cd 1, cc9b9d1c 1),
+  0 >=8 cells.
+- **Next:** the mirror pair's 2,171 membership-divergent
+  triples anatomised (which side carries the extra
+  instance, where it sits in cidx order, and whether
+  the inserted centre continues the cell's centre
+  sequence); the 37 A-unanimous-but-not-B shared cells
+  and the 96 centre-equal word-different shared cells
+  anatomised (which instance / neighbourhood position
+  breaks or differs); and the three unshifted
+  exceptions (the train 48 ranks 1-2 pair's shared
+  head material, and train 50 rank 26's head length
+  against its neighbours) (slice 4.117).
+- **Audit:** Host-side analysis only; no device child.
