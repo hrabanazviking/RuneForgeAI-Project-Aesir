@@ -8980,3 +8980,96 @@ No new capability ID or hardware/complete-source execution claim.
   to groups of >=8 instances and the value-15 unanimous
   centre's own determination (slice 4.113).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-113 — the per-cell ladder's (base, step) pair is a function of no tested group/offset field (only 72 distinct pairs among 2,584 AP cells; step strongly conditioned by artifact and cell length; (base, length) determines step at 89/92 keys — NOT PROVEN as a function); the 813 triple's start is not a function of sub-sequence position, but inside each stride-4 train the starts collapse to a near-constant or period-2 pattern after a head transient of at most 3 ranks (lag-8 agreement 0.6996 vs 0.2071 chance; the noted 8-block verbatim 12 times); and in the 11608 setting proper (groups of >=8 instances) unanimity holds at the corpus rate (18,286/25,566 cells, 71.52%), the centre population narrows to 29 values with ff0f0000 at 62.16% and ff010000 slightly over-represented at 3.07% vs its 2.56% corpus share, the unanimous centre a function of no tested group/offset field
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_LADDER_PARAMS_813_SUBSEQ_GE8_UNANIMITY_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...112 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
+  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176;
+  CAMPS 21392/13, 21648/12); DONE105 at line 3,576, DONE106
+  at line 3,670, DONE107 at line 3,701 and DONE108 at line
+  3,910 of this run's output (hef113.py sha256 f6249610...,
+  arms sha256 9f297504...; output 11,061 lines, 1,507,707 B,
+  sha256 ab3c3a01...). Shared enumeration reproduces
+  AES-NUM-112 exactly: 54,995 groups with >=2 instances,
+  1,323 with >=1 common offset, 55,902 analysable cells,
+  527,236 observations; 11,242 all-distinct ladder cells;
+  39,673 unanimous cells; AP subset 2,584 with the exact
+  step distribution {0: 352, +2: 26, +3: 489, +4: 741,
+  +6: 164, +8: 350, +9: 217, +12: 200, +24: 34, +40: 11};
+  cc9 union 929; 813 target oo 0 / size 304 / 813 refs;
+  start distribution reproduced {4: 1, 5: 47, 6: 31, 7: 83,
+  8: 56, 9: 44, 10: 9}; target cell 773470cd pos-9/
+  size-32784 off 11608 in the >=8 unanimous set exactly
+  once, centre ff010000.
+  (i) base0 == cell minimum in 11,224/11,242 ladder cells;
+  base spans 99 values (mode 15: 2,297; 127: 544; 1: 188).
+  Only 72 distinct (base0, step) pairs over 2,584 AP cells
+  (top (127,0) 226, (3,+3) 148, (1,+3) 126, (15,0) 126,
+  (10,+4) 119); step 0 pairs only with bases {127, 15},
+  +24 only with 2, +40 only with 12. AP cells are 2,584
+  of 6,732 length->=3 distinct cells; the 4,148 non-AP
+  cells carry 2-5 distinct diffs (mode diff +4: 864, +5:
+  445, +6: 428, +12: 401, +20: 242), diffs monotone in
+  only 502/660 of them. Determinism ALL ambiguous: art
+  (6/6), pos (step 23/51), segsize (23/161), off (212/
+  1,503), group (art,pos,segsize) (13/299 for step, base
+  and joint), (art,pos), (pos,segsize), (art,off),
+  (pos,off), first-ng, ng-set, first-cidx, residues;
+  over all distinct cells base and mode-diff likewise.
+  Step ~ base0 ambiguous 19/41; base0 ~ step 8/10.
+  Association measured: per-artifact step subsets
+  (0856a10c {0,+6,+12,+40}; 0a0d378c {0,+4,+6,+24};
+  5ab3537d {0,+3,+4}; 76c3a8ff {0,+2,+9,+12}; 773470cd
+  {0,+3,+4}; cc9b9d1c {0,+4,+8}); +8/+9/+2/+24/+40
+  artifact-exclusive; (base0, length) -> step
+  deterministic at 89/92 keys.
+  (ii) Start distribution reproduced. Determinism ALL
+  ambiguous on the sub-sequence cut: subseq (ng,nacts)
+  rank 28/28, rank-from-end 28/28, (rank,length) 64/93,
+  rank within nacts class 55/55, train rank 28/28,
+  train-relative index 28/28, stride/run-length keys,
+  stretch phase mod 8 7/8; train-rank mod k
+  deterministic for no k in 2..64. Measured regime:
+  217/271 contexts in 8 stride-4 trains; per-train
+  starts after a <=3-rank head transient are constant
+  (245-acts ng0: 8 x26 after a 5; 738 ng0: 7 x25 after
+  8,9,9; 256 ng1: 9 with one 10) or period-2 in rank
+  (259 ng0: (8,9) alternating; 607 ng0: (5,6)
+  alternating), <=4 distinct starts per train. Lag
+  agreement vs chance 0.2071: lag 4 0.5768, lag 8
+  0.6996, lag 12 0.5290, lag 16 0.6667, lag 24 0.6478;
+  non-multiples at/below chance (lag 2 0.0446). Lag-8
+  stretches cover 175/271 contexts (longest indices
+  11-109, 91 matches); block [5,8,8,7,6,8,9,7]
+  verbatim at indices 14,22,...,102 (12 times); 108
+  distinct length-8 windows of 264.
+  (iii) >=8-instance cells 25,566 (421,747 obs);
+  unanimous 18,286 (0.7152) vs corpus 0.7097 and <8
+  rate 0.7050. By artifact: 0856a10c 1,688/3,413
+  (0.4946); 0a0d378c 3,110/3,792 (0.8201); 5ab3537d
+  3,547/4,406 (0.8050); 76c3a8ff 2,682/4,096 (0.6548);
+  773470cd 3,643/4,555 (0.7998); cc9b9d1c 3,616/5,304
+  (0.6817); MiniLM none. Only 29 distinct centres
+  (vs 71 corpus-wide): 15: 11,367 (0.6216); 5: 1,267;
+  127: 1,030; 7: 875; 0: 818; 1: 561 (0.0307 vs
+  corpus share 0.0256, x1.20 over-represented;
+  0a0d378c carries 272/561 = 8.75% of its own >=8
+  unanimous cells; <8 centre-1 share 0.0213).
+  Determinism ALL ambiguous (group 471/590; pos
+  78/141; segsize 263/270; off 2,192/6,082;
+  (pos,off) 221/14,516); only 119/590 >=8 groups are
+  single-centre, 84 uniformly 15.
+- **Next:** the ladder near-laws' exceptions (the 3
+  ambiguous (base, length) keys; the 13 ambiguous group
+  keys; the step-0 base-127 vs base-15 split; the
+  non-AP difference profile as a population); the 813
+  start as a function of (train, rank regime) with the
+  in-train exception census and the 54 train-less
+  contexts; the centre-1 concentration inside
+  0a0d378c and the 42 centres that vanish at >=8
+  (slice 4.114).
+- **Audit:** Host-side analysis only; no device child.

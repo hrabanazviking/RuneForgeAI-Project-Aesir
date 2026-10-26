@@ -1915,7 +1915,7 @@
   1,016 (2.56%).
   `docs/HAILO10H_CENTRE_LADDER_813_START_UNANIMITY_CORPUS_2026-10-24.md`.
 
-- [ ] Slice4.113 the per-cell
+- [x] Slice4.113 the per-cell
   ladder's (base, step)
   parameters as a population
   (is the pair a function of
@@ -1937,6 +1937,73 @@
   centre a function of
   group/offset?); then
   broad ordinary UNMODIFIED
+  source-model support100%.
+  DONE (AES-NUM-113): the
+  (base, step) pair is a
+  function of NO tested
+  group/offset field
+  (NOT PROVEN) — only 72
+  distinct pairs among 2,584
+  AP cells; step is strongly
+  conditioned by artifact
+  (restricted per-artifact
+  step subsets, several
+  steps artifact-exclusive)
+  and by cell length, and
+  (base, length) determines
+  step at 89/92 keys. The
+  813 start is NOT a
+  function of sub-sequence
+  position (all rank/train
+  tests ambiguous), but
+  inside each stride-4
+  train the starts collapse
+  to constant or period-2
+  after a <=3-rank head
+  transient (lag-8 agreement
+  0.6996 vs chance 0.2071).
+  In the >=8 setting
+  unanimity holds at the
+  corpus rate (18,286/
+  25,566, 71.52%), centres
+  narrow to 29 values,
+  ff0f0000 at 62.16%,
+  ff010000 over-represented
+  at 3.07% vs its 2.56%
+  corpus share, and the
+  unanimous centre is a
+  function of no tested
+  group/offset field.
+  `docs/HAILO10H_LADDER_PARAMS_813_SUBSEQ_GE8_UNANIMITY_2026-10-24.md`.
+
+- [ ] Slice4.114 the ladder
+  near-laws' exceptions (the
+  3 ambiguous (base, length)
+  keys and the 13 ambiguous
+  group keys for (base,
+  step); the step-0 split
+  between base 127 and base
+  15; the non-AP difference
+  profile as a population —
+  is the profile a function
+  of group/offset?); the 813
+  triple's start as a
+  function of (train, rank
+  regime) — per-train head
+  length, steady-state form
+  and phase, the in-train
+  exception census, and the
+  54 contexts in no train;
+  and the centre-1
+  concentration in the >=8
+  setting (inside 0a0d378c,
+  is centre 1 a function of
+  (group, offset)?) plus the
+  42 unanimous centres that
+  vanish at >=8 and where
+  they live in the <8
+  population; then broad
+  ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

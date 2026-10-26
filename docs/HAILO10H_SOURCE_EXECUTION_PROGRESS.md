@@ -3046,3 +3046,33 @@ parameters, the triple's seat against
 sub-sequence position, and unanimity among the
 large groups. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 ladder parameters, 813 sub-sequence position, >=8 unanimity (AES-NUM-113,slice4.113):
+`docs/HAILO10H_LADDER_PARAMS_813_SUBSEQ_GE8_UNANIMITY_2026-10-24.md`.
+Taken as a population, each little staircase's
+starting step and stride turn out to be nobody's
+function: no address, size, position or family
+label decides them — yet only seventy-two
+(start, stride) pairs occur in the whole corpus,
+each network keeps its own short menu of strides
+(some strides belong to one network alone), and
+start-plus-length all but fixes the stride, with
+three stubborn exceptions. The universal triple's
+wandering seat likewise answers to no rank or
+train position — but cut the contexts into their
+stride-four trains and the wandering stops: inside
+each train the seat settles after at most three
+steps into one fixed place, or into a strict
+two-step dance, and the seat sequence agrees with
+itself four steps later seven times in ten against
+a one-in-five chance. And in the big-group setting
+proper, unanimity is exactly as common as anywhere
+else — the centres narrow to twenty-nine values,
+the fifteenth still enthroned, the first slightly
+more frequent than its corpus share on the
+strength of a single network — and no group or
+offset law chooses the centre there either.
+Next: the near-laws' exceptions, the triple's
+seat against (train, rank regime), and the
+centre-1 concentration. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.
