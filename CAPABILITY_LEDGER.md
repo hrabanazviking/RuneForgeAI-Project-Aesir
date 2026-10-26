@@ -8792,3 +8792,61 @@ No new capability ID or hardware/complete-source execution claim.
   per-offset differing positions and cross-group profile
   (slice 4.110).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-110 — cidx 44 is the singleton again at the mixed cell's second common offset 13664 (eq 1 via the shared +4 zero word; form separates here), but its singleton status is confined to that group (distinct 33/295 analysable offsets elsewhere, two-neighbourhood singleton pattern only at the cell's own 2 offsets); the cc9 929 are referenced by all 271 cc9 contexts, with one 304-byte segment taking 813 references (43.8% of the class, 100% of cc9's size-304 references) at head positions 5–12; the cidx-95 singleton's distances 2/0/2/1 are carried by fixed position sets (centre and −4 words differ at all 4 offsets, agreements are shared zero words only, no mixed positions), its cross-group test is vacuous in 5ab3537d and near-total in 773470cd (distinct 13/14)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_SECOND_OFFSET_929_POINTING_SINGLETON_POSITIONS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...109 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
+  DONE105 at line 3,576, DONE106 at line 3,670, DONE107 at
+  line 3,701 and DONE108 at line 3,910 of this run's output
+  (hef110.py sha256 372fdba3..., arms sha256 e2966a00...;
+  output 10,260 lines, 1,309,054 B, sha256 b420b5d7...).
+  (i) Mixed cell 0a0d378c pos 20 size 32752, common offsets
+  [13664, 17344]: at 13664 the same two neighbourhoods
+  (cidx 44 alone: 01000a00/4801a200/ff2d0000/00000000/
+  01000a00, DENSE 1 zero; six identical: 00000000/03000000/
+  ff0f0000/00000000/00100000, MID 2 zeros); cross pairs eq 1,
+  9 differing bytes, per-position (2,3,1,0,3) — the +4 zero
+  word is shared; form and zero pair (1,2) separate here,
+  unlike @17344. Cross-group (321 groups contain cidx 44,
+  11 analysable, 295 offsets): distinct-from-all 33,
+  form-unique 1, zero-unique 2, two-neighbourhood singleton
+  at exactly the cell's own 2 offsets, any-eq5 at 262/295;
+  eq-vs-partner {0: 6, 1: 9, 3: 4, 4: 360, 5: 3371} — the
+  only eq-0 pairs are the six @17344 pairs. Singleton
+  status is confined to the mixed cell's group.
+  (ii) cc9 929 referencing: 1,855 of 137,800 cc9 references;
+  all 271 contexts reference the class (182 exactly 3x;
+  top 50 contexts carry 62.2%); one size-304 segment is
+  referenced 813x = 43.8% of class references and 100% of
+  cc9's size-304 references, at head positions 5–12 in
+  rotating (pos,channel) triples (positions 5–12 hold 812
+  class refs at 13–50x share); remaining 928 segments:
+  814 referenced once, 114 twice (class mean 2.00 vs census
+  1.22, excess entirely the 813 segment). Channels mildly
+  tilted only ({0: 35.4, 1: 29.6, 2: 34.9}% vs {0: 38.9,
+  1: 31.4, 2: 29.7}%); per-word footprints fd 1,465 refs /
+  271 contexts, f6 559 / 60, e9 191 / 24.
+  (iii) Cidx 95 differing positions (identical in both
+  sisters): @11136 [1,2,4] differ, [0,3] equal (zero words);
+  @17272 all five differ (centre carries 9 distinct partner
+  words); @20300 [0,1,2] differ, [3,4] equal (zero words);
+  @32192 [0,1,2,4] differ, [3] equal. Centre and −4 words
+  differ at all 4 offsets; every agreeing position is a
+  shared all-zero word; no position is mixed at any offset.
+  Cross-group: 5ab3537d has NO second analysable group
+  (233 containing, 165 no-common, 67 single-instance) —
+  uniqueness elsewhere NOT PROVEN there (untestable);
+  773470cd's pos-9/size-32784 group (8 instances, 10
+  offsets): distinct 9/10, form/zero-unique 8/10, one
+  full-agreement offset (7 eq-5 partner pairs); combined
+  distinct 13/14.
+- **Next:** cidx 44's distinctness events outside its cell;
+  the 813-reference segment's anatomy and rotation law +
+  heavy vs exactly-3 cc9 contexts; cidx 95's one
+  non-distinct offset pair by pair + the sister pos-9
+  asymmetry (slice 4.111).
+- **Audit:** Host-side analysis only; no device child.

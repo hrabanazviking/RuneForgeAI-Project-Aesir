@@ -2951,3 +2951,31 @@ profile, who points at the cc9 929, and which
 positions carry the singleton's distance. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 second offset, 929 pointing, singleton positions (AES-NUM-110,slice4.110):
+`docs/HAILO10H_SECOND_OFFSET_929_POINTING_SINGLETON_POSITIONS_2026-10-24.md`.
+The mixed cell's second offset tells the same story
+at a smaller distance: cidx 44 stands alone again
+against the same six identical instances, but here
+they share one zero word and the distance is one
+position, not total — and everywhere else in its
+artifact cidx 44 is an ordinary instance, agreeing
+fully with partners at nearly nine offsets in ten;
+its lone-standing is a property of that one cell,
+not of the instance. The rare-word segments of
+cc9b9d1c turn out to be pointed at by every single
+context in the artifact, yet almost half of all
+that pointing lands on one small segment, referenced
+813 times from the head positions — the class's
+pointing identity is one universal segment plus a
+long ordinary tail. And the sister singleton's
+distances resolve into fixed seats: the centre and
+neighbour words differ at every offset, agreement
+lives only where both sides are zero, and in the
+one sister where a second group can be tested the
+singleton is almost — but not quite — as alone
+there. Next: cidx 44's distinctness outside its
+cell, the 813 segment's anatomy and rotation, heavy
+versus light cc9 contexts, and the singleton's one
+agreeing offset. Broad ordinary UNMODIFIED
+source-model support100% remains the destination.

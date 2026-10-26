@@ -1770,7 +1770,7 @@
   to @17272.
   `docs/HAILO10H_MIXED_CELL_CC9_CLASS_SINGLETON_2026-10-24.md`.
 
-- [ ] Slice4.110 the mixed
+- [x] Slice4.110 the mixed
   cell's second common offset
   and cidx 44's cross-group
   profile (same singleton kind
@@ -1786,6 +1786,61 @@
   and its profile in the other
   groups of its artifacts;
   then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+  DONE (AES-NUM-110): at the
+  second offset 13664 cidx 44
+  is the singleton again (same
+  two neighbourhoods), but at
+  eq 1 (shared +4 zero word),
+  and form separates here;
+  cross-group its singleton
+  status is confined to the
+  cell's group (distinct
+  33/295 offsets, any-eq5
+  262/295, its only eq-0 pairs
+  are the six @17344 pairs).
+  The cc9 929 are referenced
+  by all 271 contexts (1,855
+  refs); one 304 B segment
+  takes 813 of them (43.8%,
+  all of cc9's size-304 refs)
+  at head positions 5-12; the
+  other 928 are referenced
+  once/twice like ordinary
+  segments. Cidx 95's 2/0/2/1
+  distances sit in fixed
+  position sets ([1,2,4] / all
+  / [0,1,2] / [0,1,2,4]);
+  agreements are shared zero
+  words only, no mixed
+  positions; cross-group
+  vacuous in 5ab3537d (no
+  second analysable group),
+  near-total in 773470cd
+  (distinct 13/14, one
+  full-agreement offset).
+  `docs/HAILO10H_SECOND_OFFSET_929_POINTING_SINGLETON_POSITIONS_2026-10-24.md`.
+
+- [ ] Slice4.111 cidx 44's
+  distinctness events outside
+  its cell (33 offsets in the
+  pos 12/13/16/21/25/30
+  groups: singleton-vs-many
+  or general variation?); the
+  813-reference segment's
+  anatomy (its rare-word
+  contents) and rotating
+  (pos,channel) law, plus
+  heavy cc9 contexts (21-48
+  class refs) vs the 182
+  exactly-3 contexts; cidx
+  95's one non-distinct offset
+  in 773470cd's pos-9 group
+  pair by pair, and the same
+  pos-9 group in 5ab3537d
+  (why no common offset
+  there); then broad ordinary
   UNMODIFIED source-model
   support100%.
 
