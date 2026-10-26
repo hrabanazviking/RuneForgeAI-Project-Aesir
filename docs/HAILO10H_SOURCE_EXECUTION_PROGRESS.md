@@ -3372,3 +3372,48 @@ travel in, the other lone anchors, lane one's pairs by
 cell, and the aligned region read in full.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 the varying centres inside their sequences,
+the other lone anchors graded, lane one's pairs by
+group, and the aligned region read in full
+(AES-NUM-122,slice4.122):
+`docs/HAILO10H_VARYING_CENTRE_MEMBERS_ANCHORS_LANE1_SPLIT_ALIGNED_REGION_2026-10-24.md`.
+Inside the sequences they travel in, the varying
+centres are never endings and never strangers: across
+one hundred thirty-seven mid and thick sequences they
+sit at the start thirty-three times and in the
+interior one hundred four, at the end not once, and
+every step that touches them is a step the host
+sequence already takes. One of them travels in a
+single rigid shape — forty always second, always
+after thirty-two, always before forty-four — and
+forty-three's step out is always four. Of the other
+lone anchors, seven, eleven and ninety-five prove to
+be of the constant family after all, their extras
+continuing them inside their own unanimous triples
+without a single exception, while one hundred
+thirty-nine belongs to neither family: no triple, no
+extras, absent from the mirror pair entirely, yet
+twice filling a cell twenty-eight deep where no
+varying centre is ever found twice. Lane one's
+mirror pairs live in only three groups, and its
+famed width is one group's alone — two hundred
+sixteen pairs, each with its own difference — while
+a sister group's five pairs all share a single XOR;
+and the third byte's small shift is no function of
+the byte it shifts, save at the two extremes where
+the sign simply flips. The aligned region, read act
+by act, is exactly the three shared runs and nothing
+more: twenty-seven agreements, four differences in
+two adjacent pairs, each pair standing just before a
+run, and in each the two sides differ in the first
+component only. The long stranger context is far
+lonelier than its fellow — seven hundred nine of its
+acts live nowhere else — yet the two carry the very
+same high band of common acts.
+Next: the rigid patterns' host sequences read as
+wholes, the narrow group's five pairs, the four
+differing values read corpus-wide, and centre one
+hundred thirty-nine's two deep cells.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

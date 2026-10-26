@@ -2502,7 +2502,7 @@
   245 acts (no repeat).
   `docs/HAILO10H_CENTRE_SETS_LANE1_FORMS_CIDX267_PREFIX_END_2026-10-24.md`.
 
-- [ ] Slice4.122 the varying
+- [x] Slice4.122 the varying
   centres as sequence
   members (position/step of
   32/40/43/51 inside the
@@ -2519,7 +2519,64 @@
   (144 pos 190-220 vs 267
   pos 787-817) read in full
   and cidx 267's own
-  occurrence profile; then
+  occurrence profile. DONE:
+  varying members are start
+  33 / interior 104 / END 0
+  in 137 NONAP sequences,
+  every local step already
+  in the host's step set;
+  40 is one rigid pattern
+  (index 1, after 32, before
+  44, steps (8, 4)); anchors
+  7/11/95 are CONSTANT-LIKE
+  (own-unanimous extras
+  equality 41/41, 97/97,
+  8/8) and 139 is NEITHER
+  (no divergent triple, no
+  extras, absent from the
+  mirror pair, yet 28 per
+  cell twice); lane 1's
+  pairs live in 3 groups /
+  16 cells — width is group
+  (20, 32720)'s alone (216
+  pairs/diffs/XORs), group
+  (14, 9992)'s 5 pairs share
+  ONE XOR; byte 3 NOT
+  determined by A's byte 3
+  (35/61 multi-valued; only
+  0 -> +128 and 128 -> -128
+  single); the region
+  agrees 27 / differs 4
+  (195/196/204/205, only
+  component 1 differs); 267
+  is far lonelier than 144
+  (709/842 unique, mean
+  14.88 vs 170/245, 49.26)
+  on an identical high band
+  (30 @271, 1 @1058, 2
+  @1060).
+  `docs/HAILO10H_VARYING_CENTRE_MEMBERS_ANCHORS_LANE1_SPLIT_ALIGNED_REGION_2026-10-24.md`.
+
+- [ ] Slice4.123 the rigid
+  patterns' host sequences
+  read as wholes (are 40's
+  eight hosts clones? 43's
+  nineteen? 51's three
+  length classes?); lane
+  1's group (14, 9992) five
+  pairs tabulated in full
+  and group (20, 32720)'s
+  byte-3 table restricted
+  to that group alone; the
+  aligned region's four
+  differing component-1
+  values read corpus-wide
+  (where the B-side values
+  occur; whether the A-side
+  values pair with them
+  anywhere else); centre
+  139's two 28-occurrence
+  cells read in full; then
   broad ordinary UNMODIFIED
   source-model support100%.
 

@@ -9851,3 +9851,87 @@ No new capability ID or hardware/complete-source execution claim.
   the +597 aligned region read in full and cidx 267's
   own occurrence profile (slice 4.122).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-122 — The varying centres inside mid/thick sequences are always start or interior members whose local steps already belong to the host sequence (137 occurrences in 137 NONAP sequences, end positions ZERO, no foreign step introduced), with centre 40 in a single rigid pattern (always index 1 after 32, before 44, steps (8, 4), host length 7) and 43 near-rigid (index 1, step out always 4, next always 47); of the other single-centre anchors {7, 11, 95, 139}, 7/11/95 are CONSTANT-LIKE (divergent unanimous-centre triples 27/14/5 in mid/thick strata, unanimous ≥8 cells 875/287/73, extras equal to the centre inside their own unanimous-centred triples 41/41, 97/97, 8/8) while 139 is NEITHER (no divergent triple membership, no extras, absent from the mirror pair and 0a0d378c, yet per-cell multiplicity 28 twice and 2 unanimous-word cells, against the varying six's per-cell count of exactly 1 everywhere); lane 1's 224 pairs live in only 3 groups / 16 cells (219 pairs occur once, 5 occur 27×; every pair in exactly one cell and one group), the pooled width is group (20, 32720)'s alone (216 lanes / 216 pairs / 216 diffs / 216 XORs) while group (14, 9992)'s 5 pairs share ONE XOR and (19, 7712)'s 3 pairs share one XOR, and byte 3's difference is NOT determined by A's byte 3 (35 of 61 values multi-valued, max band width 26, only the sign-flip values 0 → +128 and 128 → −128 single-valued); the +597 aligned region agrees at exactly the 27 positions of AES-NUM-121's three shared runs and differs at exactly 4 (144 positions 195/196/204/205, two adjacent pairs each immediately before a shared run, components 2 and 3 identical, only component 1 differing, agreeing acts all corpus count 271), and cidx 267's occurrence profile (709 of 842 corpus-unique, mean 14.8824) is far lonelier than cidx 144's (170 of 245, mean 49.2612) while both carry the identical high band (30 acts at 271, 1 at 1,058, 2 at 1,060)
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_VARYING_CENTRE_MEMBERS_ANCHORS_LANE1_SPLIT_ALIGNED_REGION_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef122.py
+  sha256
+  `9ef555ac8c1385ead4ef893a6cca1b86e89e9a88a8a49a1488f4035b993b3b1f`,
+  arms122.py sha256
+  `9307034c16f7b8c9cbeb2b45f06ee24ef55c7629482631cde0b8a329cfc91639`,
+  arms gz sha256
+  `835f684fc1ee29e2ae8b43b0ab04dcf15cece18b73103409a27c0cdf31e19ec1`,
+  landed sha-gated on-device — hef122.py alone; analysis
+  completed by a one-shot local fallback (arms122 on the
+  on-VM hef120 base, two recorded repairs) whose output
+  reproduced every inherited control exactly; output
+  12,231 lines, 1,929,888 B, sha256
+  `11e2103a8a13521ce73113eebe552c589c09f3e590b957a9726d5868d6799764`,
+  retrieved gz sha256
+  `1159eedba095e87f4c6bf3d0f459a00177d77b63c0421ef1a4bb3af6048e49f8`
+  decompressing to the same output sha256, verified on
+  the VM at closing; DONE122 at output line 12,230).
+  Inherited controls exact: cells 55,902 / obs 527,236;
+  divergent triples 2,171, verdicts CONT 12,411 / BREAK
+  476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
+  unanimous 18,286 / 29 centres; differing lanes 2,584
+  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738};
+  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
+  steady 7, recorded head); lane 1 354 / 224 / 218 /
+  217; shared 267∩144 acts 36. (i) Varying members: 137
+  occurrences in 137 NONAP mid/thick sequences (32: 80 =
+  36 mid + 44 thick; 40: 8; 43: 19; 51: 30 = 29 + 1;
+  85/122: none); position classes start 33 / interior
+  104 / END 0; every local step in the host's own step
+  set in 137/137. 40: index 1 ×8, prev 32 ×8, next 44
+  ×8, steps (8, 4) ×8, length 7 ×8. 43: index 1 ×19,
+  next 47 ×19, step-out 4 ×19. 51: index {1: 10, 3: 19,
+  14: 1}, lengths {3: 10, 6: 19, 25: 1}. Anchors: 7 —
+  unanimous-centre 27 (13 mid + 14 thick), ≥8 unanimous
+  875/1,261, unanimous-word cells 2,122, extras 41 all
+  CONT, own-unanimous equality 41/41; 11 — 14 (4 + 10),
+  287/814, 459, extras 137 (121/11/5 CONT/BREAK/INDET),
+  97/97; 95 — 5 (2 + 3), 73/470, 207, extras 8 all CONT,
+  8/8 — all three CONSTANT-LIKE. 139 — NEITHER:
+  unanimous-centre 0, divergent membership 0, extras 0,
+  ≥8 containing 79 with 2 unanimous, unanimous-word
+  cells 2, per-cell {1 ×77, 28 ×2}, present in 4
+  artifacts only, absent from cc9b9d1c / 0a0d378c /
+  MiniLM. Varying six per-cell count exactly 1 in all
+  cells; constants' own-unanimous extras equality exact
+  (282/282 … 7,676/7,676 for 15 … 928/928). Cause NOT
+  PROVEN. (ii) Pairs by cell: 16 cells, lanes {1: 3,
+  27: 13}, pairs {1: 8, 27: 8}; by group: (14, 9992)
+  135 lanes / 5 pairs / 2 diffs / 1 XOR; (19, 7712) 3 /
+  3 / 2 / 1; (20, 32720) 216 / 216 / 216 / 216; pairs
+  occurring once 219, 27× 5; pair-in-cells and
+  pair-in-groups both {1: 224}. Byte 3: 61 A values,
+  determination FALSE (35 multi-valued), widths max 26
+  mean 6.197, pooled diffs 24; only 0 → +128 (2 pairs)
+  and 128 → −128 (6 pairs) single-valued with >1 pair.
+  Source NOT PROVEN. (iii) Region: agree 27 / differ 4;
+  agreeing = runs (5 @190, 7 @197, 15 @206) exactly;
+  flanks both differ; differing at 195/196/204/205 with
+  components 2/3 identical and only component 1
+  differing (A occ 27/54/27/27; B occ 4/4/4/6).
+  Profiles: 267 {1: 709, 2: 83, 4: 6, 6: 1, 15: 4,
+  39: 3, 47: 3, 271: 30, 1058: 1, 1060: 2}, mean
+  14.8824; 144 {1: 170, 2: 18, 3: 4, 7: 3, 25: 4,
+  26: 3, 27: 5, 28: 1, 29: 1, 44: 1, 54: 2, 271: 30,
+  1058: 1, 1060: 2}, mean 49.2612. 267 non-unique 133
+  acts / 11,689 other occurrences / 1,059 other
+  contexts; by artifact {cc9b9d1c: 9324, 76c3a8ff:
+  1058, 0856a10c: 767, 0a0d378c: 540}; top other
+  context cc9b9d1c cidx 130 (111 acts); 36 of the 133
+  also in cidx 144. Mechanism NOT PROVEN.
+- **Next:** the rigid patterns' host sequences read as
+  wholes (clone structure for 40's eight, 43's nineteen,
+  51's length classes); lane 1's group (14, 9992) five
+  pairs in full and group (20, 32720)'s byte-3 table
+  alone; the four differing component-1 values read
+  corpus-wide; centre 139's two 28-occurrence cells in
+  full (slice 4.123).
+- **Audit:** Host-side analysis only; no device child.
