@@ -3076,3 +3076,53 @@ Next: the near-laws' exceptions, the triple's
 seat against (train, rank regime), and the
 centre-1 concentration. Broad ordinary UNMODIFIED
 source-model support100% remains the destination.
+
+2026-10-24 ladder near-law exceptions, 813 train regime, centre-1 concentration and vanishing centres (AES-NUM-114,slice4.114):
+`docs/HAILO10H_LADDER_EXCEPTIONS_TRAIN_REGIME_CENTRE1_2026-10-24.md`.
+The near-laws' exceptions, opened up, are not
+noise: the three (base, length) keys that broke
+the last slice's almost-law each dissolve under
+one omitted field — the network itself, or the
+segment size — and the thirteen groups that
+carried two (base, step) pairs are the same
+thirteen for base, for step and for the pair,
+every one a flat step-0 ladder sharing a group
+with a rising one at different offsets. The two
+flat families themselves part cleanly: base 15
+is a length-3 creature of two networks with
+offsets spread across the whole segment, base
+127 ranges over eleven lengths and every network
+with its offsets penned in one narrow band, and
+together group, or position with length, decides
+the base exactly. The non-AP majority's
+difference profiles answer to no single field,
+yet a group all but fixes its profile — five
+hundred and eighteen of five hundred and twenty
+groups — and fixes its count of distinct
+differences exactly. The triple's seat, cut by
+train and rank regime, settles into the closest
+thing to a law yet: four trains exact after
+heads of one to three steps, the rest
+constant-dominant with ten steady exceptions in
+all, and every deviant in every train exactly
+one step above its train's steady seat; the
+fifty-four contexts in no train are fifty-three
+members of classes too small to form one, plus a
+single residue outlier. And in the first
+network's big groups the centres are only the
+eight values 0, 1, 3, 7, 15, 31, 63, 127 — yet
+the first of them still answers to no group or
+offset law — while the forty-two centres that
+vanish in big groups turn out to live in only a
+hundred and sixteen small cells in the whole
+corpus, mostly pairs in a single network.
+(A first run of this slice died on a one-line
+arms defect in the step-0 section; it was fixed
+and rerun, and the completed sections of the
+first run are byte-identical to the corrected
+run.) Next: the non-AP profile's two varying
+groups, the train regime's two absorbed
+deviants and the 873 classes, and the 2^k-1
+centre-set shape per network. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

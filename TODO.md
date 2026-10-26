@@ -1976,7 +1976,7 @@
   group/offset field.
   `docs/HAILO10H_LADDER_PARAMS_813_SUBSEQ_GE8_UNANIMITY_2026-10-24.md`.
 
-- [ ] Slice4.114 the ladder
+- [x] Slice4.114 the ladder
   near-laws' exceptions (the
   3 ambiguous (base, length)
   keys and the 13 ambiguous
@@ -2004,6 +2004,97 @@
   they live in the <8
   population; then broad
   ordinary UNMODIFIED
+  source-model support100%.
+  DONE (AES-NUM-114): the 3
+  ambiguous (base, length)
+  keys dissolve under
+  artifact (13,13) and (4,27)
+  or segment size (4,16);
+  the 13 ambiguous group
+  keys are the same keys for
+  base, step and pair, each
+  coupling a step-0 pair
+  with a rising pair at
+  disjoint offsets. The
+  step-0 split IS determined
+  by group and by (pos,
+  length): base 15 is
+  length-3 only in
+  76c3a8ff/cc9b9d1c with
+  spread offsets, base 127
+  spans lengths 3-27 in all
+  artifacts with offsets
+  confined to 5,988-8,672.
+  The non-AP profile (317
+  ordered profiles over
+  4,148 cells) is a function
+  of no tested single field
+  (NOT PROVEN) but is
+  group-determined at
+  518/520 groups, ndiff
+  exactly. The 813 start
+  under (train, rank
+  regime): four trains exact
+  after heads of 1-3 ranks,
+  train 49 constant with one
+  head-absorbed deviant,
+  three trains
+  constant-dominant with
+  exactly 10 steady
+  exceptions, every deviant
+  exactly +1 above its
+  regime; the joint model
+  is correct on 188/198
+  steady ranks but is NOT a
+  function (7/25 keys
+  ambiguous). The 54
+  train-less contexts are
+  53 members of classes of
+  size <=6 plus one residue
+  outlier (cidx 2 of the
+  (0,607) class). Inside
+  0a0d378c centre 1 is a
+  function of no tested
+  field (NOT PROVEN); its
+  >=8 centre set is exactly
+  {0,1,3,7,15,31,63,127}.
+  The 42 vanishing centres
+  live in only 116 <8
+  unanimous cells (0.54%),
+  36/42 single-artifact,
+  mostly cc9b9d1c size-2
+  groups.
+  `docs/HAILO10H_LADDER_EXCEPTIONS_TRAIN_REGIME_CENTRE1_2026-10-24.md`.
+
+- [ ] Slice4.115 the non-AP
+  profile's last exceptions
+  (the 2 groups of 520 whose
+  non-AP profile varies
+  within the group — do
+  their variants separate
+  by offset?); the train
+  regime's two absorbed
+  deviants (train 49's
+  rank-10 start of 10 and
+  the train-less cidx 2 of
+  the (0,607) class — any
+  tested mark of the
+  deviation in the
+  surrounding contexts?)
+  plus the two size-6
+  873-acts classes (any
+  period in cidx organising
+  their 12 starts?); and
+  the 2^k-1 centre set (is
+  0a0d378c's >=8 centre set
+  {0,1,3,7,15,31,63,127} the
+  shape of the other
+  artifacts' >=8 centre
+  sets, and of the <8
+  population — the exact
+  centre sets per artifact
+  in both settings?); then
+  broad ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

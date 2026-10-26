@@ -9073,3 +9073,127 @@ No new capability ID or hardware/complete-source execution claim.
   0a0d378c and the 42 centres that vanish at >=8
   (slice 4.114).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-114 — the ladder near-laws' exceptions anatomised (the 3 ambiguous (base, length) keys dissolve under artifact or segment size; the 13 ambiguous group keys are identical for base, step and pair, each coupling a step-0 pair with a rising pair; the step-0 base-127 vs base-15 split is determined by group and by (pos, length), base 15 being length-3 only in two artifacts and base 127's offsets confined to 5,988–8,672; the non-AP difference profile is a function of no tested single field — NOT PROVEN — but group-determined at 518/520 groups with ndiff a function of group exactly); the 813 start formalised as (train, rank regime) with 10 steady-region exceptions, all exactly +1 above regime, the joint model correct on 188/198 steady ranks but NOT a function, and the 54 train-less contexts characterised as 53 small-class members plus one residue outlier; inside 0a0d378c centre 1 is a function of no tested field (its >=8 centre set is exactly {0, 1, 3, 7, 15, 31, 63, 127}), and the 42 centres vanishing at >=8 live in only 116 <8 unanimous cells
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_LADDER_EXCEPTIONS_TRAIN_REGIME_CENTRE1_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...113 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
+  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176;
+  CAMPS 21392/13, 21648/12); DONE105 at line 3,576, DONE106
+  at line 3,670, DONE107 at line 3,701 and DONE108 at line
+  3,910 of this run's output (hef114.py sha256 6dd4dc5d...,
+  arms sha256 f488bad3...; output 11,567 lines, 1,596,967 B,
+  sha256 46bfc17e...). A first run (script sha256 9ff5bbbb...)
+  died on a one-line arms defect in the step-0 section and
+  was rerun corrected, the 4.112 pattern; its completed
+  sections are byte-identical to the corrected run (md5
+  verified on-device). Shared enumeration reproduces
+  AES-NUM-112/113 exactly: 54,995 groups with >=2 instances,
+  1,323 with >=1 common offset, 55,902 analysable cells,
+  527,236 observations; 11,242 all-distinct ladder cells;
+  39,673 unanimous cells; AP subset 2,584 with the exact
+  step distribution {0: 352, +2: 26, +3: 489, +4: 741,
+  +6: 164, +8: 350, +9: 217, +12: 200, +24: 34, +40: 11};
+  72 (base, step) pairs; non-AP subset 4,148 with
+  distinct-diff counts {2: 1,877, 3: 1,317, 4: 797, 5: 157};
+  cc9 union 929; 813 target oo 0 / size 304 / 813 refs;
+  start distribution reproduced {4: 1, 5: 47, 6: 31, 7: 83,
+  8: 56, 9: 44, 10: 9}; >=8 cells 25,566, unanimous 18,286,
+  29 centres, centre-1 561 with 272 in 0a0d378c (0.0875);
+  target cell 773470cd pos-9/size-32784 off 11608 in the
+  >=8 unanimous set exactly once, centre ff010000.
+  (i) The 3 ambiguous (base0, n) keys: (13, 13) steps
+  {+4, +8} over 43 cells, artifact step-pure (0a0d378c
+  +4; cc9b9d1c +8); (4, 16) {+4, +6} over 64 cells in one
+  artifact, segment size step-pure at all 9 sizes;
+  (4, 27) {+3, +4} over 27 cells, artifact step-pure
+  (span/basemax separations recorded as tautologies).
+  The 13 ambiguous group keys are the same keys for
+  step, base and joint pair; each group carries exactly
+  two pairs, always a step-0 pair ((127, 0) or (15, 0))
+  plus a rising pair ((3, +3), (14, +6), (87, +2),
+  (85, +2), (41, +4), (14, +8), (18, +8), (9, +8),
+  (13, +8)), at disjoint offsets. Step-0 split: base 15
+  only at length 3 (126/126), only in 76c3a8ff (65) and
+  cc9b9d1c (61), offsets spread 20-32,548 (125 distinct);
+  base 127 at lengths {3, 5, 6, 7, 9, 12, 13, 14, 18,
+  26, 27} in all six artifacts, offsets confined to
+  5,988-8,672 (167 distinct); base ~ group deterministic
+  (32 keys, 0 ambiguous) and base ~ (pos, n) deterministic
+  (28 keys), no single field deterministic (art 2/6,
+  pos 3/17, segsize 2/19, off 1/291, n 1/11, (art, n)
+  1/20). Non-AP profile: 317 ordered / 298 multiset /
+  174 set profiles; top multiset twenty-four +4s and one
+  +8 (103 cells); top diff set {+4, +8} (451); every
+  single-field determinism test ambiguous (off 1,070/
+  1,929; (pos, segsize) 45/469 the closest single pair);
+  group key ambiguous only 2/520 for ordered, multiset
+  and set profiles; ndiff ~ group deterministic exactly
+  (520 keys, 0 ambiguous).
+  (ii) Per-train formalisation (head = leading ranks
+  before an exactly constant / period-2 tail): train 44
+  head 1 CONST 8; train 45 head 2 P2 (8, 9); train 46
+  head 1 P2 (5, 6); train 47 head 3 CONST 7 — all with
+  0 steady exceptions. Train 49 CONST 9 with one deviant
+  (10 at rank index 10, cidx 181) priced by the exact-fit
+  formalism as an 11-rank head. Trains 48/50/51
+  constant-dominant (7/7/5) with steady exceptions
+  4/2/4: train 48 starts of 8 at rank indices 1, 2
+  (cidx 140, 144) and 11, 12 (cidx 180, 184); train 50
+  an 8 at index 10 (cidx 183) and a 6 at the last index
+  26 (cidx 247); train 51 starts of 6 at indices 4, 9,
+  10, 25 (cidx 158, 178, 182, 242). Exception census:
+  10 steady exceptions, all exactly +1 above their
+  train's steady value (five 8s over 7, five 6s over 5),
+  plus train 49's +1 deviant. Joint determinism:
+  (train, region, phase) ambiguous 7/25; (train, region,
+  parity) 7/25; (train, parity) 12/16; train alone 8/8;
+  fitted model correct 188/198 steady ranks; only
+  (train, rank) memorisation deterministic. Train-less
+  54: class sizes {1: 9, 2: 8, 3: 24, 6: 12, 26: 1};
+  53 in classes of size <=6 (both 873 classes, longest
+  stride-4 run 3); the single large-class outlier is
+  cidx 2 of (ng0, 607) (start 6, residue run length 1
+  against the class's 25-context train 46). Membership
+  ~ class ambiguous 1/31, ~ class size 1/7. Train-less
+  start distribution {4: 1, 5: 9, 6: 14, 7: 10, 8: 11,
+  9: 3, 10: 6}, mean 7.0000 vs in-train 7.1982; start a
+  function of no tested field within the train-less set.
+  (iii) Centre-1 rates among >=8 unanimous cells:
+  0a0d378c 272/3,110 (0.0875; 48.48% of all 561);
+  cc9b9d1c 178/3,616 (0.0492); 773470cd 45/3,643
+  (0.0124); 5ab3537d 39/3,547 (0.0110); 76c3a8ff
+  21/2,682 (0.0078); 0856a10c 6/1,688 (0.0036). <8
+  centre-1: 455 total, 0a0d378c carrying 313. Inside
+  0a0d378c the >=8 centre set is exactly {0, 1, 3, 7,
+  15, 31, 63, 127} (counts 98/272/150/270/1,924/114/
+  108/174); centre and is-centre-1 determinism ALL
+  ambiguous (group 65/89 and 56/89; off 227/2,406 and
+  75/2,406; pos 19/38 and 18/38; first-cidx 26/28 and
+  23/28); 56/89 groups carry >=1 centre-1 cell, 0
+  uniformly centre-1, 24 single-centre; 260 offsets
+  carry centre 1, 75 of them with another centre too.
+  The same binary tests fail in every other artifact.
+  The 42 vanishing centres are {4, 9, 10, 12, 18, 21,
+  25, 26, 28, 39, 48, 49, 50, 53, 77, 101, 119, 128,
+  149, 192, 199, 210, 212, 224, 228, 230, 233, 235,
+  238, 239, 240, 243, 245, 246, 247, 248, 249, 250,
+  251, 252, 254, 255}; their <8 homes total 116 cells
+  of 21,387 (0.0054); home counts {1: 18 centres, 2: 12,
+  3: 5, 4: 3, 5: 1, 9: 1, 15: 1, 18: 1}; largest homes
+  centre 119 (18 cells, all cc9b9d1c), 39 (15, cc9b9d1c),
+  199 (9, cc9b9d1c), 101 (5, all 0856a10c); 36/42
+  single-artifact; homes predominantly in size-2
+  groups; the other 26 centres occur in both
+  populations (21,271 <8 cells).
+- **Next:** the non-AP profile's 2 varying groups of
+  520 anatomised (offset separation?); the train
+  regime's two absorbed deviants (train 49's rank-10
+  10; train-less cidx 2 of the (0, 607) class) and
+  the two size-6 873-acts classes' 12 starts; and
+  the 2^k-1 centre-set shape per artifact in the
+  >=8 and <8 settings (slice 4.115).
+- **Audit:** Host-side analysis only; no device child.
