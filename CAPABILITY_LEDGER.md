@@ -8739,3 +8739,56 @@ No new capability ID or hardware/complete-source execution claim.
   (set overlaps, joint size/offset structure); the sister
   cidx-95 SPARSE singleton's uniqueness (slice 4.109).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-109 — the mixed @17344 cell resolves to two neighbourhoods (cidx 44 alone vs six identical instances; neighbourhood identity and the zero-count pair separate 0/5 from 5/5 inside the cell, form does not); the cc9 rare-containing segments are a distinct subpopulation (overlaps 37–1325x independence, 11 sizes only, Q2+Q4 hold 91.8%); the sister cidx-95 SPARSE singleton is unique at all 4 common offsets of its group in both sister artifacts (total disagreement confined to @17272)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_MIXED_CELL_CC9_CLASS_SINGLETON_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...108 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
+  DONE105 at line 3,576, DONE106 at line 3,670, DONE107 at
+  line 3,701 and DONE108 at line 3,910 of this run's output
+  (hef109.py sha256 508cee03..., arms sha256 16d06f99...;
+  output 9,554 lines, 1,204,591 B, sha256 a1b85028...).
+  (i) Mixed cell 0a0d378c pos 20 size 32752 @17344: 7 instances,
+  exactly 2 distinct neighbourhoods (cidx 44 alone:
+  04000a00/a000a280/ff000000 x3, DENSE 0 zeros; cidx 83/143/149/
+  155/161/167 identical: 00000000/e7ff0100/ff010000/77070000/
+  07000000, DENSE 1 zero). All 21 pairs: the 6 zero pairs are
+  exactly 44 x each other (10 differing bytes, per-position
+  (2,4,1,2,1)); the 15 identical pairs are within the six.
+  Separators inside the cell: neighbourhood identity and the
+  zero-count pair (0,1) vs (1,1) SEPARATE; every position's
+  word separates; form pair does NOT (both classes
+  (DENSE,DENSE)). The AES-NUM-108 within-cell NOT PROVEN is
+  closed for this cell.
+  (ii) cc9 containing sets fd 569 / f6 497 / e9 170, union 929
+  of 112,884: overlaps fd x f6 251 vs 2.51 expected (100.2x),
+  fd x e9 33 vs 0.857 (38.5x), e9 x f6 28 vs 0.748 (37.4x),
+  triple 5 vs 0.0038 (1325x); 302 segments hold >=2 words;
+  exclusive fd-only 290, f6-only 223, e9-only 114. Class
+  segments take only 11 sizes (32784 = 542/929 = 58.3% vs
+  28.4% census share; mean 24,636.3 vs census 19,766.5);
+  e9 spans only 4 sizes. Total occurrences per union segment
+  1-38, mean 3.96. Offset quartiles: union [19,461,57,392]
+  vs census near-uniform — Q2+Q4 = 91.8% of the class vs
+  49.1% of the census, same pattern per word. The class is
+  a distinct subpopulation, not a density artefact.
+  (iii) Sister groups (5ab3537d and 773470cd pos 21 size
+  32776; identical numbers in both): 4 common offsets
+  (11136, 17272, 20300, 32192); cidx 95's neighbourhood is
+  distinct from all 9 partners', its form unique and its
+  zero count unique at EVERY offset (MID 2 zeros @11136,
+  SPARSE 3 @17272/20300/32192); singleton-vs-partner eq is
+  a single value per offset (2, 0, 2, 1); partner-partner
+  eq 5 x36 @11136/20300 and {2: 8, 4: 28} @17272/32192.
+  Uniqueness is group-wide; total disagreement (eq 0) is
+  confined to @17272, and eq 5 never occurs for the
+  singleton.
+- **Next:** the mixed cell's second common offset and
+  cidx 44's cross-group profile; the referencing-action
+  profile of the cc9 929; the cidx-95 singleton's
+  per-offset differing positions and cross-group profile
+  (slice 4.110).
+- **Audit:** Host-side analysis only; no device child.

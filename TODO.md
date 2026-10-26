@@ -1726,7 +1726,7 @@
   cc9 segments.
   `docs/HAILO10H_ZERO25_EXACTLY3_CC9_DENSITY_2026-10-24.md`.
 
-- [ ] Slice4.109 the mixed
+- [x] Slice4.109 the mixed
   0a0d378c @17344 cell pair
   by pair (its 6 zero pairs
   vs its 15 identical pairs:
@@ -1741,6 +1741,50 @@
   its group (do the 9 DENSE
   partners agree at any
   other common offset?);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+  DONE (AES-NUM-109): the cell
+  holds exactly 2 neighbourhoods
+  — cidx 44 alone vs the other
+  six identical; the 6 zero
+  pairs are exactly 44 x each
+  other, the 15 identical pairs
+  are within the six; identity
+  and the zero pair (0,1) vs
+  (1,1) separate inside the
+  cell, form does not (both
+  (DENSE,DENSE)). The cc9 929
+  are a distinct subpopulation:
+  overlaps 100.2x/38.5x/37.4x
+  independence (triple 1325x),
+  only 11 sizes (32784 = 58.3%
+  of the class), offset
+  quartiles Q2+Q4 = 91.8%.
+  Cidx 95 is unique at all 4
+  common offsets of its group
+  in both sisters (identity,
+  form, zero count); eq vs
+  partners 2/0/2/1 per offset —
+  total disagreement confined
+  to @17272.
+  `docs/HAILO10H_MIXED_CELL_CC9_CLASS_SINGLETON_2026-10-24.md`.
+
+- [ ] Slice4.110 the mixed
+  cell's second common offset
+  and cidx 44's cross-group
+  profile (same singleton kind
+  elsewhere?); the cc9 929's
+  referencing-action profile
+  ((pos,size,channel) actions
+  and contexts pointing at
+  them vs all cc9 references);
+  the cidx-95 singleton's
+  per-offset differing
+  positions (which positions
+  carry its 2/0/2/1 distances)
+  and its profile in the other
+  groups of its artifacts;
   then broad ordinary
   UNMODIFIED source-model
   support100%.

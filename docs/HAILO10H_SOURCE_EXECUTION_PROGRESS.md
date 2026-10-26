@@ -2923,3 +2923,31 @@ mixed cell pair by pair, the rare-containing segments
 as a class, and the sister singleton's uniqueness.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 mixed cell, cc9 class, singleton uniqueness (AES-NUM-109,slice4.109):
+`docs/HAILO10H_MIXED_CELL_CC9_CLASS_SINGLETON_2026-10-24.md`.
+The one cell that held both disagreement and identity
+resolves into two neighbourhoods and nothing else:
+seven instances, but six of them carry the identical
+neighbourhood, and the seventh — cidx 44 — stands
+alone. Every total-disagreement pair in the cell is
+cidx 44 meeting one of the six; every identical pair
+is two of the six meeting each other. Inside the cell
+the classes are separated by neighbourhood identity
+itself and by the zero-count pair, but not by form —
+both sides are DENSE. The rare-word segments of
+cc9b9d1c prove to be a real subpopulation, not a
+counting shadow: the three words share segments a
+hundred times more often than independence allows,
+the class uses only eleven segment sizes, and over
+ninety percent of it sits in two offset quartiles.
+And the sister singleton cidx 95 is not a one-offset
+curiosity: at every common offset of its group, in
+both sister artifacts, its neighbourhood, form and
+zero count are unique — yet only at 17272 does that
+uniqueness become total disagreement. Next: the
+mixed cell's second offset and cidx 44's wider
+profile, who points at the cc9 929, and which
+positions carry the singleton's distance. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
