@@ -3476,3 +3476,68 @@ context by context, the four break contexts against
 each other, and the spans between the shared runs.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 the six families of one hundred
+thirty-nine read as whole sequences, its shared cell
+set inside the mirror pair's whole shared population,
+the third byte's near-misses read pair by pair and
+its determination tested on three bytes together,
+the eight blocks read context by context along their
+paths, the four break contexts set against each
+other, and the spans between the shared runs read
+one by one (AES-NUM-124,slice4.124):
+`docs/HAILO10H_CENTRE139_FAMILIES_MIRRORPOP_BYTE3_TRAJECTORIES_BREAKCTX_SPANS_2026-10-24.md`.
+Each of the six families holds exactly one centre
+sequence: the family's context tuple settles the
+sequence outright, and a context carries the same
+centre in every family that holds it — the families
+are windows, long and short, on one ladder in each
+artifact, one hundred thirty-nine always the closing
+centre in the one, always an interior centre after
+one hundred thirty in the other. Set inside the
+mirror pair's whole shared population — two thousand
+nine hundred eighty-one shared cells — its one
+shared cell stands alone of its kind: the only cell
+in all that population whose centres are one hundred
+thirty-nine throughout, where centre fifteen alone
+holds one thousand seven hundred eight such cells.
+The third byte's difference, undetermined by every
+key tried before, is determined by the third byte
+together with the first and second: two hundred
+twenty-two keys over two hundred twenty-four pairs,
+no counterexample anywhere, and the only two keys
+holding two pairs are narrow sign-flip keys whose
+pairs differ solely in the byte the key does not
+see. The near-miss pairs themselves are five, not
+six, and all live in the wide group's last two
+blocks. Along the eight blocks, every context's pair
+changes utterly at every step — nothing of it
+survives — yet both sides climb strictly as the
+offset climbs, for all twenty-seven contexts, and
+not one of the one hundred eighty-nine steps on
+either side ever repeats. The four break contexts
+prove to be two pairs of kin: one hundred fourteen
+with two hundred fifty-one, one hundred thirty with
+two hundred sixty-seven, while across the pairs they
+share almost nothing but the head and the long tail
+that holds the break pairs — which stand at the
+same two places in all four, though neither of the
+other side's break acts appears in any of them; and
+one pairing alone, one hundred thirty against two
+hundred fifty-one, turns some of its shared acts
+against their order. Between the nineteen shared
+runs of one hundred thirty and two hundred
+sixty-seven, the spans balance to the act: seven
+hundred thirty-nine unshared acts on each side,
+though span by span their lengths mostly differ,
+and the eight shared acts that belong to no run lie
+scattered inside them.
+Next: the three-byte determination read as a map,
+the one hundred eighty-nine steps of the wide group
+read as a population, the common core of the four
+break contexts, the shared wealth of one hundred
+fourteen and two hundred fifty-one read in full, and
+the inversions of one hundred thirty against two
+hundred fifty-one found act by act.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

@@ -10072,3 +10072,118 @@ No new capability ID or hardware/complete-source execution claim.
   the non-shared spans between 130↔267's 19 shared runs
   (slice 4.124).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-124 — Centre 139's six DISTINCT-cell families each carry exactly ONE centre sequence (the cidx tuple determines the sequence; a cidx carries the same centre in every family that contains it; 139 closes the three 0856a10c sequences after 134/124 and sits inside the three 76c3a8ff step-9 ladder sequences after 130, before 148/166; centreword `ff8b0000` and ng 1 at 139 in 77/77 cells), and the shared mirror cell (21, 30768, 15368) is the UNIQUE single-centre-139 cell in the mirror pair's full shared-cell population (2,981 cidx-keyed shared cells = the non-divergent 1-1 triples counted the other way; centres equal 2,981/2,981, words equal 2,885/2,981; both-unanimous 2,386; single-centre A-side cells 2,520 by centre {15: 1708, 5: 284, 127: 191, 0: 176, …, 139: 1}); lane 1's byte-3 difference IS determined by (A byte 3, A byte 1, A byte 2) — 222 keys, zero counterexamples over all 224 pairs, NOT injective (the only two multi-pair keys are narrow sign-flip keys (128, 1, 176) and (128, 1, 178), each carrying two (14, 9992) pairs differing only in byte 0, both byte-3 diff −128; within group (20, 32720) the key is injective 216/216; group adds nothing) — the first non-vacuous determination in the byte-3 line, mechanism NOT PROVEN; the five distinct near-miss pairs under the old violating keys (six key-selections, one pair under both) all live in group (20, 32720) at centre 127, four in its last block (off 7272) and one at off 7204; that group's per-cidx trajectories across its eight disjoint blocks change everything except the frame (8 distinct A / B / pairs / diffs / XORs for every one of the 27 cidxs; constant A/B/pair/diff/XOR 0/27 each) yet A and B both strictly increase with block offset for all 27 cidxs and all 189 consecutive-block delta-A and delta-B values are positive and pairwise distinct (delta-diff likewise 189 distinct); the four break contexts {114, 130, 251, 267} are all 842 acts on the identical high band (30 @271 / 1 @1,058 / 2 @1,060) and form two near-pairs — {114, 251} sharing 168 acts in 21 runs (longest 54 at identical positions 130–183) and {130, 267} sharing 111 in 19 — while every cross-pair shares only 37–40 acts (the head 3-run and the shared tail run holding both 267-side break pairs, which stand at positions 792/801 in all four contexts; the 144-side pairs' acts are absent from all four), and 130×251 alone inverts (110 of 780 shared pairs); the non-shared spans between 130↔267's 19 runs total 739 acts on EACH side (103 in runs + 739 in spans = 842 both sides) over 20 spans (8 of equal length on the two sides), holding the 8 isolated shared singles
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_CENTRE139_FAMILIES_MIRRORPOP_BYTE3_TRAJECTORIES_BREAKCTX_SPANS_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef124.py
+  sha256
+  `6727c3a6843af0ad9b5dbe53defa2c0af58db361a271cb5bb06eb4a5d4ee5a83`,
+  arms124.py sha256
+  `c8c5448d8d88e3c4bace0a362294b0ed8ea18ee61c36428b1bc3920197b6f9c1`,
+  arms gz sha256
+  `9943dee84da718a6f6f2b7233594efc7543967e824d0ea68ea84761d9ab2838c`,
+  landed on-device as 18 individually sha-gated parts —
+  p_ad failed its gate twice (deterministic corruption)
+  and landed as two halves at a new boundary, p_al /
+  p_am / p_ao discarded on failed gates and resent
+  sequentially; concatenated and whole-verified;
+  hef124.py assembled on-device from the verified
+  hef122 base + arms124, on-device sha == VM; ran
+  detached to DONE124; output
+  12,572 lines, 2,044,686 B, sha256
+  `0b8b990f3104ac05a9ddfc038f8ec914983fd080874fe1ab0e5c802504314815`,
+  retrieved gz sha256
+  `9588729cc754780c29c58093fd91364daf6b13d79892d79f5a63955dd03abd1f`
+  decompressing to the same output sha256, verified on
+  the VM at closing; DONE124 at output line 12,572;
+  the 4.124 section begins at output line 12,231).
+  Inherited controls exact: cells 55,902 / obs 527,236;
+  divergent triples 2,171, verdicts CONT 12,411 / BREAK
+  476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
+  unanimous 18,286 / 29 centres; differing lanes 2,584
+  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738};
+  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
+  steady 7, recorded head); lane 1 354 / 224 / 218 /
+  217; shared 267∩144 acts 36. (i)(a) Families:
+  0856a10c n21 ×8 seq [4, 14, …, 134, 139] idx 20 prev
+  134; n20 ×23 seq [14, 19, …, 134, 139] idx 19 (tuple =
+  n21 tuple minus cidx 103, seq minus leading 4); n8
+  ×11 seq [29, 34, 39, 94, 99, 114, 124, 139] idx 7 prev
+  124; 76c3a8ff n25 ×10 seq the step-9 ladder [31, 40,
+  …, 247] idx 12 prev 130 next 148; n18 ×17 seq [31,
+  40, 49, 58, 67, 76, 94, 130, 139, 148, 166, 175, 184,
+  193, 211, 229, 238, 247] idx 8 (7 cidxs dropped from
+  n25, their centres removed); n15 ×8 seq [31, 40, 49,
+  58, 67, 76, 94, 130, 139, 166, 175, 184, 193, 211,
+  229] idx 8 next 166 (3 further drops); each family
+  exactly 1 distinct centre sequence over its cells;
+  family sizes [23, 17, 11, 10, 8, 8]. (i)(b) Shared
+  population: A cells 6,970 / B cells 7,485; shared
+  cidx-keyed 2,981; class pairs {UU: 2386, DD: 479,
+  OO: 73, UO: 24, UD: 13, DU: 4, DO: 2}; A unanimous
+  2,423 / B unanimous 2,386; n dist max 28 ×443 (target
+  one of them); pos 21 modal ×325; single-centre 2,520,
+  of those words equal 2,441, A unanimous 2,423 (97
+  single-centre cells carry varying words); target
+  A==B in cidxs / centres / words, only `oo` differs.
+  (ii)(a) Near-miss pairs (A byte string → B, full
+  diff, byte-3 diff, XOR, cidx, cell off): 682cb5f9 →
+  6884f5f8 (−12,560,384, −1, 0x0140a800, cidx 74, off
+  7204; under both violating keys); 782c75f9 →
+  808cb2f9 (+4,022,280, 0, 0x00c7a0f8, cidx 77, off
+  7272); 745471fc → 089adffb (−9,550,444, −1,
+  0x07aece7c, cidx 8, off 7272); ec546cfc → 781099fa
+  (−30,622,836, −2, 0x06f54494, cidx 14, off 7272);
+  705ab5f9 → a08de5f4 (−80,727,248, −5, 0x0d50d7d0,
+  cidx 50, off 7272); all group (20, 32720), centre
+  127, 1 occurrence each. (ii)(b) f(byte 3, byte 1,
+  byte 2): 222 keys / 0 violating / DETERMINED, not
+  injective; f(…, group): 222 / 0, unchanged; controls
+  f(byte 3, byte 1) 216 / 2 / 4 False, f(byte 3,
+  byte 2) 221 / 1 / 2 False, f(bytes 0, 1, 2) 224 / 0
+  injective; the two shared keys and their pairs
+  computed from the run's printed pair lists.
+  (ii)(c) Trajectories: 27 cidxs × 8 blocks, all
+  centre 127, every cidx in every block; per-cidx
+  distinct A / diff dist {8: 27}; monotonic A 27/27,
+  monotonic B 27/27 (strictly increasing, derived from
+  the printed trajectories); delta A 189 values all
+  positive, all distinct (min 31,346,620, max
+  394,641,536); delta B 189 all positive, all distinct
+  (min 32,229,224, max 392,664,128); delta diff 189
+  distinct. (iii)(a) Profiles: 114 {unique 655, ≥4:
+  44, mean 14.8729}; 130 {709, 50, 14.7067}; 251
+  {661, 46, 14.6200}; 267 {709, 50, 14.8824}; all 842
+  acts, all distinct, high band identical. 144-side
+  pairs: 0 adjacent occurrences and both acts absent
+  in each of the four contexts. 267-side pairs: 1
+  adjacent occurrence at pos 792 / 801 in each of the
+  four. Pairwise: 114×130 39 shared / 0 inv of 741 /
+  3 runs (33 @786–818, 3 @8–10, 2 @820–821);
+  114×251 168 / 0 of 14,028 / 21 runs {54: 1, 32: 1,
+  9: 1, 7: 1, 6: 3, 5: 1, 4: 1, 3: 7, 2: 5}; 114×267
+  37 / 0 of 666 / 2 runs; 130×251 40 / 110 of 780 /
+  2 runs (32 @786–817); 130×267 111 / 0 of 6,105 /
+  19 runs; 251×267 37 / 0 of 666 / 2 runs.
+  (iii)(b) Runs 19, 103 acts (positions as tabled in
+  the evidence doc); spans 20, lengths (130/267):
+  HEAD 8/6, 68/66, 22/23, 48/44, 2/2, 5/5, 2/2,
+  31/32, 7/7, 152/159, 2/2, 2/2, 160/142, 34/32,
+  36/31, 11/20, 99/119, 34/29, 8/8, TAIL 8/8; sums
+  739/739; isolated singles 8 at (130, 267) positions
+  (3, 3), (135, 128), (137, 130), (140, 133),
+  (773, 774), (783, 783), (786, 785), (821, 821).
+  Mechanisms NOT PROVEN.
+- **Next:** the (byte 3, byte 1, byte 2) determination
+  as a map (per-byte-3 tables; factoring tests; the
+  narrow keys' byte-0 freedom against all eight narrow
+  pairs); group (20, 32720)'s 189 trajectory steps as a
+  population (delta triples in full; A at block k+1 as
+  a function of A at block k); the four break contexts'
+  common core in full, 114×251's shared population in
+  full, and 130×251's 110 inversions localized
+  (slice 4.125).
+- **Audit:** Host-side analysis only; no device child.

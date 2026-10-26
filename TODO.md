@@ -2670,7 +2670,7 @@
   267-side break pairs.
   `docs/HAILO10H_CENTRE139_ANCHORS_MEMBERS_LANE1_BLOCKS_BYTE3_BREAKS_CIDX130_2026-10-24.md`.
 
-- [ ] Slice4.124 centre
+- [x] Slice4.124 centre
   139's six DISTINCT-cell
   cidx-tuple families read
   as full centre sequences
@@ -2705,7 +2705,96 @@
   and the non-shared spans
   between 130<->267's 19
   shared runs read in
-  full; then broad
+  full. DONE: each of the
+  six families carries
+  exactly ONE centre
+  sequence (the tuple
+  determines it; a cidx
+  carries the same centre
+  in every family); the
+  mirror cell is the
+  UNIQUE single-centre-139
+  cell among the pair's
+  2,981 shared cells
+  (2,386 both-unanimous;
+  single-centre by centre
+  15 x1708, 139 x1);
+  byte 3's difference IS
+  determined by (byte 3,
+  byte 1, byte 2) - 222
+  keys, 0 counterexamples,
+  NOT injective (two
+  narrow sign-flip keys
+  carry two pairs each,
+  differing only in
+  byte 0); the five
+  distinct near-miss pairs
+  all sit in group
+  (20, 32720)'s last two
+  blocks; trajectories
+  change every value at
+  every step (8 distinct
+  A/B/diff/XOR per cidx,
+  nothing constant) yet A
+  and B strictly increase
+  with offset for all 27
+  cidxs and all 189 steps
+  on each side are
+  positive and distinct;
+  the four break contexts
+  form two near-pairs
+  ({114, 251} 168 shared
+  acts / 21 runs; {130,
+  267} 111 / 19) with
+  cross-pairs at 37-40
+  shared acts, the
+  267-side pairs at
+  792/801 in all four,
+  the 144-side pairs'
+  acts absent from all
+  four, and 130x251 alone
+  inverting (110 of 780);
+  the spans between
+  130<->267's runs total
+  739 acts on EACH side
+  (103 + 739 = 842) over
+  20 spans, holding the
+  8 isolated singles.
+  `docs/HAILO10H_CENTRE139_FAMILIES_MIRRORPOP_BYTE3_TRAJECTORIES_BREAKCTX_SPANS_2026-10-24.md`.
+
+- [ ] Slice4.125 the
+  (byte 3, byte 1, byte 2)
+  determination read as a
+  map (per-byte-3 tables
+  over the 224 pairs;
+  factoring through any
+  arithmetic on
+  (byte 1, byte 2)
+  tested; the two narrow
+  shared keys' byte-0
+  freedom against all
+  eight narrow pairs);
+  group (20, 32720)'s
+  trajectory steps as a
+  population (the 189
+  delta-A / delta-B /
+  delta-diff triples per
+  (cidx, block-step) in
+  full; A at block k+1 as
+  a function of A at
+  block k over the 189
+  steps); the four break
+  contexts' common core
+  (acts shared by all
+  four, in order) in
+  full, 114x251's shared
+  population in full
+  (168 acts, 21 runs, the
+  54-act run), and
+  130x251's 110 inversions
+  localized to the
+  specific shared acts
+  that invert; then broad
   ordinary UNMODIFIED
   source-model support100%.
 
