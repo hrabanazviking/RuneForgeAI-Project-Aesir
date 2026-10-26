@@ -1688,7 +1688,7 @@
   most (742/789).
   `docs/HAILO10H_CAMPB_CHANCE_RAREWORDS_PAIR_AGREEMENT_2026-10-24.md`.
 
-- [ ] Slice4.108 the 25
+- [x] Slice4.108 the 25
   total-disagreement (0/5)
   instance pairs as a class
   (groups/offsets, forms and
@@ -1702,6 +1702,45 @@
   cc9b9d1c (fd000000/f6000000
   density per referred byte
   vs the other artifacts);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+  DONE (AES-NUM-108): the 25
+  occupy exactly 4 cells
+  (0a0d @17344 x6 identical
+  pair; sisters @17272 x9
+  each, one SPARSE B vs 9
+  DENSE label-variants;
+  MiniLM @9272 x1), all
+  differing in exactly 10
+  bytes (2/4/1/(1,2) per
+  position); no group/offset
+  separator (17344 cell holds
+  both classes); exactly-3 =
+  2 ordinary MID/MID pairs,
+  agreement grades per-cell
+  not per-group; cc9 density
+  fd 841.7 / f6 726.9 per
+  1e9 B (2.5-3x next blob),
+  carried by 929 of 112,884
+  cc9 segments.
+  `docs/HAILO10H_ZERO25_EXACTLY3_CC9_DENSITY_2026-10-24.md`.
+
+- [ ] Slice4.109 the mixed
+  0a0d378c @17344 cell pair
+  by pair (its 6 zero pairs
+  vs its 15 identical pairs:
+  form/zero/word separator?);
+  the cc9 rare-containing
+  segments as a class
+  (fd/f6/e9 set overlaps,
+  joint size/offset structure
+  vs the cc9 census); the
+  sister cidx-95 SPARSE
+  singleton's uniqueness in
+  its group (do the 9 DENSE
+  partners agree at any
+  other common offset?);
   then broad ordinary
   UNMODIFIED source-model
   support100%.

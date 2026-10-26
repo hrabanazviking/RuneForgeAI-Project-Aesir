@@ -2899,3 +2899,27 @@ shape of the agreement distribution, and why the rare
 words concentrate in one artifact. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 zero-pair class, exactly-3 band, cc9 rare density (AES-NUM-108,slice4.108):
+`docs/HAILO10H_ZERO25_EXACTLY3_CC9_DENSITY_2026-10-24.md`.
+The twenty-five total-disagreement pairs turn out to be
+three repeated structures, not twenty-five accidents:
+one identical pair repeated six times in a single cell,
+one lone SPARSE neighbourhood set against nine DENSE
+label-variants in each of the two sister artifacts, and
+the 9272 target itself — every one of them differing in
+exactly ten bytes with the same per-position pattern.
+Yet no separator exists at the group or offset level,
+because the very cell that holds six of the zero pairs
+also holds fifteen identical ones. The agreement
+distribution's empty middle is just as plain: the two
+exactly-3 pairs are ordinary MID pairs, and agreement
+belongs to (group, offset) cells, not to groups. And
+cc9b9d1c's rare words really are concentrated there —
+two and a half to three times the density of the next
+blob — but almost all of that concentration lives in
+fewer than one percent of its segments. Next: the one
+mixed cell pair by pair, the rare-containing segments
+as a class, and the sister singleton's uniqueness.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

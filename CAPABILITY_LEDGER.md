@@ -8688,3 +8688,54 @@ No new capability ID or hardware/complete-source execution claim.
   structure; the cc9b9d1c rare-word concentration
   (slice 4.108).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-108 — the 25 total-disagreement pairs are a concentrated, structurally uniform exception class (exactly 4 (group,offset) cells; every pair differing in exactly 10 bytes with per-position counts 2/4/1/(1,2); three repeated structures, not 25 accidents; no group/offset separator — the 0a0d378c @17344 cell holds both 0/5 and 5/5 pairs); the exactly-3 band is near-empty at every level (2 pairs, both ordinary MID/MID (2,2); agreement grades per-(group,offset) cell, not per group); cc9b9d1c's rare-word concentration is real per referred byte (fd000000 841.7, f6000000 726.9 per 1e9 bytes — 2.5–3x the densest other blob) and is carried by 929 of its 112,884 segments holding all 3,680 cc9 rare occurrences
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_ZERO25_EXACTLY3_CC9_DENSITY_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...107 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
+  DONE105 at line 3,576, DONE106 at line 3,670 and DONE107 at
+  line 3,701 of this run's output (hef108.py sha256 ad8f6ed0...,
+  output sha256 1441b85f..., 658,695 B, DONE108 at line 3,910).
+  Transfer note: the 22:31 firing built the script and landed
+  the receiver, then stopped before the proxy-upload; this
+  firing completed it (saved:41839, gz + script sha256 verified
+  on-device) and ran the script detached to DONE108.
+  (i) The 25 zero pairs occupy 4 cells: 0a0d378c @17344 x6
+  (one identical word-pair repeated, DENSE/DENSE zeros 0/1),
+  the sisters @17272 x9 each (one identical SPARSE B
+  neighbourhood against 9 DENSE label-variants), MiniLM
+  @9272 x1 (the target). All 25 differ in exactly 10 bytes
+  (per-position 2,4,1 in all; 3/4 take (1,2) x7 and (2,1)
+  x18); forms only (DENSE,DENSE) x7 and (DENSE,SPARSE) x18;
+  zero counts mismatched in 24/25. The 5/5 control (256) is
+  (SPARSE,SPARSE) x136, (MID,MID) x93, (DENSE,DENSE) x27
+  with zero counts always equal. No (group,offset)
+  separator: 3 of 4 zero groups also hold 5/5 pairs and the
+  17344 cell holds both classes (6 zero, 15 identical of
+  21); a within-cell separator is NOT PROVEN.
+  (ii) Exactly-3 pairs: 5ab3537d @31452 and cc9b9d1c
+  @19268, both (MID,MID) zeros (2,2), bytediff 3 and 2.
+  Agreement is not a per-group property (the sister
+  pos-21 groups span {0,1,2,4,5}); per-offset cells narrow
+  sharply (sister offsets give means 4.4/2.84/4.4/3.04),
+  only 1 of 39 cells holds both classes, and no group or
+  cell concentrates at 3.
+  (iii) Densities per 1e9 distinct referred bytes (corpus
+  542,905 segments, 9,275,073,840 B, counts reproducing
+  AES-NUM-107 exactly): cc9b9d1c fd 841.7 (share 58.3% vs
+  byte share 24.1%), f6 726.9 (71.0%), e9 80.7 (86.1%);
+  MiniLM's higher nominal densities are a 9.8 MB
+  small-denominator artefact (shares 0.62%/0.79%). In cc9
+  the words sit in 569/497/170 segments (means 3.30/3.26/
+  1.06 per containing segment, max 28/21/2, size 32784
+  dominant), offset quartiles [12,938,152,776] for fd;
+  union 929 segments (0.82%) hold all 3,680 cc9 rare
+  occurrences.
+- **Next:** the mixed 0a0d378c @17344 cell broken out pair
+  by pair; the cc9 rare-containing segments as a class
+  (set overlaps, joint size/offset structure); the sister
+  cidx-95 SPARSE singleton's uniqueness (slice 4.109).
+- **Audit:** Host-side analysis only; no device child.
