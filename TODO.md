@@ -2204,33 +2204,112 @@
   rarity.
   `docs/HAILO10H_MIRROR_PAIR_TRAIN_EXCEPTIONS_HIGH_CENTRES_2026-10-24.md`.
 
-- [ ] Slice4.117 the mirror
+- [x] Slice4.117 the mirror
   pair's 2,171 membership-
   divergent triples
-  anatomised (which side
-  carries the extra
-  instance, where it sits
-  in cidx order, and does
-  the inserted centre
-  continue the cell's
-  centre sequence?); the
-  37 shared cells unanimous
-  in 5ab3537d but not in
-  773470cd and the 96
+  anatomised; the 37
+  A-unanimous-but-not-B
+  shared cells and the 96
   centre-equal word-
   different shared cells
-  (which instance / which
-  neighbourhood position
-  breaks or differs?); and
-  the three unshifted
-  exceptions (the train 48
-  ranks 1-2 pair's shared
-  head material; train 50
-  rank 26's head length
-  against its neighbours —
-  one act shorter?); then
-  broad ordinary UNMODIFIED
-  source-model support100%.
+  resolved to instances and
+  lanes; and the three
+  unshifted exceptions
+  settled as far as head
+  material decides DONE
+  (AES-NUM-117): the
+  divergent triples are
+  mostly both-sides-
+  different (1,997 of
+  2,171; A-only-extra 92,
+  B-only-extra 82) with
+  gross extras per triple
+  mode 9 (15,252 extras in
+  all; A 7,164, B 8,088)
+  and net length difference
+  centred near 0 (+1 mode);
+  common instances agree on
+  centre 15,488/15,488.
+  Inserted centres CONTINUE
+  the common centre
+  sequence wherever it is
+  thick: UNANIMOUS-common
+  extras CONT 11,795 /
+  BREAK 373; NONAP extras
+  never BREAK (CONT 599 /
+  INDET 1,500); AP-common
+  extras are a thin mostly-
+  breaking family (CONT 17
+  / BREAK 103 of 120);
+  triple grades all-CONT
+  1,679, any-BREAK 72,
+  INDET 420. The 37 are
+  three exact families: 13
+  size-2 cells with 1
+  breaker at index 0; 9
+  size-27 centre-127 cells
+  with the same 13 breakers
+  at [2,4,8,9,10,11,12,13,
+  14,17,18,24,25]; 15
+  size-28 cells where B's
+  word differs at 27 of 28
+  instances and only index
+  0 keeps A's word. All 535
+  breakers are shared
+  instances (0 membership),
+  centres equal 535/535,
+  lanes lane 0 (431) or
+  lane 3 (104) only, 1 byte
+  in 470. The 96 carry
+  1,971 differing instances
+  (60 cells differ at all
+  27) and the centre lane
+  differs in 0. Train 48
+  ranks 1-2 share NO head
+  material (prefix 0,
+  suffix 0, equal positions
+  none; shared-anomaly test
+  empty) — two independent
+  head anomalies, one shared
+  anomaly NOT PROVEN. Train
+  50 rank 26's head is one
+  act shorter in count
+  (6 vs 7) but the deletion
+  alignment is empty — not
+  a steady head minus an
+  act; the -1 mechanism
+  stays NOT PROVEN.
+  `docs/HAILO10H_DIVERGENT_TRIPLES_BROKEN_UNANIMITY_UNSHIFTED_HEADS_2026-10-24.md`.
+
+- [ ] Slice4.118 thickness-
+  graded continuation
+  verdicts for the 2,171
+  divergent triples
+  (common-sequence length
+  strata; the AP-common
+  extras' 103 breaks and
+  the 72 any-BREAK triples
+  anatomised in full); the
+  37/96 differing words
+  identified across
+  artifacts (is B's
+  differing word another
+  artifact's word at the
+  same group? does the
+  28-instance first-
+  instance pattern appear
+  in other artifact pairs?
+  do the 60 whole-cell
+  differing cells coincide
+  with the 37's groups?);
+  and the three unshifted
+  heads' unique acts
+  searched corpus-wide in
+  cc9b9d1c (do those acts
+  head any other context?);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

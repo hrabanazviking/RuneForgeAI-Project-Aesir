@@ -3200,3 +3200,41 @@ unanimities and the ninety-six word-only
 differences, and the three unshifted exceptions'
 heads. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+2026-10-24 divergent triples, broken unanimity and
+unshifted heads (AES-NUM-117,slice4.117):
+`docs/HAILO10H_DIVERGENT_TRIPLES_BROKEN_UNANIMITY_UNSHIFTED_HEADS_2026-10-24.md`.
+The 2,171 addresses where the twin networks keep
+different context lists turn out to quarrel on
+both sides at once: in 1,997 of them each network
+holds contexts the other lacks, about seven extra
+instances per address in all, while the lists'
+lengths stay near-equal — and wherever the shared
+part of the sequence is thick, the extra instances
+slip into the stride exactly as the one example
+promised, their centres continuing the shared
+centre sequence (11,795 continuations against 373
+breaks on constant shared sequences, and no extra
+ever falling outside its flanks on a wandering
+one). The thirty-seven cells unanimous in the
+first network but not the second resolve into
+three exact families — pairs split at the first
+instance, twenty-sevens split at the same thirteen
+instances every time, and twenty-eights where the
+second network's word simply differs at all but
+the first instance — and every one of the 535
+breakers differs in a flanking word only, never
+the centre word, as do all 1,971 differing
+instances of the ninety-six word-only cells. The
+train 48 pair, suspected of sharing one anomaly,
+share no head material at all — not one act — so
+they stand as two independent anomalies; and the
+one downward exception's head is indeed one act
+shorter, yet it is no steady head with an act
+deleted, so its mechanism stays honestly
+unproven. Next: continuation verdicts graded by
+how thick the shared sequence is, the differing
+words identified across all artifacts, and the
+unshifted heads' acts searched corpus-wide. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.

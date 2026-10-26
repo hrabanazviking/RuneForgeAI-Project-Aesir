@@ -9402,3 +9402,146 @@ No new capability ID or hardware/complete-source execution claim.
   head material, and train 50 rank 26's head length
   against its neighbours) (slice 4.117).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-117 — The mirror pair's 2,171 membership-divergent triples are mostly BOTH-sides-different (1,997 of 2,171) with ~7 extra instances per triple, and the inserted centres CONTINUE the shared centre sequence wherever the shared sequence is thick (11,795 continuations vs 373 breaks among extras against unanimous common sequences; common instances agree on centre 15,488/15,488); the 37 A-unanimous-but-not-B cells fall into three exact families (thirteen 2-instance cells with 1 breaker, nine 27-instance centre-127 cells with the same 13 breakers, fifteen 28-instance cells where B's word differs at 27 of 28 instances and only the first instance keeps A's word), all 535 breakers are shared instances differing in lane 0 or lane 3 only, never the centre lane; the 96 centre-equal word-different cells carry 1,971 differing instances with the centre lane differing in 0; the train 48 ranks 1-2 pair shares NO head material at all (common prefix 0, equal positions none) — two independent head anomalies, not one shared anomaly — and train 50 rank 26's head is exactly one act shorter in count (6 vs 7) but is NOT any steady head minus an act (deletion alignment empty), so the -1 mechanism stays NOT PROVEN
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_DIVERGENT_TRIPLES_BROKEN_UNANIMITY_UNSHIFTED_HEADS_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef117.py sha256
+  `7c82532cb7a18a3d619c78e726faea8635484f53c2b3285ed56d288d8d35718b`,
+  arms sha256
+  `5004f6fee76372072b7528e78a72a600d1905fe9ed18ac6774959f56b87a25a9`;
+  output 11,162 lines, 1,519,941 B, sha256
+  `38fa606c139672fe0d343c3817b020aa4b04e1fc7d2af971eb7b54fd0cc1b614`).
+  Inherited markers DONE105/106/107/108 at the same lines
+  as the 4.116 run; the shared enumeration reproduces
+  exactly (groups >=2 54,995; groups >=1 common 1,323;
+  cells 55,902; obs 527,236; distinct ladder 11,242;
+  unanimous 39,673; AP 2,584 with the step histogram
+  {0:352, 2:26, 3:489, 4:741, 6:164, 8:350, 9:217,
+  12:200, 24:34, 40:11}; non-AP 4,148 with ordered 317 /
+  multi 298 / set 174; >=8 cells 25,566, unanimous 18,286,
+  29 centres, centre-1 561; target cell once, centre
+  ff010000). (i) Divergent triples 2,171 by both the dict
+  method of 4.116 and a multimap method (triples with >1
+  cell on a side: 0, so every triple pair is 1-1). Side
+  counts: both-differ 1,997, A-only-extra 92,
+  B-only-extra 82 — the one-extra-B anatomy of the 4.116
+  example triple is NOT the general case. Net length
+  difference lenB-lenA: {-18:17, -3:99, -1:393, 0:613,
+  +1:730, +2:84, +3:74, +4:72, +5:22, +6:67}; gross extras
+  per triple {1:157, 2:207, 3:43, 4:56, 5:66, 6:139,
+  7:461, 8:193, 9:479, 10:174, 11:112, 12:67, 18:17}
+  (mode 9). Common instances 15,488, centres agreeing
+  A-vs-B on 15,488/15,488 (1.0000) — the mirror property
+  holds on the common instances of divergent triples
+  too. Extras total 15,252 (A 7,164, B 8,088). Continuation
+  verdicts: CONTINUES 12,411 (A 5,647, B 6,764), BREAKS
+  476 (A 205, B 271), INDETERMINATE 2,365 (A 1,312,
+  B 1,053). By common-sequence structure: UNANIMOUS
+  12,168 extras (CONT 11,795, BREAK 373); NONAP 2,099
+  (CONT 599, INDET 1,500, BREAK 0 — no NONAP extra ever
+  falls outside its flanking interval); AP 120 (CONT 17,
+  BREAK 103; steps {6:108, 3:8, 38:4} — a thin, mostly
+  breaking family, recorded with its small n); SINGLE
+  (no common instance) 865 extras, all INDET. Triple-level
+  grades: all-CONT 1,679, any-BREAK 72, INDET 420.
+  Insertion position: own-list first 2,906, interior
+  10,367, last 1,979; merged-order first 1,905, interior
+  12,284, last 1,063; 5,274 extras have no common
+  predecessor, 4,094 no common successor, 865 neither.
+  Flanked extras' common-neighbour cidx spans peak at 6
+  (1,931; gaps 3+3) and 8 (1,179; 4+4). All 56 groups
+  carrying divergent triples are listed in the evidence
+  doc; BREAK extras concentrate in four groups (121, 99,
+  99, 81). Caveat recorded in the doc: UNANIMOUS verdicts
+  include triples whose common sequence has length 1, and
+  the printed BREAK examples are exactly such thin-common
+  triples — a thickness-graded re-run is the 4.118
+  follow-up. Why membership differs at all: NOT PROVEN;
+  no cause inferred. (ii) Shared-cell controls reproduce
+  (centres equal 2,981/2,981, words equal 2,885/2,981,
+  A-unanimous-but-not-B 37, reverse 0). The 37 fall into
+  three exact families: 13 cells of size 2 (pos 19, size
+  7712, centre 15) with exactly 1 breaker at index 0; 9
+  cells of size 27 (pos 12, size 32728, centre 127) with
+  exactly 13 breakers at the SAME index set
+  [2,4,8,9,10,11,12,13,14,17,18,24,25] in every cell (the
+  breakers are B's minority: B carries exactly 2 distinct
+  words there, 14 vs 13); 15 cells of size 28 (one at pos
+  13 size 32760, fourteen at pos 14 size 9992, centre 15)
+  with 27 breakers against A's word (every instance but
+  index 0) but only index 0 against B's modal word — B's
+  word simply differs from A's at 27 of 28 instances and
+  the first instance alone keeps A's word. Total breakers
+  535 (13 + 117 + 405); 117 of them are also minority
+  against B's modal word. Every breaker's centre equals
+  the A-unanimous centre (535/535). Breaker lanes against
+  A's word: lane 0 only in 431, lane 3 only in 104 —
+  never the centre lane, never lanes 1 or 4. Byte
+  magnitude: 1 byte in 470, 2 in 13, 3 in 52. Positions:
+  interior 507, first 13, last 15. Membership: 0 of 535
+  breakers are extra instances — shared cells carry
+  identical cidx tuples by construction, so unanimity is
+  broken only by word values at shared instances. The 96:
+  1,971 differing instances (per-cell {27:60, 1:16, 13:9,
+  2:2, 18:1, 22:2, 23:1, 24:1, 25:1, 26:2, 28:1} — 60
+  cells differ at ALL 27 instances); the 96 include the
+  37 plus 2 cells unanimous on both sides on different
+  words and 57 others; sizes {27:48, 28:30, 2:18};
+  differing lanes pooled {0:1086, 4:738, 3:406, 1:354}
+  with lane sets {(0,):620, (0,4):328, (3,):397, (4,):263,
+  (1,):216, (0,1,4):138, (3,4):9}; the CENTRE lane (lane
+  2) differs in 0 of 1,971 differing instances (and its
+  centre byte in 0); magnitude 1-6 differing bytes per
+  instance {1:709, 2:661, 3:261, 4:268, 5:29, 6:43};
+  positions interior 1,843, first 57, last 71; the
+  differing B word occurs elsewhere in the corpus
+  neighbourhood pool for 766 of 1,971 (the A word 791).
+  (iii) The cc9 fit reproduces exactly (union 929;
+  contexts 271; start dist {4:1, 5:47, 6:31, 7:83, 8:56,
+  9:44, 10:9}; 217 in-train rows; train forms and the 10
+  exception identities unchanged). Train 48 ranks 1-2:
+  head lengths 8/8; head common prefix 0 acts, common
+  suffix 0 acts, equal head positions NONE; at every
+  comparable head position (0-6; position 7 is the pair's
+  prev_act against the steady members' first triple act
+  and is not comparable) both ranks differ from the
+  steady modal act (steady agreement 23/24 at each
+  position) AND from each other; positions where the pair
+  agree on a shared non-modal act: NONE. First acts,
+  opening pairs and prev_acts are each shared with 0 other
+  train members; the train-49-form tests fail for both
+  ranks (prev_act not the train modal, opening pair's
+  second act not the train modal first act); head-insertion
+  alignment against every train member is empty for both;
+  the pair-vs-pair insertion alignment fails both ways.
+  The only material the pair shares is the identical
+  triple block, start 8 and train membership: ONE shared
+  anomaly is NOT PROVEN (head-material sharing measured
+  at zero); the pair is two independent head anomalies,
+  and any shift for either remains NOT PROVEN. Train 50
+  rank 26: head length measured — start 6 vs steady 7 and
+  vs rank 25's 7, exactly one act shorter in count; but
+  the deletion alignment is EMPTY (its 6-act head equals
+  no steady member's head with exactly one act removed),
+  head common prefix/suffix vs rank 25 are 0/0 with no
+  equal positions, the post-triple common prefix vs rank
+  25 is 0 acts, and first_act/prev_act are shared with 0
+  members; among last-rank peers, rank 26 is the ONLY
+  last rank in trains 44-51 that deviates from its train's
+  steady value (all seven others sit exactly on it). So
+  the head IS one act shorter (measured count) but the -1
+  is NOT explained by a deleted steady act: mechanism NOT
+  PROVEN, no shift invented.
+- **Next:** thickness-graded continuation verdicts for
+  the divergent triples (common-sequence length strata,
+  the AP extras' breaks and the 72 any-BREAK triples in
+  full); the 37/96 differing words identified across
+  artifacts (whether B's differing word is another
+  artifact's word at the same group, and the 28-instance
+  first-instance pattern in other artifact pairs); and
+  the three unshifted heads' unique acts searched
+  corpus-wide (slice 4.118).
+- **Audit:** Host-side analysis only; no device child.
