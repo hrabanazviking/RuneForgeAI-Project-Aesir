@@ -2762,7 +2762,7 @@
   8 isolated singles.
   `docs/HAILO10H_CENTRE139_FAMILIES_MIRRORPOP_BYTE3_TRAJECTORIES_BREAKCTX_SPANS_2026-10-24.md`.
 
-- [ ] Slice4.125 the
+- [x] Slice4.125 the
   (byte 3, byte 1, byte 2)
   determination read as a
   map (per-byte-3 tables
@@ -2794,7 +2794,122 @@
   130x251's 110 inversions
   localized to the
   specific shared acts
-  that invert; then broad
+  that invert. DONE: the
+  map spans 61 byte-3
+  values with 24 distinct
+  differences (modal -1
+  x43; 168 negative / 14
+  zero / 42 positive);
+  60 of 61 byte-3 values
+  have keys == pairs (only
+  byte 3 = 128 splits,
+  6 pairs / 4 keys); the
+  difference is ALSO
+  determined by (byte 3,
+  byte 1 + byte 2) at the
+  same 222 keys - no
+  compression - while
+  every other conditioned
+  form fails on 1-12 keys
+  and every direct formula
+  fails on 202-224 pairs
+  (closed form NOT
+  PROVEN); the narrow
+  byte 0 is free both
+  ways (under each shared
+  key it takes two values
+  at the same difference,
+  yet byte 0 = 20 and
+  byte 0 = 68 each carry
+  both signs, so byte 0
+  alone determines
+  nothing); the 189 step
+  triples are pairwise
+  distinct in every
+  component, and each
+  cidx's delta-A and
+  delta-B sequences
+  strictly decrease (27/27
+  on both sides), while
+  A(k+1) as a function of
+  A(k) is VACUOUS (189
+  distinct A values, zero
+  collisions, per-step A
+  sets pairwise disjoint;
+  step source NOT
+  PROVEN); the common
+  core is exactly 37 acts
+  (head 3-run + 34-act
+  tail holding both
+  267-side break pairs),
+  order-identical in all
+  four contexts (0 core
+  inversions for every
+  pair) and equal to the
+  114x267 and 251x267
+  shared sets; 114x251's
+  168 shared acts sit at
+  position difference 0
+  for 93 of them, and the
+  54-act run at identical
+  positions 130-183 is
+  made of acts occurring
+  exactly twice in the
+  whole corpus; 130x251's
+  110 inversions are
+  generated entirely by
+  THREE displaced acts
+  (130 positions 6, 7, 197
+  standing at 251's
+  positions 824, 822, 823;
+  involvements 39, 38,
+  35), every other shared
+  act inverting only
+  against those three
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_BYTE3_MAP_STEPS_CORE_INVERSIONS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.126 the
+  (byte 3, byte 1 + byte 2)
+  factoring's fibres in
+  full and the map's
+  difference fibres (the
+  167 distinct (byte 3,
+  difference) combinations
+  against their 222 keys -
+  which keys share a cell,
+  and whether a fibre's
+  (byte 1, byte 2) sets
+  carry arithmetic
+  structure); group
+  (20, 32720)'s shrinking
+  steps read as sequences
+  (per-cidx delta-A /
+  delta-B ratios and
+  second differences in
+  full over the 189 steps,
+  stated decay forms
+  tested exactly); the
+  three displaced acts'
+  corpus-wide profiles in
+  full (all 8 occurrences
+  each - artifacts,
+  contexts, positions,
+  neighbours), 251's
+  closing segment
+  (positions 818-841)
+  against 130's head
+  (positions 0-10) in
+  full, and the
+  occurrence-2 exclusivity
+  population around the
+  54-act run (acts
+  occurring exactly twice
+  in the corpus, both
+  times in the 114/251
+  pair); then broad
   ordinary UNMODIFIED
   source-model support100%.
 

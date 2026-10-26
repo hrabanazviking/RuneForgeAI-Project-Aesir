@@ -3541,3 +3541,67 @@ the inversions of one hundred thirty against two
 hundred fifty-one found act by act.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 the three-byte determination read as a
+map over all its pairs, every factoring of it tried,
+the narrow keys' free byte read against all eight
+narrow pairs, the wide group's one hundred
+eighty-nine steps read as a population and the next
+value sought as a function of the last, the common
+core of the four break contexts read in full, the
+shared wealth of one hundred fourteen and two
+hundred fifty-one read act by act, and the
+inversions of one hundred thirty against two
+hundred fifty-one localized to the acts that make
+them (AES-NUM-125,slice4.125):
+`docs/HAILO10H_BYTE3_MAP_STEPS_CORE_INVERSIONS_2026-10-24.md`.
+The map spreads over sixty-one values of the third
+byte and twenty-four distinct differences, the
+difference of minus one alone carrying forty-three
+pairs; at every value of the third byte but one the
+keys and the pairs are equal in number, the single
+exception being the value where the narrow sign-flip
+keys live. One factoring beyond the full key holds:
+the third byte together with the SUM of the first
+and second bytes settles the difference too — at
+exactly the same count of keys, so nothing is
+compressed — while every other arithmetic tried,
+conditioned or pooled, fails on a handful of keys,
+and every direct formula fails almost everywhere.
+The narrow pairs' unseen byte is free in both
+directions: under one key it takes two values at the
+same difference, yet by itself it settles nothing,
+for the same byte value carries both signs. The
+wide group's steps never repeat in any component,
+and they shrink: for every one of the twenty-seven
+contexts the step sizes fall strictly from block to
+block on both sides — but the hope of reading the
+next value from the last is empty, for no value ever
+recurs to be read from; the function is vacuous, and
+the step's source stays unproven. The four break
+contexts hold a common core of thirty-seven acts —
+a head of three and a long tail that carries the
+break pairs — standing in the same order in all
+four, and the core is exactly what each of them
+shares with two hundred sixty-seven. One hundred
+fourteen and two hundred fifty-one share one hundred
+sixty-eight acts, ninety-three at the very same
+position, and their great run of fifty-four acts at
+identical positions is built of acts that occur
+nowhere else in the whole corpus. And the one
+hundred ten inversions of one hundred thirty
+against two hundred fifty-one are the work of three
+acts alone: three small acts that stand near the
+head of the one and at the very end of the other,
+crossing everything between; take them away and the
+shared order is clean.
+Next: the fibres of the sum factoring and of the
+difference map read in full, the shrinking steps
+read as sequences with their ratios and second
+differences, the three displaced acts' whole lives
+in the corpus, two hundred fifty-one's closing
+segment against one hundred thirty's head, and the
+population of acts that occur exactly twice around
+the great run.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

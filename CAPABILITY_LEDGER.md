@@ -10187,3 +10187,129 @@ No new capability ID or hardware/complete-source execution claim.
   full, and 130×251's 110 inversions localized
   (slice 4.125).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-125 — The (byte 3, byte 1, byte 2) determination read as a map: 222 keys over 224 pairs across 61 A byte-3 values with 24 distinct byte-3 differences (modal −1 ×43; 168 negative / 14 zero / 42 positive; none in +5…+9, +12, +17…+127); 60 of 61 byte-3 values have keys == pairs, the sole exception byte 3 = 128 (6 pairs / 4 keys, the two narrow multi-pair keys (128, 1, 176) and (128, 1, 178), both diff −128, pairs differing only in byte 0); the difference is ALSO determined by (byte 3, byte 1 + byte 2) — 222 keys, zero violating — at NO compression (same key count as the full key, same two multi-pair keys), while every other byte-3-conditioned arithmetic form fails ((byte 3, (x+y) mod 256) and (byte 3, byte 2) on 1 key each; (byte 3, x−y) / (byte 3, x^y) / (byte 3, byte 1) / (byte 3, min) / (byte 3, max) on 2 keys each, the (byte 3, byte 1) and (byte 3, min) failures being exactly the AES-NUM-123 keys (249, 44) and (252, 84); (byte 3, (x−y) mod 256) / (byte 3, (x·y) mod 256) on 3; (byte 3, x|y) on 6; (byte 3, x&y) on 12), all twelve pooled (byte 1, byte 2) forms fail on 38–58 keys, the bare (byte 1, byte 2) pair fails on 2 keys ((1, 176): diffs −128/+128 over 3 narrow pairs; (128, 146): −1/+3), and every direct formula fails (d = 0: 14/224; sign-flip rule: 22/224; signed256(x+y): 0/224; signed256(x−y): 2/224; signed256(y−x): 1/224; signed256(x^y): 0/224) — closed form NOT PROVEN; the narrow population's byte 0 is free in both directions (under key (128, 1, 176) byte 0 ∈ {28, 32} and under (128, 1, 178) byte 0 ∈ {20, 24} at unchanged diff −128, and B byte 0 == A byte 0 in 8/8 pairs with XOR exactly 0x80000000; yet byte 0 alone determines nothing even within the narrow eight — byte 0 = 20 carries diffs {−128, +128} over 3 pairs and byte 0 = 68 carries {−128, +128} over 2 — narrow f(byte 0): 5 keys / 2 violating / 5 pairs; narrow f(key): 6 / 0; narrow byte-0 values {20, 24, 28, 32, 68} are not narrow-exclusive: 7 non-narrow pairs share one, all group (20, 32720); 36 distinct A byte-0 values over all 224 pairs, 25 carried by more than one pair); group (20, 32720)'s 189 trajectory steps are pairwise distinct in EVERY component (delta-A 189 distinct, min +31,346,620 / max +394,641,536, all positive; delta-B 189 distinct, min +32,229,224 / max +392,664,128, all positive; delta-diff 189 distinct, min −54,207,616 / max +77,121,728, 123 positive / 66 negative / 0 zero; triples 189 distinct; delta-diff = delta-B − delta-A for 189/189) and the steps SHRINK per cidx — delta-A and delta-B sequences strictly decreasing for 27/27 cidxs (delta-diff: 24 neither, 3 strictly decreasing), per-step-index ranges descending and pairwise disjoint for steps 0–2 — while A at block k+1 as a function of A at block k is VACUOUS, not a law (189 distinct A values at block k, ZERO collision groups, per-step A sets pairwise disjoint; equally vacuous for (k, A), (cidx, A), delta-A = f(A) and the B companions; the non-vacuous keys fail: step index alone 7/7 keys violating, cidx alone 27/27) — step source NOT PROVEN; the four break contexts' common core is exactly 37 acts (the head 3-run (0, 304, 0/1/2) at 114@8–10 / 130@8–10 / 251@7–9 / 267@6–8 plus a 34-act tail from (2727936, 24, 2) to (2817536, 24, 0) @821 in all four, holding both 267-side break pairs at 792/801 in every context), in IDENTICAL order in all four (core order inversions 0 of 666 for every context pair, including 130×251), by occurrence count {271: 30, 1060: 2, 1058: 1, 4: 3, 6: 1}, and the core EQUALS the 114∩267 shared set and EQUALS the 251∩267 shared set (37 each), a proper subset of 114∩130 (39) and of 130×251 (40); 114×251's 168 shared acts are read in full (21 runs {54: 1, 32: 1, 9: 1, 7: 1, 6: 3, 5: 1, 4: 1, 3: 7, 2: 5} covering 160 acts plus 8 singles; position difference 251−114 distribution {−1: 4, 0: 93, +1: 21, +2: 36, +3: 2, +4: 12}), and its 54-act run at IDENTICAL positions 130–183 in both contexts consists entirely of acts with corpus-occurrence count exactly 2 (each occurring only in cidx 114 and cidx 251), 0 of 54 in the common core; 130×251's 110 inversions are COMPLETELY LOCALIZED to three displaced acts — the size-24 acts (1052257280, 24, 2), (1062814208, 24, 0), (1062813184, 24, 1) at 130 positions 6, 7, 197 standing at 251 positions 824, 822, 823 (251's last three shared positions; corpus occurrences 8 each; in neither 114 nor 267) — with inversion involvements 39 / 38 / 35, class pairs RUN×RUN 0 / RUN×SINGLE 102 / SINGLE×SINGLE 8, every other shared act inverting ONLY against those three (exactly 3 involvements each for the 32-act run's acts and the two core singles, exactly 2 for the head 3-run's acts); removing the three displaced acts leaves 130×251's shared order inversion-free — mechanisms NOT PROVEN
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_BYTE3_MAP_STEPS_CORE_INVERSIONS_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef125.py
+  sha256
+  `af955835b43ab71e1d7d196335e44c4370da992f4ccc5fad8034a745269bbca9`,
+  arms125.py sha256
+  `f4c52c5a4b36046728b642f14d9c5aee57efa05907f7fc2a44553020a05d4eb9`,
+  arms gz sha256
+  `369890a4dc9cb63ccb9bf90279e50eb63d55f7f8a149eb55ff7ebed9fd5f23b3`,
+  landed on-device as 22 individually sha-gated binary
+  parts (21 × 373 B + 146 B), every part passing its
+  gate on first landing, the set re-verified by an
+  on-device sha256sum listing, the concatenated gzip
+  sha256 and decompressed arms sha256 both matching
+  the VM; hef125.py assembled on-device from the
+  verified hef122 base (sha256
+  `9ef555ac8c1385ead4ef893a6cca1b86e89e9a88a8a49a1488f4035b993b3b1f`)
+  + arms125, on-device sha == VM; ran detached via
+  setsid to DONE125 with an empty error file; output
+  13,605 lines, 2,150,203 B, sha256
+  `e091795c18320b904d75747d0608cce16466005665b1f66ee14fe29586bad137`,
+  retrieved gz sha256
+  `f5374049299d1ad5c6138a525926b5c1223d0e76c24abe813a449df6e4cfa9ae`
+  (248,327 B, via a temporary on-device HTTP server
+  through the tunnel proxy) decompressing to the same
+  output sha256, verified on the VM at closing;
+  DONE125 at output line 13,605; the 4.125 section
+  begins at output line 12,231). Inherited controls
+  exact: cells 55,902 / obs 527,236; divergent triples
+  2,171, verdicts CONT 12,411 / BREAK 476 / INDET
+  2,365; thin 383 (315 L1U + 58 L2U + 10 L2AP); ≥8
+  cells 25,566 / unanimous 18,286 / 29 centres;
+  differing lanes 2,584 by lane {0: 1086, 1: 354,
+  2: 0, 3: 406, 4: 738}, in-37 differing 535; lane 1
+  354 / 224 / 218 / 217; shared 267∩144 acts 36;
+  lengths cidx 130 / 267 / 144 = 842 / 842 / 245;
+  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
+  steady 7, recorded head; train 50 also CONST_DOM
+  7). (i)(a) Map: 222 keys / 224 pairs / 2 multi-pair
+  keys / 4 pairs under them; 61 byte-3 values [0, 128,
+  174–252 sparse]; per-byte-3 (pairs, keys, distinct
+  diffs) as printed in full — largest 250 (12, 12, 6),
+  225 (11, 11, 9), 242 (11, 11, 8), 247 (10, 10, 7);
+  26 byte-3 values carry exactly 1 distinct diff;
+  167 distinct (byte 3, diff) combinations (derived at
+  closing); only byte-3 values 0 and 128 carry
+  narrow-group pairs. (i)(b) Factoring: pooled forms
+  all fail (violating keys / pairs: x+y 38/91, x−y
+  42/97, x^y 58/139, (x+y)%256 53/127, (x−y)%256
+  58/136, (x·y)%256 52/141, x&y 43/180, x|y 47/179,
+  min 56/140, max 54/131, x 57/131, y 54/128);
+  conditioned: (t, x+y) 222 / 0 DETERMINED at equal
+  key count; (t, (x+y)%256) 221 / 1 {(250, 156)};
+  (t, y) 221 / 1 {(249, 181)}; (t, x−y) 220 / 2
+  {(242, 0), (249, −73)}; (t, x^y) 220 / 2 {(242, 0),
+  (251, 25)}; (t, x) 216 / 2 {(249, 44), (252, 84)};
+  (t, min) 216 / 2 same two keys; (t, max) 220 / 2
+  {(241, 214), (249, 181)}; (t, (x−y)%256) 219 / 3;
+  (t, (x·y)%256) 219 / 3; (t, x|y) 210 / 6; (t, x&y)
+  201 / 12; controls: full key 222 / 0 not injective,
+  (x, y) alone 220 / 2 / 5 pairs, t alone 61 / 35 /
+  192; formulas D0 14/224, D1 22/224, D2 0/224,
+  D3 2/224, D4 1/224, D5 0/224. (i)(c) Narrow eight
+  in full (group, key, A → B, A byte 0, cell off,
+  occ): (14, (0, 1, 162), 4401a200 → 4401a280, 68,
+  7424, 27); (14, (128, 1, 176), 1c01b080 →
+  1c01b000, 28, 1744, 27); (14, (128, 1, 176),
+  2001b080 → 2001b000, 32, 6944, 27); (14, (128, 1,
+  178), 1401b280 → 1401b200, 20, 4336, 27); (14,
+  (128, 1, 178), 1801b280 → 1801b200, 24, 9832, 27);
+  (19, (0, 1, 176), 1401b000 → 1401b080, 20, 7568,
+  1); (19, (128, 1, 160), 4401a080 → 4401a000, 68,
+  2880, 1); (19, (128, 1, 177), 1401b180 → 1401b100,
+  20, 2384, 1). (ii)(a) Steps: all 189 triples
+  printed; per-step-index delta-A ranges step 0:
+  297,586,368–394,641,536; step 1: 232,831,360–
+  258,952,448; step 2: 169,641,504–184,078,144;
+  step 3: 111,223,520–142,527,264; step 4:
+  72,922,480–111,513,184; step 5: 47,810,792–
+  87,247,840; step 6: 31,346,620–68,262,624; every
+  step index's 27 values distinct in each component.
+  (ii)(b) A0 collision groups 0 pooled and per step;
+  A0 sets per step pairwise disjoint True; B0 the
+  same. (iii)(a) Core 37 acts printed in full with
+  positions in each context; core gaps adjacent
+  (gap 1) 33/36 in 114 / 130 / 251, 32/36 in 267;
+  max gap 770 / 773 / 775 / 775; pairwise shared
+  (control): {(114, 130): 39, (114, 251): 168,
+  (114, 267): 37, (130, 251): 40, (130, 267): 111,
+  (251, 267): 37}; the 3 non-core 130×251 acts:
+  (1052257280, 24, 2) 130@6 / 251@824,
+  (1062814208, 24, 0) 130@7 / 251@822,
+  (1062813184, 24, 1) 130@197 / 251@823.
+  (iii)(b) 168 acts printed in full; runs with
+  positions as tabled in the evidence doc; the 8
+  singles: (884831744, 24, 2) @4/3, (886637056,
+  1040, 2) @126/126, (886667264, 24, 1) @128/128,
+  (899779072, 32784, 1) @751/752, (900232192, 32784,
+  1) @766/767, (900421120, 18448, 0) @773/774,
+  (2727936, 24, 2) @780/784, (2817536, 24, 0)
+  @821/821; 54-run acts by occurrence count {2: 54},
+  in core 0 of 54. (iii)(c) All 110 inverting pairs
+  printed; per-act involvements: displaced 39 / 38 /
+  35, core singles and run acts 3 each, head acts 2
+  each (sum 220 = 2 × 110); decomposition 96
+  (displaced × 32-run) + 6 (head-side displaced ×
+  head run) + 6 (displaced × core singles) + 2
+  (among displaced) = 110 (derived at closing).
+  Mechanisms NOT PROVEN.
+- **Next:** the (byte 3, byte 1 + byte 2) factoring's
+  fibres in full and the map's difference fibres (the
+  167 distinct (byte 3, difference) combinations
+  against their 222 keys); group (20, 32720)'s
+  shrinking steps as sequences (per-cidx delta-A /
+  delta-B ratios and second differences in full,
+  stated decay forms tested exactly); the three
+  displaced acts' corpus-wide profiles in full (all 8
+  occurrences each), 251's closing segment
+  (positions 818–841) against 130's head (positions
+  0–10) in full, and the occurrence-2 exclusivity
+  population around the 54-act run (slice 4.126).
+- **Audit:** Host-side analysis only; no device child.
