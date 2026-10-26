@@ -1575,19 +1575,47 @@
   ordinary UNMODIFIED source-
   model support100%.
 
-- [ ] Slice4.104 the candidate-
+- [x] Slice4.104 the candidate-
   less raw word at 17344 in
-  (0a0d378c, 20, 32752) cidx 44
-  (common-offset test + the same
-  exclusion at other raw runs'
-  edges); singleton neighbourhoods
-  vs run-member neighbourhoods;
-  label values vs segment cidx
-  arithmetic (stated-function /
-  affine hunts on cidx and camp
-  rank); then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+  (0a0d378c, 20, 32752) cidx 44:
+  17344 IS a common offset of
+  its group (commons [13664,
+  17344]) — exclusion EXPLAINED
+  by the population definition;
+  the word is a common-arm
+  DENSE zero, one of exactly 2
+  corpus-wide; edge census 65
+  raw positions / 64 candidates
+  / 1 missing (the common
+  offset itself). Singleton vs
+  run-member neighbourhoods:
+  per-position value sets
+  disjoint at all four positions,
+  0 shared tuples, but no exact
+  separation — distinction NOT
+  PROVEN. Labels vs cidx /
+  segidx / pooled rank: every
+  as-function hit degenerate,
+  affine/XOR hits 0 — NOT
+  PROVEN.
+  `docs/HAILO10H_CANDIDATELESS_17344_NEIGHBOURHOODS_CIDX_LABELS_2026-10-24.md`.
+
+- [ ] Slice4.105 the second
+  common-arm DENSE zero
+  (MiniLM, 23, 32768) p 9272
+  cidx 5 mask 01000 (its group's
+  commons, its instances'
+  records at 9272, raw anatomy,
+  against the 17344 case); a
+  disjointness control for the
+  4.104(ii) fact (per-position
+  value-set disjointness between
+  other population splits of the
+  same DENSE zeros); label
+  values vs ngidx / ng
+  arithmetic; then broad
+  ordinary UNMODIFIED source-
+  model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

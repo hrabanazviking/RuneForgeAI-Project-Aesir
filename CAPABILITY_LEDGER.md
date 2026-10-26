@@ -8465,3 +8465,56 @@ No new capability ID or hardware/complete-source execution claim.
   vs run-member neighbourhoods; label values vs segment
   cidx arithmetic (slice 4.104).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-104 — the candidate-less word at 17344 is a common offset of its group (exclusion EXPLAINED by the population definition) and is one of only two common-arm DENSE zeros in the corpus; singleton and run-member neighbourhood value sets are disjoint at every relative position yet no exact separation exists; the labels share no stated relation with segment cidx arithmetic
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_CANDIDATELESS_17344_NEIGHBOURHOODS_CIDX_LABELS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...103 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  whole-arm candidates 7,690 boundary 0, non-common 7,484
+  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); DONE104 at
+  line 3,411. Script note: arm (ii)'s first-run intersection
+  lines were mis-indexed (+4 read the centre, +8 read +4);
+  one-line patch (hef104.py sha256 6c2b10ac...), full rerun,
+  on-device diff = exactly those two lines.
+  (i) Group (0a0d378c,20,32752) commons are exactly
+  [13664, 17344] — 17344 IS a common offset, so its absence
+  from the non-common population is EXPLAINED by the
+  population definition. Its common-arm record (cidx 44,
+  ng 0, ngidx 45) is value 0, z 0, DENSE, mask 00000, pred 0
+  from the ALLOTH object at 17344 itself (per-ng
+  {0:(CONST,0), 1:(CONST,1)}) — a common-arm DENSE zero;
+  the other six instances share one record (value 1, z 1,
+  DENSE, mask 10000, pred 1). Edge census over all 20 raw
+  runs: 65 raw positions, 64 candidates, exactly 1 missing
+  (17344, common) — the exclusion recurs nowhere. Common-arm
+  census (18 groups): 206 records, forms DENSE 95 / SPARSE
+  65 / MID 46, value-0 DENSE 2 / SPARSE 8 / MID 0; exactly 2
+  common-arm DENSE zeros corpus-wide: this one and
+  (MiniLM,23,32768) p 9272 cidx 5 mask 01000.
+  (ii) Singletons n 5 (masks {00000: 3, 00010: 2}, 5 distinct
+  tuples) vs run members n 59 (mask {00000: 59}, 40 distinct
+  tuples, 9 groups). Per-position value sets are DISJOINT
+  at all four relative positions (-8: 4 vs 16; -4: 5 vs 11;
+  +4: 4 vs 9; +8: 4 vs 19 — intersections all 0, corrected
+  run) and 0 full tuples are shared; members are
+  ff-saturated (most-common word ff000000 at every position,
+  x30/x45/x44/x29) while singletons carry their only zero
+  words at +4 (2/5). But NO exact separation exists (no word
+  in all of one population and none of the other, at any
+  position; no separating mask), so a distinguishing law is
+  NOT PROVEN under the contract's crediting rule.
+  (iii) All 25 segments carry exactly one label per family;
+  cidx is injective in every scope (A 13/13, B 12/12,
+  pooled 25/25, no cross-camp repeat). Every as-function
+  True against cidx / segidx / pooled rank is degenerate
+  (injective determiner or constant target); affine a != 0
+  hits 0 and XOR-constant hits 0 in all scopes; AFFINE
+  non-degenerate hits total 0. Label identity NOT PROVEN.
+- **Next:** the second common-arm DENSE zero (MiniLM p 9272);
+  a disjointness control for arm (ii) (other population
+  splits of the same zeros); label values vs ngidx / ng
+  arithmetic (slice 4.105).
+- **Audit:** Host-side analysis only; no device child.

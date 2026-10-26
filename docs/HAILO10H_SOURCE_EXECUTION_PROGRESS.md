@@ -2806,3 +2806,23 @@ candidate, what distinguishes the singletons' neighbourhoods,
 and the labels against the segments' own context indices. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 candidate-less word explained, neighbourhood disjointness, cidx label hunts (AES-NUM-104,slice4.104):
+`docs/HAILO10H_CANDIDATELESS_17344_NEIGHBOURHOODS_CIDX_LABELS_2026-10-24.md`.
+The word that carried no candidate turns out to sit at a common
+offset of its own group — the population it was missing from is
+defined to exclude exactly those offsets, so the mystery closes
+with no mechanism left to find; and read in the common-arm
+population, that same word is a DENSE zero, one of only two in
+the whole corpus. No other raw-run position anywhere is missing
+its candidate. The singletons' and the run members'
+neighbourhoods never share a single word value at any relative
+position, yet no word or mask separates the two populations in
+the exact form the contract demands, so no distinguishing law
+is claimed. And the segment labels answer to neither their
+context indices, their ranks, nor any affine map of them. Next:
+the second common-arm DENSE zero in MiniLM, a control for
+whether that disjointness is itself surprising, and the labels
+against the last unhunted metadata, ngidx and ng. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.
