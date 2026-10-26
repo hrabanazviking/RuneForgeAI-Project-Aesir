@@ -2557,7 +2557,7 @@
   @1060).
   `docs/HAILO10H_VARYING_CENTRE_MEMBERS_ANCHORS_LANE1_SPLIT_ALIGNED_REGION_2026-10-24.md`.
 
-- [ ] Slice4.123 centre 139
+- [x] Slice4.123 centre 139
   read in full (its 79
   cells, the two
   28-occurrence cells, its
@@ -2589,10 +2589,125 @@
   as pairs) and cidx 130
   (111 of 267's 133
   non-unique acts) read
-  against cidx 267 in full;
-  then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+  against cidx 267 in full.
+  DONE: the two 28-cells
+  are ONE cell held
+  identically by both
+  mirror artifacts — key
+  (21, 30768, 15368), same
+  28 cidxs, same word in
+  all 28 rows — and it is
+  139's single
+  non-divergent triple,
+  its only mirror presence
+  (divergent triples 0,
+  extras 0); the other 77
+  cells are DISTINCT, in
+  0856a10c/76c3a8ff only,
+  carrying 6 cidx tuples,
+  with 139 always LAST in
+  0856a10c (42/42) and
+  always interior after
+  130 in 76c3a8ff (35/35),
+  centreword ff8b0000 in
+  133/133; anchors 7/11/95
+  as members obey the
+  varying law — pooled
+  non-unanimous hosts
+  start 50 / interior 125
+  / END 0, every local
+  step in the host set (7
+  always start, 11 always
+  index 0/1, 95 always
+  interior after 91);
+  lane 1's wide group
+  splits into 8 offset
+  blocks pairwise DISJOINT
+  in every projection (all
+  intersections 0, pooled
+  216 distinct throughout)
+  with NO additive or XOR
+  translate between them,
+  while (14, 9992)'s five
+  pairs and (19, 7712)'s
+  three are pure SIGN
+  FLIPS (XOR 0x80000000,
+  diffs -2^31 x4 / +2^31
+  x1); byte 3 NOT
+  determined by (byte 3,
+  group) — group adds
+  nothing (same 35
+  violating, all in (20,
+  32720)) — nor by byte 3
+  with any single low byte
+  (byte 1 leaves 2 keys /
+  4 pairs, byte 2 leaves 1
+  key / 2 pairs), and the
+  low three bytes jointly
+  give 224 keys for 224
+  pairs (injective only);
+  the two 2-act breaks are
+  breaks of the 144<->267
+  alignment only — all 8
+  acts solely in cc9b9d1c,
+  267-side pairs in
+  exactly 4 contexts {114,
+  130, 251, 267} at
+  792-793/801-802, 144-side
+  pairs in exactly 27
+  contexts at 195-196/
+  204-205, reversed pairs
+  0 — and cidx 130 is
+  267's near-twin (842
+  acts both, 709 unique
+  each, identical high
+  band) sharing 111 acts
+  in IDENTICAL order (0
+  inversions) in 19 runs,
+  the longest 31 acts at
+  identical positions
+  787-817 CONTAINING both
+  267-side break pairs.
+  `docs/HAILO10H_CENTRE139_ANCHORS_MEMBERS_LANE1_BLOCKS_BYTE3_BREAKS_CIDX130_2026-10-24.md`.
+
+- [ ] Slice4.124 centre
+  139's six DISTINCT-cell
+  cidx-tuple families read
+  as full centre sequences
+  (the sequences 139 closes
+  in 0856a10c and sits
+  inside in 76c3a8ff) and
+  the shared unanimous
+  mirror cell (21, 30768,
+  15368) read against the
+  mirror pair's full
+  shared-cell population;
+  lane 1's byte-3
+  near-misses in full (the
+  6 pairs under the
+  violating (byte 3, byte
+  1) and (byte 3, byte 2)
+  keys), f(A byte 3, A
+  byte 1, A byte 2) tested
+  exactly, and group (20,
+  32720)'s per-cidx pair
+  trajectories across its
+  eight disjoint blocks
+  (the same 27 contexts at
+  eight offsets — what the
+  offset changes); the
+  four break contexts
+  {114, 130, 251, 267}
+  read against each other
+  in full (lengths,
+  profiles, pairwise
+  shared acts and runs)
+  and the non-shared spans
+  between 130<->267's 19
+  shared runs read in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

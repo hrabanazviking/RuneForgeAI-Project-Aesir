@@ -9945,3 +9945,130 @@ No new capability ID or hardware/complete-source execution claim.
   breaks against the corpus and cidx 130 read against
   cidx 267 in full (slice 4.123).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-123 — Centre 139's two 28-occurrence cells are ONE cell held identically by both mirror artifacts (key (21, 30768, 15368), same 28 cidxs, same single word in all 28 rows on both sides), and that cell is 139's single non-divergent triple — its only presence in the mirror pair, against 0 divergent triples and 0 extras; its other 77 cells are DISTINCT cells in 0856a10c and 76c3a8ff only, carrying six distinct cidx tuples in all, with 139 always the LAST centre in 0856a10c (42/42, after 134 or 124) and always an interior centre after 130 in 76c3a8ff (35/35, index 8 or 12, before 148 or 166), its centreword `ff8b0000` in 133/133 occurrences; the constant-like anchors 7/11/95, read as members of their mid/thick divergent hosts, obey the varying centres' law (pooled non-unanimous hosts: start 50 / interior 125 / END 0, every local step in the host's step set; 7 always at start, 11 always at index 0 or 1, 95 always interior after 91; all 46 pooled end occurrences sit inside the anchors' own unanimous hosts); lane 1's group (20, 32720) splits into 8 offset blocks of 27 pairs that are pairwise DISJOINT in every projection (all intersections 0 over the 28 block pairs; the pooled 216 distinct as pairs, A values, B values, diffs and XORs) with NO additive or XOR translate between any blocks, while group (14, 9992)'s five repeated pairs and group (19, 7712)'s three pairs are pure sign flips (every XOR 0x80000000, per-byte diffs (0, 0, 0, ∓128), diffs exactly −2^31 ×4 / +2^31 ×1 in (14, 9992)); byte 3's difference is NOT determined by (A byte 3, group) (63 keys, the same 35 violating, 192 pairs, all inside group (20, 32720) — group adds nothing) nor by byte 3 with any single low byte (byte 1: 2 violating keys / 4 pairs; byte 2: 1 violating key / 2 pairs; byte 0: 32 / 78), and the low three bytes jointly reach 224 keys for 224 pairs — determination by unique identification only; the region's two 2-act breaks are breaks of the 144↔267 alignment only (all eight break acts occur solely in cc9b9d1c; the 267-side pairs occur as pairs in exactly 4 contexts {114, 130, 251, 267} always at 792–793 / 801–802 with the same neighbouring acts as the 144-side pairs, which occur in exactly 27 contexts always at 195–196 / 204–205; reversed pairs 0 corpus-wide), and cidx 130 is 267's near-twin (842 acts both, all distinct; 709 corpus-unique each; 50 acts at count ≥4 each; identical high band 30 @271 / 1 @1,058 / 2 @1,060; means 14.7067 / 14.8824) sharing 111 acts in IDENTICAL relative order (0 inversions in 6,105 pairs) in 19 shared runs, the longest 31 acts at identical positions 787–817 in both — CONTAINING both 267-side break pairs
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_CENTRE139_ANCHORS_MEMBERS_LANE1_BLOCKS_BYTE3_BREAKS_CIDX130_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef123.py
+  sha256
+  `ab081ae339f01b8e9826a60d9cf87619f0347e71f40510b8855cc0a111b20582`,
+  arms123.py sha256
+  `83658cb37f1760c3c6f22d765e36ca2fc8947f8a0348aef4be6a70130a66a381`,
+  arms gz sha256
+  `8357ef408dd48d5ccbb2413d15843ca0dc08946aa619631c134a94b81d3294a2`,
+  landed on-device as 22 individually sha-gated parts,
+  concatenated and whole-verified; hef123.py assembled
+  on-device from the verified hef122 base + arms123,
+  on-device sha == VM; ran detached to DONE123;
+  output
+  13,972 lines, 2,204,713 B, sha256
+  `c95d0408c7ea5065c08ffc7fa17074c99bdf50b0cdb233d6250dcd7b590fbca7`,
+  retrieved gz sha256
+  `97917c276a89341187fb9786e454b4f9c05ce8f3bfcad9d3cfd5b3898b151446`
+  decompressing to the same output sha256, verified on
+  the VM at closing; DONE123 at output line 13,972).
+  Inherited controls exact: cells 55,902 / obs 527,236;
+  divergent triples 2,171, verdicts CONT 12,411 / BREAK
+  476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
+  unanimous 18,286 / 29 centres; differing lanes 2,584
+  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738};
+  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
+  steady 7, recorded head); lane 1 354 / 224 / 218 /
+  217; shared 267∩144 acts 36. (i)(a) 139: 79 cells
+  {0856a10c: 42, 76c3a8ff: 35, 5ab3537d: 1, 773470cd: 1},
+  1,448 obs, 133 occurrences, per-cell {1: 77, 28: 2},
+  classes DISTINCT 77 / UNANIMOUS 2, all 79 ≥8; 78
+  distinct words at the occurrences, centreword
+  ff8b0000 133/133, ng 1 133/133; the 28-cells share
+  (pos, size, off) (21, 30768, 15368), the cidx tuple
+  [97, 101, …, 205] and the word tuple (single word
+  ('00000000', 'ff0f0000', 'ff8b0000', '00000000',
+  '00000000')); only `oo` differs (first row 878,302,720
+  A / 878,030,336 B); non-divergent triples containing
+  139 exactly 1 (that key, A/B identical 28/28);
+  divergent triples containing 139: 0; extras centre
+  139: 0; 78 distinct keys, only the mirror key held by
+  two artifacts; DISTINCT cells carry 6 cidx tuples
+  (0856a10c n21 ×8 / n20 ×23 / n8 ×11; 76c3a8ff n15 ×8 /
+  n18 ×17 / n25 ×10); in-cell neighbours {(139,139):
+  52, (134,None): 31, (130,148): 27, (124,None): 11,
+  (130,166): 8, (139,None): 2, (None,139): 2}. (i)(b)
+  Anchors as members: 7 — 67 triples (27 UNANIMOUS +
+  40 NONAP), 468 occ; non-unanimous 40 occ all start
+  (index 0), next 11 ×16 / 15 ×24, steps in host set
+  40/40, 5 distinct host sequences. 11 — 109 triples
+  (14 + 95), 205 occ; non-unanimous 95 occ = start 10 /
+  interior 85 (all index 1; prev 5 ×69 steps (6, 6),
+  prev 7 ×16 steps (4, 4); next 17 ×79 / 15 ×16), end
+  0, in set 95/95, 9 hosts. 95 — 45 triples (5 + 40),
+  127 occ; non-unanimous 40 occ all interior (index 7
+  ×24 / 9 ×16, prev 91 ×40, next 99 ×37 / 103 ×3), in
+  set 40/40, 5 hosts. Pooled non-unanimous 175 occ:
+  start 50 / interior 125 / END 0; pooled all hosts 800
+  occ, ends 46 all inside own unanimous hosts. (ii)(a)
+  Group (20, 32720): 8 cells at offs 6796–7272 step 68,
+  27 lanes each, same 27 cidxs {2, 5, …, 80}, all
+  centre 127; per block 27 distinct pairs / diffs /
+  XORs / A / B; vs first block all set and multiset
+  comparisons False, additive and XOR translates None;
+  over all 28 block pairs, intersections of pairs / A /
+  B / diffs / XORs all 0 (computed from the printed
+  pair lists); pooled 216 distinct in every projection.
+  (ii)(b) Group (14, 9992): 5 pairs, each 27× in its
+  own cell (offs 4336 / 9832 / 1744 / 6944 / 7424),
+  same 27 cidxs {101, …, 205} and centres {7, 11, …,
+  111}; A/B byte strings as tabled in the evidence doc;
+  all XOR 0x80000000; diffs −2147483648 ×4 /
+  +2147483648 ×1; per-byte (0, 0, 0, −128) ×4 /
+  (0, 0, 0, +128) ×1. Group (19, 7712): 3 pairs, all
+  XOR 0x80000000, diffs +2^31 ×1 / −2^31 ×2, cidx 86,
+  centre 87. (ii)(c) Determination over 224 pairs:
+  f(byte 3) 61 keys / 35 violating / 192 pairs False;
+  f(byte 3, group) 63 / 35 / 192 False; f(group) 3 / 3
+  False; per-group byte-3 tables: (14, 9992) 2 values /
+  0 multi True, (19, 7712) 2 / 0 True, (20, 32720) 59 /
+  35 False; f(byte 3, byte 0) 175 / 32 / 78 False;
+  f(byte 3, byte 1) 216 / 2 / 4 False (violating
+  (249, 44) → {−1, 0}, (252, 84) → {−2, −1});
+  f(byte 3, byte 2) 221 / 1 / 2 False (violating
+  (249, 181) → {−5, −1}); f(bytes 0, 1, 2) 224 / 0 —
+  injective key, vacuous; f(full A) 224 / 0 sanity.
+  Source NOT PROVEN. (iii)(a) Break acts, all solely in
+  cc9b9d1c: 267-side occ 4 / 4 / 4 / 6, 144-side occ
+  27 / 54 / 27 / 27; components 2/3 identical across
+  sides, only component 1 differs; 144 pairs as pairs
+  27× each at pos 195 / 204 in contexts {140, 144, …,
+  244}; 267 pairs as pairs 4× each at pos 792 / 801 in
+  contexts {114, 130, 251, 267}, neighbours identical
+  to the 144 pair's frame ((173040, 24, 0) /
+  (173568, 816, 0); pair 2 (174968, 24, 0) /
+  (175616, 176, 0)); reversed pairs 0; surplus singles:
+  144 @196 act +27× at pos 557, 267 @802 act +2× at
+  pos 646 (cidx 120, 257). (iii)(b) 130 vs 267: lengths
+  842 / 842, all acts distinct in each; profiles 130
+  {1: 709, 2: 80, 3: 3, 4: 6, 6: 1, 8: 3, 14: 1, 15: 3,
+  28: 3, 271: 30, 1058: 1, 1060: 2} mean 14.7067; 267
+  {1: 709, 2: 83, 4: 6, 6: 1, 15: 4, 39: 3, 47: 3, 271:
+  30, 1058: 1, 1060: 2} mean 14.8824; 144 control mean
+  49.2612; shared distinct acts 111, unshared 731 each,
+  union 1,573; order inversions 0 of 6,105; offsets 13
+  distinct, top (0: 42, −7: 29, +1: 12, −3: 5, −17: 5);
+  19 maximal shared runs ≥2, lengths {31: 1, 10: 1,
+  8: 1, 7: 1, 6: 1, 5: 3, 3: 4, 2: 7}; len-31 run at
+  787–817 in both, containing acts (900761600, 248, 0)
+  and (900762112, 256, 0); len-8 run at 826–833 in both;
+  130 non-unique 133 acts / 11,541 other occurrences /
+  1,059 other contexts, top other context cc9b9d1c
+  cidx 267 (111). Mechanism NOT PROVEN.
+- **Next:** centre 139's six DISTINCT-cell families as
+  full centre sequences and the shared mirror cell
+  against the pair's shared-cell population; lane 1's
+  six byte-3 near-miss pairs in full, f(byte 3, byte 1,
+  byte 2) tested, and group (20, 32720)'s per-cidx
+  trajectories across its eight blocks; the four break
+  contexts {114, 130, 251, 267} against each other and
+  the non-shared spans between 130↔267's 19 shared runs
+  (slice 4.124).
+- **Audit:** Host-side analysis only; no device child.

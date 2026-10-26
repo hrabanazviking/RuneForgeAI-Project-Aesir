@@ -3417,3 +3417,62 @@ differing values read corpus-wide, and centre one
 hundred thirty-nine's two deep cells.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 centre one hundred thirty-nine read in
+full, the anchors as sequence members, lane one split
+the other way, the breaks read corpus-wide, and cidx
+one hundred thirty against two hundred sixty-seven
+(AES-NUM-123,slice4.123):
+`docs/HAILO10H_CENTRE139_ANCHORS_MEMBERS_LANE1_BLOCKS_BYTE3_BREAKS_CIDX130_2026-10-24.md`.
+The two deep cells of one hundred thirty-nine are one
+cell, held identically by both mirror artifacts: the
+same key, the same twenty-eight contexts, the same
+single word in every row, differing only in where the
+rows sit. That cell is the centre's single
+non-divergent triple — its only presence in the
+mirror pair at all, for it belongs to no divergent
+triple and leaves no extras. Its other cells are
+single-occurrence cells in two artifacts only, six
+context tuples among seventy-seven cells, and its
+seat never varies: in one artifact it is always the
+last centre of its cell, in the other always an
+interior centre after one hundred thirty, and its own
+centre word is the same at all one hundred
+thirty-three of its occurrences. The constant-like
+anchors, read as members, keep the varying centres'
+law: inside sequences of other centres they are never
+endings either — fifty starts, one hundred
+twenty-five interiors, no ends — and never take a
+step the host does not already take; seven is always
+a beginning, eleven always first or second,
+ninety-five always interior after ninety-one. Lane
+one's wide group, split by its eight offset blocks,
+shares nothing at all between blocks — no pair, no
+value, no difference crosses from one block to
+another, and no shift of any kind carries one block
+onto another — while the narrow groups' pairs prove
+to be pure sign flips, the two sides differing only
+in the top bit of the third byte; and that byte's
+shift is determined by nothing tried: not by the
+group it sits in, not by any single low byte beside
+it, and by the low bytes together only in the empty
+way that naming each pair determines it. The two
+breaks dissolve under the corpus read: every break
+act lives in the one artifact alone, the pairs stand
+in twenty-seven contexts on the train side and
+exactly four on the stranger side, always at the same
+positions, never once reversed — and the fourth of
+those four contexts, one hundred thirty, is the
+stranger's near-twin, the same length, the same
+lonely profile, sharing one hundred eleven acts in
+identical order, among them a thirty-one-act run at
+the very same positions that holds both break pairs
+inside it, unbroken. The breaks were breaks of one
+alignment only.
+Next: the six families of one hundred thirty-nine's
+cells read as whole sequences, the six near-miss
+pairs of the third byte, the eight blocks read
+context by context, the four break contexts against
+each other, and the spans between the shared runs.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
