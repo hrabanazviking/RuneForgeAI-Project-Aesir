@@ -3238,3 +3238,33 @@ words identified across all artifacts, and the
 unshifted heads' acts searched corpus-wide. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 thickness-graded verdicts, word identity and
+unique head acts (AES-NUM-118,slice4.118):
+`docs/HAILO10H_THICKNESS_GRADED_VERDICTS_WORD_IDENTITY_UNIQUE_HEAD_ACTS_2026-10-24.md`.
+The question left hanging over the twins' quarrel —
+how much are the "breaks" worth, when some rest on a
+single shared instance — answers itself completely:
+every break in the whole population rests on a shared
+sequence of one or two instances, and wherever the
+shared sequence is three or thicker there is not one
+break in nearly twelve thousand extra instances; the
+constant shared sequences continue ten and a half
+thousand times without a single exception once they
+are two thick. The ninety-six differing words turn
+out to belong to the pair alone — not one of them, on
+either side, is any other network's word at the same
+address — and the pattern of the word that changes
+everywhere but the first instance lives only inside
+this pair, wider there than the family that named it.
+And the downward exception's companions keep their
+secrets honestly: most of their unique head acts are
+ordinary material elsewhere, but five acts inside one
+rank's head occur nowhere else in its whole network,
+a small run of acts spaced evenly like fence posts.
+Next: the thin triples' extra instances read as
+sequences in their own right, the differing words
+hunted lane by lane across networks, and the five
+lonely acts searched in every artifact. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

@@ -9545,3 +9545,93 @@ No new capability ID or hardware/complete-source execution claim.
   the three unshifted heads' unique acts searched
   corpus-wide (slice 4.118).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-118 — EVERY continuation break among the mirror pair's divergent triples rests on a common sequence of length 1 or 2 (at common length 3 or more there are NO breaks in 11,952 extras; all 373 unanimous breaks sit on a single shared instance, all 103 AP breaks on a two-instance sequence whose step is one difference); B's differing word is NO other artifact's word at the same group in any of the 1,971 differing instances (0 at group, cell, same-cidx and same-idx level; the A word 0 as control), the 28-instance first-instance pattern appears in no other artifact pair — no other pair shares even one cell — and counts 29 cells inside the mirror pair (the 15 unanimous family cells plus 14 DISTINCT/DISTINCT cells); 44 of the 60 27-differing cells share a group with the 37 (and 15 of the 60 ARE family-3 cells of the 37); and of the three unshifted heads' 21 unique-act entries, five acts inside train 48 rank 2's head occur NOWHERE else in cc9b9d1c, while only three distinct unique acts head any other context
+
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_THICKNESS_GRADED_VERDICTS_WORD_IDENTITY_UNIQUE_HEAD_ACTS_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef118.py sha256
+  `18e53031beb9117160590e63fbba1b7f5ef22899b9a248d67fa085829139b5dd`,
+  arms sha256
+  `9e48424bcc75ca573d10f31d18bcb66706dccc920a2b7e67df1714094170e384`;
+  output 13,730 lines, 1,878,488 B, sha256
+  `12a9e0602103484951b1d11c6063b9c85d91613467c73d44cc48087a5785f3a3`).
+  Inherited markers DONE105/106/107/108 at the same lines
+  as the 4.116/4.117 runs; the shared enumeration, the
+  divergent-triple populations and verdict totals, the
+  37/96 populations and the cc9 fit all reproduce exactly
+  (full list in the evidence doc). (i) Thickness strata
+  (extras): length 0 — 865 all INDET; length 1 — CONT
+  1,254 / BREAK 373; length 2 — CONT 705 / BREAK 103;
+  length 3-5 — CONT 1,182 / INDET 269 / BREAK 0; length
+  6+ — CONT 9,270 / INDET 1,231 / BREAK 0. UNANIMOUS at
+  length >=2: CONT 10,541/10,541, zero breaks; AP at
+  length 7: CONT 8/8. The 103 AP breaks live in 10
+  two-common triples: nine in group (71, 19392) with
+  common centres (38, 44), step 6, the same 12 extras
+  each, 11 breaking and one (B cidx 49, centre 50)
+  continuing in every triple (99 breaks), and one triple
+  (15, 32608, 29184) with common (0, 38), step 38, four
+  extras all carrying centre 0 (4 breaks). The 72
+  any-BREAK triples (62 at length 1, 10 at length 2) are
+  listed in full in the run output, grouped in the doc:
+  the 62 unanimous ones each have exactly one common
+  instance and every extra breaks. Thin-common verdicts
+  are graded at their true weight in the doc: a break
+  against a length-1 or length-2 common sequence is not
+  evidence of the same weight as a thick one, and the
+  thick population is break-free without exception.
+  (ii) B's differing word occurs in another corpus
+  artifact at the same group for 0/1,971 differing
+  instances, and 0/1,971 at cell, same-cidx and same-idx
+  level; per other artifact 0/1,971 each; the A word as
+  control likewise 0 at all levels; the 37 alone 0/535
+  and the other 59 cells of the 96 0/1,436. Distinct B
+  words 1,350. The 28-instance first-instance pattern:
+  exactly 1 of the 21 artifact pairs shares any
+  cidx-keyed cell (the mirror pair, 2,981), so no other
+  pair can carry the pattern (all counts 0 over 0 shared
+  cells); inside the mirror pair the pattern counts 29
+  cells of 443 shared 28-instance cells — 15 UNANIMOUS x
+  OTHER (exactly family 3 of the 37) plus 14 DISTINCT x
+  DISTINCT — and no any-n variant beyond n=28. The 60
+  cells with exactly 27 differing instances: 31 of size
+  27 and 29 of size 28; strict whole-cell cells number
+  34 (27/27 x31, 28/28 x1, 2/2 x2); 44/60 share a group
+  with the 37 ((12, 32728) 15, (13, 32760) 10, (14, 9992)
+  19, (19, 7712) 0; the remaining 16 are in (20, 32720));
+  15 of the 60 ARE 37 cells (family 3); strict whole-cell
+  group overlap 15/34, all in (12, 32728), with
+  triple-level overlap 0. (iii) Unique head acts (in no
+  steady member head): train 48 rank 1 — 8/8 head acts;
+  rank 2 — 8/8; train 50 rank 26 — 5/6 (head position 2
+  occurs in steady heads). 21 entries, 20 distinct acts
+  ((1170699776, 24, 2) is unique in both rank 1's and
+  rank 26's heads). Heading another context: rank 1's
+  first act heads cidx 124, the shared act heads cidx
+  143, rank 2's first act heads cidx 119, 158, 178, 242
+  — 4 entries / 3 distinct acts; train 50 rank 26's
+  first act heads no other context. Five acts occur only
+  in their source context, all in rank 2's head
+  (positions 1, 2, 3, 4, 7 of the 512-spaced run
+  1225499136..1225501720); rank 2's positions 5/6 recur
+  once in cidx 267. Every rank's opening pair occurs
+  exactly once corpus-wide, in its own context at
+  position 0. Rank 1's positions 2-7 acts are
+  corpus-common in other contexts; rank 26's prev_act
+  occurs 28x, 26 of them at position 719 in the step-4
+  cidx family 146..246. All per-act counts, positions
+  and occurrence lists are in the run output.
+- **Next:** the thin-common triples' extras read as
+  sequences in their own right (do the extras of the
+  length-1/length-2 triples form their own progressions,
+  interleaved with the common sequence?); lane-level
+  (single-word) cross-artifact identity for the 37/96
+  differing words, now that full-neighbourhood identity
+  is zero everywhere, and a context/ng census explaining
+  why only the mirror pair shares cells; and train 48
+  rank 2's five cc9-unique acts (and its whole head as a
+  sequence) searched across all seven artifacts, not
+  cc9b9d1c alone (slice 4.119).
+- **Audit:** Host-side analysis only; no device child.

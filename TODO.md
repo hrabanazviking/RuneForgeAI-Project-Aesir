@@ -2281,33 +2281,94 @@
   stays NOT PROVEN.
   `docs/HAILO10H_DIVERGENT_TRIPLES_BROKEN_UNANIMITY_UNSHIFTED_HEADS_2026-10-24.md`.
 
-- [ ] Slice4.118 thickness-
+- [x] Slice4.118 thickness-
   graded continuation
   verdicts for the 2,171
-  divergent triples
-  (common-sequence length
-  strata; the AP-common
-  extras' 103 breaks and
-  the 72 any-BREAK triples
-  anatomised in full); the
+  divergent triples; the
   37/96 differing words
   identified across
-  artifacts (is B's
-  differing word another
-  artifact's word at the
-  same group? does the
+  artifacts; and the three
+  unshifted heads' unique
+  acts searched corpus-wide
+  in cc9b9d1c DONE
+  (AES-NUM-118): EVERY
+  break rests on a common
+  sequence of length 1 or
+  2 — at length >=3 there
+  are NO breaks in 11,952
+  extras (CONT 10,452 /
+  INDET 1,500); all 373
+  unanimous breaks sit on
+  a single shared instance
+  (unanimous at length >=2
+  continues 10,541/10,541)
+  and all 103 AP breaks on
+  a two-instance sequence
+  (nine (71,19392) triples
+  with common (38,44) step
+  6, 11 breaks each, plus
+  one (15,32608) triple,
+  step 38, 4 breaks); the
+  72 any-BREAK triples are
+  62 at length 1 + 10 at
+  length 2, listed in full
+  with reasons. B's
+  differing word is NO
+  other artifact's word at
+  the same group in any of
+  the 1,971 differing
+  instances (0 at group,
+  cell, same-cidx and
+  same-idx level; the A
+  word 0 as control); the
   28-instance first-
-  instance pattern appear
-  in other artifact pairs?
-  do the 60 whole-cell
-  differing cells coincide
-  with the 37's groups?);
-  and the three unshifted
-  heads' unique acts
-  searched corpus-wide in
-  cc9b9d1c (do those acts
-  head any other context?);
-  then broad ordinary
+  instance pattern appears
+  in no other pair (no
+  other pair shares even
+  one cell) and counts 29
+  cells inside the mirror
+  pair (15 unanimous family
+  + 14 DISTINCT/DISTINCT);
+  44 of the 60 27-differing
+  cells share a group with
+  the 37 and 15 of the 60
+  ARE family-3 cells. Of
+  the three heads' 21
+  unique-act entries, five
+  acts in train 48 rank 2's
+  head occur NOWHERE else
+  in cc9b9d1c, and only
+  three distinct unique
+  acts head any other
+  context; every opening
+  pair occurs exactly once
+  corpus-wide.
+  `docs/HAILO10H_THICKNESS_GRADED_VERDICTS_WORD_IDENTITY_UNIQUE_HEAD_ACTS_2026-10-24.md`.
+
+- [ ] Slice4.119 the thin-
+  common triples' extras
+  read as sequences in
+  their own right (do the
+  extras of the length-1
+  and length-2 triples form
+  their own progressions,
+  interleaved with the
+  common sequence?);
+  lane-level (single-word)
+  cross-artifact identity
+  for the 37/96 differing
+  words (full-neighbourhood
+  identity is zero
+  everywhere) and a
+  context/ng census of why
+  only the mirror pair
+  shares cells; and train
+  48 rank 2's five
+  cc9-unique acts (and its
+  whole head as a sequence)
+  searched across all seven
+  artifacts, not cc9b9d1c
+  alone; then broad ordinary
   UNMODIFIED source-model
   support100%.
 
