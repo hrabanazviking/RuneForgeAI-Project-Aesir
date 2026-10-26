@@ -2826,3 +2826,28 @@ whether that disjointness is itself surprising, and the labels
 against the last unhunted metadata, ngidx and ng. Broad
 ordinary UNMODIFIED source-model support100% remains the
 destination.
+
+2026-10-24 second common-arm zero, disjointness control, ng label hunts (AES-NUM-105,slice4.105):
+`docs/HAILO10H_SECOND_COMMONARM_DISJOINT_CONTROL_NG_LABELS_2026-10-24.md`.
+The second common-arm DENSE zero repeats the first one's story
+exactly: the MiniLM word at 9272 is its group's only common
+offset, so its absence from the non-common population is the
+definition at work, not a mechanism; in the common-arm reading
+it is a DENSE zero in the cidx 5 instance, a lone raw word whose
+own group offers no per-ng prediction at that offset. The
+disjointness control then answers the question the last slice
+left open: the singletons' neighbourhood separation is not a
+small-sample accident — none of seven deterministic alternative
+splits of the same 64 zeros, and none of 2,000 seeded random
+five-splits, is disjoint at even one relative position, while
+the real split is disjoint at all four; no exact separating law
+is claimed, but the separation itself is real. And the labels
+close out the metadata: every camp segment sits in the same ng,
+so ng cannot determine anything, and ngidx — distinct for every
+segment — yields no affine or XOR relation either. Every stated
+metadata determiner is now exhausted; what the labels encode
+remains unproven. Next: the singleton-only neighbourhood values
+themselves, the cidx-3 counterpart at 9272 word by word, and
+the labels against the segments' own block structure. Broad
+ordinary UNMODIFIED source-model support100% remains the
+destination.

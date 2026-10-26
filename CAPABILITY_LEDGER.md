@@ -8518,3 +8518,58 @@ No new capability ID or hardware/complete-source execution claim.
   splits of the same zeros); label values vs ngidx / ng
   arithmetic (slice 4.105).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-105 — the second common-arm DENSE zero is also a common offset (MiniLM 9272, its group's only common offset, a raw singleton); the 4.104 disjointness is itself surprising (0 of 2,000 seeded random 5-splits reproduce it at even one position); the labels share no stated relation with ngidx / ng arithmetic (ng constant across all 25 camp segments)
+
+- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Owner:** docs/HAILO10H_SECOND_COMMONARM_DISJOINT_CONTROL_NG_LABELS_2026-10-24.md.
+- **Evidence:** controls reproduce AES-NUM-029/032...104 exactly
+  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
+  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
+  whole-arm candidates 7,690 boundary 0, non-common 7,484
+  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); common-arm
+  census reproduces AES-NUM-104 exactly (206 records, DENSE 95 /
+  SPARSE 65 / MID 46, value-0 DENSE 2, exactly 2 common-arm
+  DENSE zeros). DONE105 at line 3,576. Script note: the first
+  run crashed in arm (iii) on a `%`-precedence bug in the PAIR
+  print after arms (i)/(ii) completed; one-line patch
+  (hef105.py sha256 3ce411f7...), full rerun, on-device diff =
+  exactly the traceback replaced by arm (iii)'s output.
+  (i) Group (MiniLM,23,32768) commons are exactly [9272] —
+  9272 IS a common offset (the group's only one), so its
+  absence from the non-common population is EXPLAINED by the
+  population definition, as at 17344. Instances: (cidx 3,
+  ng 0, ngidx 4) value 127, z 1, DENSE, mask 00001; (cidx 5,
+  ng 0, ngidx 6) value 0, z 1, DENSE, mask 01000 — the
+  common-arm DENSE zero, mask exactly as AES-NUM-104
+  recorded. The ALLOTH object at 9272 exists with per-ng
+  form {0: OTHER} — no per-ng prediction (17344's were CONST
+  in both ngs). Raw: cidx 5's word is ff000000, maximal raw
+  run length 1 (raw singleton), sole position common-only;
+  cidx 3's word is ff7f0000, no raw run.
+  (ii) The observed singleton/member disjointness reproduces
+  ([0,0,0,0]). Controls: 7 deterministic alternative
+  5-splits — none disjoint at even one position
+  (intersections 1–4 per position); 2,000 seeded random
+  5-subsets — all-four-disjoint 0, >=1-position-disjoint 1,
+  per-position disjoint counts [0,0,0,1], mean intersections
+  [2.619, 1.601, 1.853, 2.4715]. The disjointness is NOT a
+  small-n artefact; it is a real measured feature of the
+  two populations. AES-NUM-104's exact-separation hunt
+  still stands: a distinguishing LAW remains NOT PROVEN.
+  (iii) ng is CONSTANT (1) across all 25 camp segments in
+  every scope — as a determiner it carries no variation
+  (as-function True only on constant target bytes, all
+  degenerate; affine hits only on constant targets,
+  excluded). ngidx is injective in every scope (A 13,
+  B 12, pooled 25 distinct) — every as-function hit
+  degenerate; affine a != 0 hits 0 on all 24 scope/byte
+  combinations, XOR-constant None. AFFINE non-degenerate
+  hits total 0. With cidx/segidx/rank (4.104) and the
+  label pair (4.103) closed, every stated metadata
+  determiner is exhausted. Label identity NOT PROVEN.
+- **Next:** the singleton-only neighbourhood values
+  themselves; the cidx-3 counterpart at 9272 word-by-word;
+  label values vs in-segment block positional structure
+  (slice 4.106).
+- **Audit:** Host-side analysis only; no device child.

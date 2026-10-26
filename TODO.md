@@ -1600,22 +1600,49 @@
   PROVEN.
   `docs/HAILO10H_CANDIDATELESS_17344_NEIGHBOURHOODS_CIDX_LABELS_2026-10-24.md`.
 
-- [ ] Slice4.105 the second
+- [x] Slice4.105 the second
   common-arm DENSE zero
   (MiniLM, 23, 32768) p 9272
-  cidx 5 mask 01000 (its group's
-  commons, its instances'
-  records at 9272, raw anatomy,
-  against the 17344 case); a
-  disjointness control for the
-  4.104(ii) fact (per-position
-  value-set disjointness between
-  other population splits of the
-  same DENSE zeros); label
-  values vs ngidx / ng
-  arithmetic; then broad
-  ordinary UNMODIFIED source-
-  model support100%.
+  cidx 5 mask 01000: 9272 IS a
+  common offset of its group
+  (its ONLY common offset) —
+  exclusion EXPLAINED by the
+  population definition, as at
+  17344; cidx 5 record value 0,
+  z 1, DENSE, mask 01000, per-ng
+  form OTHER (no prediction);
+  raw run length 1 in cidx 5,
+  cidx 3 word ff7f0000.
+  Disjointness control: 0 of
+  2,000 seeded random 5-splits
+  disjoint at even one position;
+  7 deterministic splits none —
+  the 4.104 disjointness is NOT
+  a small-n artefact (exact-
+  separation law still NOT
+  PROVEN). Labels vs ngidx / ng:
+  ng constant 1 in all 25
+  segments; ngidx injective in
+  every scope, affine/XOR hits
+  0 — NOT PROVEN; every stated
+  metadata determiner exhausted.
+  `docs/HAILO10H_SECOND_COMMONARM_DISJOINT_CONTROL_NG_LABELS_2026-10-24.md`.
+
+- [ ] Slice4.106 the singleton-
+  only neighbourhood values
+  themselves (identity across
+  the 5 singletons' groups /
+  offsets; recurrence anywhere
+  else in the corpus
+  populations); the cidx-3
+  counterpart at 9272 word-by-
+  word vs the cidx-5 DENSE
+  zero's neighbourhood; label
+  values vs the segments' own
+  block positional structure;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
