@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 146 |
-| `partial` | 30 |
+| `verified` | 278 |
+| `partial` | 31 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **192** |
+| **Total** | **328** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -4385,7 +4385,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-CONTROL-017 — Aligned grouped control backing (host qualification)
 
-- **Status:** `verified` (host scope only)
+- **Status:** `verified`
+- **Status note:** (host scope only)
 - **Owner:** Original hailbru/soc_storage.mojo,soc_session.mojo,
   soc_group_rpc.mojo,soc_group_device.mojo (aligned entry points only).
 - **Claim sources:** TASK_hailo10h_aligned_grouped_control.md published
@@ -4424,7 +4425,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-CONTROL-018 — Aligned grouped lifecycle, one bounded physical attempt (partial)
 
-- **Status:** `partial` (physical scope; acceptance failed, batch closed)
+- **Status:** `partial`
+- **Status note:** (physical scope; acceptance failed, batch closed)
 - **Owner:** Original smidr/tools/group_device_probe_aligned.mojo over the
   AES-CONTROL-017 aligned grouped owner;test-only aligned observer variant.
 - **Claim sources:** TASK_hailo10h_aligned_grouped_physical.md published
@@ -4470,7 +4472,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-TRANSFER-001 — Grouped transfer semantics extraction (specification)
 
-- **Status:** `verified` (specification scope only;no code,no physical run)
+- **Status:** `verified`
+- **Status note:** (specification scope only;no code,no physical run)
 - **Owner:** Analysis over the original grouped owner sources
   (soc_group.mojo,soc_group_rpc.mojo,soc_exchange_progress.mojo,
   soc_progress.mojo,soc_storage.mojo,soc_session.mojo).
@@ -4554,7 +4557,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-TRANSFER-003 — Grouped transfer primitive host qualification
 
-- **Status:** `verified` (host scope only)
+- **Status:** `verified`
+- **Status note:** (host scope only)
 - **Owner:** Original hailbru/soc_transfer.mojo exercised through
   tests/hailo_group_transfer_aligned_api.mojo (direct consumer) and
   smidr/tools/group_transfer_mock.mojo (probe diagnostic).
@@ -4597,7 +4601,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-TRANSFER-004 — Grouped transfer primitive, one bounded physical exchange
 
-- **Status:** `verified` (physical scope: one control-class exchange)
+- **Status:** `verified`
+- **Status note:** (physical scope: one control-class exchange)
 - **Owner:** Original smidr/tools/group_transfer_probe.mojo over
   hailbru/soc_transfer.mojo (AES-TRANSFER-002),consumer layer as
   qualified under AES-TRANSFER-003.
@@ -4633,7 +4638,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-PROG-001 — Program resource lifecycle interface qualification (specification)
 
-- **Status:** `verified` (specification scope only;no code,no physical run)
+- **Status:** `verified`
+- **Status note:** (specification scope only;no code,no physical run)
 - **Owner:** Analysis over the pinned-source delivery-boundary study
   and the original host-qualified codecs (hrpc_program.mojo,
   hrpc_configure.mojo,hrpc_device.mojo).
@@ -4711,7 +4717,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-PROG-003 — Program lifecycle, one bounded physical observation run
 
-- **Status:** `verified` (observation scope: branch B2 established
+- **Status:** `verified`
+- **Status note:** (observation scope: branch B2 established
   physically;no program object created)
 - **Owner:** Original smidr/tools/program_lifecycle_probe.mojo over
   hailbru/soc_program.mojo + hailbru/soc_transfer.mojo.
@@ -4791,7 +4798,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-001 — Device-program field table (Campaign 4 entry)
 
-- **Status:** `verified` (specification scope:evidence-graded field
+- **Status:** `verified`
+- **Status note:** (specification scope:evidence-graded field
   inventory;no emitter,no bytes,no operation claimed).
 - **Owner:** docs/HAILO10H_NUMERICAL_FIELD_TABLE_2026-10-24.md.
 - **Claim sources:** Pinned HailoRT d503417f (hef.proto,
@@ -4827,7 +4835,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-002 — First operation selection (Campaign 4)
 
-- **Status:** `verified` (specification scope:selection record
+- **Status:** `verified`
+- **Status note:** (specification scope:selection record
   with scored alternates and a pre-stated layer prediction).
 - **Owner:** docs/HAILO10H_FIRST_OPERATION_SELECTION_2026-10-24.md.
 - **Claim sources:** AES-NUM-001 field table (all dependency
@@ -4856,7 +4865,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-003 — Identity copy eight-layer description (Campaign 4)
 
-- **Status:** `verified` (specification scope:eight-layer
+- **Status:** `verified`
+- **Status note:** (specification scope:eight-layer
   description graded against AES-NUM-001,with the prediction
   contradiction recorded as the slice's finding).
 - **Owner:** docs/HAILO10H_IDENTITY_COPY_EIGHT_LAYER_SPEC_2026-10-24.md.
@@ -4905,7 +4915,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-004 — Identity copy spec review gate (Campaign 4)
 
-- **Status:** `verified` (review scope:field-by-field audit of
+- **Status:** `verified`
+- **Status note:** (review scope:field-by-field audit of
   AES-NUM-003 against AES-NUM-001 and the roadmap §2.2 Do Not
   Infer table;no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_IDENTITY_COPY_SPEC_REVIEW_2026-10-24.md.
@@ -4958,11 +4969,12 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-005 — CCW word layout study, Track R R1 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded search of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded search of the
   pinned public sources, lane D and repo evidence for a CCW
   word layout;no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_CCW_LAYOUT_STUDY_2026-10-24.md.
-- **Verdict: R1 NOT PROVEN.** No searched source defines the
+- **Verdict:** R1 NOT PROVEN. No searched source defines the
   bit layout of a non-zero CCW word (opcode/address/data/
   command field positions all undefined). Pinned
   config_buffer.{hpp,cpp} @d503417 treat CCW data as opaque
@@ -4987,12 +4999,13 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-006 — SoC session readiness study, Track R R2 + F1 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned public sources for the SoC RPC session readiness
   protocol and the F1 program-result readback question;no
   payload contract,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md.
-- **Verdict: R2 ESTABLISHED at source level** (one sub-part
+- **Verdict:** R2 ESTABLISHED at source level (one sub-part
   NOT PROVEN). Interface @pin (hailo_session.hpp):wait_for_
   read/write_async_ready(transfer_size,timeout) — "each
   session has a limited-size queue for ongoing transfers";
@@ -5039,13 +5052,14 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-007 — Placement counts and safe assignment values, Track R R3 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned public sources,repo evidence and open web for the
   Hailo-10H's physical placement counts and any publicly
   established safe assignment values;no emitter,no bytes,no
   physical run).
 - **Owner:** docs/HAILO10H_PLACEMENT_VALUES_STUDY_2026-10-24.md.
-- **Verdict: R3 NOT PROVEN on both parts.** R3a counts:no
+- **Verdict:** R3 NOT PROVEN on both parts. R3a counts:no
   searched source states the Hailo-10H's cluster,subcluster,
   APU/compute-unit,input-aligner or local-memory bank counts.
   R3b safe values:no searched source establishes any cluster
@@ -5091,11 +5105,12 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-008 — Action sequencing for a real program, Track R R4 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned configure-path sources for a sourced minimal-program
   context-action sequence;no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md.
-- **Verdict: R4 PARTIALLY ESTABLISHED.** The ordering
+- **Verdict:** R4 PARTIALLY ESTABLISHED. The ordering
   discipline is ESTABLISHED at source level:the pinned
   configure path (resource_manager_builder.cpp @d503417,
   sha256 035af3cc…;builder/resource-manager/header hashes
@@ -5121,7 +5136,7 @@ No new capability ID or hardware/complete-source execution claim.
   lands). Non-default records carry address u16 + count u32
   in the action;no safe non-default address value is
   established — NOT PROVEN,ID35 addresses stay OUT.
-- **Minimal authorable sequence: NOT PROVEN.** The base list
+- **Minimal authorable sequence:** NOT PROVEN. The base list
   is ContextMetadata::get_actions() — parsed from the HEF
   (hef/core_op_metadata.cpp @pin),i.e. DFC-authored;its
   contents depend on R1 (CCW,NOT PROVEN) and R3 (placement,
@@ -5143,11 +5158,12 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-009 — Partial-state teardown preconditions, Track R R5 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned receiver sources for teardown ordering/preconditions
   in partial states;no code,no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_PARTIAL_STATE_TEARDOWN_STUDY_2026-10-24.md.
-- **Verdict: R5 PARTIALLY ESTABLISHED.** Handler-level
+- **Verdict:** R5 PARTIALLY ESTABLISHED. Handler-level
   preconditions ESTABLISHED at source level (hailort_server.cpp
   @d503417 sha256 80b8c3c6…; hrpc/server.cpp 278f5457…;
   server_resource_manager.hpp a9445bfa…; infer_model.cpp
@@ -5204,7 +5220,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-010 — HEF corpus inventory + first static map (empirical program start)
 
-- **Status:** `verified` (inventory + wire-level map scope).
+- **Status:** `verified`
+- **Status note:** (inventory + wire-level map scope).
 - **Owner:** docs/HAILO10H_HEF_CORPUS_INVENTORY_2026-10-24.md.
 - **Context:** Opened under Volmarr's 2026-10-24 never-stop
   order;the document-study negatives (AES-NUM-005/007) stand as
@@ -5231,7 +5248,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-011 — schema-guided CCW isolation in a real HEF
 
-- **Status:** `verified` (isolation scope,one artifact).
+- **Status:** `verified`
+- **Status note:** (isolation scope,one artifact).
 - **Owner:** docs/HAILO10H_CCW_ISOLATION_MINILM_2026-10-24.md.
 - **Evidence:** hef.proto fetched at the HailoRT pin (GitHub
   API;the twister forks are driver trees and hold no proto).
@@ -5254,7 +5272,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-012 — CCW pointer offset base RESOLVED + differential design
 
-- **Status:** `verified` (base resolution + design scope).
+- **Status:** `verified`
+- **Status note:** (base resolution + design scope).
 - **Owner:** docs/HAILO10H_OFFSET_BASE_AND_DIFFERENTIAL_DESIGN_2026-10-24.md.
 - **Evidence:** Pinned hef.cpp @d503417f defines the v3 zero
   point: HEF_HEADER_SIZE_V3 + hef_proto_size + hef_padding —
@@ -5278,7 +5297,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-013 — zero point confirmed empirically;burst lane structure
 
-- **Status:** `verified` (zero point + observed statistics).
+- **Status:** `verified`
+- **Status note:** (zero point + observed statistics).
 - **Owner:** docs/HAILO10H_ZERO_POINT_AND_BURST_STRUCTURE_2026-10-24.md.
 - **Evidence:** Header decode (BE u32s):proto 56,844;ccws
   11,700,652;padding 444 -> zero 57,344. Lane-distinct test
@@ -5300,7 +5320,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-014 — census hunt negative + empirical addressing floor
 
-- **Status:** `verified` (bounded negative + measured floor).
+- **Status:** `verified`
+- **Status note:** (bounded negative + measured floor).
 - **Owner:** docs/HAILO10H_CENSUS_HUNT_AND_ADDRESSING_FLOOR_2026-10-24.md.
 - **Evidence:** (1) The twister driver trees (hailort-drivers
   transport:PCIe/VDMA/fw-ops) contain NO cluster/APU/core
@@ -5320,7 +5341,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-015 — pair acquired (ollama store) + cross-artifact differential
 
-- **Status:** `verified` (measured, three artifacts).
+- **Status:** `verified`
+- **Status note:** (measured, three artifacts).
 - **Owner:** docs/HAILO10H_PAIR_ACQUISITION_AND_CROSS_ARTIFACT_DIFFERENTIAL_2026-10-24.md.
 - **Evidence:** (1) The hailo-ollama store AES-NUM-010/012
   could not locate is FOUND: ~/.local/share/hailo-ollama/
@@ -5346,9 +5368,10 @@ No new capability ID or hardware/complete-source execution claim.
   tracking remains open (recipe/zoo pair's job).
 - **Audit:** Host-side analysis only.
 
-### AES-NUM-015 — per-context lane differential: the layer skeleton
+### AES-NUM-126 — per-context lane differential: the layer skeleton
 
-- **Status:** `verified` (exact value-set statistics).
+- **Status:** `verified`
+- **Status note:** (exact value-set statistics).
 - **Owner:** docs/HAILO10H_PER_CONTEXT_LANE_DIFFERENTIAL_2026-10-24.md.
 - **Evidence:** 153 channel-1/2 24 B bursts across the 6
   contexts (25/24/25/24/26/29). Lane0:exactly ONE value
@@ -5368,7 +5391,7 @@ No new capability ID or hardware/complete-source execution claim.
   of the 132 champion bursts queued (needs no new artifact).
 - **Audit:** Host-side analysis only.
 
-### AES-NUM-015 RECONCILIATION — twin slice,merged
+**AES-NUM-015 RECONCILIATION — twin slice,merged**
 
 - Two crews ran slice4.15 concurrently and both halves are
   canonical: (a) pair acquisition + cross-artifact
@@ -5387,10 +5410,12 @@ No new capability ID or hardware/complete-source execution claim.
   slice claims go in the state file AND the firing cadence
   is 10 minutes — expect company; write so merges stay
   additive.
+- **Renumber (2026-10-27):** the per-context half of the twin slice now carries AES-NUM-126 so every capability ID is unique; both halves remain canonical.
 
 ### AES-NUM-016 — full-corpus walk: universality at 7 artifacts
 
-- **Status:** `verified` (corpus-scale statistics).
+- **Status:** `verified`
+- **Status note:** (corpus-scale statistics).
 - **Owner:** docs/HAILO10H_FULL_CORPUS_WALK_2026-10-24.md.
 - **Evidence:** The four remaining ollama blobs walked
   (mmap;header zero per blob re-confirmed by structure):
@@ -5411,7 +5436,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-017 — lane anatomy: the burst decomposed
 
-- **Status:** `verified` (exact byte/u16 statistics,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact byte/u16 statistics,2 artifacts).
 - **Owner:** docs/HAILO10H_LANE1_STRUCTURE_HUNT_2026-10-24.md.
 - **Evidence:** Champion bursts (MiniLM 132,blob 5ab3537d
   4,819). Lane1 = four u16 fields:pos2 constant 0x0250
@@ -5435,7 +5461,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-018 — ladder, datum, non-champion families
 
-- **Status:** `verified` (exact statistics,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact statistics,2 artifacts).
 - **Owner:** docs/HAILO10H_LADDER_DATUM_NONCHAMPION_2026-10-24.md.
 - **Evidence:** Ladder ANSWERED as a fixed slot set:five
   rungs 0x10f0-0x18f0 (stride 0x200,residue 0xf0) + special
@@ -5463,7 +5490,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-019 — special slot, corpus datum pool, 0x08xx class
 
-- **Status:** `verified` (exact statistics,2 artifacts
+- **Status:** `verified`
+- **Status note:** (exact statistics,2 artifacts
   for arms 1/3;full 7-artifact corpus for arm 2).
 - **Owner:** docs/HAILO10H_SPECIAL_SLOT_DATUM_POOL_08XX_2026-10-24.md.
 - **Evidence:** The 0x2d80 slot is a fixed adjacent
@@ -5494,7 +5522,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-020 — skeleton unit, 0x28xx pattern, datum identity test
 
-- **Status:** `verified` (exact statistics,2 artifacts
+- **Status:** `verified`
+- **Status note:** (exact statistics,2 artifacts
   for arms 1/2;MiniLM for arm 3).
 - **Owner:** docs/HAILO10H_SKELETON_UNIT_28XX_DATUM_IDENTITY_2026-10-24.md.
 - **Evidence:** The 22-burst unit's ladder slot is a
@@ -5533,7 +5562,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-021 — datum/varint closure, pair co-determination, scalar distribution
 
-- **Status:** `verified` (exact counts,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact counts,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_VARINT_PAIRDIFF_REPL28_2026-10-24.md.
 - **Evidence:** (1) Datum is NOT a proto varint value:
   MiniLM pool∩varints = 0/62 on both walks;blob top-pair
@@ -5556,7 +5586,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-022 — datum = bijective image of the operand word
 
-- **Status:** `verified` (exact counts,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact counts,2 artifacts).
 - **Owner:** docs/HAILO10H_CODETERMINATION_BIJECTION_SPLITTER_2026-10-24.md.
 - **Evidence:** Datum↔lane1 is a BIJECTION with zero
   violations both directions (MiniLM 62↔62;blob 417↔417),
@@ -5573,7 +5604,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-023 — the datum map is GF(2)-linear
 
-- **Status:** `verified` (exact linear algebra,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact linear algebra,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_LINEARITY_PROOF_2026-10-24.md.
 - **Evidence:** Incremental GF(2) basis test:MiniLM 62
   samples rank 12,blob 417 samples rank 14 — ZERO
@@ -5593,7 +5625,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-024 — one global linear map, cross-validated
 
-- **Status:** `verified` (exact prediction,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact prediction,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_MATRIX_XVAL_2026-10-24.md.
 - **Evidence:** Fit blob→predict MiniLM 62/62 exact;
   fit MiniLM→predict blob 272/272 in-span exact;zero wrong
@@ -5609,7 +5642,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-025 — span saturation across all 7 artifacts
 
-- **Status:** `verified` (exact counts,full corpus).
+- **Status:** `verified`
+- **Status note:** (exact counts,full corpus).
 - **Owner:** docs/HAILO10H_SPAN_SATURATION_2026-10-24.md.
 - **Evidence:** Incremental fit over 7 artifacts:1,189
   distinct operand words (= the AES-NUM-019 datum pool
@@ -5627,7 +5661,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-026 — encoder frozen and proven in Mojo
 
-- **Status:** `verified` (Mojo build + full-corpus run on Mimir).
+- **Status:** `verified`
+- **Status note:** (Mojo build + full-corpus run on Mimir).
 - **Owner:** docs/HAILO10H_ENCODER_FREEZE_2026-10-24.md.
 - **Artifacts:** hailbru/ccw_datum_basis.json (16 rows;
   canonical sha256 7a1635cb…a7e5a,VM-reproduced) and
@@ -5644,7 +5679,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-027 — lane0 families: the affine law is universal
 
-- **Status:** `verified` (complete populations,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,2 artifacts).
 - **Owner:** docs/HAILO10H_LANE0_FAMILIES_CENSUS_2026-10-24.md.
 - **Evidence:** 5,699 bursts in 61 lane0 families.
   AGGREGATE over all 61:operand→datum a function in every
@@ -5660,7 +5696,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-028 — corpus family census, six freezes, stocktake
 
-- **Status:** `verified` (complete populations,7 artifacts;
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts;
   Mojo build + harness on Mimir).
 - **Owner:** docs/HAILO10H_FAMILY_CENSUS_FREEZE_STOCKTAKE_2026-10-24.md.
 - **Evidence:** 174 lane0 families,35,515 bursts pooled
@@ -5684,7 +5721,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-029 — census of the remaining CCW surface
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_REMAINING_CCW_SURFACE_CENSUS_2026-10-24.md.
 - **Evidence:** 745,849 pointer actions (field 16) of
   788,726 total,11,096,892,840 referenced bytes;inline
@@ -5704,7 +5742,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-030 — channel-0 burst treatment
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL0_BURST_TREATMENT_2026-10-24.md.
 - **Evidence:** 104 lane0 families,43,486 channel-0 bursts:
   AGGREGATE 0 families with a function violation,0 with
@@ -5726,7 +5765,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-031 — channel-0 freezes: champion + six families
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL0_FREEZES_2026-10-24.md.
 - **Evidence:** channel-0 champion map frozen as a
   GF(2)-linear rank-27 basis (1,120 distinct pairs,0
@@ -5747,7 +5787,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-032 — small-form word anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SMALL_FORM_WORD_ANATOMY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029 exactly
   (128,787 small actions;79,001 bursts). 42 size classes
@@ -5774,7 +5815,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-033 — skeleton-class deep-dive
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SKELETON_CLASS_DEEP_DIVE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032 exactly
   (128,787 small actions;79,001 bursts). 96 B:exactly 2
@@ -5801,7 +5843,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-034 — walking-pool sharing, quartet ordering, 002c vocabulary
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_WALK_POOL_QUARTET_ORDER_002C_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions).
@@ -5829,7 +5872,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-035 — head census, 176 B anatomy, trailing 28
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_176B_TRAIL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5853,7 +5897,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-036 — end-block datum, 176 B pools, head runs
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_END_BLOCK_176B_HEADRUN_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5876,7 +5921,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-037 — trailing pools vs global, 176 B joint, 304 B break
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_TRAILING_POOL_176B_JOINT_304B_BREAK_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5909,7 +5955,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-038 — sister breaks, non-breaker 304 B, sister-pool subfields
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SISTER_BREAK_NONBREAKER_304_SISTER_POOLS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5938,7 +5985,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-039 — body enum relabelling, framed 304 B as 464 B tail, sister census
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_BODY_ENUM_FRAMED464_SISTER_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5970,7 +6018,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-040 — class-channel mapping, 464 B preamble, singleton positions
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CLASS_CHANNEL_464PREAMBLE_SINGLETONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5999,7 +6048,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-041 — non-champion enum test, 0x2d80 pair burst ordinal, cc9b9d1c 464 B
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_NONCHAMPION_ENUM_PAIR464_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6029,7 +6079,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-042 — displaced-pair gaps, cc9 parameter recurrence, high-7 vs offset
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_DISPLACED_GAP_PARAM_HIGH7_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6062,7 +6113,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-043 — parameter-family template, high-7 function + affine, displaced-context type
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_PARAM_TEMPLATE_HIGH7_FUNCTION_DISPLACED_TYPE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6096,7 +6148,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-044 — low-action context census, parameter+1 slot census, 336-action outlier anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_LOW_ACTION_CENSUS_PARAMPLUS1_OUTLIER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6137,7 +6190,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-045 — marker function, pair-order census, anomaly zones, intermediate class
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_FUNCTION_PAIR_ORDER_ANOMALY_ZONES_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6178,7 +6232,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-046 — marker encoder freeze
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_ENCODER_FREEZE_2026-10-24.md.
 - **Evidence:** contract TASK_hailo10h_marker_encoder_2026-10-25.md
   published + pushed at f5d1c087 before implementation;its scope
@@ -6206,7 +6261,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-047 — pair-order hunt, zone bodies, 156 motif
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_PAIR_ORDER_ZONE_BODY_156_MOTIF_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6244,7 +6300,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-048 — datum-order hunt, motif pooled, rare check
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_ORDER_MOTIF_RARE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6281,7 +6338,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-049 — middle-stream order hunt, lead exclusivity, variant roles
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MIDDLE_STREAM_LEAD_EXCLUSIVITY_VARIANTS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6322,7 +6380,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-050 — channel-sequence order function, band role, variant concentration
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL_SEQ_BAND_ROLE_VARIANT_CONCENTRATION_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6369,7 +6428,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-051 — channel emergence thresholds, band followers, cidx-4 anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL_EMERGENCE_FOLLOWERS_CIDX4_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6422,7 +6482,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-052 — last-runs emergence, position-121 action, chain extent, lead cluster
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_LASTRUNS_POS121_CHAIN_CLUSTER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6477,7 +6538,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-053 — cluster-context selection, 32016 dialect, chain context selection
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CLUSTER_SELECTION_DIALECT_CHAIN_SELECTION_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6523,7 +6585,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-054 — wider lead family, dense-negative vocabulary, cidx-1 anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_WIDER_FAMILY_DENSE_VOCAB_CIDX1_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052/053 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6562,7 +6625,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-055 — 94xx ladder, shared 97xx ladder, shoulder gap
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_94XX_97XX_SHOULDER_GAP_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...054 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6597,7 +6661,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-056 — Shoulder-side selection, dense split, 97xx positions
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SHOULDER_SIDE_DENSE_SPLIT_97XX_POSITIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...055 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6632,7 +6697,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-057 — Low-none corpus-wide, 97xx placement, shoulder stretches
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_LOWNONE_CORPUS_97XX_PLACEMENT_STRETCHES_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...056 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6668,7 +6734,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-058 — Mirror extent, reduced six, block0 exceptions
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_MIRROR_EXTENT_REDUCED_SIX_BLOCK0_EXCEPTIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...057 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6698,7 +6765,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-059 — Rail grades, +137 profile rates, windowed populations
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_RAIL_GRADES_137_PROFILE_WINDOWED_POPS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...058 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6730,7 +6798,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-060 — Shared 140 class, seam pairs, cidx 139
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SHARED140_SEAM_PAIRS_139_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...059 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6762,7 +6831,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-061 — Seam trio, companion completion, second-pass cycle
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SEAM_TRIO_COMPANION_CYCLE2_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...060 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6793,7 +6863,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-062 — Triplet rotation, sparse-dose templates, interruption zones
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_TRIPLET_ROTATION_SPARSE_ZONES_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...061 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6830,7 +6901,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-063 — Rotation census, 186 pair + 244/247 anatomy, dose-14 scatter
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_ROTATION_CENSUS_186_244_SCATTER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...062 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6866,7 +6938,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-064 — Two-member alternations, collapsed members, 135 vs 134
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_TWO_MEMBER_COLLAPSED_135_134_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...063 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6902,7 +6975,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-065 — Remnants, zero-context vocabularies, 134 tail vs end block
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_REMNANTS_ZERO_VOCAB_134_TAIL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...064 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6930,7 +7004,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-066 — Remnant insertion positions, zero-pair overlap anatomy, 123-class alt frame
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_INSERTION_ZERO_PAIR_ALT123_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...065 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6961,7 +7036,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-067 — 290 ordinal train, 623 extra vocabulary vs dose, scattered-singleton follower test
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_290_TRAIN_623_EXTRA_FOLLOWER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...066 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6996,7 +7072,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-068 — Fixed 8-size difference, residue core as class invariant, follower scope
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_8SIZE_RESIDUE_FOLLOWER_SCOPE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...067 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7025,7 +7102,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-069 — 290 signature as fixed head template, 264/2824 companions, scattered-B mechanism
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_290_TEMPLATE_264_2824_SCATTERED_B_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...068 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7057,7 +7135,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-070 — Shared head scaffold + three class templates, extra 2824s in-band, B→C adjacency diagnostic
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_TEMPLATES_2824_EXTRAS_BC_ADJACENCY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...069 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7088,7 +7167,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-071 — Channel scaffold class-local, A-boundary law, C→A reset
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL_SCAFFOLD_A_BOUNDARY_CA_RESET_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...070 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7122,7 +7202,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-072 — Marker ladder complete, cc9 39-window block = end block, 763 subgroups
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_LADDER_CC9_ENDBLOCK_763_SUBGROUPS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...071 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7157,7 +7238,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-073 — 763 proto trains, marker distribution mirrors local band, 321 end = 55 + 2
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_763_TRAINS_MARKER_DISTRIBUTION_321_END_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...072 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7183,7 +7265,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-074 — Proto-train census (residue partition + mirrored tail), S76/S82 step divergence, cc9 strays paired at ngpos+3
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_PROTO_TRAIN_CENSUS_S76_S82_CC9_STRAYS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...073 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7218,7 +7301,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-075 — cc9 +3 pairing is artifact-wide (near-permutation partners), S76 runs are local pair swaps, tail bodies are strangers
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_CC9_PAIRING_S76_TRANSFORMS_TAIL_SINGLETONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...074 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7249,7 +7333,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-076 — +3 permutation is blockwise (not seam-respecting), deltas are stereotyped swaps, S76 converse holds, 85→92 is one rewritten segment
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_PLUS3_ORDER_S76_CONVERSE_85_92_SEGMENT_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...075 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7284,7 +7369,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-077 — segment substitution is unique to 85→92 at substitution scale, motif pairs never repeat contiguously, S76 spillover partial (6/10 neighbour swaps)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SEGMENT_SUBSTITUTION_MOTIFS_SPILLOVER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...076 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7317,7 +7403,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-078 — region census at corpus scope: segment substitution has exactly two members (85→92 + 0856 85→91), micro-substitution is a repeated-family property, S76 residue fails second-neighbour + span-extension tests (0/4)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_REGION_CENSUS_CORPUS_S76_RESIDUE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...077 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7357,7 +7444,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-079 — segment exemplars are one construction (identical size suffix, one free channel slot), len-89 camps differ by the position-18 size alone, sister 496 5→5 region is a three-slot tuple frame over private payloads
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SEGMENT_EXEMPLARS_LEN89_CAMPS_SISTER496_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...078 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7398,7 +7486,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-080 — exemplar heads are private (0a0d) vs shared vocabulary (0856), len-89 train is two interleaved step-9 sub-trains with shifted-region heads, sister modal tuple is one template with a 13+1 split in 773
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_RECURRENCE_LEN89_TRAIN_MODAL_TUPLE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...079 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7434,7 +7523,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-081 — head trains share only the 13-action head, camp choice is written in position-18's segment content from byte 0, len-496 census: nine templates per sister and cidx 97 a full joint transplant
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_TRAINS_CAMP_CONTENT_TEMPLATE_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...080 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7471,7 +7561,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-082 — position-18 segment is camp word + camp-constant prefix + camp-shaped tail (the +256 is no insertion), channel-prefix-28 is a zero plateau, singletons are 1–2-edit locals except the quantitatively foreign cidx 97
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_POS18_ANATOMY_CHAN28_SINGLETON_NEAREST_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...081 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7509,7 +7600,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-083 — the tail's variable frame is tiered (72 binary slots, camp-flavoured alternates), the 16 B header lives only at the 25 known starts plus two generalised frames in 0856a10c, and exemplar b leaves the ng 1 plateau at position 28 for good
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_POS18_TAIL_HEADER_CENSUS_PLATEAU_PAST28_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...082 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7550,7 +7642,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-084 — the binary tier is two single-bit blocks of 36, the sibling word lives at position-20 action starts in a step-9 train (correcting AES-NUM-083), and four sparse slots are one repeated per-context scalar in an ff-word frame
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_BINARY_BLOCKS_SIBLING_HOME_SPARSE_SCALAR_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...083 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7597,7 +7690,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-085 — sibling segments are flat and camp-less (600 variable positions, 544 two-valued), block bits are independent of the tail's other scalars, and the ff frame is a fixed 43-instance fixture (4 variable + 39 constant)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SIBLING_ANATOMY_BLOCKBITS_FF_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...084 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7631,7 +7725,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-086 — the sibling 544 two-valued positions are one distinguished segment (cidx 113 deviates at all 544, other 25 unanimous), the 39 constant ff offsets drift on a single +64 staircase with rank-locked scalars, and the sibling 18 ff-words are 15 constant offsets plus a repeated rank-ladder scalar (21+9xrank)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_DISTINGUISHED_SEGMENT_FF_STAIRCASE_SIBLING_FF_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...085 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7667,7 +7762,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-087 — cidx 113 is distinguished context-wide (private schedule at 249/400 positions, private content at 23/80 consensus positions), the staircase thresholds are ordinary ff-15 fixture words, and the variable ff scalar is exactly cidx - 92 in all three populations
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_DISTINGUISHED_CONTEXT_THRESHOLDS_CIDX_LAW_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...086 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7706,7 +7802,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-088 — the variable ff scalar is cidx + C in all 372 scanned ff populations corpus-wide (C = +1 in 181, one negative per-artifact constant in 191; sisters share -94), context 92 is ordinary, cidx 113's schedule is a different multiset (not permutation, not re-grouping), and each staircase +64 lives in the single inter-ff region before its threshold word
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_CIDX_LAW_CORPUS_SCHEDULE_REGIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...087 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7749,7 +7846,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-089 — the variable ff scalar is the context's 1-based within-network-group index (ng membership separates the +1 / negative classes exactly; each artifact's negative constant is 1 minus its ng-1 start cidx), the 113/302/311 kinship dissolves (302/311 are ordinary near-consensus siblings; 113 agrees with everyone at the same 62 tail positions; content kinship zero), and the four extra tails are one 58-byte-shared family present once in both camps, displaced by exactly 64 x step index
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_NG_SCALAR_LAW_KINSHIP_TAILS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...088 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7789,7 +7887,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-090 — every aligned ff word in the scanned populations is CONST or the within-ng index (17,351 / 3,290 of 20,645; the only OTHER offsets are 4 two-valued ngidx==1 step pairs in the single 0a0d exception group), the camp tails are shared region-final content in both camps (neither duplicated nor displaced; camp B's +64 per grown region lives in its middle window, 168 vs 232 B), and first-in-train distinction is the norm (28 of 52 trains have a unique first-member outlier, up to D = 342; sibling and camp controls reproduce exactly)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_FF_CLASSIFICATION_CAMP_ALIGNMENT_TRAINS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...089 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7837,7 +7936,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-091 — grown-region middles are camp-constant and insertion-shaped but not a pure insertion (best offset 147/168, 21 mismatches at every grown rank; the extra chunk occurs 0x in camp 21392 and 48x in camp 21648, four per segment), the ngidx==1 step pairs do NOT recur in the extension bands (87 groups, 3,689 offsets, CONST/NGIDX only; in-band sanity reproduces OTHER 4, all STEP), and no tested feature separates distinguished train firsts (pool-dependent: 76c3a8ff ng 0 none vs ng 1 all; step==9 is 7/28 vs 0/24, not a separator; cross-train first comparison exists in exactly one group)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CAMP_MIDDLE_STEP_RECURRENCE_TRAIN_MECHANISM_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...090 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7868,7 +7968,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-092 — the 21 camp-middle mismatches are one rank-identical tail list (positions 1–90 clean but for position 0; 16 of 21 in the last third; B byte 0x00 in 11; a 16-byte autocorrelation rhythm at fractions 0.63–0.75, exact at no shift), the sparse ff scan completes the census (31,568 further offsets classified; 26 non-step OTHER offsets, all in 32.5–32.8 kB segments; the step form does NOT recur), and distinguished firsts differ from non-first outliers in kind (3,089 vs 176 D-positions; both-changed 47.3% vs 15.9%; last-decile collapse 31 vs spread)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MISMATCH_ANATOMY_SPARSE_FF_DPOSITIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...091 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7902,7 +8003,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-093 — the 26 sparse OTHER ff offsets are mostly per-network-group forms (per-ng CONST exact on 14, mixed per-ng CONST/NGIDX covering 19 of 26 combined; residue: 4 NGIDX offsets with exactly one deviating instance, 1 index-at-one-instance offset, 2 uninformative n=2 pairs), the camp middles share only units 1–4 verbatim at 16-byte granularity (mismatch crowd in units 7–10, unit 8 worst at 7/16; no unit repeats at any lag 1–9 in either middle), and a distinguished first's pair is not a function of the consensus pair under any tested key ((cons,pos) finest: 440 multi keys, 242 mixed, accuracy 0.9068 by uniqueness)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_PERNG_FORMS_UNIT_ANATOMY_PAIR_FUNCTION_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...092 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7945,7 +8047,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-094 — the deviating ff instances are exactly the sparse-neighbourhood instances (value-0 instances in T3/T4/T5 share one byte-identical sparse neighbourhood across artifacts), the camp middles differ across the four grown ranks only in unit 0 (units 1–4 shared at every rank; no B unit at index >= 5 occurs in any A middle), and the per-ng lens adds no form inside the classified population (pooled CONST equal across ngs in all 6,805 both-ng cases; NGIDX degeneracy is exactly single-instance network groups; only 19 both-ng NGIDX offsets are non-degenerate in both ngs)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_DEVIATING_INSTANCES_RANK_UNITS_PERNG_CLASSIFIED_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...093 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7986,7 +8089,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-095 — the sparse neighbourhood form does NOT predict values across the OTHER habitat (zero values enriched ~3x in whole segments, no law; the residue-target pattern is a small-group phenomenon), middle unit 0 is a genuine per-rank form (camps differ only in byte 0; present byte-exact in every individual camp segment; recurs nowhere else in the segment), and the B middle's repeated unit has two copies with different aligned mismatch profiles (2 vs 4), neither inside the skipped chunk
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SPARSE_FORM_UNIT0_B06B11_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...094 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8032,7 +8136,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-096 — sparse zeros concentrate at 37 shared offsets and always sit before a trailing zero pair (no law), the second 8900 pair is a unanimous region-0 02-field feature in both camps, and the copy spans are rank-invariant with the k=112 chunk exactly B units 7–10
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SPARSE_ZERO_8900_PAIR_COPY_SPANS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...095 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8074,7 +8179,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-097 — the trailing zero pair is necessary but not sufficient for a sparse zero, region 0 is zero-dominated with a local 02-field and a unanimous 89/82 singleton pair, and the copy substitution pairs occur at every lag with a9->3e confined to two shifts
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MASK_LAW_REGION0_02FIELD_LAG_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...096 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8135,7 +8241,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-098 — sparse zeros are per-offset deterministic (22 zero (mask, offset) pairs, no partial offset), the region-0 data block is three rigid unit families whose x36 words are per-segment values, and the 20>3e shift set is exactly positional with the +31 doubling a repeated pair
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_PERMASK_ANATOMY_DATABLOCK_SHIFTSET_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...097 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8191,7 +8298,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-099 — the 22 zero pairs have almost no same-offset counterparts (2 total, both non-zero), the block's per-segment head values are one constant per segment per family (injective labels, family 0 = ffffff7f everywhere), and the middles' positional law holds for every byte pair (0 differing triples over 602 pairs)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_ZERO_PAIR_COUNTERPARTS_HEAD_POPULATION_POSITIONAL_LAW_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...098 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8261,7 +8369,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-100 — the 22 zero offsets are almost form-exclusive (one DENSE zero at 28768 breaks it), the family labels carry no non-degenerate stated function of segment metadata (all 501 exact hits degenerate), and the positional law holds on every ungrown region and in reverse
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_ZERO_OFFSET_FORMS_LABELS_POSITIONAL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...099 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8326,7 +8435,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-101 — the lone DENSE zero at 28768 shares only the centre ff word with the SPARSE zeros there, the block tails are one constant per family in every segment (no label reading from tails exists), and the positional law is exact on non-camp segment pairs
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_DENSE_ZERO_TAIL_CONSTANCY_NONCAMP_POSITIONAL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...100 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8372,7 +8482,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-102 — the DENSE-zero run of four is a raw ff-word run and one of fifteen such runs, block variation is exactly the two family labels (110 constant / 72 varying, all label-exhausted), and the positional law completes its segment-pair square
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_DENSE_RUN_BLOCK_VARIATION_POSITIONAL_COMPLETION_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...101 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8416,7 +8527,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-103 — the five singleton DENSE zeros are raw singletons too (agreement 64/64), the length-3 offset run is a raw run of four whose first word carries no candidate in its instance, the fam1/fam2 label pair shares no tested relation, and the positional law is exact on the consensus camps
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SINGLETON_RAW_RUN_LABEL_PAIR_CONSENSUS_POSITIONAL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...102 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8468,7 +8580,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-104 — the candidate-less word at 17344 is a common offset of its group (exclusion EXPLAINED by the population definition) and is one of only two common-arm DENSE zeros in the corpus; singleton and run-member neighbourhood value sets are disjoint at every relative position yet no exact separation exists; the labels share no stated relation with segment cidx arithmetic
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CANDIDATELESS_17344_NEIGHBOURHOODS_CIDX_LABELS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...103 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8521,7 +8634,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-105 — the second common-arm DENSE zero is also a common offset (MiniLM 9272, its group's only common offset, a raw singleton); the 4.104 disjointness is itself surprising (0 of 2,000 seeded random 5-splits reproduce it at even one position); the labels share no stated relation with ngidx / ng arithmetic (ng constant across all 25 camp segments)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SECOND_COMMONARM_DISJOINT_CONTROL_NG_LABELS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...104 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8576,7 +8690,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-106 — the singleton-only neighbourhood values are mostly ordinary corpus words (fd000000 unique in everything scanned; disjointness is specifically against the DENSE-zero run-members); the cidx-3 counterpart at 9272 shares no neighbourhood position with the cidx-5 DENSE zero (0/5 equal, 10/20 bytes differ); labels share no stated relation with in-segment block positional structure (one camp-B-local as-function fact for label1 byte1 from label2 head bytes; affine zero everywhere)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SINGLETON_ONLY_9272_COUNTERPART_BLOCK_POSITIONAL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...105 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8644,7 +8759,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-107 — the camp-B label-pair correlation is chance-consistent (both-byte non-vacuous as-function in 20.9% of seeded size-12 pooled subsamples, 17.2% under permutation; not a law); the "unique" singleton words are not rare in the wider corpus (fd000000 3,223 aligned occurrences in 1,549 of 542,905 distinct referenced segments — a narrow-population artefact); instance-pair neighbourhood agreement at common offsets is usually high (502 of 789 pairs at 4–5 positions; 0/5 is a 3.2% exception, the 9272 pair one of 25)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CAMPB_CHANCE_RAREWORDS_PAIR_AGREEMENT_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...106 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8691,7 +8807,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-108 — the 25 total-disagreement pairs are a concentrated, structurally uniform exception class (exactly 4 (group,offset) cells; every pair differing in exactly 10 bytes with per-position counts 2/4/1/(1,2); three repeated structures, not 25 accidents; no group/offset separator — the 0a0d378c @17344 cell holds both 0/5 and 5/5 pairs); the exactly-3 band is near-empty at every level (2 pairs, both ordinary MID/MID (2,2); agreement grades per-(group,offset) cell, not per group); cc9b9d1c's rare-word concentration is real per referred byte (fd000000 841.7, f6000000 726.9 per 1e9 bytes — 2.5–3x the densest other blob) and is carried by 929 of its 112,884 segments holding all 3,680 cc9 rare occurrences
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_ZERO25_EXACTLY3_CC9_DENSITY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...107 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8742,7 +8859,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-109 — the mixed @17344 cell resolves to two neighbourhoods (cidx 44 alone vs six identical instances; neighbourhood identity and the zero-count pair separate 0/5 from 5/5 inside the cell, form does not); the cc9 rare-containing segments are a distinct subpopulation (overlaps 37–1325x independence, 11 sizes only, Q2+Q4 hold 91.8%); the sister cidx-95 SPARSE singleton is unique at all 4 common offsets of its group in both sister artifacts (total disagreement confined to @17272)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MIXED_CELL_CC9_CLASS_SINGLETON_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...108 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8795,7 +8913,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-110 — cidx 44 is the singleton again at the mixed cell's second common offset 13664 (eq 1 via the shared +4 zero word; form separates here), but its singleton status is confined to that group (distinct 33/295 analysable offsets elsewhere, two-neighbourhood singleton pattern only at the cell's own 2 offsets); the cc9 929 are referenced by all 271 cc9 contexts, with one 304-byte segment taking 813 references (43.8% of the class, 100% of cc9's size-304 references) at head positions 5–12; the cidx-95 singleton's distances 2/0/2/1 are carried by fixed position sets (centre and −4 words differ at all 4 offsets, agreements are shared zero words only, no mixed positions), its cross-group test is vacuous in 5ab3537d and near-total in 773470cd (distinct 13/14)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SECOND_OFFSET_929_POINTING_SINGLETON_POSITIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...109 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8853,7 +8972,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-111 — cidx 44's distinctness outside its cell is general variation, never singleton-vs-many (31/31 outside events all-distinct; the only singleton-vs-shared-partner events in the 295-offset profile are the mixed cell's own 2); the 813-reference segment is cc9b9d1c's only size-304 segment, its rare membership resting on a single fd000000 word, referenced exactly 3x by all 271 contexts as a consecutive channel-rotating triple (starts 4–10, no stream period); exactly-3 cc9 contexts reference that segment only, heavy contexts add the wider rare pool (856 distinct segments) on the same universal triple; cidx 95's one non-distinct offset 11608 is a group-wide unanimity offset (all 8 instances, one neighbourhood, centre ff010000), and 5ab3537d's pos-9 group (25 instances, cidx 95 not a member) admits no common offset because its grids split (sub-families share 26 offsets; cidx 208 shares 0)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_GENERAL_VARIATION_813_SEGMENT_POS9_UNANIMITY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...110 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8916,7 +9036,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-112 — the centre ff-word value ladder is per-cell, and ff010000 is not its base (all 256 centre values occur across 55,902 analysable cells; mode is value 15 in both the full population and the all-distinct ladder cells; rank 0 spans 99 distinct values in ladder cells and equals 1 in only 188/11,242); ladder values are non-decreasing by rank in 11,212/11,242 all-distinct cells, with step +4 the modal AP step over a family {+3, +8, +9, +12, +6, ...}; the 813 triple's start position is determined by no tested function of the referencing context (NOT PROVEN); and 11608-class unanimity is the corpus norm — 39,673/55,902 cells (71.0%) unanimous, spanning 71 distinct centres with ff0f0000 dominant (24,276 cells) and ff010000 carrying only 1,016 (2.56%)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CENTRE_LADDER_813_START_UNANIMITY_CORPUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...111 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8983,7 +9104,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-113 — the per-cell ladder's (base, step) pair is a function of no tested group/offset field (only 72 distinct pairs among 2,584 AP cells; step strongly conditioned by artifact and cell length; (base, length) determines step at 89/92 keys — NOT PROVEN as a function); the 813 triple's start is not a function of sub-sequence position, but inside each stride-4 train the starts collapse to a near-constant or period-2 pattern after a head transient of at most 3 ranks (lag-8 agreement 0.6996 vs 0.2071 chance; the noted 8-block verbatim 12 times); and in the 11608 setting proper (groups of >=8 instances) unanimity holds at the corpus rate (18,286/25,566 cells, 71.52%), the centre population narrows to 29 values with ff0f0000 at 62.16% and ff010000 slightly over-represented at 3.07% vs its 2.56% corpus share, the unanimous centre a function of no tested group/offset field
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_LADDER_PARAMS_813_SUBSEQ_GE8_UNANIMITY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...112 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -9076,7 +9198,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-114 — the ladder near-laws' exceptions anatomised (the 3 ambiguous (base, length) keys dissolve under artifact or segment size; the 13 ambiguous group keys are identical for base, step and pair, each coupling a step-0 pair with a rising pair; the step-0 base-127 vs base-15 split is determined by group and by (pos, length), base 15 being length-3 only in two artifacts and base 127's offsets confined to 5,988–8,672; the non-AP difference profile is a function of no tested single field — NOT PROVEN — but group-determined at 518/520 groups with ndiff a function of group exactly); the 813 start formalised as (train, rank regime) with 10 steady-region exceptions, all exactly +1 above regime, the joint model correct on 188/198 steady ranks but NOT a function, and the 54 train-less contexts characterised as 53 small-class members plus one residue outlier; inside 0a0d378c centre 1 is a function of no tested field (its >=8 centre set is exactly {0, 1, 3, 7, 15, 31, 63, 127}), and the 42 centres vanishing at >=8 live in only 116 <8 unanimous cells
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_LADDER_EXCEPTIONS_TRAIN_REGIME_CENTRE1_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...113 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -9200,7 +9323,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-115 — the non-AP profile's two varying groups anatomised (mirror groups in 5ab3537d and 773470cd at pos 21 / segsize 32776, each with exactly two cells whose first nine centres are an exact +3 ladder and whose whole variation is the tenth centre — the sole ng1 instance — at 15 vs 11 across the same two offsets in both artifacts; no tested field separates the variants beyond cell identity and tautology); train 49's rank-10 deviant carries a measured head cause (one extra head act shifts the identical triple block by one position; an isolated local anomaly, not a phase slip), the train-less cidx 2 outlier carries no mark at all (start in-distribution, isolation purely the missing cidx 6 classmate), the two size-6 873-acts classes share the cidx difference pattern [4, 2, 4, 4, 2] with no tested field or period ordering their 12 starts; and the 2^k−1 centre-set completeness at >=8 is a 0a0d378c-only property (the mirror pair shares one identical 13-centre >=8 set), the 42 vanishing centres splitting 88/13/9/4/1/1 per artifact in the <8 frame
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_VARYING_GROUPS_DEVIANTS_CENTRE_SETS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...114 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -9299,7 +9423,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-116 — the mirror pair 5ab3537d/773470cd is centre-perfect on every shared cell (centres equal on 2,981 of 2,981 shared cells and all 48,988 shared instance observations, zero differing centre lists; full neighbourhood words equal on 2,885 of 2,981, the other 96 centre-equal but word-different), diverging by membership (3,989 cells only in 5ab3537d, 4,504 only in 773470cd; 2,171 shared (pos, segsize, offset) triples carrying different cidx tuples, typically one extra 773470cd instance extending the centre sequence by one term) and by its <8 centre sets (13 values a strict subset of 21), the >=8 set verified identical at 13 values; the 10 steady exceptions of trains 48/50/51 (4/2/4 at the recorded ranks under the reproduced fit) are nine at +1 above steady and one at -1 (train 50 rank 26, cidx 247 — the inherited "all +1" wording corrected), all ten carrying an identical triple block and a non-modal first act, with the head-act explanation covering some, not all: seven with the full train-49 signature (modal prev_act and neighbour-equal pre-triple windows; train 48 ranks 11/12 with exact head-insertion alignment), three with a head mark but no measured shift (the adjacent train 48 ranks 1/2 pair and train 50's -1 last rank); and no centre >=192 occurs at >=8 anywhere (23 values in 49 <8 cells: cc9b9d1c 38 cells / 20 values all at group size 2, 773470cd 7, 0a0d378c 2, 0856a10c 1, 5ab3537d 1), 255's >=8 absence in 0a0d378c verified as the same small-group rarity (its 2 <8 cells, group sizes 7 and 5, are the only high-centre cells above group size 2)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MIRROR_PAIR_TRAIN_EXCEPTIONS_HIGH_CENTRES_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...115 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -9405,7 +9530,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-117 — The mirror pair's 2,171 membership-divergent triples are mostly BOTH-sides-different (1,997 of 2,171) with ~7 extra instances per triple, and the inserted centres CONTINUE the shared centre sequence wherever the shared sequence is thick (11,795 continuations vs 373 breaks among extras against unanimous common sequences; common instances agree on centre 15,488/15,488); the 37 A-unanimous-but-not-B cells fall into three exact families (thirteen 2-instance cells with 1 breaker, nine 27-instance centre-127 cells with the same 13 breakers, fifteen 28-instance cells where B's word differs at 27 of 28 instances and only the first instance keeps A's word), all 535 breakers are shared instances differing in lane 0 or lane 3 only, never the centre lane; the 96 centre-equal word-different cells carry 1,971 differing instances with the centre lane differing in 0; the train 48 ranks 1-2 pair shares NO head material at all (common prefix 0, equal positions none) — two independent head anomalies, not one shared anomaly — and train 50 rank 26's head is exactly one act shorter in count (6 vs 7) but is NOT any steady head minus an act (deletion alignment empty), so the -1 mechanism stays NOT PROVEN
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_DIVERGENT_TRIPLES_BROKEN_UNANIMITY_UNSHIFTED_HEADS_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef117.py sha256
@@ -9548,7 +9674,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-118 — EVERY continuation break among the mirror pair's divergent triples rests on a common sequence of length 1 or 2 (at common length 3 or more there are NO breaks in 11,952 extras; all 373 unanimous breaks sit on a single shared instance, all 103 AP breaks on a two-instance sequence whose step is one difference); B's differing word is NO other artifact's word at the same group in any of the 1,971 differing instances (0 at group, cell, same-cidx and same-idx level; the A word 0 as control), the 28-instance first-instance pattern appears in no other artifact pair — no other pair shares even one cell — and counts 29 cells inside the mirror pair (the 15 unanimous family cells plus 14 DISTINCT/DISTINCT cells); 44 of the 60 27-differing cells share a group with the 37 (and 15 of the 60 ARE family-3 cells of the 37); and of the three unshifted heads' 21 unique-act entries, five acts inside train 48 rank 2's head occur NOWHERE else in cc9b9d1c, while only three distinct unique acts head any other context
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_THICKNESS_GRADED_VERDICTS_WORD_IDENTITY_UNIQUE_HEAD_ACTS_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef118.py sha256
@@ -9637,7 +9764,8 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Host-side analysis only; no device child.
 ### AES-NUM-119 — The thin-common triples' extras form NO progression of their own (where they continue they are constant repeats of the common centre: 253/315 at length 1, 58/58 and 696/696 extras at length 2 unanimous; strictly alternating interleave 0/383; AP extras strict-AP 1/10 with step 0 against a common step of 38, never the common step); every differing lane of the 37/96 words is novel in every other artifact (0/2,584 differing B lanes at group, cell, same-cidx and same-idx level; A control 1/2,584 at group level only; non-differing lanes recur normally); the context/ng census shows the mirror pair alone shares the deciding skeleton (identical context counts 219/219, identical ng-size multiset {95, 124}, 2,890 groups with identical cidx tuples, 5,152 shared analysable triples against a next best of 41, and 2,981 shared cells against 0 for every other pair); and train 48 rank 2's five cc9-unique acts are CORPUS-unique (each exactly once in all seven artifacts, in cc9b9d1c cidx 144 at its own head position, heading no context anywhere), with the whole 8-act head, its 512-spaced run, its 7-act tail and its opening pair each occurring contiguously exactly once corpus-wide and no other window within 2 mismatches in any artifact
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_THIN_EXTRAS_LANE_IDENTITY_FIVE_ACTS_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef119.py sha256
@@ -9697,7 +9825,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-120 — The varying thin triples are distinguished by their common centre itself, not by group, gap shape, type pattern or extras count (the 62 varying length-1 triples' common centres {32, 40, 43, 51, 85, 122} and the 253 constant triples' {0, 1, 2, 5, 15, 23, 34, 69, 127} are DISJOINT, counted exactly; groups/gap shapes/type patterns identical sets; extras never repeat the centre in the 62, 0/373, against 1,254/1,254 in the 253); the 9 varying AP triples are clones of each other in every measured field except group offset (same (71, 19392) group, common pair (38, 44) step 6, gaps (7, 1, 4), the same 12-extra sequence verbatim); over the 2,584 differing lanes B is NOT a function of A pooled (52/934 distinct A values with counterexamples) nor in lanes 0, 3, 4, but lane 1 IS a strict bijection (224 ↔ 224 over 354 lanes, zero counterexamples either direction) and the 535 in-37 differing lanes are likewise a strict bijection (36 ↔ 36 ↔ 36); and train 48 rank 2's remaining head acts are near-lonely (position 0: 7 occurrences, all cc9b9d1c, heading five contexts; positions 5 and 6: exactly 2 each, in cidx 144 and together order-swapped in cidx 267), with cidx 144's act-wise uniqueness ending exactly at its start boundary (position 8, counts jump to 1,060) while its sequence stays corpus-unique through at least the first 40 acts
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_VARYING_THIN_LANE_FUNCTION_REMAINING_ACTS_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef120.py sha256
@@ -9773,7 +9902,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-121 — The disjoint centre sets are a thin length-1 property in exact form, but the varying centres never anchor unanimity anywhere in the corpus (unanimous-centre counts 0 at every other triple stratum, 0 of 18,286 unanimous ≥8 cells, 0 unanimous-word cells in any artifact, at most one occurrence per cell corpus-wide), while every constant centre anchors unanimity in every stratum and artifact; lane 1's 224-pair bijection carries none of the three closed forms (constant difference fails with 218 distinct differences, constant XOR fails with 217 distinct XORs, GF(2)-affine fails with 193 residuals over 223 — measured distribution only, most pairs differing in all four bytes, byte 3 shifting by small signed amounts), and the in-37 bijection is per-lane wherever lanes occur (lane 0: 431 lanes, 29 ↔ 29; lane 3: 104 lanes, 8 ↔ 8; lanes 1/2/4 contribute zero in-37 differing lanes); cidx 267 (842 acts, all distinct, in no train) shares 36 acts with cidx 144, its longest shared run is the same 15 acts at a constant +597 alignment, the swapped head pair sits isolated at positions 197/199 among corpus-unique neighbours with no head window of length ≥2 anywhere in it, and cidx 144's prefix uniqueness runs to the end of the context (every prefix through all 245 acts occurs exactly once corpus-wide)
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_CENTRE_SETS_LANE1_FORMS_CIDX267_PREFIX_END_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef121.py sha256
@@ -9854,7 +9984,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-122 — The varying centres inside mid/thick sequences are always start or interior members whose local steps already belong to the host sequence (137 occurrences in 137 NONAP sequences, end positions ZERO, no foreign step introduced), with centre 40 in a single rigid pattern (always index 1 after 32, before 44, steps (8, 4), host length 7) and 43 near-rigid (index 1, step out always 4, next always 47); of the other single-centre anchors {7, 11, 95, 139}, 7/11/95 are CONSTANT-LIKE (divergent unanimous-centre triples 27/14/5 in mid/thick strata, unanimous ≥8 cells 875/287/73, extras equal to the centre inside their own unanimous-centred triples 41/41, 97/97, 8/8) while 139 is NEITHER (no divergent triple membership, no extras, absent from the mirror pair and 0a0d378c, yet per-cell multiplicity 28 twice and 2 unanimous-word cells, against the varying six's per-cell count of exactly 1 everywhere); lane 1's 224 pairs live in only 3 groups / 16 cells (219 pairs occur once, 5 occur 27×; every pair in exactly one cell and one group), the pooled width is group (20, 32720)'s alone (216 lanes / 216 pairs / 216 diffs / 216 XORs) while group (14, 9992)'s 5 pairs share ONE XOR and (19, 7712)'s 3 pairs share one XOR, and byte 3's difference is NOT determined by A's byte 3 (35 of 61 values multi-valued, max band width 26, only the sign-flip values 0 → +128 and 128 → −128 single-valued); the +597 aligned region agrees at exactly the 27 positions of AES-NUM-121's three shared runs and differs at exactly 4 (144 positions 195/196/204/205, two adjacent pairs each immediately before a shared run, components 2 and 3 identical, only component 1 differing, agreeing acts all corpus count 271), and cidx 267's occurrence profile (709 of 842 corpus-unique, mean 14.8824) is far lonelier than cidx 144's (170 of 245, mean 49.2612) while both carry the identical high band (30 acts at 271, 1 at 1,058, 2 at 1,060)
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_VARYING_CENTRE_MEMBERS_ANCHORS_LANE1_SPLIT_ALIGNED_REGION_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef122.py
@@ -9948,7 +10079,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-123 — Centre 139's two 28-occurrence cells are ONE cell held identically by both mirror artifacts (key (21, 30768, 15368), same 28 cidxs, same single word in all 28 rows on both sides), and that cell is 139's single non-divergent triple — its only presence in the mirror pair, against 0 divergent triples and 0 extras; its other 77 cells are DISTINCT cells in 0856a10c and 76c3a8ff only, carrying six distinct cidx tuples in all, with 139 always the LAST centre in 0856a10c (42/42, after 134 or 124) and always an interior centre after 130 in 76c3a8ff (35/35, index 8 or 12, before 148 or 166), its centreword `ff8b0000` in 133/133 occurrences; the constant-like anchors 7/11/95, read as members of their mid/thick divergent hosts, obey the varying centres' law (pooled non-unanimous hosts: start 50 / interior 125 / END 0, every local step in the host's step set; 7 always at start, 11 always at index 0 or 1, 95 always interior after 91; all 46 pooled end occurrences sit inside the anchors' own unanimous hosts); lane 1's group (20, 32720) splits into 8 offset blocks of 27 pairs that are pairwise DISJOINT in every projection (all intersections 0 over the 28 block pairs; the pooled 216 distinct as pairs, A values, B values, diffs and XORs) with NO additive or XOR translate between any blocks, while group (14, 9992)'s five repeated pairs and group (19, 7712)'s three pairs are pure sign flips (every XOR 0x80000000, per-byte diffs (0, 0, 0, ∓128), diffs exactly −2^31 ×4 / +2^31 ×1 in (14, 9992)); byte 3's difference is NOT determined by (A byte 3, group) (63 keys, the same 35 violating, 192 pairs, all inside group (20, 32720) — group adds nothing) nor by byte 3 with any single low byte (byte 1: 2 violating keys / 4 pairs; byte 2: 1 violating key / 2 pairs; byte 0: 32 / 78), and the low three bytes jointly reach 224 keys for 224 pairs — determination by unique identification only; the region's two 2-act breaks are breaks of the 144↔267 alignment only (all eight break acts occur solely in cc9b9d1c; the 267-side pairs occur as pairs in exactly 4 contexts {114, 130, 251, 267} always at 792–793 / 801–802 with the same neighbouring acts as the 144-side pairs, which occur in exactly 27 contexts always at 195–196 / 204–205; reversed pairs 0 corpus-wide), and cidx 130 is 267's near-twin (842 acts both, all distinct; 709 corpus-unique each; 50 acts at count ≥4 each; identical high band 30 @271 / 1 @1,058 / 2 @1,060; means 14.7067 / 14.8824) sharing 111 acts in IDENTICAL relative order (0 inversions in 6,105 pairs) in 19 shared runs, the longest 31 acts at identical positions 787–817 in both — CONTAINING both 267-side break pairs
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_CENTRE139_ANCHORS_MEMBERS_LANE1_BLOCKS_BYTE3_BREAKS_CIDX130_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef123.py
@@ -10075,7 +10207,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-124 — Centre 139's six DISTINCT-cell families each carry exactly ONE centre sequence (the cidx tuple determines the sequence; a cidx carries the same centre in every family that contains it; 139 closes the three 0856a10c sequences after 134/124 and sits inside the three 76c3a8ff step-9 ladder sequences after 130, before 148/166; centreword `ff8b0000` and ng 1 at 139 in 77/77 cells), and the shared mirror cell (21, 30768, 15368) is the UNIQUE single-centre-139 cell in the mirror pair's full shared-cell population (2,981 cidx-keyed shared cells = the non-divergent 1-1 triples counted the other way; centres equal 2,981/2,981, words equal 2,885/2,981; both-unanimous 2,386; single-centre A-side cells 2,520 by centre {15: 1708, 5: 284, 127: 191, 0: 176, …, 139: 1}); lane 1's byte-3 difference IS determined by (A byte 3, A byte 1, A byte 2) — 222 keys, zero counterexamples over all 224 pairs, NOT injective (the only two multi-pair keys are narrow sign-flip keys (128, 1, 176) and (128, 1, 178), each carrying two (14, 9992) pairs differing only in byte 0, both byte-3 diff −128; within group (20, 32720) the key is injective 216/216; group adds nothing) — the first non-vacuous determination in the byte-3 line, mechanism NOT PROVEN; the five distinct near-miss pairs under the old violating keys (six key-selections, one pair under both) all live in group (20, 32720) at centre 127, four in its last block (off 7272) and one at off 7204; that group's per-cidx trajectories across its eight disjoint blocks change everything except the frame (8 distinct A / B / pairs / diffs / XORs for every one of the 27 cidxs; constant A/B/pair/diff/XOR 0/27 each) yet A and B both strictly increase with block offset for all 27 cidxs and all 189 consecutive-block delta-A and delta-B values are positive and pairwise distinct (delta-diff likewise 189 distinct); the four break contexts {114, 130, 251, 267} are all 842 acts on the identical high band (30 @271 / 1 @1,058 / 2 @1,060) and form two near-pairs — {114, 251} sharing 168 acts in 21 runs (longest 54 at identical positions 130–183) and {130, 267} sharing 111 in 19 — while every cross-pair shares only 37–40 acts (the head 3-run and the shared tail run holding both 267-side break pairs, which stand at positions 792/801 in all four contexts; the 144-side pairs' acts are absent from all four), and 130×251 alone inverts (110 of 780 shared pairs); the non-shared spans between 130↔267's 19 runs total 739 acts on EACH side (103 in runs + 739 in spans = 842 both sides) over 20 spans (8 of equal length on the two sides), holding the 8 isolated shared singles
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_CENTRE139_FAMILIES_MIRRORPOP_BYTE3_TRAJECTORIES_BREAKCTX_SPANS_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef124.py
@@ -10190,7 +10323,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-125 — The (byte 3, byte 1, byte 2) determination read as a map: 222 keys over 224 pairs across 61 A byte-3 values with 24 distinct byte-3 differences (modal −1 ×43; 168 negative / 14 zero / 42 positive; none in +5…+9, +12, +17…+127); 60 of 61 byte-3 values have keys == pairs, the sole exception byte 3 = 128 (6 pairs / 4 keys, the two narrow multi-pair keys (128, 1, 176) and (128, 1, 178), both diff −128, pairs differing only in byte 0); the difference is ALSO determined by (byte 3, byte 1 + byte 2) — 222 keys, zero violating — at NO compression (same key count as the full key, same two multi-pair keys), while every other byte-3-conditioned arithmetic form fails ((byte 3, (x+y) mod 256) and (byte 3, byte 2) on 1 key each; (byte 3, x−y) / (byte 3, x^y) / (byte 3, byte 1) / (byte 3, min) / (byte 3, max) on 2 keys each, the (byte 3, byte 1) and (byte 3, min) failures being exactly the AES-NUM-123 keys (249, 44) and (252, 84); (byte 3, (x−y) mod 256) / (byte 3, (x·y) mod 256) on 3; (byte 3, x|y) on 6; (byte 3, x&y) on 12), all twelve pooled (byte 1, byte 2) forms fail on 38–58 keys, the bare (byte 1, byte 2) pair fails on 2 keys ((1, 176): diffs −128/+128 over 3 narrow pairs; (128, 146): −1/+3), and every direct formula fails (d = 0: 14/224; sign-flip rule: 22/224; signed256(x+y): 0/224; signed256(x−y): 2/224; signed256(y−x): 1/224; signed256(x^y): 0/224) — closed form NOT PROVEN; the narrow population's byte 0 is free in both directions (under key (128, 1, 176) byte 0 ∈ {28, 32} and under (128, 1, 178) byte 0 ∈ {20, 24} at unchanged diff −128, and B byte 0 == A byte 0 in 8/8 pairs with XOR exactly 0x80000000; yet byte 0 alone determines nothing even within the narrow eight — byte 0 = 20 carries diffs {−128, +128} over 3 pairs and byte 0 = 68 carries {−128, +128} over 2 — narrow f(byte 0): 5 keys / 2 violating / 5 pairs; narrow f(key): 6 / 0; narrow byte-0 values {20, 24, 28, 32, 68} are not narrow-exclusive: 7 non-narrow pairs share one, all group (20, 32720); 36 distinct A byte-0 values over all 224 pairs, 25 carried by more than one pair); group (20, 32720)'s 189 trajectory steps are pairwise distinct in EVERY component (delta-A 189 distinct, min +31,346,620 / max +394,641,536, all positive; delta-B 189 distinct, min +32,229,224 / max +392,664,128, all positive; delta-diff 189 distinct, min −54,207,616 / max +77,121,728, 123 positive / 66 negative / 0 zero; triples 189 distinct; delta-diff = delta-B − delta-A for 189/189) and the steps SHRINK per cidx — delta-A and delta-B sequences strictly decreasing for 27/27 cidxs (delta-diff: 24 neither, 3 strictly decreasing), per-step-index ranges descending and pairwise disjoint for steps 0–2 — while A at block k+1 as a function of A at block k is VACUOUS, not a law (189 distinct A values at block k, ZERO collision groups, per-step A sets pairwise disjoint; equally vacuous for (k, A), (cidx, A), delta-A = f(A) and the B companions; the non-vacuous keys fail: step index alone 7/7 keys violating, cidx alone 27/27) — step source NOT PROVEN; the four break contexts' common core is exactly 37 acts (the head 3-run (0, 304, 0/1/2) at 114@8–10 / 130@8–10 / 251@7–9 / 267@6–8 plus a 34-act tail from (2727936, 24, 2) to (2817536, 24, 0) @821 in all four, holding both 267-side break pairs at 792/801 in every context), in IDENTICAL order in all four (core order inversions 0 of 666 for every context pair, including 130×251), by occurrence count {271: 30, 1060: 2, 1058: 1, 4: 3, 6: 1}, and the core EQUALS the 114∩267 shared set and EQUALS the 251∩267 shared set (37 each), a proper subset of 114∩130 (39) and of 130×251 (40); 114×251's 168 shared acts are read in full (21 runs {54: 1, 32: 1, 9: 1, 7: 1, 6: 3, 5: 1, 4: 1, 3: 7, 2: 5} covering 160 acts plus 8 singles; position difference 251−114 distribution {−1: 4, 0: 93, +1: 21, +2: 36, +3: 2, +4: 12}), and its 54-act run at IDENTICAL positions 130–183 in both contexts consists entirely of acts with corpus-occurrence count exactly 2 (each occurring only in cidx 114 and cidx 251), 0 of 54 in the common core; 130×251's 110 inversions are COMPLETELY LOCALIZED to three displaced acts — the size-24 acts (1052257280, 24, 2), (1062814208, 24, 0), (1062813184, 24, 1) at 130 positions 6, 7, 197 standing at 251 positions 824, 822, 823 (251's last three shared positions; corpus occurrences 8 each; in neither 114 nor 267) — with inversion involvements 39 / 38 / 35, class pairs RUN×RUN 0 / RUN×SINGLE 102 / SINGLE×SINGLE 8, every other shared act inverting ONLY against those three (exactly 3 involvements each for the 32-act run's acts and the two core singles, exactly 2 for the head 3-run's acts); removing the three displaced acts leaves 130×251's shared order inversion-free — mechanisms NOT PROVEN
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_BYTE3_MAP_STEPS_CORE_INVERSIONS_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef125.py
