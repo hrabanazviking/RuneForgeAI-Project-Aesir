@@ -18,6 +18,14 @@ struct RuneWeaver:
     var add_bos_token: Bool
     var add_space_prefix: Bool
     var special_tokens_configured: Bool
+    # BPE state: raw merge strings ("pieceA pieceB") mapped to their rank.
+    # A vocabulary ships merges exactly when it is a byte-level BPE vocab
+    # (tokenizer.ggml.model == "gpt2"); SentencePiece vocabs ship scores
+    # instead and keep the score-greedy path.
+    var merge_ranks: Dict[String, Int]
+    var merge_count: Int
+    var bpe_mode: Bool
+    var special_spellings: List[String]
 
     def __init__(out self):
         self.vocab = List[String]()
@@ -31,6 +39,37 @@ struct RuneWeaver:
         self.add_bos_token = True
         self.add_space_prefix = False
         self.special_tokens_configured = False
+        self.merge_ranks = Dict[String, Int]()
+        self.merge_count = 0
+        self.bpe_mode = False
+        self.special_spellings = List[String]()
+
+    def add_merge(mut self, raw_merge: String):
+        """Records one GGUF BPE merge line; file order is the rank order."""
+        if raw_merge in self.merge_ranks:
+            return
+        self.merge_ranks[raw_merge] = self.merge_count
+        self.merge_count += 1
+        self.bpe_mode = True
+
+    def _note_special_spelling(mut self, token_id: Int, token_type: Int):
+        """Collects CONTROL/USER_DEFINED spellings for encode-time splits.
+
+        GGUF token types: 3 = CONTROL, 4 = USER_DEFINED. Byte tokens
+        (type 6, "<0xXX>") are data, never literal text markers, and stay
+        excluded. Matching is longest-wins, so no ordering is needed.
+        """
+        if token_type != 3 and token_type != 4:
+            return
+        if token_id < 0 or token_id >= len(self.vocab):
+            return
+        var spelling = String(self.vocab[token_id])
+        if len(spelling.as_bytes()) < 2:
+            return
+        if spelling.startswith("<0x"):
+            return
+        if spelling not in self.special_spellings:
+            self.special_spellings.append(spelling)
 
     def add_token(
         mut self,
@@ -54,6 +93,7 @@ struct RuneWeaver:
         self.token_types[token_id] = token_type
         self.token_to_id[token] = token_id
         self.vocab_size = len(self.vocab)
+        self._note_special_spelling(token_id, token_type)
 
     def set_token_score(mut self, token_id: Int, score: Float32):
         while len(self.scores) <= token_id:
@@ -64,6 +104,7 @@ struct RuneWeaver:
         while len(self.token_types) <= token_id:
             self.token_types.append(1)
         self.token_types[token_id] = token_type
+        self._note_special_spelling(token_id, token_type)
 
     def set_special_tokens(
         mut self,
@@ -219,10 +260,15 @@ struct RuneWeaver:
         var byte_index = 0
         while byte_index < len(prompt_bytes):
             if prompt_bytes[byte_index] == 0x20:
-                if uses_gpt2_space:
-                    normalized += String("Ġ")
-                elif uses_llama_space:
+                # SentencePiece vocabs mark spaces with ▁. Some (Gemma)
+                # also contain a stray Ġ token; preferring Ġ here floods
+                # the merge with a marker the model never trained on.
+                # Byte-level BPE vocabs never reach this path (they use
+                # the byte-map initial pieces instead).
+                if uses_llama_space:
                     normalized += String("▁")
+                elif uses_gpt2_space:
+                    normalized += String("Ġ")
                 else:
                     normalized += String(" ")
                 byte_index += 1
@@ -281,6 +327,107 @@ struct RuneWeaver:
             pieces = next_pieces.copy()
         return pieces.copy()
 
+    def _bpe_symbol(self, byte_value: UInt8) -> String:
+        """Maps one raw byte to its GPT-2 byte-level BPE symbol string.
+
+        Printable ranges map to themselves; every other byte maps to
+        U+0100+n in increasing byte order (space -> Ġ, newline -> Ċ,
+        tab -> ĉ), the standard bytes_to_unicode table GGUF BPE
+        vocabularies are spelled in.
+        """
+        var b = Int(byte_value)
+        var direct = (
+            (b >= 0x21 and b <= 0x7E)
+            or (b >= 0xA1 and b <= 0xAC)
+            or (b >= 0xAE and b <= 0xFF)
+        )
+        if direct:
+            return chr(b)
+        var n = 0
+        for v in range(b):
+            var is_direct = (
+                (v >= 0x21 and v <= 0x7E)
+                or (v >= 0xA1 and v <= 0xAC)
+                or (v >= 0xAE and v <= 0xFF)
+            )
+            if not is_direct:
+                n += 1
+        return chr(256 + n)
+
+    def _initial_pieces_bpe(self, segment: String) -> List[String]:
+        """Splits a text segment into GPT-2 byte-level BPE symbols."""
+        var pieces = List[String]()
+        var raw = segment.as_bytes()
+        for i in range(len(raw)):
+            pieces.append(self._bpe_symbol(raw[i]))
+        return pieces^
+
+    def _merge_bpe(self, mut pieces: List[String]) -> List[String]:
+        """Merges adjacent pieces by GGUF BPE merge rank, lowest first."""
+        while len(pieces) > 1:
+            var best_pair_index = -1
+            var best_rank = 0
+            for index in range(len(pieces) - 1):
+                var key = (
+                    String(pieces[index])
+                    + String(" ")
+                    + String(pieces[index + 1])
+                )
+                if key not in self.merge_ranks:
+                    continue
+                var rank = self.merge_ranks.get(key, -1)
+                if rank < 0:
+                    continue
+                if best_pair_index < 0 or rank < best_rank:
+                    best_rank = rank
+                    best_pair_index = index
+            if best_pair_index < 0:
+                break
+            var next_pieces = List[String]()
+            for index in range(len(pieces)):
+                if index == best_pair_index:
+                    next_pieces.append(
+                        String(pieces[index]) + String(pieces[index + 1])
+                    )
+                elif index == best_pair_index + 1:
+                    continue
+                else:
+                    next_pieces.append(String(pieces[index]))
+            pieces = next_pieces.copy()
+        return pieces.copy()
+
+    def _encode_segment(self, segment: String, mut tokens: List[Int]):
+        """Encodes one special-token-free text segment into tokens."""
+        if len(segment.as_bytes()) == 0:
+            return
+        if self.bpe_mode:
+            var bpieces = self._initial_pieces_bpe(segment)
+            bpieces = self._merge_bpe(bpieces)
+            for p in range(len(bpieces)):
+                self._append_piece_tokens(String(bpieces[p]), tokens)
+        else:
+            var spieces = self._initial_pieces(segment)
+            spieces = self._merge_sentencepiece(spieces)
+            for p in range(len(spieces)):
+                self._append_piece_tokens(String(spieces[p]), tokens)
+
+    def _match_special_at(self, text: String, byte_index: Int) -> Int:
+        """Returns the longest special spelling matching at byte_index."""
+        var n_bytes = len(text.as_bytes())
+        var best = -1
+        var best_len = 0
+        for s in range(len(self.special_spellings)):
+            var spelling = String(self.special_spellings[s])
+            var slen = len(spelling.as_bytes())
+            if slen <= best_len:
+                continue
+            if byte_index + slen <= n_bytes and text[
+                byte=byte_index : byte_index + slen
+            ] == spelling:
+                best = s
+                best_len = slen
+        return best
+
     def _append_piece_tokens(self, piece: String, mut tokens: List[Int]):
         """Appends a vocabulary token or lossless byte-fallback tokens."""
         if piece in self.token_to_id:
@@ -327,63 +474,35 @@ struct RuneWeaver:
                 tokens.append(Int(raw[byte_index]))
             return tokens^
 
-        # Handle special control token splits (<|im_start|>, <|im_end|>, etc.)
-        if "<|im_start|>" in prompt or "<|im_end|>" in prompt or "<|endoftext|>" in prompt or "<start_of_turn>" in prompt or "<end_of_turn>" in prompt:
-            var text = prompt
-            var i = 0
-            var last_idx = 0
-            var n_bytes = len(text.as_bytes())
-            while i < n_bytes:
-                var matched_special = False
-                var match_len = 0
-                var spec_id = -1
-
-                if i + 15 <= n_bytes and text[byte=i : i + 15] == "<start_of_turn>":
-                    matched_special = True
-                    match_len = 15
-                    spec_id = self.special_token_id("<start_of_turn>")
-                elif i + 13 <= n_bytes and text[byte=i : i + 13] == "<end_of_turn>":
-                    matched_special = True
-                    match_len = 13
-                    spec_id = self.special_token_id("<end_of_turn>")
-                elif i + 12 <= n_bytes and text[byte=i : i + 12] == "<|im_start|>":
-                    matched_special = True
-                    match_len = 12
-                    spec_id = self.special_token_id("<|im_start|>")
-                elif i + 10 <= n_bytes and text[byte=i : i + 10] == "<|im_end|>":
-                    matched_special = True
-                    match_len = 10
-                    spec_id = self.special_token_id("<|im_end|>")
-                elif i + 13 <= n_bytes and text[byte=i : i + 13] == "<|endoftext|>":
-                    matched_special = True
-                    match_len = 13
-                    spec_id = self.special_token_id("<|endoftext|>")
-
-                if matched_special:
-                    if i > last_idx:
-                        var segment = String(text[byte=last_idx : i])
-                        var pieces = self._initial_pieces(segment)
-                        pieces = self._merge_sentencepiece(pieces)
-                        for p in range(len(pieces)):
-                            self._append_piece_tokens(String(pieces[p]), tokens)
-                    tokens.append(spec_id)
-                    i += match_len
-                    last_idx = i
-                else:
-                    i += 1
-
-            if last_idx < n_bytes:
-                var segment = String(text[byte=last_idx : n_bytes])
-                var pieces = self._initial_pieces(segment)
-                pieces = self._merge_sentencepiece(pieces)
-                for p in range(len(pieces)):
-                    self._append_piece_tokens(String(pieces[p]), tokens)
+        # Split out special control/user-defined tokens wherever they
+        # appear (<|begin_of_text|>, <|im_start|>, <start_of_turn>, ...):
+        # the spellings come from the model's own vocabulary, longest
+        # first, exactly as llama.cpp's parse_special pass treats them.
+        # Text between specials goes through the model's tokenizer mode
+        # (rank-based BPE when the GGUF ships merges, else SPM scores).
+        if len(self.special_spellings) == 0:
+            self._encode_segment(prompt, tokens)
             return tokens^
 
-        var pieces = self._initial_pieces(prompt)
-        pieces = self._merge_sentencepiece(pieces)
-        for piece_index in range(len(pieces)):
-            self._append_piece_tokens(String(pieces[piece_index]), tokens)
+        var n_bytes = len(prompt.as_bytes())
+        var i = 0
+        var last_idx = 0
+        while i < n_bytes:
+            var hit = self._match_special_at(prompt, i)
+            if hit >= 0:
+                var spelling = String(self.special_spellings[hit])
+                if i > last_idx:
+                    self._encode_segment(
+                        String(prompt[byte=last_idx : i]), tokens
+                    )
+                tokens.append(self.special_token_id(spelling))
+                i += len(spelling.as_bytes())
+                last_idx = i
+            else:
+                i += 1
+
+        if last_idx < n_bytes:
+            self._encode_segment(String(prompt[byte=last_idx : n_bytes]), tokens)
         return tokens^
 
     def decode(self, token: Int) -> String:
@@ -395,6 +514,17 @@ struct RuneWeaver:
             return String("\n")
         if value.startswith("<0x") and value.endswith(">"):
             return String("")
+        if self.bpe_mode:
+            # Full GPT-2 byte-map inversion: each codepoint of the token
+            # string maps back to exactly one original byte (see
+            # _bpe_inverted_bytes). The marker loop below only covers
+            # space/newline/tab and would double-encode everything else.
+            var inv = _bpe_inverted_bytes(value)
+            var inv_i8 = List[Int8]()
+            for b in inv:
+                inv_i8.append(Int8(b))
+            inv_i8.append(0)
+            return String(unsafe_from_utf8_ptr=inv_i8.unsafe_ptr())
 
         var raw = value.as_bytes()
         var n_bytes = len(raw)
@@ -425,6 +555,47 @@ struct RuneWeaver:
 
         out_bytes.append(0)
         return String(unsafe_from_utf8_ptr=out_bytes.unsafe_ptr())
+
+
+def _bpe_inverted_bytes(value: String) -> List[UInt8]:
+    """Inverts the GPT-2 bytes-to-unicode map for one token string.
+
+    Every codepoint of a BPE token string denotes exactly one original
+    byte: codepoints in the self-mapped ranges (0x21-0x7E, 0xA1-0xAC,
+    0xAE-0xFF) denote the byte of the same value, and codepoints
+    0x100-0x143 denote the 68 remaining bytes in increasing order
+    (0x00-0x20, 0x7F-0xA0, 0xAD). Codepoints outside the byte alphabet
+    (special-token spellings are handled by callers) are re-encoded as
+    UTF-8 so nothing is silently dropped.
+    """
+    var out = List[UInt8]()
+    for cp in value.codepoints():
+        var c = Int(cp.to_u32())
+        if 256 <= c and c < 324:
+            var n = c - 256
+            if n < 33:
+                out.append(UInt8(n))
+            elif n < 67:
+                out.append(UInt8(0x7F + (n - 33)))
+            else:
+                out.append(UInt8(0xAD))
+        elif (0x21 <= c and c <= 0x7E) or (0xA1 <= c and c <= 0xAC) or (0xAE <= c and c <= 0xFF):
+            out.append(UInt8(c))
+        elif c < 0x80:
+            out.append(UInt8(c))
+        elif c < 0x800:
+            out.append(UInt8(0xC0 | (c >> 6)))
+            out.append(UInt8(0x80 | (c & 0x3F)))
+        elif c < 0x10000:
+            out.append(UInt8(0xE0 | (c >> 12)))
+            out.append(UInt8(0x80 | ((c >> 6) & 0x3F)))
+            out.append(UInt8(0x80 | (c & 0x3F)))
+        else:
+            out.append(UInt8(0xF0 | (c >> 18)))
+            out.append(UInt8(0x80 | ((c >> 12) & 0x3F)))
+            out.append(UInt8(0x80 | ((c >> 6) & 0x3F)))
+            out.append(UInt8(0x80 | (c & 0x3F)))
+    return out^
 
 
 def hex_char_to_int(c: UInt8) -> Int:
@@ -506,7 +677,14 @@ struct RuneStreamDecoder:
             return self._pop_complete_utf8()
         if token_id < 0 or token_id >= len(tokenizer.vocab):
             return String("")
-        return self.decode_token(tokenizer.vocab[token_id])
+        var token_str = tokenizer.vocab[token_id]
+        if tokenizer.bpe_mode and not (
+            token_str.startswith("<0x") and token_str.endswith(">")
+        ):
+            for b in _bpe_inverted_bytes(token_str):
+                self.pending_bytes.append(b)
+            return self._pop_complete_utf8()
+        return self.decode_token(token_str)
 
     def _pop_complete_utf8(mut self) -> String:
         # INVALID-BYTE POLICY: any byte that cannot belong to a complete,

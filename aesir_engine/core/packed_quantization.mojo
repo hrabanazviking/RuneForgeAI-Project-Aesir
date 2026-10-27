@@ -50,6 +50,26 @@ def packed_block_group[kind: Int, group: Int](
 
 
 @always_inline
+def ggml_kind_of_format(format_value: Int) -> Int:
+    """Translates a CompressedFormatType discriminant to the GGML tensor
+    type number packed_value() expects. The two numberings differ
+    (CompressedFormatType Q6_K is 12; GGML Q6_K is 14, and GGML 12 is
+    Q4_K), so feeding quant_format.value straight into packed_value()
+    silently decodes with the wrong block layout. Returns -1 for
+    formats with no K-quant packed layout."""
+    if format_value == 0:
+        return 10  # Q2_K
+    if format_value == 1 or format_value == 2 or format_value == 3:
+        return 11  # Q3_K_S / Q3_K_M / Q3_K_L
+    if format_value == 6 or format_value == 7:
+        return 12  # Q4_K_S / Q4_K_M
+    if format_value == 10 or format_value == 11:
+        return 13  # Q5_K_S / Q5_K_M
+    if format_value == 12:
+        return 14  # Q6_K
+    return -1
+
+
 def packed_value(w: Bytes, base: Int, kind: Int, index: Int) -> Float32:
     if kind == 0:
         return w.unsafe_offset(base).unsafe_bitcast[Float32]().unsafe_load(index)

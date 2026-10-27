@@ -1,4 +1,4 @@
-from std.math import sqrt
+from std.math import sqrt, tanh, exp, log
 # core/inference.mojo
 # The Loom of Fate: The Forward Pass
 #
@@ -8,9 +8,10 @@ from std.math import sqrt
 from std.math import max, min
 from std.memory.alloc import alloc, Layout
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, CompressedFormatType, shard_split_cols, shard_split_rows, f16, f32
-from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope, dequantize_q4_0, BlockQ4_0
+from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, gelu_tanh, geglu, rmsnorm, apply_rope, apply_rope_partial_neox, dequantize_q4_0, BlockQ4_0
 from loader.gguf import GGUFSeer
 from loader.quantization import dequantize_q4_0_block, dequantize_q8_0_block
+from .packed_quantization import packed_value, ggml_kind_of_format
 from core.sampler import sample_token_from_logits, RuneRNG
 
 
@@ -75,6 +76,12 @@ struct TransformerBlock(Copyable):
     var attn_k_bias: RuneTensor[f16]
     var attn_v_bias: RuneTensor[f16]
     var has_bias: Bool
+    # Architecture modifiers resolved from GGUFModelConfig at build time.
+    var attn_scale: Scalar[f32]
+    var attn_softcap: Scalar[f32]
+    var residual_scale: Scalar[f32]
+    var layer_sliding_window: Int
+    var ffn_gelu: Bool
 
     def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int, seer: GGUFSeer) raises:
         if layer_idx < 0:
@@ -93,7 +100,20 @@ struct TransformerBlock(Copyable):
             self.num_kv_heads = seer.config.head_count_kv
         self.rms_epsilon = seer.config.rms_epsilon
         self.rope_theta = seer.config.rope_freq_base
-        self.rope_neox = seer.config.architecture == "qwen2"
+        self.rope_neox = (
+            seer.config.architecture == "qwen2"
+            or seer.config.architecture == "qwen35"
+            or seer.config.architecture.startswith("gemma2")
+        )
+        self.attn_scale = seer.config.attention_scale
+        self.attn_softcap = seer.config.attn_logit_softcapping
+        self.residual_scale = seer.config.residual_scale
+        # Gemma2 alternates local (sliding-window) and global attention,
+        # local on even layers; other archs get no window from this rule.
+        self.layer_sliding_window = 0
+        if seer.config.architecture.startswith("gemma2") and layer_idx % 2 == 0:
+            self.layer_sliding_window = seer.config.sliding_window
+        self.ffn_gelu = seer.config.architecture.startswith("gemma2")
 
         var prefix = "blk." + String(self.layer_idx) + "."
         self.attn_norm_weight = _required_block_weight(seer, prefix + "attn_norm.weight")
@@ -153,6 +173,11 @@ struct TransformerBlock(Copyable):
         attn_k_norm_weight: RuneTensor[f16] = RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False),
         post_attn_norm_weight: RuneTensor[f16] = RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False),
         post_ffw_norm_weight: RuneTensor[f16] = RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False),
+        attn_scale: Scalar[f32] = Scalar[f32](0.0),
+        attn_softcap: Scalar[f32] = Scalar[f32](0.0),
+        residual_scale: Scalar[f32] = Scalar[f32](0.0),
+        layer_sliding_window: Int = 0,
+        ffn_gelu: Bool = False,
     ):
         """Builds a complete copy; the token is module-private by design."""
         self.layer_idx = layer_idx
@@ -162,6 +187,11 @@ struct TransformerBlock(Copyable):
         self.rms_epsilon = rms_epsilon
         self.rope_theta = rope_theta
         self.rope_neox = rope_neox
+        self.attn_scale = attn_scale
+        self.attn_softcap = attn_softcap
+        self.residual_scale = residual_scale
+        self.layer_sliding_window = layer_sliding_window
+        self.ffn_gelu = ffn_gelu
         self.attn_norm_weight = attn_norm_weight.copy()
         self.attn_q_norm_weight = attn_q_norm_weight.copy()
         self.attn_k_norm_weight = attn_k_norm_weight.copy()
@@ -205,6 +235,11 @@ struct TransformerBlock(Copyable):
         self.attn_k_bias = existing.attn_k_bias
         self.attn_v_bias = existing.attn_v_bias
         self.has_bias = existing.has_bias
+        self.attn_scale = existing.attn_scale
+        self.attn_softcap = existing.attn_softcap
+        self.residual_scale = existing.residual_scale
+        self.layer_sliding_window = existing.layer_sliding_window
+        self.ffn_gelu = existing.ffn_gelu
 
     @always_inline
     def copy(self) -> Self:
@@ -230,6 +265,15 @@ struct TransformerBlock(Copyable):
             self.attn_k_bias.copy(),
             self.attn_v_bias.copy(),
             self.has_bias,
+            self.attn_q_norm_weight.copy(),
+            self.attn_k_norm_weight.copy(),
+            self.post_attn_norm_weight.copy(),
+            self.post_ffw_norm_weight.copy(),
+            self.attn_scale,
+            self.attn_softcap,
+            self.residual_scale,
+            self.layer_sliding_window,
+            self.ffn_gelu,
         )
 
     def forward(
@@ -345,6 +389,10 @@ struct TransformerBlock(Copyable):
                     effective_head_dim,
                     self.num_heads,
                     self.num_kv_heads,
+                    self.attn_scale,
+                    self.attn_softcap,
+                    self.layer_sliding_window,
+                    start_pos,
                 )
 
                 # 5. Output Projection
@@ -360,6 +408,12 @@ struct TransformerBlock(Copyable):
                 # 5.5 Post-Attention Norm (Gemma 3)
                 if Int(self.post_attn_norm_weight.data) > 1 and self.post_attn_norm_weight.size > 0:
                     rmsnorm(x, self.post_attn_norm_weight, self.rms_epsilon)
+
+                # 5.6 Residual scale (Granite): the branch output is
+                # scaled before the residual add, never the stream after.
+                if self.residual_scale != Scalar[f32](0.0):
+                    for i in range(x.size):
+                        x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * self.residual_scale))
 
                 # 6. Residual Add
                 for i in range(x.size):
@@ -393,8 +447,12 @@ struct TransformerBlock(Copyable):
                     gemm_f16(x, self.ffn_up_weight, up)
                     gemm_f16(x, self.ffn_gate_weight, gate)
                     
-                # Apply SiLU to gate and multiply by up (elementwise)
-                silu(gate)
+                # Apply the gate activation and multiply by up
+                # (elementwise): SwiGLU by default, GeGLU for Gemma2.
+                if self.ffn_gelu:
+                    gelu_tanh(gate)
+                else:
+                    silu(gate)
                 for i in range(up.size):
                     up.data.unsafe_store(i, up.data.unsafe_load(i) * gate.data.unsafe_load(i))
                     
@@ -411,6 +469,15 @@ struct TransformerBlock(Copyable):
                 for i in range(x.size):
                     x.data.unsafe_store(i, ffn_out.data.unsafe_load(i))
 
+                # 8.5 Post-FFN Norm (Gemma2): applied to the FFN branch
+                # output before the residual add, mirroring llama.cpp.
+                if Int(self.post_ffw_norm_weight.data) > 1 and self.post_ffw_norm_weight.size > 0:
+                    rmsnorm(x, self.post_ffw_norm_weight, self.rms_epsilon)
+
+                # 8.6 Residual scale (Granite), FFN branch.
+                if self.residual_scale != Scalar[f32](0.0):
+                    for i in range(x.size):
+                        x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * self.residual_scale))
 
                 # 9. Residual Add
                 for i in range(x.size):
@@ -568,8 +635,67 @@ struct TransformerBlock(Copyable):
             well.offset = start_offset
 
 
+def _embed_token(
+    mut seer: GGUFSeer, mut well: MimirWell, token_id: Int
+) raises -> RuneTensor[f16]:
+    """Token embedding lookup shared by every arch forward path:
+    quantized rows (Q8_0 / K-quant via the packed oracle / Q4_0) or
+    plain rows, then the arch embedding scale (explicit metadata scale
+    wins; the Gemma family falls back to sqrt(hidden_dim))."""
+    if "token_embd.weight" not in seer.tensors:
+        raise Error("Inference requires token_embd.weight")
+    ref token_embd = seer.tensors["token_embd.weight"]
+    var hidden_dim = token_embd.cols
+    var vocab_dim = token_embd.rows
+    if token_id < 0 or token_id >= vocab_dim:
+        raise Error("Inference token ID is outside the embedding vocabulary")
+    var x_ptr = well.allocate(hidden_dim)
+    var x = RuneTensor[f16](1, hidden_dim, x_ptr, False)
+    if token_embd.is_quantized:
+        var num_blocks = hidden_dim // 32
+        if token_embd.quant_format.value == CompressedFormatType.Q8_0:
+            var block_bytes = 34
+            var src_byte_offset = (token_id * num_blocks) * block_bytes
+            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+            dequantize_q8_0_block(src_ptr, x.data, num_blocks)
+        elif 10 <= ggml_kind_of_format(Int(token_embd.quant_format.value)) and ggml_kind_of_format(Int(token_embd.quant_format.value)) <= 14:
+            var emb_kind = ggml_kind_of_format(Int(token_embd.quant_format.value))
+            var k_block_bytes = 210
+            if emb_kind == 10:
+                k_block_bytes = 84
+            elif emb_kind == 11:
+                k_block_bytes = 110
+            elif emb_kind == 12:
+                k_block_bytes = 144
+            elif emb_kind == 13:
+                k_block_bytes = 176
+            var row_bytes = (hidden_dim // 256) * k_block_bytes
+            var row_base = token_id * row_bytes
+            var emb_bytes = token_embd.data.unsafe_bitcast[Byte]()
+            for i in range(hidden_dim):
+                x.data.unsafe_store(i, Scalar[f16](packed_value(emb_bytes, row_base, emb_kind, i)))
+        else:
+            var block_bytes = 18
+            var src_byte_offset = (token_id * num_blocks) * block_bytes
+            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+            dequantize_q4_0_block(src_ptr, x.data, num_blocks)
+    else:
+        var src_offset = token_id * hidden_dim
+        for i in range(hidden_dim):
+            x.data.unsafe_store(i, token_embd.data.unsafe_load(src_offset + i))
+    if seer.config.embedding_scale != Float32(0.0):
+        var cfg_emb_scale = seer.config.embedding_scale
+        for i in range(hidden_dim):
+            x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * cfg_emb_scale))
+    elif seer.config.architecture.startswith("gemma"):
+        var emb_scale = Float32(sqrt(Float64(hidden_dim)))
+        for i in range(hidden_dim):
+            x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * emb_scale))
+    return x^
+
+
 def forward_pass(
-    tokens: List[Int], 
+    tokens: List[Int],
     mut seer: GGUFSeer, 
     mut well: MimirWell, 
     mut kv_cache: KVCache,
@@ -602,43 +728,9 @@ def forward_pass(
     var initial_offset = well.offset
     var token_idx = min(max(0, start_pos), len(tokens) - 1)
     var last_token = tokens[token_idx]
-    
-    # 1. Token Embedding Lookup
-    if "token_embd.weight" not in seer.tensors:
-        well.offset = initial_offset
-        raise Error("Inference requires token_embd.weight")
-    
-    ref token_embd = seer.tensors["token_embd.weight"]
-    var hidden_dim = token_embd.cols
-    var vocab_dim = token_embd.rows
-    if last_token < 0 or last_token >= vocab_dim:
-        raise Error("Inference token ID is outside the embedding vocabulary")
-    var safe_last_token = last_token
-    var x_ptr = well.allocate(hidden_dim)
-    var x = RuneTensor[f16](1, hidden_dim, x_ptr, False)
 
-    if token_embd.is_quantized:
-        var num_blocks = hidden_dim // 32
-        if token_embd.quant_format.value == CompressedFormatType.Q8_0:
-            var block_bytes = 34
-            var src_byte_offset = (safe_last_token * num_blocks) * block_bytes
-            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
-            dequantize_q8_0_block(src_ptr, x.data, num_blocks)
-        else:
-            var block_bytes = 18
-            var src_byte_offset = (safe_last_token * num_blocks) * block_bytes
-            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
-            dequantize_q4_0_block(src_ptr, x.data, num_blocks)
-    else:
-        var src_offset = safe_last_token * hidden_dim
-        for i in range(hidden_dim):
-            x.data.unsafe_store(i, token_embd.data.unsafe_load(src_offset + i))
-
-    # Gemma architecture scales token embeddings by sqrt(hidden_dim)
-    if seer.config.architecture.startswith("gemma"):
-        var emb_scale = Float32(sqrt(Float64(hidden_dim)))
-        for i in range(hidden_dim):
-            x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * emb_scale))
+    # 1. Token Embedding Lookup (shared helper; see _embed_token)
+    var x = _embed_token(seer, well, last_token)
 
     # 2. Layer-by-Layer Forward Pass
     var actual_layers = min(num_layers, seer.config.block_count)
@@ -693,7 +785,19 @@ def forward_pass(
     else:
         gemm_f16(x, output_weight_eff, logits)
 
-    
+    # Logit scaling (Granite divides by logit_scale) and final logit
+    # softcapping (Gemma2: c * tanh(logits / c)), per llama.cpp graphs.
+    if seer.config.logit_scale != Float32(0.0):
+        var inv_logit_scale = Float32(1.0) / seer.config.logit_scale
+        for i in range(vocab_size):
+            logits.data.unsafe_store(i, Scalar[f16](logits.data.unsafe_load(i).cast[DType.float32]() * inv_logit_scale))
+    if seer.config.final_logit_softcapping != Float32(0.0):
+        var cap = seer.config.final_logit_softcapping
+        for i in range(vocab_size):
+            var v = logits.data.unsafe_load(i).cast[DType.float32]()
+            logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
+
+
     # 6. Temperature & Top-K / Top-P sampling with repetition penalty
     var rng = RuneRNG(42)
     var suppress_list = List[Int]()
@@ -740,6 +844,11 @@ def forward_pass(
         kv_dim = seer.config.kv_dim()
     if seer.config.context_length > 0:
         context_length = seer.config.context_length
+    # Match the engine-wide runtime ceiling (aesir.mojo MAX_RUNTIME_CONTEXT):
+    # never size a KV cache from a model's full trained context, which is
+    # what made 128K-context models demand multi-GB pools on small hosts.
+    if context_length > 16000:
+        context_length = 16000
 
     var initial_offset = well.offset
     try:
@@ -767,3 +876,487 @@ def forward_pass(
     except e:
         well.offset = initial_offset
         raise e
+
+
+# ---------------------------------------------------------------------------
+# Qwen3.5 hybrid architecture: Gated DeltaNet SSM layers interleaved with
+# gated full-attention layers. Implemented from llama.cpp's qwen35 graph
+# (see docs): every full_attention_interval-th layer (1-based) attends;
+# the rest run the delta-rule recurrence. Both layer types use
+# post_attention_norm.weight as the pre-FFN norm and a SwiGLU FFN.
+# ---------------------------------------------------------------------------
+
+def _sigmoid_f32(x: Float32) -> Float32:
+    return Float32(1.0) / (Float32(1.0) + exp(-x))
+
+
+def _softplus_f32(x: Float32) -> Float32:
+    if x > Float32(20.0):
+        return x
+    return log(Float32(1.0) + exp(x))
+
+
+struct Qwen35State(Movable):
+    """Persistent per-generation SSM state, heap-held in f32: the
+    [d_state x d_state] recurrence matrix per SSM layer/head and the
+    causal-conv input ring (kernel-1 previous qkv vectors per layer)."""
+
+    var ssm_layer_count: Int
+    var head_count: Int
+    var d_state: Int
+    var conv_dim: Int
+    var conv_kernel: Int
+    var s_data: Pointer[Scalar[f32], MutUntrackedOrigin]
+    var conv_data: Pointer[Scalar[f32], MutUntrackedOrigin]
+    var scratch: Pointer[Scalar[f32], MutUntrackedOrigin]
+
+    def __init__(
+        out self,
+        ssm_layer_count: Int,
+        head_count: Int,
+        d_state: Int,
+        conv_dim: Int,
+        conv_kernel: Int,
+    ):
+        self.ssm_layer_count = ssm_layer_count
+        self.head_count = head_count
+        self.d_state = d_state
+        self.conv_dim = conv_dim
+        self.conv_kernel = conv_kernel
+        var s_count = ssm_layer_count * head_count * d_state * d_state
+        var c_count = ssm_layer_count * max(0, conv_kernel - 1) * conv_dim
+        if s_count <= 0:
+            s_count = 1
+        if c_count <= 0:
+            c_count = 1
+        self.s_data = alloc(Layout[Scalar[f32]](count=s_count)).unsafe_leak()
+        self.conv_data = alloc(Layout[Scalar[f32]](count=c_count)).unsafe_leak()
+        self.scratch = alloc(Layout[Scalar[f32]](count=max(1, 2 * d_state))).unsafe_leak()
+        self.reset()
+
+    def reset(mut self):
+        var s_count = self.ssm_layer_count * self.head_count * self.d_state * self.d_state
+        for i in range(max(0, s_count)):
+            self.s_data.unsafe_store(i, Scalar[f32](0.0))
+        var c_count = self.ssm_layer_count * max(0, self.conv_kernel - 1) * self.conv_dim
+        for i in range(max(0, c_count)):
+            self.conv_data.unsafe_store(i, Scalar[f32](0.0))
+
+    def __del__(deinit self):
+        self.s_data.free()
+        self.conv_data.free()
+        self.scratch.free()
+
+
+struct Qwen35Block(Copyable):
+    """One Qwen3.5 layer: either gated full attention or Gated DeltaNet."""
+
+    var layer_idx: Int
+    var is_full_attn: Bool
+    var ssm_slot: Int
+    var head_dim: Int
+    var num_heads: Int
+    var num_kv_heads: Int
+    var rms_epsilon: Scalar[f32]
+    var rope_theta: Scalar[f32]
+    var rope_dims: Int
+    var attn_norm_weight: RuneTensor[f16]
+    var post_attn_norm_weight: RuneTensor[f16]
+    var ffn_gate_weight: RuneTensor[f16]
+    var ffn_up_weight: RuneTensor[f16]
+    var ffn_down_weight: RuneTensor[f16]
+    var q_weight: RuneTensor[f16]
+    var k_weight: RuneTensor[f16]
+    var v_weight: RuneTensor[f16]
+    var o_weight: RuneTensor[f16]
+    var q_norm_weight: RuneTensor[f16]
+    var k_norm_weight: RuneTensor[f16]
+    var qkv_weight: RuneTensor[f16]
+    var gate_weight: RuneTensor[f16]
+    var alpha_weight: RuneTensor[f16]
+    var beta_weight: RuneTensor[f16]
+    var ssm_a: RuneTensor[f16]
+    var dt_bias: RuneTensor[f16]
+    var conv1d_weight: RuneTensor[f16]
+    var ssm_norm_weight: RuneTensor[f16]
+    var ssm_out_weight: RuneTensor[f16]
+
+    def __init__(
+        out self,
+        layer_idx: Int,
+        head_dim: Int,
+        num_heads: Int,
+        mut seer: GGUFSeer,
+    ) raises:
+        self.layer_idx = layer_idx
+        self.head_dim = head_dim
+        self.num_heads = num_heads
+        self.num_kv_heads = seer.config.head_count_kv
+        self.rope_dims = seer.config.rope_dimension_count
+        if self.rope_dims <= 0:
+            self.rope_dims = head_dim
+        var cfg_theta = seer.config.rope_freq_base
+        self.rope_theta = Scalar[f32](cfg_theta) if cfg_theta != Float32(0.0) else Scalar[f32](10000.0)
+        self.rms_epsilon = Scalar[f32](seer.config.rms_epsilon)
+        var interval = seer.config.full_attention_interval
+        if interval <= 0:
+            interval = 4
+        self.is_full_attn = (layer_idx + 1) % interval == 0
+        self.ssm_slot = layer_idx - (layer_idx + 1) // interval
+        var prefix = String("blk.") + String(layer_idx) + String(".")
+        self.attn_norm_weight = _required_block_weight(seer, prefix + "attn_norm.weight")
+        self.post_attn_norm_weight = _required_block_weight(seer, prefix + "post_attention_norm.weight")
+        self.ffn_gate_weight = _required_block_weight(seer, prefix + "ffn_gate.weight")
+        self.ffn_up_weight = _required_block_weight(seer, prefix + "ffn_up.weight")
+        self.ffn_down_weight = _required_block_weight(seer, prefix + "ffn_down.weight")
+        if self.is_full_attn:
+            self.q_weight = _required_block_weight(seer, prefix + "attn_q.weight")
+            self.k_weight = _required_block_weight(seer, prefix + "attn_k.weight")
+            self.v_weight = _required_block_weight(seer, prefix + "attn_v.weight")
+            self.o_weight = _required_block_weight(seer, prefix + "attn_output.weight")
+            self.q_norm_weight = _required_block_weight(seer, prefix + "attn_q_norm.weight")
+            self.k_norm_weight = _required_block_weight(seer, prefix + "attn_k_norm.weight")
+            self.qkv_weight = _optional_block_weight(seer, prefix + "attn_qkv.weight")
+            self.gate_weight = _optional_block_weight(seer, prefix + "attn_gate.weight")
+            self.alpha_weight = _optional_block_weight(seer, prefix + "ssm_alpha.weight")
+            self.beta_weight = _optional_block_weight(seer, prefix + "ssm_beta.weight")
+            self.ssm_a = _optional_block_weight(seer, prefix + "ssm_a")
+            self.dt_bias = _optional_block_weight(seer, prefix + "ssm_dt.bias")
+            self.conv1d_weight = _optional_block_weight(seer, prefix + "ssm_conv1d.weight")
+            self.ssm_norm_weight = _optional_block_weight(seer, prefix + "ssm_norm.weight")
+            self.ssm_out_weight = _optional_block_weight(seer, prefix + "ssm_out.weight")
+        else:
+            self.q_weight = _optional_block_weight(seer, prefix + "attn_q.weight")
+            self.k_weight = _optional_block_weight(seer, prefix + "attn_k.weight")
+            self.v_weight = _optional_block_weight(seer, prefix + "attn_v.weight")
+            self.o_weight = _optional_block_weight(seer, prefix + "attn_output.weight")
+            self.q_norm_weight = _optional_block_weight(seer, prefix + "attn_q_norm.weight")
+            self.k_norm_weight = _optional_block_weight(seer, prefix + "attn_k_norm.weight")
+            self.qkv_weight = _required_block_weight(seer, prefix + "attn_qkv.weight")
+            self.gate_weight = _required_block_weight(seer, prefix + "attn_gate.weight")
+            self.alpha_weight = _required_block_weight(seer, prefix + "ssm_alpha.weight")
+            self.beta_weight = _required_block_weight(seer, prefix + "ssm_beta.weight")
+            self.ssm_a = _required_block_weight(seer, prefix + "ssm_a")
+            self.dt_bias = _required_block_weight(seer, prefix + "ssm_dt.bias")
+            self.conv1d_weight = _required_block_weight(seer, prefix + "ssm_conv1d.weight")
+            self.ssm_norm_weight = _required_block_weight(seer, prefix + "ssm_norm.weight")
+            self.ssm_out_weight = _required_block_weight(seer, prefix + "ssm_out.weight")
+
+    def __copyinit__(out self, existing: Self):
+        self.layer_idx = existing.layer_idx
+        self.is_full_attn = existing.is_full_attn
+        self.ssm_slot = existing.ssm_slot
+        self.head_dim = existing.head_dim
+        self.num_heads = existing.num_heads
+        self.num_kv_heads = existing.num_kv_heads
+        self.rms_epsilon = existing.rms_epsilon
+        self.rope_theta = existing.rope_theta
+        self.rope_dims = existing.rope_dims
+        self.attn_norm_weight = existing.attn_norm_weight
+        self.post_attn_norm_weight = existing.post_attn_norm_weight
+        self.ffn_gate_weight = existing.ffn_gate_weight
+        self.ffn_up_weight = existing.ffn_up_weight
+        self.ffn_down_weight = existing.ffn_down_weight
+        self.q_weight = existing.q_weight
+        self.k_weight = existing.k_weight
+        self.v_weight = existing.v_weight
+        self.o_weight = existing.o_weight
+        self.q_norm_weight = existing.q_norm_weight
+        self.k_norm_weight = existing.k_norm_weight
+        self.qkv_weight = existing.qkv_weight
+        self.gate_weight = existing.gate_weight
+        self.alpha_weight = existing.alpha_weight
+        self.beta_weight = existing.beta_weight
+        self.ssm_a = existing.ssm_a
+        self.dt_bias = existing.dt_bias
+        self.conv1d_weight = existing.conv1d_weight
+        self.ssm_norm_weight = existing.ssm_norm_weight
+        self.ssm_out_weight = existing.ssm_out_weight
+
+    def _head_rmsnorm(
+        self,
+        mut vec: RuneTensor[f16],
+        head_start: Int,
+        weight: RuneTensor[f16],
+    ):
+        var mean: Float32 = 0.0
+        for d in range(self.head_dim):
+            var val = vec.data.unsafe_load(head_start + d).cast[DType.float32]()
+            mean += val * val
+        var scale = Float32(1.0) / sqrt(mean / Float32(self.head_dim) + self.rms_epsilon.cast[DType.float32]())
+        for d in range(self.head_dim):
+            var val = vec.data.unsafe_load(head_start + d).cast[DType.float32]()
+            var w = weight.data.unsafe_load(d).cast[DType.float32]()
+            vec.data.unsafe_store(head_start + d, Scalar[f16](val * scale * w))
+
+    def forward(
+        self,
+        mut x: RuneTensor[f16],
+        mut seer: GGUFSeer,
+        mut well: MimirWell,
+        start_pos: Int,
+        mut kv_cache: KVCache,
+        mut state: Qwen35State,
+    ) raises:
+        var start_offset = well.offset
+        var hidden = x.cols
+        try:
+            var residual_ptr = well.allocate(x.size)
+            var residual = RuneTensor[f16](1, hidden, residual_ptr, False)
+            for i in range(x.size):
+                residual.data.unsafe_store(i, x.data.unsafe_load(i))
+            rmsnorm(x, self.attn_norm_weight)
+
+            if self.is_full_attn:
+                var q_width = self.num_heads * self.head_dim
+                var kv_width = self.num_kv_heads * self.head_dim
+                var q_full_ptr = well.allocate(2 * q_width)
+                var q_full = RuneTensor[f16](1, 2 * q_width, q_full_ptr, False)
+                gemm_f16(x, self.q_weight, q_full)
+                var q_ptr = well.allocate(q_width)
+                var q = RuneTensor[f16](1, q_width, q_ptr, False)
+                var gate_ptr = well.allocate(q_width)
+                var gate = RuneTensor[f16](1, q_width, gate_ptr, False)
+                for h in range(self.num_heads):
+                    var src = h * 2 * self.head_dim
+                    var dst = h * self.head_dim
+                    for d in range(self.head_dim):
+                        q.data.unsafe_store(dst + d, q_full.data.unsafe_load(src + d))
+                        gate.data.unsafe_store(dst + d, q_full.data.unsafe_load(src + self.head_dim + d))
+                var k_ptr = well.allocate(kv_width)
+                var k = RuneTensor[f16](1, kv_width, k_ptr, False)
+                gemm_f16(x, self.k_weight, k)
+                var v_ptr = well.allocate(kv_width)
+                var v = RuneTensor[f16](1, kv_width, v_ptr, False)
+                gemm_f16(x, self.v_weight, v)
+                for h in range(self.num_heads):
+                    self._head_rmsnorm(q, h * self.head_dim, self.q_norm_weight)
+                for h in range(self.num_kv_heads):
+                    self._head_rmsnorm(k, h * self.head_dim, self.k_norm_weight)
+                apply_rope_partial_neox(q, k, start_pos, self.head_dim, self.rope_dims, self.rope_theta)
+                kv_cache.append(self.layer_idx, start_pos, k, v)
+                var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
+                var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
+                var v_slice = kv_cache.get_v_slice(self.layer_idx, active_seq_len)
+                var attn_ptr = well.allocate(q_width)
+                var attn_out = RuneTensor[f16](1, q_width, attn_ptr, False)
+                flash_attention_gqa(
+                    q,
+                    k_slice,
+                    v_slice,
+                    attn_out,
+                    active_seq_len,
+                    self.head_dim,
+                    self.num_heads,
+                    self.num_kv_heads,
+                )
+                for i in range(q_width):
+                    var a = attn_out.data.unsafe_load(i).cast[DType.float32]()
+                    var g = gate.data.unsafe_load(i).cast[DType.float32]()
+                    attn_out.data.unsafe_store(i, Scalar[f16](a * _sigmoid_f32(g)))
+                gemm_f16(attn_out, self.o_weight, x)
+            else:
+                var inner = self.gate_weight.rows
+                var conv_dim = 3 * inner
+                var n_heads = state.head_count
+                var d_state = state.d_state
+                var qkv_ptr = well.allocate(conv_dim)
+                var qkv = RuneTensor[f16](1, conv_dim, qkv_ptr, False)
+                gemm_f16(x, self.qkv_weight, qkv)
+                var z_ptr = well.allocate(inner)
+                var z = RuneTensor[f16](1, inner, z_ptr, False)
+                gemm_f16(x, self.gate_weight, z)
+                var dt_rank = self.alpha_weight.rows
+                var alpha_ptr = well.allocate(dt_rank)
+                var alpha = RuneTensor[f16](1, dt_rank, alpha_ptr, False)
+                gemm_f16(x, self.alpha_weight, alpha)
+                var beta_ptr = well.allocate(dt_rank)
+                var beta_raw = RuneTensor[f16](1, dt_rank, beta_ptr, False)
+                gemm_f16(x, self.beta_weight, beta_raw)
+
+                # Causal depthwise conv1d (kernel from weights, ring state
+                # holds the previous kernel-1 raw qkv vectors).
+                var kernel = state.conv_kernel
+                var ring = state.conv_data.unsafe_offset(
+                    self.ssm_slot * max(0, kernel - 1) * conv_dim
+                )
+                var conv_ptr = well.allocate(conv_dim)
+                var conv_out = RuneTensor[f16](1, conv_dim, conv_ptr, False)
+                for c in range(conv_dim):
+                    var acc: Float32 = 0.0
+                    for tap in range(kernel):
+                        var kval = self.conv1d_weight.data.unsafe_load(c * kernel + tap).cast[DType.float32]()
+                        var sample: Float32
+                        if tap < kernel - 1:
+                            sample = ring.unsafe_load(tap * conv_dim + c).cast[DType.float32]()
+                        else:
+                            sample = qkv.data.unsafe_load(c).cast[DType.float32]()
+                        acc += kval * sample
+                    conv_out.data.unsafe_store(c, Scalar[f16](acc))
+                if kernel > 1:
+                    for tap in range(kernel - 2):
+                        for c in range(conv_dim):
+                            ring.unsafe_store(
+                                tap * conv_dim + c,
+                                ring.unsafe_load((tap + 1) * conv_dim + c),
+                            )
+                    for c in range(conv_dim):
+                        ring.unsafe_store(
+                            (kernel - 2) * conv_dim + c,
+                            Scalar[f32](qkv.data.unsafe_load(c).cast[DType.float32]()),
+                        )
+                silu(conv_out)
+
+                # Delta-rule recurrence per head over the f32 state matrix.
+                var y_ptr = well.allocate(inner)
+                var y = RuneTensor[f16](1, inner, y_ptr, False)
+                var s_base = state.s_data.unsafe_offset(
+                    self.ssm_slot * n_heads * d_state * d_state
+                )
+                for h in range(n_heads):
+                    var q_off = h * d_state
+                    var k_off = inner + h * d_state
+                    var v_off = 2 * inner + h * d_state
+                    # L2-normalize q and k in place (llama.cpp gated delta
+                    # net normalizes with eps inside the square root).
+                    var q_norm: Float32 = 0.0
+                    var k_norm: Float32 = 0.0
+                    for d in range(d_state):
+                        var qv = conv_out.data.unsafe_load(q_off + d).cast[DType.float32]()
+                        var kv = conv_out.data.unsafe_load(k_off + d).cast[DType.float32]()
+                        q_norm += qv * qv
+                        k_norm += kv * kv
+                    var q_scale = Float32(1.0) / sqrt(q_norm + Float32(1e-6))
+                    var k_scale = Float32(1.0) / sqrt(k_norm + Float32(1e-6))
+                    for d in range(d_state):
+                        conv_out.data.unsafe_store(q_off + d, Scalar[f16](conv_out.data.unsafe_load(q_off + d).cast[DType.float32]() * q_scale))
+                        conv_out.data.unsafe_store(k_off + d, Scalar[f16](conv_out.data.unsafe_load(k_off + d).cast[DType.float32]() * k_scale))
+                    var a_val = self.ssm_a.data.unsafe_load(h).cast[DType.float32]()
+                    var dt = _softplus_f32(
+                        alpha.data.unsafe_load(h).cast[DType.float32]()
+                        + self.dt_bias.data.unsafe_load(h).cast[DType.float32]()
+                    )
+                    var decay = exp(a_val * dt)
+                    var beta = _sigmoid_f32(beta_raw.data.unsafe_load(h).cast[DType.float32]())
+                    var s_head = s_base.unsafe_offset(h * d_state * d_state)
+                    for i in range(d_state):
+                        for j in range(d_state):
+                            var idx = i * d_state + j
+                            s_head.unsafe_store(idx, s_head.unsafe_load(idx) * decay)
+                    for j in range(d_state):
+                        var mem: Float32 = 0.0
+                        for i in range(d_state):
+                            mem += s_head.unsafe_load(i * d_state + j).cast[DType.float32]() * conv_out.data.unsafe_load(k_off + i).cast[DType.float32]()
+                        var delta = (conv_out.data.unsafe_load(v_off + j).cast[DType.float32]() - mem) * beta
+                        state.scratch.unsafe_store(j, Scalar[f32](delta))
+                    for i in range(d_state):
+                        var k_i = conv_out.data.unsafe_load(k_off + i).cast[DType.float32]()
+                        for j in range(d_state):
+                            var idx = i * d_state + j
+                            s_head.unsafe_store(idx, s_head.unsafe_load(idx) + Scalar[f32](k_i) * state.scratch.unsafe_load(j))
+                    var head_scale = Float32(1.0) / sqrt(Float32(d_state))
+                    for j in range(d_state):
+                        var acc: Float32 = 0.0
+                        for i in range(d_state):
+                            acc += s_head.unsafe_load(i * d_state + j).cast[DType.float32]() * conv_out.data.unsafe_load(q_off + i).cast[DType.float32]()
+                        state.scratch.unsafe_store(d_state + j, Scalar[f32](acc * head_scale))
+                    # Per-head RMSNorm with the shared ssm_norm weight,
+                    # gated by silu(z) for this head.
+                    var mean: Float32 = 0.0
+                    for d in range(d_state):
+                        var val = state.scratch.unsafe_load(d_state + d).cast[DType.float32]()
+                        mean += val * val
+                    var nscale = Float32(1.0) / sqrt(mean / Float32(d_state) + self.rms_epsilon.cast[DType.float32]())
+                    for d in range(d_state):
+                        var val = state.scratch.unsafe_load(d_state + d).cast[DType.float32]() * nscale
+                        var w = self.ssm_norm_weight.data.unsafe_load(d).cast[DType.float32]()
+                        var zg = z.data.unsafe_load(q_off + d).cast[DType.float32]()
+                        var silu_z = zg / (Float32(1.0) + exp(-zg))
+                        y.data.unsafe_store(q_off + d, Scalar[f16](val * w * silu_z))
+                gemm_f16(y, self.ssm_out_weight, x)
+
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual.data.unsafe_load(i))
+
+            for i in range(x.size):
+                residual.data.unsafe_store(i, x.data.unsafe_load(i))
+            rmsnorm(x, self.post_attn_norm_weight)
+            var ffn_dim = self.ffn_gate_weight.rows
+            var gate_ptr = well.allocate(ffn_dim)
+            var gate_t = RuneTensor[f16](1, ffn_dim, gate_ptr, False)
+            gemm_f16(x, self.ffn_gate_weight, gate_t)
+            var up_ptr = well.allocate(ffn_dim)
+            var up_t = RuneTensor[f16](1, ffn_dim, up_ptr, False)
+            gemm_f16(x, self.ffn_up_weight, up_t)
+            silu(gate_t)
+            for i in range(ffn_dim):
+                up_t.data.unsafe_store(i, up_t.data.unsafe_load(i) * gate_t.data.unsafe_load(i))
+            gemm_f16(up_t, self.ffn_down_weight, x)
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual.data.unsafe_load(i))
+            well.reset_kv_cache(start_offset)
+        except e:
+            well.reset_kv_cache(start_offset)
+            raise e^
+
+
+def forward_pass_qwen35(
+    tokens: List[Int],
+    mut seer: GGUFSeer,
+    mut well: MimirWell,
+    mut kv_cache: KVCache,
+    mut blocks: List[Qwen35Block],
+    mut state: Qwen35State,
+    start_pos: Int = 0,
+    temperature: Scalar[f32] = 0.0,
+    top_k: Int = 40,
+    top_p: Scalar[f32] = 0.9,
+    repetition_penalty: Scalar[f32] = 1.1,
+) raises -> Int:
+    """Full forward pass for the Qwen3.5 hybrid arch. Mirrors
+    forward_pass's output stage (final norm, LM head, sampling) but runs
+    Qwen35Blocks and carries the SSM state across token positions; the
+    state resets whenever a fresh sequence starts at position 0."""
+    if len(tokens) == 0:
+        raise Error("forward_pass_qwen35: tokens list cannot be empty")
+    if start_pos == 0:
+        state.reset()
+    var initial_offset = well.offset
+    var token_idx = min(max(0, start_pos), len(tokens) - 1)
+    var last_token = tokens[token_idx]
+    var x = _embed_token(seer, well, last_token)
+    var vocab_dim = seer.tensors["token_embd.weight"].rows
+    try:
+        for l in range(seer.config.block_count):
+            blocks[l].forward(x, seer, well, start_pos, kv_cache, state)
+
+        if "output_norm.weight" not in seer.tensors:
+            raise Error("Inference requires output_norm.weight")
+        ref output_norm = seer.tensors["output_norm.weight"]
+        rmsnorm(x, output_norm)
+
+        if "output.weight" not in seer.tensors:
+            raise Error("Inference requires output.weight")
+        ref output_weight = seer.tensors["output.weight"]
+        var logits_ptr = well.allocate(vocab_dim)
+        var logits = RuneTensor[f16](1, vocab_dim, logits_ptr, False)
+        gemm_f16(x, output_weight, logits)
+
+        var rng = RuneRNG(42)
+        var suppress_list = List[Int]()
+        var next_token = sample_token_from_logits(
+            logits.data,
+            vocab_dim,
+            temperature=temperature,
+            top_k=top_k,
+            top_p=top_p,
+            repetition_penalty=repetition_penalty,
+            context_tokens=tokens,
+            rng=rng,
+            suppress_tokens=suppress_list,
+        )
+        well.offset = initial_offset
+        return next_token
+    except e:
+        well.offset = initial_offset
+        raise e^

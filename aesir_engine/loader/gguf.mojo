@@ -87,6 +87,24 @@ struct GGUFModelConfig(Copyable):
     var unknown_token_id: Int
     var bos_token_id: Int
     var eos_token_id: Int
+    # Architecture scale/shape modifiers (0 = absent, engine default rules).
+    # granite: embedding_scale 12.0, attention_scale 0.015625,
+    # residual_scale 0.22, logit_scale 8.0. gemma2: attn/final logit
+    # softcapping (50/30) and sliding_window 4096.
+    var embedding_scale: Float32
+    var attention_scale: Float32
+    var residual_scale: Float32
+    var logit_scale: Float32
+    var attn_logit_softcapping: Float32
+    var final_logit_softcapping: Float32
+    var sliding_window: Int
+    # Qwen3.5 hybrid SSM (Gated DeltaNet) hyperparameters.
+    var ssm_conv_kernel: Int
+    var ssm_state_size: Int
+    var ssm_group_count: Int
+    var ssm_time_step_rank: Int
+    var ssm_inner_size: Int
+    var full_attention_interval: Int
 
     def __init__(out self):
         self.architecture = ""
@@ -103,6 +121,19 @@ struct GGUFModelConfig(Copyable):
         self.unknown_token_id = 0
         self.bos_token_id = 1
         self.eos_token_id = 2
+        self.embedding_scale = 0.0
+        self.attention_scale = 0.0
+        self.residual_scale = 0.0
+        self.logit_scale = 0.0
+        self.attn_logit_softcapping = 0.0
+        self.final_logit_softcapping = 0.0
+        self.sliding_window = 0
+        self.ssm_conv_kernel = 0
+        self.ssm_state_size = 0
+        self.ssm_group_count = 0
+        self.ssm_time_step_rank = 0
+        self.ssm_inner_size = 0
+        self.full_attention_interval = 4
 
     def __copyinit__(out self, existing: Self):
         self.architecture = String(existing.architecture)
@@ -119,6 +150,19 @@ struct GGUFModelConfig(Copyable):
         self.unknown_token_id = existing.unknown_token_id
         self.bos_token_id = existing.bos_token_id
         self.eos_token_id = existing.eos_token_id
+        self.embedding_scale = existing.embedding_scale
+        self.attention_scale = existing.attention_scale
+        self.residual_scale = existing.residual_scale
+        self.logit_scale = existing.logit_scale
+        self.attn_logit_softcapping = existing.attn_logit_softcapping
+        self.final_logit_softcapping = existing.final_logit_softcapping
+        self.sliding_window = existing.sliding_window
+        self.ssm_conv_kernel = existing.ssm_conv_kernel
+        self.ssm_state_size = existing.ssm_state_size
+        self.ssm_group_count = existing.ssm_group_count
+        self.ssm_time_step_rank = existing.ssm_time_step_rank
+        self.ssm_inner_size = existing.ssm_inner_size
+        self.full_attention_interval = existing.full_attention_interval
 
     def head_dim(self) -> Int:
         if self.head_dim_override > 0:
@@ -322,6 +366,22 @@ struct GGUFSeer:
             tokenizer.add_token(token, token_id)
         return cursor
 
+    def _parse_merge_array(
+        mut self,
+        offset: Int,
+        mut tokenizer: RuneWeaver,
+    ) raises -> Int:
+        var array_type = self._read_u32(offset)
+        var array_length = Int(self._read_u64(offset + 4))
+        if array_type != 8:
+            raise Error("tokenizer.ggml.merges must be a string array")
+        var cursor = offset + 12
+        for _ in range(array_length):
+            var merge = self._read_string(cursor)
+            cursor = self._string_end(cursor)
+            tokenizer.add_merge(merge)
+        return cursor
+
     def _parse_score_array(
         mut self,
         offset: Int,
@@ -373,6 +433,10 @@ struct GGUFSeer:
             if value_type != 9:
                 raise Error("tokenizer.ggml.token_type is not an array")
             return self._parse_type_array(offset, tokenizer)
+        if key == "tokenizer.ggml.merges":
+            if value_type != 9:
+                raise Error("tokenizer.ggml.merges is not an array")
+            return self._parse_merge_array(offset, tokenizer)
         var expected_type = UInt32(4294967295)
         if key == "general.architecture":
             expected_type = 8
@@ -385,6 +449,13 @@ struct GGUFSeer:
             or key.endswith(".attention.key_length")
             or key.endswith(".attention.head_count_kv")
             or key.endswith(".rope.dimension_count")
+            or key.endswith(".attention.sliding_window")
+            or key.endswith(".ssm.conv_kernel")
+            or key.endswith(".ssm.state_size")
+            or key.endswith(".ssm.group_count")
+            or key.endswith(".ssm.time_step_rank")
+            or key.endswith(".ssm.inner_size")
+            or key.endswith(".full_attention_interval")
             or key == "general.alignment"
             or key == "tokenizer.ggml.unknown_token_id"
             or key == "tokenizer.ggml.bos_token_id"
@@ -394,6 +465,12 @@ struct GGUFSeer:
         elif (
             key.endswith(".rope.freq_base")
             or key.endswith(".attention.layer_norm_rms_epsilon")
+            or key.endswith(".embedding_scale")
+            or key.endswith(".attention.scale")
+            or key.endswith(".residual_scale")
+            or key.endswith(".logit_scale")
+            or key.endswith(".attn_logit_softcapping")
+            or key.endswith(".final_logit_softcapping")
         ):
             expected_type = 6
         elif (
@@ -425,6 +502,32 @@ struct GGUFSeer:
             self.config.rope_freq_base = self._read_f32(offset)
         elif key.endswith(".attention.layer_norm_rms_epsilon") and value_type == 6:
             self.config.rms_epsilon = self._read_f32(offset)
+        elif key.endswith(".embedding_scale") and value_type == 6:
+            self.config.embedding_scale = self._read_f32(offset)
+        elif key.endswith(".attention.scale") and value_type == 6:
+            self.config.attention_scale = self._read_f32(offset)
+        elif key.endswith(".residual_scale") and value_type == 6:
+            self.config.residual_scale = self._read_f32(offset)
+        elif key.endswith(".logit_scale") and value_type == 6:
+            self.config.logit_scale = self._read_f32(offset)
+        elif key.endswith(".attn_logit_softcapping") and value_type == 6:
+            self.config.attn_logit_softcapping = self._read_f32(offset)
+        elif key.endswith(".final_logit_softcapping") and value_type == 6:
+            self.config.final_logit_softcapping = self._read_f32(offset)
+        elif key.endswith(".attention.sliding_window") and value_type == 4:
+            self.config.sliding_window = Int(self._read_u32(offset))
+        elif key.endswith(".ssm.conv_kernel") and value_type == 4:
+            self.config.ssm_conv_kernel = Int(self._read_u32(offset))
+        elif key.endswith(".ssm.state_size") and value_type == 4:
+            self.config.ssm_state_size = Int(self._read_u32(offset))
+        elif key.endswith(".ssm.group_count") and value_type == 4:
+            self.config.ssm_group_count = Int(self._read_u32(offset))
+        elif key.endswith(".ssm.time_step_rank") and value_type == 4:
+            self.config.ssm_time_step_rank = Int(self._read_u32(offset))
+        elif key.endswith(".ssm.inner_size") and value_type == 4:
+            self.config.ssm_inner_size = Int(self._read_u32(offset))
+        elif key.endswith(".full_attention_interval") and value_type == 4:
+            self.config.full_attention_interval = Int(self._read_u32(offset))
         elif key == "general.alignment" and value_type == 4:
             self.alignment = Int(self._read_u32(offset))
         elif key == "tokenizer.ggml.unknown_token_id" and value_type == 4:
@@ -578,7 +681,7 @@ struct GGUFSeer:
             or (self.alignment & (self.alignment - 1)) != 0
         ):
             raise Error("GGUF alignment must be a power of two up to 4096")
-        if self.config.architecture == "qwen2":
+        if self.config.architecture == "qwen2" or self.config.architecture == "qwen35":
             tokenizer.add_bos_token = False
             tokenizer.bos_token_id = -1
         if self.config.architecture == "llama" and "tokenizer.ggml.add_space_prefix" not in seen_keys:
@@ -620,6 +723,22 @@ struct GGUFSeer:
             if element_count < 0 or element_count // 256 > 9223372036854775807 // 144:
                 raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 256) * 144
+        elif tensor_type == GGMLType.Q2_K:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 84:
+                raise Error("GGUF tensor byte size overflows host index")
+            return (element_count // 256) * 84
+        elif tensor_type == GGMLType.Q3_K:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 110:
+                raise Error("GGUF tensor byte size overflows host index")
+            return (element_count // 256) * 110
+        elif tensor_type == GGMLType.Q5_K:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 176:
+                raise Error("GGUF tensor byte size overflows host index")
+            return (element_count // 256) * 176
+        elif tensor_type == GGMLType.Q6_K:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 210:
+                raise Error("GGUF tensor byte size overflows host index")
+            return (element_count // 256) * 210
         if element_count < 0 or element_count // 32 > 9223372036854775807 // 18:
             raise Error("GGUF tensor byte size overflows host index")
         return (element_count // 32) * 18
@@ -744,6 +863,9 @@ struct GGUFSeer:
             self.tensors["output.weight"] = self.tensors["token_embd.weight"].copy()
             self.tensor_types["output.weight"] = self.tensor_types.get("token_embd.weight", UInt32(1))
             self.tensor_file_offsets["output.weight"] = self.tensor_file_offsets["token_embd.weight"]
+        if self.config.architecture == "qwen35":
+            self._validate_qwen35_tensors()
+            return
         var required = List[String]()
         required.append("token_embd.weight")
         required.append("output_norm.weight")
@@ -806,6 +928,103 @@ struct GGUFSeer:
             self._require_tensor_shape(
                 prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
             )
+
+    def _validate_qwen35_tensors(mut self) raises:
+        """Layer-type-aware validation for the Qwen3.5 hybrid arch.
+
+        Every `full_attention_interval`-th layer (1-based) is a full
+        attention layer with a fused query+gate projection of twice the
+        query width; the rest are Gated DeltaNet SSM layers. No layer
+        carries ffn_norm.weight: post_attention_norm.weight plays the
+        pre-FFN norm role for both layer types.
+        """
+        var hidden = self.config.embedding_length
+        var kv_dim = self.config.kv_dim()
+        var ffn = self.config.feed_forward_length
+        var vocab = self.tensors["token_embd.weight"].rows
+        var interval = self.config.full_attention_interval
+        if interval <= 0:
+            interval = 4
+        var inner = self.config.ssm_inner_size
+        var groups = self.config.ssm_group_count
+        var state = self.config.ssm_state_size
+        var dt_rank = self.config.ssm_time_step_rank
+        if inner <= 0 or groups <= 0 or state <= 0 or dt_rank <= 0:
+            raise Error("GGUF qwen35 SSM metadata is incomplete")
+        self._require_tensor_shape(
+            "token_embd.weight", vocab, hidden, GGMLType.F16
+        )
+        self._require_tensor_shape(
+            "output_norm.weight", 1, hidden, GGMLType.F32
+        )
+        self._require_tensor_shape(
+            "output.weight", vocab, hidden, GGMLType.F16
+        )
+        for layer_index in range(self.config.block_count):
+            var prefix = String("blk.") + String(layer_index) + String(".")
+            self._require_tensor_shape(
+                prefix + "attn_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "post_attention_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_gate.weight", ffn, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_up.weight", ffn, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
+            )
+            var q_width = self.config.head_count * self.config.head_dim()
+            if (layer_index + 1) % interval == 0:
+                self._require_tensor_shape(
+                    prefix + "attn_q.weight", 2 * q_width, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_k.weight", kv_dim, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_v.weight", kv_dim, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_output.weight", hidden, q_width, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_q_norm.weight", 1, self.config.head_dim(), GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_k_norm.weight", 1, self.config.head_dim(), GGMLType.F32
+                )
+            else:
+                self._require_tensor_shape(
+                    prefix + "attn_qkv.weight", 3 * inner, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_gate.weight", inner, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_alpha.weight", dt_rank, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_beta.weight", dt_rank, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_a", 1, dt_rank, GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_conv1d.weight", inner * 3, self.config.ssm_conv_kernel, GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_dt.bias", 1, dt_rank, GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_norm.weight", 1, state, GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_out.weight", hidden, inner, GGMLType.F16
+                )
 
     def _cleanup(mut self):
         if self.is_mapped:
