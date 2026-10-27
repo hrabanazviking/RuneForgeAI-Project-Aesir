@@ -1059,7 +1059,7 @@ def _gemm_k_fast_range(
         unsafe_from_address=Int(b_addr)
     )
     var blocks_per_row = a_cols // 256
-    var block_bytes = 144 if kind == 12 else 210
+    var block_bytes = 144 if kind == 12 else 210 if kind == 14 else 176 if kind == 13 else 110 if kind == 11 else 84
     var scratch = InlineArray[Float32, 256](uninitialized=True)
     var sp = scratch.unsafe_ptr()
     var row_start = 0
@@ -1101,7 +1101,42 @@ def _gemm_k_fast_range(
                         sp.unsafe_store[width=16](g_lo * 32 + 16, coef_a[g_lo] * (chunk1 & UInt8(0x0F)).cast[f32]() - coef_b[g_lo])
                         sp.unsafe_store[width=16](g_hi * 32, coef_a[g_hi] * (chunk0 >> 4).cast[f32]() - coef_b[g_hi])
                         sp.unsafe_store[width=16](g_hi * 32 + 16, coef_a[g_hi] * (chunk1 >> 4).cast[f32]() - coef_b[g_hi])
-                else:
+                elif kind == 13:
+                    # Q5_K super-block: Q4_K header/scales, 32 high-bit
+                    # bytes at p+16 (bit g of byte lane is bit 4 of
+                    # element g*32+lane), nibble quants at p+48.
+                    var d = weights.unsafe_offset(p).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    var dmin = weights.unsafe_offset(p + 2).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    var coef_a = InlineArray[Float32, 8](uninitialized=True)
+                    var coef_b = InlineArray[Float32, 8](uninitialized=True)
+                    for g in range(8):
+                        var scale: Int
+                        var minimum: Int
+                        if g < 4:
+                            scale = Int(weights.unsafe_load(p + 4 + g)) & 63
+                            minimum = Int(weights.unsafe_load(p + 8 + g)) & 63
+                        else:
+                            scale = (Int(weights.unsafe_load(p + 8 + g)) & 15) | ((Int(weights.unsafe_load(p + g)) >> 6) << 4)
+                            minimum = (Int(weights.unsafe_load(p + 8 + g)) >> 4) | ((Int(weights.unsafe_load(p + 4 + g)) >> 6) << 4)
+                        coef_a[g] = d * Float32(scale)
+                        coef_b[g] = dmin * Float32(minimum)
+                    var qs = p + 48
+                    var qh0 = weights.unsafe_load[width=16](p + 16)
+                    var qh1 = weights.unsafe_load[width=16](p + 32)
+                    for h in range(4):
+                        var chunk0 = weights.unsafe_load[width=16](qs + h * 32)
+                        var chunk1 = weights.unsafe_load[width=16](qs + h * 32 + 16)
+                        var g_lo = 2 * h
+                        var g_hi = 2 * h + 1
+                        var hi_lo0 = ((qh0 >> UInt8(g_lo)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                        var hi_lo1 = ((qh1 >> UInt8(g_lo)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                        var hi_hi0 = ((qh0 >> UInt8(g_hi)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                        var hi_hi1 = ((qh1 >> UInt8(g_hi)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                        sp.unsafe_store[width=16](g_lo * 32, coef_a[g_lo] * ((chunk0 & UInt8(0x0F)).cast[f32]() + hi_lo0) - coef_b[g_lo])
+                        sp.unsafe_store[width=16](g_lo * 32 + 16, coef_a[g_lo] * ((chunk1 & UInt8(0x0F)).cast[f32]() + hi_lo1) - coef_b[g_lo])
+                        sp.unsafe_store[width=16](g_hi * 32, coef_a[g_hi] * ((chunk0 >> 4).cast[f32]() + hi_hi0) - coef_b[g_hi])
+                        sp.unsafe_store[width=16](g_hi * 32 + 16, coef_a[g_hi] * ((chunk1 >> 4).cast[f32]() + hi_hi1) - coef_b[g_hi])
+                elif kind == 14:
                     # Q6_K super-block: 128 low-nibble bytes, 64 high-bit
                     # bytes, 16 int8 scales (one per 16 values), then d.
                     var d = weights.unsafe_offset(p + 208).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
@@ -1117,6 +1152,45 @@ def _gemm_k_fast_range(
                         var hi = (qh >> UInt8(2 * group)) & UInt8(3)
                         var q = (nib | (hi << 4)).cast[f32]()
                         sp.unsafe_store[width=16](c * 16, coef * (q - Float32(32.0)))
+                elif kind == 11:
+                    # Q3_K super-block: 32 high-bit bytes, 64 low-2-bit
+                    # bytes, 12 packed scale bytes, d at p+108. Scale is
+                    # per 16-value sub-block; q = low - 4 + 4*high_set
+                    # reproduces packed_value's recentered values.
+                    var d = weights.unsafe_offset(p + 108).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    for c in range(16):
+                        var low_scale: Int
+                        if c < 8:
+                            low_scale = Int(weights.unsafe_load(p + 96 + c)) & 15
+                        else:
+                            low_scale = Int(weights.unsafe_load(p + 96 + c - 8)) >> 4
+                        var high_scale = (Int(weights.unsafe_load(p + 104 + c % 4)) >> (2 * (c // 4))) & 3
+                        var scale = (low_scale | (high_scale << 4)) - 32
+                        var coef = d * Float32(scale)
+                        var half = c // 8
+                        var group = (c % 8) // 2
+                        var lg = c % 2
+                        var qb = weights.unsafe_load[width=16](p + 32 + half * 32 + lg * 16)
+                        var low = ((qb >> UInt8(2 * group)) & UInt8(3)).cast[f32]()
+                        var hb = weights.unsafe_load[width=16](p + lg * 16)
+                        var high = ((hb >> UInt8(group + half * 4)) & UInt8(1)).cast[f32]()
+                        sp.unsafe_store[width=16](c * 16, coef * (low - Float32(4.0) + Float32(4.0) * high))
+                else:
+                    # Q2_K super-block (kind 10): 16 scale/min bytes (one
+                    # per 16-value sub-block), 64 packed 2-bit bytes,
+                    # d at p+80, dmin at p+82.
+                    var d = weights.unsafe_offset(p + 80).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    var dmin = weights.unsafe_offset(p + 82).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    for c in range(16):
+                        var sc = Int(weights.unsafe_load(p + c))
+                        var coef_a = d * Float32(sc & 15)
+                        var coef_b = dmin * Float32(sc >> 4)
+                        var half = c // 8
+                        var group = (c % 8) // 2
+                        var lg = c % 2
+                        var qb = weights.unsafe_load[width=16](p + 16 + half * 32 + lg * 16)
+                        var q = ((qb >> UInt8(2 * group)) & UInt8(3)).cast[f32]()
+                        sp.unsafe_store[width=16](c * 16, coef_a * q - coef_b)
                 var k0 = sb * 256
                 for r in range(rows_here):
                     var a_row = row_start + r
@@ -1383,7 +1457,12 @@ def _gemm_k_fast(
     mut C: RuneTensor[f16],
     kind: Int,
 ) raises:
-    """SIMD block-decoding K-quant GEMM for Q4_K (kind 12) and Q6_K (kind 14).
+    """SIMD block-decoding K-quant GEMM for kinds 10-14 (Q2_K, Q3_K,
+    Q4_K, Q5_K, Q6_K). Kinds 13/11/10 joined 12/14 in the model-wave
+    campaign: their decoders mirror packed_value() element-for-element
+    (same scales, recentering and high-bit handling), differing only in
+    rounding order (per-sub-block coefficients factored out, as with
+    Q4_K). The VNNI int8 mode remains kinds 12/14 only.
 
     C = A @ B^T with B held as canonical packed GGUF bytes, B[N, K],
     K % 256 == 0. Each 256-value super-block of B is decoded exactly once
@@ -1413,7 +1492,7 @@ def _gemm_k_fast(
     cp.unsafe_store(5, Int64(B.rows))
     cp.unsafe_store(6, Int64(C.cols))
     cp.unsafe_store(7, Int64(kind))
-    cp.unsafe_store(8, Int64(1) if _vnni_allowed() else Int64(0))
+    cp.unsafe_store(8, Int64(1) if (_vnni_allowed() and (kind == 12 or kind == 14)) else Int64(0))
     _ = par_for[_gemm_k_fast_worker](
         Int64(Int(cp)),
         B.rows,
@@ -1490,7 +1569,7 @@ def gemm_ggml_k(
         raise Error(format_name + ": invalid storage")
     if ggml_type < 10 or ggml_type > 14:
         raise Error(format_name + ": unsupported GGML tensor type")
-    if ggml_type == 12 or ggml_type == 14:
+    if ggml_type >= 10 and ggml_type <= 14:
         _gemm_k_fast(A, B, C, ggml_type)
         return
     var cp = alloc[Int64](7)
