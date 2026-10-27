@@ -36,6 +36,9 @@ def digest(path):
 def source_fingerprint():
     paths = [ROOT / "pixi.toml", ROOT / "pixi.lock", ROOT / "scripts/launch.py"]
     paths += sorted((ROOT / "aesir_engine").rglob("*.mojo"))
+    stub = ROOT / "aesir_engine" / "hailo10h_stub.c"
+    if stub.is_file():
+        paths.append(stub)
     if not (ROOT / "aesir_engine/main.mojo").is_file():
         raise ValueError("Missing aesir_engine/main.mojo; use a complete checkout.")
     value = hashlib.sha256()
@@ -71,6 +74,41 @@ def validate_build():
         raise ValueError(f"Local build unavailable: {error}. {REBUILD}") from error
 
 
+def prepare_hailo_bridge(temp):
+    """Stages libaesir_hailo10h.so for the launcher link and returns its path.
+
+    The canonical binary references the aesir_hailo10h_* C ABI. A real
+    bridge built by scripts/build_hailo10h.sh (work/libaesir_hailo10h.so,
+    or $AESIR_HAILO_LIB_DIR) is preferred. On machines without HailoRT
+    the fail-closed stub (aesir_engine/hailo10h_stub.c) is compiled
+    instead, so the launcher build succeeds and Hailo commands report
+    the backend as unavailable at runtime rather than failing to link.
+    """
+    candidates = []
+    env_dir = os.environ.get("AESIR_HAILO_LIB_DIR")
+    if env_dir:
+        candidates.append(Path(env_dir) / "libaesir_hailo10h.so")
+    candidates.append(ROOT / "work" / "libaesir_hailo10h.so")
+    staged = Path(temp) / "libaesir_hailo10h.so"
+    for candidate in candidates:
+        if candidate.is_file():
+            shutil.copyfile(candidate, staged)
+            return staged
+    compiler = shutil.which("cc") or shutil.which("gcc")
+    if not compiler:
+        raise ValueError(
+            "Hailo bridge unavailable and no C compiler found to build "
+            "the fail-closed stub; previous build preserved."
+        )
+    status = subprocess.run(
+        [compiler, "-std=c11", "-fPIC", "-shared",
+         str(ROOT / "aesir_engine" / "hailo10h_stub.c"), "-o", str(staged)]
+    ).returncode
+    if status:
+        raise ValueError("Hailo bridge stub build failed; previous build preserved.")
+    return staged
+
+
 def build(target):
     pixi = shutil.which("pixi")
     if not pixi:
@@ -87,9 +125,13 @@ def build(target):
         before = source_fingerprint()
         with tempfile.TemporaryDirectory(prefix="staging-", dir=BUILD) as temp:
             binary = Path(temp) / "aesir"
+            bridge = prepare_hailo_bridge(temp)
             command = [pixi, "run", "--frozen", "--no-install", "--offline",
                        "--executable", "mojo", "build", "--target-accelerator",
-                       target, "aesir_engine/main.mojo", "-o", str(binary)]
+                       target,
+                       "-Xlinker", f"-L{temp}", "-Xlinker", "-laesir_hailo10h",
+                       "-Xlinker", "-rpath", "-Xlinker", "$ORIGIN",
+                       "aesir_engine/main.mojo", "-o", str(binary)]
             process = subprocess.Popen(command, cwd=ROOT, start_new_session=True)
             try:
                 status = process.wait()
@@ -112,6 +154,7 @@ def build(target):
             # A crash between these replacements leaves a mismatched pair that
             # launch refuses. This is a local cache, not a durable model store.
             os.replace(binary, BUILD / "aesir")
+            os.replace(bridge, BUILD / "libaesir_hailo10h.so")
             os.replace(staged_manifest, BUILD / "manifest.json")
     print(f"Built and recorded local executable: {BUILD / 'aesir'}")
 
