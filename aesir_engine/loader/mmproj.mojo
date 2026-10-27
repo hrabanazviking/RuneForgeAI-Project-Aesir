@@ -620,3 +620,70 @@ struct MmprojFile:
         if spec.audio_present:
             out += "audio tower: present (inventoried, not interpreted)\n"
         return out
+    def tensor_q8_0_f32(self, name: String) raises -> List[Float32]:
+        """Dequantizes a Q8_0 tensor to F32 values, in file order.
+
+        Q8_0 tiles the element stream in blocks of 32 along the innermost
+        dimension: each block is an F16 scale followed by 32 signed int8
+        codes, and each value is scale * code. The returned list uses the
+        same linear file order as ``tensor_f32``.
+        """
+        if name not in self.tensors:
+            raise Error("mmproj: missing tensor " + name)
+        var tensor = self.tensors[name]
+        if tensor.kind != 8:
+            raise Error("mmproj: tensor is not Q8_0: " + name)
+        if tensor.elements % 32 != 0:
+            raise Error(
+                "mmproj: Q8_0 tensor element count is not block aligned: " + name
+            )
+        var values = List[Float32]()
+        values.reserve(tensor.elements)
+        var blocks = tensor.elements // 32
+        for b in range(blocks):
+            var block_offset = tensor.offset + b * 34
+            var scale = _f16_to_f32(self.source._read_u16(block_offset))
+            for j in range(32):
+                var code = Int(
+                    self.source.mmap_ptr.unsafe_load(block_offset + 2 + j)
+                )
+                if code >= 128:
+                    code -= 256
+                values.append(scale * Float32(code))
+        return values^
+
+    def tensor_scalar_f32(self, name: String) raises -> Float32:
+        """Reads a single-element F32 tensor (a calibration scalar)."""
+        if name not in self.tensors:
+            raise Error("mmproj: missing tensor " + name)
+        var tensor = self.tensors[name]
+        if tensor.kind != 0 or tensor.elements != 1:
+            raise Error("mmproj: tensor is not an F32 scalar: " + name)
+        return self.source._read_f32(tensor.offset)
+
+
+def _f16_to_f32(bits: UInt16) raises -> Float32:
+    """Converts IEEE-754 half-precision bits to a Float32 value.
+
+    Exact for every finite half (the conversion is a widening). Non-finite
+    halves raise: a Q8_0 scale is a measured calibration value, and an
+    infinite or NaN scale in a real file is corruption, not data.
+    """
+    var sign = Float32(-1.0) if (bits >> 15) != 0 else Float32(1.0)
+    var exponent = Int((bits >> 10) & 31)
+    var fraction = Int(bits & 1023)
+    if exponent == 31:
+        raise Error("mmproj: non-finite F16 value in tensor data")
+    if exponent == 0:
+        # Subnormal (or zero): fraction * 2^-24.
+        return sign * Float32(fraction) * Float32(5.960464477539063e-08)
+    var mantissa = Float32(1.0) + Float32(fraction) / Float32(1024.0)
+    var power = Float32(1.0)
+    var e = exponent - 15
+    while e > 0:
+        power *= Float32(2.0)
+        e -= 1
+    while e < 0:
+        power /= Float32(2.0)
+        e += 1
+    return sign * mantissa * power
