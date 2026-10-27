@@ -74,10 +74,16 @@ def print_general_help():
     print("      Durable local shortcuts and favorite-first interactive selection.")
     print(
         "  run <model> [--max-tokens N] [--config path]"
-        " [--accel hailo10h --model-path <model.hef>] <prompt...>"
+        " [--accel auto|cpu|cuda] <prompt...>"
     )
     print(
-        "      Hailo-10H uses direct in-process HailoRT GenAI; CPU/CUDA routes are prohibited for this mission."
+        "      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference."
+    )
+    print(
+        "  run --accel hailo10h --model-path <model.hef> <prompt...>"
+    )
+    print(
+        "      Hailo-10H direct in-process HailoRT GenAI single-shot inference."
     )
     print("  chat [model] --accel cuda [--profile auto|gemma4|llama3|qwen3]")
     print("      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)")
@@ -1070,34 +1076,58 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "run":
         validate_run_option_support(options)
-        var hailo_path = hailo_model_path(args)
+        var config = effective_config(options)
+        validate_single_shot_config_support(config)
+        if config.acceleration_backend == "hailo10h":
+            var hailo_path = hailo_model_path(args)
+            var hailo_positionals = collect_run_positionals(args)
+            if len(hailo_positionals) < 1:
+                raise Error(
+                    "'run' requires prompt text after --model-path <model.hef>"
+                )
+            var hailo_prompt = String("")
+            for i in range(0, len(hailo_positionals)):
+                if i > 0:
+                    hailo_prompt += String(" ")
+                hailo_prompt += hailo_positionals[i]
+            var trimmed_hailo_prompt = String(hailo_prompt.strip())
+            if len(trimmed_hailo_prompt.bytes()) == 0:
+                raise Error("single-shot run prompt text must not be empty")
+            var session = Hailo10HSession(hailo_path)
+            var generated = session.generate(trimmed_hailo_prompt, options.max_tokens)
+            print(generated)
+            session.close()
+            return
+
         var positionals = collect_run_positionals(args)
         if len(positionals) < 1:
             raise Error(
                 "'run' requires a model reference. Usage: aesir run "
                 + String("<model> [--max-tokens N] <prompt...>")
             )
-        if len(positionals) < 1:
+        var model_name = positionals[0]
+        if len(positionals) < 2:
             raise Error(
-                "'run' requires prompt text after --model-path <model.hef>"
+                "interactive run is unsupported; use 'aesir chat "
+                + model_name
+                + " --accel cuda'"
             )
-        var config = effective_config(options)
-        validate_single_shot_config_support(config)
-        if config.acceleration_backend != "hailo10h":
-            raise Error("CpuInferenceProhibited: select --accel hailo10h; Hailo-10H is the only LLM execution target")
+        if config.acceleration_backend != "cuda":
+            require_verified_cpu_backend(config)
 
         var prompt = String("")
-        for i in range(0, len(positionals)):
-            if i > 0:
+        for i in range(1, len(positionals)):
+            if i > 1:
                 prompt += String(" ")
             prompt += positionals[i]
         var trimmed_prompt = String(prompt.strip())
         if len(trimmed_prompt.bytes()) == 0:
             raise Error("single-shot run prompt text must not be empty")
-        var session = Hailo10HSession(hailo_path)
-        var generated = session.generate(trimmed_prompt, options.max_tokens)
-        print(generated)
-        session.close()
+        var resolved = resolve_model_reference(model_name, config.model_store_path)
+        if config.acceleration_backend == "cuda":
+            cuda_single_shot(resolved.path, trimmed_prompt, options.max_tokens)
+        else:
+            run_single_shot(resolved.path, trimmed_prompt, options.max_tokens)
         return
 
     if cmd == "daemon":

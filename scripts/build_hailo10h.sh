@@ -21,7 +21,7 @@ aesir_stage="$(mktemp -d "$aesir_output/.hailo-build.XXXXXXXX")"
     "$aesir_root/aesir_engine/hailo10h_bridge.cpp" -lhailort -lcrypto -pthread \
     -o "$aesir_stage/libaesir_hailo10h.so"
 MODULAR_CACHE_DIR="${MODULAR_CACHE_DIR:-$aesir_output/mojo-cache}" \
-    "$aesir_mojo" build -I "$aesir_root/aesir_engine" \
+    "$aesir_mojo" build -I "$aesir_root" -I "$aesir_root/aesir_engine" \
     -Xlinker -L"$aesir_stage" -Xlinker -laesir_hailo10h \
     -Xlinker -rpath -Xlinker '$ORIGIN' \
     "$aesir_root/aesir_engine/main.mojo" -o "$aesir_stage/aesir"
