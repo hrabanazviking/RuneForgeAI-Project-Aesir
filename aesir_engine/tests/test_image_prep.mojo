@@ -149,9 +149,15 @@ def test_preprocess_mean_std() raises:
     print("image_prep mean/std: PASS")
 
 
-def main() raises:
+def test_image_prep() raises:
+    """Aggregate entry point; run_all registration lands with the ledger
+    entry so the counted totals stay synchronized (see design doc)."""
     test_parse_ppm()
     test_resize_identity()
     test_resize_bilinear_oracle()
     test_patchify_order()
     test_preprocess_mean_std()
+
+
+def main() raises:
+    test_image_prep()
