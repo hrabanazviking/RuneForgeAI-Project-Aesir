@@ -3,7 +3,8 @@
 
 from std.math import max, min
 from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTopology, NPUBackendType, GPURealmType, f16, f32
-from core.inference import forward_pass, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35
+from core.inference import forward_pass, forward_pass_batched, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35, forward_pass_qwen35_batched
+from core.parallel import _env_int
 from core.sampler import RuneRNG, sample_token_from_logits
 from core.session import SessionContext, SessionManager
 from core.supervisor import SelfHealingSupervisor
@@ -414,6 +415,83 @@ struct AesirEngine:
             is_prefill,
         )
 
+    def _prefill_batch_cap(self) -> Int:
+        """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
+        (default 32; 1 disables batching and restores the per-token
+        loop). Also clamped by arena workspace — one batch row needs
+        roughly 3*hidden + q_width + 2*kv_width + 2*ffn_dim f16
+        elements of per-layer scratch, and at most half the arena's
+        free space may be committed to a single chunk."""
+        var cap = _env_int("AESIR_PREFILL_BATCH", 32)
+        if cap <= 1:
+            return 1
+        var hidden = self.parser.config.embedding_length
+        var q_width = self.parser.config.head_count * self.parser.config.head_dim()
+        var kv_width = self.parser.config.kv_dim()
+        var ffn_dim = self.parser.config.feed_forward_length
+        var per_row = 3 * hidden + q_width + 2 * kv_width + 2 * ffn_dim
+        if per_row <= 0:
+            return 1
+        var free_elems = self.pool.capacity - self.pool.offset
+        var by_workspace = (free_elems // 2) // per_row
+        if by_workspace < 1:
+            by_workspace = 1
+        return min(cap, by_workspace)
+
+    def _forward_batch(
+        mut self,
+        tokens: List[Int],
+        mut kv_cache: KVCache,
+        start_pos: Int,
+        batch_len: Int,
+        gen_config: GenerationConfig,
+        is_prefill: Bool = False,
+    ) raises -> Int:
+        """One batched chunk of batch_len consecutive positions — the
+        batched twin of _forward_position, dispatched by architecture
+        the same way. Pure-prefill chunks (is_prefill) only fill the
+        KV cache (and, for Qwen3.5, the SSM state); a non-prefill
+        chunk's pass also yields the sampled token at its last
+        position."""
+        if self.parser.config.architecture == "qwen35":
+            return forward_pass_qwen35_batched(
+                tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                self.qwen35_blocks,
+                self.qwen35_state,
+                start_pos,
+                batch_len,
+                is_prefill,
+                gen_config.temperature,
+                gen_config.top_k,
+                gen_config.top_p,
+                gen_config.repetition_penalty,
+            )
+        return forward_pass_batched(
+            tokens,
+            self.parser,
+            self.pool,
+            kv_cache,
+            start_pos,
+            batch_len,
+            self.parser.config.block_count,
+            self.parser.config.head_dim(),
+            self.parser.config.head_count,
+            self.topology,
+            self.blocks,
+            self.enable_npu,
+            self.target_backend,
+            self.enable_gpu_realm,
+            self.target_gpu_realm,
+            gen_config.temperature,
+            gen_config.top_k,
+            gen_config.top_p,
+            gen_config.repetition_penalty,
+            is_prefill,
+        )
+
     def extract_query_embedding(mut self, prompt: String, hidden_dim: Int) raises -> RuneTensor[f16]:
         """
         Mean-Pooled Query Embedding Extractor (The Wisdom Extraction).
@@ -575,15 +653,31 @@ struct AesirEngine:
                 self.parser.config.block_count,
             )
             print("Prompt tokens:", len(tokens), "context_length:", self.parser.config.context_length)
-            # Full Prompt Prefill (Weaving the Context):
-            # Evaluate all prompt tokens 0..len(tokens)-2 to populate KV Cache across all transformer layers
-            for p in range(len(tokens) - 1):
-                _ = self._forward_position(tokens, kv_cache, p, gen_config, True)
-
-            var last_prompt_pos = len(tokens) - 1
-            var next_token = self._forward_position(
-                tokens, kv_cache, last_prompt_pos, gen_config
-            )
+            # Full Prompt Prefill (Weaving the Context): prompt
+            # tokens are processed in batches through the batched
+            # forward path (bit-identical to per-token passes; see
+            # core/inference.mojo). Every chunk but the last is pure
+            # prefill; the final chunk also covers the last prompt
+            # token and its pass yields the first sampled token. With
+            # batching disabled (cap 1) the per-token loop runs.
+            var next_token = -1
+            var batch_cap = self._prefill_batch_cap()
+            if batch_cap > 1 and len(tokens) > 1:
+                var pos = 0
+                while len(tokens) - 1 - pos >= batch_cap:
+                    _ = self._forward_batch(
+                        tokens, kv_cache, pos, batch_cap, gen_config, True
+                    )
+                    pos += batch_cap
+                next_token = self._forward_batch(
+                    tokens, kv_cache, pos, len(tokens) - pos, gen_config, False
+                )
+            else:
+                for p in range(len(tokens) - 1):
+                    _ = self._forward_position(tokens, kv_cache, p, gen_config, True)
+                next_token = self._forward_position(
+                    tokens, kv_cache, len(tokens) - 1, gen_config
+                )
 
             var current_tokens = tokens.copy()
             var generated_token_ids = List[Int]()

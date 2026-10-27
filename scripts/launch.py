@@ -39,6 +39,9 @@ def source_fingerprint():
     stub = ROOT / "aesir_engine" / "hailo10h_stub.c"
     if stub.is_file():
         paths.append(stub)
+    par_shim = ROOT / "aesir_engine" / "thread_par.c"
+    if par_shim.is_file():
+        paths.append(par_shim)
     if not (ROOT / "aesir_engine/main.mojo").is_file():
         raise ValueError("Missing aesir_engine/main.mojo; use a complete checkout.")
     value = hashlib.sha256()
@@ -109,6 +112,42 @@ def prepare_hailo_bridge(temp):
     return staged
 
 
+def prepare_par_bridge(temp):
+    """Stages libaesir_par.so (the pthread parallel-for shim) for the link.
+
+    A prebuilt library (work/libaesir_par.so, or $AESIR_PAR_LIB_DIR) is
+    preferred; otherwise aesir_engine/thread_par.c is compiled with the
+    host C compiler, mirroring prepare_hailo_bridge. The engine's CPU
+    GEMM paths degrade to serial execution if the shim misbehaves at
+    runtime, but the canonical binary links against it, so a build
+    without any way to produce it fails here rather than at link time.
+    """
+    candidates = []
+    env_dir = os.environ.get("AESIR_PAR_LIB_DIR")
+    if env_dir:
+        candidates.append(Path(env_dir) / "libaesir_par.so")
+    candidates.append(ROOT / "work" / "libaesir_par.so")
+    staged = Path(temp) / "libaesir_par.so"
+    for candidate in candidates:
+        if candidate.is_file():
+            shutil.copyfile(candidate, staged)
+            return staged
+    compiler = shutil.which("cc") or shutil.which("gcc")
+    if not compiler:
+        raise ValueError(
+            "Parallel-for shim unavailable and no C compiler found to "
+            "build it; previous build preserved."
+        )
+    status = subprocess.run(
+        [compiler, "-std=c11", "-O2", "-fPIC", "-shared",
+         str(ROOT / "aesir_engine" / "thread_par.c"), "-o", str(staged),
+         "-lpthread"]
+    ).returncode
+    if status:
+        raise ValueError("Parallel-for shim build failed; previous build preserved.")
+    return staged
+
+
 def build(target):
     pixi = shutil.which("pixi")
     if not pixi:
@@ -126,10 +165,12 @@ def build(target):
         with tempfile.TemporaryDirectory(prefix="staging-", dir=BUILD) as temp:
             binary = Path(temp) / "aesir"
             bridge = prepare_hailo_bridge(temp)
+            par_lib = prepare_par_bridge(temp)
             command = [pixi, "run", "--frozen", "--no-install", "--offline",
                        "--executable", "mojo", "build", "--target-accelerator",
                        target, "-I", str(ROOT),
                        "-Xlinker", f"-L{temp}", "-Xlinker", "-laesir_hailo10h",
+                       "-Xlinker", "-laesir_par",
                        "-Xlinker", "-rpath", "-Xlinker", "$ORIGIN",
                        "aesir_engine/main.mojo", "-o", str(binary)]
             process = subprocess.Popen(command, cwd=ROOT, start_new_session=True)
@@ -155,6 +196,7 @@ def build(target):
             # launch refuses. This is a local cache, not a durable model store.
             os.replace(binary, BUILD / "aesir")
             os.replace(bridge, BUILD / "libaesir_hailo10h.so")
+            os.replace(par_lib, BUILD / "libaesir_par.so")
             os.replace(staged_manifest, BUILD / "manifest.json")
     print(f"Built and recorded local executable: {BUILD / 'aesir'}")
 

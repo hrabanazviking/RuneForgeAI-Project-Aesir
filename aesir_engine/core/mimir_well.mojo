@@ -934,6 +934,40 @@ struct KVCache(Copyable):
             self.v.data.unsafe_store(offset + c, val.data.unsafe_load(c))
 
     @always_inline
+    def append_block(
+        mut self,
+        layer_idx: Int,
+        pos: Int,
+        key: RuneTensor[f16],
+        val: RuneTensor[f16],
+        batch_len: Int,
+    ) raises:
+        """Appends a block of batch_len consecutive positions at once.
+
+        Destinations are consecutive positions of one layer and sources
+        are the rows of row-major [batch_len, hidden_dim] tensors, so
+        the copy is a single flat run per tensor — byte-identical to
+        batch_len calls of append() at successive positions.
+        """
+        if layer_idx < 0 or layer_idx >= self.num_layers:
+            raise Error("KVCache.append_block: layer_idx out of bounds")
+        if pos < 0:
+            raise Error("KVCache.append_block: pos must be non-negative")
+        if batch_len <= 0:
+            raise Error("KVCache.append_block: batch_len must be positive")
+        if pos + batch_len > self.max_seq_len:
+            raise Error("KVCache.append_block: block exceeds fixed cache capacity")
+        if key.cols != self.hidden_dim or val.cols != self.hidden_dim:
+            raise Error("KVCache.append_block: key/val width mismatch")
+        if key.rows < batch_len or val.rows < batch_len:
+            raise Error("KVCache.append_block: key/val row count below batch_len")
+        var offset = (layer_idx * self.max_seq_len + pos) * self.hidden_dim
+        var total = batch_len * self.hidden_dim
+        for c in range(total):
+            self.k.data.unsafe_store(offset + c, key.data.unsafe_load(c))
+            self.v.data.unsafe_store(offset + c, val.data.unsafe_load(c))
+
+    @always_inline
     def get_k_slice(
         self, layer_idx: Int, seq_len: Int
     ) raises -> RuneTensor[f16]:
