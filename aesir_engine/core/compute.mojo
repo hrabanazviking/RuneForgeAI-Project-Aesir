@@ -889,6 +889,63 @@ def gemm_q5_1(
             C.set(row, output_index, sum.cast[f16]())
 
 
+def _gemm_q8_0_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    a_rows: Int,
+    a_cols: Int,
+    c_cols: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Output-column range of the Q8_0 GEMM (see gemm_q8_0).
+
+    Each output element is an independent reduction over ascending
+    blocks/lanes with the exact arithmetic of the original serial
+    body, so column ranges are bit-identical in any partition.
+    """
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var weights = Pointer[UInt8, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    var blocks_per_row = a_cols // 32
+    for row in range(a_rows):
+        for output in range(out_lo, out_hi):
+            var total: Float32 = 0
+            var row_base = output * blocks_per_row * 34
+            for block in range(blocks_per_row):
+                var p = row_base + block * 34
+                var scale = weights.unsafe_offset(p).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+                for lane in range(32):
+                    var q = weights.unsafe_load(p + 2 + lane).cast[DType.int8]()
+                    total += a_data.unsafe_load(row * a_cols + block * 32 + lane).cast[f32]() * Float32(q) * scale
+            c_data.unsafe_store(row * c_cols + output, total.cast[f16]())
+
+
+def _gemm_q8_0_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback; ctx slots: [A.data, B.data, C.data,
+    A.rows, A.cols, C.cols]."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    _gemm_q8_0_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(start),
+        Int(end),
+    )
+
+
 def gemm_q8_0(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
@@ -898,19 +955,23 @@ def gemm_q8_0(
         raise Error("gemm_q8_0: output matrix shape mismatch")
     if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
         raise Error("gemm_q8_0: invalid storage")
-    var weights = B.data.unsafe_bitcast[UInt8]()
-    var blocks_per_row = A.cols // 32
-    for row in range(A.rows):
-        for output in range(B.rows):
-            var total: Float32 = 0
-            var row_base = output * blocks_per_row * 34
-            for block in range(blocks_per_row):
-                var p = row_base + block * 34
-                var scale = weights.unsafe_offset(p).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
-                for lane in range(32):
-                    var q = weights.unsafe_load(p + 2 + lane).cast[DType.int8]()
-                    total += A.data.unsafe_load(row * A.cols + block * 32 + lane).cast[f32]() * Float32(q) * scale
-            C.data.unsafe_store(row * C.cols + output, total.cast[f16]())
+    # Model-wave change: the serial triple loop was the Coder-3B
+    # Q8_0 crown bottleneck. Output columns partition across threads
+    # via par_for; per-element arithmetic is unchanged, so results
+    # are bit-identical to the serial body (_gemm_q8_0_range).
+    var cp = alloc[Int64](6)
+    cp.unsafe_store(0, Int64(Int(A.data)))
+    cp.unsafe_store(1, Int64(Int(B.data)))
+    cp.unsafe_store(2, Int64(Int(C.data)))
+    cp.unsafe_store(3, Int64(A.rows))
+    cp.unsafe_store(4, Int64(A.cols))
+    cp.unsafe_store(5, Int64(C.cols))
+    _ = par_for[_gemm_q8_0_worker](
+        Int64(Int(cp)),
+        B.rows,
+        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+    )
+    cp.unsafe_free()
 
 
 def gemm_q8_1(
