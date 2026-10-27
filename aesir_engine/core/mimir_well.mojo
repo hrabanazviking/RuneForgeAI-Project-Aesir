@@ -489,6 +489,10 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
     comptime IQ2_XXS = 24
     comptime TERNARY_155BIT = 25
     comptime TQ1_0 = 25  # Canonical GGML name for the ternary descriptor.
+    comptime IQ2_S = 26
+    comptime IQ3_S = 27
+    comptime IQ2_XS = 28
+    comptime IQ3_XXS = 29
 
     var value: Int
 
@@ -564,6 +568,14 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
             return "IQ2_XXS"
         elif self.value == 25:
             return "TQ1_0"
+        elif self.value == 26:
+            return "IQ2_S"
+        elif self.value == 27:
+            return "IQ3_S"
+        elif self.value == 28:
+            return "IQ2_XS"
+        elif self.value == 29:
+            return "IQ3_XXS"
         return "UNKNOWN"
 
 

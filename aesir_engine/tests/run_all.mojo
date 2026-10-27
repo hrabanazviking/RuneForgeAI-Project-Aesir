@@ -221,7 +221,11 @@ from tests.test_gptq_awq_quantization import (
 )
 from tests.test_extreme_quants import (
     test_iq1_s_known_value,
+    test_iq2_s_known_value,
+    test_iq2_xs_known_value,
     test_iq2_xxs_known_value,
+    test_iq3_s_known_value,
+    test_iq3_xxs_known_value,
     test_tq1_0_known_value,
 )
 from tests.test_quantization_hardening import (
@@ -767,6 +771,14 @@ def main() raises:
     run_case(ledger, "quantization.iq1_s_known_value", test_iq1_s_known_value)
     run_case(
         ledger, "quantization.iq2_xxs_known_value", test_iq2_xxs_known_value
+    )
+    run_case(ledger, "quantization.iq2_s_known_value", test_iq2_s_known_value)
+    run_case(ledger, "quantization.iq3_s_known_value", test_iq3_s_known_value)
+    run_case(
+        ledger, "quantization.iq2_xs_known_value", test_iq2_xs_known_value
+    )
+    run_case(
+        ledger, "quantization.iq3_xxs_known_value", test_iq3_xxs_known_value
     )
     run_case(
         ledger,
