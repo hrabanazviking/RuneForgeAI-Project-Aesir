@@ -166,6 +166,9 @@ looking real, or reported beyond its oracle evidence.
 - Existing test suites stay green; new tests follow `TESTING_PROTOCOL.md`
   (opt-in external-reference pattern for real weight files — model weights
   never enter Git).
+- run_all registration and the `CAPABILITY_LEDGER.md` entry land together:
+  the counted suite total is mirrored in the ledger's E-MASTER key and
+  status summary, so a case is never added on one side only.
 - The mmproj download lives only in this worktree's `.aesir/models`.
 - Mojo conventions of the files being touched (`def`, bounds-checked reads,
   fail-closed errors) are matched, per `GIT_DISCIPLINE.md` and the doctrine.
