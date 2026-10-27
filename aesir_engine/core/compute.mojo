@@ -6,10 +6,12 @@
 # through SIMD and parallelized runic operations.
 
 from core.packed_quantization import packed_value
+from .parallel import par_for, _env_int, cpu_has_vnni
 from std.math import exp, max, sqrt, cos, sin, isinf, isnan, tanh
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.algorithm import vectorize
+from std.sys.intrinsics import llvm_intrinsic
 
 from .mimir_well import (
     RuneTensor,
@@ -1027,36 +1029,46 @@ def gemm_fp8_e5m2(
             C.set(row, output_index, sum.cast[f16]())
 
 
-def _gemm_k_fast(
-    A: RuneTensor[f16],
-    B: RuneTensor[f16],
-    mut C: RuneTensor[f16],
+def _gemm_k_fast_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    a_rows: Int,
+    a_cols: Int,
+    b_rows: Int,
+    c_cols: Int,
     kind: Int,
-) raises:
-    """SIMD block-decoding K-quant GEMM for Q4_K (kind 12) and Q6_K (kind 14).
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Range-bounded body of the fast K-quant GEMM (see _gemm_k_fast).
 
-    C = A @ B^T with B held as canonical packed GGUF bytes, B[N, K],
-    K % 256 == 0. Each 256-value super-block of B is decoded exactly once
-    into an f32 scratch row: the block header (scales/mins) is extracted a
-    single time and the packed quants are unpacked with SIMD, instead of
-    re-deriving the header per element as the scalar packed_value() path
-    does. The decoded row is then dotted against every row of A with
-    f32 SIMD accumulation, so batched (multi-row) calls reuse one decode.
-    Accumulation order over K is ascending by super-block, matching the
-    scalar path's block order; results can differ only in final rounding.
+    Computes output columns [out_lo, out_hi) of C = A @ B^T. Every
+    output element is computed entirely inside this call with the same
+    accumulation order over K as the unbounded body, so partitioning
+    the output columns across threads is bit-identical to running the
+    whole range serially.
     """
-    var weights = B.data.unsafe_bitcast[UInt8]()
-    var blocks_per_row = A.cols // 256
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var weights = Pointer[UInt8, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    var blocks_per_row = a_cols // 256
     var block_bytes = 144 if kind == 12 else 210
     var scratch = InlineArray[Float32, 256](uninitialized=True)
     var sp = scratch.unsafe_ptr()
     var row_start = 0
-    while row_start < A.rows:
-        var rows_here = A.rows - row_start
+    while row_start < a_rows:
+        var rows_here = a_rows - row_start
         if rows_here > 256:
             rows_here = 256
         var acc = InlineArray[Float32, 256](fill=Float32(0.0))
-        for output in range(B.rows):
+        for output in range(out_lo, out_hi):
             for r in range(rows_here):
                 acc[r] = Float32(0.0)
             for sb in range(blocks_per_row):
@@ -1111,12 +1123,355 @@ def _gemm_k_fast(
                     var accv = SIMD[DType.float32, 16](Float32(0.0))
                     for chunk in range(16):
                         var wv = sp.unsafe_load[width=16](chunk * 16)
-                        var av = A.data.unsafe_load[width=16](a_row * A.cols + k0 + chunk * 16).cast[f32]()
+                        var av = a_data.unsafe_load[width=16](a_row * a_cols + k0 + chunk * 16).cast[f32]()
                         accv += wv * av
                     acc[r] += accv.reduce_add()
             for r in range(rows_here):
-                C.data.unsafe_store((row_start + r) * C.cols + output, acc[r].cast[f16]())
+                c_data.unsafe_store((row_start + r) * c_cols + output, acc[r].cast[f16]())
         row_start += rows_here
+
+
+
+
+comptime VNNI_DEFAULT_ON: Bool = False
+
+
+def _vnni_allowed() -> Bool:
+    """Whether the K-quant GEMM may take the VNNI int8 path:
+    AESIR_VNNI=1 forces it on, =0 forces it off, unset uses
+    VNNI_DEFAULT_ON; the runtime CPU/OS feature probe gates every
+    case, so an explicit =1 on a machine without AVX-512 VNNI still
+    falls back to the f32 path."""
+    var v = _env_int("AESIR_VNNI", -1)
+    if v == 0:
+        return False
+    if v == 1:
+        return cpu_has_vnni()
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+
+
+def _gemm_k_vnni_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    a_rows: Int,
+    a_cols: Int,
+    b_rows: Int,
+    c_cols: Int,
+    kind: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """VNNI (AVX-512 VPDPBUSD) variant of _gemm_k_fast_range, kinds
+    12 (Q4_K) and 14 (Q6_K) only.
+
+    The weight operand is the RAW integer codes (Q4_K nibbles 0..15,
+    Q6_K 6-bit values 0..63) in natural order — the unsigned operand.
+    Activations are dynamically quantized once per (row, sub-block)
+    to int8 with a per-sub-block max-abs scale (the signed operand)
+    and reused for every output column in range; the finer scale
+    granularity (32 values for Q4_K, 16 for Q6_K, vs one scale per
+    256) keeps the quantization error close to each sub-block's own
+    dynamic range. Each sub-block contributes
+    coef_a * (xs_g * int_dot - coef_b * sum_x): int_dot is the exact
+    integer dot of codes x quantized activations, sum_x the exact f32
+    sum of the true activations over the sub-block, and the affine
+    terms fold through it (Q4_K's per-sub-block minimum in coef_b;
+    Q6_K's -32 zero point as coef_b = 32 * coef). Super-blocks
+    accumulate in ascending order, one contribution per sub-block in
+    ascending order, exactly like the f32 body.
+
+    The ONLY approximation vs _gemm_k_fast_range is the int8
+    activation quantization (per-element error <= xs_g/2 within its
+    sub-block), so outputs drift slightly; the drift is bounded and
+    measured in the platform doc. Output columns are partitioned
+    exactly as in the f32 body, so threading composes with this path
+    unchanged.
+    """
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var weights = Pointer[UInt8, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    var blocks_per_row = a_cols // 256
+    var block_bytes = 144 if kind == 12 else 210
+    var nsub = 8 if kind == 12 else 16
+    var sub_width = 256 // nsub
+    var codes = InlineArray[UInt8, 256](uninitialized=True)
+    var cp8 = codes.unsafe_ptr()
+    var partials = InlineArray[Int32, 64](uninitialized=True)
+    var pp = partials.unsafe_ptr()
+    var f32s = InlineArray[Float32, 256](uninitialized=True)
+    var fp = f32s.unsafe_ptr()
+    var row_start = 0
+    while row_start < a_rows:
+        var rows_here = a_rows - row_start
+        if rows_here > 32:
+            rows_here = 32
+        # Phase 1: quantize this row chunk's activations once per
+        # super-block (plus the exact per-sub-block f32 sums).
+        var xq = alloc[Int8](rows_here * a_cols)
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+        for r in range(rows_here):
+            var a_row = row_start + r
+            for sb in range(blocks_per_row):
+                var base = a_row * a_cols + sb * 256
+                for i in range(256):
+                    fp.unsafe_store(
+                        i, a_data.unsafe_load(base + i).cast[f32]()
+                    )
+                var xq_base = r * a_cols + sb * 256
+                for g in range(nsub):
+                    var maxabs = Float32(0.0)
+                    for i in range(sub_width):
+                        var v = fp.unsafe_load(g * sub_width + i)
+                        var av = v if v >= Float32(0.0) else -v
+                        if av > maxabs:
+                            maxabs = av
+                    var xs = Float32(1.0)
+                    if maxabs > Float32(0.0):
+                        xs = maxabs / Float32(127.0)
+                    xscale.unsafe_store(
+                        (r * blocks_per_row + sb) * nsub + g, xs
+                    )
+                    var inv = Float32(1.0) / xs
+                    var s = Float32(0.0)
+                    for i in range(sub_width):
+                        var idx = g * sub_width + i
+                        var v = fp.unsafe_load(idx)
+                        s += v
+                        var qf = v * inv
+                        var qi: Int32
+                        if qf >= Float32(0.0):
+                            qi = Int32(qf + Float32(0.5))
+                        else:
+                            qi = -Int32(Float32(0.5) - qf)
+                        if qi > 127:
+                            qi = 127
+                        if qi < -127:
+                            qi = -127
+                        xq.unsafe_store(xq_base + idx, Int8(qi))
+                    xsums.unsafe_store(
+                        (r * blocks_per_row + sb) * nsub + g, s
+                    )
+        # Phase 2: outputs x super-blocks with integer dots.
+        var acc = InlineArray[Float32, 32](fill=Float32(0.0))
+        for output in range(out_lo, out_hi):
+            for r in range(rows_here):
+                acc[r] = Float32(0.0)
+            for sb in range(blocks_per_row):
+                var p = (output * blocks_per_row + sb) * block_bytes
+                var coef_a = InlineArray[Float32, 16](uninitialized=True)
+                var coef_b = InlineArray[Float32, 16](uninitialized=True)
+                if kind == 12:
+                    var d = weights.unsafe_offset(p).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    var dmin = weights.unsafe_offset(p + 2).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    for g in range(8):
+                        var scale: Int
+                        var minimum: Int
+                        if g < 4:
+                            scale = Int(weights.unsafe_load(p + 4 + g)) & 63
+                            minimum = Int(weights.unsafe_load(p + 8 + g)) & 63
+                        else:
+                            scale = (Int(weights.unsafe_load(p + 8 + g)) & 15) | ((Int(weights.unsafe_load(p + g)) >> 6) << 4)
+                            minimum = (Int(weights.unsafe_load(p + 8 + g)) >> 4) | ((Int(weights.unsafe_load(p + 4 + g)) >> 6) << 4)
+                        coef_a[g] = d * Float32(scale)
+                        coef_b[g] = dmin * Float32(minimum)
+                    var qs = p + 16
+                    for h in range(4):
+                        var chunk0 = weights.unsafe_load[width=16](qs + h * 32)
+                        var chunk1 = weights.unsafe_load[width=16](qs + h * 32 + 16)
+                        var g_lo = 2 * h
+                        var g_hi = 2 * h + 1
+                        cp8.unsafe_store[width=16](g_lo * 32, chunk0 & UInt8(0x0F))
+                        cp8.unsafe_store[width=16](g_lo * 32 + 16, chunk1 & UInt8(0x0F))
+                        cp8.unsafe_store[width=16](g_hi * 32, chunk0 >> 4)
+                        cp8.unsafe_store[width=16](g_hi * 32 + 16, chunk1 >> 4)
+                else:
+                    var d = weights.unsafe_offset(p + 208).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    for c in range(16):
+                        var half = c // 8
+                        var group = (c % 8) // 2
+                        var hl = c % 2
+                        var scale = weights.unsafe_offset(p + 192).unsafe_bitcast[Scalar[DType.int8]]().unsafe_load(c).cast[f32]()
+                        var coef = d * scale
+                        coef_a[c] = coef
+                        coef_b[c] = coef * Float32(32.0)
+                        var ql = weights.unsafe_load[width=16](p + half * 64 + (group % 2) * 32 + hl * 16)
+                        var nib = (ql & UInt8(0x0F)) if group < 2 else (ql >> 4)
+                        var qh = weights.unsafe_load[width=16](p + 128 + half * 32 + hl * 16)
+                        var hi = (qh >> UInt8(2 * group)) & UInt8(3)
+                        cp8.unsafe_store[width=16](c * 16, nib | (hi << 4))
+                for r in range(rows_here):
+                    var xq_row = xq.unsafe_offset(r * a_cols + sb * 256)
+                    for j in range(4):
+                        var dv = llvm_intrinsic[
+                            "llvm.x86.avx512.vpdpbusd.512", SIMD[DType.int32, 16]
+                        ](
+                            SIMD[DType.int32, 16](Int32(0)),
+                            cp8.unsafe_load[width=64](j * 64),
+                            xq_row.unsafe_load[width=64](j * 64),
+                        )
+                        pp.unsafe_store[width=16](j * 16, dv)
+                    var total = Float32(0.0)
+                    for g in range(nsub):
+                        var part = Int32(0)
+                        var t0 = (g * sub_width) // 4
+                        var t1 = ((g + 1) * sub_width) // 4
+                        for t in range(t0, t1):
+                            part += pp.unsafe_load(t)
+                        var xs = xscale.unsafe_load(
+                            (r * blocks_per_row + sb) * nsub + g
+                        )
+                        var xsum = xsums.unsafe_load(
+                            (r * blocks_per_row + sb) * nsub + g
+                        )
+                        total += coef_a[g] * xs * Float32(part) - coef_b[g] * xsum
+                    acc[r] += total
+            for r in range(rows_here):
+                c_data.unsafe_store(
+                    (row_start + r) * c_cols + output, acc[r].cast[f16]()
+                )
+        xq.unsafe_free()
+        xscale.unsafe_free()
+        xsums.unsafe_free()
+        row_start += rows_here
+
+def _gemm_k_fast_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback for _gemm_k_fast; ctx is an Int64 slot array:
+    [A.data, B.data, C.data, A.rows, A.cols, B.rows, C.cols, kind,
+    mode] where mode 1 selects the VNNI int8 range body."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    if Int(ctx.unsafe_load(8)) == 1:
+        _gemm_k_vnni_range(
+            ctx.unsafe_load(0),
+            ctx.unsafe_load(1),
+            ctx.unsafe_load(2),
+            Int(ctx.unsafe_load(3)),
+            Int(ctx.unsafe_load(4)),
+            Int(ctx.unsafe_load(5)),
+            Int(ctx.unsafe_load(6)),
+            Int(ctx.unsafe_load(7)),
+            Int(start),
+            Int(end),
+        )
+        return
+    _gemm_k_fast_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(ctx.unsafe_load(6)),
+        Int(ctx.unsafe_load(7)),
+        Int(start),
+        Int(end),
+    )
+
+
+def _gemm_k_fast(
+    A: RuneTensor[f16],
+    B: RuneTensor[f16],
+    mut C: RuneTensor[f16],
+    kind: Int,
+) raises:
+    """SIMD block-decoding K-quant GEMM for Q4_K (kind 12) and Q6_K (kind 14).
+
+    C = A @ B^T with B held as canonical packed GGUF bytes, B[N, K],
+    K % 256 == 0. Each 256-value super-block of B is decoded exactly once
+    into an f32 scratch row: the block header (scales/mins) is extracted a
+    single time and the packed quants are unpacked with SIMD, instead of
+    re-deriving the header per element as the scalar packed_value() path
+    does. The decoded row is then dotted against every row of A with
+    f32 SIMD accumulation, so batched (multi-row) calls reuse one decode.
+    Accumulation order over K is ascending by super-block, matching the
+    scalar path's block order; results can differ only in final rounding.
+
+    Output columns are partitioned across OS threads through
+    core.parallel.par_for when the work estimate clears the engagement
+    threshold; each column's reduction order is unchanged, so threaded
+    results are bit-identical to the serial body (_gemm_k_fast_range).
+    """
+    # Heap context: the slot array's address crosses into worker
+    # threads, so it must have a stable address for the whole call
+    # (a stack InlineArray's address is not reliable once this frame
+    # is inlined into its callers).
+    var cp = alloc[Int64](9)
+    cp.unsafe_store(0, Int64(Int(A.data)))
+    cp.unsafe_store(1, Int64(Int(B.data)))
+    cp.unsafe_store(2, Int64(Int(C.data)))
+    cp.unsafe_store(3, Int64(A.rows))
+    cp.unsafe_store(4, Int64(A.cols))
+    cp.unsafe_store(5, Int64(B.rows))
+    cp.unsafe_store(6, Int64(C.cols))
+    cp.unsafe_store(7, Int64(kind))
+    cp.unsafe_store(8, Int64(1) if _vnni_allowed() else Int64(0))
+    _ = par_for[_gemm_k_fast_worker](
+        Int64(Int(cp)),
+        B.rows,
+        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+    )
+    cp.unsafe_free()
+
+def _gemm_k_scalar_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    a_rows: Int,
+    a_cols: Int,
+    c_cols: Int,
+    kind: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Output-column range of the scalar K-quant GEMM (kinds 10/11/13).
+
+    Each output element is an independent packed_value reduction over
+    ascending columns, so column ranges are bit-identical to the
+    serial loops in any partition.
+    """
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var weights = Pointer[UInt8, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    for output in range(out_lo, out_hi):
+        for row in range(a_rows):
+            var total: Float32 = 0
+            for col in range(a_cols):
+                total += a_data.unsafe_load(row * a_cols + col).cast[f32]() * packed_value(weights, 0, kind, output * a_cols + col)
+            c_data.unsafe_store(row * c_cols + output, total.cast[f16]())
+
+
+def _gemm_k_scalar_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback; ctx slots: [A.data, B.data, C.data,
+    A.rows, A.cols, C.cols, kind]."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    _gemm_k_scalar_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(ctx.unsafe_load(6)),
+        Int(start),
+        Int(end),
+    )
 
 
 def gemm_ggml_k(
@@ -1138,13 +1493,20 @@ def gemm_ggml_k(
     if ggml_type == 12 or ggml_type == 14:
         _gemm_k_fast(A, B, C, ggml_type)
         return
-    var weights = B.data.unsafe_bitcast[UInt8]()
-    for row in range(A.rows):
-        for output in range(B.rows):
-            var total: Float32 = 0
-            for col in range(A.cols):
-                total += A.data.unsafe_load(row * A.cols + col).cast[f32]() * packed_value(weights, 0, ggml_type, output * A.cols + col)
-            C.data.unsafe_store(row * C.cols + output, total.cast[f16]())
+    var cp = alloc[Int64](7)
+    cp.unsafe_store(0, Int64(Int(A.data)))
+    cp.unsafe_store(1, Int64(Int(B.data)))
+    cp.unsafe_store(2, Int64(Int(C.data)))
+    cp.unsafe_store(3, Int64(A.rows))
+    cp.unsafe_store(4, Int64(A.cols))
+    cp.unsafe_store(5, Int64(C.cols))
+    cp.unsafe_store(6, Int64(ggml_type))
+    _ = par_for[_gemm_k_scalar_worker](
+        Int64(Int(cp)),
+        B.rows,
+        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+    )
+    cp.unsafe_free()
 
 
 def gemm_q2_k(
@@ -1377,6 +1739,73 @@ def gemm_ternary_158(
         C.rows * C.cols,
     )
 
+def _gemm_f16_dense_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    rows: Int,
+    shared_dim: Int,
+    output_dim: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Output-column range of the dense f16 GEMM body in gemm_f16.
+
+    Each output element keeps the serial body's SIMD-then-tail
+    reduction order over the shared dimension, so column ranges are
+    bit-identical to the serial loops in any partition.
+    """
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var b_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var simd_end = (shared_dim // simd_w_f16) * simd_w_f16
+    for output_index in range(out_lo, out_hi):
+        for row in range(rows):
+            var sum: Scalar[f32] = 0.0
+            for inner in range(0, simd_end, simd_w_f16):
+                var input_values = a_data.unsafe_load[width=simd_w_f16](
+                    row * shared_dim + inner
+                ).cast[f32]()
+                var weight_values = b_data.unsafe_load[width=simd_w_f16](
+                    output_index * shared_dim + inner
+                ).cast[f32]()
+                sum += (input_values * weight_values).reduce_add()
+            for inner in range(simd_end, shared_dim):
+                sum += (
+                    a_data.unsafe_load(row * shared_dim + inner).cast[f32]()
+                    * b_data.unsafe_load(
+                        output_index * shared_dim + inner
+                    ).cast[f32]()
+                )
+            c_data.unsafe_store(
+                row * output_dim + output_index, sum.cast[f16]()
+            )
+
+
+def _gemm_f16_dense_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback; ctx slots: [A.data, B.data, C.data,
+    A.rows, A.cols, B.rows]."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    _gemm_f16_dense_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(start),
+        Int(end),
+    )
+
+
 def gemm_f16(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
@@ -1468,30 +1897,19 @@ def gemm_f16(
         else:
             raise Error("gemm_f16: unrecognized or unsupported quantization format discriminant")
 
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var simd_end = (shared_dim // simd_w_f16) * simd_w_f16
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            for inner in range(0, simd_end, simd_w_f16):
-                var input_values = A.data.unsafe_load[width=simd_w_f16](
-                    row * shared_dim + inner
-                ).cast[f32]()
-                var weight_values = B.data.unsafe_load[width=simd_w_f16](
-                    output_index * shared_dim + inner
-                ).cast[f32]()
-                sum += (input_values * weight_values).reduce_add()
-            for inner in range(simd_end, shared_dim):
-                sum += (
-                    A.data.unsafe_load(row * shared_dim + inner).cast[f32]()
-                    * B.data.unsafe_load(
-                        output_index * shared_dim + inner
-                    ).cast[f32]()
-                )
-            C.set(row, output_index, sum.cast[f16]())
+    var cp = alloc[Int64](6)
+    cp.unsafe_store(0, Int64(Int(A.data)))
+    cp.unsafe_store(1, Int64(Int(B.data)))
+    cp.unsafe_store(2, Int64(Int(C.data)))
+    cp.unsafe_store(3, Int64(A.rows))
+    cp.unsafe_store(4, Int64(A.cols))
+    cp.unsafe_store(5, Int64(B.rows))
+    _ = par_for[_gemm_f16_dense_worker](
+        Int64(Int(cp)),
+        B.rows,
+        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+    )
+    cp.unsafe_free()
 
 
 def apply_rope_partial_neox(
