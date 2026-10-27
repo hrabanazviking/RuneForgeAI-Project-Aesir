@@ -473,6 +473,19 @@ struct MmprojFile:
             cursor += 4
         return values^
 
+    def tensor_f32(self, name: String) raises -> List[Float32]:
+        """Copies an F32 tensor's elements out of the mapping, in file order."""
+        if name not in self.tensors:
+            raise Error("mmproj: missing tensor " + name)
+        var tensor = self.tensors[name]
+        if tensor.kind != 0:
+            raise Error("mmproj: tensor is not F32: " + name)
+        var values = List[Float32]()
+        values.reserve(tensor.elements)
+        for i in range(tensor.elements):
+            values.append(self.source._read_f32(tensor.offset + 4 * i))
+        return values^
+
     def has_tensor(self, name: String) -> Bool:
         return name in self.tensors
 
