@@ -275,3 +275,26 @@ as pinned is not assumed.
 - The mmproj download lives only in this worktree's `.aesir/models`.
 - Mojo conventions of the files being touched (`def`, bounds-checked reads,
   fail-closed errors) are matched, per `GIT_DISCIPLINE.md` and the doctrine.
+- Accelerator-first execution (Volmarr, 2026-10-27): on a device with a
+  GPU or NPU, most model work belongs on the accelerator. The CPU is for
+  spillover when model parts exceed accelerator memory, or for an assist
+  measured to massively speed up the complete run. On a device with NPU,
+  GPU, and CPU, placement priority is NPU first, GPU next, and CPU last,
+  but suitable work should also be partitioned for parallel use across
+  all available processors when that gives the fastest complete run; the
+  priority is not a strict serial fill order. Execution must use threaded
+  access to all available cores and compute of every processor on the
+  device, not a single-threaded or few-core subset with the remaining
+  capacity idle, as long as that use is not choking off other running
+  stuff: full-device use must leave breathing room for the operating
+  system, Volmarr's own programs, and the other Aesir line sharing the
+  machine. On purplelongship the mature vision execution target is
+  therefore the RTX 2060 carrying the bulk of the tower, with CPU work
+  only in the permitted spillover or measured-assist roles. CPU-first
+  correctness slices prove semantics only and are not the target design.
+- Thermal awareness and self-control (Volmarr, 2026-10-27): full-device
+  use must never drive the machine into temperature meltdown. The vision
+  execution design must watch device temperatures, throttle itself back
+  before the danger zone when the machine starts to get too hot, and
+  recover performance as temperatures fall. Speed and full-core use
+  always bow to the machine's health.
