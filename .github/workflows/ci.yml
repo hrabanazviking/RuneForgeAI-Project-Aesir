@@ -28,7 +28,13 @@ jobs:
       - name: Compile Historical Master Without CPU Model Execution
         # Owner scope: all LLM execution stays on Hailo-10H. This historical
         # runner contains CPU model forwards; compiling it is not a test pass.
-        run: pixi run mojo build -I . --target-accelerator sm_89 aesir_engine/tests/run_all.mojo -o /tmp/aesir-master-compile-only
+        # The link mirrors scripts/launch.py: stage the fail-closed Hailo
+        # bridge stub and the pthread parallel-for shim, then link both.
+        run: |
+          staging="$(mktemp -d)"
+          cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so"
+          cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread
+          pixi run mojo build -I . --target-accelerator sm_89 aesir_engine/tests/run_all.mojo -o /tmp/aesir-master-compile-only -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -rpath -Xlinker '$ORIGIN'
 
       - name: Verify Merged Host Text and Tool Descriptors
         run: pixi run mojo run -I aesir_engine --target-accelerator sm_89 tests/branch_merge_host.mojo
