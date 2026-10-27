@@ -4,7 +4,11 @@ from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16
 from core.compute import gemm_f16
 from core.extreme_quantization import (
     dequantize_iq1_s_blocks,
+    dequantize_iq2_s_blocks,
+    dequantize_iq2_xs_blocks,
     dequantize_iq2_xxs_blocks,
+    dequantize_iq3_s_blocks,
+    dequantize_iq3_xxs_blocks,
     dequantize_tq1_0_blocks,
 )
 
@@ -212,3 +216,262 @@ def test_tq1_0_known_value() raises:
         if expanded.unsafe_load(i) != Float16(99.0):
             raise Error("TQ1_0 short-input rejection mutated output")
     print("TQ1_0 canonical 54-byte block and GEMM: PASS")
+
+def test_iq2_s_known_value() raises:
+    # Independent gguf-py oracle fixture: F16 scale 2.0 followed by
+    # deterministic pattern bytes ((i*37+11) % 256 from byte 2).
+    var well = MimirWell(1024 * 1024)
+    var packed = well.allocate(82).unsafe_bitcast[UInt8]()
+    var expanded = well.allocate(256 * 2).unsafe_bitcast[Float16]()
+    var input_ptr = well.allocate(256 * 2)
+    var output_ptr = well.allocate(2)
+    for i in range(82):
+        packed.unsafe_store(i, UInt8(0))
+    packed.unsafe_store(0, UInt8(0))
+    packed.unsafe_store(1, UInt8(64))
+    for i in range(2, 82):
+        packed.unsafe_store(i, UInt8(((i - 2) * 37 + 11) % 256))
+
+    dequantize_iq2_s_blocks(packed, 82, expanded, 256)
+    var expected_first = [
+        Float16(-14.0), Float16(-43.75), Float16(43.75), Float16(-14.0),
+        Float16(43.75), Float16(-14.0), Float16(75.25), Float16(-43.75),
+        Float16(75.25), Float16(43.75), Float16(14.0), Float16(43.75),
+        Float16(-14.0), Float16(43.75), Float16(-14.0), Float16(-43.75),
+        Float16(-30.0), Float16(30.0), Float16(-93.75), Float16(30.0),
+        Float16(-30.0), Float16(-93.75), Float16(-30.0), Float16(-30.0),
+        Float16(161.25), Float16(-93.75), Float16(93.75), Float16(-30.0),
+        Float16(-30.0), Float16(30.0), Float16(161.25), Float16(30.0),
+    ]
+    for i in range(32):
+        if expanded.unsafe_load(i) != expected_first[i]:
+            raise Error("IQ2_S grid/sign/scale fixture mismatch")
+    var sum = Float32(0.0)
+    for i in range(256):
+        sum += expanded.unsafe_load(i).cast[DType.float32]()
+    if sum != Float32(1130.75):
+        raise Error("IQ2_S oracle block sum mismatch")
+
+    for i in range(256):
+        input_ptr.unsafe_store(i, Scalar[f16](1.0))
+    var input = RuneTensor[f16](1, 256, input_ptr, False)
+    var weights = RuneTensor[f16](
+        1,
+        256,
+        packed.unsafe_bitcast[Scalar[f16]](),
+        True,
+        CompressedFormatType(CompressedFormatType.IQ2_S),
+    )
+    var output = RuneTensor[f16](1, 1, output_ptr, False)
+    gemm_f16(input, weights, output)
+    if output.data.unsafe_load(0) != Scalar[f16](1130.75):
+        raise Error("IQ2_S GEMM disagrees with independent oracle sum")
+
+    for i in range(256):
+        expanded.unsafe_store(i, Float16(99.0))
+    var rejected = False
+    try:
+        dequantize_iq2_s_blocks(packed, 81, expanded, 256)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("IQ2_S accepted short packed storage")
+    for i in range(256):
+        if expanded.unsafe_load(i) != Float16(99.0):
+            raise Error("IQ2_S short-input rejection mutated output")
+    print("IQ2_S canonical 82-byte block and GEMM: PASS")
+
+
+def test_iq3_s_known_value() raises:
+    # Independent gguf-py oracle fixture: F16 scale 2.0 followed by
+    # deterministic pattern bytes ((i*37+11) % 256 from byte 2).
+    var well = MimirWell(1024 * 1024)
+    var packed = well.allocate(110).unsafe_bitcast[UInt8]()
+    var expanded = well.allocate(256 * 2).unsafe_bitcast[Float16]()
+    var input_ptr = well.allocate(256 * 2)
+    var output_ptr = well.allocate(2)
+    for i in range(110):
+        packed.unsafe_store(i, UInt8(0))
+    packed.unsafe_store(0, UInt8(0))
+    packed.unsafe_store(1, UInt8(64))
+    for i in range(2, 110):
+        packed.unsafe_store(i, UInt8(((i - 2) * 37 + 11) % 256))
+
+    dequantize_iq3_s_blocks(packed, 110, expanded, 256)
+    var expected_first = [
+        Float16(-98.0), Float16(-154.0), Float16(154.0), Float16(70.0),
+        Float16(-70.0), Float16(-210.0), Float16(-42.0), Float16(98.0),
+        Float16(14.0), Float16(70.0), Float16(154.0), Float16(-14.0),
+        Float16(-42.0), Float16(42.0), Float16(98.0), Float16(-126.0),
+        Float16(-210.0), Float16(70.0), Float16(-98.0), Float16(-42.0),
+        Float16(-14.0), Float16(-14.0), Float16(14.0), Float16(-70.0),
+        Float16(98.0), Float16(-126.0), Float16(42.0), Float16(210.0),
+        Float16(14.0), Float16(-126.0), Float16(-14.0), Float16(-14.0),
+    ]
+    for i in range(32):
+        if expanded.unsafe_load(i) != expected_first[i]:
+            raise Error("IQ3_S grid/sign/scale fixture mismatch")
+    var sum = Float32(0.0)
+    for i in range(256):
+        sum += expanded.unsafe_load(i).cast[DType.float32]()
+    if sum != Float32(512.0):
+        raise Error("IQ3_S oracle block sum mismatch")
+
+    for i in range(256):
+        input_ptr.unsafe_store(i, Scalar[f16](1.0))
+    var input = RuneTensor[f16](1, 256, input_ptr, False)
+    var weights = RuneTensor[f16](
+        1,
+        256,
+        packed.unsafe_bitcast[Scalar[f16]](),
+        True,
+        CompressedFormatType(CompressedFormatType.IQ3_S),
+    )
+    var output = RuneTensor[f16](1, 1, output_ptr, False)
+    gemm_f16(input, weights, output)
+    if output.data.unsafe_load(0) != Scalar[f16](512.0):
+        raise Error("IQ3_S GEMM disagrees with independent oracle sum")
+
+    for i in range(256):
+        expanded.unsafe_store(i, Float16(99.0))
+    var rejected = False
+    try:
+        dequantize_iq3_s_blocks(packed, 109, expanded, 256)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("IQ3_S accepted short packed storage")
+    for i in range(256):
+        if expanded.unsafe_load(i) != Float16(99.0):
+            raise Error("IQ3_S short-input rejection mutated output")
+    print("IQ3_S canonical 110-byte block and GEMM: PASS")
+
+
+def test_iq2_xs_known_value() raises:
+    # Independent gguf-py oracle fixture: F16 scale 2.0 followed by
+    # deterministic pattern bytes ((i*37+11) % 256 from byte 2).
+    var well = MimirWell(1024 * 1024)
+    var packed = well.allocate(74).unsafe_bitcast[UInt8]()
+    var expanded = well.allocate(256 * 2).unsafe_bitcast[Float16]()
+    var input_ptr = well.allocate(256 * 2)
+    var output_ptr = well.allocate(2)
+    for i in range(74):
+        packed.unsafe_store(i, UInt8(0))
+    packed.unsafe_store(0, UInt8(0))
+    packed.unsafe_store(1, UInt8(64))
+    for i in range(2, 74):
+        packed.unsafe_store(i, UInt8(((i - 2) * 37 + 11) % 256))
+
+    dequantize_iq2_xs_blocks(packed, 74, expanded, 256)
+    var expected_first = [
+        Float16(143.75), Float16(143.75), Float16(247.25), Float16(-46.0),
+        Float16(-46.0), Float16(46.0), Float16(46.0), Float16(46.0),
+        Float16(-46.0), Float16(143.75), Float16(-46.0), Float16(-247.25),
+        Float16(-46.0), Float16(-143.75), Float16(46.0), Float16(-46.0),
+        Float16(18.0), Float16(-56.25), Float16(56.25), Float16(18.0),
+        Float16(56.25), Float16(-18.0), Float16(-56.25), Float16(-18.0),
+        Float16(-18.0), Float16(-18.0), Float16(-18.0), Float16(18.0),
+        Float16(56.25), Float16(56.25), Float16(96.75), Float16(-18.0),
+    ]
+    for i in range(32):
+        if expanded.unsafe_load(i) != expected_first[i]:
+            raise Error("IQ2_XS grid/sign/scale fixture mismatch")
+    var sum = Float32(0.0)
+    for i in range(256):
+        sum += expanded.unsafe_load(i).cast[DType.float32]()
+    if sum != Float32(2344.0):
+        raise Error("IQ2_XS oracle block sum mismatch")
+
+    for i in range(256):
+        input_ptr.unsafe_store(i, Scalar[f16](1.0))
+    var input = RuneTensor[f16](1, 256, input_ptr, False)
+    var weights = RuneTensor[f16](
+        1,
+        256,
+        packed.unsafe_bitcast[Scalar[f16]](),
+        True,
+        CompressedFormatType(CompressedFormatType.IQ2_XS),
+    )
+    var output = RuneTensor[f16](1, 1, output_ptr, False)
+    gemm_f16(input, weights, output)
+    if output.data.unsafe_load(0) != Scalar[f16](2344.0):
+        raise Error("IQ2_XS GEMM disagrees with independent oracle sum")
+
+    for i in range(256):
+        expanded.unsafe_store(i, Float16(99.0))
+    var rejected = False
+    try:
+        dequantize_iq2_xs_blocks(packed, 73, expanded, 256)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("IQ2_XS accepted short packed storage")
+    for i in range(256):
+        if expanded.unsafe_load(i) != Float16(99.0):
+            raise Error("IQ2_XS short-input rejection mutated output")
+    print("IQ2_XS canonical 74-byte block and GEMM: PASS")
+
+
+def test_iq3_xxs_known_value() raises:
+    # Independent gguf-py oracle fixture: F16 scale 2.0 followed by
+    # deterministic pattern bytes ((i*37+11) % 256 from byte 2).
+    var well = MimirWell(1024 * 1024)
+    var packed = well.allocate(98).unsafe_bitcast[UInt8]()
+    var expanded = well.allocate(256 * 2).unsafe_bitcast[Float16]()
+    var input_ptr = well.allocate(256 * 2)
+    var output_ptr = well.allocate(2)
+    for i in range(98):
+        packed.unsafe_store(i, UInt8(0))
+    packed.unsafe_store(0, UInt8(0))
+    packed.unsafe_store(1, UInt8(64))
+    for i in range(2, 98):
+        packed.unsafe_store(i, UInt8(((i - 2) * 37 + 11) % 256))
+
+    dequantize_iq3_xxs_blocks(packed, 98, expanded, 256)
+    var expected_first = [
+        Float16(-506.0), Float16(-713.0), Float16(46.0), Float16(-46.0),
+        Float16(713.0), Float16(46.0), Float16(-506.0), Float16(46.0),
+        Float16(598.0), Float16(414.0), Float16(322.0), Float16(138.0),
+        Float16(713.0), Float16(-322.0), Float16(-230.0), Float16(230.0),
+        Float16(-230.0), Float16(713.0), Float16(-230.0), Float16(322.0),
+        Float16(-230.0), Float16(138.0), Float16(-713.0), Float16(414.0),
+        Float16(322.0), Float16(46.0), Float16(-713.0), Float16(598.0),
+        Float16(-46.0), Float16(138.0), Float16(-138.0), Float16(-46.0),
+    ]
+    for i in range(32):
+        if expanded.unsafe_load(i) != expected_first[i]:
+            raise Error("IQ3_XXS grid/sign/scale fixture mismatch")
+    var sum = Float32(0.0)
+    for i in range(256):
+        sum += expanded.unsafe_load(i).cast[DType.float32]()
+    if sum != Float32(-994.0):
+        raise Error("IQ3_XXS oracle block sum mismatch")
+
+    for i in range(256):
+        input_ptr.unsafe_store(i, Scalar[f16](1.0))
+    var input = RuneTensor[f16](1, 256, input_ptr, False)
+    var weights = RuneTensor[f16](
+        1,
+        256,
+        packed.unsafe_bitcast[Scalar[f16]](),
+        True,
+        CompressedFormatType(CompressedFormatType.IQ3_XXS),
+    )
+    var output = RuneTensor[f16](1, 1, output_ptr, False)
+    gemm_f16(input, weights, output)
+    if output.data.unsafe_load(0) != Scalar[f16](-994.0):
+        raise Error("IQ3_XXS GEMM disagrees with independent oracle sum")
+
+    for i in range(256):
+        expanded.unsafe_store(i, Float16(99.0))
+    var rejected = False
+    try:
+        dequantize_iq3_xxs_blocks(packed, 97, expanded, 256)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("IQ3_XXS accepted short packed storage")
+    for i in range(256):
+        if expanded.unsafe_load(i) != Float16(99.0):
+            raise Error("IQ3_XXS short-input rejection mutated output")
+    print("IQ3_XXS canonical 98-byte block and GEMM: PASS")

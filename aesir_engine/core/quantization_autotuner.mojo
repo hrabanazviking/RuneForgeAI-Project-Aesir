@@ -151,6 +151,14 @@ def get_quantization_format_info(
         return _fixed_format("IQ1_S", 256, 50, True)
     if value == CompressedFormatType.IQ2_XXS:
         return _fixed_format("IQ2_XXS", 256, 66, True)
+    if value == CompressedFormatType.IQ2_S:
+        return _fixed_format("IQ2_S", 256, 82, True)
+    if value == CompressedFormatType.IQ3_S:
+        return _fixed_format("IQ3_S", 256, 110, True)
+    if value == CompressedFormatType.IQ2_XS:
+        return _fixed_format("IQ2_XS", 256, 74, True)
+    if value == CompressedFormatType.IQ3_XXS:
+        return _fixed_format("IQ3_XXS", 256, 98, True)
     if value == CompressedFormatType.TQ1_0:
         return _fixed_format("TQ1_0", 256, 54, True)
     if value == CompressedFormatType.GPTQ_4BIT:
