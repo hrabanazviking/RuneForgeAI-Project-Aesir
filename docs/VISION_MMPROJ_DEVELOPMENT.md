@@ -150,7 +150,13 @@ type, image size/patch geometry, tensor naming.
 - **Slice 3 — vision encoder forward.** Proves each stage numerically
   against an oracle on the real weights; end-to-end encoder output compared
   on a fixed test image. Position-embedding semantics resolved here, from
-  evidence.
+  evidence. **Stage 3a (patch-embedding projection) is DONE and oracle-
+  verified on the real weights** (see `~/workspace/model-tests/
+  VISION_DEV_STATE.md`). Stage 3b (position embedding + blocks) is gated
+  on reading the reference semantics first: Gemma 4 unified vision uses
+  factorized position embeddings (FPE), and the exact factorization,
+  norm placement, and projector token count must come from the reference
+  source, never from guesswork.
 - **Slice 4 — projection + injection + chat markers.** Proves the projected
   embeddings enter prefill at the right positions with the right count.
 - **Slice 5 — end-to-end + Ministral variant.** A real image question
