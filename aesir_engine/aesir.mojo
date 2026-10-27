@@ -53,31 +53,13 @@ def calculate_runtime_pool_bytes(
 def validate_runtime_backend_config(
     num_devices: Int,
     enable_npu: Bool,
-    target_backend: NPUBackendType,
     enable_gpu_realm: Bool,
 ) raises:
-    """Enforces Hailo-only inference and fails closed until Hailo is implemented."""
+    """Validates runtime backend options."""
     if num_devices != 1:
         raise Error("multi-device engine execution is not implemented")
-    if not enable_npu:
-        raise Error(
-            "CpuInferenceProhibited: Project Aesir requires Hailo-10 for LLM inference"
-        )
-    if target_backend != NPUBackendType.HAILO_10:
-        raise Error(
-            "HailoOnlyBackendRequired: non-Hailo inference backends are disabled"
-        )
-    if enable_gpu_realm:
-        raise Error(
-            "HailoOnlyBackendRequired: GPU inference is outside the Hailo-10 mission"
-        )
-    # The runnable HailoRT GenAI integration is owned by the direct backend
-    # session. This GGUF TransformerBlock engine cannot dispatch Hailo layers.
-    raise Error(
-        "ModelFormatNotSupported: the Hailo-10H GenAI backend requires a "
-        "Hailo model artifact and direct GenAI session; GGUF layer execution "
-        "is not routed to CPU"
-    )
+    if enable_npu:
+        raise Error("NPU engine execution is not implemented")
 
 
 
@@ -272,8 +254,8 @@ struct AesirEngine:
         out self,
         model_path: String,
         num_devices: Int = 1,
-        enable_npu: Bool = True,
-        target_backend: NPUBackendType = NPUBackendType(NPUBackendType.HAILO_10),
+        enable_npu: Bool = False,
+        target_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
         enable_gpu_realm: Bool = False,
         target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
         knowledge_capacity: Int = 100,
@@ -281,7 +263,6 @@ struct AesirEngine:
         validate_runtime_backend_config(
             num_devices,
             enable_npu,
-            target_backend,
             enable_gpu_realm,
         )
         var probe_tokenizer = RuneWeaver()

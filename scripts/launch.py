@@ -128,7 +128,7 @@ def build(target):
             bridge = prepare_hailo_bridge(temp)
             command = [pixi, "run", "--frozen", "--no-install", "--offline",
                        "--executable", "mojo", "build", "--target-accelerator",
-                       target,
+                       target, "-I", str(ROOT),
                        "-Xlinker", f"-L{temp}", "-Xlinker", "-laesir_hailo10h",
                        "-Xlinker", "-rpath", "-Xlinker", "$ORIGIN",
                        "aesir_engine/main.mojo", "-o", str(binary)]
