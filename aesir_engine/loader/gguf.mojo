@@ -739,6 +739,14 @@ struct GGUFSeer:
             if element_count < 0 or element_count // 256 > 9223372036854775807 // 210:
                 raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 256) * 210
+        elif tensor_type == GGMLType.IQ2_XXS:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 66:
+                raise Error("GGUF tensor byte size overflows host index")
+            return (element_count // 256) * 66
+        elif tensor_type == GGMLType.IQ1_S:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 50:
+                raise Error("GGUF tensor byte size overflows host index")
+            return (element_count // 256) * 50
         if element_count < 0 or element_count // 32 > 9223372036854775807 // 18:
             raise Error("GGUF tensor byte size overflows host index")
         return (element_count // 32) * 18
