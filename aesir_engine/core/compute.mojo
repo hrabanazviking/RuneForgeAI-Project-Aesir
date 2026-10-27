@@ -6,7 +6,7 @@
 # through SIMD and parallelized runic operations.
 
 from core.packed_quantization import packed_value
-from std.math import exp, max, sqrt, cos, sin, isinf, isnan
+from std.math import exp, max, sqrt, cos, sin, isinf, isnan, tanh
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.algorithm import vectorize
@@ -1027,6 +1027,98 @@ def gemm_fp8_e5m2(
             C.set(row, output_index, sum.cast[f16]())
 
 
+def _gemm_k_fast(
+    A: RuneTensor[f16],
+    B: RuneTensor[f16],
+    mut C: RuneTensor[f16],
+    kind: Int,
+) raises:
+    """SIMD block-decoding K-quant GEMM for Q4_K (kind 12) and Q6_K (kind 14).
+
+    C = A @ B^T with B held as canonical packed GGUF bytes, B[N, K],
+    K % 256 == 0. Each 256-value super-block of B is decoded exactly once
+    into an f32 scratch row: the block header (scales/mins) is extracted a
+    single time and the packed quants are unpacked with SIMD, instead of
+    re-deriving the header per element as the scalar packed_value() path
+    does. The decoded row is then dotted against every row of A with
+    f32 SIMD accumulation, so batched (multi-row) calls reuse one decode.
+    Accumulation order over K is ascending by super-block, matching the
+    scalar path's block order; results can differ only in final rounding.
+    """
+    var weights = B.data.unsafe_bitcast[UInt8]()
+    var blocks_per_row = A.cols // 256
+    var block_bytes = 144 if kind == 12 else 210
+    var scratch = InlineArray[Float32, 256](uninitialized=True)
+    var sp = scratch.unsafe_ptr()
+    var row_start = 0
+    while row_start < A.rows:
+        var rows_here = A.rows - row_start
+        if rows_here > 256:
+            rows_here = 256
+        var acc = InlineArray[Float32, 256](fill=Float32(0.0))
+        for output in range(B.rows):
+            for r in range(rows_here):
+                acc[r] = Float32(0.0)
+            for sb in range(blocks_per_row):
+                var p = (output * blocks_per_row + sb) * block_bytes
+                if kind == 12:
+                    # Q4_K super-block: d, dmin, 12 packed scale/min bytes,
+                    # then 128 nibble bytes for 256 values in 8 sub-blocks.
+                    var d = weights.unsafe_offset(p).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    var dmin = weights.unsafe_offset(p + 2).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    var coef_a = InlineArray[Float32, 8](uninitialized=True)
+                    var coef_b = InlineArray[Float32, 8](uninitialized=True)
+                    for g in range(8):
+                        var scale: Int
+                        var minimum: Int
+                        if g < 4:
+                            scale = Int(weights.unsafe_load(p + 4 + g)) & 63
+                            minimum = Int(weights.unsafe_load(p + 8 + g)) & 63
+                        else:
+                            scale = (Int(weights.unsafe_load(p + 8 + g)) & 15) | ((Int(weights.unsafe_load(p + g)) >> 6) << 4)
+                            minimum = (Int(weights.unsafe_load(p + 8 + g)) >> 4) | ((Int(weights.unsafe_load(p + 4 + g)) >> 6) << 4)
+                        coef_a[g] = d * Float32(scale)
+                        coef_b[g] = dmin * Float32(minimum)
+                    var qs = p + 16
+                    for h in range(4):
+                        var chunk0 = weights.unsafe_load[width=16](qs + h * 32)
+                        var chunk1 = weights.unsafe_load[width=16](qs + h * 32 + 16)
+                        var g_lo = 2 * h
+                        var g_hi = 2 * h + 1
+                        sp.unsafe_store[width=16](g_lo * 32, coef_a[g_lo] * (chunk0 & UInt8(0x0F)).cast[f32]() - coef_b[g_lo])
+                        sp.unsafe_store[width=16](g_lo * 32 + 16, coef_a[g_lo] * (chunk1 & UInt8(0x0F)).cast[f32]() - coef_b[g_lo])
+                        sp.unsafe_store[width=16](g_hi * 32, coef_a[g_hi] * (chunk0 >> 4).cast[f32]() - coef_b[g_hi])
+                        sp.unsafe_store[width=16](g_hi * 32 + 16, coef_a[g_hi] * (chunk1 >> 4).cast[f32]() - coef_b[g_hi])
+                else:
+                    # Q6_K super-block: 128 low-nibble bytes, 64 high-bit
+                    # bytes, 16 int8 scales (one per 16 values), then d.
+                    var d = weights.unsafe_offset(p + 208).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    for c in range(16):
+                        var half = c // 8
+                        var group = (c % 8) // 2
+                        var hl = c % 2
+                        var scale = weights.unsafe_offset(p + 192).unsafe_bitcast[Scalar[DType.int8]]().unsafe_load(c).cast[f32]()
+                        var coef = d * scale
+                        var ql = weights.unsafe_load[width=16](p + half * 64 + (group % 2) * 32 + hl * 16)
+                        var nib = (ql & UInt8(0x0F)) if group < 2 else (ql >> 4)
+                        var qh = weights.unsafe_load[width=16](p + 128 + half * 32 + hl * 16)
+                        var hi = (qh >> UInt8(2 * group)) & UInt8(3)
+                        var q = (nib | (hi << 4)).cast[f32]()
+                        sp.unsafe_store[width=16](c * 16, coef * (q - Float32(32.0)))
+                var k0 = sb * 256
+                for r in range(rows_here):
+                    var a_row = row_start + r
+                    var accv = SIMD[DType.float32, 16](Float32(0.0))
+                    for chunk in range(16):
+                        var wv = sp.unsafe_load[width=16](chunk * 16)
+                        var av = A.data.unsafe_load[width=16](a_row * A.cols + k0 + chunk * 16).cast[f32]()
+                        accv += wv * av
+                    acc[r] += accv.reduce_add()
+            for r in range(rows_here):
+                C.data.unsafe_store((row_start + r) * C.cols + output, acc[r].cast[f16]())
+        row_start += rows_here
+
+
 def gemm_ggml_k(
     A: RuneTensor[f16],
     B: RuneTensor[f16],
@@ -1043,6 +1135,9 @@ def gemm_ggml_k(
         raise Error(format_name + ": invalid storage")
     if ggml_type < 10 or ggml_type > 14:
         raise Error(format_name + ": unsupported GGML tensor type")
+    if ggml_type == 12 or ggml_type == 14:
+        _gemm_k_fast(A, B, C, ggml_type)
+        return
     var weights = B.data.unsafe_bitcast[UInt8]()
     for row in range(A.rows):
         for output in range(B.rows):
@@ -1399,6 +1494,54 @@ def gemm_f16(
             C.set(row, output_index, sum.cast[f16]())
 
 
+def apply_rope_partial_neox(
+    mut Q: RuneTensor[f16],
+    mut K: RuneTensor[f16],
+    start_pos: Int,
+    head_dim: Int,
+    rope_dims: Int,
+    theta: Scalar[f32] = 10000.0,
+) raises:
+    """Partial NEOX RoPE (Qwen3.5 full-attention layers): only the first
+    rope_dims of each head rotate, paired (i, i + rope_dims/2), with the
+    frequency ladder over rope_dims; the remaining dims pass through.
+    For text positions all MRoPE sections see the same scalar position,
+    so this is exactly llama.cpp's text-only reduction."""
+    if start_pos < 0:
+        raise Error("apply_rope_partial_neox: start_pos cannot be negative")
+    if head_dim <= 0 or rope_dims <= 0 or rope_dims > head_dim or rope_dims % 2 != 0:
+        raise Error("apply_rope_partial_neox: invalid dimensions")
+    if Q.cols % head_dim != 0 or K.cols % head_dim != 0:
+        raise Error("apply_rope_partial_neox: cols must be a multiple of head_dim")
+    var half = rope_dims // 2
+    for r in range(Q.rows):
+        var pos = start_pos + r
+        for i in range(half):
+            var freq = 1.0 / (theta ** (Float32(2 * i) / Float32(rope_dims)))
+            var val = Float32(pos) * freq
+            var fcr = cos(val).cast[f16]()
+            var fci = sin(val).cast[f16]()
+            for h in range(Q.cols // head_dim):
+                var base = r * Q.cols + h * head_dim
+                var q0 = Q.data.unsafe_load(base + i)
+                var q1 = Q.data.unsafe_load(base + i + half)
+                Q.data.unsafe_store(base + i, q0 * fcr - q1 * fci)
+                Q.data.unsafe_store(base + i + half, q0 * fci + q1 * fcr)
+    for r in range(K.rows):
+        var pos = start_pos + r
+        for i in range(half):
+            var freq = 1.0 / (theta ** (Float32(2 * i) / Float32(rope_dims)))
+            var val = Float32(pos) * freq
+            var fcr = cos(val).cast[f16]()
+            var fci = sin(val).cast[f16]()
+            for h in range(K.cols // head_dim):
+                var base = r * K.cols + h * head_dim
+                var k0 = K.data.unsafe_load(base + i)
+                var k1 = K.data.unsafe_load(base + i + half)
+                K.data.unsafe_store(base + i, k0 * fcr - k1 * fci)
+                K.data.unsafe_store(base + i + half, k0 * fci + k1 * fcr)
+
+
 def flash_attention_gqa(
     query: RuneTensor[f16],
     keys: RuneTensor[f16],
@@ -1408,8 +1551,20 @@ def flash_attention_gqa(
     head_dim: Int,
     query_head_count: Int,
     kv_head_count: Int,
+    attn_scale: Scalar[f32] = Scalar[f32](0.0),
+    softcap: Scalar[f32] = Scalar[f32](0.0),
+    sliding_window: Int = 0,
+    query_pos: Int = 0,
 ):
-    """Incremental causal attention with grouped-query head mapping."""
+    """Incremental causal attention with grouped-query head mapping.
+
+    Optional architecture modifiers (all default to the llama behaviour):
+    attn_scale replaces 1/sqrt(head_dim) when non-zero (Granite);
+    softcap applies score = softcap * tanh(score / softcap) before the
+    softmax (Gemma2 attention logit softcapping); sliding_window > 0
+    restricts attention to positions with query_pos - position <
+    sliding_window (Gemma2 local layers).
+    """
     if sequence_length <= 0 or query.rows != 1 or output.rows != 1:
         return
     if query_head_count <= 0 or kv_head_count <= 0 or head_dim <= 0:
@@ -1418,6 +1573,8 @@ def flash_attention_gqa(
         return
     var query_heads_per_kv = query_head_count // kv_head_count
     var scale = (1.0 / (Float64(head_dim) ** 0.5)).cast[f32]()
+    if attn_scale != Scalar[f32](0.0):
+        scale = attn_scale
 
     var acc = alloc(Layout[Scalar[f32]](count=head_dim)).unsafe_leak()
     for query_head in range(query_head_count):
@@ -1430,6 +1587,8 @@ def flash_attention_gqa(
         var running_max: Scalar[f32] = -1e20
         var running_sum: Scalar[f32] = 0.0
         for position in range(sequence_length):
+            if sliding_window > 0 and query_pos - position >= sliding_window:
+                continue
             var key_base = position * keys.cols + kv_head * head_dim
             var value_base = position * values.cols + kv_head * head_dim
             var score: Scalar[f32] = 0.0
@@ -1439,6 +1598,8 @@ def flash_attention_gqa(
                     * keys.data.unsafe_load(key_base + dimension).cast[f32]()
                 )
             score *= scale
+            if softcap > Scalar[f32](0.0):
+                score = softcap * tanh(score / softcap)
             var next_max = max(running_max, score)
             var previous_scale = exp(running_max - next_max)
             var probability = exp(score - next_max)
@@ -1628,6 +1789,22 @@ def silu(mut T: RuneTensor[f16]):
         var x = T.data.unsafe_load(i).cast[f32]()
         var sigmoid = 1.0 / (1.0 + exp(-x))
         T.data.unsafe_store(i, (x * sigmoid).cast[f16]())
+
+
+def gelu_tanh(mut T: RuneTensor[f16]):
+    """Vectorized GELU, tanh approximation (Gemma-family FFN gate):
+    0.5 * x * (1 + tanh(sqrt(2/pi) * (x + 0.044715 * x^3)))."""
+    if T.size <= 0:
+        return
+    var simd_end = (T.size // simd_w_f16) * simd_w_f16
+    for i in range(0, simd_end, simd_w_f16):
+        var x = T.data.unsafe_load[width=simd_w_f16](i).cast[f32]()
+        var inner = 0.7978845608028654 * (x + 0.044715 * x * x * x)
+        T.data.unsafe_store[width=simd_w_f16](i, (0.5 * x * (1.0 + tanh(inner))).cast[f16]())
+    for i in range(simd_end, T.size):
+        var x = T.data.unsafe_load(i).cast[f32]()
+        var inner = 0.7978845608028654 * (x + 0.044715 * x * x * x)
+        T.data.unsafe_store(i, (0.5 * x * (1.0 + tanh(inner))).cast[f16]())
 
 
 @always_inline

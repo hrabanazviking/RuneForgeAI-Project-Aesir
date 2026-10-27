@@ -1,9 +1,9 @@
 # engine/aesir.mojo
 # The central intelligence that unites the components of the Aesir Engine.
 
-from std.math import max
+from std.math import max, min
 from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTopology, NPUBackendType, GPURealmType, f16, f32
-from core.inference import forward_pass, TransformerBlock
+from core.inference import forward_pass, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35
 from core.sampler import RuneRNG, sample_token_from_logits
 from core.session import SessionContext, SessionManager
 from core.supervisor import SelfHealingSupervisor
@@ -26,6 +26,16 @@ from core.sampling_config import NativeSamplingConfig
 from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession, monotonic_milliseconds
 
 
+comptime MAX_RUNTIME_CONTEXT: Int = 16000
+"""Ceiling on the context length the runtime will actually allocate KV for.
+
+Generation never builds a KV cache longer than this (see _run_generation),
+so the pool must not reserve memory for a model's full trained context:
+a 128K-context 1B otherwise forces a ~4.3 GB pool on an 8 GB host, and
+256K-context models would not fit at all. One named ceiling, used by both
+the pool sizing and the generation path, keeps the two in agreement."""
+
+
 def calculate_runtime_pool_bytes(
     config: GGUFModelConfig,
     vocab_size: Int,
@@ -34,9 +44,19 @@ def calculate_runtime_pool_bytes(
     """Derives the F16 workspace size from validated model dimensions."""
     var hidden = config.embedding_length
     var kv_dim = config.kv_dim()
-    var converted_norms = (2 * config.block_count + 1) * hidden
+    # Converted F32 tensors: up to four hidden-width norms per layer
+    # (Gemma2's attn/post-attn/ffn/post-ffw set), two head-width q/k
+    # norms per layer, plus small F32 vectors (Qwen3.5 SSM scalars).
+    var converted_norms = (
+        (4 * config.block_count + 1) * hidden
+        + 2 * config.block_count * config.head_dim()
+        + config.block_count * hidden
+    )
     var kv_cache = (
-        2 * config.block_count * max(4096, config.context_length) * kv_dim
+        2
+        * config.block_count
+        * min(MAX_RUNTIME_CONTEXT, max(4096, config.context_length))
+        * kv_dim
     )
     var layer_workspace = (
         16 * hidden
@@ -45,9 +65,14 @@ def calculate_runtime_pool_bytes(
         + max(32000, vocab_size)
     )
     var knowledge_store = max(1, knowledge_capacity) * hidden
-    return 2 * (
-        converted_norms + kv_cache + layer_workspace + knowledge_store
+    # The workspace term is a per-call peak estimate; double it and add
+    # flat slack so a model whose real temporaries run slightly over the
+    # estimate fails nowhere near the KV reservation (the Gemma2 pool
+    # originally landed within ~1 MB of total demand and exhausted).
+    var elements = (
+        converted_norms + kv_cache + 2 * layer_workspace + knowledge_store
     )
+    return 2 * elements + 33554432
 
 
 def validate_runtime_backend_config(
@@ -240,6 +265,8 @@ struct AesirEngine:
     var knowledge_base: MimirStore
     var topology: DeviceTopology
     var blocks: List[TransformerBlock]
+    var qwen35_blocks: List[Qwen35Block]
+    var qwen35_state: Qwen35State
     var enable_npu: Bool
     var target_backend: NPUBackendType
     var enable_gpu_realm: Bool
@@ -301,15 +328,91 @@ struct AesirEngine:
         self.runtime_offset = self.pool.offset
 
         self.blocks = List[TransformerBlock]()
-        for layer_idx in range(self.parser.config.block_count):
-            self.blocks.append(
-                TransformerBlock(
-                    layer_idx,
-                    self.parser.config.head_dim(),
-                    self.parser.config.head_count,
-                    self.parser,
+        if self.parser.config.architecture != "qwen35":
+            for layer_idx in range(self.parser.config.block_count):
+                self.blocks.append(
+                    TransformerBlock(
+                        layer_idx,
+                        self.parser.config.head_dim(),
+                        self.parser.config.head_count,
+                        self.parser,
+                    )
                 )
+
+        # Qwen3.5 hybrid arch: dedicated blocks plus persistent SSM state.
+        self.qwen35_blocks = List[Qwen35Block]()
+        var qwen35_ssm_layers = 0
+        if self.parser.config.architecture == "qwen35":
+            for layer_idx in range(self.parser.config.block_count):
+                self.qwen35_blocks.append(
+                    Qwen35Block(
+                        layer_idx,
+                        self.parser.config.head_dim(),
+                        self.parser.config.head_count,
+                        self.parser,
+                    )
+                )
+            var fai = self.parser.config.full_attention_interval
+            if fai <= 0:
+                fai = 4
+            qwen35_ssm_layers = (
+                self.parser.config.block_count
+                - self.parser.config.block_count // fai
             )
+        self.qwen35_state = Qwen35State(
+            qwen35_ssm_layers,
+            self.parser.config.ssm_group_count,
+            self.parser.config.ssm_state_size,
+            3 * self.parser.config.ssm_inner_size,
+            self.parser.config.ssm_conv_kernel,
+        )
+
+    def _forward_position(
+        mut self,
+        tokens: List[Int],
+        mut kv_cache: KVCache,
+        pos: Int,
+        gen_config: GenerationConfig,
+        is_prefill: Bool = False,
+    ) raises -> Int:
+        """One position of generation, dispatched by architecture: the
+        Qwen3.5 hybrid path carries SSM state and its own blocks; every
+        other arch uses the standard transformer forward pass."""
+        if self.parser.config.architecture == "qwen35":
+            return forward_pass_qwen35(
+                tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                self.qwen35_blocks,
+                self.qwen35_state,
+                pos,
+                gen_config.temperature,
+                gen_config.top_k,
+                gen_config.top_p,
+                gen_config.repetition_penalty,
+            )
+        return forward_pass(
+            tokens,
+            self.parser,
+            self.pool,
+            kv_cache,
+            pos,
+            self.parser.config.block_count,
+            self.parser.config.head_dim(),
+            self.parser.config.head_count,
+            self.topology,
+            self.blocks,
+            self.enable_npu,
+            self.target_backend,
+            self.enable_gpu_realm,
+            self.target_gpu_realm,
+            gen_config.temperature,
+            gen_config.top_k,
+            gen_config.top_p,
+            gen_config.repetition_penalty,
+            is_prefill,
+        )
 
     def extract_query_embedding(mut self, prompt: String, hidden_dim: Int) raises -> RuneTensor[f16]:
         """
@@ -464,7 +567,7 @@ struct AesirEngine:
 
             # One request owns one KV cache. forward_pass() reclaims only its
             # temporary workspace, leaving these cached positions intact.
-            var target_context_len = min(16000, self.parser.config.context_length)
+            var target_context_len = min(MAX_RUNTIME_CONTEXT, self.parser.config.context_length)
             var kv_cache = KVCache(
                 target_context_len,
                 self.parser.config.kv_dim(),
@@ -475,48 +578,11 @@ struct AesirEngine:
             # Full Prompt Prefill (Weaving the Context):
             # Evaluate all prompt tokens 0..len(tokens)-2 to populate KV Cache across all transformer layers
             for p in range(len(tokens) - 1):
-                _ = forward_pass(
-                    tokens,
-                    self.parser,
-                    self.pool,
-                    kv_cache,
-                    p,
-                    self.parser.config.block_count,
-                    self.parser.config.head_dim(),
-                    self.parser.config.head_count,
-                    self.topology,
-                    self.blocks,
-                    self.enable_npu,
-                    self.target_backend,
-                    self.enable_gpu_realm,
-                    self.target_gpu_realm,
-                    gen_config.temperature,
-                    gen_config.top_k,
-                    gen_config.top_p,
-                    gen_config.repetition_penalty,
-                    True,
-                )
+                _ = self._forward_position(tokens, kv_cache, p, gen_config, True)
 
             var last_prompt_pos = len(tokens) - 1
-            var next_token = forward_pass(
-                tokens,
-                self.parser,
-                self.pool,
-                kv_cache,
-                last_prompt_pos,
-                self.parser.config.block_count,
-                self.parser.config.head_dim(),
-                self.parser.config.head_count,
-                self.topology,
-                self.blocks,
-                self.enable_npu,
-                self.target_backend,
-                self.enable_gpu_realm,
-                self.target_gpu_realm,
-                gen_config.temperature,
-                gen_config.top_k,
-                gen_config.top_p,
-                gen_config.repetition_penalty,
+            var next_token = self._forward_position(
+                tokens, kv_cache, last_prompt_pos, gen_config
             )
 
             var current_tokens = tokens.copy()
@@ -580,25 +646,8 @@ struct AesirEngine:
 
                 # Evaluate exactly the newly generated token at its absolute
                 # position to obtain the following greedy token.
-                next_token = forward_pass(
-                    current_tokens,
-                    self.parser,
-                    self.pool,
-                    kv_cache,
-                    next_position,
-                    self.parser.config.block_count,
-                    self.parser.config.head_dim(),
-                    self.parser.config.head_count,
-                    self.topology,
-                    self.blocks,
-                    self.enable_npu,
-                    self.target_backend,
-                    self.enable_gpu_realm,
-                    self.target_gpu_realm,
-                    gen_config.temperature,
-                    gen_config.top_k,
-                    gen_config.top_p,
-                    gen_config.repetition_penalty,
+                next_token = self._forward_position(
+                    current_tokens, kv_cache, next_position, gen_config
                 )
 
             if stop_reason == "":
