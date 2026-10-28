@@ -337,6 +337,7 @@ from tests.test_ledger import TestLedger, run_case, record_skip
 from tests.test_mmproj import test_mmproj
 from tests.test_image_prep import test_image_prep
 from tests.test_vision_encoder import test_vision_encoder
+from tests.test_embedding_span import test_embedding_span
 
 
 def main() raises:
@@ -393,6 +394,7 @@ def main() raises:
     run_case(ledger, "vision.mmproj_structure", test_mmproj)
     run_case(ledger, "vision.image_preprocessing", test_image_prep)
     run_case(ledger, "vision.encoder_stages", test_vision_encoder)
+    run_case(ledger, "vision.embedding_span_injection", test_embedding_span)
     print("")
 
     # --- Tokenizer ---
@@ -1024,4 +1026,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(270)
+    ledger.finish(271)

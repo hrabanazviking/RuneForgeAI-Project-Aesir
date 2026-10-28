@@ -158,9 +158,15 @@ type, image size/patch geometry, tensor naming.
   placement, RoPE form, clamping, pooling, projector token count). **Stage 3b is DONE (2026-10-27): the full forward is oracle-proven stage by stage (worst relative divergence 7.7e-06) and unit-tested.**
 - **Slice 4 — projection + injection + chat markers.** Proves the projected
   embeddings enter prefill at the right positions with the right count.
+  **DONE at unit + real-pair assembly level (2026-10-27); behavioural
+  proof waits on the CUDA-session integration - see the outcome
+  addendum below.**
 - **Slice 5 — end-to-end + Ministral variant.** A real image question
   answered by the real model; Ministral mmproj measured and admitted the
-  same way, or its deltas recorded as NOT PROVEN.
+  same way, or its deltas recorded as NOT PROVEN. **Ministral measured
+  and admitted at spec level with Pixtral deltas recorded (2026-10-27);
+  the end-to-end behavioural proof is NOT PROVEN on the development
+  laptop - walls in the outcome addendum below.**
 
 ### Slice 4 injection design (recorded 2026-10-27; slices 1-3 closed)
 
@@ -210,6 +216,58 @@ type, image size/patch geometry, tensor naming.
 If a slice hits a genuine wall, the state note records exactly what is
 proven and what is NOT PROVEN. No forward pass is ever faked, stubbed into
 looking real, or reported beyond its oracle evidence.
+
+### Slice 4/5 implementation outcome (2026-10-27, fourth commission)
+
+- **Marker verification (design step 1).** The real LM's tokenizer
+  metadata settles it: the canonical gemma4 template renders an image
+  part as the single token `<|image|>` (id 258880); there are no
+  start/end image tokens in the vocab. The span design adapts as this
+  section always required (verify against reference behaviour first):
+  the marker position expands to n_soft = 16 sequence positions
+  carrying the marker id, whose embedding rows are the encoder's
+  projected rows.
+- **Implemented.** `apply_embedding_span` in `core/inference.mojo`
+  (optional span override on both prefill entry points, applied
+  immediately after embedding; Float32 rows cross an f16 seam);
+  `AesirEngine.generate_image_chat` (marker from the tokenizer,
+  exactly-one enforced, mmproj spec-checked, marker run verified
+  equal to the encoder row count before generation, fail-closed);
+  `encode_image_pixels` / `encode_image_rows` in
+  `core/vision_encoder.mojo`.
+- **Proven.** (a) Unit: tests/test_embedding_span.mojo, 4 cases (6 checks).
+  (b) Real-pair assembly: tests/inject_mmproj.mojo - span rows match
+  the numpy oracle dump at max abs 0.0019 (the f16 seam), neighbours
+  bit-identical, all 24,576 span elements replaced. (c) Behavioural:
+  NOT PROVEN on the development laptop - gemma4 execution in this
+  codebase is the native CUDA session (the generic forward does not
+  implement gemma4), forward-reaching compiles die in a pre-existing
+  LLVM X86 DAG crash on this host CPU (identical on the untouched
+  base), and the laptop NVIDIA driver is unloadable pending the
+  owner's fix. tests/image_chat_mmproj.mojo (bit-exact forward
+  control + red/blue behaviour + text-only control) is written and
+  type-checks up to that codegen wall.
+- **Pair admission repairs (GGUFSeer).** Array-typed
+  `feed_forward_length` (per-layer widths; scalar summary = widest)
+  and BF16 tensors (converted to f16 at load) are admitted - the
+  real gemma4 file requires both (its only BF16 tensor is the
+  per-layer projection).
+- **PNG/JPEG.** Decoded by aesir_engine/image_decode.c (system
+  libpng/libjpeg) bound link-time from the edge module
+  loader/image_codecs.mojo into the same prep path: PNG pixel-exact
+  vs the PPM route, JPEG within 3 LSBs on a smooth fixture
+  (tests/test_image_codecs.mojo, opt-in). A dlopen binding cannot
+  coexist in one binary with the engine's raw FFI declarations
+  (core/cuda_gate.mojo), hence link-time binding at the edge.
+- **Ministral-3-3B (slice 5 second half).** Its mmproj is a Pixtral
+  tower (24 blocks x 1024, patch 14, variable native-resolution
+  grids to 1540 px, CLIP mean/std, patch merger + 2-layer MLP
+  projector, 2D-RoPE positions, no position table, no audio tower).
+  Aesir parses it, spec-validates it (the spec's tensor stage is now
+  projector-family aware; the canonical clip.projector_type key is
+  read), and the language cross-check passes (projection_dim 3072
+  == mistral3 embedding_length 3072). Its encoder forward is NOT
+  implemented - a separate Pixtral encoder slice.
 
 ## 5. Reference semantics pinned from llama.cpp mtmd (2026-10-27, slice 3b gate)
 
