@@ -98,6 +98,23 @@ def _write_test_blob(path: String, content: String) raises:
     _ = external_call["close", Int32](fd)
 
 
+def _tracked_config_path() raises -> String:
+    """Locates the tracked aesir.config.json without assuming the CWD.
+
+    The counted suite is documented to run from the repository root, but a
+    case must not fail merely because the runner's working directory is a
+    subdirectory of the tree. Ascends a bounded number of parents; from the
+    repository root this returns the bare tracked path unchanged.
+    """
+    var candidate = String("aesir.config.json")
+    for _ in range(12):
+        var probe = _test_cstring(candidate)
+        if external_call["access", Int32](probe.unsafe_ptr(), 0) == 0:
+            return candidate
+        candidate = "../" + candidate
+    raise Error("unable to locate tracked aesir.config.json from this directory")
+
+
 def test_modelfile_parser() raises:
     print(
         "--- Testing Modelfile directive parser, quoting & GenerationConfig"
@@ -834,10 +851,8 @@ def test_cli_command_dispatch() raises:
     var config_args = List[String]()
     config_args.append("config")
     config_args.append("--config")
-    config_args.append("aesir.config.json")
+    config_args.append(_tracked_config_path())
     dispatch_command(config_args, store)
-
-    assert_cli_command_unsupported("ps")
 
     var bad_catalog_args: List[String] = ["list", "--unknown"]
     var bad_catalog_rejected = False
@@ -899,8 +914,63 @@ def test_cli_command_dispatch() raises:
     if not pull_rejected:
         raise Error("pull without explicit artifact identity must fail")
     assert_cli_command_unsupported("push")
-    assert_cli_command_unsupported("stop")
     assert_cli_command_unsupported("swarm")
+    assert_cli_command_unsupported("restart")
+
+    # ps and stop are implemented service-lifecycle commands, not reserved
+    # surfaces. Against a store that was never created, ps succeeds by
+    # reporting that no live service owns the store (text and JSON forms),
+    # while the fail-closed boundaries hold: an unknown ps option and a
+    # bare stop are usage rejections, and stopping a model with no live
+    # owned service raises instead of reporting success.
+    var service_store = String(".aesir-test-service-store")
+    var ps_args = List[String]()
+    ps_args.append("ps")
+    ps_args.append("--model-store")
+    ps_args.append(service_store)
+    dispatch_command(ps_args)
+    var ps_json_args = List[String]()
+    ps_json_args.append("ps")
+    ps_json_args.append("--model-store")
+    ps_json_args.append(service_store)
+    ps_json_args.append("--format")
+    ps_json_args.append("json")
+    dispatch_command(ps_json_args)
+
+    var ps_bad_args: List[String] = ["ps", "--bogus"]
+    var ps_bad_rejected = False
+    try:
+        dispatch_command(ps_bad_args)
+    except error:
+        ps_bad_rejected = "Usage: aesir ps" in String(error)
+    if not ps_bad_rejected:
+        raise Error("ps accepted an unknown option")
+
+    var stop_bare_args: List[String] = ["stop"]
+    var stop_bare_rejected = False
+    try:
+        dispatch_command(stop_bare_args)
+    except error:
+        stop_bare_rejected = "Usage: aesir stop" in String(error)
+    if not stop_bare_rejected:
+        raise Error("stop without an exact model was not rejected")
+
+    var stop_unowned_args = List[String]()
+    stop_unowned_args.append("stop")
+    stop_unowned_args.append("demo-model")
+    stop_unowned_args.append("--model-store")
+    stop_unowned_args.append(service_store)
+    var stop_unowned_rejected = False
+    try:
+        dispatch_command(stop_unowned_args)
+    except error:
+        stop_unowned_rejected = (
+            "no live service owns this model store" in String(error)
+        )
+    if not stop_unowned_rejected:
+        raise Error(
+            "stop reported success for a service the store does not own"
+        )
 
     print("operational CLI command dispatchers & boundaries: PASS")
 
@@ -1009,11 +1079,12 @@ def test_cli_flag_options_parser() raises:
     if not options.raw_was_set or not options.insecure_was_set:
         raise Error("CLIOptions did not record explicit mode intent")
 
+    var tracked_config_path = _tracked_config_path()
     var explicit_args = List[String]()
     explicit_args.append("run")
     explicit_args.append("model.gguf")
     explicit_args.append("--config")
-    explicit_args.append("aesir.config.json")
+    explicit_args.append(tracked_config_path)
     explicit_args.append("--accel")
     explicit_args.append("cpu")
     explicit_args.append("hello")
@@ -1033,8 +1104,8 @@ def test_cli_flag_options_parser() raises:
     if positionals[1] != "hello" or positionals[3] != "aesir":
         raise Error("run positional prompt order mismatch")
 
-    var loaded = load_config_file("aesir.config.json")
-    if loaded.config_path != "aesir.config.json":
+    var loaded = load_config_file(tracked_config_path)
+    if loaded.config_path != tracked_config_path:
         raise Error("configuration loader did not record its source path")
     if loaded.acceleration_backend != "auto":
         raise Error("tracked configuration acceleration intent mismatch")
