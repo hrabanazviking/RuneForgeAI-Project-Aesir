@@ -86,12 +86,12 @@ this integration does not promote historical statuses or hide checker failures.
 | Status | Count |
 |---|---:|
 | `verified` | 278 |
-| `partial` | 31 |
+| `partial` | 32 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **328** |
+| **Total** | **329** |
 
 ## 4. Foundation, Build, and Test Truth
 
