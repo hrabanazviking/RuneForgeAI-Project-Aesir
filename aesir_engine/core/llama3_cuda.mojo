@@ -99,6 +99,15 @@ def llama3_compact_front(model: PackedGGUF, mut layers: List[DenseGQALayer],
         if plan.key_norm >= 0:
             plan.key_norm = _front_place(slices, cursor, plan.key_norm,
                 model.tensors[prefix + "attn_k_norm.weight"].byte_count)
+        if plan.query_bias >= 0:
+            plan.query_bias = _front_place(slices, cursor, plan.query_bias,
+                model.tensors[prefix + "attn_q.bias"].byte_count)
+        if plan.key_bias >= 0:
+            plan.key_bias = _front_place(slices, cursor, plan.key_bias,
+                model.tensors[prefix + "attn_k.bias"].byte_count)
+        if plan.value_bias >= 0:
+            plan.value_bias = _front_place(slices, cursor, plan.value_bias,
+                model.tensors[prefix + "attn_v.bias"].byte_count)
         layers[layer] = plan
     return cursor
 
