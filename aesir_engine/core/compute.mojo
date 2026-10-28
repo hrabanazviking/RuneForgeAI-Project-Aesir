@@ -60,7 +60,6 @@ from .extreme_quantization import (
     dequantize_iq_block,
     iq_block_bytes,
     iq_grid_materialize,
-    iq_value,
 )
 
 comptime simd_w_f16 = 16
@@ -1696,7 +1695,6 @@ def _gemm_iq_fast_range(
     )
     var blocks_per_row = a_cols // 256
     var block_bytes = iq_block_bytes(kind)
-    print("DBG range lo", out_lo, "hi", out_hi, "bpr", blocks_per_row, "bb", block_bytes, "kind", kind, "b_addr", b_addr, "a_addr", a_addr, "c_addr", c_addr)
     var grid_buf = InlineArray[UInt16, 2048](uninitialized=True)
     var grid_ptr = grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
     iq_grid_materialize(kind, grid_ptr)
@@ -1714,11 +1712,7 @@ def _gemm_iq_fast_range(
                 acc[r] = Float32(0.0)
             for sb in range(blocks_per_row):
                 var block_base = (output * blocks_per_row + sb) * block_bytes
-                # DIAGNOSTIC: per-element reference decode (fixture-verified)
-                for lane in range(256):
-                    sp_t.unsafe_store(lane, iq_value(weights, block_base, kind, lane))
-                if output == out_lo and sb == 0:
-                    print("DBG blk base", block_bytes, "w0..3", weights.unsafe_load(0), weights.unsafe_load(1), weights.unsafe_load(2), weights.unsafe_load(3), "sp0..3", sp.unsafe_load(0), sp.unsafe_load(1), sp.unsafe_load(2), sp.unsafe_load(3), "grid0..3", grid_ptr.unsafe_load(0), grid_ptr.unsafe_load(1), grid_ptr.unsafe_load(2), grid_ptr.unsafe_load(3))
+                dequantize_iq_block(weights, block_base, kind, grid_ptr, sp_t)
                 var k0 = sb * 256
                 for r in range(rows_here):
                     var a_row = row_start + r
@@ -1781,12 +1775,11 @@ def _gemm_iq_fast(
     cp.unsafe_store(5, Int64(B.rows))
     cp.unsafe_store(6, Int64(C.cols))
     cp.unsafe_store(7, Int64(kind))
-    var nchunks = par_for[_gemm_iq_fast_worker](
+    _ = par_for[_gemm_iq_fast_worker](
         Int64(Int(cp)),
         B.rows,
         Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
     )
-    print("DBG par chunks", nchunks)
     cp.unsafe_free()
 
 def _gemm_k_scalar_range(
@@ -2064,7 +2057,6 @@ def gemm_iq(
         raise Error(format_name + ": invalid storage")
     if ggml_type != 16 and ggml_type != 17 and ggml_type != 18 and ggml_type != 19 and ggml_type != 21 and ggml_type != 22:
         raise Error(format_name + ": unsupported GGML tensor type")
-    print("DBG gemm_iq kind", ggml_type, "A", A.rows, A.cols, "B", B.rows, B.cols)
     _gemm_iq_fast(A, B, C, ggml_type)
 
 
