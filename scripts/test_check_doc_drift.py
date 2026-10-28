@@ -213,7 +213,7 @@ def test_live_policy_schema_and_baseline() -> None:
     errors: list[str] = []
     exceptions = load_hygiene_policy(errors)
     require(not errors, "live hygiene policy failed schema validation")
-    require(len(exceptions) == 32, "legacy exception inventory count drifted")
+    require(len(exceptions) == 34, "legacy exception inventory count drifted")
     check_policy_baseline(exceptions, errors)
     require(not errors, "legacy exception was absent from the pinned baseline")
 
