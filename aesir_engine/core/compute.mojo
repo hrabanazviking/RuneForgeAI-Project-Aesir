@@ -1695,8 +1695,16 @@ def _gemm_iq_fast_range(
     )
     var blocks_per_row = a_cols // 256
     var block_bytes = iq_block_bytes(kind)
-    var grid_buf = InlineArray[UInt16, 2048](uninitialized=True)
-    var grid_ptr = grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    # The grid MUST live on the heap, not in a stack InlineArray:
+    # materializing it with the width-2048 store into a stack buffer
+    # in this frame is layout-sensitive — in builds where unrelated
+    # code (the Q8_0 fast GEMM) shifts codegen/inlining, the stack
+    # copy is silently clobbered and every IQ decode in the wave
+    # build reads a corrupted grid (iq1_s logits collapse to EOS;
+    # iq2_m falls into a repetition attractor), while the identical
+    # source in other builds happens to work. Heap allocation is
+    # frame-layout independent. See iq-worker REPORT.md phase 3.
+    var grid_ptr = alloc[UInt16](2048)
     iq_grid_materialize(kind, grid_ptr)
     var scratch = InlineArray[Float32, 256](uninitialized=True)
     var sp = scratch.unsafe_ptr()
@@ -1725,6 +1733,7 @@ def _gemm_iq_fast_range(
             for r in range(rows_here):
                 c_data.unsafe_store((row_start + r) * c_cols + output, acc[r].cast[f16]())
         row_start += rows_here
+    grid_ptr.unsafe_free()
 
 
 def _gemm_iq_fast_worker(ctx_addr: Int64, start: Int64, end: Int64):
