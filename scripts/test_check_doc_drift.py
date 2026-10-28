@@ -348,7 +348,7 @@ def test_todo_repository_integration_against_canonical_ledger() -> None:
 
     statuses = ledger_statuses(LEDGER.read_text(encoding="utf-8"))
     todo = TODO.read_text(encoding="utf-8")
-    require(len(statuses) == 324, "canonical ledger status map changed unexpectedly")
+    require(len(statuses) == 325, "canonical ledger status map changed unexpectedly")
     require(
         not todo_status_reference_errors(todo, statuses),
         "repository TODO contains a reference inconsistent with the canonical ledger",
