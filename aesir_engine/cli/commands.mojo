@@ -19,6 +19,7 @@ from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
 from cli.model_inspect import dispatch_model_inspect
+from cli.vision import dispatch_vision
 from cli.doctor import dispatch_doctor
 from cli.model_preferences import DurableModelPreferences, stale_preference_count
 from server.api import json_escape_string
@@ -63,6 +64,8 @@ def print_general_help():
     print("      Default single-connection pulls resume verified partial downloads.")
     print("  inspect <model> [--format text|json] [--context N] [--model-store path]")
     print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
+    print("  vision inspect <model> [--model-store path]")
+    print("      Report the mmproj vision tower structure beside a multimodal model.")
     print("  doctor [model] [--model-store path] [--format text|json]")
     print("      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.")
     print("  alias <short-name> <model> [--model-store path] | aliases")
@@ -1030,6 +1033,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "inspect":
         dispatch_model_inspect(args)
+        return
+
+    if cmd == "vision":
+        dispatch_vision(args)
         return
 
     if cmd == "doctor":

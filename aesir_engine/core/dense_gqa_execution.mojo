@@ -21,6 +21,9 @@ struct DenseGQALayer(ImplicitlyCopyable, Movable):
     var down: PackedTensor
     var query_norm: Int
     var key_norm: Int
+    var query_bias: Int
+    var key_bias: Int
+    var value_bias: Int
 
 
 def prepare_dense_gqa_layers(model: PackedGGUF, profile: DenseGQAProfile) raises -> List[DenseGQALayer]:
@@ -32,6 +35,13 @@ def prepare_dense_gqa_layers(model: PackedGGUF, profile: DenseGQAProfile) raises
         if profile.qk_norm:
             query_norm = model.tensors[prefix + "attn_q_norm.weight"].offset
             key_norm = model.tensors[prefix + "attn_k_norm.weight"].offset
+        var query_bias = -1
+        var key_bias = -1
+        var value_bias = -1
+        if profile.attention_bias:
+            query_bias = model.tensors[prefix + "attn_q.bias"].offset
+            key_bias = model.tensors[prefix + "attn_k.bias"].offset
+            value_bias = model.tensors[prefix + "attn_v.bias"].offset
         result.append(DenseGQALayer(
             model.tensors[prefix + "attn_norm.weight"].offset,
             model.tensors[prefix + "attn_q.weight"],
@@ -42,5 +52,6 @@ def prepare_dense_gqa_layers(model: PackedGGUF, profile: DenseGQAProfile) raises
             model.tensors[prefix + "ffn_gate.weight"],
             model.tensors[prefix + "ffn_up.weight"],
             model.tensors[prefix + "ffn_down.weight"], query_norm, key_norm,
+            query_bias, key_bias, value_bias,
         ))
     return result^

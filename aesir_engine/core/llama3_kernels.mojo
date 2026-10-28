@@ -13,6 +13,16 @@ from core.packed_quantization import Bytes
 comptime Halves = Pointer[Float16, MutUntrackedOrigin]
 
 
+def llama_add_bias(w: Bytes, a: Floats, bias_arg: Int64, dst_arg: Int64,
+                   count_arg: Int64):
+    """Add an F32 bias vector (byte offset into the weights) in place."""
+    var i = Int(global_idx.x)
+    if i < Int(count_arg):
+        var dst = Int(dst_arg) + i
+        a.unsafe_store(dst, a.unsafe_load(dst)
+            + w.unsafe_offset(Int(bias_arg)).unsafe_bitcast[Float32]().unsafe_load(i))
+
+
 def llama_residual(a: Floats, src_arg: Int64, other_arg: Int64,
                    dst_arg: Int64, count_arg: Int64):
     """Only addition; Llama does not need Gemma's PTX-7 tanh instructions."""
