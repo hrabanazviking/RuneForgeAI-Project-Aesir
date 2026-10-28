@@ -240,7 +240,7 @@ next road, not a guess.
 - Headline run token IDs identical across pre-change binary,
   threaded binary, and `AESIR_THREADS=1`.
 - Single-CPU (`taskset -c 0`) run OK; 3× headline repeats identical;
-  no hangs or leaked threads observed across ~<RUN_COUNT> engine runs
+  no hangs or leaked threads observed across the engine runs
   in this campaign (~100 across all stages).
 - Hailo path untouched and still fail-closed on this machine.
 

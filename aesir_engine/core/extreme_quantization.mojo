@@ -2,7 +2,14 @@
 
 from std.memory import Pointer
 
-from .iq_codebooks import IQ1_S_GRID, IQ2_XXS_GRID
+from .iq_codebooks import (
+    IQ1_S_GRID,
+    IQ2_XXS_GRID,
+    IQ2_XS_GRID,
+    IQ2_S_GRID,
+    IQ3_XXS_GRID,
+    IQ3_S_GRID,
+)
 
 
 @always_inline
@@ -33,9 +40,47 @@ def _iq2_sign_mask(index: Int) -> Int:
     return index | (parity << 7)
 
 
+
 @always_inline
-def iq2_xxs_value(
-    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+def _materialize_iq_grid[size: Int](
+    grid_simd: SIMD[DType.uint16, size],
+    dst: Pointer[UInt16, MutUntrackedOrigin],
+):
+    """Copy a comptime SIMD grid constant into addressable memory.
+
+    Dynamic indexing of a wide SIMD constant compiles to a select
+    chain (~145 ns/element measured on this host); a wide store into
+    a stack buffer plus pointer loads is ~0.5 ns/element. Hot paths
+    materialize the grid they need once and pass the pointer to the
+    *_value_g decoders.
+    """
+    dst.unsafe_store[width=size](0, grid_simd)
+
+
+def iq_grid_materialize(
+    kind: Int, dst: Pointer[UInt16, MutUntrackedOrigin]
+):
+    """Wide-store the grid for a GGML IQ kind (16/17/18/19/21/22)
+    into dst; the caller provides a buffer of at least 2048 UInt16."""
+    if kind == 19:
+        _materialize_iq_grid[2048](IQ1_S_GRID, dst)
+    elif kind == 16:
+        _materialize_iq_grid[256](IQ2_XXS_GRID, dst)
+    elif kind == 22:
+        _materialize_iq_grid[1024](IQ2_S_GRID, dst)
+    elif kind == 21:
+        _materialize_iq_grid[512](IQ3_S_GRID, dst)
+    elif kind == 17:
+        _materialize_iq_grid[512](IQ2_XS_GRID, dst)
+    else:
+        _materialize_iq_grid[256](IQ3_XXS_GRID, dst)
+
+@always_inline
+def iq2_xxs_value_g(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    base: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    index: Int,
 ) -> Float32:
     """Decode one value from canonical 66-byte GGML IQ2_XXS blocks."""
     var block = index // 256
@@ -50,7 +95,7 @@ def iq2_xxs_value(
     var grid_lane = group_lane % 8
     var packed_base = block_base + 2 + group * 8
     var grid_index = Int(data.unsafe_load(packed_base + subgrid))
-    var encoded_grid = Int(IQ2_XXS_GRID[grid_index])
+    var encoded_grid = Int(grid.unsafe_load(grid_index))
     var grid_digit = (encoded_grid >> (grid_lane * 2)) & 3
     var grid_value = 8
     if grid_digit == 1:
@@ -70,6 +115,60 @@ def iq2_xxs_value(
     return scale * local_scale * Float32(grid_value) * sign
 
 
+
+@always_inline
+def iq2_xxs_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    var buf = InlineArray[UInt16, 256](uninitialized=True)
+    _materialize_iq_grid[256](IQ2_XXS_GRID, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    return iq2_xxs_value_g(data, base, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index)
+
+
+@always_inline
+def iq1_s_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    var buf = InlineArray[UInt16, 2048](uninitialized=True)
+    _materialize_iq_grid[2048](IQ1_S_GRID, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    return iq1_s_value_g(data, base, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index)
+
+
+@always_inline
+def iq2_s_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    var buf = InlineArray[UInt16, 1024](uninitialized=True)
+    _materialize_iq_grid[1024](IQ2_S_GRID, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    return iq2_s_value_g(data, base, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index)
+
+
+@always_inline
+def iq3_s_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    var buf = InlineArray[UInt16, 512](uninitialized=True)
+    _materialize_iq_grid[512](IQ3_S_GRID, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    return iq3_s_value_g(data, base, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index)
+
+
+@always_inline
+def iq2_xs_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    var buf = InlineArray[UInt16, 512](uninitialized=True)
+    _materialize_iq_grid[512](IQ2_XS_GRID, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    return iq2_xs_value_g(data, base, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index)
+
+
+@always_inline
+def iq3_xxs_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    var buf = InlineArray[UInt16, 256](uninitialized=True)
+    _materialize_iq_grid[256](IQ3_XXS_GRID, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    return iq3_xxs_value_g(data, base, buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index)
+
 def dequantize_iq2_xxs_blocks(
     data: Pointer[UInt8, MutUntrackedOrigin],
     input_bytes: Int,
@@ -83,9 +182,11 @@ def dequantize_iq2_xxs_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 66:
         raise Error("dequantize_iq2_xxs_blocks: input storage length mismatch")
+    var grid_buf = InlineArray[UInt16, 256](uninitialized=True)
+    _materialize_iq_grid[256](IQ2_XXS_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq2_xxs_value(data, 0, index).cast[DType.float16]()
+            index, iq2_xxs_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
         )
 
 
@@ -131,8 +232,11 @@ def gemm_iq2_xxs_blocks(
 
 
 @always_inline
-def iq1_s_value(
-    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+def iq1_s_value_g(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    base: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    index: Int,
 ) -> Float32:
     """Decode one value from canonical 50-byte GGML IQ1_S blocks."""
     var block = index // 256
@@ -149,7 +253,7 @@ def iq1_s_value(
     var grid_index = Int(
         data.unsafe_load(block_base + 2 + group * 4 + subgrid)
     ) | (((qh >> (subgrid * 3)) & 7) << 8)
-    var encoded_grid = Int(IQ1_S_GRID[grid_index])
+    var encoded_grid = Int(grid.unsafe_load(grid_index))
     var grid_digit = (encoded_grid >> (grid_lane * 2)) & 3
     var grid_value = Float32(-1.0)
     if grid_digit == 1:
@@ -174,9 +278,11 @@ def dequantize_iq1_s_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 50:
         raise Error("dequantize_iq1_s_blocks: input storage length mismatch")
+    var grid_buf = InlineArray[UInt16, 2048](uninitialized=True)
+    _materialize_iq_grid[2048](IQ1_S_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq1_s_value(data, 0, index).cast[DType.float16]()
+            index, iq1_s_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
         )
 
 
@@ -314,3 +420,598 @@ def gemm_tq1_0_blocks(
                 row * out_features + output_index,
                 accumulator.cast[DType.float16](),
             )
+
+@always_inline
+def iq2_s_value_g(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    base: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    index: Int,
+) -> Float32:
+    """Decode one value from canonical 82-byte GGML IQ2_S blocks."""
+    var block = index // 256
+    var lane = index % 256
+    var block_base = base + block * 82
+    var scale = data.unsafe_offset(block_base).unsafe_bitcast[
+        Float16
+    ]().unsafe_load().cast[DType.float32]()
+    var group = lane // 32
+    var group_lane = lane % 32
+    var subgrid = group_lane // 8
+    var grid_lane = group_lane % 8
+    var scale_byte = Int(data.unsafe_load(block_base + 74 + group))
+    var nibble = (scale_byte & 15) if subgrid < 2 else (scale_byte >> 4)
+    var local_scale = (Float32(0.5) + Float32(nibble)) * Float32(0.25)
+    var qh = Int(data.unsafe_load(block_base + 66 + group))
+    var grid_index = Int(
+        data.unsafe_load(block_base + 2 + group * 4 + subgrid)
+    ) | ((qh << (8 - 2 * subgrid)) & 0x300)
+    var encoded_grid = Int(grid.unsafe_load(grid_index))
+    var grid_digit = (encoded_grid >> (grid_lane * 2)) & 3
+    var grid_value = 8
+    if grid_digit == 1:
+        grid_value = 25
+    elif grid_digit == 2:
+        grid_value = 43
+    var sign_byte = Int(data.unsafe_load(block_base + 34 + group * 4 + subgrid))
+    var sign = Float32(-1.0 if ((sign_byte >> grid_lane) & 1) != 0 else 1.0)
+    return scale * local_scale * Float32(grid_value) * sign
+
+
+def dequantize_iq2_s_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    input_bytes: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(data) <= 1 or Int(output) <= 1:
+        raise Error("dequantize_iq2_s_blocks: storage pointers must be valid")
+    if output_elements <= 0 or output_elements % 256 != 0:
+        raise Error("dequantize_iq2_s_blocks: output must contain complete 256-value blocks")
+    var blocks = output_elements // 256
+    if input_bytes != blocks * 82:
+        raise Error("dequantize_iq2_s_blocks: input storage length mismatch")
+    var grid_buf = InlineArray[UInt16, 1024](uninitialized=True)
+    _materialize_iq_grid[1024](IQ2_S_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    for index in range(output_elements):
+        output.unsafe_store(
+            index, iq2_s_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+        )
+
+
+def gemm_iq2_s_blocks(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    weights: Pointer[UInt8, MutUntrackedOrigin],
+    weight_bytes: Int,
+    in_features: Int,
+    out_features: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(weights) <= 1 or Int(output) <= 1:
+        raise Error("gemm_iq2_s_blocks: storage pointers must be valid")
+    if input_rows <= 0 or in_features <= 0 or out_features <= 0:
+        raise Error("gemm_iq2_s_blocks: dimensions must be positive")
+    if in_features % 256 != 0:
+        raise Error("gemm_iq2_s_blocks: in_features must use complete IQ2_S blocks")
+    if input_elements != input_rows * in_features:
+        raise Error("gemm_iq2_s_blocks: input storage length mismatch")
+    if output_elements != input_rows * out_features:
+        raise Error("gemm_iq2_s_blocks: output storage length mismatch")
+    var bytes_per_row = (in_features // 256) * 82
+    if weight_bytes != out_features * bytes_per_row:
+        raise Error("gemm_iq2_s_blocks: weight storage length mismatch")
+
+    for row in range(input_rows):
+        for output_index in range(out_features):
+            var accumulator = Float32(0.0)
+            var weight_base = output_index * bytes_per_row
+            for input_index in range(in_features):
+                accumulator += input.unsafe_load(
+                    row * in_features + input_index
+                ).cast[DType.float32]() * iq2_s_value(
+                    weights, weight_base, input_index
+                )
+            output.unsafe_store(
+                row * out_features + output_index,
+                accumulator.cast[DType.float16](),
+            )
+
+
+@always_inline
+def iq3_s_value_g(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    base: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    index: Int,
+) -> Float32:
+    """Decode one value from canonical 110-byte GGML IQ3_S blocks."""
+    var block = index // 256
+    var lane = index % 256
+    var block_base = base + block * 110
+    var scale = data.unsafe_offset(block_base).unsafe_bitcast[
+        Float16
+    ]().unsafe_load().cast[DType.float32]()
+    var group = lane // 32
+    var group_lane = lane % 32
+    var subgrid = group_lane // 8
+    var pos = group_lane % 8
+    var scale_byte = Int(data.unsafe_load(block_base + 106 + group // 2))
+    var nibble = (scale_byte & 15) if group % 2 == 0 else (scale_byte >> 4)
+    var local_scale = Float32(1 + 2 * nibble)
+    var qh = Int(data.unsafe_load(block_base + 66 + group))
+    var grid_index: Int
+    var digit_lane: Int
+    if pos < 4:
+        grid_index = Int(
+            data.unsafe_load(block_base + 2 + group * 8 + 2 * subgrid)
+        ) | (((qh >> (2 * subgrid)) & 1) << 8)
+        digit_lane = pos
+    else:
+        grid_index = Int(
+            data.unsafe_load(block_base + 2 + group * 8 + 2 * subgrid + 1)
+        ) | (((qh >> (2 * subgrid + 1)) & 1) << 8)
+        digit_lane = pos - 4
+    var encoded_grid = Int(grid.unsafe_load(grid_index))
+    var grid_digit = (encoded_grid >> (digit_lane * 3)) & 7
+    var grid_value = Float32(2 * grid_digit + 1)
+    var sign_byte = Int(data.unsafe_load(block_base + 74 + group * 4 + subgrid))
+    var sign = Float32(-1.0 if ((sign_byte >> pos) & 1) != 0 else 1.0)
+    return scale * local_scale * grid_value * sign
+
+
+def dequantize_iq3_s_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    input_bytes: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(data) <= 1 or Int(output) <= 1:
+        raise Error("dequantize_iq3_s_blocks: storage pointers must be valid")
+    if output_elements <= 0 or output_elements % 256 != 0:
+        raise Error("dequantize_iq3_s_blocks: output must contain complete 256-value blocks")
+    var blocks = output_elements // 256
+    if input_bytes != blocks * 110:
+        raise Error("dequantize_iq3_s_blocks: input storage length mismatch")
+    var grid_buf = InlineArray[UInt16, 512](uninitialized=True)
+    _materialize_iq_grid[512](IQ3_S_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    for index in range(output_elements):
+        output.unsafe_store(
+            index, iq3_s_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+        )
+
+
+def gemm_iq3_s_blocks(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    weights: Pointer[UInt8, MutUntrackedOrigin],
+    weight_bytes: Int,
+    in_features: Int,
+    out_features: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(weights) <= 1 or Int(output) <= 1:
+        raise Error("gemm_iq3_s_blocks: storage pointers must be valid")
+    if input_rows <= 0 or in_features <= 0 or out_features <= 0:
+        raise Error("gemm_iq3_s_blocks: dimensions must be positive")
+    if in_features % 256 != 0:
+        raise Error("gemm_iq3_s_blocks: in_features must use complete IQ3_S blocks")
+    if input_elements != input_rows * in_features:
+        raise Error("gemm_iq3_s_blocks: input storage length mismatch")
+    if output_elements != input_rows * out_features:
+        raise Error("gemm_iq3_s_blocks: output storage length mismatch")
+    var bytes_per_row = (in_features // 256) * 110
+    if weight_bytes != out_features * bytes_per_row:
+        raise Error("gemm_iq3_s_blocks: weight storage length mismatch")
+
+    for row in range(input_rows):
+        for output_index in range(out_features):
+            var accumulator = Float32(0.0)
+            var weight_base = output_index * bytes_per_row
+            for input_index in range(in_features):
+                accumulator += input.unsafe_load(
+                    row * in_features + input_index
+                ).cast[DType.float32]() * iq3_s_value(
+                    weights, weight_base, input_index
+                )
+            output.unsafe_store(
+                row * out_features + output_index,
+                accumulator.cast[DType.float16](),
+            )
+
+
+@always_inline
+def iq2_xs_value_g(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    base: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    index: Int,
+) -> Float32:
+    """Decode one value from canonical 74-byte GGML IQ2_XS blocks."""
+    var block = index // 256
+    var lane = index % 256
+    var block_base = base + block * 74
+    var scale = data.unsafe_offset(block_base).unsafe_bitcast[
+        Float16
+    ]().unsafe_load().cast[DType.float32]()
+    var group = lane // 32
+    var group_lane = lane % 32
+    var subgrid = group_lane // 8
+    var grid_lane = group_lane % 8
+    var scale_byte = Int(data.unsafe_load(block_base + 66 + group))
+    var nibble = (scale_byte & 15) if subgrid < 2 else (scale_byte >> 4)
+    var local_scale = (Float32(0.5) + Float32(nibble)) * Float32(0.25)
+    var packed = Int(_read_u16_le(data, block_base + 2 + (group * 4 + subgrid) * 2))
+    var encoded_grid = Int(grid.unsafe_load(packed & 511))
+    var grid_digit = (encoded_grid >> (grid_lane * 2)) & 3
+    var grid_value = 8
+    if grid_digit == 1:
+        grid_value = 25
+    elif grid_digit == 2:
+        grid_value = 43
+    var sign_mask = _iq2_sign_mask(packed >> 9)
+    var sign = Float32(-1.0 if ((sign_mask >> grid_lane) & 1) != 0 else 1.0)
+    return scale * local_scale * Float32(grid_value) * sign
+
+
+def dequantize_iq2_xs_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    input_bytes: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(data) <= 1 or Int(output) <= 1:
+        raise Error("dequantize_iq2_xs_blocks: storage pointers must be valid")
+    if output_elements <= 0 or output_elements % 256 != 0:
+        raise Error("dequantize_iq2_xs_blocks: output must contain complete 256-value blocks")
+    var blocks = output_elements // 256
+    if input_bytes != blocks * 74:
+        raise Error("dequantize_iq2_xs_blocks: input storage length mismatch")
+    var grid_buf = InlineArray[UInt16, 512](uninitialized=True)
+    _materialize_iq_grid[512](IQ2_XS_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    for index in range(output_elements):
+        output.unsafe_store(
+            index, iq2_xs_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+        )
+
+
+def gemm_iq2_xs_blocks(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    weights: Pointer[UInt8, MutUntrackedOrigin],
+    weight_bytes: Int,
+    in_features: Int,
+    out_features: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(weights) <= 1 or Int(output) <= 1:
+        raise Error("gemm_iq2_xs_blocks: storage pointers must be valid")
+    if input_rows <= 0 or in_features <= 0 or out_features <= 0:
+        raise Error("gemm_iq2_xs_blocks: dimensions must be positive")
+    if in_features % 256 != 0:
+        raise Error("gemm_iq2_xs_blocks: in_features must use complete IQ2_XS blocks")
+    if input_elements != input_rows * in_features:
+        raise Error("gemm_iq2_xs_blocks: input storage length mismatch")
+    if output_elements != input_rows * out_features:
+        raise Error("gemm_iq2_xs_blocks: output storage length mismatch")
+    var bytes_per_row = (in_features // 256) * 74
+    if weight_bytes != out_features * bytes_per_row:
+        raise Error("gemm_iq2_xs_blocks: weight storage length mismatch")
+
+    for row in range(input_rows):
+        for output_index in range(out_features):
+            var accumulator = Float32(0.0)
+            var weight_base = output_index * bytes_per_row
+            for input_index in range(in_features):
+                accumulator += input.unsafe_load(
+                    row * in_features + input_index
+                ).cast[DType.float32]() * iq2_xs_value(
+                    weights, weight_base, input_index
+                )
+            output.unsafe_store(
+                row * out_features + output_index,
+                accumulator.cast[DType.float16](),
+            )
+
+
+@always_inline
+def iq3_xxs_value_g(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    base: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    index: Int,
+) -> Float32:
+    """Decode one value from canonical 98-byte GGML IQ3_XXS blocks."""
+    var block = index // 256
+    var lane = index % 256
+    var block_base = base + block * 98
+    var scale = data.unsafe_offset(block_base).unsafe_bitcast[
+        Float16
+    ]().unsafe_load().cast[DType.float32]()
+    var group = lane // 32
+    var group_lane = lane % 32
+    var subgrid = group_lane // 8
+    var pos = group_lane % 8
+    var aux = _read_u32_le(data, block_base + 66 + group * 4)
+    var local_scale = (Float32(0.5) + Float32(Int(aux >> 28))) * Float32(0.5)
+    var grid_byte = block_base + 2 + group * 8 + 2 * subgrid + (0 if pos < 4 else 1)
+    var encoded_grid = Int(grid.unsafe_load(Int(data.unsafe_load(grid_byte))))
+    var grid_digit = (encoded_grid >> ((pos % 4) * 3)) & 7
+    var grid_value = 62 if grid_digit == 7 else 4 + 8 * grid_digit
+    var sign_index = Int((aux >> UInt32(7 * subgrid)) & UInt32(0x7F))
+    var sign_mask = _iq2_sign_mask(sign_index)
+    var sign = Float32(-1.0 if ((sign_mask >> pos) & 1) != 0 else 1.0)
+    return scale * local_scale * Float32(grid_value) * sign
+
+
+def dequantize_iq3_xxs_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    input_bytes: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(data) <= 1 or Int(output) <= 1:
+        raise Error("dequantize_iq3_xxs_blocks: storage pointers must be valid")
+    if output_elements <= 0 or output_elements % 256 != 0:
+        raise Error("dequantize_iq3_xxs_blocks: output must contain complete 256-value blocks")
+    var blocks = output_elements // 256
+    if input_bytes != blocks * 98:
+        raise Error("dequantize_iq3_xxs_blocks: input storage length mismatch")
+    var grid_buf = InlineArray[UInt16, 256](uninitialized=True)
+    _materialize_iq_grid[256](IQ3_XXS_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    for index in range(output_elements):
+        output.unsafe_store(
+            index, iq3_xxs_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+        )
+
+
+def gemm_iq3_xxs_blocks(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    weights: Pointer[UInt8, MutUntrackedOrigin],
+    weight_bytes: Int,
+    in_features: Int,
+    out_features: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(weights) <= 1 or Int(output) <= 1:
+        raise Error("gemm_iq3_xxs_blocks: storage pointers must be valid")
+    if input_rows <= 0 or in_features <= 0 or out_features <= 0:
+        raise Error("gemm_iq3_xxs_blocks: dimensions must be positive")
+    if in_features % 256 != 0:
+        raise Error("gemm_iq3_xxs_blocks: in_features must use complete IQ3_XXS blocks")
+    if input_elements != input_rows * in_features:
+        raise Error("gemm_iq3_xxs_blocks: input storage length mismatch")
+    if output_elements != input_rows * out_features:
+        raise Error("gemm_iq3_xxs_blocks: output storage length mismatch")
+    var bytes_per_row = (in_features // 256) * 98
+    if weight_bytes != out_features * bytes_per_row:
+        raise Error("gemm_iq3_xxs_blocks: weight storage length mismatch")
+
+    for row in range(input_rows):
+        for output_index in range(out_features):
+            var accumulator = Float32(0.0)
+            var weight_base = output_index * bytes_per_row
+            for input_index in range(in_features):
+                accumulator += input.unsafe_load(
+                    row * in_features + input_index
+                ).cast[DType.float32]() * iq3_xxs_value(
+                    weights, weight_base, input_index
+                )
+            output.unsafe_store(
+                row * out_features + output_index,
+                accumulator.cast[DType.float16](),
+            )
+
+
+@always_inline
+def iq_value_g(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    base: Int,
+    kind: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    index: Int,
+) -> Float32:
+    """Decode one value of any implemented GGML IQ format using a
+    grid materialized by iq_grid_materialize for the same kind."""
+    if kind == 19:
+        return iq1_s_value_g(data, base, grid, index)
+    if kind == 16:
+        return iq2_xxs_value_g(data, base, grid, index)
+    if kind == 22:
+        return iq2_s_value_g(data, base, grid, index)
+    if kind == 21:
+        return iq3_s_value_g(data, base, grid, index)
+    if kind == 17:
+        return iq2_xs_value_g(data, base, grid, index)
+    return iq3_xxs_value_g(data, base, grid, index)
+
+
+@always_inline
+def iq_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, kind: Int, index: Int
+) -> Float32:
+    """Decode one value of any implemented GGML IQ format (GGML type
+    number as kind: 16 IQ2_XXS, 17 IQ2_XS, 18 IQ3_XXS, 19 IQ1_S,
+    21 IQ3_S, 22 IQ2_S)."""
+    if kind == 19:
+        return iq1_s_value(data, base, index)
+    if kind == 16:
+        return iq2_xxs_value(data, base, index)
+    if kind == 22:
+        return iq2_s_value(data, base, index)
+    if kind == 21:
+        return iq3_s_value(data, base, index)
+    if kind == 17:
+        return iq2_xs_value(data, base, index)
+    return iq3_xxs_value(data, base, index)
+
+
+@always_inline
+def iq_block_bytes(kind: Int) -> Int:
+    """Packed byte size of one 256-value GGML IQ super-block."""
+    if kind == 19:
+        return 50
+    if kind == 16:
+        return 66
+    if kind == 17:
+        return 74
+    if kind == 18:
+        return 98
+    if kind == 21:
+        return 110
+    return 82
+
+
+@always_inline
+def _iq2_grid_digit_value(encoded_grid: Int, grid_lane: Int) -> Float32:
+    """Map one 2-bit IQ2 grid digit to its grid value (8/25/43)."""
+    var grid_digit = (encoded_grid >> (grid_lane * 2)) & 3
+    if grid_digit == 1:
+        return Float32(25.0)
+    if grid_digit == 2:
+        return Float32(43.0)
+    return Float32(8.0)
+
+
+@always_inline
+def _iq3_xxs_grid_digit_value(encoded_grid: Int, digit_lane: Int) -> Float32:
+    """Map one 3-bit IQ3_XXS grid digit to its grid value."""
+    var grid_digit = (encoded_grid >> (digit_lane * 3)) & 7
+    if grid_digit == 7:
+        return Float32(62.0)
+    return Float32(4 + 8 * grid_digit)
+
+
+def dequantize_iq_block(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    block_base: Int,
+    kind: Int,
+    grid: Pointer[UInt16, MutUntrackedOrigin],
+    out_ptr: Pointer[Float32, MutUntrackedOrigin],
+):
+    """Decode one complete 256-value IQ super-block at byte offset
+    block_base into out_ptr[0..256). Group headers (scales, sign
+    masks, grid indices) are derived once per 32-value group instead
+    of once per element — the same values the *_value_g decoders
+    compute, with their per-element arithmetic factored out. kind is
+    the GGML tensor type (16/17/18/19/21/22); grid must be the grid
+    materialized by iq_grid_materialize for that kind.
+    """
+    var scale = data.unsafe_offset(block_base).unsafe_bitcast[
+        Float16
+    ]().unsafe_load().cast[DType.float32]()
+    if kind == 19:
+        # IQ1_S: qs at +2 (32 bytes), qh u16s at +34 (8 groups).
+        for group in range(8):
+            var qh = Int(_read_u16_le(data, block_base + 34 + group * 2))
+            var coef = scale * Float32(2 * ((qh >> 12) & 7) + 1)
+            var delta = Float32(-0.125 if (qh & 0x8000) != 0 else 0.125)
+            for sub in range(4):
+                var grid_index = Int(
+                    data.unsafe_load(block_base + 2 + group * 4 + sub)
+                ) | (((qh >> (sub * 3)) & 7) << 8)
+                var encoded = Int(grid.unsafe_load(grid_index))
+                var base_out = group * 32 + sub * 8
+                for lane in range(8):
+                    var digit = (encoded >> (lane * 2)) & 3
+                    var gv = Float32(-1.0)
+                    if digit == 1:
+                        gv = Float32(0.0)
+                    elif digit == 2:
+                        gv = Float32(1.0)
+                    out_ptr.unsafe_store(base_out + lane, coef * (gv + delta))
+    elif kind == 16:
+        # IQ2_XXS: eight groups of (4 grid bytes + u32 signs/scale).
+        for group in range(8):
+            var packed_base = block_base + 2 + group * 8
+            var aux = _read_u32_le(data, packed_base + 4)
+            var coef = scale * (Float32(0.5) + Float32(Int(aux >> 28))) * Float32(0.25)
+            for sub in range(4):
+                var encoded = Int(grid.unsafe_load(Int(data.unsafe_load(packed_base + sub))))
+                var sign_mask = _iq2_sign_mask(Int((aux >> UInt32(sub * 7)) & UInt32(0x7F)))
+                var base_out = group * 32 + sub * 8
+                for lane in range(8):
+                    var sign = Float32(-1.0 if ((sign_mask >> lane) & 1) != 0 else 1.0)
+                    out_ptr.unsafe_store(base_out + lane, coef * _iq2_grid_digit_value(encoded, lane) * sign)
+    elif kind == 22:
+        # IQ2_S: qs at +2 (grid bytes 0..31, sign bytes 32..63),
+        # qh at +66, scales at +74.
+        for group in range(8):
+            var scale_byte = Int(data.unsafe_load(block_base + 74 + group))
+            var qh = Int(data.unsafe_load(block_base + 66 + group))
+            for sub in range(4):
+                var nibble = (scale_byte & 15) if sub < 2 else (scale_byte >> 4)
+                var coef = scale * (Float32(0.5) + Float32(nibble)) * Float32(0.25)
+                var grid_index = Int(
+                    data.unsafe_load(block_base + 2 + group * 4 + sub)
+                ) | ((qh << (8 - 2 * sub)) & 0x300)
+                var encoded = Int(grid.unsafe_load(grid_index))
+                var sign_byte = Int(data.unsafe_load(block_base + 34 + group * 4 + sub))
+                var base_out = group * 32 + sub * 8
+                for lane in range(8):
+                    var sign = Float32(-1.0 if ((sign_byte >> lane) & 1) != 0 else 1.0)
+                    out_ptr.unsafe_store(base_out + lane, coef * _iq2_grid_digit_value(encoded, lane) * sign)
+    elif kind == 21:
+        # IQ3_S: qs at +2, qh at +66, signs at +74, scales at +106.
+        for group in range(8):
+            var scale_byte = Int(data.unsafe_load(block_base + 106 + group // 2))
+            var nibble = (scale_byte & 15) if group % 2 == 0 else (scale_byte >> 4)
+            var coef = scale * Float32(1 + 2 * nibble)
+            var qh = Int(data.unsafe_load(block_base + 66 + group))
+            for sub in range(4):
+                var sign_byte = Int(data.unsafe_load(block_base + 74 + group * 4 + sub))
+                var idx1 = Int(
+                    data.unsafe_load(block_base + 2 + group * 8 + 2 * sub)
+                ) | (((qh >> (2 * sub)) & 1) << 8)
+                var idx2 = Int(
+                    data.unsafe_load(block_base + 2 + group * 8 + 2 * sub + 1)
+                ) | (((qh >> (2 * sub + 1)) & 1) << 8)
+                var enc1 = Int(grid.unsafe_load(idx1))
+                var enc2 = Int(grid.unsafe_load(idx2))
+                var base_out = group * 32 + sub * 8
+                for j in range(4):
+                    var digit1 = (enc1 >> (j * 3)) & 7
+                    var sign1 = Float32(-1.0 if ((sign_byte >> j) & 1) != 0 else 1.0)
+                    out_ptr.unsafe_store(base_out + j, coef * Float32(2 * digit1 + 1) * sign1)
+                    var digit2 = (enc2 >> (j * 3)) & 7
+                    var sign2 = Float32(-1.0 if ((sign_byte >> (j + 4)) & 1) != 0 else 1.0)
+                    out_ptr.unsafe_store(base_out + 4 + j, coef * Float32(2 * digit2 + 1) * sign2)
+    elif kind == 17:
+        # IQ2_XS: u16 grid/sign packs at +2, scales at +66.
+        for group in range(8):
+            var scale_byte = Int(data.unsafe_load(block_base + 66 + group))
+            for sub in range(4):
+                var nibble = (scale_byte & 15) if sub < 2 else (scale_byte >> 4)
+                var coef = scale * (Float32(0.5) + Float32(nibble)) * Float32(0.25)
+                var packed = Int(_read_u16_le(data, block_base + 2 + (group * 4 + sub) * 2))
+                var encoded = Int(grid.unsafe_load(packed & 511))
+                var sign_mask = _iq2_sign_mask(packed >> 9)
+                var base_out = group * 32 + sub * 8
+                for lane in range(8):
+                    var sign = Float32(-1.0 if ((sign_mask >> lane) & 1) != 0 else 1.0)
+                    out_ptr.unsafe_store(base_out + lane, coef * _iq2_grid_digit_value(encoded, lane) * sign)
+    else:
+        # IQ3_XXS (kind 18): qs at +2 (64 grid bytes), then 32 bytes
+        # of u32 sign/scale packs at +66.
+        for group in range(8):
+            var aux = _read_u32_le(data, block_base + 66 + group * 4)
+            var coef = scale * (Float32(0.5) + Float32(Int(aux >> 28))) * Float32(0.5)
+            for sub in range(4):
+                var sign_mask = _iq2_sign_mask(Int((aux >> UInt32(7 * sub)) & UInt32(0x7F)))
+                var enc1 = Int(grid.unsafe_load(Int(data.unsafe_load(block_base + 2 + group * 8 + 2 * sub))))
+                var enc2 = Int(grid.unsafe_load(Int(data.unsafe_load(block_base + 2 + group * 8 + 2 * sub + 1))))
+                var base_out = group * 32 + sub * 8
+                for j in range(4):
+                    var sign1 = Float32(-1.0 if ((sign_mask >> j) & 1) != 0 else 1.0)
+                    out_ptr.unsafe_store(base_out + j, coef * _iq3_xxs_grid_digit_value(enc1, j) * sign1)
+                    var sign2 = Float32(-1.0 if ((sign_mask >> (j + 4)) & 1) != 0 else 1.0)
+                    out_ptr.unsafe_store(base_out + 4 + j, coef * _iq3_xxs_grid_digit_value(enc2, j) * sign2)

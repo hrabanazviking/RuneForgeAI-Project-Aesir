@@ -1,7 +1,7 @@
 from loader.gguf import GGUFSeer
 from loader.chat_template import ChatMessage, RuneChatTemplate, NativeTokenizerSelection
-from core.mimir_well import MimirWell, RuneTensor, f16
-from core.inference import forward_pass, TransformerBlock
+from core.mimir_well import MimirWell, RuneTensor, f16, CompressedFormatType
+from core.inference import forward_pass, TransformerBlock, _embed_token_into
 from core.sampler import RuneRNG, TokenCandidate, sample_token_from_logits, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
 from core.sampling_config import NativeSamplingConfig
 from core.session import SessionContext, SessionManager
@@ -766,7 +766,70 @@ def test_prompt_byte_bound() raises:
     print("Prompt byte bound: PASS")
 
 
+def test_iq_embedding_lookup() raises:
+    print("--- Testing IQ token embedding lookup ---")
+    # Two-row IQ2_S embedding table (hidden 256 = one 82-byte
+    # super-block per row). Row 0 is all zero bytes (zero scale, so a
+    # zero vector). Row 1 is the gguf-py oracle fixture from
+    # test_extreme_quants.test_iq2_s_known_value: F16 scale 2.0 then
+    # pattern bytes ((i*37+11) % 256 from byte 2), whose decoded first
+    # 32 values and block sum (1130.75) are known independently.
+    # Regression for the phase-4 defect: _embed_token_into used to
+    # decode every non-K quantized embedding as Q4_0, so this lookup
+    # returned garbage (and read row 1 at the Q4_0 stride of 1152
+    # bytes instead of the IQ2_S stride of 82).
+    var well = MimirWell(1024 * 1024)
+    var packed = well.allocate(2 * 82).unsafe_bitcast[UInt8]()
+    for i in range(2 * 82):
+        packed.unsafe_store(i, UInt8(0))
+    packed.unsafe_store(82 + 0, UInt8(0))
+    packed.unsafe_store(82 + 1, UInt8(64))
+    for i in range(2, 82):
+        packed.unsafe_store(82 + i, UInt8(((i - 2) * 37 + 11) % 256))
+
+    var seer = GGUFSeer("")
+    seer.tensors["token_embd.weight"] = RuneTensor[f16](
+        2,
+        256,
+        packed.unsafe_bitcast[Scalar[f16]](),
+        True,
+        CompressedFormatType(CompressedFormatType.IQ2_S),
+    )
+
+    var dst = well.allocate(256)
+    _embed_token_into(seer, 1, dst)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
+    var expected_first = [
+        Float16(-14.0), Float16(-43.75), Float16(43.75), Float16(-14.0),
+        Float16(43.75), Float16(-14.0), Float16(75.25), Float16(-43.75),
+        Float16(75.25), Float16(43.75), Float16(14.0), Float16(43.75),
+        Float16(-14.0), Float16(43.75), Float16(-14.0), Float16(-43.75),
+        Float16(-30.0), Float16(30.0), Float16(-93.75), Float16(30.0),
+        Float16(-30.0), Float16(-93.75), Float16(-30.0), Float16(-30.0),
+        Float16(161.25), Float16(-93.75), Float16(93.75), Float16(-30.0),
+        Float16(-30.0), Float16(30.0), Float16(161.25), Float16(30.0),
+    ]
+    for i in range(32):
+        if dst.unsafe_load(i) != expected_first[i]:
+            raise Error("IQ2_S embedding row 1 disagrees with the gguf-py oracle fixture")
+    var sum = Float32(0.0)
+    for i in range(256):
+        sum += dst.unsafe_load(i).cast[DType.float32]()
+    if sum != Float32(1130.75):
+        raise Error("IQ2_S embedding row 1 sum disagrees with the oracle block sum")
+
+    _embed_token_into(seer, 0, dst)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
+    for i in range(256):
+        if dst.unsafe_load(i) != Scalar[f16](0.0):
+            raise Error("IQ2_S embedding row 0 must decode to the zero vector")
+    print("IQ token embedding lookup: PASS")
+
+
 def main() raises:
+    test_iq_embedding_lookup()
     test_forward_pass()
     test_generation_stop_policy()
     test_unsupported_runtime_config()
