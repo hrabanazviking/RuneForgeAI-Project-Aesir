@@ -129,6 +129,44 @@ compiles.
     CI only compiles this graph with --target-accelerator sm_89 (step-3 shape);
     the failure family is documented pre-existing per the CI line's evidence.
 
+## Update 2 (2026-10-28 ~00:30 EDT) — counted run, znver2, independent validation
+
+- LAPTOP EXECUTION COMPLETE: the fixed test_inference binary ran on
+  purplelongship to EXIT_CODE=0 (10 PASS banners, 0 FAIL). The first launch's
+  "silent stop" was a complete run, confirmed by a detached relaunch with
+  exit-code capture.
+- COUNTED MASTER RUN (VM, corrected documented command, JIT `mojo run`):
+  attempt 1 COMPILED CLEAN (the compiler crash is gone for the full run_all
+  graph) and executed 74 [CASE PASS] / 0 FAIL — including the whole Compute
+  domain (compute.gemm_f16, compute.dequantize_q4_k) — then the JIT runtime
+  crashed ("execution crashed", stack through libAsyncRTRuntimeGlobals)
+  inside case rag.cosine_similarity. Attempt 2 was IDENTICAL: 74 CASE PASS,
+  same case, same stack offset (+0x4f2c2). Deterministic, not contention.
+- ISOLATION A/B: rag.cosine_similarity passes standalone on BOTH the fixed
+  tree and a base-compute tree (driver: repro pattern, per-module mojo run).
+  The case is a plain SIMD f16 loop (core/compute.mojo cosine_similarity,
+  simd_w_f16 lanes, no par_for, no async) and never touches the changed
+  code; the changed VNNI body never executes by default. Conclusion: the
+  JIT-mode runtime crash at that case is a context-dependent Mojo
+  JIT/AsyncRT toolchain defect, independent of this fix. An AOT
+  (mojo build, step-3 shape) build+execute of run_all is in flight as the
+  discriminating test: if AOT completes the suite and prints the tally,
+  the defective layer is the JIT runtime, not the program or this fix.
+  ACCEPTANCE A (counted run end-to-end via the documented command) is
+  therefore NOT yet proven at this writing; the compiler-crash half of it
+  IS proven (both attempts compiled the full graph and ran 74 cases).
+- ZNVER2 ACCEPTANCE (VM, GPU branch tree at ~/workspace/.verify-tmp/znver2,
+  tests/test_llama3_spill.mojo, --mcpu znver2, staged shims): CONTROL
+  (unfixed compute) = LLVM split error, exit 134. FIXED (this branch's
+  compute.mojo overlaid) = exit 0, binary produced (827,400 bytes).
+- INDEPENDENT CROSS-VALIDATION (GPU line, reported 2026-10-28): the GPU
+  worker scratch-cherry-picked THE FIX COMMIT 0907593a, built the spill
+  probe for znver2, and EXECUTED the staged S3 proof on purplelongship:
+  [SPILL] gpu_layers=31/32 cpu_layers=1 @ ctx 4096, output identical to
+  the whole-GPU runs, ~10.0 tok/s. Acceptance B is thus proven by two
+  lines on two machines.
+- THE FIX COMMIT is 0907593a (single commit, aesir_engine/core/compute.mojo).
+
 ## Files in this checkpoint
 
 - repro/min_vnni.mojo — minimal reproducer importing core.compute's
