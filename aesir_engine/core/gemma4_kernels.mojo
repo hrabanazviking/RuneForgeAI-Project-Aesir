@@ -247,3 +247,17 @@ def argmax_kernel(a: Floats, output: Integers, logits_arg: Int64, count_arg: Int
     bad = warp.max(bad)
     if lane == 0:
         output.unsafe_store(0, selected if bad == 0 else Int32(-1))
+
+
+def span_copy_kernel(a: Floats, span: Floats, row_arg: Int64, width_arg: Int64, dst_arg: Int64):
+    # Convergence slice: write one armed soft-token row over the
+    # activation arena at dst. forward() enqueues this immediately
+    # after the token embedding when the position falls inside an
+    # armed image span, so the encoder's projected row replaces the
+    # marker token's embedding row; everything downstream is untouched.
+    var row = Int(row_arg)
+    var width = Int(width_arg)
+    var dst = Int(dst_arg)
+    var i = Int(global_idx.x)
+    if i < width:
+        a.unsafe_store(dst + i, span.unsafe_load(row * width + i))

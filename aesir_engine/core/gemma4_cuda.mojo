@@ -15,7 +15,7 @@ from core.tool_use import validate_gemma_zero_arg_tool
 from core.gemma4_kernels import (
     Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel,
     element_kernel, rope_kernel, cache_kernel, scores_kernel,
-    softmax_kernel, attention_kernel, argmax_kernel,
+    softmax_kernel, attention_kernel, argmax_kernel, span_copy_kernel,
 )
 
 # Disjoint regions within the session's device-only activation arena.
@@ -32,6 +32,7 @@ comptime PLE = 42496
 comptime PLE_TEMP = 53248
 comptime LOGITS = 64000
 comptime SCORES = LOGITS + 262144
+comptime SPAN_CAPACITY_ROWS = 64
 
 
 struct Gemma4CUDASession(ControlledTextSession):
@@ -62,6 +63,10 @@ struct Gemma4CUDASession(ControlledTextSession):
     var boolean_grammar: BooleanJSONGrammar
     var tool_name: String
     var tool_description: String
+    var span_buffer: DeviceBuffer[DType.float32]
+    var span_start: Int
+    var span_count: Int
+    var span_active: Bool
 
     def __init__(out self, path: String, context_length: Int = 0,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
@@ -110,6 +115,10 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.output = self.context.enqueue_create_buffer[DType.int32](1)
         self.host_output = self.context.enqueue_create_host_buffer[DType.int32](1)
         self.sampler = NativeCUDASampler(self.context, self.profile.vocabulary_size, sampling)
+        self.span_buffer = self.context.enqueue_create_buffer[DType.float32](SPAN_CAPACITY_ROWS * self.profile.hidden_size)
+        self.span_start = -1
+        self.span_count = 0
+        self.span_active = False
         # One initial upload. No layer weights or KV are staged through the CPU
         # during prefill or decoding. The staging allocation dies after sync.
         var staging_bytes = upload_cuda_bytes(self.context, self.weights,
@@ -142,6 +151,59 @@ struct Gemma4CUDASession(ControlledTextSession):
         var t = self.model.tensors[name]
         self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(t.offset), Int64(t.kind), Int64(t.columns), Int64(token), Int64(dst), scale, grid_dim=(t.columns + 127) // 128, block_dim=128)
 
+    def _check_span(mut self, start: Int, count: Int) raises:
+        if self.generating:
+            raise Error("Cannot arm an image span during generation")
+        if self.span_active:
+            raise Error("An image span is already armed; clear it first")
+        if count < 1 or count > SPAN_CAPACITY_ROWS:
+            raise Error("Image span row count out of range")
+        if start < self.position or start + count > self.context_length:
+            raise Error("Image span lies outside the session's remaining context")
+
+    def set_image_span(mut self, start: Int, rows: List[Float32]) raises:
+        # Arm encoder soft-token rows: forward() writes row
+        # (position - start) over the token embedding at each sequence
+        # position in [start, start + count). Fail-closed; the caller
+        # verifies the row count against the encoder before arming.
+        var width = self.profile.hidden_size
+        if len(rows) == 0 or len(rows) % width != 0:
+            raise Error("Image span rows do not match the model hidden size")
+        self._check_span(start, len(rows) // width)
+        var capacity = SPAN_CAPACITY_ROWS * width
+        var staging = self.context.enqueue_create_host_buffer[DType.float32](capacity)
+        for i in range(capacity):
+            staging[i] = Float32(0)
+        for i in range(len(rows)):
+            staging[i] = rows[i]
+        self.context.enqueue_copy(self.span_buffer, staging)
+        self.context.synchronize()
+        self.span_start = start
+        self.span_count = len(rows) // width
+        self.span_active = True
+
+    def set_control_span(mut self, start: Int, count: Int, token: Int) raises:
+        # Gate-A control: fill the span with the token's OWN embedding
+        # rows, produced device-side by embedding_kernel itself, so a
+        # span run must reproduce the plain run bit-exactly.
+        var width = self.profile.hidden_size
+        var t = self.model.tensors["token_embd.weight"]
+        if Int(t.columns) != width:
+            raise Error("Control span: token embedding width mismatch")
+        self._check_span(start, count)
+        var span = Floats(unsafe_from_address=Int(self.span_buffer.unsafe_ptr()))
+        for k in range(count):
+            self.context.enqueue_function[embedding_kernel](self.w(), span, Int64(t.offset), Int64(t.kind), Int64(t.columns), Int64(token), Int64(k * width), sqrt(Float32(width)), grid_dim=(width + 127) // 128, block_dim=128)
+        self.context.synchronize()
+        self.span_start = start
+        self.span_count = count
+        self.span_active = True
+
+    def clear_image_span(mut self):
+        self.span_active = False
+        self.span_start = -1
+        self.span_count = 0
+
     def forward(mut self, token: Int, need_logits: Bool = True) raises -> Int:
         if not self.healthy:
             raise Error("CUDA session cannot be reused after an execution failure")
@@ -151,6 +213,8 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.healthy = False
         self.sampler.record(token)
         self.embed("token_embd.weight", token, X, sqrt(Float32(self.profile.hidden_size)))
+        if self.span_active and self.position >= self.span_start and self.position < self.span_start + self.span_count:
+            self.context.enqueue_function[span_copy_kernel](self.a(), Floats(unsafe_from_address=Int(self.span_buffer.unsafe_ptr())), Int64(self.position - self.span_start), Int64(self.profile.hidden_size), Int64(X), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
         self.embed("per_layer_token_embd.weight", token, PLE, 16)
         self.matvec("per_layer_model_proj.weight", X, PLE_TEMP)
         self.norm("per_layer_proj_norm.weight", PLE_TEMP, PLE_TEMP, self.profile.per_layer_input_size, self.profile.layer_count, 1.0 / sqrt(Float32(self.profile.hidden_size)))
@@ -282,6 +346,7 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.committed_tokens.clear()
         self.reset_required = False
         self.boolean_grammar.clear()
+        self.clear_image_span()
         self.tool_name = ""
         self.tool_description = ""
         self.control.deadline_ms = 0
