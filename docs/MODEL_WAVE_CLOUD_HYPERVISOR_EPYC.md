@@ -191,27 +191,33 @@ was killed once at ~16 min under peak contention and is completed in the
 final sweep (see gaps). The IQ files' embedding is Q5_K — never in the
 phase-4 trap.
 
-### zen-4b-i1 (qwen3) — PARTIALLY FIXED (honest)
+### zen-4b-i1 (qwen3) — FIXED; residual "degeneration" proven NOT an engine defect
 Baseline: degenerate loops on every prompt (", and, and…"), oracle
 clean. Root cause #1 (RoPE variant) FIXED (change 4 above): short
-ChatML probe is oracle-exact. Root cause #2 remains open for long
-prompts: battery t1 (176 tokens) still degenerates on Q4_K_M (136.50 s)
-and Q6_K (205.88/205.96/154.66/202.49 s, RSS 5.06 GB). Bisection
-evidence: tokenization byte-identical to llama-tokenize; prefill
-chunking exonerated (`AESIR_PREFILL_BATCH=1` identical); sampling at
-temperature 0.7 on a failing 22-token prompt is coherent (the state is
-healthy there; greedy choice derails), while the 176-token prompt
-degrades even sampled. Standing hypothesis, unproven at logits level
-(the local llama.cpp build has no logits-dump tool): the engine samples
-from f16-rounded logits, and Zen's tied Q6_K embedding creates many
-near-tie decisions where f16 rounding flips the argmax vs the f32
-oracle; the identified fix design — keep the final projection's logits
-in f32 through the sampler — is recorded here as the next engine
-change, deliberately not landed unproven at campaign end because its
-regression surface spans every model. All seven quants are registered;
-Q5_K_M/Q3_K_M/Q2_K batteries and IQ probes reproduce the same family
-behavior (sensible openings, then drift), consistent with the single
-open defect.
+ChatML probe is oracle-exact. Battery t1 (176 tokens) still degenerates
+on Q4_K_M (136.50 s) and Q6_K (205.88/205.96/154.66/202.49 s, RSS
+5.06 GB). Bisection evidence: tokenization byte-identical to
+llama-tokenize; prefill chunking exonerated (`AESIR_PREFILL_BATCH=1`
+identical); sampling at temperature 0.7 on a failing 22-token prompt is
+coherent (the state is healthy there; greedy choice derails), while the
+176-token prompt degrades even sampled. **RESOLUTION (post-ship
+addendum, 2026-10-28): a dedicated phase-5 investigation proved there
+is no second engine defect.** Run raw (libllama free-running, identical
+input), llama.cpp itself produces the same trajectory token-for-token —
+sys3: "\n\tNdrFc\n\n\tNdrFc\n\nThe sum of 2 and 2 is 4" (ids 198 70564
+271 70564 271 785 …), identical to Aesir; teacher forcing agrees with
+the engine's argmax at 27/28 steps across six prompts. The model's
+first generated position is a flat near-tie band (sys3: 70564 at 9.945
+vs runner-up 9.835), so greedy raw-prompt behavior is the model's own;
+the campaign's "oracle clean" references came from llama-cli
+--single-turn, which re-renders the input through the GGUF chat
+template — a different prompt than the raw ChatML Aesir receives. The
+f16-logits hypothesis recorded during the campaign is withdrawn and
+the f32-logits change is NOT to be landed. All seven quants are
+registered; their battery readings stand as measured, re-read under
+this resolution: Aesir is faithful on this model. (Evidence:
+`~/workspace/model-tests/wave/z5-worker/` and the phase-5 section of
+the IQ worker's report.)
 
 ### gemma-4-E2B-it-heretic-v1 (gemma4) — generation NOT PROVEN on CPU
 Architecture recon (from the blob): 35 layers, hidden 1536, 8q/1kv
@@ -246,8 +252,8 @@ the model's open requirement.
 
 ## Honest gaps / NOT PROVEN
 
-- Zen root cause #2 (above): long-prompt divergence open; f32-logits
-  fix designed, not landed.
+- Zen root cause #2: CLOSED post-ship — proven not an engine defect
+  (raw-oracle token parity; see the Zen section's resolution addendum).
 - Gemma-4 generation on CPU: NOT PROVEN (architecture work required;
   CUDA-only session by design).
 - IQ2_XS / IQ3_XXS: implemented and fixture-verified; no end-to-end
