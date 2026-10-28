@@ -36,6 +36,7 @@ struct DenseGQAProfile(Copyable):
     var tied_embeddings: Bool
     var add_bos: Bool
     var rope_factors: Bool
+    var attention_bias: Bool
 
     def __init__(out self, family: String, architecture: String, name: String,
                  layer_count: Int, hidden_size: Int, feed_forward_size: Int,
@@ -45,7 +46,8 @@ struct DenseGQAProfile(Copyable):
                  end_of_turn_token_id: Int, rope_frequency_base: Float32,
                  normalization_epsilon: Float32, expected_tensor_count: Int,
                  qk_norm: Bool, neox_rope: Bool, tied_embeddings: Bool,
-                 add_bos: Bool, rope_factors: Bool = False):
+                 add_bos: Bool, rope_factors: Bool = False,
+                 attention_bias: Bool = False):
         self.family = family
         self.architecture = architecture
         self.name = name
@@ -68,6 +70,7 @@ struct DenseGQAProfile(Copyable):
         self.tied_embeddings = tied_embeddings
         self.add_bos = add_bos
         self.rope_factors = rope_factors
+        self.attention_bias = attention_bias
 
     def query_width(self) -> Int:
         return self.attention_heads * self.head_dim
@@ -112,6 +115,16 @@ def qwen3_0_6b_profile() -> DenseGQAProfile:
     )
 
 
+def qwen2_coder_7b_profile() -> DenseGQAProfile:
+    """Qwen 2.5 Coder 7B: QKV biases, NEOX RoPE, untied Q6_K output."""
+    return DenseGQAProfile(
+        "Qwen 2.5 Coder", "qwen2", "7B", 28, 3584, 18944, 28, 4, 128,
+        152064, 32768, 151643, 151645, 151645,
+        1000000, Float32(1e-6), 339, False, True, False, False,
+        False, True,
+    )
+
+
 def llama3_2_3b_profile() -> DenseGQAProfile:
     """Llama 3.2 3B with tied output weights and GGUF RoPE factors."""
     return DenseGQAProfile(
@@ -131,6 +144,8 @@ def dense_gqa_profile_for(model: PackedGGUF) raises -> DenseGQAProfile:
         return llama3_2_3b_profile()
     if architecture == "qwen3" and layers == 28 and hidden == 1024:
         return qwen3_0_6b_profile()
+    if architecture == "qwen2" and layers == 28 and hidden == 3584:
+        return qwen2_coder_7b_profile()
     raise Error(
         "No native dense GQA variant profile for " + architecture + ": "
         + String(layers) + " layers / " + String(hidden) + " hidden"
@@ -154,6 +169,11 @@ def _require_profile_metadata(model: PackedGGUF,
     if profile.architecture == "llama":
         if model.integer(prefix + "rope.dimension_count") != profile.head_dim:
             raise Error("Unsupported " + profile.label() + " RoPE dimension")
+    elif profile.architecture == "qwen2":
+        # Qwen 2 GGUF files omit attention.key_length/value_length; the
+        # head dimension is hidden / heads by construction.
+        if profile.hidden_size != profile.attention_heads * profile.head_dim:
+            raise Error("Unsupported " + profile.label() + " attention dimensions")
     else:
         if (model.integer(prefix + "attention.key_length") != profile.head_dim
                 or model.integer(prefix + "attention.value_length")
@@ -239,7 +259,11 @@ def validate_dense_gqa(model: PackedGGUF, profile: DenseGQAProfile,
         elif (prefix + "attn_q_norm.weight" in model.tensors
                 or prefix + "attn_k_norm.weight" in model.tensors):
             raise Error("Unexpected " + profile.label() + " Q/K normalization")
-        if (prefix + "attn_q.bias" in model.tensors
+        if profile.attention_bias:
+            _ = model.require_tensor(prefix + "attn_q.bias", profile.query_width())
+            _ = model.require_tensor(prefix + "attn_k.bias", profile.kv_width())
+            _ = model.require_tensor(prefix + "attn_v.bias", profile.kv_width())
+        elif (prefix + "attn_q.bias" in model.tensors
                 or prefix + "attn_k.bias" in model.tensors
                 or prefix + "attn_v.bias" in model.tensors):
             raise Error(profile.label() + " attention bias is not supported")
