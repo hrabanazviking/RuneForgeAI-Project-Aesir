@@ -314,6 +314,53 @@ def test_grandfathered_record_heading() -> None:
     )
 
 
+def test_legacy_status_registry() -> None:
+    from check_doc_drift import ledger_statuses
+
+    def entry(capability_id: str, status_value: str) -> str:
+        return (
+            f"### {capability_id} — Fixture\n"
+            f"- **Status:** {status_value}\n"
+            "- **Owner:** fixture\n"
+            "- **Executable evidence:** `python3 check.py`\n"
+            "- **Evidence boundary:** Structural fixture only.\n"
+        )
+
+    historical = (
+        entry("AES-INFER-059", "`blocked`")
+        + entry("AES-TRANSFER-002", "`implemented` (host build only)")
+        + entry("AES-PROG-002", "`host-verified` (mock transport)")
+        + entry("AES-PROG-004", "`host-verified` (scope a) + `verified` (scope b)")
+    )
+    require(
+        not ledger_schema_errors(historical, "fixture.md"),
+        "registered legacy status forms were rejected",
+    )
+    statuses = ledger_statuses(historical)
+    require(
+        statuses
+        == {
+            "AES-INFER-059": "blocked",
+            "AES-TRANSFER-002": "implemented",
+            "AES-PROG-002": "host-verified",
+            "AES-PROG-004": "host-verified",
+        },
+        f"legacy statuses were not counted: {statuses!r}",
+    )
+    cases = [
+        entry("AES-NEW-001", "`implemented` (host build only)"),
+        entry("AES-NEW-001", "`finished`"),
+        entry("AES-PROG-002", "`blocked`"),
+        entry("AES-INFER-059", "`host-verified`"),
+    ]
+    for index, text in enumerate(cases):
+        errors = ledger_schema_errors(text, "fixture.md")
+        require(
+            any("status must be one backticked canonical value" in e for e in errors),
+            f"unregistered or undefined status case {index} was accepted",
+        )
+
+
 def test_todo_combined_and_adjacent_capability_references() -> None:
     statuses = {
         "AES-TST-001": "verified",
@@ -381,7 +428,11 @@ def test_todo_repository_integration_against_canonical_ledger() -> None:
 
     statuses = ledger_statuses(LEDGER.read_text(encoding="utf-8"))
     todo = TODO.read_text(encoding="utf-8")
-    require(len(statuses) == 324, "canonical ledger status map changed unexpectedly")
+    # 328 = 324 canonical-status entries + the 4 grandfathered
+    # legacy-status entries (AES-INFER-059, AES-TRANSFER-002,
+    # AES-PROG-002, AES-PROG-004), counted since the legacy status
+    # registry landed (step 33 zero, 2026-10-27).
+    require(len(statuses) == 328, "canonical ledger status map changed unexpectedly")
     require(
         not todo_status_reference_errors(todo, statuses),
         "repository TODO contains a reference inconsistent with the canonical ledger",
@@ -418,6 +469,7 @@ def main() -> None:
     test_ledger_schema_integration()
     test_absolute_path_evidence_exemption()
     test_grandfathered_record_heading()
+    test_legacy_status_registry()
     test_todo_combined_and_adjacent_capability_references()
     test_todo_later_unknown_and_mismatched_references()
     test_todo_adjacent_unknown_and_mismatch_diagnostic_order()

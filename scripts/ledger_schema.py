@@ -38,6 +38,27 @@ RECORD_HEADING = re.compile(r"^###\s+(AES-[A-Z0-9]+(?:-[A-Z0-9]+)*)\s+—")
 # and skipped by the capability schema.  Renaming the entry to fit the
 # grammar would invent an identifier it never had.
 GRANDFATHERED_RECORD_IDS = {"AES-C3-REVIEW"}
+# Legacy status vocabulary.  Four historical entries carry status words
+# from before the canonical vocabulary (ALLOWED_STATUSES) was fixed:
+#   blocked       — work was blocked on an unresolved root cause when
+#                   the entry was recorded;
+#   implemented   — implemented and host-built when the entry was
+#                   recorded; further qualification was still pending;
+#   host-verified — verified against a host mock transport when the
+#                   entry was recorded; no physical-device run.
+# The words are defined here so the historical record stays readable,
+# but they are grandfathered per entry: a legacy word is valid only on
+# the entry registered for it below, in its historical form (the
+# backticked word, optionally followed by the entry's own scope
+# annotation).  A legacy word on any other entry, or any word outside
+# both vocabularies, still fails closed.
+LEGACY_STATUSES = {"blocked", "implemented", "host-verified"}
+LEGACY_STATUS_ENTRIES = {
+    "AES-INFER-059": "blocked",
+    "AES-TRANSFER-002": "implemented",
+    "AES-PROG-002": "host-verified",
+    "AES-PROG-004": "host-verified",
+}
 FIELD = re.compile(r"^- \*\*([^*]+):\*\*\s*(.*)$")
 FIELD_LIKE = re.compile(r"^- \*\*[^*]+\*\*")
 STATUS_VALUE = re.compile(r"^`(verified|partial|scaffold|simulated|missing)`$")
@@ -200,12 +221,21 @@ def parse_ledger_text(
         if "Status" in by_label and len(by_label["Status"]) == 1:
             status_line, status_value = by_label["Status"][0]
             status_match = STATUS_VALUE.fullmatch(status_value)
-            if status_match is None or status_match.group(1) not in ALLOWED_STATUSES:
+            if status_match is not None and status_match.group(1) in ALLOWED_STATUSES:
+                status = status_match.group(1)
+            elif capability_id in LEGACY_STATUS_ENTRIES:
+                legacy = LEGACY_STATUS_ENTRIES[capability_id]
+                token = f"`{legacy}`"
+                if status_value == token or status_value.startswith(token + " "):
+                    status = legacy
+                else:
+                    diagnostics.append(
+                        LedgerDiagnostic(source, status_line, "status must be one backticked canonical value")
+                    )
+            else:
                 diagnostics.append(
                     LedgerDiagnostic(source, status_line, "status must be one backticked canonical value")
                 )
-            else:
-                status = status_match.group(1)
 
         def get(label: str) -> str | None:
             records = by_label.get(label)

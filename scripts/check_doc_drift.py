@@ -14,6 +14,7 @@ from pathlib import Path
 
 from ledger_schema import (
     GRANDFATHERED_RECORD_IDS,
+    LEGACY_STATUS_ENTRIES,
     LedgerSchemaError,
     parse_ledger_text,
 )
@@ -128,13 +129,27 @@ def ledger_statuses(content: str) -> dict[str, str]:
         heading = re.match(r"^### (AES-[A-Z]+-\d+) —", block)
         if not heading:
             continue
+        capability_id = heading.group(1)
+        if capability_id in LEGACY_STATUS_ENTRIES:
+            # Grandfathered legacy status: the entry's first Status line
+            # must carry its registered legacy word (see ledger_schema).
+            legacy = LEGACY_STATUS_ENTRIES[capability_id]
+            token = f"`{legacy}`"
+            status_line = re.search(
+                r"^- \*\*Status:\*\* (.*)$", block, flags=re.MULTILINE
+            )
+            if status_line is not None:
+                value = status_line.group(1).strip()
+                if value == token or value.startswith(token + " "):
+                    entries[capability_id] = legacy
+                    continue
         statuses = re.findall(
             r"^- \*\*Status:\*\* `(verified|partial|scaffold|simulated|missing)`",
             block,
             flags=re.MULTILINE,
         )
         if len(statuses) == 1:
-            entries[heading.group(1)] = statuses[0]
+            entries[capability_id] = statuses[0]
     return entries
 
 
