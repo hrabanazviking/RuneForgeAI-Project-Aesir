@@ -1,6 +1,6 @@
 """Canonical raw-byte IQ and versioned native ternary primitives."""
 
-from std.memory import Pointer
+from std.memory import Pointer, alloc
 
 from .iq_codebooks import (
     IQ1_S_GRID,
@@ -182,12 +182,13 @@ def dequantize_iq2_xxs_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 66:
         raise Error("dequantize_iq2_xxs_blocks: input storage length mismatch")
-    var grid_buf = InlineArray[UInt16, 256](uninitialized=True)
-    _materialize_iq_grid[256](IQ2_XXS_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    var grid_ptr = alloc[UInt16](256)
+    _materialize_iq_grid[256](IQ2_XXS_GRID, grid_ptr)
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq2_xxs_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+            index, iq2_xxs_value_g(data, 0, grid_ptr, index).cast[DType.float16]()
         )
+    grid_ptr.unsafe_free()
 
 
 def gemm_iq2_xxs_blocks(
@@ -278,12 +279,13 @@ def dequantize_iq1_s_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 50:
         raise Error("dequantize_iq1_s_blocks: input storage length mismatch")
-    var grid_buf = InlineArray[UInt16, 2048](uninitialized=True)
-    _materialize_iq_grid[2048](IQ1_S_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    var grid_ptr = alloc[UInt16](2048)
+    _materialize_iq_grid[2048](IQ1_S_GRID, grid_ptr)
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq1_s_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+            index, iq1_s_value_g(data, 0, grid_ptr, index).cast[DType.float16]()
         )
+    grid_ptr.unsafe_free()
 
 
 def gemm_iq1_s_blocks(
@@ -471,12 +473,13 @@ def dequantize_iq2_s_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 82:
         raise Error("dequantize_iq2_s_blocks: input storage length mismatch")
-    var grid_buf = InlineArray[UInt16, 1024](uninitialized=True)
-    _materialize_iq_grid[1024](IQ2_S_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    var grid_ptr = alloc[UInt16](1024)
+    _materialize_iq_grid[1024](IQ2_S_GRID, grid_ptr)
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq2_s_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+            index, iq2_s_value_g(data, 0, grid_ptr, index).cast[DType.float16]()
         )
+    grid_ptr.unsafe_free()
 
 
 def gemm_iq2_s_blocks(
@@ -575,12 +578,13 @@ def dequantize_iq3_s_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 110:
         raise Error("dequantize_iq3_s_blocks: input storage length mismatch")
-    var grid_buf = InlineArray[UInt16, 512](uninitialized=True)
-    _materialize_iq_grid[512](IQ3_S_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    var grid_ptr = alloc[UInt16](512)
+    _materialize_iq_grid[512](IQ3_S_GRID, grid_ptr)
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq3_s_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+            index, iq3_s_value_g(data, 0, grid_ptr, index).cast[DType.float16]()
         )
+    grid_ptr.unsafe_free()
 
 
 def gemm_iq3_s_blocks(
@@ -671,12 +675,13 @@ def dequantize_iq2_xs_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 74:
         raise Error("dequantize_iq2_xs_blocks: input storage length mismatch")
-    var grid_buf = InlineArray[UInt16, 512](uninitialized=True)
-    _materialize_iq_grid[512](IQ2_XS_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    var grid_ptr = alloc[UInt16](512)
+    _materialize_iq_grid[512](IQ2_XS_GRID, grid_ptr)
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq2_xs_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+            index, iq2_xs_value_g(data, 0, grid_ptr, index).cast[DType.float16]()
         )
+    grid_ptr.unsafe_free()
 
 
 def gemm_iq2_xs_blocks(
@@ -763,12 +768,13 @@ def dequantize_iq3_xxs_blocks(
     var blocks = output_elements // 256
     if input_bytes != blocks * 98:
         raise Error("dequantize_iq3_xxs_blocks: input storage length mismatch")
-    var grid_buf = InlineArray[UInt16, 256](uninitialized=True)
-    _materialize_iq_grid[256](IQ3_XXS_GRID, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]())
+    var grid_ptr = alloc[UInt16](256)
+    _materialize_iq_grid[256](IQ3_XXS_GRID, grid_ptr)
     for index in range(output_elements):
         output.unsafe_store(
-            index, iq3_xxs_value_g(data, 0, grid_buf.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), index).cast[DType.float16]()
+            index, iq3_xxs_value_g(data, 0, grid_ptr, index).cast[DType.float16]()
         )
+    grid_ptr.unsafe_free()
 
 
 def gemm_iq3_xxs_blocks(
