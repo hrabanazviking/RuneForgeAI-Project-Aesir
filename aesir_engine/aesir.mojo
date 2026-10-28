@@ -13,6 +13,8 @@ from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.swarm import SwarmCluster
 from loader.gguf import GGUFModelConfig, GGUFSeer
+from loader.mmproj import MmprojFile, find_mmproj_beside
+from core.vision_encoder import encode_image_rows
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
 from server.api import BifrostGate
@@ -277,6 +279,9 @@ struct AesirEngine:
     var thread_pool: RuneThreadPool
     var swarm_cluster: SwarmCluster
     var runtime_offset: Int
+    var image_span_start: Int
+    var image_span_rows: List[Float32]
+    var image_span_width: Int
 
     def __init__(
         out self,
@@ -327,6 +332,9 @@ struct AesirEngine:
             self.pool,
         )
         self.runtime_offset = self.pool.offset
+        self.image_span_start = -1
+        self.image_span_rows = List[Float32]()
+        self.image_span_width = 0
 
         self.blocks = List[TransformerBlock]()
         if self.parser.config.architecture != "qwen35":
@@ -379,6 +387,8 @@ struct AesirEngine:
         """One position of generation, dispatched by architecture: the
         Qwen3.5 hybrid path carries SSM state and its own blocks; every
         other arch uses the standard transformer forward pass."""
+        if self.image_span_start >= 0 and self.parser.config.architecture == "qwen35":
+            raise Error("image span override is not supported on the qwen35 path")
         if self.parser.config.architecture == "qwen35":
             return forward_pass_qwen35(
                 tokens,
@@ -413,6 +423,8 @@ struct AesirEngine:
             gen_config.top_p,
             gen_config.repetition_penalty,
             is_prefill,
+            self.image_span_start,
+            self.image_span_rows,
         )
 
     def _prefill_batch_cap(self) -> Int:
@@ -453,6 +465,8 @@ struct AesirEngine:
         KV cache (and, for Qwen3.5, the SSM state); a non-prefill
         chunk's pass also yields the sampled token at its last
         position."""
+        if self.image_span_start >= 0 and self.parser.config.architecture == "qwen35":
+            raise Error("image span override is not supported on the qwen35 path")
         if self.parser.config.architecture == "qwen35":
             return forward_pass_qwen35_batched(
                 tokens,
@@ -490,6 +504,8 @@ struct AesirEngine:
             gen_config.top_p,
             gen_config.repetition_penalty,
             is_prefill,
+            self.image_span_start,
+            self.image_span_rows,
         )
 
     def extract_query_embedding(mut self, prompt: String, hidden_dim: Int) raises -> RuneTensor[f16]:
@@ -773,6 +789,88 @@ struct AesirEngine:
         """Returns token IDs, decoded text, counts, and a stable stop reason."""
         var config = GenerationConfig(max_new_tokens=max_new_tokens, temperature=0.0, repetition_penalty=1.0)
         return self._run_generation(prompt, config, Int32(-1), False)
+
+    def _clear_image_span(mut self):
+        self.image_span_start = -1
+        self.image_span_rows = List[Float32]()
+        self.image_span_width = 0
+
+    def generate_image_chat(
+        mut self,
+        prompt: String,
+        image_path: String,
+        config: GenerationConfig,
+    ) raises -> GenerationResult:
+        """Runs one image + text prompt through the vision tower and
+        the language model (design doc section 4, slice 4).
+
+        The prompt carries exactly one <|image|> marker — the gemma4
+        canonical template's image spelling, whose id is read from
+        this model's own tokenizer. The marker position expands to
+        the encoder's soft-token count of sequence positions whose
+        embedding rows are the projected encoder output, installed
+        through the span override in core.inference; the language
+        forward is otherwise unchanged. Fail-closed throughout: a
+        missing or repeated marker, a missing mmproj, a tower vs
+        language width mismatch, or a token stream whose marker run
+        does not equal the encoder row count all raise before any
+        forward pass runs."""
+        if self.parser.config.architecture == "qwen35":
+            raise Error(
+                "generate_image_chat: image spans are not supported on the qwen35 path"
+            )
+        var marker = String("<|image|>")
+        var marker_id = self.tokenizer.special_token_id(marker)
+        var first = prompt.find(marker)
+        if first < 0:
+            raise Error("generate_image_chat: prompt carries no <|image|> marker")
+        var mlen = marker.byte_length()
+        var tail = String(prompt[codepoint=first + mlen:])
+        if tail.find(marker) >= 0:
+            raise Error(
+                "generate_image_chat: exactly one image per prompt in this slice"
+            )
+        var mmproj_path = find_mmproj_beside(self.parser.file_path)
+        if mmproj_path == "":
+            raise Error("generate_image_chat: no mmproj found beside the model")
+        var mmproj = MmprojFile(mmproj_path)
+        var spec = mmproj.vision_spec()
+        spec.check_language_match(self.parser.config.embedding_length)
+        var rows = encode_image_rows(mmproj_path, image_path)
+        var width = self.parser.config.embedding_length
+        if width <= 0 or len(rows) == 0 or len(rows) % width != 0:
+            raise Error(
+                "generate_image_chat: encoder rows do not match the language width"
+            )
+        var n_soft = len(rows) // width
+        var expanded = String(prompt[codepoint=0:first])
+        for _ in range(n_soft):
+            expanded += marker
+        expanded += tail
+        var toks = self.tokenizer.encode(expanded, True)
+        var span_start = -1
+        var run = 0
+        for i in range(len(toks)):
+            if toks[i] == marker_id:
+                if span_start < 0:
+                    span_start = i
+                run += 1
+            elif run > 0 and run < n_soft:
+                raise Error("generate_image_chat: image marker run is interrupted")
+        if span_start < 0 or run != n_soft:
+            raise Error(
+                "generate_image_chat: image marker run does not match the encoder row count"
+            )
+        self.image_span_start = span_start
+        self.image_span_rows = rows^
+        self.image_span_width = width
+        try:
+            var result = self._run_generation(expanded, config, Int32(-1), False)
+            self._clear_image_span()
+            return result^
+        except e:
+            self._clear_image_span()
+            raise e
 
     def generate(mut self, prompt: String) raises -> String:
         """Compatibility facade for a verified 32-token greedy request."""

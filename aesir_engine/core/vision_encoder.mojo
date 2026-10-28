@@ -62,6 +62,7 @@ def patch_embed(
 # ---------------------------------------------------------------------------
 from std.math import cos, exp, log, sin, sqrt, tanh
 from loader.mmproj import MmprojFile, VisionTowerSpec
+from loader.image_prep import RgbImage, load_image_file, preprocess_image
 
 
 def _rms_norm(
@@ -415,3 +416,45 @@ def project_tokens(
     return linear_q8(
         mmproj, normed, rows, hidden, spec.projection_dim, "mm.input_projection"
     )
+
+
+def encode_image_pixels(
+    mmproj_path: String, image: RgbImage
+) raises -> List[Float32]:
+    """Runs the proven encoder stage sequence on an already-decoded
+    image and returns the projected soft-token rows (Float32,
+    row-major [n_soft, projection_dim]). Callers that hold PNG/JPEG
+    inputs decode them through loader/image_codecs.load_any into
+    the same RgbImage prep path first. The stage sequence is the
+    one tests/encode_mmproj.mojo proved against the oracle."""
+    var mmproj = MmprojFile(mmproj_path)
+    var spec = mmproj.vision_spec()
+    if not spec.present:
+        raise Error("encode_image: mmproj carries no vision tower")
+    var tokens = spec.patch_count()
+    var grid = spec.patch_grid()
+    var hidden = spec.embedding_length
+    var patches = preprocess_image(image, spec)
+    # Input scaling 2x-1 before the patch projection (gemma4v.cpp:9-11).
+    var scaled = List[Float32]()
+    scaled.reserve(len(patches))
+    for i in range(len(patches)):
+        scaled.append(patches[i] * Float32(2.0) - Float32(1.0))
+    var patch_weights = mmproj.tensor_f32("v.patch_embd.weight")
+    var x = patch_embed(scaled, patch_weights, tokens, spec.patch_size, hidden)
+    var pos_table = mmproj.tensor_f32("v.position_embd.weight")
+    var pos_rows = mmproj.tensors["v.position_embd.weight"].d1
+    x = add_position_embeddings(x, pos_table, tokens, grid, hidden, pos_rows)
+    for b in range(spec.block_count):
+        x = vision_block(mmproj, x, spec, b)
+    var pooled = pool_tokens(x, grid, hidden, 3)
+    return project_tokens(mmproj, pooled, spec)
+
+
+def encode_image_rows(
+    mmproj_path: String, image_path: String
+) raises -> List[Float32]:
+    """Loads an image file (PPM route) and returns the projected
+    soft-token rows; see encode_image_pixels for the stage sequence."""
+    var image = load_image_file(image_path)
+    return encode_image_pixels(mmproj_path, image)

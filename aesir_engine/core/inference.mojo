@@ -971,6 +971,8 @@ def forward_pass(
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
     is_prefill: Bool = False,
+    span_start: Int = -1,
+    span_rows: List[Float32] = List[Float32](),
 ) raises -> Int:
 
     """
@@ -988,6 +990,8 @@ def forward_pass(
 
     # 1. Token Embedding Lookup (shared helper; see _embed_token)
     var x = _embed_token(seer, well, last_token)
+    if span_start >= 0:
+        apply_embedding_span(x, span_rows, span_start, start_pos)
 
     # 2. Layer-by-Layer Forward Pass
     var actual_layers = min(num_layers, seer.config.block_count)
@@ -1074,6 +1078,43 @@ def forward_pass(
 
 
 
+def apply_embedding_span(
+    mut x: RuneTensor[f16],
+    span_rows: List[Float32],
+    span_start: Int,
+    chunk_start_pos: Int,
+) raises:
+    """Replaces the embedding rows of x that fall inside an image span
+    with precomputed encoder rows (design doc section 4, slice 4).
+
+    x holds the embedding stream for the chunk of positions
+    [chunk_start_pos, chunk_start_pos + x.rows). span_rows is a flat
+    [n_span, x.cols] Float32 buffer whose row k belongs at absolute
+    position span_start + k. Positions outside the span keep their
+    token_embd rows exactly. Fail-closed: an empty buffer, a negative
+    span start, or a buffer whose length is not a whole number of
+    x.cols rows raises instead of truncating or padding."""
+    if span_start < 0:
+        raise Error("apply_embedding_span: span start must be non-negative")
+    if len(span_rows) == 0:
+        raise Error("apply_embedding_span: span row buffer is empty")
+    if x.cols <= 0 or len(span_rows) % x.cols != 0:
+        raise Error(
+            "apply_embedding_span: span row width does not match the embedding width"
+        )
+    var n_span = len(span_rows) // x.cols
+    var lo = max(span_start, chunk_start_pos)
+    var hi = min(span_start + n_span, chunk_start_pos + x.rows)
+    for pos in range(lo, hi):
+        var dst_row = pos - chunk_start_pos
+        var src_row = pos - span_start
+        for j in range(x.cols):
+            x.data.unsafe_store(
+                dst_row * x.cols + j,
+                Scalar[f16](span_rows[src_row * x.cols + j]),
+            )
+
+
 def forward_pass_batched(
     tokens: List[Int],
     mut seer: GGUFSeer,
@@ -1095,6 +1136,8 @@ def forward_pass_batched(
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
     is_prefill: Bool = False,
+    span_start: Int = -1,
+    span_rows: List[Float32] = List[Float32](),
 ) raises -> Int:
     """Batched twin of forward_pass for one prefill chunk: processes
     batch_len consecutive prompt tokens starting at start_pos in a
@@ -1118,6 +1161,8 @@ def forward_pass_batched(
 
     # 1. Batched token embedding (rows are _embed_token per position)
     var x = _embed_tokens(seer, well, tokens, start_pos, batch_len)
+    if span_start >= 0:
+        apply_embedding_span(x, span_rows, span_start, start_pos)
 
     # 2. Layer-by-layer batched forward
     var actual_layers = min(num_layers, seer.config.block_count)
