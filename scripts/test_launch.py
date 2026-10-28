@@ -12,6 +12,12 @@ import time
 import unittest
 
 SCRIPT = Path(__file__).with_name("launch.py")
+REAL_ENGINE = SCRIPT.parent.parent / "aesir_engine"
+FAKE_CC = '''#!/usr/bin/python3
+import pathlib, sys
+output = pathlib.Path(sys.argv[sys.argv.index("-o") + 1])
+output.write_text("fake shared library")
+'''
 FAKE_PIXI = '''#!/usr/bin/python3
 import json, os, pathlib, sys, time
 assert sys.argv[1:8] == ["run", "--frozen", "--no-install", "--offline", "--executable", "mojo", "build"]
@@ -36,6 +42,11 @@ class LaunchTests(unittest.TestCase):
         shutil.copyfile(SCRIPT, self.root / "scripts/launch.py")
         (self.root / "aesir_engine").mkdir()
         (self.root / "aesir_engine/main.mojo").write_text("source")
+        # Mirror the real checkout: the launcher stages the Hailo bridge
+        # stub and the parallel-for shim from these C sources at build
+        # time, so a complete fake checkout must carry them too.
+        for name in ("hailo10h_stub.c", "thread_par.c"):
+            shutil.copyfile(REAL_ENGINE / name, self.root / "aesir_engine" / name)
         (self.root / "pixi.toml").write_text("manifest")
         (self.root / "pixi.lock").write_text("lock")
         runtime = self.root / ".pixi/envs/default/bin"
@@ -51,6 +62,9 @@ class LaunchTests(unittest.TestCase):
         pixi = fake_bin / "pixi"
         pixi.write_text(FAKE_PIXI)
         pixi.chmod(0o755)
+        cc = fake_bin / "cc"
+        cc.write_text(FAKE_CC)
+        cc.chmod(0o755)
         self.env = {**os.environ, "PATH": str(fake_bin), "HOME": str(self.root)}
         self.binary = self.root / ".aesir/launch/aesir"
         self.manifest = self.binary.with_name("manifest.json")

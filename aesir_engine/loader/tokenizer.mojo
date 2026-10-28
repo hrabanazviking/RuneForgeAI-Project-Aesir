@@ -4,6 +4,24 @@
 from std.collections import Dict
 
 
+def _canonical_special_spellings() -> List[String]:
+    """Canonical chat-control spellings encode resolves fail-closed (R003).
+
+    These spellings are matched by shape in the prompt even when the
+    model's vocabulary never registered them as CONTROL/USER_DEFINED:
+    resolution goes through special_token_id, which raises naming the
+    spelling when the model did not ship it, so a template's control
+    token can never be silently byte-encoded into nonsense.
+    """
+    var spellings = List[String]()
+    spellings.append("<start_of_turn>")
+    spellings.append("<end_of_turn>")
+    spellings.append("<|im_start|>")
+    spellings.append("<|im_end|>")
+    spellings.append("<|endoftext|>")
+    return spellings^
+
+
 struct RuneWeaver:
     """Pure Mojo tokenizer state loaded from GGUF metadata."""
 
@@ -428,6 +446,25 @@ struct RuneWeaver:
                 best_len = slen
         return best
 
+    def _match_canonical_special_at(
+        self, text: String, byte_index: Int, spellings: List[String]
+    ) -> Int:
+        """Returns the longest canonical special spelling matching at byte_index."""
+        var n_bytes = len(text.as_bytes())
+        var best = -1
+        var best_len = 0
+        for s in range(len(spellings)):
+            var spelling = String(spellings[s])
+            var slen = len(spelling.as_bytes())
+            if slen <= best_len:
+                continue
+            if byte_index + slen <= n_bytes and text[
+                byte=byte_index : byte_index + slen
+            ] == spelling:
+                best = s
+                best_len = slen
+        return best
+
     def _append_piece_tokens(self, piece: String, mut tokens: List[Int]):
         """Appends a vocabulary token or lossless byte-fallback tokens."""
         if piece in self.token_to_id:
@@ -480,17 +517,27 @@ struct RuneWeaver:
         # first, exactly as llama.cpp's parse_special pass treats them.
         # Text between specials goes through the model's tokenizer mode
         # (rank-based BPE when the GGUF ships merges, else SPM scores).
-        if len(self.special_spellings) == 0:
-            self._encode_segment(prompt, tokens)
-            return tokens^
-
+        # Canonical chat-control spellings are matched by shape as well
+        # and resolved through the same special_token_id gate (R003
+        # fail-closed): one that appears in the prompt but was never
+        # registered in the vocabulary raises naming the spelling,
+        # instead of being silently byte-encoded into nonsense.
+        var canonical_spellings = _canonical_special_spellings()
         var n_bytes = len(prompt.as_bytes())
         var i = 0
         var last_idx = 0
         while i < n_bytes:
+            var spelling = String("")
             var hit = self._match_special_at(prompt, i)
             if hit >= 0:
-                var spelling = String(self.special_spellings[hit])
+                spelling = String(self.special_spellings[hit])
+            else:
+                var canonical_hit = self._match_canonical_special_at(
+                    prompt, i, canonical_spellings
+                )
+                if canonical_hit >= 0:
+                    spelling = String(canonical_spellings[canonical_hit])
+            if len(spelling.as_bytes()) > 0:
                 if i > last_idx:
                     self._encode_segment(
                         String(prompt[byte=last_idx : i]), tokens

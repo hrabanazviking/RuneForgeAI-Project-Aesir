@@ -10,10 +10,10 @@ IMPLEMENTED = (
     "alias", "unalias", "favorite", "unfavorite", "repair-preferences",
     "run", "chat", "config", "list|ls", "show", "create", "verify",
     "catalog", "gc", "cp", "rm|delete", "help, -h, --help", "-v, --version",
-    "serve",
+    "serve", "ps", "stop",
 )
 RESERVED = (
-    "daemon; interactive run; ps", "push; stop",
+    "daemon; interactive run", "push",
     "llama-cli; llama-server; llama-bench; exl2; onnx; swarm",
 )
 

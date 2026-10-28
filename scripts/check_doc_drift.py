@@ -12,7 +12,12 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-from ledger_schema import LedgerSchemaError, parse_ledger_text
+from ledger_schema import (
+    GRANDFATHERED_RECORD_IDS,
+    LEGACY_STATUS_ENTRIES,
+    LedgerSchemaError,
+    parse_ledger_text,
+)
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -112,18 +117,39 @@ def read_text(path: Path) -> str | None:
 
 def ledger_statuses(content: str) -> dict[str, str]:
     entries: dict[str, str] = {}
-    blocks = re.split(r"(?=^### AES-[A-Z]+-\d+ —)", content, flags=re.MULTILINE)
+    # Grandfathered record headings (e.g. AES-C3-REVIEW) also bound blocks:
+    # the record and the campaign sections after it carry their own Status
+    # lines, which must not bleed into the preceding capability's block.
+    records = "|".join(
+        re.escape(item) for item in sorted(GRANDFATHERED_RECORD_IDS)
+    )
+    boundary = r"(?=^### (?:AES-[A-Z]+-\d+" + (f"|{records}" if records else "") + r") —)"
+    blocks = re.split(boundary, content, flags=re.MULTILINE)
     for block in blocks:
         heading = re.match(r"^### (AES-[A-Z]+-\d+) —", block)
         if not heading:
             continue
+        capability_id = heading.group(1)
+        if capability_id in LEGACY_STATUS_ENTRIES:
+            # Grandfathered legacy status: the entry's first Status line
+            # must carry its registered legacy word (see ledger_schema).
+            legacy = LEGACY_STATUS_ENTRIES[capability_id]
+            token = f"`{legacy}`"
+            status_line = re.search(
+                r"^- \*\*Status:\*\* (.*)$", block, flags=re.MULTILINE
+            )
+            if status_line is not None:
+                value = status_line.group(1).strip()
+                if value == token or value.startswith(token + " "):
+                    entries[capability_id] = legacy
+                    continue
         statuses = re.findall(
             r"^- \*\*Status:\*\* `(verified|partial|scaffold|simulated|missing)`",
             block,
             flags=re.MULTILINE,
         )
         if len(statuses) == 1:
-            entries[heading.group(1)] = statuses[0]
+            entries[capability_id] = statuses[0]
     return entries
 
 
@@ -269,15 +295,33 @@ def check_master_count(errors: list[str]) -> None:
         errors.append("CAPABILITY_LEDGER.md: E-MASTER count is not synchronized")
 
 
+ABSOLUTE_LOCAL_PATH = re.compile(r"(?:file:///)?/(?:home|Users)/[^\s)`]+")
+
+# Generated run records under docs/evidence/ are historical evidence: the
+# machine that produced a run is part of the record's evidentiary content,
+# so machine-local absolute paths inside them are data, not documentation
+# drift.  The absolute-path rule stays fully in force for every other
+# (hand-authored) file, anywhere else in the tree.
+EVIDENCE_RECORD_PREFIX = "docs/evidence/"
+
+
+def absolute_path_errors(relative_path: str, content: str) -> list[str]:
+    """Machine-local absolute-path findings for one tracked text file."""
+    if relative_path.startswith(EVIDENCE_RECORD_PREFIX):
+        return []
+    return [
+        f"{relative_path}:{line_no}: machine-local absolute path"
+        for line_no, line in enumerate(content.splitlines(), 1)
+        if ABSOLUTE_LOCAL_PATH.search(line)
+    ]
+
+
 def check_text_hygiene(paths: list[Path], errors: list[str]) -> None:
-    absolute = re.compile(r"(?:file:///)?/(?:home|Users)/[^\s)`]+")
     for path in paths:
         content = read_text(path)
         if content is None:
             continue
-        for line_no, line in enumerate(content.splitlines(), 1):
-            if absolute.search(line):
-                errors.append(f"{relative(path)}:{line_no}: machine-local absolute path")
+        errors.extend(absolute_path_errors(relative(path), content))
 
     for name in ["AGENT_ONBOARDING.md", "ENGINEERING_DOCTRINE.md", "GIT_DISCIPLINE.md", "RULES.AI.md"]:
         content = (ROOT / name).read_text(encoding="utf-8")
@@ -327,13 +371,28 @@ def check_source_truth(errors: list[str]) -> None:
 def has_mojo_ci_gate(content: str, command: str, source: str) -> bool:
     """Recognize the actual compiler command, including an explicit GPU target."""
     active = "\n".join(line for line in content.splitlines() if not line.lstrip().startswith("#"))
-    target = r"(?:[ \t]+--target-accelerator(?:[ \t]+|=)[A-Za-z0-9_:-]+)?"
-    return re.search(r"\bmojo[ \t]+" + re.escape(command) + target + r"[ \t]+" + re.escape(source) + r"(?=[ \t\r\n]|$)", active) is not None
+    flags = r"(?:[ \t]+(?:-I[ \t]+\S+|--target-accelerator(?:[ \t]+|=)[A-Za-z0-9_:-]+))*"
+    return re.search(r"\bmojo[ \t]+" + re.escape(command) + flags + r"[ \t]+" + re.escape(source) + r"(?=[ \t\r\n]|$)", active) is not None
 
 
-def check_ci(errors: list[str]) -> None:
-    content = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+# Compile-only CI sources.  The master test runner is compiled by the
+# workflow's build gate but never executed there: running it is a local,
+# owner-scoped act (owner decision, Volmarr, 2026-10-27).  For a source
+# registered here the checker requires the Mojo *build* gate in place of
+# the run gate, so the source stays gated — a missing build gate for a
+# registered source, and any missing gate for an unregistered source,
+# still fail closed.
+COMPILE_ONLY_GATE_SOURCES = {"aesir_engine/tests/run_all.mojo"}
+
+
+def check_ci(errors: list[str], content: str | None = None) -> None:
+    if content is None:
+        content = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     for command, source in [("build", "aesir_engine/main.mojo"), ("run", "aesir_engine/tests/run_all.mojo")]:
+        if command == "run" and source in COMPILE_ONLY_GATE_SOURCES:
+            if not has_mojo_ci_gate(content, "build", source):
+                errors.append(f".github/workflows/ci.yml: missing Mojo build gate for {source} (compile-only source; run gate exempt by owner decision)")
+            continue
         if not has_mojo_ci_gate(content, command, source):
             errors.append(f".github/workflows/ci.yml: missing Mojo {command} gate for {source}")
     for token in [

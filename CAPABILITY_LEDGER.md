@@ -39,7 +39,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 266 named executable cases are registered, 1 external-fixture case is explicitly skipped, total 267. This run includes `cli.catalog_schema_interface`, `cli.catalog_schema_unit_evidence`, `cli.blob_identity_interface`, `cli.blob_identity_unit_evidence`, `cli.atomic_registration_unit_evidence`, `local_service.http_bounds`, `local_service.http_framing`, `local_service.socketpair_framing`, `local_service.transport_adversarial`, `local_service.fd_ownership`, `local_service.socket_admission`, `sampling.greedy_tie_policy`, `sampling.greedy_tie_adversarial`, `sampling.temperature_distribution_oracle`, `sampling.temperature_integration`, `sampling.temperature_adversarial`, `sampling.top_k_boundaries`, `sampling.top_k_integration`, `sampling.top_k_adversarial`, `sampling.top_k_integration`, `memory.checked_span`, `memory.rune_tensor_layout`, `memory.allocation_bounds`, `gguf.version_interface`, `gguf.version_reference`, `gguf.version_integration`, `gguf.header_adversarial`, `gguf.metadata_type_baseline`, `gguf.metadata_type_integration`, `gguf.tensor_directory_baseline`, `gguf.tensor_directory_interface`, `gguf.tensor_directory_adversarial`, `gguf.tensor_directory_integration`, `gguf.tensor_directory_pool_adversarial`, `compute.rmsnorm_interface`, `compute.rmsnorm_reference`, `compute.rmsnorm_adversarial`, `compute.rope_interface`, `compute.rope_reference`, `compute.rope_integration`, `compute.attention_interface`, `compute.attention_reference`, `compute.attention_integration`, `compute.attention_adversarial`, `compute.rope_adversarial`, and `inference.rmsnorm_integration`. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par aesir_engine/tests/run_all.mojo` | 270 named executable cases are registered, 2 cases are explicitly skipped (one external-fixture, one opt-in physical program), total 272. This run includes `cli.catalog_schema_interface`, `cli.catalog_schema_unit_evidence`, `cli.blob_identity_interface`, `cli.blob_identity_unit_evidence`, `cli.atomic_registration_unit_evidence`, `local_service.http_bounds`, `local_service.http_framing`, `local_service.socketpair_framing`, `local_service.transport_adversarial`, `local_service.fd_ownership`, `local_service.socket_admission`, `sampling.greedy_tie_policy`, `sampling.greedy_tie_adversarial`, `sampling.temperature_distribution_oracle`, `sampling.temperature_integration`, `sampling.temperature_adversarial`, `sampling.top_k_boundaries`, `sampling.top_k_integration`, `sampling.top_k_adversarial`, `sampling.top_k_integration`, `memory.checked_span`, `memory.rune_tensor_layout`, `memory.allocation_bounds`, `gguf.version_interface`, `gguf.version_reference`, `gguf.version_integration`, `gguf.header_adversarial`, `gguf.metadata_type_baseline`, `gguf.metadata_type_integration`, `gguf.tensor_directory_baseline`, `gguf.tensor_directory_interface`, `gguf.tensor_directory_adversarial`, `gguf.tensor_directory_integration`, `gguf.tensor_directory_pool_adversarial`, `compute.rmsnorm_interface`, `compute.rmsnorm_reference`, `compute.rmsnorm_adversarial`, `compute.rope_interface`, `compute.rope_reference`, `compute.rope_integration`, `compute.attention_interface`, `compute.attention_reference`, `compute.attention_integration`, `compute.attention_adversarial`, `compute.rope_adversarial`, `inference.rmsnorm_integration`, `vision.mmproj_structure`, `vision.image_preprocessing`, `vision.encoder_stages`, and `vision.embedding_span_injection`. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -o /tmp/aesir-sigrun-sm89-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment; the resulting binary's `--help` smoke path exits successfully. |
 | `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 29 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and incremental compatibility framing. Does not download a model or prove full external compatibility. |
@@ -85,13 +85,13 @@ this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 146 |
-| `partial` | 30 |
+| `verified` | 278 |
+| `partial` | 32 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **192** |
+| **Total** | **329** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -567,6 +567,16 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
   products pass, maximum absolute error 2.9802322e-7. Registry classification stays
   COMPATIBLE; arbitrary 3B quantizations and whole-model logits remain unproved.
   See [SECOND_BRAIN.md](docs/SECOND_BRAIN.md).
+
+### AES-LDR-007 — mmproj vision tower parsing and encoder forward
+
+- **Status:** `partial`
+- **Owner:** loader and vision domains
+- **Claim sources:** docs/VISION_MMPROJ_DEVELOPMENT.md design contract; section 5 semantics pinned from the llama.cpp mtmd reference (2026-10-27)
+- **Implementation evidence:** `MmprojFile` in `aesir_engine/loader/mmproj.mojo` discovers an mmproj beside a model, parses full metadata and tensor inventory at ranks 1-4 over bounds-checked readers, and validates the vision tower via `VisionTowerSpec`; `tensor_q8_0_f32` dequantizes Q8_0 weights. `aesir_engine/loader/image_prep.mojo` preprocesses PPM input (bilinear resize, normalize, patchify). `aesir_engine/core/vision_encoder.mojo` implements the forward: patch embedding, factorized position add, 16 transformer blocks (ClippableLinear, 2D NEOX RoPE, tanh-GELU geglu), average pooling, and the projector. `VisionTowerSpec` validation is projector-family aware (Gemma and Pixtral tensor sets; the canonical `clip.projector_type` key is read first). `core/inference.mojo` `apply_embedding_span` splices encoder rows into the prefill embedding stream at the image-marker span (fail-closed), surfaced as `AesirEngine.generate_image_chat`; PNG/JPEG inputs decode through `aesir_engine/image_decode.c` (system libpng/libjpeg), bound as link-time symbols from the edge module `loader/image_codecs.mojo` (opt-in suite `tests/test_image_codecs.mojo`: PNG pixel-exact vs the PPM route, JPEG max channel diff 3 on a smooth fixture). `GGUFSeer` admits array-typed `feed_forward_length` metadata (scalar summary is the widest layer) and converts BF16 tensors to f16 at load, which the real gemma4 pair requires. Convergence (2026-10-28): `Gemma4CUDASession` accepts an armed span of encoder rows (`set_image_span`/`set_control_span`/`clear_image_span` in `core/gemma4_cuda.mojo`); `forward()` substitutes row (position - span_start) over the marker token's embedding via `span_copy_kernel` (`core/gemma4_kernels.mojo`) immediately after the embedding gather, leaving the PLE projection, layers, KV, and sampling untouched; `tests/image_chat_cuda_mmproj.mojo` drives the proof.
+- **Executable evidence:** `E-MASTER` cases `vision.mmproj_structure` (6 unit tests), `vision.image_preprocessing` (6), `vision.encoder_stages` (8), and `vision.embedding_span_injection` (4 cases, 6 checks). Real-file evidence on the pinned Gemma 4 E2B heretic pair: `aesir vision inspect` against the real Q4_K_M language model passes spec validation and the embedding cross-check (projector 1536 == gemma4 embedding_length 1536); `tests/encode_mmproj.mojo` reproduces the independent numpy oracle at every stage on real weights (worst relative divergence 7.7e-06, Float32 accumulation). Injection assembly on the same pair (`tests/inject_mmproj.mojo`): the 16 projected rows land in the embedding stream at the `<|image|>` marker span (max abs deviation from the oracle dump 0.0019, the f16 seam), all other rows bit-identical, every span element replaced. The Ministral-3-3B mmproj (Pixtral family, static sibling repo) parses and spec-validates, and its projection_dim 3072 matches its language model (arch mistral3, embedding_length 3072). Convergence proof (2026-10-28, purplelongship, RTX 2060 Max-Q, driver 595.99.02, branch platform/vision-cuda-convergence): `tests/image_chat_cuda_mmproj.mojo` on the real pair - gate A (control span produced device-side by embedding_kernel) reproduces the plain expanded run's 21 sampled ids exactly; gate B answers track the images (red PPM -> "red", blue PPM -> "blue"); gate C text-only control asks for an image. Session admission in the same runs: layers=35/35, cpu_offload=0, context 16384; peaks 3,556 MiB VRAM, 57 C. Registered as E-MASTER case `vision.cuda_session_image_chat` (explicitly skipped there; opt-in physical evidence). The text-only regression probe (`tests/test_gemma4_cuda.mojo`) is byte-identical before/after the session change.
+- **Evidence boundary:** End-to-end Gemma image chat is now proven on the real pair through the native CUDA session (the model's only execution route in this codebase): the encoder rows enter the session prefill at the marker span and the model answers about the image (see Executable evidence). The proof covers the Gemma tower + Q4_K_M language model on sm_75 with PPM inputs; PNG/JPEG reach the generic path through the native shim (link-time bound from the edge module, per the coexistence constraint recorded in the implementation evidence) but are not linked into the CUDA-session driver. The vision ENCODER still executes CPU-side; only the language model runs on the accelerator, so accelerator placement of the tower per the design-doc law remains open. The Pixtral (Ministral) tower is parsed, inventoried, and spec-validated only; its encoder forward is not implemented. The audio tower is inventoried, not interpreted. One runtime constraint observed first-hand: a second live Gemma4CUDASession in a process deadlocks inside the MAX runtime during init, so drivers serve all cases from one session with reset() between them.
+- **Next acceptance gate:** A Pixtral encoder slice for the Ministral tower (forward plus its own end-to-end proof); accelerator placement of the Gemma encoder; PNG/JPEG intake on the CUDA-session driver via loader/image_codecs.
 
 ## 8. Tokenization and Decoding
 
@@ -2169,7 +2179,7 @@ and circular self-parity transforms were removed.
 | Build/runtime foundation | AES-FND-001 through AES-FND-008 |
 | Memory/tensor/KV ownership | AES-MEM-001 through AES-MEM-007 |
 | CPU kernels and attention | AES-CPU-001 through AES-CPU-008 |
-| GGUF loading | AES-LDR-001 through AES-LDR-006 |
+| GGUF loading | AES-LDR-001 through AES-LDR-007 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
 | Inference/generation | AES-GEN-001 through AES-GEN-011 |
 | CLI/model management | AES-CLI-001 through AES-CLI-014 |
@@ -4385,7 +4395,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-CONTROL-017 — Aligned grouped control backing (host qualification)
 
-- **Status:** `verified` (host scope only)
+- **Status:** `verified`
+- **Status note:** (host scope only)
 - **Owner:** Original hailbru/soc_storage.mojo,soc_session.mojo,
   soc_group_rpc.mojo,soc_group_device.mojo (aligned entry points only).
 - **Claim sources:** TASK_hailo10h_aligned_grouped_control.md published
@@ -4424,7 +4435,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-CONTROL-018 — Aligned grouped lifecycle, one bounded physical attempt (partial)
 
-- **Status:** `partial` (physical scope; acceptance failed, batch closed)
+- **Status:** `partial`
+- **Status note:** (physical scope; acceptance failed, batch closed)
 - **Owner:** Original smidr/tools/group_device_probe_aligned.mojo over the
   AES-CONTROL-017 aligned grouped owner;test-only aligned observer variant.
 - **Claim sources:** TASK_hailo10h_aligned_grouped_physical.md published
@@ -4470,7 +4482,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-TRANSFER-001 — Grouped transfer semantics extraction (specification)
 
-- **Status:** `verified` (specification scope only;no code,no physical run)
+- **Status:** `verified`
+- **Status note:** (specification scope only;no code,no physical run)
 - **Owner:** Analysis over the original grouped owner sources
   (soc_group.mojo,soc_group_rpc.mojo,soc_exchange_progress.mojo,
   soc_progress.mojo,soc_storage.mojo,soc_session.mojo).
@@ -4554,7 +4567,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-TRANSFER-003 — Grouped transfer primitive host qualification
 
-- **Status:** `verified` (host scope only)
+- **Status:** `verified`
+- **Status note:** (host scope only)
 - **Owner:** Original hailbru/soc_transfer.mojo exercised through
   tests/hailo_group_transfer_aligned_api.mojo (direct consumer) and
   smidr/tools/group_transfer_mock.mojo (probe diagnostic).
@@ -4597,7 +4611,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-TRANSFER-004 — Grouped transfer primitive, one bounded physical exchange
 
-- **Status:** `verified` (physical scope: one control-class exchange)
+- **Status:** `verified`
+- **Status note:** (physical scope: one control-class exchange)
 - **Owner:** Original smidr/tools/group_transfer_probe.mojo over
   hailbru/soc_transfer.mojo (AES-TRANSFER-002),consumer layer as
   qualified under AES-TRANSFER-003.
@@ -4633,7 +4648,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-PROG-001 — Program resource lifecycle interface qualification (specification)
 
-- **Status:** `verified` (specification scope only;no code,no physical run)
+- **Status:** `verified`
+- **Status note:** (specification scope only;no code,no physical run)
 - **Owner:** Analysis over the pinned-source delivery-boundary study
   and the original host-qualified codecs (hrpc_program.mojo,
   hrpc_configure.mojo,hrpc_device.mojo).
@@ -4711,7 +4727,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-PROG-003 — Program lifecycle, one bounded physical observation run
 
-- **Status:** `verified` (observation scope: branch B2 established
+- **Status:** `verified`
+- **Status note:** (observation scope: branch B2 established
   physically;no program object created)
 - **Owner:** Original smidr/tools/program_lifecycle_probe.mojo over
   hailbru/soc_program.mojo + hailbru/soc_transfer.mojo.
@@ -4791,7 +4808,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-001 — Device-program field table (Campaign 4 entry)
 
-- **Status:** `verified` (specification scope:evidence-graded field
+- **Status:** `verified`
+- **Status note:** (specification scope:evidence-graded field
   inventory;no emitter,no bytes,no operation claimed).
 - **Owner:** docs/HAILO10H_NUMERICAL_FIELD_TABLE_2026-10-24.md.
 - **Claim sources:** Pinned HailoRT d503417f (hef.proto,
@@ -4827,7 +4845,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-002 — First operation selection (Campaign 4)
 
-- **Status:** `verified` (specification scope:selection record
+- **Status:** `verified`
+- **Status note:** (specification scope:selection record
   with scored alternates and a pre-stated layer prediction).
 - **Owner:** docs/HAILO10H_FIRST_OPERATION_SELECTION_2026-10-24.md.
 - **Claim sources:** AES-NUM-001 field table (all dependency
@@ -4856,7 +4875,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-003 — Identity copy eight-layer description (Campaign 4)
 
-- **Status:** `verified` (specification scope:eight-layer
+- **Status:** `verified`
+- **Status note:** (specification scope:eight-layer
   description graded against AES-NUM-001,with the prediction
   contradiction recorded as the slice's finding).
 - **Owner:** docs/HAILO10H_IDENTITY_COPY_EIGHT_LAYER_SPEC_2026-10-24.md.
@@ -4905,7 +4925,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-004 — Identity copy spec review gate (Campaign 4)
 
-- **Status:** `verified` (review scope:field-by-field audit of
+- **Status:** `verified`
+- **Status note:** (review scope:field-by-field audit of
   AES-NUM-003 against AES-NUM-001 and the roadmap §2.2 Do Not
   Infer table;no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_IDENTITY_COPY_SPEC_REVIEW_2026-10-24.md.
@@ -4958,11 +4979,12 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-005 — CCW word layout study, Track R R1 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded search of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded search of the
   pinned public sources, lane D and repo evidence for a CCW
   word layout;no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_CCW_LAYOUT_STUDY_2026-10-24.md.
-- **Verdict: R1 NOT PROVEN.** No searched source defines the
+- **Verdict:** R1 NOT PROVEN. No searched source defines the
   bit layout of a non-zero CCW word (opcode/address/data/
   command field positions all undefined). Pinned
   config_buffer.{hpp,cpp} @d503417 treat CCW data as opaque
@@ -4987,12 +5009,13 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-006 — SoC session readiness study, Track R R2 + F1 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned public sources for the SoC RPC session readiness
   protocol and the F1 program-result readback question;no
   payload contract,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md.
-- **Verdict: R2 ESTABLISHED at source level** (one sub-part
+- **Verdict:** R2 ESTABLISHED at source level (one sub-part
   NOT PROVEN). Interface @pin (hailo_session.hpp):wait_for_
   read/write_async_ready(transfer_size,timeout) — "each
   session has a limited-size queue for ongoing transfers";
@@ -5039,13 +5062,14 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-007 — Placement counts and safe assignment values, Track R R3 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned public sources,repo evidence and open web for the
   Hailo-10H's physical placement counts and any publicly
   established safe assignment values;no emitter,no bytes,no
   physical run).
 - **Owner:** docs/HAILO10H_PLACEMENT_VALUES_STUDY_2026-10-24.md.
-- **Verdict: R3 NOT PROVEN on both parts.** R3a counts:no
+- **Verdict:** R3 NOT PROVEN on both parts. R3a counts:no
   searched source states the Hailo-10H's cluster,subcluster,
   APU/compute-unit,input-aligner or local-memory bank counts.
   R3b safe values:no searched source establishes any cluster
@@ -5091,11 +5115,12 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-008 — Action sequencing for a real program, Track R R4 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned configure-path sources for a sourced minimal-program
   context-action sequence;no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md.
-- **Verdict: R4 PARTIALLY ESTABLISHED.** The ordering
+- **Verdict:** R4 PARTIALLY ESTABLISHED. The ordering
   discipline is ESTABLISHED at source level:the pinned
   configure path (resource_manager_builder.cpp @d503417,
   sha256 035af3cc…;builder/resource-manager/header hashes
@@ -5121,7 +5146,7 @@ No new capability ID or hardware/complete-source execution claim.
   lands). Non-default records carry address u16 + count u32
   in the action;no safe non-default address value is
   established — NOT PROVEN,ID35 addresses stay OUT.
-- **Minimal authorable sequence: NOT PROVEN.** The base list
+- **Minimal authorable sequence:** NOT PROVEN. The base list
   is ContextMetadata::get_actions() — parsed from the HEF
   (hef/core_op_metadata.cpp @pin),i.e. DFC-authored;its
   contents depend on R1 (CCW,NOT PROVEN) and R3 (placement,
@@ -5143,11 +5168,12 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-009 — Partial-state teardown preconditions, Track R R5 (Campaign 4)
 
-- **Status:** `verified` (research scope:bounded study of the
+- **Status:** `verified`
+- **Status note:** (research scope:bounded study of the
   pinned receiver sources for teardown ordering/preconditions
   in partial states;no code,no emitter,no bytes,no physical run).
 - **Owner:** docs/HAILO10H_PARTIAL_STATE_TEARDOWN_STUDY_2026-10-24.md.
-- **Verdict: R5 PARTIALLY ESTABLISHED.** Handler-level
+- **Verdict:** R5 PARTIALLY ESTABLISHED. Handler-level
   preconditions ESTABLISHED at source level (hailort_server.cpp
   @d503417 sha256 80b8c3c6…; hrpc/server.cpp 278f5457…;
   server_resource_manager.hpp a9445bfa…; infer_model.cpp
@@ -5204,12 +5230,13 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-010 — HEF corpus inventory + first static map (empirical program start)
 
-- **Status:** `verified` (inventory + wire-level map scope).
+- **Status:** `verified`
+- **Status note:** (inventory + wire-level map scope).
 - **Owner:** docs/HAILO10H_HEF_CORPUS_INVENTORY_2026-10-24.md.
 - **Context:** Opened under Volmarr's 2026-10-24 never-stop
   order;the document-study negatives (AES-NUM-005/007) stand as
   grades,but the campaign now works empirical evidence.
-- **Evidence:** Targeted inventory found ONE HEF in reach —
+- **Executable evidence:** Targeted inventory found ONE HEF in reach —
   minilm-l6-ruvector.hef (11,759,616 B,sha256 3c535080...,an
   all-MiniLM-L6-v2 network for Hailo-10H) in the Pi's twister
   workshop tree,with source+recipe beside it;the tree also
@@ -5231,9 +5258,10 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-011 — schema-guided CCW isolation in a real HEF
 
-- **Status:** `verified` (isolation scope,one artifact).
+- **Status:** `verified`
+- **Status note:** (isolation scope,one artifact).
 - **Owner:** docs/HAILO10H_CCW_ISOLATION_MINILM_2026-10-24.md.
-- **Evidence:** hef.proto fetched at the HailoRT pin (GitHub
+- **Executable evidence:** hef.proto fetched at the HailoRT pin (GitHub
   API;the twister forks are driver trees and hold no proto).
   Containment path ProtoHEFHef.2 -> NetworkGroup.3 contexts
   -> Operation.2 -> Action oneof (ccw inline = 3,ccw ptr =
@@ -5254,7 +5282,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-012 — CCW pointer offset base RESOLVED + differential design
 
-- **Status:** `verified` (base resolution + design scope).
+- **Status:** `verified`
+- **Status note:** (base resolution + design scope).
 - **Owner:** docs/HAILO10H_OFFSET_BASE_AND_DIFFERENTIAL_DESIGN_2026-10-24.md.
 - **Evidence:** Pinned hef.cpp @d503417f defines the v3 zero
   point: HEF_HEADER_SIZE_V3 + hef_proto_size + hef_padding —
@@ -5278,9 +5307,10 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-013 — zero point confirmed empirically;burst lane structure
 
-- **Status:** `verified` (zero point + observed statistics).
+- **Status:** `verified`
+- **Status note:** (zero point + observed statistics).
 - **Owner:** docs/HAILO10H_ZERO_POINT_AND_BURST_STRUCTURE_2026-10-24.md.
-- **Evidence:** Header decode (BE u32s):proto 56,844;ccws
+- **Executable evidence:** Header decode (BE u32s):proto 56,844;ccws
   11,700,652;padding 444 -> zero 57,344. Lane-distinct test
   over 153 channel-1/2 24 B bursts:at 57,344 lanes show
   18/82/83 distinct values with lane0 top count 132/153;at
@@ -5300,9 +5330,10 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-014 — census hunt negative + empirical addressing floor
 
-- **Status:** `verified` (bounded negative + measured floor).
+- **Status:** `verified`
+- **Status note:** (bounded negative + measured floor).
 - **Owner:** docs/HAILO10H_CENSUS_HUNT_AND_ADDRESSING_FLOOR_2026-10-24.md.
-- **Evidence:** (1) The twister driver trees (hailort-drivers
+- **Executable evidence:** (1) The twister driver trees (hailort-drivers
   transport:PCIe/VDMA/fw-ops) contain NO cluster/APU/core
   census constants — principled negative (census lives in
   firmware/compiler,not the host transport driver);corpus
@@ -5320,9 +5351,10 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-015 — pair acquired (ollama store) + cross-artifact differential
 
-- **Status:** `verified` (measured, three artifacts).
+- **Status:** `verified`
+- **Status note:** (measured, three artifacts).
 - **Owner:** docs/HAILO10H_PAIR_ACQUISITION_AND_CROSS_ARTIFACT_DIFFERENTIAL_2026-10-24.md.
-- **Evidence:** (1) The hailo-ollama store AES-NUM-010/012
+- **Executable evidence:** (1) The hailo-ollama store AES-NUM-010/012
   could not locate is FOUND: ~/.local/share/hailo-ollama/
   models/blob/ on Mimir — six blobs,12 GB,all HEF-magic;
   corpus 1 -> 7 artifacts,no download. Per-blob model
@@ -5346,11 +5378,12 @@ No new capability ID or hardware/complete-source execution claim.
   tracking remains open (recipe/zoo pair's job).
 - **Audit:** Host-side analysis only.
 
-### AES-NUM-015 — per-context lane differential: the layer skeleton
+### AES-NUM-126 — per-context lane differential: the layer skeleton
 
-- **Status:** `verified` (exact value-set statistics).
+- **Status:** `verified`
+- **Status note:** (exact value-set statistics).
 - **Owner:** docs/HAILO10H_PER_CONTEXT_LANE_DIFFERENTIAL_2026-10-24.md.
-- **Evidence:** 153 channel-1/2 24 B bursts across the 6
+- **Executable evidence:** 153 channel-1/2 24 B bursts across the 6
   contexts (25/24/25/24/26/29). Lane0:exactly ONE value
   common to all six contexts (the champion 05280000...) of
   18 in union,and it appears EXACTLY 22 times per context —
@@ -5368,7 +5401,7 @@ No new capability ID or hardware/complete-source execution claim.
   of the 132 champion bursts queued (needs no new artifact).
 - **Audit:** Host-side analysis only.
 
-### AES-NUM-015 RECONCILIATION — twin slice,merged
+**AES-NUM-015 RECONCILIATION — twin slice,merged**
 
 - Two crews ran slice4.15 concurrently and both halves are
   canonical: (a) pair acquisition + cross-artifact
@@ -5387,12 +5420,14 @@ No new capability ID or hardware/complete-source execution claim.
   slice claims go in the state file AND the firing cadence
   is 10 minutes — expect company; write so merges stay
   additive.
+- **Renumber (2026-10-27):** the per-context half of the twin slice now carries AES-NUM-126 so every capability ID is unique; both halves remain canonical.
 
 ### AES-NUM-016 — full-corpus walk: universality at 7 artifacts
 
-- **Status:** `verified` (corpus-scale statistics).
+- **Status:** `verified`
+- **Status note:** (corpus-scale statistics).
 - **Owner:** docs/HAILO10H_FULL_CORPUS_WALK_2026-10-24.md.
-- **Evidence:** The four remaining ollama blobs walked
+- **Executable evidence:** The four remaining ollama blobs walked
   (mmap;header zero per blob re-confirmed by structure):
   contexts 219/256/353/271;ptr actions ~124-138k each;
   bursts 5,546/5,836/8,089/6,287. Lane0 champion
@@ -5411,21 +5446,21 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-017 — lane anatomy: the burst decomposed
 
-- **Status:** `verified` (exact byte/u16 statistics,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact byte/u16 statistics,2 artifacts).
 - **Owner:** docs/HAILO10H_LANE1_STRUCTURE_HUNT_2026-10-24.md.
-- **Evidence:** Champion bursts (MiniLM 132,blob 5ab3537d
+- **Executable evidence:** Champion bursts (MiniLM 132,blob 5ab3537d
   4,819). Lane1 = four u16 fields:pos2 constant 0x0250
   (132/132;4,818/4,819,one 0x02c8 exception);pos1 tiny enum
-  {0,0x1000,0x2000,0x2001};pos3 arithmetic ladder stride
-  0x200 (the descriptor page) with context-symmetric
-  repeats;pos0 flag/select (power-of-two flavoured).
-  Lane2 = 24-bit datum + 5 zero bytes;the SAME datum words
-  (0xe517,0x898c) lead both artifacts,each repeated exactly
-  context-count times (219 blob,6 MiniLM) — per-network
-  constants written once per context.
+  {0,0x1000,0x2000,0x2001};pos3 arithmetic ladder stride 0x200 (the
+  descriptor page) with context-symmetric repeats;pos0 flag/select
+  (power-of-two flavoured). Lane2 = 24-bit datum + 5 zero bytes;the SAME
+  datum words (0xe517,0x898c) lead both artifacts,each repeated exactly
+  context-count times (219 blob,6 MiniLM) — per-network constants
+  written once per context.
+- **Evidence boundary:** No field semantically named yet.
 - **Reading:** burst = header word + packed operand word
-  (flags/enum/const/address-ladder) + 24-bit datum. No
-  field semantically named yet.
+  (flags/enum/const/address-ladder) + 24-bit datum.
 - **Next:** ladder origin/range vs known regions;enum/flag
   meanings via one-parameter differential;datum identity
   vs known network constants;non-champion lane0 families.
@@ -5435,26 +5470,25 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-018 — ladder, datum, non-champion families
 
-- **Status:** `verified` (exact statistics,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact statistics,2 artifacts).
 - **Owner:** docs/HAILO10H_LADDER_DATUM_NONCHAMPION_2026-10-24.md.
-- **Evidence:** Ladder ANSWERED as a fixed slot set:five
-  rungs 0x10f0-0x18f0 (stride 0x200,residue 0xf0) + special
-  slot 0x2d80 (exactly 2/context in both artifacts);
-  per-context ladder sets identical in all 6 MiniLM
-  contexts and the same 6 values intersect all 219 blob
-  contexts (one single-context anomaly 0x2a8e recorded).
-  Ladder independent of pointer offset (132 distinct
-  offsets,6 ladder values). Datum:the top pair 0x60e517 /
-  0x56898c is identical at full u24 width across BOTH
-  networks,each repeated exactly context-count times;
-  38 of MiniLM's 62 u24 values occur in the blob's 417 —
-  a shared cross-network pool. Float32-high-zero reading
-  excluded (all subnormal ~1e-39);identity NOT PROVEN.
-  Non-champion families:lane0 classes 0x28xx / 0x08xx;
-  champion lane1 anatomy does NOT carry over (no 0x0250,
-  no enum,no ladder — data-class lane1),lane2 width law
-  DOES (tail zero in all top families). Enum refined:
-  class {0,0x1000,0x2000} x low bit {0,1} (0x1001 new).
+- **Executable evidence:** Ladder ANSWERED as a fixed slot set:five
+  rungs 0x10f0-0x18f0 (stride 0x200,residue 0xf0) + special slot 0x2d80
+  (exactly 2/context in both artifacts); per-context ladder sets
+  identical in all 6 MiniLM contexts and the same 6 values intersect all
+  219 blob contexts (one single-context anomaly 0x2a8e recorded). Ladder
+  independent of pointer offset (132 distinct offsets,6 ladder values).
+  Datum:the top pair 0x60e517 / 0x56898c is identical at full u24 width
+  across BOTH networks,each repeated exactly context-count times; 38 of
+  MiniLM's 62 u24 values occur in the blob's 417 — a shared
+  cross-network pool. Float32-high-zero reading excluded (all subnormal
+  ~1e-39). Non-champion families:lane0 classes 0x28xx / 0x08xx; champion
+  lane1 anatomy does NOT carry over (no 0x0250, no enum,no ladder —
+  data-class lane1),lane2 width law DOES (tail zero in all top
+  families). Enum refined: class {0,0x1000,0x2000} x low bit {0,1}
+  (0x1001 new).
+- **Evidence boundary:** Identity NOT PROVEN.
 - **Next:** 0x2d80 slot context in the skeleton;datum-pool
   structure at full corpus;0x08xx class anatomy.
 - **Audit:** Host-side analysis only on Mimir;artifacts
@@ -5463,25 +5497,24 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-019 — special slot, corpus datum pool, 0x08xx class
 
-- **Status:** `verified` (exact statistics,2 artifacts
+- **Status:** `verified`
+- **Status note:** (exact statistics,2 artifacts
   for arms 1/3;full 7-artifact corpus for arm 2).
 - **Owner:** docs/HAILO10H_SPECIAL_SLOT_DATUM_POOL_08XX_2026-10-24.md.
-- **Evidence:** The 0x2d80 slot is a fixed adjacent
-  pair at skeleton indices 10-11 of the 22-burst unit
-  (MiniLM all 6 contexts;blob units repeat at 32-33
-  of 44):exactly 2 distinct bursts,flag 0x8000/0x4000,
-  enum 0,const 0x0250,channels split evenly,carrying
-  one each the datum constants 0x56898c / 0x60e517
-  (438/438 blob specials). Datum pool corpus-wide:
-  union 1,189 u24,30 values in all 7 artifacts,the
-  top pair repeats exactly proto-context-count times
-  in every artifact (6..353),MiniLM and blob 773470cd
-  have ZERO private values — a graded shared pool,
-  identity NOT PROVEN. 0x08xx class:lane0 carries a
-  constant 0xbff8 half-word,never 0x0250,never ladder,
-  lane2 width law holds 86/86;MiniLM's are data-like
-  (14/byte entropy),the blob's low-entropy structured
-  (8 data in 71 bursts,34 contexts).
+- **Executable evidence:** The 0x2d80 slot is a fixed adjacent pair at
+  skeleton indices 10-11 of the 22-burst unit (MiniLM all 6
+  contexts;blob units repeat at 32-33 of 44):exactly 2 distinct
+  bursts,flag 0x8000/0x4000, enum 0,const 0x0250,channels split
+  evenly,carrying one each the datum constants 0x56898c / 0x60e517
+  (438/438 blob specials). Datum pool corpus-wide: union 1,189 u24,30
+  values in all 7 artifacts,the top pair repeats exactly
+  proto-context-count times in every artifact (6..353),MiniLM and blob
+  773470cd have ZERO private values — a graded shared pool. 0x08xx
+  class:lane0 carries a constant 0xbff8 half-word,never 0x0250,never
+  ladder, lane2 width law holds 86/86;MiniLM's are data-like (14/byte
+  entropy),the blob's low-entropy structured (8 data in 71 bursts,34
+  contexts).
+- **Evidence boundary:** Identity NOT PROVEN.
 - **Next:** 4.20 full 22-burst unit anatomy;0x28xx
   non-champion lane-1 pattern;datum identity vs the
   artifacts' tensor data.
@@ -5494,32 +5527,28 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-020 — skeleton unit, 0x28xx pattern, datum identity test
 
-- **Status:** `verified` (exact statistics,2 artifacts
+- **Status:** `verified`
+- **Status note:** (exact statistics,2 artifacts
   for arms 1/2;MiniLM for arm 3).
 - **Owner:** docs/HAILO10H_SKELETON_UNIT_28XX_DATUM_IDENTITY_2026-10-24.md.
-- **Evidence:** The 22-burst unit's ladder slot is a
-  PALINDROME: paired rungs descend 0x18f0..0x10f0 to
-  the 0x2d80 pair at 10-11,then ascend in mirror
-  (single ladder value at 19/22 MiniLM positions;
-  blob positions 12-21 single-valued in 218-219 of
-  219 units,first half less rigid between sister
-  units). No position is fully constant:enum tracks
-  channel,const 0x0250 everywhere,the datum is the
-  per-layer operand;positions 10-11 are the only
-  near-constant positions (2-3 distinct bursts vs
-  21-35 elsewhere). 0x28xx non-champion lane1:NO
-  across-burst alternation (lag1-4 equality all
-  ~0.22-0.24 in the blob) — the pattern is INTRA-
-  burst:one u16 replicated x4 (MiniLM 6/6 exact;
-  blob top 0x7ffe x4 in 264/656,0x4000 x4 in 66).
-  Datum identity test NEGATIVE on all arms:tensor-
-  range byte-triples at chance rate (pool 33/62 vs
-  control 29/62),gap triples at chance (14 vs 14),
-  proto-float32 encodings intersect the pool 0
-  times in 3,858 candidates (top pair absent).
-  Identity NOT PROVEN;two routes closed. Side
-  datum:1,862,144 B immediately after the MiniLM
-  proto is referenced by no pointer-form action.
+- **Executable evidence:** The 22-burst unit's ladder slot is a
+  PALINDROME: paired rungs descend 0x18f0..0x10f0 to the 0x2d80 pair at
+  10-11,then ascend in mirror (single ladder value at 19/22 MiniLM
+  positions; blob positions 12-21 single-valued in 218-219 of 219
+  units,first half less rigid between sister units). No position is
+  fully constant:enum tracks channel,const 0x0250 everywhere,the datum
+  is the per-layer operand;positions 10-11 are the only near-constant
+  positions (2-3 distinct bursts vs 21-35 elsewhere). 0x28xx
+  non-champion lane1:NO across-burst alternation (lag1-4 equality all
+  ~0.22-0.24 in the blob) — the pattern is INTRA- burst:one u16
+  replicated x4 (MiniLM 6/6 exact; blob top 0x7ffe x4 in 264/656,0x4000
+  x4 in 66). Datum identity test NEGATIVE on all arms:tensor- range
+  byte-triples at chance rate (pool 33/62 vs control 29/62),gap triples
+  at chance (14 vs 14), proto-float32 encodings intersect the pool 0
+  times in 3,858 candidates (top pair absent). Side datum:1,862,144 B
+  immediately after the MiniLM proto is referenced by no pointer-form
+  action.
+- **Evidence boundary:** Identity NOT PROVEN; two routes closed.
 - **Next:** 4.21 datum vs proto varint fields;
   blob unit-pair differential;replicated-scalar
   distribution vs counts.
@@ -5533,7 +5562,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-021 — datum/varint closure, pair co-determination, scalar distribution
 
-- **Status:** `verified` (exact counts,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact counts,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_VARINT_PAIRDIFF_REPL28_2026-10-24.md.
 - **Evidence:** (1) Datum is NOT a proto varint value:
   MiniLM pool∩varints = 0/62 on both walks;blob top-pair
@@ -5556,7 +5586,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-022 — datum = bijective image of the operand word
 
-- **Status:** `verified` (exact counts,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact counts,2 artifacts).
 - **Owner:** docs/HAILO10H_CODETERMINATION_BIJECTION_SPLITTER_2026-10-24.md.
 - **Evidence:** Datum↔lane1 is a BIJECTION with zero
   violations both directions (MiniLM 62↔62;blob 417↔417),
@@ -5573,7 +5604,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-023 — the datum map is GF(2)-linear
 
-- **Status:** `verified` (exact linear algebra,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact linear algebra,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_LINEARITY_PROOF_2026-10-24.md.
 - **Evidence:** Incremental GF(2) basis test:MiniLM 62
   samples rank 12,blob 417 samples rank 14 — ZERO
@@ -5593,7 +5625,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-024 — one global linear map, cross-validated
 
-- **Status:** `verified` (exact prediction,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (exact prediction,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_MATRIX_XVAL_2026-10-24.md.
 - **Evidence:** Fit blob→predict MiniLM 62/62 exact;
   fit MiniLM→predict blob 272/272 in-span exact;zero wrong
@@ -5609,7 +5642,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-025 — span saturation across all 7 artifacts
 
-- **Status:** `verified` (exact counts,full corpus).
+- **Status:** `verified`
+- **Status note:** (exact counts,full corpus).
 - **Owner:** docs/HAILO10H_SPAN_SATURATION_2026-10-24.md.
 - **Evidence:** Incremental fit over 7 artifacts:1,189
   distinct operand words (= the AES-NUM-019 datum pool
@@ -5627,7 +5661,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-026 — encoder frozen and proven in Mojo
 
-- **Status:** `verified` (Mojo build + full-corpus run on Mimir).
+- **Status:** `verified`
+- **Status note:** (Mojo build + full-corpus run on Mimir).
 - **Owner:** docs/HAILO10H_ENCODER_FREEZE_2026-10-24.md.
 - **Artifacts:** hailbru/ccw_datum_basis.json (16 rows;
   canonical sha256 7a1635cb…a7e5a,VM-reproduced) and
@@ -5644,7 +5679,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-027 — lane0 families: the affine law is universal
 
-- **Status:** `verified` (complete populations,2 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,2 artifacts).
 - **Owner:** docs/HAILO10H_LANE0_FAMILIES_CENSUS_2026-10-24.md.
 - **Evidence:** 5,699 bursts in 61 lane0 families.
   AGGREGATE over all 61:operand→datum a function in every
@@ -5660,7 +5696,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-028 — corpus family census, six freezes, stocktake
 
-- **Status:** `verified` (complete populations,7 artifacts;
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts;
   Mojo build + harness on Mimir).
 - **Owner:** docs/HAILO10H_FAMILY_CENSUS_FREEZE_STOCKTAKE_2026-10-24.md.
 - **Evidence:** 174 lane0 families,35,515 bursts pooled
@@ -5684,7 +5721,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-029 — census of the remaining CCW surface
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_REMAINING_CCW_SURFACE_CENSUS_2026-10-24.md.
 - **Evidence:** 745,849 pointer actions (field 16) of
   788,726 total,11,096,892,840 referenced bytes;inline
@@ -5704,7 +5742,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-030 — channel-0 burst treatment
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL0_BURST_TREATMENT_2026-10-24.md.
 - **Evidence:** 104 lane0 families,43,486 channel-0 bursts:
   AGGREGATE 0 families with a function violation,0 with
@@ -5726,7 +5765,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-031 — channel-0 freezes: champion + six families
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL0_FREEZES_2026-10-24.md.
 - **Evidence:** channel-0 champion map frozen as a
   GF(2)-linear rank-27 basis (1,120 distinct pairs,0
@@ -5747,7 +5787,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-032 — small-form word anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SMALL_FORM_WORD_ANATOMY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029 exactly
   (128,787 small actions;79,001 bursts). 42 size classes
@@ -5774,7 +5815,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-033 — skeleton-class deep-dive
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SKELETON_CLASS_DEEP_DIVE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032 exactly
   (128,787 small actions;79,001 bursts). 96 B:exactly 2
@@ -5801,7 +5843,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-034 — walking-pool sharing, quartet ordering, 002c vocabulary
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_WALK_POOL_QUARTET_ORDER_002C_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions).
@@ -5829,7 +5872,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-035 — head census, 176 B anatomy, trailing 28
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_176B_TRAIL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5853,7 +5897,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-036 — end-block datum, 176 B pools, head runs
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_END_BLOCK_176B_HEADRUN_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5876,7 +5921,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-037 — trailing pools vs global, 176 B joint, 304 B break
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_TRAILING_POOL_176B_JOINT_304B_BREAK_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5909,7 +5955,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-038 — sister breaks, non-breaker 304 B, sister-pool subfields
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SISTER_BREAK_NONBREAKER_304_SISTER_POOLS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5938,7 +5985,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-039 — body enum relabelling, framed 304 B as 464 B tail, sister census
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_BODY_ENUM_FRAMED464_SISTER_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -5970,36 +6018,37 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-040 — class-channel mapping, 464 B preamble, singleton positions
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CLASS_CHANNEL_464PREAMBLE_SINGLETONS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039 exactly
-  (128,787 small actions;79,001 bursts;745,849 pointer actions;
-  1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
-  Body: enum class = channel index EXACTLY on all five rungs
-  (ch0->0,ch1->1,ch2->2;pool sizes 89/93/98/89/108 per cell);
-  the only multi-class (channel,ladder) group is 0x2c00 ch0
-  {0,8}. Trailing: t0 (0,0);each group of four cycles
-  (0,0),(1,1),(2,2),(0,4) — the fourth class 0x4000 shares
-  channel 0 (512 distinct operands,exactly the five closing
-  positions). Corpus-wide enum-high values are exactly
-  {0,1,2,4,8} (bursts 36,111/15,040/15,040/7,520/1,504);
-  class 3 NEVER occurs — a single-bit pattern,meaning
-  NOT PROVEN. 464 B preamble (0a0d378c): constant 21 words
-  (14 distinct,zero at 5,6,8,9,12,13;0072 family enters at
-  15,17,19),shares exactly 3 words with framed 304 B (zero
-  + two generic markers),framed head NOT in it;tail
-  embedding re-verified 35/37 on all 63 pairs. Singletons:
-  12 (0x2900/2a00/2c00,all ch0) are end-anchored at fixed
-  distinct from-end offsets in one invariant order (two
-  inside the trailing 24/64/24 head);the 0x2d80 pair roams
-  in the body population (separation -32..+49,both orders).
+- **Executable evidence:** controls reproduce
+  AES-NUM-029/032/033/034/035/036/037/038/039 exactly (128,787 small
+  actions;79,001 bursts;745,849 pointer actions; 1,504 contexts;trailing
+  pairs 2,049;champion bursts 75,215). Body: enum class = channel index
+  EXACTLY on all five rungs (ch0->0,ch1->1,ch2->2;pool sizes
+  89/93/98/89/108 per cell); the only multi-class (channel,ladder) group
+  is 0x2c00 ch0 {0,8}. Trailing: t0 (0,0);each group of four cycles
+  (0,0),(1,1),(2,2),(0,4) — the fourth class 0x4000 shares channel 0
+  (512 distinct operands,exactly the five closing positions).
+  Corpus-wide enum-high values are exactly {0,1,2,4,8} (bursts
+  36,111/15,040/15,040/7,520/1,504); class 3 NEVER occurs — a single-bit
+  pattern. 464 B preamble (0a0d378c): constant 21 words (14
+  distinct,zero at 5,6,8,9,12,13;0072 family enters at 15,17,19),shares
+  exactly 3 words with framed 304 B (zero + two generic markers),framed
+  head NOT in it;tail embedding re-verified 35/37 on all 63 pairs.
+  Singletons: 12 (0x2900/2a00/2c00,all ch0) are end-anchored at fixed
+  distinct from-end offsets in one invariant order (two inside the
+  trailing 24/64/24 head);the 0x2d80 pair roams in the body population
+  (separation -32..+49,both orders).
+- **Evidence boundary:** Meaning NOT PROVEN.
 - **Next:** enum-bit test on non-champion families,0x2d80
   burst-ordinal separation,cc9b9d1c 464 B preamble (slice 4.41).
 - **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-041 — non-champion enum test, 0x2d80 pair burst ordinal, cc9b9d1c 464 B
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_NONCHAMPION_ENUM_PAIR464_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6029,7 +6078,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-042 — displaced-pair gaps, cc9 parameter recurrence, high-7 vs offset
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_DISPLACED_GAP_PARAM_HIGH7_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6062,7 +6112,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-043 — parameter-family template, high-7 function + affine, displaced-context type
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_PARAM_TEMPLATE_HIGH7_FUNCTION_DISPLACED_TYPE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6096,7 +6147,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-044 — low-action context census, parameter+1 slot census, 336-action outlier anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_LOW_ACTION_CENSUS_PARAMPLUS1_OUTLIER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6137,7 +6189,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-045 — marker function, pair-order census, anomaly zones, intermediate class
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_FUNCTION_PAIR_ORDER_ANOMALY_ZONES_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6178,7 +6231,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-046 — marker encoder freeze
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_ENCODER_FREEZE_2026-10-24.md.
 - **Evidence:** contract TASK_hailo10h_marker_encoder_2026-10-25.md
   published + pushed at f5d1c087 before implementation;its scope
@@ -6206,7 +6260,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-047 — pair-order hunt, zone bodies, 156 motif
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_PAIR_ORDER_ZONE_BODY_156_MOTIF_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6244,7 +6299,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-048 — datum-order hunt, motif pooled, rare check
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_ORDER_MOTIF_RARE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6281,7 +6337,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-049 — middle-stream order hunt, lead exclusivity, variant roles
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MIDDLE_STREAM_LEAD_EXCLUSIVITY_VARIANTS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6322,45 +6379,44 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-050 — channel-sequence order function, band role, variant concentration
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL_SEQ_BAND_ROLE_VARIANT_CONCENTRATION_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049 exactly
-  (128,787 small actions;79,001 bursts;745,849 pointer actions;
-  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
-  in hef50.py (sha256 d9bff251...) and hef50b.py (b55e5db6...).
-  (i) Pair order IS a function of the middle channel sequence's
-  global forms — the first stream to pass the function test:
-  run-order alone (RLE channels,no lengths/sizes) 438 keys,
-  129 multi groups / 1,119 ctx,0 mixed,max group 56;transitions,
-  full RLE and full sequence 453 keys,133 multi / 1,108 ctx,
-  0 mixed;last-20 channels 384 keys,119 multi / 1,163 ctx,
-  0 mixed;first-40 runs 390 keys,115 multi / 1,153 ctx,0 mixed.
-  Every local form FAILS: single positions 0.51-0.77,prefixes
-  first-3 0.654 / first-20 0.981 (10 mixed) / first-50 and
-  first-100 0.9993 with ONE mixed group (the periodic 0a0d378c
-  763-action stack,cidx 5 reversed vs 14 normal;4 distinct
-  full sequences inside),strides 5/10/20 mixed,run prefixes
-  10 (28 mixed) / 20 (2 mixed),last-10 2 mixed. The 4.49
-  channel-count mixed groups resolve: 280-action group takes
-  exactly 2 run-order values,one per order (sequences identical
-  within order,184/212 positions differ across);the triple's
-  reversed members share an identical channel sequence (diff 0),
-  normal differs at 34. Boundary: run-order is near-isomorphic
-  to stack identity (2 of 438 keys span >1 nopair stack;34 of
-  111 multi stacks carry >1 run-order value) — minimal form and
-  mechanism NOT PROVEN. (ii) Band role is corpus-wide: standard-
-  middle band actions are followed by 3856 in 10,334/16,105
-  (64.2%) vs base rate 3.18%;10,334/20,411 standard windows
-  (50.6%) are band-led (motif 312/312);band values = the 82
+- **Executable evidence:** controls reproduce
+  AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049
+  exactly (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215) in
+  hef50.py (sha256 d9bff251...) and hef50b.py (b55e5db6...). (i) Pair
+  order IS a function of the middle channel sequence's global forms —
+  the first stream to pass the function test: run-order alone (RLE
+  channels,no lengths/sizes) 438 keys, 129 multi groups / 1,119 ctx,0
+  mixed,max group 56;transitions, full RLE and full sequence 453
+  keys,133 multi / 1,108 ctx, 0 mixed;last-20 channels 384 keys,119
+  multi / 1,163 ctx, 0 mixed;first-40 runs 390 keys,115 multi / 1,153
+  ctx,0 mixed. Every local form FAILS: single positions
+  0.51-0.77,prefixes first-3 0.654 / first-20 0.981 (10 mixed) /
+  first-50 and first-100 0.9993 with ONE mixed group (the periodic
+  0a0d378c 763-action stack,cidx 5 reversed vs 14 normal;4 distinct full
+  sequences inside),strides 5/10/20 mixed,run prefixes 10 (28 mixed) /
+  20 (2 mixed),last-10 2 mixed. The 4.49 channel-count mixed groups
+  resolve: 280-action group takes exactly 2 run-order values,one per
+  order (sequences identical within order,184/212 positions differ
+  across);the triple's reversed members share an identical channel
+  sequence (diff 0), normal differs at 34. (ii) Band role is
+  corpus-wide: standard- middle band actions are followed by 3856 in
+  10,334/16,105 (64.2%) vs base rate 3.18%;10,334/20,411 standard
+  windows (50.6%) are band-led (motif 312/312);band values = the 82
   motif leads (14,503 occ,61.7% lead-rate) + 10 extras (1,602
-  occ,86.8%);band-led window classes full 27.2% / no30480
-  15.3% / no32784 7.8% / other 49.7%;band by region middle
-  16,105 / head 7 / trailer 0. (iii) No variant-ordinal
-  concentration in the 311-context >=12-3856 subpopulation
-  (20,346 windows): no variant class >=0.90 at any ordinal
-  0-30 (top fractions all 'other',0.66-0.79);ord0 no30480
-  39/311,ord4 no32784 2/311,the motif's double pin occurs
-  exactly once (76c3a8ff cidx 4,609 actions,52 windows).
+  occ,86.8%);band-led window classes full 27.2% / no30480 15.3% /
+  no32784 7.8% / other 49.7%;band by region middle 16,105 / head 7 /
+  trailer 0. (iii) No variant-ordinal concentration in the 311-context
+  >=12-3856 subpopulation (20,346 windows): no variant class >=0.90 at
+  any ordinal 0-30 (top fractions all 'other',0.66-0.79);ord0 no30480
+  39/311,ord4 no32784 2/311,the motif's double pin occurs exactly once
+  (76c3a8ff cidx 4,609 actions,52 windows).
+- **Evidence boundary:** Run-order is near-isomorphic to stack identity
+  (2 of 438 keys span >1 nopair stack; 34 of 111 multi stacks carry >1
+  run-order value) — minimal form and mechanism NOT PROVEN.
 - **Next:** channel-separation emergence (run prefixes 20-40,
   last-20 refinement,0a0d378c first-50 stack split);band
   non-3856 followers (4368-led structures);both-pinned
@@ -6369,7 +6425,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-051 — channel emergence thresholds, band followers, cidx-4 anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL_EMERGENCE_FOLLOWERS_CIDX4_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6422,7 +6479,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-052 — last-runs emergence, position-121 action, chain extent, lead cluster
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_LASTRUNS_POS121_CHAIN_CLUSTER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6477,7 +6535,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-053 — cluster-context selection, 32016 dialect, chain context selection
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CLUSTER_SELECTION_DIALECT_CHAIN_SELECTION_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6523,7 +6582,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-054 — wider lead family, dense-negative vocabulary, cidx-1 anatomy
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_WIDER_FAMILY_DENSE_VOCAB_CIDX1_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052/053 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6562,7 +6622,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-055 — 94xx ladder, shared 97xx ladder, shoulder gap
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_94XX_97XX_SHOULDER_GAP_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...054 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
@@ -6597,34 +6658,33 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-056 — Shoulder-side selection, dense split, 97xx positions
 
-- **Status:** `verified` (complete populations,7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SHOULDER_SIDE_DENSE_SPLIT_97XX_POSITIONS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...055 exactly
-  (128,787 small actions;79,001 bursts;745,849 pointer actions;
-  1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
-  in hef56.py (sha256 30bc87a3...) and hef56b.py (64c23e5a...).
-  (i) Shoulder side is selected by NONE of pair order (LO 4/5,
-  HI 4/6 normal/reversed),97xx carriage (4/9 vs 5/10,same
-  doses),cidx (spans overlap,corr -0.210) or window position
-  (shoulder frac 0.487 vs core 0.482;179/212 inside core span).
-  Two one-way laws:low family dose (excl<30) is always upper
-  (5/5;LO uniformly excl 51-64) and upper is always low-ladder-
-  free (nlow 0 in 10/10;LO 0-7).Side runs in 8 stretches over
-  the 19 family contexts.Selector NOT PROVEN. (ii) Dense
-  negatives are FOUR populations:high94 25 (dose 45-63,all
-  exactly 96 windows,nlow exactly 0,32784-rich),low94 8
-  (dose 1-18;empty 19-44),zero94/low-high 16 (nlow 51-64),
-  zero94/low-none 12 (nlow 0-1;93xx/89xx-led,all exactly
-  738 actions,32016 exactly 96.0,all reversed) — low dose
-  bimodal inside zero94 with no middle group. (iii) 97xx
-  module is clustered,never one run except the all-module
-  OTHER cidx 110 (32/32):599 runs over 73 carriers,gap-1
-  adjacency 1,529/2,054 (74.4%),last window frac >=0.947
-  in all 74;canonical ~21-block at ordinal 0 (18 max-run
-  starts) or 43 (13),exact templates [21,2,1,3,1,1,2,1] x10
-  and [21,2,1,1,1,1,1,2,1] x8 crossing sub-populations;
-  23 scattered carriers (maxrun <=7);lead sequences
-  unordered (1/74 sorted).Block placement NOT PROVEN.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...055
+  exactly (128,787 small actions;79,001 bursts;745,849 pointer actions;
+  1,504 contexts;trailing pairs 2,049;champion bursts 75,215) in
+  hef56.py (sha256 30bc87a3...) and hef56b.py (64c23e5a...). (i)
+  Shoulder side is selected by NONE of pair order (LO 4/5, HI 4/6
+  normal/reversed),97xx carriage (4/9 vs 5/10,same doses),cidx (spans
+  overlap,corr -0.210) or window position (shoulder frac 0.487 vs core
+  0.482;179/212 inside core span). Two one-way laws:low family dose
+  (excl<30) is always upper (5/5;LO uniformly excl 51-64) and upper is
+  always low-ladder- free (nlow 0 in 10/10;LO 0-7).Side runs in 8
+  stretches over the 19 family contexts.(ii) Dense negatives are FOUR
+  populations:high94 25 (dose 45-63,all exactly 96 windows,nlow exactly
+  0,32784-rich),low94 8 (dose 1-18;empty 19-44),zero94/low-high 16 (nlow
+  51-64), zero94/low-none 12 (nlow 0-1;93xx/89xx-led,all exactly 738
+  actions,32016 exactly 96.0,all reversed) — low dose bimodal inside
+  zero94 with no middle group. (iii) 97xx module is clustered,never one
+  run except the all-module OTHER cidx 110 (32/32):599 runs over 73
+  carriers,gap-1 adjacency 1,529/2,054 (74.4%),last window frac >=0.947
+  in all 74;canonical ~21-block at ordinal 0 (18 max-run starts) or 43
+  (13),exact templates [21,2,1,3,1,1,2,1] x10 and [21,2,1,1,1,1,1,2,1]
+  x8 crossing sub-populations; 23 scattered carriers (maxrun <=7);lead
+  sequences unordered (1/74 sorted).
+- **Evidence boundary:** Selector NOT PROVEN. Block placement NOT
+  PROVEN.
 - **Next:** low-none population corpus-wide;97xx block
   placement (0 vs 43 vs scatter);shoulder stretches vs
   intervening contexts (slice 4.57).
@@ -6632,35 +6692,35 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-057 — Low-none corpus-wide, 97xx placement, shoulder stretches
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_LOWNONE_CORPUS_97XX_PLACEMENT_STRETCHES_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...056 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
-  in hef57.py (sha256 10f6275f...) and hef57b.py (8aa9fb00...).
-  (i) The low-none form is cc9b9d1c-only: refined signature
-  (nlow<=1, n94==0, one segment dose>=20) hits exactly 21
-  contexts corpus-wide, all cc9 — 15 maximal (738 acts, 32016
-  x96, reversed: the 12 dense + POS cidx 1/29/166) and 6 reduced
-  (606-607 acts, 32016 x32, normal). Three mutually exclusive
-  lead segments, never co-occurring: 93-led 9288-9392 x6 of the
-  12 (dose 56-64), 89-led 8888-8952 x4 (53-58; the low ladder's
-  missing lower half), 98-led 9800-9856 x2 (63-64, ladder
-  running through the 97xx band to 9840). Outside cc9 the 93
-  segment is in zero contexts, the 89 in one (dose 1).
-  (ii) 97xx placement follows network group: block43 x12 are
-  ALL ng0 and ALL maximal (738/96/96; 10 exact late template;
-  no 97 lead before ordinal 43); block0 x13 are 11 ng1 maximal
-  + ng0 exceptions cidx 54/110. Mid x26 / scatter x23 span both
-  groups. Placement rule beyond the ng correlation NOT PROVEN.
-  (iii) Shoulder stretches are short-gap runs (within gaps mean
-  4.9 vs switch 23.9; the 66-gap crosses the midpoint); the cc9
+- **Executable evidence:** controls reproduce AES-NUM-029/032...056
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef57.py (sha256 10f6275f...) and hef57b.py (8aa9fb00...). (i) The
+  low-none form is cc9b9d1c-only: refined signature (nlow<=1, n94==0,
+  one segment dose>=20) hits exactly 21 contexts corpus-wide, all cc9 —
+  15 maximal (738 acts, 32016 x96, reversed: the 12 dense + POS cidx
+  1/29/166) and 6 reduced (606-607 acts, 32016 x32, normal). Three
+  mutually exclusive lead segments, never co-occurring: 93-led 9288-9392
+  x6 of the 12 (dose 56-64), 89-led 8888-8952 x4 (53-58; the low
+  ladder's missing lower half), 98-led 9800-9856 x2 (63-64, ladder
+  running through the 97xx band to 9840). Outside cc9 the 93 segment is
+  in zero contexts, the 89 in one (dose 1). (ii) 97xx placement follows
+  network group: block43 x12 are ALL ng0 and ALL maximal (738/96/96; 10
+  exact late template; no 97 lead before ordinal 43); block0 x13 are 11
+  ng1 maximal + ng0 exceptions cidx 54/110. Mid x26 / scatter x23 span
+  both groups. (iii) Shoulder stretches are short-gap runs (within gaps
+  mean 4.9 vs switch 23.9; the 66-gap crosses the midpoint); the cc9
   stream mirrors at cidx +137 in LEAD sequences (72/134 pairs
-  byte-identical leads, 0/134 mid-sizes, 0 at offsets 1-139 for
-  sizes); POS recurs at +137 in 9/10 eligible, side preserved
-  8/9 (exception 85 hi -> 222 lo). Intervening contexts do not
-  select side (32016 24.6 vs 24.9); only low-ladder dose
-  differs (0.91 within-stretch vs 5.29 switch).
+  byte-identical leads, 0/134 mid-sizes, 0 at offsets 1-139 for sizes);
+  POS recurs at +137 in 9/10 eligible, side preserved 8/9 (exception 85
+  hi -> 222 lo). Intervening contexts do not select side (32016 24.6 vs
+  24.9); only low-ladder dose differs (0.91 within-stretch vs 5.29
+  switch).
+- **Evidence boundary:** Placement rule beyond the ng correlation NOT
+  PROVEN.
 - **Next:** +137 lead-mirror extent corpus-wide; reduced-grade
   low-none six anatomy; block0 ng0 exceptions cidx 54/110
   (slice 4.58).
@@ -6668,7 +6728,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-058 — Mirror extent, reduced six, block0 exceptions
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_MIRROR_EXTENT_REDUCED_SIX_BLOCK0_EXCEPTIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...057 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6698,7 +6759,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-059 — Rail grades, +137 profile rates, windowed populations
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_RAIL_GRADES_137_PROFILE_WINDOWED_POPS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...058 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6730,7 +6792,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-060 — Shared 140 class, seam pairs, cidx 139
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SHARED140_SEAM_PAIRS_139_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...059 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6762,7 +6825,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-061 — Seam trio, companion completion, second-pass cycle
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SEAM_TRIO_COMPANION_CYCLE2_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...060 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6793,7 +6857,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-062 — Triplet rotation, sparse-dose templates, interruption zones
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_TRIPLET_ROTATION_SPARSE_ZONES_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...061 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6830,7 +6895,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-063 — Rotation census, 186 pair + 244/247 anatomy, dose-14 scatter
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_ROTATION_CENSUS_186_244_SCATTER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...062 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6866,7 +6932,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-064 — Two-member alternations, collapsed members, 135 vs 134
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_TWO_MEMBER_COLLAPSED_135_134_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...063 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6902,7 +6969,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-065 — Remnants, zero-context vocabularies, 134 tail vs end block
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_REMNANTS_ZERO_VOCAB_134_TAIL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...064 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6930,7 +6998,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-066 — Remnant insertion positions, zero-pair overlap anatomy, 123-class alt frame
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_INSERTION_ZERO_PAIR_ALT123_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...065 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6961,7 +7030,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-067 — 290 ordinal train, 623 extra vocabulary vs dose, scattered-singleton follower test
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_290_TRAIN_623_EXTRA_FOLLOWER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...066 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -6996,7 +7066,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-068 — Fixed 8-size difference, residue core as class invariant, follower scope
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_8SIZE_RESIDUE_FOLLOWER_SCOPE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...067 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7025,7 +7096,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-069 — 290 signature as fixed head template, 264/2824 companions, scattered-B mechanism
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_290_TEMPLATE_264_2824_SCATTERED_B_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...068 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7057,7 +7129,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-070 — Shared head scaffold + three class templates, extra 2824s in-band, B→C adjacency diagnostic
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_TEMPLATES_2824_EXTRAS_BC_ADJACENCY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...069 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7088,7 +7161,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-071 — Channel scaffold class-local, A-boundary law, C→A reset
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL_SCAFFOLD_A_BOUNDARY_CA_RESET_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...070 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7122,34 +7196,33 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-072 — Marker ladder complete, cc9 39-window block = end block, 763 subgroups
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_LADDER_CC9_ENDBLOCK_763_SUBGROUPS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...071 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
-  in hef72.py (sha256 c3c29a1f...) + hef72b.py (sha256 2f9d1f6a...).
-  (i) The C->A marker pools are complete step-8 ladders with no
-  missing rung (0a0d378c 5,536-5,856, 41 rungs; cc9b9d1c
-  6,112-6,568, 58 rungs); C-predecessor markers lie in the
-  ladder 100% in both artifacts (all-A totals 93 / 59 distinct
-  incl. a sparse 0a0d extension and size 24). No tested feature
-  selects the rung (cidx / position / ordinal / channel / next
-  pair / p-2 size all mixed at chance level; only (cidx,k) is
-  exact, a tautology); consecutive rungs move both ways and
-  the rung recurs as an ordinary size in its own context in
-  98.6% / 84.0% — exact selection NOT PROVEN. (ii) Every cc9
-  and 0856 class with n>=8 holds EXACTLY 39 single-channel
-  17-windows, one block starting at nacts-55, because the
-  last-55 size and channel sequences are each 1 distinct per
-  artifact over ALL contexts (the universal end block;
-  39 = 55-17+1; trailing ch0 run is 1 in all 1,504 contexts);
-  no cc9 class holds a single window outside it — no hidden
-  channel-rigid classes. (iii) The 763 class's dissolution is
-  between-subgroup mixing: only 9 distinct full channel
-  sequences over 32 contexts (groups 12 / 10 / 4 on periodic
-  cidx + six singletons), size single at ~588/763 positions
-  within each big subgroup vs 72 class-wide; its only single
-  windows are the end block's 39.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...071
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef72.py (sha256 c3c29a1f...) + hef72b.py (sha256 2f9d1f6a...). (i)
+  The C->A marker pools are complete step-8 ladders with no missing rung
+  (0a0d378c 5,536-5,856, 41 rungs; cc9b9d1c 6,112-6,568, 58 rungs);
+  C-predecessor markers lie in the ladder 100% in both artifacts (all-A
+  totals 93 / 59 distinct incl. a sparse 0a0d extension and size 24). No
+  tested feature selects the rung (cidx / position / ordinal / channel /
+  next pair / p-2 size all mixed at chance level; only (cidx,k) is
+  exact, a tautology); consecutive rungs move both ways and the rung
+  recurs as an ordinary size in its own context in 98.6% / 84.0%. (ii)
+  Every cc9 and 0856 class with n>=8 holds EXACTLY 39 single-channel
+  17-windows, one block starting at nacts-55, because the last-55 size
+  and channel sequences are each 1 distinct per artifact over ALL
+  contexts (the universal end block; 39 = 55-17+1; trailing ch0 run is 1
+  in all 1,504 contexts); no cc9 class holds a single window outside it
+  — no hidden channel-rigid classes. (iii) The 763 class's dissolution
+  is between-subgroup mixing: only 9 distinct full channel sequences
+  over 32 contexts (groups 12 / 10 / 4 on periodic cidx + six
+  singletons), size single at ~588/763 positions within each big
+  subgroup vs 72 class-wide; its only single windows are the end block's
+  39.
+- **Evidence boundary:** Exact selection NOT PROVEN.
 - **Next:** 763 subgroup anatomy; marker-rung distribution vs
   the contexts' own 5-7k data sizes; 321 class's 57-action
   end region (slice 4.73).
@@ -7157,33 +7230,34 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-073 — 763 proto trains, marker distribution mirrors local band, 321 end = 55 + 2
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_763_TRAINS_MARKER_DISTRIBUTION_321_END_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...072 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+- **Executable evidence:** controls reproduce AES-NUM-029/032...072
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
   in hef73.py (sha256 77db0504...) + hef73b.py (sha256 655ecbf6...),
-  delivered by sha-verified proxy upload. (i) The 763 class is
-  two proto-order trains (ng0 cidx = 1+4k, ng1 cidx = 76+6k,
-  16 slots each); one size family per train — G10 and G4 agree
-  wherever both are single (586 eq / 0 diff; channel Hamming 3),
-  G12 is restored to 14 slots by S13 (1 channel flip, 588/588
-  size match) and S37 (3 flips, 587/588); the two trains'
-  families are unrelated (Hamming ~465). (ii) The CA2 marker
-  rung mirrors the 5-7k band distribution of the marker-bearing
-  contexts themselves (0a0d378c Pearson 0.968 / TV 0.091 over
-  30 contexts; cc9b9d1c 0.868 / 0.213 over 171); structural
-  selection remains NOT PROVEN. (iii) The 321 class's end
-  region is the universal 55 plus a two-action class fixture
-  ((25872, ch1) 15/16, (24, ch1) 16/16); no 56th universal
-  action exists (24 sizes / 3 channels at -56 artifact-wide).
+  delivered by sha-verified proxy upload. (i) The 763 class is two
+  proto-order trains (ng0 cidx = 1+4k, ng1 cidx = 76+6k, 16 slots each);
+  one size family per train — G10 and G4 agree wherever both are single
+  (586 eq / 0 diff; channel Hamming 3), G12 is restored to 14 slots by
+  S13 (1 channel flip, 588/588 size match) and S37 (3 flips, 587/588);
+  the two trains' families are unrelated (Hamming ~465). (ii) The CA2
+  marker rung mirrors the 5-7k band distribution of the marker-bearing
+  contexts themselves (0a0d378c Pearson 0.968 / TV 0.091 over 30
+  contexts; cc9b9d1c 0.868 / 0.213 over 171). (iii) The 321 class's end
+  region is the universal 55 plus a two-action class fixture ((25872,
+  ch1) 15/16, (24, ch1) 16/16); no 56th universal action exists (24
+  sizes / 3 channels at -56 artifact-wide).
+- **Evidence boundary:** Structural selection remains NOT PROVEN.
 - **Next:** proto-train census across all 0a0d classes;
   S76/S82 early-train divergence; cc9 band strays (slice 4.74).
 - **Audit:** Host-side analysis only; no device child.
 
 ### AES-NUM-074 — Proto-train census (residue partition + mirrored tail), S76/S82 step divergence, cc9 strays paired at ngpos+3
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_PROTO_TRAIN_CENSUS_S76_S82_CC9_STRAYS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...073 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7218,30 +7292,30 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-075 — cc9 +3 pairing is artifact-wide (near-permutation partners), S76 runs are local pair swaps, tail bodies are strangers
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_CC9_PAIRING_S76_TRANSFORMS_TAIL_SINGLETONS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...074 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
-  in hef75.py (sha256 760da4fd...; first build died at arm (ii)
-  on a missing modal helper after arm (i) — the fixed build
-  reproduced arm (i) byte-identically). (i) cc9b9d1c's groups
-  are paired at ngpos +3 artifact-wide: 134/134 ng-0 contexts
-  paired, size-multiset overlap 0.9695 vs 0.60-0.64 at other
-  offsets (-1 secondary at 0.7689 / 42.9% same class), 250/266
-  doubleton sizes hosted by +3 pairs vs zero rare sharing at
-  +1/+2/+4, systematic class map (identity / -3 / -1, one
-  exception), partners near-permutations (positional median
-  0.36). (ii) S76's flip map is non-functional per ref channel
-  — no relabelling; runs are local two-direction pair swaps
-  (0<->1, 1<->2; 84.6% adjacent flips; two near-one-way 2->0
-  runs), size exceptions coincide only 86/180; S82 by contrast
-  is a near-pure 0<->2 swap (51/54). (iii) 758/760/768 mismatch
-  is body-only: last 55 identical in size AND channel (55/55
-  x3), no shift repairs the bodies, class pairing adds ~nothing
-  over cross-class background; 85/92 share head 12/13 and the
-  end block, multiset 76/85, differ by exactly 7 actions with
-  +7 channel alignment 65/85 (insertion NOT PROVEN).
+- **Executable evidence:** controls reproduce AES-NUM-029/032...074
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef75.py (sha256 760da4fd...; first build died at arm (ii) on a
+  missing modal helper after arm (i) — the fixed build reproduced arm
+  (i) byte-identically). (i) cc9b9d1c's groups are paired at ngpos +3
+  artifact-wide: 134/134 ng-0 contexts paired, size-multiset overlap
+  0.9695 vs 0.60-0.64 at other offsets (-1 secondary at 0.7689 / 42.9%
+  same class), 250/266 doubleton sizes hosted by +3 pairs vs zero rare
+  sharing at +1/+2/+4, systematic class map (identity / -3 / -1, one
+  exception), partners near-permutations (positional median 0.36). (ii)
+  S76's flip map is non-functional per ref channel — no relabelling;
+  runs are local two-direction pair swaps (0<->1, 1<->2; 84.6% adjacent
+  flips; two near-one-way 2->0 runs), size exceptions coincide only
+  86/180; S82 by contrast is a near-pure 0<->2 swap (51/54). (iii)
+  758/760/768 mismatch is body-only: last 55 identical in size AND
+  channel (55/55 x3), no shift repairs the bodies, class pairing adds
+  ~nothing over cross-class background; 85/92 share head 12/13 and the
+  end block, multiset 76/85, differ by exactly 7 actions with +7 channel
+  alignment 65/85.
+- **Evidence boundary:** Insertion NOT PROVEN.
 - **Next:** +3 pair order structure and the -3/-1 class deltas;
   S76 swap-run converse test; 85->92 insertion alignment
   (slice 4.76).
@@ -7249,7 +7323,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-076 — +3 permutation is blockwise (not seam-respecting), deltas are stereotyped swaps, S76 converse holds, 85→92 is one rewritten segment
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_PLUS3_ORDER_S76_CONVERSE_85_92_SEGMENT_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...075 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7284,7 +7359,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-077 — segment substitution is unique to 85→92 at substitution scale, motif pairs never repeat contiguously, S76 spillover partial (6/10 neighbour swaps)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SEGMENT_SUBSTITUTION_MOTIFS_SPILLOVER_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...076 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7317,39 +7393,34 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-078 — region census at corpus scope: segment substitution has exactly two members (85→92 + 0856 85→91), micro-substitution is a repeated-family property, S76 residue fails second-neighbour + span-extension tests (0/4)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_REGION_CENSUS_CORPUS_S76_RESIDUE_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...077 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
-  in hef78.py (sha256 cc356034...) + hef78b.py (sha256
-  08c73b44...) + hef78c.py (sha256 416e98c4...), all
-  sha-verified on-device. (i) The AES-NUM-077 region
-  definition over the remaining five artifacts: 7,238
-  candidates, 377 K2 hits, 374 localized, 3 whole-body
-  (all 76c3a8ff); corpus totals 531 hits / 375 localized.
-  Localized hits split by scale: micro (region <=5) 373 —
-  a repeated-family property (76c3a8ff: 156 hits are ONE
-  signature, len-89 position 18 taking 21392/21648 across
-  25 step-9-train contexts, 13x12 cross-camp pairs;
-  sisters 109/107 hits, 11 signatures each, regions <=5)
-  — and segment scale (8-40) exactly ONE more:
-  0856a10c cidx 99 (ng0, len 85) -> cidx 255 (ng1, len
-  91), head 13, suffix 56, region 16->22, (9144,184)x4
-  -> (528,80)x3. Segment-scale substitution is NOT
-  unique corpus-wide: its class has exactly 2 members,
-  both the same motif rewrite at a-len 85 over a
-  56-action suffix, ng0->ng1; AES-NUM-077's uniqueness
-  stands only in 0a0d+cc9. Single-replace: 299 hits in
-  the remaining five vs 0 in 0a0d+cc9. (ii) S76 residue:
-  construction reproduced exactly (182 diffs, 49 runs,
-  10 outside, 6 first-neighbour; S82 0); second-neighbour
-  swap, span extension by 2, and gap-bridged super-run
-  internality (49->27 super-runs) each explain 0/4 of
-  the residue flips (173, 517, 618, 619) — 173/618/619
-  carry a (0,2)-class flip their neighbourhoods lack
-  (nearest same flip 34/502/503 away); the residue
-  stands, mechanism NOT PROVEN.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...077
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+  in hef78.py (sha256 cc356034...) + hef78b.py (sha256 08c73b44...) +
+  hef78c.py (sha256 416e98c4...), all sha-verified on-device. (i) The
+  AES-NUM-077 region definition over the remaining five artifacts: 7,238
+  candidates, 377 K2 hits, 374 localized, 3 whole-body (all 76c3a8ff);
+  corpus totals 531 hits / 375 localized. Localized hits split by scale:
+  micro (region <=5) 373 — a repeated-family property (76c3a8ff: 156
+  hits are ONE signature, len-89 position 18 taking 21392/21648 across
+  25 step-9-train contexts, 13x12 cross-camp pairs; sisters 109/107
+  hits, 11 signatures each, regions <=5) — and segment scale (8-40)
+  exactly ONE more: 0856a10c cidx 99 (ng0, len 85) -> cidx 255 (ng1, len
+  91), head 13, suffix 56, region 16->22, (9144,184)x4 -> (528,80)x3.
+  Segment-scale substitution is NOT unique corpus-wide: its class has
+  exactly 2 members, both the same motif rewrite at a-len 85 over a
+  56-action suffix, ng0->ng1; AES-NUM-077's uniqueness stands only in
+  0a0d+cc9. Single-replace: 299 hits in the remaining five vs 0 in
+  0a0d+cc9. (ii) S76 residue: construction reproduced exactly (182
+  diffs, 49 runs, 10 outside, 6 first-neighbour; S82 0);
+  second-neighbour swap, span extension by 2, and gap-bridged super-run
+  internality (49->27 super-runs) each explain 0/4 of the residue flips
+  (173, 517, 618, 619) — 173/618/619 carry a (0,2)-class flip their
+  neighbourhoods lack (nearest same flip 34/502/503 away).
+- **Evidence boundary:** The residue stands, mechanism NOT PROVEN.
 - **Next:** the two segment exemplars compared
   whole-context; 76c3a8ff len-89 camp anatomy; sister
   len-496 5->5 signature region contents (slice 4.79).
@@ -7357,7 +7428,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-079 — segment exemplars are one construction (identical size suffix, one free channel slot), len-89 camps differ by the position-18 size alone, sister 496 5→5 region is a three-slot tuple frame over private payloads
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SEGMENT_EXEMPLARS_LEN89_CAMPS_SISTER496_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...078 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7398,7 +7470,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-080 — exemplar heads are private (0a0d) vs shared vocabulary (0856), len-89 train is two interleaved step-9 sub-trains with shifted-region heads, sister modal tuple is one template with a 13+1 split in 773
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_RECURRENCE_LEN89_TRAIN_MODAL_TUPLE_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...079 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7434,7 +7507,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-081 — head trains share only the 13-action head, camp choice is written in position-18's segment content from byte 0, len-496 census: nine templates per sister and cidx 97 a full joint transplant
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_TRAINS_CAMP_CONTENT_TEMPLATE_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...080 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7471,36 +7545,34 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-082 — position-18 segment is camp word + camp-constant prefix + camp-shaped tail (the +256 is no insertion), channel-prefix-28 is a zero plateau, singletons are 1–2-edit locals except the quantitatively foreign cidx 97
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_POS18_ANATOMY_CHAN28_SINGLETON_NEAREST_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...081 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
+- **Executable evidence:** controls reproduce AES-NUM-029/032...081
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215)
   in hef82x.py (sha256 86c0a8e7...) + labelled control follow-up
-  hef82b.py (sha256 5674bdc8...), both sha-verified on-device
-  after one-shot proxy-receiver transfers (gz sha returned by
-  the receiver and matched; output files bf5742c7... /
-  d73a1872...). Slice resumed from the previous firing's
-  stalled transfer — its script and receiver were reused
-  verbatim, no analysis re-authored. (i) Position-18 segments
-  (76c3a8ff len-89 B-main, 25 contexts, camps 13/12): header
-  constant except bytes 0 (0x02 vs 0x03) and 3 (0xa6 vs 0xa8)
-  — camp word 02 28 f0 a6 vs 03 28 f0 a8, u32 LE 2800756738 vs
-  2834311171, meaning NOT PROVEN; within-camp GLOBAL common
-  prefix exactly 6,408 B in both camps; the whole +256 sits
-  in the tail (14,984 vs 15,240 B; ~83% zero; 98.8% of tail
-  positions constant within camp; first tail byte distinct
-  per context); one-block insertion excluded (0/156 cross
-  pairs). (ii) Exemplar b's chans[13:28] are all zero — the
-  ng 1 channel-prefix-28 is a zero plateau (the 15-zero
-  pattern occurs 48,146 times as a subsequence corpus-wide;
-  full chans[0:28] occurs exactly 27 times, always at offset
-  0; ng 1 channels group-constant to position 54 while sizes
-  diverge from 13). (iii) Singletons: ten of eleven sit 1–2
-  size edits from a resident template (channel Hamming 0,
-  L1 <= 4,896); 773 cidx 97 sits 314 size / 193 channel /
-  L1 4,641,152 from its nearest resident template — its
-  foreign origin is now quantitative.
+  hef82b.py (sha256 5674bdc8...), both sha-verified on-device after
+  one-shot proxy-receiver transfers (gz sha returned by the receiver and
+  matched; output files bf5742c7... / d73a1872...). Slice resumed from
+  the previous firing's stalled transfer — its script and receiver were
+  reused verbatim, no analysis re-authored. (i) Position-18 segments
+  (76c3a8ff len-89 B-main, 25 contexts, camps 13/12): header constant
+  except bytes 0 (0x02 vs 0x03) and 3 (0xa6 vs 0xa8) — camp word 02 28
+  f0 a6 vs 03 28 f0 a8, u32 LE 2800756738 vs 2834311171; within-camp
+  GLOBAL common prefix exactly 6,408 B in both camps; the whole +256
+  sits in the tail (14,984 vs 15,240 B; ~83% zero; 98.8% of tail
+  positions constant within camp; first tail byte distinct per context);
+  one-block insertion excluded (0/156 cross pairs). (ii) Exemplar b's
+  chans[13:28] are all zero — the ng 1 channel-prefix-28 is a zero
+  plateau (the 15-zero pattern occurs 48,146 times as a subsequence
+  corpus-wide; full chans[0:28] occurs exactly 27 times, always at
+  offset 0; ng 1 channels group-constant to position 54 while sizes
+  diverge from 13). (iii) Singletons: ten of eleven sit 1–2 size edits
+  from a resident template (channel Hamming 0, L1 <= 4,896); 773 cidx 97
+  sits 314 size / 193 channel / L1 4,641,152 from its nearest resident
+  template — its foreign origin is now quantitative.
+- **Evidence boundary:** Meaning NOT PROVEN.
 - **Next:** position-18 tail per-context anatomy (~187
   variable positions, pattern word); corpus census of the
   16 B header pattern; ng 1 channel plateau past 28 vs
@@ -7509,7 +7581,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-083 — the tail's variable frame is tiered (72 binary slots, camp-flavoured alternates), the 16 B header lives only at the 25 known starts plus two generalised frames in 0856a10c, and exemplar b leaves the ng 1 plateau at position 28 for good
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_POS18_TAIL_HEADER_CENSUS_PLATEAU_PAST28_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...082 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7550,7 +7623,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-084 — the binary tier is two single-bit blocks of 36, the sibling word lives at position-20 action starts in a step-9 train (correcting AES-NUM-083), and four sparse slots are one repeated per-context scalar in an ff-word frame
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_BINARY_BLOCKS_SIBLING_HOME_SPARSE_SCALAR_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...083 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7597,7 +7671,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-085 — sibling segments are flat and camp-less (600 variable positions, 544 two-valued), block bits are independent of the tail's other scalars, and the ff frame is a fixed 43-instance fixture (4 variable + 39 constant)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_SIBLING_ANATOMY_BLOCKBITS_FF_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...084 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7631,7 +7706,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-086 — the sibling 544 two-valued positions are one distinguished segment (cidx 113 deviates at all 544, other 25 unanimous), the 39 constant ff offsets drift on a single +64 staircase with rank-locked scalars, and the sibling 18 ff-words are 15 constant offsets plus a repeated rank-ladder scalar (21+9xrank)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_DISTINGUISHED_SEGMENT_FF_STAIRCASE_SIBLING_FF_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...085 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7667,7 +7743,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-087 — cidx 113 is distinguished context-wide (private schedule at 249/400 positions, private content at 23/80 consensus positions), the staircase thresholds are ordinary ff-15 fixture words, and the variable ff scalar is exactly cidx - 92 in all three populations
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_DISTINGUISHED_CONTEXT_THRESHOLDS_CIDX_LAW_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...086 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7706,7 +7783,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-088 — the variable ff scalar is cidx + C in all 372 scanned ff populations corpus-wide (C = +1 in 181, one negative per-artifact constant in 191; sisters share -94), context 92 is ordinary, cidx 113's schedule is a different multiset (not permutation, not re-grouping), and each staircase +64 lives in the single inter-ff region before its threshold word
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_CIDX_LAW_CORPUS_SCHEDULE_REGIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...087 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7749,7 +7827,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-089 — the variable ff scalar is the context's 1-based within-network-group index (ng membership separates the +1 / negative classes exactly; each artifact's negative constant is 1 minus its ng-1 start cidx), the 113/302/311 kinship dissolves (302/311 are ordinary near-consensus siblings; 113 agrees with everyone at the same 62 tail positions; content kinship zero), and the four extra tails are one 58-byte-shared family present once in both camps, displaced by exactly 64 x step index
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_NG_SCALAR_LAW_KINSHIP_TAILS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...088 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7789,7 +7868,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-090 — every aligned ff word in the scanned populations is CONST or the within-ng index (17,351 / 3,290 of 20,645; the only OTHER offsets are 4 two-valued ngidx==1 step pairs in the single 0a0d exception group), the camp tails are shared region-final content in both camps (neither duplicated nor displaced; camp B's +64 per grown region lives in its middle window, 168 vs 232 B), and first-in-train distinction is the norm (28 of 52 trains have a unique first-member outlier, up to D = 342; sibling and camp controls reproduce exactly)
 
-- **Status:** `verified` (complete populations, 7 artifacts).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts).
 - **Owner:** docs/HAILO10H_FF_CLASSIFICATION_CAMP_ALIGNMENT_TRAINS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...089 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7837,7 +7917,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-091 — grown-region middles are camp-constant and insertion-shaped but not a pure insertion (best offset 147/168, 21 mismatches at every grown rank; the extra chunk occurs 0x in camp 21392 and 48x in camp 21648, four per segment), the ngidx==1 step pairs do NOT recur in the extension bands (87 groups, 3,689 offsets, CONST/NGIDX only; in-band sanity reproduces OTHER 4, all STEP), and no tested feature separates distinguished train firsts (pool-dependent: 76c3a8ff ng 0 none vs ng 1 all; step==9 is 7/28 vs 0/24, not a separator; cross-train first comparison exists in exactly one group)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CAMP_MIDDLE_STEP_RECURRENCE_TRAIN_MECHANISM_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...090 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7868,7 +7949,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-092 — the 21 camp-middle mismatches are one rank-identical tail list (positions 1–90 clean but for position 0; 16 of 21 in the last third; B byte 0x00 in 11; a 16-byte autocorrelation rhythm at fractions 0.63–0.75, exact at no shift), the sparse ff scan completes the census (31,568 further offsets classified; 26 non-step OTHER offsets, all in 32.5–32.8 kB segments; the step form does NOT recur), and distinguished firsts differ from non-first outliers in kind (3,089 vs 176 D-positions; both-changed 47.3% vs 15.9%; last-decile collapse 31 vs spread)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MISMATCH_ANATOMY_SPARSE_FF_DPOSITIONS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...091 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7902,7 +7984,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-093 — the 26 sparse OTHER ff offsets are mostly per-network-group forms (per-ng CONST exact on 14, mixed per-ng CONST/NGIDX covering 19 of 26 combined; residue: 4 NGIDX offsets with exactly one deviating instance, 1 index-at-one-instance offset, 2 uninformative n=2 pairs), the camp middles share only units 1–4 verbatim at 16-byte granularity (mismatch crowd in units 7–10, unit 8 worst at 7/16; no unit repeats at any lag 1–9 in either middle), and a distinguished first's pair is not a function of the consensus pair under any tested key ((cons,pos) finest: 440 multi keys, 242 mixed, accuracy 0.9068 by uniqueness)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_PERNG_FORMS_UNIT_ANATOMY_PAIR_FUNCTION_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...092 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7945,7 +8028,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-094 — the deviating ff instances are exactly the sparse-neighbourhood instances (value-0 instances in T3/T4/T5 share one byte-identical sparse neighbourhood across artifacts), the camp middles differ across the four grown ranks only in unit 0 (units 1–4 shared at every rank; no B unit at index >= 5 occurs in any A middle), and the per-ng lens adds no form inside the classified population (pooled CONST equal across ngs in all 6,805 both-ng cases; NGIDX degeneracy is exactly single-instance network groups; only 19 both-ng NGIDX offsets are non-degenerate in both ngs)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_DEVIATING_INSTANCES_RANK_UNITS_PERNG_CLASSIFIED_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...093 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -7986,7 +8070,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-095 — the sparse neighbourhood form does NOT predict values across the OTHER habitat (zero values enriched ~3x in whole segments, no law; the residue-target pattern is a small-group phenomenon), middle unit 0 is a genuine per-rank form (camps differ only in byte 0; present byte-exact in every individual camp segment; recurs nowhere else in the segment), and the B middle's repeated unit has two copies with different aligned mismatch profiles (2 vs 4), neither inside the skipped chunk
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SPARSE_FORM_UNIT0_B06B11_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...094 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8032,7 +8117,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-096 — sparse zeros concentrate at 37 shared offsets and always sit before a trailing zero pair (no law), the second 8900 pair is a unanimous region-0 02-field feature in both camps, and the copy spans are rank-invariant with the k=112 chunk exactly B units 7–10
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SPARSE_ZERO_8900_PAIR_COPY_SPANS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...095 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8074,7 +8160,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-097 — the trailing zero pair is necessary but not sufficient for a sparse zero, region 0 is zero-dominated with a local 02-field and a unanimous 89/82 singleton pair, and the copy substitution pairs occur at every lag with a9->3e confined to two shifts
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MASK_LAW_REGION0_02FIELD_LAG_CENSUS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...096 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8135,54 +8222,48 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-098 — sparse zeros are per-offset deterministic (22 zero (mask, offset) pairs, no partial offset), the region-0 data block is three rigid unit families whose x36 words are per-segment values, and the 20>3e shift set is exactly positional with the +31 doubling a repeated pair
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_PERMASK_ANATOMY_DATABLOCK_SHIFTSET_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...097 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
-  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
-  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
-  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
-  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
-  x12, rank-2 middles 21 mismatches at k = 111, AES-NUM-095
-  counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898, MID
-  21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6; zeros
-  at 37/869 pairs) and AES-NUM-097 counts (mask table
-  1088/6, 549/108, 348/30, 61/0, 234/0; region 0 2,056 words /
-  02-count 150 / distinct 104; six-pair totals s = 0: 28,
-  s = +64: 44; 20>3e 21 shifts x8 at +31; a9>3e at -16/+64),
-  in hef98.py (sha256 55910584... = hef97 lineage + hef98_arms.py
-  c611b065..., landed via sha-gated chunked file.write transfer,
-  gz sha256 232e20bd... verified on-device; script sha verified
-  on-device); output sha256 6bdd2058....
-  Contract docs/TASK_CONTRACT_4.98.md published @ c4a43663
-  before implementation. (i) Per-offset determinism EXACT:
-  no partial offset in any mask (01011 4 all-zero of 289
-  offsets; 10011 16 of 119; 11011 2 of 154; 11001/11010
-  none); 22 zero (mask, offset) pairs, pairwise disjoint
-  across masks (shared zero offsets/pairs 0); per-group
-  tables partial (10011 6 groups, pos9 30/95, pos10 45/171,
-  share 75/108; 11011 ONLY pos9/pos10 at offsets
-  28964/29156, share 30/30; 01011 6 groups x 1 zero,
-  share 1/6; F share re-derived 106/144). Mechanism
-  selecting the 22 pairs NOT PROVEN. (ii) Block 6184..6912
-  = 26 units x 7 words, exactly 3 unit patterns per camp
-  (units 0-7 ffffff7f-headed, 8-16 first-x36-headed with
-  00020000 tails, 17-25 second-x36-headed); consensus
-  distinct 5 per camp (00000000 x51, ffffff7f x32,
-  00020000 x27, x36 x2); unanimity 110/182 offsets — the
-  72 x36 offsets are non-unanimous in both camps, every
-  segment carrying a different word sharing only the low
-  bytes (x36 words REFUTED as segment content; modal
-  count 1/13 A, 0/12 B second population). Meaning NOT
-  PROVEN. (iii) Positional law EXACT: A-middle 0x20 at 11
-  positions, B-middle 0x3e at [103, 183], identical at all
-  4 ranks; predicted == census at all 257 shifts (0
-  differing, 0 triples out of range), 21-shift set
-  reproduced; +31 doubling = the pair repeated at
-  80-spacing in both middles ((72,103) and (152,183) per
-  rank).
+- **Executable evidence:** controls reproduce AES-NUM-029/032...097
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1 OTHER 16; S2b
+  OTHER 10), 26 OTHER with per-ng CONST 14 / combined 19 / residue 7,
+  trains 52 (28/13/11), D(113) = 249, firsts' D 3,089, control D 176,
+  camps A 21392 x13 / B 21648 x12, rank-2 middles 21 mismatches at k =
+  111, AES-NUM-095 counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898,
+  MID 21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6; zeros at
+  37/869 pairs) and AES-NUM-097 counts (mask table 1088/6, 549/108,
+  348/30, 61/0, 234/0; region 0 2,056 words / 02-count 150 / distinct
+  104; six-pair totals s = 0: 28, s = +64: 44; 20>3e 21 shifts x8 at
+  +31; a9>3e at -16/+64), in hef98.py (sha256 55910584... = hef97
+  lineage + hef98_arms.py c611b065..., landed via sha-gated chunked
+  file.write transfer, gz sha256 232e20bd... verified on-device; script
+  sha verified on-device); output sha256 6bdd2058.... Contract
+  docs/TASK_CONTRACT_4.98.md published @ c4a43663 before implementation.
+  (i) Per-offset determinism EXACT: no partial offset in any mask (01011
+  4 all-zero of 289 offsets; 10011 16 of 119; 11011 2 of 154;
+  11001/11010 none); 22 zero (mask, offset) pairs, pairwise disjoint
+  across masks (shared zero offsets/pairs 0); per-group tables partial
+  (10011 6 groups, pos9 30/95, pos10 45/171, share 75/108; 11011 ONLY
+  pos9/pos10 at offsets 28964/29156, share 30/30; 01011 6 groups x 1
+  zero, share 1/6; F share re-derived 106/144). (ii) Block 6184..6912 =
+  26 units x 7 words, exactly 3 unit patterns per camp (units 0-7
+  ffffff7f-headed, 8-16 first-x36-headed with 00020000 tails, 17-25
+  second-x36-headed); consensus distinct 5 per camp (00000000 x51,
+  ffffff7f x32, 00020000 x27, x36 x2); unanimity 110/182 offsets — the
+  72 x36 offsets are non-unanimous in both camps, every segment carrying
+  a different word sharing only the low bytes (x36 words REFUTED as
+  segment content; modal count 1/13 A, 0/12 B second population). (iii)
+  Positional law EXACT: A-middle 0x20 at 11 positions, B-middle 0x3e at
+  [103, 183], identical at all 4 ranks; predicted == census at all 257
+  shifts (0 differing, 0 triples out of range), 21-shift set reproduced;
+  +31 doubling = the pair repeated at 80-spacing in both middles
+  ((72,103) and (152,183) per rank).
+- **Evidence boundary:** Mechanism selecting the 22 pairs NOT PROVEN.
+  Meaning NOT PROVEN.
 - **Next:** the 22 zero pairs' neighbourhoods vs same-offset
   other-mask counterparts; the block's per-segment head
   values as a population; positional-law test for the
@@ -8191,68 +8272,59 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-099 — the 22 zero pairs have almost no same-offset counterparts (2 total, both non-zero), the block's per-segment head values are one constant per segment per family (injective labels, family 0 = ffffff7f everywhere), and the middles' positional law holds for every byte pair (0 differing triples over 602 pairs)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_ZERO_PAIR_COUNTERPARTS_HEAD_POPULATION_POSITIONAL_LAW_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...098 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
-  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
-  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
-  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
-  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
-  x12, rank-2 middles 21 mismatches at k = 111, AES-NUM-095
-  counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898, MID
-  21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6),
-  AES-NUM-097 counts (mask table 1088/6, 549/108, 348/30,
-  61/0, 234/0; region 0 2,056 words / 02-count 150 /
-  distinct 104; six-pair totals s = 0: 28, s = +64: 44;
-  20>3e 21 shifts x8 at +31; a9>3e at -16/+64) and
-  AES-NUM-098 counts (22 zero (mask, offset) pairs, no
-  partial offset; block 26 units x 7 words, 110/182
-  unanimous offsets; 20>3e prediction exact at 257 shifts),
-  in hef99.py (sha256 9b87f53d... = hef98 lineage +
-  hef99_arms.py 09237a15..., script sha verified
-  on-device); output sha256 02bd57b8....
-  Contract docs/TASK_CONTRACT_4.99.md published @ a2da97bc
-  before implementation. (i) Re-collection with full
-  neighbourhood words matches the hef98 sn population
-  EXACTLY (2,280 candidates); the 22 zero pairs re-derive;
-  every pair's zero side carries exactly ONE distinct
-  neighbourhood tuple (22/22) and 0 non-zero candidates.
-  Counterparts: exactly 2 same-offset other-mask candidates
-  in the whole population (at 7632 and 28768, both mask
-  11011, both non-zero); 20/22 pairs have none; aggregate
-  counterpart zeros 0, identical-tuple counterparts 0;
-  pooled per-position overlaps pos0 (1,21,1), pos1 (1,21,1),
-  pos2 (0,22,2), pos3 (2,20,0), pos4 (2,20,0). No separating
-  law credited — the offsets are mask-exclusive as
-  measured; selecting mechanism NOT PROVEN. (ii) All 75
-  (camp, segment, family) head populations are a SINGLE
-  constant across all slots (fam0 32, fam1/fam2 36);
-  family 0 = ffffff7f in all 25 segments, deviations 0;
-  family 1: A 13 distinct values (low3 a20000 x11 /
-  a30000 x2, variation in byte 0 only), B 12 distinct
-  (a20000 x9 / b30000 x3), none shared by >= 2 segments;
-  family 2: A 13 distinct with 13 distinct low3 patterns,
-  B 12 distinct with 11 low3 patterns (020200 shared as
-  a pattern by two segments whose full words differ);
-  per-segment fam1/fam2 intersections empty in all 25
-  segments for full words AND low3 patterns; cross-camp
-  fam1 and fam2 intersections empty. Labels are injective
-  across segments, families and camps; what they encode
-  NOT PROVEN. (iii) Positional law EXACT for ALL ordered
-  byte pairs: A middles 24 distinct bytes, B middles 28;
-  position lists identical across the 4 ranks for 18/24
-  A bytes and 22/28 B bytes (differing bytes exactly
-  {00, 80, 85, 87, 89, 8b} on both sides); 602 ordered
-  pairs with >= 1 tally, 131,360 total tallies,
-  predicted-vs-census differing triples 0; out-of-range
-  position pairs 24,544 over 269 ordered pairs; all six
-  copy-span pairs individually predicted-equal (20>3e
-  21 shifts oor 0; a9>3e {-16, +64} oor 0; 02>00 168
-  shifts oor 0; 80>00 257 shifts oor 638; 00>10 202
-  shifts oor 304; 00>20 203 shifts oor 1,562).
+- **Executable evidence:** controls reproduce AES-NUM-029/032...098
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1 OTHER 16; S2b
+  OTHER 10), 26 OTHER with per-ng CONST 14 / combined 19 / residue 7,
+  trains 52 (28/13/11), D(113) = 249, firsts' D 3,089, control D 176,
+  camps A 21392 x13 / B 21648 x12, rank-2 middles 21 mismatches at k =
+  111, AES-NUM-095 counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898,
+  MID 21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6), AES-NUM-097
+  counts (mask table 1088/6, 549/108, 348/30, 61/0, 234/0; region 0
+  2,056 words / 02-count 150 / distinct 104; six-pair totals s = 0: 28,
+  s = +64: 44; 20>3e 21 shifts x8 at +31; a9>3e at -16/+64) and
+  AES-NUM-098 counts (22 zero (mask, offset) pairs, no partial offset;
+  block 26 units x 7 words, 110/182 unanimous offsets; 20>3e prediction
+  exact at 257 shifts), in hef99.py (sha256 9b87f53d... = hef98 lineage
+  + hef99_arms.py 09237a15..., script sha verified on-device); output
+  sha256 02bd57b8.... Contract docs/TASK_CONTRACT_4.99.md published @
+  a2da97bc before implementation. (i) Re-collection with full
+  neighbourhood words matches the hef98 sn population EXACTLY (2,280
+  candidates); the 22 zero pairs re-derive; every pair's zero side
+  carries exactly ONE distinct neighbourhood tuple (22/22) and 0
+  non-zero candidates. Counterparts: exactly 2 same-offset other-mask
+  candidates in the whole population (at 7632 and 28768, both mask
+  11011, both non-zero); 20/22 pairs have none; aggregate counterpart
+  zeros 0, identical-tuple counterparts 0; pooled per-position overlaps
+  pos0 (1,21,1), pos1 (1,21,1), pos2 (0,22,2), pos3 (2,20,0), pos4
+  (2,20,0). No separating law credited — the offsets are mask-exclusive
+  as measured. (ii) All 75 (camp, segment, family) head populations are
+  a SINGLE constant across all slots (fam0 32, fam1/fam2 36); family 0 =
+  ffffff7f in all 25 segments, deviations 0; family 1: A 13 distinct
+  values (low3 a20000 x11 / a30000 x2, variation in byte 0 only), B 12
+  distinct (a20000 x9 / b30000 x3), none shared by >= 2 segments; family
+  2: A 13 distinct with 13 distinct low3 patterns, B 12 distinct with 11
+  low3 patterns (020200 shared as a pattern by two segments whose full
+  words differ); per-segment fam1/fam2 intersections empty in all 25
+  segments for full words AND low3 patterns; cross-camp fam1 and fam2
+  intersections empty. Labels are injective across segments, families
+  and camps. (iii) Positional law EXACT for ALL ordered byte pairs: A
+  middles 24 distinct bytes, B middles 28; position lists identical
+  across the 4 ranks for 18/24 A bytes and 22/28 B bytes (differing
+  bytes exactly {00, 80, 85, 87, 89, 8b} on both sides); 602 ordered
+  pairs with >= 1 tally, 131,360 total tallies, predicted-vs-census
+  differing triples 0; out-of-range position pairs 24,544 over 269
+  ordered pairs; all six copy-span pairs individually predicted-equal
+  (20>3e 21 shifts oor 0; a9>3e {-16, +64} oor 0; 02>00 168 shifts oor
+  0; 80>00 257 shifts oor 638; 00>10 202 shifts oor 304; 00>20 203
+  shifts oor 1,562).
+- **Evidence boundary:** Selecting mechanism NOT PROVEN. What they
+  encode NOT PROVEN.
 - **Next:** the 22 zero offsets across all forms;
   family-1/2 label values vs segment metadata;
   positional law on ungrown ranks and the reverse
@@ -8261,63 +8333,55 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-100 — the 22 zero offsets are almost form-exclusive (one DENSE zero at 28768 breaks it), the family labels carry no non-degenerate stated function of segment metadata (all 501 exact hits degenerate), and the positional law holds on every ungrown region and in reverse
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_ZERO_OFFSET_FORMS_LABELS_POSITIONAL_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...099 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
-  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1
-  OTHER 16; S2b OTHER 10), 26 OTHER with per-ng CONST 14 /
-  combined 19 / residue 7, trains 52 (28/13/11), D(113) = 249,
-  firsts' D 3,089, control D 176, camps A 21392 x13 / B 21648
-  x12, rank-2 middles 21 mismatches at k = 111, AES-NUM-095
-  counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898, MID
-  21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6),
-  AES-NUM-097 counts (mask table; region 0 2,056 words /
-  02-count 150 / distinct 104; six-pair totals s = 0: 28,
-  s = +64: 44; 20>3e 21 shifts x8 at +31; a9>3e at -16/+64),
-  AES-NUM-098 counts (22 zero (mask, offset) pairs; 20>3e
-  positional exact at all 257 shifts) and AES-NUM-099 counts
-  (re-collection exact 2,280; counterparts 2; 75 head cells
-  constant; positional law 602 pairs / 131,360 tallies /
-  0 differing / out-of-range 24,544 over 269 — also this
-  slice's grown-direction control, reproduced in-run).
-  (i) Whole non-common re-collection exact (7,484;
-  SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64). At the
-  22 zero offsets: 146 SPARSE candidates, 144 zero (the 2
-  non-zero are the AES-NUM-099 counterparts); DENSE+MID
-  candidates total only 4 (DENSE at 3 offsets, MID at 1)
-  vs 616 at the 626 other SPARSE-carrying offsets (9 zeros
-  there); the four are 6180 MID 1/0, 28768 DENSE 1/1 ZERO
-  (mask 00000), 29336 DENSE 1/0, 30136 DENSE 1/0.
-  Form-exclusivity FAILS by exactly that one DENSE zero
-  at 28768; 21/22 offsets carry no DENSE/MID zero, 18/22
-  no DENSE/MID candidate at all. Mechanism NOT PROVEN.
-  (ii) Label table over 25 segments (ng 1, nact 89, act18
-  channel 0 throughout): fam1 byte0 25 distinct pooled,
-  byte1 3 values pooled, bytes 2–3 zero; fam2 bytes 0–1
-  20/21 distinct pooled, byte2 2 values, byte3 zero.
-  Stated-function hunt: 501 exact hits, ALL degenerate —
-  408 as-function on a constant byte, 27 affine all
-  (0, 0) on constant bytes, 55 as-function through an
-  injective X (tautology), 11 as-function on a byte with
-  <= 3 distinct values in scope. No a != 0 affine hit on
-  any varying byte; monotonicity inversions > 0 for every
-  varying byte/word in every scope; fam1^fam2 / byte-diff /
-  word-diff fully distinct (13/12/25); cross-family affine
-  hits only onto fam2's constant byte3. What the labels
-  encode NOT PROVEN. (iii) Positional law EXACT on all 36
-  non-empty ungrown region pairs (44 regions per camp;
-  grown {2, 8, 22, 26}; empty-in-both 15/17/19/37 skipped,
-  recorded): aggregate 4,392,812 tallies, 10,591 summed
-  pairs, differing triples 0, out-of-range 68,733,956.
-  Reverse direction on the grown middles: per-rank
-  differing 0; pooled 602 pairs / 131,360 tallies / 0
-  differing / out-of-range 24,544 over 269 — identical to
-  forward; all six copy pairs predicted-equal in reverse
-  (20>3e and a9>3e reverse censuses EMPTY — B middles hold
-  no 0x20 byte).
+- **Executable evidence:** controls reproduce AES-NUM-029/032...099
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), scanner re-derives AES-NUM-090/091 exactly (in-band 374 /
+  OTHER 4 all STEP; band X 60 / 3,335; band Y 27 / 354; S1 OTHER 16; S2b
+  OTHER 10), 26 OTHER with per-ng CONST 14 / combined 19 / residue 7,
+  trains 52 (28/13/11), D(113) = 249, firsts' D 3,089, control D 176,
+  camps A 21392 x13 / B 21648 x12, rank-2 middles 21 mismatches at k =
+  111, AES-NUM-095 counts (7,690; SPARSE zero 144/2,280, DENSE 64/2,898,
+  MID 21/2,306), AES-NUM-096 counts (F 144; masks 108/30/6), AES-NUM-097
+  counts (mask table; region 0 2,056 words / 02-count 150 / distinct
+  104; six-pair totals s = 0: 28, s = +64: 44; 20>3e 21 shifts x8 at
+  +31; a9>3e at -16/+64), AES-NUM-098 counts (22 zero (mask, offset)
+  pairs; 20>3e positional exact at all 257 shifts) and AES-NUM-099
+  counts (re-collection exact 2,280; counterparts 2; 75 head cells
+  constant; positional law 602 pairs / 131,360 tallies / 0 differing /
+  out-of-range 24,544 over 269 — also this slice's grown-direction
+  control, reproduced in-run). (i) Whole non-common re-collection exact
+  (7,484; SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64). At the 22
+  zero offsets: 146 SPARSE candidates, 144 zero (the 2 non-zero are the
+  AES-NUM-099 counterparts); DENSE+MID candidates total only 4 (DENSE at
+  3 offsets, MID at 1) vs 616 at the 626 other SPARSE-carrying offsets
+  (9 zeros there); the four are 6180 MID 1/0, 28768 DENSE 1/1 ZERO (mask
+  00000), 29336 DENSE 1/0, 30136 DENSE 1/0. Form-exclusivity FAILS by
+  exactly that one DENSE zero at 28768; 21/22 offsets carry no DENSE/MID
+  zero, 18/22 no DENSE/MID candidate at all. (ii) Label table over 25
+  segments (ng 1, nact 89, act18 channel 0 throughout): fam1 byte0 25
+  distinct pooled, byte1 3 values pooled, bytes 2–3 zero; fam2 bytes 0–1
+  20/21 distinct pooled, byte2 2 values, byte3 zero. Stated-function
+  hunt: 501 exact hits, ALL degenerate — 408 as-function on a constant
+  byte, 27 affine all (0, 0) on constant bytes, 55 as-function through
+  an injective X (tautology), 11 as-function on a byte with <= 3
+  distinct values in scope. No a != 0 affine hit on any varying byte;
+  monotonicity inversions > 0 for every varying byte/word in every
+  scope; fam1^fam2 / byte-diff / word-diff fully distinct (13/12/25);
+  cross-family affine hits only onto fam2's constant byte3. (iii)
+  Positional law EXACT on all 36 non-empty ungrown region pairs (44
+  regions per camp; grown {2, 8, 22, 26}; empty-in-both 15/17/19/37
+  skipped, recorded): aggregate 4,392,812 tallies, 10,591 summed pairs,
+  differing triples 0, out-of-range 68,733,956. Reverse direction on the
+  grown middles: per-rank differing 0; pooled 602 pairs / 131,360
+  tallies / 0 differing / out-of-range 24,544 over 269 — identical to
+  forward; all six copy pairs predicted-equal in reverse (20>3e and
+  a9>3e reverse censuses EMPTY — B middles hold no 0x20 byte).
+- **Evidence boundary:** Mechanism NOT PROVEN. What the labels encode
+  NOT PROVEN.
 - **Next:** the single DENSE zero at 28768; family label
   byte0 values vs the segments' own block words beyond
   the head positions; positional-law scope test on a
@@ -8326,7 +8390,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-101 — the lone DENSE zero at 28768 shares only the centre ff word with the SPARSE zeros there, the block tails are one constant per family in every segment (no label reading from tails exists), and the positional law is exact on non-camp segment pairs
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_DENSE_ZERO_TAIL_CONSTANCY_NONCAMP_POSITIONAL_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...100 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8372,41 +8437,38 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-102 — the DENSE-zero run of four is a raw ff-word run and one of fifteen such runs, block variation is exactly the two family labels (110 constant / 72 varying, all label-exhausted), and the positional law completes its segment-pair square
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_DENSE_RUN_BLOCK_VARIATION_POSITIONAL_COMPLETION_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...101 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  camps A 21392 x13 / B 21648 x12, trains 52 (28/13/11), whole
-  re-collection exact (7,484; SPARSE 2,280/144, MID 2,306/21,
-  DENSE 2,898/64). (i) Group (0a0d378c, 16, 32776) carries
-  exactly 4 DENSE zeros (28760/28764/28768/28772), all in the
-  single instance cidx 5, all mask 00000, value 0, spacings
-  4/4/4; the group has no other candidate at 28752..28780;
-  the instance's raw segment words there are four consecutive
-  ff000000 words flanked by 9000a280 / 01000600. Corpus run
-  census: 15 maximal DENSE-zero runs at spacing 4, identical
-  at group and (group, cidx) level — 14 of length exactly 4,
-  1 of length 3 ((0a0d378c, 20, 32752) cidx 44 at
-  17348..17356); 59 of 64 DENSE zeros sit in runs, 5 are
-  singletons. Run-site selection NOT PROVEN. (ii) Block
-  variation census over individual camp segments: constant
-  110 / varying 72 in camp A, camp B and pooled — matching
-  AES-NUM-098's 110/182 exactly; fam0 all 56 indices
-  constant, all 78 tail indices constant, fam1/fam2 head
-  indices all vary (36 + 36); the varying t set is identical
-  across scopes (head slots of units 8..25); every varying
-  index is label-exhausted in both camps (72/72, distinct =
-  the family's per-segment label set, 13 in A / 12 in B,
-  each exactly once per index). The block holds no other
-  per-segment information; label identity NOT PROVEN.
-  (iii) Positional law EXACT on the completion pairs:
-  B0 x A0 reverse = the exact mirror of A0 x B0 (7,021
-  pairs, 5,489,488 tallies, 0 differing, out-of-range
-  457,604,528 over 22,548); B0 x B1 (7,044 pairs, 5,547,024
-  tallies, 0 differing, out-of-range 463,088,880 over
-  22,212). All four segment-pair directions now measured,
-  0 differing on 22,007,232 tallies.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...101
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), camps A 21392 x13 / B 21648 x12, trains 52 (28/13/11), whole
+  re-collection exact (7,484; SPARSE 2,280/144, MID 2,306/21, DENSE
+  2,898/64). (i) Group (0a0d378c, 16, 32776) carries exactly 4 DENSE
+  zeros (28760/28764/28768/28772), all in the single instance cidx 5,
+  all mask 00000, value 0, spacings 4/4/4; the group has no other
+  candidate at 28752..28780; the instance's raw segment words there are
+  four consecutive ff000000 words flanked by 9000a280 / 01000600. Corpus
+  run census: 15 maximal DENSE-zero runs at spacing 4, identical at
+  group and (group, cidx) level — 14 of length exactly 4, 1 of length 3
+  ((0a0d378c, 20, 32752) cidx 44 at 17348..17356); 59 of 64 DENSE zeros
+  sit in runs, 5 are singletons. (ii) Block variation census over
+  individual camp segments: constant 110 / varying 72 in camp A, camp B
+  and pooled — matching AES-NUM-098's 110/182 exactly; fam0 all 56
+  indices constant, all 78 tail indices constant, fam1/fam2 head indices
+  all vary (36 + 36); the varying t set is identical across scopes (head
+  slots of units 8..25); every varying index is label-exhausted in both
+  camps (72/72, distinct = the family's per-segment label set, 13 in A /
+  12 in B, each exactly once per index). The block holds no other
+  per-segment information. (iii) Positional law EXACT on the completion
+  pairs: B0 x A0 reverse = the exact mirror of A0 x B0 (7,021 pairs,
+  5,489,488 tallies, 0 differing, out-of-range 457,604,528 over 22,548);
+  B0 x B1 (7,044 pairs, 5,547,024 tallies, 0 differing, out-of-range
+  463,088,880 over 22,212). All four segment-pair directions now
+  measured, 0 differing on 22,007,232 tallies.
+- **Evidence boundary:** Run-site selection NOT PROVEN. Label identity
+  NOT PROVEN.
 - **Next:** the 5 singleton DENSE zeros and the length-3
   run (maximal raw ff-run anatomy for all 64 DENSE zeros);
   the fam1/fam2 label pair within a segment; positional
@@ -8416,50 +8478,44 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-103 — the five singleton DENSE zeros are raw singletons too (agreement 64/64), the length-3 offset run is a raw run of four whose first word carries no candidate in its instance, the fam1/fam2 label pair shares no tested relation, and the positional law is exact on the consensus camps
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SINGLETON_RAW_RUN_LABEL_PAIR_CONSENSUS_POSITIONAL_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...102 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  camps A 21392 x13 / B 21648 x12, trains 52 (28/13/11), whole
-  re-collection exact (7,484; SPARSE 2,280/144, MID 2,306/21,
-  DENSE 2,898/64); DONE102 at line 2,892 of the output.
-  (i) Exactly 5 offset-set singletons, each with maximal raw
-  ff-run length 1 (position 0): (0a0d378c,21,32560) q 6156
-  cidx 74 mask 00000; (5ab3537d,9,32584) q 5040 cidx 28 mask
-  00000; MiniLM q 6700 / 11408 / 32248, all cidx 5, masks
-  00000/00010/00010 (the two 00010 share the frame
-  01000800 ... ff, 00000000, 01000800). Raw word at q is
-  ff000000 for 64/64; raw-run lengths over the zeros
-  {1: 5, 4: 59} across 20 distinct raw runs (15 of length 4,
-  5 of length 1); position-in-run {0: 19, 1: 15, 2: 15,
-  3: 15}; raw vs offset singleton classification agrees
-  64/64, disagreements 0. The length-3 run's instance
-  (0a0d378c,20,32752) cidx 44 carries a raw run
-  17344..17356 of length 4 whose first word (17344) has no
-  candidate in this instance, while the sister group
-  (20,32688) cidx 8 carries all four candidates on the same
-  raw interval; its three candidates sit at raw positions
-  1/2/3. Exclusion mechanism NOT PROVEN.
-  (ii) All 25 segments carry exactly one label per family;
-  25 distinct label1, 25 distinct label2, 25 distinct pairs,
-  no value of either family repeated across camps. Label1:
-  byte0 25 distinct, byte1 {a2 x20, a3 x2, b3 x3}, bytes 2-3
-  zero. Label2: byte0 20 distinct, byte1 21 distinct,
-  byte2 {01 x12, 02 x13}, byte3 zero. Every as-function
-  'True' is degenerate (injective determiner or constant
-  target); all non-degenerate tests mixed in both
-  directions (sole sub-case: label2 byte1 -> label1 byte0
-  inside camp A, where byte1 is injective — degenerate;
-  mixed in B and pooled). Affine a != 0 hits 0 and
-  XOR-constant hits 0 in all scopes; label1 XOR label2
-  25 distinct, u32le difference 25 distinct, neither
-  constant in any scope. Label identity NOT PROVEN.
-  (iii) Positional law EXACT on consA x consB (consA len
-  21392 / 151 distinct bytes, consB len 21648 / 150):
-  7,011 pairs, 5,489,488 tallies, differing 0, out-of-range
-  457,604,528 over 22,552 pairs — tally total equal to
-  A0 x B0's, pair counts slightly distinct.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...102
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), camps A 21392 x13 / B 21648 x12, trains 52 (28/13/11), whole
+  re-collection exact (7,484; SPARSE 2,280/144, MID 2,306/21, DENSE
+  2,898/64); DONE102 at line 2,892 of the output. (i) Exactly 5
+  offset-set singletons, each with maximal raw ff-run length 1 (position
+  0): (0a0d378c,21,32560) q 6156 cidx 74 mask 00000; (5ab3537d,9,32584)
+  q 5040 cidx 28 mask 00000; MiniLM q 6700 / 11408 / 32248, all cidx 5,
+  masks 00000/00010/00010 (the two 00010 share the frame 01000800 ...
+  ff, 00000000, 01000800). Raw word at q is ff000000 for 64/64; raw-run
+  lengths over the zeros {1: 5, 4: 59} across 20 distinct raw runs (15
+  of length 4, 5 of length 1); position-in-run {0: 19, 1: 15, 2: 15, 3:
+  15}; raw vs offset singleton classification agrees 64/64,
+  disagreements 0. The length-3 run's instance (0a0d378c,20,32752) cidx
+  44 carries a raw run 17344..17356 of length 4 whose first word (17344)
+  has no candidate in this instance, while the sister group (20,32688)
+  cidx 8 carries all four candidates on the same raw interval; its three
+  candidates sit at raw positions 1/2/3. (ii) All 25 segments carry
+  exactly one label per family; 25 distinct label1, 25 distinct label2,
+  25 distinct pairs, no value of either family repeated across camps.
+  Label1: byte0 25 distinct, byte1 {a2 x20, a3 x2, b3 x3}, bytes 2-3
+  zero. Label2: byte0 20 distinct, byte1 21 distinct, byte2 {01 x12, 02
+  x13}, byte3 zero. Every as-function 'True' is degenerate (injective
+  determiner or constant target); all non-degenerate tests mixed in both
+  directions (sole sub-case: label2 byte1 -> label1 byte0 inside camp A,
+  where byte1 is injective — degenerate; mixed in B and pooled). Affine
+  a != 0 hits 0 and XOR-constant hits 0 in all scopes; label1 XOR label2
+  25 distinct, u32le difference 25 distinct, neither constant in any
+  scope. (iii) Positional law EXACT on consA x consB (consA len 21392 /
+  151 distinct bytes, consB len 21648 / 150): 7,011 pairs, 5,489,488
+  tallies, differing 0, out-of-range 457,604,528 over 22,552 pairs —
+  tally total equal to A0 x B0's, pair counts slightly distinct.
+- **Evidence boundary:** Exclusion mechanism NOT PROVEN. Label identity
+  NOT PROVEN.
 - **Next:** the candidate-less raw word at 17344 in
   (0a0d378c, 20, 32752) cidx 44; singleton neighbourhoods
   vs run-member neighbourhoods; label values vs segment
@@ -8468,51 +8524,46 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-104 — the candidate-less word at 17344 is a common offset of its group (exclusion EXPLAINED by the population definition) and is one of only two common-arm DENSE zeros in the corpus; singleton and run-member neighbourhood value sets are disjoint at every relative position yet no exact separation exists; the labels share no stated relation with segment cidx arithmetic
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CANDIDATELESS_17344_NEIGHBOURHOODS_CIDX_LABELS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...103 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  whole-arm candidates 7,690 boundary 0, non-common 7,484
-  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); DONE104 at
-  line 3,411. Script note: arm (ii)'s first-run intersection
-  lines were mis-indexed (+4 read the centre, +8 read +4);
-  one-line patch (hef104.py sha256 6c2b10ac...), full rerun,
-  on-device diff = exactly those two lines.
-  (i) Group (0a0d378c,20,32752) commons are exactly
-  [13664, 17344] — 17344 IS a common offset, so its absence
-  from the non-common population is EXPLAINED by the
-  population definition. Its common-arm record (cidx 44,
-  ng 0, ngidx 45) is value 0, z 0, DENSE, mask 00000, pred 0
-  from the ALLOTH object at 17344 itself (per-ng
-  {0:(CONST,0), 1:(CONST,1)}) — a common-arm DENSE zero;
-  the other six instances share one record (value 1, z 1,
-  DENSE, mask 10000, pred 1). Edge census over all 20 raw
-  runs: 65 raw positions, 64 candidates, exactly 1 missing
-  (17344, common) — the exclusion recurs nowhere. Common-arm
-  census (18 groups): 206 records, forms DENSE 95 / SPARSE
-  65 / MID 46, value-0 DENSE 2 / SPARSE 8 / MID 0; exactly 2
-  common-arm DENSE zeros corpus-wide: this one and
-  (MiniLM,23,32768) p 9272 cidx 5 mask 01000.
-  (ii) Singletons n 5 (masks {00000: 3, 00010: 2}, 5 distinct
-  tuples) vs run members n 59 (mask {00000: 59}, 40 distinct
-  tuples, 9 groups). Per-position value sets are DISJOINT
-  at all four relative positions (-8: 4 vs 16; -4: 5 vs 11;
-  +4: 4 vs 9; +8: 4 vs 19 — intersections all 0, corrected
-  run) and 0 full tuples are shared; members are
-  ff-saturated (most-common word ff000000 at every position,
-  x30/x45/x44/x29) while singletons carry their only zero
-  words at +4 (2/5). But NO exact separation exists (no word
-  in all of one population and none of the other, at any
-  position; no separating mask), so a distinguishing law is
-  NOT PROVEN under the contract's crediting rule.
-  (iii) All 25 segments carry exactly one label per family;
-  cidx is injective in every scope (A 13/13, B 12/12,
-  pooled 25/25, no cross-camp repeat). Every as-function
-  True against cidx / segidx / pooled rank is degenerate
-  (injective determiner or constant target); affine a != 0
-  hits 0 and XOR-constant hits 0 in all scopes; AFFINE
-  non-degenerate hits total 0. Label identity NOT PROVEN.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...103
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), whole-arm candidates 7,690 boundary 0, non-common 7,484
+  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); DONE104 at line
+  3,411. Script note: arm (ii)'s first-run intersection lines were
+  mis-indexed (+4 read the centre, +8 read +4); one-line patch
+  (hef104.py sha256 6c2b10ac...), full rerun, on-device diff = exactly
+  those two lines. (i) Group (0a0d378c,20,32752) commons are exactly
+  [13664, 17344] — 17344 IS a common offset, so its absence from the
+  non-common population is EXPLAINED by the population definition. Its
+  common-arm record (cidx 44, ng 0, ngidx 45) is value 0, z 0, DENSE,
+  mask 00000, pred 0 from the ALLOTH object at 17344 itself (per-ng
+  {0:(CONST,0), 1:(CONST,1)}) — a common-arm DENSE zero; the other six
+  instances share one record (value 1, z 1, DENSE, mask 10000, pred 1).
+  Edge census over all 20 raw runs: 65 raw positions, 64 candidates,
+  exactly 1 missing (17344, common) — the exclusion recurs nowhere.
+  Common-arm census (18 groups): 206 records, forms DENSE 95 / SPARSE 65
+  / MID 46, value-0 DENSE 2 / SPARSE 8 / MID 0; exactly 2 common-arm
+  DENSE zeros corpus-wide: this one and (MiniLM,23,32768) p 9272 cidx 5
+  mask 01000. (ii) Singletons n 5 (masks {00000: 3, 00010: 2}, 5
+  distinct tuples) vs run members n 59 (mask {00000: 59}, 40 distinct
+  tuples, 9 groups). Per-position value sets are DISJOINT at all four
+  relative positions (-8: 4 vs 16; -4: 5 vs 11; +4: 4 vs 9; +8: 4 vs 19
+  — intersections all 0, corrected run) and 0 full tuples are shared;
+  members are ff-saturated (most-common word ff000000 at every position,
+  x30/x45/x44/x29) while singletons carry their only zero words at +4
+  (2/5). But NO exact separation exists (no word in all of one
+  population and none of the other, at any position; no separating
+  mask). (iii) All 25 segments carry exactly one label per family; cidx
+  is injective in every scope (A 13/13, B 12/12, pooled 25/25, no
+  cross-camp repeat). Every as-function True against cidx / segidx /
+  pooled rank is degenerate (injective determiner or constant target);
+  affine a != 0 hits 0 and XOR-constant hits 0 in all scopes; AFFINE
+  non-degenerate hits total 0.
+- **Evidence boundary:** A distinguishing law is NOT PROVEN under the
+  contract's crediting rule. Label identity NOT PROVEN.
 - **Next:** the second common-arm DENSE zero (MiniLM p 9272);
   a disjointness control for arm (ii) (other population
   splits of the same zeros); label values vs ngidx / ng
@@ -8521,53 +8572,48 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-105 — the second common-arm DENSE zero is also a common offset (MiniLM 9272, its group's only common offset, a raw singleton); the 4.104 disjointness is itself surprising (0 of 2,000 seeded random 5-splits reproduce it at even one position); the labels share no stated relation with ngidx / ng arithmetic (ng constant across all 25 camp segments)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SECOND_COMMONARM_DISJOINT_CONTROL_NG_LABELS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...104 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  whole-arm candidates 7,690 boundary 0, non-common 7,484
-  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); common-arm
-  census reproduces AES-NUM-104 exactly (206 records, DENSE 95 /
-  SPARSE 65 / MID 46, value-0 DENSE 2, exactly 2 common-arm
-  DENSE zeros). DONE105 at line 3,576. Script note: the first
-  run crashed in arm (iii) on a `%`-precedence bug in the PAIR
-  print after arms (i)/(ii) completed; one-line patch
-  (hef105.py sha256 3ce411f7...), full rerun, on-device diff =
-  exactly the traceback replaced by arm (iii)'s output.
-  (i) Group (MiniLM,23,32768) commons are exactly [9272] —
-  9272 IS a common offset (the group's only one), so its
-  absence from the non-common population is EXPLAINED by the
-  population definition, as at 17344. Instances: (cidx 3,
-  ng 0, ngidx 4) value 127, z 1, DENSE, mask 00001; (cidx 5,
-  ng 0, ngidx 6) value 0, z 1, DENSE, mask 01000 — the
-  common-arm DENSE zero, mask exactly as AES-NUM-104
-  recorded. The ALLOTH object at 9272 exists with per-ng
-  form {0: OTHER} — no per-ng prediction (17344's were CONST
-  in both ngs). Raw: cidx 5's word is ff000000, maximal raw
-  run length 1 (raw singleton), sole position common-only;
-  cidx 3's word is ff7f0000, no raw run.
-  (ii) The observed singleton/member disjointness reproduces
-  ([0,0,0,0]). Controls: 7 deterministic alternative
-  5-splits — none disjoint at even one position
-  (intersections 1–4 per position); 2,000 seeded random
-  5-subsets — all-four-disjoint 0, >=1-position-disjoint 1,
-  per-position disjoint counts [0,0,0,1], mean intersections
-  [2.619, 1.601, 1.853, 2.4715]. The disjointness is NOT a
-  small-n artefact; it is a real measured feature of the
-  two populations. AES-NUM-104's exact-separation hunt
-  still stands: a distinguishing LAW remains NOT PROVEN.
-  (iii) ng is CONSTANT (1) across all 25 camp segments in
-  every scope — as a determiner it carries no variation
-  (as-function True only on constant target bytes, all
-  degenerate; affine hits only on constant targets,
-  excluded). ngidx is injective in every scope (A 13,
-  B 12, pooled 25 distinct) — every as-function hit
-  degenerate; affine a != 0 hits 0 on all 24 scope/byte
-  combinations, XOR-constant None. AFFINE non-degenerate
-  hits total 0. With cidx/segidx/rank (4.104) and the
-  label pair (4.103) closed, every stated metadata
-  determiner is exhausted. Label identity NOT PROVEN.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...104
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), whole-arm candidates 7,690 boundary 0, non-common 7,484
+  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); common-arm census
+  reproduces AES-NUM-104 exactly (206 records, DENSE 95 / SPARSE 65 /
+  MID 46, value-0 DENSE 2, exactly 2 common-arm DENSE zeros). DONE105 at
+  line 3,576. Script note: the first run crashed in arm (iii) on a
+  `%`-precedence bug in the PAIR print after arms (i)/(ii) completed;
+  one-line patch (hef105.py sha256 3ce411f7...), full rerun, on-device
+  diff = exactly the traceback replaced by arm (iii)'s output. (i) Group
+  (MiniLM,23,32768) commons are exactly [9272] — 9272 IS a common offset
+  (the group's only one), so its absence from the non-common population
+  is EXPLAINED by the population definition, as at 17344. Instances:
+  (cidx 3, ng 0, ngidx 4) value 127, z 1, DENSE, mask 00001; (cidx 5, ng
+  0, ngidx 6) value 0, z 1, DENSE, mask 01000 — the common-arm DENSE
+  zero, mask exactly as AES-NUM-104 recorded. The ALLOTH object at 9272
+  exists with per-ng form {0: OTHER} — no per-ng prediction (17344's
+  were CONST in both ngs). Raw: cidx 5's word is ff000000, maximal raw
+  run length 1 (raw singleton), sole position common-only; cidx 3's word
+  is ff7f0000, no raw run. (ii) The observed singleton/member
+  disjointness reproduces ([0,0,0,0]). Controls: 7 deterministic
+  alternative 5-splits — none disjoint at even one position
+  (intersections 1–4 per position); 2,000 seeded random 5-subsets —
+  all-four-disjoint 0, >=1-position-disjoint 1, per-position disjoint
+  counts [0,0,0,1], mean intersections [2.619, 1.601, 1.853, 2.4715].
+  The disjointness is NOT a small-n artefact; it is a real measured
+  feature of the two populations. (iii) ng is CONSTANT (1) across all 25
+  camp segments in every scope — as a determiner it carries no variation
+  (as-function True only on constant target bytes, all degenerate;
+  affine hits only on constant targets, excluded). ngidx is injective in
+  every scope (A 13, B 12, pooled 25 distinct) — every as-function hit
+  degenerate; affine a != 0 hits 0 on all 24 scope/byte combinations,
+  XOR-constant None. AFFINE non-degenerate hits total 0. With
+  cidx/segidx/rank (4.104) and the label pair (4.103) closed, every
+  stated metadata determiner is exhausted.
+- **Evidence boundary:** AES-NUM-104's exact-separation hunt still
+  stands: a distinguishing LAW remains NOT PROVEN. Label identity NOT
+  PROVEN.
 - **Next:** the singleton-only neighbourhood values
   themselves; the cidx-3 counterpart at 9272 word-by-word;
   label values vs in-segment block positional structure
@@ -8576,65 +8622,55 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-106 — the singleton-only neighbourhood values are mostly ordinary corpus words (fd000000 unique in everything scanned; disjointness is specifically against the DENSE-zero run-members); the cidx-3 counterpart at 9272 shares no neighbourhood position with the cidx-5 DENSE zero (0/5 equal, 10/20 bytes differ); labels share no stated relation with in-segment block positional structure (one camp-B-local as-function fact for label1 byte1 from label2 head bytes; affine zero everywhere)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SINGLETON_ONLY_9272_COUNTERPART_BLOCK_POSITIONAL_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...105 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215),
-  whole-arm candidates 7,690 boundary 0, non-common 7,484
-  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); common-arm
-  census reproduces AES-NUM-104 exactly (206 records, DENSE 95 /
-  SPARSE 65 / MID 46, exactly 2 common-arm DENSE zeros). DONE105
-  at line 3,576 and DONE106 at line 3,670 (output sha256
-  01b1fa25...). Transfer note: hef106.py (sha256 cd7d18cc...)
-  proxy-upload saved:35868, hashes verified on-device; the
-  first launch died with its timed-out launching invoke (line
-  2,653, no DONE106, nothing credited), relaunched setsid
-  detached and completed.
-  (i) Singleton-only values = the singleton sets themselves
-  (disjointness reproduced, intersections 0 at all four
-  positions): 17 (position, value) pairs, 13 distinct values.
-  Shared across singletons only inside the MiniLM cidx-5 pair
-  at 11408/32248 (01000800 at -8/+8, 00000000 at +4; tuples
-  identical at -8/+4/+8, differ only at -4). Recurrence
-  (7,484 whole neighbourhoods, 206 common-arm neighbourhoods,
-  102 instance segments raw = 833,858 tokens, 25 camp
-  segments raw = 134,468 tokens): 12 of 17 pairs recur at the
-  same position in non-singleton whole neighbourhoods
-  (ff7f0000@-8 x545, 00000000@+4 x4,580) — the values are
-  mostly corpus-common; the disjointness is against the
-  run-members specifically. Five pairs never recur at the
-  same position outside the singletons; of those fd000000
-  (-4, 5ab3537d singleton) is UNIQUE in everything scanned
-  (any-position 1 = itself, common-arm 0, raw totals 1/0)
-  and e9ff0000 (+4, MiniLM 6700) is raw-unique (raw total 1;
-  one further whole-neighbourhood occurrence at another
-  position). No singleton-only value class; identity NOT
-  PROVEN.
-  (ii) (MiniLM,23,32768) at 9272: both neighbourhoods match
-  the contract tuples exactly; position-equal 0/5, differing
-  bytes 10/20, centres differ only in the value byte
-  (ff7f0000 vs ff000000); the lone zero word sits at
-  opposite ends (+8 vs -4 — the 00001/01000 mask contrast);
-  the only word shared at any position is 00000000, at
-  different positions. The counterpart is not a near-copy.
-  (iii) Own-family head slots carry the label by
-  construction (36/36 both families, excluded). Slot hunt
-  over the other 146 slots (7,008 tests/family): full-word
-  exact 0; byte-equal hits only the constant-zero
-  coincidence (label constant 00 bytes x tail zero bytes,
-  counts matching exactly); affine non-degenerate 0 both
-  families; as-function non-degenerate 0 for family 2 and
-  72 for family 1, camp B only (label1 byte1 as a function
-  of label2 byte0 and of label2 byte1 at label2's head
-  slots; two determiner collisions, both agreeing; fails
-  in camp A and pooled; the reverse direction of
-  AES-NUM-103's pair hunt, recorded as measured, NOT
-  graded as a law). Positional aggregates (14 features,
-  constant or label-derived per scope): as-function and
-  affine non-degenerate 0 both families. Every stated
-  in-segment determiner class is now closed. Label
-  identity NOT PROVEN.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...105
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215), whole-arm candidates 7,690 boundary 0, non-common 7,484
+  (SPARSE 2,280/144, MID 2,306/21, DENSE 2,898/64); common-arm census
+  reproduces AES-NUM-104 exactly (206 records, DENSE 95 / SPARSE 65 /
+  MID 46, exactly 2 common-arm DENSE zeros). DONE105 at line 3,576 and
+  DONE106 at line 3,670 (output sha256 01b1fa25...). Transfer note:
+  hef106.py (sha256 cd7d18cc...) proxy-upload saved:35868, hashes
+  verified on-device; the first launch died with its timed-out launching
+  invoke (line 2,653, no DONE106, nothing credited), relaunched setsid
+  detached and completed. (i) Singleton-only values = the singleton sets
+  themselves (disjointness reproduced, intersections 0 at all four
+  positions): 17 (position, value) pairs, 13 distinct values. Shared
+  across singletons only inside the MiniLM cidx-5 pair at 11408/32248
+  (01000800 at -8/+8, 00000000 at +4; tuples identical at -8/+4/+8,
+  differ only at -4). Recurrence (7,484 whole neighbourhoods, 206
+  common-arm neighbourhoods, 102 instance segments raw = 833,858 tokens,
+  25 camp segments raw = 134,468 tokens): 12 of 17 pairs recur at the
+  same position in non-singleton whole neighbourhoods (ff7f0000@-8 x545,
+  00000000@+4 x4,580) — the values are mostly corpus-common; the
+  disjointness is against the run-members specifically. Five pairs never
+  recur at the same position outside the singletons; of those fd000000
+  (-4, 5ab3537d singleton) is UNIQUE in everything scanned (any-position
+  1 = itself, common-arm 0, raw totals 1/0) and e9ff0000 (+4, MiniLM
+  6700) is raw-unique (raw total 1; one further whole-neighbourhood
+  occurrence at another position). No singleton-only value class. (ii)
+  (MiniLM,23,32768) at 9272: both neighbourhoods match the contract
+  tuples exactly; position-equal 0/5, differing bytes 10/20, centres
+  differ only in the value byte (ff7f0000 vs ff000000); the lone zero
+  word sits at opposite ends (+8 vs -4 — the 00001/01000 mask contrast);
+  the only word shared at any position is 00000000, at different
+  positions. The counterpart is not a near-copy. (iii) Own-family head
+  slots carry the label by construction (36/36 both families, excluded).
+  Slot hunt over the other 146 slots (7,008 tests/family): full-word
+  exact 0; byte-equal hits only the constant-zero coincidence (label
+  constant 00 bytes x tail zero bytes, counts matching exactly); affine
+  non-degenerate 0 both families; as-function non-degenerate 0 for
+  family 2 and 72 for family 1, camp B only (label1 byte1 as a function
+  of label2 byte0 and of label2 byte1 at label2's head slots; two
+  determiner collisions, both agreeing; fails in camp A and pooled; the
+  reverse direction of AES-NUM-103's pair hunt, recorded as measured,
+  NOT graded as a law). Positional aggregates (14 features, constant or
+  label-derived per scope): as-function and affine non-degenerate 0 both
+  families. Every stated in-segment determiner class is now closed.
+- **Evidence boundary:** Identity NOT PROVEN. Label identity NOT PROVEN.
 - **Next:** camp-B label-pair correlation under a chance
   control; the population-rare singleton words against
   wider segment populations; same-group instance-pair
@@ -8644,45 +8680,41 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-107 — the camp-B label-pair correlation is chance-consistent (both-byte non-vacuous as-function in 20.9% of seeded size-12 pooled subsamples, 17.2% under permutation; not a law); the "unique" singleton words are not rare in the wider corpus (fd000000 3,223 aligned occurrences in 1,549 of 542,905 distinct referenced segments — a narrow-population artefact); instance-pair neighbourhood agreement at common offsets is usually high (502 of 789 pairs at 4–5 positions; 0/5 is a 3.2% exception, the 9272 pair one of 25)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CAMPB_CHANCE_RAREWORDS_PAIR_AGREEMENT_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...106 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
-  DONE105 at line 3,576 and DONE106 at line 3,670 of this run's
+- **Executable evidence:** controls reproduce AES-NUM-029/032...106
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215); DONE105 at line 3,576 and DONE106 at line 3,670 of this run's
   output (hef107.py sha256 1377ed2b..., output sha256 252e5e17...,
-  633,975 B, DONE107 at line 3,701). Transfer note: the prior
-  firing stopped after the contract (8be87db8) with the script
-  built; this firing completed the proxy-upload (saved:38602,
-  gz + script sha256 verified on-device) and ran the script
-  detached to DONE107.
-  (i) Camp-B fact reproduced exactly (label1 byte1 as a
-  non-vacuous function of label2 byte0 and of byte1, one
-  agreeing collision each; camp A and pooled False both
-  bytes). Chance controls, 20,000 draws of size 12:
-  subsample-pooled both-byte hits 4,179 (byte0 7,059, byte1
-  9,786, either 12,666); permutation-pooled both 3,439
-  (byte0 8,218, byte1 7,878, either 12,657); exhaustive
-  camp-A size-12 subsamples 0/13. The camp-B pattern is
-  chance-consistent; NOT a law. Label-pair determiner class
-  closed in both directions; label identity NOT PROVEN.
-  (ii) Wider population = 542,905 distinct referenced
-  segments (745,849 references, 9,275,073,840 distinct
-  referenced bytes). fd000000: 3,223 distinct-segment
-  aligned occurrences, weighted 6,909, in 1,549 segments
-  (cc9b9d1c 1,878; MiniLM 20). e9ff0000: 209 / weighted 240 /
-  197 segments (cc9b9d1c 180; MiniLM 1). f6000000: 2,286 /
-  weighted 2,582 / 952 segments (cc9b9d1c 1,622). No
-  rare-word component remains in the singleton story.
-  (iii) 789 instance pairs at common offsets (206 records,
-  18 groups): position-equal distribution {0: 25, 1: 172,
-  2: 88, 3: 2, 4: 246, 5: 256}; mean 3.318; identical
-  tuples 256; mean differing bytes 2.738. Per-position
-  equality [527, 549, 275, 742, 525] — centre least, +4
-  most. Excluding the target: 788 pairs, 0/5 fraction
-  3.05% (all pairs 3.17%). Target pair reproduced (1 pair,
-  0/5, 10 differing bytes). 0/5 is an exception class of
-  25, not the rule; its separator is NOT PROVEN.
+  633,975 B, DONE107 at line 3,701). Transfer note: the prior firing
+  stopped after the contract (8be87db8) with the script built; this
+  firing completed the proxy-upload (saved:38602, gz + script sha256
+  verified on-device) and ran the script detached to DONE107. (i) Camp-B
+  fact reproduced exactly (label1 byte1 as a non-vacuous function of
+  label2 byte0 and of byte1, one agreeing collision each; camp A and
+  pooled False both bytes). Chance controls, 20,000 draws of size 12:
+  subsample-pooled both-byte hits 4,179 (byte0 7,059, byte1 9,786,
+  either 12,666); permutation-pooled both 3,439 (byte0 8,218, byte1
+  7,878, either 12,657); exhaustive camp-A size-12 subsamples 0/13. The
+  camp-B pattern is chance-consistent; NOT a law. Label-pair determiner
+  class closed in both directions. (ii) Wider population = 542,905
+  distinct referenced segments (745,849 references, 9,275,073,840
+  distinct referenced bytes). fd000000: 3,223 distinct-segment aligned
+  occurrences, weighted 6,909, in 1,549 segments (cc9b9d1c 1,878; MiniLM
+  20). e9ff0000: 209 / weighted 240 / 197 segments (cc9b9d1c 180; MiniLM
+  1). f6000000: 2,286 / weighted 2,582 / 952 segments (cc9b9d1c 1,622).
+  No rare-word component remains in the singleton story. (iii) 789
+  instance pairs at common offsets (206 records, 18 groups):
+  position-equal distribution {0: 25, 1: 172, 2: 88, 3: 2, 4: 246, 5:
+  256}; mean 3.318; identical tuples 256; mean differing bytes 2.738.
+  Per-position equality [527, 549, 275, 742, 525] — centre least, +4
+  most. Excluding the target: 788 pairs, 0/5 fraction 3.05% (all pairs
+  3.17%). Target pair reproduced (1 pair, 0/5, 10 differing bytes). 0/5
+  is an exception class of 25, not the rule.
+- **Evidence boundary:** Label identity NOT PROVEN. Its separator is NOT
+  PROVEN.
 - **Next:** the 25 total-disagreement pairs as a class;
   the exactly-3 near-empty band and per-group agreement
   structure; the cc9b9d1c rare-word concentration
@@ -8691,49 +8723,43 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-108 — the 25 total-disagreement pairs are a concentrated, structurally uniform exception class (exactly 4 (group,offset) cells; every pair differing in exactly 10 bytes with per-position counts 2/4/1/(1,2); three repeated structures, not 25 accidents; no group/offset separator — the 0a0d378c @17344 cell holds both 0/5 and 5/5 pairs); the exactly-3 band is near-empty at every level (2 pairs, both ordinary MID/MID (2,2); agreement grades per-(group,offset) cell, not per group); cc9b9d1c's rare-word concentration is real per referred byte (fd000000 841.7, f6000000 726.9 per 1e9 bytes — 2.5–3x the densest other blob) and is carried by 929 of its 112,884 segments holding all 3,680 cc9 rare occurrences
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_ZERO25_EXACTLY3_CC9_DENSITY_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...107 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
-  DONE105 at line 3,576, DONE106 at line 3,670 and DONE107 at
-  line 3,701 of this run's output (hef108.py sha256 ad8f6ed0...,
-  output sha256 1441b85f..., 658,695 B, DONE108 at line 3,910).
-  Transfer note: the 22:31 firing built the script and landed
-  the receiver, then stopped before the proxy-upload; this
-  firing completed it (saved:41839, gz + script sha256 verified
-  on-device) and ran the script detached to DONE108.
-  (i) The 25 zero pairs occupy 4 cells: 0a0d378c @17344 x6
-  (one identical word-pair repeated, DENSE/DENSE zeros 0/1),
-  the sisters @17272 x9 each (one identical SPARSE B
-  neighbourhood against 9 DENSE label-variants), MiniLM
-  @9272 x1 (the target). All 25 differ in exactly 10 bytes
-  (per-position 2,4,1 in all; 3/4 take (1,2) x7 and (2,1)
-  x18); forms only (DENSE,DENSE) x7 and (DENSE,SPARSE) x18;
-  zero counts mismatched in 24/25. The 5/5 control (256) is
-  (SPARSE,SPARSE) x136, (MID,MID) x93, (DENSE,DENSE) x27
-  with zero counts always equal. No (group,offset)
-  separator: 3 of 4 zero groups also hold 5/5 pairs and the
-  17344 cell holds both classes (6 zero, 15 identical of
-  21); a within-cell separator is NOT PROVEN.
-  (ii) Exactly-3 pairs: 5ab3537d @31452 and cc9b9d1c
-  @19268, both (MID,MID) zeros (2,2), bytediff 3 and 2.
-  Agreement is not a per-group property (the sister
-  pos-21 groups span {0,1,2,4,5}); per-offset cells narrow
-  sharply (sister offsets give means 4.4/2.84/4.4/3.04),
-  only 1 of 39 cells holds both classes, and no group or
-  cell concentrates at 3.
-  (iii) Densities per 1e9 distinct referred bytes (corpus
-  542,905 segments, 9,275,073,840 B, counts reproducing
-  AES-NUM-107 exactly): cc9b9d1c fd 841.7 (share 58.3% vs
-  byte share 24.1%), f6 726.9 (71.0%), e9 80.7 (86.1%);
-  MiniLM's higher nominal densities are a 9.8 MB
-  small-denominator artefact (shares 0.62%/0.79%). In cc9
-  the words sit in 569/497/170 segments (means 3.30/3.26/
-  1.06 per containing segment, max 28/21/2, size 32784
-  dominant), offset quartiles [12,938,152,776] for fd;
-  union 929 segments (0.82%) hold all 3,680 cc9 rare
-  occurrences.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...107
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215); DONE105 at line 3,576, DONE106 at line 3,670 and DONE107 at
+  line 3,701 of this run's output (hef108.py sha256 ad8f6ed0..., output
+  sha256 1441b85f..., 658,695 B, DONE108 at line 3,910). Transfer note:
+  the 22:31 firing built the script and landed the receiver, then
+  stopped before the proxy-upload; this firing completed it
+  (saved:41839, gz + script sha256 verified on-device) and ran the
+  script detached to DONE108. (i) The 25 zero pairs occupy 4 cells:
+  0a0d378c @17344 x6 (one identical word-pair repeated, DENSE/DENSE
+  zeros 0/1), the sisters @17272 x9 each (one identical SPARSE B
+  neighbourhood against 9 DENSE label-variants), MiniLM @9272 x1 (the
+  target). All 25 differ in exactly 10 bytes (per-position 2,4,1 in all;
+  3/4 take (1,2) x7 and (2,1) x18); forms only (DENSE,DENSE) x7 and
+  (DENSE,SPARSE) x18; zero counts mismatched in 24/25. The 5/5 control
+  (256) is (SPARSE,SPARSE) x136, (MID,MID) x93, (DENSE,DENSE) x27 with
+  zero counts always equal. No (group,offset) separator: 3 of 4 zero
+  groups also hold 5/5 pairs and the 17344 cell holds both classes (6
+  zero, 15 identical of 21). (ii) Exactly-3 pairs: 5ab3537d @31452 and
+  cc9b9d1c @19268, both (MID,MID) zeros (2,2), bytediff 3 and 2.
+  Agreement is not a per-group property (the sister pos-21 groups span
+  {0,1,2,4,5}); per-offset cells narrow sharply (sister offsets give
+  means 4.4/2.84/4.4/3.04), only 1 of 39 cells holds both classes, and
+  no group or cell concentrates at 3. (iii) Densities per 1e9 distinct
+  referred bytes (corpus 542,905 segments, 9,275,073,840 B, counts
+  reproducing AES-NUM-107 exactly): cc9b9d1c fd 841.7 (share 58.3% vs
+  byte share 24.1%), f6 726.9 (71.0%), e9 80.7 (86.1%); MiniLM's higher
+  nominal densities are a 9.8 MB small-denominator artefact (shares
+  0.62%/0.79%). In cc9 the words sit in 569/497/170 segments (means
+  3.30/3.26/ 1.06 per containing segment, max 28/21/2, size 32784
+  dominant), offset quartiles [12,938,152,776] for fd; union 929
+  segments (0.82%) hold all 3,680 cc9 rare occurrences.
+- **Evidence boundary:** A within-cell separator is NOT PROVEN.
 - **Next:** the mixed 0a0d378c @17344 cell broken out pair
   by pair; the cc9 rare-containing segments as a class
   (set overlaps, joint size/offset structure); the sister
@@ -8742,7 +8768,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-109 — the mixed @17344 cell resolves to two neighbourhoods (cidx 44 alone vs six identical instances; neighbourhood identity and the zero-count pair separate 0/5 from 5/5 inside the cell, form does not); the cc9 rare-containing segments are a distinct subpopulation (overlaps 37–1325x independence, 11 sizes only, Q2+Q4 hold 91.8%); the sister cidx-95 SPARSE singleton is unique at all 4 common offsets of its group in both sister artifacts (total disagreement confined to @17272)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MIXED_CELL_CC9_CLASS_SINGLETON_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...108 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8795,55 +8822,48 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-110 — cidx 44 is the singleton again at the mixed cell's second common offset 13664 (eq 1 via the shared +4 zero word; form separates here), but its singleton status is confined to that group (distinct 33/295 analysable offsets elsewhere, two-neighbourhood singleton pattern only at the cell's own 2 offsets); the cc9 929 are referenced by all 271 cc9 contexts, with one 304-byte segment taking 813 references (43.8% of the class, 100% of cc9's size-304 references) at head positions 5–12; the cidx-95 singleton's distances 2/0/2/1 are carried by fixed position sets (centre and −4 words differ at all 4 offsets, agreements are shared zero words only, no mixed positions), its cross-group test is vacuous in 5ab3537d and near-total in 773470cd (distinct 13/14)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_SECOND_OFFSET_929_POINTING_SINGLETON_POSITIONS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...109 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215);
-  DONE105 at line 3,576, DONE106 at line 3,670, DONE107 at
-  line 3,701 and DONE108 at line 3,910 of this run's output
-  (hef110.py sha256 372fdba3..., arms sha256 e2966a00...;
-  output 10,260 lines, 1,309,054 B, sha256 b420b5d7...).
-  (i) Mixed cell 0a0d378c pos 20 size 32752, common offsets
-  [13664, 17344]: at 13664 the same two neighbourhoods
-  (cidx 44 alone: 01000a00/4801a200/ff2d0000/00000000/
-  01000a00, DENSE 1 zero; six identical: 00000000/03000000/
-  ff0f0000/00000000/00100000, MID 2 zeros); cross pairs eq 1,
-  9 differing bytes, per-position (2,3,1,0,3) — the +4 zero
-  word is shared; form and zero pair (1,2) separate here,
-  unlike @17344. Cross-group (321 groups contain cidx 44,
-  11 analysable, 295 offsets): distinct-from-all 33,
-  form-unique 1, zero-unique 2, two-neighbourhood singleton
-  at exactly the cell's own 2 offsets, any-eq5 at 262/295;
-  eq-vs-partner {0: 6, 1: 9, 3: 4, 4: 360, 5: 3371} — the
-  only eq-0 pairs are the six @17344 pairs. Singleton
-  status is confined to the mixed cell's group.
-  (ii) cc9 929 referencing: 1,855 of 137,800 cc9 references;
-  all 271 contexts reference the class (182 exactly 3x;
-  top 50 contexts carry 62.2%); one size-304 segment is
-  referenced 813x = 43.8% of class references and 100% of
-  cc9's size-304 references, at head positions 5–12 in
-  rotating (pos,channel) triples (positions 5–12 hold 812
-  class refs at 13–50x share); remaining 928 segments:
-  814 referenced once, 114 twice (class mean 2.00 vs census
-  1.22, excess entirely the 813 segment). Channels mildly
-  tilted only ({0: 35.4, 1: 29.6, 2: 34.9}% vs {0: 38.9,
-  1: 31.4, 2: 29.7}%); per-word footprints fd 1,465 refs /
-  271 contexts, f6 559 / 60, e9 191 / 24.
-  (iii) Cidx 95 differing positions (identical in both
-  sisters): @11136 [1,2,4] differ, [0,3] equal (zero words);
-  @17272 all five differ (centre carries 9 distinct partner
-  words); @20300 [0,1,2] differ, [3,4] equal (zero words);
-  @32192 [0,1,2,4] differ, [3] equal. Centre and −4 words
-  differ at all 4 offsets; every agreeing position is a
-  shared all-zero word; no position is mixed at any offset.
-  Cross-group: 5ab3537d has NO second analysable group
-  (233 containing, 165 no-common, 67 single-instance) —
-  uniqueness elsewhere NOT PROVEN there (untestable);
-  773470cd's pos-9/size-32784 group (8 instances, 10
-  offsets): distinct 9/10, form/zero-unique 8/10, one
-  full-agreement offset (7 eq-5 partner pairs); combined
-  distinct 13/14.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...109
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts
+  75,215); DONE105 at line 3,576, DONE106 at line 3,670, DONE107 at line
+  3,701 and DONE108 at line 3,910 of this run's output (hef110.py sha256
+  372fdba3..., arms sha256 e2966a00...; output 10,260 lines, 1,309,054
+  B, sha256 b420b5d7...). (i) Mixed cell 0a0d378c pos 20 size 32752,
+  common offsets [13664, 17344]: at 13664 the same two neighbourhoods
+  (cidx 44 alone: 01000a00/4801a200/ff2d0000/00000000/ 01000a00, DENSE 1
+  zero; six identical: 00000000/03000000/ ff0f0000/00000000/00100000,
+  MID 2 zeros); cross pairs eq 1, 9 differing bytes, per-position
+  (2,3,1,0,3) — the +4 zero word is shared; form and zero pair (1,2)
+  separate here, unlike @17344. Cross-group (321 groups contain cidx 44,
+  11 analysable, 295 offsets): distinct-from-all 33, form-unique 1,
+  zero-unique 2, two-neighbourhood singleton at exactly the cell's own 2
+  offsets, any-eq5 at 262/295; eq-vs-partner {0: 6, 1: 9, 3: 4, 4: 360,
+  5: 3371} — the only eq-0 pairs are the six @17344 pairs. Singleton
+  status is confined to the mixed cell's group. (ii) cc9 929
+  referencing: 1,855 of 137,800 cc9 references; all 271 contexts
+  reference the class (182 exactly 3x; top 50 contexts carry 62.2%); one
+  size-304 segment is referenced 813x = 43.8% of class references and
+  100% of cc9's size-304 references, at head positions 5–12 in rotating
+  (pos,channel) triples (positions 5–12 hold 812 class refs at 13–50x
+  share); remaining 928 segments: 814 referenced once, 114 twice (class
+  mean 2.00 vs census 1.22, excess entirely the 813 segment). Channels
+  mildly tilted only ({0: 35.4, 1: 29.6, 2: 34.9}% vs {0: 38.9, 1: 31.4,
+  2: 29.7}%); per-word footprints fd 1,465 refs / 271 contexts, f6 559 /
+  60, e9 191 / 24. (iii) Cidx 95 differing positions (identical in both
+  sisters): @11136 [1,2,4] differ, [0,3] equal (zero words); @17272 all
+  five differ (centre carries 9 distinct partner words); @20300 [0,1,2]
+  differ, [3,4] equal (zero words); @32192 [0,1,2,4] differ, [3] equal.
+  Centre and −4 words differ at all 4 offsets; every agreeing position
+  is a shared all-zero word; no position is mixed at any offset.
+  Cross-group: 5ab3537d has NO second analysable group (233 containing,
+  165 no-common, 67 single-instance); 773470cd's pos-9/size-32784 group
+  (8 instances, 10 offsets): distinct 9/10, form/zero-unique 8/10, one
+  full-agreement offset (7 eq-5 partner pairs); combined distinct 13/14.
+- **Evidence boundary:** Uniqueness elsewhere NOT PROVEN there
+  (untestable).
 - **Next:** cidx 44's distinctness events outside its cell;
   the 813-reference segment's anatomy and rotation law +
   heavy vs exactly-3 cc9 contexts; cidx 95's one
@@ -8853,7 +8873,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-111 — cidx 44's distinctness outside its cell is general variation, never singleton-vs-many (31/31 outside events all-distinct; the only singleton-vs-shared-partner events in the 295-offset profile are the mixed cell's own 2); the 813-reference segment is cc9b9d1c's only size-304 segment, its rare membership resting on a single fd000000 word, referenced exactly 3x by all 271 contexts as a consecutive channel-rotating triple (starts 4–10, no stream period); exactly-3 cc9 contexts reference that segment only, heavy contexts add the wider rare pool (856 distinct segments) on the same universal triple; cidx 95's one non-distinct offset 11608 is a group-wide unanimity offset (all 8 instances, one neighbourhood, centre ff010000), and 5ab3537d's pos-9 group (25 instances, cidx 95 not a member) admits no common offset because its grids split (sub-families share 26 offsets; cidx 208 shares 0)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_GENERAL_VARIATION_813_SEGMENT_POS9_UNANIMITY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...110 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -8916,63 +8937,54 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-112 — the centre ff-word value ladder is per-cell, and ff010000 is not its base (all 256 centre values occur across 55,902 analysable cells; mode is value 15 in both the full population and the all-distinct ladder cells; rank 0 spans 99 distinct values in ladder cells and equals 1 in only 188/11,242); ladder values are non-decreasing by rank in 11,212/11,242 all-distinct cells, with step +4 the modal AP step over a family {+3, +8, +9, +12, +6, ...}; the 813 triple's start position is determined by no tested function of the referencing context (NOT PROVEN); and 11608-class unanimity is the corpus norm — 39,673/55,902 cells (71.0%) unanimous, spanning 71 distinct centres with ff0f0000 dominant (24,276 cells) and ff010000 carrying only 1,016 (2.56%)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_CENTRE_LADDER_813_START_UNANIMITY_CORPUS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...111 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
-  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176;
-  CAMPS 21392/13, 21648/12); DONE105 at line 3,576, DONE106
-  at line 3,670, DONE107 at line 3,701 and DONE108 at line
-  3,910 of this run's output (hef112.py sha256 3f152865...,
-  arms sha256 eed36559...; output 11,026 lines, 1,583,758 B,
-  sha256 0cf729b7...). A first run (script sha256 5c25611d...)
-  carried a stale-variable defect in arm (ii)'s union builder
-  (union printed 1 vs the 929 control); the one-line fix was
-  applied and the corrected run above is the record — arms
-  (i)/(iii) are byte-identical between the runs.
-  Shared enumeration: 54,995 groups with >=2 instances, 1,323
-  with >=1 common offset, 55,902 analysable cells, 527,236
-  instance-cell observations.
-  (i) All cells: all 256 centre values occur; mode value 15
-  (298,610 obs, 56.64%); value 1 = 9,729 (1.85%); value 0 =
-  20,230. All-distinct ladder cells (11,242 cells, 87,178
-  obs): 255 distinct values (only 251 absent); mode 15
-  (5,064, 5.81%); value 1 = 190 (0.22%); min 0.
-  Non-decreasing by rank 11,212/11,242; strictly increasing
-  8,541; rank-AP (len>=3) 2,584 cells, steps {0: 352, +2: 26,
-  +3: 489, +4: 741, +6: 164, +8: 350, +9: 217, +12: 200,
-  +24: 34, +40: 11}; successive rank differences led by +4
-  (21,605), +3 (14,035), +9 (8,260). Rank alone does not
-  determine the value (rank 0: 99 distinct values in ladder
-  cells; rank 0 == 1 in 188/11,242; rank 0 == cell minimum
-  in 11,224/11,242); cidx alone does not either (351/1,403
-  (art,cidx) keys carry >1 value in ladder cells).
-  (ii) Start distribution reproduced {4: 1, 5: 47, 6: 31,
-  7: 83, 8: 56, 9: 44, 10: 9}; consecutive triples in all
-  271 contexts. Determinism tests ALL ambiguous: ng (2/2
-  keys), ngidx (100/137), total acts (14/20), class-ref
-  count (13/20), cohort (3/3 — exactly-3 spans 5-10, heavy
-  4-9), distinct segments (14/20), size sum (15/246),
-  first action full (14/65) and (size,ch) (3/3), first-4
-  sizes (1/1, spans all starts), first-4 channels (17/37),
-  preceding action full (14/52) and (size,ch) (3/3),
-  following action (18/40), previous context's start;
-  cidx/total-acts/ngidx mod k deterministic for no k in
-  2..64. Locally periodic stretches in cidx order noted;
-  the determining function is NOT PROVEN.
-  (iii) Unanimous cells 39,673/55,902 (0.7097); 71 distinct
-  centres {15: 24,276, 5: 2,881, 127: 2,846, 7: 2,122,
-  0: 1,354, 2: 1,070, 1: 1,016, 3: 548, ...}; centre
-  value 1 share 0.0256. By artifact (unanimous/analysable):
-  0856a10c 8,099/12,631; 0a0d378c 6,469/7,854; 5ab3537d
-  5,653/6,970; 76c3a8ff 6,165/9,470; 773470cd 6,120/7,485;
-  cc9b9d1c 7,167/11,488; MiniLM 0/4. By group size, rates
-  0.58-0.82 across sizes 2-27+ (size 2: 10,622/15,132;
-  size 8: 1,434/2,010; size 11: 1,492/1,825; size 17 dip
-  127/289). Target cell 773470cd pos-9/size-32784 off
-  11608 verified in the unanimous set exactly once,
-  centre ff010000.
+- **Executable evidence:** controls reproduce AES-NUM-029/032...111
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
+  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176; CAMPS
+  21392/13, 21648/12); DONE105 at line 3,576, DONE106 at line 3,670,
+  DONE107 at line 3,701 and DONE108 at line 3,910 of this run's output
+  (hef112.py sha256 3f152865..., arms sha256 eed36559...; output 11,026
+  lines, 1,583,758 B, sha256 0cf729b7...). A first run (script sha256
+  5c25611d...) carried a stale-variable defect in arm (ii)'s union
+  builder (union printed 1 vs the 929 control); the one-line fix was
+  applied and the corrected run above is the record — arms (i)/(iii) are
+  byte-identical between the runs. Shared enumeration: 54,995 groups
+  with >=2 instances, 1,323 with >=1 common offset, 55,902 analysable
+  cells, 527,236 instance-cell observations. (i) All cells: all 256
+  centre values occur; mode value 15 (298,610 obs, 56.64%); value 1 =
+  9,729 (1.85%); value 0 = 20,230. All-distinct ladder cells (11,242
+  cells, 87,178 obs): 255 distinct values (only 251 absent); mode 15
+  (5,064, 5.81%); value 1 = 190 (0.22%); min 0. Non-decreasing by rank
+  11,212/11,242; strictly increasing 8,541; rank-AP (len>=3) 2,584
+  cells, steps {0: 352, +2: 26, +3: 489, +4: 741, +6: 164, +8: 350, +9:
+  217, +12: 200, +24: 34, +40: 11}; successive rank differences led by
+  +4 (21,605), +3 (14,035), +9 (8,260). Rank alone does not determine
+  the value (rank 0: 99 distinct values in ladder cells; rank 0 == 1 in
+  188/11,242; rank 0 == cell minimum in 11,224/11,242); cidx alone does
+  not either (351/1,403 (art,cidx) keys carry >1 value in ladder cells).
+  (ii) Start distribution reproduced {4: 1, 5: 47, 6: 31, 7: 83, 8: 56,
+  9: 44, 10: 9}; consecutive triples in all 271 contexts. Determinism
+  tests ALL ambiguous: ng (2/2 keys), ngidx (100/137), total acts
+  (14/20), class-ref count (13/20), cohort (3/3 — exactly-3 spans 5-10,
+  heavy 4-9), distinct segments (14/20), size sum (15/246), first action
+  full (14/65) and (size,ch) (3/3), first-4 sizes (1/1, spans all
+  starts), first-4 channels (17/37), preceding action full (14/52) and
+  (size,ch) (3/3), following action (18/40), previous context's start;
+  cidx/total-acts/ngidx mod k deterministic for no k in 2..64. Locally
+  periodic stretches in cidx order noted. (iii) Unanimous cells
+  39,673/55,902 (0.7097); 71 distinct centres {15: 24,276, 5: 2,881,
+  127: 2,846, 7: 2,122, 0: 1,354, 2: 1,070, 1: 1,016, 3: 548, ...};
+  centre value 1 share 0.0256. By artifact (unanimous/analysable):
+  0856a10c 8,099/12,631; 0a0d378c 6,469/7,854; 5ab3537d 5,653/6,970;
+  76c3a8ff 6,165/9,470; 773470cd 6,120/7,485; cc9b9d1c 7,167/11,488;
+  MiniLM 0/4. By group size, rates 0.58-0.82 across sizes 2-27+ (size 2:
+  10,622/15,132; size 8: 1,434/2,010; size 11: 1,492/1,825; size 17 dip
+  127/289). Target cell 773470cd pos-9/size-32784 off 11608 verified in
+  the unanimous set exactly once, centre ff010000.
+- **Evidence boundary:** The determining function is NOT PROVEN.
 - **Next:** the per-cell ladder's (base, step) parameters
   as a population (function of group/offset?); the 813
   triple's start vs sub-sequence position (locally
@@ -8983,7 +8995,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-113 — the per-cell ladder's (base, step) pair is a function of no tested group/offset field (only 72 distinct pairs among 2,584 AP cells; step strongly conditioned by artifact and cell length; (base, length) determines step at 89/92 keys — NOT PROVEN as a function); the 813 triple's start is not a function of sub-sequence position, but inside each stride-4 train the starts collapse to a near-constant or period-2 pattern after a head transient of at most 3 ranks (lag-8 agreement 0.6996 vs 0.2071 chance; the noted 8-block verbatim 12 times); and in the 11608 setting proper (groups of >=8 instances) unanimity holds at the corpus rate (18,286/25,566 cells, 71.52%), the centre population narrows to 29 values with ff0f0000 at 62.16% and ff010000 slightly over-represented at 3.07% vs its 2.56% corpus share, the unanimous centre a function of no tested group/offset field
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_LADDER_PARAMS_813_SUBSEQ_GE8_UNANIMITY_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...112 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -9076,7 +9089,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-114 — the ladder near-laws' exceptions anatomised (the 3 ambiguous (base, length) keys dissolve under artifact or segment size; the 13 ambiguous group keys are identical for base, step and pair, each coupling a step-0 pair with a rising pair; the step-0 base-127 vs base-15 split is determined by group and by (pos, length), base 15 being length-3 only in two artifacts and base 127's offsets confined to 5,988–8,672; the non-AP difference profile is a function of no tested single field — NOT PROVEN — but group-determined at 518/520 groups with ndiff a function of group exactly); the 813 start formalised as (train, rank regime) with 10 steady-region exceptions, all exactly +1 above regime, the joint model correct on 188/198 steady ranks but NOT a function, and the 54 train-less contexts characterised as 53 small-class members plus one residue outlier; inside 0a0d378c centre 1 is a function of no tested field (its >=8 centre set is exactly {0, 1, 3, 7, 15, 31, 63, 127}), and the 42 centres vanishing at >=8 live in only 116 <8 unanimous cells
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_LADDER_EXCEPTIONS_TRAIN_REGIME_CENTRE1_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...113 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -9200,7 +9214,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-115 — the non-AP profile's two varying groups anatomised (mirror groups in 5ab3537d and 773470cd at pos 21 / segsize 32776, each with exactly two cells whose first nine centres are an exact +3 ladder and whose whole variation is the tenth centre — the sole ng1 instance — at 15 vs 11 across the same two offsets in both artifacts; no tested field separates the variants beyond cell identity and tautology); train 49's rank-10 deviant carries a measured head cause (one extra head act shifts the identical triple block by one position; an isolated local anomaly, not a phase slip), the train-less cidx 2 outlier carries no mark at all (start in-distribution, isolation purely the missing cidx 6 classmate), the two size-6 873-acts classes share the cidx difference pattern [4, 2, 4, 4, 2] with no tested field or period ordering their 12 starts; and the 2^k−1 centre-set completeness at >=8 is a 0a0d378c-only property (the mirror pair shares one identical 13-centre >=8 set), the 42 vanishing centres splitting 88/13/9/4/1/1 per artifact in the <8 frame
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_VARYING_GROUPS_DEVIANTS_CENTRE_SETS_2026-10-24.md.
 - **Evidence:** controls reproduce AES-NUM-029/032...114 exactly
   (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
@@ -9299,97 +9314,79 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-116 — the mirror pair 5ab3537d/773470cd is centre-perfect on every shared cell (centres equal on 2,981 of 2,981 shared cells and all 48,988 shared instance observations, zero differing centre lists; full neighbourhood words equal on 2,885 of 2,981, the other 96 centre-equal but word-different), diverging by membership (3,989 cells only in 5ab3537d, 4,504 only in 773470cd; 2,171 shared (pos, segsize, offset) triples carrying different cidx tuples, typically one extra 773470cd instance extending the centre sequence by one term) and by its <8 centre sets (13 values a strict subset of 21), the >=8 set verified identical at 13 values; the 10 steady exceptions of trains 48/50/51 (4/2/4 at the recorded ranks under the reproduced fit) are nine at +1 above steady and one at -1 (train 50 rank 26, cidx 247 — the inherited "all +1" wording corrected), all ten carrying an identical triple block and a non-modal first act, with the head-act explanation covering some, not all: seven with the full train-49 signature (modal prev_act and neighbour-equal pre-triple windows; train 48 ranks 11/12 with exact head-insertion alignment), three with a head mark but no measured shift (the adjacent train 48 ranks 1/2 pair and train 50's -1 last rank); and no centre >=192 occurs at >=8 anywhere (23 values in 49 <8 cells: cc9b9d1c 38 cells / 20 values all at group size 2, 773470cd 7, 0a0d378c 2, 0856a10c 1, 5ab3537d 1), 255's >=8 absence in 0a0d378c verified as the same small-group rarity (its 2 <8 cells, group sizes 7 and 5, are the only high-centre cells above group size 2)
 
-- **Status:** `verified` (complete populations, 7 artifacts, within stated bands/floors).
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts, within stated bands/floors).
 - **Owner:** docs/HAILO10H_MIRROR_PAIR_TRAIN_EXCEPTIONS_HIGH_CENTRES_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...115 exactly
-  (128,787 small actions; 79,001 bursts; 745,849 pointer actions;
-  1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
-  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176;
-  CAMPS 21392/13, 21648/12); DONE105 at line 3,576, DONE106
-  at line 3,670, DONE107 at line 3,701 and DONE108 at line
-  3,910 of this run's output (hef116.py sha256 f45638fb...,
-  arms sha256 97e6fae0...; output 11,440 lines, 1,584,315 B,
-  sha256 ce267d39...). Shared enumeration reproduces
-  AES-NUM-112/113/114/115 exactly: 54,995 groups with >=2
-  instances, 1,323 with >=1 common offset, 55,902 analysable
-  cells, 527,236 observations; 11,242 all-distinct ladder
-  cells; 39,673 unanimous cells; AP subset 2,584 with the
-  exact step distribution {0: 352, +2: 26, +3: 489, +4: 741,
-  +6: 164, +8: 350, +9: 217, +12: 200, +24: 34, +40: 11};
-  non-AP subset 4,148 with 317 ordered / 298 multiset /
-  174 set profiles and distinct-diff counts {2: 1,877,
-  3: 1,317, 4: 797, 5: 157}; cc9 union 929; 813 target
-  oo 0 / size 304 / 813 refs; start distribution reproduced
-  {4: 1, 5: 47, 6: 31, 7: 83, 8: 56, 9: 44, 10: 9};
-  >=8 cells 25,566, unanimous 18,286, 29 centres, centre-1
-  561; target cell 773470cd pos-9/size-32784 off 11608 in
-  the >=8 unanimous set exactly once, centre ff010000.
-  (i) Groups: A 10,286 / B 10,196 total, shared 8,959,
-  only-A 1,327, only-B 1,237 (>=2 instances: A 7,531,
-  B 7,707, shared 6,464); shared groups with identical
-  (cidx, ng) instance lists 2,890, differing 6,069, of
-  which ng-only differences 0; the mirror group
-  (21, 32776) is identical at n 10 in both. Cells:
-  A 6,970, B 7,485, shared (pos, segsize, off, cidx-tuple)
-  2,981, only-A 3,989, only-B 4,504; (pos, segsize, off)
-  triples in both 5,152, cidx-tuple equal on 2,981,
-  different on 2,171. On shared cells centres equal
-  2,981/2,981, per-instance 48,988/48,988, differing
-  centre lists 0; words equal 2,885/2,981 (96.78%),
-  96 centre-equal but word-different; both-unanimous
-  2,386 with 0 centre disagreements; B-unanimous is a
-  subset of A-unanimous on shared cells, A holding 37
-  extra unanimous cells (centres 15 x28, 127 x9);
-  all-cells unanimous distribution L1 distance 499
-  (127: 495 vs 792; 15: 3,591 vs 3,729), shared-subset
-  L1 37. Breakdowns: A 5,653 unanimous / 1,191 distinct
-  / 126 other (521 AP, 399 non-AP); B 6,120 / 1,209 /
-  156 (595 AP, 363 non-AP); shared subset A 447 AP /
-  19 non-AP, B 449 AP / 19 non-AP. >=8 centre sets
-  identical 13 values {0, 1, 2, 5, 7, 11, 15, 23, 34,
-  69, 95, 127, 139} with counts within 6 per value;
-  <8 sets A 13 values a strict subset of B 21, B-only
-  {4, 17, 50, 192, 224, 233, 252, 255}.
-  (ii) Fit reproduced: trains 48/50/51 CONST_DOM steady
-  7/7/5, heads 0/1/0, exceptions (48: ranks 1, 2, 11, 12,
-  cidxs 140, 144, 180, 184, 7->8), (50: ranks 10, 26,
-  cidxs 183, 247, 7->8 and 7->6), (51: ranks 4, 9, 10,
-  25, cidxs 158, 178, 182, 242, 5->6). All ten: triple
-  block ((0, 304, 0), (0, 304, 1), (0, 304, 2)) identical
-  to both rank neighbours (19/19 comparisons),
-  next/next2 acts, target count 3, ngidx mod 4 and
-  cidx mod 4 universal, first act non-modal in all ten.
-  Head cause MEASURED for 7: train 48 ranks 11/12
-  (prev_act modal (1255554048, 24, 0); opening pair's
-  second act is the train modal first act (60413952,
-  24, 1); exact head-insertion alignment against one
-  neighbour each), train 50 rank 10 (prev_act modal,
-  all 24 steady members), train 51 ranks 4/9/10/25
-  (prev_act the shared (33324544, 24, 1); pre-triple
-  windows equal to both neighbours; ranks 4/9/25 share
-  one opening pair). NOT PROVEN (head mark, no shift)
-  for 3: train 48 ranks 1/2 (adjacent pair, unique
-  first acts and unique prev_acts, no alignment vs
-  any neighbour) and train 50 rank 26 (the -1
-  exception, last rank, unique prev_act (900765184,
-  24, 1)). Population: some, not all, not none;
-  prev_act modality separates the two classes exactly.
-  (iii) Centres >=192 at >=8 anywhere: none (corpus
-  >=8 maximum 191). Corpus <8 >=192: 23 values in 49
-  cells — cc9b9d1c 38 cells / 20 values {199: 9, 249:
-  3, 250: 3, 251: 3, 240: 2, 243: 2, 245: 2, 246: 2,
-  210/212/228/230/233/235/238/247/248/252/254/255: 1},
-  every cell group size 2, none in cc9b9d1c's >=8 set
-  or the corpus >=8 set; 773470cd 7 cells / 6 values
-  (192 x2, 224, 233, 239, 252, 255), all group size 2;
-  0a0d378c 255 x2; 0856a10c 254 x1; 5ab3537d 239 x1;
-  76c3a8ff and MiniLM 0. 255 in 0a0d378c: cells
-  (pos 16, size 32600, off 11888, n 7, cidxs [98, 104,
-  110, 122, 128, 146, 158]) and (pos 16, size 32712,
-  off 11888, n 5, cidxs [92, 116, 134, 152, 164]),
-  centre word ffff0000, >=8 count 0; corpus 255 =
-  4 <8 cells (0a0d378c 2, 773470cd 1, cc9b9d1c 1),
+- **Executable evidence:** controls reproduce AES-NUM-029/032...115
+  exactly (128,787 small actions; 79,001 bursts; 745,849 pointer
+  actions; 1,504 contexts; trailing pairs 2,049; champion bursts 75,215;
+  TRAINS 52/28/13/11, D113 249, FIRST-D 3,089, CTRL-D 176; CAMPS
+  21392/13, 21648/12); DONE105 at line 3,576, DONE106 at line 3,670,
+  DONE107 at line 3,701 and DONE108 at line 3,910 of this run's output
+  (hef116.py sha256 f45638fb..., arms sha256 97e6fae0...; output 11,440
+  lines, 1,584,315 B, sha256 ce267d39...). Shared enumeration reproduces
+  AES-NUM-112/113/114/115 exactly: 54,995 groups with >=2 instances,
+  1,323 with >=1 common offset, 55,902 analysable cells, 527,236
+  observations; 11,242 all-distinct ladder cells; 39,673 unanimous
+  cells; AP subset 2,584 with the exact step distribution {0: 352, +2:
+  26, +3: 489, +4: 741, +6: 164, +8: 350, +9: 217, +12: 200, +24: 34,
+  +40: 11}; non-AP subset 4,148 with 317 ordered / 298 multiset / 174
+  set profiles and distinct-diff counts {2: 1,877, 3: 1,317, 4: 797, 5:
+  157}; cc9 union 929; 813 target oo 0 / size 304 / 813 refs; start
+  distribution reproduced {4: 1, 5: 47, 6: 31, 7: 83, 8: 56, 9: 44, 10:
+  9}; >=8 cells 25,566, unanimous 18,286, 29 centres, centre-1 561;
+  target cell 773470cd pos-9/size-32784 off 11608 in the >=8 unanimous
+  set exactly once, centre ff010000. (i) Groups: A 10,286 / B 10,196
+  total, shared 8,959, only-A 1,327, only-B 1,237 (>=2 instances: A
+  7,531, B 7,707, shared 6,464); shared groups with identical (cidx, ng)
+  instance lists 2,890, differing 6,069, of which ng-only differences 0;
+  the mirror group (21, 32776) is identical at n 10 in both. Cells: A
+  6,970, B 7,485, shared (pos, segsize, off, cidx-tuple) 2,981, only-A
+  3,989, only-B 4,504; (pos, segsize, off) triples in both 5,152,
+  cidx-tuple equal on 2,981, different on 2,171. On shared cells centres
+  equal 2,981/2,981, per-instance 48,988/48,988, differing centre lists
+  0; words equal 2,885/2,981 (96.78%), 96 centre-equal but
+  word-different; both-unanimous 2,386 with 0 centre disagreements;
+  B-unanimous is a subset of A-unanimous on shared cells, A holding 37
+  extra unanimous cells (centres 15 x28, 127 x9); all-cells unanimous
+  distribution L1 distance 499 (127: 495 vs 792; 15: 3,591 vs 3,729),
+  shared-subset L1 37. Breakdowns: A 5,653 unanimous / 1,191 distinct /
+  126 other (521 AP, 399 non-AP); B 6,120 / 1,209 / 156 (595 AP, 363
+  non-AP); shared subset A 447 AP / 19 non-AP, B 449 AP / 19 non-AP. >=8
+  centre sets identical 13 values {0, 1, 2, 5, 7, 11, 15, 23, 34, 69,
+  95, 127, 139} with counts within 6 per value; <8 sets A 13 values a
+  strict subset of B 21, B-only {4, 17, 50, 192, 224, 233, 252, 255}.
+  (ii) Fit reproduced: trains 48/50/51 CONST_DOM steady 7/7/5, heads
+  0/1/0, exceptions (48: ranks 1, 2, 11, 12, cidxs 140, 144, 180, 184,
+  7->8), (50: ranks 10, 26, cidxs 183, 247, 7->8 and 7->6), (51: ranks
+  4, 9, 10, 25, cidxs 158, 178, 182, 242, 5->6). All ten: triple block
+  ((0, 304, 0), (0, 304, 1), (0, 304, 2)) identical to both rank
+  neighbours (19/19 comparisons), next/next2 acts, target count 3, ngidx
+  mod 4 and cidx mod 4 universal, first act non-modal in all ten. Head
+  cause MEASURED for 7: train 48 ranks 11/12 (prev_act modal
+  (1255554048, 24, 0); opening pair's second act is the train modal
+  first act (60413952, 24, 1); exact head-insertion alignment against
+  one neighbour each), train 50 rank 10 (prev_act modal, all 24 steady
+  members), train 51 ranks 4/9/10/25 (prev_act the shared (33324544, 24,
+  1); pre-triple windows equal to both neighbours; ranks 4/9/25 share
+  one opening pair). Population: some, not all, not none; prev_act
+  modality separates the two classes exactly. (iii) Centres >=192 at >=8
+  anywhere: none (corpus >=8 maximum 191). Corpus <8 >=192: 23 values in
+  49 cells — cc9b9d1c 38 cells / 20 values {199: 9, 249: 3, 250: 3, 251:
+  3, 240: 2, 243: 2, 245: 2, 246: 2,
+  210/212/228/230/233/235/238/247/248/252/254/255: 1}, every cell group
+  size 2, none in cc9b9d1c's >=8 set or the corpus >=8 set; 773470cd 7
+  cells / 6 values (192 x2, 224, 233, 239, 252, 255), all group size 2;
+  0a0d378c 255 x2; 0856a10c 254 x1; 5ab3537d 239 x1; 76c3a8ff and MiniLM
+  0. 255 in 0a0d378c: cells (pos 16, size 32600, off 11888, n 7, cidxs
+  [98, 104, 110, 122, 128, 146, 158]) and (pos 16, size 32712, off
+  11888, n 5, cidxs [92, 116, 134, 152, 164]), centre word ffff0000, >=8
+  count 0; corpus 255 = 4 <8 cells (0a0d378c 2, 773470cd 1, cc9b9d1c 1),
   0 >=8 cells.
+- **Evidence boundary:** NOT PROVEN (head mark, no shift) for 3: train
+  48 ranks 1/2 (adjacent pair, unique first acts and unique prev_acts,
+  no alignment vs any neighbour) and train 50 rank 26 (the -1 exception,
+  last rank, unique prev_act (900765184, 24, 1)).
 - **Next:** the mirror pair's 2,171 membership-divergent
   triples anatomised (which side carries the extra
   instance, where it sits in cidx order, and whether
@@ -9405,136 +9402,113 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-117 — The mirror pair's 2,171 membership-divergent triples are mostly BOTH-sides-different (1,997 of 2,171) with ~7 extra instances per triple, and the inserted centres CONTINUE the shared centre sequence wherever the shared sequence is thick (11,795 continuations vs 373 breaks among extras against unanimous common sequences; common instances agree on centre 15,488/15,488); the 37 A-unanimous-but-not-B cells fall into three exact families (thirteen 2-instance cells with 1 breaker, nine 27-instance centre-127 cells with the same 13 breakers, fifteen 28-instance cells where B's word differs at 27 of 28 instances and only the first instance keeps A's word), all 535 breakers are shared instances differing in lane 0 or lane 3 only, never the centre lane; the 96 centre-equal word-different cells carry 1,971 differing instances with the centre lane differing in 0; the train 48 ranks 1-2 pair shares NO head material at all (common prefix 0, equal positions none) — two independent head anomalies, not one shared anomaly — and train 50 rank 26's head is exactly one act shorter in count (6 vs 7) but is NOT any steady head minus an act (deletion alignment empty), so the -1 mechanism stays NOT PROVEN
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_DIVERGENT_TRIPLES_BROKEN_UNANIMITY_UNSHIFTED_HEADS_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef117.py sha256
+- **Executable evidence:** controls reproduce exactly (hef117.py sha256
   `7c82532cb7a18a3d619c78e726faea8635484f53c2b3285ed56d288d8d35718b`,
   arms sha256
   `5004f6fee76372072b7528e78a72a600d1905fe9ed18ac6774959f56b87a25a9`;
   output 11,162 lines, 1,519,941 B, sha256
   `38fa606c139672fe0d343c3817b020aa4b04e1fc7d2af971eb7b54fd0cc1b614`).
-  Inherited markers DONE105/106/107/108 at the same lines
-  as the 4.116 run; the shared enumeration reproduces
-  exactly (groups >=2 54,995; groups >=1 common 1,323;
-  cells 55,902; obs 527,236; distinct ladder 11,242;
-  unanimous 39,673; AP 2,584 with the step histogram
-  {0:352, 2:26, 3:489, 4:741, 6:164, 8:350, 9:217,
-  12:200, 24:34, 40:11}; non-AP 4,148 with ordered 317 /
-  multi 298 / set 174; >=8 cells 25,566, unanimous 18,286,
-  29 centres, centre-1 561; target cell once, centre
-  ff010000). (i) Divergent triples 2,171 by both the dict
-  method of 4.116 and a multimap method (triples with >1
-  cell on a side: 0, so every triple pair is 1-1). Side
-  counts: both-differ 1,997, A-only-extra 92,
-  B-only-extra 82 — the one-extra-B anatomy of the 4.116
-  example triple is NOT the general case. Net length
-  difference lenB-lenA: {-18:17, -3:99, -1:393, 0:613,
-  +1:730, +2:84, +3:74, +4:72, +5:22, +6:67}; gross extras
-  per triple {1:157, 2:207, 3:43, 4:56, 5:66, 6:139,
-  7:461, 8:193, 9:479, 10:174, 11:112, 12:67, 18:17}
-  (mode 9). Common instances 15,488, centres agreeing
-  A-vs-B on 15,488/15,488 (1.0000) — the mirror property
-  holds on the common instances of divergent triples
-  too. Extras total 15,252 (A 7,164, B 8,088). Continuation
-  verdicts: CONTINUES 12,411 (A 5,647, B 6,764), BREAKS
-  476 (A 205, B 271), INDETERMINATE 2,365 (A 1,312,
-  B 1,053). By common-sequence structure: UNANIMOUS
-  12,168 extras (CONT 11,795, BREAK 373); NONAP 2,099
-  (CONT 599, INDET 1,500, BREAK 0 — no NONAP extra ever
-  falls outside its flanking interval); AP 120 (CONT 17,
-  BREAK 103; steps {6:108, 3:8, 38:4} — a thin, mostly
-  breaking family, recorded with its small n); SINGLE
-  (no common instance) 865 extras, all INDET. Triple-level
-  grades: all-CONT 1,679, any-BREAK 72, INDET 420.
-  Insertion position: own-list first 2,906, interior
-  10,367, last 1,979; merged-order first 1,905, interior
-  12,284, last 1,063; 5,274 extras have no common
-  predecessor, 4,094 no common successor, 865 neither.
-  Flanked extras' common-neighbour cidx spans peak at 6
-  (1,931; gaps 3+3) and 8 (1,179; 4+4). All 56 groups
-  carrying divergent triples are listed in the evidence
-  doc; BREAK extras concentrate in four groups (121, 99,
-  99, 81). Caveat recorded in the doc: UNANIMOUS verdicts
-  include triples whose common sequence has length 1, and
-  the printed BREAK examples are exactly such thin-common
-  triples — a thickness-graded re-run is the 4.118
-  follow-up. Why membership differs at all: NOT PROVEN;
-  no cause inferred. (ii) Shared-cell controls reproduce
-  (centres equal 2,981/2,981, words equal 2,885/2,981,
-  A-unanimous-but-not-B 37, reverse 0). The 37 fall into
-  three exact families: 13 cells of size 2 (pos 19, size
-  7712, centre 15) with exactly 1 breaker at index 0; 9
-  cells of size 27 (pos 12, size 32728, centre 127) with
-  exactly 13 breakers at the SAME index set
-  [2,4,8,9,10,11,12,13,14,17,18,24,25] in every cell (the
-  breakers are B's minority: B carries exactly 2 distinct
-  words there, 14 vs 13); 15 cells of size 28 (one at pos
-  13 size 32760, fourteen at pos 14 size 9992, centre 15)
-  with 27 breakers against A's word (every instance but
-  index 0) but only index 0 against B's modal word — B's
-  word simply differs from A's at 27 of 28 instances and
-  the first instance alone keeps A's word. Total breakers
-  535 (13 + 117 + 405); 117 of them are also minority
-  against B's modal word. Every breaker's centre equals
-  the A-unanimous centre (535/535). Breaker lanes against
-  A's word: lane 0 only in 431, lane 3 only in 104 —
-  never the centre lane, never lanes 1 or 4. Byte
-  magnitude: 1 byte in 470, 2 in 13, 3 in 52. Positions:
-  interior 507, first 13, last 15. Membership: 0 of 535
-  breakers are extra instances — shared cells carry
-  identical cidx tuples by construction, so unanimity is
-  broken only by word values at shared instances. The 96:
-  1,971 differing instances (per-cell {27:60, 1:16, 13:9,
-  2:2, 18:1, 22:2, 23:1, 24:1, 25:1, 26:2, 28:1} — 60
-  cells differ at ALL 27 instances); the 96 include the
-  37 plus 2 cells unanimous on both sides on different
-  words and 57 others; sizes {27:48, 28:30, 2:18};
-  differing lanes pooled {0:1086, 4:738, 3:406, 1:354}
-  with lane sets {(0,):620, (0,4):328, (3,):397, (4,):263,
-  (1,):216, (0,1,4):138, (3,4):9}; the CENTRE lane (lane
-  2) differs in 0 of 1,971 differing instances (and its
-  centre byte in 0); magnitude 1-6 differing bytes per
-  instance {1:709, 2:661, 3:261, 4:268, 5:29, 6:43};
-  positions interior 1,843, first 57, last 71; the
-  differing B word occurs elsewhere in the corpus
-  neighbourhood pool for 766 of 1,971 (the A word 791).
-  (iii) The cc9 fit reproduces exactly (union 929;
-  contexts 271; start dist {4:1, 5:47, 6:31, 7:83, 8:56,
-  9:44, 10:9}; 217 in-train rows; train forms and the 10
-  exception identities unchanged). Train 48 ranks 1-2:
-  head lengths 8/8; head common prefix 0 acts, common
-  suffix 0 acts, equal head positions NONE; at every
-  comparable head position (0-6; position 7 is the pair's
-  prev_act against the steady members' first triple act
-  and is not comparable) both ranks differ from the
-  steady modal act (steady agreement 23/24 at each
-  position) AND from each other; positions where the pair
-  agree on a shared non-modal act: NONE. First acts,
-  opening pairs and prev_acts are each shared with 0 other
-  train members; the train-49-form tests fail for both
-  ranks (prev_act not the train modal, opening pair's
-  second act not the train modal first act); head-insertion
-  alignment against every train member is empty for both;
-  the pair-vs-pair insertion alignment fails both ways.
-  The only material the pair shares is the identical
-  triple block, start 8 and train membership: ONE shared
-  anomaly is NOT PROVEN (head-material sharing measured
-  at zero); the pair is two independent head anomalies,
-  and any shift for either remains NOT PROVEN. Train 50
-  rank 26: head length measured — start 6 vs steady 7 and
-  vs rank 25's 7, exactly one act shorter in count; but
-  the deletion alignment is EMPTY (its 6-act head equals
-  no steady member's head with exactly one act removed),
-  head common prefix/suffix vs rank 25 are 0/0 with no
-  equal positions, the post-triple common prefix vs rank
-  25 is 0 acts, and first_act/prev_act are shared with 0
-  members; among last-rank peers, rank 26 is the ONLY
-  last rank in trains 44-51 that deviates from its train's
-  steady value (all seven others sit exactly on it). So
-  the head IS one act shorter (measured count) but the -1
-  is NOT explained by a deleted steady act: mechanism NOT
-  PROVEN, no shift invented.
+  Inherited markers DONE105/106/107/108 at the same lines as the 4.116
+  run; the shared enumeration reproduces exactly (groups >=2 54,995;
+  groups >=1 common 1,323; cells 55,902; obs 527,236; distinct ladder
+  11,242; unanimous 39,673; AP 2,584 with the step histogram {0:352,
+  2:26, 3:489, 4:741, 6:164, 8:350, 9:217, 12:200, 24:34, 40:11}; non-AP
+  4,148 with ordered 317 / multi 298 / set 174; >=8 cells 25,566,
+  unanimous 18,286, 29 centres, centre-1 561; target cell once, centre
+  ff010000). (i) Divergent triples 2,171 by both the dict method of
+  4.116 and a multimap method (triples with >1 cell on a side: 0, so
+  every triple pair is 1-1). Side counts: both-differ 1,997,
+  A-only-extra 92, B-only-extra 82 — the one-extra-B anatomy of the
+  4.116 example triple is NOT the general case. Net length difference
+  lenB-lenA: {-18:17, -3:99, -1:393, 0:613, +1:730, +2:84, +3:74, +4:72,
+  +5:22, +6:67}; gross extras per triple {1:157, 2:207, 3:43, 4:56,
+  5:66, 6:139, 7:461, 8:193, 9:479, 10:174, 11:112, 12:67, 18:17} (mode
+  9). Common instances 15,488, centres agreeing A-vs-B on 15,488/15,488
+  (1.0000) — the mirror property holds on the common instances of
+  divergent triples too. Extras total 15,252 (A 7,164, B 8,088).
+  Continuation verdicts: CONTINUES 12,411 (A 5,647, B 6,764), BREAKS 476
+  (A 205, B 271), INDETERMINATE 2,365 (A 1,312, B 1,053). By
+  common-sequence structure: UNANIMOUS 12,168 extras (CONT 11,795, BREAK
+  373); NONAP 2,099 (CONT 599, INDET 1,500, BREAK 0 — no NONAP extra
+  ever falls outside its flanking interval); AP 120 (CONT 17, BREAK 103;
+  steps {6:108, 3:8, 38:4} — a thin, mostly breaking family, recorded
+  with its small n); SINGLE (no common instance) 865 extras, all INDET.
+  Triple-level grades: all-CONT 1,679, any-BREAK 72, INDET 420.
+  Insertion position: own-list first 2,906, interior 10,367, last 1,979;
+  merged-order first 1,905, interior 12,284, last 1,063; 5,274 extras
+  have no common predecessor, 4,094 no common successor, 865 neither.
+  Flanked extras' common-neighbour cidx spans peak at 6 (1,931; gaps
+  3+3) and 8 (1,179; 4+4). All 56 groups carrying divergent triples are
+  listed in the evidence doc; BREAK extras concentrate in four groups
+  (121, 99, 99, 81). Caveat recorded in the doc: UNANIMOUS verdicts
+  include triples whose common sequence has length 1, and the printed
+  BREAK examples are exactly such thin-common triples — a
+  thickness-graded re-run is the 4.118 follow-up. (ii) Shared-cell
+  controls reproduce (centres equal 2,981/2,981, words equal
+  2,885/2,981, A-unanimous-but-not-B 37, reverse 0). The 37 fall into
+  three exact families: 13 cells of size 2 (pos 19, size 7712, centre
+  15) with exactly 1 breaker at index 0; 9 cells of size 27 (pos 12,
+  size 32728, centre 127) with exactly 13 breakers at the SAME index set
+  [2,4,8,9,10,11,12,13,14,17,18,24,25] in every cell (the breakers are
+  B's minority: B carries exactly 2 distinct words there, 14 vs 13); 15
+  cells of size 28 (one at pos 13 size 32760, fourteen at pos 14 size
+  9992, centre 15) with 27 breakers against A's word (every instance but
+  index 0) but only index 0 against B's modal word — B's word simply
+  differs from A's at 27 of 28 instances and the first instance alone
+  keeps A's word. Total breakers 535 (13 + 117 + 405); 117 of them are
+  also minority against B's modal word. Every breaker's centre equals
+  the A-unanimous centre (535/535). Breaker lanes against A's word: lane
+  0 only in 431, lane 3 only in 104 — never the centre lane, never lanes
+  1 or 4. Byte magnitude: 1 byte in 470, 2 in 13, 3 in 52. Positions:
+  interior 507, first 13, last 15. Membership: 0 of 535 breakers are
+  extra instances — shared cells carry identical cidx tuples by
+  construction, so unanimity is broken only by word values at shared
+  instances. The 96: 1,971 differing instances (per-cell {27:60, 1:16,
+  13:9, 2:2, 18:1, 22:2, 23:1, 24:1, 25:1, 26:2, 28:1} — 60 cells differ
+  at ALL 27 instances); the 96 include the 37 plus 2 cells unanimous on
+  both sides on different words and 57 others; sizes {27:48, 28:30,
+  2:18}; differing lanes pooled {0:1086, 4:738, 3:406, 1:354} with lane
+  sets {(0,):620, (0,4):328, (3,):397, (4,):263, (1,):216, (0,1,4):138,
+  (3,4):9}; the CENTRE lane (lane 2) differs in 0 of 1,971 differing
+  instances (and its centre byte in 0); magnitude 1-6 differing bytes
+  per instance {1:709, 2:661, 3:261, 4:268, 5:29, 6:43}; positions
+  interior 1,843, first 57, last 71; the differing B word occurs
+  elsewhere in the corpus neighbourhood pool for 766 of 1,971 (the A
+  word 791). (iii) The cc9 fit reproduces exactly (union 929; contexts
+  271; start dist {4:1, 5:47, 6:31, 7:83, 8:56, 9:44, 10:9}; 217
+  in-train rows; train forms and the 10 exception identities unchanged).
+  Train 48 ranks 1-2: head lengths 8/8; head common prefix 0 acts,
+  common suffix 0 acts, equal head positions NONE; at every comparable
+  head position (0-6; position 7 is the pair's prev_act against the
+  steady members' first triple act and is not comparable) both ranks
+  differ from the steady modal act (steady agreement 23/24 at each
+  position) AND from each other; positions where the pair agree on a
+  shared non-modal act: NONE. First acts, opening pairs and prev_acts
+  are each shared with 0 other train members; the train-49-form tests
+  fail for both ranks (prev_act not the train modal, opening pair's
+  second act not the train modal first act); head-insertion alignment
+  against every train member is empty for both; the pair-vs-pair
+  insertion alignment fails both ways. The only material the pair shares
+  is the identical triple block, start 8 and train membership: Train 50
+  rank 26: head length measured — start 6 vs steady 7 and vs rank 25's
+  7, exactly one act shorter in count; but the deletion alignment is
+  EMPTY (its 6-act head equals no steady member's head with exactly one
+  act removed), head common prefix/suffix vs rank 25 are 0/0 with no
+  equal positions, the post-triple common prefix vs rank 25 is 0 acts,
+  and first_act/prev_act are shared with 0 members; among last-rank
+  peers, rank 26 is the ONLY last rank in trains 44-51 that deviates
+  from its train's steady value (all seven others sit exactly on it). So
+  the head IS one act shorter (measured count) but the -1 is NOT
+  explained by a deleted steady act.
+- **Evidence boundary:** Why membership differs at all: NOT PROVEN; no
+  cause inferred. ONE shared anomaly is NOT PROVEN (head-material
+  sharing measured at zero); the pair is two independent head anomalies,
+  and any shift for either remains NOT PROVEN. Mechanism NOT PROVEN, no
+  shift invented.
 - **Next:** thickness-graded continuation verdicts for
   the divergent triples (common-sequence length strata,
   the AP extras' breaks and the 72 any-BREAK triples in
@@ -9548,7 +9522,8 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-118 — EVERY continuation break among the mirror pair's divergent triples rests on a common sequence of length 1 or 2 (at common length 3 or more there are NO breaks in 11,952 extras; all 373 unanimous breaks sit on a single shared instance, all 103 AP breaks on a two-instance sequence whose step is one difference); B's differing word is NO other artifact's word at the same group in any of the 1,971 differing instances (0 at group, cell, same-cidx and same-idx level; the A word 0 as control), the 28-instance first-instance pattern appears in no other artifact pair — no other pair shares even one cell — and counts 29 cells inside the mirror pair (the 15 unanimous family cells plus 14 DISTINCT/DISTINCT cells); 44 of the 60 27-differing cells share a group with the 37 (and 15 of the 60 ARE family-3 cells of the 37); and of the three unshifted heads' 21 unique-act entries, five acts inside train 48 rank 2's head occur NOWHERE else in cc9b9d1c, while only three distinct unique acts head any other context
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_THICKNESS_GRADED_VERDICTS_WORD_IDENTITY_UNIQUE_HEAD_ACTS_2026-10-24.md`
 - **Evidence:** controls reproduce exactly (hef118.py sha256
@@ -9637,56 +9612,49 @@ No new capability ID or hardware/complete-source execution claim.
 - **Audit:** Host-side analysis only; no device child.
 ### AES-NUM-119 — The thin-common triples' extras form NO progression of their own (where they continue they are constant repeats of the common centre: 253/315 at length 1, 58/58 and 696/696 extras at length 2 unanimous; strictly alternating interleave 0/383; AP extras strict-AP 1/10 with step 0 against a common step of 38, never the common step); every differing lane of the 37/96 words is novel in every other artifact (0/2,584 differing B lanes at group, cell, same-cidx and same-idx level; A control 1/2,584 at group level only; non-differing lanes recur normally); the context/ng census shows the mirror pair alone shares the deciding skeleton (identical context counts 219/219, identical ng-size multiset {95, 124}, 2,890 groups with identical cidx tuples, 5,152 shared analysable triples against a next best of 41, and 2,981 shared cells against 0 for every other pair); and train 48 rank 2's five cc9-unique acts are CORPUS-unique (each exactly once in all seven artifacts, in cc9b9d1c cidx 144 at its own head position, heading no context anywhere), with the whole 8-act head, its 512-spaced run, its 7-act tail and its opening pair each occurring contiguously exactly once corpus-wide and no other window within 2 mismatches in any artifact
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_THIN_EXTRAS_LANE_IDENTITY_FIVE_ACTS_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef119.py sha256
-  `97db6d8d20ec3a377a344d78e4b9a7a95707432aeaeebf71fa7fa903d3c9361d`,
-  gz sha256
+- **Executable evidence:** controls reproduce exactly (hef119.py sha256
+  `97db6d8d20ec3a377a344d78e4b9a7a95707432aeaeebf71fa7fa903d3c9361d`, gz
+  sha256
   `a964e05545c4e159222330667f1e92b11c206026b8a2a8dc724839db24044108`;
   output 11,223 lines, 1,516,130 B, sha256
   `05ce80218022edef31c4ffb43dee692104141326325f30e56e21008df2474704`,
   retrieved gz sha256
   `ae6e24205775ac47511c6302e3a826affcb1a31a3403d6e83bd5377d7471168a`
-  decompressing to the same output sha256, verified on the
-  VM at closing; DONE119 at output line 11,223). Inherited
-  controls exact: shared enumeration 55,902 cells /
-  527,236 obs; divergent triples 2,171 with verdicts
-  CONT 12,411 / BREAK 476 / INDET 2,365; the 37 and the
-  96/1,971 with centre lane 0; cc9 fit exact (union 929,
-  contexts 271, 10 exception identities unchanged).
-  (i) Thin triples 383 (315 length-1 UNANIMOUS, 58
-  length-2 UNANIMOUS, 10 length-2 AP), extras 2,435
-  (A 967 / B 1,468). Length 1: extras constant 253/315
-  merged, and in exactly those 253 the constant is the
-  common centre (constant-but-different 0, neither 62 —
-  the 62 any-BREAK triples); 1,254/1,627 extras equal the
-  common centre, 157 below, 216 above, 0 between; merged
-  patterns are blocks, never alternating (0/315); all-one-
-  word extras 241/315. Length-2 UNANIMOUS: constant
-  58/58 everywhere, 696/696 extras equal a common centre,
-  one shared pattern XXXXXXXCXCXXXX, gaps (7, 1, 4).
-  Length-2 AP: constant 1/10, 12 distinct centres in each
-  of the nine (71, 19392) triples, strict-AP readings
-  never with the common step (combined 1/10, step 0 vs
-  38); nine share the unanimous positional pattern.
-  (ii) Lane population 9,855, differing lanes 2,584
-  (lane dist {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738});
-  differing B lanes 0/2,584 at every level in every other
-  artifact, per lane 0/1,086, 0/354, 0/406, 0/738; the 37
-  alone 0/535; non-differing lanes hit normally
-  (all-lanes group 2,293/9,855). Census: only
-  5ab3537d x 773470cd shares cidx-keyed cells (2,981);
-  it alone has equal context counts, ng-size overlap
-  2/2, identical-cidx-tuple groups 2,890 (next 7),
-  shared triples 5,152 (next 41), act-count overlap 218
-  (next 19). (iii) Five acts each corpus-total 1
-  (cc9b9d1c cidx 144, head positions 1/2/3/4/7), heads
-  contexts none; sequences (whole head, head[1:5],
-  head[1:8], opening pair) each exactly 1 contiguous
-  occurrence corpus-wide; mismatch profile: all windows
-  in other artifacts 8/8 mismatched, cc9's only <=2
-  window is the head itself. Any mechanism NOT PROVEN.
+  decompressing to the same output sha256, verified on the VM at
+  closing; DONE119 at output line 11,223). Inherited controls exact:
+  shared enumeration 55,902 cells / 527,236 obs; divergent triples 2,171
+  with verdicts CONT 12,411 / BREAK 476 / INDET 2,365; the 37 and the
+  96/1,971 with centre lane 0; cc9 fit exact (union 929, contexts 271,
+  10 exception identities unchanged). (i) Thin triples 383 (315 length-1
+  UNANIMOUS, 58 length-2 UNANIMOUS, 10 length-2 AP), extras 2,435 (A 967
+  / B 1,468). Length 1: extras constant 253/315 merged, and in exactly
+  those 253 the constant is the common centre (constant-but-different 0,
+  neither 62 — the 62 any-BREAK triples); 1,254/1,627 extras equal the
+  common centre, 157 below, 216 above, 0 between; merged patterns are
+  blocks, never alternating (0/315); all-one- word extras 241/315.
+  Length-2 UNANIMOUS: constant 58/58 everywhere, 696/696 extras equal a
+  common centre, one shared pattern XXXXXXXCXCXXXX, gaps (7, 1, 4).
+  Length-2 AP: constant 1/10, 12 distinct centres in each of the nine
+  (71, 19392) triples, strict-AP readings never with the common step
+  (combined 1/10, step 0 vs 38); nine share the unanimous positional
+  pattern. (ii) Lane population 9,855, differing lanes 2,584 (lane dist
+  {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738}); differing B lanes 0/2,584 at
+  every level in every other artifact, per lane 0/1,086, 0/354, 0/406,
+  0/738; the 37 alone 0/535; non-differing lanes hit normally (all-lanes
+  group 2,293/9,855). Census: only 5ab3537d x 773470cd shares cidx-keyed
+  cells (2,981); it alone has equal context counts, ng-size overlap 2/2,
+  identical-cidx-tuple groups 2,890 (next 7), shared triples 5,152 (next
+  41), act-count overlap 218 (next 19). (iii) Five acts each
+  corpus-total 1 (cc9b9d1c cidx 144, head positions 1/2/3/4/7), heads
+  contexts none; sequences (whole head, head[1:5], head[1:8], opening
+  pair) each exactly 1 contiguous occurrence corpus-wide; mismatch
+  profile: all windows in other artifacts 8/8 mismatched, cc9's only <=2
+  window is the head itself.
+- **Evidence boundary:** Any mechanism NOT PROVEN.
 - **Next:** the 62 varying length-1 triples and the 9
   varying AP triples against their continuing twins;
   the A->B differing-lane relation over the 2,584
@@ -9697,72 +9665,62 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-120 — The varying thin triples are distinguished by their common centre itself, not by group, gap shape, type pattern or extras count (the 62 varying length-1 triples' common centres {32, 40, 43, 51, 85, 122} and the 253 constant triples' {0, 1, 2, 5, 15, 23, 34, 69, 127} are DISJOINT, counted exactly; groups/gap shapes/type patterns identical sets; extras never repeat the centre in the 62, 0/373, against 1,254/1,254 in the 253); the 9 varying AP triples are clones of each other in every measured field except group offset (same (71, 19392) group, common pair (38, 44) step 6, gaps (7, 1, 4), the same 12-extra sequence verbatim); over the 2,584 differing lanes B is NOT a function of A pooled (52/934 distinct A values with counterexamples) nor in lanes 0, 3, 4, but lane 1 IS a strict bijection (224 ↔ 224 over 354 lanes, zero counterexamples either direction) and the 535 in-37 differing lanes are likewise a strict bijection (36 ↔ 36 ↔ 36); and train 48 rank 2's remaining head acts are near-lonely (position 0: 7 occurrences, all cc9b9d1c, heading five contexts; positions 5 and 6: exactly 2 each, in cidx 144 and together order-swapped in cidx 267), with cidx 144's act-wise uniqueness ending exactly at its start boundary (position 8, counts jump to 1,060) while its sequence stays corpus-unique through at least the first 40 acts
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_VARYING_THIN_LANE_FUNCTION_REMAINING_ACTS_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef120.py sha256
-  `8bb8ad4bbf10e854229e3529e6405701d5bfadb8836f6af1d72388638b061b84`,
-  gz sha256
+- **Executable evidence:** controls reproduce exactly (hef120.py sha256
+  `8bb8ad4bbf10e854229e3529e6405701d5bfadb8836f6af1d72388638b061b84`, gz
+  sha256
   `aa92bf9484b0e90435a91af89a137b59883296ab9090706d8008e82ce6745429`;
   output 11,512 lines, 1,554,743 B, sha256
   `e68b18781ee38315434e545a0bc91bc325eec90dcf6178fec172a96930203ca3`,
   retrieved gz sha256
   `6c5e050f5e0e35e7ac9aca9708186ae28440e5766eb1fd2c0ed588b2275916cd`
-  decompressing to the same output sha256, verified on the
-  VM at closing; DONE120 at output line 11,512). Inherited
-  controls exact: shared enumeration 55,902 cells /
-  527,236 obs; divergent triples 2,171 with verdicts
-  CONT 12,411 / BREAK 476 / INDET 2,365; thin population
-  383; the 37 and the 96/1,971 with centre lane 0;
-  differing lanes 2,584 by lane {0: 1086, 1: 354, 2: 0,
-  3: 406, 4: 738}; cc9 fit exact (train 48 rank 2 =
-  cidx 144, start 8, steady 7, recorded head).
-  (i) L1 split 62 varying / 253 constant: (pos,size) group
-  sets identical (8 groups), gap-shape sets identical
-  (6 shapes), type patterns the same six, extras-count
-  support shared {2, 3, 9, 11}; common-centre sets
-  DISJOINT ({32, 40, 43, 51, 85, 122} vs {0, 1, 2, 5, 15,
-  23, 34, 69, 127}, intersection empty); extras equal the
-  common centre 0/373 in the 62 (below 157, above 216)
-  vs 1,254/1,254 in the 253; every extra in the 62 has a
-  distinct centre/word (union 29 centres, 328 words;
-  all-one-word 0/62 vs 241/253). AP: 9 varying triples
-  identical except offset — group (71, 19392), common
-  pair (38, 44), step 6, gaps (7, 1, 4), pattern
-  XXXXXXXCXCXXXX, extras sequence (14, 20, 23, 26, 29,
-  32, 35, 41, 50, 53, 56, 80) verbatim in all 9; extras
-  108, verdicts BREAK 99 / CONT 9; the constant AP triple
-  shares nothing but AP-ness ((15, 32608), (0, 38), step
-  38, gaps (0, 2, 2)). Why the varying triples vary NOT
-  PROVEN. (ii) Pooled: 934 distinct A, 931 distinct B,
-  1,033 pairs; B=f(A) fails (52/934 counterexample A
-  values, 278 lanes, max 6 B per A), A=f(B) fails (48/931,
-  546 lanes). Lane 1 strict bijection (224 ↔ 224, 354
-  lanes, 0 counterexamples either direction); lanes 0/3/4
-  fail (26/244, 23/249, 24/309). In-37: strict bijection
-  (36 ↔ 36 ↔ 36 over 535 lanes, 10 distinct diffs, 9 XOR
-  patterns); all counterexamples are non-37. Diffs pooled:
-  826 distinct, top +131072 (2^17) in 756 (378 lane 0 +
-  378 lane 4), −2^31 in 331, +2^31 in 225; XOR 834
-  distinct, top 00000080 (556); bytes differing per lane
-  {1: 1648, 2: 484, 3: 135, 4: 317}. Source of the
-  difference NOT PROVEN. (iii) Head pos 0 act: 7 corpus
-  occurrences, all cc9b9d1c — heads cidx 119/144/158/178/
-  242 at position 0, plus position 604 in cidx 143/183.
-  Pos 5 act: 2 (cidx 144 pos 5; cidx 267 pos 199). Pos 6
-  act: 2 (cidx 144 pos 6; cidx 267 pos 197). Only contexts
-  with ≥2 of the three: 144 and 267. cidx 144: 245 acts,
-  all distinct; train 48 all 28 rows 245 acts, multiset
-  overlap 49–50 steady (cidx 140: 38, 180: 40, 184: 49),
-  shared prefix 0 everywhere; longest common contiguous
-  run 15 acts at position 206 (shared with cidx 136, and
-  the same run is the longest shared with train 47 cidx 57
-  at 699 and train 49 cidx 193 at 217); train 47 contexts
-  738 acts overlap 33, train 49 contexts 256 acts overlap
-  33–34. Head act corpus counts [7, 1, 1, 1, 1, 2, 2, 1],
-  positions 8–10 at 1,060/1,060/1,058; every prefix of
-  length 2–40 occurs exactly once corpus-wide. Any shift
-  or mechanism NOT PROVEN.
+  decompressing to the same output sha256, verified on the VM at
+  closing; DONE120 at output line 11,512). Inherited controls exact:
+  shared enumeration 55,902 cells / 527,236 obs; divergent triples 2,171
+  with verdicts CONT 12,411 / BREAK 476 / INDET 2,365; thin population
+  383; the 37 and the 96/1,971 with centre lane 0; differing lanes 2,584
+  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738}; cc9 fit exact (train
+  48 rank 2 = cidx 144, start 8, steady 7, recorded head). (i) L1 split
+  62 varying / 253 constant: (pos,size) group sets identical (8 groups),
+  gap-shape sets identical (6 shapes), type patterns the same six,
+  extras-count support shared {2, 3, 9, 11}; common-centre sets DISJOINT
+  ({32, 40, 43, 51, 85, 122} vs {0, 1, 2, 5, 15, 23, 34, 69, 127},
+  intersection empty); extras equal the common centre 0/373 in the 62
+  (below 157, above 216) vs 1,254/1,254 in the 253; every extra in the
+  62 has a distinct centre/word (union 29 centres, 328 words;
+  all-one-word 0/62 vs 241/253). AP: 9 varying triples identical except
+  offset — group (71, 19392), common pair (38, 44), step 6, gaps (7, 1,
+  4), pattern XXXXXXXCXCXXXX, extras sequence (14, 20, 23, 26, 29, 32,
+  35, 41, 50, 53, 56, 80) verbatim in all 9; extras 108, verdicts BREAK
+  99 / CONT 9; the constant AP triple shares nothing but AP-ness ((15,
+  32608), (0, 38), step 38, gaps (0, 2, 2)). (ii) Pooled: 934 distinct
+  A, 931 distinct B, 1,033 pairs; B=f(A) fails (52/934 counterexample A
+  values, 278 lanes, max 6 B per A), A=f(B) fails (48/931, 546 lanes).
+  Lane 1 strict bijection (224 ↔ 224, 354 lanes, 0 counterexamples
+  either direction); lanes 0/3/4 fail (26/244, 23/249, 24/309). In-37:
+  strict bijection (36 ↔ 36 ↔ 36 over 535 lanes, 10 distinct diffs, 9
+  XOR patterns); all counterexamples are non-37. Diffs pooled: 826
+  distinct, top +131072 (2^17) in 756 (378 lane 0 + 378 lane 4), −2^31
+  in 331, +2^31 in 225; XOR 834 distinct, top 00000080 (556); bytes
+  differing per lane {1: 1648, 2: 484, 3: 135, 4: 317}. (iii) Head pos 0
+  act: 7 corpus occurrences, all cc9b9d1c — heads cidx 119/144/158/178/
+  242 at position 0, plus position 604 in cidx 143/183. Pos 5 act: 2
+  (cidx 144 pos 5; cidx 267 pos 199). Pos 6 act: 2 (cidx 144 pos 6; cidx
+  267 pos 197). Only contexts with ≥2 of the three: 144 and 267. cidx
+  144: 245 acts, all distinct; train 48 all 28 rows 245 acts, multiset
+  overlap 49–50 steady (cidx 140: 38, 180: 40, 184: 49), shared prefix 0
+  everywhere; longest common contiguous run 15 acts at position 206
+  (shared with cidx 136, and the same run is the longest shared with
+  train 47 cidx 57 at 699 and train 49 cidx 193 at 217); train 47
+  contexts 738 acts overlap 33, train 49 contexts 256 acts overlap
+  33–34. Head act corpus counts [7, 1, 1, 1, 1, 2, 2, 1], positions 8–10
+  at 1,060/1,060/1,058; every prefix of length 2–40 occurs exactly once
+  corpus-wide.
+- **Evidence boundary:** Why the varying triples vary NOT PROVEN. Source
+  of the difference NOT PROVEN. Any shift or mechanism NOT PROVEN.
 - **Next:** the disjoint common-centre sets read
   corpus-wide; lane 1's 224-pair bijection tabulated (affine,
   constant-XOR, or neither) and the in-37 bijection split
@@ -9773,76 +9731,64 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-121 — The disjoint centre sets are a thin length-1 property in exact form, but the varying centres never anchor unanimity anywhere in the corpus (unanimous-centre counts 0 at every other triple stratum, 0 of 18,286 unanimous ≥8 cells, 0 unanimous-word cells in any artifact, at most one occurrence per cell corpus-wide), while every constant centre anchors unanimity in every stratum and artifact; lane 1's 224-pair bijection carries none of the three closed forms (constant difference fails with 218 distinct differences, constant XOR fails with 217 distinct XORs, GF(2)-affine fails with 193 residuals over 223 — measured distribution only, most pairs differing in all four bytes, byte 3 shifting by small signed amounts), and the in-37 bijection is per-lane wherever lanes occur (lane 0: 431 lanes, 29 ↔ 29; lane 3: 104 lanes, 8 ↔ 8; lanes 1/2/4 contribute zero in-37 differing lanes); cidx 267 (842 acts, all distinct, in no train) shares 36 acts with cidx 144, its longest shared run is the same 15 acts at a constant +597 alignment, the swapped head pair sits isolated at positions 197/199 among corpus-unique neighbours with no head window of length ≥2 anywhere in it, and cidx 144's prefix uniqueness runs to the end of the context (every prefix through all 245 acts occurs exactly once corpus-wide)
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_CENTRE_SETS_LANE1_FORMS_CIDX267_PREFIX_END_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef121.py sha256
+- **Executable evidence:** controls reproduce exactly (hef121.py sha256
   `ae8c168aa951c0f1d3061aa7caf64dc1e0a53bfe1615cac2ddcb2943f6539112`,
   arms121.py sha256
   `646df8bba81becdf016f0973c7f72249d86a88deda1c7503f535a897a8bb884b`,
   arms gz sha256
   `37a5a40574380d5d7189740c534b3cbbcb66cb66503af9e7caf8d00888910df0`,
-  landed as 16 individually sha-gated parts, concatenated
-  and whole-verified on-device; output 11,708 lines,
-  1,579,883 B, sha256
+  landed as 16 individually sha-gated parts, concatenated and
+  whole-verified on-device; output 11,708 lines, 1,579,883 B, sha256
   `01040c5b9e3887933bdd9e78de61d00da897896d2d07ad27112c8471edbc635b`,
   retrieved gz sha256
   `1621d662452007357bb8242ebdd72f3934f7c3ecd8cd905fac3312f60a41e74d`
-  decompressing to the same output sha256, verified on the
-  VM at closing; DONE121 at output line 11,708). Inherited
-  controls exact: shared enumeration 55,902 cells /
-  527,236 obs; divergent triples 2,171 with verdicts
-  CONT 12,411 / BREAK 476 / INDET 2,365; thin population
-  383; the 37 and the 96/1,971 with centre lane 0;
-  differing lanes 2,584 by lane {0: 1086, 1: 354, 2: 0,
-  3: 406, 4: 738}; cc9 fit exact (train 48 rank 2 =
-  cidx 144, start 8, steady 7, recorded head).
-  (i) Divergent strata: L1 315, L2 68, 3–7 508 (+166
-  SINGLE with 0 common), ≥8 1,114. Varying centres are
-  UNANIMOUS triple centres ONLY at length 1 (the 62) —
-  0 at every other stratum; as common members they occur
-  only in NONAP/AP sequences (32: 36 mid + 44 thick;
-  51: 29 + 1; 43: 19 mid; 40: 8 mid; 85/122: none beyond
-  L1), extras never equal to them (0 everywhere). All
-  nine constant centres anchor unanimity in every
-  stratum (15: 153/35/262/624). ≥8 cells: 0/18,286
-  unanimous centred on a varying centre; constant
-  centres 818/561/346/1267/11367/335/231/131/1030.
-  Full cells: varying-centre cells == observations
-  (674/724/770/848/509/217 — at most once per cell,
-  0 unanimous-word cells, all artifacts incl. beyond
-  the mirror pair); constant 15: 298,610 obs in 31,821
-  cells. Non-divergent triples: 2,520 single-centre,
-  values never a varying centre (0 ×6; 40/43/51/85 do
-  occur inside varying sequences). Extras with a
-  varying centre: 51/85 ZERO; 43: 10 INDET; 40: 30;
-  32: 9 BREAK (the AP clones); 122: 7 BREAK. Cause
-  NOT PROVEN. (ii) Lane 1: constant-diff FALSE (218
-  distinct, +50/−174, top −2^31 ×6); constant-XOR
-  FALSE (217 distinct, top 0x80000000 ×8); GF(2)-affine
-  FALSE (span rank 30, residuals 193/223, fitted check
-  193 wrong / 0 unpredictable). Bytes differing per
-  pair {1: 8, 2: 3, 3: 46, 4: 167}; byte 0 shared in
-  44, XOR top 0x80 ×34; bytes 1/2 XOR distinct 143/144;
-  byte 3 only 24 distinct signed diffs (top −1 ×43,
-  −7 ×17, −8 ×16). In-37 per lane: lane 0 431 lanes
-  29 ↔ 29 strict, lane 3 104 lanes 8 ↔ 8 strict, lanes
-  1/2/4 zero lanes — per-lane, not pooled-only. Source
-  NOT PROVEN. (iii) cidx 267: 842 acts all distinct,
-  ng 1, start 6, in no train row; multiset overlap
-  with 144 = 36 (union 1,051). Shared runs ≥3: only 4
-  — 15 acts (144@206 ↔ 267@803, the AES-NUM-120 run),
-  7 (197 ↔ 794), 5 (190 ↔ 787) all on one +597
-  alignment, and 3 (144@8 ↔ 267@6). Window 267
-  194–202: pos 197 = head pos-6 act, 198 corpus-unique
-  (2215660544, 296, 2), 199 = head pos-5 act, all
-  neighbours corpus-unique; 144's 194–202 are
-  corpus-common (counts 271/27/54/271×6). No other
-  head act in 267; no head window of length ≥2 in 267
-  (lengths 8–2 all empty). Prefix counts exactly 1 at
-  every length 41–245 (direct full scans at 41, 100,
-  245) — NO repeated prefix; the whole 245-act context
-  is corpus-unique. Mechanism NOT PROVEN.
+  decompressing to the same output sha256, verified on the VM at
+  closing; DONE121 at output line 11,708). Inherited controls exact:
+  shared enumeration 55,902 cells / 527,236 obs; divergent triples 2,171
+  with verdicts CONT 12,411 / BREAK 476 / INDET 2,365; thin population
+  383; the 37 and the 96/1,971 with centre lane 0; differing lanes 2,584
+  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738}; cc9 fit exact (train
+  48 rank 2 = cidx 144, start 8, steady 7, recorded head). (i) Divergent
+  strata: L1 315, L2 68, 3–7 508 (+166 SINGLE with 0 common), ≥8 1,114.
+  Varying centres are UNANIMOUS triple centres ONLY at length 1 (the 62)
+  — 0 at every other stratum; as common members they occur only in
+  NONAP/AP sequences (32: 36 mid + 44 thick; 51: 29 + 1; 43: 19 mid; 40:
+  8 mid; 85/122: none beyond L1), extras never equal to them (0
+  everywhere). All nine constant centres anchor unanimity in every
+  stratum (15: 153/35/262/624). ≥8 cells: 0/18,286 unanimous centred on
+  a varying centre; constant centres
+  818/561/346/1267/11367/335/231/131/1030. Full cells: varying-centre
+  cells == observations (674/724/770/848/509/217 — at most once per
+  cell, 0 unanimous-word cells, all artifacts incl. beyond the mirror
+  pair); constant 15: 298,610 obs in 31,821 cells. Non-divergent
+  triples: 2,520 single-centre, values never a varying centre (0 ×6;
+  40/43/51/85 do occur inside varying sequences). Extras with a varying
+  centre: 51/85 ZERO; 43: 10 INDET; 40: 30; 32: 9 BREAK (the AP clones);
+  122: 7 BREAK. (ii) Lane 1: constant-diff FALSE (218 distinct,
+  +50/−174, top −2^31 ×6); constant-XOR FALSE (217 distinct, top
+  0x80000000 ×8); GF(2)-affine FALSE (span rank 30, residuals 193/223,
+  fitted check 193 wrong / 0 unpredictable). Bytes differing per pair
+  {1: 8, 2: 3, 3: 46, 4: 167}; byte 0 shared in 44, XOR top 0x80 ×34;
+  bytes 1/2 XOR distinct 143/144; byte 3 only 24 distinct signed diffs
+  (top −1 ×43, −7 ×17, −8 ×16). In-37 per lane: lane 0 431 lanes 29 ↔ 29
+  strict, lane 3 104 lanes 8 ↔ 8 strict, lanes 1/2/4 zero lanes —
+  per-lane, not pooled-only. (iii) cidx 267: 842 acts all distinct, ng
+  1, start 6, in no train row; multiset overlap with 144 = 36 (union
+  1,051). Shared runs ≥3: only 4 — 15 acts (144@206 ↔ 267@803, the
+  AES-NUM-120 run), 7 (197 ↔ 794), 5 (190 ↔ 787) all on one +597
+  alignment, and 3 (144@8 ↔ 267@6). Window 267 194–202: pos 197 = head
+  pos-6 act, 198 corpus-unique (2215660544, 296, 2), 199 = head pos-5
+  act, all neighbours corpus-unique; 144's 194–202 are corpus-common
+  (counts 271/27/54/271×6). No other head act in 267; no head window of
+  length ≥2 in 267 (lengths 8–2 all empty). Prefix counts exactly 1 at
+  every length 41–245 (direct full scans at 41, 100, 245) — NO repeated
+  prefix; the whole 245-act context is corpus-unique.
+- **Evidence boundary:** Cause NOT PROVEN. Source NOT PROVEN. Mechanism
+  NOT PROVEN.
 - **Next:** the varying centres as sequence members
   (position/step inside the mid/thick common sequences)
   and the other single-centre anchors {7, 11, 95, 139};
@@ -9854,87 +9800,72 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-122 — The varying centres inside mid/thick sequences are always start or interior members whose local steps already belong to the host sequence (137 occurrences in 137 NONAP sequences, end positions ZERO, no foreign step introduced), with centre 40 in a single rigid pattern (always index 1 after 32, before 44, steps (8, 4), host length 7) and 43 near-rigid (index 1, step out always 4, next always 47); of the other single-centre anchors {7, 11, 95, 139}, 7/11/95 are CONSTANT-LIKE (divergent unanimous-centre triples 27/14/5 in mid/thick strata, unanimous ≥8 cells 875/287/73, extras equal to the centre inside their own unanimous-centred triples 41/41, 97/97, 8/8) while 139 is NEITHER (no divergent triple membership, no extras, absent from the mirror pair and 0a0d378c, yet per-cell multiplicity 28 twice and 2 unanimous-word cells, against the varying six's per-cell count of exactly 1 everywhere); lane 1's 224 pairs live in only 3 groups / 16 cells (219 pairs occur once, 5 occur 27×; every pair in exactly one cell and one group), the pooled width is group (20, 32720)'s alone (216 lanes / 216 pairs / 216 diffs / 216 XORs) while group (14, 9992)'s 5 pairs share ONE XOR and (19, 7712)'s 3 pairs share one XOR, and byte 3's difference is NOT determined by A's byte 3 (35 of 61 values multi-valued, max band width 26, only the sign-flip values 0 → +128 and 128 → −128 single-valued); the +597 aligned region agrees at exactly the 27 positions of AES-NUM-121's three shared runs and differs at exactly 4 (144 positions 195/196/204/205, two adjacent pairs each immediately before a shared run, components 2 and 3 identical, only component 1 differing, agreeing acts all corpus count 271), and cidx 267's occurrence profile (709 of 842 corpus-unique, mean 14.8824) is far lonelier than cidx 144's (170 of 245, mean 49.2612) while both carry the identical high band (30 acts at 271, 1 at 1,058, 2 at 1,060)
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_VARYING_CENTRE_MEMBERS_ANCHORS_LANE1_SPLIT_ALIGNED_REGION_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef122.py
-  sha256
+- **Executable evidence:** controls reproduce exactly (hef122.py sha256
   `9ef555ac8c1385ead4ef893a6cca1b86e89e9a88a8a49a1488f4035b993b3b1f`,
   arms122.py sha256
   `9307034c16f7b8c9cbeb2b45f06ee24ef55c7629482631cde0b8a329cfc91639`,
   arms gz sha256
   `835f684fc1ee29e2ae8b43b0ab04dcf15cece18b73103409a27c0cdf31e19ec1`,
-  landed on-device as 16 individually sha-gated parts,
-  concatenated and whole-verified; hef122.py assembled
-  on-device from the verified hef121 base + arms122,
-  on-device sha == VM; one argv launch fault recorded
-  and relaunched; ran detached to DONE122, EXIT:0;
-  output
-  12,231 lines, 1,929,888 B, sha256
+  landed on-device as 16 individually sha-gated parts, concatenated and
+  whole-verified; hef122.py assembled on-device from the verified hef121
+  base + arms122, on-device sha == VM; one argv launch fault recorded
+  and relaunched; ran detached to DONE122, EXIT:0; output 12,231 lines,
+  1,929,888 B, sha256
   `11e2103a8a13521ce73113eebe552c589c09f3e590b957a9726d5868d6799764`,
   retrieved gz sha256
   `1159eedba095e87f4c6bf3d0f459a00177d77b63c0421ef1a4bb3af6048e49f8`
-  decompressing to the same output sha256, verified on
-  the VM at closing; DONE122 at output line 12,230).
-  Inherited controls exact: cells 55,902 / obs 527,236;
-  divergent triples 2,171, verdicts CONT 12,411 / BREAK
-  476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
-  unanimous 18,286 / 29 centres; differing lanes 2,584
-  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738};
-  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
-  steady 7, recorded head); lane 1 354 / 224 / 218 /
-  217; shared 267∩144 acts 36. (i) Varying members: 137
-  occurrences in 137 NONAP mid/thick sequences (32: 80 =
-  36 mid + 44 thick; 40: 8; 43: 19; 51: 30 = 29 + 1;
-  85/122: none); position classes start 33 / interior
-  104 / END 0; every local step in the host's own step
-  set in 137/137. Distinct hosts are few: 32's 80 ride
-  on 9 distinct sequences (carried by cidx 31 ×47 /
-  cidx 126 ×33); 40's hosts are the single sequence
-  (32, 40, 44, 48, 52, 56, 68); 43's 19 ride on two
-  sequences, with 51 co-occurring in all 19 at index 3;
-  51's single thick host is a 25-long sequence (steps
-  6 then 3 ×23), 51 at index 14 on the 3-run. 40: index 1 ×8, prev 32 ×8, next 44
-  ×8, steps (8, 4) ×8, length 7 ×8. 43: index 1 ×19,
-  next 47 ×19, step-out 4 ×19. 51: index {1: 10, 3: 19,
-  14: 1}, lengths {3: 10, 6: 19, 25: 1}. Anchors: 7 —
-  unanimous-centre 27 (13 mid + 14 thick), ≥8 unanimous
-  875/1,261, unanimous-word cells 2,122, extras 41 all
-  CONT, own-unanimous equality 41/41; 11 — 14 (4 + 10),
-  287/814, 459, extras 137 (121/11/5 CONT/BREAK/INDET),
-  97/97; 95 — 5 (2 + 3), 73/470, 207, extras 8 all CONT,
-  8/8 — all three CONSTANT-LIKE. 139 — NEITHER:
-  unanimous-centre 0, divergent membership 0, extras 0,
-  ≥8 containing 79 with 2 unanimous, unanimous-word
-  cells 2, per-cell {1 ×77, 28 ×2}, present in 4
-  artifacts only, absent from cc9b9d1c / 0a0d378c /
-  MiniLM. Varying six per-cell count exactly 1 in all
-  cells; constants' own-unanimous extras equality exact
-  (282/282 … 7,676/7,676 for 15 … 928/928). Cause NOT
-  PROVEN. (ii) Pairs by cell: 16 cells, lanes {1: 3,
-  27: 13}, pairs {1: 8, 27: 8}; by group: (14, 9992)
-  135 lanes / 5 pairs / 2 diffs / 1 XOR; (19, 7712) 3 /
-  3 / 2 / 1; (20, 32720) 216 / 216 / 216 / 216; pairs
-  occurring once 219, 27× 5; pair-in-cells and
-  pair-in-groups both {1: 224}. Byte 3: 61 A values,
-  determination FALSE (35 multi-valued), widths max 26
-  mean 6.197, pooled diffs 24; only 0 → +128 (2 pairs)
-  and 128 → −128 (6 pairs) single-valued with >1 pair.
-  Source NOT PROVEN. (iii) Region: agree 27 / differ 4;
-  agreeing = runs (5 @190, 7 @197, 15 @206) exactly;
-  flanks both differ; differing at 195/196/204/205 with
-  components 2/3 identical and only component 1
-  differing (A occ 27/54/27/27; B occ 4/4/4/6).
-  Profiles: 267 {1: 709, 2: 83, 4: 6, 6: 1, 15: 4,
-  39: 3, 47: 3, 271: 30, 1058: 1, 1060: 2}, mean
-  14.8824; 144 {1: 170, 2: 18, 3: 4, 7: 3, 25: 4,
-  26: 3, 27: 5, 28: 1, 29: 1, 44: 1, 54: 2, 271: 30,
-  1058: 1, 1060: 2}, mean 49.2612. 267 non-unique 133
-  acts / 11,689 other occurrences / 1,059 other
-  contexts; by artifact {cc9b9d1c: 9324, 76c3a8ff:
-  1058, 0856a10c: 767, 0a0d378c: 540}; top other
-  context cc9b9d1c cidx 130 (111 acts); 36 of the 133
-  also in cidx 144. Mechanism NOT PROVEN.
+  decompressing to the same output sha256, verified on the VM at
+  closing; DONE122 at output line 12,230). Inherited controls exact:
+  cells 55,902 / obs 527,236; divergent triples 2,171, verdicts CONT
+  12,411 / BREAK 476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
+  unanimous 18,286 / 29 centres; differing lanes 2,584 by lane {0: 1086,
+  1: 354, 2: 0, 3: 406, 4: 738}; cc9 fit exact (train 48 rank 2 = cidx
+  144, start 8, steady 7, recorded head); lane 1 354 / 224 / 218 / 217;
+  shared 267∩144 acts 36. (i) Varying members: 137 occurrences in 137
+  NONAP mid/thick sequences (32: 80 = 36 mid + 44 thick; 40: 8; 43: 19;
+  51: 30 = 29 + 1; 85/122: none); position classes start 33 / interior
+  104 / END 0; every local step in the host's own step set in 137/137.
+  Distinct hosts are few: 32's 80 ride on 9 distinct sequences (carried
+  by cidx 31 ×47 / cidx 126 ×33); 40's hosts are the single sequence
+  (32, 40, 44, 48, 52, 56, 68); 43's 19 ride on two sequences, with 51
+  co-occurring in all 19 at index 3; 51's single thick host is a 25-long
+  sequence (steps 6 then 3 ×23), 51 at index 14 on the 3-run. 40: index
+  1 ×8, prev 32 ×8, next 44 ×8, steps (8, 4) ×8, length 7 ×8. 43: index
+  1 ×19, next 47 ×19, step-out 4 ×19. 51: index {1: 10, 3: 19, 14: 1},
+  lengths {3: 10, 6: 19, 25: 1}. Anchors: 7 — unanimous-centre 27 (13
+  mid + 14 thick), ≥8 unanimous 875/1,261, unanimous-word cells 2,122,
+  extras 41 all CONT, own-unanimous equality 41/41; 11 — 14 (4 + 10),
+  287/814, 459, extras 137 (121/11/5 CONT/BREAK/INDET), 97/97; 95 — 5 (2
+  + 3), 73/470, 207, extras 8 all CONT, 8/8 — all three CONSTANT-LIKE.
+  139 — NEITHER: unanimous-centre 0, divergent membership 0, extras 0,
+  ≥8 containing 79 with 2 unanimous, unanimous-word cells 2, per-cell {1
+  ×77, 28 ×2}, present in 4 artifacts only, absent from cc9b9d1c /
+  0a0d378c / MiniLM. Varying six per-cell count exactly 1 in all cells;
+  constants' own-unanimous extras equality exact (282/282 … 7,676/7,676
+  for 15 … 928/928). (ii) Pairs by cell: 16 cells, lanes {1: 3, 27: 13},
+  pairs {1: 8, 27: 8}; by group: (14, 9992) 135 lanes / 5 pairs / 2
+  diffs / 1 XOR; (19, 7712) 3 / 3 / 2 / 1; (20, 32720) 216 / 216 / 216 /
+  216; pairs occurring once 219, 27× 5; pair-in-cells and pair-in-groups
+  both {1: 224}. Byte 3: 61 A values, determination FALSE (35
+  multi-valued), widths max 26 mean 6.197, pooled diffs 24; only 0 →
+  +128 (2 pairs) and 128 → −128 (6 pairs) single-valued with >1 pair.
+  (iii) Region: agree 27 / differ 4; agreeing = runs (5 @190, 7 @197, 15
+  @206) exactly; flanks both differ; differing at 195/196/204/205 with
+  components 2/3 identical and only component 1 differing (A occ
+  27/54/27/27; B occ 4/4/4/6). Profiles: 267 {1: 709, 2: 83, 4: 6, 6: 1,
+  15: 4, 39: 3, 47: 3, 271: 30, 1058: 1, 1060: 2}, mean 14.8824; 144 {1:
+  170, 2: 18, 3: 4, 7: 3, 25: 4, 26: 3, 27: 5, 28: 1, 29: 1, 44: 1, 54:
+  2, 271: 30, 1058: 1, 1060: 2}, mean 49.2612. 267 non-unique 133 acts /
+  11,689 other occurrences / 1,059 other contexts; by artifact
+  {cc9b9d1c: 9324, 76c3a8ff: 1058, 0856a10c: 767, 0a0d378c: 540}; top
+  other context cc9b9d1c cidx 130 (111 acts); 36 of the 133 also in cidx
+  144.
+- **Evidence boundary:** Cause NOT PROVEN. Source NOT PROVEN. Mechanism
+  NOT PROVEN.
 - **Next:** centre 139 read in full (its 79 cells, the
   two 28-occurrence cells, its single non-divergent
   triple) and anchors 7/11/95 read as sequence members;
@@ -9948,120 +9879,95 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-123 — Centre 139's two 28-occurrence cells are ONE cell held identically by both mirror artifacts (key (21, 30768, 15368), same 28 cidxs, same single word in all 28 rows on both sides), and that cell is 139's single non-divergent triple — its only presence in the mirror pair, against 0 divergent triples and 0 extras; its other 77 cells are DISTINCT cells in 0856a10c and 76c3a8ff only, carrying six distinct cidx tuples in all, with 139 always the LAST centre in 0856a10c (42/42, after 134 or 124) and always an interior centre after 130 in 76c3a8ff (35/35, index 8 or 12, before 148 or 166), its centreword `ff8b0000` in 133/133 occurrences; the constant-like anchors 7/11/95, read as members of their mid/thick divergent hosts, obey the varying centres' law (pooled non-unanimous hosts: start 50 / interior 125 / END 0, every local step in the host's step set; 7 always at start, 11 always at index 0 or 1, 95 always interior after 91; all 46 pooled end occurrences sit inside the anchors' own unanimous hosts); lane 1's group (20, 32720) splits into 8 offset blocks of 27 pairs that are pairwise DISJOINT in every projection (all intersections 0 over the 28 block pairs; the pooled 216 distinct as pairs, A values, B values, diffs and XORs) with NO additive or XOR translate between any blocks, while group (14, 9992)'s five repeated pairs and group (19, 7712)'s three pairs are pure sign flips (every XOR 0x80000000, per-byte diffs (0, 0, 0, ∓128), diffs exactly −2^31 ×4 / +2^31 ×1 in (14, 9992)); byte 3's difference is NOT determined by (A byte 3, group) (63 keys, the same 35 violating, 192 pairs, all inside group (20, 32720) — group adds nothing) nor by byte 3 with any single low byte (byte 1: 2 violating keys / 4 pairs; byte 2: 1 violating key / 2 pairs; byte 0: 32 / 78), and the low three bytes jointly reach 224 keys for 224 pairs — determination by unique identification only; the region's two 2-act breaks are breaks of the 144↔267 alignment only (all eight break acts occur solely in cc9b9d1c; the 267-side pairs occur as pairs in exactly 4 contexts {114, 130, 251, 267} always at 792–793 / 801–802 with the same neighbouring acts as the 144-side pairs, which occur in exactly 27 contexts always at 195–196 / 204–205; reversed pairs 0 corpus-wide), and cidx 130 is 267's near-twin (842 acts both, all distinct; 709 corpus-unique each; 50 acts at count ≥4 each; identical high band 30 @271 / 1 @1,058 / 2 @1,060; means 14.7067 / 14.8824) sharing 111 acts in IDENTICAL relative order (0 inversions in 6,105 pairs) in 19 shared runs, the longest 31 acts at identical positions 787–817 in both — CONTAINING both 267-side break pairs
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_CENTRE139_ANCHORS_MEMBERS_LANE1_BLOCKS_BYTE3_BREAKS_CIDX130_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef123.py
-  sha256
+- **Executable evidence:** controls reproduce exactly (hef123.py sha256
   `ab081ae339f01b8e9826a60d9cf87619f0347e71f40510b8855cc0a111b20582`,
   arms123.py sha256
   `83658cb37f1760c3c6f22d765e36ca2fc8947f8a0348aef4be6a70130a66a381`,
   arms gz sha256
   `8357ef408dd48d5ccbb2413d15843ca0dc08946aa619631c134a94b81d3294a2`,
-  landed on-device as 22 individually sha-gated parts,
-  concatenated and whole-verified; hef123.py assembled
-  on-device from the verified hef122 base + arms123,
-  on-device sha == VM; ran detached to DONE123;
-  output
+  landed on-device as 22 individually sha-gated parts, concatenated and
+  whole-verified; hef123.py assembled on-device from the verified hef122
+  base + arms123, on-device sha == VM; ran detached to DONE123; output
   13,972 lines, 2,204,713 B, sha256
   `c95d0408c7ea5065c08ffc7fa17074c99bdf50b0cdb233d6250dcd7b590fbca7`,
   retrieved gz sha256
   `97917c276a89341187fb9786e454b4f9c05ce8f3bfcad9d3cfd5b3898b151446`
-  decompressing to the same output sha256, verified on
-  the VM at closing; DONE123 at output line 13,972).
-  Inherited controls exact: cells 55,902 / obs 527,236;
-  divergent triples 2,171, verdicts CONT 12,411 / BREAK
-  476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
-  unanimous 18,286 / 29 centres; differing lanes 2,584
-  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738};
-  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
-  steady 7, recorded head); lane 1 354 / 224 / 218 /
-  217; shared 267∩144 acts 36. (i)(a) 139: 79 cells
-  {0856a10c: 42, 76c3a8ff: 35, 5ab3537d: 1, 773470cd: 1},
-  1,448 obs, 133 occurrences, per-cell {1: 77, 28: 2},
-  classes DISTINCT 77 / UNANIMOUS 2, all 79 ≥8; 78
-  distinct words at the occurrences, centreword
-  ff8b0000 133/133, ng 1 133/133; the 28-cells share
-  (pos, size, off) (21, 30768, 15368), the cidx tuple
-  [97, 101, …, 205] and the word tuple (single word
-  ('00000000', 'ff0f0000', 'ff8b0000', '00000000',
-  '00000000')); only `oo` differs (first row 878,302,720
-  A / 878,030,336 B); non-divergent triples containing
-  139 exactly 1 (that key, A/B identical 28/28);
-  divergent triples containing 139: 0; extras centre
-  139: 0; 78 distinct keys, only the mirror key held by
-  two artifacts; DISTINCT cells carry 6 cidx tuples
-  (0856a10c n21 ×8 / n20 ×23 / n8 ×11; 76c3a8ff n15 ×8 /
-  n18 ×17 / n25 ×10); in-cell neighbours {(139,139):
-  52, (134,None): 31, (130,148): 27, (124,None): 11,
-  (130,166): 8, (139,None): 2, (None,139): 2}. (i)(b)
-  Anchors as members: 7 — 67 triples (27 UNANIMOUS +
-  40 NONAP), 468 occ; non-unanimous 40 occ all start
-  (index 0), next 11 ×16 / 15 ×24, steps in host set
-  40/40, 5 distinct host sequences. 11 — 109 triples
-  (14 + 95), 205 occ; non-unanimous 95 occ = start 10 /
-  interior 85 (all index 1; prev 5 ×69 steps (6, 6),
-  prev 7 ×16 steps (4, 4); next 17 ×79 / 15 ×16), end
-  0, in set 95/95, 9 hosts. 95 — 45 triples (5 + 40),
-  127 occ; non-unanimous 40 occ all interior (index 7
-  ×24 / 9 ×16, prev 91 ×40, next 99 ×37 / 103 ×3), in
-  set 40/40, 5 hosts. Pooled non-unanimous 175 occ:
-  start 50 / interior 125 / END 0; pooled all hosts 800
-  occ, ends 46 all inside own unanimous hosts. (ii)(a)
-  Group (20, 32720): 8 cells at offs 6796–7272 step 68,
-  27 lanes each, same 27 cidxs {2, 5, …, 80}, all
-  centre 127; per block 27 distinct pairs / diffs /
-  XORs / A / B; vs first block all set and multiset
-  comparisons False, additive and XOR translates None;
-  over all 28 block pairs, intersections of pairs / A /
-  B / diffs / XORs all 0 (computed from the printed
-  pair lists); pooled 216 distinct in every projection.
-  (ii)(b) Group (14, 9992): 5 pairs, each 27× in its
-  own cell (offs 4336 / 9832 / 1744 / 6944 / 7424),
-  same 27 cidxs {101, …, 205} and centres {7, 11, …,
-  111}; A/B byte strings as tabled in the evidence doc;
-  all XOR 0x80000000; diffs −2147483648 ×4 /
-  +2147483648 ×1; per-byte (0, 0, 0, −128) ×4 /
-  (0, 0, 0, +128) ×1. Group (19, 7712): 3 pairs, all
-  XOR 0x80000000, diffs +2^31 ×1 / −2^31 ×2, cidx 86,
-  centre 87. (ii)(c) Determination over 224 pairs:
-  f(byte 3) 61 keys / 35 violating / 192 pairs False;
-  f(byte 3, group) 63 / 35 / 192 False; f(group) 3 / 3
-  False; per-group byte-3 tables: (14, 9992) 2 values /
-  0 multi True, (19, 7712) 2 / 0 True, (20, 32720) 59 /
-  35 False; f(byte 3, byte 0) 175 / 32 / 78 False;
-  f(byte 3, byte 1) 216 / 2 / 4 False (violating
-  (249, 44) → {−1, 0}, (252, 84) → {−2, −1});
-  f(byte 3, byte 2) 221 / 1 / 2 False (violating
-  (249, 181) → {−5, −1}); f(bytes 0, 1, 2) 224 / 0 —
-  injective key, vacuous; f(full A) 224 / 0 sanity.
-  Source NOT PROVEN. (iii)(a) Break acts, all solely in
-  cc9b9d1c: 267-side occ 4 / 4 / 4 / 6, 144-side occ
-  27 / 54 / 27 / 27; components 2/3 identical across
-  sides, only component 1 differs; 144 pairs as pairs
-  27× each at pos 195 / 204 in contexts {140, 144, …,
-  244}; 267 pairs as pairs 4× each at pos 792 / 801 in
-  contexts {114, 130, 251, 267}, neighbours identical
-  to the 144 pair's frame ((173040, 24, 0) /
-  (173568, 816, 0); pair 2 (174968, 24, 0) /
-  (175616, 176, 0)); reversed pairs 0; surplus singles:
-  144 @196 act +27× at pos 557, 267 @802 act +2× at
-  pos 646 (cidx 120, 257). (iii)(b) 130 vs 267: lengths
-  842 / 842, all acts distinct in each; profiles 130
-  {1: 709, 2: 80, 3: 3, 4: 6, 6: 1, 8: 3, 14: 1, 15: 3,
-  28: 3, 271: 30, 1058: 1, 1060: 2} mean 14.7067; 267
-  {1: 709, 2: 83, 4: 6, 6: 1, 15: 4, 39: 3, 47: 3, 271:
-  30, 1058: 1, 1060: 2} mean 14.8824; 144 control mean
-  49.2612; shared distinct acts 111, unshared 731 each,
-  union 1,573; order inversions 0 of 6,105; offsets 13
-  distinct, top (0: 42, −7: 29, +1: 12, −3: 5, −17: 5);
-  19 maximal shared runs ≥2, lengths {31: 1, 10: 1,
-  8: 1, 7: 1, 6: 1, 5: 3, 3: 4, 2: 7}; len-31 run at
-  787–817 in both, containing acts (900761600, 248, 0)
-  and (900762112, 256, 0); len-8 run at 826–833 in both;
-  130 non-unique 133 acts / 11,541 other occurrences /
-  1,059 other contexts, top other context cc9b9d1c
-  cidx 267 (111). Mechanism NOT PROVEN.
+  decompressing to the same output sha256, verified on the VM at
+  closing; DONE123 at output line 13,972). Inherited controls exact:
+  cells 55,902 / obs 527,236; divergent triples 2,171, verdicts CONT
+  12,411 / BREAK 476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
+  unanimous 18,286 / 29 centres; differing lanes 2,584 by lane {0: 1086,
+  1: 354, 2: 0, 3: 406, 4: 738}; cc9 fit exact (train 48 rank 2 = cidx
+  144, start 8, steady 7, recorded head); lane 1 354 / 224 / 218 / 217;
+  shared 267∩144 acts 36. (i)(a) 139: 79 cells {0856a10c: 42, 76c3a8ff:
+  35, 5ab3537d: 1, 773470cd: 1}, 1,448 obs, 133 occurrences, per-cell
+  {1: 77, 28: 2}, classes DISTINCT 77 / UNANIMOUS 2, all 79 ≥8; 78
+  distinct words at the occurrences, centreword ff8b0000 133/133, ng 1
+  133/133; the 28-cells share (pos, size, off) (21, 30768, 15368), the
+  cidx tuple [97, 101, …, 205] and the word tuple (single word
+  ('00000000', 'ff0f0000', 'ff8b0000', '00000000', '00000000')); only
+  `oo` differs (first row 878,302,720 A / 878,030,336 B); non-divergent
+  triples containing 139 exactly 1 (that key, A/B identical 28/28);
+  divergent triples containing 139: 0; extras centre 139: 0; 78 distinct
+  keys, only the mirror key held by two artifacts; DISTINCT cells carry
+  6 cidx tuples (0856a10c n21 ×8 / n20 ×23 / n8 ×11; 76c3a8ff n15 ×8 /
+  n18 ×17 / n25 ×10); in-cell neighbours {(139,139): 52, (134,None): 31,
+  (130,148): 27, (124,None): 11, (130,166): 8, (139,None): 2,
+  (None,139): 2}. (i)(b) Anchors as members: 7 — 67 triples (27
+  UNANIMOUS + 40 NONAP), 468 occ; non-unanimous 40 occ all start (index
+  0), next 11 ×16 / 15 ×24, steps in host set 40/40, 5 distinct host
+  sequences. 11 — 109 triples (14 + 95), 205 occ; non-unanimous 95 occ =
+  start 10 / interior 85 (all index 1; prev 5 ×69 steps (6, 6), prev 7
+  ×16 steps (4, 4); next 17 ×79 / 15 ×16), end 0, in set 95/95, 9 hosts.
+  95 — 45 triples (5 + 40), 127 occ; non-unanimous 40 occ all interior
+  (index 7 ×24 / 9 ×16, prev 91 ×40, next 99 ×37 / 103 ×3), in set
+  40/40, 5 hosts. Pooled non-unanimous 175 occ: start 50 / interior 125
+  / END 0; pooled all hosts 800 occ, ends 46 all inside own unanimous
+  hosts. (ii)(a) Group (20, 32720): 8 cells at offs 6796–7272 step 68,
+  27 lanes each, same 27 cidxs {2, 5, …, 80}, all centre 127; per block
+  27 distinct pairs / diffs / XORs / A / B; vs first block all set and
+  multiset comparisons False, additive and XOR translates None; over all
+  28 block pairs, intersections of pairs / A / B / diffs / XORs all 0
+  (computed from the printed pair lists); pooled 216 distinct in every
+  projection. (ii)(b) Group (14, 9992): 5 pairs, each 27× in its own
+  cell (offs 4336 / 9832 / 1744 / 6944 / 7424), same 27 cidxs {101, …,
+  205} and centres {7, 11, …, 111}; A/B byte strings as tabled in the
+  evidence doc; all XOR 0x80000000; diffs −2147483648 ×4 / +2147483648
+  ×1; per-byte (0, 0, 0, −128) ×4 / (0, 0, 0, +128) ×1. Group (19,
+  7712): 3 pairs, all XOR 0x80000000, diffs +2^31 ×1 / −2^31 ×2, cidx
+  86, centre 87. (ii)(c) Determination over 224 pairs: f(byte 3) 61 keys
+  / 35 violating / 192 pairs False; f(byte 3, group) 63 / 35 / 192
+  False; f(group) 3 / 3 False; per-group byte-3 tables: (14, 9992) 2
+  values / 0 multi True, (19, 7712) 2 / 0 True, (20, 32720) 59 / 35
+  False; f(byte 3, byte 0) 175 / 32 / 78 False; f(byte 3, byte 1) 216 /
+  2 / 4 False (violating (249, 44) → {−1, 0}, (252, 84) → {−2, −1});
+  f(byte 3, byte 2) 221 / 1 / 2 False (violating (249, 181) → {−5, −1});
+  f(bytes 0, 1, 2) 224 / 0 — injective key, vacuous; f(full A) 224 / 0
+  sanity. (iii)(a) Break acts, all solely in cc9b9d1c: 267-side occ 4 /
+  4 / 4 / 6, 144-side occ 27 / 54 / 27 / 27; components 2/3 identical
+  across sides, only component 1 differs; 144 pairs as pairs 27× each at
+  pos 195 / 204 in contexts {140, 144, …, 244}; 267 pairs as pairs 4×
+  each at pos 792 / 801 in contexts {114, 130, 251, 267}, neighbours
+  identical to the 144 pair's frame ((173040, 24, 0) / (173568, 816, 0);
+  pair 2 (174968, 24, 0) / (175616, 176, 0)); reversed pairs 0; surplus
+  singles: 144 @196 act +27× at pos 557, 267 @802 act +2× at pos 646
+  (cidx 120, 257). (iii)(b) 130 vs 267: lengths 842 / 842, all acts
+  distinct in each; profiles 130 {1: 709, 2: 80, 3: 3, 4: 6, 6: 1, 8: 3,
+  14: 1, 15: 3, 28: 3, 271: 30, 1058: 1, 1060: 2} mean 14.7067; 267 {1:
+  709, 2: 83, 4: 6, 6: 1, 15: 4, 39: 3, 47: 3, 271: 30, 1058: 1, 1060:
+  2} mean 14.8824; 144 control mean 49.2612; shared distinct acts 111,
+  unshared 731 each, union 1,573; order inversions 0 of 6,105; offsets
+  13 distinct, top (0: 42, −7: 29, +1: 12, −3: 5, −17: 5); 19 maximal
+  shared runs ≥2, lengths {31: 1, 10: 1, 8: 1, 7: 1, 6: 1, 5: 3, 3: 4,
+  2: 7}; len-31 run at 787–817 in both, containing acts (900761600, 248,
+  0) and (900762112, 256, 0); len-8 run at 826–833 in both; 130
+  non-unique 133 acts / 11,541 other occurrences / 1,059 other contexts,
+  top other context cc9b9d1c cidx 267 (111).
+- **Evidence boundary:** Source NOT PROVEN. Mechanism NOT PROVEN.
 - **Next:** centre 139's six DISTINCT-cell families as
   full centre sequences and the shared mirror cell
   against the pair's shared-cell population; lane 1's
@@ -10075,108 +9981,84 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-124 — Centre 139's six DISTINCT-cell families each carry exactly ONE centre sequence (the cidx tuple determines the sequence; a cidx carries the same centre in every family that contains it; 139 closes the three 0856a10c sequences after 134/124 and sits inside the three 76c3a8ff step-9 ladder sequences after 130, before 148/166; centreword `ff8b0000` and ng 1 at 139 in 77/77 cells), and the shared mirror cell (21, 30768, 15368) is the UNIQUE single-centre-139 cell in the mirror pair's full shared-cell population (2,981 cidx-keyed shared cells = the non-divergent 1-1 triples counted the other way; centres equal 2,981/2,981, words equal 2,885/2,981; both-unanimous 2,386; single-centre A-side cells 2,520 by centre {15: 1708, 5: 284, 127: 191, 0: 176, …, 139: 1}); lane 1's byte-3 difference IS determined by (A byte 3, A byte 1, A byte 2) — 222 keys, zero counterexamples over all 224 pairs, NOT injective (the only two multi-pair keys are narrow sign-flip keys (128, 1, 176) and (128, 1, 178), each carrying two (14, 9992) pairs differing only in byte 0, both byte-3 diff −128; within group (20, 32720) the key is injective 216/216; group adds nothing) — the first non-vacuous determination in the byte-3 line, mechanism NOT PROVEN; the five distinct near-miss pairs under the old violating keys (six key-selections, one pair under both) all live in group (20, 32720) at centre 127, four in its last block (off 7272) and one at off 7204; that group's per-cidx trajectories across its eight disjoint blocks change everything except the frame (8 distinct A / B / pairs / diffs / XORs for every one of the 27 cidxs; constant A/B/pair/diff/XOR 0/27 each) yet A and B both strictly increase with block offset for all 27 cidxs and all 189 consecutive-block delta-A and delta-B values are positive and pairwise distinct (delta-diff likewise 189 distinct); the four break contexts {114, 130, 251, 267} are all 842 acts on the identical high band (30 @271 / 1 @1,058 / 2 @1,060) and form two near-pairs — {114, 251} sharing 168 acts in 21 runs (longest 54 at identical positions 130–183) and {130, 267} sharing 111 in 19 — while every cross-pair shares only 37–40 acts (the head 3-run and the shared tail run holding both 267-side break pairs, which stand at positions 792/801 in all four contexts; the 144-side pairs' acts are absent from all four), and 130×251 alone inverts (110 of 780 shared pairs); the non-shared spans between 130↔267's 19 runs total 739 acts on EACH side (103 in runs + 739 in spans = 842 both sides) over 20 spans (8 of equal length on the two sides), holding the 8 isolated shared singles
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_CENTRE139_FAMILIES_MIRRORPOP_BYTE3_TRAJECTORIES_BREAKCTX_SPANS_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef124.py
-  sha256
+- **Executable evidence:** controls reproduce exactly (hef124.py sha256
   `6727c3a6843af0ad9b5dbe53defa2c0af58db361a271cb5bb06eb4a5d4ee5a83`,
   arms124.py sha256
   `c8c5448d8d88e3c4bace0a362294b0ed8ea18ee61c36428b1bc3920197b6f9c1`,
   arms gz sha256
   `9943dee84da718a6f6f2b7233594efc7543967e824d0ea68ea84761d9ab2838c`,
-  landed on-device as 18 individually sha-gated parts —
-  p_ad failed its gate twice (deterministic corruption)
-  and landed as two halves at a new boundary, p_al /
-  p_am / p_ao discarded on failed gates and resent
-  sequentially; concatenated and whole-verified;
-  hef124.py assembled on-device from the verified
-  hef122 base + arms124, on-device sha == VM; ran
-  detached to DONE124; output
-  12,572 lines, 2,044,686 B, sha256
+  landed on-device as 18 individually sha-gated parts — p_ad failed its
+  gate twice (deterministic corruption) and landed as two halves at a
+  new boundary, p_al / p_am / p_ao discarded on failed gates and resent
+  sequentially; concatenated and whole-verified; hef124.py assembled
+  on-device from the verified hef122 base + arms124, on-device sha ==
+  VM; ran detached to DONE124; output 12,572 lines, 2,044,686 B, sha256
   `0b8b990f3104ac05a9ddfc038f8ec914983fd080874fe1ab0e5c802504314815`,
   retrieved gz sha256
   `9588729cc754780c29c58093fd91364daf6b13d79892d79f5a63955dd03abd1f`
-  decompressing to the same output sha256, verified on
-  the VM at closing; DONE124 at output line 12,572;
-  the 4.124 section begins at output line 12,231).
-  Inherited controls exact: cells 55,902 / obs 527,236;
-  divergent triples 2,171, verdicts CONT 12,411 / BREAK
-  476 / INDET 2,365; thin 383; ≥8 cells 25,566 /
-  unanimous 18,286 / 29 centres; differing lanes 2,584
-  by lane {0: 1086, 1: 354, 2: 0, 3: 406, 4: 738};
-  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
-  steady 7, recorded head); lane 1 354 / 224 / 218 /
-  217; shared 267∩144 acts 36. (i)(a) Families:
-  0856a10c n21 ×8 seq [4, 14, …, 134, 139] idx 20 prev
-  134; n20 ×23 seq [14, 19, …, 134, 139] idx 19 (tuple =
-  n21 tuple minus cidx 103, seq minus leading 4); n8
-  ×11 seq [29, 34, 39, 94, 99, 114, 124, 139] idx 7 prev
-  124; 76c3a8ff n25 ×10 seq the step-9 ladder [31, 40,
-  …, 247] idx 12 prev 130 next 148; n18 ×17 seq [31,
-  40, 49, 58, 67, 76, 94, 130, 139, 148, 166, 175, 184,
-  193, 211, 229, 238, 247] idx 8 (7 cidxs dropped from
-  n25, their centres removed); n15 ×8 seq [31, 40, 49,
-  58, 67, 76, 94, 130, 139, 166, 175, 184, 193, 211,
-  229] idx 8 next 166 (3 further drops); each family
-  exactly 1 distinct centre sequence over its cells;
-  family sizes [23, 17, 11, 10, 8, 8]. (i)(b) Shared
-  population: A cells 6,970 / B cells 7,485; shared
-  cidx-keyed 2,981; class pairs {UU: 2386, DD: 479,
-  OO: 73, UO: 24, UD: 13, DU: 4, DO: 2}; A unanimous
-  2,423 / B unanimous 2,386; n dist max 28 ×443 (target
-  one of them); pos 21 modal ×325; single-centre 2,520,
-  of those words equal 2,441, A unanimous 2,423 (97
-  single-centre cells carry varying words); target
-  A==B in cidxs / centres / words, only `oo` differs.
-  (ii)(a) Near-miss pairs (A byte string → B, full
-  diff, byte-3 diff, XOR, cidx, cell off): 682cb5f9 →
-  6884f5f8 (−12,560,384, −1, 0x0140a800, cidx 74, off
-  7204; under both violating keys); 782c75f9 →
-  808cb2f9 (+4,022,280, 0, 0x00c7a0f8, cidx 77, off
-  7272); 745471fc → 089adffb (−9,550,444, −1,
-  0x07aece7c, cidx 8, off 7272); ec546cfc → 781099fa
-  (−30,622,836, −2, 0x06f54494, cidx 14, off 7272);
-  705ab5f9 → a08de5f4 (−80,727,248, −5, 0x0d50d7d0,
-  cidx 50, off 7272); all group (20, 32720), centre
-  127, 1 occurrence each. (ii)(b) f(byte 3, byte 1,
-  byte 2): 222 keys / 0 violating / DETERMINED, not
-  injective; f(…, group): 222 / 0, unchanged; controls
-  f(byte 3, byte 1) 216 / 2 / 4 False, f(byte 3,
-  byte 2) 221 / 1 / 2 False, f(bytes 0, 1, 2) 224 / 0
-  injective; the two shared keys and their pairs
-  computed from the run's printed pair lists.
-  (ii)(c) Trajectories: 27 cidxs × 8 blocks, all
-  centre 127, every cidx in every block; per-cidx
-  distinct A / diff dist {8: 27}; monotonic A 27/27,
-  monotonic B 27/27 (strictly increasing, derived from
-  the printed trajectories); delta A 189 values all
-  positive, all distinct (min 31,346,620, max
-  394,641,536); delta B 189 all positive, all distinct
-  (min 32,229,224, max 392,664,128); delta diff 189
-  distinct. (iii)(a) Profiles: 114 {unique 655, ≥4:
-  44, mean 14.8729}; 130 {709, 50, 14.7067}; 251
-  {661, 46, 14.6200}; 267 {709, 50, 14.8824}; all 842
-  acts, all distinct, high band identical. 144-side
-  pairs: 0 adjacent occurrences and both acts absent
-  in each of the four contexts. 267-side pairs: 1
-  adjacent occurrence at pos 792 / 801 in each of the
-  four. Pairwise: 114×130 39 shared / 0 inv of 741 /
-  3 runs (33 @786–818, 3 @8–10, 2 @820–821);
-  114×251 168 / 0 of 14,028 / 21 runs {54: 1, 32: 1,
-  9: 1, 7: 1, 6: 3, 5: 1, 4: 1, 3: 7, 2: 5}; 114×267
-  37 / 0 of 666 / 2 runs; 130×251 40 / 110 of 780 /
-  2 runs (32 @786–817); 130×267 111 / 0 of 6,105 /
-  19 runs; 251×267 37 / 0 of 666 / 2 runs.
-  (iii)(b) Runs 19, 103 acts (positions as tabled in
-  the evidence doc); spans 20, lengths (130/267):
-  HEAD 8/6, 68/66, 22/23, 48/44, 2/2, 5/5, 2/2,
-  31/32, 7/7, 152/159, 2/2, 2/2, 160/142, 34/32,
-  36/31, 11/20, 99/119, 34/29, 8/8, TAIL 8/8; sums
-  739/739; isolated singles 8 at (130, 267) positions
-  (3, 3), (135, 128), (137, 130), (140, 133),
-  (773, 774), (783, 783), (786, 785), (821, 821).
-  Mechanisms NOT PROVEN.
+  decompressing to the same output sha256, verified on the VM at
+  closing; DONE124 at output line 12,572; the 4.124 section begins at
+  output line 12,231). Inherited controls exact: cells 55,902 / obs
+  527,236; divergent triples 2,171, verdicts CONT 12,411 / BREAK 476 /
+  INDET 2,365; thin 383; ≥8 cells 25,566 / unanimous 18,286 / 29
+  centres; differing lanes 2,584 by lane {0: 1086, 1: 354, 2: 0, 3: 406,
+  4: 738}; cc9 fit exact (train 48 rank 2 = cidx 144, start 8, steady 7,
+  recorded head); lane 1 354 / 224 / 218 / 217; shared 267∩144 acts 36.
+  (i)(a) Families: 0856a10c n21 ×8 seq [4, 14, …, 134, 139] idx 20 prev
+  134; n20 ×23 seq [14, 19, …, 134, 139] idx 19 (tuple = n21 tuple minus
+  cidx 103, seq minus leading 4); n8 ×11 seq [29, 34, 39, 94, 99, 114,
+  124, 139] idx 7 prev 124; 76c3a8ff n25 ×10 seq the step-9 ladder [31,
+  40, …, 247] idx 12 prev 130 next 148; n18 ×17 seq [31, 40, 49, 58, 67,
+  76, 94, 130, 139, 148, 166, 175, 184, 193, 211, 229, 238, 247] idx 8
+  (7 cidxs dropped from n25, their centres removed); n15 ×8 seq [31, 40,
+  49, 58, 67, 76, 94, 130, 139, 166, 175, 184, 193, 211, 229] idx 8 next
+  166 (3 further drops); each family exactly 1 distinct centre sequence
+  over its cells; family sizes [23, 17, 11, 10, 8, 8]. (i)(b) Shared
+  population: A cells 6,970 / B cells 7,485; shared cidx-keyed 2,981;
+  class pairs {UU: 2386, DD: 479, OO: 73, UO: 24, UD: 13, DU: 4, DO: 2};
+  A unanimous 2,423 / B unanimous 2,386; n dist max 28 ×443 (target one
+  of them); pos 21 modal ×325; single-centre 2,520, of those words equal
+  2,441, A unanimous 2,423 (97 single-centre cells carry varying words);
+  target A==B in cidxs / centres / words, only `oo` differs. (ii)(a)
+  Near-miss pairs (A byte string → B, full diff, byte-3 diff, XOR, cidx,
+  cell off): 682cb5f9 → 6884f5f8 (−12,560,384, −1, 0x0140a800, cidx 74,
+  off 7204; under both violating keys); 782c75f9 → 808cb2f9 (+4,022,280,
+  0, 0x00c7a0f8, cidx 77, off 7272); 745471fc → 089adffb (−9,550,444,
+  −1, 0x07aece7c, cidx 8, off 7272); ec546cfc → 781099fa (−30,622,836,
+  −2, 0x06f54494, cidx 14, off 7272); 705ab5f9 → a08de5f4 (−80,727,248,
+  −5, 0x0d50d7d0, cidx 50, off 7272); all group (20, 32720), centre 127,
+  1 occurrence each. (ii)(b) f(byte 3, byte 1, byte 2): 222 keys / 0
+  violating / DETERMINED, not injective; f(…, group): 222 / 0,
+  unchanged; controls f(byte 3, byte 1) 216 / 2 / 4 False, f(byte 3,
+  byte 2) 221 / 1 / 2 False, f(bytes 0, 1, 2) 224 / 0 injective; the two
+  shared keys and their pairs computed from the run's printed pair
+  lists. (ii)(c) Trajectories: 27 cidxs × 8 blocks, all centre 127,
+  every cidx in every block; per-cidx distinct A / diff dist {8: 27};
+  monotonic A 27/27, monotonic B 27/27 (strictly increasing, derived
+  from the printed trajectories); delta A 189 values all positive, all
+  distinct (min 31,346,620, max 394,641,536); delta B 189 all positive,
+  all distinct (min 32,229,224, max 392,664,128); delta diff 189
+  distinct. (iii)(a) Profiles: 114 {unique 655, ≥4: 44, mean 14.8729};
+  130 {709, 50, 14.7067}; 251 {661, 46, 14.6200}; 267 {709, 50,
+  14.8824}; all 842 acts, all distinct, high band identical. 144-side
+  pairs: 0 adjacent occurrences and both acts absent in each of the four
+  contexts. 267-side pairs: 1 adjacent occurrence at pos 792 / 801 in
+  each of the four. Pairwise: 114×130 39 shared / 0 inv of 741 / 3 runs
+  (33 @786–818, 3 @8–10, 2 @820–821); 114×251 168 / 0 of 14,028 / 21
+  runs {54: 1, 32: 1, 9: 1, 7: 1, 6: 3, 5: 1, 4: 1, 3: 7, 2: 5}; 114×267
+  37 / 0 of 666 / 2 runs; 130×251 40 / 110 of 780 / 2 runs (32
+  @786–817); 130×267 111 / 0 of 6,105 / 19 runs; 251×267 37 / 0 of 666 /
+  2 runs. (iii)(b) Runs 19, 103 acts (positions as tabled in the
+  evidence doc); spans 20, lengths (130/267): HEAD 8/6, 68/66, 22/23,
+  48/44, 2/2, 5/5, 2/2, 31/32, 7/7, 152/159, 2/2, 2/2, 160/142, 34/32,
+  36/31, 11/20, 99/119, 34/29, 8/8, TAIL 8/8; sums 739/739; isolated
+  singles 8 at (130, 267) positions (3, 3), (135, 128), (137, 130),
+  (140, 133), (773, 774), (783, 783), (786, 785), (821, 821).
+- **Evidence boundary:** Mechanisms NOT PROVEN.
 - **Next:** the (byte 3, byte 1, byte 2) determination
   as a map (per-byte-3 tables; factoring tests; the
   narrow keys' byte-0 freedom against all eight narrow
@@ -10190,116 +10072,89 @@ No new capability ID or hardware/complete-source execution claim.
 
 ### AES-NUM-125 — The (byte 3, byte 1, byte 2) determination read as a map: 222 keys over 224 pairs across 61 A byte-3 values with 24 distinct byte-3 differences (modal −1 ×43; 168 negative / 14 zero / 42 positive; none in +5…+9, +12, +17…+127); 60 of 61 byte-3 values have keys == pairs, the sole exception byte 3 = 128 (6 pairs / 4 keys, the two narrow multi-pair keys (128, 1, 176) and (128, 1, 178), both diff −128, pairs differing only in byte 0); the difference is ALSO determined by (byte 3, byte 1 + byte 2) — 222 keys, zero violating — at NO compression (same key count as the full key, same two multi-pair keys), while every other byte-3-conditioned arithmetic form fails ((byte 3, (x+y) mod 256) and (byte 3, byte 2) on 1 key each; (byte 3, x−y) / (byte 3, x^y) / (byte 3, byte 1) / (byte 3, min) / (byte 3, max) on 2 keys each, the (byte 3, byte 1) and (byte 3, min) failures being exactly the AES-NUM-123 keys (249, 44) and (252, 84); (byte 3, (x−y) mod 256) / (byte 3, (x·y) mod 256) on 3; (byte 3, x|y) on 6; (byte 3, x&y) on 12), all twelve pooled (byte 1, byte 2) forms fail on 38–58 keys, the bare (byte 1, byte 2) pair fails on 2 keys ((1, 176): diffs −128/+128 over 3 narrow pairs; (128, 146): −1/+3), and every direct formula fails (d = 0: 14/224; sign-flip rule: 22/224; signed256(x+y): 0/224; signed256(x−y): 2/224; signed256(y−x): 1/224; signed256(x^y): 0/224) — closed form NOT PROVEN; the narrow population's byte 0 is free in both directions (under key (128, 1, 176) byte 0 ∈ {28, 32} and under (128, 1, 178) byte 0 ∈ {20, 24} at unchanged diff −128, and B byte 0 == A byte 0 in 8/8 pairs with XOR exactly 0x80000000; yet byte 0 alone determines nothing even within the narrow eight — byte 0 = 20 carries diffs {−128, +128} over 3 pairs and byte 0 = 68 carries {−128, +128} over 2 — narrow f(byte 0): 5 keys / 2 violating / 5 pairs; narrow f(key): 6 / 0; narrow byte-0 values {20, 24, 28, 32, 68} are not narrow-exclusive: 7 non-narrow pairs share one, all group (20, 32720); 36 distinct A byte-0 values over all 224 pairs, 25 carried by more than one pair); group (20, 32720)'s 189 trajectory steps are pairwise distinct in EVERY component (delta-A 189 distinct, min +31,346,620 / max +394,641,536, all positive; delta-B 189 distinct, min +32,229,224 / max +392,664,128, all positive; delta-diff 189 distinct, min −54,207,616 / max +77,121,728, 123 positive / 66 negative / 0 zero; triples 189 distinct; delta-diff = delta-B − delta-A for 189/189) and the steps SHRINK per cidx — delta-A and delta-B sequences strictly decreasing for 27/27 cidxs (delta-diff: 24 neither, 3 strictly decreasing), per-step-index ranges descending and pairwise disjoint for steps 0–2 — while A at block k+1 as a function of A at block k is VACUOUS, not a law (189 distinct A values at block k, ZERO collision groups, per-step A sets pairwise disjoint; equally vacuous for (k, A), (cidx, A), delta-A = f(A) and the B companions; the non-vacuous keys fail: step index alone 7/7 keys violating, cidx alone 27/27) — step source NOT PROVEN; the four break contexts' common core is exactly 37 acts (the head 3-run (0, 304, 0/1/2) at 114@8–10 / 130@8–10 / 251@7–9 / 267@6–8 plus a 34-act tail from (2727936, 24, 2) to (2817536, 24, 0) @821 in all four, holding both 267-side break pairs at 792/801 in every context), in IDENTICAL order in all four (core order inversions 0 of 666 for every context pair, including 130×251), by occurrence count {271: 30, 1060: 2, 1058: 1, 4: 3, 6: 1}, and the core EQUALS the 114∩267 shared set and EQUALS the 251∩267 shared set (37 each), a proper subset of 114∩130 (39) and of 130×251 (40); 114×251's 168 shared acts are read in full (21 runs {54: 1, 32: 1, 9: 1, 7: 1, 6: 3, 5: 1, 4: 1, 3: 7, 2: 5} covering 160 acts plus 8 singles; position difference 251−114 distribution {−1: 4, 0: 93, +1: 21, +2: 36, +3: 2, +4: 12}), and its 54-act run at IDENTICAL positions 130–183 in both contexts consists entirely of acts with corpus-occurrence count exactly 2 (each occurring only in cidx 114 and cidx 251), 0 of 54 in the common core; 130×251's 110 inversions are COMPLETELY LOCALIZED to three displaced acts — the size-24 acts (1052257280, 24, 2), (1062814208, 24, 0), (1062813184, 24, 1) at 130 positions 6, 7, 197 standing at 251 positions 824, 822, 823 (251's last three shared positions; corpus occurrences 8 each; in neither 114 nor 267) — with inversion involvements 39 / 38 / 35, class pairs RUN×RUN 0 / RUN×SINGLE 102 / SINGLE×SINGLE 8, every other shared act inverting ONLY against those three (exactly 3 involvements each for the 32-act run's acts and the two core singles, exactly 2 for the head 3-run's acts); removing the three displaced acts leaves 130×251's shared order inversion-free — mechanisms NOT PROVEN
 
-- **Status:** `verified` (complete populations, 7 artifacts,
+- **Status:** `verified`
+- **Status note:** (complete populations, 7 artifacts,
   within stated bands/floors)
 - **Owner:** `docs/HAILO10H_BYTE3_MAP_STEPS_CORE_INVERSIONS_2026-10-24.md`
-- **Evidence:** controls reproduce exactly (hef125.py
-  sha256
+- **Executable evidence:** controls reproduce exactly (hef125.py sha256
   `af955835b43ab71e1d7d196335e44c4370da992f4ccc5fad8034a745269bbca9`,
   arms125.py sha256
   `f4c52c5a4b36046728b642f14d9c5aee57efa05907f7fc2a44553020a05d4eb9`,
   arms gz sha256
   `369890a4dc9cb63ccb9bf90279e50eb63d55f7f8a149eb55ff7ebed9fd5f23b3`,
-  landed on-device as 22 individually sha-gated binary
-  parts (21 × 373 B + 146 B), every part passing its
-  gate on first landing, the set re-verified by an
-  on-device sha256sum listing, the concatenated gzip
-  sha256 and decompressed arms sha256 both matching
-  the VM; hef125.py assembled on-device from the
-  verified hef122 base (sha256
-  `9ef555ac8c1385ead4ef893a6cca1b86e89e9a88a8a49a1488f4035b993b3b1f`)
-  + arms125, on-device sha == VM; ran detached via
-  setsid to DONE125 with an empty error file; output
-  13,605 lines, 2,150,203 B, sha256
+  landed on-device as 22 individually sha-gated binary parts (21 × 373 B
+  + 146 B), every part passing its gate on first landing, the set
+  re-verified by an on-device sha256sum listing, the concatenated gzip
+  sha256 and decompressed arms sha256 both matching the VM; hef125.py
+  assembled on-device from the verified hef122 base (sha256
+  `9ef555ac8c1385ead4ef893a6cca1b86e89e9a88a8a49a1488f4035b993b3b1f`) +
+  arms125, on-device sha == VM; ran detached via setsid to DONE125 with
+  an empty error file; output 13,605 lines, 2,150,203 B, sha256
   `e091795c18320b904d75747d0608cce16466005665b1f66ee14fe29586bad137`,
   retrieved gz sha256
   `f5374049299d1ad5c6138a525926b5c1223d0e76c24abe813a449df6e4cfa9ae`
-  (248,327 B, via a temporary on-device HTTP server
-  through the tunnel proxy) decompressing to the same
-  output sha256, verified on the VM at closing;
-  DONE125 at output line 13,605; the 4.125 section
-  begins at output line 12,231). Inherited controls
-  exact: cells 55,902 / obs 527,236; divergent triples
-  2,171, verdicts CONT 12,411 / BREAK 476 / INDET
-  2,365; thin 383 (315 L1U + 58 L2U + 10 L2AP); ≥8
-  cells 25,566 / unanimous 18,286 / 29 centres;
-  differing lanes 2,584 by lane {0: 1086, 1: 354,
-  2: 0, 3: 406, 4: 738}, in-37 differing 535; lane 1
-  354 / 224 / 218 / 217; shared 267∩144 acts 36;
-  lengths cidx 130 / 267 / 144 = 842 / 842 / 245;
-  cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
-  steady 7, recorded head; train 50 also CONST_DOM
-  7). (i)(a) Map: 222 keys / 224 pairs / 2 multi-pair
-  keys / 4 pairs under them; 61 byte-3 values [0, 128,
-  174–252 sparse]; per-byte-3 (pairs, keys, distinct
-  diffs) as printed in full — largest 250 (12, 12, 6),
-  225 (11, 11, 9), 242 (11, 11, 8), 247 (10, 10, 7);
-  26 byte-3 values carry exactly 1 distinct diff;
-  167 distinct (byte 3, diff) combinations (derived at
-  closing); only byte-3 values 0 and 128 carry
-  narrow-group pairs. (i)(b) Factoring: pooled forms
-  all fail (violating keys / pairs: x+y 38/91, x−y
-  42/97, x^y 58/139, (x+y)%256 53/127, (x−y)%256
-  58/136, (x·y)%256 52/141, x&y 43/180, x|y 47/179,
-  min 56/140, max 54/131, x 57/131, y 54/128);
-  conditioned: (t, x+y) 222 / 0 DETERMINED at equal
-  key count; (t, (x+y)%256) 221 / 1 {(250, 156)};
-  (t, y) 221 / 1 {(249, 181)}; (t, x−y) 220 / 2
-  {(242, 0), (249, −73)}; (t, x^y) 220 / 2 {(242, 0),
-  (251, 25)}; (t, x) 216 / 2 {(249, 44), (252, 84)};
-  (t, min) 216 / 2 same two keys; (t, max) 220 / 2
-  {(241, 214), (249, 181)}; (t, (x−y)%256) 219 / 3;
-  (t, (x·y)%256) 219 / 3; (t, x|y) 210 / 6; (t, x&y)
-  201 / 12; controls: full key 222 / 0 not injective,
-  (x, y) alone 220 / 2 / 5 pairs, t alone 61 / 35 /
-  192; formulas D0 14/224, D1 22/224, D2 0/224,
-  D3 2/224, D4 1/224, D5 0/224. (i)(c) Narrow eight
-  in full (group, key, A → B, A byte 0, cell off,
-  occ): (14, (0, 1, 162), 4401a200 → 4401a280, 68,
-  7424, 27); (14, (128, 1, 176), 1c01b080 →
-  1c01b000, 28, 1744, 27); (14, (128, 1, 176),
-  2001b080 → 2001b000, 32, 6944, 27); (14, (128, 1,
-  178), 1401b280 → 1401b200, 20, 4336, 27); (14,
-  (128, 1, 178), 1801b280 → 1801b200, 24, 9832, 27);
-  (19, (0, 1, 176), 1401b000 → 1401b080, 20, 7568,
-  1); (19, (128, 1, 160), 4401a080 → 4401a000, 68,
-  2880, 1); (19, (128, 1, 177), 1401b180 → 1401b100,
-  20, 2384, 1). (ii)(a) Steps: all 189 triples
-  printed; per-step-index delta-A ranges step 0:
-  297,586,368–394,641,536; step 1: 232,831,360–
-  258,952,448; step 2: 169,641,504–184,078,144;
-  step 3: 111,223,520–142,527,264; step 4:
-  72,922,480–111,513,184; step 5: 47,810,792–
-  87,247,840; step 6: 31,346,620–68,262,624; every
-  step index's 27 values distinct in each component.
-  (ii)(b) A0 collision groups 0 pooled and per step;
-  A0 sets per step pairwise disjoint True; B0 the
-  same. (iii)(a) Core 37 acts printed in full with
-  positions in each context; core gaps adjacent
-  (gap 1) 33/36 in 114 / 130 / 251, 32/36 in 267;
-  max gap 770 / 773 / 775 / 775; pairwise shared
-  (control): {(114, 130): 39, (114, 251): 168,
-  (114, 267): 37, (130, 251): 40, (130, 267): 111,
-  (251, 267): 37}; the 3 non-core 130×251 acts:
-  (1052257280, 24, 2) 130@6 / 251@824,
-  (1062814208, 24, 0) 130@7 / 251@822,
-  (1062813184, 24, 1) 130@197 / 251@823.
-  (iii)(b) 168 acts printed in full; runs with
-  positions as tabled in the evidence doc; the 8
-  singles: (884831744, 24, 2) @4/3, (886637056,
-  1040, 2) @126/126, (886667264, 24, 1) @128/128,
-  (899779072, 32784, 1) @751/752, (900232192, 32784,
-  1) @766/767, (900421120, 18448, 0) @773/774,
-  (2727936, 24, 2) @780/784, (2817536, 24, 0)
-  @821/821; 54-run acts by occurrence count {2: 54},
-  in core 0 of 54. (iii)(c) All 110 inverting pairs
-  printed; per-act involvements: displaced 39 / 38 /
-  35, core singles and run acts 3 each, head acts 2
-  each (sum 220 = 2 × 110); decomposition 96
-  (displaced × 32-run) + 6 (head-side displaced ×
-  head run) + 6 (displaced × core singles) + 2
-  (among displaced) = 110 (derived at closing).
-  Mechanisms NOT PROVEN.
+  (248,327 B, via a temporary on-device HTTP server through the tunnel
+  proxy) decompressing to the same output sha256, verified on the VM at
+  closing; DONE125 at output line 13,605; the 4.125 section begins at
+  output line 12,231). Inherited controls exact: cells 55,902 / obs
+  527,236; divergent triples 2,171, verdicts CONT 12,411 / BREAK 476 /
+  INDET 2,365; thin 383 (315 L1U + 58 L2U + 10 L2AP); ≥8 cells 25,566 /
+  unanimous 18,286 / 29 centres; differing lanes 2,584 by lane {0: 1086,
+  1: 354, 2: 0, 3: 406, 4: 738}, in-37 differing 535; lane 1 354 / 224 /
+  218 / 217; shared 267∩144 acts 36; lengths cidx 130 / 267 / 144 = 842
+  / 842 / 245; cc9 fit exact (train 48 rank 2 = cidx 144, start 8,
+  steady 7, recorded head; train 50 also CONST_DOM 7). (i)(a) Map: 222
+  keys / 224 pairs / 2 multi-pair keys / 4 pairs under them; 61 byte-3
+  values [0, 128, 174–252 sparse]; per-byte-3 (pairs, keys, distinct
+  diffs) as printed in full — largest 250 (12, 12, 6), 225 (11, 11, 9),
+  242 (11, 11, 8), 247 (10, 10, 7); 26 byte-3 values carry exactly 1
+  distinct diff; 167 distinct (byte 3, diff) combinations (derived at
+  closing); only byte-3 values 0 and 128 carry narrow-group pairs.
+  (i)(b) Factoring: pooled forms all fail (violating keys / pairs: x+y
+  38/91, x−y 42/97, x^y 58/139, (x+y)%256 53/127, (x−y)%256 58/136,
+  (x·y)%256 52/141, x&y 43/180, x|y 47/179, min 56/140, max 54/131, x
+  57/131, y 54/128); conditioned: (t, x+y) 222 / 0 DETERMINED at equal
+  key count; (t, (x+y)%256) 221 / 1 {(250, 156)}; (t, y) 221 / 1 {(249,
+  181)}; (t, x−y) 220 / 2 {(242, 0), (249, −73)}; (t, x^y) 220 / 2
+  {(242, 0), (251, 25)}; (t, x) 216 / 2 {(249, 44), (252, 84)}; (t, min)
+  216 / 2 same two keys; (t, max) 220 / 2 {(241, 214), (249, 181)}; (t,
+  (x−y)%256) 219 / 3; (t, (x·y)%256) 219 / 3; (t, x|y) 210 / 6; (t, x&y)
+  201 / 12; controls: full key 222 / 0 not injective, (x, y) alone 220 /
+  2 / 5 pairs, t alone 61 / 35 / 192; formulas D0 14/224, D1 22/224, D2
+  0/224, D3 2/224, D4 1/224, D5 0/224. (i)(c) Narrow eight in full
+  (group, key, A → B, A byte 0, cell off, occ): (14, (0, 1, 162),
+  4401a200 → 4401a280, 68, 7424, 27); (14, (128, 1, 176), 1c01b080 →
+  1c01b000, 28, 1744, 27); (14, (128, 1, 176), 2001b080 → 2001b000, 32,
+  6944, 27); (14, (128, 1, 178), 1401b280 → 1401b200, 20, 4336, 27);
+  (14, (128, 1, 178), 1801b280 → 1801b200, 24, 9832, 27); (19, (0, 1,
+  176), 1401b000 → 1401b080, 20, 7568, 1); (19, (128, 1, 160), 4401a080
+  → 4401a000, 68, 2880, 1); (19, (128, 1, 177), 1401b180 → 1401b100, 20,
+  2384, 1). (ii)(a) Steps: all 189 triples printed; per-step-index
+  delta-A ranges step 0: 297,586,368–394,641,536; step 1: 232,831,360–
+  258,952,448; step 2: 169,641,504–184,078,144; step 3:
+  111,223,520–142,527,264; step 4: 72,922,480–111,513,184; step 5:
+  47,810,792– 87,247,840; step 6: 31,346,620–68,262,624; every step
+  index's 27 values distinct in each component. (ii)(b) A0 collision
+  groups 0 pooled and per step; A0 sets per step pairwise disjoint True;
+  B0 the same. (iii)(a) Core 37 acts printed in full with positions in
+  each context; core gaps adjacent (gap 1) 33/36 in 114 / 130 / 251,
+  32/36 in 267; max gap 770 / 773 / 775 / 775; pairwise shared
+  (control): {(114, 130): 39, (114, 251): 168, (114, 267): 37, (130,
+  251): 40, (130, 267): 111, (251, 267): 37}; the 3 non-core 130×251
+  acts: (1052257280, 24, 2) 130@6 / 251@824, (1062814208, 24, 0) 130@7 /
+  251@822, (1062813184, 24, 1) 130@197 / 251@823. (iii)(b) 168 acts
+  printed in full; runs with positions as tabled in the evidence doc;
+  the 8 singles: (884831744, 24, 2) @4/3, (886637056, 1040, 2) @126/126,
+  (886667264, 24, 1) @128/128, (899779072, 32784, 1) @751/752,
+  (900232192, 32784, 1) @766/767, (900421120, 18448, 0) @773/774,
+  (2727936, 24, 2) @780/784, (2817536, 24, 0) @821/821; 54-run acts by
+  occurrence count {2: 54}, in core 0 of 54. (iii)(c) All 110 inverting
+  pairs printed; per-act involvements: displaced 39 / 38 / 35, core
+  singles and run acts 3 each, head acts 2 each (sum 220 = 2 × 110);
+  decomposition 96 (displaced × 32-run) + 6 (head-side displaced × head
+  run) + 6 (displaced × core singles) + 2 (among displaced) = 110
+  (derived at closing).
+- **Evidence boundary:** Mechanisms NOT PROVEN.
 - **Next:** the (byte 3, byte 1 + byte 2) factoring's
   fibres in full and the map's difference fibres (the
   167 distinct (byte 3, difference) combinations

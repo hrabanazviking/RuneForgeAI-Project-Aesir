@@ -1,6 +1,6 @@
 {
   "policy_version": 1,
-  "legacy_baseline_commit": "c1d02d1919dc8c98971507b80ddb46a5a24af37f",
+  "legacy_baseline_commit": "904befb2f6f856376f50fb6aa609e016c0e58272",
   "legacy_classes": [
     {
       "classification": "generated_executable",
@@ -22,6 +22,15 @@
       "reason": "Tiny placeholder GGUF predates the fatal artifact gate.",
       "paths": [
         "aesir_engine/model.gguf"
+      ]
+    },
+    {
+      "classification": "model_weight",
+      "disposition": "deletion_requires_approval",
+      "reason": "Frozen GPT-2 BPE tokenizer data committed deliberately with the armvegr BPE tokenizer in 904befb2; the tokenizer loads both files at runtime. Owner-approved to remain tracked (Volmarr, 2026-10-27).",
+      "paths": [
+        "data/armvegr/gpt2_bpe.bin",
+        "data/armvegr/unicode_classes.bin"
       ]
     },
     {

@@ -105,16 +105,18 @@ struct Llama3Tokenizer:
         self.direct_segment_lookup = True
         var expected_pre = String("llama-bpe")
         var expected_vocabulary = 128256
-        if architecture == "qwen3":
-            self.family = "qwen3"
+        if architecture == "qwen3" or architecture == "qwen2":
+            self.family = architecture
             self.digit_limit = 0
             # Qwen 3 emits its <think>/</think> controls as visible text.
             # IDs through 151668 are therefore decodable; later reserved IDs
-            # remain outside the admitted generation range.
-            self.ordinary_token_limit = 151669
+            # remain outside the admitted generation range. Qwen 2's ordinary
+            # BPE range ends at 151642, and this file family pads its
+            # tokenizer array to 152064 entries like its embedding tensor.
+            self.ordinary_token_limit = 151669 if architecture == "qwen3" else 151643
             self.direct_segment_lookup = False
             expected_pre = "qwen2"
-            expected_vocabulary = 151936
+            expected_vocabulary = 151936 if architecture == "qwen3" else 152064
         elif architecture != "llama":
             raise Error("Native GPT-2 BPE tokenizer does not support " + architecture)
         self.vocabulary = RuneWeaver()
@@ -168,9 +170,9 @@ struct Llama3Tokenizer:
             if (self.control("<|endoftext|>") != 151643
                     or self.control("<|im_start|>") != 151644
                     or self.control("<|im_end|>") != 151645):
-                raise Error("Qwen 3 control-token layout mismatch")
+                raise Error("Qwen control-token layout mismatch")
             if self.vocabulary.bos_token_id != 151643 or self.vocabulary.eos_token_id != 151645:
-                raise Error("Qwen 3 BOS/EOS metadata mismatch")
+                raise Error("Qwen BOS/EOS metadata mismatch")
 
     def control(self, spelling: String) raises -> Int:
         if spelling not in self.vocabulary.token_to_id:
@@ -227,7 +229,7 @@ struct Llama3Tokenizer:
             effective = "user"
         if effective != "system" and effective != "user" and effective != "assistant":
             raise Error("Invalid native chat role")
-        if self.family == "qwen3":
+        if self.family != "llama3":
             tokens.append(self.control("<|im_start|>"))
             self.append_text(tokens, effective + "\n")
             return
@@ -239,7 +241,7 @@ struct Llama3Tokenizer:
     def append_message(self, mut tokens: List[Int], role: String, text: String) raises:
         self.append_header(tokens, role)
         self.append_text(tokens, String(text.strip()))
-        if self.family == "qwen3":
+        if self.family != "llama3":
             tokens.append(self.control("<|im_end|>"))
             self.append_text(tokens, "\n")
         else:

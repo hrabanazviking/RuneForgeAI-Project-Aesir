@@ -12,6 +12,7 @@ from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.algorithm import vectorize
 from std.sys.intrinsics import llvm_intrinsic
+from std.sys import CompilationTarget
 
 from .mimir_well import (
     RuneTensor,
@@ -1387,6 +1388,50 @@ def _vnni_allowed() -> Bool:
     return VNNI_DEFAULT_ON and cpu_has_vnni()
 
 
+def _vpdpbusd_512_zero(
+    a: SIMD[DType.uint8, 64], b: SIMD[DType.int8, 64]
+) -> SIMD[DType.int32, 16]:
+    """Exact 64-byte unsigned-by-signed dot product, 16 lanes of four
+    consecutive bytes: out[l] = sum_j a[4l+j] * b[4l+j], accumulated
+    from zero.
+
+    On a compilation target with AVX-512 VNNI this is the VPDPBUSD
+    instruction itself. On any other target the raw intrinsic cannot
+    be instruction-selected at all — the X86 code generator aborts
+    with "Do not know how to split the result of this operator" —
+    so there the identical integer dot is formed from portable SIMD
+    ops, which legalize on every target. The gate is the compile-time
+    target query, so the intrinsic never reaches the code generator
+    for a target that cannot select it; the runtime probe in
+    _vnni_allowed still decides whether the VNNI path runs at all.
+
+    Exactness: each product fits int16 (|u8 * s8| <= 32640), pair and
+    quad sums fit int32 with wide headroom, and integer addition
+    within a lane is order-free — both forms are bit-identical.
+    """
+    if CompilationTarget.has_vnni():
+        return llvm_intrinsic[
+            "llvm.x86.avx512.vpdpbusd.512", SIMD[DType.int32, 16]
+        ](SIMD[DType.int32, 16](Int32(0)), a, b)
+    var prod = (a.cast[DType.int16]() * b.cast[DType.int16]()).cast[DType.int32]()
+    var pair = prod + prod.shuffle[
+        1, 0, 3, 2, 5, 4, 7, 6, 9, 8, 11, 10, 13, 12, 15, 14,
+        17, 16, 19, 18, 21, 20, 23, 22, 25, 24, 27, 26, 29, 28, 31, 30,
+        33, 32, 35, 34, 37, 36, 39, 38, 41, 40, 43, 42, 45, 44, 47, 46,
+        49, 48, 51, 50, 53, 52, 55, 54, 57, 56, 59, 58, 61, 60, 63, 62,
+    ]()
+    var quad = pair + pair.shuffle[
+        2, 3, 0, 1, 6, 7, 4, 5, 10, 11, 8, 9, 14, 15, 12, 13,
+        18, 19, 16, 17, 22, 23, 20, 21, 26, 27, 24, 25, 30, 31, 28, 29,
+        34, 35, 32, 33, 38, 39, 36, 37, 42, 43, 40, 41, 46, 47, 44, 45,
+        50, 51, 48, 49, 54, 55, 52, 53, 58, 59, 56, 57, 62, 63, 60, 61,
+    ]()
+    var out = SIMD[DType.int32, 16](Int32(0))
+    for l in range(16):
+        out[l] = quad[l * 4]
+    return out
+
+
 def _gemm_k_vnni_range(
     a_addr: Int64,
     b_addr: Int64,
@@ -1547,10 +1592,7 @@ def _gemm_k_vnni_range(
                 for r in range(rows_here):
                     var xq_row = xq.unsafe_offset(r * a_cols + sb * 256)
                     for j in range(4):
-                        var dv = llvm_intrinsic[
-                            "llvm.x86.avx512.vpdpbusd.512", SIMD[DType.int32, 16]
-                        ](
-                            SIMD[DType.int32, 16](Int32(0)),
+                        var dv = _vpdpbusd_512_zero(
                             cp8.unsafe_load[width=64](j * 64),
                             xq_row.unsafe_load[width=64](j * 64),
                         )

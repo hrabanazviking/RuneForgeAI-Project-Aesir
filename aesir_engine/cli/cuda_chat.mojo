@@ -493,8 +493,11 @@ def _dispatch_cuda_chat(
             model_reference = choose_installed_model(model_store, interrupt_fd)
         except error:
             if String(error) == "Model selection cancelled":
+                # Cancellation loads no model, so the command has not done
+                # what it was asked to do: report it and fail closed with a
+                # non-zero exit instead of returning success.
                 print("Model selection cancelled; no model loaded.")
-                return
+                raise error
             raise error
     startup.current_model = model_reference
     var requested_context = context_length if "--context" in seen else 0

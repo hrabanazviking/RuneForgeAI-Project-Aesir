@@ -6,11 +6,19 @@ All offsets and extents must be validated by the loader/session before launch.
 from std.memory import Pointer, bitcast
 from std.gpu import global_idx
 from std.gpu.primitives import warp
-from std.math import sqrt, exp, log, cos, sin, tanh, isfinite
+from std.math import sqrt, exp, log, cos, sin, isfinite
 from core.packed_quantization import Bytes, packed_value
 @always_inline
 def fast_fast_tanh(x: Float32) -> Float32:
-    return tanh(x)
+    # sm_75 defect, isolated 2026-10-28 (tests/test_gemma4_ptx_probe.mojo):
+    # std.math Float32 tanh lowers to a PTX form this card's JIT refuses
+    # (CUDA_ERROR_INVALID_PTX); Float64 tanh and this exp formulation both
+    # compile and run. Stable for every input: exp overflow saturates to
+    # the correct +-1 limit, and x == 0 returns exactly 0.
+    var magnitude = x if x >= 0 else -x
+    var e = exp(2.0 * magnitude)
+    var t = 1.0 - 2.0 / (e + 1.0)
+    return t if x >= 0 else -t
 
 
 comptime Floats = Pointer[Float32, MutUntrackedOrigin]
@@ -85,7 +93,7 @@ def norm_kernel(w: Bytes, a: Floats, weight_arg: Int64, src_arg: Int64, dst_arg:
 
 @always_inline
 def fast_tanh(x: Float32) -> Float32:
-    return tanh(x)
+    return fast_fast_tanh(x)
 
 def element_kernel(w: Bytes, a: Floats, op_arg: Int64, src_arg: Int64, second_arg: Int64, dst_arg: Int64, count_arg: Int64, scale: Float32):
     var op = Int(op_arg)
@@ -239,3 +247,17 @@ def argmax_kernel(a: Floats, output: Integers, logits_arg: Int64, count_arg: Int
     bad = warp.max(bad)
     if lane == 0:
         output.unsafe_store(0, selected if bad == 0 else Int32(-1))
+
+
+def span_copy_kernel(a: Floats, span: Floats, row_arg: Int64, width_arg: Int64, dst_arg: Int64):
+    # Convergence slice: write one armed soft-token row over the
+    # activation arena at dst. forward() enqueues this immediately
+    # after the token embedding when the position falls inside an
+    # armed image span, so the encoder's projected row replaces the
+    # marker token's embedding row; everything downstream is untouched.
+    var row = Int(row_arg)
+    var width = Int(width_arg)
+    var dst = Int(dst_arg)
+    var i = Int(global_idx.x)
+    if i < width:
+        a.unsafe_store(dst + i, span.unsafe_load(row * width + i))

@@ -2,7 +2,17 @@
 # The Grand Proving: Master Test Runner for Project Aesir
 #
 # Invokes every verification rite in sequence.
-# Run with: pixi run mojo run tests/run_all.mojo
+# Run with (from the repository root; the FFI shims must be staged and
+# linked exactly as in scripts/launch.py, and the -Xlinker flags must
+# precede the source file or the JIT cannot resolve the FFI symbols):
+#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par aesir_engine/tests/run_all.mojo
+#
+# Known issue (pre-existing, proven identical on the unmodified base
+# tree in both JIT and AOT modes): the run currently segfaults inside
+# the rag.cosine_similarity case after 74 passing cases; that case
+# passes in isolation on base and fixed trees alike. This is a
+# separate defect from the LLVM split-operator compiler crash fixed
+# on platform/llvm-split-crash-fix (see llvm-crash-checkpoint/NOTES.md).
 
 from tests.test_compute import (
     test_gemm,
@@ -339,6 +349,10 @@ from tests.test_new_paradigms_suite import (
     test_experimental_paradigms,
 )
 from tests.test_ledger import TestLedger, run_case, record_skip
+from tests.test_mmproj import test_mmproj
+from tests.test_image_prep import test_image_prep
+from tests.test_vision_encoder import test_vision_encoder
+from tests.test_embedding_span import test_embedding_span
 
 
 def main() raises:
@@ -387,6 +401,20 @@ def main() raises:
     run_case(ledger, "gguf.tensor_directory_adversarial", test_gguf_tensor_directory_adversarial)
     run_case(ledger, "gguf.tensor_directory_integration", test_gguf_tensor_directory_integration)
     run_case(ledger, "gguf.tensor_directory_pool_adversarial", test_gguf_tensor_directory_pool_adversarial)
+    print("")
+
+    # --- Vision (mmproj) ---
+    print("  [DOMAIN] Vision (mmproj)")
+    print("  -----------------------------------------")
+    run_case(ledger, "vision.mmproj_structure", test_mmproj)
+    run_case(ledger, "vision.image_preprocessing", test_image_prep)
+    run_case(ledger, "vision.encoder_stages", test_vision_encoder)
+    run_case(ledger, "vision.embedding_span_injection", test_embedding_span)
+    record_skip(
+        ledger,
+        "vision.cuda_session_image_chat",
+        "requires the real Gemma 4 pair and a CUDA device; opt-in program tests/image_chat_cuda_mmproj.mojo",
+    )
     print("")
 
     # --- Tokenizer ---
@@ -1027,4 +1055,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(267)
+    ledger.finish(272)

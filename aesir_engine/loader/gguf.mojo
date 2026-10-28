@@ -39,6 +39,7 @@ struct GGMLType:
     comptime IQ3_S = 21
     comptime IQ2_S = 22
     comptime TQ1_0 = 34
+    comptime BF16 = 30
 
     @staticmethod
     def to_compressed_format(ggml_type: UInt32) raises -> CompressedFormatType:
@@ -456,13 +457,37 @@ struct GGUFSeer:
         var scalar_type = value_type
         var scalar_offset = offset
         if value_type == 9:
-            var elem_type = self._read_u32(offset)
+            var norm_elem_type = self._read_u32(offset)
             var elem_count = self._read_u64(offset + 4)
-            if elem_count >= 1 and (elem_type == 4 or elem_type == 5 or elem_type == 6):
+            if elem_count >= 1 and (norm_elem_type == 4 or norm_elem_type == 5 or norm_elem_type == 6):
                 # INT32 array elements share the UINT32 byte layout for the
                 # non-negative configuration values stored this way.
-                scalar_type = UInt32(4) if elem_type == 5 else elem_type
+                scalar_type = UInt32(4) if norm_elem_type == 5 else norm_elem_type
                 scalar_offset = offset + 12
+        if key.endswith(".feed_forward_length") and value_type == 9:
+            # Some converters (gemma4) store per-layer feed-forward
+            # widths as a u32 array. The scalar config summary is the
+            # maximum: arena and workspace sizing must cover the
+            # widest layer, while per-layer GEMMs read their shapes
+            # from the weight tensors themselves.
+            var elem_type = self._read_u32(offset)
+            if elem_type != 4 and elem_type != 5:
+                raise Error("feed_forward_length array must hold integer widths")
+            var layer_count = Int(self._read_u64(offset + 4))
+            var cursor = offset + 12
+            self._require_range(cursor, layer_count * 4)
+            var widest = 0
+            for _ in range(layer_count):
+                var width = 0
+                if elem_type == 4:
+                    width = Int(self._read_u32(cursor))
+                else:
+                    width = Int(self._read_i32(cursor))
+                if width > widest:
+                    widest = width
+                cursor += 4
+            self.config.feed_forward_length = widest
+            return cursor
         var expected_type = UInt32(4294967295)
         if key == "general.architecture":
             expected_type = 8
@@ -729,6 +754,10 @@ struct GGUFSeer:
             if element_count < 0 or element_count > 9223372036854775807 // 2:
                 raise Error("GGUF tensor byte size overflows host index")
             return element_count * 2
+        elif tensor_type == GGMLType.BF16:
+            if element_count < 0 or element_count > 9223372036854775807 // 2:
+                raise Error("GGUF tensor byte size overflows host index")
+            return element_count * 2
         elif tensor_type == GGMLType.F32:
             if element_count < 0 or element_count > 9223372036854775807 // 4:
                 raise Error("GGUF tensor byte size overflows host index")
@@ -827,16 +856,19 @@ struct GGUFSeer:
             for index in range(element_count):
                 destination.unsafe_store(index, source.unsafe_load(index).cast[f16]())
             self.tensors[name] = RuneTensor[f16].checked(rows, cols, destination, False)
-        elif tensor_type == UInt32(30):  # GGML BF16 (not in GGMLType's map)
+        elif tensor_type == GGMLType.BF16:
+            # BF16 tensors (e.g. gemma4's per-layer projection) are
+            # converted into the pool as f16 at load, the same
+            # treatment F32 tensors get above; bf16 -> f32 is exact
+            # and f32 -> f16 rounds identically to the F32 route.
             if pool.offset < 0 or pool.offset > pool.capacity or element_count > pool.capacity - pool.offset:
                 raise Error("MimirWell cannot hold converted BF16 tensor")
-            var bf_destination = pool.allocate(element_count)
-            var bf_source = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[UInt16]()
+            var destination = pool.allocate(element_count)
+            var source = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[UInt16]()
             for index in range(element_count):
-                var bits = UInt32(bf_source.unsafe_load(index)) << 16
-                var widened = bitcast[DType.float32](bits)
-                bf_destination.unsafe_store(index, widened.cast[DType.float16]())
-            self.tensors[name] = RuneTensor[f16].checked(rows, cols, bf_destination, False)
+                var bits = UInt32(source.unsafe_load(index)) << 16
+                destination.unsafe_store(index, bitcast[DType.float32](bits).cast[f16]())
+            self.tensors[name] = RuneTensor[f16].checked(rows, cols, destination, False)
         else:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
             var fmt = GGMLType.to_compressed_format(tensor_type)
