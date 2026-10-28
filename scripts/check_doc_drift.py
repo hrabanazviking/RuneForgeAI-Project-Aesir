@@ -371,13 +371,28 @@ def check_source_truth(errors: list[str]) -> None:
 def has_mojo_ci_gate(content: str, command: str, source: str) -> bool:
     """Recognize the actual compiler command, including an explicit GPU target."""
     active = "\n".join(line for line in content.splitlines() if not line.lstrip().startswith("#"))
-    target = r"(?:[ \t]+--target-accelerator(?:[ \t]+|=)[A-Za-z0-9_:-]+)?"
-    return re.search(r"\bmojo[ \t]+" + re.escape(command) + target + r"[ \t]+" + re.escape(source) + r"(?=[ \t\r\n]|$)", active) is not None
+    flags = r"(?:[ \t]+(?:-I[ \t]+\S+|--target-accelerator(?:[ \t]+|=)[A-Za-z0-9_:-]+))*"
+    return re.search(r"\bmojo[ \t]+" + re.escape(command) + flags + r"[ \t]+" + re.escape(source) + r"(?=[ \t\r\n]|$)", active) is not None
 
 
-def check_ci(errors: list[str]) -> None:
-    content = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+# Compile-only CI sources.  The master test runner is compiled by the
+# workflow's build gate but never executed there: running it is a local,
+# owner-scoped act (owner decision, Volmarr, 2026-10-27).  For a source
+# registered here the checker requires the Mojo *build* gate in place of
+# the run gate, so the source stays gated — a missing build gate for a
+# registered source, and any missing gate for an unregistered source,
+# still fail closed.
+COMPILE_ONLY_GATE_SOURCES = {"aesir_engine/tests/run_all.mojo"}
+
+
+def check_ci(errors: list[str], content: str | None = None) -> None:
+    if content is None:
+        content = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     for command, source in [("build", "aesir_engine/main.mojo"), ("run", "aesir_engine/tests/run_all.mojo")]:
+        if command == "run" and source in COMPILE_ONLY_GATE_SOURCES:
+            if not has_mojo_ci_gate(content, "build", source):
+                errors.append(f".github/workflows/ci.yml: missing Mojo build gate for {source} (compile-only source; run gate exempt by owner decision)")
+            continue
         if not has_mojo_ci_gate(content, command, source):
             errors.append(f".github/workflows/ci.yml: missing Mojo {command} gate for {source}")
     for token in [

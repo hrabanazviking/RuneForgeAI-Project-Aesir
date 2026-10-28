@@ -223,8 +223,50 @@ def test_explicit_cuda_ci_target() -> None:
     source = "aesir_engine/tests/run_all.mojo"
     for command in [f"pixi run mojo run {source}", f"pixi run mojo run --target-accelerator sm_89 {source}", f"pixi run mojo run --target-accelerator=sm_89 {source}"]:
         require(has_mojo_ci_gate(command, "run", source), "real Mojo test gate was not recognized")
+    for command in [f"pixi run mojo build -I . --target-accelerator sm_89 {source}", f"pixi run mojo build -I . -I aesir_engine {source}"]:
+        require(has_mojo_ci_gate(command, "build", source), "real Mojo build gate with include flags was not recognized")
     for command in [f"# pixi run mojo run {source}", "pixi run mojo run --target-accelerator sm_89 wrong.mojo", f"pixi run mojo build {source}", f"pixi run mojo run {source}.disabled"]:
         require(not has_mojo_ci_gate(command, "run", source), "missing/commented/wrong Mojo gate was accepted")
+
+
+def test_compile_only_ci_gate() -> None:
+    from check_doc_drift import check_ci
+
+    tokens = (
+        "fetch-depth: 0\n"
+        "test_fail_closed_runner.mojo\n"
+        "scripts/test_fixture_manifest.py\n"
+        "scripts/check_fixture_manifest.py\n"
+        "scripts/test_check_doc_drift.py\n"
+        "scripts/check_doc_drift.py\n"
+    )
+    main_build = "pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -I . -o /tmp/build\n"
+    master_build = "pixi run mojo build -I . --target-accelerator sm_89 aesir_engine/tests/run_all.mojo -o /tmp/master\n"
+
+    errors: list[str] = []
+    check_ci(errors, tokens + main_build + master_build)
+    require(
+        not errors,
+        f"compile-only master with a real build gate was flagged: {errors!r}",
+    )
+
+    errors = []
+    check_ci(errors, tokens + main_build)
+    require(
+        any("run_all.mojo" in error and "compile-only" in error for error in errors),
+        "registered compile-only source without a build gate was accepted",
+    )
+
+    errors = []
+    check_ci(errors, tokens + master_build)
+    require(
+        any(
+            error
+            == ".github/workflows/ci.yml: missing Mojo build gate for aesir_engine/main.mojo"
+            for error in errors
+        ),
+        "unregistered source without a build gate was accepted",
+    )
 
 
 def test_ledger_schema_integration() -> None:
@@ -466,6 +508,7 @@ def main() -> None:
     test_active_status_document_boundary()
     test_live_policy_schema_and_baseline()
     test_explicit_cuda_ci_target()
+    test_compile_only_ci_gate()
     test_ledger_schema_integration()
     test_absolute_path_evidence_exemption()
     test_grandfathered_record_heading()
