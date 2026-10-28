@@ -144,7 +144,7 @@ type, image size/patch geometry, tensor naming.
   extracts and validates the vision tower spec against the language model,
   and reports the structure (CLI-facing report function + opt-in test on
   the real file + unit tests for discovery naming and spec validation).
-  Proves nothing about image math or inference.
+  Proves nothing about image math or inference. **Registration closure DONE (2026-10-27): the three vision cases are registered in run_all (270 total) and AES-LDR-007 records the capability as partial.**
 - **Slice 2 — image preprocessing.** Proves patchification math on known
   inputs against an independent oracle. Codec breadth stated as built.
 - **Slice 3 — vision encoder forward.** Proves each stage numerically
@@ -155,12 +155,57 @@ type, image size/patch geometry, tensor naming.
   VISION_DEV_STATE.md`). Stage 3b (position embedding + blocks) was gated
   on reading the reference semantics first; that reading is DONE and the
   pinned semantics are recorded in section 5 (FPE factorization, norm
-  placement, RoPE form, clamping, pooling, projector token count).
+  placement, RoPE form, clamping, pooling, projector token count). **Stage 3b is DONE (2026-10-27): the full forward is oracle-proven stage by stage (worst relative divergence 7.7e-06) and unit-tested.**
 - **Slice 4 — projection + injection + chat markers.** Proves the projected
   embeddings enter prefill at the right positions with the right count.
 - **Slice 5 — end-to-end + Ministral variant.** A real image question
   answered by the real model; Ministral mmproj measured and admitted the
   same way, or its deltas recorded as NOT PROVEN.
+
+### Slice 4 injection design (recorded 2026-10-27; slices 1-3 closed)
+
+- **What enters prefill.** The projected encoder output: 16 rows x
+  1536 Float32 per 224x224 image. Pooling kernel 3 over the 14x14
+  grid gives a 4x4 soft-token grid, so the open question in section 3
+  item 6 is closed: the count is measured, and the pooled and
+  projected stages are oracle-proven. Injection replaces embedding
+  rows: when the prompt token stream is converted to embedding
+  vectors for prefill, the rows at the image span take the encoder
+  rows instead of token_embd lookups. The language forward
+  (attention, KV cache, sampling) is unchanged; injected rows
+  occupy real sequence positions and advance positions and KV
+  exactly like text tokens.
+- **The span.** The chat template wraps one image as
+  <start_of_image>, then the image placeholder token repeated
+  exactly n_soft times, then <end_of_image>. The marker ids and the
+  placeholder token id are read from the language model tokenizer
+  metadata at load; the first slice 4 implementation step verifies
+  them against the reference chat behaviour on the real pair before
+  any injection is claimed. One image per span; multiple images are
+  multiple spans.
+- **Fail-closed count discipline.** The number of rows replaced
+  must equal the soft-token count of the encoder for the tower
+  geometry. Any mismatch between template count and encoder output
+  is a hard error before prefill, never a truncation or padding.
+- **Interface.** The encoder entry point yields a Float32 buffer
+  of [n_soft x projection_dim]; prefill embedding assembly accepts
+  an optional span override (start position, row buffer, row width
+  equal to embedding_length, already cross-checked at inspect
+  time). No other prefill behaviour changes.
+- **Accelerator placement (design constraint, per section 6).**
+  The dense Q8_0 GEMMs of the encoder are the same substrate as
+  the language model GEMMs; when the GPU line matures they run on
+  the accelerator first, the CPU keeps orchestration and any
+  spillover, threaded across all cores politely with thermal
+  awareness. The current CPU forward is the correctness reference,
+  not the performance target.
+- **Proof plan.** (a) Unit: a synthetic embedding table plus a
+  span override — exact rows replaced, neighbours untouched, count
+  mismatch raises. (b) Integration on the real pair: fixed test
+  image and prompt; the prefill embedding stream at the span equals
+  the proven projected encoder output within the established
+  Float32 tolerance, and equals token_embd rows everywhere else.
+  (c) Behavioural end-to-end proof belongs to slice 5.
 
 If a slice hits a genuine wall, the state note records exactly what is
 proven and what is NOT PROVEN. No forward pass is ever faked, stubbed into
