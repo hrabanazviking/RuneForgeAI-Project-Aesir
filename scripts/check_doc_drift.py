@@ -269,15 +269,33 @@ def check_master_count(errors: list[str]) -> None:
         errors.append("CAPABILITY_LEDGER.md: E-MASTER count is not synchronized")
 
 
+ABSOLUTE_LOCAL_PATH = re.compile(r"(?:file:///)?/(?:home|Users)/[^\s)`]+")
+
+# Generated run records under docs/evidence/ are historical evidence: the
+# machine that produced a run is part of the record's evidentiary content,
+# so machine-local absolute paths inside them are data, not documentation
+# drift.  The absolute-path rule stays fully in force for every other
+# (hand-authored) file, anywhere else in the tree.
+EVIDENCE_RECORD_PREFIX = "docs/evidence/"
+
+
+def absolute_path_errors(relative_path: str, content: str) -> list[str]:
+    """Machine-local absolute-path findings for one tracked text file."""
+    if relative_path.startswith(EVIDENCE_RECORD_PREFIX):
+        return []
+    return [
+        f"{relative_path}:{line_no}: machine-local absolute path"
+        for line_no, line in enumerate(content.splitlines(), 1)
+        if ABSOLUTE_LOCAL_PATH.search(line)
+    ]
+
+
 def check_text_hygiene(paths: list[Path], errors: list[str]) -> None:
-    absolute = re.compile(r"(?:file:///)?/(?:home|Users)/[^\s)`]+")
     for path in paths:
         content = read_text(path)
         if content is None:
             continue
-        for line_no, line in enumerate(content.splitlines(), 1):
-            if absolute.search(line):
-                errors.append(f"{relative(path)}:{line_no}: machine-local absolute path")
+        errors.extend(absolute_path_errors(relative(path), content))
 
     for name in ["AGENT_ONBOARDING.md", "ENGINEERING_DOCTRINE.md", "GIT_DISCIPLINE.md", "RULES.AI.md"]:
         content = (ROOT / name).read_text(encoding="utf-8")
