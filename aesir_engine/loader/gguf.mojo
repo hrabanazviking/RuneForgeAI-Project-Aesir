@@ -693,7 +693,7 @@ struct GGUFSeer:
             or (self.alignment & (self.alignment - 1)) != 0
         ):
             raise Error("GGUF alignment must be a power of two up to 4096")
-        if self.config.architecture == "qwen2" or self.config.architecture == "qwen35":
+        if self.config.architecture == "qwen2" or self.config.architecture == "qwen3" or self.config.architecture == "qwen35":
             tokenizer.add_bos_token = False
             tokenizer.bos_token_id = -1
         if self.config.architecture == "llama" and "tokenizer.ggml.add_space_prefix" not in seen_keys:

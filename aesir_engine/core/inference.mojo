@@ -103,6 +103,7 @@ struct TransformerBlock(Copyable):
         self.rope_theta = seer.config.rope_freq_base
         self.rope_neox = (
             seer.config.architecture == "qwen2"
+            or seer.config.architecture == "qwen3"
             or seer.config.architecture == "qwen35"
             or seer.config.architecture.startswith("gemma2")
         )
