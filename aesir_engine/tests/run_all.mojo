@@ -2,7 +2,17 @@
 # The Grand Proving: Master Test Runner for Project Aesir
 #
 # Invokes every verification rite in sequence.
-# Run with: pixi run mojo run tests/run_all.mojo
+# Run with (from the repository root; the FFI shims must be staged and
+# linked exactly as in scripts/launch.py, and the -Xlinker flags must
+# precede the source file or the JIT cannot resolve the FFI symbols):
+#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par aesir_engine/tests/run_all.mojo
+#
+# Known issue (pre-existing, proven identical on the unmodified base
+# tree in both JIT and AOT modes): the run currently segfaults inside
+# the rag.cosine_similarity case after 74 passing cases; that case
+# passes in isolation on base and fixed trees alike. This is a
+# separate defect from the LLVM split-operator compiler crash fixed
+# on platform/llvm-split-crash-fix (see llvm-crash-checkpoint/NOTES.md).
 
 from tests.test_compute import (
     test_gemm,

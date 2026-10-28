@@ -167,6 +167,51 @@ compiles.
   lines on two machines.
 - THE FIX COMMIT is 0907593a (single commit, aesir_engine/core/compute.mojo).
 
+## Update 3 (2026-10-28 ~01:05 EDT) — AOT verdict, battery complete, final acceptance state
+
+- AOT (fixed tree): `mojo build` of run_all (step-3 shape) exit 0. The
+  binary EXECUTES and segfaults (exit 139) after exactly 74 [CASE PASS],
+  inside rag.cosine_similarity — identical point to both JIT attempts.
+  Update 2's "JIT/AsyncRT toolchain defect" framing is SUPERSEDED: the
+  crash is runtime-independent.
+- AOT (PRISTINE BASE tree, unmodified 562591e9): build exit 0; execution
+  exit 139, exactly 74 [CASE PASS], final header "SIMD Cosine
+  Similarity", same crash. THE SUITE SEGFAULT IS PRE-EXISTING AND
+  COMPLETELY INDEPENDENT OF THIS FIX. It reproduces with or without
+  0907593a, in JIT and AOT modes; the counted run cannot complete on
+  current main in any configuration constructible on this host (on
+  znver2-class targets it historically never even compiled).
+- PAIR BISECT: sharding.host_gemm_parity followed immediately by
+  rag.cosine_similarity runs CLEAN (exit 0) — the immediate predecessor
+  is exonerated. The trigger needs wider suite context (accumulated
+  state across the first 74 cases). Root-causing it is a heap/state
+  corruption hunt across those cases — a SEPARATE commission under the
+  never-leave-a-bug rule; a possible kinship with anomaly (a)'s
+  inlining/address-stability suspect in the parallel GEMM family is
+  noted but NOT proven.
+- BATTERY on the fixed tree (ci.yml verbatim): step 3 (compile master,
+  AOT above) PASS; step 4 (branch_merge_host) PASS — "MERGE-HOST-PASS";
+  step 5 (build native CLI) PASS — exit 0. No regressions.
+- DOCUMENTATION COMMITTED with this update: the corrected counted-run
+  command (staged shims + -I + -Xlinker flags before the file) now
+  stands in CAPABILITY_LEDGER.md's E-MASTER cell (command text only)
+  and in run_all.mojo's header, the header also carrying the case-75
+  known-issue note.
+- FINAL ACCEPTANCE STATE: the commissioned defect — the LLVM
+  split-operator COMPILER crash — is FIXED (commit 0907593a) and proven
+  on every axis: VM repro matrix, VM JIT compile of the full graph
+  (twice), VM AOT build, VM znver2 control/fixed pair, laptop base/fixed
+  A/B (compile + execution exit 0), GPU line's independent S3 execution.
+  Numerics unchanged (dot-probe lanes identical; house yardsticks
+  2/2 + 12/12 identical pre/post). Acceptance A (counted run prints
+  its final tally) is NOT achievable until the separate pre-existing
+  case-75 suite segfault is fixed; that bug predates and is untouched
+  by this line. This worker did NOT merge to main: the merge decision
+  (land the compiler fix now — the GPU no-scratch re-verification and
+  the vision convergence slice are staged behind it — versus holding
+  for a combined case-75 fix) is the parent's/Volmarr's call, with
+  this evidence pack as the basis.
+
 ## Files in this checkpoint
 
 - repro/min_vnni.mojo — minimal reproducer importing core.compute's
