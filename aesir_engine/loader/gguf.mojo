@@ -449,6 +449,20 @@ struct GGUFSeer:
             if value_type != 9:
                 raise Error("tokenizer.ggml.merges is not an array")
             return self._parse_merge_array(offset, tokenizer)
+        # Some architectures (gemma4) store per-layer configuration as an
+        # ARRAY of the scalar type (e.g. feed_forward_length has one entry
+        # per layer). The flat config takes element 0; architectures that
+        # need every element read the array through their own profile path.
+        var scalar_type = value_type
+        var scalar_offset = offset
+        if value_type == 9:
+            var elem_type = self._read_u32(offset)
+            var elem_count = self._read_u64(offset + 4)
+            if elem_count >= 1 and (elem_type == 4 or elem_type == 5 or elem_type == 6):
+                # INT32 array elements share the UINT32 byte layout for the
+                # non-negative configuration values stored this way.
+                scalar_type = UInt32(4) if elem_type == 5 else elem_type
+                scalar_offset = offset + 12
         var expected_type = UInt32(4294967295)
         if key == "general.architecture":
             expected_type = 8
@@ -490,64 +504,64 @@ struct GGUFSeer:
             or key == "tokenizer.ggml.add_space_prefix"
         ):
             expected_type = 7
-        if expected_type != UInt32(4294967295) and value_type != expected_type:
+        if expected_type != UInt32(4294967295) and scalar_type != expected_type:
             raise Error("GGUF metadata key has unexpected value type: " + key)
-        if key == "general.architecture" and value_type == 8:
-            self.config.architecture = self._read_string(offset)
-        elif key.endswith(".context_length") and value_type == 4:
-            self.config.context_length = Int(self._read_u32(offset))
-        elif key.endswith(".embedding_length") and value_type == 4:
-            self.config.embedding_length = Int(self._read_u32(offset))
-        elif key.endswith(".feed_forward_length") and value_type == 4:
-            self.config.feed_forward_length = Int(self._read_u32(offset))
-        elif key.endswith(".block_count") and value_type == 4:
-            self.config.block_count = Int(self._read_u32(offset))
-        elif key.endswith(".attention.head_count") and value_type == 4:
-            self.config.head_count = Int(self._read_u32(offset))
-        elif key.endswith(".attention.key_length") and value_type == 4:
-            self.config.head_dim_override = Int(self._read_u32(offset))
-        elif key.endswith(".attention.head_count_kv") and value_type == 4:
-            self.config.head_count_kv = Int(self._read_u32(offset))
-        elif key.endswith(".rope.dimension_count") and value_type == 4:
-            self.config.rope_dimension_count = Int(self._read_u32(offset))
-        elif key.endswith(".rope.freq_base") and value_type == 6:
-            self.config.rope_freq_base = self._read_f32(offset)
-        elif key.endswith(".attention.layer_norm_rms_epsilon") and value_type == 6:
-            self.config.rms_epsilon = self._read_f32(offset)
-        elif key.endswith(".embedding_scale") and value_type == 6:
-            self.config.embedding_scale = self._read_f32(offset)
-        elif key.endswith(".attention.scale") and value_type == 6:
-            self.config.attention_scale = self._read_f32(offset)
-        elif key.endswith(".residual_scale") and value_type == 6:
-            self.config.residual_scale = self._read_f32(offset)
-        elif key.endswith(".logit_scale") and value_type == 6:
-            self.config.logit_scale = self._read_f32(offset)
-        elif key.endswith(".attn_logit_softcapping") and value_type == 6:
-            self.config.attn_logit_softcapping = self._read_f32(offset)
-        elif key.endswith(".final_logit_softcapping") and value_type == 6:
-            self.config.final_logit_softcapping = self._read_f32(offset)
-        elif key.endswith(".attention.sliding_window") and value_type == 4:
-            self.config.sliding_window = Int(self._read_u32(offset))
-        elif key.endswith(".ssm.conv_kernel") and value_type == 4:
-            self.config.ssm_conv_kernel = Int(self._read_u32(offset))
-        elif key.endswith(".ssm.state_size") and value_type == 4:
-            self.config.ssm_state_size = Int(self._read_u32(offset))
-        elif key.endswith(".ssm.group_count") and value_type == 4:
-            self.config.ssm_group_count = Int(self._read_u32(offset))
-        elif key.endswith(".ssm.time_step_rank") and value_type == 4:
-            self.config.ssm_time_step_rank = Int(self._read_u32(offset))
-        elif key.endswith(".ssm.inner_size") and value_type == 4:
-            self.config.ssm_inner_size = Int(self._read_u32(offset))
-        elif key.endswith(".full_attention_interval") and value_type == 4:
-            self.config.full_attention_interval = Int(self._read_u32(offset))
-        elif key == "general.alignment" and value_type == 4:
-            self.alignment = Int(self._read_u32(offset))
-        elif key == "tokenizer.ggml.unknown_token_id" and value_type == 4:
-            self.config.unknown_token_id = Int(self._read_u32(offset))
-        elif key == "tokenizer.ggml.bos_token_id" and value_type == 4:
-            self.config.bos_token_id = Int(self._read_u32(offset))
-        elif key == "tokenizer.ggml.eos_token_id" and value_type == 4:
-            self.config.eos_token_id = Int(self._read_u32(offset))
+        if key == "general.architecture" and scalar_type == 8:
+            self.config.architecture = self._read_string(scalar_offset)
+        elif key.endswith(".context_length") and scalar_type == 4:
+            self.config.context_length = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".embedding_length") and scalar_type == 4:
+            self.config.embedding_length = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".feed_forward_length") and scalar_type == 4:
+            self.config.feed_forward_length = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".block_count") and scalar_type == 4:
+            self.config.block_count = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".attention.head_count") and scalar_type == 4:
+            self.config.head_count = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".attention.key_length") and scalar_type == 4:
+            self.config.head_dim_override = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".attention.head_count_kv") and scalar_type == 4:
+            self.config.head_count_kv = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".rope.dimension_count") and scalar_type == 4:
+            self.config.rope_dimension_count = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".rope.freq_base") and scalar_type == 6:
+            self.config.rope_freq_base = self._read_f32(scalar_offset)
+        elif key.endswith(".attention.layer_norm_rms_epsilon") and scalar_type == 6:
+            self.config.rms_epsilon = self._read_f32(scalar_offset)
+        elif key.endswith(".embedding_scale") and scalar_type == 6:
+            self.config.embedding_scale = self._read_f32(scalar_offset)
+        elif key.endswith(".attention.scale") and scalar_type == 6:
+            self.config.attention_scale = self._read_f32(scalar_offset)
+        elif key.endswith(".residual_scale") and scalar_type == 6:
+            self.config.residual_scale = self._read_f32(scalar_offset)
+        elif key.endswith(".logit_scale") and scalar_type == 6:
+            self.config.logit_scale = self._read_f32(scalar_offset)
+        elif key.endswith(".attn_logit_softcapping") and scalar_type == 6:
+            self.config.attn_logit_softcapping = self._read_f32(scalar_offset)
+        elif key.endswith(".final_logit_softcapping") and scalar_type == 6:
+            self.config.final_logit_softcapping = self._read_f32(scalar_offset)
+        elif key.endswith(".attention.sliding_window") and scalar_type == 4:
+            self.config.sliding_window = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".ssm.conv_kernel") and scalar_type == 4:
+            self.config.ssm_conv_kernel = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".ssm.state_size") and scalar_type == 4:
+            self.config.ssm_state_size = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".ssm.group_count") and scalar_type == 4:
+            self.config.ssm_group_count = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".ssm.time_step_rank") and scalar_type == 4:
+            self.config.ssm_time_step_rank = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".ssm.inner_size") and scalar_type == 4:
+            self.config.ssm_inner_size = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".full_attention_interval") and scalar_type == 4:
+            self.config.full_attention_interval = Int(self._read_u32(scalar_offset))
+        elif key == "general.alignment" and scalar_type == 4:
+            self.alignment = Int(self._read_u32(scalar_offset))
+        elif key == "tokenizer.ggml.unknown_token_id" and scalar_type == 4:
+            self.config.unknown_token_id = Int(self._read_u32(scalar_offset))
+        elif key == "tokenizer.ggml.bos_token_id" and scalar_type == 4:
+            self.config.bos_token_id = Int(self._read_u32(scalar_offset))
+        elif key == "tokenizer.ggml.eos_token_id" and scalar_type == 4:
+            self.config.eos_token_id = Int(self._read_u32(scalar_offset))
         elif key == "tokenizer.ggml.add_bos_token" and value_type == 7:
             self._require_range(offset, 1)
             tokenizer.add_bos_token = (
