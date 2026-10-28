@@ -29,6 +29,7 @@ from tests.test_text_admission import test_persisted_text_admission
 from tests.test_gemma4_profile import test_gemma4_profiles
 from tests.test_model_registry import test_model_architecture_registry
 from tests.test_inference import (
+    test_iq_embedding_lookup,
     test_forward_pass,
     test_generation_stop_policy,
     test_unsupported_runtime_config,
@@ -416,6 +417,7 @@ def main() raises:
     # --- Inference Engine ---
     print("  [DOMAIN] The Loom of Fate (Inference)")
     print("  -----------------------------------------")
+    run_case(ledger, "inference.iq_embedding_lookup", test_iq_embedding_lookup)
     run_case(ledger, "inference.synthetic_forward", test_forward_pass)
     run_case(ledger, "sampling.greedy_tie_policy", test_greedy_tie_policy)
     run_case(ledger, "sampling.greedy_tie_adversarial", test_greedy_tie_adversarial)
