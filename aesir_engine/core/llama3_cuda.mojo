@@ -5,7 +5,7 @@ from loader.packed_gguf import PackedGGUF, PackedTensor
 from loader.llama3_tokenizer import Llama3Tokenizer
 from loader.tokenizer import RuneStreamDecoder
 from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, packed_matvec_kernel, norm_kernel, element_kernel, argmax_kernel
-from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention, llama_attention_tiled
+from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention, llama_attention_tiled, llama_add_bias
 from core.inference_memory import llama3_memory_plan, InferenceMemoryPlan
 from core.dense_gqa_profile import (
     DenseGQAProfile, dense_gqa_profile_for, validate_dense_gqa,
@@ -99,6 +99,15 @@ def llama3_compact_front(model: PackedGGUF, mut layers: List[DenseGQALayer],
         if plan.key_norm >= 0:
             plan.key_norm = _front_place(slices, cursor, plan.key_norm,
                 model.tensors[prefix + "attn_k_norm.weight"].byte_count)
+        if plan.query_bias >= 0:
+            plan.query_bias = _front_place(slices, cursor, plan.query_bias,
+                model.tensors[prefix + "attn_q.bias"].byte_count)
+        if plan.key_bias >= 0:
+            plan.key_bias = _front_place(slices, cursor, plan.key_bias,
+                model.tensors[prefix + "attn_k.bias"].byte_count)
+        if plan.value_bias >= 0:
+            plan.value_bias = _front_place(slices, cursor, plan.value_bias,
+                model.tensors[prefix + "attn_v.bias"].byte_count)
         layers[layer] = plan
     return cursor
 
@@ -294,6 +303,10 @@ struct Llama3CUDASession(ControlledTextSession):
         else:
             self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(weight), Int64(src), Int64(dst), Int64(width), Int64(groups), self.profile.normalization_epsilon, Float32(1), grid_dim=(groups * 32 + 127) // 128, block_dim=128)
 
+    def add_bias(self, bias_offset: Int, dst: Int, width: Int) raises:
+        if bias_offset >= 0:
+            self.context.enqueue_function[llama_add_bias](self.w(), self.a(), Int64(bias_offset), Int64(dst), Int64(width), grid_dim=(width + 127) // 128, block_dim=128)
+
     def residual(self) raises:
         self.residual_at(0)
 
@@ -328,6 +341,9 @@ struct Llama3CUDASession(ControlledTextSession):
         self.project(plan.query, self.norm_offset, self.query_offset)
         self.project(plan.key, self.norm_offset, self.key_offset)
         self.project(plan.value, self.norm_offset, self.value_offset)
+        self.add_bias(plan.query_bias, self.query_offset, self.profile.query_width())
+        self.add_bias(plan.key_bias, self.key_offset, self.profile.kv_width())
+        self.add_bias(plan.value_bias, self.value_offset, self.profile.kv_width())
         if self.profile.qk_norm:
             self.norm_at(plan.query_norm, self.query_offset, self.query_offset, self.profile.head_dim, self.profile.attention_heads)
             self.norm_at(plan.key_norm, self.key_offset, self.key_offset, self.profile.head_dim, self.profile.kv_heads)
@@ -440,6 +456,12 @@ struct Llama3CUDASession(ControlledTextSession):
             self.project_four(plan.query, self.norm_offset, self.query_offset)
             self.project_four(plan.key, self.norm_offset, self.key_offset)
             self.project_four(plan.value, self.norm_offset, self.value_offset)
+            if plan.query_bias >= 0:
+                for token in range(4):
+                    var base = self.buffers.token_base(token)
+                    self.add_bias(plan.query_bias, base + self.query_offset, self.profile.query_width())
+                    self.add_bias(plan.key_bias, base + self.key_offset, self.profile.kv_width())
+                    self.add_bias(plan.value_bias, base + self.value_offset, self.profile.kv_width())
             for token in range(4):
                 var base = self.buffers.token_base(token)
                 var position = self.position + token
