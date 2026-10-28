@@ -14,7 +14,7 @@ from core.dense_gqa_profile import (
     LLAMA3_8B_CONTEXT_CAP,
 )
 from core.cuda_sampling import NativeCUDASampler
-from core.cuda_upload import upload_cuda_bytes
+from core.cuda_upload import upload_cuda_bytes, upload_cuda_bytes_at
 from core.packed_projection import block_matvec_kernel, four_matvec_kernel
 from core.dense_buffers import DenseBufferLayout
 from core.dense_normalization import dense_norm_kernel
@@ -43,30 +43,64 @@ def copy_hidden_kernel(x: Floats, dst: Floats, src_offset: Int64, width: Int64):
         dst.unsafe_store(index, x.unsafe_load(Int(src_offset) + index))
 
 
-def llama3_front_prefix_bytes(model: PackedGGUF, embedding: PackedTensor, rope_offset: Int, exec_layers: Int) raises -> Int:
-    var end = embedding.offset + embedding.byte_count
+@fieldwise_init
+struct FrontTensorSlice(ImplicitlyCopyable, Movable):
+    """One front tensor's move from its GGUF file offset to its compacted
+    device offset. Real quant files scatter tensor data in arbitrary order,
+    so the device image is a compaction of exactly the front tensors,
+    never a file prefix."""
+    var file_offset: Int
+    var device_offset: Int
+    var byte_count: Int
+
+
+def _front_place(mut slices: List[FrontTensorSlice], mut cursor: Int,
+                 file_offset: Int, byte_count: Int) -> Int:
+    var aligned = (cursor + 31) // 32 * 32
+    slices.append(FrontTensorSlice(file_offset, aligned, byte_count))
+    cursor = aligned + byte_count
+    return aligned
+
+
+def llama3_compact_front(model: PackedGGUF, mut layers: List[DenseGQALayer],
+                         mut embedding: PackedTensor, mut rope_offset: Int,
+                         exec_layers: Int,
+                         mut slices: List[FrontTensorSlice]) raises -> Int:
+    """Rewrite descriptor copies (front layers, embedding, rope offset)
+    from GGUF file offsets to compact device offsets covering exactly the
+    front tensors, recording every move in slices for the upload. The
+    model's own directory keeps true file offsets: the host tokenizer and
+    the CPU tail read through it. Returns the compact total in bytes.
+    Device offsets are 32-byte aligned, matching GGUF tensor alignment."""
+    var cursor = 0
+    embedding.offset = _front_place(slices, cursor, embedding.offset,
+                                    embedding.byte_count)
     if rope_offset >= 0:
         var rope = model.tensors["rope_freqs.weight"]
-        end = max(end, rope.offset + rope.byte_count)
-    var suffixes = List[String]()
-    suffixes.append("attn_norm.weight")
-    suffixes.append("attn_q.weight")
-    suffixes.append("attn_k.weight")
-    suffixes.append("attn_v.weight")
-    suffixes.append("attn_output.weight")
-    suffixes.append("attn_q_norm.weight")
-    suffixes.append("attn_k_norm.weight")
-    suffixes.append("ffn_norm.weight")
-    suffixes.append("ffn_gate.weight")
-    suffixes.append("ffn_up.weight")
-    suffixes.append("ffn_down.weight")
+        rope_offset = _front_place(slices, cursor, rope.offset,
+                                   rope.byte_count)
     for layer in range(exec_layers):
-        for suffix in suffixes:
-            var name = "blk." + String(layer) + "." + suffix
-            if name in model.tensors:
-                var t = model.tensors[name]
-                end = max(end, t.offset + t.byte_count)
-    return end
+        var plan = layers[layer]
+        var prefix = "blk." + String(layer) + "."
+        plan.attention_norm = _front_place(slices, cursor, plan.attention_norm,
+            model.tensors[prefix + "attn_norm.weight"].byte_count)
+        plan.query.offset = _front_place(slices, cursor, plan.query.offset, plan.query.byte_count)
+        plan.key.offset = _front_place(slices, cursor, plan.key.offset, plan.key.byte_count)
+        plan.value.offset = _front_place(slices, cursor, plan.value.offset, plan.value.byte_count)
+        plan.attention_output.offset = _front_place(slices, cursor, plan.attention_output.offset, plan.attention_output.byte_count)
+        plan.feed_forward_norm = _front_place(slices, cursor, plan.feed_forward_norm,
+            model.tensors[prefix + "ffn_norm.weight"].byte_count)
+        plan.gate.offset = _front_place(slices, cursor, plan.gate.offset, plan.gate.byte_count)
+        plan.up.offset = _front_place(slices, cursor, plan.up.offset, plan.up.byte_count)
+        plan.down.offset = _front_place(slices, cursor, plan.down.offset, plan.down.byte_count)
+        if plan.query_norm >= 0:
+            plan.query_norm = _front_place(slices, cursor, plan.query_norm,
+                model.tensors[prefix + "attn_q_norm.weight"].byte_count)
+        if plan.key_norm >= 0:
+            plan.key_norm = _front_place(slices, cursor, plan.key_norm,
+                model.tensors[prefix + "attn_k_norm.weight"].byte_count)
+        layers[layer] = plan
+    return cursor
 
 
 struct Llama3CUDASession(ControlledTextSession):
@@ -178,8 +212,16 @@ struct Llama3CUDASession(ControlledTextSession):
             raise Error("A compatible NVIDIA CUDA device is required; no CPU fallback")
         var device_weights = Int(self.model.source.file_size)
         var kv_elems = self.profile.kv_elements(context_length)
+        var front_slices = List[FrontTensorSlice]()
         if self.spilled:
-            device_weights = llama3_front_prefix_bytes(self.model, self.embedding_tensor, self.rope_factors_offset, self.exec_layers)
+            var front_layers = self.layers.copy()
+            var front_embedding = self.embedding_tensor
+            var front_rope = self.rope_factors_offset
+            device_weights = llama3_compact_front(self.model, front_layers,
+                front_embedding, front_rope, self.exec_layers, front_slices)
+            self.layers = front_layers^
+            self.embedding_tensor = front_embedding
+            self.rope_factors_offset = front_rope
             kv_elems = self.exec_layers * 2 * context_length * self.profile.kv_width()
         var memory: InferenceMemoryPlan
         if self.spilled:
@@ -196,8 +238,16 @@ struct Llama3CUDASession(ControlledTextSession):
         self.hidden_out = self.context.enqueue_create_buffer[DType.float32](self.profile.hidden_size)
         self.host_hidden = self.context.enqueue_create_host_buffer[DType.float32](self.profile.hidden_size)
         self.sampler = NativeCUDASampler(self.context, self.profile.vocabulary_size, sampling)
-        var staging_bytes = upload_cuda_bytes(self.context, self.weights,
-            self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), device_weights)
+        var staging_bytes = 0
+        if self.spilled:
+            var source_base = self.model.source.mmap_ptr.unsafe_bitcast[UInt8]()
+            for part in front_slices:
+                staging_bytes = upload_cuda_bytes_at(self.context, self.weights,
+                    part.device_offset, source_base.unsafe_offset(part.file_offset),
+                    part.byte_count)
+        else:
+            staging_bytes = upload_cuda_bytes(self.context, self.weights,
+                self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), device_weights)
         print("[CUDA] native Mojo " + self.profile.label() + "; device=" + String(device_index) + " api=cuda layers=" + String(self.exec_layers) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(device_weights) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=" + String(self.profile.layer_count - self.exec_layers))
 
     def w(self) -> Bytes:

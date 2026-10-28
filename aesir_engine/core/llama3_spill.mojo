@@ -3,7 +3,9 @@ tail layers on the CPU path, the hidden state crossing once per token.
 
 GPU-line spill build (platform/gpu-2060-verification), slice S2. The front
 is a Llama3CUDASession built with an exec-layer cap: its device weights
-are the GGUF file prefix (embedding + front layers) and its KV cache holds
+are a compaction of exactly the front tensors (embedding + front layers)
+with descriptor offsets remapped - real quant files scatter tensor data
+in arbitrary order, so no file prefix exists - and its KV cache holds
 only front layers. The tail reuses the CPU path itself: TransformerBlock
 layers over a GGUFSeer, with the KV cache in host RAM beside the tail
 layers. Selection is greedy argmax over the CPU final norm + output
