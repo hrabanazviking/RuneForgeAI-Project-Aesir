@@ -37,10 +37,10 @@ comptime LOGITS = GATE + LLAMA3_8B_FEED_FORWARD_SIZE
 comptime SCORES = LOGITS + LLAMA3_8B_VOCABULARY_SIZE
 
 
-def copy_hidden_kernel(x: Floats, out: Floats, src_offset: Int64, width: Int64):
+def copy_hidden_kernel(x: Floats, dst: Floats, src_offset: Int64, width: Int64):
     var index = Int(global_idx.x)
     if index < Int(width):
-        out.unsafe_store(index, x.unsafe_load(Int(src_offset) + index))
+        dst.unsafe_store(index, x.unsafe_load(Int(src_offset) + index))
 
 
 def llama3_front_prefix_bytes(model: PackedGGUF, embedding: PackedTensor, rope_offset: Int, exec_layers: Int) raises -> Int:
