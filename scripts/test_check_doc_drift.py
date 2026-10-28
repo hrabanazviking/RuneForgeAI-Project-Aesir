@@ -281,6 +281,39 @@ def test_absolute_path_evidence_exemption() -> None:
     )
 
 
+def test_grandfathered_record_heading() -> None:
+    from check_doc_drift import ledger_statuses
+
+    valid = (
+        "### AES-FND-001 — Example\n"
+        "- **Status:** `partial`\n"
+        "- **Owner:** foundation\n"
+        "- **Executable evidence:** `python3 check.py`\n"
+        "- **Evidence boundary:** Structural fixture only.\n"
+    )
+    record = (
+        "\n### AES-C3-REVIEW — Campaign verdict (fixture)\n"
+        "- **Status:** `verified`\n"
+        "- **Status:** `verified, gate PASS`\n"
+        "Verdict prose with no capability fields.\n"
+    )
+    require(
+        not ledger_schema_errors(valid + record, "fixture.md"),
+        "grandfathered record block was schema-validated as a capability",
+    )
+    unregistered = valid + record.replace("AES-C3-REVIEW", "AES-X9-REVIEW")
+    errors = ledger_schema_errors(unregistered, "fixture.md")
+    require(
+        any("malformed capability heading" in error for error in errors),
+        "unregistered non-canonical heading was not flagged as malformed",
+    )
+    statuses = ledger_statuses(valid + record)
+    require(
+        statuses == {"AES-FND-001": "partial"},
+        "record Status lines bled into the preceding capability block",
+    )
+
+
 def test_todo_combined_and_adjacent_capability_references() -> None:
     statuses = {
         "AES-TST-001": "verified",
@@ -384,6 +417,7 @@ def main() -> None:
     test_explicit_cuda_ci_target()
     test_ledger_schema_integration()
     test_absolute_path_evidence_exemption()
+    test_grandfathered_record_heading()
     test_todo_combined_and_adjacent_capability_references()
     test_todo_later_unknown_and_mismatched_references()
     test_todo_adjacent_unknown_and_mismatch_diagnostic_order()

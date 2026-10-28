@@ -12,7 +12,11 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-from ledger_schema import LedgerSchemaError, parse_ledger_text
+from ledger_schema import (
+    GRANDFATHERED_RECORD_IDS,
+    LedgerSchemaError,
+    parse_ledger_text,
+)
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -112,7 +116,14 @@ def read_text(path: Path) -> str | None:
 
 def ledger_statuses(content: str) -> dict[str, str]:
     entries: dict[str, str] = {}
-    blocks = re.split(r"(?=^### AES-[A-Z]+-\d+ —)", content, flags=re.MULTILINE)
+    # Grandfathered record headings (e.g. AES-C3-REVIEW) also bound blocks:
+    # the record and the campaign sections after it carry their own Status
+    # lines, which must not bleed into the preceding capability's block.
+    records = "|".join(
+        re.escape(item) for item in sorted(GRANDFATHERED_RECORD_IDS)
+    )
+    boundary = r"(?=^### (?:AES-[A-Z]+-\d+" + (f"|{records}" if records else "") + r") —)"
+    blocks = re.split(boundary, content, flags=re.MULTILINE)
     for block in blocks:
         heading = re.match(r"^### (AES-[A-Z]+-\d+) —", block)
         if not heading:

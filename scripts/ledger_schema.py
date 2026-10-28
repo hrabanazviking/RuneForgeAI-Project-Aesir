@@ -29,6 +29,15 @@ OPTIONAL_FIELDS = (
 CANONICAL_FIELDS = {"Status", *REQUIRED_FIELDS, *OPTIONAL_FIELDS}
 HEADING = re.compile(r"^### (AES-[A-Z]+-\d+) — (.+?)\s*$")
 HEADING_LIKE = re.compile(r"^###\s+AES-")
+RECORD_HEADING = re.compile(r"^###\s+(AES-[A-Z0-9]+(?:-[A-Z0-9]+)*)\s+—")
+# Grandfathered record headings.  AES-C3-REVIEW is a campaign verdict
+# record (H060), not a capability entry: its identifier predates the
+# AES-<DOMAIN>-<NNN> capability numbering, so the capability heading
+# grammar cannot express it.  Registered here, its block (the verdict and
+# the campaign sections that follow it) is treated as a historical record
+# and skipped by the capability schema.  Renaming the entry to fit the
+# grammar would invent an identifier it never had.
+GRANDFATHERED_RECORD_IDS = {"AES-C3-REVIEW"}
 FIELD = re.compile(r"^- \*\*([^*]+):\*\*\s*(.*)$")
 FIELD_LIKE = re.compile(r"^- \*\*[^*]+\*\*")
 STATUS_VALUE = re.compile(r"^`(verified|partial|scaffold|simulated|missing)`$")
@@ -94,6 +103,10 @@ def parse_ledger_text(
         stop = starts[index + 1] if index + 1 < len(starts) else len(lines)
         header = HEADING.fullmatch(lines[start])
         if header is None:
+            record = RECORD_HEADING.match(lines[start])
+            if record is not None and record.group(1) in GRANDFATHERED_RECORD_IDS:
+                # Historical record block, not a capability entry.
+                continue
             diagnostics.append(
                 LedgerDiagnostic(source, start + 1, "malformed capability heading")
             )
