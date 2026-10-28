@@ -1489,8 +1489,15 @@ struct MimirWell:
         """
         self.npu_backends.clear()
 
-    def __deinit__(deinit self):
-        self.base_ptr.unsafe_free()
+    # NOTE (case-75 hunt, 2026-10-28): MimirWell intentionally has NO
+    # freeing destructor. Wells are copied freely across the engine and
+    # RuneTensor views alias the arena for the process lifetime, so the
+    # arena must never be freed while any copy or view exists. A previous
+    # __deinit__ that called base_ptr.unsafe_free() freed shared arenas
+    # at scope exit; the recycled memory corrupted the allocator and
+    # segfaulted the counted suite in rag.cosine_similarity (the victim
+    # case). Arenas are process-lifetime allocations by design, matching
+    # the unsafe_leak in __init__.
 
 
 struct MimirStore(Copyable):
