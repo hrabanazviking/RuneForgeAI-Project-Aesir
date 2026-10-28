@@ -64,6 +64,12 @@ def test_iq1_s_known_value() raises:
     )
     var output = RuneTensor[f16](1, 1, output_ptr, False)
     gemm_f16(input, weights, output)
+    # Keep the pool value alive across the call and the reads
+    # below: this toolchain destroys values at last use and
+    # may hand the pool storage to an allocation inside the
+    # GEMM while the tensors still point into it (phase 3).
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
     if output.data.unsafe_load(0) != Scalar[f16](-462.0):
         raise Error("IQ1_S GEMM disagrees with independent oracle sum")
 
@@ -135,6 +141,8 @@ def test_iq2_xxs_known_value() raises:
     )
     var output = RuneTensor[f16](1, 1, output_ptr, False)
     gemm_f16(input, weights, output)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
     if output.data.unsafe_load(0) != Scalar[f16](-404.5):
         raise Error("IQ2_XXS GEMM disagrees with independent oracle sum")
 
@@ -200,6 +208,8 @@ def test_tq1_0_known_value() raises:
     )
     var output = RuneTensor[f16](1, 1, output_ptr, False)
     gemm_f16(input, weights, output)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
     if output.data.unsafe_load(0) != Scalar[f16](-4.0):
         raise Error("TQ1_0 GEMM disagrees with independent oracle sum")
 
@@ -264,6 +274,8 @@ def test_iq2_s_known_value() raises:
     )
     var output = RuneTensor[f16](1, 1, output_ptr, False)
     gemm_f16(input, weights, output)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
     if output.data.unsafe_load(0) != Scalar[f16](1130.75):
         raise Error("IQ2_S GEMM disagrees with independent oracle sum")
 
@@ -329,6 +341,8 @@ def test_iq3_s_known_value() raises:
     )
     var output = RuneTensor[f16](1, 1, output_ptr, False)
     gemm_f16(input, weights, output)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
     if output.data.unsafe_load(0) != Scalar[f16](512.0):
         raise Error("IQ3_S GEMM disagrees with independent oracle sum")
 
@@ -394,6 +408,8 @@ def test_iq2_xs_known_value() raises:
     )
     var output = RuneTensor[f16](1, 1, output_ptr, False)
     gemm_f16(input, weights, output)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
     if output.data.unsafe_load(0) != Scalar[f16](2344.0):
         raise Error("IQ2_XS GEMM disagrees with independent oracle sum")
 
@@ -459,6 +475,8 @@ def test_iq3_xxs_known_value() raises:
     )
     var output = RuneTensor[f16](1, 1, output_ptr, False)
     gemm_f16(input, weights, output)
+    if well.offset <= 0:
+        raise Error("well lifetime anchor")
     if output.data.unsafe_load(0) != Scalar[f16](-994.0):
         raise Error("IQ3_XXS GEMM disagrees with independent oracle sum")
 
