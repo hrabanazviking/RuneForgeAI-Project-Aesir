@@ -946,6 +946,88 @@ def _gemm_q8_0_range(
             c_data.unsafe_store(row * c_cols + output, total.cast[f16]())
 
 
+def _gemm_q8_0_fast_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    a_rows: Int,
+    a_cols: Int,
+    c_cols: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Decode-once fast range for the Q8_0 GEMM.
+
+    Each output row's Q8_0 blocks are decoded to an F32 scratch row a
+    single time, then every A row dots against the scratch with SIMD
+    (W=16 F32 lanes). The serial body re-decoded every block for every
+    element of every row. Summation inside a dot is lane-grouped, so
+    results can differ from the serial body in final rounding only —
+    the same accepted fast-path class as _gemm_k_fast. The bit-exact
+    serial body remains in _gemm_q8_0_range.
+    """
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var weights = Pointer[UInt8, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    comptime W = 16
+    var blocks_per_row = a_cols // 32
+    var scratch = alloc[Float32](a_cols)
+    var limit = a_cols - (a_cols % W)
+    for output in range(out_lo, out_hi):
+        var row_base = output * blocks_per_row * 34
+        for block in range(blocks_per_row):
+            var p = row_base + block * 34
+            var scale = weights.unsafe_offset(p).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+            var dst = block * 32
+            for lane in range(32):
+                var q = weights.unsafe_load(p + 2 + lane).cast[DType.int8]()
+                scratch.unsafe_store(dst + lane, Float32(q) * scale)
+        for row in range(a_rows):
+            var a_base = row * a_cols
+            var acc = SIMD[DType.float32, W](0.0)
+            var j = 0
+            while j < limit:
+                var avec = SIMD[DType.float32, W]()
+                var wvec = SIMD[DType.float32, W]()
+                for lane in range(W):
+                    avec[lane] = a_data.unsafe_load(a_base + j + lane).cast[f32]()
+                    wvec[lane] = scratch.unsafe_load(j + lane)
+                acc += avec * wvec
+                j += W
+            var total = Float32(0.0)
+            for lane in range(W):
+                total += acc[lane]
+            while j < a_cols:
+                total += a_data.unsafe_load(a_base + j).cast[f32]() * scratch.unsafe_load(j)
+                j += 1
+            c_data.unsafe_store(row * c_cols + output, total.cast[f16]())
+    scratch.unsafe_free()
+
+
+def _gemm_q8_0_fast_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback for the fast Q8_0 range; ctx slots as in
+    _gemm_q8_0_worker."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    _gemm_q8_0_fast_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(start),
+        Int(end),
+    )
+
+
 def _gemm_q8_0_worker(ctx_addr: Int64, start: Int64, end: Int64):
     """FFI range callback; ctx slots: [A.data, B.data, C.data,
     A.rows, A.cols, C.cols]."""
@@ -975,8 +1057,11 @@ def gemm_q8_0(
         raise Error("gemm_q8_0: invalid storage")
     # Model-wave change: the serial triple loop was the Coder-3B
     # Q8_0 crown bottleneck. Output columns partition across threads
-    # via par_for; per-element arithmetic is unchanged, so results
-    # are bit-identical to the serial body (_gemm_q8_0_range).
+    # via par_for. The threaded body is the decode-once SIMD fast
+    # range (_gemm_q8_0_fast_range): 776.88 s -> 455.24 s for the
+    # crown short probe came from threading the serial body alone;
+    # the fast range is measured separately. The bit-exact serial
+    # range (_gemm_q8_0_range) remains as the reference body.
     var cp = alloc[Int64](6)
     cp.unsafe_store(0, Int64(Int(A.data)))
     cp.unsafe_store(1, Int64(Int(B.data)))
@@ -984,7 +1069,7 @@ def gemm_q8_0(
     cp.unsafe_store(3, Int64(A.rows))
     cp.unsafe_store(4, Int64(A.cols))
     cp.unsafe_store(5, Int64(C.cols))
-    _ = par_for[_gemm_q8_0_worker](
+    _ = par_for[_gemm_q8_0_fast_worker](
         Int64(Int(cp)),
         B.rows,
         Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
