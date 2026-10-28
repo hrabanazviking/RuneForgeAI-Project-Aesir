@@ -1663,6 +1663,29 @@ def _gemm_k_fast(
     )
     cp.unsafe_free()
 
+@no_inline
+def iq_grid_alloc(kind: Int) -> Pointer[UInt16, MutUntrackedOrigin]:
+    """Allocate a 2048-entry heap buffer and materialize the IQ grid
+    for kind into it; the caller frees it with unsafe_free().
+
+    The grid must NOT live in a stack InlineArray in the GEMM range
+    body: that buffer is written through one pointer form and read
+    through an origin-cast pointer, and this toolchain's liveness
+    analysis loses track of it — the stack slot is reused while the
+    grid is still logically live, layout-dependently (the wave
+    build, whose only source delta was the Q8_0 fast GEMM, read a
+    clobbered grid in every IQ GEMM: iq1_s collapsed to EOS x16,
+    iq2_m fell into a repetition loop). A heap allocation with an
+    explicit alloc/free lifetime in the caller is immune. The
+    alloc+materialize are fused in this @no_inline frame so the
+    store destination is a fresh allocation with no other pointer
+    in scope. See iq-worker REPORT.md phase 3.
+    """
+    var dst = alloc[UInt16](2048)
+    iq_grid_materialize(kind, dst)
+    return dst
+
+
 def _gemm_iq_fast_range(
     a_addr: Int64,
     b_addr: Int64,
@@ -1704,8 +1727,7 @@ def _gemm_iq_fast_range(
     # iq2_m falls into a repetition attractor), while the identical
     # source in other builds happens to work. Heap allocation is
     # frame-layout independent. See iq-worker REPORT.md phase 3.
-    var grid_ptr = alloc[UInt16](2048)
-    iq_grid_materialize(kind, grid_ptr)
+    var grid_ptr = iq_grid_alloc(kind)
     var scratch = InlineArray[Float32, 256](uninitialized=True)
     var sp = scratch.unsafe_ptr()
     var sp_t = sp.unsafe_origin_cast[MutUntrackedOrigin]()
