@@ -40,13 +40,14 @@ struct Llama3SpillSession(Movable):
         if not self.front.spilled:
             raise Error("Spill session requires exec_layers < layer_count")
         self.seer = GGUFSeer(path)
+        self.well = MimirWell(well_bytes)
+        self.seer.mmap_and_load(self.well)
         self.layer_count = self.seer.config.block_count
         if exec_layers >= self.layer_count:
             raise Error("Spill session requires exec_layers < layer_count")
         self.exec_layers = exec_layers
         self.hidden = self.seer.tensors["token_embd.weight"].cols
         self.context_length = context_length
-        self.well = MimirWell(well_bytes)
         self.kv_cache = KVCache(context_length, self.seer.config.kv_dim(),
                                 self.well, self.layer_count)
         self.blocks = List[TransformerBlock]()
