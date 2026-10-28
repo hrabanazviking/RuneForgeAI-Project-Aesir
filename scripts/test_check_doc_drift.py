@@ -223,8 +223,50 @@ def test_explicit_cuda_ci_target() -> None:
     source = "aesir_engine/tests/run_all.mojo"
     for command in [f"pixi run mojo run {source}", f"pixi run mojo run --target-accelerator sm_89 {source}", f"pixi run mojo run --target-accelerator=sm_89 {source}"]:
         require(has_mojo_ci_gate(command, "run", source), "real Mojo test gate was not recognized")
+    for command in [f"pixi run mojo build -I . --target-accelerator sm_89 {source}", f"pixi run mojo build -I . -I aesir_engine {source}"]:
+        require(has_mojo_ci_gate(command, "build", source), "real Mojo build gate with include flags was not recognized")
     for command in [f"# pixi run mojo run {source}", "pixi run mojo run --target-accelerator sm_89 wrong.mojo", f"pixi run mojo build {source}", f"pixi run mojo run {source}.disabled"]:
         require(not has_mojo_ci_gate(command, "run", source), "missing/commented/wrong Mojo gate was accepted")
+
+
+def test_compile_only_ci_gate() -> None:
+    from check_doc_drift import check_ci
+
+    tokens = (
+        "fetch-depth: 0\n"
+        "test_fail_closed_runner.mojo\n"
+        "scripts/test_fixture_manifest.py\n"
+        "scripts/check_fixture_manifest.py\n"
+        "scripts/test_check_doc_drift.py\n"
+        "scripts/check_doc_drift.py\n"
+    )
+    main_build = "pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -I . -o /tmp/build\n"
+    master_build = "pixi run mojo build -I . --target-accelerator sm_89 aesir_engine/tests/run_all.mojo -o /tmp/master\n"
+
+    errors: list[str] = []
+    check_ci(errors, tokens + main_build + master_build)
+    require(
+        not errors,
+        f"compile-only master with a real build gate was flagged: {errors!r}",
+    )
+
+    errors = []
+    check_ci(errors, tokens + main_build)
+    require(
+        any("run_all.mojo" in error and "compile-only" in error for error in errors),
+        "registered compile-only source without a build gate was accepted",
+    )
+
+    errors = []
+    check_ci(errors, tokens + master_build)
+    require(
+        any(
+            error
+            == ".github/workflows/ci.yml: missing Mojo build gate for aesir_engine/main.mojo"
+            for error in errors
+        ),
+        "unregistered source without a build gate was accepted",
+    )
 
 
 def test_ledger_schema_integration() -> None:
@@ -279,6 +321,86 @@ def test_absolute_path_evidence_exemption() -> None:
         not absolute_path_errors("docs/handbook.md", "no local paths here"),
         "clean hand-authored line was flagged",
     )
+
+
+def test_grandfathered_record_heading() -> None:
+    from check_doc_drift import ledger_statuses
+
+    valid = (
+        "### AES-FND-001 — Example\n"
+        "- **Status:** `partial`\n"
+        "- **Owner:** foundation\n"
+        "- **Executable evidence:** `python3 check.py`\n"
+        "- **Evidence boundary:** Structural fixture only.\n"
+    )
+    record = (
+        "\n### AES-C3-REVIEW — Campaign verdict (fixture)\n"
+        "- **Status:** `verified`\n"
+        "- **Status:** `verified, gate PASS`\n"
+        "Verdict prose with no capability fields.\n"
+    )
+    require(
+        not ledger_schema_errors(valid + record, "fixture.md"),
+        "grandfathered record block was schema-validated as a capability",
+    )
+    unregistered = valid + record.replace("AES-C3-REVIEW", "AES-X9-REVIEW")
+    errors = ledger_schema_errors(unregistered, "fixture.md")
+    require(
+        any("malformed capability heading" in error for error in errors),
+        "unregistered non-canonical heading was not flagged as malformed",
+    )
+    statuses = ledger_statuses(valid + record)
+    require(
+        statuses == {"AES-FND-001": "partial"},
+        "record Status lines bled into the preceding capability block",
+    )
+
+
+def test_legacy_status_registry() -> None:
+    from check_doc_drift import ledger_statuses
+
+    def entry(capability_id: str, status_value: str) -> str:
+        return (
+            f"### {capability_id} — Fixture\n"
+            f"- **Status:** {status_value}\n"
+            "- **Owner:** fixture\n"
+            "- **Executable evidence:** `python3 check.py`\n"
+            "- **Evidence boundary:** Structural fixture only.\n"
+        )
+
+    historical = (
+        entry("AES-INFER-059", "`blocked`")
+        + entry("AES-TRANSFER-002", "`implemented` (host build only)")
+        + entry("AES-PROG-002", "`host-verified` (mock transport)")
+        + entry("AES-PROG-004", "`host-verified` (scope a) + `verified` (scope b)")
+    )
+    require(
+        not ledger_schema_errors(historical, "fixture.md"),
+        "registered legacy status forms were rejected",
+    )
+    statuses = ledger_statuses(historical)
+    require(
+        statuses
+        == {
+            "AES-INFER-059": "blocked",
+            "AES-TRANSFER-002": "implemented",
+            "AES-PROG-002": "host-verified",
+            "AES-PROG-004": "host-verified",
+        },
+        f"legacy statuses were not counted: {statuses!r}",
+    )
+    cases = [
+        entry("AES-NEW-001", "`implemented` (host build only)"),
+        entry("AES-NEW-001", "`finished`"),
+        entry("AES-PROG-002", "`blocked`"),
+        entry("AES-INFER-059", "`host-verified`"),
+    ]
+    for index, text in enumerate(cases):
+        errors = ledger_schema_errors(text, "fixture.md")
+        require(
+            any("status must be one backticked canonical value" in e for e in errors),
+            f"unregistered or undefined status case {index} was accepted",
+        )
 
 
 def test_todo_combined_and_adjacent_capability_references() -> None:
@@ -348,7 +470,12 @@ def test_todo_repository_integration_against_canonical_ledger() -> None:
 
     statuses = ledger_statuses(LEDGER.read_text(encoding="utf-8"))
     todo = TODO.read_text(encoding="utf-8")
-    require(len(statuses) == 325, "canonical ledger status map changed unexpectedly")
+    # 329 = 324 canonical-status entries + the 4 grandfathered
+    # legacy-status entries (AES-INFER-059, AES-TRANSFER-002,
+    # AES-PROG-002, AES-PROG-004), counted since the legacy status
+    # registry landed (step 33 zero, 2026-10-27), + AES-LDR-007
+    # (partial) from the vision banking merge (2026-10-27).
+    require(len(statuses) == 329, "canonical ledger status map changed unexpectedly")
     require(
         not todo_status_reference_errors(todo, statuses),
         "repository TODO contains a reference inconsistent with the canonical ledger",
@@ -382,8 +509,11 @@ def main() -> None:
     test_active_status_document_boundary()
     test_live_policy_schema_and_baseline()
     test_explicit_cuda_ci_target()
+    test_compile_only_ci_gate()
     test_ledger_schema_integration()
     test_absolute_path_evidence_exemption()
+    test_grandfathered_record_heading()
+    test_legacy_status_registry()
     test_todo_combined_and_adjacent_capability_references()
     test_todo_later_unknown_and_mismatched_references()
     test_todo_adjacent_unknown_and_mismatch_diagnostic_order()
