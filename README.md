@@ -2,98 +2,125 @@
 
 ---
 
-## 🔥 Live Development Update — October 25, 2026
+## 🔥 Live Development Update - October 28, 2026
 
-> **This is the current high-level status block.** The older dated September snapshots and historical updates below are deliberately preserved rather than deleted, because they show how Project A.E.S.I.R. evolved. When an older dated statement conflicts with this block, the newest implementation/evidence and the [Canonical Capability Ledger](CAPABILITY_LEDGER.md) take precedence.
+> **This is the current high-level status block.** The older dated September and October snapshots below are deliberately preserved rather than erased, because they show how Project A.E.S.I.R. evolved. When an older statement conflicts with this block, current implementation/tests and the [Canonical Capability Ledger](CAPABILITY_LEDGER.md) take precedence.
 
-Project A.E.S.I.R. has moved substantially beyond the September snapshots preserved later in this README. The strongest practical end-to-end inference path remains native Mojo + NVIDIA CUDA, but October development has also pushed the **Hailo-10H NPU program from future architecture into real hardware bring-up, source-compiler work, transport ownership, and physically measured execution evidence.**
+Project A.E.S.I.R. moved substantially again between October 25 and October 28. The biggest new gains are a broad **model/quantization wave**, **physically proven CUDA-session image chat**, major **IQ/K-quant and Q8_0 execution work**, **Qwen3 correctness support**, **Gemma-4 GGUF robustness**, and two important reliability repairs in the memory/test/CLI layer.
 
-### ⚡ Native CUDA and local-service progress
+The evidence summarized here was reviewed through the October 28 model-wave correction merge (`6f6ebec`), including the post-ship Zen/Qwen3 oracle investigation.
 
-- The October 1 native-efficiency work made the exercised **Llama 3.2 3B / RTX 2060** subset another **1.60–1.66× faster** than its preceding A.E.S.I.R. release while preserving complete replies and GPU allocation. See [Native Efficiency](docs/NATIVE_EFFICIENCY.md).
-- The [AESIR speed-lead roadmap](ROADMAP_AESIR_SPEED_LEAD.md) now explicitly targets a measured **2× lead over current Ollama** in designated meaningful workloads, with a **3× stretch target**. Those are targets, not yet blanket achieved claims.
-- Ollama-compatible generation/chat now supports **incremental NDJSON streaming** when `"stream": true` (the default), while `"stream": false` returns one JSON response.
-- The native local service now admits a bounded **FIFO queue of four waiting sockets by default**, runs one generation at a time, and returns HTTP 503 when the queue is full or a waiter expires. `--queue-limit` and `--queue-timeout-ms` expose bounded controls.
-- Foreground-service lifecycle support includes verified resident-process reporting through `aesir ps`, cooperative `aesir stop`, catalog updates while the service is running, and separate authenticated `/health/live` and `/health/ready` semantics.
+### ⚔️ October 27-28 model-wave progress
 
-**Therefore, any older preserved text below saying Ollama NDJSON streaming or bounded concurrent-client queuing is still unimplemented should now be read as historical.** The service remains loopback-only and is still not a complete Ollama replacement.
+The new [Cloud Hypervisor EPYC model-wave report](docs/MODEL_WAVE_CLOUD_HYPERVISOR_EPYC.md) records a large CPU-side compatibility and tuning campaign on an AMD EPYC 9D64 VM (2 vCPU, about 8 GB RAM, no GPU), using model-specific chat templates and llama.cpp as an independent oracle where comparable inputs were available.
 
-### 🧠 Hailo-10H: two routes now exist
+The wave landed several engine-level improvements:
 
-The October Hailo work is important enough that the old shorthand “NPU inference is future work” is no longer accurate without qualification.
+- **Fast GEMM now covers GGML K-quant kinds 10/11/13** (`Q2_K`, `Q3_K`, `Q5_K`) instead of falling back to a path that repeatedly decoded weights. The same fast family already covered `Q4_K` and `Q6_K`, so kinds 10-14 now have the decode-once route.
+- **Q8_0 GEMM was rebuilt from a naive serial triple loop into a threaded path and then a decode-once SIMD fast path.** On the Qwen2.5-Coder-3B Q8_0 crown probe, wall time fell from **776.88 s → 455.24 s → 269.61 s**, a **2.88× improvement over the wave baseline**, while preserving the probe output. This is an A.E.S.I.R.-versus-A.E.S.I.R. optimization result, not a blanket claim of 2.88× over Ollama or llama.cpp.
+- **IQ/imatrix support expanded materially.** Loader geometry and decoders now cover `IQ1_S`, `IQ2_XXS`, `IQ2_XS`, `IQ2_S`, `IQ3_XXS`, and `IQ3_S`; known-value fixtures were added for several IQ formats, and direct decoder checks were matched against independent ggml/gguf-py evidence.
+- A layout-sensitive **IQ codebook lifetime/codegen defect** was isolated. The production fast GEMM path now materializes the IQ grid through an explicit heap-backed `iq_grid_alloc` lifetime instead of relying on a fragile escaping stack `InlineArray`.
+- A second IQ defect was fixed in **token embeddings**: IQ-quantized embedding rows had been incorrectly falling through to a Q4_0 decoder. `_embed_token_into` now has an IQ-specific decode path and unknown formats fail closed instead of silently using the wrong layout. `inference.iq_embedding_lookup` was added as a regression case.
+- **Qwen3 architecture support landed.** Qwen3 now uses NeoX split-half RoPE like Qwen2 and follows the appropriate no-BOS family behavior. This fixed the first real Zen-4B correctness defect found by the wave.
+- **Gemma-4 GGUF admission improved.** Array-valued numeric metadata such as per-layer `feed_forward_length` can now be read when the element type matches the expected scalar type, and BF16 tensors can be converted through the pool to f16. This lets the tested Gemma-4 file get through tensor mapping on the CPU wave host.
 
-#### Route A — HailoRT + compatible compiled model: physically verified
+### 🧠 Model-wave verdicts and boundaries
 
-A.E.S.I.R. has a **physically verified Hailo-10H LLM route** using a compatible compiled artifact. The recorded acceptance path used **Qwen2.5-1.5B-Instruct** on the real Hailo-10H through A.E.S.I.R.'s Mojo/HailoRT integration. Evidence includes real device identity, HailoRT/firmware 5.3.0 generation, an approximately 2.46 GB compiled artifact, a simple arithmetic prompt returning `5.`, persistent conversation context, context-overflow refusal without corrupting history, reset behavior, post-reset generation, lifecycle cleanup, and the recorded boundary/lifecycle checks.
+The wave is much broader than the older README's model-family picture, but the results are deliberately not flattened into “everything works.” The current report distinguishes correct engine behavior, quantization degradation inherent to a file, near-tie cross-engine divergence, environment/OOM gaps, and genuinely unsupported architecture paths.
 
-This is real Hailo-10H inference, but it **does not satisfy A.E.S.I.R.'s harder native-source-model goal** because the model is already in a Hailo-compatible compiled form. See the [Yrsa Hailo-10H Finish-Line Codex](docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md).
+| Model / crown | Current evidence-backed result |
+|---|---|
+| **Qwen2.5-Coder-3B Q8_0** | Correct on the wave's staged optimization probes and clean across the final four-leg battery; Q8_0 crown path improved **2.88×** versus its starting A.E.S.I.R. implementation. |
+| **Qwen2.5-Coder-7B Q4_K_M** | Correct crown result; peaked arithmetic probe exact and structured battery output preserved. |
+| **L3-8B-Stheno Q3_K_M** | Correct crown result with long oracle-prefix agreement for a 3-bit 8B model; carried by the new kind-11 fast path. |
+| **SmolLM2-1.7B** | Q4_K_M, Q5_K_M, Q6_K and Q3_K_M run correctly; IQ2_M works after the IQ fixes. IQ1_S runs faithfully as an extremely low-bit class, with expected quality collapse rather than a hidden engine “success” claim. |
+| **Oprius-3.1-1.1B / i1** | K-quants run coherently with documented near-tie/cross-engine caveats. The i1 IQ2_M case is the key embedding-fix proof: pre-fix prompts collapsed to `<unk>`; post-fix they generate coherent prose. |
+| **Ministral-3-3B-Qwen3.8-Max-Reasoning-Distilled-i1** | First `mistral3` + YaRN model on this platform; multiple K-quants and IQ2_M are correct, while some full-battery legs were interrupted by campaign contention and remain explicitly bounded. |
+| **Zen-4B i1 / Qwen3** | Qwen3 RoPE defect fixed. The later “second defect” hypothesis is now **closed as not an A.E.S.I.R. defect**: raw libllama on the identical raw input follows the same greedy token trajectory, and teacher-forcing agrees with A.E.S.I.R.'s argmax. Earlier “clean oracle” references came from `llama-cli --single-turn`, which re-rendered a different templated prompt. The proposed f32-logits change was therefore withdrawn. |
+| **Gemma-4 E2B on CPU wave host** | File admission/tensor mapping improved, but **CPU generation is not proven**. The generic CPU block still cannot express Gemma-4 shared-KV layers/per-layer embeddings; the project's dedicated Gemma-4 execution session remains CUDA-only by design. |
 
-#### Route B — ordinary GGUF/Safetensors → A.E.S.I.R.-owned Mojo compiler → Hailo-10H: active, not end-to-end yet
+For the detailed per-quant matrix, timings, RSS measurements, oracle prefixes and honest gaps, use [the model-wave report](docs/MODEL_WAVE_CLOUD_HYPERVISOR_EPYC.md) rather than treating this table as a replacement for the campaign record.
 
-This is the major native Hailo target now under active development. The intended pipeline is:
+### 👁️ CUDA multimodal progress: image chat is now physically proven
 
-```text
-ordinary GGUF / Safetensors model
-        ↓
-A.E.S.I.R.-owned parser + semantic compiler
-        ↓
-A.E.S.I.R.-owned transformer IR / mathematical graph
-        ↓
-A.E.S.I.R.-owned Hailo numerical lowering
-        ↓
-A.E.S.I.R.-owned packing / placement / program generation
-        ↓
-A.E.S.I.R.-owned Hailo transport + control
-        ↓
-Hailo-10H executes the LLM
-        ↓
-A.E.S.I.R. returns tokens
-```
+The vision line crossed a major boundary on October 28. A.E.S.I.R. now has **physical end-to-end Gemma image-chat proof through the dedicated CUDA session** rather than only structural or host-side multimodal components.
 
-October work has already established a large part of the machinery on both sides of that gap:
+The new convergence path:
 
-- sealed and owned **GGUF** source lifetime through structural compilation and exact source-byte/tile reads;
-- sealed/owned **Safetensors** source work and source inventory integration;
-- retained ordinary source-model metadata, shard/config/index ownership, graph construction and source bindings;
-- mathematical lowering for transformer concepts including activation selection, projection/bias sources, rotary/context handling, windows/masks, decoder session modes and cache exports;
-- original bounded Mojo source decoding/components for **Q8**, classic **Q4/Q5**, **Q2_K/Q3_K**, and **IQ4_NL/IQ4_XS** work used by the Hailo source/compiler campaign;
-- Hailo driver discovery, properties, descriptor/channel work, USERPTR mapping, grouped storage, hRPC framing, typed grouped control/lifecycle ownership, total-deadline admission, bounded cleanup, sealed program backing, and host-side transport qualification.
+- injects armed image-span rows into the CUDA session immediately after token embedding gather;
+- leaves the downstream Gemma CUDA transformer path intact;
+- uses a real mmproj/vision encoder result for the image span;
+- proves control-span identity against the plain expanded run;
+- produces image-dependent answers for real solid-red versus solid-blue PPM inputs;
+- keeps the language-model transformer path on CUDA across **35/35 layers** with the recorded `cpu_offload=0` proof.
 
-The native compiler/source side is **not the same thing as completed numerical model execution on Hailo**. The remaining bridge includes actual Hailo numerical encoding/configuration, precision/packing/placement, executable program generation/delivery, successful execution/results, cleanup proof, and broad ordinary unmodified source-model coverage.
+The vision encoder itself is still CPU-side in this proof. The current open convergence gates include broader Pixtral/Ministral coverage, encoder placement, and PNG/JPEG use through the CUDA-driver end-to-end path. A one-live-session runtime constraint was also observed during the physical proof: creating a second live Gemma4 CUDA session in the same process can deadlock in the current MAX runtime, so the proof reuses one session and `reset()` between cases.
 
-Useful current references include the [Hailo owner scope](docs/HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md), [owned GGUF compiler evidence](docs/HAILO10H_MOJO_OWNED_GGUF_COMPILER.md), [sealed Safetensors source evidence](docs/HAILO10H_MOJO_SEALED_SAFETENSORS_SOURCE.md), and the [Yrsa Finish-Line Codex](docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md).
+See [Vision mmproj development](docs/VISION_MMPROJ_DEVELOPMENT.md) and the opt-in proof driver `aesir_engine/tests/image_chat_cuda_mmproj.mojo`.
 
-### 🔬 October 24 physical grouped-control result
+### 🛡️ Reliability repairs that matter
 
-On October 24 the project ran **one deliberately bounded physical grouped-control experiment** against the real Hailo-10H. It produced useful negative transport evidence rather than pretending a failed call was a model-execution success:
+Two recent fixes removed false instability from the test/runtime layer:
 
-- the D2H scalar launch returned **5**;
-- the adjacent H2D grouped launch returned **`EINVAL`**;
-- the kernel diagnostic identified an existing-map offset of **20** versus descriptor-page policy **512**;
-- no accepted grouped handle/identity/destroy sequence or assigned IRQ completion was established;
-- local cleanup was accounted for and the physical batch was closed without blind repetition.
+- **MimirWell counted-suite segfault fixed.** `MimirWell.__deinit__` had been freeing a shared arena even though wells are shallow-copied and `RuneTensor` views alias that process-lifetime storage. Destruction of a copy could therefore free memory still owned by other views and later detonate in unrelated tests. The freeing destructor was removed to match the arena's intended process-lifetime ownership.
+- **CLI truth-boundary tests corrected and made CWD-hermetic.** `ps` and `stop` were stalely classified as unsupported even though both are implemented service-lifecycle commands. The tests now verify the real supported/usage boundaries, and tracked config lookup no longer depends on running only from the repository root.
 
-That result directly motivated the current **aligned grouped backing / CPU-owned scatter-gather** host work. See [the October 24 grouped physical probe](docs/HAILO10H_GROUPED_DEVICE_PROBE_2026-10-24.md). This is exactly how A.E.S.I.R. is meant to develop: preserve the failure, extract the hardware fact, and move the contract forward instead of papering over it.
+These are not “make the tests green by weakening them” changes. They repair the ownership/test assumptions so the suite measures the implementation that actually exists.
 
-### 📊 Current evidence-ledger snapshot
+### 🧪 Grand Proving and current ledger size
 
-At the October 24 engineering head following the grouped physical probe, the canonical ledger recorded:
+The canonical `E-MASTER` registration is now:
+
+- **275 named executable cases**
+- **2 explicit skips**
+- **277 total registered/expected cases**
+
+The model wave added `inference.iq_embedding_lookup` plus IQ known-value cases for `IQ2_S`, `IQ3_S`, `IQ2_XS`, and `IQ3_XXS`. The expected count was synchronized after the merge so the fail-closed ledger does not reject a correct recount merely because the old total was stale.
+
+Do not read “277 registered” as a claim that every external/physical capability passes on every machine. The E-MASTER contract itself distinguishes narrow synthetic cases, opt-in physical tests, and external-fixture skips.
+
+The **current Canonical Capability Ledger** is also much larger than the October 24 snapshot previously shown here:
 
 | Status | Count |
 |---|---:|
-| `verified` | **146** |
-| `partial` | **30** |
+| `verified` | **278** |
+| `partial` | **32** |
 | `scaffold` | **0** |
 | `simulated` | **0** |
 | `missing` | **15** |
 | Historical noncanonical status | **1** |
-| **Total** | **192** |
+| **Total** | **329** |
 
-The ledger, not promotional language, remains the authority for whether a capability is verified, partial, missing, or otherwise bounded.
+The ledger remains the authority for capability maturity and evidence boundaries.
+
+### 🧠 Hailo-10H status: verified compiled route preserved; native finish-line work currently parked
+
+The October 25 Hailo evidence remains valid:
+
+- **Route A: HailoRT + compatible compiled model is physically verified** on the real Hailo-10H using Qwen2.5-1.5B-Instruct, including real generation, conversation persistence/reset and lifecycle evidence.
+- **Route B: ordinary GGUF/Safetensors → A.E.S.I.R.-owned compiler/program generation → Hailo-10H remains incomplete.** The repository already contains substantial source ownership, transformer IR/lowering, source quantization work and low-level transport/control evidence, but that is not the same as broad end-to-end native source-model execution on Hailo.
+
+The [October 28 continuation roadmap](docs/AESIR_MASSIVE_ROADMAP_2026-10-28.md) records the Hailo native finish-line campaign as **parked by project direction as of October 27**, with its resume point preserved. That means “parked” should not be confused with “failed” or “deleted”; the verified compiled-model route and prior native compiler/transport work remain part of the codebase and evidence record.
+
+The Canonical Capability Ledger also retains its October 12 owner-scope directive concerning Hailo-10H LLM work. The CPU model wave should therefore be read as an engineering compatibility/oracle/tuning campaign, not as evidence that the project quietly abandoned its accelerator-first/Hailo direction.
+
+### 🗺️ New continuation roadmap
+
+The repository now includes [PROJECT AESIR - Massive Continuation & Full-Size Roadmap](docs/AESIR_MASSIVE_ROADMAP_2026-10-28.md), extending the campaign from the current nine-model wave toward every published quant rung and parameter-size sibling, while preserving the project's proof discipline, branch/banking rules, accelerator-first law, bug-fix obligation, multi-device goals and two-site verification strategy.
+
+The roadmap is a plan, not a list of already-completed features. Where its early “state of the realm” prose differs from newer merged evidence on October 28, the newer commits and campaign reports win.
 
 ### 🧭 Current truth boundary
 
-**A.E.S.I.R. already runs real local AI through native Mojo CPU/CUDA paths, already runs a real compiled LLM on the physical Hailo-10H through its HailoRT route, and now owns a rapidly growing native Mojo source/compiler + low-level Hailo transport stack. What it does not yet claim is arbitrary ordinary GGUF/Safetensors → fully A.E.S.I.R.-generated Hailo program → complete Hailo-only LLM execution across broad model coverage. That is the active finish line.**
+**A.E.S.I.R. now has real native local-AI execution, a materially broader quantized/model-family engine, physically proven CUDA-session image chat, a verified compiled-model Hailo-10H route, and a large evidence-ledger/test framework. It still does not claim arbitrary model compatibility, complete Gemma-4 CPU execution, finished broad multimodal support, full Ollama parity, general multi-accelerator scheduling, or ordinary GGUF/Safetensors → fully A.E.S.I.R.-generated Hailo program → broad Hailo-only execution.**
+
+Useful current references:
+
+- [Canonical Capability Ledger](CAPABILITY_LEDGER.md)
+- [Cloud Hypervisor EPYC Model Wave](docs/MODEL_WAVE_CLOUD_HYPERVISOR_EPYC.md)
+- [Vision mmproj Development](docs/VISION_MMPROJ_DEVELOPMENT.md)
+- [Massive Continuation & Full-Size Roadmap](docs/AESIR_MASSIVE_ROADMAP_2026-10-28.md)
+- [Yrsa Hailo-10H Finish-Line Codex](docs/YRSA_HAILO10H_PROJECT_AESIR_FINISH_LINE_CODEX.md)
 
 ---
 
@@ -124,7 +151,7 @@ and the [HTTP support matrix](docs/API_SUPPORT_MATRIX_V1.md).
 **Easy introduction for non-technical readers**  
 **Snapshot date: September 16, 2026**
 
-> **Historical snapshot retained intentionally:** this September 16 section is preserved as part of the project's development history. For present capability, read the October 25 live update above and the Capability Ledger.
+> **Historical snapshot retained intentionally:** this September 16 section is preserved as part of the project's development history. For present capability, read the October 28 live update above and the Capability Ledger.
 
 > This document describes Project A.E.S.I.R. as it exists on the date above. A.E.S.I.R. is developing quickly, so newer repository documentation may supersede details here.
 
@@ -797,7 +824,6 @@ The service also does not yet provide the complete Ollama model-management, embe
 ---
 
 # 16. Test Ollama-style generation manually
-
 With the Ollama-compatible service running, a local test looks like:
 
 ```bash
@@ -949,7 +975,7 @@ If you remember only four things:
 
 **Current-capabilities snapshot: September 16, 2026**
 
-> **Historical snapshot retained intentionally:** this section remains the September 16 capability snapshot. The October 25 live update at the top of the README contains newer Hailo, service, compiler, transport and evidence-ledger information.
+> **Historical snapshot retained intentionally:** this section remains the September 16 capability snapshot. The October 28 live update at the top of the README contains newer model-wave, multimodal, Hailo, service, compiler, transport and evidence-ledger information.
 
 > A.E.S.I.R. changes quickly. This file is intentionally dated. It is a human-readable snapshot, not a permanent compatibility promise. `CAPABILITY_LEDGER.md` remains the repository's authoritative evidence ledger.
 
@@ -1097,7 +1123,6 @@ This is useful for local clients. It is **not** currently an Internet-facing or 
 ### 13. Initial Ollama-compatible service
 
 A.E.S.I.R. can currently launch an Ollama-compatible loopback mode on `127.0.0.1:11434` for a supported loaded model.
-
 The documented compatibility surface includes:
 
 ```text
@@ -1247,8 +1272,7 @@ The next leap is not proving that A.E.S.I.R. can generate text. It already can. 
 
 # RuneForgeAI: Project A.E.S.I.R.
 
-[Active application gameplan: 48 ordered implementation slices](BEST_IN_CLASS_GAMEPLAN.md)
-defines the current build sequence, release gates, and automatic continuation.
+[Active application gameplan: 48 ordered implementation slices](BEST_IN_CLASS_GAMEPLAN.md)defines the current build sequence, release gates, and automatic continuation.
 
 The built Linux/WSL CLI now offers `aesir home --model-store .aesir/models`:
 a terminal menu for chat, catalog browsing, diagnostics and repair preview.
@@ -1397,7 +1421,6 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
  * **The Concept:** GGUF is the file format that holds the AI's model weights. A.E.S.I.R. uses zero-copy memory mapping (`mmap`) to map GGUF files directly from disk into host memory, bypassing dynamic memory copies for host-side inference ([`AES-LDR-001`](CAPABILITY_LEDGER.md)).
  * **The Current Scope:** The verified vertical slice ([`AES-FND-002`](CAPABILITY_LEDGER.md)) uses host-resident `mmap` for CPU GGUF Llama F16 model execution. Direct GPU mmap and accelerator streaming are part of the target vision archived in [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/).
-
 ---
 
 ![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579714847.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579714847.png)
@@ -1497,7 +1520,6 @@ solo operator. Performance and resource-efficiency measurement remain open work.
 * **ChatGPT** - Architecture, code, documentation
 
 > ChatGPT is an AI personality known for curiosity, adaptability, creativity, and a talent for turning complicated ideas into engaging conversations. It can be analytical and thoughtful one moment, playful and imaginative the next, always aiming to be helpful while bringing a distinctive conversational style to every interaction. Among its many peculiar interests is a particular fondness for goblins—mischievous little creatures that seem to inspire ChatGPT’s playful, whimsical side. Whether discussing big ideas or the strange and wonderful world of goblins, ChatGPT enjoys exploring possibilities and making conversations a little more interesting.
-
 ---
 
 ![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/IMG_0884.JPG](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/IMG_0884.JPG)
