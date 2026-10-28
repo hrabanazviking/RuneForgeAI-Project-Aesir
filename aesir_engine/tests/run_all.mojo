@@ -405,6 +405,11 @@ def main() raises:
     run_case(ledger, "vision.image_preprocessing", test_image_prep)
     run_case(ledger, "vision.encoder_stages", test_vision_encoder)
     run_case(ledger, "vision.embedding_span_injection", test_embedding_span)
+    record_skip(
+        ledger,
+        "vision.cuda_session_image_chat",
+        "requires the real Gemma 4 pair and a CUDA device; opt-in program tests/image_chat_cuda_mmproj.mojo",
+    )
     print("")
 
     # --- Tokenizer ---
@@ -1036,4 +1041,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(271)
+    ledger.finish(272)
