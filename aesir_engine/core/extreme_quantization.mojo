@@ -50,11 +50,24 @@ def _materialize_iq_grid[size: Int](
 
     Dynamic indexing of a wide SIMD constant compiles to a select
     chain (~145 ns/element measured on this host); a wide store into
-    a stack buffer plus pointer loads is ~0.5 ns/element. Hot paths
+    a buffer plus pointer loads is ~0.5 ns/element. Hot paths
     materialize the grid they need once and pass the pointer to the
     *_value_g decoders.
+
+    The copy is done in width-16 chunks, NOT as a single
+    width-`size` store: that one giant store is miscompiled
+    layout-dependently in this toolchain — in builds whose
+    codegen/inlining layout shifts, it silently lands wrong (or
+    clobbers neighbouring state) and every IQ decode through the
+    grid reads corrupt values. Chunk stores are ordinary stores and
+    behave identically in every build. See iq-worker REPORT.md
+    phase 3.
     """
-    dst.unsafe_store[width=size](0, grid_simd)
+    comptime CH = 16
+    comptime for chunk in range(size // CH):
+        dst.unsafe_store[width=CH](
+            chunk * CH, grid_simd.slice[CH, offset=chunk * CH]()
+        )
 
 
 def iq_grid_materialize(
