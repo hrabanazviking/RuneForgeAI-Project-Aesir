@@ -532,7 +532,12 @@ struct MmprojFile:
         if self.integer("clip.has_vision_encoder", 0) != 1:
             return spec^
         spec.present = True
-        spec.projector_type = self.text("clip.vision.projector_type")
+        # The canonical GGUF key is clip.projector_type; the gemma
+        # converter additionally writes it under clip.vision.*.
+        try:
+            spec.projector_type = self.text("clip.projector_type")
+        except:
+            spec.projector_type = self.text("clip.vision.projector_type")
         spec.projection_dim = self.integer("clip.vision.projection_dim")
         spec.image_size = self.integer("clip.vision.image_size")
         spec.patch_size = self.integer("clip.vision.patch_size")
@@ -562,33 +567,71 @@ struct MmprojFile:
         var hidden = spec.embedding_length
         var ffn = spec.feed_forward_length
         var head_dim = spec.head_dim()
-        _ = self._require_tensor(
-            "mm.input_projection.weight",
-            [hidden, spec.projection_dim],
-        )
-        _ = self._require_tensor(
-            "v.patch_embd.weight",
-            [spec.patch_size, spec.patch_size, 3, hidden],
-        )
-        if "v.position_embd.weight" not in self.tensors:
-            raise Error("mmproj: missing required vision tensor v.position_embd.weight")
-        if self.tensors["v.position_embd.weight"].rank != 3:
-            raise Error("mmproj: v.position_embd.weight must be rank 3")
-        for block in range(spec.block_count):
-            var prefix = "v.blk." + String(block) + "."
-            _ = self._require_tensor(prefix + "ln1.weight", [hidden])
-            _ = self._require_tensor(prefix + "ln2.weight", [hidden])
-            _ = self._require_tensor(prefix + "attn_q.weight", [hidden, hidden])
-            _ = self._require_tensor(prefix + "attn_k.weight", [hidden, hidden])
-            _ = self._require_tensor(prefix + "attn_v.weight", [hidden, hidden])
-            _ = self._require_tensor(prefix + "attn_out.weight", [hidden, hidden])
-            _ = self._require_tensor(prefix + "attn_q_norm.weight", [head_dim])
-            _ = self._require_tensor(prefix + "attn_k_norm.weight", [head_dim])
-            _ = self._require_tensor(prefix + "attn_post_norm.weight", [hidden])
-            _ = self._require_tensor(prefix + "ffn_post_norm.weight", [hidden])
-            _ = self._require_tensor(prefix + "ffn_gate.weight", [hidden, ffn])
-            _ = self._require_tensor(prefix + "ffn_up.weight", [hidden, ffn])
-            _ = self._require_tensor(prefix + "ffn_down.weight", [ffn, hidden])
+        if "mm.input_projection.weight" in self.tensors:
+            # Gemma-family tower: single clippable projection, FPE
+            # position table, per-head Q/K norms, block post-norms.
+            _ = self._require_tensor(
+                "mm.input_projection.weight",
+                [hidden, spec.projection_dim],
+            )
+            _ = self._require_tensor(
+                "v.patch_embd.weight",
+                [spec.patch_size, spec.patch_size, 3, hidden],
+            )
+            if "v.position_embd.weight" not in self.tensors:
+                raise Error("mmproj: missing required vision tensor v.position_embd.weight")
+            if self.tensors["v.position_embd.weight"].rank != 3:
+                raise Error("mmproj: v.position_embd.weight must be rank 3")
+            for block in range(spec.block_count):
+                var prefix = "v.blk." + String(block) + "."
+                _ = self._require_tensor(prefix + "ln1.weight", [hidden])
+                _ = self._require_tensor(prefix + "ln2.weight", [hidden])
+                _ = self._require_tensor(prefix + "attn_q.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "attn_k.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "attn_v.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "attn_out.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "attn_q_norm.weight", [head_dim])
+                _ = self._require_tensor(prefix + "attn_k_norm.weight", [head_dim])
+                _ = self._require_tensor(prefix + "attn_post_norm.weight", [hidden])
+                _ = self._require_tensor(prefix + "ffn_post_norm.weight", [hidden])
+                _ = self._require_tensor(prefix + "ffn_gate.weight", [hidden, ffn])
+                _ = self._require_tensor(prefix + "ffn_up.weight", [hidden, ffn])
+                _ = self._require_tensor(prefix + "ffn_down.weight", [ffn, hidden])
+        elif spec.projector_type == "pixtral":
+            # Pixtral tower: 2D-RoPE positions (no table), plain
+            # blocks, patch merger + two-layer MLP projector.
+            _ = self._require_tensor(
+                "v.patch_embd.weight",
+                [spec.patch_size, spec.patch_size, 3, hidden],
+            )
+            _ = self._require_tensor("v.pre_ln.weight", [hidden])
+            for block in range(spec.block_count):
+                var prefix = "v.blk." + String(block) + "."
+                _ = self._require_tensor(prefix + "ln1.weight", [hidden])
+                _ = self._require_tensor(prefix + "ln2.weight", [hidden])
+                _ = self._require_tensor(prefix + "attn_q.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "attn_k.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "attn_v.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "attn_out.weight", [hidden, hidden])
+                _ = self._require_tensor(prefix + "ffn_gate.weight", [hidden, ffn])
+                _ = self._require_tensor(prefix + "ffn_up.weight", [hidden, ffn])
+                _ = self._require_tensor(prefix + "ffn_down.weight", [ffn, hidden])
+            var merge = self.integer("clip.vision.spatial_merge_size", 1)
+            _ = self._require_tensor("mm.input_norm.weight", [hidden])
+            _ = self._require_tensor(
+                "mm.patch_merger.weight", [hidden * merge * merge, hidden]
+            )
+            _ = self._require_tensor(
+                "mm.1.weight", [hidden, spec.projection_dim]
+            )
+            _ = self._require_tensor(
+                "mm.2.weight", [spec.projection_dim, spec.projection_dim]
+            )
+        else:
+            raise Error(
+                "mmproj: unsupported projector family '"
+                + spec.projector_type + "'"
+            )
         return spec^
 
     # -- reporting ------------------------------------------------------------
@@ -612,7 +655,12 @@ struct MmprojFile:
             out += ", blocks: " + String(spec.block_count)
             out += ", heads: " + String(spec.head_count)
             out += " (head_dim " + String(spec.head_dim()) + ")\n"
-            out += "  projector: mm.input_projection.weight ["
+            if "mm.input_projection.weight" in self.tensors:
+                out += "  projector: mm.input_projection.weight ["
+            elif spec.projector_type == "pixtral":
+                out += "  projector: mm.patch_merger + mm.1/mm.2 MLP ["
+            else:
+                out += "  projector: ["
             out += String(spec.embedding_length) + " -> "
             out += String(spec.projection_dim) + "]\n"
         else:
