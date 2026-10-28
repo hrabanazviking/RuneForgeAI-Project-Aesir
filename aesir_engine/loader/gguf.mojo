@@ -827,6 +827,16 @@ struct GGUFSeer:
             for index in range(element_count):
                 destination.unsafe_store(index, source.unsafe_load(index).cast[f16]())
             self.tensors[name] = RuneTensor[f16].checked(rows, cols, destination, False)
+        elif tensor_type == UInt32(30):  # GGML BF16 (not in GGMLType's map)
+            if pool.offset < 0 or pool.offset > pool.capacity or element_count > pool.capacity - pool.offset:
+                raise Error("MimirWell cannot hold converted BF16 tensor")
+            var bf_destination = pool.allocate(element_count)
+            var bf_source = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[UInt16]()
+            for index in range(element_count):
+                var bits = UInt32(bf_source.unsafe_load(index)) << 16
+                var widened = bitcast[DType.float32](bits)
+                bf_destination.unsafe_store(index, widened.cast[DType.float16]())
+            self.tensors[name] = RuneTensor[f16].checked(rows, cols, bf_destination, False)
         else:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
             var fmt = GGMLType.to_compressed_format(tensor_type)
