@@ -246,6 +246,41 @@ def test_ledger_schema_integration() -> None:
     )
 
 
+def test_absolute_path_evidence_exemption() -> None:
+    from check_doc_drift import absolute_path_errors
+
+    # Assembled from pieces: this test file is itself scanned by the rule,
+    # so the probe path must not appear as one literal string here.
+    probe = "ran on " + "/" + "home" + "/operator/work today"
+    require(
+        absolute_path_errors("docs/handbook.md", probe)
+        == ["docs/handbook.md:1: machine-local absolute path"],
+        "absolute path in a hand-authored file was not flagged",
+    )
+    require(
+        absolute_path_errors("docs/evidence/run-1/record.json", probe) == [],
+        "generated evidence record was flagged despite the exemption",
+    )
+    require(
+        absolute_path_errors("docs/evidence/deep/nested/run.txt", probe) == [],
+        "nested generated evidence record was flagged despite the exemption",
+    )
+    require(
+        absolute_path_errors("docs/evidence.md", probe)
+        == ["docs/evidence.md:1: machine-local absolute path"],
+        "file merely named like the evidence directory was exempted",
+    )
+    require(
+        absolute_path_errors("evidence/run-1/record.json", probe)
+        == ["evidence/run-1/record.json:1: machine-local absolute path"],
+        "evidence directory outside docs/ was exempted",
+    )
+    require(
+        not absolute_path_errors("docs/handbook.md", "no local paths here"),
+        "clean hand-authored line was flagged",
+    )
+
+
 def test_todo_combined_and_adjacent_capability_references() -> None:
     statuses = {
         "AES-TST-001": "verified",
@@ -348,6 +383,7 @@ def main() -> None:
     test_live_policy_schema_and_baseline()
     test_explicit_cuda_ci_target()
     test_ledger_schema_integration()
+    test_absolute_path_evidence_exemption()
     test_todo_combined_and_adjacent_capability_references()
     test_todo_later_unknown_and_mismatched_references()
     test_todo_adjacent_unknown_and_mismatch_diagnostic_order()
