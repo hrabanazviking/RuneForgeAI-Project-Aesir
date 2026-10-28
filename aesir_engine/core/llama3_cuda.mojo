@@ -1,11 +1,12 @@
 """Persistent native CUDA inference for admitted dense GQA GGUF profiles."""
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
+from std.gpu import global_idx
 from loader.packed_gguf import PackedGGUF, PackedTensor
 from loader.llama3_tokenizer import Llama3Tokenizer
 from loader.tokenizer import RuneStreamDecoder
 from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, packed_matvec_kernel, norm_kernel, element_kernel, argmax_kernel
 from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention, llama_attention_tiled
-from core.inference_memory import llama3_memory_plan
+from core.inference_memory import llama3_memory_plan, InferenceMemoryPlan
 from core.dense_gqa_profile import (
     DenseGQAProfile, dense_gqa_profile_for, validate_dense_gqa,
     LLAMA3_8B_HIDDEN_SIZE, LLAMA3_8B_FEED_FORWARD_SIZE,
@@ -19,7 +20,7 @@ from core.dense_buffers import DenseBufferLayout
 from core.dense_normalization import dense_norm_kernel
 from core.dense_gqa_execution import DenseGQALayer, prepare_dense_gqa_layers
 from core.prompt_prefix import reusable_prompt_prefix
-from core.sampling_config import NativeSamplingConfig
+from core.sampling_config import NativeSamplingConfig, sampling_device_bytes
 from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
 from core.grammar import BooleanJSONGrammar
 
@@ -34,6 +35,38 @@ comptime UP = TEMP + LLAMA3_8B_HIDDEN_SIZE
 comptime GATE = UP + LLAMA3_8B_FEED_FORWARD_SIZE
 comptime LOGITS = GATE + LLAMA3_8B_FEED_FORWARD_SIZE
 comptime SCORES = LOGITS + LLAMA3_8B_VOCABULARY_SIZE
+
+
+def copy_hidden_kernel(x: Floats, out: Floats, src_offset: Int64, width: Int64):
+    var index = Int(global_idx.x)
+    if index < Int(width):
+        out.unsafe_store(index, x.unsafe_load(Int(src_offset) + index))
+
+
+def llama3_front_prefix_bytes(model: PackedGGUF, embedding: PackedTensor, rope_offset: Int, exec_layers: Int) raises -> Int:
+    var end = embedding.offset + embedding.byte_count
+    if rope_offset >= 0:
+        var rope = model.tensors["rope_freqs.weight"]
+        end = max(end, rope.offset + rope.byte_count)
+    var suffixes = List[String]()
+    suffixes.append("attn_norm.weight")
+    suffixes.append("attn_q.weight")
+    suffixes.append("attn_k.weight")
+    suffixes.append("attn_v.weight")
+    suffixes.append("attn_output.weight")
+    suffixes.append("attn_q_norm.weight")
+    suffixes.append("attn_k_norm.weight")
+    suffixes.append("ffn_norm.weight")
+    suffixes.append("ffn_gate.weight")
+    suffixes.append("ffn_up.weight")
+    suffixes.append("ffn_down.weight")
+    for layer in range(exec_layers):
+        for suffix in suffixes:
+            var name = "blk." + String(layer) + "." + suffix
+            if name in model.tensors:
+                var t = model.tensors[name]
+                end = max(end, t.offset + t.byte_count)
+    return end
 
 
 struct Llama3CUDASession(ControlledTextSession):
@@ -51,6 +84,10 @@ struct Llama3CUDASession(ControlledTextSession):
     var weights: DeviceBuffer[DType.uint8]
     var activations: DeviceBuffer[DType.float32]
     var cache: DeviceBuffer[DType.float16]
+    var exec_layers: Int
+    var spilled: Bool
+    var hidden_out: DeviceBuffer[DType.float32]
+    var host_hidden: HostBuffer[DType.float32]
     var output: DeviceBuffer[DType.int32]
     var host_output: HostBuffer[DType.int32]
     var context_length: Int
@@ -86,7 +123,8 @@ struct Llama3CUDASession(ControlledTextSession):
     def __init__(out self, path: String, context_length: Int = LLAMA3_8B_CONTEXT_CAP,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
                  sampling: NativeSamplingConfig = NativeSamplingConfig(),
-                 prefix_cache: Bool = True, prefill_batch: Int = 0) raises:
+                 prefix_cache: Bool = True, prefill_batch: Int = 0,
+                 exec_layers: Int = 0) raises:
         sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
@@ -94,6 +132,10 @@ struct Llama3CUDASession(ControlledTextSession):
         self.profile = dense_gqa_profile_for(self.model)
         validate_dense_gqa(self.model, self.profile, context_length)
         self.layers = prepare_dense_gqa_layers(self.model, self.profile)
+        if exec_layers < 0 or exec_layers > self.profile.layer_count:
+            raise Error("exec_layers must be within 0..layer_count")
+        self.exec_layers = self.profile.layer_count if exec_layers == 0 else exec_layers
+        self.spilled = self.exec_layers < self.profile.layer_count
         self.embedding_tensor = self.model.tensors["token_embd.weight"]
         self.output_tensor = self.model.tensors["token_embd.weight" if self.profile.tied_embeddings else "output.weight"]
         self.output_norm = self.model.tensors["output_norm.weight"].offset
@@ -134,17 +176,29 @@ struct Llama3CUDASession(ControlledTextSession):
         self.context = DeviceContext(device_index, api="cuda")
         if self.context.api() != "cuda" or not self.context.is_compatible():
             raise Error("A compatible NVIDIA CUDA device is required; no CPU fallback")
-        var memory = llama3_memory_plan(Int(self.model.source.file_size), context_length, self.profile, self.prefill_batch)
+        var device_weights = Int(self.model.source.file_size)
+        var kv_elems = self.profile.kv_elements(context_length)
+        if self.spilled:
+            device_weights = llama3_front_prefix_bytes(self.model, self.embedding_tensor, self.rope_factors_offset, self.exec_layers)
+            kv_elems = self.exec_layers * 2 * context_length * self.profile.kv_width()
+        var memory: InferenceMemoryPlan
+        if self.spilled:
+            memory = InferenceMemoryPlan(device_weights, kv_elems * 2,
+                self.buffers.elements * 4 + sampling_device_bytes(self.profile.vocabulary_size))
+        else:
+            memory = llama3_memory_plan(device_weights, context_length, self.profile, self.prefill_batch)
         memory.admit_observed(Int(self.context.get_memory_info()[0]), reserve_bytes)
-        self.weights = self.context.enqueue_create_buffer[DType.uint8](Int(self.model.source.file_size))
+        self.weights = self.context.enqueue_create_buffer[DType.uint8](device_weights)
         self.activations = self.context.enqueue_create_buffer[DType.float32](self.buffers.elements)
-        self.cache = self.context.enqueue_create_buffer[DType.float16](self.profile.kv_elements(context_length))
+        self.cache = self.context.enqueue_create_buffer[DType.float16](kv_elems)
         self.output = self.context.enqueue_create_buffer[DType.int32](1)
         self.host_output = self.context.enqueue_create_host_buffer[DType.int32](1)
+        self.hidden_out = self.context.enqueue_create_buffer[DType.float32](self.profile.hidden_size)
+        self.host_hidden = self.context.enqueue_create_host_buffer[DType.float32](self.profile.hidden_size)
         self.sampler = NativeCUDASampler(self.context, self.profile.vocabulary_size, sampling)
         var staging_bytes = upload_cuda_bytes(self.context, self.weights,
-            self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), Int(self.model.source.file_size))
-        print("[CUDA] native Mojo " + self.profile.label() + "; device=" + String(device_index) + " api=cuda layers=" + String(self.profile.layer_count) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=0")
+            self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), device_weights)
+        print("[CUDA] native Mojo " + self.profile.label() + "; device=" + String(device_index) + " api=cuda layers=" + String(self.exec_layers) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(device_weights) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=" + String(self.profile.layer_count - self.exec_layers))
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))
@@ -217,7 +271,56 @@ struct Llama3CUDASession(ControlledTextSession):
                 self.profile.rope_frequency_base,
                 Int64(1 if self.profile.neox_rope else 0), grid_dim=grid, block_dim=128)
 
+    def run_layer(mut self, layer: Int) raises:
+        var plan = self.layers[layer]
+        var offset = layer * 2 * self.context_length * self.profile.kv_width()
+        self.norm_at(plan.attention_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
+        self.project(plan.query, self.norm_offset, self.query_offset)
+        self.project(plan.key, self.norm_offset, self.key_offset)
+        self.project(plan.value, self.norm_offset, self.value_offset)
+        if self.profile.qk_norm:
+            self.norm_at(plan.query_norm, self.query_offset, self.query_offset, self.profile.head_dim, self.profile.attention_heads)
+            self.norm_at(plan.key_norm, self.key_offset, self.key_offset, self.profile.head_dim, self.profile.kv_heads)
+        self.rotate(self.query_offset, self.profile.attention_heads)
+        self.rotate(self.key_offset, self.profile.kv_heads)
+        self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(self.key_offset), Int64(self.value_offset), Int64(offset), Int64(self.context_length), Int64(self.profile.kv_width()), Int64(self.position), grid_dim=(self.profile.kv_width() + 127) // 128, block_dim=128)
+        var count = self.position + 1
+        self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(self.query_offset), Int64(self.scores_offset), Int64(offset), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.attention_heads * count * 32 + 127) // 128, block_dim=128)
+        self.context.enqueue_function[llama_softmax](self.a(), Int64(self.scores_offset), Int64(count), Int64(self.profile.attention_heads), grid_dim=(self.profile.attention_heads * 32 + 127) // 128, block_dim=128)
+        self.context.enqueue_function[llama_attention_tiled](self.a(), self.kv(), Int64(self.scores_offset), Int64(self.attention_offset), Int64(offset), Int64(self.context_length), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.query_width() + 127) // 128, block_dim=128)
+        self.project(plan.attention_output, self.attention_offset, self.temporary_offset)
+        self.residual()
+        self.norm_at(plan.feed_forward_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
+        self.project(plan.gate, self.norm_offset, self.gate_offset)
+        self.project(plan.up, self.norm_offset, self.up_offset)
+        self.context.enqueue_function[llama_silu](self.a(), Int64(self.gate_offset), Int64(self.up_offset), Int64(self.profile.feed_forward_size), grid_dim=(self.profile.feed_forward_size + 127) // 128, block_dim=128)
+        self.project(plan.down, self.up_offset, self.temporary_offset)
+        self.residual()
+    def forward_front(mut self, token: Int) raises:
+        if not self.spilled:
+            raise Error("forward_front requires a spilled session")
+        if not self.healthy:
+            raise Error("CUDA session cannot be reused after an execution failure")
+        if token < 0 or token >= self.profile.vocabulary_size or self.position >= self.context_length:
+            raise Error("Llama 3 token/context bound exceeded")
+        self.healthy = False
+        var embedding = self.embedding_tensor
+        self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(self.profile.hidden_size), Int64(token), Int64(self.x_offset), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
+        for layer in range(self.exec_layers):
+            self.run_layer(layer)
+        self.context.enqueue_function[copy_hidden_kernel](self.a(), Floats(unsafe_from_address=Int(self.hidden_out.unsafe_ptr())), Int64(self.x_offset), Int64(self.profile.hidden_size), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
+        self.context.enqueue_copy(self.host_hidden, self.hidden_out)
+        self.context.synchronize()
+        self.position += 1
+        self.committed_tokens.append(token)
+        self.healthy = True
+
+    def hidden_value(self, index: Int) -> Float32:
+        return self.host_hidden[index]
+
     def forward(mut self, token: Int, need_logits: Bool = True) raises -> Int:
+        if self.spilled:
+            raise Error("Spilled session: use forward_front with the CPU tail")
         if not self.healthy:
             raise Error("CUDA session cannot be reused after an execution failure")
         if token < 0 or token >= self.profile.vocabulary_size or self.position >= self.context_length:
@@ -226,31 +329,8 @@ struct Llama3CUDASession(ControlledTextSession):
         self.sampler.record(token)
         var embedding = self.embedding_tensor
         self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(self.profile.hidden_size), Int64(token), Int64(self.x_offset), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
-        for layer in range(self.profile.layer_count):
-            var plan = self.layers[layer]
-            var offset = layer * 2 * self.context_length * self.profile.kv_width()
-            self.norm_at(plan.attention_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
-            self.project(plan.query, self.norm_offset, self.query_offset)
-            self.project(plan.key, self.norm_offset, self.key_offset)
-            self.project(plan.value, self.norm_offset, self.value_offset)
-            if self.profile.qk_norm:
-                self.norm_at(plan.query_norm, self.query_offset, self.query_offset, self.profile.head_dim, self.profile.attention_heads)
-                self.norm_at(plan.key_norm, self.key_offset, self.key_offset, self.profile.head_dim, self.profile.kv_heads)
-            self.rotate(self.query_offset, self.profile.attention_heads)
-            self.rotate(self.key_offset, self.profile.kv_heads)
-            self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(self.key_offset), Int64(self.value_offset), Int64(offset), Int64(self.context_length), Int64(self.profile.kv_width()), Int64(self.position), grid_dim=(self.profile.kv_width() + 127) // 128, block_dim=128)
-            var count = self.position + 1
-            self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(self.query_offset), Int64(self.scores_offset), Int64(offset), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.attention_heads * count * 32 + 127) // 128, block_dim=128)
-            self.context.enqueue_function[llama_softmax](self.a(), Int64(self.scores_offset), Int64(count), Int64(self.profile.attention_heads), grid_dim=(self.profile.attention_heads * 32 + 127) // 128, block_dim=128)
-            self.context.enqueue_function[llama_attention_tiled](self.a(), self.kv(), Int64(self.scores_offset), Int64(self.attention_offset), Int64(offset), Int64(self.context_length), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.query_width() + 127) // 128, block_dim=128)
-            self.project(plan.attention_output, self.attention_offset, self.temporary_offset)
-            self.residual()
-            self.norm_at(plan.feed_forward_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
-            self.project(plan.gate, self.norm_offset, self.gate_offset)
-            self.project(plan.up, self.norm_offset, self.up_offset)
-            self.context.enqueue_function[llama_silu](self.a(), Int64(self.gate_offset), Int64(self.up_offset), Int64(self.profile.feed_forward_size), grid_dim=(self.profile.feed_forward_size + 127) // 128, block_dim=128)
-            self.project(plan.down, self.up_offset, self.temporary_offset)
-            self.residual()
+        for layer in range(self.exec_layers):
+            self.run_layer(layer)
         var result = -1
         if need_logits:
             self.norm_at(self.output_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
@@ -287,6 +367,8 @@ struct Llama3CUDASession(ControlledTextSession):
                 self.project(t, base + src, base + dst)
 
     def prefill_four(mut self, tokens: List[Int], start: Int) raises:
+        if self.spilled:
+            raise Error("Four-token prefill is unavailable on a spilled session")
         if not self.healthy or self.prefill_batch != 4 or self.buffers.batch != 4:
             raise Error("Four-token prefill requires a healthy admitted tile")
         if start < 0 or start > len(tokens) - 4 or self.position > self.context_length - 4:
