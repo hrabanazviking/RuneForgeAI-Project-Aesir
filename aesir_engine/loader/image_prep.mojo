@@ -115,6 +115,33 @@ def parse_ppm(data: List[UInt8]) raises -> RgbImage:
     return image^
 
 
+def load_image_file(path: String) raises -> RgbImage:
+    """Loads a PPM (P6) image, dispatched by magic bytes rather than
+    by file extension. This module is deliberately FFI-free: PNG and
+    JPEG inputs raise a pointer to loader/image_codecs.load_any,
+    whose shim binding lives at the edge (its dlopen-free link-time
+    symbols cannot coexist with the engine's raw FFI declarations
+    in loader/core modules). Anything else raises fail-closed."""
+    var data = read_file_bytes(os_host_architecture(), path, 268435456)
+    if len(data) >= 2 and data[0] == UInt8(80) and data[1] == UInt8(54):
+        return parse_ppm(data)
+    if (
+        len(data) >= 4
+        and data[0] == UInt8(137)
+        and data[1] == UInt8(80)
+        and data[2] == UInt8(78)
+        and data[3] == UInt8(71)
+    ):
+        raise Error(
+            "image_prep: PNG input - decode via loader/image_codecs.load_any"
+        )
+    if len(data) >= 2 and data[0] == UInt8(255) and data[1] == UInt8(216):
+        raise Error(
+            "image_prep: JPEG input - decode via loader/image_codecs.load_any"
+        )
+    raise Error("image_prep: unsupported image format (magic bytes not PPM/PNG/JPEG)")
+
+
 def load_ppm_file(path: String) raises -> RgbImage:
     """Reads and parses a PPM file from disk (bounded to 256 MiB)."""
     var data = read_file_bytes(os_host_architecture(), path, 268435456)

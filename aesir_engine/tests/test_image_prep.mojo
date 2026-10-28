@@ -5,6 +5,8 @@ Python implementation of the documented half-pixel-centre formula.
 """
 from loader.image_prep import (
     RgbImage,
+    load_image_file,
+    load_ppm_file,
     parse_ppm,
     patchify,
     resize_normalize,
@@ -149,6 +151,17 @@ def test_preprocess_mean_std() raises:
     print("image_prep mean/std: PASS")
 
 
+
+def test_unsupported_format() raises:
+    var raised = False
+    try:
+        _ = load_image_file("aesir_engine/tests/test_image_prep.mojo")
+    except:
+        raised = True
+    _expect(raised, "unsupported magic bytes raise")
+    print("image unsupported format: PASS")
+
+
 def test_image_prep() raises:
     """Aggregate entry point; run_all registration lands with the ledger
     entry so the counted totals stay synchronized (see design doc)."""
@@ -157,6 +170,7 @@ def test_image_prep() raises:
     test_resize_bilinear_oracle()
     test_patchify_order()
     test_preprocess_mean_std()
+    test_unsupported_format()
 
 
 def main() raises:
