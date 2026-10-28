@@ -39,7 +39,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 266 named executable cases are registered, 1 external-fixture case is explicitly skipped, total 267. This run includes `cli.catalog_schema_interface`, `cli.catalog_schema_unit_evidence`, `cli.blob_identity_interface`, `cli.blob_identity_unit_evidence`, `cli.atomic_registration_unit_evidence`, `local_service.http_bounds`, `local_service.http_framing`, `local_service.socketpair_framing`, `local_service.transport_adversarial`, `local_service.fd_ownership`, `local_service.socket_admission`, `sampling.greedy_tie_policy`, `sampling.greedy_tie_adversarial`, `sampling.temperature_distribution_oracle`, `sampling.temperature_integration`, `sampling.temperature_adversarial`, `sampling.top_k_boundaries`, `sampling.top_k_integration`, `sampling.top_k_adversarial`, `sampling.top_k_integration`, `memory.checked_span`, `memory.rune_tensor_layout`, `memory.allocation_bounds`, `gguf.version_interface`, `gguf.version_reference`, `gguf.version_integration`, `gguf.header_adversarial`, `gguf.metadata_type_baseline`, `gguf.metadata_type_integration`, `gguf.tensor_directory_baseline`, `gguf.tensor_directory_interface`, `gguf.tensor_directory_adversarial`, `gguf.tensor_directory_integration`, `gguf.tensor_directory_pool_adversarial`, `compute.rmsnorm_interface`, `compute.rmsnorm_reference`, `compute.rmsnorm_adversarial`, `compute.rope_interface`, `compute.rope_reference`, `compute.rope_integration`, `compute.attention_interface`, `compute.attention_reference`, `compute.attention_integration`, `compute.attention_adversarial`, `compute.rope_adversarial`, and `inference.rmsnorm_integration`. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 269 named executable cases are registered, 1 external-fixture case is explicitly skipped, total 270. This run includes `cli.catalog_schema_interface`, `cli.catalog_schema_unit_evidence`, `cli.blob_identity_interface`, `cli.blob_identity_unit_evidence`, `cli.atomic_registration_unit_evidence`, `local_service.http_bounds`, `local_service.http_framing`, `local_service.socketpair_framing`, `local_service.transport_adversarial`, `local_service.fd_ownership`, `local_service.socket_admission`, `sampling.greedy_tie_policy`, `sampling.greedy_tie_adversarial`, `sampling.temperature_distribution_oracle`, `sampling.temperature_integration`, `sampling.temperature_adversarial`, `sampling.top_k_boundaries`, `sampling.top_k_integration`, `sampling.top_k_adversarial`, `sampling.top_k_integration`, `memory.checked_span`, `memory.rune_tensor_layout`, `memory.allocation_bounds`, `gguf.version_interface`, `gguf.version_reference`, `gguf.version_integration`, `gguf.header_adversarial`, `gguf.metadata_type_baseline`, `gguf.metadata_type_integration`, `gguf.tensor_directory_baseline`, `gguf.tensor_directory_interface`, `gguf.tensor_directory_adversarial`, `gguf.tensor_directory_integration`, `gguf.tensor_directory_pool_adversarial`, `compute.rmsnorm_interface`, `compute.rmsnorm_reference`, `compute.rmsnorm_adversarial`, `compute.rope_interface`, `compute.rope_reference`, `compute.rope_integration`, `compute.attention_interface`, `compute.attention_reference`, `compute.attention_integration`, `compute.attention_adversarial`, `compute.rope_adversarial`, `inference.rmsnorm_integration`, `vision.mmproj_structure`, `vision.image_preprocessing`, and `vision.encoder_stages`. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -o /tmp/aesir-sigrun-sm89-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment; the resulting binary's `--help` smoke path exits successfully. |
 | `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 29 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and incremental compatibility framing. Does not download a model or prove full external compatibility. |
@@ -86,12 +86,12 @@ this integration does not promote historical statuses or hide checker failures.
 | Status | Count |
 |---|---:|
 | `verified` | 146 |
-| `partial` | 30 |
+| `partial` | 31 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
 | Historical noncanonical status | 1 |
-| **Total** | **192** |
+| **Total** | **193** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -567,6 +567,16 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
   products pass, maximum absolute error 2.9802322e-7. Registry classification stays
   COMPATIBLE; arbitrary 3B quantizations and whole-model logits remain unproved.
   See [SECOND_BRAIN.md](docs/SECOND_BRAIN.md).
+
+### AES-LDR-007 — mmproj vision tower parsing and encoder forward
+
+- **Status:** `partial`
+- **Owner:** loader and vision domains
+- **Claim sources:** docs/VISION_MMPROJ_DEVELOPMENT.md design contract; section 5 semantics pinned from the llama.cpp mtmd reference (2026-10-27)
+- **Implementation evidence:** `MmprojFile` in `aesir_engine/loader/mmproj.mojo` discovers an mmproj beside a model, parses full metadata and tensor inventory at ranks 1-4 over bounds-checked readers, and validates the vision tower via `VisionTowerSpec`; `tensor_q8_0_f32` dequantizes Q8_0 weights. `aesir_engine/loader/image_prep.mojo` preprocesses PPM input (bilinear resize, normalize, patchify). `aesir_engine/core/vision_encoder.mojo` implements the forward: patch embedding, factorized position add, 16 transformer blocks (ClippableLinear, 2D NEOX RoPE, tanh-GELU geglu), average pooling, and the projector.
+- **Executable evidence:** `E-MASTER` cases `vision.mmproj_structure` (6 unit tests), `vision.image_preprocessing` (5), and `vision.encoder_stages` (8). Real-file evidence on the pinned Gemma 4 E2B heretic pair: `aesir vision inspect` against the real Q4_K_M language model passes spec validation and the embedding cross-check (projector 1536 == gemma4 embedding_length 1536); `tests/encode_mmproj.mojo` reproduces the independent numpy oracle at every stage on real weights (worst relative divergence 7.7e-06, Float32 accumulation).
+- **Evidence boundary:** Encoder output is not yet injected into the language model; no end-to-end image chat is claimed. Input is PPM only (no PNG/JPEG decode). The audio tower is inventoried, not interpreted. Execution is CPU-side; accelerator placement per the design doc law is later work.
+- **Next acceptance gate:** Projector output injection into prefill with the gemma4 image-marker span (design doc slice 4), end-to-end image chat on the real pair, and a second mmproj family (Ministral-3-3B) measured the same way.
 
 ## 8. Tokenization and Decoding
 
@@ -2169,7 +2179,7 @@ and circular self-parity transforms were removed.
 | Build/runtime foundation | AES-FND-001 through AES-FND-008 |
 | Memory/tensor/KV ownership | AES-MEM-001 through AES-MEM-007 |
 | CPU kernels and attention | AES-CPU-001 through AES-CPU-008 |
-| GGUF loading | AES-LDR-001 through AES-LDR-006 |
+| GGUF loading | AES-LDR-001 through AES-LDR-007 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
 | Inference/generation | AES-GEN-001 through AES-GEN-011 |
 | CLI/model management | AES-CLI-001 through AES-CLI-014 |
