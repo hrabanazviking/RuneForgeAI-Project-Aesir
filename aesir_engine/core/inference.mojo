@@ -870,10 +870,10 @@ def _embed_token_into(
     with the destination unrolled, so a batch of rows can be embedded
     into one tensor (see _embed_tokens). Any quantized format without
     a branch here raises instead of falling through to a wrong-format
-    decode: before the IQ branch existed, an IQ2_S embedding row was
+    decode: before the IQ branch existed, an IQ3_S embedding row was
     silently decoded as Q4_0 (wrong layout AND wrong row stride),
     which collapsed IQ-embedding models (e.g. Oprius-3.1-1.1B i1
-    IQ2_M, token_embd IQ2_S) to <unk> on every generated token."""
+    IQ2_M, token_embd IQ3_S) to <unk> on every generated token."""
     if "token_embd.weight" not in seer.tensors:
         raise Error("Inference requires token_embd.weight")
     ref token_embd = seer.tensors["token_embd.weight"]
