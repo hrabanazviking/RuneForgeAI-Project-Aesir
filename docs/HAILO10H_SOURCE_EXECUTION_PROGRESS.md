@@ -4541,3 +4541,34 @@ census over the full 224; and run 62's gaps 1
 and 2 against each other, completing run 62.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.153 (AES-NUM-153) is complete. Gap 8's
+ladders are now measured against their full
+contexts: every anchor sits at offset residue 0
+mod 512, side A's skipped ladder rungs belong to
+context A's longest 512-chain (12 rungs,
+791,775,232–791,780,864), which does not end at
+the right bound — it resumes at positions
+744–748 after the bound's region and ends at the
+context's largest residue-0 offset — while side
+B's four rungs form an isolated 4-chain at the
+very top of context B (nearest distinct offset
+261,632 bytes below, none above), not a wider
+ladder; the two skipped regions are disjoint
+across the contexts. The byte2-differing
+Hamming-1 census over the full 224 is far larger
+than its byte-0 mirror (85 listings, 84 distinct
+pair-pairs, 96 individual pairs, exactly one
+pair-pair under both sub-keys), and the (1, 128)
+roles partly invert there: the non-members earn
+3 and 1 listings, members 178@24 and 176@28 earn
+none, and the population totals tie at 4/4. Run
+62 is closed: its two gaps share exactly the
+same 9 run-frame features of 32 that closed run
+74, and split on the other 23.
+Next: the two contexts' residue-0 offset sets in
+full against each other; the byte2 census's hub
+pairs as one population; and run 102's single
+gap against the run-62/run-74 frame.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

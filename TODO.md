@@ -4178,7 +4178,7 @@
   ordinary UNMODIFIED
   source-model
   support100%.
-- [ ] Slice4.153 gap 8's
+- [x] Slice4.153 gap 8's
   two skipped regions
   read against their
   contexts in full (every
@@ -4205,6 +4205,29 @@
   each other (32-feature
   table), completing
   run 62; then broad
+  ordinary UNMODIFIED
+  source-model
+  support100%.
+- [ ] Slice4.154 the two
+  contexts' residue-0
+  offset sets read in
+  full against each
+  other (37 distinct in
+  context A vs 38 in
+  context B: shared,
+  A-only, B-only, and
+  positional order);
+  the byte2 census's hub
+  pairs (individual pairs
+  carrying >= 4 listings)
+  read as one population;
+  and run 102's single
+  gap (gap 8) read
+  against the run-62 /
+  run-74 frame (the 9
+  shared run-frame
+  features) as a one-gap
+  closure; then broad
   ordinary UNMODIFIED
   source-model
   support100%.
