@@ -4458,3 +4458,28 @@ near-misses read against each other; and gap 4
 read in full against gaps 5 and 6.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.150 (AES-NUM-150) is complete. The three
+control comparisons that carry the agreeing profile
+sit in violating repeats 3, 18 and 35, and each is
+field-for-field an agreeing comparison: the same
+differing seven, the same equal twelve. Each host
+repeat is violating only through its siblings — the
+profile belongs to a pair-pair, the verdict to the
+whole repeat. The eight byte-0 near-miss listings
+are six distinct pair-pairs, two of them counted
+under both sub-keys; the +4 pair-pairs form a ladder
+in group (14, 9992) whose verdict pattern is shared
+by the step-8 and step-12 listings, so no +4 law is
+earned. And gap 4 is gaps 5 and 6's sibling at
+distance: four chained skipped acts between its
+bounds where they enclose one, its full mapping
+sequence repeating once per skipped act.
+Next: the six distinct near-miss pair-pairs as one
+population and the ladder chain against the full
+224; the 50 control comparisons decomposed by
+verdict-field pattern; and run 74's internal gaps
+as one sequence, with skipped-block contiguity over
+all 8 gaps.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

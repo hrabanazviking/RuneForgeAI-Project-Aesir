@@ -4100,7 +4100,7 @@
   table); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.150 the 3
+- [x] Slice4.150 the 3
   control comparisons
   with the agreeing
   (12, 7) profile read
@@ -4121,6 +4121,30 @@
   four-long skipped block
   against their single
   skipped acts); then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.151 the 6
+  distinct byte-0
+  near-miss pair-pairs
+  as one population
+  (the (14, 9992) ladder
+  chain read against the
+  full 224 — every pair
+  sharing (byte1, byte3)
+  = (1, 128)); the 50
+  control comparisons
+  decomposed by
+  verdict-field pattern
+  (B byte 0 only / status
+  only / both / neither,
+  status-only tested);
+  and run 74's internal
+  gaps as one sequence
+  (steps 31, 33, 37) with
+  skipped-block
+  contiguity measured
+  over all 8 gaps; then
   broad ordinary
   UNMODIFIED source-model
   support100%.
