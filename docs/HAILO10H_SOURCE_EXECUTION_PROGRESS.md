@@ -3670,3 +3670,58 @@ forty-one shared acts that are not occurrence-two
 read by their occurrence classes.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.127 (AES-NUM-127) is complete. The sum table,
+read as a function of the sum inside each value of the
+third byte, is orderly nowhere it can be judged: of
+the thirty-seven byte-three values carrying two or
+more keys, twenty-five run neither up nor down with
+the sum, eight run only up, two only down, and two
+are constant — and the constant cases are the zero
+column at plus one hundred twenty-eight and the
+narrow column at minus one hundred twenty-eight.
+Constant steps appear in ten values, but eight are
+two-key values with a single step, which proves
+nothing; the only column with three or more keys and
+constant steps is the narrow one, whose difference
+never moves. Byte zero, read across all two hundred
+twenty-four pairs, answers to nothing: the second
+word's byte zero is not a function of the first's
+alone — twenty-three of thirty-six values break it —
+and it is not a function of the full key nor of the
+sum key either, breaking on exactly the two narrow
+keys whose pairs differ only in that byte, where it
+simply copies itself across. The wobble of the
+near-geometric steps is measured now and is never
+nothing: not one of the three hundred twenty-four
+ratios equals its own sequence's median, the largest
+stray is under eighty-four hundredths of a part per
+million, and rounding a single geometric ratio —
+rounded or floored, first, median or last — fails on
+every one of the fifty-four sequences, missing by as
+little as one in two hundred million and still
+missing everywhere. The displaced trio, read in
+windows eight acts wide, sits in the block contexts
+inside the common core's own tail, flanked exactly
+as before, while in the split contexts the three are
+scattered through ordinary material; the act before
+the block occurs once in each of two hundred
+seventy-one contexts of the one artifact, the trio's
+eight among them, yet is followed by the block in
+only three of them, while the act after the block
+occurs exactly three times in the whole corpus and
+nowhere but immediately behind the block. The
+forty-one shared acts that are not occurrence-two
+fall into six classes — four, three and one small,
+thirty occurring two hundred seventy-one times, and
+three near-universal — and they sit at the same
+position in both contexts in thirty-seven of the
+forty-one.
+Next: the ratio sequences' own internal order and
+the step census of the unordered tables; byte zero
+inside each group and the narrow pairs in their full
+context; the before-flank across all its contexts,
+the thirty acts of its class read whole, and the
+pairs that follow the after-flank.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

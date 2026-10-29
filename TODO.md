@@ -2967,7 +2967,7 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.127 the
+- [x] Slice4.127 the
   (byte 3, byte 1 + byte 2)
   -> difference table read
   as a per-byte-3 function
@@ -3004,7 +3004,93 @@
   shared 114x251 acts that
   are NOT occurrence-2
   read in full by
-  occurrence-count class;
+  occurrence-count class.
+  DONE: the difference is
+  NOT monotone in the sum
+  (37 multi-key byte-3
+  values: NEITHER 25,
+  non-decreasing 8,
+  non-increasing 2,
+  constant 2; constant-step
+  in 10 values, 8 of them
+  two-key vacuous and the
+  only >=3-key case being
+  byte 3 = 128's constant
+  -128) - per-byte-3 closed
+  form NOT PROVEN; byte 0
+  is determined by nothing
+  tested (not A byte 0
+  alone, 23 of 36 violate;
+  not the full key, not
+  the sum key - both fail
+  on exactly the two
+  narrow keys whose pairs
+  differ only in byte 0);
+  the wobble is never zero
+  (0 of 324 ratios equal
+  their median; max
+  deviation ~0.839 ppm)
+  and all six
+  integer-rounding
+  geometric forms fail on
+  all 54 sequences
+  (0 of 54 hold for any
+  form x candidate) -
+  exact decay form NOT
+  PROVEN; the block
+  contexts' +/-8 windows
+  are the flanked core
+  tail, the split contexts
+  scatter the trio; the
+  before-flank occurs once
+  in each of 271 contexts,
+  the after-flank exactly
+  3 times, block-exclusive;
+  the 41 acts fall in
+  classes {3: 4, 4: 3,
+  6: 1, 271: 30, 1058: 1,
+  1060: 2} at position
+  differences {0: 37,
+  -1: 3, +4: 1}
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_SUM_FUNCTION_BYTE0_WOBBLE_WINDOWS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.128 the
+  ratio sequences' internal
+  order (per cidx-side the
+  six ratios' monotonicity
+  in k and deviation sign
+  patterns in full, tested
+  exactly) and the pooled
+  step-value census of the
+  25 NEITHER byte-3 tables
+  (successive-step multiset
+  over all multi-key
+  tables; step as a
+  function of the sum
+  tested exactly); byte 0
+  within groups (B byte 0's
+  determination by the full
+  key inside each of the
+  map's three groups; the
+  narrow keys' eight pairs
+  in their full cell/group
+  context); the
+  before-flank across all
+  271 contexts (position
+  distribution and the
+  census of the following
+  act in every context),
+  the 30 class-271 acts of
+  the 41 read in full
+  (positions in 114 and
+  251; shared-skeleton
+  order test), and the
+  after-flank's following
+  (24, 0) / (24, 1) pairs
+  profiled corpus-wide;
   then broad ordinary
   UNMODIFIED
   source-model support100%.
