@@ -3725,3 +3725,45 @@ the thirty acts of its class read whole, and the
 pairs that follow the after-flank.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.128 (AES-NUM-128) is complete. The ratio
+sequences have no internal order at all: every one of
+the fifty-four sequences, both sides of all twenty-
+seven contexts, runs neither up nor down in k, each
+carrying between four and eleven inversions in both
+directions, and their signs against their own medians
+fall into fifteen patterns, the two fully alternating
+ones together claiming seventeen of the fifty-four.
+The steps of the unordered tables, pooled, number one
+hundred sixty-one in thirty-two distinct values, and
+the step answers to the sum nowhere pooled — twenty-
+seven sums break it under either anchoring — while
+inside a single table it holds only vacuously, each
+sum standing once. Byte zero's refusal is localized
+at last: of the map's three groups, two are exact
+functions of the full key — the great group of two
+hundred sixteen pairs without a single violation —
+and the whole failure lives in the small group, on
+exactly the two narrow keys; and all eight narrow
+pairs, read record by record, simply copy byte zero
+across, the two words differing by exactly the sign
+bit and nothing else. The act before the displaced
+block is anchored to the end of its context, twenty
+acts from the end in every one of its two hundred
+seventy-one contexts, and what follows it ranges over
+fifty-one acts of a single shape, the block itself in
+only three. The thirty acts of its class stand in
+identical order in both contexts, not one inversion
+among four hundred thirty-five pairs, twenty-eight of
+them rigid at twenty positions apiece — one conserved
+end block — led by two looser acts; and behind the
+act after the block, each context keeps its own
+private pair, occurring as a pair nowhere else in the
+corpus.
+Next: byte zero with its own value admitted to the
+key; the sign patterns paired across each context's
+two sides, and the step against sum and level
+together; the end block's distances from the end,
+act by act, and its two loose leaders' places.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

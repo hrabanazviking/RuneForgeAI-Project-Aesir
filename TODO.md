@@ -3057,41 +3057,71 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.128 the
-  ratio sequences' internal
-  order (per cidx-side the
-  six ratios' monotonicity
-  in k and deviation sign
-  patterns in full, tested
-  exactly) and the pooled
-  step-value census of the
-  25 NEITHER byte-3 tables
-  (successive-step multiset
-  over all multi-key
-  tables; step as a
-  function of the sum
-  tested exactly); byte 0
-  within groups (B byte 0's
-  determination by the full
-  key inside each of the
-  map's three groups; the
-  narrow keys' eight pairs
-  in their full cell/group
-  context); the
-  before-flank across all
-  271 contexts (position
-  distribution and the
-  census of the following
-  act in every context),
-  the 30 class-271 acts of
-  the 41 read in full
-  (positions in 114 and
-  251; shared-skeleton
-  order test), and the
-  after-flank's following
-  (24, 0) / (24, 1) pairs
-  profiled corpus-wide;
-  then broad ordinary
+- [x] Slice4.128 no ratio
+  sequence is monotone in
+  k (all 54 NEITHER,
+  inversions 4-11 each
+  way; 15 deviation sign
+  patterns, modal +-+-+-
+  x10); pooled steps 161
+  in 32 values, step not
+  a function of the sum
+  pooled under either
+  anchoring (27 violating
+  sums each), per byte-3
+  vacuous only; byte 0's
+  failure localized to
+  group (14, 9992)'s two
+  narrow keys, the other
+  two groups exact
+  functions, all eight
+  narrow pairs copy byte 0
+  (XOR 0x80000000); the
+  before-flank is
+  end-anchored at
+  from-end 20 in all 271
+  contexts, followed by
+  51 distinct (24, 0)
+  acts (block-first only
+  in the 3 block
+  contexts); the 30
+  class-271 acts hold
+  identical order in 114
+  and 251 (0 of 435
+  inversions; 29 at diff
+  0, lead at +4; 28 rigid
+  with 20 positions, the
+  first two 51/54); each
+  after-flank following
+  pair occurs consecutively
+  exactly once corpus-wide
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_RATIO_ORDER_STEP_CENSUS_BYTE0_GROUPS_FLANKS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.129 byte 0
+  with A byte 0 admitted
+  to the key (globally and
+  per group; identity
+  beyond the narrow
+  population); the
+  deviation sign patterns
+  paired across each
+  cidx's two sides
+  (equality / complement /
+  reversal in full) and
+  step as a function of
+  (starting sum, starting
+  diff); the class-271
+  end block's from-end
+  structure across all 271
+  contexts (fixed from-end
+  offsets for the 28 rigid
+  acts) and the two loose
+  lead acts' positions
+  against the block; then
+  broad ordinary
   UNMODIFIED
   source-model support100%.
 
