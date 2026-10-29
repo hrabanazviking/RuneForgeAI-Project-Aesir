@@ -3933,26 +3933,74 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.145 gaps 3
-  and 7 (the sole
-  bounding-channel
-  violating pair) read in
-  full against each
-  other; the 8 violating
-  cell repeats (27 pairs
-  each, group (20, 32720))
-  against record-level
-  companions (centre
-  sets, cidx sets, poscat
-  patterns); and the
-  quad-wed injectivity
-  dissected — the triple
-  wed with A byte 0 added
-  against the same wed
-  with the cell added;
-  then broad ordinary
+- [x] Slice4.145 gaps 3
+  and 7 are the same gap
+  twice over at their
+  bounds (same run 74,
+  shift 0, length 83,
+  extents 524-614,
+  bounding channels
+  (1, 0), distances 2/2;
+  32-feature table 13
+  equal / 19 differing,
+  every difference a
+  location, an identity,
+  or a skipped-act
+  property; mappings
+  ((2->0),) vs ((1->2),));
+  the 8 violating cell
+  repeats earn no rescue
+  from any record-level
+  companion over 216
+  pairs (centre set the
+  constant {127}, 1
+  violating key; cidx
+  set 27 all violating;
+  poscat 3 all violating;
+  (cidx, centre) seq 27
+  all violating); and
+  the quad-wed injectivity
+  belongs to neither
+  added companion (byte-0
+  sub-keys: base wed
+  already injective, both
+  additions vacuous;
+  (byte1, byte2, byte3):
+  the 2 pair-pairs are
+  separated by BOTH the
+  cell and A byte 0, both
+  separate 2, cell-only
+  0, A-only 0) (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_GAPS37
+  _CELL_COMPANIONS_WED
+  _DISSECTION_2026-10-24.md`.
+  Then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.146 the
+  per-gap channel mapping
+  as a function of the
+  A-side skipped acts
+  themselves over all 8
+  gaps, with gaps 3 and
+  7's skipped acts read
+  against the corpus; B
+  byte 0 over the 216
+  violating-cell pairs
+  against the remaining
+  record-level companions
+  (idx sequence, in37
+  pattern, A byte 0 as
+  companion, (cidx, idx)
+  sequence); and the two
+  (byte1, byte2, byte3)
+  base-group pair-pairs
+  read in full against
+  each other, record by
+  record; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

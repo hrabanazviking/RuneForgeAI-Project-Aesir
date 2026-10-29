@@ -4329,3 +4329,29 @@ records' centres and patterns; and the cell wed
 dissected against a first-byte wed.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.145 (AES-NUM-145) is complete. Gaps 3
+and 7, read in full, are the same gap twice over
+in everything that bounds them — same run, same
+shift, same bounding channels, same distances,
+one skipped act a side — and differ only in
+where they sit in the run, in the acts'
+identities, and in the skipped acts they carry,
+so the channel mapping's home is not at the
+bounds. The eight violating cell repeats earn
+no rescue from their records: the centre set is
+the same {127} for all 216 pairs, and the cidx
+sets, the poscat patterns and the (cidx, centre)
+sequences all violate at every repeating key.
+And the quad-wed injectivity belongs to neither
+added companion: for three sub-keys the base wed
+was already injective and both additions are
+vacuous, and in the one case with work to do,
+the cell and the first byte do exactly the same
+work, separating both pair-pairs each.
+Next: the mapping read against the skipped acts
+themselves; the rewritten byte read against the
+records' remaining companions; and the two
+base-group pair-pairs read record by record.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
