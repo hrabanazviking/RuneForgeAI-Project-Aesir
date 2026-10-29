@@ -4600,3 +4600,30 @@ in full; the hub closure's boundary at exactly
 3 listings; and gap 8 against gap 4 in full.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.155 (AES-NUM-155) is complete. The 25
+shared residue-0 offsets form 16 chain-to-chain
+correspondences: 13 of A's 16 chains survive
+whole and identical in B, A's 6-chain is
+truncated at its head, and A's 12-chain alone
+splits — its first four rungs are B's approach
+4-chain, its eighth rung a B singleton. No chain
+merges in either direction. The asymmetry of the
+private rungs is exact: A's A-only rungs are
+mostly interior losses inside corresponding
+chains, B's B-only rungs are entirely additional
+chains. The 7 pairs at exactly 3 listings touch
+no hub at all — their 13 boundary listings are
+8 both-three and 5 to neither partners — while
+the hub component is a simple graph: 26 listings
+join 26 distinct hub pairs, and every hub's
+degree equals its own listing count. Gap 8
+equals run 74's gap 4 on exactly the same 4 of
+32 features (distances and skipped counts, the
+values unique to gap 4 in its run) and differs
+structurally on everything else, frame 0 of 9
+included. Next: the surviving chains in
+context-position space; the three population as
+a graph in full; and the complete pairwise gap
+table. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

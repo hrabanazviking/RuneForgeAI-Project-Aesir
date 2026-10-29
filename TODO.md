@@ -4231,7 +4231,7 @@
   ordinary UNMODIFIED
   source-model
   support100%.
-- [ ] Slice4.155 the shared
+- [x] Slice4.155 the shared
   offsets' chain
   correspondence read in
   full (each A 512-chain
@@ -4250,6 +4250,25 @@
   gap 4 in full
   (32-feature table; the
   one split-kind match);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.156 the surviving
+  chains in context-position
+  space (identical chains'
+  rung positions in A vs B;
+  the split 12-chain's two
+  B fragments and the
+  truncated 6-chain
+  positionally); the three
+  population as a graph in
+  full (the 8 both-three
+  listings as edges; the 5
+  neither partners in full;
+  second-component test);
+  and the complete pairwise
+  gap table (all 28 gap
+  pairs on the 32 features);
   then broad ordinary
   UNMODIFIED source-model
   support100%.
