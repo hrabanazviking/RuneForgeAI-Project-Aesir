@@ -891,6 +891,67 @@ def _iq3_xxs_grid_digit_value(encoded_grid: Int, digit_lane: Int) -> Float32:
     return Float32(4 + 8 * grid_digit)
 
 
+# --- SIMD IQ block decode helpers (S-030) ---------------------------------
+# dequantize_iq_block originally decoded every lane scalar: 256 iterations
+# of shift/branch/sign work per super-block, while the K-quant fast path
+# (kinds 10/11/13 in core/compute) decodes a block with width-16 SIMD
+# stores. In single-row (decode) GEMMs that scalar decode is ~90% of the
+# IQ GEMM cost, which is why IQ2_M ran ~9x slower per generated token
+# than the K rungs while batched prefill (decode amortized over rows)
+# was only ~1.4x slower. The helpers below decode a whole 8-lane (or
+# 4-lane) grid group with vector ops only. Every mapping is exact in
+# f32 for every possible digit (digits are small integers and the
+# polynomial coefficients are dyadic), so decoded values are
+# bit-identical to the scalar decoders above:
+#   IQ2 grid value: digit 0->8, 1->25, 2->43, 3->8 is the cubic
+#     -9 d^3 + 27.5 d^2 - 1.5 d + 8 (Horner form below).
+#   IQ1_S grid value: digit 0->-1, 1->0, 2->1, 3->-1 is the cubic
+#     -0.5 d^3 + 1.5 d^2 - 1 (Horner form at the use site).
+#   IQ3_XXS grid value: 4 + 8 d for d < 7 and 62 for d = 7, i.e.
+#     4 + 8 d + 2 * (d // 7) with integer division exact on 0..7.
+# Signs are pure arithmetic: bit b -> 1 - 2 b. Multiplication order at
+# every use site stays (coef * grid_value) * sign, exactly as scalar.
+
+
+@always_inline
+def _iq_sign8(bits: Int) -> SIMD[DType.float32, 8]:
+    """Lanes 0..7 of `bits` as +1/-1 floats (bit set means -1)."""
+    var b = SIMD[DType.uint32, 8](UInt32(bits))
+    var sh = SIMD[DType.uint32, 8](0, 1, 2, 3, 4, 5, 6, 7)
+    var v = (b >> sh) & UInt32(1)
+    return Float32(1.0) - Float32(2.0) * v.cast[DType.float32]()
+
+
+@always_inline
+def _iq_sign4(bits: Int, base: Int) -> SIMD[DType.float32, 4]:
+    """Lanes base..base+3 of `bits` as +1/-1 floats (bit set = -1)."""
+    var b = SIMD[DType.uint32, 4](UInt32(bits))
+    var sh = SIMD[DType.uint32, 4](
+        UInt32(base), UInt32(base + 1), UInt32(base + 2), UInt32(base + 3)
+    )
+    var v = (b >> sh) & UInt32(1)
+    return Float32(1.0) - Float32(2.0) * v.cast[DType.float32]()
+
+
+@always_inline
+def _iq2_gv8(encoded: Int) -> SIMD[DType.float32, 8]:
+    """Eight 2-bit digits of an IQ2 grid entry as grid values."""
+    var e = SIMD[DType.uint32, 8](UInt32(encoded))
+    var sh = SIMD[DType.uint32, 8](0, 2, 4, 6, 8, 10, 12, 14)
+    var d = ((e >> sh) & UInt32(3)).cast[DType.float32]()
+    return (
+        (Float32(-9.0) * d + Float32(27.5)) * d - Float32(1.5)
+    ) * d + Float32(8.0)
+
+
+@always_inline
+def _iq_digits3_4(encoded: Int) -> SIMD[DType.uint32, 4]:
+    """Four 3-bit digits of an IQ3 grid entry (lanes 0..3)."""
+    var e = SIMD[DType.uint32, 4](UInt32(encoded))
+    var sh = SIMD[DType.uint32, 4](0, 3, 6, 9)
+    return (e >> sh) & UInt32(7)
+
+
 def dequantize_iq_block(
     data: Pointer[UInt8, MutUntrackedOrigin],
     block_base: Int,
@@ -902,9 +963,11 @@ def dequantize_iq_block(
     block_base into out_ptr[0..256). Group headers (scales, sign
     masks, grid indices) are derived once per 32-value group instead
     of once per element — the same values the *_value_g decoders
-    compute, with their per-element arithmetic factored out. kind is
-    the GGML tensor type (16/17/18/19/21/22); grid must be the grid
-    materialized by iq_grid_materialize for that kind.
+    compute, with their per-element arithmetic factored out. Lane
+    values inside a group are produced with SIMD stores (S-030; see
+    the helper block above) and are bit-identical to the scalar
+    decoders. kind is the GGML tensor type (16/17/18/19/21/22); grid
+    must be the grid materialized by iq_grid_materialize for that kind.
     """
     var scale = data.unsafe_offset(block_base).unsafe_bitcast[
         Float16
@@ -921,14 +984,11 @@ def dequantize_iq_block(
                 ) | (((qh >> (sub * 3)) & 7) << 8)
                 var encoded = Int(grid.unsafe_load(grid_index))
                 var base_out = group * 32 + sub * 8
-                for lane in range(8):
-                    var digit = (encoded >> (lane * 2)) & 3
-                    var gv = Float32(-1.0)
-                    if digit == 1:
-                        gv = Float32(0.0)
-                    elif digit == 2:
-                        gv = Float32(1.0)
-                    out_ptr.unsafe_store(base_out + lane, coef * (gv + delta))
+                var e = SIMD[DType.uint32, 8](UInt32(encoded))
+                var sh = SIMD[DType.uint32, 8](0, 2, 4, 6, 8, 10, 12, 14)
+                var d = ((e >> sh) & UInt32(3)).cast[DType.float32]()
+                var gv = (Float32(-0.5) * d + Float32(1.5)) * d * d - Float32(1.0)
+                out_ptr.unsafe_store[width=8](base_out, coef * (gv + delta))
     elif kind == 16:
         # IQ2_XXS: eight groups of (4 grid bytes + u32 signs/scale).
         for group in range(8):
@@ -939,9 +999,9 @@ def dequantize_iq_block(
                 var encoded = Int(grid.unsafe_load(Int(data.unsafe_load(packed_base + sub))))
                 var sign_mask = _iq2_sign_mask(Int((aux >> UInt32(sub * 7)) & UInt32(0x7F)))
                 var base_out = group * 32 + sub * 8
-                for lane in range(8):
-                    var sign = Float32(-1.0 if ((sign_mask >> lane) & 1) != 0 else 1.0)
-                    out_ptr.unsafe_store(base_out + lane, coef * _iq2_grid_digit_value(encoded, lane) * sign)
+                out_ptr.unsafe_store[width=8](
+                    base_out, coef * _iq2_gv8(encoded) * _iq_sign8(sign_mask)
+                )
     elif kind == 22:
         # IQ2_S: qs at +2 (grid bytes 0..31, sign bytes 32..63),
         # qh at +66, scales at +74.
@@ -957,9 +1017,9 @@ def dequantize_iq_block(
                 var encoded = Int(grid.unsafe_load(grid_index))
                 var sign_byte = Int(data.unsafe_load(block_base + 34 + group * 4 + sub))
                 var base_out = group * 32 + sub * 8
-                for lane in range(8):
-                    var sign = Float32(-1.0 if ((sign_byte >> lane) & 1) != 0 else 1.0)
-                    out_ptr.unsafe_store(base_out + lane, coef * _iq2_grid_digit_value(encoded, lane) * sign)
+                out_ptr.unsafe_store[width=8](
+                    base_out, coef * _iq2_gv8(encoded) * _iq_sign8(sign_byte)
+                )
     elif kind == 21:
         # IQ3_S: qs at +2, qh at +66, signs at +74, scales at +106.
         for group in range(8):
@@ -978,13 +1038,16 @@ def dequantize_iq_block(
                 var enc1 = Int(grid.unsafe_load(idx1))
                 var enc2 = Int(grid.unsafe_load(idx2))
                 var base_out = group * 32 + sub * 8
-                for j in range(4):
-                    var digit1 = (enc1 >> (j * 3)) & 7
-                    var sign1 = Float32(-1.0 if ((sign_byte >> j) & 1) != 0 else 1.0)
-                    out_ptr.unsafe_store(base_out + j, coef * Float32(2 * digit1 + 1) * sign1)
-                    var digit2 = (enc2 >> (j * 3)) & 7
-                    var sign2 = Float32(-1.0 if ((sign_byte >> (j + 4)) & 1) != 0 else 1.0)
-                    out_ptr.unsafe_store(base_out + 4 + j, coef * Float32(2 * digit2 + 1) * sign2)
+                var v1 = _iq_digits3_4(enc1).cast[DType.float32]()
+                var v2 = _iq_digits3_4(enc2).cast[DType.float32]()
+                out_ptr.unsafe_store[width=4](
+                    base_out,
+                    coef * (Float32(2.0) * v1 + Float32(1.0)) * _iq_sign4(sign_byte, 0),
+                )
+                out_ptr.unsafe_store[width=4](
+                    base_out + 4,
+                    coef * (Float32(2.0) * v2 + Float32(1.0)) * _iq_sign4(sign_byte, 4),
+                )
     elif kind == 17:
         # IQ2_XS: u16 grid/sign packs at +2, scales at +66.
         for group in range(8):
@@ -996,9 +1059,9 @@ def dequantize_iq_block(
                 var encoded = Int(grid.unsafe_load(packed & 511))
                 var sign_mask = _iq2_sign_mask(packed >> 9)
                 var base_out = group * 32 + sub * 8
-                for lane in range(8):
-                    var sign = Float32(-1.0 if ((sign_mask >> lane) & 1) != 0 else 1.0)
-                    out_ptr.unsafe_store(base_out + lane, coef * _iq2_grid_digit_value(encoded, lane) * sign)
+                out_ptr.unsafe_store[width=8](
+                    base_out, coef * _iq2_gv8(encoded) * _iq_sign8(sign_mask)
+                )
     else:
         # IQ3_XXS (kind 18): qs at +2 (64 grid bytes), then 32 bytes
         # of u32 sign/scale packs at +66.
@@ -1010,8 +1073,13 @@ def dequantize_iq_block(
                 var enc1 = Int(grid.unsafe_load(Int(data.unsafe_load(block_base + 2 + group * 8 + 2 * sub))))
                 var enc2 = Int(grid.unsafe_load(Int(data.unsafe_load(block_base + 2 + group * 8 + 2 * sub + 1))))
                 var base_out = group * 32 + sub * 8
-                for j in range(4):
-                    var sign1 = Float32(-1.0 if ((sign_mask >> j) & 1) != 0 else 1.0)
-                    out_ptr.unsafe_store(base_out + j, coef * _iq3_xxs_grid_digit_value(enc1, j) * sign1)
-                    var sign2 = Float32(-1.0 if ((sign_mask >> (j + 4)) & 1) != 0 else 1.0)
-                    out_ptr.unsafe_store(base_out + 4 + j, coef * _iq3_xxs_grid_digit_value(enc2, j) * sign2)
+                var du1 = _iq_digits3_4(enc1)
+                var du2 = _iq_digits3_4(enc2)
+                var gv1 = Float32(4.0) + Float32(8.0) * du1.cast[DType.float32]() + Float32(2.0) * (du1 / UInt32(7)).cast[DType.float32]()
+                var gv2 = Float32(4.0) + Float32(8.0) * du2.cast[DType.float32]() + Float32(2.0) * (du2 / UInt32(7)).cast[DType.float32]()
+                out_ptr.unsafe_store[width=4](
+                    base_out, coef * gv1 * _iq_sign4(sign_mask, 0)
+                )
+                out_ptr.unsafe_store[width=4](
+                    base_out + 4, coef * gv2 * _iq_sign4(sign_mask, 4)
+                )
