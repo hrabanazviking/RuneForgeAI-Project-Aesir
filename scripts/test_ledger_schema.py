@@ -93,21 +93,19 @@ class CapabilityLedgerSchemaTests(unittest.TestCase):
         # Baseline re-measured from the repository ledger on 2026-10-28
         # (step 33, S-020); the previous figures (119 entries, 80
         # extensions) were stale and were never even reached, because
-        # parse_ledger_path raises on the current ledger before any
-        # count assertion runs. Measured truth at re-baseline time:
-        #   329 capability entries, 458 extension fields, and 176
-        #   strict-schema diagnostics (89 x missing required field
-        #   'Evidence boundary', 87 x missing required field
-        #   'Executable evidence').
-        # The 176 diagnostics are ledger content debt owned by the
-        # repository consistency checker (they are 176 of its 237
-        # findings), not parser behaviour: the synthetic tests above
-        # already prove the parser fails closed on such entries. This
-        # baseline therefore pins the measured shape and the measured
-        # diagnostic counts instead of re-asserting a clean parse the
-        # current ledger does not have. Any ledger growth, shrinkage,
-        # extension change, or schema-debt change breaks this test on
-        # purpose and forces a conscious re-measure.
+        # parse_ledger_path raised on the then-current ledger before
+        # any count assertion runs. First re-baseline (2026-10-28,
+        # step-33 S-020 repair) pinned the measured debt: 329 entries,
+        # 458 extension fields, 176 strict-schema diagnostics.
+        # The step-33 remainder campaign (S-017/S-018) then migrated
+        # all 94 pre-schema entries faithfully, clearing the debt.
+        # Measured truth at this re-pin (2026-10-28, S-021 zero gate):
+        #   329 capability entries, 337 extension fields, and a clean
+        #   parse with zero diagnostics.
+        # This baseline pins the measured shape and the clean parse.
+        # Any ledger growth, shrinkage, extension change, or new
+        # schema debt breaks this test on purpose and forces a
+        # conscious re-measure.
         from ledger_schema import (
             CANONICAL_FIELDS,
             FIELD,
@@ -120,12 +118,11 @@ class CapabilityLedgerSchemaTests(unittest.TestCase):
         )
 
         ledger_path = ROOT / "CAPABILITY_LEDGER.md"
-        with self.assertRaises(LedgerSchemaError) as caught:
-            parse_ledger_path(ledger_path)
-        messages = [item.message for item in caught.exception.diagnostics]
-        self.assertEqual(len(messages), 176)
-        self.assertEqual(messages.count("missing required field 'Evidence boundary'"), 89)
-        self.assertEqual(messages.count("missing required field 'Executable evidence'"), 87)
+        entries = parse_ledger_path(ledger_path)
+        self.assertEqual(len(entries), 329)
+        self.assertTrue(
+            all(entry.executable_evidence and entry.evidence_boundary for entry in entries)
+        )
 
         # Shape count following ledger_schema's own block and field
         # rules (capability headings bound blocks, the grandfathered
@@ -170,7 +167,7 @@ class CapabilityLedgerSchemaTests(unittest.TestCase):
                 if label not in CANONICAL_FIELDS and label and value
             )
         self.assertEqual(entry_count, 329)
-        self.assertEqual(extension_count, 458)
+        self.assertEqual(extension_count, 337)
 
     def test_empty_ledger_fails(self) -> None:
         with self.assertRaisesRegex(LedgerSchemaError, "no capability entries found"):
