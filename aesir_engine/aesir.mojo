@@ -429,12 +429,17 @@ struct AesirEngine:
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
-        (default 32; 1 disables batching and restores the per-token
-        loop). Also clamped by arena workspace — one batch row needs
+        (default 256; 1 disables batching and restores the per-token
+        loop). The 256 default is S-033 evidence (Oprius-i1 1.1B,
+        purplelongship): on a 213-token prompt, chunk 32 -> 256 cut
+        t1 walls 9-14% on every rung with bit-identical token ids
+        (each chunk re-decodes the weight blocks, so at small-model
+        sizes fewer chunks means far less repeated decode work).
+        Also clamped by arena workspace — one batch row needs
         roughly 3*hidden + q_width + 2*kv_width + 2*ffn_dim f16
         elements of per-layer scratch, and at most half the arena's
         free space may be committed to a single chunk."""
-        var cap = _env_int("AESIR_PREFILL_BATCH", 32)
+        var cap = _env_int("AESIR_PREFILL_BATCH", 256)
         if cap <= 1:
             return 1
         var hidden = self.parser.config.embedding_length
