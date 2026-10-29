@@ -3630,28 +3630,73 @@
   broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.139 the doubly-wed violating
+- [x] Slice4.139 the loose and rigid
+  positions CERTIFIED as
+  functions of the
+  doubly-wed key (L0, L1
+  and R0 positions each:
+  86 distinct, 15
+  repeating, 0 violating);
+  every further position
+  wed still repairs
+  nothing (86 distinct,
+  violating 2 / 3 / 3, the
+  same families with the
+  certified position value
+  appended); the long-run
+  boundaries in full (16
+  boundaries, all flanked,
+  shift changes 4 zero /
+  12 nonzero; 6 flank acts
+  themselves tail acts);
+  the tail cross-tabbed by
+  band (sign-pure outside
+  bands 350–449); the
+  secondary runs ≥20
+  exactly 7; and B byte 0
+  against the four
+  three-byte sub-keys wed
+  to the group over the
+  full 224 pairs (the
+  three byte-0 keys
+  injective, 0 repeats;
+  (byte1, byte2, byte3)
+  2 repeating, both
+  violating) with the 11
+  wed agreeing repeats'
+  status company (22
+  pairs: 14 SAME, 8 DIFF;
+  7 purely SAME, 4 purely
+  DIFF) (mechanisms NOT
+  PROVEN).
+  `docs/HAILO10H_DOUBLYWED
+  _POSITIONS_BOUNDARIES
+  _THREEBYTE_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.140 the violating
   families against the
-  loose acts' own positions
-  (L0 / L1 / R0 positions
-  as further companions,
-  each also tested as a
-  function of the
-  doubly-wed key); the
-  long-run boundaries
-  (flanking acts and
-  boundary shift changes),
-  the tail acts
-  cross-tabbed by band,
-  and the secondary runs
-  of length ≥20; and
-  B byte 0 against the
+  contexts' own identities
+  (artifact and context
+  index as further
+  companions, each also
+  tested as a function of
+  the doubly-wed key); the
+  secondary long runs'
+  internal A-position gaps
+  in full, and the 16
+  long-run flanking acts
+  classified (tail /
+  same-position / neither);
+  and B byte 0 against the
   four three-byte sub-keys
-  wed to the group over
-  the full 224 pairs,
-  with the 11 wed agreeing
-  repeats' status company;
-  then broad ordinary
+  UNWED over the full 224
+  pairs, with the two
+  (byte1, byte2, byte3) wed
+  violating repeats re-read
+  against A byte 0; then
+  broad ordinary
   UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

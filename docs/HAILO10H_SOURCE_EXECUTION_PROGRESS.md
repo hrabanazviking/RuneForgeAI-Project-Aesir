@@ -4110,3 +4110,41 @@ the tail by band; and the three-byte keys wed to
 the group.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.139 (AES-NUM-139) is complete. The loose
+acts' own positions and the rigid act's position
+are now certified, not just derived: the L0
+position is a function of the doubly-wed key, and
+so are the L1 and R0 positions — eighty-six keys,
+fifteen repeating, not one violating, under each
+of the three tests — and wedging any one of them
+further into the key changes nothing: still
+eighty-six keys, the failures still two and
+three, on the very same families wearing their one
+certified position value. The long shift runs'
+edges are read in full: sixteen boundaries, every
+one flanked, four where the shift does not change
+at the edge and twelve where it leaps — and six
+of the flanking acts are themselves big-shift
+tail acts. Read by position band, the tail is
+cleanly split: positive bands early, negative
+bands late, only the two middle bands mixing
+signs. The looser second reading of the runs
+holds seven long runs, three of them reaching
+across the gaps the strict reading stops at. And
+the rewritten byte, tested against every
+three-byte part wed to its own group, earns no
+determination at all: the three parts that contain
+the byte itself never repeat, and the one part
+that leaves it out repeats twice and violates
+twice — while the eleven agreeing wed repeats of
+the last slice divide by their company as
+fourteen keeping pairs to eight changing pairs,
+seven repeats purely keeping and the same four
+great-group repeats purely changing.
+Next: the violating families against the
+contexts' own identities; the secondary long
+runs' internal gaps and the flanking acts
+classified; and the three-byte keys unwed.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
