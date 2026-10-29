@@ -4294,3 +4294,38 @@ neighbourhood; and the three-byte keys wed to
 the cell as well.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.144 (AES-NUM-144) is complete. Read
+against their own families, the occupants lose
+the mark that set them apart from their slot
+families: every one of the twenty-eight matches
+its own family's modal third act, where only
+three had matched their slot family's — while
+the loose-distance match against their own
+families is no finding at all, since the
+distances are part of the very key that names a
+family. The channel mapping between the two
+contexts' insertions answers to nothing at the
+gaps' bounds: the bounding acts are the same
+acts in both contexts, yet two gaps with the
+same bounding channels carry different mappings,
+and neither the shifts nor the distances repair
+it. The eighth gap's second-side insertion is a
+four-act block of the familiar 24-byte form in a
+far-off offset region neither neighbour
+occupies. And the rewritten byte, wed at last to
+the cell as well, goes quiet in a new way: the
+cell splits the two violating repeats — each
+pair keeps its own byte exactly, and the pairs
+differ in the cell — but with no wed value left
+repeating, no determination is earned; and the
+cell alone, or its third component alone, or
+both together with the first byte, still do not
+determine the rewritten byte.
+Next: the two gaps that share their bounding
+channels read in full against each other; the
+eight violating cell repeats read against their
+records' centres and patterns; and the cell wed
+dissected against a first-byte wed.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

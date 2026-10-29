@@ -3871,30 +3871,88 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.144 the
-  occupants read against
-  their OWN families
-  (modal tuple and key
-  components of each
-  occupant's own family,
-  cross-tabbed against
-  the slot-family
-  comparison for position
-  2 and d0); the per-gap
-  channel mapping against
-  the gaps' bounding acts
-  and gap 8's B-side
-  insertion neighbourhood
-  in context B; and B
-  byte 0 against the four
-  three-byte sub-keys wed
-  to status, group, record
-  count AND cell jointly,
-  with the cell's third
-  component tested as a
-  companion; then broad
-  ordinary UNMODIFIED
-  source-model support100%.
+- [x] Slice4.144 the
+  occupants match their
+  OWN families' modal
+  third act in all 28
+  (slot modal matched
+  only 3; position-2
+  cross-tab (slot differs,
+  own matches) 25, (both)
+  3; repeating only 21/1);
+  the own-family key
+  match is identity by
+  construction (d0
+  cross-tab (slot differs,
+  own equal) 25, repeating
+  22/22, tautological on
+  the own side); the
+  per-gap channel mapping
+  is NOT a function of
+  the bounding acts
+  (identical in both
+  contexts, 16/16), the
+  shifts or the distances
+  (bounding-channel key
+  (1, 0) violating at
+  gaps 3 and 7; global
+  paired map one-to-many
+  in every channel); gap
+  8's B-side insertion is
+  a four-act 24 B block
+  at offsets 1,196,444,160
+  stepping 512, channels
+  0, 1, 2, 0, in a region
+  neither neighbour
+  occupies; and B byte 0
+  wed to status, group,
+  record count AND cell
+  jointly is injective
+  under all four sub-keys
+  (224 distinct, 0
+  repeating — the cell
+  splits the two violating
+  repeats, 1744/6944 and
+  4336/9832, each pair
+  keeping its own byte)
+  but earns no
+  determination, while
+  the cell as a companion
+  is NOT a determinant
+  (16 cells, 8 repeating
+  all violating at 27
+  pairs each in group
+  (20, 32720); the third
+  component alone the
+  identical test; (cell,
+  A byte 0) 36 violating)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_OWNFAMILY
+  _GAPCHANNEL_CELLWED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.145 gaps 3
+  and 7 (the sole
+  bounding-channel
+  violating pair) read in
+  full against each
+  other; the 8 violating
+  cell repeats (27 pairs
+  each, group (20, 32720))
+  against record-level
+  companions (centre
+  sets, cidx sets, poscat
+  patterns); and the
+  quad-wed injectivity
+  dissected — the triple
+  wed with A byte 0 added
+  against the same wed
+  with the cell added;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
