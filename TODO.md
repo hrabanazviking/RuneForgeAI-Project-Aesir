@@ -3513,32 +3513,91 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.137 gap 2's chain against the
+- [x] Slice4.137 gap 2's chain against the
   maximal compound joint
   key wed to the context
   length and to the gap's
-  left position (the two
-  companions the maximal
-  key does not yet carry),
-  the whole gap-2 tuple
-  likewise; the exception
+  left position: NO wed
+  repairs it (86 distinct
+  keys under either wed —
+  neither wed adds a key
+  over the maximal key
+  alone, so length and left
+  position are each constant
+  on every maximal family;
+  violating sets identical,
+  2 / 3 / 3, the violating
+  keys carrying lengths
+  245 / 606 / 873 and left
+  positions 220 / 581 /
+  848); the exception
   contexts' shared-act
-  position-shift anatomy
-  (exact shift distribution
-  over the 689 shared acts,
-  the 126 same-position
-  acts' position
-  distribution, shift runs
-  in position order); and
+  shift anatomy is exact
+  (all 689 shared acts
+  single-positioned in
+  both; 69 distinct shifts
+  −455..+434, +2 on 283,
+  0 on 126, +3 on 55;
+  466 positive, 97
+  negative, 69 at |shift|
+  ≥100; the 126 same-
+  position acts at
+  A-positions 2–614,
+  clustered — sparse head,
+  solid 242–270 block,
+  dense 501–614 region
+  ending solid 581–614;
+  118 primary shift runs,
+  longest 158 at +2 over
+  A 26–183; 103 secondary
+  runs); and B byte 0
+  answers to no two-byte
+  sub-key over the FULL
+  224-pair population (63
+  repeating values, 13
+  agreeing, 50 violating;
+  every key violates;
+  (byte0,byte3) heaviest
+  35 repeating, 27
+  violating; only 7 of 63
+  repeated values cross a
+  group boundary, and
+  (32,1) is the only one
+  touching the great
+  group) (mechanisms NOT
+  PROVEN).
+  `docs/HAILO10H_MAXIMAL_W
+  ED_SHIFT_TWOBYTE_FULL
+  _2026-10-24.md`. Then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.138 the two wed redundancies
+  certified directly
+  (context length and
+  gap-2 left position each
+  as a function of the
+  maximal compound joint
+  key; the maximal key wed
+  to BOTH companions
+  together, the whole
+  gap-2 tuple likewise);
+  the shift anatomy's long
+  runs read act by act
+  (every primary run of
+  length ≥20, the |shift|
+  ≥100 tail in full, shift
+  class by A-position
+  band of width 50); and
   B byte 0 against the six
-  two-byte sub-keys over
-  the FULL 224-pair
-  population (every repeated
-  value in full, agreeing
-  or violating, with each
-  repeated value's group
-  composition); then broad
-  ordinary UNMODIFIED
+  two-byte sub-keys wed to
+  the group (key =
+  (group, two-byte value))
+  over the full 224 pairs,
+  with the 13 agreeing
+  repeats' status company;
+  then broad ordinary
+  UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

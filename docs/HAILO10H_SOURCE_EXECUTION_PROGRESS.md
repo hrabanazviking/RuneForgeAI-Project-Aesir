@@ -4042,3 +4042,38 @@ position shifts read as an anatomy; and the two-byte
 tests carried to the whole population at once.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.137 (AES-NUM-137) is complete. The maximal
+key was wed to each of its last two companions in
+turn — the context's length, and the gap's own left
+position — and neither wed even adds a key: the
+count stays at eighty-six under both, the failures
+stay at two for the second act and three for the
+third and the whole fill, and the violating keys are
+the maximal key's own with the wed value riding on
+them, which proves the length and the left position
+were already fixed inside every maximal family. The
+exception's two homes have now had their shared
+acts' shifts counted one by one: every shared act
+stands in exactly one place in each home, most move
+by a small constant offset inside long runs at one
+shift — the longest a hundred and fifty-eight acts
+at plus two — a sixth do not move at all and none of
+those stands in the last stretch of either home,
+and a scattered tenth moves by hundreds of places.
+And the rewritten byte, tested against every
+two-byte part of its word over the whole population
+at once, violates under every key: sixty-three
+values repeat, only thirteen of them agreeing, and
+nearly all of the repetition lives inside the great
+group, the cross-group values being the small
+sharings already known plus the single violating
+value that touches the great group.
+Next: the two redundancies certified directly and
+the maximal key wed to both companions together;
+the long shift runs read act by act, the
+large-shift tail in full, and shift class by
+position band; and the two-byte keys wed to the
+group itself.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
