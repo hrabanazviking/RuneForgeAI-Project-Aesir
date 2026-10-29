@@ -3915,3 +3915,33 @@ population and each lesser group, hunting for a key
 value that ever repeats.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.133 (AES-NUM-133) is complete. The closing
+gap's chain was wed to every companion the wider lens
+suggested — the context's length, each sister gap's
+whole fill, the loose pair's order — and it mends
+under none of them: the length adds no distinction
+at all over the first act alone, each sister fill
+splits only the widest first act into halves that
+still disagree, and the loose order silences just
+two first acts while the widest disagrees under both
+orders; the whole fill, asked as one question, fails
+on exactly the union of its parts' failures. The one
+shared offset, read in full, dissolves into
+coincidence: the great act's two homes in another
+artifact share not a single act with any of the gap
+act's twelve identical contexts, and the corpus
+holds nineteen such cross-size sharings, not one.
+And beyond the great group the rewritten byte gives
+up one small genuine law at last: a single three-byte
+key repeats across two groups and agrees — both
+pairs keep the byte — while its sibling key fails on
+exactly the two narrow values that were always its
+only repetitions.
+Next: the chain against compound joint keys — order
+wed to the sister fills and to the loose distances;
+the nineteen cross-size offsets' small acts read as
+a population; and the one agreeing repetition set
+against every two-byte sharing between groups.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

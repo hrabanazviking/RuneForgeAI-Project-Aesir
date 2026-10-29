@@ -3300,34 +3300,81 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.133 gap 2's
-  chain against joint keys
-  (position-1 and position-2
-  as functions of
-  (position-0, context
-  length), (position-0,
-  gap-0 tuple), (position-0,
-  gap-1 tuple), (position-0,
-  loose order); the gap-2
+- [x] Slice4.133 gap 2's
+  chain against joint keys:
+  NO joint key repairs it
+  ((position-0, length) 70
+  distinct keys — length adds
+  none over position-0 alone —
+  position-1 fails 7,
+  position-2 8; (position-0,
+  gap-0 tuple) and
+  (position-0, gap-1 tuple)
+  71 each, splitting only the
+  widest first act into
+  halves that still violate,
+  failing 8 / 9;
+  (position-0, loose order)
+  73, failing 6 / 7, though
+  (1098455040, 328, 0) and
+  (961257984, 328, 0) fall
+  silent there; the whole
   tuple as a function of
-  (length, position-0));
-  the offset-120529920
-  collision in full (the
-  (120529920, 32784, 0) act
-  in its two 5ab3537d
-  contexts — position,
-  neighbours, shared
-  features with the gap
-  act's 12 contexts — and a
-  corpus census of cross-size
-  offset sharing for
-  size-328 acts); B byte 0's
-  three-byte tests beyond
-  the great group (the full
-  224-pair population and
-  each other group — distinct
-  values, repetition in full,
-  violating values in full);
+  (length, position-0) fails
+  10 of 70, the union of the
+  positions' failures); the
+  offset-120529920 collision
+  is offset-only (the gap
+  act's 12 contexts identical
+  in every printed feature;
+  the large act's two
+  5ab3537d contexts share
+  ZERO distinct acts with
+  each of them and contain
+  no gap act at all);
+  cross-size offsets with
+  minimum size 328 number 19
+  corpus-wide, not one; and
+  beyond the great group
+  exactly one three-byte key
+  ever repeats without
+  violating — (byte0, byte3,
+  byte1) = (20, 128, 1)
+  across groups, both pairs
+  SAME at 20 — while
+  (byte3, byte1, byte2) is
+  NOT a function of the full
+  224 pairs, failing on
+  exactly its two repeated
+  narrow values (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_JOINT_KEYS_COLLISION_CENSUS_THREEBYTE_BEYOND_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.134 gap 2's
+  chain against compound
+  joint keys ((position-0,
+  loose order, gap-0 tuple),
+  (position-0, loose order,
+  gap-1 tuple), (position-0,
+  loose distances (d0, d1));
+  the whole gap-2 tuple as a
+  function of (position-0,
+  loose order)); the 19
+  cross-size offsets'
+  size-328 acts as a
+  population (each 328 act's
+  occurrences, gap/class
+  membership, its partners
+  in full); the agreeing
+  (byte0, byte3, byte1)
+  repetition against the
+  two-byte cross-group
+  sharings (which two-byte
+  values are carried by
+  pairs of more than one
+  group, counted exactly);
   then broad ordinary
   UNMODIFIED
   source-model support100%.
