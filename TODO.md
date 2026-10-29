@@ -3675,29 +3675,78 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.140 the violating
-  families against the
-  contexts' own identities
-  (artifact and context
-  index as further
-  companions, each also
-  tested as a function of
-  the doubly-wed key); the
+- [x] Slice4.140 the artifact
+  identity CERTIFIED as a
+  function of the
+  doubly-wed key (86
+  distinct, 15 repeating, 0
+  violating) and the
+  context index NOT a
+  function (all 15
+  repeating keys violate);
+  the artifact wed repairs
+  nothing (86 distinct,
+  violating 2 / 3 / 3, the
+  same families with
+  'cc9b9d1c' appended) and
+  the cidx wed is vacuous
+  (271 distinct, 0
+  repeating); the
   secondary long runs'
-  internal A-position gaps
-  in full, and the 16
-  long-run flanking acts
-  classified (tail /
-  same-position / neither);
-  and B byte 0 against the
-  four three-byte sub-keys
+  internal gaps almost all
+  unit (431 gaps: 423 of
+  size 1, only 8 larger,
+  all in the three
+  merging/extending runs);
+  the 16 flanking acts
+  classified (6 tail, 3
+  same-position, 7
+  neither); and B byte 0
+  against the four
+  three-byte sub-keys
   UNWED over the full 224
-  pairs, with the two
-  (byte1, byte2, byte3) wed
-  violating repeats re-read
-  against A byte 0; then
-  broad ordinary
-  UNMODIFIED
+  pairs (two keys
+  injective; (byte0, byte1,
+  byte3) one agreeing
+  cross-group repeat;
+  (byte1, byte2, byte3)
+  the same 2 violating
+  repeats as wed) with the
+  two wed violating
+  repeats re-read against
+  A byte 0 (B byte 0 = A
+  byte 0 in all 4 pairs)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_ARTIFACT
+  _CIDX_SECONDARYGAPS
+  _FLANKS_UNWED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.141 the cidx
+  sets inside the 15
+  repeating doubly-wed
+  families in full (step /
+  residue structure), with
+  cidx-derived companions
+  tested the same way; the
+  acts occupying the 8
+  skipped A-positions
+  inside the secondary
+  long runs (identity,
+  shared or not, position
+  in B if shared); and
+  B byte 0 against the
+  four three-byte sub-keys
+  wed to the pair's status
+  over the full 224 pairs,
+  with the (byte0, byte1,
+  byte3) unwed agreeing
+  repeat's two pairs
+  re-read record by
+  record; then broad
+  ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

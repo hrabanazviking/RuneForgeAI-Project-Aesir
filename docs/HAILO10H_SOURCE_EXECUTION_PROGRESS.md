@@ -4148,3 +4148,42 @@ runs' internal gaps and the flanking acts
 classified; and the three-byte keys unwed.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.140 (AES-NUM-140) is complete. The
+contexts' own identities split two ways: where a
+context lives is already written in the key — the
+artifact identity is a certified function of the
+doubly-wed key, eighty-six keys, fifteen repeating,
+none violating, every repeating family in the one
+artifact — but which context it is within that
+artifact is not: the context index fails on every
+one of the fifteen repeating families, each spread
+over many indices. Wedging the artifact in changes
+nothing, still eighty-six keys and the same two
+and three failures wearing the artifact's name;
+wedging the index in "repairs" everything only by
+giving every one of the two hundred seventy-one
+rows a key of its own. The loose second reading of
+the shift runs turns out to be almost as tight as
+the strict one: four hundred thirty-one gaps
+inside the seven long secondary runs, all but
+eight of them a single step, and every wider gap
+inside the three runs that merge or stretch past
+the strict runs. The sixteen acts standing at the
+strict runs' edges divide as six big-shift tail
+acts, three standing still, and seven neither.
+And the rewritten byte, tested against every
+three-byte part of its word with no group wed at
+all, still earns no determination: two parts never
+repeat, one repeats once across two groups and
+agrees, and the part that leaves the byte out
+repeats twice and violates twice — the same two
+values as wed — while in each of those four pairs
+the rewritten byte simply keeps its own pair's
+original byte.
+Next: the index sets inside the fifteen families
+and their step structure; the acts in the eight
+skipped positions; and the three-byte keys wed to
+each pair's status.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
