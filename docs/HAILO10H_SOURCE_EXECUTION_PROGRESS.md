@@ -4379,3 +4379,31 @@ byte read against joint companions; and the
 four-step tested wherever its sub-key repeats.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.147 (AES-NUM-147) is complete. The
+channel mapping answers to nothing in the second
+side's skipped acts either: one size, one residue
+and one skipped act each carry all three mappings
+between them, and the channels earn the same single
+agreeing repeat the first side earned, at the same
+two gaps. Read channel-blind, the two bounding-twin
+gaps' skipped (offset, size) pairs occur exactly
+twice in the whole corpus — the gap's own two acts,
+at the same position in the two contexts, and
+nowhere else. The rewritten byte earns its first
+agreeing repeats from the joint companions that
+pair its records' idx sequences with its own first
+byte — seven of them — and still violates
+thirty-five times, while the joints built on the
+constant in37 pattern collapse onto the singles
+they were wed from. And the four-step belongs to
+the sub-key alone, not to the wed that first
+framed it: over the whole 224 pairs, exactly the
+same two pair-pairs share that sub-key, and both
+rise by four.
+Next: the refining joints dissected repeat by
+repeat; the four-step tested under the other
+three sub-keys; and the channel tuples wed to
+count and sizes.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

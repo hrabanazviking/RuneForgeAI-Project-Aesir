@@ -4026,7 +4026,7 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.147 the
+- [x] Slice4.147 the
   per-gap channel mapping
   as a function of the
   B-side skipped acts and
@@ -4057,6 +4057,28 @@
   pairs; then broad
   ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.148 the two
+  refining joints
+  dissected over the 216
+  (their 7 agreeing
+  repeats in full; the
+  two joints' pair-by-pair
+  identity; (idx sequence,
+  A byte 0) wed to the
+  cell); the +4 byte-0
+  step across every
+  pair-pair sharing each
+  of the other three
+  three-byte sub-keys
+  alone over the full 224;
+  and the channel tuples
+  wed to count and to
+  sizes as determinants
+  of the per-gap mapping
+  over all 8 gaps; then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
