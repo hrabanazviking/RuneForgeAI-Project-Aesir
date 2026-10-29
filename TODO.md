@@ -4079,7 +4079,7 @@
   broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.149 the 7
+- [x] Slice4.149 the 7
   agreeing repeats read
   record by record (each
   repeat's two pairs
@@ -4100,6 +4100,30 @@
   table); then broad
   ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.150 the 3
+  control comparisons
+  with the agreeing
+  (12, 7) profile read
+  in full (which repeat
+  carries them; their
+  differing seven against
+  the agreeing seven);
+  the 8 byte-0-differing
+  near-miss pair-pairs
+  read against each
+  other (the +4 cases
+  against the 8/12/64
+  cases; the sub-keys'
+  population overlap);
+  and gap 4 read in full
+  against gaps 5 and 6
+  (feature tables; its
+  four-long skipped block
+  against their single
+  skipped acts); then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

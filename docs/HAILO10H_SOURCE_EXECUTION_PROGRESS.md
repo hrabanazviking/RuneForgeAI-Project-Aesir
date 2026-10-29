@@ -4434,3 +4434,27 @@ record; the injective sub-keys' near-misses; and
 gaps 5 and 6 read against each other in full.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.149 (AES-NUM-149) is complete. The seven
+agreeing repeats are a fixed profile, not a
+resemblance: every one compares exactly twelve
+equal and seven differing over the same nineteen
+fields, and the seven differing fields are the
+same seven every time — the six non-keyed word
+bytes and the record cell — while the thirty-five
+violating repeats, as control, differ more, and
+their extra differences are the verdict fields
+themselves. The near-miss census earns no
+four-step law: at Hamming-1 range the byte-0 axis
+steps by 4, 8, 12 and 64. And gaps 5 and 6 are
+the same gap twice over at their bounds, like
+gaps 3 and 7 before them; nothing they share
+determines their mapping short of the skipped
+channels themselves, which are the mapping's own
+components.
+Next: the three control comparisons that carry
+the agreeing profile; the eight byte-0-differing
+near-misses read against each other; and gap 4
+read in full against gaps 5 and 6.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
