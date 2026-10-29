@@ -6,7 +6,7 @@
 # cache after prefill(); (3) prompt-cache: prefilling a prefix, then
 # continuing, yields a bit-identical cache to prefilling the whole prompt
 # at once (10 prefix/prompt pairs).
-# Needs the TinyLlama Q4_0 model at /home/pi/models/tinyllama/... (Mimir).
+# Needs the TinyLlama Q4_0 model at ~/models/tinyllama/... (Mimir).
 # Usage: c9_h174_chunk   (run from the repo root)
 
 from std.memory import Pointer
@@ -47,7 +47,7 @@ def _cache_identical(a: Inference, b: Inference) -> Bool:
 
 
 def main() raises:
-    var model_path = String("/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf")
+    var model_path = String("~/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf")
     var tok = SPTokenizer()
     tok.load("data/armvegr/tinyllama_tokenizer.model")
     var data = _read_file("data/bench/e2e_prompt.txt")

@@ -11,8 +11,9 @@
 
 import subprocess
 import sys
+from pathlib import Path
 
-VORDR = "/home/pi/mimisbrunnr_c8/vordr_cli"
+VORDR = str(Path(__file__).resolve().parents[2] / "vordr_cli")
 
 
 def main():

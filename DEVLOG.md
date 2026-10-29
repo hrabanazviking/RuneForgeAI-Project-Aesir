@@ -5141,7 +5141,7 @@ v1 files preserved frozen, changelog recorded). Re-run at 96 tokens
   Re-test: 22 files, forbidden scan clean, inference OK inside a
   python-less debian:bookworm-slim container, strace shows no python
   exec. THIRD_PARTY_NOTICES amended for the bundled libs.
-- H191: deploy to /home/pi/aesir-f1-1.0 complete — checksum and model
+- H191: deploy to ~/aesir-f1-1.0 complete — checksum and model
   sha256 verified, watchdog unit installed (systemd-system),
   aesir-driver symlink asserted, canary PASS (first-10 generated ids
   bit-match). One fix: the canary path is now resolved after

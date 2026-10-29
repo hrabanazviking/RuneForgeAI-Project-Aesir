@@ -55,7 +55,7 @@ Ambition was fully pursued; the evidence forced NO-GO.
 | Reset storm | 20/20 SIGKILL→respawn recoveries, max restart 1.0 ms vs 44 ms H155 budget, outputs bit-identical |
 | Determinism | 5 prompts × 10/10 identical + 5/5 post-restart identical |
 | Memory | RSS slope −0.37 MB/h over the soak — no leak |
-| Packaging | Self-contained tarball (binary + bundled runtime libs, $ORIGIN rpath) runs inference in a python-less container; deployed to /home/pi/aesir-f1-1.0, canary PASS |
+| Packaging | Self-contained tarball (binary + bundled runtime libs, $ORIGIN rpath) runs inference in a python-less container; deployed to ~/aesir-f1-1.0, canary PASS |
 
 ## Known limitations
 

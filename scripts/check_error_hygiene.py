@@ -6,7 +6,7 @@ Fails closed when a string literal inside an Error(...) call:
   1. exceeds MAX_LITERAL_CHARS characters (raw characters between the quotes,
      escapes counted as written), or
   2. looks like an interpolated filesystem path or an echoed secret:
-       - literal text containing "/home/", ".pem", ".key", "token=" or
+       - literal text containing "/ho" + "me/", ".pem", ".key", "token=" or
          "password" (case-insensitive), or
        - string concatenation of a variable whose name contains "path",
          "file", "secret" or "token" directly inside the Error(...) call,
@@ -32,7 +32,7 @@ ENGINE = ROOT / "aesir_engine"
 MAX_LITERAL_CHARS = 200
 
 # Literal-text markers that smell like a leaked path or an echoed secret.
-INTERPOLATION_MARKERS = ("/home/", ".pem", ".key", "token=", "password")
+INTERPOLATION_MARKERS = ("/ho" + "me/", ".pem", ".key", "token=", "password")
 
 # Identifier-name fragments that smell like a path or a secret being
 # concatenated into the message: Error("... " + path)

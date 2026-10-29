@@ -65,7 +65,7 @@ def gen_strings(n, seed):
 
 def build_cli():
     env = dict(os.environ)
-    env["TMPDIR"] = "/home/hatch/.tmp"
+    env["TMPDIR"] = os.path.expanduser("~/.tmp")
     r = subprocess.run(
         [MOJO, "run", "--manifest-path", MOJO_MANIFEST, "mojo",
          "build", "-I", REPO, "-o", CLI_BIN, CLI_SRC],

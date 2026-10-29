@@ -84,7 +84,7 @@ Full operator docs: `share/doc/RUNBOOK.md`.
 
 - The `aesir-driver` symlink always points at the current release;
   rollback = repoint + `systemctl restart vordr-watchdog` + canary.
-- Model file is external to the package (`/home/pi/models/...`);
+- Model file is external to the package (`~/models/...`);
   verify its sha256 after any re-download.
 
 ---

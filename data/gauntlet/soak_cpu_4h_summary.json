@@ -8,5 +8,5 @@
   "last30_median_tps": 2.136,
   "drift_ratio": 0.0042,
   "drift_within_10pct": true,
-  "log": "/home/pi/c10work/data/gauntlet/soak_cpu_4h.log"
+  "log": "data/gauntlet/soak_cpu_4h.log"
 }

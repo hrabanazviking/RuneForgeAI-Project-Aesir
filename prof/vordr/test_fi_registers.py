@@ -16,7 +16,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 MIMIR = "mimir"  # run ON Mimir (this file is copied there by the runner)
-VORDR = "/home/pi/mimisbrunnr_c8/vordr_cli"
+VORDR = str(REPO / "vordr_cli")
 
 # (name, image offsets/values, expected decoded name, expected action)
 PATTERNS = [
@@ -71,8 +71,8 @@ def main():
         fi.write_text(json.dumps({"fault": "regerr", "detail": detail}))
         r = subprocess.run(
             [VORDR, "h158-run", "--out-dir", "/tmp/vordr-h151-" + label,
-             "--f1-bin", "/home/pi/mimisbrunnr_c8/f1_infer",
-             "--f1-config", "/home/pi/mimisbrunnr_c8/data/fallback/f1_config.json",
+             "--f1-bin", str(REPO / "f1_infer"),
+             "--f1-config", str(REPO / "data" / "fallback" / "f1_config.json"),
              "--max-tokens", "8", "--duration-s", "600",
              "--max-iters", "3",
              "--fi-file", str(fi), "--iter-budget-ms", "120000",

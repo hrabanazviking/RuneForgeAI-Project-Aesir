@@ -107,7 +107,7 @@ def main():
         # Measured on Mimir via sha256sum (2026-10-10); matches the C3/H059
         # record (da3087fb...) and the HuggingFace authoritative file.
         "model_sha256": "da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556",
-        "model_path_on_mimir": "/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
+        "model_path_on_mimir": "~/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
         "binary": "armvegr/f1_infer",
         "infer_version": first["infer_version"],
         "mojo_version": mojo_version,

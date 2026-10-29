@@ -15,7 +15,7 @@ Pi binaries: batch builds on the fast machine, ship to Mimir, run.
 | Item | How obtained |
 |---|---|
 | x86_64 Linux build host ("forge") | existing machine |
-| pixi 0.81.0 (`/home/hatch/.pixi/bin/pixi`) | pre-existing install |
+| pixi 0.81.0 (`~/.pixi/bin/pixi`) | pre-existing install |
 | Mojo 1.1.0 via pixi, channel `https://conda.modular.com/max`, `platforms = ["linux-64"]` | `pixi.toml` in `~/mimisbrunnr-x86/mojo_xcompile`; `pixi install` resolves it |
 | `aarch64-linux-gnu-gcc` 13.3.0 (Ubuntu) | **system package**: `apt-get update && apt-get install gcc-aarch64-linux-gnu` |
 | aarch64 Mojo runtime libs (see table below) | **copied files**: pulled from Mimir's own pixi env (see "Runtime libraries") |
@@ -32,7 +32,7 @@ The cross-built binary's complete runtime closure on Mimir (measured with
 
 | Library (as resolved on Mimir) | Direct or transitive | How obtained |
 |---|---|---|
-| `libKGENCompilerRTShared.so` → `/home/pi/mojo-dev/.pixi/envs/default/lib/` | **direct** (only `.so` on the mojo link line) | **copied file**: pulled from Mimir's pixi env via device `file.read` (64 KiB chunks, gzipped for transfer), 1200128 bytes |
+| `libKGENCompilerRTShared.so` → `~/mojo-dev/.pixi/envs/default/lib/` | **direct** (only `.so` on the mojo link line) | **copied file**: pulled from Mimir's pixi env via device `file.read` (64 KiB chunks, gzipped for transfer), 1200128 bytes |
 | `libMSupportGlobals.so` → Mimir pixi lib | transitive (DT_NEEDED of KGEN) | **copied file**: same pull method, 49504 bytes |
 | `libAsyncRTRuntimeGlobals.so` → Mimir pixi lib | transitive (DT_NEEDED of KGEN) | **copied file**: same pull method, 668584 bytes |
 | `libstdc++.so.6` → Mimir pixi lib | transitive | **already on target**: ships inside Mimir's pixi env, resolved via rpath |
@@ -67,7 +67,7 @@ done
 exec /usr/bin/cc "$@"
 EOF
 chmod +x /tmp/xbuild/ccwrap/cc
-PATH=/tmp/xbuild/ccwrap:$PATH /home/hatch/.pixi/bin/pixi run mojo build \
+PATH=/tmp/xbuild/ccwrap:$PATH ~/.pixi/bin/pixi run mojo build \
   --target-triple aarch64-unknown-linux-gnu -o /tmp/xbuild/hello_raw hello.mojo
 # -> "error: failed to link executable" (expected); saved.a now holds the objects.
 
@@ -78,7 +78,7 @@ PATH=/tmp/xbuild/ccwrap:$PATH /home/hatch/.pixi/bin/pixi run mojo build \
 AARCH64_LIBS=/tmp/mimisbrunnr/forge-xlibs   # the three pulled .so files
 aarch64-linux-gnu-gcc /tmp/xbuild/ccwrap/saved.a \
   "$AARCH64_LIBS/libKGENCompilerRTShared.so" \
-  -Xlinker -rpath -Xlinker /home/pi/mojo-dev/.pixi/envs/default/lib \
+  -Xlinker -rpath -Xlinker ~/mojo-dev/.pixi/envs/default/lib \
   -o /tmp/xbuild/hello_aarch64 -Wl,--gc-sections -lm
 file /tmp/xbuild/hello_aarch64
 # -> ELF 64-bit LSB pie executable, ARM aarch64 ...
@@ -116,7 +116,7 @@ too (5160 bytes each).
   future Mojo program's link line names other runtime libs, pull their aarch64
   copies from Mimir the same way and add them to the manual link.
 - The rpath is absolute to Mimir's pixi env
-  (`/home/pi/mojo-dev/.pixi/envs/default/lib`). If that env moves, relink with
+  (`~/mojo-dev/.pixi/envs/default/lib`). If that env moves, relink with
   the new path (or extend the recipe with `$ORIGIN`-relative libs).
 - One transfer mishap is recorded honestly in the attempt log (a hand-chunked
   zero-padding segment was over-sent by 12 bytes; the device rejected the next

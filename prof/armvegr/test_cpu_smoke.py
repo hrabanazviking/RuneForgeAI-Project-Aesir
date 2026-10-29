@@ -67,7 +67,7 @@ def make_tiny_gguf(path, seed=0xC0FFEE):
 
 def build():
     env = dict(os.environ)
-    env["TMPDIR"] = "/home/hatch/.tmp"
+    env["TMPDIR"] = os.path.expanduser("~/.tmp")
     r = subprocess.run(
         [MOJO, "run", "--manifest-path", MOJO_MANIFEST, "mojo",
          "build", "-I", REPO, "-o", SMOKE_BIN, SMOKE_SRC],

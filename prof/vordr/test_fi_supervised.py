@@ -17,8 +17,8 @@ import sys
 import time
 from pathlib import Path
 
-VORDR = "/home/pi/mimisbrunnr_c8/vordr_cli"
-REPO = "/home/pi/mimisbrunnr_c8"
+REPO = str(Path(__file__).resolve().parents[2])
+VORDR = REPO + "/vordr_cli"
 DUR = 1800
 EXT_FAULTS = 5
 
@@ -142,7 +142,7 @@ def main():
     for li in range(2):
         lp = tmp / f"long{li}.json"
         r = subprocess.run(
-            ["/home/pi/mimisbrunnr_c8/f1_infer", "--config",
+            [REPO + "/f1_infer", "--config",
              REPO + "/data/fallback/f1_config.json",
              "--prompt", "The old völva sat by the fire and spoke of wyrd.",
              "--max-new-tokens", "64", "--seed", str(5000 + li),

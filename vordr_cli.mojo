@@ -1056,7 +1056,7 @@ def cmd_h158_run(args: List[String]) raises -> Int:
     var out_dir = _get(args, "--out-dir", "/tmp/vordr-h158")
     var log = out_dir + "/events.jsonl"
     var bdf = _get(args, "--bdf", "0001:01:00.0")
-    var f1bin = _get(args, "--f1-bin", "/home/pi/mimisbrunnr_c8/f1_infer")
+    var f1bin = _get(args, "--f1-bin", "f1_infer")
     var f1cfg = _get(args, "--f1-config", "data/fallback/f1_config.json")
     var prompt = _get(args, "--prompt", "The old völva sat by the fire and spoke of wyrd.")
     var max_tok = _get(args, "--max-tokens", "32")

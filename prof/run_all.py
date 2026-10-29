@@ -43,7 +43,7 @@ import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-PROBE = "/home/pi/mimisbrunnr_c5/bin/probe"
+PROBE = str(REPO / "bin" / "probe")
 
 # (script, extra_args, note, extra_env, machine)
 SUITE = [
