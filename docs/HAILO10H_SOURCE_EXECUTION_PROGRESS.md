@@ -4657,3 +4657,36 @@ full; the one external listing and its partner
 in full; and gaps 5 x 6 in full. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+Slice 4.157 (AES-NUM-157) is complete. The full
+shared-act population is not two bands: its 689
+shifts take 69 distinct values in 103 secondary
+runs (102 transitions printed exactly). The
+opening is clean — 9 acts at shift 0 over A
+positions 2–24, then the longest run, 158 acts
+at +2 over A 26–183, with the first transition
+between A 24 and 26 and the A 50–149 bands pure
++2 — but from A 184 the shift fragments through
+excursions to +432/+434 and dozens of short
+runs, with three later long runs (53 at +3, the
+83-act shift-0 run at A 524–614, and a final 58
+at +2). Zero residue-0 rungs sit between A
+positions 25 and 674, so the rungs' own band
+boundary remains unmeasured. The −7 singleton
+is the only −7 act in the population, flanked
+by five huge negative shifts at A 676–680 and
+by +2 from A 683 on. The union's single leak
+(listing 21) ends at a leaf: 406820cf has
+exactly one listing, touches no hub and no
+three, and its chain reaches three 1 in two
+steps through 40f079cf. Gaps 5 × 6 differ only
+in identity and position — all 13 differing
+features are which acts, where, and what was
+skipped; every structural feature is equal,
+and both gaps sit in the same 83-act shift-0
+run. Next: the +432/+434 excursion at A
+184–191 in full; the leaf chain's root three
+40f019ce as one graph; and gaps 3 × 5 and
+3 × 6 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

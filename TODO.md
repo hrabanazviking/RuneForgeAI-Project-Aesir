@@ -4272,7 +4272,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.157 the position-
+- [x] Slice4.157 the position-
   shift bands read in full
   (every shared act's shift
   as a function of position;
@@ -4287,6 +4287,20 @@
   pair's 13 differing
   features); then broad
   ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.158 the +432/+434
+  excursion at A positions
+  184-191 in full (its 8
+  acts and their flanks);
+  the leaf chain's root
+  (three 40f019ce in full;
+  the chain leaf -> neither
+  -> three as one graph);
+  and gaps 3 x 5 and 3 x 6
+  in full (the 15/32
+  runners-up, completing
+  run 74's top pairs); then
+  broad ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
