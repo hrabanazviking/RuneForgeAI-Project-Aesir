@@ -4627,3 +4627,33 @@ context-position space; the three population as
 a graph in full; and the complete pairwise gap
 table. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.156 (AES-NUM-156) is complete. Identical
+chains are not position-identical: of the 13
+surviving chains, 5 sit at exactly the same
+context positions in both contexts (the head
+singletons at positions 9/12/18/21/24), 8 are
+carried at a single uniform shift (+2 for seven,
+-7 for the one tail singleton at A position
+682), and none is mixed; the truncated 6-chain's
+shared rungs are position-identical and the
+split 12-chain's two B fragments both shift
+uniformly +2. The three population's graph has
+three components over the threes — [1] isolated
+within the threes, [2, 3] joined by a double
+edge, and a complete K4 on threes 4-7 — its 5
+neither listings run to only 4 distinct
+partners, and the threes-plus-neithers union
+(11 vertices, the hub component's size) is
+disjoint from the hubs but not closed: exactly
+1 of its 15 touching listings leaves it. The
+complete 28-pair gap table is bimodal by run:
+same-run pairs share the whole frame and score
+9-19, cross-run pairs share no frame and score
+0-4, with gap 8 x gap 4 the unique cross-run
+pair above 1 and gaps 5 x 6 the maximum pair at
+19/32. Next: the position-shift bands read in
+full; the one external listing and its partner
+in full; and gaps 5 x 6 in full. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

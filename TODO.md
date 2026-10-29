@@ -4253,7 +4253,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.156 the surviving
+- [x] Slice4.156 the surviving
   chains in context-position
   space (identical chains'
   rung positions in A vs B;
@@ -4272,6 +4272,22 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.157 the position-
+  shift bands read in full
+  (every shared act's shift
+  as a function of position;
+  the 0/+2 band boundary;
+  the -7 singleton's
+  neighbourhood); the one
+  external listing (21) and
+  its 1-listing partner in
+  full (the leak's other
+  side); and gaps 5 and 6
+  in full (the maximum
+  pair's 13 differing
+  features); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
