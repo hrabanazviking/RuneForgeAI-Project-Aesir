@@ -3605,3 +3605,68 @@ population of acts that occur exactly twice around
 the great run.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 the fibres of the sum factoring and of the
+difference map read in full, the shrinking steps read
+as sequences with their ratios and second differences
+and five stated decay forms tried exactly, the three
+displaced acts' whole lives in the corpus read
+occurrence by occurrence, two hundred fifty-one's
+closing segment set against one hundred thirty's
+head, and the population of acts that occur exactly
+twice around the great run read in full
+(AES-NUM-126,slice4.126):
+`docs/HAILO10H_FIBRES_RATIOS_DISPLACED_PROFILES_2026-10-24.md`.
+The factoring's fibres turn out to be no fibres at
+all: every one of the two hundred twenty-two carries
+exactly one distinct pair of first and second bytes,
+and the only two fibres holding two pairs differ in
+the unseen byte alone — there is no trading of one
+byte against the other at a fixed sum anywhere. The
+difference map's one hundred sixty-seven cells fare
+no better under arithmetic: of the thirty-two cells
+holding more than one key, the sixteen with two keys
+are constant-gapped only because a single gap cannot
+disagree with itself, and every one of the sixteen
+cells with three or more keys fails, its gaps uneven
+and their greatest common divisor one in thirteen of
+them. The steps, read as sequences, are a near-miss
+of the prettiest kind: three hundred twenty-four
+ratios, every one distinct, every one between nought
+and one, and within any single context the six ratios
+of a side huddle inside a window no wider than about
+a millionth — yet not one sequence has even two equal
+ratios, and all five stated decay forms fail
+everywhere: no per-context geometric ratio, no pooled
+one, no constant second difference (all three hundred
+twenty-four second differences are negative, with a
+single repeated value shared by two contexts), no
+constant ratio of the two sides' steps, and no
+proportionality of step to level. The three displaced
+acts live in exactly the same eight contexts of the
+one artifact, and in three of them — one hundred
+twenty-eight, two hundred fifty-one and two hundred
+sixty-five — they stand together as one block in the
+same order, hard after the common core's final act;
+two hundred fifty-one's closing segment and one
+hundred thirty's head share exactly the two head-side
+displaced acts and nothing else. And the population
+of acts occurring exactly twice, once in each of one
+hundred fourteen and two hundred fifty-one, numbers
+one hundred twenty-seven of their one hundred
+sixty-eight shared acts, standing in twenty-four
+runs, of which the great run of fifty-four at
+identical positions is the eighth — verified act by
+act to belong wholly to the population — while the
+other seventy-three stand in the twenty-three
+remaining runs and singles.
+Next: the sum-to-difference table read as a function
+of the sum within each value of the third byte, and
+the unseen byte's own map; the near-geometric wobble
+measured exactly and integer-rounding forms tried;
+the displaced trio's eight contexts read in wider
+windows, its flanking acts profiled, and the
+forty-one shared acts that are not occurrence-two
+read by their occurrence classes.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

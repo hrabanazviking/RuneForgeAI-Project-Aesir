@@ -10313,3 +10313,106 @@ No new capability ID or hardware/complete-source execution claim.
   0–10) in full, and the occurrence-2 exclusivity
   population around the 54-act run (slice 4.126).
 - **Audit:** Host-side analysis only; no device child.
+
+### AES-NUM-126 — The (byte 3, byte 1 + byte 2) factoring's fibres are all trivial: every one of the 222 fibres carries exactly one distinct (byte 1, byte 2) pair (pair-count distribution {1: 220, 2: 2}; distinct-byte-1 distribution {1: 222}), the two 2-pair fibres being the narrow keys (byte 3 128, sum 177) with (1, 176) and A byte 0 ∈ {28, 32} and (byte 3 128, sum 179) with (1, 178) and A byte 0 ∈ {20, 24}, both diff −128 — pairs under a fibre differ only in byte 0, so the fibre arithmetic test (sorted byte-1 gaps, constant-gap/AP verdict, gap gcd, range vs fibre size) is VACUOUS in all 222 fibres (0 fibres with ≥2 distinct byte-1 values) and arithmetic structure across the factoring fibres is NOT PROVEN; the map's difference fibres are 167 (byte 3, difference) cells over the 222 keys / 224 pairs (cell sizes by keys {1: 135, 2: 16, 3: 9, 4: 7}, by pairs {1: 135, 2: 16, 3: 9, 4: 6, 6: 1} — the 6-pair cell is (128, −128) holding the four narrow keys), 32 cells hold ≥2 keys and no two keys in any cell share a sum, and constant-gap structure across the difference cells is NOT PROVEN: the 16 two-key cells are constant-gap only vacuously (single gaps 14, 12, 190, 61, 126, 118, 33, 86, 107, 76, 139, 68, 9, 199, 225, 196), while all 16 cells with ≥3 keys fail — (128, −128) sums [161, 177, 178, 179] gaps [16, 1, 1] gcd 1 (first counterexample), (184, −7) [29, 124] gcd 1, (187, −1) [7, 17, 85] gcd 1, (210, −1) [80, 193] gcd 1, (222, −11) [26, 43] gcd 1, (226, −2) [29, 155] gcd 1, (236, −1) [3, 96, 31] gcd 1, (242, −7) [143, 15] gcd 1, (243, −1) [10, 170, 37] gcd 1, (246, −5) [27, 39] gcd 3, (246, −1) [27, 85] gcd 1, (247, −1) [12, 115, 34] gcd 1, (249, −4) [82, 25] gcd 1, (250, −1) [33, 5, 48] gcd 1, (251, −3) [216, 6] gcd 6, (252, −1) [10, 100, 28] gcd 2 (gap gcd 1 in 13 of the 16); group (20, 32720)'s 189 steps read as sequences in full (per cidx: 7 delta-A, 7 delta-B, 6 exact reduced-fraction ratios of each, 6 second differences of each) — all 324 consecutive ratios are pairwise distinct and strictly between 0 and 1 (A: 162 distinct, 5976349/9115310 ≈0.6557 to 2726495/3484787 ≈0.7824; B: 162 distinct, 1545014/2343659 ≈0.6592 to 238729/309153 ≈0.7722) and all 324 second differences are negative (A: 161 distinct of 162, −135,899,168 to −16,464,172; B: 162 distinct, −133,807,488 to −16,659,848), the single repeated second difference in the population being −38,363,136 at cidx 11 k = 3 and cidx 29 k = 3, both A-side (derived at closing); within any one cidx and side the 6 ratios span at most ≈1.12×10⁻⁶ (widest cidx 50 B; narrowest ≈1.6×10⁻⁷ cidx 71 B; median ≈4.3×10⁻⁷, derived at closing) yet no sequence has even two equal ratios, and the contract's decay forms ALL FAIL — F1 per-cidx geometric 0/54 constant cidx-sides, 270/270 counterexample steps, first (cidx 2, A, k = 1, 1848215/2387291 → 2861739/3696430); F2 pooled geometric 161/162 counterexamples per side, 323/324 combined; F3 per-cidx constant second difference 0/54, 270/270, first (cidx 2, A, k = 1, −69,001,728 → −53,420,224); F4 per-cidx delta-B/delta-A constant 0/27 cidxs, 162/162 counterexample steps, first (cidx 2, k = 1, 5037941/4774582 → 1904347/1848215); F5 delta proportional to level 0/54, 324/324, first (cidx 2, A, k = 1, 2387291/22982330 → 1848215/25369621) — exact decay form NOT PROVEN, the ~10⁻⁶ per-cidx wobble around a cidx-specific ratio being the measured residue; the three displaced acts are profiled corpus-wide in full (8 occurrences each, every occurrence in the single artifact cc9b9d1c, and all three in exactly the same eight contexts {125, 128, 130, 143, 251, 261, 262, 265}, derived at closing): in cidx 128, 251 and 265 they stand as one consecutive block in the order (1062814208, 24, 0), (1062813184, 24, 1), (1052257280, 24, 2) at 819–821 / 822–824 / 819–821, immediately after the common core's final act (2817536, 24, 0) and immediately before (1113626112, 24, 0), identical in all three; in 130 they split (D1@6, D2@7 at the head abutting (0, 304, 0)@8; D3 alone @197); in 125 (D1@6 head; D3@546 and D2@548 two apart around (1062813696, 328, 0)) and 262 (D1@7 head; D3@537 and D2@539 two apart around (2174832128, 328, 0)) the same split shape; in 143 D2@4 heads with D3@87 / D1@90 three apart; in 261 D1@4 / D2@5 head-adjacent with D3@288; 251's closing segment (818–841, 24 acts: three private 328-acts, the core-final act @821, the displaced block @822–824, (1113626112, 24, 0)@825 at 3 occurrences, four private acts, the 4-act 114-shared run @830–833 at 3 occurrences each, eight private acts; only 4 of 24 occur anywhere in ctx130) against 130's head (0–10, 11 acts; 5 of 11 occur anywhere in ctx251) share exactly TWO acts — D1 (130@6 / 251@824) and D2 (130@7 / 251@822) — D3 standing in 251's segment but at 130@197, not in 130's head; the occurrence-2 exclusivity population (exactly two corpus occurrences, one in cidx 114 and one in cidx 251) is 127 acts = 127 of the 168 shared 114×251 acts (subset verified; the other 41 shared acts occur ≥3 times and sit at position difference 0 in 37 cases, −1 in 3, +4 in 1, derived at closing), forming 24 runs {54: 1, 9: 1, 7: 1, 6: 3, 5: 1, 3: 6, 2: 5, 1: 6} with 121 acts in runs ≥2 and 6 singles (114 positions 4, 126, 128, 751, 766, 773), position-difference distribution {−1: 1, 0: 56, +1: 21, +2: 36, +3: 2, +4: 11}; the 54-act run is verified entire in the population (54 of 54) and is RUN 8 of the 24 at identical positions 130–183 in both contexts, the other 73 population acts standing in the remaining 23 runs — mechanisms NOT PROVEN
+- **Status:** `verified` (complete populations, 7 artifacts,
+  within stated bands/floors)
+- **Owner:** `docs/HAILO10H_FIBRES_RATIOS_DISPLACED_PROFILES_2026-10-24.md`
+- **Evidence:** controls reproduce exactly (hef126.py
+  sha256
+  `9fe7ff67e96757bcb7a622a80cb0f8aa990a529f3dc0f07dcccdd5775ec9ffff`,
+  arms126.py sha256
+  `5d41b5c5a2fd01b1021d8f0025f8360bd9fa09c1979dea2beb88579005a8bdd9`,
+  arms gz sha256
+  `78c17b16f9fb18b1886ae5384c39c033f9961ec5a1898d1cc67f7a363228cb91`,
+  landed on-device as 18 individually sha-gated binary
+  parts (17 × 373 B + 105 B; parts 4 and 13 rejected
+  twice each at their gates and re-split into 187 B +
+  186 B sub-parts, 20 landed files in all), the set
+  re-verified by an on-device sha256sum listing, the
+  concatenated gzip sha256 and decompressed arms sha256
+  both matching the VM; hef126.py assembled on-device
+  from the verified hef125 base (sha256
+  `af955835b43ab71e1d7d196335e44c4370da992f4ccc5fad8034a745269bbca9`)
+  + arms126, on-device sha256 == VM before running;
+  detached setsid run to DONE126, error file empty
+  (0 B); output 15,202 lines / 2,384,685 B / sha256
+  `fdf52667ddcbab9e5a090ddd5d3c31d46f5875f46de1a1066d9d0d9558fb6a51`,
+  retrieved gz sha256
+  `68484fc4f75ebe030653778b11254f6adc23a018df4ddc76c57591314d2f17da`
+  (294,206 B, through a temporary on-device HTTP server
+  via the tunnel proxy; a first fetch returned a 335 B
+  HTML error page and was discarded) decompressing to
+  exactly that sha256, verified on the VM; DONE126 at
+  line 15,202; 4.126 section begins line 13,606).
+  (i)(a) All 222 fibres printed in full (key, pairs,
+  (byte 1, byte 2) sets, A/B byte-0 values, groups,
+  byte-3 difference); fibre pair-count dist {1: 220,
+  2: 2}; distinct-byte1 dist {1: 222}. (i)(b) All 167
+  cells printed in full with keys and pair counts; the
+  32 multi-key cells in full: (0, +128) keys 2 sums
+  [163, 177] gap [14] const True gcd 14; (128, −128)
+  keys 4 pairs 6 keys [(128, 1, 160), (128, 1, 176),
+  (128, 1, 177), (128, 1, 178)] sums [161, 177, 178,
+  179] gaps [16, 1, 1] const False gcd 1; (184, −7)
+  keys 3 sums [204, 233, 357] gaps [29, 124] False 1;
+  (186, −6) 2 [209, 221] [12] True 12; (187, −1) 4
+  [136, 143, 160, 245] [7, 17, 85] False 1; (209, −8)
+  2 [242, 432] [190] True 190; (210, −1) 3 [193, 273,
+  466] [80, 193] False 1; (222, −11) 3 [281, 307,
+  350] [26, 43] False 1; (225, −9) 2 [108, 169] [61]
+  True 61; (225, −8) 2 [250, 376] [126] True 126;
+  (226, −2) 3 [163, 192, 347] [29, 155] False 1;
+  (233, −11) 2 [103, 221] [118] True 118; (235, −8) 2
+  [173, 206] [33] True 33; (236, −1) 4 [224, 227,
+  323, 354] [3, 96, 31] False 1; (240, −10) 2 [81,
+  167] [86] True 86; (242, −7) 3 [96, 239, 254]
+  [143, 15] False 1; (242, +1) 2 [205, 312] [107]
+  True 107; (243, −1) 4 [114, 124, 294, 331] [10,
+  170, 37] False 1; (245, −9) 2 [24, 100] [76] True
+  76; (246, −5) 3 [363, 390, 429] [27, 39] False 3;
+  (246, −1) 3 [275, 302, 387] [27, 85] False 1;
+  (247, −1) 4 [147, 159, 274, 308] [12, 115, 34]
+  False 1; (248, −7) 2 [161, 300] [139] True 139;
+  (249, −5) 2 [203, 271] [68] True 68; (249, −4) 3
+  [299, 381, 406] [82, 25] False 1; (249, −1) 2
+  [225, 234] [9] True 9; (250, −6) 2 [92, 291] [199]
+  True 199; (250, −5) 2 [187, 412] [225] True 225;
+  (250, −1) 4 [118, 151, 156, 204] [33, 5, 48] False
+  1; (250, 0) 2 [157, 353] [196] True 196; (251, −3)
+  3 [265, 481, 487] [216, 6] False 6; (252, −1) 4
+  [187, 197, 297, 325] [10, 100, 28] False 2.
+  (ii)(a) All 27 cidx sequences printed in full
+  (levels, deltas, exact ratios, second differences);
+  pooled summaries as in the entry head; the repeated
+  second difference and per-cidx ratio spreads derived
+  at closing from the printed tables. (ii)(b) F1–F5
+  verdict lines with counterexample counts and first
+  counterexamples as in the entry head; F4 and F5
+  per-cidx ratio lists printed in full. (iii)(a) All
+  24 displaced occurrences printed in full (artifact,
+  cidx, position, context length, both neighbours);
+  the same-eight-contexts fact and block arrangements
+  read off the printed profiles. (iii)(b) Both
+  segments printed act by act with occurrence counts
+  and cross-membership flags; both-segments
+  intersection exactly {D1, D2}. (iii)(c) All 127
+  population acts printed in 114-position order with
+  both positions; 24 runs tabled with lengths and
+  position ranges; 54-run membership verified 54/54;
+  the other-runs table printed in full. Mechanisms
+  NOT PROVEN.
+- **Next:** the (byte 3, byte 1 + byte 2) → difference
+  table read as a per-byte-3 function of the sum in
+  full (per byte-3 keys ordered by sum, monotonicity
+  and step structure tested exactly) and byte 0's own
+  map over the 224 pairs; the near-geometric steps'
+  wobble measured exactly (per-cidx ratio deviations
+  from the sequence median in full; stated
+  integer-rounding geometric forms tested exactly);
+  the displaced trio's eight contexts in wider windows
+  around every occurrence in full, the block's
+  flanking acts profiled corpus-wide, and the 41
+  shared 114×251 acts that are NOT occurrence-2 read
+  in full by occurrence-count class (slice 4.127).
+- **Audit:** Host-side analysis only; no device child.

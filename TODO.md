@@ -2871,7 +2871,7 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.126 the
+- [x] Slice4.126 the
   (byte 3, byte 1 + byte 2)
   factoring's fibres in
   full and the map's
@@ -2909,8 +2909,104 @@
   occurring exactly twice
   in the corpus, both
   times in the 114/251
-  pair); then broad
-  ordinary UNMODIFIED
+  pair). DONE: every one
+  of the 222 factoring
+  fibres carries exactly
+  one distinct
+  (byte 1, byte 2) pair
+  (the two 2-pair fibres
+  differ only in byte 0),
+  so fibre arithmetic is
+  vacuous; the 167
+  difference cells hold
+  32 multi-key cells, the
+  16 two-key cells
+  constant-gap only
+  vacuously and all 16
+  cells with >=3 keys
+  failing the constant-gap
+  test (gap gcd 1 in 13) -
+  arithmetic structure NOT
+  PROVEN; the 189 steps'
+  324 ratios are pairwise
+  distinct, all in (0, 1),
+  and all 324 second
+  differences are negative
+  with exactly one
+  repeated value
+  (-38,363,136 at cidx 11
+  and cidx 29, both
+  k = 3, A side); each
+  cidx's ratios span at
+  most ~1.1e-6 yet decay
+  forms F1-F5 all fail on
+  every sequence (F1/F3/F5
+  54 of 54 cidx-sides, F2
+  161 of 162 per side, F4
+  27 of 27 cidxs) - exact
+  decay form NOT PROVEN;
+  the three displaced acts
+  live in exactly the same
+  eight cc9b9d1c contexts,
+  standing as the
+  consecutive block D2,
+  D3, D1 after the core's
+  final act in 128, 251
+  and 265; 251's closing
+  segment and 130's head
+  share exactly D1 and D2;
+  the occurrence-2
+  population is 127 of
+  the 168 shared acts in
+  24 runs, the 54-act run
+  verified as RUN 8 with
+  all 54 members in the
+  population (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_FIBRES_RATIOS_DISPLACED_PROFILES_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.127 the
+  (byte 3, byte 1 + byte 2)
+  -> difference table read
+  as a per-byte-3 function
+  of the sum in full (per
+  byte-3 keys ordered by
+  sum, monotonicity and
+  step structure tested
+  exactly) and byte 0's
+  own map over the 224
+  pairs (A byte 0 ->
+  B byte 0 in full, its
+  determination status
+  against the key); the
+  near-geometric steps'
+  wobble measured exactly
+  (per-cidx ratio
+  deviations from the
+  sequence median in full;
+  stated integer-rounding
+  geometric forms tested
+  exactly); the displaced
+  trio's eight contexts in
+  wider windows around
+  every occurrence in
+  full (the three block
+  contexts against the
+  five split contexts),
+  the block's flanking
+  acts profiled corpus-wide
+  ((2817536, 24, 0) before
+  the block,
+  (1113626112, 24, 0)
+  after it), and the 41
+  shared 114x251 acts that
+  are NOT occurrence-2
+  read in full by
+  occurrence-count class;
+  then broad ordinary
+  UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection
