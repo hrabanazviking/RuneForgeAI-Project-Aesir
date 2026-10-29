@@ -4835,13 +4835,13 @@ No new capability ID or hardware/complete-source execution claim.
   payload phase is a single logical transfer,not messages. The
   session readiness protocol on the SoC engine remains NOT
   ESTABLISHED and still gates payload contracts.
-- **Evidence boundary/prediction (recorded in advance):** no
+- **Executable evidence:** Specification only. No global/hosted-CI pass.
+- **Evidence boundary:** No
   operation can clear Campaign 4's eight layers until the CCW
   word layout or an equivalent device-consumed encoding is
   established;4.2 selects by evidence strength knowing this.
 - **Next acceptance gate:** Slice 4.2 operation selection record;
   Track R session-layer study continues.
-- **Audit:** Specification only. No global/hosted-CI pass.
 
 ### AES-NUM-002 — First operation selection (Campaign 4)
 
@@ -4867,11 +4867,11 @@ No new capability ID or hardware/complete-source execution claim.
   caveat);layers 5-6 INCOMPLETE on CCW content + action
   sequencing;Campaign 4 does not exit this pass;iteration item
   = CCW layout research (Track R lane D / Campaign 5 gate).
+- **Executable evidence:** Specification only. No global/hosted-CI pass.
 - **Evidence boundary:** No operation is described yet (that is
   4.3),nothing is emitted,and no device behavior is claimed.
 - **Next acceptance gate:** Slice 4.3 eight-layer description
   tested against this prediction;then 4.4 review gate.
-- **Audit:** Specification only. No global/hosted-CI pass.
 
 ### AES-NUM-003 — Identity copy eight-layer description (Campaign 4)
 
@@ -4914,6 +4914,7 @@ No new capability ID or hardware/complete-source execution claim.
   agree (shape/parameters in the fixed-shape section;oracle in
   L1/L7),and L5/L6 agree as predicted. The corrected mapping is
   recorded in the doc;4.4 inherits it.
+- **Executable evidence:** Specification only. No global/hosted-CI pass.
 - **Evidence boundary:** The operation remains UNQUALIFIED;
   Campaign 4 does NOT exit;no Campaign 5 encoder may be
   contracted from this spec. Iteration items R1 CCW layout
@@ -4921,14 +4922,13 @@ No new capability ID or hardware/complete-source execution claim.
   sequencing,R5 partial-state teardown preconditions.
 - **Next acceptance gate:** Slice 4.4 spec review gate against
   the Do Not Infer table.
-- **Audit:** Specification only. No global/hosted-CI pass.
 
 ### AES-NUM-004 — Identity copy spec review gate (Campaign 4)
 
 - **Status:** `verified`
 - **Status note:** (review scope:field-by-field audit of
   AES-NUM-003 against AES-NUM-001 and the roadmap §2.2 Do Not
-  Infer table;no emitter,no bytes,no physical run).
+  Infer table).
 - **Owner:** docs/HAILO10H_IDENTITY_COPY_SPEC_REVIEW_2026-10-24.md.
 - **Claim sources:** AES-NUM-003 spec (document under review);
   AES-NUM-001 field table (grades A–E);roadmap §2.2 (16 Do Not
@@ -4970,19 +4970,20 @@ No new capability ID or hardware/complete-source execution claim.
   have a sourced unknown status,not a known meaning,so the
   exit condition's own terms are unmet. Operation remains
   UNQUALIFIED;Campaign 5 is NOT contracted.
+- **Executable evidence:** Review only. No global/hosted-CI pass.
+- **Evidence boundary:** No emitter, no bytes, no physical run.
 - **Next acceptance gate:** Campaign 4 iteration through
   Track R R1–R5 (each closes only on IN-grade evidence or is
   recorded NOT PROVEN);slice 4.5 = R1 CCW layout study (lane
   D),research only. Affected layers re-graded by addendum and
   this gate re-runs on changed layers only.
-- **Audit:** Review only. No global/hosted-CI pass.
 
 ### AES-NUM-005 — CCW word layout study, Track R R1 (Campaign 4)
 
 - **Status:** `verified`
 - **Status note:** (research scope:bounded search of the
   pinned public sources, lane D and repo evidence for a CCW
-  word layout;no emitter,no bytes,no physical run).
+  word layout).
 - **Owner:** docs/HAILO10H_CCW_LAYOUT_STUDY_2026-10-24.md.
 - **Verdict:** R1 NOT PROVEN. No searched source defines the
   bit layout of a non-zero CCW word (opcode/address/data/
@@ -5003,17 +5004,17 @@ No new capability ID or hardware/complete-source execution claim.
   AES-NUM-003 layers 2/5 NOT re-graded (no change), 4.4 gate
   not re-run. Campaign 4 EXIT NOT MET; operation
   UNQUALIFIED; Campaign 5 NOT contracted.
+- **Executable evidence:** Research only. No global/hosted-CI pass.
+- **Evidence boundary:** No emitter, no bytes, no physical run.
 - **Next acceptance gate:** R2 session readiness (+F1
   program-result readback question), slice 4.6.
-- **Audit:** Research only. No global/hosted-CI pass.
 
 ### AES-NUM-006 — SoC session readiness study, Track R R2 + F1 (Campaign 4)
 
 - **Status:** `verified`
 - **Status note:** (research scope:bounded study of the
   pinned public sources for the SoC RPC session readiness
-  protocol and the F1 program-result readback question;no
-  payload contract,no bytes,no physical run).
+  protocol and the F1 program-result readback question).
 - **Owner:** docs/HAILO10H_SOC_SESSION_READINESS_STUDY_2026-10-24.md.
 - **Verdict:** R2 ESTABLISHED at source level (one sub-part
   NOT PROVEN). Interface @pin (hailo_session.hpp):wait_for_
@@ -5056,9 +5057,10 @@ No new capability ID or hardware/complete-source execution claim.
   Infer violations). Campaign 4 EXIT NOT MET (R1 NOT PROVEN;
   R3/R4/R5 open);operation UNQUALIFIED;Campaign 5 NOT
   contracted.
+- **Executable evidence:** Research only. No global/hosted-CI pass.
+- **Evidence boundary:** No payload contract, no bytes, no physical run.
 - **Next acceptance gate:** R3 placement counts and safe
   assignment values,slice 4.7.
-- **Audit:** Research only. No global/hosted-CI pass.
 
 ### AES-NUM-007 — Placement counts and safe assignment values, Track R R3 (Campaign 4)
 
@@ -5066,8 +5068,7 @@ No new capability ID or hardware/complete-source execution claim.
 - **Status note:** (research scope:bounded study of the
   pinned public sources,repo evidence and open web for the
   Hailo-10H's physical placement counts and any publicly
-  established safe assignment values;no emitter,no bytes,no
-  physical run).
+  established safe assignment values).
 - **Owner:** docs/HAILO10H_PLACEMENT_VALUES_STUDY_2026-10-24.md.
 - **Verdict:** R3 NOT PROVEN on both parts. R3a counts:no
   searched source states the Hailo-10H's cluster,subcluster,
@@ -5109,16 +5110,17 @@ No new capability ID or hardware/complete-source execution claim.
   AES-NUM-003 layer 3 NOT re-graded (R3 did not land),4.4
   gate not re-run (no changed layers). Campaign 4 EXIT NOT
   MET;operation UNQUALIFIED;Campaign 5 NOT contracted.
+- **Executable evidence:** Research only. No global/hosted-CI pass.
+- **Evidence boundary:** No emitter, no bytes, no physical run.
 - **Next acceptance gate:** R4 action sequencing (+F1
   result-path qualification question),slice 4.8.
-- **Audit:** Research only. No global/hosted-CI pass.
 
 ### AES-NUM-008 — Action sequencing for a real program, Track R R4 (Campaign 4)
 
 - **Status:** `verified`
 - **Status note:** (research scope:bounded study of the
   pinned configure-path sources for a sourced minimal-program
-  context-action sequence;no emitter,no bytes,no physical run).
+  context-action sequence).
 - **Owner:** docs/HAILO10H_ACTION_SEQUENCING_STUDY_2026-10-24.md.
 - **Verdict:** R4 PARTIALLY ESTABLISHED. The ordering
   discipline is ESTABLISHED at source level:the pinned
@@ -5162,16 +5164,17 @@ No new capability ID or hardware/complete-source execution claim.
   hRPC ids ≠ context actions;HEF parsing ≠ DFC knowledge).
   Campaign 4 EXIT NOT MET;operation UNQUALIFIED;Campaign 5
   NOT contracted.
+- **Executable evidence:** Research only. No global/hosted-CI pass.
+- **Evidence boundary:** No emitter, no bytes, no physical run.
 - **Next acceptance gate:** R5 partial-state teardown
   preconditions,slice 4.9 — the last Track R item.
-- **Audit:** Research only. No global/hosted-CI pass.
 
 ### AES-NUM-009 — Partial-state teardown preconditions, Track R R5 (Campaign 4)
 
 - **Status:** `verified`
 - **Status note:** (research scope:bounded study of the
   pinned receiver sources for teardown ordering/preconditions
-  in partial states;no code,no emitter,no bytes,no physical run).
+  in partial states).
 - **Owner:** docs/HAILO10H_PARTIAL_STATE_TEARDOWN_STUDY_2026-10-24.md.
 - **Verdict:** R5 PARTIALLY ESTABLISHED. Handler-level
   preconditions ESTABLISHED at source level (hailort_server.cpp
@@ -5222,11 +5225,12 @@ No new capability ID or hardware/complete-source execution claim.
   R1 NOT PROVEN,R2 ESTABLISHED,R3 NOT PROVEN,R4 PARTIAL,
   R5 PARTIAL. Campaign 4 EXIT NOT MET;operation UNQUALIFIED;
   Campaign 5 NOT contracted.
+- **Executable evidence:** Research only. No global/hosted-CI pass.
+- **Evidence boundary:** No code, no emitter, no bytes, no physical run.
 - **Next acceptance gate:** Campaign 4 exit — turns on
   R1/R3-class public evidence (a public CCW layout and a
   placement census) that no searched source contains;no
   further Track R study slice is named for this iteration.
-- **Audit:** Research only. No global/hosted-CI pass.
 
 ### AES-NUM-010 — HEF corpus inventory + first static map (empirical program start)
 
@@ -5285,7 +5289,7 @@ No new capability ID or hardware/complete-source execution claim.
 - **Status:** `verified`
 - **Status note:** (base resolution + design scope).
 - **Owner:** docs/HAILO10H_OFFSET_BASE_AND_DIFFERENTIAL_DESIGN_2026-10-24.md.
-- **Evidence:** Pinned hef.cpp @d503417f defines the v3 zero
+- **Executable evidence:** Pinned hef.cpp @d503417f defines the v3 zero
   point: HEF_HEADER_SIZE_V3 + hef_proto_size + hef_padding —
   pointer offsets are relative to the CCWS section start
   (file layout header|protobuf|padding|CCWS). Numerically
@@ -5565,7 +5569,7 @@ No new capability ID or hardware/complete-source execution claim.
 - **Status:** `verified`
 - **Status note:** (exact counts,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_VARINT_PAIRDIFF_REPL28_2026-10-24.md.
-- **Evidence:** (1) Datum is NOT a proto varint value:
+- **Executable evidence:** (1) Datum is NOT a proto varint value:
   MiniLM pool∩varints = 0/62 on both walks;blob top-pair
   values occur 0× in 576,769 varints;strays at chance.
   Third identity route closed. (2) Sister-unit differential
@@ -5577,19 +5581,20 @@ No new capability ID or hardware/complete-source execution claim.
   172 distinct;0x7ffe ×264 dominant;0x8282 exactly once in
   each of 22 contexts;disjoint from datum pool + direct
   varints;MiniLM regime is tiny scalars.
+- **Evidence boundary:** Host-side analysis only.
 - **Next:** co-determination corpus-wide;what splits the
   conserved 10–11 pairs;datum-as-function-of-header across
   contexts.
-- **Audit:** Host-side analysis only. (Transport: gzipped
-  900 B parts + per-part md5;deterministic corruption of
-  one part healed by halving it;whole-file sha matched.)
+- **Audit:** (Transport: gzipped 900 B parts + per-part md5;
+  deterministic corruption of one part healed by halving it;
+  whole-file sha matched.)
 
 ### AES-NUM-022 — datum = bijective image of the operand word
 
 - **Status:** `verified`
 - **Status note:** (exact counts,2 artifacts).
 - **Owner:** docs/HAILO10H_CODETERMINATION_BIJECTION_SPLITTER_2026-10-24.md.
-- **Evidence:** Datum↔lane1 is a BIJECTION with zero
+- **Executable evidence:** Datum↔lane1 is a BIJECTION with zero
   violations both directions (MiniLM 62↔62;blob 417↔417),
   context-free. Minimal determining set = flags+enum+
   ladder jointly;every proper subset fails (all three
@@ -5598,16 +5603,16 @@ No new capability ID or hardware/complete-source execution claim.
   values 0x4000/0x8000 map perfectly to the datum pair
   0x60e517/0x56898c;positions 10/11 complementary.
 - **Reading:** the datum behaves as an ENCODING of lane1.
+- **Evidence boundary:** Host-side analysis only.
 - **Next:** closed-form hunt — GF(2) affine test on the
   417-sample map,then arithmetic/permutation candidates.
-- **Audit:** Host-side analysis only.
 
 ### AES-NUM-023 — the datum map is GF(2)-linear
 
 - **Status:** `verified`
 - **Status note:** (exact linear algebra,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_LINEARITY_PROOF_2026-10-24.md.
-- **Evidence:** Incremental GF(2) basis test:MiniLM 62
+- **Executable evidence:** Incremental GF(2) basis test:MiniLM 62
   samples rank 12,blob 417 samples rank 14 — ZERO
   inconsistencies for affine AND pure-linear systems
   (~9,700 bit-constraints satisfied in the blob alone;
@@ -5618,34 +5623,34 @@ No new capability ID or hardware/complete-source execution claim.
 - **Reading:** datum = a fixed 24×64 binary matrix times
   the operand word (on the observed rank-12–14 domain —
   the compiler's own variety).
+- **Evidence boundary:** Host-side analysis only.
 - **Next:** extract the matrix;cross-validate blob-fit →
   MiniLM prediction;read its structure (CRC-like banding
   vs designed scramble).
-- **Audit:** Host-side analysis only.
 
 ### AES-NUM-024 — one global linear map, cross-validated
 
 - **Status:** `verified`
 - **Status note:** (exact prediction,2 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_MATRIX_XVAL_2026-10-24.md.
-- **Evidence:** Fit blob→predict MiniLM 62/62 exact;
+- **Executable evidence:** Fit blob→predict MiniLM 62/62 exact;
   fit MiniLM→predict blob 272/272 in-span exact;zero wrong
   anywhere;combined span rank 14 — SAME variety, SAME map.
   Determined unit columns:10/64 (flags bits 10–15,enum bit
   16,ladder bits 57–59),all dense (popcount 9–14/24) —
   a mixing transform;some adjacent columns shift-related,
   not a clean Toeplitz. Zero input → zero datum.
+- **Evidence boundary:** Host-side analysis only.
 - **Next:** fit across all 7 artifacts;measure span growth
   / saturation;authorship needs the map on the full
   compiler variety,not only the observed span.
-- **Audit:** Host-side analysis only.
 
 ### AES-NUM-025 — span saturation across all 7 artifacts
 
 - **Status:** `verified`
 - **Status note:** (exact counts,full corpus).
 - **Owner:** docs/HAILO10H_SPAN_SATURATION_2026-10-24.md.
-- **Evidence:** Incremental fit over 7 artifacts:1,189
+- **Executable evidence:** Incremental fit over 7 artifacts:1,189
   distinct operand words (= the AES-NUM-019 datum pool
   union — bijection at corpus scale),ZERO inconsistencies,
   rank growth 12→14→15→15→15→16→16 (last 479 words added
@@ -5654,10 +5659,10 @@ No new capability ID or hardware/complete-source execution claim.
   dimension ceiling ≈16 = measured rank — saturation
   plausibly complete (hypothesis,stated with arithmetic,
   falsifiable by any dimension-adding artifact).
+- **Evidence boundary:** Host-side analysis only.
 - **Next:** freeze the fitted basis as an Aesir-side
   encoder artifact + reference encoder,host-tested on all
   1,189 samples;then non-champion lane0 families.
-- **Audit:** Host-side analysis only.
 
 ### AES-NUM-026 — encoder frozen and proven in Mojo
 
@@ -5668,31 +5673,31 @@ No new capability ID or hardware/complete-source execution claim.
   canonical sha256 7a1635cb…a7e5a,VM-reproduced) and
   hailbru/ccw_datum.mojo (reference encoder;out-of-span
   returns None — refuses,never guesses).
-- **Evidence:** module crossed byte-identical;standalone
+- **Executable evidence:** module crossed byte-identical;standalone
   run datum(0)=0,special word → 0x56898c;on-device harness
   over all 1,189 corpus pairs:CHECKED 1189 FAILED 0.
 - **Toolchain:** Pi Mojo removed `fn` (repo uses `def`);
   no bare InlineArray — unrolled reduction + List harness.
+- **Evidence boundary:** Host-side build/run only; no device child.
 - **Next:** non-champion lane0 families (same treatment);
   wider CCW forms beyond 24 B bursts.
-- **Audit:** Host-side build/run only;no device child.
 
 ### AES-NUM-027 — lane0 families: the affine law is universal
 
 - **Status:** `verified`
 - **Status note:** (complete populations,2 artifacts).
 - **Owner:** docs/HAILO10H_LANE0_FAMILIES_CENSUS_2026-10-24.md.
-- **Evidence:** 5,699 bursts in 61 lane0 families.
+- **Executable evidence:** 5,699 bursts in 61 lane0 families.
   AGGREGATE over all 61:operand→datum a function in every
   family (0 violations);GF(2)-affine in every family
   (0 inconsistencies,ranks 1–15);lane2 width law holds in
   5,699/5,699 bursts. Non-champion lane1 anatomy is
   periodic (replicated-scalar construction);two families
   are single fixed bursts ×28.
+- **Evidence boundary:** Host-side analysis only.
 - **Next:** family census across all 7 artifacts;freeze
   bases for the largest non-champion families;then the
   Campaign-4 stocktake toward the Campaign-5 encoder gate.
-- **Audit:** Host-side analysis only.
 
 ### AES-NUM-028 — corpus family census, six freezes, stocktake
 
@@ -5700,7 +5705,7 @@ No new capability ID or hardware/complete-source execution claim.
 - **Status note:** (complete populations,7 artifacts;
   Mojo build + harness on Mimir).
 - **Owner:** docs/HAILO10H_FAMILY_CENSUS_FREEZE_STOCKTAKE_2026-10-24.md.
-- **Evidence:** 174 lane0 families,35,515 bursts pooled
+- **Executable evidence:** 174 lane0 families,35,515 bursts pooled
   across all 7 artifacts:AGGREGATE 0 families with a
   function violation,0 with an affine inconsistency,0
   width-law breaks. Champion = 33,097 bursts / 1,189 keys
@@ -5713,18 +5718,18 @@ No new capability ID or hardware/complete-source execution claim.
   67df4a9e…);on-device harness over all 177 distinct
   pairs:CHECKED 177 FAILED 0. Frozen datum coverage =
   33,580/35,515 bursts (94.6%).
+- **Evidence boundary:** Host-side analysis/build only; no device child.
 - **Next:** census of the remaining CCW surface — every
   pointer-action form (size × channel) beyond the 24 B
   channel-1/2 burst (slice 4.29);Campaign-5 may be
   contracted for the datum component only.
-- **Audit:** Host-side analysis/build only;no device child.
 
 ### AES-NUM-029 — census of the remaining CCW surface
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_REMAINING_CCW_SURFACE_CENSUS_2026-10-24.md.
-- **Evidence:** 745,849 pointer actions (field 16) of
+- **Executable evidence:** 745,849 pointer actions (field 16) of
   788,726 total,11,096,892,840 referenced bytes;inline
   CCW / write_data / compressed forms ZERO in all 7
   artifacts;channels only 0/1/2;every size a multiple
@@ -5735,17 +5740,17 @@ No new capability ID or hardware/complete-source execution claim.
   79,001. Small forms (<=512 B):128,787 actions in a
   structured size ladder,15.8% zero words. Large forms
   are weights-class bulk on the same action kind.
+- **Evidence boundary:** Host-side analysis only.
 - **Next:** channel-0 burst family census + affine/datum
   tests + frozen-encoder cross-prediction (slice 4.30);
   then small-form word anatomy (4.31).
-- **Audit:** Host-side analysis only.
 
 ### AES-NUM-030 — channel-0 burst treatment
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL0_BURST_TREATMENT_2026-10-24.md.
-- **Evidence:** 104 lane0 families,43,486 channel-0 bursts:
+- **Executable evidence:** 104 lane0 families,43,486 channel-0 bursts:
   AGGREGATE 0 families with a function violation,0 with
   an affine inconsistency,0 width-law breaks — the three
   laws are now three-channel over 79,001 bursts. Frozen
@@ -5758,17 +5763,17 @@ No new capability ID or hardware/complete-source execution claim.
   (1,504 bursts),never a wrong datum. Channel-0 champion
   map is itself GF(2)-linear,rank 27,0 inconsistencies.
   Pooled frozen coverage 35,192/79,001 (44.5%).
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** freeze the channel-0 champion basis + largest
   channel-0 families,Mojo-proven on Mimir (slice 4.31);
   then small-form word anatomy (4.32).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-031 — channel-0 freezes: champion + six families
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL0_FREEZES_2026-10-24.md.
-- **Evidence:** channel-0 champion map frozen as a
+- **Executable evidence:** channel-0 champion map frozen as a
   GF(2)-linear rank-27 basis (1,120 distinct pairs,0
   inconsistencies;canonical sha256 cfd5c488…a7bd,
   reproduced on the VM) + hailbru/ccw_ch0_datum.mojo;
@@ -5781,16 +5786,16 @@ No new capability ID or hardware/complete-source execution claim.
   crossed byte-identical; family encoder refuses the
   champion lane-0. Channel-0 frozen coverage
   42,627/43,486 (98.0%); pooled 76,207/79,001 (96.5%).
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** small-form word anatomy per size class
   (slice 4.32).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-032 — small-form word anatomy
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SMALL_FORM_WORD_ANATOMY_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029 exactly
   (128,787 small actions;79,001 bursts). 42 size classes
   <=512 B;the 41 non-24 classes hold 49,786 actions /
   1,289,731 words,425,699 all-zero words (33.0%) — while
@@ -5810,15 +5815,15 @@ No new capability ID or hardware/complete-source execution claim.
   artifacts. Pair 5ab3537d/773470cd:identical form
   census,83.5% of segments shared byte-for-byte,3,287
   unique each side differing in operand words.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** skeleton-class deep-dive (slice 4.33).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-033 — skeleton-class deep-dive
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SKELETON_CLASS_DEEP_DIVE_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032 exactly
   (128,787 small actions;79,001 bursts). 96 B:exactly 2
   distinct segments (1,504 each),positions 1-10 zero in
   100%,p0/p11 values in perfect bijection (2 pairs),both
@@ -5836,17 +5841,17 @@ No new capability ID or hardware/complete-source execution claim.
   header p0,trailer p51). Co-variation is total:all
   1,504 contexts hold exactly the quartet {72x1,96x2,
   120x1,416x1} and no other combination.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** walking-segment pool sharing across
   artifacts,skeleton quartet intra-context ordering,
   002c fragment vs the wider vocabulary (slice 4.34).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-034 — walking-pool sharing, quartet ordering, 002c vocabulary
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_WALK_POOL_QUARTET_ORDER_002C_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions).
   Walking pool:148 distinct split 2/49/27/41/41/40/52 per
   artifact;sharing histogram {1:81,2:37,3:23,4:7},none in
@@ -5866,16 +5871,16 @@ No new capability ID or hardware/complete-source execution claim.
   416B heads;positions 0/1 only;8 of 42 size classes).
   Large forms:125,918 occurrences in 1.386B words
   (~9.1e-5,~6x chance),no fixed vocabulary measured.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** context head-block census,176 B 002c-head
   anatomy,forms of the 28 trailing actions (slice 4.35).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-035 — head census, 176 B anatomy, trailing 28
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_HEAD_176B_TRAIL_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts). Head:positions 0-3 are 24 B in every context
   (first action 24 B 1,504/1,504);rigidity decays monotonically
@@ -5891,16 +5896,16 @@ No new capability ID or hardware/complete-source execution claim.
   28 actions after the quartet in every context with a SINGLE
   size sequence (24/64/24/216/328x3/24x21) and fixed per-position
   channels — a fixed end block with the quartet.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** end-block burst datum treatment,176 B variable-pool
   structure,head burst-run lengths (slice 4.36).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-036 — end-block datum, 176 B pools, head runs
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_END_BLOCK_176B_HEADRUN_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts). Trailing 21 bursts:all 31,584 champion-headed
   (single lane-0,3 channel families),function/affine/width laws
@@ -5915,16 +5920,16 @@ No new capability ID or hardware/complete-source execution claim.
   positions;pools mostly single-artifact (73/99,72/98). Head
   burst-runs bounded 4-10 (mean 7.90,median 8),broken by 304 B in
   70.9% of contexts.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** trailing operand pools vs the global champion pool,
   176 B joint cluster structure,304 B head-break anatomy (slice 4.37).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-037 — trailing pools vs global, 176 B joint, 304 B break
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_TRAILING_POOL_176B_JOINT_304B_BREAK_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing distinct pairs 2,049). Global champion:
   75,215 bursts,2,309 distinct operands = 2,309 distinct pairs —
@@ -5949,16 +5954,16 @@ No new capability ID or hardware/complete-source execution claim.
   dominant complementary walking pair (k,256-k),k = p-1
   for p2-p17,p29 byte 0 only,p30-35 zero,p36 constant,
   p37 a distinct 3-byte trailer per segment.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** sister-pair head-break anatomy,non-breaker 304 B
   population,sister-pool lane-1 subfield comparison (slice 4.38).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-038 — sister breaks, non-breaker 304 B, sister-pool subfields
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_SISTER_BREAK_NONBREAKER_304_SISTER_POOLS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049). Sister pair NEVER breaks
   at 304 B:its head runs (5-10) end at large data actions —
@@ -5978,17 +5983,17 @@ No new capability ID or hardware/complete-source execution claim.
   0x1000*j+1} with identical low-bit splits;projection
   (flags,enum-low,const,ladder) sets are EQUAL and injective
   in all four pools of all five groups (sizes 98/104/103/100/107).
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** enum-relabelling corpus-wide on body pools,
   position-21 framed form comparison,sister large-break
   sizes vs large-action census (slice 4.39).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-039 — body enum relabelling, framed 304 B as 464 B tail, sister census
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_BODY_ENUM_FRAMED464_SISTER_CENSUS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049). Body champion: 43,631
   bursts,1,451 distinct operands. Per ladder rung the body
@@ -6011,10 +6016,10 @@ No new capability ID or hardware/complete-source execution claim.
   sizes are 22/21 distinct, 13/14 of them census-exhaustive
   (131/135 breaks), and the 178/175 never-break sizes carry
   72.6%/72.5% of large occurrences.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** class-channel mapping (three body classes vs
   four trailing), 464 B preamble anatomy, invariant
   singleton positions (slice 4.40).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-040 — class-channel mapping, 464 B preamble, singleton positions
 
@@ -6050,7 +6055,7 @@ No new capability ID or hardware/complete-source execution claim.
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_NONCHAMPION_ENUM_PAIR464_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
   (i) The champion enum law does NOT transfer: 3,786 non-champion
@@ -6071,17 +6076,17 @@ No new capability ID or hardware/complete-source execution claim.
   in 0856a10c) at 20 slots;preamble shares exactly the six
   generic constants with 0a0d378c;NO 304 B tail embedding
   (3/37;its 304 B is one breaker-head segment x813).
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** displaced-pair gap contents,cc9b9d1c parameter
   recurrence outside 464 B,non-champion high-7 lane-1
   structure (slice 4.42).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-042 — displaced-pair gaps, cc9 parameter recurrence, high-7 vs offset
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_DISPLACED_GAP_PARAM_HIGH7_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
   (i) Gap bursts are the contexts' own ladder rungs: +4 pattern
@@ -6105,17 +6110,17 @@ No new capability ID or hardware/complete-source execution claim.
   across all subfields because each operand is one indivisible
   unit (distinct counts of every subfield equal per family);
   offset->operand perfection is segment identity,not encoding.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** 232-360 B parameter-family template vs 464 B,
   high-7 operand->datum function + affine test,displaced
   contexts outside the pair region (slice 4.43).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-043 — parameter-family template, high-7 function + affine, displaced-context type
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_PARAM_TEMPLATE_HIGH7_FUNCTION_DISPLACED_TYPE_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
   (i) cc9b9d1c family is one construction across 232-464 B:
@@ -6141,16 +6146,16 @@ No new capability ID or hardware/complete-source execution claim.
   81+6k + last;76c3a8ff ~9-step;sisters = last context);
   exceptions: 4 small adjacent contexts,one 336-action
   displaced outlier (18,15).
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** low-action context class census,parameter+1
   slot census,336-action outlier anatomy (slice 4.44).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-044 — low-action context census, parameter+1 slot census, 336-action outlier anatomy
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_LOW_ACTION_CENSUS_PARAMPLUS1_OUTLIER_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215).
   (i) Low-action class = 79 contexts at <=150 actions (75
@@ -6181,18 +6186,18 @@ No new capability ID or hardware/complete-source execution claim.
   champion 33,rare ladders doubled) and 107
   (reversed-adjacent) form a local anomaly zone,not the
   periodic class.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** marker-word anatomy across the 210 class,
   the two 296 B exceptions,reversed-adjacent pair census
   + cidx 105 anomaly,76c3a8ff ~173 class anatomy
   (slice 4.45).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-045 — marker function, pair-order census, anomaly zones, intermediate class
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_FUNCTION_PAIR_ORDER_ANOMALY_ZONES_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215;
   427 cc9 distinct segments at 232-464 B). (i) The marker
@@ -6222,19 +6227,19 @@ No new capability ID or hardware/complete-source execution claim.
   repeated unit (3856x12,30480x12,32784x24),26 distinct
   size seqs but only 2 operand seqs;173 middle is a
   different species (16400x24,32784x22,31120x8).
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** freeze the marker derivation as an encoder
   rule + host-test on all 212 + 20 family segments;
   pair-order determination hunt; zone-pair body
   comparison; 156 middle unit segment anatomy
   (slice 4.46).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-046 — marker encoder freeze
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MARKER_ENCODER_FREEZE_2026-10-24.md.
-- **Evidence:** contract TASK_hailo10h_marker_encoder_2026-10-25.md
+- **Executable evidence:** contract TASK_hailo10h_marker_encoder_2026-10-25.md
   published + pushed at f5d1c087 before implementation;its scope
   (the freeze only) governed — the pair-order hunt,zone-pair
   comparison and 156 middle anatomy are re-queued as slice 4.47.
@@ -6254,16 +6259,16 @@ No new capability ID or hardware/complete-source execution claim.
   (predecessor,marker,form) triples;on-device Mojo harness
   CHECKED 78 FAILED 0;standalone smoke: the three recorded
   examples produce their recorded markers,both refusals fire.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** pair-order determination hunt,zone-pair body
   comparison,156 middle unit segment anatomy (slice 4.47).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-047 — pair-order hunt, zone bodies, 156 motif
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_PAIR_ORDER_ZONE_BODY_156_MOTIF_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef47.py (sha256 ddd81ba0...) and hef47b.py (b4a89157...).
@@ -6291,18 +6296,18 @@ No new capability ID or hardware/complete-source execution claim.
   distinct segments in 2,288 occurrences,only 8 universal
   middle positions,all pre-motif. Corrects AES-NUM-045's
   "12-fold repeated unit" wording.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** pair-order vs body datum sequence + combined
   champion/size function test;motif block anatomy pooled;
   rare-burst datum check vs the frozen champion map
   (slice 4.48).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-048 — datum-order hunt, motif pooled, rare check
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_DATUM_ORDER_MOTIF_RARE_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef48.py (sha256 4757f16c...) and hef48b.py (08c76a5a...).
@@ -6330,17 +6335,17 @@ No new capability ID or hardware/complete-source execution claim.
   datum maps (15/15,6/6,zero wrong/refused),as is the
   whole body champion population (43,631 occ,1,451
   distinct pairs,all exact) — no rare-specific rule.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** pair-order vs middle action stream;motif leads
   vs contexts' large-action sizes;block-0/4 variant roles
   vs standard middles (slice 4.49).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-049 — middle-stream order hunt, lead exclusivity, variant roles
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_MIDDLE_STREAM_LEAD_EXCLUSIVITY_VARIANTS_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef49.py (sha256 e1891202...) and hef49b.py (9b454b99...).
@@ -6371,11 +6376,11 @@ No new capability ID or hardware/complete-source execution claim.
   PINNING (ord0 no30480 + ord4 no32784 in 26/26);311
   standard contexts carry >=12 middle 3856;173 class has
   zero 3856.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** pair-order vs middle channel sequence;lead-band
   neighbour role in standard middles;variant-ordinal
   concentration in the >=12-3856 standard subpopulation
   (slice 4.50).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-050 — channel-sequence order function, band role, variant concentration
 
@@ -6428,7 +6433,7 @@ No new capability ID or hardware/complete-source execution claim.
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CHANNEL_EMERGENCE_FOLLOWERS_CIDX4_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef51.py (sha256 fa64869c...) and hef51b.py (91991d87...).
@@ -6471,18 +6476,18 @@ No new capability ID or hardware/complete-source execution claim.
   in-band (lead 8576, back-to-back windows), window 4 led
   by 9216 OUT of band; windows 4-7 led by a 9168-9248
   cluster; 15/52 windows have out-of-band leads.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** last-runs exact emergence (16-20) + sister
   run-22 resolution;position-121 diverging action anatomy;
   8208->4112->3088 chain full extent;9168-9248 lead cluster
   census (second lead band?) (slice 4.52).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-052 — last-runs emergence, position-121 action, chain extent, lead cluster
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_LASTRUNS_POS121_CHAIN_CLUSTER_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef52.py (sha256 5123fb68...) and hef52b.py (5610901f...).
@@ -6527,18 +6532,18 @@ No new capability ID or hardware/complete-source execution claim.
   / cluster (48) / 30480 (12); top after-4 patterns
   interleave 32016 with 32784 — 32016 plays 30480's role;
   classes other 557 / no30480 165 / no32784 12 / full 9.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** cluster-context selection in cc9b9d1c (19 vs
   252 contexts);32016 dialect anatomy vs band windows;
   chain context selection in the sisters (which 112
   contexts;shared between sisters?) (slice 4.53).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-053 — cluster-context selection, 32016 dialect, chain context selection
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_CLUSTER_SELECTION_DIALECT_CHAIN_SELECTION_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef53.py (sha256 a9d093a5...) and hef53b.py (b0b47c1b...).
@@ -6574,18 +6579,18 @@ No new capability ID or hardware/complete-source execution claim.
   bin empty;histogram identical in both sisters).Chain
   positions identical at 54/56 shared cidx;the 2
   exceptions are the break pair cidx 94/95.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** wider lead-family census around the cluster
   (9100-9350 step-8 leads,positives vs dense negatives);
   lead vocabulary of the 61 window-dense cc9 negatives;
   cidx-1 single-cluster-window anatomy (slice 4.54).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-054 — wider lead family, dense-negative vocabulary, cidx-1 anatomy
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_WIDER_FAMILY_DENSE_VOCAB_CIDX1_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052/053 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032/033/034/035/036/037/038/039/040/041/042/043/044/045/046/047/048/049/050/051/052/053 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef54.py (sha256 5dfdc417...) and hef54b.py (ccf0a005...).
@@ -6614,18 +6619,18 @@ No new capability ID or hardware/complete-source execution claim.
   full strength (32016 x96 in its middle,30480 x0;windows
   40 no30480 / 56 other / 0 full) — dose and dialect are
   separate variables.
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** 94xx ladder anatomy (exclusive zone? dose law?
   its own window dialect?);shared 97xx ladder's role in
   both dialects;exclusive-minus-core dose gap per context
   (slice 4.55).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-055 — 94xx ladder, shared 97xx ladder, shoulder gap
 
 - **Status:** `verified`
 - **Status note:** (complete populations,7 artifacts).
 - **Owner:** docs/HAILO10H_94XX_97XX_SHOULDER_GAP_2026-10-24.md.
-- **Evidence:** controls reproduce AES-NUM-029/032...054 exactly
+- **Executable evidence:** controls reproduce AES-NUM-029/032...054 exactly
   (128,787 small actions;79,001 bursts;745,849 pointer actions;
   1,504 contexts;trailing pairs 2,049;champion bursts 75,215)
   in hef55.py (sha256 b3f4a458...) and hef55b.py (e0fe1cfd...).
@@ -6652,9 +6657,9 @@ No new capability ID or hardware/complete-source execution claim.
   corpus exceptions are 76c3a8ff cidx 3 (both,4+4) and
   cidx 4 (neither,gap 0).Shoulder windows anatomically
   ordinary;gap share 0.016 (cidx 85/222) to 0.889 (cidx 1).
+- **Evidence boundary:** Host-side analysis only; no device child.
 - **Next:** shoulder-side selection;dense sub-population
   split features;97xx module position structure (slice 4.56).
-- **Audit:** Host-side analysis only;no device child.
 
 ### AES-NUM-056 — Shoulder-side selection, dense split, 97xx positions
 
