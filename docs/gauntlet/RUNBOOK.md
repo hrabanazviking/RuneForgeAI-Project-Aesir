@@ -5,9 +5,9 @@ Mimir: what it is, how to run it, how to tell it is healthy, what to do
 when it is not, and when to give up and call it.
 
 - Release: `aesir-f1-<version>` (pure-Mojo `f1_infer` binary, NO Python)
-- Production path: `/home/pi/aesir-driver` -> `/home/pi/aesir-f1-<version>`
-- Model: `/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf`
-- Config: `/home/pi/aesir-driver/config/f1_config.json`
+- Production path: `~/aesir-driver` -> `~/aesir-f1-<version>`
+- Model: `~/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf`
+- Config: `~/aesir-driver/config/f1_config.json`
 - Supervisor: `vordr-watchdog` systemd unit (see §5)
 
 Every procedure below was tested at least once during Campaign 10; the
@@ -17,7 +17,7 @@ last-tested date is recorded per procedure.
 
 **Start serving (cold):**
 ```
-cd /home/pi/aesir-driver
+cd ~/aesir-driver
 ./bin/f1_infer --config config/f1_config.json \
   --prompt "The völva reads the runes at dawn." \
   --max-new-tokens 24 --seed 191
@@ -46,14 +46,14 @@ clean restarts). Last tested: 2026-10-10 (H187).
 | Check | Command | Healthy |
 |---|---|---|
 | Service alive | `systemctl is-active vordr-watchdog` | `active` |
-| Recent generation | `tail -3 /home/pi/aesir-driver/vordr-events.jsonl` | `InferIterOk` within last minutes |
+| Recent generation | `tail -3 ~/aesir-driver/vordr-events.jsonl` | `InferIterOk` within last minutes |
 | SoC temperature | `cat /sys/class/thermal/thermal_zone0/temp` | < 70 °C (÷1000) |
 | Disk | `df -h /` | < 85% used |
 | Manual canary | `./deploy_mimir.sh --package <tarball> --version <ver>` §7 | canary PASS |
 
 **Log locations:**
-- Supervised events: `/home/pi/aesir-driver/vordr-events.jsonl`
-- Watchdog restarts: `/home/pi/aesir-driver/vordr-restarts.jsonl`
+- Supervised events: `~/aesir-driver/vordr-events.jsonl`
+- Watchdog restarts: `~/aesir-driver/vordr-restarts.jsonl`
 - Soak evidence: `data/gauntlet/soak_cpu_4h.log` (in the release source tree)
 - FI campaign: `data/gauntlet/fi_campaign/events.jsonl`
 
@@ -104,7 +104,7 @@ Call it (stop, investigate offline, do not keep restarting) when ANY of:
 - Deploy: `./deploy_mimir.sh --package <tarball> --version <ver>`
   (verifies checksums, backs up operator config, asserts the
   `aesir-driver` symlink, runs the canary). Last tested: 2026-10-10 (H191).
-- Rollback: `ln -sfn /home/pi/aesir-f1-<previous> /home/pi/aesir-driver`
+- Rollback: `ln -sfn ~/aesir-f1-<previous> ~/aesir-driver`
   && `sudo systemctl restart vordr-watchdog`, then canary.
 
 ## 6. Cold-reader validation

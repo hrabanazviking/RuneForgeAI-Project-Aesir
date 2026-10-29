@@ -10,7 +10,7 @@ produced it. Re-verification procedure at the bottom.
 |---|---|---|
 | Mojo toolchain | 1.1.0 (8189361e) | `mojo --version` → `Mojo 1.1.0 (8189361e)` |
 | pixi (package manager) | 0.81.0 | `pixi --version` → `pixi 0.81.0` |
-| Mojo channel | `https://conda.modular.com/max` (+ conda-forge) | `/home/pi/mojo-dev/pixi.toml` |
+| Mojo channel | `https://conda.modular.com/max` (+ conda-forge) | `~/mojo-dev/pixi.toml` |
 | OS | Debian GNU/Linux 12 (bookworm) | `cat /etc/os-release` |
 | Kernel | 6.12.109+rpt-rpi-2712 | `uname -a` / `/proc/version` (built 2026-09-11, gcc 12.2.0) |
 | Kernel config source | `/boot/config-6.12.109+rpt-rpi-2712` | file presence + greps |

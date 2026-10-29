@@ -186,7 +186,7 @@ or test hosts.
   Q4_0 quantization used in tests (`tinyllama-1.1b-chat-v1.0.Q4_0.gguf`,
   sha256 `da3087fb…03b556`) is TheBloke's conversion (CC-BY-NC / Llama 2
   community terms via the original model card). The weights live outside
-  the repo (`/home/pi/models/`, gitignored `*.gguf`) and are NOT part of
+  the repo (`~/models/`, gitignored `*.gguf`) and are NOT part of
   the release package.
 - **Unseen victory-gate models (H195)**: recorded per-run in
   `data/gauntlet/victory_gate_1.json` with name, URL, and SHA-256. Both

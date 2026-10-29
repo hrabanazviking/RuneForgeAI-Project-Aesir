@@ -33,7 +33,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 OUT = REPO / "data" / "gauntlet" / "victory_gate_1.json"
-MODEL_DIR = Path("/home/pi/models/victory")
+MODEL_DIR = Path.home() / "models" / "victory"
 
 MODELS = [
     {

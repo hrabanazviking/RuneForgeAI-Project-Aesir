@@ -16,9 +16,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-VORDR = "/home/pi/mimisbrunnr_c8/vordr_cli"
-F1BIN = "/home/pi/mimisbrunnr_c8/f1_infer"
-F1CFG = "/home/pi/mimisbrunnr_c8/data/fallback/f1_config.json"
+REPO = str(Path(__file__).resolve().parents[2])
+VORDR = REPO + "/vordr_cli"
+F1BIN = REPO + "/f1_infer"
+F1CFG = REPO + "/data/fallback/f1_config.json"
 BDF = "0001:01:00.0"
 STAGES = ["prefill", "decode_step", "weight_staging"]
 

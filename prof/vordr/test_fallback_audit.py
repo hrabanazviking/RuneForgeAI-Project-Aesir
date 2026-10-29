@@ -16,10 +16,10 @@ import sys
 import time
 from pathlib import Path
 
-VORDR = "/home/pi/mimisbrunnr_c8/vordr_cli"
-F1BIN = "/home/pi/mimisbrunnr_c8/f1_infer"
-F1CFG = "/home/pi/mimisbrunnr_c8/data/fallback/f1_config.json"
-REPO = "/home/pi/mimisbrunnr_c8"
+REPO = str(Path(__file__).resolve().parents[2])
+VORDR = REPO + "/vordr_cli"
+F1BIN = REPO + "/f1_infer"
+F1CFG = REPO + "/data/fallback/f1_config.json"
 NEEDS_ROOT = True  # set False to skip device paths when unprivileged
 
 fails = []

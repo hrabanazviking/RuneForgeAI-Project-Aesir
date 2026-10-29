@@ -61,7 +61,7 @@ def main() -> int:
           % (len(names), "CLEAN" if not bad else bad))
 
     # 3. Python-less docker container.
-    model = "/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf"
+    model = str(Path.home() / "models" / "tinyllama" / "tinyllama-1.1b-chat-v1.0.Q4_0.gguf")
     model_sha = "da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556"
     drepo = "/tmp/c10-pkgtest"
     r = sh(["docker", "run", "--rm",

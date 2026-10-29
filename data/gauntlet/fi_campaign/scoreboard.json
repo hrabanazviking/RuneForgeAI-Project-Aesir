@@ -19,5 +19,5 @@
   "child_crashes": 0,
   "coherence_spot_checked": 10,
   "failures": [],
-  "events_log": "/home/pi/c10work/data/gauntlet/fi_campaign/events.jsonl"
+  "events_log": "data/gauntlet/fi_campaign/events.jsonl"
 }

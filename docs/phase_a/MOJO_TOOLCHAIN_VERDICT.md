@@ -13,12 +13,12 @@ The official Mojo toolchain is installed natively for linux-aarch64 via
 Modular's official pixi channel (`https://conda.modular.com/max`):
 
 - **Mojo version:** 1.1.0 (8189361e)
-- **Package manager:** pixi 0.81.0 (`/home/pi/.pixi/bin/pixi`)
-- **Project:** `/home/pi/mojo-dev/pixi.toml` — platforms `["linux-aarch64"]`,
+- **Package manager:** pixi 0.81.0 (`~/.pixi/bin/pixi`)
+- **Project:** `~/mojo-dev/pixi.toml` — platforms `["linux-aarch64"]`,
   dependency `mojo = ">=1.1.0,<2"`, channels `conda.modular.com/max` + conda-forge
 - **Shim:** `/usr/local/bin/mojo` (99-byte shell script, installed 2026-10-10
   02:33, before this campaign):
-  `exec /home/pi/.pixi/bin/pixi run --manifest-path /home/pi/mojo-dev/pixi.toml mojo "$@"`
+  `exec ~/.pixi/bin/pixi run --manifest-path ~/mojo-dev/pixi.toml mojo "$@"`
 
 ## Proof
 

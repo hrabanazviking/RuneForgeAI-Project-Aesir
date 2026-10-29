@@ -9,7 +9,7 @@
   "model": "TinyLlama-1.1B-Chat-v1.0 Q4_0 GGUF (TheBloke)",
   "model_source": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF :: tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
   "model_sha256": "da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556",
-  "model_path_on_mimir": "/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
+  "model_path_on_mimir": "~/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
   "binary": "armvegr/f1_infer",
   "infer_version": "0.2.0",
   "mojo_version": "Mojo 1.1.0 (8189361e)",
