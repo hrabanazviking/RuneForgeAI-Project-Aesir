@@ -4407,3 +4407,30 @@ three sub-keys; and the channel tuples wed to
 count and sizes.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.148 (AES-NUM-148) is complete. The two
+refining joints are one partition, not two: over
+the 216 violating-cell pairs they key every pair
+identically, pair by pair — no discordant
+pair-pair among all 23,220 — because each idx
+sequence on this population carries exactly one
+cidx sequence, so the second joint adds nothing.
+Their seven agreeing repeats are seven keys of
+two pairs each, every repeat split across two
+cells, and weding the joint to the cell separates
+everything and proves nothing: no key repeats at
+all. The four-step belongs to the one sub-key
+that omits the first byte: the two sub-keys that
+include it and another pair are injective alone,
+and the third's sole pair-pair steps by zero —
+a zero its own construction forces. And the
+channel tuples wed to count and to sizes earn
+exactly the channels' own single agreeing repeat
+at gaps 5 and 6, nothing more, while the joint
+channel wed restates the mapping by construction
+at all eight gaps.
+Next: the agreeing repeats read record by
+record; the injective sub-keys' near-misses; and
+gaps 5 and 6 read against each other in full.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

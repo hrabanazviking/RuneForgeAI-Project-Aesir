@@ -4057,7 +4057,7 @@
   pairs; then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.148 the two
+- [x] Slice4.148 the two
   refining joints
   dissected over the 216
   (their 7 agreeing
@@ -4079,6 +4079,27 @@
   broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.149 the 7
+  agreeing repeats read
+  record by record (each
+  repeat's two pairs
+  compared field by field,
+  with the 35 violating
+  repeats as control);
+  the near-miss census
+  for the two injective
+  sub-keys (Hamming-1
+  pair-pairs, byte-0 steps
+  split by differing
+  position); and gaps 5
+  and 6 read in full
+  against each other (the
+  sole agreeing repeat of
+  every mapping test, the
+  AES-NUM-145 feature
+  table); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
