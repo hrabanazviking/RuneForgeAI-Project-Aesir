@@ -4208,7 +4208,7 @@
   ordinary UNMODIFIED
   source-model
   support100%.
-- [ ] Slice4.154 the two
+- [x] Slice4.154 the two
   contexts' residue-0
   offset sets read in
   full against each
@@ -4230,6 +4230,28 @@
   closure; then broad
   ordinary UNMODIFIED
   source-model
+  support100%.
+- [ ] Slice4.155 the shared
+  offsets' chain
+  correspondence read in
+  full (each A 512-chain
+  against its B chains
+  over the 25 shared
+  offsets: surviving,
+  splitting, merging);
+  the hub closure's
+  boundary (the 7 pairs
+  carrying exactly 3
+  listings, and the hub
+  component's internal
+  partner/degree
+  structure); and gap 8
+  read against run 74's
+  gap 4 in full
+  (32-feature table; the
+  one split-kind match);
+  then broad ordinary
+  UNMODIFIED source-model
   support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

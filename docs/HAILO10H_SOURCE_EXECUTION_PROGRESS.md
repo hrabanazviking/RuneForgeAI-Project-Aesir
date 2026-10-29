@@ -4572,3 +4572,31 @@ pairs as one population; and run 102's single
 gap against the run-62/run-74 frame.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.154 (AES-NUM-154) is complete. The two
+contexts' residue-0 offset sets share 25 of their
+50 union offsets, and the shared offsets'
+positional order is preserved exactly — the
+context-position sequence is identical in A and
+B, 0 inversions — while their ranks shift
+measurably (13 sit exactly 5 ranks lower in B)
+and their chain memberships change (A's 12-chain
+approach rungs are B's whole approach 4-chain).
+The A-only 12 are whole chain segments; the
+B-only 13 all lie beyond A's maximum region. The
+byte2 census's 11 hub pairs form a closed
+population: every one of their 26 listings is
+hub-to-hub, their partners are exactly
+themselves, and they share one cell, one group,
+A byte0 128 and one record each. Run 102's
+single gap matches neither earlier run on any of
+the 9 frame features — nor do runs 62 and 74
+match each other — so the frame is a within-run
+constancy class of run-identifying values; on
+the split-kind features gap 8 matches run 74's
+gap 4 alone, on distances and skipped counts.
+Next: the shared offsets' chain correspondence
+in full; the hub closure's boundary at exactly
+3 listings; and gap 8 against gap 4 in full.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
