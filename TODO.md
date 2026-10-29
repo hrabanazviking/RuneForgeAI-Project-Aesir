@@ -3352,31 +3352,82 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.134 gap 2's
+- [x] Slice4.134 gap 2's
   chain against compound
-  joint keys ((position-0,
-  loose order, gap-0 tuple),
-  (position-0, loose order,
-  gap-1 tuple), (position-0,
-  loose distances (d0, d1));
-  the whole gap-2 tuple as a
+  joint keys: NO compound
+  repairs it ((position-0,
+  order, gap-0) and
+  (position-0, order, gap-1)
+  75 distinct each, failing
+  6 / 7; (position-0, loose
+  distances) 84 distinct —
+  the strongest companion
+  yet — failing only 3 / 4;
+  the whole tuple as a
   function of (position-0,
-  loose order)); the 19
-  cross-size offsets'
-  size-328 acts as a
-  population (each 328 act's
-  occurrences, gap/class
-  membership, its partners
-  in full); the agreeing
-  (byte0, byte3, byte1)
-  repetition against the
-  two-byte cross-group
-  sharings (which two-byte
-  values are carried by
-  pairs of more than one
-  group, counted exactly);
-  then broad ordinary
+  order) fails 9 of 73, the
+  widest carrying 6 tuples
+  under one order); the 19
+  cross-size offsets hold
+  exactly 19 distinct
+  size-328 acts (one per
+  offset): exactly ONE is a
+  gap act (the target
+  (120529920, 328, 0), gap-2
+  position-0), NONE is
+  class-271 / loose / rigid,
+  18 are neither, and all
+  21 partner acts are
+  neither; and the two-byte
+  cross-group sharings are
+  exactly 7 values over the
+  six sub-keys (agreeing
+  (20, 1), (68, 1) and
+  (20, 128), all small-group;
+  violating (32, 1) — the
+  only value touching the
+  great group — (1, 176),
+  (1, 0) and (1, 128); none
+  under (byte0, byte2) or
+  (byte2, byte3)); the
+  agreeing three-byte pair's
+  (byte1, byte3) projection
+  is the widest violating
+  value of all (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_COMPOUND_JOINT_328POP_CROSSGROUP_2026-10-24.md`.
+  Then broad ordinary
   UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.135 gap 2's
+  chain against
+  distance-compound joint
+  keys ((position-0, loose
+  distances, loose order),
+  (position-0, loose
+  distances, gap-0 tuple),
+  (position-0, loose
+  distances, gap-1 tuple);
+  the whole gap-2 tuple as
+  a function of (position-0,
+  loose distances)); the 19
+  size-328 acts' occurrence
+  geometry in full (position
+  constancy, artifact
+  confinement, cidx pattern;
+  the position-varying
+  exception in both its
+  contexts; partners
+  likewise); the cross-group
+  two-byte values' pair
+  company (every pair
+  carrying each agreeing
+  value, in full) and
+  agreeing three-byte
+  repetitions inside a
+  single group, counted
+  exactly; then broad
+  ordinary UNMODIFIED
   source-model support100%.
 
 ## 2026-10-24 — One grouped physical attempt,offset rejection

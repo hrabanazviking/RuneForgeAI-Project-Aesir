@@ -3945,3 +3945,37 @@ a population; and the one agreeing repetition set
 against every two-byte sharing between groups.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.134 (AES-NUM-134) is complete. The closing
+gap's chain was wed to compounds — the first act with
+the loose order and a sister gap's whole fill
+together, and with the loose distances — and it
+mends under none of them: each sister compound
+leaves six and seven failures, while the distances,
+the strongest companion ever tested here, leave only
+three and four, the widest first act splitting under
+both its distance pairs; asked as one question with
+the order, the whole fill fails on nine keys, the
+widest carrying six different fills under a single
+order. The nineteen cross-size offsets, read as a
+population, hold exactly nineteen small acts, one
+per offset, and the study's named populations touch
+them exactly once: the single gap act among them is
+the original target, no small act and no partner is
+a class-271, loose or rigid act, and the other
+eighteen sharings join otherwise unremarkable acts.
+And between groups the rewritten byte's sharings are
+few: seven two-byte values in all cross a group
+boundary, three of them agreeing — all between the
+two small groups — and four violating, the widest
+being the very projection under which the one
+agreeing three-byte pair hides in a crowd.
+Next: the chain against distance-compounds — the
+distances wed to the order and to each sister fill,
+and the whole fill asked of the distances; the
+nineteen small acts' occurrence geometry read in
+full; and the agreeing values' whole pair company,
+with agreeing three-byte repetitions hunted inside
+single groups.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
