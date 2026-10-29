@@ -3806,3 +3806,40 @@ and byte zero's rewriting measured against parts
 of the word short of the whole.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.130 (AES-NUM-130) is complete. The block's
+three wide gaps are not filled with the same acts,
+but they are filled to the same shape in every one
+of the two hundred seventy-one contexts: the first
+gap always holds two acts of sizes two hundred
+forty-eight and one hundred seventy-six, the second
+two of two hundred fifty-six and one hundred
+seventy-six, and the closing gap three acts of
+three hundred twenty-eight each — while the acts
+themselves change, thirty-four fillings in the
+first gap, thirty in the second, eighty-seven in
+the third. The loose pair, read together, keeps its
+secrets: neither distance determines the other, and
+the pair's order answers to neither distance alone
+— each fails on its distance-four key alone — but
+only to their difference, which is the sign law
+itself and no more. Its one far outlier is context
+one hundred forty-three, where the first leader
+stands thirty-two large acts away from the block
+with the second leader resting inside that very
+span, two steps from the block like the modal
+contexts. And byte zero's rewriting in the great
+group answers to no proper part of the word: the
+single bytes fail widely, the two-byte keys miss
+by exactly one value each, and the three-byte key
+separates only by naming every pair once — unique
+identification, not a rule.
+Next: the gap-fillers as a population, first
+against second and shared seconds against their
+firsts, and gap acts against the contexts' own
+bodies; the outlier's long run read across the
+whole corpus; and the near-miss collisions in
+full, with the rewritten byte itself tested
+against the two-byte keys.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

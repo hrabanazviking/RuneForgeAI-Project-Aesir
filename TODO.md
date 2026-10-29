@@ -3148,28 +3148,80 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.130 the rigid
-  block's three wide gaps
-  read in every context
-  (gap contents between
-  the rigid neighbours;
-  constant or not); the
-  loose pair's joint
-  behaviour (distances
-  co-read per context,
-  order against
-  distances, the
-  distance-33 / from-end
-  87 outlier context in
-  full); the great
-  group's byte-0
-  rewriting against
-  sub-keys of the full
-  A word (any sub-key
-  separating the 36
-  identity pairs from
-  the 180 differing);
-  then broad ordinary
+- [x] Slice4.130 the wide
+  gaps are shape-constant
+  but act-variable (gap 0:
+  34 tuples, sizes (248,
+  176) in all 271 contexts;
+  gap 1: 30 tuples, (256,
+  176); gap 2: 87 tuples,
+  (328, 328, 328)); the
+  loose distances do not
+  determine each other
+  (d1 = f(d0) fails 7/13
+  keys; d0 = f(d1) 9/12);
+  order is not a function
+  of either distance alone
+  (each fails only on its
+  distance-4 key) but IS a
+  function of (d0-d1) (19
+  differences, 0 violating
+  — the sign law); the
+  distance-33 outlier is
+  cidx 143 (L0 pos 518 /
+  from-end 87, 32 large
+  acts to the block, L1
+  inside at distance 2);
+  no proper sub-key
+  separates the great
+  group's byte-0 identity
+  from rewriting with
+  repetition to spare
+  (two-byte keys near-miss
+  on exactly one value
+  each; (byte3, byte1,
+  byte2) separates only by
+  unique identification,
+  216 values / 216 pairs);
+  the byte-0 difference is
+  not a function of A
+  byte 0 (21 of 32 values
+  violating) (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_WIDE_GAPS_LOOSE_JOINT_SUBKEYS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.131 the
+  gap-fillers as a
+  population (first to
+  second offset relation
+  inside each gap; the
+  shared second acts and
+  the firsts they serve;
+  gap acts read against
+  the contexts' own
+  bodies — gap-only or
+  body acts too); the
+  outlier's 32-act run
+  read corpus-wide (the
+  run, or its acts in
+  that order, anywhere
+  else; L0's neighbourhood
+  in modal contexts by
+  contrast); the three
+  near-miss sub-key
+  collisions in full
+  ((249, 44) and (252, 84)
+  under (byte3, byte1),
+  (249, 181) under (byte3,
+  byte2), (128, 146) under
+  (byte1, byte2) — pairs,
+  records, cells), with
+  B byte 0 itself tested
+  as a function of the
+  two-byte sub-keys; then
+  broad ordinary
   UNMODIFIED
   source-model support100%.
 
