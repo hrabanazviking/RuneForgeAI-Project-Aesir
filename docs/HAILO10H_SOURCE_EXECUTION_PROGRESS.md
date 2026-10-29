@@ -4077,3 +4077,36 @@ position band; and the two-byte keys wed to the
 group itself.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.138 (AES-NUM-138) is complete. The two
+redundancies are certified, not just derived: the
+context's length is a function of the maximal key,
+and the gap's left position is a function of it —
+eighty-six keys, fifteen repeating, not one
+violating — and wedging both companions in together
+still leaves the count at eighty-six and the
+failures at two and three, on the very same keys.
+The long shift runs are read act by act: eight runs
+of twenty or more carry well over half the shared
+acts, seven of them at zero or a small positive
+shift and one, twenty acts at minus two, the only
+negative long run; the big-shift tail is sixty-nine
+acts scattered over forty different shifts; and read
+by position band the middle bands are pure — two
+early bands of nothing but small positive shifts, a
+late band of nothing but stillness, the last band of
+nothing but small positives again. The rewritten
+byte, tested against every two-byte part wed to its
+own group, still violates under every key — sixty
+wed values repeat, forty-nine of them violating —
+and the thirteen agreeing repeats of the whole
+population divide cleanly by their company: nineteen
+pairs keep the byte, eight change it, and those
+eight sit in just four great-group repeats whose
+pairs all change it by the same amount.
+Next: the violating families against the loose
+acts' own positions; the long runs' boundaries and
+the tail by band; and the three-byte keys wed to
+the group.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

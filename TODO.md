@@ -3572,29 +3572,84 @@
   broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.138 the two wed redundancies
-  certified directly
-  (context length and
-  gap-2 left position each
-  as a function of the
-  maximal compound joint
-  key; the maximal key wed
-  to BOTH companions
-  together, the whole
-  gap-2 tuple likewise);
-  the shift anatomy's long
-  runs read act by act
-  (every primary run of
-  length ≥20, the |shift|
-  ≥100 tail in full, shift
-  class by A-position
-  band of width 50); and
-  B byte 0 against the six
-  two-byte sub-keys wed to
-  the group (key =
-  (group, two-byte value))
-  over the full 224 pairs,
+- [x] Slice4.138 the two wed redundancies
+  CERTIFIED directly
+  (context length IS a
+  function of the maximal
+  compound joint key — 86
+  distinct, 15 repeating, 0
+  violating; gap-2 left
+  position IS a function —
+  same counts; the maximal
+  key wed to BOTH companions
+  together still repairs
+  nothing, 86 distinct,
+  violating 2 / 3 / 3, the
+  same keys with both wed
+  values appended); the
+  shift anatomy's long runs
+  read act by act (exactly
+  8 primary runs ≥20,
+  carrying 394 of 689 acts:
+  158/+2, 50/+2, 41/+3,
+  37/+2, 34/0, 29/0, 25/0,
+  20/−2 the only negative;
+  the |shift| ≥100 tail is
+  69 acts over 40 distinct
+  shifts, 38 positive /
+  31 negative; shift class
+  by band of width 50 —
+  totals ≤−10: 44, −9..−1:
+  53, zero: 126, +1..+9:
+  395, ≥+10: 71; bands
+  50–149 purely +1..+9,
+  550–599 purely zero,
+  700–749 purely +1..+9);
+  and B byte 0 against the
+  six two-byte sub-keys wed
+  to the group over the
+  full 224 pairs (60
+  repeating wed values, 11
+  agreeing, 49 violating —
+  no wed key is a function;
+  the wed splits exactly
+  the cross-group repeats)
   with the 13 agreeing
+  repeats' status company
+  (27 pairs with
+  multiplicity: 19 SAME,
+  8 DIFF; the 8 DIFF in
+  exactly 4 great-group
+  repeats, each pair-set
+  sharing one nonzero diff
+  +128 / −128 / +96 / +64)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_CERTIFIED
+  _WED_LONGRUNS_WEDGROUP
+  _2026-10-24.md`. Then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.139 the doubly-wed violating
+  families against the
+  loose acts' own positions
+  (L0 / L1 / R0 positions
+  as further companions,
+  each also tested as a
+  function of the
+  doubly-wed key); the
+  long-run boundaries
+  (flanking acts and
+  boundary shift changes),
+  the tail acts
+  cross-tabbed by band,
+  and the secondary runs
+  of length ≥20; and
+  B byte 0 against the
+  four three-byte sub-keys
+  wed to the group over
+  the full 224 pairs,
+  with the 11 wed agreeing
   repeats' status company;
   then broad ordinary
   UNMODIFIED
