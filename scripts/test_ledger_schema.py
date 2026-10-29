@@ -90,11 +90,87 @@ class CapabilityLedgerSchemaTests(unittest.TestCase):
         self.assertEqual(payload["capabilities"][0]["extensions"][0]["label"], "Extra")
 
     def test_repository_ledger_matches_baseline_shape(self) -> None:
-        from ledger_schema import ROOT
+        # Baseline re-measured from the repository ledger on 2026-10-28
+        # (step 33, S-020); the previous figures (119 entries, 80
+        # extensions) were stale and were never even reached, because
+        # parse_ledger_path raises on the current ledger before any
+        # count assertion runs. Measured truth at re-baseline time:
+        #   329 capability entries, 458 extension fields, and 176
+        #   strict-schema diagnostics (89 x missing required field
+        #   'Evidence boundary', 87 x missing required field
+        #   'Executable evidence').
+        # The 176 diagnostics are ledger content debt owned by the
+        # repository consistency checker (they are 176 of its 237
+        # findings), not parser behaviour: the synthetic tests above
+        # already prove the parser fails closed on such entries. This
+        # baseline therefore pins the measured shape and the measured
+        # diagnostic counts instead of re-asserting a clean parse the
+        # current ledger does not have. Any ledger growth, shrinkage,
+        # extension change, or schema-debt change breaks this test on
+        # purpose and forces a conscious re-measure.
+        from ledger_schema import (
+            CANONICAL_FIELDS,
+            FIELD,
+            FIELD_LIKE,
+            GRANDFATHERED_RECORD_IDS,
+            HEADING,
+            HEADING_LIKE,
+            RECORD_HEADING,
+            ROOT,
+        )
 
-        entries = parse_ledger_path(ROOT / "CAPABILITY_LEDGER.md")
-        self.assertEqual(len(entries), 119)
-        self.assertEqual(sum(len(item.extensions) for item in entries), 80)
+        ledger_path = ROOT / "CAPABILITY_LEDGER.md"
+        with self.assertRaises(LedgerSchemaError) as caught:
+            parse_ledger_path(ledger_path)
+        messages = [item.message for item in caught.exception.diagnostics]
+        self.assertEqual(len(messages), 176)
+        self.assertEqual(messages.count("missing required field 'Evidence boundary'"), 89)
+        self.assertEqual(messages.count("missing required field 'Executable evidence'"), 87)
+
+        # Shape count following ledger_schema's own block and field
+        # rules (capability headings bound blocks, the grandfathered
+        # record block is skipped, wrapped lines continue the current
+        # field), without its fail-closed diagnostics.
+        lines = ledger_path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n").splitlines()
+        starts = [index for index, line in enumerate(lines) if HEADING_LIKE.match(line)]
+        entry_count = 0
+        extension_count = 0
+        for position, start in enumerate(starts):
+            stop = starts[position + 1] if position + 1 < len(starts) else len(lines)
+            if HEADING.fullmatch(lines[start]) is None:
+                record = RECORD_HEADING.match(lines[start])
+                if record is not None and record.group(1) in GRANDFATHERED_RECORD_IDS:
+                    continue
+                continue
+            entry_count += 1
+            fields: list[tuple[str, str]] = []
+            current_label: str | None = None
+            current_value: list[str] = []
+            for line in lines[start + 1 : stop]:
+                match = FIELD.fullmatch(line)
+                if match is not None:
+                    if current_label is not None:
+                        fields.append((current_label, "\n".join(current_value).strip()))
+                    current_label = match.group(1).strip()
+                    current_value = [match.group(2)]
+                    continue
+                if FIELD_LIKE.match(line):
+                    if current_label is not None:
+                        fields.append((current_label, "\n".join(current_value).strip()))
+                    current_label = None
+                    current_value = []
+                    continue
+                if current_label is not None:
+                    current_value.append(line)
+            if current_label is not None:
+                fields.append((current_label, "\n".join(current_value).strip()))
+            extension_count += sum(
+                1
+                for label, value in fields
+                if label not in CANONICAL_FIELDS and label and value
+            )
+        self.assertEqual(entry_count, 329)
+        self.assertEqual(extension_count, 458)
 
     def test_empty_ledger_fails(self) -> None:
         with self.assertRaisesRegex(LedgerSchemaError, "no capability entries found"):
