@@ -4355,3 +4355,27 @@ records' remaining companions; and the two
 base-group pair-pairs read record by record.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.146 (AES-NUM-146) is complete. The
+channel mapping answers to nothing in the skipped
+acts themselves either: one size, one residue and
+one skipped act each carry all three mappings
+between them, and the skipped acts of the two
+bounding-twin gaps occur nowhere else in the whole
+corpus. The rewritten byte earns no rescue from
+its records' remaining companions — not one
+agreeing repeat among the idx sequences, the
+in37 patterns (the same False for every record),
+its own first byte, or the (cidx, idx) sequences —
+so the single-companion lane is exhausted. And
+the two base-group pair-pairs, read record by
+record, are twins: identical in every record and
+every field except the rewritten byte itself,
+which rises by four in both, and the cell that
+homes them.
+Next: the mapping read against the second side's
+skipped acts and the joint tuples; the rewritten
+byte read against joint companions; and the
+four-step tested wherever its sub-key repeats.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

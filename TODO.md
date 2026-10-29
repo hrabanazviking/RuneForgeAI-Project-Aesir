@@ -3978,27 +3978,83 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.146 the
+- [x] Slice4.146 the
+  per-gap channel mapping
+  is NOT a function of
+  the A-side skipped acts
+  (sizes violating at
+  gaps 3/5/6; residues
+  mod 512 violating at
+  gaps 3/5/6/7; count
+  violating; channels and
+  paired (size, channel)
+  one agreeing repeat
+  only, gaps 5/6); gaps
+  3 and 7's skipped acts
+  are corpus-unique (1
+  occurrence each in the
+  whole corpus); the 216
+  earn no rescue from the
+  remaining companions
+  (idx sequence 27 all
+  violating; in37 the
+  constant (False,) 1
+  violating; A byte 0 22
+  repeating all
+  violating; (cidx, idx)
+  27 all violating; zero
+  agreeing repeats in
+  all eight single
+  companions); and the
+  two (byte1, byte2,
+  byte3) pair-pairs are
+  twins separated only
+  by byte 0 (+4 in both
+  groups; B byte 0 ==
+  A byte 0 in all four)
+  and the cell (thirds
+  1744/6944, 4336/9832;
+  35 differing / 171
+  equal of 206 fields in
+  both groups)
+  (mechanisms NOT
+  PROVEN).
+  `docs/HAILO10H_SKIPPED
+  _ACTS_REMAINING
+  _COMPANIONS_PAIRPAIRS
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.147 the
   per-gap channel mapping
   as a function of the
-  A-side skipped acts
-  themselves over all 8
-  gaps, with gaps 3 and
-  7's skipped acts read
-  against the corpus; B
+  B-side skipped acts and
+  the joint A/B skipped
+  tuples over all 8 gaps,
+  with gaps 3 and 7's
+  skipped (offset, size)
+  pairs read against the
+  corpus channel-blind; B
   byte 0 over the 216
   violating-cell pairs
-  against the remaining
-  record-level companions
-  (idx sequence, in37
-  pattern, A byte 0 as
-  companion, (cidx, idx)
-  sequence); and the two
-  (byte1, byte2, byte3)
-  base-group pair-pairs
-  read in full against
-  each other, record by
-  record; then broad
+  against the JOINT
+  companions of the eight
+  exhausted singles
+  ((idx sequence, A byte
+  0), ((cidx, idx)
+  sequence, A byte 0),
+  (in37 pattern, A byte
+  0), (idx sequence,
+  in37 pattern)); and the
+  two pair-pairs' byte-0
+  step and cell-third
+  step tested across
+  every pair-pair sharing
+  the (byte1, byte2,
+  byte3) sub-key alone
+  over the full 224
+  pairs; then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
