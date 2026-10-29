@@ -3767,3 +3767,42 @@ together; the end block's distances from the end,
 act by act, and its two loose leaders' places.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.129 (AES-NUM-129) is complete. Byte zero,
+given its own value in the key, is determined at
+last: the full A word separates every pair — two
+hundred twenty-four pairs, two hundred twenty-four
+keys, not one violation, globally or in any group —
+though the key never repeats on this population, so
+the result is exactly that no two pairs share a
+whole A word while differing in byte zero. The
+copying that made the narrow pairs special does not
+travel: beyond them, byte zero survives in only
+thirty-six of two hundred sixteen pairs and is
+rewritten in a hundred eighty, its differences
+spanning two hundred forty in both directions. The
+two sides of a context almost never mirror each
+other in sign: three equal, none complemented, one
+reversed, twenty-three of twenty-seven unrelated.
+The step answers neither to the sum alone nor to
+the sum with its starting level — five keys break
+that pairing — and its apparent answer to sum with
+byte three is an empty one, every key standing
+once. And the end block is rigid in full: twenty-
+eight acts each hold one fixed distance from the
+end across all two hundred seventy-one contexts,
+fifty-four down to twenty, their twenty-seven
+spacings constant, mostly a single step with two
+gaps of three and a closing gap of four into the
+act before the displaced block; before them the
+two loose leaders float, always ahead of the block
+but at wandering distances, and more often in the
+order second-leader-first than in their shared
+order.
+Next: what stands inside the block's three wide
+gaps; the loose pair read together, distance
+against order, and its one far outlier context;
+and byte zero's rewriting measured against parts
+of the word short of the whole.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

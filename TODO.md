@@ -3100,28 +3100,76 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.129 byte 0
-  with A byte 0 admitted
-  to the key (globally and
-  per group; identity
-  beyond the narrow
-  population); the
-  deviation sign patterns
-  paired across each
-  cidx's two sides
-  (equality / complement /
-  reversal in full) and
-  step as a function of
-  (starting sum, starting
-  diff); the class-271
-  end block's from-end
-  structure across all 271
-  contexts (fixed from-end
-  offsets for the 28 rigid
-  acts) and the two loose
-  lead acts' positions
-  against the block; then
-  broad ordinary
+- [x] Slice4.129 byte 0 IS
+  determined by the full
+  A word (extended key
+  224 pairs / 224 keys /
+  0 violations globally
+  and per group; the key
+  never repeats, the two
+  narrow collisions split
+  by A byte 0); identity
+  is narrow-only (8/8
+  narrow copy; beyond
+  them 36 same / 180 diff,
+  all in group (20,
+  32720), differences
+  -240..+240 in 40 values;
+  all-pairs 44 same); the
+  sides' sign patterns
+  almost never relate
+  (EQUAL 3, COMPLEMENT 0,
+  REVERSE 1, COMP-OF-REV
+  2 overlapping, NONE 23
+  of 27); step NOT a
+  function of (sum,
+  starting diff) (5
+  violating keys) and a
+  function of (sum,
+  byte 3) only vacuously
+  (161 keys / 161 steps);
+  the end block is fully
+  rigid (28 acts constant
+  from-end 54..20 in all
+  271 contexts; all 27
+  spacings constant:
+  1 x24, 3 x2, 4 x1 into
+  the before-flank); the
+  loose pair floats (L0
+  13 from-ends 55-87,
+  distances 1-33; L1 12
+  from-ends 55-68,
+  distances 1-14), always
+  before the block, order
+  L1-before-L0 170 vs
+  L0-before-L1 101
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_BYTE0_EXTENDED_KEY_PATTERN_PAIRING_END_BLOCK_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.130 the rigid
+  block's three wide gaps
+  read in every context
+  (gap contents between
+  the rigid neighbours;
+  constant or not); the
+  loose pair's joint
+  behaviour (distances
+  co-read per context,
+  order against
+  distances, the
+  distance-33 / from-end
+  87 outlier context in
+  full); the great
+  group's byte-0
+  rewriting against
+  sub-keys of the full
+  A word (any sub-key
+  separating the 36
+  identity pairs from
+  the 180 differing);
+  then broad ordinary
   UNMODIFIED
   source-model support100%.
 
