@@ -3979,3 +3979,36 @@ with agreeing three-byte repetitions hunted inside
 single groups.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.135 (AES-NUM-135) is complete. The closing
+gap's chain was wed to the distances and everything
+the distances travel with — the loose order, each
+sister gap's whole fill — and it mends under none of
+them: the order adds not one key beside the
+distances and leaves the failures untouched, every
+one under a single loose order; a sister fill buys
+exactly one silenced branch of the widest first act
+and no more; and the whole fill, asked of the first
+act and the distances together, fails on four keys.
+The nineteen small acts' homes are now read in
+full: each lives in one artifact only, eighteen
+stand at one fixed position in all their contexts,
+and the one that moves is anchored to the end of
+its contexts instead — twenty-three acts from the
+end in both — while their wandering partners are
+fixed from neither end. And the rewritten byte's
+agreeing sharings stand complete: each agreeing
+two-byte value's whole company is its carriers and
+nothing more, and inside any single group no
+three-byte value ever repeats agreeing — the one
+agreeing repetition in the population lives only
+across a group boundary.
+Next: the chain against the maximal compound — every
+companion wed together at once, and the whole fill
+asked of the distances with each sister; the
+end-anchoring of the nineteen and their partners
+counted as a census, with the exception's two homes
+read against each other; and the byte tested against
+two-byte keys inside each group alone.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

@@ -3399,37 +3399,103 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.135 gap 2's
-  chain against
+- [x] Slice4.135 gap 2's chain against
   distance-compound joint
-  keys ((position-0, loose
-  distances, loose order),
+  keys: NO distance-
+  compound repairs it
+  ((position-0, distances,
+  order) 84 distinct — the
+  order adds NO key over
+  the distances alone —
+  failing 3 / 4, every
+  violating key under
+  L1-before-L0;
+  (position-0, distances,
+  gap-0) and (position-0,
+  distances, gap-1) 86
+  distinct each, failing
+  only 2 / 3, a sister
+  fill silencing exactly
+  the widest key's (2, 4)
+  branch; the whole tuple
+  as a function of
+  (position-0, distances)
+  fails 4 of 84); the 19
+  size-328 acts'
+  occurrence geometry in
+  full: every act confined
+  to a single artifact, 18
+  of 19 position-fixed,
+  and the sole exception
+  (791774208, 328, 0)
+  fixed from the END
+  (positions 725 / 727 in
+  contexts of 749 / 751
+  acts, position-from-end
+  23 in both); their 21
+  partners position-fixed
+  in only 16 cases, all
+  five twice-occurring
+  partners moving and end-
+  fixed neither; and the
+  agreeing cross-group
+  two-byte values' whole
+  company is exactly their
+  carriers ((20, 1) 3
+  pairs, (68, 1) 2, (20,
+  128) 2 — all SAME),
+  while inside a single
+  group NO three-byte
+  value ever repeats
+  agreeing under any key
+  (the only agreeing
+  three-byte repetition in
+  the 224 pairs is the
+  cross-group (20, 128, 1)
+  itself; the only within-
+  group repeats are the
+  two violating (byte3,
+  byte1, byte2) values of
+  group (14, 9992))
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_DISTCOMPO
+  UND_GEOMETRY_PAIRCOMPANY
+  _2026-10-24.md`. Then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.136 gap 2's chain against the
+  maximal compound joint
+  key ((position-0, loose
+  distances, loose order,
+  gap-0 tuple, gap-1
+  tuple) together; the
+  whole gap-2 tuple as a
+  function of (position-0,
+  loose distances, gap-0
+  tuple) and of
   (position-0, loose
-  distances, gap-0 tuple),
-  (position-0, loose
-  distances, gap-1 tuple);
-  the whole gap-2 tuple as
-  a function of (position-0,
-  loose distances)); the 19
-  size-328 acts' occurrence
-  geometry in full (position
-  constancy, artifact
-  confinement, cidx pattern;
-  the position-varying
-  exception in both its
-  contexts; partners
-  likewise); the cross-group
-  two-byte values' pair
-  company (every pair
-  carrying each agreeing
-  value, in full) and
-  agreeing three-byte
-  repetitions inside a
-  single group, counted
-  exactly; then broad
-  ordinary UNMODIFIED
-  source-model support100%.
-
+  distances, gap-1
+  tuple)); an end-
+  anchoring census over
+  the 19 size-328 acts and
+  their 21 partners (each
+  act classified start-
+  fixed / end-fixed / both
+  / neither, counted
+  exactly), with the
+  exception's two
+  contexts' shared-act
+  census; and B byte 0
+  against the two-byte
+  sub-keys inside each
+  group separately (every
+  repeated two-byte value
+  per group, agreeing or
+  violating, in full);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
