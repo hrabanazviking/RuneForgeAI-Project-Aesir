@@ -4148,7 +4148,7 @@
   broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.152 gap 8's
+- [x] Slice4.152 gap 8's
   non-contiguous skipped
   block read in full
   against the contiguous
@@ -4175,6 +4175,36 @@
   4, 5 and 6 (feature
   tables), completing
   run 74; then broad
+  ordinary UNMODIFIED
+  source-model
+  support100%.
+- [ ] Slice4.153 gap 8's
+  two skipped regions
+  read against their
+  contexts in full (every
+  24-byte act at a 512
+  stride around gap 8 in
+  contexts A and B; side
+  B's ladder at
+  1,196,444,160 — wider
+  ladder or isolated;
+  where side A's ladder
+  ends at the right
+  bound); the
+  byte2-differing
+  Hamming-1 pair-pairs
+  over the full 224 as a
+  census (the mirror of
+  the byte-0 census;
+  listings, steps, and
+  where the two
+  non-members and the
+  four members sit in
+  it); and run 62's gaps
+  1 and 2 read against
+  each other (32-feature
+  table), completing
+  run 62; then broad
   ordinary UNMODIFIED
   source-model
   support100%.

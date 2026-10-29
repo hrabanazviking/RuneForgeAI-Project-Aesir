@@ -4512,3 +4512,32 @@ and run 74's gaps 3 and 7 in full against gaps 4,
 5 and 6.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.152 (AES-NUM-152) is complete. Gap 8's
+512 stride is two ladders, not one: side B's
+skipped block is a uniform 512 ladder in a region
+404,667,392 bytes from side A's, and side A's
+first skipped act sits exactly 24 bytes after
+the shared left bounding act — contiguous with
+the bound — so its first advance measures
+488 = 512 − 24, while its other three acts sit
+on the ladder extending the bound. Gaps 1 and 2
+share none of gap 8's properties: identical
+skipped offsets in both contexts, preceding-size
+advances, one repeated cross-channel mapping.
+The two non-member (1, 128) pairs earn no byte-0
+near-miss listing for a measured reason: every
+Hamming-1 neighbour they have, under either
+sub-key, differs at byte2 — never at byte0 —
+while every member pair earns its listing under
+both sub-keys. And run 74 is closed: its five
+gaps share exactly the 9 run-frame features of
+32 and split on the other 23, gap 4 the distant
+sibling in every table (9 equal against both
+gap 3 and gap 7).
+Next: gap 8's two skipped regions against their
+contexts in full; the byte2-differing Hamming-1
+census over the full 224; and run 62's gaps 1
+and 2 against each other, completing run 62.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
