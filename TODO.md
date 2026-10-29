@@ -4124,7 +4124,7 @@
   broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.151 the 6
+- [x] Slice4.151 the 6
   distinct byte-0
   near-miss pair-pairs
   as one population
@@ -4147,6 +4147,36 @@
   over all 8 gaps; then
   broad ordinary
   UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.152 gap 8's
+  non-contiguous skipped
+  block read in full
+  against the contiguous
+  blocks of gaps 1 and 2
+  (its 512-stride 24-byte
+  skipped acts; the
+  A-side 488 first
+  advance); the two
+  (1, 128)-population
+  pairs in no near-miss
+  pair-pair (byte2 177 at
+  byte0 20; byte2 160 at
+  byte0 68) read against
+  the four member pairs
+  (their full sub-key
+  neighbourhoods under
+  both injective
+  sub-keys); and run 74's
+  remaining two gaps
+  (3 at step 24, mapping
+  ((2, 0),); 7 at step 48,
+  mapping ((1, 2),)) read
+  in full against gaps
+  4, 5 and 6 (feature
+  tables), completing
+  run 74; then broad
+  ordinary UNMODIFIED
+  source-model
   support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

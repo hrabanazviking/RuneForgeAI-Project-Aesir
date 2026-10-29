@@ -4483,3 +4483,32 @@ as one sequence, with skipped-block contiguity over
 all 8 gaps.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.151 (AES-NUM-151) is complete. The six
+distinct byte-0 near-miss pair-pairs are two
+species: the four ladder-side pair-pairs carry
+B-minus-A (0, 0) on both pairs, B step = A step,
+SAME/SAME; the two (20, 32720) pair-pairs carry
+none of that. The (byte1, byte3) = (1, 128)
+population is exactly six pairs, and its ladder
+is a closed chain — byte0 20, 24, 28, 32 in steps
+of 4, the byte2 branches offset by one rung, no
+rung outside 20–32 even with byte3 widened. The
+50 control comparisons split rigidly by verdict
+field: B byte 0 only 29, status only a measured
+zero, both 18, neither 3 — and each class differs
+on one fixed field set, so status never differs
+unless B byte 0 does. Run 74 holds five internal
+gaps, not three: gaps 3 and 7 join 4, 5 and 6,
+with mappings ((2, 0),) and ((1, 2),) at the ends.
+Skipped blocks chain by preceding size in gaps 1,
+2 and 4, are single acts in gaps 3, 5, 6 and 7,
+and break only in gap 8, whose 24-byte acts sit
+at a 512 stride.
+Next: gap 8's non-contiguous block against the
+contiguous blocks of gaps 1 and 2; the two
+non-member (1, 128) pairs' sub-key neighbourhoods;
+and run 74's gaps 3 and 7 in full against gaps 4,
+5 and 6.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
