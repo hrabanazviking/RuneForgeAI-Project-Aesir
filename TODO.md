@@ -3464,38 +3464,82 @@
   broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.136 gap 2's chain against the
+- [x] Slice4.136 gap 2's chain against the
   maximal compound joint
-  key ((position-0, loose
-  distances, loose order,
-  gap-0 tuple, gap-1
-  tuple) together; the
-  whole gap-2 tuple as a
-  function of (position-0,
-  loose distances, gap-0
-  tuple) and of
-  (position-0, loose
-  distances, gap-1
-  tuple)); an end-
-  anchoring census over
-  the 19 size-328 acts and
-  their 21 partners (each
-  act classified start-
-  fixed / end-fixed / both
-  / neither, counted
-  exactly), with the
-  exception's two
+  key: NO maximal compound
+  repairs it (86 distinct
+  keys — the maximal key
+  adds NO key over
+  (position-0, distances,
+  one sister) alone, and
+  the violating sets are
+  identical, 2 / 3; the
+  whole tuple under either
+  sister fails on the same
+  3 keys); the end-
+  anchoring census counted
+  exactly (size-328 acts
+  BOTH 18, END-ONLY 1 —
+  the exception — partners
+  BOTH 16 all trivially
+  single-occurrence,
+  NEITHER 5 exactly the
+  twice-occurring ones;
+  multi-occurrence split
+  total: small acts
+  anchored 9 of 9, partners
+  0 of 5); the exception's
+  two contexts share 689
+  distinct acts of an 811
+  union, only 126 at the
+  same position, 563 at
+  different positions; and
+  B byte 0 answers to no
+  two-byte sub-key inside
+  any group (great group
+  violates under all six
+  keys — (byte0, byte3)
+  34 repeats, 27 violating;
+  group (14, 9992) byte-0
+  keys never repeat and
+  the rest repeat only
+  violating; group
+  (19, 7712) holds the one
+  agreeing repeat (20, 1))
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_MAXIMAL_C
+  OMPOUND_ENDANCHOR_TWOBY
+  TE_GROUPS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.137 gap 2's chain against the
+  maximal compound joint
+  key wed to the context
+  length and to the gap's
+  left position (the two
+  companions the maximal
+  key does not yet carry),
+  the whole gap-2 tuple
+  likewise; the exception
   contexts' shared-act
-  census; and B byte 0
-  against the two-byte
-  sub-keys inside each
-  group separately (every
-  repeated two-byte value
-  per group, agreeing or
-  violating, in full);
-  then broad ordinary
-  UNMODIFIED source-model
-  support100%.
+  position-shift anatomy
+  (exact shift distribution
+  over the 689 shared acts,
+  the 126 same-position
+  acts' position
+  distribution, shift runs
+  in position order); and
+  B byte 0 against the six
+  two-byte sub-keys over
+  the FULL 224-pair
+  population (every repeated
+  value in full, agreeing
+  or violating, with each
+  repeated value's group
+  composition); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

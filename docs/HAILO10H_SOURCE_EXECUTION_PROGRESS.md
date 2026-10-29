@@ -4012,3 +4012,33 @@ read against each other; and the byte tested against
 two-byte keys inside each group alone.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.136 (AES-NUM-136) is complete. Every companion
+was wed together at once — the first act, the loose
+distances, the loose order, and both sister gaps'
+whole fills — and the chain still does not mend: the
+maximal key names no more keys than the distances
+with a single sister already did, and its failures
+are exactly theirs, two for the second act and three
+for the third; asked as one question with either
+sister beside the distances, the whole fill fails on
+the same three first acts. The anchoring of the
+nineteen small acts and their partners is now a
+census: the small acts are fixed from both ends in
+eighteen cases and from the end alone in the one
+case that moves, while every partner that occurs
+twice is fixed from neither end — and the exception's
+two homes, read against each other, hold nearly the
+same acts in a different layout, only a sixth of the
+shared acts standing where they stood. And inside
+each group alone the rewritten byte answers to no
+two-byte part of its word: the great group violates
+under all six keys, the small groups repeat only
+violating or not at all, save the one small agreeing
+value that has followed the study across groups.
+Next: the maximal key wed to the context's length
+and to the gap's own left position; the shared acts'
+position shifts read as an anatomy; and the two-byte
+tests carried to the whole population at once.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
