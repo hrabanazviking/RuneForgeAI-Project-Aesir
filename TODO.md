@@ -3777,32 +3777,73 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.142 the
-  missing lattice slots
-  inside the 15 repeating
-  families read against
-  the whole gap-2
-  population (what occupies
-  each unoccupied slot);
-  the B-side mirror of the
-  skipped positions (acts
-  between the same run
-  acts in context B,
-  classified the same way)
-  with the 19 A-side
-  skipped acts' corpus-wide
-  occurrence lists; and
+- [x] Slice4.142 every
+  missing lattice slot is
+  occupied (28 slots in
+  four families, 22 by
+  another repeating
+  family's row, 6 by a
+  singleton row, 0 empty;
+  the [146…] family and
+  its sister are mutual —
+  18 of the sister's 19
+  missing slots are the
+  [146…] family's rows,
+  and slot 182 is one
+  singleton row filling
+  both families); the
+  B-side mirror is exact
+  (B distance = A distance
+  in all 8 gaps; the 19
+  B-side skipped acts ALL
+  B-only and corpus-unique,
+  as are the 19 A-side
+  skipped acts, one
+  occurrence each); and
   B byte 0 against the
   four three-byte sub-keys
   wed to status AND group
-  jointly, the status-wed
-  tests inside the
-  SAME-only and DIFF-only
-  subsets, and the two
-  (byte1, byte2, byte3)
-  status-wed violating
-  repeats re-read against
-  A byte 0; then broad
+  jointly earns no
+  determination (three
+  keys injective; (byte1,
+  byte2, byte3) the same
+  2 violating repeats;
+  SAME-only repeats the
+  pattern at subset scale,
+  DIFF-only all injective;
+  the violating pairs have
+  B byte 0 = own A byte 0)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_MISSING
+  _SLOTS_B_MIRROR_JOINT
+  _WED_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.143 the
+  missing-slot occupants
+  as a population (each
+  occupant's tuple against
+  its slot family's; the
+  six singleton occupants'
+  keys; the shared slot
+  182 in full); the
+  gap-by-gap insertion
+  comparison (A-side and
+  B-side skipped acts at
+  the same gap side by
+  side); and B byte 0
+  against the four
+  three-byte sub-keys wed
+  to status, group AND
+  record count jointly,
+  the joint-wed tests
+  inside the SAME-only
+  subset, and the two
+  violating repeats
+  re-read against their
+  records' cells and
+  centres; then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

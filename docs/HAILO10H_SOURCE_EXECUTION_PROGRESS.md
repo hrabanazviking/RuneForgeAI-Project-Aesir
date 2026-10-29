@@ -4223,3 +4223,36 @@ second context; and the three-byte keys wed to
 status and group together.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.142 (AES-NUM-142) is complete. The
+families' missing rungs are not empty places at
+all: of the twenty-eight lattice slots the four
+incomplete families leave open, twenty-two are
+filled by another repeating family's contexts and
+six by singleton families, and not one is empty.
+Two families hold each other's missing rungs —
+the sister family's nineteen open slots are,
+eighteen of them, the first family's own rows,
+and the one slot both families miss is filled by
+a single singleton row. The skipped places in the
+loose runs are now read from both sides: the
+second context's gaps are exactly as wide as the
+first's, and its nineteen inserted acts are, like
+the first context's nineteen, found nowhere else
+in the whole corpus — private insertions on both
+sides, never shared acts astray. And the rewritten
+byte, wed to status and group together, still
+earns no determination: three three-byte parts
+never repeat, the part that leaves the byte out
+repeats and violates as it always has, inside the
+keeping-pairs subset the whole pattern repeats at
+subset scale while the changing-pairs subset is
+clean throughout — and the two violating pairs
+turn out to differ only in the very byte the key
+cannot see, each keeping its own byte exactly.
+Next: the occupants of the missing slots read as
+a population; the two contexts' insertions set
+side by side gap by gap; and the three-byte keys
+wed to status, group and record count together.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
