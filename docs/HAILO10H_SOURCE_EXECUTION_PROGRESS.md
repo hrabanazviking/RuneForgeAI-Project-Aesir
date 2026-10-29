@@ -4187,3 +4187,39 @@ skipped positions; and the three-byte keys wed to
 each pair's status.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.141 (AES-NUM-141) is complete. The
+index sets inside the fifteen repeating families
+are arithmetic through and through: eight
+families climb by eights without a missing step
+and carry the eight residues one apiece, the
+families that climb by fours mostly do the same
+but a few drop single rungs — and three of the
+four rungs one family drops are, exactly, the
+whole set of its sister family standing at the
+same tuples under other distances. The residue a
+family keeps is certified as written in its key;
+the quotient is not, failing in all fifteen; and
+wedging either one in changes the chain not at
+all or only by giving every row a key of its own.
+The wider gaps in the loose runs are now read
+from the other side: the nineteen acts standing
+in the skipped places are every one of them
+found in the first context only and nowhere in
+the second — insertions, never shared acts
+astray. And the rewritten byte, wed to each
+pair's own keeping-or-changing status, still
+earns no determination: two three-byte parts
+never repeat, one repeats once and agrees
+because both its pairs keep their byte, and the
+part that leaves the byte out repeats and
+violates as it always has — while the one
+agreeing pair of pairs, read record by record,
+turns out to share nothing at all, one lone
+first record against a full twenty-seven.
+Next: what fills the families' missing rungs;
+the mirror reading of the skipped places in the
+second context; and the three-byte keys wed to
+status and group together.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

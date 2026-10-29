@@ -3724,28 +3724,85 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.141 the cidx
+- [x] Slice4.141 the cidx
   sets inside the 15
   repeating doubly-wed
-  families in full (step /
-  residue structure), with
-  cidx-derived companions
-  tested the same way; the
-  acts occupying the 8
-  skipped A-positions
-  inside the secondary
-  long runs (identity,
-  shared or not, position
-  in B if shared); and
+  families are arithmetic
+  (eight step-8 families
+  pure progressions with
+  residues 0-7 exactly
+  once each; step-4
+  families missing single
+  lattice slots, three of
+  one family's four
+  missing slots exactly
+  its sister family's
+  whole set); the residue
+  CERTIFIED as a function
+  of the doubly-wed key
+  (86 distinct, 15
+  repeating, 0 violating),
+  the quotient NOT a
+  function (all 15
+  violate), the residue
+  wed repairing nothing
+  (2 / 3 / 3) and the
+  quotient wed vacuous
+  (271 distinct); the
+  acts at the 19 skipped
+  A-positions of the 8
+  non-unit secondary gaps
+  ALL A-only (not in B at
+  all, 19 of 19); and
   B byte 0 against the
   four three-byte sub-keys
   wed to the pair's status
-  over the full 224 pairs,
-  with the (byte0, byte1,
-  byte3) unwed agreeing
-  repeat's two pairs
-  re-read record by
-  record; then broad
+  (two keys injective;
+  (byte0, byte1, byte3)
+  one agreeing repeat,
+  the status wed not
+  splitting it; (byte1,
+  byte2, byte3) the same
+  2 violating repeats,
+  both SAME) with the
+  unwed agreeing repeat's
+  pairs re-read record by
+  record (1 record against
+  27, no shared record)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_CIDX
+  _FAMILIES_SKIPPED_ACTS
+  _STATUS_WED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.142 the
+  missing lattice slots
+  inside the 15 repeating
+  families read against
+  the whole gap-2
+  population (what occupies
+  each unoccupied slot);
+  the B-side mirror of the
+  skipped positions (acts
+  between the same run
+  acts in context B,
+  classified the same way)
+  with the 19 A-side
+  skipped acts' corpus-wide
+  occurrence lists; and
+  B byte 0 against the
+  four three-byte sub-keys
+  wed to status AND group
+  jointly, the status-wed
+  tests inside the
+  SAME-only and DIFF-only
+  subsets, and the two
+  (byte1, byte2, byte3)
+  status-wed violating
+  repeats re-read against
+  A byte 0; then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
