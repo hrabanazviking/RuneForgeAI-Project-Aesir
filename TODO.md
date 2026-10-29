@@ -3820,30 +3820,79 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.143 the
+- [x] Slice4.143 the
   missing-slot occupants
-  as a population (each
-  occupant's tuple against
-  its slot family's; the
-  six singleton occupants'
-  keys; the shared slot
-  182 in full); the
-  gap-by-gap insertion
-  comparison (A-side and
-  B-side skipped acts at
-  the same gap side by
-  side); and B byte 0
-  against the four
-  three-byte sub-keys wed
+  are their slot families
+  in everything but the
+  loose distances and the
+  tuple's third act
+  (modal positions 0/1
+  shared 28/28, position 2
+  differing in 25, d0
+  differing in 25, the
+  two sets overlapping in
+  23 only; singletons
+  share 6/7 key components
+  — loose distances only —
+  except slot 184 at 5/7
+  with the order too; slot
+  182 shares 6/7 with both
+  its families); the
+  insertions side by side
+  are size-identical in
+  order at all 8 gaps
+  (19/19) but channel-
+  different at gaps 1–7
+  (0/15, uniform per side)
+  with zero offset
+  differences, gap 8 alone
+  channel-equal (4/4) at
+  offset differences
+  +404,667,368/+404,667,392
+  (×3); and B byte 0 wed
   to status, group AND
-  record count jointly,
-  the joint-wed tests
-  inside the SAME-only
-  subset, and the two
-  violating repeats
-  re-read against their
-  records' cells and
-  centres; then broad
+  record count jointly
+  earns no determination
+  (three keys injective;
+  (byte1, byte2, byte3)
+  the same 2 violating
+  repeats, all four pairs
+  at 27 records; SAME-only
+  repeats the pattern; the
+  violating pairs differ
+  only in the cell — 1744/
+  6944 and 4336/9832 — with
+  cidx/centre spans and
+  poscat identical)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_OCCUPANTS
+  _INSERTIONS_TRIPLEWED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.144 the
+  occupants read against
+  their OWN families
+  (modal tuple and key
+  components of each
+  occupant's own family,
+  cross-tabbed against
+  the slot-family
+  comparison for position
+  2 and d0); the per-gap
+  channel mapping against
+  the gaps' bounding acts
+  and gap 8's B-side
+  insertion neighbourhood
+  in context B; and B
+  byte 0 against the four
+  three-byte sub-keys wed
+  to status, group, record
+  count AND cell jointly,
+  with the cell's third
+  component tested as a
+  companion; then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

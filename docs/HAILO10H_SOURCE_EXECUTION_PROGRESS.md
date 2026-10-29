@@ -4256,3 +4256,41 @@ side by side gap by gap; and the three-byte keys
 wed to status, group and record count together.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.143 (AES-NUM-143) is complete. The
+occupants of the missing rungs turn out to be
+their slot families in almost every particular:
+same length, same left place, same first two
+acts of the tuple and the same companion gaps in
+all twenty-eight, set apart only by the loose
+distances and, in twenty-five of them, the
+tuple's third act — and those two marks of
+difference are not the same mark, since their
+sets cross in only twenty-three. The singleton
+occupants differ from their slot families in
+the loose distances alone, save one that also
+turns the loose order around; the row at 182
+serves two families and matches each in six of
+its seven key parts. The two contexts'
+insertions, laid side by side gap by gap, carry
+the very same sizes in the very same order
+everywhere, yet at seven of the eight gaps not
+one paired act keeps its channel — each side is
+channel-uniform within a gap and the mapping
+changes from gap to gap — while the eighth gap
+keeps every channel and moves every act to a
+wholly different address. And the rewritten
+byte, wed now to status, group and the pairs'
+record counts together, still earns no
+determination: the record counts do not split
+the two violating repeats, whose pairs are
+alike in span, centre and pattern and differ,
+on all the record evidence, only in the cell
+that carries them.
+Next: the occupants read against their own
+families; the channel mapping read against the
+gaps' bounding acts and the eighth gap's second
+neighbourhood; and the three-byte keys wed to
+the cell as well.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
