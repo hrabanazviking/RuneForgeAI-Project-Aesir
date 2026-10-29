@@ -4690,3 +4690,33 @@ run. Next: the +432/+434 excursion at A
 3 × 6 in full. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.158 (AES-NUM-158) is complete. The
++432/+434 excursion at A 184-191 is ordinary
+acts at extraordinary B positions: its sizes are
+the strict alternating (1552, 14864) pairs with
+advances 1552/15344 and slack 0/480, exactly the
+-2 flank-after's pattern, while entry slack 384
+is the window's only other slack value; B-order
+is not preserved - the +432 acts land at
+B 616-619, the two shift-0 acts stay at
+B 188-189, and the +434 acts land at B 624-625.
+The leaf chain's root three 40f019ce heads a
+complete 5-vertex graph: listings 23/24/26 form
+a triangle with its two neither partners, the
+leaf chain hangs off the triangle at 40f079cf,
+there is no direct leaf-root edge, and the root
+touches no hub and no other three. Gaps 3 x 5
+and 3 x 6 both score 15 equal / 17 differing of
+32, the 15 equals being exactly the 9 frame
+features plus distances, skipped counts and
+skipped sizes; against gaps 5 x 6's 19/32 the
+shortfall is exactly the channel set (gap 3 is
+run 74's channel-(2->0) gap; 5 and 6 are both
+(0->1)), and gap 3 sits in the same run 74 as
+gaps 5 and 6. Next: the excursion's B fragments
+in full (the B 616-625 neighbourhood); the root
+triangle's two neither partners as a pair; and
+gap 4 in full, completing run 74. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.

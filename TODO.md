@@ -4288,7 +4288,7 @@
   features); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.158 the +432/+434
+- [x] Slice4.158 the +432/+434
   excursion at A positions
   184-191 in full (its 8
   acts and their flanks);
@@ -4302,6 +4302,24 @@
   run 74's top pairs); then
   broad ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.159 the excursion's
+  B fragments in full (the
+  B 616-625 neighbourhood:
+  what sits around and
+  between the +432 block,
+  the in-place pair's B
+  context, and the +434
+  pair); the root triangle's
+  two neither partners
+  (4092dbce and 40fcb4ce)
+  in full as a pair; and
+  gap 4 in full (step 31,
+  the one run-74 gap not
+  yet read in full,
+  completing run 74's five
+  gaps); then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
