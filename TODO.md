@@ -4302,7 +4302,7 @@
   run 74's top pairs); then
   broad ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.159 the excursion's
+- [x] Slice4.159 the excursion's
   B fragments in full (the
   B 616-625 neighbourhood:
   what sits around and
@@ -4320,6 +4320,21 @@
   gaps); then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.160 the B 615
+  intruder in full (the +93
+  act at A 522; secondary
+  run 72 at the seam); the
+  partner-cell correspondence
+  tested census-wide (every
+  neither partner's cell vs
+  the cells of the vertices
+  it touches); and the
+  first-skipped past-left-end
+  values of all 8 gaps as
+  one table (gap 4's 464 in
+  the population); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

@@ -4720,3 +4720,31 @@ triangle's two neither partners as a pair; and
 gap 4 in full, completing run 74. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+Slice 4.159 (AES-NUM-159) is complete. The
+excursion's B neighbourhood is fully shared:
+all 21 B positions 610-630 carry shared acts,
+run 74's tail ends at B 614, a single +93
+intruder (A 522, run 72) sits at B 615, and
+two other displaced pairs (+4, +238) fill the
+space between the +432 block and the +434
+pair with no empty slot. No fragment has a
+same-run B neighbour - every neighbour is an
+other-run act - and even the in-place pair's
+context carries two displaced singletons
+(-190, -192) at B 186-187. The root triangle's
+two neither partners are structural twins:
+7 of 15 fields same, 8 different, sharing
+exactly their mutual listing 24, with partner
+A in the neither's cell and partner B in the
+root's cell (general law not proven). Gap 4
+in full completes run 74: it is the run's
+only multi-skipped gap (4 skipped, distance
+5/5) and is channel-(0->1) like gaps 5 and 6,
+so run 74's mappings in step order are
+(2->0), (0->1), (0->1), (0->1), (1->2). Next:
+the B 615 intruder and run 72 in full; the
+partner-cell correspondence census-wide; and
+the first-skipped values of all 8 gaps as one
+table. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
