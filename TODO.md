@@ -3243,31 +3243,91 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.132 gap 2's
+- [x] Slice4.132 gap 2's
   broken chain in full
-  (the 7 / 8 / 10 violating
-  first and second acts —
-  which contexts carry each
-  alternative, what else
-  differs there); the
-  gap-only acts read at
-  offset and size level
-  (offsets recurring under
-  other sizes or channels;
-  the outlier run's 31
-  unique acts likewise);
-  B byte 0 against the
-  three-byte sub-keys
-  ((byte3, byte1, byte2),
-  (byte0, byte1, byte2),
-  (byte0, byte3, byte1),
-  (byte0, byte3, byte2) —
-  exact over the 216 pairs,
-  repetition counted,
-  violating values in full),
-  with the shared identity
-  pair A 682cb5f9 ->
-  B 6884f5f8 read in full;
+  (position-1 = f(position-0)
+  fails 7 of 70 keys,
+  (33312256, 328, 0) alone
+  carrying 5 alternatives
+  in 54 contexts;
+  position-2 = f(position-0)
+  8 of 70, that key carrying
+  7 alternatives; position-2
+  = f(position-1) 10 of 73);
+  every violating key's
+  carrying contexts share
+  exactly one context length
+  (and, the widest apart, one
+  gap-0 and one gap-1 tuple),
+  yet the alternatives split
+  inside those families;
+  gaps 0/1 wider lens: every
+  repeating first act carries
+  a contextual difference
+  (22 of 22, 21 of 21 —
+  always including the gap-2
+  tuple) but its own tuple
+  never differs, so the exact
+  functions stand; the
+  gap-only acts at offset
+  level: exactly 1 of 333
+  offsets is carried by
+  another distinct act (the
+  gap-2 act (120529920, 328,
+  0) sharing its offset with
+  (120529920, 32784, 0) in
+  another artifact), and 0
+  of 333 at (offset, size)
+  level; the outlier run's
+  31 unique acts likewise
+  (0 of 31 at either level);
+  B byte 0 against all four
+  three-byte sub-keys is a
+  function only by unique
+  identification (216 values
+  / 216 pairs, repetition 0,
+  violating 0, every key);
+  the identity pair
+  A 682cb5f9 -> B 6884f5f8
+  is the SAME side of both
+  its status collisions and
+  a singleton under every
+  three-byte key (29 lines
+  in hef132.out, 14 in the
+  4.132 section) (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_GAP2_CHAIN_OFFSET_LEVELS_THREEBYTE_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.133 gap 2's
+  chain against joint keys
+  (position-1 and position-2
+  as functions of
+  (position-0, context
+  length), (position-0,
+  gap-0 tuple), (position-0,
+  gap-1 tuple), (position-0,
+  loose order); the gap-2
+  tuple as a function of
+  (length, position-0));
+  the offset-120529920
+  collision in full (the
+  (120529920, 32784, 0) act
+  in its two 5ab3537d
+  contexts — position,
+  neighbours, shared
+  features with the gap
+  act's 12 contexts — and a
+  corpus census of cross-size
+  offset sharing for
+  size-328 acts); B byte 0's
+  three-byte tests beyond
+  the great group (the full
+  224-pair population and
+  each other group — distinct
+  values, repetition in full,
+  violating values in full);
   then broad ordinary
   UNMODIFIED
   source-model support100%.

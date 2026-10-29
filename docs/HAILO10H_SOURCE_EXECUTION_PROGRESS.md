@@ -3879,3 +3879,39 @@ parts of the word; and the twice-colliding identity
 pair read in full.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.132 (AES-NUM-132) is complete. The closing
+gap's broken chain, read key by key and context by
+context, does not mend: the first act that fails
+worst carries five different second acts — and seven
+different third acts — across its fifty-four
+contexts, and every failing key's contexts agree on
+their length and on both other gaps, yet still split
+on the fill itself. The two-act gaps, looked at with
+the same wide lens, hold their law in a stranger
+shape: no repeating first act there is ever alone in
+its context — something else always differs, the
+closing gap's fill above all — but its own partner
+never does. One level down, the gap acts' separation
+nearly survives intact: of three hundred thirty-three
+gap acts, exactly one's offset is shared with another
+act — a great act of another artifact standing on the
+same offset under a different size — and at the level
+of offset-and-size together, none is shared at all;
+the outlier run's thirty-one singular acts are
+singular at those levels too. And the rewritten byte
+answers to no three-byte part of the word either: all
+four three-byte keys name every one of the two hundred
+sixteen pairs once and are never tested twice, while
+the twice-colliding identity pair stands alone under
+every one of them, the same-side witness of both its
+collisions.
+Next: the closing gap's chain against joint keys —
+the first act wedded to the context's length and its
+sister gaps; the one shared offset read in full, the
+great act in its own two contexts; and the three-byte
+tests carried beyond the great group, to the whole
+population and each lesser group, hunting for a key
+value that ever repeats.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
