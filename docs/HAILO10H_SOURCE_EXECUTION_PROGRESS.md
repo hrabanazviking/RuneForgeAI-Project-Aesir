@@ -3843,3 +3843,39 @@ full, with the rewritten byte itself tested
 against the two-byte keys.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.131 (AES-NUM-131) is complete. The two-act
+gaps turn out to be rigid couplets: in the first gap
+the second act is an exact function of the first —
+thirty-four firsts, not one exception — and in the
+second gap likewise, thirty firsts and no exception,
+even though the stride between them wanders, most
+often a single step of the first act's own size but
+sometimes double, sometimes backwards. The three-act
+closing gap breaks the pattern: no act there is
+determined by the one before it, failing on seven,
+eight, and ten keys across the three tests. And
+every gap act in the whole corpus — three hundred
+thirty-three of them — lives in its gap and nowhere
+else. The outlier's long run is a true singularity:
+searched across all fifteen hundred four contexts it
+occurs exactly once, in its own context, and
+thirty-one of its thirty-two acts occur nowhere else
+in the corpus at all — the only returning member is
+the second loose leader itself. In the ordinary
+modal contexts, by contrast, whichever loose act
+stands one step from the block is pinned to the
+block's first act in every context, and everything
+beyond varies freely. The four near-miss collisions
+are each just two pairs, and one identity pair
+quietly carries two of them; and the rewritten byte
+itself answers to no two-byte part of the word — for
+the three near-miss keys it fails on exactly the
+named collisions and nothing else.
+Next: the closing gap's broken chain read context
+by context; the gap-only acts at the level of offset
+and size; the rewritten byte against the three-byte
+parts of the word; and the twice-colliding identity
+pair read in full.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.

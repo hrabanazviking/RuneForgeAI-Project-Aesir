@@ -3192,36 +3192,83 @@
   Then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.131 the
-  gap-fillers as a
-  population (first to
-  second offset relation
-  inside each gap; the
-  shared second acts and
-  the firsts they serve;
-  gap acts read against
-  the contexts' own
-  bodies — gap-only or
-  body acts too); the
-  outlier's 32-act run
-  read corpus-wide (the
-  run, or its acts in
-  that order, anywhere
-  else; L0's neighbourhood
-  in modal contexts by
-  contrast); the three
-  near-miss sub-key
-  collisions in full
-  ((249, 44) and (252, 84)
-  under (byte3, byte1),
-  (249, 181) under (byte3,
-  byte2), (128, 146) under
-  (byte1, byte2) — pairs,
-  records, cells), with
-  B byte 0 itself tested
-  as a function of the
-  two-byte sub-keys; then
-  broad ordinary
+- [x] Slice4.131 in the
+  two-act gaps the second
+  act IS an exact function
+  of the first (gap 0: 34
+  keys, gap 1: 30 keys, 0
+  violating in either),
+  though the offset is not
+  constant (+248 in 187 of
+  271 gap-0 contexts, +512
+  in 46, negative in 38;
+  +256 in 257 gap-1, +512
+  in 8, negative in 6);
+  in gap 2 no position is
+  a function of an earlier
+  one (7 of 70, 8 of 70,
+  10 of 73 violating);
+  every one of the 333
+  distinct gap acts is
+  gap-only corpus-wide;
+  the outlier's 32-act run
+  occurs exactly once (its
+  own cidx 143) and 31 of
+  its 32 acts occur exactly
+  once corpus-wide (the
+  exception being L1 at run
+  index 30, 271 times), so
+  no two run acts co-occur
+  anywhere else; in modal
+  contexts the distance-1
+  loose act is followed by
+  the first rigid act in
+  every context (46/46,
+  43/43); the four near-miss
+  collisions are each
+  exactly two pairs, two
+  sharing the same identity
+  pair; B byte 0 is NOT a
+  function of any two-byte
+  sub-key ((byte3, byte1)
+  fails on exactly (249, 44)
+  and (252, 84), (byte3,
+  byte2) on exactly
+  (249, 181), (byte1, byte2)
+  on exactly (128, 146),
+  (byte0, byte1) on 5 values,
+  (byte0, byte3) on 27)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_GAP_FILLER_FUNCTIONS_OUTLIER_RUN_NEAR_MISS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.132 gap 2's
+  broken chain in full
+  (the 7 / 8 / 10 violating
+  first and second acts —
+  which contexts carry each
+  alternative, what else
+  differs there); the
+  gap-only acts read at
+  offset and size level
+  (offsets recurring under
+  other sizes or channels;
+  the outlier run's 31
+  unique acts likewise);
+  B byte 0 against the
+  three-byte sub-keys
+  ((byte3, byte1, byte2),
+  (byte0, byte1, byte2),
+  (byte0, byte3, byte1),
+  (byte0, byte3, byte2) —
+  exact over the 216 pairs,
+  repetition counted,
+  violating values in full),
+  with the shared identity
+  pair A 682cb5f9 ->
+  B 6884f5f8 read in full;
+  then broad ordinary
   UNMODIFIED
   source-model support100%.
 
