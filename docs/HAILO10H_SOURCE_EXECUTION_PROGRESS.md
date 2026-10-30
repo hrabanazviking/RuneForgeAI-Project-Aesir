@@ -5128,3 +5128,25 @@ positions in full; runs 84, 87 and 88 in
 full; runs 80 and 81. Broad ordinary
 UNMODIFIED source-model support100% remains
 the destination.
+
+Slice 4.175 (AES-NUM-175) is complete. Nine of
+the head's twelve non-417-family positions are
+diff-0 identity acts (positions 2, 3, 4, 7, 9,
+12, 18, 21, 24 — every one 24 B, A act == B act);
+the other three (0, 1, 27) carry B offsets in
+the 873 prefix group spanning only 1,024, with
+positions 0/1 in reversed B order and position
+27 the twelve's only size-and-channel mismatch
+(A 14,864 ch 0 vs B 24 ch 2). Only positions 9
+and 18 sit above a larger gap. Runs 84 (-5,
+five acts), 87 (-418 pair), 88 (+1, five acts),
+80 (-393, four acts) and 81 (+25, six acts) are
+each one contiguous B block. The slice's first
+launch died uncertainly with no output (cause
+NOT ESTABLISHED, batch closed); a retry under a
+new one-shot contract completed with all
+controls exact and a byte-identical prefix.
+Next: the 873-prefix trio's B-side placement;
+runs 82, 83 and 89 in full; runs 90 and 91.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

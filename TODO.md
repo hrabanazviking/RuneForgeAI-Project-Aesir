@@ -4574,16 +4574,32 @@
   full; then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.175 the head's
+- [x] Slice4.175 the head's
   twelve non-417-family
-  positions in full (the
-  diff-0 identity positions
-  9 and 18 against the
-  positions below them);
-  runs 84, 87 and 88 in
-  full (the remaining runs
-  touching A 640-660); and
-  runs 80 and 81 in full;
+  positions in full (nine
+  of the twelve are diff-0
+  identity acts; the other
+  three (0, 1, 27) carry
+  873-prefix B offsets, 0/1
+  in reversed B order, 27
+  the only size/channel
+  mismatch); runs 84, 87
+  and 88 in full; and runs
+  80 and 81 in full (all
+  five runs one contiguous
+  B block each); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.176 the
+  873-prefix trio's B-side
+  placement (B indices and
+  B neighbourhoods of
+  positions 0, 1 and 27's
+  B acts; the reversed 0/1
+  pair against the wider
+  B-side pattern); runs 82,
+  83 and 89 in full; and
+  runs 90 and 91 in full;
   then broad ordinary
   UNMODIFIED source-model
   support100%.
