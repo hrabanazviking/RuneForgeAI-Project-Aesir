@@ -4833,7 +4833,7 @@
   B 377); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.188 the
+- [x] Slice4.188 the
   B-only act at B 17
   in full ((1196272096,
   32728, 1), B-offset
@@ -4850,6 +4850,25 @@
   ((791360000, 26128,
   2) at A 678 /
   B 223); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.189 the
+  B-only act at B 22
+  in full ((1196313088,
+  24848, 1), B-offset
+  rank 740); the
+  B-only acts at B 23
+  in full ((1196337936,
+  264, 1), rank 741)
+  and B 25 in full
+  ((1196338688, 30008,
+  2), rank 742); and
+  the shared run-99
+  act following the
+  run-98 act in full
+  ((791386624, 32784,
+  2) at A 679 /
+  B 401); then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

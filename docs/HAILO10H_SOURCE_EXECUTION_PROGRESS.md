@@ -5472,3 +5472,32 @@ act following the run-97 act in full
 ((791360000, 26128, 2) at A 678 / B 223).
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.188 (AES-NUM-188) is complete. The
+B-only act at B 17 ((1196272096, 32728, 1),
+B-offset rank 737) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 16 by +24,
+exactly B 16's size, and its outgoing gap
++32,800 to B 19 exceeds its own size by
+72. The B-only acts at B 19 ((1196304896,
+7712, 0), rank 738) and B 20 ((1196312608,
+328, 0), rank 739) are B-only distinct in
+full with no A act under their keys; ranks
+737-739 have gaps +32,800 and +7,712, the
+second exactly B 19's size, and B 20's
+outgoing gap +480 is not its own size.
+The shared run-98 act (791360000, 26128,
+2) at A 678 / B 223 is a -455 singleton
+occurring once on each side, following
+the run-97 act directly in both offset
+orders with no intervening act on either
+side. Next: the B-only act at B 22 in
+full (rank 740); the B-only acts at B 23
+(rank 741) and B 25 (rank 742) in full;
+and the shared run-99 act following the
+run-98 act in full ((791386624, 32784, 2)
+at A 679 / B 401). Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
