@@ -5223,3 +5223,30 @@ full; runs 100 and 101 in full; run 102 in
 full. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.179 (AES-NUM-179) is complete. All
+four B-offset-order acts above the window are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A, all
+channel 1: rank 733 (B 13, (1196224512, 32768,
+1)), rank 734 (B 14, (1196257280, 14416, 1)),
+rank 735 (B 15, (1196271696, 376, 1)) and rank
+736 (B 16, (1196272072, 24, 1)). They are
+consecutive in both B-index and B-offset
+order, and ranks 733-737 form one contiguous
+offset chain (each step equals the lower act's
+size). Runs 100 (-452) and 101 (-7) are
+singletons. Run 102, the final secondary run
+(58 acts at +2, A 683-744 / B 685-746), is NOT
+one contiguous B block but two: B 685-734
+(50 acts) and B 739-746 (8 acts), separated by
+four B-only 24 B acts at B 735-738, while four
+A-only 24 B acts at A 733-736 separate the
+blocks on the A side. Every secondary run
+0-102 has now been given in full. Next: the
+B-offset-order acts at ranks 737-742 in full;
+the four B-only interrupter acts at B 735-738
+in full; the four A-only acts at A 733-736 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

@@ -4649,14 +4649,41 @@
   each); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.179 the
+- [x] Slice4.179 the
   B-offset-order acts
   above the window at
   ranks 733-736 in full
-  (B indices 13, 14, 15,
-  16); runs 100 and 101
-  in full; and run 102 in
-  full; then broad
+  (all four B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 13, 14, 15,
+  16, consecutive in both
+  orders, ranks 733-737
+  one contiguous offset
+  chain); runs 100 and 101
+  in full (both singletons,
+  one contiguous B block
+  each); and run 102 in
+  full (58 acts at +2 in
+  TWO contiguous B blocks,
+  B 685-734 and B 739-746,
+  split by four B-only acts
+  at B 735-738 and four
+  A-only acts at A 733-736);
+  then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.180 the
+  B-offset-order acts at
+  ranks 737-742 in full
+  (B indices 17, 19, 20,
+  22, 23, 25); the four
+  B-only interrupter acts
+  at B 735-738 in full
+  (including their B-offset
+  ranks); and the four
+  A-only acts at A 733-736
+  in full; then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
