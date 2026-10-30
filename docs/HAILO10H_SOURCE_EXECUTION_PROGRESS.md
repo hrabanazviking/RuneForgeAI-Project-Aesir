@@ -4771,3 +4771,26 @@ gap 8's B-side skipped population in full; the
 seam runs 70/71/73's B neighbourhoods. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.161 (AES-NUM-161) is complete. Gap 8's
+B-side skipped block is a regular 512-stride
+ladder (size 24, channels 0,1,2,0, 488 past each
+predecessor's end) transplanted to offsets
+1,196,444,160 onward: by position it is bounded
+by the gap's own bounds, but by offset it holds
+contiguous ranks 747-750 with its first act only
+496 past its offset predecessor's end - the
+404,667,368 split is a position-context artifact
+of the contiguity measure. The (20, 32720) cells
+6864 and 6932 are disjoint 27/27 populations
+(54 pairs, none carrying both; induced graph 21
+internal edges, 4 boundary, 28 isolated), and
+membership is a function of no tested field. At
+the seam, runs 71+73 form one contiguous B block
+at 281-284 and run 70 sits at B 520-522; all 28
+window acts are shared single-positioned. Next:
+gap 8's B-block offset region in full; the
+6864/6932 split against the untested fields; and
+the seam's remaining displaced blocks (runs 93,
+19, 20). Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

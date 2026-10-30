@@ -4335,7 +4335,7 @@
   the population); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.161 gap 8's
+- [x] Slice4.161 gap 8's
   B-side skipped population
   in full against its A side
   (its four B-side skipped
@@ -4353,6 +4353,24 @@
   runs 70/71/73's B
   neighbourhoods in full
   (B 276-290 and B 516-528);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.162 gap 8's
+  B-block offset region in
+  full (offset ranks
+  738-751, the B 674 offset
+  predecessor's run); the
+  6864/6932 split against
+  the untested fields (full
+  B value, byte1-byte3,
+  byte3/full differences,
+  XOR, factoring keys); and
+  the seam's remaining
+  displaced blocks (runs
+  93, 19 and 20 in full;
+  the B 280 singleton's A
+  neighbourhood 668-674);
   then broad ordinary
   UNMODIFIED source-model
   support100%.
