@@ -4485,7 +4485,7 @@
   in full; then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.169 the 31
+- [x] Slice4.169 the 31
   correspondence pairs'
   position-delta law against
   neighbouring secondary-run
@@ -4502,6 +4502,25 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.170 the 31
+  pairs' delta match-distance
+  census (smallest run-order
+  distance at which a run
+  with shift == delta occurs,
+  within three runs either
+  side of both containing
+  runs); the heads'
+  offset-difference family
+  structure (417-family
+  differences against
+  position/size/channel; the
+  position-16 outlier in
+  full; the 873-family
+  relation across positions
+  0/1/27); and runs 70 and
+  71 in full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

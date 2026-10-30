@@ -4987,3 +4987,29 @@ position-delta law recomputed directly with the
 sequence relation; runs 68 and 69. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+Slice 4.169 (AES-NUM-169) is complete. The 31
+correspondence pairs' position-delta law, recomputed
+directly from the two full context lists, confirms
+AES-NUM-168's derived census exactly: delta equals
+the preceding run shift in 19 of 31 pairs, the
+following's in 17, at least one neighbour's in 21,
+with the same 10 exceptions at the same positions;
+delta is a function of no tested feature (channel
+pair, size, A position band, or their joint all
+NOT A FUNCTION). The two +174 exceptions equal run
+7's shift, the run immediately after the run
+containing both their neighbours; the other eight
+exceptions match no neighbouring run shift within
+three runs. The unmatched heads, aligned over
+positions 0-27, agree in size at 25 of 28 positions
+and channel at 26, differing in size only at
+position 13 (32,728 vs 32,768, +40) and at 26-27;
+their offset differences at size-agreeing positions
+take 13 distinct values, not constant. Runs 68
+(+0 pair in place) and 69 (+2 block of 8) are each
+one contiguous B block. Next: the delta
+match-distance census; the heads' offset-difference
+family structure; runs 70 and 71. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
