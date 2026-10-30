@@ -5414,3 +5414,32 @@ the run-95 act in full ((791300096,
 26128, 2) at A 676 / B 393). Broad
 ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.186 (AES-NUM-186) is complete. The
+B-only act at B 10 ((1196216320, 7800, 2),
+B-offset rank 731) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; its outgoing B-offset gap
++7,800 to B 11 equals its own size exactly.
+The B-only acts at B 11 ((1196224120, 344, 2),
+rank 732) and B 13 ((1196224512, 32768, 1),
+rank 733) are B-only distinct in full with
+no A act under their keys; ranks 731-733
+have gaps +7,800 and +392 and B 13's outgoing
+gap +32,768 equals its own size. The shared
+run-96 act (791300096, 26128, 2) at
+A 676 / B 393 is a -283 singleton occurring
+once on each side; between run 95 and run 96
+each offset order carries exactly one
+intervening act — the two sides of the
+A 675 / B 392 key pair — with the same gap
+pair +26,624 then +33,280 in both orders.
+Next: the B-only act at B 14 in full
+(rank 734); the B-only acts at B 15
+(rank 735) and B 16 (rank 736) in full; and
+the shared run-97 act following the run-96
+act in full ((791326720, 32784, 2) at
+A 677 / B 377). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
