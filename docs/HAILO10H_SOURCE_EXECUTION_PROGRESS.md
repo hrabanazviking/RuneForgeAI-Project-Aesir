@@ -5064,3 +5064,24 @@ deltas; the 417-family A-offset ordering with
 position 16 removed; runs 74 and 75. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.172 (AES-NUM-172) is complete. The
+full run-table shift census (103 runs, 69
+distinct shifts, range -455 to +434) is mixed
+against the 31 pair deltas: nine of the eleven
+distinct deltas occur as run shifts and exactly
+two never do (-205 and -212, four pairs), so
+the pair deltas are neither a subset of nor
+disjoint from the run shifts. With position 16
+removed, the 417-family's A-offset ordering
+has exactly one reversal, (5, 6) (104 of 105
+concordant; the 5->6 step is A -1,024 against
+B +512). Run 74 is an 83-act +0 in-place block
+whose eight internal B gaps are exactly the
+delta-0 correspondence pairs inside its extent,
+and run 75 is a -111 singleton. Next: run 74's
+eight internal gaps in full; the head's three
+lowest A offsets against the remaining 25;
+runs 76 and 77. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

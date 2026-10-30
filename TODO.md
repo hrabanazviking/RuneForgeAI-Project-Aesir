@@ -4537,7 +4537,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.172 the full
+- [x] Slice4.172 the full
   run-table shift census
   against the 31 pair deltas
   (every distinct shift with
@@ -4550,6 +4550,17 @@
   in full; then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.173 run 74's eight
+  internal gaps in full (the
+  delta-0 pairs inside its
+  extent against the ninth at
+  A 651); the head's three
+  lowest A offsets (positions
+  6, 16, 5) against the
+  remaining 25; and runs 76
+  and 77 in full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
