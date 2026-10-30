@@ -5085,3 +5085,25 @@ lowest A offsets against the remaining 25;
 runs 76 and 77. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.173 (AES-NUM-173) is complete. Run
+74's eight internal gaps are exactly the
+delta-0 pairs inside its extent, each in full:
+channel census {(0, 1): 6, (1, 2): 1, (2, 0): 1},
+sizes 32,784x5 and 26,128x3, spacings
+[8, 1, 1, 1, 3, 5, 12]. The ninth delta-0 pair
+at A 651 shares the (1, 2) pair and the 26,128
+size but lies in no run's extent, in the seam
+between run 85's last act at A 650 and run
+86's first at A 652. The head's three lowest
+A offsets (positions 6, 16, 5) are all
+417-family but do NOT form a separated low
+cluster: their gap to the fourth-lowest is
+7,168, only ninth of the 27 sorted-order gaps.
+Runs 76 (+4 pair) and 77 (+8 pair) are each
+one contiguous B block. Next: the eight
+larger head gaps in full; the A 640-660
+placement region of the ninth pair; runs 78
+and 79. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

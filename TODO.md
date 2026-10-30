@@ -4550,7 +4550,7 @@
   in full; then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.173 run 74's eight
+- [x] Slice4.173 run 74's eight
   internal gaps in full (the
   delta-0 pairs inside its
   extent against the ninth at
@@ -4561,6 +4561,19 @@
   and 77 in full; then broad
   ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.174 the eight
+  larger head gaps in full
+  (rank pairs, positions
+  separated, 417/diff status
+  crossing each); the A
+  640-660 placement region
+  of the ninth delta-0 pair
+  in full (runs 85 and 86
+  against the seam at 651);
+  and runs 78 and 79 in
+  full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
