@@ -5531,3 +5531,35 @@ the run-99 act in full ((791419904, 32784,
 2) at A 680 / B 228). Broad ordinary
 UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.190 (AES-NUM-190) is complete. The
+B-only act at B 26 ((1196368696, 280, 2),
+B-offset rank 743) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 25 by +30,008,
+exactly B 25's size, and its outgoing gap
++712 to B 229 exceeds its own size by 432.
+The B-only acts at B 229 ((1196369408,
+26128, 2), rank 744) and B 272
+((1196396032, 14352, 1), rank 745) are
+B-only distinct in full with no A act
+under their keys; ranks 743-745 have gaps
++712 and +26,624, excesses of 432 and 496
+over the lower acts' sizes, and B 272's
+outgoing gap +14,848 exceeds its own size
+by 496. The shared run-100 act (791419904,
+32784, 2) at A 680 / B 228 is a -452
+singleton occurring once on each side,
+following the run-99 act directly in both
+offset orders with no intervening act on
+either side; its outgoing step is +32,784
+in A-offset order but +59,392 in B-offset
+order. Next: the B-only act at B 674
+in full (rank 746); the B-only acts at
+B 735 (rank 747) and B 736 (rank 748) in
+full; and the shared run-101 act following
+the run-100 act in full ((3446784, 24,
+2) at A 682 / B 675). Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
