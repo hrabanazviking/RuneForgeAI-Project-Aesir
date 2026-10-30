@@ -6973,3 +6973,33 @@ rank 744 in full, and the closing-run
 second-act comparison. Broad ordinary
 UNMODIFIED source-model support100% remains
 the destination.
+Slice 4.233 (AES-NUM-233) is complete. The
+act at A-offset rank 742 in full: (791777792,
+24, 2) at A 735, rank 742, the A closing run's
+second act, A-only distinct, occurrences
+A [735] / B none, incoming gap +512 from A 734
+at rank 741 and outgoing gap +512 to A 736 at
+rank 743, neither its own size. The act at
+B-offset rank 744 in full: (1196369408, 26128,
+2) at B 229, the B closing run's second act,
+B-only distinct, occurrences A none / B [229],
+incoming gap +712 from B 26 at rank 743 and
+outgoing gap +26,624 to B 272 at rank 745,
+neither its own size. The closing-run
+second-act comparison in full: A second act
+rank 742 index 735, A-only, in run 102 NO,
+incoming +512 outgoing +512; B second act
+rank 744 index 229, B-only, in run 102 NO,
+incoming +712 outgoing +26,624; each outgoing
+gap equals the second gap of its own run's
+gap sequence as measured in AES-NUM-231. The
+single launch finished DONE233, exit 0, err
+empty, and its first 57,632 prefix lines
+differ from hef232.out in exactly two lines
+(lines 41611 and 42872, frozenset element
+order only — the AES-NUM-150 variance). Next:
+the acts at A-offset rank 743 and B-offset
+rank 745 in full, and the closing-run
+third-act comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
