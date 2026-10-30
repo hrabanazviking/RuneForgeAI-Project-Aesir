@@ -5590,7 +5590,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.228 the
+- [x] Slice4.228 the
   B-offset-order
   closure in full
   (ranks 745-750
@@ -5605,6 +5605,29 @@
   and last acts,
   class census over
   all 751 acts in
+  that order);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.229 the
+  act at B-offset
+  rank 0 in full
+  ((262144, 376, 0)
+  at B 696, rank 0,
+  no incoming gap);
+  the A-offset-order
+  closure in full
+  (its last six
+  ranks and the
+  closing run of
+  its last eight
+  ranks); and the
+  full-order census
+  over A-offset
+  order (A acts 749,
+  first and last
+  acts, class census
+  over all A acts in
   that order);
   then broad
   ordinary UNMODIFIED

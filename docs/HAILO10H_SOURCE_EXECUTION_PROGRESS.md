@@ -6810,3 +6810,34 @@ slice (ranks 745-750, the closing run
 B-offset order). Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.228 (AES-NUM-228) is complete. The
+B-offset-order closure in full: ranks 745-750
+are B 272 (1196396032, 14352, 1) gap +14,848,
+B 674 (1196410880, 32784, 2) gap +33,280,
+B 735 (1196444160, 24, 0) gap +512, B 736
+(1196444672, 24, 1) gap +512, B 737
+(1196445184, 24, 2) gap +512, and B 738
+(1196445696, 24, 0) gap None — rank 750 is
+the last measured rank. The closing run
+743-750 adds B 26 (gap +712) and B 229
+(gap +26,624); every act in the closing run
+is B-only distinct and none is in run 102.
+The full-order census over B-offset order:
+B acts 751, ranks 0-750, first act at rank 0
+(262144, 376, 0) at B 696 (shared
+single-positioned, run 102, shift +2), last
+act at rank 750 at B 738, class census
+{shared single-positioned: 689, B-only
+distinct: 62} summing to 751 exactly, and
+run-102 membership 58 in / 693 not in over
+that order. The single launch finished
+DONE228, exit 0, err empty, and its first
+57,309 prefix lines differ from hef227.out
+in exactly one line (line 41611, frozenset
+element order only — the AES-NUM-150
+variance). Next: the act at B-offset rank 0
+in full, the A-offset-order closure in
+full, and the full-order census over
+A-offset order. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
