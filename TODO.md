@@ -4320,7 +4320,7 @@
   gaps); then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.160 the B 615
+- [x] Slice4.160 the B 615
   intruder in full (the +93
   act at A 522; secondary
   run 72 at the seam); the
@@ -4335,6 +4335,27 @@
   the population); then broad
   ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.161 gap 8's
+  B-side skipped population
+  in full against its A side
+  (its four B-side skipped
+  acts, their B bounds, and
+  each act's past-left-end
+  against its own B
+  neighbours); the (20,
+  32720) 6864/6932 cell
+  pair's full population
+  (every pair carrying
+  either cell, the induced
+  listing graph, cell
+  membership vs printed
+  fields); and the seam
+  runs 70/71/73's B
+  neighbourhoods in full
+  (B 276-290 and B 516-528);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

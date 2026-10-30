@@ -4748,3 +4748,26 @@ partner-cell correspondence census-wide; and
 the first-skipped values of all 8 gaps as one
 table. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.160 (AES-NUM-160) is complete. Run 72
+is a singleton: the B 615 intruder is its only
+act, sitting in A order between a -238 triple
+(run 71) and a -239 singleton (run 73), one
+A position before run 74's head, and its B
+landing is the first B position after run 74's
+tail. The partner-cell correspondence is not
+a census law: of 4 neither partners only 2 sit
+in a touched vertex's cell, 1 sits in a cell
+only untouched vertices carry (partner A,
+correcting the 4.159 reading), and 1 sits in a
+cell no other pair carries; the threes score
+4 of 7. The first-skipped past-left-end values
+of all 8 gaps form one table on side A (448 x3,
+464 x2, 480, 384, 0), the sides equal for gaps
+1-7, and gap 8 alone split (A 0, B 404,667,368)
+- the measure is a contiguity measure. Next:
+gap 8's B-side skipped population in full; the
+6864/6932 cell pair's full population; and the
+seam runs 70/71/73's B neighbourhoods. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
