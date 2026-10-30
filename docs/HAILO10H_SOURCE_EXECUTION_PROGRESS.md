@@ -5355,3 +5355,34 @@ offset orders in full ((791173632, 32784, 0)
 at A 672 / B 673). Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.184 (AES-NUM-184) is complete. The
+B-only act at B 392 is B-only distinct in
+full, each occurring once in B and nowhere
+in A with no exact A-side counterpart, but
+its (791266816, 32784) correspondence key
+is held in A by the A-only act at A 675
+((791266816, 32784, 1), A-offset rank 712)
+— a 1-1 key pair differing only in channel
+(B 2, A 1); in B-offset order B 392 sits
+between run 95's act (rank 692) and run
+96's act (rank 694). The two B-only acts
+at B 5 ((1196182016, 24, 2), rank 728) and
+B 6 ((1196182528, 24, 0), rank 729) are
+B-only distinct in full with no A-side
+counterpart and no A act under their keys,
+inside eight consecutive B-only B-offset
+ranks 725-732; B 5, B 6 and B 8 form a
++512/+512 offset triplet. The shared
+run-94 act (791173632, 32784, 0) at
+A 672 / B 673 is a +1 singleton occurring
+once on each side, following the run-93
+act in both offset orders by +18944.
+Next: the B-only act at B 750 in full
+(rank 727); the B-only act at B 8 in full
+(rank 730); and the shared run-95 act
+following the run-94 act in both offset
+orders in full ((791240192, 26128, 1) at
+A 674 / B 676). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
