@@ -5107,3 +5107,24 @@ placement region of the ninth pair; runs 78
 and 79. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.174 (AES-NUM-174) is complete. The
+eight larger head gaps are crossed from
+417-family positions in all eight cases:
+below-side 8 of 8 in family, above-side 6 of
+8, and the two family exits (33,280 and
+32,768) land on the diff-0 identity positions
+9 and 18. The A 640-660 region is 20 shared
+acts plus the ninth pair's A-only act at 651
+on the A side, 19 shared plus two B-only acts
+at B 650-651 on the B side; run 85 (A 642-650
+/ B 641-649) and run 86 (A 652-657 / B
+678-683) are each one contiguous B block.
+Runs 78 (-391 pair, sizes 1552/14864, channel
+0) and 79 (+7 pair, sizes 32784/26128,
+channel 1) are each one contiguous B block.
+Next: the head's twelve non-417-family
+positions in full; runs 84, 87 and 88 in
+full; runs 80 and 81. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.

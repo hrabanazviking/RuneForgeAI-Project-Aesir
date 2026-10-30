@@ -4561,7 +4561,7 @@
   and 77 in full; then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.174 the eight
+- [x] Slice4.174 the eight
   larger head gaps in full
   (rank pairs, positions
   separated, 417/diff status
@@ -4572,6 +4572,19 @@
   against the seam at 651);
   and runs 78 and 79 in
   full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.175 the head's
+  twelve non-417-family
+  positions in full (the
+  diff-0 identity positions
+  9 and 18 against the
+  positions below them);
+  runs 84, 87 and 88 in
+  full (the remaining runs
+  touching A 640-660); and
+  runs 80 and 81 in full;
+  then broad ordinary
   UNMODIFIED source-model
   support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
