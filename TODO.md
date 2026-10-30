@@ -5374,7 +5374,7 @@
   full; then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.215 the
+- [x] Slice4.215 the
   act at B 272 in
   full ((1196396032,
   14352, 1), B-offset
@@ -5390,6 +5390,24 @@
   B-offset-order run
   of ranks 745-750 in
   full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.216 the
+  act at B 736 in
+  full ((1196444672,
+  24, 1), B-offset
+  rank 748); the
+  act at B 737 in
+  full ((1196445184,
+  24, 2), B-offset
+  rank 749); and the
+  act at B 738 in
+  full ((1196445696,
+  24, 0), B-offset
+  rank 750), with the
+  B-offset-order
+  closure in full;
+  then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
