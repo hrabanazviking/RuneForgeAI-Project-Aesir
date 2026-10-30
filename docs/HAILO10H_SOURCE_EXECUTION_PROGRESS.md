@@ -5250,3 +5250,27 @@ in full; the four A-only acts at A 733-736 in
 full. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.180 (AES-NUM-180) is complete. All
+six B-offset-order acts at ranks 737-742 are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A:
+rank 737 (B 17, (1196272096, 32728, 1)), rank
+738 (B 19, (1196304896, 7712, 0)), rank 739
+(B 20, (1196312608, 328, 0)), rank 740 (B 22,
+(1196313088, 24848, 1)), rank 741 (B 23,
+(1196337936, 264, 1)) and rank 742 (B 25,
+(1196338688, 30008, 2)). The four B-only
+interrupter acts at B 735-738 are the last
+four acts in B-offset order, at ranks
+747-750. The four A-only acts at A 733-736
+are A-offset ranks 740-743, with the same
+(size, channel) sequence as the interrupters
+but no shared act, key or offset. Every act
+from rank 721 to 750 in B-offset order is
+now B-only distinct. Next: the B-offset-order
+acts at ranks 743-746 in full; the A-only
+acts at A 745-747 in full; the A-offset-order
+acts at ranks 744-748 in full. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.

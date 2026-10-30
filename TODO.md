@@ -4673,18 +4673,40 @@
   then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.180 the
+- [x] Slice4.180 the
   B-offset-order acts at
   ranks 737-742 in full
-  (B indices 17, 19, 20,
+  (all six B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 17, 19, 20,
   22, 23, 25); the four
   B-only interrupter acts
   at B 735-738 in full
-  (including their B-offset
-  ranks); and the four
+  (the last four acts in
+  B-offset order, ranks
+  747-750); and the four
   A-only acts at A 733-736
-  in full; then broad
+  in full (A-offset ranks
+  740-743, same (size,
+  channel) sequence as
+  the interrupters, no
+  shared act, key or
+  offset); then broad
   ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.181 the
+  B-offset-order acts at
+  ranks 743-746 in full
+  (B indices 26, 229, 272,
+  674); the A-only acts
+  at A 745-747 in full
+  (including their A-offset
+  ranks); and the
+  A-offset-order acts at
+  ranks 744-748 in full;
+  then broad ordinary
+  UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
