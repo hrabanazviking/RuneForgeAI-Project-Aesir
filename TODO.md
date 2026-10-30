@@ -5574,7 +5574,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.227 the
+- [x] Slice4.227 the
   act at B 736 in
   full ((1196444672,
   24, 1), B-offset
@@ -5587,6 +5587,25 @@
   full ((1196445696,
   24, 0), B-offset
   rank 750);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.228 the
+  B-offset-order
+  closure in full
+  (ranks 745-750
+  and the closing
+  run 743-750 on
+  closure terms);
+  and the full-order
+  census over
+  B-offset order
+  (B acts 751,
+  ranks 0-750, first
+  and last acts,
+  class census over
+  all 751 acts in
+  that order);
   then broad
   ordinary UNMODIFIED
   source-model support100%.

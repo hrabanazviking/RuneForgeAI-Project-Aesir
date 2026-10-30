@@ -6777,3 +6777,36 @@ full — the final three B-offset ranks (748,
 749, 750). Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.227 (AES-NUM-227) is complete. The
+act (1196444672, 24, 1) at B 736 occurs once
+on the B side only (B-offset rank 748),
+following B 735 immediately in B-offset order
+with incoming gap +512, outgoing gap +512
+— NOT its own size, and B 736 follows B 735
+immediately in BOTH orders. The act
+(1196445184, 24, 2) at B 737 occurs once on
+the B side only (rank 749), following B 736
+immediately in B-offset order with incoming
++512, outgoing +512 — NOT its own size, and
+B 737 and B 738 follow each other immediately
+in BOTH orders. The act (1196445696, 24, 0)
+at B 738 occurs once on the B side only
+(rank 750), following B 737 immediately in
+B-offset order with incoming +512, and it
+has NO outgoing gap — rank 750 is the last
+measured rank (B acts 751, ranks 0-750). The
+B-offset-order closure is complete: last
+rank 750 at B 738, and the closing run of
+ranks 743-750 is eight B-only acts, none in
+run 102. All three are B-only distinct, none
+in run 102. The single launch finished
+DONE227, exit 0, err empty, and its first
+57,217 prefix lines are IDENTICAL to
+hef226.out (zero differing lines — no
+AES-NUM-150 variance this run). Next: the
+B-offset-order closure in full as its own
+slice (ranks 745-750, the closing run
+743-750, and the full-order census over
+B-offset order). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
