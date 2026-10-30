@@ -6216,3 +6216,41 @@ B 734 in full, and the index-order divergence
 at A 733 and B 735 in full. Broad
 ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.209 (AES-NUM-209) is complete. The
+shared run-102 act (791776256, 24, 2)
+at A 731 / B 733 is the forty-ninth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 738, B-offset rank 718), following
+the forty-eighth run-102 act immediately in both
+index orders and both offset orders, with
+incoming gap +512 in both offset orders and
+outgoing gap +512 — NOT its own size — in
+both offset orders. The shared
+run-102 act (791776768, 24, 0) at A 732 /
+B 734 is the fiftieth act of run 102,
+occurring once on each side (A-offset rank 739,
+B-offset rank 719), following the forty-ninth act
+immediately in both index orders and both offset
+orders, with outgoing gaps differing by side —
++24, exactly its own size, on the A side and
++2,048, NOT its own size, on the B side. After
+it the two index orders diverge: A 733 carries
+the A-only act (791776792, 24, 0) at A-offset
+rank 740 and B 735 carries the B-only act
+(1196444160, 24, 0) at B-offset rank 747; the
+first fifty run-102 acts are
+identical in order on both sides and the
+identical-order sequence ends exactly at the
+fiftieth act. The
+single launch finished DONE209, exit 0,
+err empty, and exactly two of its 55,221
+prefix lines differ from hef208.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the A-only
+act at A 734 and the B-only act at B 736
+in full, and the shared resync act at
+A 737 / B 739 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
