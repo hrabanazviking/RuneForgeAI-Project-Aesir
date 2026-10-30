@@ -5410,7 +5410,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.217 the
+- [x] Slice4.217 the
   act at A 746 in
   full ((791779840,
   24, 1), A-offset
@@ -5424,6 +5424,24 @@
   24, 0), A-offset
   rank 748), with the
   A-offset-order
+  closure in full;
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.218 the
+  act at B 748 in
+  full ((791781376,
+  24, 1), B-offset
+  rank 721); the
+  act at B 749 in
+  full ((800053760,
+  24, 2), B-offset
+  rank 723); and the
+  act at B 750 in
+  full ((973679616,
+  24, 0), B-offset
+  rank 727), with the
+  B-index-order
   closure in full;
   then broad
   ordinary UNMODIFIED

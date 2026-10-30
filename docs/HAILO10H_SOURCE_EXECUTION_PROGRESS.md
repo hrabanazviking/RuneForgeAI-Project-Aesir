@@ -6495,3 +6495,39 @@ A 746, A 747 and A 748 in full, with the
 A-offset-order closure in full. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+Slice 4.217 (AES-NUM-217) is complete. The
+act (791779840, 24, 1) at A 746 occurs once
+on the A side only (A-offset rank 746),
+following the A-only act at A 745 immediately
+in both A index order and A-offset order
+with incoming gap +512, outgoing gap +512 —
+NOT its own size. The act
+(791780352, 24, 2) at A 747 occurs once
+on the A side only (rank 747), following
+A 746 immediately in both orders with
+incoming +512, outgoing +512 — NOT
+its own size. The act
+(791780864, 24, 0) at A 748 (rank 748)
+occurs once on the A side only, following
+A 747 immediately in both orders with
+incoming +512, and no outgoing gap —
+rank 748 is the last measured rank, gap
+None; it is also the last A index. All three
+are A-only distinct, none in
+run 102, and the A-offset-order closure is
+complete: A acts 749, ranks 0–748, closing
+run 743–748 (A indices in rank order
+736, 744, 745, 746, 747, 748), whose
+rank-744 act is the shared run-102 final
+act, so the run is not uniformly A-only. The
+single launch finished DONE217, exit 0,
+err empty, and its first 56,255 prefix
+lines differ from hef216.out in exactly
+two lines (lines 41611 and 42872,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+B 748, B 749 and B 750 in full, with the
+B-index-order closure in full. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
