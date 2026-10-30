@@ -4447,7 +4447,7 @@
   full; then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.167 run 62's
+- [x] Slice4.167 run 62's
   two internal gaps in full
   (the B 447-448 and
   B 455-459 acts against
@@ -4464,6 +4464,25 @@
   the other groups); and
   runs 65 and 67 in full;
   then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.168 the channel-
+  disagreement correspondence
+  across both full contexts
+  (every A-only and B-only
+  distinct act paired by
+  (offset, size); the channel
+  pairs; position correspondence;
+  the unmatched residue in
+  full); the per-ordered-cell-
+  pair FUNCTION pattern in
+  the great group (verdict
+  against ordered-pair
+  features; the never-
+  contradicted keys -191/-145
+  in the widened rows in
+  full); and runs 63 and 64
+  in full; then broad ordinary
   UNMODIFIED source-model
   support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

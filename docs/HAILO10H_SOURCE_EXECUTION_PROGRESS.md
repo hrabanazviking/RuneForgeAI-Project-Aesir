@@ -4933,3 +4933,29 @@ in full; the byte2 regularity against the
 wider pair population; runs 65 and 67.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.167 (AES-NUM-167) is complete. Run 62's
+two internal gaps are channel disagreements on an
+identical (offset, size) sequence: at all 23
+corresponding positions of the A 438-460 /
+B 441-463 windows the (offset, size) pairs are
+identical, and the channel differs at exactly the
+seven gap correspondences (gap 1 A ch 1 vs B ch 2;
+gap 2 A ch 2 vs B ch 0), so each gap act is B-only
+and each skipped act A-only with exactly one
+corpus occurrence each, the skipped positions
+mapping to the gaps by the run's +3 shift. The
+matched A byte2-to-byte3 regularity does NOT
+extend to the wider population: aggregated over
+all 56 ordered cell pairs of the (20, 32720) group
+it is NOT A FUNCTION on either side (only the
+original pair's own 27 of 81 widened key rows
+agree; 54 contradict), the within-pair test fails
+everywhere, and the determinant stays NOT PROVEN.
+Runs 65 (+0 singleton in place), 66 (-156 pair at
+B 346-347) and 67 (-2 pair in place) are each one
+contiguous B block. Next: the channel-disagreement
+correspondence across both full contexts; the
+per-ordered-cell-pair FUNCTION pattern; runs 63
+and 64. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
