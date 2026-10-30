@@ -5446,7 +5446,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.219 the
+- [x] Slice4.219 the
   act at B 747 in
   full ((791781888,
   24, 0), B-offset
@@ -5459,6 +5459,22 @@
   full ((873199104,
   24, 1), B-offset
   rank 725);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.220 the
+  act at B 27 in
+  full ((873199616,
+  24, 2), B-offset
+  rank 726); the
+  act at B 5 in
+  full ((1196182016,
+  24, 2), B-offset
+  rank 728); and the
+  act at B 6 in
+  full ((1196182528,
+  24, 0), B-offset
+  rank 729);
   then broad
   ordinary UNMODIFIED
   source-model support100%.
