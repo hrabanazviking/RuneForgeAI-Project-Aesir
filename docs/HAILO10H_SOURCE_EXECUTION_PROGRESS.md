@@ -5563,3 +5563,38 @@ the run-100 act in full ((3446784, 24,
 2) at A 682 / B 675). Broad ordinary
 UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.191 (AES-NUM-191) is complete. The
+B-only act at B 674 ((1196410880, 32784, 2),
+B-offset rank 746) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 272 by +14,848,
+an excess of 496 over B 272's size, and its
+outgoing gap +33,280 to B 735 exceeds its
+own size by 496. The B-only acts at B 735
+((1196444160, 24, 0), rank 747) and B 736
+((1196444672, 24, 1), rank 748) are B-only
+distinct in full with no A act under their
+keys; ranks 746-748 have gaps +33,280 and
++512, and the last eight B-offset ranks
+743-750 are B-only throughout. The shared
+run-101 act (3446784, 24, 2) at A 682 /
+B 675 is a -7 singleton occurring once on
+each side (A-offset rank 29, B-offset rank
+30), not following the run-100 act in
+either offset order, with outgoing gap
++752,155,648 in both offset orders. The
+first launch crashed on a worker-authored
+range bug in the new section only and was
+closed; the retry under
+TASK_CONTRACT_4.191_RETRY (one-line patch)
+finished DONE191, exit 0, err empty. Next:
+the B-only act at B 737 in full (rank
+749); the B-only act at B 738 in full
+(rank 750, the last rank); and the shared
+run-102 act following the run-101 act in
+A-index order in full ((791479296, 32784,
+1) at A 683 / B 685). Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
