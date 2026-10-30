@@ -6874,3 +6874,39 @@ A-offset ranks 748 and 744 in full, and the
 cross-order census comparison. Broad ordinary
 UNMODIFIED source-model support100% remains
 the destination.
+Slice 4.230 (AES-NUM-230) is complete. The
+act at A-offset rank 748 in full: (791780864,
+24, 0) at A 748, rank 748, the last measured
+A rank, A-only distinct, occurrences A [748] /
+B none, incoming gap +512 from A 747 at rank
+747, not its own size, and no outgoing gap
+(rank 748 is last, none requested). The act
+at A-offset rank 744 in full: (791778816, 24,
+0) at A 744, shared single-positioned (run
+102, shift +2; A pos 744, B pos 746),
+occurrences A [744] / B [746], incoming gap
++512 from A 736 at rank 743 and outgoing gap
++512 to A 745 at rank 745, run 102's last act.
+The cross-order census comparison in full:
+A-offset order 749 acts, ranks 0-748, first
+act (262144, 376, 0) at A 694, last act at
+A 748, class census {shared single-positioned:
+689, A-only distinct: 60} summing to 749
+exactly, run-102 membership 58 in / 691 not
+in; B-offset order 751 acts, ranks 0-750,
+first act the same (262144, 376, 0) at B 696,
+last act (1196445696, 24, 0) at B 738, class
+census {shared single-positioned: 689, B-only
+distinct: 62} summing to 751 exactly, run-102
+membership 58 in / 693 not in; first acts
+identical, last acts different, and the whole
++2 total difference sits in the side-only
+classes. The single launch finished DONE230,
+exit 0, err empty, and its first 57,412 prefix
+lines differ from hef229.out in exactly one
+line (line 41611, frozenset element order
+only — the AES-NUM-150 variance). Next: the
+acts at B-offset ranks 750 and 743 in full,
+and the closing-run comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
