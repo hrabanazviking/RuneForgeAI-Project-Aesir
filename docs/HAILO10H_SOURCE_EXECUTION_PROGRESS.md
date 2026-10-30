@@ -6910,3 +6910,36 @@ acts at B-offset ranks 750 and 743 in full,
 and the closing-run comparison. Broad ordinary
 UNMODIFIED source-model support100% remains
 the destination.
+Slice 4.231 (AES-NUM-231) is complete. The
+act at B-offset rank 750 in full: (1196445696,
+24, 0) at B 738, rank 750, the last measured
+B rank, B-only distinct, occurrences A none /
+B [738], incoming gap +512 from B 737 at rank
+749, not its own size, and no outgoing gap
+(rank 750 is last, none requested). The act
+at B-offset rank 743 in full: (1196368696, 280,
+2) at B 26, the B closing run's first act,
+B-only distinct, occurrences A none / B [26],
+incoming gap +30,008 from B 25 at rank 742 and
+outgoing gap +712 to B 229 at rank 744, neither
+its own size. The closing-run comparison in
+full: A closing run ranks 741-748, 8 acts,
+class composition {A-only distinct: 7, shared
+single-positioned: 1} summing to 8 exactly,
+run-102 membership 1 in / 7 not in, gap
+sequence [512, 512, 512, 512, 512, 512, 512];
+B closing run ranks 743-750, 8 acts, class
+composition {B-only distinct: 8} summing to 8
+exactly, run-102 membership 0 in / 8 not in,
+gap sequence [712, 26624, 14848, 33280, 512,
+512, 512]; the gap sequences are not identical,
+the runs agreeing only in their final three
+gaps. The single launch finished DONE231,
+exit 0, err empty, and its first 57,480 prefix
+lines are IDENTICAL to hef230.out (zero
+differing lines — no AES-NUM-150 frozenset
+variance this run). Next: the acts at B-offset
+rank 742 and A-offset rank 741 in full, and
+the closing-run first-act comparison. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
