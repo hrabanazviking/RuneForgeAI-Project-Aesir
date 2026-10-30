@@ -4842,3 +4842,27 @@ the offset-range boundary in full; the split as
 a matched-pair comparison; runs 21/22/23 and 46.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.164 (AES-NUM-164) is complete. The
+offset-range boundary is a clean tail cut: B
+first passes A's largest offset at B offset
+rank 721, and the 30 B acts above it are exactly
+the contiguous offset tail (ranks 721-750), all
+unshared, in four offset clusters, while no A
+act reaches the smallest above offset. The
+6864/6932 split as a matched-pair comparison
+across the 27 shared cidx values has no constant
+or structured whole-value relation - every int,
+XOR and bytewise relation is distinct 27 of 27 -
+except the byte3 differences, confined to
+{14, 15, 16} on both sides without being
+constant; the determinant stays NOT PROVEN.
+Runs 21/22/23/46 are each one contiguous B pair,
+run 23 a +135 pair (correcting 4.163's
+abbreviated prose), and run 46's -102 pair sits
+wedged between run 20's B block and run 21.
+Next: the above population's B-position
+structure; the byte3 confinement against the
+remaining companions; runs 43/44/45 and 47/48.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

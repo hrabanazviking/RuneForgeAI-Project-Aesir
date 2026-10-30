@@ -4392,7 +4392,7 @@
   92/94/95 in full; then
   broad ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.164 the offset-
+- [x] Slice4.164 the offset-
   range boundary between
   the contexts in full
   (every B act above A's
@@ -4408,6 +4408,24 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.165 the above-
+  boundary population's
+  B-position structure in
+  full (the 30 acts in
+  B-position order; the
+  B 0-27 and B 747-750
+  windows in full); the
+  matched-pair byte3-
+  difference confinement
+  {14, 15, 16} against the
+  remaining companions (the
+  pairs' own byte3 values,
+  cidx/idx order position,
+  within-pair diffs, status);
+  and runs 43/44/45 and
+  47/48 in full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
