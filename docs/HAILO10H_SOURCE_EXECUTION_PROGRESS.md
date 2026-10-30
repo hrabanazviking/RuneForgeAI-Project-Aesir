@@ -5298,3 +5298,31 @@ B-index neighbourhoods in full — B 27
 (rank 689). Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.182 (AES-NUM-182) is complete. All
+three further B-only acts inside 4.181's
+B-index neighbourhoods are B-only distinct
+in full, each occurring once in B and nowhere
+in A: B 27 ((873199616, 24, 2), B-offset rank
+726, no A act under its key, the third act of
+the +512/+512 offset triplet at ranks
+724-726); B 271 ((3429888, 2064, 1), rank 29,
+no A act under its key, between shared
+run-17 and run-18 acts in B-index order); and
+B 671 ((791121408, 32784, 2), rank 689, no
+exact A counterpart, but its (offset, size)
+key is one of the 31 both-side keys, held on
+the A side by the A-only act at A 670
+(791121408, 32784, 1) on channel 1 against
+B's channel 2, A-offset rank 707; in offset
+order both acts sit between run 92's last
+act and run 93's act). Next: the two other
+acts of B 27's offset triplet in full
+(B 1 rank 724, B 0 rank 725); the two further
+A-only acts inside A 670's A-index
+neighbourhood in full (A 673 rank 710,
+A 675 rank 712); and the shared run-93 act
+following both in offset order in full
+((791154688, 18448, 2) at A 671 / B 280).
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

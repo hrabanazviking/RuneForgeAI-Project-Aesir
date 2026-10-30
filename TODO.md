@@ -4716,16 +4716,42 @@
   orders); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.182 the
+- [x] Slice4.182 the
   three further B-only
   acts inside 4.181's
   B-index neighbourhoods
   in full: the act at
   B 27 (B-offset rank
-  726); the act at B 271
-  (B-offset rank 29);
-  and the act at B 671
-  (B-offset rank 689);
+  726, no A counterpart
+  or key); the act at
+  B 271 (B-offset rank
+  29, no A counterpart
+  or key); and the act
+  at B 671 (B-offset
+  rank 689, no exact A
+  counterpart but its
+  key held on the A
+  side by A 670 on
+  channel 1); then
+  broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.183 the
+  two other acts of
+  B 27's offset triplet
+  in full (B 1 rank 724;
+  B 0 rank 725); the
+  two further A-only
+  acts inside A 670's
+  A-index neighbourhood
+  in full (A 673 rank
+  710; A 675 rank 712);
+  and the shared run-93
+  act following both
+  B 671 and A 670 in
+  offset order in full
+  ((791154688, 18448, 2)
+  at A 671 / B 280);
   then broad ordinary
   UNMODIFIED
   source-model support100%.
