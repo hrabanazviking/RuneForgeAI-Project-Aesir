@@ -2,6 +2,8 @@
 # The Rune Weaver: model-driven Llama SentencePiece tokenizer.
 
 from std.collections import Dict
+from std.collections.string import ord
+from loader.unicode_categories import llama_character_class
 
 
 def _canonical_special_spellings() -> List[String]:
@@ -50,6 +52,8 @@ struct RuneWeaver:
     # (see _encode_segment_gemma4), and decode must not apply the
     # GPT-2 byte-map inversion (see decode).
     var model_name: String
+    # tokenizer.ggml.pre ("llama-bpe", "qwen2", "default", ...).
+    var pre_tokenizer: String
 
     def __init__(out self):
         self.vocab = List[String]()
@@ -68,6 +72,7 @@ struct RuneWeaver:
         self.bpe_mode = False
         self.special_spellings = List[String]()
         self.model_name = String("")
+        self.pre_tokenizer = String("")
 
     def add_merge(mut self, raw_merge: String):
         """Records one GGUF BPE merge line; file order is the rank order."""
@@ -279,7 +284,11 @@ struct RuneWeaver:
         var uses_llama_space = "▁" in self.token_to_id
         var uses_gpt2_space = "Ġ" in self.token_to_id
         var normalized = String("")
-        if self.add_space_prefix and uses_llama_space and not uses_gpt2_space:
+        # The prefix is the SPM space marker whenever this vocab uses
+        # it; a stray Ġ token elsewhere in the vocab (Oprius ships one
+        # at id 31937) must not suppress it: llama.cpp prefixes every
+        # SPM fragment for add_space_prefix vocabs regardless.
+        if self.add_space_prefix and uses_llama_space:
             normalized = "▁"
         var prompt_bytes = prompt.as_bytes()
         var byte_index = 0
@@ -450,6 +459,81 @@ struct RuneWeaver:
         for piece in pieces:
             self._append_piece_tokens(piece, tokens)
 
+    def _gpt2_segments(self, text: String, digit_limit: Int) -> List[String]:
+        """GPT-2 regex pre-tokenization without a regex runtime.
+
+        Mirrors loader/llama3_tokenizer.mojo's _native_gpt2_segments
+        exactly (classes from loader.unicode_categories: 1=letter,
+        2=number, 3=regex whitespace, 0=other): contractions, an
+        optional single non-letter prefix plus a letter run, digit runs
+        (capped at digit_limit when > 0), symbol runs with trailing
+        newlines, and the whitespace rules (a whitespace run keeps its
+        last space for the next pre-token unless it ends in a newline
+        or reaches the end of the text).
+        """
+        var chars = List[String]()
+        self._append_utf8_symbols(text, chars)
+        var classes = List[Int]()
+        for char in chars:
+            classes.append(llama_character_class(ord(char)))
+        var output = List[String]()
+        var i = 0
+        while i < len(chars):
+            var end = i
+            if chars[i] == "'":
+                var suffixes: List[String] = ["s", "t", "re", "ve", "m", "ll", "d"]
+                for suffix in suffixes:
+                    var size = suffix.byte_length()
+                    if i + size < len(chars):
+                        var candidate = String("")
+                        for j in range(i + 1, i + size + 1):
+                            candidate += chars[j]
+                        if candidate.lower() == suffix:
+                            end = i + size + 1
+                            break
+            if end == i:
+                var first_letter = i
+                if classes[i] != 1 and classes[i] != 2 and chars[i] != "\r" and chars[i] != "\n":
+                    first_letter += 1
+                if first_letter < len(chars) and classes[first_letter] == 1:
+                    end = first_letter + 1
+                    while end < len(chars) and classes[end] == 1:
+                        end += 1
+            if end == i and classes[i] == 2:
+                end = i + 1
+                var digit_end = len(chars) if digit_limit == 0 else min(i + digit_limit, len(chars))
+                while end < digit_end and classes[end] == 2:
+                    end += 1
+            if end == i:
+                var first_punct = i + (1 if chars[i] == " " else 0)
+                if first_punct < len(chars) and classes[first_punct] == 0:
+                    end = first_punct + 1
+                    while end < len(chars) and classes[end] == 0:
+                        end += 1
+                    while end < len(chars) and (chars[end] == "\n" or chars[end] == "\r"):
+                        end += 1
+            if end == i and classes[i] == 3:
+                var last_newline = -1
+                var stop = i
+                while stop < len(chars) and classes[stop] == 3:
+                    if chars[stop] == "\n" or chars[stop] == "\r":
+                        last_newline = stop
+                    stop += 1
+                if last_newline >= 0:
+                    end = last_newline + 1
+                elif stop == len(chars):
+                    end = stop
+                else:
+                    end = max(i + 1, stop - 1)
+            if end == i:
+                end = i + 1
+            var segment = String("")
+            for j in range(i, end):
+                segment += chars[j]
+            output.append(segment)
+            i = end
+        return output^
+
     def _encode_segment(self, segment: String, mut tokens: List[Int]):
         """Encodes one special-token-free text segment into tokens."""
         if len(segment.as_bytes()) == 0:
@@ -465,10 +549,23 @@ struct RuneWeaver:
                 self._encode_segment_gemma4(String(segment[byte=start:len(raw)]), tokens)
             return
         if self.bpe_mode:
-            var bpieces = self._initial_pieces_bpe(segment)
-            bpieces = self._merge_bpe(bpieces)
-            for p in range(len(bpieces)):
-                self._append_piece_tokens(String(bpieces[p]), tokens)
+            if self.pre_tokenizer == "llama-bpe" or self.pre_tokenizer == "qwen2":
+                # GPT-2-family pre-tokenization first (the same regex the
+                # native Llama3Tokenizer implements): merges never cross
+                # pre-token boundaries. llama-bpe caps digit runs at 3;
+                # qwen2 leaves them uncapped.
+                var digit_limit = 3 if self.pre_tokenizer == "llama-bpe" else 0
+                var segs = self._gpt2_segments(segment, digit_limit)
+                for si in range(len(segs)):
+                    var spieces = self._initial_pieces_bpe(segs[si])
+                    spieces = self._merge_bpe(spieces)
+                    for p in range(len(spieces)):
+                        self._append_piece_tokens(String(spieces[p]), tokens)
+            else:
+                var bpieces = self._initial_pieces_bpe(segment)
+                bpieces = self._merge_bpe(bpieces)
+                for p in range(len(bpieces)):
+                    self._append_piece_tokens(String(bpieces[p]), tokens)
         else:
             var spieces = self._initial_pieces(segment)
             spieces = self._merge_sentencepiece(spieces)
@@ -485,11 +582,23 @@ struct RuneWeaver:
             var slen = len(spelling.as_bytes())
             if slen <= best_len:
                 continue
-            if byte_index + slen <= n_bytes and text[
-                byte=byte_index : byte_index + slen
-            ] == spelling:
-                best = s
-                best_len = slen
+            if byte_index + slen <= n_bytes:
+                # Byte-exact compare: slicing the text into a String span
+                # at an arbitrary byte offset traps in the stdlib when
+                # the offset is not a codepoint boundary (any multibyte
+                # character followed by enough text crashed encode).
+                # llama.cpp's special-token scan is byte-level; so is
+                # this. A spelling can only match where its bytes do.
+                var text_bytes = text.as_bytes()
+                var spelling_bytes = spelling.as_bytes()
+                var matches = True
+                for k in range(slen):
+                    if text_bytes[byte_index + k] != spelling_bytes[k]:
+                        matches = False
+                        break
+                if matches:
+                    best = s
+                    best_len = slen
         return best
 
     def _match_canonical_special_at(
@@ -504,11 +613,23 @@ struct RuneWeaver:
             var slen = len(spelling.as_bytes())
             if slen <= best_len:
                 continue
-            if byte_index + slen <= n_bytes and text[
-                byte=byte_index : byte_index + slen
-            ] == spelling:
-                best = s
-                best_len = slen
+            if byte_index + slen <= n_bytes:
+                # Byte-exact compare: slicing the text into a String span
+                # at an arbitrary byte offset traps in the stdlib when
+                # the offset is not a codepoint boundary (any multibyte
+                # character followed by enough text crashed encode).
+                # llama.cpp's special-token scan is byte-level; so is
+                # this. A spelling can only match where its bytes do.
+                var text_bytes = text.as_bytes()
+                var spelling_bytes = spelling.as_bytes()
+                var matches = True
+                for k in range(slen):
+                    if text_bytes[byte_index + k] != spelling_bytes[k]:
+                        matches = False
+                        break
+                if matches:
+                    best = s
+                    best_len = slen
         return best
 
     def _append_piece_tokens(self, piece: String, mut tokens: List[Int]):
@@ -743,19 +864,23 @@ struct RuneStreamDecoder:
 
         var index = 0
         while index < len(raw):
-            if token.startswith("▁") and index == 0:
+            # Markers convert wherever they occur in the piece, not
+            # only at its start: SentencePiece pieces can carry an
+            # internal ▁ (e.g. ",▁captain"), which used to decode as
+            # the literal marker character.
+            if index + 2 < len(raw) and raw[index] == 0xE2 and raw[index + 1] == 0x96 and raw[index + 2] == 0x81:
                 self.pending_bytes.append(0x20)
                 index += 3
                 continue
-            if token.startswith("Ġ") and index == 0:
+            if index + 1 < len(raw) and raw[index] == 0xC4 and raw[index + 1] == 0xA0:
                 self.pending_bytes.append(0x20)
                 index += 2
                 continue
-            if token.startswith("Ċ") and index == 0:
+            if index + 1 < len(raw) and raw[index] == 0xC4 and raw[index + 1] == 0x8A:
                 self.pending_bytes.append(0x0A)
                 index += 2
                 continue
-            if token.startswith("ĉ") and index == 0:
+            if index + 1 < len(raw) and raw[index] == 0xC4 and raw[index + 1] == 0x89:
                 self.pending_bytes.append(0x09)
                 index += 2
                 continue
@@ -775,7 +900,7 @@ struct RuneStreamDecoder:
         if token_id < 0 or token_id >= len(tokenizer.vocab):
             return String("")
         var token_str = tokenizer.vocab[token_id]
-        if tokenizer.bpe_mode and not (
+        if tokenizer.bpe_mode and tokenizer.model_name != "gemma4" and not (
             token_str.startswith("<0x") and token_str.endswith(">")
         ):
             for b in _bpe_inverted_bytes(token_str):

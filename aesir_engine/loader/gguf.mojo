@@ -553,7 +553,7 @@ struct GGUFSeer:
             self.config.feed_forward_length = widest
             return cursor
         var expected_type = UInt32(4294967295)
-        if key == "general.architecture" or key == "tokenizer.ggml.model":
+        if key == "general.architecture" or key == "tokenizer.ggml.model" or key == "tokenizer.ggml.pre":
             expected_type = 8
         elif (
             key.endswith(".context_length")
@@ -637,6 +637,8 @@ struct GGUFSeer:
             self.config.sliding_window = Int(self._read_u32(scalar_offset))
         elif key == "tokenizer.ggml.model" and scalar_type == 8:
             tokenizer.model_name = self._read_string(scalar_offset)
+        elif key == "tokenizer.ggml.pre" and scalar_type == 8:
+            tokenizer.pre_tokenizer = self._read_string(scalar_offset)
         elif key.endswith(".attention.key_length_swa") and scalar_type == 4:
             self.config.head_dim_swa = Int(self._read_u32(scalar_offset))
         elif key.endswith(".rope.freq_base_swa") and scalar_type == 6:
