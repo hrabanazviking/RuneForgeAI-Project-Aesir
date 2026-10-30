@@ -5386,3 +5386,31 @@ orders in full ((791240192, 26128, 1) at
 A 674 / B 676). Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.185 (AES-NUM-185) is complete. The
+B-only act at B 750 ((973679616, 24, 0),
+B-offset rank 727) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; in B-index order it is the
+last act of context B, and in B-offset
+order it sits inside the all-B-only run at
+ranks 725-732 with gap in +100,480,000 and
+gap out +222,502,400. The B-only act at
+B 8 ((1196183040, 32784, 1), rank 730) is
+B-only distinct in full with no A act
+under its key, completing the +512/+512
+offset triplet at ranks 728-730. The
+shared run-95 act (791240192, 26128, 1) at
+A 674 / B 676 is a +2 singleton occurring
+once on each side, following the run-94
+act directly in B-offset order but with
+the A-only act at A 673 intervening in
+A-offset order. Next: the B-only act at
+B 10 in full (rank 731); the B-only acts
+at B 11 (rank 732) and B 13 (rank 733) in
+full; and the shared run-96 act following
+the run-95 act in full ((791300096,
+26128, 2) at A 676 / B 393). Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
