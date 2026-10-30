@@ -4901,3 +4901,35 @@ full; the byte3 confinement against the
 remaining byte fields; runs 42/53/60 and 61/62.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.166 (AES-NUM-166) is complete. The
+above population's B-position / offset-rank
+order relation is three rank blocks with
+exactly two internal swaps: the triple head
+(B 0/1, ranks 725/724), a 23-act block
+(B 5-738) whose ranks 728-750 strictly
+increase with B position, the triple's third
+act alone at B 27 (rank 726), and four low
+acts at B 747-750 (ranks 722/721/723/727).
+Adjacent rank deltas are +1 in 21 of 29
+steps, delta is a function of neither gap
+nor vice versa, and the full pairwise
+discordance is 119 of 435 - 117 cross-block
+pairs plus the 2 swaps. The byte3
+difference confined to {14, 15, 16} is a
+function of no byte0 field at any
+granularity and of no byte1/byte2 field
+except trivial 24-27-key verdicts and one
+single-sided 19-key sample regularity (the
+matched A byte2 difference); the determinant
+stays NOT PROVEN. Runs 42 (+241 triple),
+53 (+7 pair), 60 (-1 pair) and 61 (+1 pair)
+are each one contiguous B block; run 62 is
+a 53-act +3 backbone at A 438-497 /
+B 441-500, interrupted only by the seven
+non-single-positioned acts at B 447-448 and
+B 455-459. Next: run 62's two internal gaps
+in full; the byte2 regularity against the
+wider pair population; runs 65 and 67.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

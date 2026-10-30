@@ -4426,7 +4426,7 @@
   47/48 in full; then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.166 the above
+- [x] Slice4.166 the above
   population's B-position /
   offset-rank order relation
   in full (every adjacent
@@ -4445,6 +4445,25 @@
   each cell); and runs
   42/53/60 and 61/62 in
   full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.167 run 62's
+  two internal gaps in full
+  (the B 447-448 and
+  B 455-459 acts against
+  both contexts in full;
+  the skipped A acts at
+  A 444-445 and A 452-456
+  in full); the matched A
+  byte2-difference to
+  byte3-difference
+  regularity against the
+  wider pair population
+  (all 224 pairs of the
+  (20, 32720) group, and
+  the other groups); and
+  runs 65 and 67 in full;
+  then broad ordinary
   UNMODIFIED source-model
   support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
