@@ -5198,3 +5198,28 @@ at ranks 718–720 in full; runs 96 and 97;
 runs 98 and 99. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.178 (AES-NUM-178) is complete. All
+five B-offset-order window upper acts are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A:
+rank 728 (B 5, (1196182016, 24, 2)), rank 729
+(B 6, (1196182528, 24, 0)), rank 730 (B 8,
+(1196183040, 32784, 1)), rank 731 (B 10,
+(1196216320, 7800, 2)) and rank 732 (B 11,
+(1196224120, 344, 2)). They sit in B's head
+interleaved with shared run-0 acts. The
+window's lower boundary is three shared
+run-102 acts at +2: rank 718 (B 733,
+(791776256, 24, 2), A 731), rank 719 (B 734,
+(791776768, 24, 0), A 732) and rank 720
+(B 746, (791778816, 24, 0), A 744). Runs 96
+(−283) and 97 (−300) are singletons; runs
+98 (−455) and 99 (−278) are singletons
+measured for the first time, each one
+contiguous B block. Next: the B-offset-order
+acts above the window at ranks 733–736 in
+full; runs 100 and 101 in full; run 102 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

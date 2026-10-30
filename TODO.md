@@ -4628,16 +4628,34 @@
   each); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.178 the
+- [x] Slice4.178 the
   B-offset-order window's
   upper acts at ranks
-  728-732 in full (B
+  728-732 in full (all
+  five are B-only distinct
+  with no A-side
+  counterpart, at B
   indices 5, 6, 8, 10,
   11) and its lower
   shared boundary at
-  ranks 718-720 in full;
-  runs 96 and 97 in full;
-  and runs 98 and 99 in
+  ranks 718-720 in full
+  (three shared run-102
+  acts at +2); runs 96
+  and 97 in full; and
+  runs 98 and 99 in full
+  (all four runs
+  singletons, one
+  contiguous B block
+  each); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.179 the
+  B-offset-order acts
+  above the window at
+  ranks 733-736 in full
+  (B indices 13, 14, 15,
+  16); runs 100 and 101
+  in full; and run 102 in
   full; then broad
   ordinary UNMODIFIED
   source-model support100%.
