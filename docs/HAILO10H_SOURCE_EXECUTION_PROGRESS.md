@@ -5598,3 +5598,35 @@ A-index order in full ((791479296, 32784,
 1) at A 683 / B 685). Broad ordinary
 UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.192 (AES-NUM-192) is complete. The
+B-only act at B 737 ((1196445184, 24, 2),
+B-offset rank 749) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; its incoming and outgoing
+gaps are +512 each, and the last eight
+B-offset ranks 743-750 are B-only
+throughout. The B-only act at B 738
+((1196445696, 24, 0), rank 750) is B-only
+distinct in full, and rank 750 is the LAST
+rank of B-offset order (751 acts, ranks
+0-750; B 738 has no successor and no
+outgoing gap) — the B-only walk in
+B-offset rank order is complete. The
+shared run-102 act (791479296, 32784, 1)
+at A 683 / B 685 is the first act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 719, B-offset rank 699), following
+run 101 immediately in A-index order but
+not in either offset order, with outgoing
+gap +32,784 — exactly its own size — in
+both offset orders. The single launch
+finished DONE192, exit 0, err empty.
+Next: the A-only act at A 681 in full
+((791452688, 26128, 2), A-offset rank
+718); the shared run-102 acts at A 684 /
+B 686 and A 685 / B 687 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
