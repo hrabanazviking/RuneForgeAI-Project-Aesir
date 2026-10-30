@@ -6841,3 +6841,36 @@ full, and the full-order census over
 A-offset order. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.229 (AES-NUM-229) is complete. The
+act at B-offset rank 0 in full: (262144, 376,
+0) at B 696, rank 0, shared single-positioned
+(run 102, shift +2; A pos 694, B pos 696),
+occurrences A [694] / B [696], no incoming gap
+(rank 0, none requested), outgoing gap +512,
+not its own size, to B 697 at rank 1. The
+A-offset-order closure in full: ranks 743-748
+are A 736 (791778304, 24, 0) A-only gap +512,
+A 744 (791778816, 24, 0) shared run 102 gap
++512 (run 102's last act), A 745, A 746 and
+A 747 A-only gap +512 each, and A 748
+(791780864, 24, 0) A-only gap None — rank 748
+is the last measured rank. The closing run
+741-748 adds A 734 and A 735, both A-only gap
++512; seven of its eight acts are A-only and
+exactly one is in run 102. The full-order
+census over A-offset order: A acts 749, ranks
+0-748, first act the same (262144, 376, 0) at
+A 694, last act at A 748, class census
+{shared single-positioned: 689, A-only
+distinct: 60} summing to 749 exactly, and
+run-102 membership 58 in / 691 not in over
+that order. The single launch finished
+DONE229, exit 0, err empty, and its first
+57,348 prefix lines differ from hef228.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+A-offset ranks 748 and 744 in full, and the
+cross-order census comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.

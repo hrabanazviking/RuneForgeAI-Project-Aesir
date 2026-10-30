@@ -5609,7 +5609,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.229 the
+- [x] Slice4.229 the
   act at B-offset
   rank 0 in full
   ((262144, 376, 0)
@@ -5629,6 +5629,29 @@
   acts, class census
   over all A acts in
   that order);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.230 the
+  act at A-offset
+  rank 748 in full
+  ((791780864, 24, 0)
+  at A 748, last
+  measured A rank,
+  no outgoing gap);
+  the act at A-offset
+  rank 744 in full
+  ((791778816, 24, 0)
+  at A 744, the
+  closing run's sole
+  shared act and
+  run 102's last
+  act); and the
+  cross-order census
+  comparison in full
+  (the A-offset and
+  B-offset censuses
+  side by side);
   then broad
   ordinary UNMODIFIED
   source-model support100%.
