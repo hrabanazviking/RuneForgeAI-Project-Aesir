@@ -4611,14 +4611,34 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.177 the
+- [x] Slice4.177 the
   trio's B-offset-order
-  flank acts in full (ranks
-  721-723 and 727, B
-  indices 748, 747, 749,
-  750); runs 92 and 93 in
-  full; and runs 94 and 95
-  in full; then broad
+  flank acts in full (all
+  four are B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 747-750, ranks
+  722, 721, 723, 727);
+  runs 92 and 93 in full;
+  and runs 94 and 95 in
+  full (run 92 a +1 pair,
+  runs 93, 94 and 95
+  singletons, all one
+  contiguous B block
+  each); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.178 the
+  B-offset-order window's
+  upper acts at ranks
+  728-732 in full (B
+  indices 5, 6, 8, 10,
+  11) and its lower
+  shared boundary at
+  ranks 718-720 in full;
+  runs 96 and 97 in full;
+  and runs 98 and 99 in
+  full; then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

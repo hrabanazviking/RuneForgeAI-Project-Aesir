@@ -5171,3 +5171,30 @@ trio's B-offset-order flank acts in full; runs
 92 and 93 in full; runs 94 and 95. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.177 (AES-NUM-177) is complete. All
+four 873-prefix trio flank acts are B-only
+distinct with no A-side counterpart, each
+occurring once in B and nowhere in A: rank
+721 (B 748, (791781376, 24, 1)), rank 722
+(B 747, (791781888, 24, 0)), rank 723 (B 749,
+(800053760, 24, 2)) and rank 727 (B 750,
+(973679616, 24, 0), context B's last act).
+They are exactly B's last four acts, with
+the 747/748 pair reversed between B-index
+and B-offset order, following B 746 — the
+last shared act in B-offset order (rank
+720, run 102 at +2). From rank 721 onward
+every act in the window ranks 718–732 is
+B-only; the flank gaps are +512, +8,271,872
+and +73,144,832, so the trio's 512-step
+ladder does not extend. Run 92 is a +1 pair
+(A 668–669 / B 669–670); runs 93 (−391),
+94 (+1) and 95 (+2) are singletons measured
+for the first time, each one contiguous B
+block. Next: the window's upper acts at
+ranks 728–732 and its lower shared boundary
+at ranks 718–720 in full; runs 96 and 97;
+runs 98 and 99. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
