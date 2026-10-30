@@ -4356,7 +4356,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.162 gap 8's
+- [x] Slice4.162 gap 8's
   B-block offset region in
   full (offset ranks
   738-751, the B 674 offset
@@ -4374,6 +4374,24 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.163 the top
+  offset region's thirteen
+  B-only acts against
+  context A in full (each
+  act's occurrence in A,
+  its offset's rank in A's
+  order, A's own top ranks
+  in full); the 6864/6932
+  split against the pairs'
+  record-level fields
+  (per-record cidx/idx/n/
+  centre/poscat/in37
+  sequences); and run 20's
+  full context (A 276-300,
+  B 301-310) plus runs
+  92/94/95 in full; then
+  broad ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

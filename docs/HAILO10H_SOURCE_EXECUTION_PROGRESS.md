@@ -4794,3 +4794,27 @@ gap 8's B-block offset region in full; the
 the seam's remaining displaced blocks (runs 93,
 19, 20). Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.162 (AES-NUM-162) is complete. Gap 8's
+B-block is the very top of context B's offset
+order: its skipped acts hold ranks 747-750 of
+751 distinct offsets, the last skipped act is
+B's largest-offset act, and nothing follows the
+block in offset order. The whole top region
+(ranks 738-750) is thirteen B-only acts scattered
+across B positions 19-738, and the B 674 offset
+predecessor is itself B-only - no run, no A
+extent. The 6864/6932 split is a function of no
+low-dimensional untested field: every single
+byte and the byte3 difference fail, and every
+field that separates the 54 is near-pair-identity
+(217-224 distinct values over 224 pairs), so the
+determinant stays NOT PROVEN. At the seam, runs
+93, 19 and 20 are each one contiguous B block
+(B 280; B 518-519; B 285-300), with A-adjacent
+runs 19 and 20 landing far apart in B. Next: the
+thirteen B-only acts against context A; the
+split against the record-level fields; and run
+20's full context plus runs 92/94/95. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
