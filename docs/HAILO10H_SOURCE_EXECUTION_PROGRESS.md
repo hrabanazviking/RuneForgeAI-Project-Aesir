@@ -5630,3 +5630,43 @@ Next: the A-only act at A 681 in full
 B 686 and A 685 / B 687 in full. Broad
 ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.193 (AES-NUM-193) is complete. The
+A-only act at A 681 ((791452688, 26128, 2),
+A-offset rank 718) is A-only distinct in
+full, occurring once in A and nowhere in B
+with no B-side counterpart and no B act
+under its key; in A-index order it sits
+between the run-100 singleton at A 680 and
+the run-101 singleton at A 682, and in
+A-offset order between the run-100 act
+(incoming gap +32,784) and the first
+run-102 act (outgoing gap +26,608, an
+excess of 480 over its own size) — run 101
+does not intervene in A-offset order. The
+shared run-102 act (791512080, 32784, 1)
+at A 684 / B 686 is the second act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 720, B-offset rank 700), following
+the first run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +32,784 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791544864, 26128, 1) at
+A 685 / B 687 is the third act of run 102,
+occurring once on each side (A-offset
+rank 721, B-offset rank 701), following
+the second act immediately in both index
+orders and both offset orders, with
+outgoing gap +26,128 — exactly its own
+size — in both offset orders; the first
+three run-102 acts are identical in order
+on both sides. The single launch finished
+DONE193, exit 0, err empty, and its
+52,427-line prefix is byte-identical to
+hef192.out in full. Next: the shared
+run-102 acts at A 686 / B 688, A 687 /
+B 689 and A 688 / B 690 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
