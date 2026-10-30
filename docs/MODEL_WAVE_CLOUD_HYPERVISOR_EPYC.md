@@ -275,3 +275,333 @@ the model's open requirement.
 - Wall-clock numbers throughout were measured under heavy shared-box
   contention (some legs IO-stalled to ~10–20% CPU duty); treat them as
   comparative. Correctness verdicts are contention-independent.
+
+---
+
+## Part II continuation — laptop-line re-tests, engine gains, and courts (2026-10-29/30, roadmap S-025–S-048)
+
+This section completes the campaign record for Part II of the 204-slice
+roadmap (slices S-025–S-048). It does not replace or revise the wave
+record above; it records what was re-measured, fixed, and adjudicated
+after the original wave shipped. Per-slice evidence lives in the
+campaign workspace: `~/workspace/model-tests/ROADMAP_204_STATE.md`
+(Part II entries), `~/workspace/model-tests/wave/S045_MEMORY_TABLE.md`,
+`~/workspace/model-tests/wave/S047_LAPTOP_SWEEP_TABLE.md`,
+`~/workspace/model-tests/wave/S048_DIVERGENCE_COURT.md`, and the
+per-family `RESULTS.md` files under `~/workspace/model-tests/wave/*/`
+(the S-0xx sections cited per family below).
+
+**Placement — read this first.** Every Part II re-test in S-026–S-044
+ran on the laptop line (purplelongship, the Zen 2 / RTX 2060 Max-Q
+laptop) on **laptop CPU only, VRAM 1 MiB throughout, with no GPU
+claim**. The only GPU/spill proof in the campaign record remains the
+S-011 Llama-3 spill foundation (gpu_layers=31/32, token-identical to
+whole-GPU runs, VRAM 4,746 MiB), which is a spill foundation proof,
+not a wave-family placement. Comparator discipline from S-029 onward:
+ggml **CPU comparator only**, near-tie band, oracle backend recorded
+per row (tf_oracle / fr_oracle, plus the BOS-controlled fr oracle for
+Gemma-4). Under Volmarr's 2026-10-29 machine-decoupling and
+laptop-sweeps rulings, the size/quantisation-rung sweeps live on the
+laptop; the VM line runs only work that genuinely needs the VM.
+
+### Engine changes banked to main in Part II
+
+Five engine changes landed on main during Part II, each under a hard
+numerics gate (generated ids bit-identical to the crown trajectories
+and tf-CPU grades reproduced exactly, unless the change itself was the
+subject of the gate):
+
+- **S-030 — IQ SIMD decode (`7859deea`, banked by fast-forward).**
+  Root cause: `dequantize_iq_block` decoded all 256 lanes scalar while
+  K kinds 10/11/13 decode width-16 SIMD; in single-row GEMMs that
+  scalar decode was ~90% of IQ cost (IQ2_M decode ≈2.02 s/tok vs
+  ≈0.24 s/tok for K kinds). Fix: SIMD lane decode for all six IQ kinds
+  in `extreme_quantization.mojo`, preserving the exact f32 polynomial
+  grid values, arithmetic signs, and (coef·gv)·sign order. Numerics
+  proven unchanged three ways (SIMD decode bit-identical vs the scalar
+  oracle, repo GEMM fixtures, free-running ids bit-identical with tf
+  grades reproduced). Re-measured on Zen IQ2_M: sys3 36.51→12.08 s
+  (3.02×), t1 125.40→46.52 s (2.70×); IQ1_S sys3 28.31→10.72 s;
+  Q4_K_M control unchanged (9.19→9.18 s).
+- **S-033 — Prefill chunk cap 32 → 256 (`57218795`).** Each prefill
+  chunk re-decodes the weight blocks, so the old cap 32 repeated decode
+  work (7 chunks for a 213-token prompt). At cap 256, Oprius-i1 t1
+  walls fell ~9–10% on every K rung and 14.5% on IQ1_S, plateauing at
+  whole-prompt coverage; ids bit-identical and tf-CPU grades
+  reproduced exactly. `_prefill_batch_cap` default changed in
+  `aesir_engine/aesir.mojo`; workspace clamp unchanged.
+- **S-039 — Gemma-4 generic-CPU forward (`482f04d6`).** The wave left
+  Gemma-4 generation NOT PROVEN on CPU (CUDA-only session by design;
+  see the Gemma-4 section above). S-039 built the missing forward:
+  gemma4 config parsing (SWA head dim/rope base, shared_kv_layers,
+  per-layer input length, sliding-window pattern), relational tensor
+  validation (541 tensors validate; the `blk.15.attn_k.weight` wall is
+  gone), a gemma4 tokenizer mode, and `Gemma4Block` +
+  `forward_pass_gemma4` mirroring the CUDA session (shared-KV under
+  owning layers 13/14, full PLE branch, layer_output_scale, global
+  RoPE). Q4_K_M PROVEN on laptop CPU (see the Gemma-4 verdict below).
+- **S-041 — Batched Gemma-4 prefill (`68ba6d23`, banked by
+  fast-forward via the GitHub API ref update after plain `git push`
+  was spuriously rejected; server-enforced fast-forward, ls-remote
+  verified).** Profile: prefill was ≈92% of the long-prompt wall under
+  the per-token forward. Fix: `Gemma4Block.forward_batched` +
+  `forward_pass_gemma4_batched` + `_gemma4_ple_batched`. Hard gate
+  PASSED — every run bit-identical to the S-039/S-040 crown ids.
+  Q4_K_M long (693 tok) 174.76→66.20 s (2.64×); Phase C long speedups
+  2.69× (Q4_K_M) / 2.95× (Q6_K) / 3.70× (IQ2_M), tf grades reproducing
+  S-040 exactly.
+- **S-042 — Kind-11 (Q3_K) coefficient/vector hoist (`b4441348`,
+  banked to main at S-043; origin/main at the close of Part II).**
+  Profile found two pockets in the `kind == 11` branch of
+  `_gemm_k_fast_range`: per-sub-block scale derivation with div/mod
+  and repeated scalar byte loads, and packed-vector reloads (32 vector
+  loads for 6 distinct vectors). Fix: all 16 sub-block coefficients
+  computed straight-line from the 12 header bytes and the 6 distinct
+  packed vectors hoisted before the decode loop in `compute.mojo`
+  (+51/−11); per-element arithmetic identical, so the decoded scratch
+  row is bit-identical by construction. Gains: Stheno Q3_K_M t1
+  49.61→48.95 s, t2 63.32→60.91 s; Coder-3B Q3_K_M t1 25.29→24.14 s.
+  Hard gate PASSED (ids bit-identical to the S-037 crown; tf-CPU
+  191/200 rank-0, 195/200 ≤2, reproducing S-037/S-038 exactly).
+
+### Per-family verdicts from the laptop line (S-025–S-044)
+
+- **zen-4b-i1 (qwen3) — S-025/S-026/S-029/S-030/S-031.** S-025 DONE
+  in-wave: qwen3 support shipped (NeoX RoPE + no-BOS); the phase-5
+  closure proved raw-oracle token parity for Q4_K_M and closed root
+  cause #2 (no engine defect; the "oracle clean" references were
+  template-rendered prompts). S-026 laptop round: baseline PROVEN for
+  6/7 rungs — tf_oracle rank-0: Q4_K_M 16/16 + 48/48, Q6_K 16/16 +
+  48/48, Q5_K_M 16/16 + 47/48, Q3_K_M 16/16 + 47/48, Q2_K 15/16 +
+  46/48, IQ2_M 16/16 + 47/48 (all misses near-tie, gaps ≤0.759).
+  IQ1_S NOT PROVEN (see Honest gaps). S-031 re-confirmed IQ2_M PROVEN
+  and IQ1_S NOT PROVEN by construction on the integrated tree.
+- **SmolLM2-1.7B-heretic-i1 — S-031.** IQ2_M PROVEN (tf-CPU 16/16 +
+  47/48, miss rank 1 / gap 0.230; fr-CPU identical 16/16; ids
+  bit-identical to the wave fixed build; t1 22.02 s, RSS 2,186 MB).
+  IQ1_S: ids bit-identical to the proven fixed build, but token-exact
+  parity NOT PROVEN by construction (tf-CPU 4/16 + 35/48; S-029
+  verdict confirmed). The stale OPEN DEFECT paragraph in the family
+  RESULTS.md is marked SUPERSEDED.
+- **Oprius-3.1-1.1B-i1 — S-032/S-033/S-043/S-047.** Full ladder
+  re-measured (S-032): Q4_K_M control PROVEN (tf-t1 48/48 rank-0,
+  fr-t1 bit-identical), Q6_K PROVEN (47/48), Q5_K_M PROVEN (47/48),
+  Q3_K_M PROVEN (48/48 rank-0), Q2_K PROVEN engine-faithful (S-016
+  class), IQ2_M PROVEN (43/48 rank-0, 48/48 ≤2). IQ1_S NOT PROVEN by
+  construction, with one flagged anomaly carried to the divergence
+  court (D-03, below). S-033 tuning landed the prefill-cap gain
+  (above); S-043's PMW sweep and S-047's spot re-verification both
+  reproduced the crown ids exactly.
+- **Qwen2.5-Coder-7B-heretic — S-034/S-035/S-036/S-044/S-045.**
+  See the crown baselines section below. Matrix verdicts (S-035):
+  Q6_K, Q5_K_M, Q3_K_M PROVEN (each tf-CPU 199/199 rank-0); Q2_K
+  PROVEN engine-faithful; Q8_0 PROVEN correct but REFUTED on speed
+  (see Honest gaps).
+- **L3-8B-Stheno-v3.2 — S-037/S-038/S-042/S-044/S-045.** Full ladder
+  re-measured (S-037): Q3_K_M crown PROVEN, Q4_K_M PROVEN, Q6_K
+  PROVEN (first generation verdict; the wave era was
+  registration-blocked — the truncated-catalog hazard `9748cae99f63`
+  is RESOLVED in the laptop store, full pin `0f0424440d11`),
+  Q5_K_M PROVEN, Q2_K PROVEN engine-faithful class, IQ2_M PROVEN.
+  tf-CPU rank-0 totals of 200: Q3 191, Q4 189, Q6 189, Q5 188,
+  Q2 190, IQ2_M 189; rank ≤2 = 195/200 for every rung (the single
+  beyond-band step in every leg is the step-0 prompt-boundary
+  comparator effect, D-05 below). Walls fell sharply vs the contended
+  wave VM (e.g. Q3_K_M t1 220.38 s wave → ~50 s class laptop;
+  IQ2_M t1 748.25 s → 60.71 s).
+- **gemma-4-E2B-it-heretic-v1 — S-039/S-040/S-041.** The wave's open
+  requirement is closed on the laptop line: the S-039 CPU forward is
+  PROVEN at Q4_K_M (probe tf-CPU 10/11 rank-0, fr-BOS bit-identical +
+  EOS; mid 111 tok tf 47/48, fr-BOS identical 48/48; long 693 tok,
+  beyond the 512 window, tf 32/32 rank-0, fr-BOS identical 32/32).
+  S-040 full matrix: Q6_K PROVEN, Q5_K_M PROVEN, Q3_K_M PROVEN,
+  IQ2_M PROVEN; Q2_K token-exact parity NOT PROVEN (2-bit degraded
+  class, no ≤2 band measured); IQ1_S NOT PROVEN by construction
+  (S-029 confirmed on a third family). S-041 batched prefill then cut
+  long walls by 2.6–3.7× bit-identically (above). VM completion of
+  the S-039 forward is NOT PROVEN (see Honest gaps).
+- **Ministral-3-3B-i1 — S-027/S-028 (record audits only).** The
+  residual re-check resolved as follows: YaRN appears only as GGUF
+  metadata (factor 16, orig ctx 16384) and every battery prompt is
+  ~174–230 tokens, so YaRN-at-length was never verified. Short-length
+  baseline correctness stands as recorded in-wave; the laptop line
+  did not re-run Ministral in S-026–S-044 (see Honest gaps).
+- **Oprius-3.1-1.1B (static, non-i1) — no laptop re-test** in
+  S-026–S-044; its wave verdicts are VM-only and stand as recorded
+  above. The laptop ladder belongs to Oprius-i1, a different file set.
+
+### Crown baselines and tuning outcomes (S-034–S-038)
+
+- **S-034 — Coder-7B crown baseline.** All 5 declared rungs'
+  sha256 verified against HF LFS pins on the laptop store. Crown
+  Q4_K_M re-measured: probe + battery t1–t4 all bit-identical to the
+  wave-era VM crown ids; tf-CPU 199/199 rank-0; walls probe 7.74 s,
+  t1 40.62, t2 50.58, t3 41.37, t4 43.61 s (uncontended laptop, vs
+  97.13–480.50 s contended wave); RSS peak 5,168 MB.
+- **S-035 — Coder-7B full declared matrix** (verdicts above). Q8_0
+  walls were ~25× the K rungs (probe 130.62 s; t1 1167.20 s;
+  t2 1580.54 s; t3 1139.23 s; t4 1234.00 s; RSS 8,158 MB) despite
+  perfect correctness grades — the speed defect carried to S-150.
+- **S-036 — Coder-7B crown tuning: NO GAIN FOUND, honestly, gate
+  passed.** Profile: fixed floor ≈3.1 s, decode slope ≈0.465 s/tok
+  (weight-streaming-bound, ~55% of the t1 wall); fast-path census
+  clean. Sweeps: default 16 threads best; PAR_MIN_WORK flat-to-worse;
+  prefill cap 128/256/512 indistinguishable (7B geometry does not want
+  a different cap — the S-033 tax is amortized at ≥128-row chunks);
+  VNNI a no-op on Zen 2. Closing battery within ~3% of S-034, 22/22
+  runs bit-identical, tf-CPU 199/199. No engine code changed.
+- **S-037 — Stheno ladder baseline** (verdicts above).
+- **S-038 — Stheno crown tuning: NO GAIN FOUND, honestly, gate
+  passed.** Threads (default 16 best), PAR_MIN_WORK, prefill cap and
+  VNNI sweeps all flat-to-worse; every run IDS_MATCH_CROWN=True;
+  closing battery within ~2% of S-037 with tf-CPU grades reproduced
+  exactly (191/200 rank-0, 195/200 ≤2). No engine code changed.
+
+### Coverage and no-gain programs (S-043/S-044)
+
+- **S-043 — `AESIR_PAR_MIN_WORK` per-kind crossover sweep: NO PER-KIND
+  GAIN.** 314 runs, all rc=0, on Oprius-i1's full ladder plus Coder-3B
+  spot legs, PMW from 0 to 16M. Hard gate PASSED
+  (IDS_GATE_ALL_OK=True; tf-CPU grades at default reproduce S-032
+  exactly). Sub-default thresholds were consistently SLOWER (+4–8%);
+  0/2M/4M flat; 16M catastrophic (+43% to +117%). Verdict: per-kind
+  defaults NOT justified; the single global default 2^20 stands. No
+  engine code changed.
+- **S-044 — Prefill program: coverage ALREADY COMPLETE, gate
+  proven.** The census (full text in the campaign workspace,
+  `wave/l3-8b-stheno/s044/S044_CENSUS.md`) proves `generate()`
+  dispatches batched prefill by architecture for every wave quant
+  kind (generic → `forward_pass_batched`, gemma4 → the S-041 batched
+  twin, qwen35 → batched twin; GEMMs dispatch per-tensor kind,
+  including S-030 IQ SIMD and S-042 kind-11). No build gap; nothing
+  landed. Empirical gate on long prompts, default cap vs
+  `AESIR_PREFILL_BATCH=1`, all ids bit-identical: Coder-3B Q8_0 crown
+  (530 tok) 1154.65 vs 1667.57 s (1.44×); Coder-7B Q4_K_M crown
+  (530 tok) 76.74 vs 245.73 s (3.20×); Stheno Q3_K_M crown (516 tok)
+  88.50 vs 310.28 s (3.51×). Genuine per-token-only surfaces are
+  sharded multi-device (no wave model runs sharded) and the separate
+  CUDA sessions.
+
+### Memory discipline (S-045)
+
+Consolidated table: `wave/S045_MEMORY_TABLE.md`. Method: no heavy
+inference on the VM; verdicts analytic from measured laptop RSS +
+GGUF size against the VM envelope (total RAM 7,935 MB, swap 0;
+MemAvailable chronically <1 GB at Part II checks, so every VM run
+first needs the phase-5 gate, MemAvailable >5,500 MB).
+
+- **All three crowns FIT — PROVEN ON VM in-wave; no crown needs spill
+  on memory grounds** (stated explicitly, not silently): Coder-3B
+  Q8_0 (GGUF 3,285,477,024 B; laptop RSS 3,790 MB; wave VM 3.78 GB),
+  Coder-7B Q4_K_M (GGUF 4,683,074,688 B; laptop 5,168–5,207 MB; wave
+  VM 5.15 GB), Stheno Q3_K_M (GGUF 4,018,917,920 B; laptop
+  4,765–4,776 MB; wave VM 4.76 GB). Each crown's Part-IV spill road
+  is named in its RESULTS.md anyway (Coder-7B → S-143; Coder-3B →
+  S-155 with S-143 as sibling proof, plus S-150 for its Q8_0 speed
+  defect; Stheno → S-155 on the S-011 foundation, plus S-156
+  instrumentation).
+- **Coder-7B Q8_0 DOES NOT FIT**: laptop RSS 8,158 MB exceeds the
+  VM's 7,935 MB total, and the GGUF alone (8,098,526,336 B) exceeds
+  it too; no swap. Roads: S-150 + spill S-143/S-155–S-160.
+- **Q6_K 8B-class rows are MARGINAL**: Stheno Q6_K (RSS 7,040 MB,
+  leaves 895 MB; wave VM OOM-killed) and Coder-7B Q6_K (RSS
+  6,521 MB; wave VM battery t1/t2 OOM-killed rc=-9). Reliable VM
+  completion NOT PROVEN for either; road = S-155 spill or a gated
+  S-046 re-run.
+- Other primaries: Zen Q4_K_M FITS — PROVEN ON VM; Oprius-i1 Q4_K_M
+  FITS — PROVEN ON VM; SmolLM2 Q4_K_M and Ministral Q4_K_M FIT on
+  their wave VM rows (laptop rows NOT MEASURED — see Honest gaps);
+  Gemma-4 Q4_K_M FITS analytically (laptop ≈2.70 GB) with VM
+  completion NOT PROVEN.
+
+### Final re-test sweep, laptop — cross-site agreement (S-047)
+
+Consolidated table: `wave/S047_LAPTOP_SWEEP_TABLE.md`. It covers all
+nine wave families for the rungs actually re-tested on purplelongship
+in S-026–S-044, each row citing its slice and RESULTS.md section,
+placement (laptop CPU, VRAM 1 MiB, no GPU claim), verdict, and
+agreement with wave-era VM ids/grades where recorded. Headline:
+where ids are filed on both sites they agree — Coder-7B crown and
+matrix bit-identical to wave ids (S-034/S-035), SmolLM2 IQ ids
+bit-identical to the wave fixed build (S-031), Coder-3B t1
+bit-identical to wave-era ids (S-042/S-043); wall gaps between sites
+are contention/site effects, adjudicated at D-14 below. The slice's
+fresh spot re-verification on main `b4441348` PASSED: Oprius-i1
+Q4_K_M peaked probe ids exactly the S-032/S-043 crown, wall 2.05 s.
+
+### Divergence court (S-048)
+
+Full docket: `wave/S048_DIVERGENCE_COURT.md` — **16 entries
+(D-01–D-16), every cross-engine and cross-site divergence in the
+sweep given a written verdict; no unexplained rows.** Summary:
+9 closed as near-tie / file degeneracy / comparator artifact /
+site-contention (D-02 Zen rank-65 outlier = CPU-vs-CUDA comparator
+artifact; D-05 Stheno step-0 = prompt-boundary comparator effect;
+D-06/D-07 Q2_K = near-tie / engine-faithful, S-016 class; D-08
+Coder-3B Q3_K_M = file degeneracy on both engines; D-09 all remaining
+tf misses = near-tie within band; D-10 Gemma step-0 = BOS comparator
+artifact; D-12 Zen phase-5 = template-rendering comparator artifact;
+D-14 cross-site walls = contention/site, ids agreeing); D-01 closed
+NOT PROVEN BY CONSTRUCTION (IQ1_S; the oracle disagrees with itself);
+D-13 an engine speed bug FIXED inside the sweep (IQ2_M scalar decode,
+S-030); D-16 a positive no-divergence finding for the remaining rows.
+Carried open with roads and re-open criteria, not hidden:
+
+- **D-03** (Oprius-i1 IQ1_S t1 step 1 at rank 38 / gap 2.432, at a
+  still-shared context step) → the S-095-pattern comparator-stability
+  re-check; it re-opens as a defect if comparator-stable.
+- **D-04** (Gemma-4 Q2_K; no ≤2 band measured) → the same
+  S-095-pattern comparator-stability re-check, Gemma-4 vehicle.
+- **D-11** (Coder-7B Q8_0 speed) → **S-150**: a proven engine defect,
+  root-caused at S-036 (`gemm_q8_0`'s fast range decodes blocks with
+  a scalar per-lane loop into a full-width f32 scratch, unlike the K
+  kinds' width-16 SIMD super-block decode).
+- D-15 reclassified Ministral YaRN from a divergence to an untested
+  gate component, road S-104 (see Honest gaps).
+
+### Honest gaps / NOT PROVEN — Part II
+
+- **S-046 (final re-test sweep, VM) is BLOCKED-WITH-REASON and NOT
+  done.** VM host memory: total 7,935 MB, swap 0, MemAvailable
+  measured at 352–697 MB across Part II checks — chronically <1 GB
+  against the phase-5 gate of >5,500 MB. No VM inference sweep was
+  attempted in Part II, the VM-side s026 orchestrator was NOT
+  relaunched (stood down under the decoupling/laptop-sweeps rulings),
+  and **this record does not claim a VM final sweep happened**. The
+  laptop final sweep is S-047 (above). Road: VM host memory freeing
+  before any VM sweep leg. Gemma-4 VM completion is among the items
+  this leaves NOT PROVEN.
+- **IQ1_S token-exact parity is NOT PROVEN by construction (S-029).**
+  ggml's own CPU and CUDA IQ1_S kernels disagree (sys3 step 1: forced
+  ids 25 vs 4142; Aesir 510), while Q4_K_M and IQ2_M controls are
+  16/16 exact in both backends; no faithful implementation can be
+  token-exact against both. Confirmed on Zen, SmolLM2, Oprius-i1 and
+  Gemma-4. Successor measure: IQ1_S coherence grading, road S-095.
+- **Coder-7B Q8_0 speed is REFUTED (S-035)** — correctness PROVEN
+  (tf-CPU 199/199, fr-CPU bit-identical), walls ~25× the K rungs.
+  Proven engine defect, root cause on file (S-036); road = S-150
+  (Q8_0 device path) plus CPU fast-path work. Its HF-pin verification
+  was not evidenced in the S-035 driver log and is not claimed.
+- **Ministral YaRN-at-length is NOT PROVEN (S-027/S-028)** — YaRN is
+  GGUF metadata only in the record (factor 16, orig ctx 16384) and
+  every battery prompt is ~174–230 tokens. Road = S-104 (YaRN length
+  probes per rung).
+- **SmolLM2 Q4_K_M and Ministral laptop rows are NOT MEASURED**
+  (S-045/S-047): S-031 covered only SmolLM2's IQ rungs, and Ministral
+  had no laptop run in S-026–S-044. Their VM rows stand; the laptop
+  rows' road was the S-047 table, which records them as gaps rather
+  than filling them.
+- **Stheno Q8_0 / IQ3_M are not in the laptop store and were not
+  run** (S-037). Road = Part III acquisition (S-075/S-111).
+- **Gemma-4 Q2_K has no ≤2 near-tie band measured** (S-040) —
+  token-exact parity NOT PROVEN, no defect proven; road = the
+  comparator-stability re-check (court D-04).
+- Oprius static (non-i1) has no laptop re-test at all; Coder-3B
+  Q6_K/Q5_K_M/Q2_K are wave-VM only; Gemma-4's remaining rungs inherit
+  the S-041 batched-prefill path as recorded coverage, without a
+  per-rung re-gate. None of these is claimed as laptop-measured.
+
+Part II closes with S-049 (this completion of the campaign record).
+S-046 remains BLOCKED-WITH-REASON in parallel. Next in roadmap order:
+S-050 (full suites on the wave tree; counted run green; battery
+green).
