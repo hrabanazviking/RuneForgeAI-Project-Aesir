@@ -6531,3 +6531,40 @@ B 748, B 749 and B 750 in full, with the
 B-index-order closure in full. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+Slice 4.218 (AES-NUM-218) is complete. The
+act (791781376, 24, 1) at B 748 occurs once
+on the B side only (B-offset rank 721),
+following the shared run-102 final act at
+B 746 immediately in B-offset order with
+incoming gap +2,560, outgoing gap +512 —
+NOT its own size; it stands in opposite
+orders against B 747 in the two orders.
+The act (800053760, 24, 2) at B 749 occurs
+once on the B side only (rank 723),
+following B 747 immediately in B-offset
+order with incoming +8,271,872, outgoing
++73,144,832 — NOT its own size. The act
+(973679616, 24, 0) at B 750 (rank 727)
+occurs once on the B side only, following
+B 27 immediately in B-offset order with
+incoming +100,480,000, outgoing
++222,502,400 — NOT its own size; rank 727
+is not the last B-offset rank, but B 750
+is the last B index, difference None.
+All three are B-only distinct, none in
+run 102, and the B-index-order closure is
+complete: B acts 751, indices 0–750, tail
+745–750 (indices 745 and 746 shared
+run-102 acts, 746 being run 102's last
+act; 747 B-only with difference −512;
+748, 749 and 750 B-only), so the tail is
+not uniformly B-only. The single launch
+finished DONE218, exit 0, err empty, and
+its first 56,346 prefix lines differ from
+hef217.out in exactly two lines (lines
+41611 and 42872, frozenset element order
+only — the AES-NUM-150 variance). Next:
+the acts at B 747, B 1 and B 0 in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
