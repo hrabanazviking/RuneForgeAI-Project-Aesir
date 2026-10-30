@@ -6138,3 +6138,40 @@ run-102 acts at A 725 / B 727, A 726 /
 B 728 and A 727 / B 729 in full. Broad
 ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.207 (AES-NUM-207) is complete. The
+shared run-102 act (791774208, 328, 0)
+at A 725 / B 727 is the forty-third act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 733, B-offset rank 713), following
+the forty-second run-102 act immediately in both
+index orders (its offset placement distant,
+at the ranks stated), with
+outgoing gap +328 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791774536, 328, 0) at A 726 /
+B 728 is the forty-fourth act of run 102,
+occurring once on each side (A-offset rank 734,
+B-offset rank 714), following the forty-third act
+immediately in both index orders and both offset orders, with
+outgoing gap +328 — exactly its own size — in
+both offset orders. The shared
+run-102 act (791774864, 328, 0) at A 727 /
+B 729 is the forty-fifth act of run 102,
+occurring once on each side at offset
+rank 735 / 715, following the
+forty-fourth act immediately in both index
+orders and both offset orders, with
+outgoing gap +368 — NOT its own size — in
+both offset orders; the first forty-five run-102 acts are
+identical in order on both sides. The
+single launch finished DONE207, exit 0,
+err empty, and exactly one of its 54,867
+prefix lines differs from hef206.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 728 / B 730, A 729 /
+B 731 and A 730 / B 732 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
