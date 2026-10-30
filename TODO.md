@@ -4374,7 +4374,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.163 the top
+- [x] Slice4.163 the top
   offset region's thirteen
   B-only acts against
   context A in full (each
@@ -4392,6 +4392,22 @@
   92/94/95 in full; then
   broad ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.164 the offset-
+  range boundary between
+  the contexts in full
+  (every B act above A's
+  largest offset; the B
+  rank where B passes it);
+  the 6864/6932 split as a
+  matched-pair comparison
+  (the 6864 pair against
+  the 6932 pair at each of
+  the 27 shared cidx
+  values); and runs
+  21/22/23 and 46 in full;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

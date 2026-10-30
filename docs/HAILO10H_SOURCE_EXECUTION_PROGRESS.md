@@ -4818,3 +4818,27 @@ split against the record-level fields; and run
 20's full context plus runs 92/94/95. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+Slice 4.163 (AES-NUM-163) is complete. The top
+offset region is entirely outside context A: all
+thirteen B-only acts carry offsets above A's
+largest offset (0 of 13 in A in any form, insertion
+rank 749 for every one), and A's own top eleven
+are all 24-byte ladder acts, eight of them not in
+B either. The 6864/6932 split is a function of no
+non-definitional record-level field: every pair
+in the 54 carries exactly one record, the cidx
+and idx sequences match the two cells pair-for-
+pair (27 values, each once in each cell), n /
+centre / in37 are constant, and the only
+separating fields are the cell sequence itself
+(the definition restated) and the full tuple
+(near-pair-identity) - the determinant stays NOT
+PROVEN. Run 20's A context is a shift staircase
+(+2, +240, +5, +7, +111, +135) while its B block
+is followed by run 46, then runs 21, 24 and 26;
+runs 92/94/95 are each contiguous at home. Next:
+the offset-range boundary in full; the split as
+a matched-pair comparison; runs 21/22/23 and 46.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
