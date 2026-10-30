@@ -5150,3 +5150,24 @@ Next: the 873-prefix trio's B-side placement;
 runs 82, 83 and 89 in full; runs 90 and 91.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.176 (AES-NUM-176) is complete. The
+873-prefix trio's three B acts are consecutive
+in B-offset order at ranks 724-726 of 751, in
+the order 1, 0, 27, at exactly +512 steps (span
+1,024 against A offsets spanning 193,040), and
+they are the only 873-prefix acts in either
+context (three in B, zero in A). Positions 0/1's
+A and B acts are each single-context only;
+position 27's B act is B-only while its A act
+lives at B index 29 inside run 1. The 0/1
+reversal is the trio's only reversal, against
+107 inversions head-wide (41 involving a trio
+position). Runs 82 (+49), 83 (+24), 89 (-277),
+90 (+1) and 91 (-255) are each a singleton and
+therefore one contiguous B block; runs 90/91
+lengths measured for the first time. Next: the
+trio's B-offset-order flank acts in full; runs
+92 and 93 in full; runs 94 and 95. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.

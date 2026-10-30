@@ -4590,19 +4590,37 @@
   B block each); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.176 the
+- [x] Slice4.176 the
   873-prefix trio's B-side
-  placement (B indices and
-  B neighbourhoods of
-  positions 0, 1 and 27's
-  B acts; the reversed 0/1
-  pair against the wider
-  B-side pattern); runs 82,
-  83 and 89 in full; and
-  runs 90 and 91 in full;
+  placement (the three B
+  acts are consecutive in
+  B-offset order at ranks
+  724-726, order 1, 0, 27,
+  gaps 512/512, and are the
+  only 873-prefix acts in
+  either context; the 0/1
+  reversal is the trio's
+  only reversal, against
+  107 inversions head-wide,
+  41 involving a trio
+  position); runs 82, 83
+  and 89 in full; and runs
+  90 and 91 in full (all
+  five runs singletons, one
+  contiguous B block each);
   then broad ordinary
   UNMODIFIED source-model
   support100%.
+- [ ] Slice4.177 the
+  trio's B-offset-order
+  flank acts in full (ranks
+  721-723 and 727, B
+  indices 748, 747, 749,
+  750); runs 92 and 93 in
+  full; and runs 94 and 95
+  in full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
