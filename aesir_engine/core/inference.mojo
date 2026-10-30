@@ -1435,6 +1435,40 @@ def _gemma4_ple(mut seer: GGUFSeer, mut well: MimirWell, token_id: Int, x: RuneT
     return emb^
 
 
+def _gemma4_ple_batched(mut seer: GGUFSeer, mut well: MimirWell, tokens: List[Int], start_pos: Int, batch_len: Int, x: RuneTensor[f16]) raises -> RuneTensor[f16]:
+    """Batched twin of _gemma4_ple (S-041): a [batch_len,
+    layers*ple_dim] tensor whose row r is exactly
+    _gemma4_ple(tokens[start_pos + r], x row r). The per-layer
+    embedding lookup and scale are per row; the model projection is
+    one multi-row GEMM; the grouped proj-norm views the block as
+    [batch_len * layers, ple_dim] rows — the same row-major layout
+    the single-token path norms — so each (row, layer) group is
+    normed by the identical operation."""
+    var ple_dim = seer.config.per_layer_input_length
+    var layers = seer.config.block_count
+    var width = ple_dim * layers
+    var emb_ptr = well.allocate(batch_len * width)
+    var emb_scale = Float32(sqrt(Float64(ple_dim)))
+    for r in range(batch_len):
+        var row_ptr = emb_ptr.unsafe_offset(r * width)
+        _embed_token_into(seer, tokens[start_pos + r], row_ptr, "per_layer_token_embd.weight", False)
+        for i in range(width):
+            row_ptr.unsafe_store(i, Scalar[f16](row_ptr.unsafe_load(i).cast[DType.float32]() * emb_scale))
+    var emb = RuneTensor[f16](batch_len, width, emb_ptr, False)
+    var tmp_ptr = well.allocate(batch_len * width)
+    var tmp = RuneTensor[f16](batch_len, width, tmp_ptr, False)
+    var proj_weight = seer.tensors["per_layer_model_proj.weight"].copy()
+    gemm_f16(x, proj_weight, tmp)
+    var grouped = RuneTensor[f16](batch_len * layers, ple_dim, tmp_ptr, False)
+    var norm_weight = seer.tensors["per_layer_proj_norm.weight"].copy()
+    rmsnorm(grouped, norm_weight, Scalar[f32](seer.config.rms_epsilon))
+    var inv_sqrt2 = Float32(1.0) / Float32(sqrt(Float64(2)))
+    for i in range(batch_len * width):
+        var v = emb.data.unsafe_load(i).cast[DType.float32]() + tmp.data.unsafe_load(i).cast[DType.float32]()
+        emb.data.unsafe_store(i, Scalar[f16](v * inv_sqrt2))
+    return emb^
+
+
 struct Gemma4Block(Copyable):
     """One Gemma 4 layer on the CPU path (see banner above)."""
 
@@ -1681,6 +1715,150 @@ struct Gemma4Block(Copyable):
             well.reset_kv_cache(start_offset)
             raise e
 
+    def forward_batched(
+        self,
+        mut x: RuneTensor[f16],
+        mut seer: GGUFSeer,
+        mut well: MimirWell,
+        start_pos: Int,
+        mut kv_cache: KVCache,
+        ple: RuneTensor[f16],
+    ) raises:
+        """Batched twin of forward() for a block of x.rows consecutive
+        positions starting at start_pos (prefill), S-041.
+
+        Mirrors TransformerBlock.forward_batched's discipline: the
+        stage bodies are row-generic (norms, GEMMs, residual adds run
+        over x.rows / x.size, so each weight block is decoded once per
+        chunk instead of once per token), with exactly these deltas
+        vs forward(): (1) the per-head Q/K norms and the plain V norm
+        run per row through the same single-row helpers on row views;
+        (2) RoPE runs per row with that row's own position; (3) the KV
+        append is KVCache.append_block of the zero-padded rows under
+        the OWNING layer; (4) attention runs the existing
+        flash_attention_gqa once per row with that row's own causal
+        bound and query_pos, over one slice for the whole span — so
+        per-row numerics match the per-token path operation for
+        operation. The PLE branch reads each row's own PLE slice from
+        the batched ple tensor ([x.rows, layers * ple_dim])."""
+        if x.rows <= 0:
+            raise Error("Gemma4Block.forward_batched: batch must have at least one row")
+        if start_pos < 0 or start_pos + x.rows > kv_cache.max_seq_len:
+            raise Error("Gemma4Block.forward_batched: batch exceeds KV cache capacity")
+        var start_offset = well.offset
+        var hidden = x.cols
+        var batch = x.rows
+        try:
+            var residual_ptr = well.allocate(x.size)
+            var residual = RuneTensor[f16](batch, hidden, residual_ptr, False)
+            for i in range(x.size):
+                residual.data.unsafe_store(i, x.data.unsafe_load(i))
+            rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
+            var q_cols = self.attn_q_weight.rows
+            var q_ptr = well.allocate(batch * q_cols)
+            var q = RuneTensor[f16](batch, q_cols, q_ptr, False)
+            gemm_f16(x, self.attn_q_weight, q)
+            for r in range(batch):
+                var q_row = RuneTensor[f16](1, q_cols, q_ptr.unsafe_offset(r * q_cols), False)
+                self._head_norm(q_row, self.attn_q_norm_weight)
+            if self.owns_kv:
+                var kv_cols = self.attn_k_weight.rows
+                var k_ptr = well.allocate(batch * kv_cols)
+                var k = RuneTensor[f16](batch, kv_cols, k_ptr, False)
+                gemm_f16(x, self.attn_k_weight, k)
+                var v_ptr = well.allocate(batch * kv_cols)
+                var v = RuneTensor[f16](batch, kv_cols, v_ptr, False)
+                gemm_f16(x, self.attn_v_weight, v)
+                for r in range(batch):
+                    var k_row = RuneTensor[f16](1, kv_cols, k_ptr.unsafe_offset(r * kv_cols), False)
+                    self._head_norm(k_row, self.attn_k_norm_weight)
+                    var v_row = RuneTensor[f16](1, kv_cols, v_ptr.unsafe_offset(r * kv_cols), False)
+                    self._head_norm_plain(v_row)
+                    _gemma4_rope(k_row, start_pos + r, self.head_dim, self.rope_theta, self.rope_rot_pairs)
+                    var q_row2 = RuneTensor[f16](1, q_cols, q_ptr.unsafe_offset(r * q_cols), False)
+                    _gemma4_rope(q_row2, start_pos + r, self.head_dim, self.rope_theta, self.rope_rot_pairs)
+                var cache_width = kv_cache.hidden_dim
+                var kpad_ptr = well.allocate(batch * cache_width)
+                var kpad = RuneTensor[f16](batch, cache_width, kpad_ptr, False)
+                var vpad_ptr = well.allocate(batch * cache_width)
+                var vpad = RuneTensor[f16](batch, cache_width, vpad_ptr, False)
+                for i in range(batch * cache_width):
+                    kpad.data.unsafe_store(i, Scalar[f16](0.0))
+                    vpad.data.unsafe_store(i, Scalar[f16](0.0))
+                for r in range(batch):
+                    for i in range(kv_cols):
+                        kpad.data.unsafe_store(r * cache_width + i, k.data.unsafe_load(r * kv_cols + i))
+                        vpad.data.unsafe_store(r * cache_width + i, v.data.unsafe_load(r * kv_cols + i))
+                kv_cache.append_block(self.kv_layer, start_pos, kpad, vpad, batch)
+            else:
+                for r in range(batch):
+                    var q_row = RuneTensor[f16](1, q_cols, q_ptr.unsafe_offset(r * q_cols), False)
+                    _gemma4_rope(q_row, start_pos + r, self.head_dim, self.rope_theta, self.rope_rot_pairs)
+            var total = min(start_pos + batch, kv_cache.max_seq_len)
+            var k_slice = kv_cache.get_k_slice(self.kv_layer, total)
+            var v_slice = kv_cache.get_v_slice(self.kv_layer, total)
+            var attn_ptr = well.allocate(batch * q_cols)
+            var attn_out = RuneTensor[f16](batch, q_cols, attn_ptr, False)
+            for r in range(batch):
+                var q_row = RuneTensor[f16](1, q_cols, q_ptr.unsafe_offset(r * q_cols), False)
+                var o_row = RuneTensor[f16](1, q_cols, attn_ptr.unsafe_offset(r * q_cols), False)
+                flash_attention_gqa(
+                    q_row, k_slice, v_slice, o_row,
+                    min(start_pos + r + 1, kv_cache.max_seq_len),
+                    self.head_dim,
+                    self.num_heads, self.num_kv_heads,
+                    Scalar[f32](1.0), Scalar[f32](0.0), self.sliding_window, start_pos + r,
+                )
+            gemm_f16(attn_out, self.attn_output_weight, x)
+            rmsnorm(x, self.post_attn_norm_weight, self.rms_epsilon)
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual.data.unsafe_load(i))
+            # FFN (GeGLU) with post-norm, CUDA order.
+            for i in range(x.size):
+                residual.data.unsafe_store(i, x.data.unsafe_load(i))
+            rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
+            var up_cols = self.ffn_up_weight.rows
+            var up_ptr = well.allocate(batch * up_cols)
+            var up = RuneTensor[f16](batch, up_cols, up_ptr, False)
+            gemm_f16(x, self.ffn_up_weight, up)
+            var gate_ptr = well.allocate(batch * up_cols)
+            var gate = RuneTensor[f16](batch, up_cols, gate_ptr, False)
+            gemm_f16(x, self.ffn_gate_weight, gate)
+            gelu_tanh(gate)
+            for i in range(up.size):
+                up.data.unsafe_store(i, up.data.unsafe_load(i) * gate.data.unsafe_load(i))
+            gemm_f16(up, self.ffn_down_weight, x)
+            rmsnorm(x, self.post_ffw_norm_weight, self.rms_epsilon)
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual.data.unsafe_load(i))
+            # Per-layer input branch per row: gelu(inp_gate . x) * the
+            # row's own PLE slice, projected back, post-normed, added,
+            # then output scale.
+            for i in range(x.size):
+                residual.data.unsafe_store(i, x.data.unsafe_load(i))
+            var ple_dim = self.per_layer_input
+            var g_ptr = well.allocate(batch * ple_dim)
+            var g = RuneTensor[f16](batch, ple_dim, g_ptr, False)
+            gemm_f16(x, self.inp_gate_weight, g)
+            gelu_tanh(g)
+            var ple_base = self.layer_idx * ple_dim
+            var ple_width = ple.cols
+            for r in range(batch):
+                for i in range(ple_dim):
+                    var gv = g.data.unsafe_load(r * ple_dim + i).cast[DType.float32]() * ple.data.unsafe_load(r * ple_width + ple_base + i).cast[DType.float32]()
+                    g.data.unsafe_store(r * ple_dim + i, Scalar[f16](gv))
+            gemm_f16(g, self.proj_weight, x)
+            rmsnorm(x, self.post_norm_weight, self.rms_epsilon)
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual.data.unsafe_load(i))
+            var out_scale = self.layer_output_scale_weight.data.unsafe_load(0).cast[DType.float32]()
+            for i in range(x.size):
+                x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * out_scale))
+            well.reset_kv_cache(start_offset)
+        except e:
+            well.reset_kv_cache(start_offset)
+            raise e
+
 
 
 
@@ -1727,6 +1905,82 @@ def forward_pass_gemma4(
         var logits_ptr = well.allocate(vocab_dim)
         var logits = RuneTensor[f16](1, vocab_dim, logits_ptr, False)
         gemm_f16(x, output_weight, logits)
+        if seer.config.logit_scale != Float32(0.0):
+            var inv_logit_scale = Float32(1.0) / seer.config.logit_scale
+            for i in range(vocab_dim):
+                logits.data.unsafe_store(i, Scalar[f16](logits.data.unsafe_load(i).cast[DType.float32]() * inv_logit_scale))
+        if seer.config.final_logit_softcapping != Float32(0.0):
+            var cap = seer.config.final_logit_softcapping
+            for i in range(vocab_dim):
+                var v = logits.data.unsafe_load(i).cast[DType.float32]()
+                logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
+        var rng = RuneRNG(42)
+        var suppress_list = List[Int]()
+        var next_token = sample_token_from_logits(
+            logits.data, vocab_dim,
+            temperature=temperature, top_k=top_k, top_p=top_p,
+            repetition_penalty=repetition_penalty,
+            context_tokens=tokens, rng=rng, suppress_tokens=suppress_list,
+        )
+        well.offset = initial_offset
+        return next_token
+    except e:
+        well.offset = initial_offset
+        raise e^
+
+
+def forward_pass_gemma4_batched(
+    tokens: List[Int],
+    mut seer: GGUFSeer,
+    mut well: MimirWell,
+    mut kv_cache: KVCache,
+    mut blocks: List[Gemma4Block],
+    start_pos: Int,
+    batch_len: Int,
+    is_prefill: Bool = True,
+    temperature: Scalar[f32] = 0.0,
+    top_k: Int = 40,
+    top_p: Scalar[f32] = 0.9,
+    repetition_penalty: Scalar[f32] = 1.1,
+) raises -> Int:
+    """Batched twin of forward_pass_gemma4 for one prefill chunk of
+    batch_len tokens at start_pos (S-041), mirroring
+    forward_pass_qwen35_batched's contract: a pure-prefill chunk
+    (is_prefill) fills the KV cache and returns 0 without paying the
+    LM head; a non-prefill chunk runs forward_pass_gemma4's output
+    stage (final norm, tied head, logit scale, final-logit
+    softcapping, sampling) on the last row only."""
+    if len(tokens) == 0:
+        raise Error("forward_pass_gemma4_batched: tokens list cannot be empty")
+    if len(blocks) < seer.config.block_count:
+        raise Error("forward_pass_gemma4_batched: Gemma4Block list is incomplete")
+    if batch_len <= 0 or start_pos < 0 or start_pos + batch_len > len(tokens):
+        raise Error("forward_pass_gemma4_batched: chunk range outside the token list")
+    if start_pos + batch_len > kv_cache.max_seq_len:
+        raise Error("forward_pass_gemma4_batched: chunk exceeds KV cache capacity")
+    var initial_offset = well.offset
+    var x = _embed_tokens(seer, well, tokens, start_pos, batch_len)
+    var vocab_dim = seer.tensors["token_embd.weight"].rows
+    try:
+        var ple = _gemma4_ple_batched(seer, well, tokens, start_pos, batch_len, x)
+        for l in range(seer.config.block_count):
+            blocks[l].forward_batched(x, seer, well, start_pos, kv_cache, ple)
+        if is_prefill:
+            well.offset = initial_offset
+            return 0
+        var x_last = RuneTensor[f16](
+            1, x.cols, x.data.unsafe_offset((batch_len - 1) * x.cols), False
+        )
+        if "output_norm.weight" not in seer.tensors:
+            raise Error("Inference requires output_norm.weight")
+        ref output_norm = seer.tensors["output_norm.weight"]
+        rmsnorm(x_last, output_norm, Scalar[f32](seer.config.rms_epsilon))
+        if "output.weight" not in seer.tensors:
+            raise Error("Inference requires output.weight")
+        ref output_weight = seer.tensors["output.weight"]
+        var logits_ptr = well.allocate(vocab_dim)
+        var logits = RuneTensor[f16](1, vocab_dim, logits_ptr, False)
+        gemm_f16(x_last, output_weight, logits)
         if seer.config.logit_scale != Float32(0.0):
             var inv_logit_scale = Float32(1.0) / seer.config.logit_scale
             for i in range(vocab_dim):

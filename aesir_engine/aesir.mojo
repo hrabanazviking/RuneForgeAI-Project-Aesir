@@ -3,7 +3,7 @@
 
 from std.math import max, min
 from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTopology, NPUBackendType, GPURealmType, f16, f32
-from core.inference import forward_pass, forward_pass_batched, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35, forward_pass_qwen35_batched, Gemma4Block, forward_pass_gemma4
+from core.inference import forward_pass, forward_pass_batched, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35, forward_pass_qwen35_batched, Gemma4Block, forward_pass_gemma4, forward_pass_gemma4_batched
 from core.parallel import _env_int
 from core.sampler import RuneRNG, sample_token_from_logits
 from core.session import SessionContext, SessionManager
@@ -496,17 +496,24 @@ struct AesirEngine:
         if self.image_span_start >= 0 and self.parser.config.architecture == "qwen35":
             raise Error("image span override is not supported on the qwen35 path")
         if self.parser.config.architecture == "gemma4":
-            # Per-token loop over the chunk: Gemma4Block is single-row
-            # by design in this slice; positions before the last run
-            # as pure prefill, the last carries the chunk's is_prefill.
-            var g4_result = 0
-            for i in range(batch_len):
-                var last = i == batch_len - 1
-                g4_result = self._forward_position(
-                    tokens, kv_cache, start_pos + i, gen_config,
-                    is_prefill or not last,
-                )
-            return g4_result
+            # Batched Gemma 4 prefill (S-041): Gemma4Block.forward_batched
+            # + forward_pass_gemma4_batched; AESIR_PREFILL_BATCH=1 keeps
+            # the per-token loop (batch_cap 1 never reaches this method
+            # from generate(), which falls back to _forward_position).
+            return forward_pass_gemma4_batched(
+                tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                self.gemma4_blocks,
+                start_pos,
+                batch_len,
+                is_prefill,
+                gen_config.temperature,
+                gen_config.top_k,
+                gen_config.top_p,
+                gen_config.repetition_penalty,
+            )
         if self.parser.config.architecture == "qwen35":
             return forward_pass_qwen35_batched(
                 tokens,
