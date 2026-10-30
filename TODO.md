@@ -4988,7 +4988,7 @@
   rank 707); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.196 the
+- [x] Slice4.196 the
   shared run-102 act
   at A 692 / B 694 in
   full ((791754384,
@@ -5007,6 +5007,27 @@
   376, 0), A-offset
   rank 0, B-offset
   rank 0); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.197 the
+  shared run-102 act
+  at A 695 / B 697 in
+  full ((262656,
+  24, 0), A-offset
+  rank 1, B-offset
+  rank 1); the
+  shared run-102 act
+  at A 696 / B 698 in
+  full ((262680,
+  24, 0), A-offset
+  rank 2, B-offset
+  rank 2); and the
+  shared run-102 act
+  at A 697 / B 699 in
+  full ((262704,
+  72, 0), A-offset
+  rank 3, B-offset
+  rank 3); then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
