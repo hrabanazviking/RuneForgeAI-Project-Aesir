@@ -4695,16 +4695,37 @@
   offset); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.181 the
+- [x] Slice4.181 the
   B-offset-order acts at
   ranks 743-746 in full
-  (B indices 26, 229, 272,
+  (all four B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 26, 229, 272,
   674); the A-only acts
   at A 745-747 in full
-  (including their A-offset
-  ranks); and the
-  A-offset-order acts at
-  ranks 744-748 in full;
+  (A-offset ranks
+  745-747, no B-side
+  counterpart or key);
+  and the A-offset-order
+  acts at ranks 744-748
+  in full (one shared
+  run-102 act at +2
+  followed by four A-only
+  acts closing both A
+  orders); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.182 the
+  three further B-only
+  acts inside 4.181's
+  B-index neighbourhoods
+  in full: the act at
+  B 27 (B-offset rank
+  726); the act at B 271
+  (B-offset rank 29);
+  and the act at B 671
+  (B-offset rank 689);
   then broad ordinary
   UNMODIFIED
   source-model support100%.

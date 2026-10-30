@@ -5274,3 +5274,27 @@ acts at A 745-747 in full; the A-offset-order
 acts at ranks 744-748 in full. Broad ordinary
 UNMODIFIED source-model support100% remains
 the destination.
+
+Slice 4.181 (AES-NUM-181) is complete. All
+four B-offset-order acts at ranks 743-746 are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A:
+rank 743 (B 26, (1196368696, 280, 2)), rank
+744 (B 229, (1196369408, 26128, 2)), rank 745
+(B 272, (1196396032, 14352, 1)) and rank 746
+(B 674, (1196410880, 32784, 2)). The three
+A-only acts at A 745-747 are A-offset ranks
+745-747, each once in A, nowhere in B, with
+no B-side counterpart or key. The
+A-offset-order acts at ranks 744-748 are one
+shared run-102 act at +2 (rank 744, A 744)
+followed by four A-only acts at A 745-748
+that close both A orders, with uniform +512
+steps and the (size, channel) sequence
+[(24, 0), (24, 1), (24, 2), (24, 0)]. Next:
+the three further B-only acts inside 4.181's
+B-index neighbourhoods in full — B 27
+(rank 726), B 271 (rank 29) and B 671
+(rank 689). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
