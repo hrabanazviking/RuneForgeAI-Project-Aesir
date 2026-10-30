@@ -5317,7 +5317,7 @@
   full; then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.212 the
+- [x] Slice4.212 the
   B-offset-order
   successors of the
   B tail in full:
@@ -5335,6 +5335,24 @@
   rank 728), with the
   B-offset-order run
   of ranks 721-728 in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.213 the
+  act at B 6 in
+  full ((1196182528,
+  24, 0), B-offset
+  rank 729); the
+  act at B 8 in
+  full ((1196183040,
+  32784, 1), B-offset
+  rank 730); and the
+  act at B 10 in
+  full ((1196216320,
+  7800, 2), B-offset
+  rank 731), with the
+  B-offset-order run
+  of ranks 729-736 in
   full; then broad
   ordinary UNMODIFIED
   source-model support100%.

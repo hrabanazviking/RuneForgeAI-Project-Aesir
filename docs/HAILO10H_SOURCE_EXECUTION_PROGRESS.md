@@ -6325,3 +6325,37 @@ with the B-offset-order run of ranks
 721–728 in full. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.212 (AES-NUM-212) is complete. The
+act (873198592, 24, 0) at B 1 occurs once
+on the B side only (B-offset rank 724),
+following the B tail act at B 749 in
+B-offset order with incoming gap
++73,144,832, outgoing gap +512 — NOT its
+own size. The act (873199104, 24, 1) at
+B 0 occurs once on the B side only (rank
+725), is the first act of context B in
+index order but follows B 1 in offset
+order (the pair reversed between the
+orders), outgoing +512. The act
+(873199616, 24, 2) at B 27 (rank 726)
+occurs once on the B side only, outgoing
++100,480,000 — NOT its own size. The act
+(1196182016, 24, 2) at B 5 (rank 728)
+occurs once on the B side only, incoming
++222,502,400 from B 750, outgoing +512.
+All four are B-only distinct, none in
+run 102, and the B-offset-order run of
+ranks 721–728 is eight consecutive
+B-only acts (B indices in rank order
+748, 747, 749, 1, 0, 27, 750, 5). The
+single launch finished DONE212, exit 0,
+err empty, and its first 55,713 prefix
+lines are identical to hef211.out (zero
+differing lines — the AES-NUM-150
+variance did not occur this run). Next:
+the acts at B 6, B 8 and B 10 in full,
+with the B-offset-order run of ranks
+729–736 in full. Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
