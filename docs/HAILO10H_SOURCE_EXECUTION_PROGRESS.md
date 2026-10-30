@@ -6289,3 +6289,39 @@ the tail ends A 746–748 / B 748–750 in
 full. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.211 (AES-NUM-211) is complete. The
+act (791779328, 24, 0) at A 745 occurs once
+on the A side only (A-offset rank 745), is
+not a member of run 102, and follows the
+last run-102 act at A 744 immediately in
+both A index order and A offset order, with
+outgoing gap +512 — NOT its own size. The
+act (791781888, 24, 0) at B 747 occurs once
+on the B side only (B-offset rank 722),
+follows the last run-102 act at B 746
+immediately in B index order but not in
+B offset order (predecessor (791781376,
+24, 1) at B 748, rank 721), with outgoing
+gap +8,271,872 — NOT its own size. The A
+tail (A 745–748) is consecutive in both
+orders with gaps +512, ending at A 748, the
+last act of context A in both orders; the
+B tail acts sit at B-offset ranks 721, 722,
+723 and 727, B 750 being the last act of
+context B in index order only. No tail act
+occurs on the other side at any index, and
+the two tails differ at every one of their
+four positions, although the channel
+sequence by tail position is (0, 1, 2, 0)
+on both. The single launch finished
+DONE211, exit 0, err empty, and exactly one
+of its 55,529 prefix lines differs from
+hef210r.out (frozenset element order only,
+the AES-NUM-150 variance). Next: the
+B-offset-order successors of the B tail in
+full — the acts at B 1, B 0, B 27 and B 5,
+with the B-offset-order run of ranks
+721–728 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

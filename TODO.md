@@ -5304,7 +5304,7 @@
   rank 34); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.211 the
+- [x] Slice4.211 the
   act at A 745 in
   full ((791779328,
   24, 0)); the
@@ -5314,6 +5314,27 @@
   tail ends
   A 746-748 /
   B 748-750 in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.212 the
+  B-offset-order
+  successors of the
+  B tail in full:
+  the act at B 1
+  ((873198592, 24, 0),
+  B-offset rank 724);
+  the act at B 0
+  ((873199104, 24, 1),
+  B-offset rank 725);
+  and the acts at
+  B 27 ((873199616,
+  24, 2), rank 726)
+  and B 5
+  ((1196182016, 24, 2),
+  rank 728), with the
+  B-offset-order run
+  of ranks 721-728 in
   full; then broad
   ordinary UNMODIFIED
   source-model support100%.
