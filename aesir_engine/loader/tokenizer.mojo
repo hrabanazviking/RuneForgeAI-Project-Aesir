@@ -44,6 +44,12 @@ struct RuneWeaver:
     var merge_count: Int
     var bpe_mode: Bool
     var special_spellings: List[String]
+    # tokenizer.ggml.model string ("gpt2", "llama", "gemma4", ...).
+    # Gemma 4 ships merges but is NOT GPT-2 byte-level BPE: its encode
+    # is merge-rank BPE over raw UTF-8 with space->marker replacement
+    # (see _encode_segment_gemma4), and decode must not apply the
+    # GPT-2 byte-map inversion (see decode).
+    var model_name: String
 
     def __init__(out self):
         self.vocab = List[String]()
@@ -61,6 +67,7 @@ struct RuneWeaver:
         self.merge_count = 0
         self.bpe_mode = False
         self.special_spellings = List[String]()
+        self.model_name = String("")
 
     def add_merge(mut self, raw_merge: String):
         """Records one GGUF BPE merge line; file order is the rank order."""
@@ -414,9 +421,48 @@ struct RuneWeaver:
             pieces = next_pieces.copy()
         return pieces.copy()
 
+    def _encode_segment_gemma4(self, text: String, mut tokens: List[Int]):
+        """Gemma 4 segment encode: raw UTF-8 symbols, spaces escaped to
+        the sentencepiece marker, then lowest-merge-rank pairing until
+        no pair remains in the merge table. Mirrors loader/
+        gemma4_tokenizer.mojo (the CUDA session's tokenizer) exactly:
+        callers split the text at newline boundaries first."""
+        var normalized = text.replace(" ", "▁")
+        if text.startswith("\n") and normalized in self.token_to_id:
+            tokens.append(self.token_to_id.get(normalized, self.unknown_token_id))
+            return
+        var pieces = List[String]()
+        self._append_utf8_symbols(normalized, pieces)
+        while len(pieces) > 1:
+            var best = -1
+            var best_rank = 2147483647
+            for index in range(len(pieces) - 1):
+                var pair = pieces[index] + " " + pieces[index + 1]
+                var rank = self.merge_ranks.get(pair, 2147483647)
+                if rank < best_rank:
+                    best = index
+                    best_rank = rank
+            if best < 0:
+                break
+            var merged = String(pieces[best]) + String(pieces[best + 1])
+            pieces[best] = merged
+            _ = pieces.pop(best + 1)
+        for piece in pieces:
+            self._append_piece_tokens(piece, tokens)
+
     def _encode_segment(self, segment: String, mut tokens: List[Int]):
         """Encodes one special-token-free text segment into tokens."""
         if len(segment.as_bytes()) == 0:
+            return
+        if self.model_name == "gemma4":
+            var raw = segment.as_bytes()
+            var start = 0
+            for i in range(1, len(raw)):
+                if (raw[i] == 10) != (raw[i - 1] == 10):
+                    self._encode_segment_gemma4(String(segment[byte=start:i]), tokens)
+                    start = i
+            if start < len(raw):
+                self._encode_segment_gemma4(String(segment[byte=start:len(raw)]), tokens)
             return
         if self.bpe_mode:
             var bpieces = self._initial_pieces_bpe(segment)
@@ -561,6 +607,10 @@ struct RuneWeaver:
             return String("\n")
         if value.startswith("<0x") and value.endswith(">"):
             return String("")
+        if self.model_name == "gemma4":
+            # Gemma 4 token spellings are raw UTF-8 with the space
+            # marker already replaced above; no byte-map inversion.
+            return value
         if self.bpe_mode:
             # Full GPT-2 byte-map inversion: each codepoint of the token
             # string maps back to exactly one original byte (see

@@ -3,7 +3,7 @@
 
 from std.math import max, min
 from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTopology, NPUBackendType, GPURealmType, f16, f32
-from core.inference import forward_pass, forward_pass_batched, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35, forward_pass_qwen35_batched
+from core.inference import forward_pass, forward_pass_batched, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35, forward_pass_qwen35_batched, Gemma4Block, forward_pass_gemma4
 from core.parallel import _env_int
 from core.sampler import RuneRNG, sample_token_from_logits
 from core.session import SessionContext, SessionManager
@@ -269,6 +269,7 @@ struct AesirEngine:
     var topology: DeviceTopology
     var blocks: List[TransformerBlock]
     var qwen35_blocks: List[Qwen35Block]
+    var gemma4_blocks: List[Gemma4Block]
     var qwen35_state: Qwen35State
     var enable_npu: Bool
     var target_backend: NPUBackendType
@@ -337,7 +338,7 @@ struct AesirEngine:
         self.image_span_width = 0
 
         self.blocks = List[TransformerBlock]()
-        if self.parser.config.architecture != "qwen35":
+        if self.parser.config.architecture != "qwen35" and self.parser.config.architecture != "gemma4":
             for layer_idx in range(self.parser.config.block_count):
                 self.blocks.append(
                     TransformerBlock(
@@ -368,6 +369,14 @@ struct AesirEngine:
                 self.parser.config.block_count
                 - self.parser.config.block_count // fai
             )
+        # Gemma 4 (S-039): dedicated CPU blocks (shared-KV, dual head
+        # dims, PLE); the generic TransformerBlock list stays empty.
+        self.gemma4_blocks = List[Gemma4Block]()
+        if self.parser.config.architecture == "gemma4":
+            for layer_idx in range(self.parser.config.block_count):
+                self.gemma4_blocks.append(
+                    Gemma4Block(layer_idx, self.parser)
+                )
         self.qwen35_state = Qwen35State(
             qwen35_ssm_layers,
             self.parser.config.ssm_group_count,
@@ -389,6 +398,20 @@ struct AesirEngine:
         other arch uses the standard transformer forward pass."""
         if self.image_span_start >= 0 and self.parser.config.architecture == "qwen35":
             raise Error("image span override is not supported on the qwen35 path")
+        if self.parser.config.architecture == "gemma4":
+            return forward_pass_gemma4(
+                tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                self.gemma4_blocks,
+                pos,
+                gen_config.temperature,
+                gen_config.top_k,
+                gen_config.top_p,
+                gen_config.repetition_penalty,
+                is_prefill,
+            )
         if self.parser.config.architecture == "qwen35":
             return forward_pass_qwen35(
                 tokens,
@@ -472,6 +495,18 @@ struct AesirEngine:
         position."""
         if self.image_span_start >= 0 and self.parser.config.architecture == "qwen35":
             raise Error("image span override is not supported on the qwen35 path")
+        if self.parser.config.architecture == "gemma4":
+            # Per-token loop over the chunk: Gemma4Block is single-row
+            # by design in this slice; positions before the last run
+            # as pure prefill, the last carries the chunk's is_prefill.
+            var g4_result = 0
+            for i in range(batch_len):
+                var last = i == batch_len - 1
+                g4_result = self._forward_position(
+                    tokens, kv_cache, start_pos + i, gen_config,
+                    is_prefill or not last,
+                )
+            return g4_result
         if self.parser.config.architecture == "qwen35":
             return forward_pass_qwen35_batched(
                 tokens,

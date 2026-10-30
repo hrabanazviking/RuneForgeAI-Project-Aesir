@@ -118,6 +118,15 @@ struct GGUFModelConfig(Copyable):
     var ssm_time_step_rank: Int
     var ssm_inner_size: Int
     var full_attention_interval: Int
+    # Gemma 4 (S-039): dual head dims, shared-KV and per-layer inputs.
+    # Flat fields above describe the GLOBAL geometry (head_dim_override
+    # comes from attention.key_length); these carry the local/SWA side.
+    var head_dim_swa: Int
+    var rope_freq_base_swa: Float32
+    var shared_kv_layers: Int
+    var per_layer_input_length: Int
+    var sliding_window_pattern_mask: UInt64
+    var sliding_window_pattern_count: Int
 
     def __init__(out self):
         self.architecture = ""
@@ -147,6 +156,12 @@ struct GGUFModelConfig(Copyable):
         self.ssm_time_step_rank = 0
         self.ssm_inner_size = 0
         self.full_attention_interval = 4
+        self.head_dim_swa = 0
+        self.rope_freq_base_swa = 0.0
+        self.shared_kv_layers = 0
+        self.per_layer_input_length = 0
+        self.sliding_window_pattern_mask = UInt64(0)
+        self.sliding_window_pattern_count = 0
 
     def __copyinit__(out self, existing: Self):
         self.architecture = String(existing.architecture)
@@ -176,6 +191,12 @@ struct GGUFModelConfig(Copyable):
         self.ssm_time_step_rank = existing.ssm_time_step_rank
         self.ssm_inner_size = existing.ssm_inner_size
         self.full_attention_interval = existing.full_attention_interval
+        self.head_dim_swa = existing.head_dim_swa
+        self.rope_freq_base_swa = existing.rope_freq_base_swa
+        self.shared_kv_layers = existing.shared_kv_layers
+        self.per_layer_input_length = existing.per_layer_input_length
+        self.sliding_window_pattern_mask = existing.sliding_window_pattern_mask
+        self.sliding_window_pattern_count = existing.sliding_window_pattern_count
 
     def head_dim(self) -> Int:
         if self.head_dim_override > 0:
@@ -186,6 +207,32 @@ struct GGUFModelConfig(Copyable):
 
     def kv_dim(self) -> Int:
         return self.head_dim() * self.head_count_kv
+
+    def gemma4_is_local(self, layer: Int) -> Bool:
+        """True when layer uses sliding-window (local) attention, from
+        the parsed sliding_window_pattern bitmask (bit set = local)."""
+        if layer < 0 or layer >= self.sliding_window_pattern_count:
+            return False
+        return ((self.sliding_window_pattern_mask >> UInt64(layer)) & UInt64(1)) == UInt64(1)
+
+    def gemma4_head_dim(self, layer: Int) -> Int:
+        return self.head_dim_swa if self.gemma4_is_local(layer) else self.head_dim()
+
+    def gemma4_owns_kv(self, layer: Int) -> Bool:
+        return layer < self.block_count - self.shared_kv_layers
+
+    def gemma4_kv_layer(self, layer: Int) -> Int:
+        """Owning layer whose KV a (possibly shared) layer reads: the
+        last owning local layer for local layers, the last owning
+        global layer for global layers (E2B: 13 / 14)."""
+        if self.gemma4_owns_kv(layer):
+            return layer
+        var want_local = self.gemma4_is_local(layer)
+        var best = layer
+        for cand in range(self.block_count - self.shared_kv_layers):
+            if self.gemma4_is_local(cand) == want_local:
+                best = cand
+        return best
 
     def validate(mut self) raises:
         if len(self.architecture.as_bytes()) == 0:
@@ -450,6 +497,23 @@ struct GGUFSeer:
             if value_type != 9:
                 raise Error("tokenizer.ggml.merges is not an array")
             return self._parse_merge_array(offset, tokenizer)
+        if key.endswith(".attention.sliding_window_pattern"):
+            if value_type != 9:
+                raise Error("sliding_window_pattern is not an array")
+            var pat_elem = self._read_u32(offset)
+            if pat_elem != 7:
+                raise Error("sliding_window_pattern must hold BOOL values")
+            var pat_count = Int(self._read_u64(offset + 4))
+            if pat_count < 0 or pat_count > 64:
+                raise Error("sliding_window_pattern length out of range")
+            self._require_range(offset + 12, pat_count)
+            var mask = UInt64(0)
+            for li in range(pat_count):
+                if self.mmap_ptr.unsafe_load(offset + 12 + li) != 0:
+                    mask |= UInt64(1) << UInt64(li)
+            self.config.sliding_window_pattern_mask = mask
+            self.config.sliding_window_pattern_count = pat_count
+            return offset + 12 + pat_count
         # Some architectures (gemma4) store per-layer configuration as an
         # ARRAY of the scalar type (e.g. feed_forward_length has one entry
         # per layer). The flat config takes element 0; architectures that
@@ -489,7 +553,7 @@ struct GGUFSeer:
             self.config.feed_forward_length = widest
             return cursor
         var expected_type = UInt32(4294967295)
-        if key == "general.architecture":
+        if key == "general.architecture" or key == "tokenizer.ggml.model":
             expected_type = 8
         elif (
             key.endswith(".context_length")
@@ -501,6 +565,9 @@ struct GGUFSeer:
             or key.endswith(".attention.head_count_kv")
             or key.endswith(".rope.dimension_count")
             or key.endswith(".attention.sliding_window")
+            or key.endswith(".attention.key_length_swa")
+            or key.endswith(".attention.shared_kv_layers")
+            or key.endswith(".embedding_length_per_layer_input")
             or key.endswith(".ssm.conv_kernel")
             or key.endswith(".ssm.state_size")
             or key.endswith(".ssm.group_count")
@@ -515,6 +582,7 @@ struct GGUFSeer:
             expected_type = 4
         elif (
             key.endswith(".rope.freq_base")
+            or key.endswith(".rope.freq_base_swa")
             or key.endswith(".attention.layer_norm_rms_epsilon")
             or key.endswith(".embedding_scale")
             or key.endswith(".attention.scale")
@@ -567,6 +635,16 @@ struct GGUFSeer:
             self.config.final_logit_softcapping = self._read_f32(scalar_offset)
         elif key.endswith(".attention.sliding_window") and scalar_type == 4:
             self.config.sliding_window = Int(self._read_u32(scalar_offset))
+        elif key == "tokenizer.ggml.model" and scalar_type == 8:
+            tokenizer.model_name = self._read_string(scalar_offset)
+        elif key.endswith(".attention.key_length_swa") and scalar_type == 4:
+            self.config.head_dim_swa = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".rope.freq_base_swa") and scalar_type == 6:
+            self.config.rope_freq_base_swa = self._read_f32(scalar_offset)
+        elif key.endswith(".attention.shared_kv_layers") and scalar_type == 4:
+            self.config.shared_kv_layers = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".embedding_length_per_layer_input") and scalar_type == 4:
+            self.config.per_layer_input_length = Int(self._read_u32(scalar_offset))
         elif key.endswith(".ssm.conv_kernel") and scalar_type == 4:
             self.config.ssm_conv_kernel = Int(self._read_u32(scalar_offset))
         elif key.endswith(".ssm.state_size") and scalar_type == 4:
@@ -958,6 +1036,9 @@ struct GGUFSeer:
         if self.config.architecture == "qwen35":
             self._validate_qwen35_tensors()
             return
+        if self.config.architecture == "gemma4":
+            self._validate_gemma4_tensors()
+            return
         var required = List[String]()
         required.append("token_embd.weight")
         required.append("output_norm.weight")
@@ -1019,6 +1100,103 @@ struct GGUFSeer:
             )
             self._require_tensor_shape(
                 prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
+            )
+
+
+    def _validate_gemma4_tensors(mut self) raises:
+        """Layer-aware validation for Gemma 4 (S-039).
+
+        Gemma 4 breaks the flat required-tensor assumptions three ways:
+        shared-KV layers (the last `shared_kv_layers` layers carry no
+        attn_k/attn_v tensors of their own), dual head dims (global
+        512 vs sliding-window 256, per the sliding_window_pattern), and
+        per-layer feed-forward widths. Shapes are therefore checked
+        relationally, from each layer's own tensors: q width from
+        attn_q, FFN width from ffn_gate, KV only on owning layers.
+        Plus the global per-layer-input (PLE) tensors."""
+        var hidden = self.config.embedding_length
+        var heads = self.config.head_count
+        var kv_heads = self.config.head_count_kv
+        var layers = self.config.block_count
+        if self.config.shared_kv_layers <= 0 or self.config.shared_kv_layers >= layers:
+            raise Error("GGUF gemma4 shared_kv_layers metadata is incomplete")
+        if self.config.head_dim_swa <= 0 or self.config.per_layer_input_length <= 0:
+            raise Error("GGUF gemma4 SWA / per-layer-input metadata is incomplete")
+        if self.config.sliding_window_pattern_count != layers:
+            raise Error("GGUF gemma4 sliding_window_pattern does not cover every layer")
+        var vocab = self.tensors["token_embd.weight"].rows
+        self._require_tensor_shape(
+            "token_embd.weight", vocab, hidden, GGMLType.F16
+        )
+        self._require_tensor_shape(
+            "output_norm.weight", 1, hidden, GGMLType.F32
+        )
+        self._require_tensor_shape(
+            "output.weight", vocab, hidden, GGMLType.F16
+        )
+        var ple_width = layers * self.config.per_layer_input_length
+        self._require_tensor_shape(
+            "per_layer_token_embd.weight", vocab, ple_width, GGMLType.F16
+        )
+        self._require_tensor_shape(
+            "per_layer_model_proj.weight", ple_width, hidden, GGMLType.F16
+        )
+        self._require_tensor_shape(
+            "per_layer_proj_norm.weight", 1, self.config.per_layer_input_length, GGMLType.F32
+        )
+        self._require_tensor_shape(
+            "rope_freqs.weight", 1, self.config.head_dim() // 2, GGMLType.F32
+        )
+        for layer_index in range(layers):
+            var prefix = String("blk.") + String(layer_index) + String(".")
+            var head_dim = self.config.gemma4_head_dim(layer_index)
+            var q_width = heads * head_dim
+            self._require_tensor_shape(
+                prefix + "attn_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "attn_q.weight", q_width, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_q_norm.weight", 1, head_dim, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "attn_output.weight", hidden, q_width, GGMLType.F16
+            )
+            if self.config.gemma4_owns_kv(layer_index):
+                var kv_width = kv_heads * head_dim
+                self._require_tensor_shape(
+                    prefix + "attn_k.weight", kv_width, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_v.weight", kv_width, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_k_norm.weight", 1, head_dim, GGMLType.F32
+                )
+            for norm_name in ["post_attention_norm.weight", "ffn_norm.weight", "post_ffw_norm.weight", "post_norm.weight"]:
+                self._require_tensor_shape(
+                    prefix + norm_name, 1, hidden, GGMLType.F32
+                )
+            var ffn = self.tensors[prefix + "ffn_gate.weight"].rows
+            self._require_tensor_shape(
+                prefix + "ffn_gate.weight", ffn, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_up.weight", ffn, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
+            )
+            var ple = self.config.per_layer_input_length
+            self._require_tensor_shape(
+                prefix + "inp_gate.weight", ple, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "proj.weight", hidden, ple, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "layer_output_scale.weight", 1, 1, GGMLType.F32
             )
 
     def _validate_qwen35_tensors(mut self) raises:
