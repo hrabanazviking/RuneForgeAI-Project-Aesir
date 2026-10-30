@@ -1321,24 +1321,64 @@ def _gemm_k_fast_range(
                     # bytes, 12 packed scale bytes, d at p+108. Scale is
                     # per 16-value sub-block; q = low - 4 + 4*high_set
                     # reproduces packed_value's recentered values.
+                    # S-042: the sixteen sub-block coefficients and the
+                    # six distinct packed vectors (4 qs + 2 hmask) are
+                    # hoisted out of the sub-block loop; the loop used
+                    # to reload each qs/hmask vector four times and
+                    # re-derive each scale with div/mod plus repeated
+                    # byte loads (32 scalar loads for 12 header bytes).
+                    # Per-element arithmetic is unchanged: coef[c] is
+                    # the identical d * Float32(scale) product and each
+                    # lane still forms coef * (low - 4 + 4*high) from
+                    # the same packed fields, so the decoded scratch
+                    # row is bit-identical to the loop form.
                     var d = weights.unsafe_offset(p + 108).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+                    var sb0 = Int(weights.unsafe_load(p + 96))
+                    var sb1 = Int(weights.unsafe_load(p + 97))
+                    var sb2 = Int(weights.unsafe_load(p + 98))
+                    var sb3 = Int(weights.unsafe_load(p + 99))
+                    var sb4 = Int(weights.unsafe_load(p + 100))
+                    var sb5 = Int(weights.unsafe_load(p + 101))
+                    var sb6 = Int(weights.unsafe_load(p + 102))
+                    var sb7 = Int(weights.unsafe_load(p + 103))
+                    var ab0 = Int(weights.unsafe_load(p + 104))
+                    var ab1 = Int(weights.unsafe_load(p + 105))
+                    var ab2 = Int(weights.unsafe_load(p + 106))
+                    var ab3 = Int(weights.unsafe_load(p + 107))
+                    var coef = InlineArray[Float32, 16](uninitialized=True)
+                    coef[0] = d * Float32(((sb0 & 15) | (((ab0 >> 0) & 3) << 4)) - 32)
+                    coef[1] = d * Float32(((sb1 & 15) | (((ab1 >> 0) & 3) << 4)) - 32)
+                    coef[2] = d * Float32(((sb2 & 15) | (((ab2 >> 0) & 3) << 4)) - 32)
+                    coef[3] = d * Float32(((sb3 & 15) | (((ab3 >> 0) & 3) << 4)) - 32)
+                    coef[4] = d * Float32(((sb4 & 15) | (((ab0 >> 2) & 3) << 4)) - 32)
+                    coef[5] = d * Float32(((sb5 & 15) | (((ab1 >> 2) & 3) << 4)) - 32)
+                    coef[6] = d * Float32(((sb6 & 15) | (((ab2 >> 2) & 3) << 4)) - 32)
+                    coef[7] = d * Float32(((sb7 & 15) | (((ab3 >> 2) & 3) << 4)) - 32)
+                    coef[8] = d * Float32(((sb0 >> 4) | (((ab0 >> 4) & 3) << 4)) - 32)
+                    coef[9] = d * Float32(((sb1 >> 4) | (((ab1 >> 4) & 3) << 4)) - 32)
+                    coef[10] = d * Float32(((sb2 >> 4) | (((ab2 >> 4) & 3) << 4)) - 32)
+                    coef[11] = d * Float32(((sb3 >> 4) | (((ab3 >> 4) & 3) << 4)) - 32)
+                    coef[12] = d * Float32(((sb4 >> 4) | (((ab0 >> 6) & 3) << 4)) - 32)
+                    coef[13] = d * Float32(((sb5 >> 4) | (((ab1 >> 6) & 3) << 4)) - 32)
+                    coef[14] = d * Float32(((sb6 >> 4) | (((ab2 >> 6) & 3) << 4)) - 32)
+                    coef[15] = d * Float32(((sb7 >> 4) | (((ab3 >> 6) & 3) << 4)) - 32)
+                    var qvs = InlineArray[SIMD[DType.uint8, 16], 4](uninitialized=True)
+                    qvs[0] = weights.unsafe_load[width=16](p + 32)
+                    qvs[1] = weights.unsafe_load[width=16](p + 48)
+                    qvs[2] = weights.unsafe_load[width=16](p + 64)
+                    qvs[3] = weights.unsafe_load[width=16](p + 80)
+                    var hvs = InlineArray[SIMD[DType.uint8, 16], 2](uninitialized=True)
+                    hvs[0] = weights.unsafe_load[width=16](p)
+                    hvs[1] = weights.unsafe_load[width=16](p + 16)
                     for c in range(16):
-                        var low_scale: Int
-                        if c < 8:
-                            low_scale = Int(weights.unsafe_load(p + 96 + c)) & 15
-                        else:
-                            low_scale = Int(weights.unsafe_load(p + 96 + c - 8)) >> 4
-                        var high_scale = (Int(weights.unsafe_load(p + 104 + c % 4)) >> (2 * (c // 4))) & 3
-                        var scale = (low_scale | (high_scale << 4)) - 32
-                        var coef = d * Float32(scale)
                         var half = c // 8
                         var group = (c % 8) // 2
                         var lg = c % 2
-                        var qb = weights.unsafe_load[width=16](p + 32 + half * 32 + lg * 16)
+                        var qb = qvs[half * 2 + lg]
                         var low = ((qb >> UInt8(2 * group)) & UInt8(3)).cast[f32]()
-                        var hb = weights.unsafe_load[width=16](p + lg * 16)
+                        var hb = hvs[lg]
                         var high = ((hb >> UInt8(group + half * 4)) & UInt8(1)).cast[f32]()
-                        sp.unsafe_store[width=16](c * 16, coef * (low - Float32(4.0) + Float32(4.0) * high))
+                        sp.unsafe_store[width=16](c * 16, coef[c] * (low - Float32(4.0) + Float32(4.0) * high))
                 else:
                     # Q2_K super-block (kind 10): 16 scale/min bytes (one
                     # per 16-value sub-block), 64 packed 2-bit bytes,
