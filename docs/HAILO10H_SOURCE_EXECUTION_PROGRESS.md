@@ -5013,3 +5013,29 @@ match-distance census; the heads' offset-difference
 family structure; runs 70 and 71. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+
+Slice 4.170 (AES-NUM-170) is complete. The 31
+pairs' delta match-distance census closes the
+±3 window: 21 pairs match at distance 0, the
+two +174 exceptions match at distance 1 (run
+7), distances 2 and 3 occur zero times, and
+the other eight exceptions match no run in
+the window. Match distance is a function of
+nothing tested. The heads' offset differences
+partition positions 0-27 into three exact
+families (9 shared at 0, three 873-based,
+sixteen 417-based); the 417-family is not
+monotone, its diff is a function of no size
+or channel field, and its position-16 outlier
+is an A-side offset dip (B steps smoothly
++376/+24 while A drops -100,392 then rises
++100,864). The three 873 B offsets span
+exactly 1,024 in +512 steps. Runs 70 (+4
+triple) and 71 (-238 triple) are each one
+contiguous B block. Next: the unbounded
+match-distance census for the eight NONE
+pairs; the 417-family equal-diff pairing
+structure and A-offset ordering; runs 72
+and 73. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

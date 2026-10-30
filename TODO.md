@@ -4502,7 +4502,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.170 the 31
+- [x] Slice4.170 the 31
   pairs' delta match-distance
   census (smallest run-order
   distance at which a run
@@ -4521,6 +4521,22 @@
   71 in full; then broad
   ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.171 the unbounded
+  delta match-distance census
+  for the eight NONE pairs
+  (smallest distance over the
+  full run table; every run
+  whose shift equals their
+  delta); the 417-family
+  equal-diff pairing structure
+  and the A-offset ordering
+  of its positions (the
+  position-16 A offset against
+  every other head A offset);
+  and runs 72 and 73 in full;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
