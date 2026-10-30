@@ -4466,7 +4466,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.168 the channel-
+- [x] Slice4.168 the channel-
   disagreement correspondence
   across both full contexts
   (every A-only and B-only
@@ -4483,6 +4483,23 @@
   in the widened rows in
   full); and runs 63 and 64
   in full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.169 the 31
+  correspondence pairs'
+  position-delta law against
+  neighbouring secondary-run
+  shifts recomputed directly
+  (the 10 exceptions in
+  full); the unmatched
+  residue's head-sequence
+  relation (both heads aligned
+  by position in full; the
+  position-13 32,728/32,768
+  split; offset differences
+  at agreeing positions); and
+  runs 68 and 69 in full;
+  then broad ordinary
   UNMODIFIED source-model
   support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

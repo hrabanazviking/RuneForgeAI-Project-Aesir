@@ -4959,3 +4959,31 @@ correspondence across both full contexts; the
 per-ordered-cell-pair FUNCTION pattern; runs 63
 and 64. Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.168 (AES-NUM-168) is complete. The
+channel-disagreement correspondence across both
+full contexts covers exactly 31 of the 122
+context-only distinct acts: every both-side
+(offset, size) key is 1-1, the channels differ at
+all 31 pairs (equal channels 0; census (0, 1) 12,
+(1, 0) 6, (1, 2) 7, (2, 0) 6 — no constant
+remapping), and the position deltas equal a
+neighbouring secondary-run shift in 21 of 31
+pairs with 10 exceptions, so no position law is
+proven. The unmatched residue (29 A-only, 31
+B-only acts) shares no key at all. No tested
+feature explains the great group's per-ordered-
+pair FUNCTION pattern (all 17 candidates fail on
+both sides and combined; verdict counts reproduce
+AES-NUM-167 exactly), but the verdict is
+direction-symmetric in 28 of 28 unordered pairs
+on both sides, and the never-contradicted keys
+-191/-145 never recur on the aval side outside
+the original pair's own rows. Runs 63 (-154 pair
+at B 344-345) and 64 (+23 singleton at B 523) are
+each one contiguous B block. Next: the 31 pairs'
+position-delta law recomputed directly with the
+10 exceptions in full; the unmatched heads'
+sequence relation; runs 68 and 69. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
