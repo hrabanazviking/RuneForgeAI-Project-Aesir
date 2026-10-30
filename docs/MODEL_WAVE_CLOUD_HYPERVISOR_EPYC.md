@@ -605,3 +605,50 @@ Part II closes with S-049 (this completion of the campaign record).
 S-046 remains BLOCKED-WITH-REASON in parallel. Next in roadmap order:
 S-050 (full suites on the wave tree; counted run green; battery
 green).
+
+---
+
+## Part II retrospective (2026-10-30, roadmap-204 S-053)
+
+Durable lessons from the Part II continuation (S-025..S-052), extracted under
+the Forge Protocol's self-improving step. Full text:
+`wave/S053_RETROSPECTIVE.md` in the campaign workspace and the "Project Aesir
+wave lessons" section of the workspace AGENTS.md.
+
+1. Raw-oracle discipline only: never judge the engine against
+   `llama-cli --single-turn` (template-rendered prompts are a different
+   input — the trap behind Zen's wave-era "root cause #2"). Grade by
+   teacher-forcing rank + logit gap on the raw prompt; record the oracle
+   backend per row; CPU engine vs CPU comparator only.
+2. Comparator artifacts are a verdict class: template rendering, BOS
+   rendering, backend mismatch, and prompt-boundary step-0 effects fake
+   divergences in neither engine's maths (S-048 court D-02/D-05/D-10/D-12).
+3. IQ1_S token-exact parity is NOT PROVEN BY CONSTRUCTION: ggml's own CPU
+   and CUDA IQ1_S kernels disagree with each other (S-029); the honest
+   successor is coherence grading + the near-tie band (rank ≤2, sub-logit
+   gap = faithful), road S-095.
+4. Scalar dequant decode dominates single-row GEMM cost: the S-030 width-16
+   SIMD IQ decode (7859deea) gave ~3× with numerics proven unchanged three
+   ways; batched prefill bought only ~1.4×. The same scalar pocket in
+   `gemm_q8_0` is the proven Coder-7B Q8_0 speed defect (road S-150) — never
+   cite Q8_0 walls as a baseline until it is fixed.
+5. A visible CUDA device changes test behaviour: the counted run hangs at
+   the F009 case because the CUDAGate launch neither returns nor raises on
+   the RTX 2060, so the SIMD fallback never engages (S-050; commissioned to
+   S-054, road = GPU line). Suites run with `CUDA_VISIBLE_DEVICES=` say so,
+   and a run at VRAM 1 MiB is a CPU run and is recorded as one.
+6. Launch method fakes failures: a backgrounded battery launch inherits
+   SIGINT ignored and breaks interruption tests (S-050 step 22). Check the
+   harness before filing a code defect.
+7. Machines are decoupled (size/rung sweeps on the laptop; the VM behind
+   its MemAvailable >5,500 MB gate), one heavy run at a time per box, and
+   walls measured under contention are not baselines — where ids agree and
+   walls differ, it is contention (D-14).
+8. Trust only disk: every number from files, git objects, or catalog
+   listings; every model sha256-pinned before it runs. If the wave store
+   vanishes, re-fetch + re-register from the HF pins kept in the campaign
+   recon directory (proven road, S-026).
+9. Bank incrementally by explicit refspec with ls-remote verification, so
+   the ship slice is a behind_by=0 audit, not a merge event (S-051). Every
+   divergence gets a written verdict class or a named road with re-open
+   criteria — no unexplained rows (S-048).
