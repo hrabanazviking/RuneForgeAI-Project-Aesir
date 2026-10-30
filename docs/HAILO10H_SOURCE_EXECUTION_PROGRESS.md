@@ -5039,3 +5039,28 @@ structure and A-offset ordering; runs 72
 and 73. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+
+Slice 4.171 (AES-NUM-171) is complete. The
+unbounded match-distance census over the full
+103-run table resolves six of the eight NONE
+pairs (+170 matches only run 13 at distance 7;
++30 only run 35 at distance 42; the delta-0
+pair at A 651 matches run 74 at distance 11)
+and proves the −205 and −212 deltas are shifts
+of no run anywhere (NEVER). Unbounded match
+distance is a function of nothing tested. The
+417-family's equal-diff pairing is exactly its
+adjacent pairing (four pairs, no non-adjacent
+equal diffs; each pair's A and B steps both
+equal its first member's size), and its
+A-offset ordering departs from position order
+in exactly eight reversals, seven of them
+position 16's; position 16's A offset ranks
+second-lowest of all 28 head A offsets. Runs
+72 (+93 singleton) and 73 (−239 singleton) are
+each one contiguous B block. Next: the full
+run-table shift census against the 31 pair
+deltas; the 417-family A-offset ordering with
+position 16 removed; runs 74 and 75. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.

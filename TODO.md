@@ -4521,7 +4521,7 @@
   71 in full; then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.171 the unbounded
+- [x] Slice4.171 the unbounded
   delta match-distance census
   for the eight NONE pairs
   (smallest distance over the
@@ -4535,6 +4535,19 @@
   every other head A offset);
   and runs 72 and 73 in full;
   then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [ ] Slice4.172 the full
+  run-table shift census
+  against the 31 pair deltas
+  (every distinct shift with
+  its runs; the NEVER deltas
+  -205/-212 in full); the
+  417-family A-offset ordering
+  with position 16 removed
+  and the (5, 6) reversal in
+  full; and runs 74 and 75
+  in full; then broad ordinary
   UNMODIFIED source-model
   support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
