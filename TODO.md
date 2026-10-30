@@ -5285,7 +5285,7 @@
   then broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.210 the
+- [x] Slice4.210 the
   A-only run-102 act
   at A 734 in
   full ((791777280,
@@ -5302,6 +5302,19 @@
   24, 0), A-offset
   rank 33, B-offset
   rank 34); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.211 the
+  act at A 745 in
+  full ((791779328,
+  24, 0)); the
+  act at B 747 in
+  full ((791781888,
+  24, 0)); and the
+  tail ends
+  A 746-748 /
+  B 748-750 in
+  full; then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection

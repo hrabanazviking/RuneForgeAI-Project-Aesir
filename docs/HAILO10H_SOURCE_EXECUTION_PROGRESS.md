@@ -6254,3 +6254,38 @@ in full, and the shared resync act at
 A 737 / B 739 in full. Broad
 ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.210 (AES-NUM-210) is complete. The
+A-only act (791777280, 24, 1)
+at A 734 occurs once on the A side only
+(A-offset rank 741), following
+the divergent act at A 733 immediately in both
+A index order and A offset order, with
+outgoing gap +512 — NOT its own size. The
+B-only act (1196444672, 24, 1) at B 736
+occurs once on the B side only (B-offset
+rank 748), following the divergent act
+at B 735 immediately in both B index
+order and B offset order, with
+outgoing gap +512 — NOT its own size. The
+shared act (768609280, 24, 0) at A 737 /
+B 739 (offset rank 33 / 34) is the
+fifty-first act of run 102 in full, and the
+two index orders resync at it for exactly
+eight acts — run-102 members 51–58, ending
+at the last run-102 act — after which the
+tails of the two lists (A 745–748 /
+B 747–750) differ at every remaining
+position. The first launch crashed on a
+worker-authored out-of-range window in the
+new section only and was closed; the retry
+under its own published contract finished
+DONE210r, exit 0, err empty, and exactly
+two of its 55,401 prefix lines differ from
+hef209.out (frozenset element order only,
+the AES-NUM-150 variance). Next: the act
+at A 745 and the act at B 747 in full, and
+the tail ends A 746–748 / B 748–750 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
