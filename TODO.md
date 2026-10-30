@@ -4408,7 +4408,7 @@
   then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.165 the above-
+- [x] Slice4.165 the above-
   boundary population's
   B-position structure in
   full (the 30 acts in
@@ -4426,6 +4426,27 @@
   47/48 in full; then broad
   ordinary UNMODIFIED
   source-model support100%.
+- [ ] Slice4.166 the above
+  population's B-position /
+  offset-rank order relation
+  in full (every adjacent
+  pair in B-position order
+  with its rank delta; the
+  873M triple and the
+  ceiling pair reversals
+  against their full B
+  neighbourhoods); the
+  byte3-difference
+  confinement against the
+  matched pairs' remaining
+  byte fields (byte0-byte2
+  values and matched
+  differences, each side,
+  each cell); and runs
+  42/53/60 and 61/62 in
+  full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons

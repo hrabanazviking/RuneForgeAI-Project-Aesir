@@ -4866,3 +4866,38 @@ structure; the byte3 confinement against the
 remaining companions; runs 43/44/45 and 47/48.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.165 (AES-NUM-165) is complete. The
+above-boundary population's B-position structure
+is a dense head-and-tail interleaving: 19 of the
+30 above acts sit in the B 0-27 head window,
+whose other 9 positions are exactly shared run-0
+acts in place at shift +0 and nothing else; the
+main block's 23 acts are strictly increasing in
+offset rank with B position (B 5 rank 728 to
+B 738 rank 750); three outliers at B 229/272/674
+and the B 735-738 / 747-750 tail segments
+complete it, in 13 B-position segments with
+4 isolated acts. The only offset-order reversals
+in B position are the 873M ladder triple
+(B 1/0/27) and the just-past-ceiling pair
+(B 748/747). The matched-pair byte3 difference
+confined to {14, 15, 16} is a function of no
+non-trivial remaining companion: every single
+byte3 value, poscat, status, within-pair byte3
+difference and byte3-of-diff byte fails on both
+sides, the two sides' diffs are equal in only
+12 of 27, and the only FUNCTION verdicts are
+the definitional and trivial ones - the
+determinant stays NOT PROVEN. Runs 43 and 48
+are each +32 PAIRS (A 399-400 and A 407-408,
+correcting 4.164's abbreviated prose), runs
+44 (+239) and 45 (+275, landing inside the
+B 674 outlier window) are singletons, run 47
+is a +2 pair, and run 46's whole A window
+resolves into six contiguous-B runs. Next: the
+B-position / offset-rank order relation in
+full; the byte3 confinement against the
+remaining byte fields; runs 42/53/60 and 61/62.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
