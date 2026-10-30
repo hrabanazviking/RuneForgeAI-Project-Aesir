@@ -4736,7 +4736,7 @@
   broad ordinary
   UNMODIFIED
   source-model support100%.
-- [ ] Slice4.183 the
+- [x] Slice4.183 the
   two other acts of
   B 27's offset triplet
   in full (B 1 rank 724;
@@ -4754,6 +4754,26 @@
   at A 671 / B 280);
   then broad ordinary
   UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.184 the
+  B-only act at B 392
+  in full ((791266816,
+  32784, 2), B-offset
+  rank 693, its key
+  held on the A side
+  by A 675 on channel
+  1); the two B-only
+  acts at B 5 (rank
+  728) and B 6 (rank
+  729) in full; and
+  the shared run-94
+  act following the
+  run-93 act in both
+  offset orders in
+  full ((791173632,
+  32784, 0) at A 672 /
+  B 673); then broad
+  ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

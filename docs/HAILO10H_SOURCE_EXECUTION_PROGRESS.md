@@ -5326,3 +5326,32 @@ following both in offset order in full
 ((791154688, 18448, 2) at A 671 / B 280).
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.183 (AES-NUM-183) is complete. The
+two other acts of B 27's offset triplet are
+B-only distinct in full, each occurring once
+in B and nowhere in A with no A act under
+their keys: B 1 ((873198592, 24, 0), B-offset
+rank 724) and B 0 ((873199104, 24, 1), rank
+725), completing the +512/+512 triplet at
+ranks 724-726; in B-index order the pair sits
+at the head in the opposite order to offset
+order. The two further A-only acts inside
+A 670's neighbourhood are A-only distinct in
+full: A 673 ((791206912, 32784, 1), rank 710,
+no B act under its key) and A 675
+((791266816, 32784, 1), rank 712, no exact B
+counterpart but its key held in B by the
+B-only act (791266816, 32784, 2) at B 392 on
+channel 2). The shared run-93 act
+(791154688, 18448, 2) at A 671 / B 280 is a
+-391 singleton occurring once on each side,
+following B 671 and A 670 in offset order.
+Next: the B-only act at B 392 in full (rank
+693); the two B-only acts at B 5 (rank 728)
+and B 6 (rank 729) in full; and the shared
+run-94 act following the run-93 act in both
+offset orders in full ((791173632, 32784, 0)
+at A 672 / B 673). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
