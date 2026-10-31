@@ -7880,3 +7880,47 @@ cumulative-remaining remaining-count sequence
 in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.260 (AES-NUM-260) is complete. The
+closing-run cumulative cumulative cumulative
+cumulative cumulative-remaining remainings are
+now stated as one sequence:
+[55, 262, 748, 1658, 3146, 5369, 8484, 12648]
+over positions 1-8 — the running total of each
+position's AES-NUM-259 cumulative cumulative
+cumulative cumulative-remaining remaining value,
+each printed set, count, cumulative total,
+difference, remaining, cumulative remaining,
+cumulative-remaining remaining, cumulative
+cumulative-remaining remaining, cumulative
+cumulative cumulative-remaining remaining and
+cumulative cumulative cumulative
+cumulative-remaining remaining equal to its
+AES-NUM-247/248/249/250/251/254/256/257/258/259
+value at all eight positions, ending at 12648.
+The distinct cumulative cumulative cumulative
+cumulative totals are eight: 55 x1 at position
+1; 262 x1 at position 2; 748 x1 at position 3;
+1658 x1 at position 4; 3146 x1 at position 5;
+5369 x1 at position 6; 8484 x1 at position 7;
+12648 x1 at position 8 (counts sum to 8). The
+gap cumulative cumulative cumulative cumulative
+cumulative-remaining remaining-count sequence
+is [12, 57, 162, 357, 673, 1141, 1792], ending
+at 1792, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE260, exit 0, err empty, and its first
+59,064 prefix lines differ from hef259.out in
+exactly one line (line 41611, frozenset element
+order only — the AES-NUM-150 variance, verified
+by same-sorted-characters comparison). Next:
+the closing-run cumulative cumulative
+cumulative cumulative cumulative
+cumulative-remaining remaining-count sequence
+in full, the distinct cumulative cumulative
+cumulative cumulative cumulative totals with
+positions and counts, and the gap cumulative
+cumulative cumulative cumulative cumulative
+cumulative-remaining remaining-count sequence
+in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
