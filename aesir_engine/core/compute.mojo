@@ -20,6 +20,7 @@ from .mimir_well import (
     NPUBackendType,
     GPURealmType,
     CompressedFormatType,
+    bf16_bits_to_f32,
     f16,
     f32,
     int4,
@@ -2412,6 +2413,183 @@ def gemm_tq2_0(
 ) raises:
     gemm_tq(A, B, C, 35, "gemm_tq2_0")
 
+# ---------------------------------------------------------------------------
+# S-089: precision tier — direct half-precision GEMM (no dequant detour).
+#
+# gemm_f16_direct is the dense F16 GEMM under its own name (previously the
+# anonymous fallthrough at the bottom of gemm_f16): B is already F16
+# storage, read directly, F32 accumulation, output columns partitioned
+# via par_for with the serial body's reduction order per output, so
+# partitioning is bit-identical.
+#
+# gemm_bf16 is the direct BF16 GEMM: B is raw BF16 storage (a plain
+# RuneTensor[f16] view over the BF16 bytes; rows x cols is the weight
+# matrix). Each output row of B is decoded exactly once into an F32
+# scratch row via bf16_bits_to_f32 (exact widening) and dotted against
+# every row of A — the weight matrix is never materialized as an
+# intermediate F16 copy (the at-load conversion in the loader remains
+# the route for tensors that live in the model; this GEMM is the direct
+# path for callers holding raw BF16 storage). gemm_bf16_scalar is the
+# per-element reference oracle, retained for tests.
+# ---------------------------------------------------------------------------
+
+def gemm_f16_direct(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    """Direct dense F16 GEMM: C = A @ B^T over F16 storage, F32
+    accumulation, threaded over output columns (see _gemm_f16_dense_range
+    for the bit-identity discipline)."""
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_f16_direct: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_f16_direct: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_f16_direct: output matrix shape mismatch")
+    var cp = alloc[Int64](6)
+    cp.unsafe_store(0, Int64(Int(A.data)))
+    cp.unsafe_store(1, Int64(Int(B.data)))
+    cp.unsafe_store(2, Int64(Int(C.data)))
+    cp.unsafe_store(3, Int64(A.rows))
+    cp.unsafe_store(4, Int64(A.cols))
+    cp.unsafe_store(5, Int64(B.rows))
+    _ = par_for[_gemm_f16_dense_worker](
+        Int64(Int(cp)),
+        B.rows,
+        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+    )
+    cp.unsafe_free()
+
+
+def _gemm_bf16_fast_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    rows: Int,
+    shared_dim: Int,
+    output_dim: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Output-column range of the direct BF16 GEMM (see gemm_bf16).
+
+    Each output element keeps the dense body's SIMD-then-tail reduction
+    order over the shared dimension against the F32 scratch row decoded
+    from that output's BF16 weights, so column ranges are bit-identical
+    to the serial body in any partition."""
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var b_bits = Pointer[UInt16, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var scratch = alloc[Float32](shared_dim)
+    var simd_end = (shared_dim // simd_w_f16) * simd_w_f16
+    for output_index in range(out_lo, out_hi):
+        for inner in range(shared_dim):
+            scratch.unsafe_store(
+                inner,
+                bf16_bits_to_f32(
+                    b_bits.unsafe_load(output_index * shared_dim + inner)
+                ),
+            )
+        for row in range(rows):
+            var sum: Scalar[f32] = 0.0
+            for inner in range(0, simd_end, simd_w_f16):
+                var input_values = a_data.unsafe_load[width=simd_w_f16](
+                    row * shared_dim + inner
+                ).cast[f32]()
+                var weight_values = scratch.unsafe_load[width=simd_w_f16](inner)
+                sum += (input_values * weight_values).reduce_add()
+            for inner in range(simd_end, shared_dim):
+                sum += (
+                    a_data.unsafe_load(row * shared_dim + inner).cast[f32]()
+                    * scratch.unsafe_load(inner)
+                )
+            c_data.unsafe_store(
+                row * output_dim + output_index, sum.cast[f16]()
+            )
+    scratch.unsafe_free()
+
+
+def _gemm_bf16_fast_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback; ctx slots: [A.data, B.data, C.data,
+    A.rows, A.cols, B.rows]."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    _gemm_bf16_fast_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(start),
+        Int(end),
+    )
+
+
+def gemm_bf16(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    """Direct BF16 GEMM: C = A @ B^T with B held as raw BF16 storage
+    (B.data points at BF16 bit patterns; B.rows x B.cols is the weight
+    matrix). No intermediate F16/F32 materialization of B: each weight
+    row is widened exactly into an F32 scratch row once per range call
+    and dotted with F32 accumulation. BF16 is per-element — no block
+    geometry constraint on the shared dimension."""
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_bf16: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_bf16: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_bf16: output matrix shape mismatch")
+    if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
+        raise Error("gemm_bf16: invalid storage")
+    var cp = alloc[Int64](6)
+    cp.unsafe_store(0, Int64(Int(A.data)))
+    cp.unsafe_store(1, Int64(Int(B.data)))
+    cp.unsafe_store(2, Int64(Int(C.data)))
+    cp.unsafe_store(3, Int64(A.rows))
+    cp.unsafe_store(4, Int64(A.cols))
+    cp.unsafe_store(5, Int64(B.rows))
+    _ = par_for[_gemm_bf16_fast_worker](
+        Int64(Int(cp)),
+        B.rows,
+        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+    )
+    cp.unsafe_free()
+
+
+def gemm_bf16_scalar(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    """Scalar reference BF16 GEMM: per-element decode on every use,
+    ascending-K serial F32 accumulation. Retained as the test oracle
+    for gemm_bf16 (the gemm_ternary_158 pattern); not a production
+    route."""
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_bf16_scalar: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_bf16_scalar: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_bf16_scalar: output matrix shape mismatch")
+    if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
+        raise Error("gemm_bf16_scalar: invalid storage")
+    var b_bits = B.data.unsafe_bitcast[UInt16]()
+    for output_index in range(B.rows):
+        for row in range(A.rows):
+            var sum: Float32 = 0.0
+            for inner in range(A.cols):
+                sum += A.data.unsafe_load(row * A.cols + inner).cast[f32]() * bf16_bits_to_f32(
+                    b_bits.unsafe_load(output_index * B.cols + inner)
+                )
+            C.data.unsafe_store(row * C.cols + output_index, sum.cast[f16]())
+
+
 def _gemm_f16_dense_range(
     a_addr: Int64,
     b_addr: Int64,
@@ -2594,19 +2772,7 @@ def gemm_f16(
         else:
             raise Error("gemm_f16: unrecognized or unsupported quantization format discriminant")
 
-    var cp = alloc[Int64](6)
-    cp.unsafe_store(0, Int64(Int(A.data)))
-    cp.unsafe_store(1, Int64(Int(B.data)))
-    cp.unsafe_store(2, Int64(Int(C.data)))
-    cp.unsafe_store(3, Int64(A.rows))
-    cp.unsafe_store(4, Int64(A.cols))
-    cp.unsafe_store(5, Int64(B.rows))
-    _ = par_for[_gemm_f16_dense_worker](
-        Int64(Int(cp)),
-        B.rows,
-        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
-    )
-    cp.unsafe_free()
+    gemm_f16_direct(A, B, C)
 
 
 def apply_rope_partial_neox(

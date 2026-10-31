@@ -10,6 +10,7 @@ from core.mimir_well import (
     CompressedFormatType,
     MimirWell,
     RuneTensor,
+    convert_bf16_to_f16,
     f16,
 )
 from loader.tokenizer import RuneWeaver
@@ -985,13 +986,14 @@ struct GGUFSeer:
             # converted into the pool as f16 at load, the same
             # treatment F32 tensors get above; bf16 -> f32 is exact
             # and f32 -> f16 rounds identically to the F32 route.
+            # S-089: the conversion is the shared convert_bf16_to_f16
+            # primitive in core/mimir_well (the vision line's at-load
+            # conversion, generalized) — same arithmetic, factored out.
             if pool.offset < 0 or pool.offset > pool.capacity or element_count > pool.capacity - pool.offset:
                 raise Error("MimirWell cannot hold converted BF16 tensor")
             var destination = pool.allocate(element_count)
             var source = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[UInt16]()
-            for index in range(element_count):
-                var bits = UInt32(source.unsafe_load(index)) << 16
-                destination.unsafe_store(index, bitcast[DType.float32](bits).cast[f16]())
+            convert_bf16_to_f16(source, destination, element_count)
             self.tensors[name] = RuneTensor[f16].checked(rows, cols, destination, False)
         else:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()

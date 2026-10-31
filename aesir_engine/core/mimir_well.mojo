@@ -6,12 +6,41 @@
 # deep and still, providing the sacred space for the engine's thoughts to manifest.
 
 from std.memory.alloc import alloc, dealloc, Layout
-from std.memory import Pointer, unsafe_memset_zero
+from std.memory import Pointer, bitcast, unsafe_memset_zero
 from std.math import exp, max
 
 comptime f16 = DType.float16
 comptime f32 = DType.float32
 comptime int4 = DType.int8  # Mojo natively handles down to int8, we bitshift for int4
+
+
+# ---------------------------------------------------------------------------
+# S-089: BF16 conversion primitives — the vision line's BF16-at-load
+# conversion, generalized. BF16 -> F32 is exact (the BF16 bit pattern is
+# the high half of the F32 pattern); F32 -> F16 then rounds exactly as
+# the F32 route does. These are the single definition of the conversion:
+# the GGUF loader's BF16 branch routes through convert_bf16_to_f16, and
+# core/compute's direct BF16 GEMM decodes through bf16_bits_to_f32.
+# ---------------------------------------------------------------------------
+
+def bf16_bits_to_f32(bits: UInt16) -> Float32:
+    """Exact BF16 -> F32 widening of one element's raw bits."""
+    return bitcast[DType.float32](UInt32(bits) << 16)
+
+
+def bf16_bits_to_f16(bits: UInt16) -> Scalar[f16]:
+    """BF16 -> F16 conversion of one element (widen exactly, then round)."""
+    return bf16_bits_to_f32(bits).cast[f16]()
+
+
+def convert_bf16_to_f16(
+    source: Pointer[UInt16, MutUntrackedOrigin],
+    destination: Pointer[Scalar[f16], MutUntrackedOrigin],
+    count: Int,
+):
+    """Whole-buffer BF16 -> F16 conversion (the at-load conversion)."""
+    for index in range(count):
+        destination.unsafe_store(index, bf16_bits_to_f16(source.unsafe_load(index)))
 
 
 struct NPUBackendType(Copyable, ImplicitlyCopyable):
