@@ -7256,3 +7256,31 @@ closing runs' size and channel sequences,
 compared position by position. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+Slice 4.241 (AES-NUM-241) is complete. The
+A closing run's size and channel sequences
+in full: ranks 741-748 in A-offset order,
+size sequence [24, 24, 24, 24, 24, 24, 24,
+24], channel sequence [1, 2, 0, 0, 0, 1, 2,
+0]. The B closing run's size and channel
+sequences in full: ranks 743-750 in B-offset
+order, size sequence [280, 26128, 14352,
+32784, 24, 24, 24, 24], channel sequence
+[2, 2, 1, 2, 0, 1, 2, 0]. The closing-run
+size/channel comparison in full: sizes agree
+at 4 of 8 positions (5, 6, 7, 8) and the size
+sequences are NOT identical; channels agree
+at 5 of 8 positions (2, 5, 6, 7, 8) and the
+channel sequences are NOT identical; each
+run's printed size and channel sequences
+equal the sequences read off the per-act
+statements of AES-NUM-232..239 as re-stated
+in AES-NUM-240. The single launch finished
+DONE241, exit 0, err empty, and its first
+58,141 prefix lines differ from hef240.out
+in exactly two lines (lines 41611 and
+42872, frozenset element order only — the
+AES-NUM-150 variance). Next: the two closing
+runs' class and run-102 membership
+sequences, compared position by position.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

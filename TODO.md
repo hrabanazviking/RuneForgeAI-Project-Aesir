@@ -5867,7 +5867,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.241 the
+- [x] Slice4.241 the
   A closing run's size
   and channel sequences
   in full; the B closing
@@ -5875,6 +5875,21 @@
   sequences in full; and
   the closing-run
   size/channel comparison
+  in full (position by
+  position, agreement
+  counts stated exactly);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.242 the
+  A closing run's class
+  and run-102 membership
+  sequences in full; the
+  B closing run's class
+  and run-102 membership
+  sequences in full; and
+  the closing-run
+  class/run-102 comparison
   in full (position by
   position, agreement
   counts stated exactly);
