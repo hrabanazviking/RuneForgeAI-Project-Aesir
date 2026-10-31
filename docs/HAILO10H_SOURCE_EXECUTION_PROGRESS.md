@@ -7375,3 +7375,43 @@ compared sequence family by sequence
 family. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.245 (AES-NUM-245) is complete. The
+A closing run's combined sequences in
+full: ranks 741-748 in A-offset order, size
+[24, 24, 24, 24, 24, 24, 24, 24], channel
+[1, 2, 0, 0, 0, 1, 2, 0], class [A-only
+distinct x3, shared single-positioned,
+A-only distinct x4], run-102 [False, False,
+False, True, False, False, False, False],
+offset [791777280, 791777792, 791778304,
+791778816, 791779328, 791779840, 791780352,
+791780864], index [734, 735, 736, 744, 745,
+746, 747, 748], gap [512 x7]. The B closing
+run's combined sequences in full: ranks
+743-750 in B-offset order, size [280, 26128,
+14352, 32784, 24, 24, 24, 24], channel
+[2, 2, 1, 2, 0, 1, 2, 0], class [B-only
+distinct x8], run-102 [False x8], offset
+[1196368696, 1196369408, 1196396032,
+1196410880, 1196444160, 1196444672,
+1196445184, 1196445696], index [26, 229,
+272, 674, 735, 736, 737, 738], gap [712,
+26624, 14848, 33280, 512, 512, 512]. The
+closing-run combined comparison in full:
+no sequence family identical; size agree
+4 of 8, channel 5 of 8, class 0 of 8,
+run-102 7 of 8, offset 0 of 8, index 0 of
+8, gap 3 of 7; each printed sequence equals
+its own slice's sequence (AES-NUM-241..244)
+and each printed agreement count equals
+that slice's printed count. The single
+launch finished DONE245, exit 0, err empty,
+and its first 58,338 prefix lines differ
+from hef244.out in exactly one line (line
+41611, frozenset element order only — the
+AES-NUM-150 variance). Next: the two
+closing runs' combined sequences stated
+position by position, compared position by
+position. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

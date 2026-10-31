@@ -5922,7 +5922,7 @@
   exactly); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.245 the
+- [x] Slice4.245 the
   A closing run's combined
   sequences in full; the
   B closing run's combined
@@ -5934,6 +5934,21 @@
   and agreement counts
   stated exactly); then
   broad ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.246 the
+  A closing run's combined
+  sequences stated position
+  by position in full; the
+  B closing run's combined
+  sequences stated position
+  by position in full; and
+  the closing-run combined
+  comparison stated position
+  by position in full
+  (per-position agreement
+  sets, checked against
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
