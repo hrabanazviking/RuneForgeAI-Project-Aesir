@@ -514,6 +514,32 @@ struct AesirEngine:
     # the trials into NO live session path: no session consumes a
     # thread verdict yet; auto choice is J-040--J-042. See
     # docs/janas/J039_THREAD_TOPOLOGY.md.
+    #
+    # Auto choice for prompt passes (Janas road J-040): the
+    # prompt kind's chooser lives in core/prompt_placement.mojo --
+    # choose_prompt_placement() runs the J-038 device sweep (the
+    # field and its exclusions; its CPU timing is a cross-check
+    # only, never ranked -- a different executor from the
+    # threaded one) and the J-039 thread trials (the rankable
+    # CPU rungs), then applies the pre-registered decision rule:
+    # a measured winner must beat the runner-up by more than 10%
+    # of its median AND its slowest counted round must beat the
+    # runner-up's median, otherwise the session default (cpu,
+    # 1 thread) is kept with the failed hurdle stated; a sole
+    # measured candidate is chosen as sole-measured; no measured
+    # candidate falls back to the default while the cpu is
+    # present, else the record is a refusal. An explicit
+    # single/co-work prompt option fixes the choice and is never
+    # ranked against. The record is kept for the session in a
+    # PromptPlacementSession (decided once; a second decision is
+    # refused) and rendered by its report(). Present GPU/NPU and
+    # co-work candidates ride on the record as excluded /
+    # unmeasurable-with-reason -- no device executor exists yet
+    # and no GPU or split number is faked. This slice wires the
+    # chooser into NO live session path: no session consumes a
+    # prompt placement yet. Reply choice is J-041, draft-check
+    # J-042, co-work execution J-043, re-trials J-045. See
+    # docs/janas/J040_AUTO_PROMPT_PLACEMENT.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
