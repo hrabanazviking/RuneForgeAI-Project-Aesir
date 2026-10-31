@@ -28,8 +28,9 @@ SUFFIXES = ["attn_norm.weight", "ffn_norm.weight", "attn_q.weight",
             "ffn_gate.weight", "ffn_up.weight", "ffn_down.weight",
             "attn_q_norm.weight", "attn_k_norm.weight", "attn_q.bias",
             "attn_k.bias", "attn_v.bias"]
-ALWAYS = ["token_embd.weight", "rope_freqs.weight", "output_norm.weight",
-          "output.weight"]
+FRONT = ["token_embd.weight", "rope_freqs.weight"]
+TAIL = ["output_norm.weight", "output.weight"]
+ALWAYS = FRONT + TAIL
 
 
 class R:
@@ -104,6 +105,11 @@ def main():
            "block_count": block_count, "layer_bytes": layers,
            "total_layer_bytes": sum(layers),
            "always_resident_bytes": always,
+           "front_resident_bytes": sum(tensors.get(n, 0) for n in FRONT),
+           "tail_resident_bytes": sum(tensors.get(n, 0) for n in TAIL),
+           "token_embd_bytes": tensors.get("token_embd.weight", 0),
+           "output_bytes": tensors.get("output.weight", 0),
+           "output_norm_bytes": tensors.get("output_norm.weight", 0),
            "tensor_bytes_total": sum(tensors.values()),
            "front31_layer_bytes": sum(layers[:31]),
            "tail_layer_bytes": sum(layers[31:])}

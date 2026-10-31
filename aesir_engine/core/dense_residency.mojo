@@ -15,9 +15,11 @@ layers as the streaming unit:
   (dense_layer_bytes) -- never a family layout assumption, exactly the
   J-017 section 3.3 contract applied to layers instead of experts.
 - The always-resident set (the J-017 D1 analogue) is everything that is
-  not a layer: token embedding, rope factors where present, the final
-  norm and the output head where untied (dense_always_resident_bytes).
-  It is never counted against a layer budget and never evictable.
+  not a layer, split by the side it rides with: token embedding and
+  rope factors with the front (dense_front_resident_bytes), the final
+  norm and the output head where untied with the tail
+  (dense_tail_resident_bytes). It is never counted against a layer
+  budget and never evictable.
 - The spill split itself is a residency plan (DenseResidencyPlan): a
   front prefix of layers pinned GPU-resident, the tail host-resident.
   plan_dense_spill derives the largest front prefix a device budget
@@ -189,26 +191,37 @@ def dense_layer_bytes(model: PackedGGUF, layer: Int) raises -> Int:
     return total
 
 
-def dense_always_resident_bytes(model: PackedGGUF) raises -> Int:
-    """The dense always-resident set: everything that is not a layer.
+def dense_front_resident_bytes(model: PackedGGUF) raises -> Int:
+    """The always-resident set that rides with the front (device) side.
 
-    Token embedding, rope factors where the file carries them, the
-    final norm, and the output head where the file carries one untied.
-    Presence is a per-file fact read from the directory (a tied head
-    contributes nothing here, exactly as J-017 section 2.2 requires the
-    budget to be derived, never defaulted).
+    Token embedding plus rope factors where the file carries them --
+    the tensors the front session uploads beside its front layers.
+    Presence is a per-file fact read from the directory, never a
+    family default (J-017 section 2.2's rule, applied per side).
     """
     var total = 0
     if "token_embd.weight" in model.tensors:
         total += model.tensors["token_embd.weight"].byte_count
     if "rope_freqs.weight" in model.tensors:
         total += model.tensors["rope_freqs.weight"].byte_count
+    if total == 0:
+        raise Error("Dense directory carries no front-resident tensors")
+    return total
+
+
+def dense_tail_resident_bytes(model: PackedGGUF) raises -> Int:
+    """The always-resident set that rides with the tail (host) side.
+
+    The final norm and the output head where the file carries one
+    untied -- the tensors the CPU tail applies after the last layer.
+    A tied head contributes nothing here (it is the embedding, counted
+    on the front side); zero is a legitimate answer for this side.
+    """
+    var total = 0
     if "output_norm.weight" in model.tensors:
         total += model.tensors["output_norm.weight"].byte_count
     if "output.weight" in model.tensors:
         total += model.tensors["output.weight"].byte_count
-    if total == 0:
-        raise Error("Dense directory carries no always-resident tensors")
     return total
 
 
@@ -230,6 +243,7 @@ struct DenseResidencyPlan(Copyable, ImplicitlyCopyable):
     var gpu_layers: Int
     var host_layers: Int
     var always_resident_bytes: Int
+    var host_resident_bytes: Int
     var gpu_layer_bytes: Int
     var host_layer_bytes: Int
     var total_layer_bytes: Int
@@ -241,6 +255,7 @@ struct DenseResidencyPlan(Copyable, ImplicitlyCopyable):
         layer_count: Int,
         gpu_layers: Int,
         always_resident_bytes: Int,
+        host_resident_bytes: Int,
         gpu_layer_bytes: Int,
         host_layer_bytes: Int,
         total_layer_bytes: Int,
@@ -250,6 +265,7 @@ struct DenseResidencyPlan(Copyable, ImplicitlyCopyable):
         self.gpu_layers = gpu_layers
         self.host_layers = layer_count - gpu_layers
         self.always_resident_bytes = always_resident_bytes
+        self.host_resident_bytes = host_resident_bytes
         self.gpu_layer_bytes = gpu_layer_bytes
         self.host_layer_bytes = host_layer_bytes
         self.total_layer_bytes = total_layer_bytes
@@ -257,8 +273,12 @@ struct DenseResidencyPlan(Copyable, ImplicitlyCopyable):
         self.spilled = gpu_layers < layer_count
 
     def device_resident_bytes(self) -> Int:
-        """Bytes the device must hold: always-resident + front layers."""
+        """Bytes the device must hold: front always-resident + layers."""
         return self.always_resident_bytes + self.gpu_layer_bytes
+
+    def host_total_bytes(self) -> Int:
+        """Bytes the host side holds: tail layers + tail-resident set."""
+        return self.host_layer_bytes + self.host_resident_bytes
 
     def describe(self) -> String:
         return (
@@ -270,6 +290,8 @@ struct DenseResidencyPlan(Copyable, ImplicitlyCopyable):
             + String(self.host_layers)
             + " always_resident_bytes="
             + String(self.always_resident_bytes)
+            + " host_resident_bytes="
+            + String(self.host_resident_bytes)
             + " gpu_layer_bytes="
             + String(self.gpu_layer_bytes)
             + " host_layer_bytes="
@@ -278,6 +300,8 @@ struct DenseResidencyPlan(Copyable, ImplicitlyCopyable):
             + String(self.total_layer_bytes)
             + " device_resident_bytes="
             + String(self.device_resident_bytes())
+            + " host_total_bytes="
+            + String(self.host_total_bytes())
             + " device_budget_bytes="
             + String(self.device_budget_bytes)
             + " spilled="
@@ -286,19 +310,23 @@ struct DenseResidencyPlan(Copyable, ImplicitlyCopyable):
 
 
 def describe_dense_spill(
-    layer_sizes: List[Int], gpu_layers: Int, always_resident_bytes: Int
+    layer_sizes: List[Int],
+    gpu_layers: Int,
+    always_resident_bytes: Int,
+    host_resident_bytes: Int,
 ) raises -> DenseResidencyPlan:
     """State a chosen front/tail split as a residency plan.
 
     gpu_layers is the session's exec_layers: layers [0, gpu_layers)
     are device-resident, the rest host-resident. Sizes are the
     directory-true per-layer bytes; the plan sums them, it does not
-    estimate them.
+    estimate them. always_resident_bytes rides with the device side,
+    host_resident_bytes with the host side.
     """
     if gpu_layers < 0 or gpu_layers > len(layer_sizes):
         raise Error("Dense spill gpu_layers out of range")
-    if always_resident_bytes < 0:
-        raise Error("Dense spill always-resident bytes out of range")
+    if always_resident_bytes < 0 or host_resident_bytes < 0:
+        raise Error("Dense spill resident bytes out of range")
     var gpu_bytes = 0
     var host_bytes = 0
     for i in range(len(layer_sizes)):
@@ -312,6 +340,7 @@ def describe_dense_spill(
         len(layer_sizes),
         gpu_layers,
         always_resident_bytes,
+        host_resident_bytes,
         gpu_bytes,
         host_bytes,
         gpu_bytes + host_bytes,
@@ -323,6 +352,7 @@ def plan_dense_spill(
     layer_sizes: List[Int],
     always_resident_bytes: Int,
     device_budget_bytes: Int,
+    host_resident_bytes: Int = 0,
 ) raises -> DenseResidencyPlan:
     """Choose the largest front prefix a device budget admits.
 
@@ -334,7 +364,7 @@ def plan_dense_spill(
     and the caller sees the refusal in the numbers rather than a
     silently truncated model.
     """
-    if device_budget_bytes < 0 or always_resident_bytes < 0:
+    if device_budget_bytes < 0 or always_resident_bytes < 0 or host_resident_bytes < 0:
         raise Error("Dense spill planning values out of range")
     var gpu_bytes = 0
     var gpu_layers = 0
@@ -355,6 +385,7 @@ def plan_dense_spill(
         len(layer_sizes),
         gpu_layers,
         always_resident_bytes,
+        host_resident_bytes,
         gpu_bytes,
         host_bytes,
         gpu_bytes + host_bytes,
