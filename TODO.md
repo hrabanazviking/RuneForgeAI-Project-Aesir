@@ -5950,7 +5950,7 @@
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.247 the
+- [x] Slice4.247 the
   closing-run agreement-set
   sequence in full; the
   distinct agreement sets
@@ -5962,6 +5962,19 @@
   in full (checked against
   AES-NUM-245); then broad
   ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.248 the
+  closing-run agreement-count
+  sequence in full; the
+  distinct agreement counts
+  in full (positions and
+  counts, total agreeing
+  family-instances
+  re-summed); and the
+  gap-agreement position
+  lists in full (checked
+  against AES-NUM-245); then
+  broad ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

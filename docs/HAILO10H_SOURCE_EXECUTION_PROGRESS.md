@@ -7446,3 +7446,34 @@ re-derived from the sets, and the
 gap-agreement sequence in full. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+Slice 4.247 (AES-NUM-247) is complete. The
+closing-run agreement sets are now stated as
+one sequence: position 1 [RUN-102], position
+2 [CHANNEL, RUN-102], position 3 [RUN-102],
+position 4 [], positions 5-8 [SIZE, CHANNEL,
+RUN-102] each — equal to the AES-NUM-246
+printed sets at all eight positions. The
+distinct agreement sets are four forms:
+[RUN-102] x2 at positions 1, 3; [CHANNEL,
+RUN-102] x1 at position 2; [] x1 at position
+4; [SIZE, CHANNEL, RUN-102] x4 at positions
+5, 6, 7, 8 (counts sum to 8). The per-family
+position lists re-derived from the sets alone
+equal AES-NUM-245 exactly: size 5, 6, 7, 8;
+channel 2, 5, 6, 7, 8; class none; run-102
+1, 2, 3, 5, 6, 7, 8; offset none; index none.
+The gap-agreement sequence is [False, False,
+False, False, True, True, True], agreeing
+positions 5, 6, 7, count 3. The single launch
+finished DONE247, exit 0, err empty, and its
+first 58,500 prefix lines differ from
+hef246.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance). Next: the agreement-
+count sequence in full, the distinct
+agreement counts with positions and counts
+and the total agreeing family-instances
+re-summed, and the gap-agreement position
+lists in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
