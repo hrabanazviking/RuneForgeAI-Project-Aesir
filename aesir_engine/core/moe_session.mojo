@@ -286,7 +286,14 @@ struct MoEStreamSession(Movable):
         else:
             # Bypassed or larger than the whole budget: compute from a
             # scratch payload; the bytes are streamed and not retained.
+            # The reader demands exact-size buffers, so the scratch is
+            # re-sized to this layer's slabs (its home size is the max).
             use_scratch = True
+            self.scratch = _ExpertPayload(
+                self.gate_slab_bytes[layer],
+                self.up_slab_bytes[layer],
+                self.down_slab_bytes[layer],
+            )
             _read_expert_slabs(
                 self.reader, self.seer, layer, expert,
                 self.gate_slab_bytes[layer], self.up_slab_bytes[layer],
