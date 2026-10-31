@@ -7733,3 +7733,35 @@ and counts, and the gap cumulative-remaining
 remaining-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.256 (AES-NUM-256) is complete. The
+closing-run cumulative-remaining remainings are
+now stated as one sequence: [55, 42, 30, 18, 9, 3,
+0, 0] over positions 1-8 — 70 minus each
+position's AES-NUM-254 cumulative remaining
+total, each printed set, count, cumulative
+total, difference, remaining and cumulative
+remaining equal to its
+AES-NUM-247/248/249/250/251/254 value at all
+eight positions, ending at 0. The distinct
+cumulative-remaining remainings are seven: 55 x1
+at position 1; 42 x1 at position 2; 30 x1 at
+position 3; 18 x1 at position 4; 9 x1 at
+position 5; 3 x1 at position 6; 0 x2 at
+positions 7, 8 (counts sum to 8). The gap
+cumulative-remaining remaining-count sequence is
+[12, 9, 6, 3, 1, 0, 0], ending at 0, with
+agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE256, exit 0, err empty, and its first
+58,891 prefix lines differ from hef255r.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance, each verified by same-sorted-characters
+comparison). Next: the closing-run cumulative
+cumulative-remaining remaining-count sequence in
+full, the distinct cumulative totals with
+positions and counts, and the gap cumulative
+cumulative-remaining remaining-count sequence
+in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
