@@ -6001,7 +6001,7 @@
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.251 the
+- [x] Slice4.251 the
   closing-run remaining
   agreement-count sequence
   in full; the distinct
@@ -6011,6 +6011,19 @@
   agreement-count sequence
   in full (checked against
   AES-NUM-249 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.252 the
+  closing-run remaining-
+  before-count sequence
+  in full; the distinct
+  remaining-before values
+  in full (positions and
+  counts); and the gap
+  remaining-before-count
+  sequence in full (checked
+  against AES-NUM-249 and
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
