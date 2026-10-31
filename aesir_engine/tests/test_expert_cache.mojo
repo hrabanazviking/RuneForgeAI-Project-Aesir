@@ -143,10 +143,88 @@ def test_expert_cache_policies() raises:
     print("PASS: expert cache LRU baseline and LFU policy modes")
 
 
+def test_expert_cache_fsketch() raises:
+    # fsketch (J-024): single segment, LRU victim, admission only when
+    # the candidate's sketch frequency EXCEEDS the victim's.
+    var cache = ExpertCache(300, String("fsketch"))
+    expect_eq(
+        cache.access(0, 1, 100), ACCESS_MISS_ADMITTED, "fsketch first admits"
+    )
+    expect_eq(cache.access(0, 1, 100), ACCESS_HIT, "fsketch second hits")
+    _ = cache.access(0, 2, 100)
+    _ = cache.access(0, 3, 100)
+    # Cache full (300/300). Expert 1 is the LRU victim with frequency 2;
+    # a first-touch candidate (frequency 1) and a second-touch one
+    # (frequency 2, not exceeding) are both bypassed.
+    expect_eq(
+        cache.access(0, 4, 100), ACCESS_MISS_BYPASSED, "fsketch freq 1 bypass"
+    )
+    expect_eq(
+        cache.access(0, 4, 100),
+        ACCESS_MISS_BYPASSED,
+        "fsketch freq 2 does not exceed victim freq 2",
+    )
+    if cache.contains(0, 4):
+        raise Error("fsketch admitted a candidate that did not exceed")
+    # Third touch: frequency 3 exceeds the victim's 2 -- evict and admit.
+    expect_eq(
+        cache.access(0, 4, 100), ACCESS_MISS_ADMITTED, "fsketch freq 3 admits"
+    )
+    if not cache.contains(0, 4) or cache.contains(0, 1):
+        raise Error("fsketch evicted the wrong expert")
+    var stats = cache.snapshot()
+    expect_eq(stats.bypasses, 2, "fsketch bypass count")
+    expect_eq(stats.evictions, 1, "fsketch eviction count")
+    expect_eq(stats.promotions, 0, "fsketch has no promotions")
+    expect_eq(
+        cache.access(0, 9, 400), ACCESS_MISS_TOO_LARGE, "fsketch oversize"
+    )
+    # Cap invariant under churn, accounting closes.
+    var churn = ExpertCache(500, String("fsketch"))
+    for round in range(200):
+        _ = churn.access(round % 4, round % 37, 100)
+        if churn.snapshot().bytes_resident_now > 500:
+            raise Error("fsketch exceeded its budget during churn")
+    var churn_stats = churn.snapshot()
+    if churn_stats.hits + churn_stats.misses != churn_stats.accesses:
+        raise Error("fsketch hit/miss accounting does not close")
+    print("PASS: expert cache fsketch sketch-admission policy")
+
+
+def test_expert_cache_no_scarcity() raises:
+    # J-024 starvation fix, pinned at the @1024 shape: the budget holds
+    # the whole expert body (1024 pairs x 100 bytes = budget 102400),
+    # so no filtering policy may refuse admission, evict, or lose a
+    # single hit after the cold pass -- full residency, 0.986-style
+    # ceiling (here: every post-cold access hits).
+    _no_scarcity_for_policy(String("segmented"))
+    _no_scarcity_for_policy(String("fsketch"))
+    print("PASS: expert cache no-scarcity starvation fix (segmented, fsketch)")
+
+
+def _no_scarcity_for_policy(policy: String) raises:
+    var cache = ExpertCache(102400, policy)
+    for _round in range(3):
+        for layer in range(16):
+            for expert in range(64):
+                _ = cache.access(layer, expert, 100)
+    var stats = cache.snapshot()
+    expect_eq(stats.accesses, 3072, policy + " no-scarcity accesses")
+    expect_eq(stats.cold_misses, 1024, policy + " no-scarcity cold")
+    expect_eq(stats.misses, 1024, policy + " no-scarcity misses")
+    expect_eq(stats.hits, 2048, policy + " no-scarcity hits")
+    expect_eq(stats.bypasses, 0, policy + " no-scarcity bypasses")
+    expect_eq(stats.evictions, 0, policy + " no-scarcity evictions")
+    expect_eq(stats.entries_now, 1024, policy + " full residency")
+    expect_eq(stats.bytes_resident_now, 102400, policy + " resident bytes")
+
+
 def test_expert_cache() raises:
     test_expert_cache_sizing()
     test_expert_cache_behaviour()
     test_expert_cache_policies()
+    test_expert_cache_fsketch()
+    test_expert_cache_no_scarcity()
 
 
 def main() raises:

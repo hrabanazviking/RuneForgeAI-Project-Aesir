@@ -14,11 +14,14 @@ Implements the J-017 expert residency design (D4, section 4.1 and 5.1):
 - Resident-set bytes (embeddings, attention, norms, routers, shared
   experts) are never counted here and never evictable; this module only
   ever holds routed-expert bytes.
-- Admission is probationary, never unconditional: a first touch enters
-  only the small probation segment, and promotion to the main segment
-  requires a second touch plus a frequency comparison against the
-  eviction victim. A miss may be bypassed (served without admission)
-  when the policy judges admission harmful; bypasses are counted.
+- Admission is never unconditional in the filtering policies: the
+  shipping default (fsketch, since J-024's integration step) admits a
+  miss only when its aged sketch frequency exceeds the LRU victim's;
+  the segmented policy admits a first touch to probation under a
+  frequency gate and promotes on second touch. A miss may be bypassed
+  (served without admission) when the policy judges admission
+  harmful; bypasses are counted. J-024 starvation fix: when the total
+  free budget can hold the incoming pair, no gate may refuse it.
 - The budget can shrink after open; in-flight experts are pinned and
   never evicted, and the cache sheds before anything else does.
 - Statistics are reported in the J-016 trace vocabulary: (layer, expert)
@@ -337,15 +340,27 @@ def _pair_key(layer: Int, expert: Int) -> Int:
 
 
 struct ExpertCache(Copyable, Movable):
-    """Byte-budgeted probationary/frequency expert cache (J-018).
+    """Byte-budgeted expert cache (J-018; fsketch + starvation fix J-024).
 
-    Shipping policy (J-018 decision; the verdict is J-024's tournament):
-    two segments. Probation (one eighth of the budget) admits on first
-    touch under LRU with a frequency gate; the main segment promotes on
-    second touch and evicts by (frequency, recency). Pure LRU and pure
-    LFU modes are selectable for comparability with the J-016 offline
-    simulations, through the same policy interface, so J-024 can re-run
-    the tournament against the live implementation.
+    Policies behind one interface:
+    - fsketch (shipping default since the J-024 integration step): a
+      single segment with LRU victims and TinyLFU-style sketch
+      admission over aged exact counters -- a miss is admitted only
+      when the candidate's frequency exceeds the LRU victim's;
+      otherwise it is bypassed. The sketch ages (counters halved)
+      every FREQ_AGING_INTERVAL accesses, the J-018 cadence.
+    - segmented (the J-018 shipping policy, kept selectable): two
+      segments. Probation (one eighth of the budget) admits on first
+      touch under LRU with a frequency gate; the main segment holds
+      promoted entries. J-024 starvation fix: admission and promotion
+      are governed by the total budget, not by segment caps alone --
+      when the total free budget can hold the incoming pair, no gate
+      may refuse it and no resident may be evicted to satisfy a
+      segment cap; promotion moves bytes between segments (the total
+      never changes), so it never evicts either. Eviction happens
+      only where the total budget actually binds, at admission time.
+    - lru / lfu: pure baselines, faithful to the J-016 offline
+      simulations, for comparability.
     """
 
     var budget_bytes: Int
@@ -361,8 +376,15 @@ struct ExpertCache(Copyable, Movable):
     def __init__(out self, budget_bytes: Int, policy: String) raises:
         if budget_bytes <= 0:
             raise Error("Expert cache budget must be positive")
-        if policy != "segmented" and policy != "lru" and policy != "lfu":
-            raise Error("Expert cache policy must be segmented, lru or lfu")
+        if (
+            policy != "segmented"
+            and policy != "lru"
+            and policy != "lfu"
+            and policy != "fsketch"
+        ):
+            raise Error(
+                "Expert cache policy must be segmented, lru, lfu or fsketch"
+            )
         self.budget_bytes = budget_bytes
         self.probation_bytes = budget_bytes // 8
         if self.probation_bytes == 0:
@@ -502,10 +524,13 @@ struct ExpertCache(Copyable, Movable):
             raise Error("Expert cache access values out of range")
         var key = _pair_key(layer, expert)
         self.tick += 1
-        # Aging belongs to the segmented policy's frequency sketch. The
-        # lru/lfu baselines keep J-016's cumulative semantics so their
-        # numbers stay comparable with the offline simulations.
-        if self.policy == "segmented" and self.tick % FREQ_AGING_INTERVAL == 0:
+        # Aging belongs to the frequency-sketch policies (segmented and
+        # fsketch). The lru/lfu baselines keep J-016's cumulative
+        # semantics so their numbers stay comparable with the offline
+        # simulations.
+        if (
+            self.policy == "segmented" or self.policy == "fsketch"
+        ) and self.tick % FREQ_AGING_INTERVAL == 0:
             self._freq_age()
         # Cold is a first-ever-access fact, tracked apart from the aged
         # sketch: a decayed frequency of zero must never re-label a
@@ -564,7 +589,58 @@ struct ExpertCache(Copyable, Movable):
             self._sync_stats()
             return ACCESS_MISS_ADMITTED
 
-        # Segmented policy: first touch is probationary only.
+        if self.policy == "fsketch":
+            # Frequency-sketch admission over a single LRU segment
+            # (J-024 tournament winner, integrated verbatim from the
+            # tournament definition): evict LRU victims one at a time,
+            # admitting only while the candidate's aged frequency
+            # exceeds each victim's; the first victim that is at least
+            # as frequent as the candidate refuses the admission
+            # (bypass), with any victims already evicted standing --
+            # exactly the tournament simulator's loop. When the total
+            # free budget already holds the pair the loop never runs:
+            # no gate can refuse under no scarcity (J-024 step 4).
+            while self._total_bytes() + size_bytes > self.budget_bytes:
+                var victim = self._victim(SEGMENT_MAIN, String("lru"))
+                if victim < 0:
+                    self.stats.bypasses += 1
+                    self._sync_stats()
+                    return ACCESS_MISS_BYPASSED
+                if self._freq_of(key) <= self._freq_of(
+                    self.entries[victim].key
+                ):
+                    self.stats.bypasses += 1
+                    self._sync_stats()
+                    return ACCESS_MISS_BYPASSED
+                self._evict_at(victim)
+            self.entries.append(
+                _Entry(key, size_bytes, SEGMENT_MAIN, self.tick)
+            )
+            self.stats.admissions += 1
+            self._sync_stats()
+            return ACCESS_MISS_ADMITTED
+
+        # Segmented policy, with the J-024 starvation fix.
+        if self._total_bytes() + size_bytes <= self.budget_bytes:
+            # No scarcity: the total budget holds the pair, so the
+            # probation gate must not refuse it and no resident may be
+            # evicted for a segment cap. The pair enters probation
+            # while probation has room, otherwise main directly.
+            var target = SEGMENT_PROBATION
+            if (
+                self._segment_bytes(SEGMENT_PROBATION) + size_bytes
+                > self.probation_bytes
+            ):
+                target = SEGMENT_MAIN
+            self.entries.append(_Entry(key, size_bytes, target, self.tick))
+            self.stats.admissions += 1
+            self._sync_stats()
+            return ACCESS_MISS_ADMITTED
+        # Scarcity: the original probationary path (frequency gate +
+        # probation segment room), then total-budget room: promotions
+        # may have carried main past its segment cap, so admission
+        # evicts main victims by (frequency, recency) until the total
+        # budget fits -- the cap that binds is the total.
         var probation_victim = self._victim(SEGMENT_PROBATION, String("lru"))
         if (
             probation_victim >= 0
@@ -582,6 +658,13 @@ struct ExpertCache(Copyable, Movable):
             self.stats.bypasses += 1
             self._sync_stats()
             return ACCESS_MISS_BYPASSED
+        while self._total_bytes() + size_bytes > self.budget_bytes:
+            var main_victim = self._victim(SEGMENT_MAIN, String("freq"))
+            if main_victim < 0:
+                self.stats.bypasses += 1
+                self._sync_stats()
+                return ACCESS_MISS_BYPASSED
+            self._evict_at(main_victim)
         self.entries.append(
             _Entry(key, size_bytes, SEGMENT_PROBATION, self.tick)
         )
@@ -590,23 +673,18 @@ struct ExpertCache(Copyable, Movable):
         return ACCESS_MISS_ADMITTED
 
     def _try_promote(mut self, index_in: Int):
-        """Second touch: promote probation -> main if it earns the bytes."""
-        var index = index_in
-        var size = self.entries[index].size_bytes
-        var key = self.entries[index].key
-        var main_cap = self.budget_bytes - self.probation_bytes
-        while self._segment_bytes(SEGMENT_MAIN) + size > main_cap:
-            var victim = self._victim(SEGMENT_MAIN, String("freq"))
-            if victim < 0:
-                return
-            if self._freq_of(self.entries[victim].key) > self._freq_of(key):
-                return
-            self._evict_at(victim)
-            # Swap-remove may have moved the promoting entry; re-find it.
-            index = self._find(key)
-            if index < 0:
-                return
-        self.entries[index].segment = SEGMENT_MAIN
+        """Second touch: promote probation -> main.
+
+        J-024 starvation fix: promotion only moves bytes between
+        segments -- the total resident bytes never change -- so it
+        never needs to evict a resident to satisfy the main segment's
+        cap, and it is never refused by a frequency comparison.
+        Eviction is deferred to admission, the one place the total
+        budget actually binds. (Pre-fix, promotion evicted main
+        residents even when the budget held the whole expert body,
+        which is half of the @1024 starvation J-024 §2.2 measured.)
+        """
+        self.entries[index_in].segment = SEGMENT_MAIN
         self.stats.promotions += 1
 
     # -- pinning and shrink ----------------------------------------------
