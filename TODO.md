@@ -5849,7 +5849,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.240 the
+- [x] Slice4.240 the
   A closing run in
   full (all eight acts
   at A-offset ranks
@@ -5864,6 +5864,20 @@
   comparison in full
   (the two runs side
   by side, act by act);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.241 the
+  A closing run's size
+  and channel sequences
+  in full; the B closing
+  run's size and channel
+  sequences in full; and
+  the closing-run
+  size/channel comparison
+  in full (position by
+  position, agreement
+  counts stated exactly);
   then broad
   ordinary UNMODIFIED
   source-model support100%.

@@ -7214,3 +7214,45 @@ runs in full side by side, with their gap
 sequences. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.240 (AES-NUM-240) is complete. The
+A closing run in full: ranks 741-748 in
+A-offset order — A 734 (791777280, 24, 1),
+A 735 (791777792, 24, 2), A 736 (791778304,
+24, 0), A 744 (791778816, 24, 0) shared
+single-positioned and the run's sole run-102
+member, A 745 (791779328, 24, 0), A 746
+(791779840, 24, 1), A 747 (791780352, 24, 2),
+A 748 (791780864, 24, 0) terminal; internal
+gap sequence [512, 512, 512, 512, 512, 512,
+512]. The B closing run in full: ranks
+743-750 in B-offset order — B 26
+(1196368696, 280, 2), B 229 (1196369408,
+26128, 2), B 272 (1196396032, 14352, 1),
+B 674 (1196410880, 32784, 2), B 735
+(1196444160, 24, 0), B 736 (1196444672, 24,
+1), B 737 (1196445184, 24, 2), B 738
+(1196445696, 24, 0) terminal; internal gap
+sequence [712, 26624, 14848, 33280, 512, 512,
+512]. The closing-run full comparison in
+full: A run class composition {A-only
+distinct: 7, shared single-positioned: 1},
+run-102 members 1, terminal YES; B run class
+composition {B-only distinct: 8}, run-102
+members 0, terminal YES; each printed gap
+sequence equals its AES-NUM-231 measured
+sequence and all sixteen acts match their
+AES-NUM-232..239 per-act statements, so the
+AES-NUM-231 closing-run comparison is
+reproduced from the fully walked per-act
+sequence with no discrepancy; the gap
+sequences are NOT identical, agreeing only
+in their final three gaps (+512 each). The
+single launch finished DONE240, exit 0, err
+empty, and its first 58,097 prefix lines
+differ from hef239.out in exactly one line
+(line 42872, frozenset element order only —
+the AES-NUM-150 variance). Next: the two
+closing runs' size and channel sequences,
+compared position by position. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
