@@ -710,6 +710,41 @@ struct AesirEngine:
     # into NO live session path: no session consumes a
     # tolerance proof yet. See
     # docs/janas/J046_WITHIN_TOLERANCE.md.
+    #
+    # Manual override supremacy (Janas road J-047): the layer
+    # that decides whose choice governs lives in
+    # core/manual_override.mojo. It carries the --mode preset
+    # surface the census names (scan_mode_args +
+    # mode_env_inputs + resolve_mode: --mode auto|eco|max,
+    # env AESIR_MODE, cli > env > default, sources recorded;
+    # eco is a fixed cpu threads=1 intent -- the census's eco
+    # rule, gpu never in its field, the serial rung minimal by
+    # construction, no speed claimed; max is a measure intent
+    # over the full auto field with the learned default
+    # bypassed; auto governs nothing). resolve_precedence()
+    # applies the stack per pass kind -- hand > preset >
+    # learned > auto: a set hand option governs as
+    # MANUAL-FIXED (single/co-work, never measured against,
+    # never ranked, never re-trialled), MANUAL-RACE (the field
+    # is exactly the hand's list), or MANUAL-AUTO (an explicit
+    # auto is a hand statement directing fresh measurement;
+    # an unset auto is silence and falls through); only under
+    # silence may a preset govern (PRESET-FIXED /
+    # PRESET-MEASURE), only under silence with no preset may
+    # a learned default apply (a learned MANUAL-FIXED keeps
+    # its persisted-hand provenance and is never re-trialled),
+    # and AUTO is the remainder. validate_open_choices() is
+    # the generalised invalid-device refusal at open: every
+    # device a governing hand, preset, or learned choice
+    # names -- single, both co-work members, every race
+    # member -- is checked against the J-037 inventory, and
+    # an absent device (or the parked NPU as an execution
+    # device) refuses the whole choice with the device, the
+    # kind, and the inventory fact in the reason; nothing is
+    # dropped, substituted, or trimmed. This slice wires the
+    # layer into NO live session path: no session consumes a
+    # precedence resolution or a mode preset yet. See
+    # docs/janas/J047_MANUAL_OVERRIDE.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
