@@ -64,9 +64,14 @@ def build_slabs(gguf_path, miss_csv):
 
 
 def guard_clear():
+    # Match actual worker processes only. A bare tmux session holder
+    # (e.g. the idle s026l shell standing since Oct 29, its orchestrator
+    # stood down per the 204 state file) is not a live run — the first
+    # version of this guard aborted on exactly that false positive.
     out = subprocess.run(["bash", "-c",
-                          "ps aux | grep -E 's0[0-9]{2}|run_all|mojo build|"
-                          "aesir' | grep -v grep | grep -v j020"],
+                          "ps aux | grep -E 'python3 .*/s0[0-9]{2}/|"
+                          "run_all|mojo build|aesir.*gguf|_census|_driver' "
+                          "| grep -v grep | grep -v j020"],
                          capture_output=True, text=True).stdout.strip()
     return out
 
