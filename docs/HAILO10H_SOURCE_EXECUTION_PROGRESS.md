@@ -3605,3 +3605,4236 @@ population of acts that occur exactly twice around
 the great run.
 Broad ordinary UNMODIFIED source-model support100%
 remains the destination.
+
+2026-10-24 the fibres of the sum factoring and of the
+difference map read in full, the shrinking steps read
+as sequences with their ratios and second differences
+and five stated decay forms tried exactly, the three
+displaced acts' whole lives in the corpus read
+occurrence by occurrence, two hundred fifty-one's
+closing segment set against one hundred thirty's
+head, and the population of acts that occur exactly
+twice around the great run read in full
+(AES-NUM-126,slice4.126):
+`docs/HAILO10H_FIBRES_RATIOS_DISPLACED_PROFILES_2026-10-24.md`.
+The factoring's fibres turn out to be no fibres at
+all: every one of the two hundred twenty-two carries
+exactly one distinct pair of first and second bytes,
+and the only two fibres holding two pairs differ in
+the unseen byte alone — there is no trading of one
+byte against the other at a fixed sum anywhere. The
+difference map's one hundred sixty-seven cells fare
+no better under arithmetic: of the thirty-two cells
+holding more than one key, the sixteen with two keys
+are constant-gapped only because a single gap cannot
+disagree with itself, and every one of the sixteen
+cells with three or more keys fails, its gaps uneven
+and their greatest common divisor one in thirteen of
+them. The steps, read as sequences, are a near-miss
+of the prettiest kind: three hundred twenty-four
+ratios, every one distinct, every one between nought
+and one, and within any single context the six ratios
+of a side huddle inside a window no wider than about
+a millionth — yet not one sequence has even two equal
+ratios, and all five stated decay forms fail
+everywhere: no per-context geometric ratio, no pooled
+one, no constant second difference (all three hundred
+twenty-four second differences are negative, with a
+single repeated value shared by two contexts), no
+constant ratio of the two sides' steps, and no
+proportionality of step to level. The three displaced
+acts live in exactly the same eight contexts of the
+one artifact, and in three of them — one hundred
+twenty-eight, two hundred fifty-one and two hundred
+sixty-five — they stand together as one block in the
+same order, hard after the common core's final act;
+two hundred fifty-one's closing segment and one
+hundred thirty's head share exactly the two head-side
+displaced acts and nothing else. And the population
+of acts occurring exactly twice, once in each of one
+hundred fourteen and two hundred fifty-one, numbers
+one hundred twenty-seven of their one hundred
+sixty-eight shared acts, standing in twenty-four
+runs, of which the great run of fifty-four at
+identical positions is the eighth — verified act by
+act to belong wholly to the population — while the
+other seventy-three stand in the twenty-three
+remaining runs and singles.
+Next: the sum-to-difference table read as a function
+of the sum within each value of the third byte, and
+the unseen byte's own map; the near-geometric wobble
+measured exactly and integer-rounding forms tried;
+the displaced trio's eight contexts read in wider
+windows, its flanking acts profiled, and the
+forty-one shared acts that are not occurrence-two
+read by their occurrence classes.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.127 (AES-NUM-127) is complete. The sum table,
+read as a function of the sum inside each value of the
+third byte, is orderly nowhere it can be judged: of
+the thirty-seven byte-three values carrying two or
+more keys, twenty-five run neither up nor down with
+the sum, eight run only up, two only down, and two
+are constant — and the constant cases are the zero
+column at plus one hundred twenty-eight and the
+narrow column at minus one hundred twenty-eight.
+Constant steps appear in ten values, but eight are
+two-key values with a single step, which proves
+nothing; the only column with three or more keys and
+constant steps is the narrow one, whose difference
+never moves. Byte zero, read across all two hundred
+twenty-four pairs, answers to nothing: the second
+word's byte zero is not a function of the first's
+alone — twenty-three of thirty-six values break it —
+and it is not a function of the full key nor of the
+sum key either, breaking on exactly the two narrow
+keys whose pairs differ only in that byte, where it
+simply copies itself across. The wobble of the
+near-geometric steps is measured now and is never
+nothing: not one of the three hundred twenty-four
+ratios equals its own sequence's median, the largest
+stray is under eighty-four hundredths of a part per
+million, and rounding a single geometric ratio —
+rounded or floored, first, median or last — fails on
+every one of the fifty-four sequences, missing by as
+little as one in two hundred million and still
+missing everywhere. The displaced trio, read in
+windows eight acts wide, sits in the block contexts
+inside the common core's own tail, flanked exactly
+as before, while in the split contexts the three are
+scattered through ordinary material; the act before
+the block occurs once in each of two hundred
+seventy-one contexts of the one artifact, the trio's
+eight among them, yet is followed by the block in
+only three of them, while the act after the block
+occurs exactly three times in the whole corpus and
+nowhere but immediately behind the block. The
+forty-one shared acts that are not occurrence-two
+fall into six classes — four, three and one small,
+thirty occurring two hundred seventy-one times, and
+three near-universal — and they sit at the same
+position in both contexts in thirty-seven of the
+forty-one.
+Next: the ratio sequences' own internal order and
+the step census of the unordered tables; byte zero
+inside each group and the narrow pairs in their full
+context; the before-flank across all its contexts,
+the thirty acts of its class read whole, and the
+pairs that follow the after-flank.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.128 (AES-NUM-128) is complete. The ratio
+sequences have no internal order at all: every one of
+the fifty-four sequences, both sides of all twenty-
+seven contexts, runs neither up nor down in k, each
+carrying between four and eleven inversions in both
+directions, and their signs against their own medians
+fall into fifteen patterns, the two fully alternating
+ones together claiming seventeen of the fifty-four.
+The steps of the unordered tables, pooled, number one
+hundred sixty-one in thirty-two distinct values, and
+the step answers to the sum nowhere pooled — twenty-
+seven sums break it under either anchoring — while
+inside a single table it holds only vacuously, each
+sum standing once. Byte zero's refusal is localized
+at last: of the map's three groups, two are exact
+functions of the full key — the great group of two
+hundred sixteen pairs without a single violation —
+and the whole failure lives in the small group, on
+exactly the two narrow keys; and all eight narrow
+pairs, read record by record, simply copy byte zero
+across, the two words differing by exactly the sign
+bit and nothing else. The act before the displaced
+block is anchored to the end of its context, twenty
+acts from the end in every one of its two hundred
+seventy-one contexts, and what follows it ranges over
+fifty-one acts of a single shape, the block itself in
+only three. The thirty acts of its class stand in
+identical order in both contexts, not one inversion
+among four hundred thirty-five pairs, twenty-eight of
+them rigid at twenty positions apiece — one conserved
+end block — led by two looser acts; and behind the
+act after the block, each context keeps its own
+private pair, occurring as a pair nowhere else in the
+corpus.
+Next: byte zero with its own value admitted to the
+key; the sign patterns paired across each context's
+two sides, and the step against sum and level
+together; the end block's distances from the end,
+act by act, and its two loose leaders' places.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.129 (AES-NUM-129) is complete. Byte zero,
+given its own value in the key, is determined at
+last: the full A word separates every pair — two
+hundred twenty-four pairs, two hundred twenty-four
+keys, not one violation, globally or in any group —
+though the key never repeats on this population, so
+the result is exactly that no two pairs share a
+whole A word while differing in byte zero. The
+copying that made the narrow pairs special does not
+travel: beyond them, byte zero survives in only
+thirty-six of two hundred sixteen pairs and is
+rewritten in a hundred eighty, its differences
+spanning two hundred forty in both directions. The
+two sides of a context almost never mirror each
+other in sign: three equal, none complemented, one
+reversed, twenty-three of twenty-seven unrelated.
+The step answers neither to the sum alone nor to
+the sum with its starting level — five keys break
+that pairing — and its apparent answer to sum with
+byte three is an empty one, every key standing
+once. And the end block is rigid in full: twenty-
+eight acts each hold one fixed distance from the
+end across all two hundred seventy-one contexts,
+fifty-four down to twenty, their twenty-seven
+spacings constant, mostly a single step with two
+gaps of three and a closing gap of four into the
+act before the displaced block; before them the
+two loose leaders float, always ahead of the block
+but at wandering distances, and more often in the
+order second-leader-first than in their shared
+order.
+Next: what stands inside the block's three wide
+gaps; the loose pair read together, distance
+against order, and its one far outlier context;
+and byte zero's rewriting measured against parts
+of the word short of the whole.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.130 (AES-NUM-130) is complete. The block's
+three wide gaps are not filled with the same acts,
+but they are filled to the same shape in every one
+of the two hundred seventy-one contexts: the first
+gap always holds two acts of sizes two hundred
+forty-eight and one hundred seventy-six, the second
+two of two hundred fifty-six and one hundred
+seventy-six, and the closing gap three acts of
+three hundred twenty-eight each — while the acts
+themselves change, thirty-four fillings in the
+first gap, thirty in the second, eighty-seven in
+the third. The loose pair, read together, keeps its
+secrets: neither distance determines the other, and
+the pair's order answers to neither distance alone
+— each fails on its distance-four key alone — but
+only to their difference, which is the sign law
+itself and no more. Its one far outlier is context
+one hundred forty-three, where the first leader
+stands thirty-two large acts away from the block
+with the second leader resting inside that very
+span, two steps from the block like the modal
+contexts. And byte zero's rewriting in the great
+group answers to no proper part of the word: the
+single bytes fail widely, the two-byte keys miss
+by exactly one value each, and the three-byte key
+separates only by naming every pair once — unique
+identification, not a rule.
+Next: the gap-fillers as a population, first
+against second and shared seconds against their
+firsts, and gap acts against the contexts' own
+bodies; the outlier's long run read across the
+whole corpus; and the near-miss collisions in
+full, with the rewritten byte itself tested
+against the two-byte keys.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.131 (AES-NUM-131) is complete. The two-act
+gaps turn out to be rigid couplets: in the first gap
+the second act is an exact function of the first —
+thirty-four firsts, not one exception — and in the
+second gap likewise, thirty firsts and no exception,
+even though the stride between them wanders, most
+often a single step of the first act's own size but
+sometimes double, sometimes backwards. The three-act
+closing gap breaks the pattern: no act there is
+determined by the one before it, failing on seven,
+eight, and ten keys across the three tests. And
+every gap act in the whole corpus — three hundred
+thirty-three of them — lives in its gap and nowhere
+else. The outlier's long run is a true singularity:
+searched across all fifteen hundred four contexts it
+occurs exactly once, in its own context, and
+thirty-one of its thirty-two acts occur nowhere else
+in the corpus at all — the only returning member is
+the second loose leader itself. In the ordinary
+modal contexts, by contrast, whichever loose act
+stands one step from the block is pinned to the
+block's first act in every context, and everything
+beyond varies freely. The four near-miss collisions
+are each just two pairs, and one identity pair
+quietly carries two of them; and the rewritten byte
+itself answers to no two-byte part of the word — for
+the three near-miss keys it fails on exactly the
+named collisions and nothing else.
+Next: the closing gap's broken chain read context
+by context; the gap-only acts at the level of offset
+and size; the rewritten byte against the three-byte
+parts of the word; and the twice-colliding identity
+pair read in full.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.132 (AES-NUM-132) is complete. The closing
+gap's broken chain, read key by key and context by
+context, does not mend: the first act that fails
+worst carries five different second acts — and seven
+different third acts — across its fifty-four
+contexts, and every failing key's contexts agree on
+their length and on both other gaps, yet still split
+on the fill itself. The two-act gaps, looked at with
+the same wide lens, hold their law in a stranger
+shape: no repeating first act there is ever alone in
+its context — something else always differs, the
+closing gap's fill above all — but its own partner
+never does. One level down, the gap acts' separation
+nearly survives intact: of three hundred thirty-three
+gap acts, exactly one's offset is shared with another
+act — a great act of another artifact standing on the
+same offset under a different size — and at the level
+of offset-and-size together, none is shared at all;
+the outlier run's thirty-one singular acts are
+singular at those levels too. And the rewritten byte
+answers to no three-byte part of the word either: all
+four three-byte keys name every one of the two hundred
+sixteen pairs once and are never tested twice, while
+the twice-colliding identity pair stands alone under
+every one of them, the same-side witness of both its
+collisions.
+Next: the closing gap's chain against joint keys —
+the first act wedded to the context's length and its
+sister gaps; the one shared offset read in full, the
+great act in its own two contexts; and the three-byte
+tests carried beyond the great group, to the whole
+population and each lesser group, hunting for a key
+value that ever repeats.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.133 (AES-NUM-133) is complete. The closing
+gap's chain was wed to every companion the wider lens
+suggested — the context's length, each sister gap's
+whole fill, the loose pair's order — and it mends
+under none of them: the length adds no distinction
+at all over the first act alone, each sister fill
+splits only the widest first act into halves that
+still disagree, and the loose order silences just
+two first acts while the widest disagrees under both
+orders; the whole fill, asked as one question, fails
+on exactly the union of its parts' failures. The one
+shared offset, read in full, dissolves into
+coincidence: the great act's two homes in another
+artifact share not a single act with any of the gap
+act's twelve identical contexts, and the corpus
+holds nineteen such cross-size sharings, not one.
+And beyond the great group the rewritten byte gives
+up one small genuine law at last: a single three-byte
+key repeats across two groups and agrees — both
+pairs keep the byte — while its sibling key fails on
+exactly the two narrow values that were always its
+only repetitions.
+Next: the chain against compound joint keys — order
+wed to the sister fills and to the loose distances;
+the nineteen cross-size offsets' small acts read as
+a population; and the one agreeing repetition set
+against every two-byte sharing between groups.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.134 (AES-NUM-134) is complete. The closing
+gap's chain was wed to compounds — the first act with
+the loose order and a sister gap's whole fill
+together, and with the loose distances — and it
+mends under none of them: each sister compound
+leaves six and seven failures, while the distances,
+the strongest companion ever tested here, leave only
+three and four, the widest first act splitting under
+both its distance pairs; asked as one question with
+the order, the whole fill fails on nine keys, the
+widest carrying six different fills under a single
+order. The nineteen cross-size offsets, read as a
+population, hold exactly nineteen small acts, one
+per offset, and the study's named populations touch
+them exactly once: the single gap act among them is
+the original target, no small act and no partner is
+a class-271, loose or rigid act, and the other
+eighteen sharings join otherwise unremarkable acts.
+And between groups the rewritten byte's sharings are
+few: seven two-byte values in all cross a group
+boundary, three of them agreeing — all between the
+two small groups — and four violating, the widest
+being the very projection under which the one
+agreeing three-byte pair hides in a crowd.
+Next: the chain against distance-compounds — the
+distances wed to the order and to each sister fill,
+and the whole fill asked of the distances; the
+nineteen small acts' occurrence geometry read in
+full; and the agreeing values' whole pair company,
+with agreeing three-byte repetitions hunted inside
+single groups.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.135 (AES-NUM-135) is complete. The closing
+gap's chain was wed to the distances and everything
+the distances travel with — the loose order, each
+sister gap's whole fill — and it mends under none of
+them: the order adds not one key beside the
+distances and leaves the failures untouched, every
+one under a single loose order; a sister fill buys
+exactly one silenced branch of the widest first act
+and no more; and the whole fill, asked of the first
+act and the distances together, fails on four keys.
+The nineteen small acts' homes are now read in
+full: each lives in one artifact only, eighteen
+stand at one fixed position in all their contexts,
+and the one that moves is anchored to the end of
+its contexts instead — twenty-three acts from the
+end in both — while their wandering partners are
+fixed from neither end. And the rewritten byte's
+agreeing sharings stand complete: each agreeing
+two-byte value's whole company is its carriers and
+nothing more, and inside any single group no
+three-byte value ever repeats agreeing — the one
+agreeing repetition in the population lives only
+across a group boundary.
+Next: the chain against the maximal compound — every
+companion wed together at once, and the whole fill
+asked of the distances with each sister; the
+end-anchoring of the nineteen and their partners
+counted as a census, with the exception's two homes
+read against each other; and the byte tested against
+two-byte keys inside each group alone.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.136 (AES-NUM-136) is complete. Every companion
+was wed together at once — the first act, the loose
+distances, the loose order, and both sister gaps'
+whole fills — and the chain still does not mend: the
+maximal key names no more keys than the distances
+with a single sister already did, and its failures
+are exactly theirs, two for the second act and three
+for the third; asked as one question with either
+sister beside the distances, the whole fill fails on
+the same three first acts. The anchoring of the
+nineteen small acts and their partners is now a
+census: the small acts are fixed from both ends in
+eighteen cases and from the end alone in the one
+case that moves, while every partner that occurs
+twice is fixed from neither end — and the exception's
+two homes, read against each other, hold nearly the
+same acts in a different layout, only a sixth of the
+shared acts standing where they stood. And inside
+each group alone the rewritten byte answers to no
+two-byte part of its word: the great group violates
+under all six keys, the small groups repeat only
+violating or not at all, save the one small agreeing
+value that has followed the study across groups.
+Next: the maximal key wed to the context's length
+and to the gap's own left position; the shared acts'
+position shifts read as an anatomy; and the two-byte
+tests carried to the whole population at once.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.137 (AES-NUM-137) is complete. The maximal
+key was wed to each of its last two companions in
+turn — the context's length, and the gap's own left
+position — and neither wed even adds a key: the
+count stays at eighty-six under both, the failures
+stay at two for the second act and three for the
+third and the whole fill, and the violating keys are
+the maximal key's own with the wed value riding on
+them, which proves the length and the left position
+were already fixed inside every maximal family. The
+exception's two homes have now had their shared
+acts' shifts counted one by one: every shared act
+stands in exactly one place in each home, most move
+by a small constant offset inside long runs at one
+shift — the longest a hundred and fifty-eight acts
+at plus two — a sixth do not move at all and none of
+those stands in the last stretch of either home,
+and a scattered tenth moves by hundreds of places.
+And the rewritten byte, tested against every
+two-byte part of its word over the whole population
+at once, violates under every key: sixty-three
+values repeat, only thirteen of them agreeing, and
+nearly all of the repetition lives inside the great
+group, the cross-group values being the small
+sharings already known plus the single violating
+value that touches the great group.
+Next: the two redundancies certified directly and
+the maximal key wed to both companions together;
+the long shift runs read act by act, the
+large-shift tail in full, and shift class by
+position band; and the two-byte keys wed to the
+group itself.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.138 (AES-NUM-138) is complete. The two
+redundancies are certified, not just derived: the
+context's length is a function of the maximal key,
+and the gap's left position is a function of it —
+eighty-six keys, fifteen repeating, not one
+violating — and wedging both companions in together
+still leaves the count at eighty-six and the
+failures at two and three, on the very same keys.
+The long shift runs are read act by act: eight runs
+of twenty or more carry well over half the shared
+acts, seven of them at zero or a small positive
+shift and one, twenty acts at minus two, the only
+negative long run; the big-shift tail is sixty-nine
+acts scattered over forty different shifts; and read
+by position band the middle bands are pure — two
+early bands of nothing but small positive shifts, a
+late band of nothing but stillness, the last band of
+nothing but small positives again. The rewritten
+byte, tested against every two-byte part wed to its
+own group, still violates under every key — sixty
+wed values repeat, forty-nine of them violating —
+and the thirteen agreeing repeats of the whole
+population divide cleanly by their company: nineteen
+pairs keep the byte, eight change it, and those
+eight sit in just four great-group repeats whose
+pairs all change it by the same amount.
+Next: the violating families against the loose
+acts' own positions; the long runs' boundaries and
+the tail by band; and the three-byte keys wed to
+the group.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.139 (AES-NUM-139) is complete. The loose
+acts' own positions and the rigid act's position
+are now certified, not just derived: the L0
+position is a function of the doubly-wed key, and
+so are the L1 and R0 positions — eighty-six keys,
+fifteen repeating, not one violating, under each
+of the three tests — and wedging any one of them
+further into the key changes nothing: still
+eighty-six keys, the failures still two and
+three, on the very same families wearing their one
+certified position value. The long shift runs'
+edges are read in full: sixteen boundaries, every
+one flanked, four where the shift does not change
+at the edge and twelve where it leaps — and six
+of the flanking acts are themselves big-shift
+tail acts. Read by position band, the tail is
+cleanly split: positive bands early, negative
+bands late, only the two middle bands mixing
+signs. The looser second reading of the runs
+holds seven long runs, three of them reaching
+across the gaps the strict reading stops at. And
+the rewritten byte, tested against every
+three-byte part wed to its own group, earns no
+determination at all: the three parts that contain
+the byte itself never repeat, and the one part
+that leaves it out repeats twice and violates
+twice — while the eleven agreeing wed repeats of
+the last slice divide by their company as
+fourteen keeping pairs to eight changing pairs,
+seven repeats purely keeping and the same four
+great-group repeats purely changing.
+Next: the violating families against the
+contexts' own identities; the secondary long
+runs' internal gaps and the flanking acts
+classified; and the three-byte keys unwed.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.140 (AES-NUM-140) is complete. The
+contexts' own identities split two ways: where a
+context lives is already written in the key — the
+artifact identity is a certified function of the
+doubly-wed key, eighty-six keys, fifteen repeating,
+none violating, every repeating family in the one
+artifact — but which context it is within that
+artifact is not: the context index fails on every
+one of the fifteen repeating families, each spread
+over many indices. Wedging the artifact in changes
+nothing, still eighty-six keys and the same two
+and three failures wearing the artifact's name;
+wedging the index in "repairs" everything only by
+giving every one of the two hundred seventy-one
+rows a key of its own. The loose second reading of
+the shift runs turns out to be almost as tight as
+the strict one: four hundred thirty-one gaps
+inside the seven long secondary runs, all but
+eight of them a single step, and every wider gap
+inside the three runs that merge or stretch past
+the strict runs. The sixteen acts standing at the
+strict runs' edges divide as six big-shift tail
+acts, three standing still, and seven neither.
+And the rewritten byte, tested against every
+three-byte part of its word with no group wed at
+all, still earns no determination: two parts never
+repeat, one repeats once across two groups and
+agrees, and the part that leaves the byte out
+repeats twice and violates twice — the same two
+values as wed — while in each of those four pairs
+the rewritten byte simply keeps its own pair's
+original byte.
+Next: the index sets inside the fifteen families
+and their step structure; the acts in the eight
+skipped positions; and the three-byte keys wed to
+each pair's status.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.141 (AES-NUM-141) is complete. The
+index sets inside the fifteen repeating families
+are arithmetic through and through: eight
+families climb by eights without a missing step
+and carry the eight residues one apiece, the
+families that climb by fours mostly do the same
+but a few drop single rungs — and three of the
+four rungs one family drops are, exactly, the
+whole set of its sister family standing at the
+same tuples under other distances. The residue a
+family keeps is certified as written in its key;
+the quotient is not, failing in all fifteen; and
+wedging either one in changes the chain not at
+all or only by giving every row a key of its own.
+The wider gaps in the loose runs are now read
+from the other side: the nineteen acts standing
+in the skipped places are every one of them
+found in the first context only and nowhere in
+the second — insertions, never shared acts
+astray. And the rewritten byte, wed to each
+pair's own keeping-or-changing status, still
+earns no determination: two three-byte parts
+never repeat, one repeats once and agrees
+because both its pairs keep their byte, and the
+part that leaves the byte out repeats and
+violates as it always has — while the one
+agreeing pair of pairs, read record by record,
+turns out to share nothing at all, one lone
+first record against a full twenty-seven.
+Next: what fills the families' missing rungs;
+the mirror reading of the skipped places in the
+second context; and the three-byte keys wed to
+status and group together.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.142 (AES-NUM-142) is complete. The
+families' missing rungs are not empty places at
+all: of the twenty-eight lattice slots the four
+incomplete families leave open, twenty-two are
+filled by another repeating family's contexts and
+six by singleton families, and not one is empty.
+Two families hold each other's missing rungs —
+the sister family's nineteen open slots are,
+eighteen of them, the first family's own rows,
+and the one slot both families miss is filled by
+a single singleton row. The skipped places in the
+loose runs are now read from both sides: the
+second context's gaps are exactly as wide as the
+first's, and its nineteen inserted acts are, like
+the first context's nineteen, found nowhere else
+in the whole corpus — private insertions on both
+sides, never shared acts astray. And the rewritten
+byte, wed to status and group together, still
+earns no determination: three three-byte parts
+never repeat, the part that leaves the byte out
+repeats and violates as it always has, inside the
+keeping-pairs subset the whole pattern repeats at
+subset scale while the changing-pairs subset is
+clean throughout — and the two violating pairs
+turn out to differ only in the very byte the key
+cannot see, each keeping its own byte exactly.
+Next: the occupants of the missing slots read as
+a population; the two contexts' insertions set
+side by side gap by gap; and the three-byte keys
+wed to status, group and record count together.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.143 (AES-NUM-143) is complete. The
+occupants of the missing rungs turn out to be
+their slot families in almost every particular:
+same length, same left place, same first two
+acts of the tuple and the same companion gaps in
+all twenty-eight, set apart only by the loose
+distances and, in twenty-five of them, the
+tuple's third act — and those two marks of
+difference are not the same mark, since their
+sets cross in only twenty-three. The singleton
+occupants differ from their slot families in
+the loose distances alone, save one that also
+turns the loose order around; the row at 182
+serves two families and matches each in six of
+its seven key parts. The two contexts'
+insertions, laid side by side gap by gap, carry
+the very same sizes in the very same order
+everywhere, yet at seven of the eight gaps not
+one paired act keeps its channel — each side is
+channel-uniform within a gap and the mapping
+changes from gap to gap — while the eighth gap
+keeps every channel and moves every act to a
+wholly different address. And the rewritten
+byte, wed now to status, group and the pairs'
+record counts together, still earns no
+determination: the record counts do not split
+the two violating repeats, whose pairs are
+alike in span, centre and pattern and differ,
+on all the record evidence, only in the cell
+that carries them.
+Next: the occupants read against their own
+families; the channel mapping read against the
+gaps' bounding acts and the eighth gap's second
+neighbourhood; and the three-byte keys wed to
+the cell as well.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.144 (AES-NUM-144) is complete. Read
+against their own families, the occupants lose
+the mark that set them apart from their slot
+families: every one of the twenty-eight matches
+its own family's modal third act, where only
+three had matched their slot family's — while
+the loose-distance match against their own
+families is no finding at all, since the
+distances are part of the very key that names a
+family. The channel mapping between the two
+contexts' insertions answers to nothing at the
+gaps' bounds: the bounding acts are the same
+acts in both contexts, yet two gaps with the
+same bounding channels carry different mappings,
+and neither the shifts nor the distances repair
+it. The eighth gap's second-side insertion is a
+four-act block of the familiar 24-byte form in a
+far-off offset region neither neighbour
+occupies. And the rewritten byte, wed at last to
+the cell as well, goes quiet in a new way: the
+cell splits the two violating repeats — each
+pair keeps its own byte exactly, and the pairs
+differ in the cell — but with no wed value left
+repeating, no determination is earned; and the
+cell alone, or its third component alone, or
+both together with the first byte, still do not
+determine the rewritten byte.
+Next: the two gaps that share their bounding
+channels read in full against each other; the
+eight violating cell repeats read against their
+records' centres and patterns; and the cell wed
+dissected against a first-byte wed.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.145 (AES-NUM-145) is complete. Gaps 3
+and 7, read in full, are the same gap twice over
+in everything that bounds them — same run, same
+shift, same bounding channels, same distances,
+one skipped act a side — and differ only in
+where they sit in the run, in the acts'
+identities, and in the skipped acts they carry,
+so the channel mapping's home is not at the
+bounds. The eight violating cell repeats earn
+no rescue from their records: the centre set is
+the same {127} for all 216 pairs, and the cidx
+sets, the poscat patterns and the (cidx, centre)
+sequences all violate at every repeating key.
+And the quad-wed injectivity belongs to neither
+added companion: for three sub-keys the base wed
+was already injective and both additions are
+vacuous, and in the one case with work to do,
+the cell and the first byte do exactly the same
+work, separating both pair-pairs each.
+Next: the mapping read against the skipped acts
+themselves; the rewritten byte read against the
+records' remaining companions; and the two
+base-group pair-pairs read record by record.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.146 (AES-NUM-146) is complete. The
+channel mapping answers to nothing in the skipped
+acts themselves either: one size, one residue and
+one skipped act each carry all three mappings
+between them, and the skipped acts of the two
+bounding-twin gaps occur nowhere else in the whole
+corpus. The rewritten byte earns no rescue from
+its records' remaining companions — not one
+agreeing repeat among the idx sequences, the
+in37 patterns (the same False for every record),
+its own first byte, or the (cidx, idx) sequences —
+so the single-companion lane is exhausted. And
+the two base-group pair-pairs, read record by
+record, are twins: identical in every record and
+every field except the rewritten byte itself,
+which rises by four in both, and the cell that
+homes them.
+Next: the mapping read against the second side's
+skipped acts and the joint tuples; the rewritten
+byte read against joint companions; and the
+four-step tested wherever its sub-key repeats.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.147 (AES-NUM-147) is complete. The
+channel mapping answers to nothing in the second
+side's skipped acts either: one size, one residue
+and one skipped act each carry all three mappings
+between them, and the channels earn the same single
+agreeing repeat the first side earned, at the same
+two gaps. Read channel-blind, the two bounding-twin
+gaps' skipped (offset, size) pairs occur exactly
+twice in the whole corpus — the gap's own two acts,
+at the same position in the two contexts, and
+nowhere else. The rewritten byte earns its first
+agreeing repeats from the joint companions that
+pair its records' idx sequences with its own first
+byte — seven of them — and still violates
+thirty-five times, while the joints built on the
+constant in37 pattern collapse onto the singles
+they were wed from. And the four-step belongs to
+the sub-key alone, not to the wed that first
+framed it: over the whole 224 pairs, exactly the
+same two pair-pairs share that sub-key, and both
+rise by four.
+Next: the refining joints dissected repeat by
+repeat; the four-step tested under the other
+three sub-keys; and the channel tuples wed to
+count and sizes.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.148 (AES-NUM-148) is complete. The two
+refining joints are one partition, not two: over
+the 216 violating-cell pairs they key every pair
+identically, pair by pair — no discordant
+pair-pair among all 23,220 — because each idx
+sequence on this population carries exactly one
+cidx sequence, so the second joint adds nothing.
+Their seven agreeing repeats are seven keys of
+two pairs each, every repeat split across two
+cells, and weding the joint to the cell separates
+everything and proves nothing: no key repeats at
+all. The four-step belongs to the one sub-key
+that omits the first byte: the two sub-keys that
+include it and another pair are injective alone,
+and the third's sole pair-pair steps by zero —
+a zero its own construction forces. And the
+channel tuples wed to count and to sizes earn
+exactly the channels' own single agreeing repeat
+at gaps 5 and 6, nothing more, while the joint
+channel wed restates the mapping by construction
+at all eight gaps.
+Next: the agreeing repeats read record by
+record; the injective sub-keys' near-misses; and
+gaps 5 and 6 read against each other in full.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.149 (AES-NUM-149) is complete. The seven
+agreeing repeats are a fixed profile, not a
+resemblance: every one compares exactly twelve
+equal and seven differing over the same nineteen
+fields, and the seven differing fields are the
+same seven every time — the six non-keyed word
+bytes and the record cell — while the thirty-five
+violating repeats, as control, differ more, and
+their extra differences are the verdict fields
+themselves. The near-miss census earns no
+four-step law: at Hamming-1 range the byte-0 axis
+steps by 4, 8, 12 and 64. And gaps 5 and 6 are
+the same gap twice over at their bounds, like
+gaps 3 and 7 before them; nothing they share
+determines their mapping short of the skipped
+channels themselves, which are the mapping's own
+components.
+Next: the three control comparisons that carry
+the agreeing profile; the eight byte-0-differing
+near-misses read against each other; and gap 4
+read in full against gaps 5 and 6.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.150 (AES-NUM-150) is complete. The three
+control comparisons that carry the agreeing profile
+sit in violating repeats 3, 18 and 35, and each is
+field-for-field an agreeing comparison: the same
+differing seven, the same equal twelve. Each host
+repeat is violating only through its siblings — the
+profile belongs to a pair-pair, the verdict to the
+whole repeat. The eight byte-0 near-miss listings
+are six distinct pair-pairs, two of them counted
+under both sub-keys; the +4 pair-pairs form a ladder
+in group (14, 9992) whose verdict pattern is shared
+by the step-8 and step-12 listings, so no +4 law is
+earned. And gap 4 is gaps 5 and 6's sibling at
+distance: four chained skipped acts between its
+bounds where they enclose one, its full mapping
+sequence repeating once per skipped act.
+Next: the six distinct near-miss pair-pairs as one
+population and the ladder chain against the full
+224; the 50 control comparisons decomposed by
+verdict-field pattern; and run 74's internal gaps
+as one sequence, with skipped-block contiguity over
+all 8 gaps.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.151 (AES-NUM-151) is complete. The six
+distinct byte-0 near-miss pair-pairs are two
+species: the four ladder-side pair-pairs carry
+B-minus-A (0, 0) on both pairs, B step = A step,
+SAME/SAME; the two (20, 32720) pair-pairs carry
+none of that. The (byte1, byte3) = (1, 128)
+population is exactly six pairs, and its ladder
+is a closed chain — byte0 20, 24, 28, 32 in steps
+of 4, the byte2 branches offset by one rung, no
+rung outside 20–32 even with byte3 widened. The
+50 control comparisons split rigidly by verdict
+field: B byte 0 only 29, status only a measured
+zero, both 18, neither 3 — and each class differs
+on one fixed field set, so status never differs
+unless B byte 0 does. Run 74 holds five internal
+gaps, not three: gaps 3 and 7 join 4, 5 and 6,
+with mappings ((2, 0),) and ((1, 2),) at the ends.
+Skipped blocks chain by preceding size in gaps 1,
+2 and 4, are single acts in gaps 3, 5, 6 and 7,
+and break only in gap 8, whose 24-byte acts sit
+at a 512 stride.
+Next: gap 8's non-contiguous block against the
+contiguous blocks of gaps 1 and 2; the two
+non-member (1, 128) pairs' sub-key neighbourhoods;
+and run 74's gaps 3 and 7 in full against gaps 4,
+5 and 6.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.152 (AES-NUM-152) is complete. Gap 8's
+512 stride is two ladders, not one: side B's
+skipped block is a uniform 512 ladder in a region
+404,667,392 bytes from side A's, and side A's
+first skipped act sits exactly 24 bytes after
+the shared left bounding act — contiguous with
+the bound — so its first advance measures
+488 = 512 − 24, while its other three acts sit
+on the ladder extending the bound. Gaps 1 and 2
+share none of gap 8's properties: identical
+skipped offsets in both contexts, preceding-size
+advances, one repeated cross-channel mapping.
+The two non-member (1, 128) pairs earn no byte-0
+near-miss listing for a measured reason: every
+Hamming-1 neighbour they have, under either
+sub-key, differs at byte2 — never at byte0 —
+while every member pair earns its listing under
+both sub-keys. And run 74 is closed: its five
+gaps share exactly the 9 run-frame features of
+32 and split on the other 23, gap 4 the distant
+sibling in every table (9 equal against both
+gap 3 and gap 7).
+Next: gap 8's two skipped regions against their
+contexts in full; the byte2-differing Hamming-1
+census over the full 224; and run 62's gaps 1
+and 2 against each other, completing run 62.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.153 (AES-NUM-153) is complete. Gap 8's
+ladders are now measured against their full
+contexts: every anchor sits at offset residue 0
+mod 512, side A's skipped ladder rungs belong to
+context A's longest 512-chain (12 rungs,
+791,775,232–791,780,864), which does not end at
+the right bound — it resumes at positions
+744–748 after the bound's region and ends at the
+context's largest residue-0 offset — while side
+B's four rungs form an isolated 4-chain at the
+very top of context B (nearest distinct offset
+261,632 bytes below, none above), not a wider
+ladder; the two skipped regions are disjoint
+across the contexts. The byte2-differing
+Hamming-1 census over the full 224 is far larger
+than its byte-0 mirror (85 listings, 84 distinct
+pair-pairs, 96 individual pairs, exactly one
+pair-pair under both sub-keys), and the (1, 128)
+roles partly invert there: the non-members earn
+3 and 1 listings, members 178@24 and 176@28 earn
+none, and the population totals tie at 4/4. Run
+62 is closed: its two gaps share exactly the
+same 9 run-frame features of 32 that closed run
+74, and split on the other 23.
+Next: the two contexts' residue-0 offset sets in
+full against each other; the byte2 census's hub
+pairs as one population; and run 102's single
+gap against the run-62/run-74 frame.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.154 (AES-NUM-154) is complete. The two
+contexts' residue-0 offset sets share 25 of their
+50 union offsets, and the shared offsets'
+positional order is preserved exactly — the
+context-position sequence is identical in A and
+B, 0 inversions — while their ranks shift
+measurably (13 sit exactly 5 ranks lower in B)
+and their chain memberships change (A's 12-chain
+approach rungs are B's whole approach 4-chain).
+The A-only 12 are whole chain segments; the
+B-only 13 all lie beyond A's maximum region. The
+byte2 census's 11 hub pairs form a closed
+population: every one of their 26 listings is
+hub-to-hub, their partners are exactly
+themselves, and they share one cell, one group,
+A byte0 128 and one record each. Run 102's
+single gap matches neither earlier run on any of
+the 9 frame features — nor do runs 62 and 74
+match each other — so the frame is a within-run
+constancy class of run-identifying values; on
+the split-kind features gap 8 matches run 74's
+gap 4 alone, on distances and skipped counts.
+Next: the shared offsets' chain correspondence
+in full; the hub closure's boundary at exactly
+3 listings; and gap 8 against gap 4 in full.
+Broad ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.155 (AES-NUM-155) is complete. The 25
+shared residue-0 offsets form 16 chain-to-chain
+correspondences: 13 of A's 16 chains survive
+whole and identical in B, A's 6-chain is
+truncated at its head, and A's 12-chain alone
+splits — its first four rungs are B's approach
+4-chain, its eighth rung a B singleton. No chain
+merges in either direction. The asymmetry of the
+private rungs is exact: A's A-only rungs are
+mostly interior losses inside corresponding
+chains, B's B-only rungs are entirely additional
+chains. The 7 pairs at exactly 3 listings touch
+no hub at all — their 13 boundary listings are
+8 both-three and 5 to neither partners — while
+the hub component is a simple graph: 26 listings
+join 26 distinct hub pairs, and every hub's
+degree equals its own listing count. Gap 8
+equals run 74's gap 4 on exactly the same 4 of
+32 features (distances and skipped counts, the
+values unique to gap 4 in its run) and differs
+structurally on everything else, frame 0 of 9
+included. Next: the surviving chains in
+context-position space; the three population as
+a graph in full; and the complete pairwise gap
+table. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.156 (AES-NUM-156) is complete. Identical
+chains are not position-identical: of the 13
+surviving chains, 5 sit at exactly the same
+context positions in both contexts (the head
+singletons at positions 9/12/18/21/24), 8 are
+carried at a single uniform shift (+2 for seven,
+-7 for the one tail singleton at A position
+682), and none is mixed; the truncated 6-chain's
+shared rungs are position-identical and the
+split 12-chain's two B fragments both shift
+uniformly +2. The three population's graph has
+three components over the threes — [1] isolated
+within the threes, [2, 3] joined by a double
+edge, and a complete K4 on threes 4-7 — its 5
+neither listings run to only 4 distinct
+partners, and the threes-plus-neithers union
+(11 vertices, the hub component's size) is
+disjoint from the hubs but not closed: exactly
+1 of its 15 touching listings leaves it. The
+complete 28-pair gap table is bimodal by run:
+same-run pairs share the whole frame and score
+9-19, cross-run pairs share no frame and score
+0-4, with gap 8 x gap 4 the unique cross-run
+pair above 1 and gaps 5 x 6 the maximum pair at
+19/32. Next: the position-shift bands read in
+full; the one external listing and its partner
+in full; and gaps 5 x 6 in full. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+
+Slice 4.157 (AES-NUM-157) is complete. The full
+shared-act population is not two bands: its 689
+shifts take 69 distinct values in 103 secondary
+runs (102 transitions printed exactly). The
+opening is clean — 9 acts at shift 0 over A
+positions 2–24, then the longest run, 158 acts
+at +2 over A 26–183, with the first transition
+between A 24 and 26 and the A 50–149 bands pure
++2 — but from A 184 the shift fragments through
+excursions to +432/+434 and dozens of short
+runs, with three later long runs (53 at +3, the
+83-act shift-0 run at A 524–614, and a final 58
+at +2). Zero residue-0 rungs sit between A
+positions 25 and 674, so the rungs' own band
+boundary remains unmeasured. The −7 singleton
+is the only −7 act in the population, flanked
+by five huge negative shifts at A 676–680 and
+by +2 from A 683 on. The union's single leak
+(listing 21) ends at a leaf: 406820cf has
+exactly one listing, touches no hub and no
+three, and its chain reaches three 1 in two
+steps through 40f079cf. Gaps 5 × 6 differ only
+in identity and position — all 13 differing
+features are which acts, where, and what was
+skipped; every structural feature is equal,
+and both gaps sit in the same 83-act shift-0
+run. Next: the +432/+434 excursion at A
+184–191 in full; the leaf chain's root three
+40f019ce as one graph; and gaps 3 × 5 and
+3 × 6 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.158 (AES-NUM-158) is complete. The
++432/+434 excursion at A 184-191 is ordinary
+acts at extraordinary B positions: its sizes are
+the strict alternating (1552, 14864) pairs with
+advances 1552/15344 and slack 0/480, exactly the
+-2 flank-after's pattern, while entry slack 384
+is the window's only other slack value; B-order
+is not preserved - the +432 acts land at
+B 616-619, the two shift-0 acts stay at
+B 188-189, and the +434 acts land at B 624-625.
+The leaf chain's root three 40f019ce heads a
+complete 5-vertex graph: listings 23/24/26 form
+a triangle with its two neither partners, the
+leaf chain hangs off the triangle at 40f079cf,
+there is no direct leaf-root edge, and the root
+touches no hub and no other three. Gaps 3 x 5
+and 3 x 6 both score 15 equal / 17 differing of
+32, the 15 equals being exactly the 9 frame
+features plus distances, skipped counts and
+skipped sizes; against gaps 5 x 6's 19/32 the
+shortfall is exactly the channel set (gap 3 is
+run 74's channel-(2->0) gap; 5 and 6 are both
+(0->1)), and gap 3 sits in the same run 74 as
+gaps 5 and 6. Next: the excursion's B fragments
+in full (the B 616-625 neighbourhood); the root
+triangle's two neither partners as a pair; and
+gap 4 in full, completing run 74. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+
+Slice 4.159 (AES-NUM-159) is complete. The
+excursion's B neighbourhood is fully shared:
+all 21 B positions 610-630 carry shared acts,
+run 74's tail ends at B 614, a single +93
+intruder (A 522, run 72) sits at B 615, and
+two other displaced pairs (+4, +238) fill the
+space between the +432 block and the +434
+pair with no empty slot. No fragment has a
+same-run B neighbour - every neighbour is an
+other-run act - and even the in-place pair's
+context carries two displaced singletons
+(-190, -192) at B 186-187. The root triangle's
+two neither partners are structural twins:
+7 of 15 fields same, 8 different, sharing
+exactly their mutual listing 24, with partner
+A in the neither's cell and partner B in the
+root's cell (general law not proven). Gap 4
+in full completes run 74: it is the run's
+only multi-skipped gap (4 skipped, distance
+5/5) and is channel-(0->1) like gaps 5 and 6,
+so run 74's mappings in step order are
+(2->0), (0->1), (0->1), (0->1), (1->2). Next:
+the B 615 intruder and run 72 in full; the
+partner-cell correspondence census-wide; and
+the first-skipped values of all 8 gaps as one
+table. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.160 (AES-NUM-160) is complete. Run 72
+is a singleton: the B 615 intruder is its only
+act, sitting in A order between a -238 triple
+(run 71) and a -239 singleton (run 73), one
+A position before run 74's head, and its B
+landing is the first B position after run 74's
+tail. The partner-cell correspondence is not
+a census law: of 4 neither partners only 2 sit
+in a touched vertex's cell, 1 sits in a cell
+only untouched vertices carry (partner A,
+correcting the 4.159 reading), and 1 sits in a
+cell no other pair carries; the threes score
+4 of 7. The first-skipped past-left-end values
+of all 8 gaps form one table on side A (448 x3,
+464 x2, 480, 384, 0), the sides equal for gaps
+1-7, and gap 8 alone split (A 0, B 404,667,368)
+- the measure is a contiguity measure. Next:
+gap 8's B-side skipped population in full; the
+6864/6932 cell pair's full population; and the
+seam runs 70/71/73's B neighbourhoods. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.161 (AES-NUM-161) is complete. Gap 8's
+B-side skipped block is a regular 512-stride
+ladder (size 24, channels 0,1,2,0, 488 past each
+predecessor's end) transplanted to offsets
+1,196,444,160 onward: by position it is bounded
+by the gap's own bounds, but by offset it holds
+contiguous ranks 747-750 with its first act only
+496 past its offset predecessor's end - the
+404,667,368 split is a position-context artifact
+of the contiguity measure. The (20, 32720) cells
+6864 and 6932 are disjoint 27/27 populations
+(54 pairs, none carrying both; induced graph 21
+internal edges, 4 boundary, 28 isolated), and
+membership is a function of no tested field. At
+the seam, runs 71+73 form one contiguous B block
+at 281-284 and run 70 sits at B 520-522; all 28
+window acts are shared single-positioned. Next:
+gap 8's B-block offset region in full; the
+6864/6932 split against the untested fields; and
+the seam's remaining displaced blocks (runs 93,
+19, 20). Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.162 (AES-NUM-162) is complete. Gap 8's
+B-block is the very top of context B's offset
+order: its skipped acts hold ranks 747-750 of
+751 distinct offsets, the last skipped act is
+B's largest-offset act, and nothing follows the
+block in offset order. The whole top region
+(ranks 738-750) is thirteen B-only acts scattered
+across B positions 19-738, and the B 674 offset
+predecessor is itself B-only - no run, no A
+extent. The 6864/6932 split is a function of no
+low-dimensional untested field: every single
+byte and the byte3 difference fail, and every
+field that separates the 54 is near-pair-identity
+(217-224 distinct values over 224 pairs), so the
+determinant stays NOT PROVEN. At the seam, runs
+93, 19 and 20 are each one contiguous B block
+(B 280; B 518-519; B 285-300), with A-adjacent
+runs 19 and 20 landing far apart in B. Next: the
+thirteen B-only acts against context A; the
+split against the record-level fields; and run
+20's full context plus runs 92/94/95. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.163 (AES-NUM-163) is complete. The top
+offset region is entirely outside context A: all
+thirteen B-only acts carry offsets above A's
+largest offset (0 of 13 in A in any form, insertion
+rank 749 for every one), and A's own top eleven
+are all 24-byte ladder acts, eight of them not in
+B either. The 6864/6932 split is a function of no
+non-definitional record-level field: every pair
+in the 54 carries exactly one record, the cidx
+and idx sequences match the two cells pair-for-
+pair (27 values, each once in each cell), n /
+centre / in37 are constant, and the only
+separating fields are the cell sequence itself
+(the definition restated) and the full tuple
+(near-pair-identity) - the determinant stays NOT
+PROVEN. Run 20's A context is a shift staircase
+(+2, +240, +5, +7, +111, +135) while its B block
+is followed by run 46, then runs 21, 24 and 26;
+runs 92/94/95 are each contiguous at home. Next:
+the offset-range boundary in full; the split as
+a matched-pair comparison; runs 21/22/23 and 46.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.164 (AES-NUM-164) is complete. The
+offset-range boundary is a clean tail cut: B
+first passes A's largest offset at B offset
+rank 721, and the 30 B acts above it are exactly
+the contiguous offset tail (ranks 721-750), all
+unshared, in four offset clusters, while no A
+act reaches the smallest above offset. The
+6864/6932 split as a matched-pair comparison
+across the 27 shared cidx values has no constant
+or structured whole-value relation - every int,
+XOR and bytewise relation is distinct 27 of 27 -
+except the byte3 differences, confined to
+{14, 15, 16} on both sides without being
+constant; the determinant stays NOT PROVEN.
+Runs 21/22/23/46 are each one contiguous B pair,
+run 23 a +135 pair (correcting 4.163's
+abbreviated prose), and run 46's -102 pair sits
+wedged between run 20's B block and run 21.
+Next: the above population's B-position
+structure; the byte3 confinement against the
+remaining companions; runs 43/44/45 and 47/48.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.165 (AES-NUM-165) is complete. The
+above-boundary population's B-position structure
+is a dense head-and-tail interleaving: 19 of the
+30 above acts sit in the B 0-27 head window,
+whose other 9 positions are exactly shared run-0
+acts in place at shift +0 and nothing else; the
+main block's 23 acts are strictly increasing in
+offset rank with B position (B 5 rank 728 to
+B 738 rank 750); three outliers at B 229/272/674
+and the B 735-738 / 747-750 tail segments
+complete it, in 13 B-position segments with
+4 isolated acts. The only offset-order reversals
+in B position are the 873M ladder triple
+(B 1/0/27) and the just-past-ceiling pair
+(B 748/747). The matched-pair byte3 difference
+confined to {14, 15, 16} is a function of no
+non-trivial remaining companion: every single
+byte3 value, poscat, status, within-pair byte3
+difference and byte3-of-diff byte fails on both
+sides, the two sides' diffs are equal in only
+12 of 27, and the only FUNCTION verdicts are
+the definitional and trivial ones - the
+determinant stays NOT PROVEN. Runs 43 and 48
+are each +32 PAIRS (A 399-400 and A 407-408,
+correcting 4.164's abbreviated prose), runs
+44 (+239) and 45 (+275, landing inside the
+B 674 outlier window) are singletons, run 47
+is a +2 pair, and run 46's whole A window
+resolves into six contiguous-B runs. Next: the
+B-position / offset-rank order relation in
+full; the byte3 confinement against the
+remaining byte fields; runs 42/53/60 and 61/62.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.166 (AES-NUM-166) is complete. The
+above population's B-position / offset-rank
+order relation is three rank blocks with
+exactly two internal swaps: the triple head
+(B 0/1, ranks 725/724), a 23-act block
+(B 5-738) whose ranks 728-750 strictly
+increase with B position, the triple's third
+act alone at B 27 (rank 726), and four low
+acts at B 747-750 (ranks 722/721/723/727).
+Adjacent rank deltas are +1 in 21 of 29
+steps, delta is a function of neither gap
+nor vice versa, and the full pairwise
+discordance is 119 of 435 - 117 cross-block
+pairs plus the 2 swaps. The byte3
+difference confined to {14, 15, 16} is a
+function of no byte0 field at any
+granularity and of no byte1/byte2 field
+except trivial 24-27-key verdicts and one
+single-sided 19-key sample regularity (the
+matched A byte2 difference); the determinant
+stays NOT PROVEN. Runs 42 (+241 triple),
+53 (+7 pair), 60 (-1 pair) and 61 (+1 pair)
+are each one contiguous B block; run 62 is
+a 53-act +3 backbone at A 438-497 /
+B 441-500, interrupted only by the seven
+non-single-positioned acts at B 447-448 and
+B 455-459. Next: run 62's two internal gaps
+in full; the byte2 regularity against the
+wider pair population; runs 65 and 67.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.167 (AES-NUM-167) is complete. Run 62's
+two internal gaps are channel disagreements on an
+identical (offset, size) sequence: at all 23
+corresponding positions of the A 438-460 /
+B 441-463 windows the (offset, size) pairs are
+identical, and the channel differs at exactly the
+seven gap correspondences (gap 1 A ch 1 vs B ch 2;
+gap 2 A ch 2 vs B ch 0), so each gap act is B-only
+and each skipped act A-only with exactly one
+corpus occurrence each, the skipped positions
+mapping to the gaps by the run's +3 shift. The
+matched A byte2-to-byte3 regularity does NOT
+extend to the wider population: aggregated over
+all 56 ordered cell pairs of the (20, 32720) group
+it is NOT A FUNCTION on either side (only the
+original pair's own 27 of 81 widened key rows
+agree; 54 contradict), the within-pair test fails
+everywhere, and the determinant stays NOT PROVEN.
+Runs 65 (+0 singleton in place), 66 (-156 pair at
+B 346-347) and 67 (-2 pair in place) are each one
+contiguous B block. Next: the channel-disagreement
+correspondence across both full contexts; the
+per-ordered-cell-pair FUNCTION pattern; runs 63
+and 64. Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.168 (AES-NUM-168) is complete. The
+channel-disagreement correspondence across both
+full contexts covers exactly 31 of the 122
+context-only distinct acts: every both-side
+(offset, size) key is 1-1, the channels differ at
+all 31 pairs (equal channels 0; census (0, 1) 12,
+(1, 0) 6, (1, 2) 7, (2, 0) 6 — no constant
+remapping), and the position deltas equal a
+neighbouring secondary-run shift in 21 of 31
+pairs with 10 exceptions, so no position law is
+proven. The unmatched residue (29 A-only, 31
+B-only acts) shares no key at all. No tested
+feature explains the great group's per-ordered-
+pair FUNCTION pattern (all 17 candidates fail on
+both sides and combined; verdict counts reproduce
+AES-NUM-167 exactly), but the verdict is
+direction-symmetric in 28 of 28 unordered pairs
+on both sides, and the never-contradicted keys
+-191/-145 never recur on the aval side outside
+the original pair's own rows. Runs 63 (-154 pair
+at B 344-345) and 64 (+23 singleton at B 523) are
+each one contiguous B block. Next: the 31 pairs'
+position-delta law recomputed directly with the
+10 exceptions in full; the unmatched heads'
+sequence relation; runs 68 and 69. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+
+Slice 4.169 (AES-NUM-169) is complete. The 31
+correspondence pairs' position-delta law, recomputed
+directly from the two full context lists, confirms
+AES-NUM-168's derived census exactly: delta equals
+the preceding run shift in 19 of 31 pairs, the
+following's in 17, at least one neighbour's in 21,
+with the same 10 exceptions at the same positions;
+delta is a function of no tested feature (channel
+pair, size, A position band, or their joint all
+NOT A FUNCTION). The two +174 exceptions equal run
+7's shift, the run immediately after the run
+containing both their neighbours; the other eight
+exceptions match no neighbouring run shift within
+three runs. The unmatched heads, aligned over
+positions 0-27, agree in size at 25 of 28 positions
+and channel at 26, differing in size only at
+position 13 (32,728 vs 32,768, +40) and at 26-27;
+their offset differences at size-agreeing positions
+take 13 distinct values, not constant. Runs 68
+(+0 pair in place) and 69 (+2 block of 8) are each
+one contiguous B block. Next: the delta
+match-distance census; the heads' offset-difference
+family structure; runs 70 and 71. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+
+Slice 4.170 (AES-NUM-170) is complete. The 31
+pairs' delta match-distance census closes the
+±3 window: 21 pairs match at distance 0, the
+two +174 exceptions match at distance 1 (run
+7), distances 2 and 3 occur zero times, and
+the other eight exceptions match no run in
+the window. Match distance is a function of
+nothing tested. The heads' offset differences
+partition positions 0-27 into three exact
+families (9 shared at 0, three 873-based,
+sixteen 417-based); the 417-family is not
+monotone, its diff is a function of no size
+or channel field, and its position-16 outlier
+is an A-side offset dip (B steps smoothly
++376/+24 while A drops -100,392 then rises
++100,864). The three 873 B offsets span
+exactly 1,024 in +512 steps. Runs 70 (+4
+triple) and 71 (-238 triple) are each one
+contiguous B block. Next: the unbounded
+match-distance census for the eight NONE
+pairs; the 417-family equal-diff pairing
+structure and A-offset ordering; runs 72
+and 73. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.171 (AES-NUM-171) is complete. The
+unbounded match-distance census over the full
+103-run table resolves six of the eight NONE
+pairs (+170 matches only run 13 at distance 7;
++30 only run 35 at distance 42; the delta-0
+pair at A 651 matches run 74 at distance 11)
+and proves the −205 and −212 deltas are shifts
+of no run anywhere (NEVER). Unbounded match
+distance is a function of nothing tested. The
+417-family's equal-diff pairing is exactly its
+adjacent pairing (four pairs, no non-adjacent
+equal diffs; each pair's A and B steps both
+equal its first member's size), and its
+A-offset ordering departs from position order
+in exactly eight reversals, seven of them
+position 16's; position 16's A offset ranks
+second-lowest of all 28 head A offsets. Runs
+72 (+93 singleton) and 73 (−239 singleton) are
+each one contiguous B block. Next: the full
+run-table shift census against the 31 pair
+deltas; the 417-family A-offset ordering with
+position 16 removed; runs 74 and 75. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.172 (AES-NUM-172) is complete. The
+full run-table shift census (103 runs, 69
+distinct shifts, range -455 to +434) is mixed
+against the 31 pair deltas: nine of the eleven
+distinct deltas occur as run shifts and exactly
+two never do (-205 and -212, four pairs), so
+the pair deltas are neither a subset of nor
+disjoint from the run shifts. With position 16
+removed, the 417-family's A-offset ordering
+has exactly one reversal, (5, 6) (104 of 105
+concordant; the 5->6 step is A -1,024 against
+B +512). Run 74 is an 83-act +0 in-place block
+whose eight internal B gaps are exactly the
+delta-0 correspondence pairs inside its extent,
+and run 75 is a -111 singleton. Next: run 74's
+eight internal gaps in full; the head's three
+lowest A offsets against the remaining 25;
+runs 76 and 77. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.173 (AES-NUM-173) is complete. Run
+74's eight internal gaps are exactly the
+delta-0 pairs inside its extent, each in full:
+channel census {(0, 1): 6, (1, 2): 1, (2, 0): 1},
+sizes 32,784x5 and 26,128x3, spacings
+[8, 1, 1, 1, 3, 5, 12]. The ninth delta-0 pair
+at A 651 shares the (1, 2) pair and the 26,128
+size but lies in no run's extent, in the seam
+between run 85's last act at A 650 and run
+86's first at A 652. The head's three lowest
+A offsets (positions 6, 16, 5) are all
+417-family but do NOT form a separated low
+cluster: their gap to the fourth-lowest is
+7,168, only ninth of the 27 sorted-order gaps.
+Runs 76 (+4 pair) and 77 (+8 pair) are each
+one contiguous B block. Next: the eight
+larger head gaps in full; the A 640-660
+placement region of the ninth pair; runs 78
+and 79. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.174 (AES-NUM-174) is complete. The
+eight larger head gaps are crossed from
+417-family positions in all eight cases:
+below-side 8 of 8 in family, above-side 6 of
+8, and the two family exits (33,280 and
+32,768) land on the diff-0 identity positions
+9 and 18. The A 640-660 region is 20 shared
+acts plus the ninth pair's A-only act at 651
+on the A side, 19 shared plus two B-only acts
+at B 650-651 on the B side; run 85 (A 642-650
+/ B 641-649) and run 86 (A 652-657 / B
+678-683) are each one contiguous B block.
+Runs 78 (-391 pair, sizes 1552/14864, channel
+0) and 79 (+7 pair, sizes 32784/26128,
+channel 1) are each one contiguous B block.
+Next: the head's twelve non-417-family
+positions in full; runs 84, 87 and 88 in
+full; runs 80 and 81. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+
+Slice 4.175 (AES-NUM-175) is complete. Nine of
+the head's twelve non-417-family positions are
+diff-0 identity acts (positions 2, 3, 4, 7, 9,
+12, 18, 21, 24 — every one 24 B, A act == B act);
+the other three (0, 1, 27) carry B offsets in
+the 873 prefix group spanning only 1,024, with
+positions 0/1 in reversed B order and position
+27 the twelve's only size-and-channel mismatch
+(A 14,864 ch 0 vs B 24 ch 2). Only positions 9
+and 18 sit above a larger gap. Runs 84 (-5,
+five acts), 87 (-418 pair), 88 (+1, five acts),
+80 (-393, four acts) and 81 (+25, six acts) are
+each one contiguous B block. The slice's first
+launch died uncertainly with no output (cause
+NOT ESTABLISHED, batch closed); a retry under a
+new one-shot contract completed with all
+controls exact and a byte-identical prefix.
+Next: the 873-prefix trio's B-side placement;
+runs 82, 83 and 89 in full; runs 90 and 91.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.176 (AES-NUM-176) is complete. The
+873-prefix trio's three B acts are consecutive
+in B-offset order at ranks 724-726 of 751, in
+the order 1, 0, 27, at exactly +512 steps (span
+1,024 against A offsets spanning 193,040), and
+they are the only 873-prefix acts in either
+context (three in B, zero in A). Positions 0/1's
+A and B acts are each single-context only;
+position 27's B act is B-only while its A act
+lives at B index 29 inside run 1. The 0/1
+reversal is the trio's only reversal, against
+107 inversions head-wide (41 involving a trio
+position). Runs 82 (+49), 83 (+24), 89 (-277),
+90 (+1) and 91 (-255) are each a singleton and
+therefore one contiguous B block; runs 90/91
+lengths measured for the first time. Next: the
+trio's B-offset-order flank acts in full; runs
+92 and 93 in full; runs 94 and 95. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.177 (AES-NUM-177) is complete. All
+four 873-prefix trio flank acts are B-only
+distinct with no A-side counterpart, each
+occurring once in B and nowhere in A: rank
+721 (B 748, (791781376, 24, 1)), rank 722
+(B 747, (791781888, 24, 0)), rank 723 (B 749,
+(800053760, 24, 2)) and rank 727 (B 750,
+(973679616, 24, 0), context B's last act).
+They are exactly B's last four acts, with
+the 747/748 pair reversed between B-index
+and B-offset order, following B 746 — the
+last shared act in B-offset order (rank
+720, run 102 at +2). From rank 721 onward
+every act in the window ranks 718–732 is
+B-only; the flank gaps are +512, +8,271,872
+and +73,144,832, so the trio's 512-step
+ladder does not extend. Run 92 is a +1 pair
+(A 668–669 / B 669–670); runs 93 (−391),
+94 (+1) and 95 (+2) are singletons measured
+for the first time, each one contiguous B
+block. Next: the window's upper acts at
+ranks 728–732 and its lower shared boundary
+at ranks 718–720 in full; runs 96 and 97;
+runs 98 and 99. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.178 (AES-NUM-178) is complete. All
+five B-offset-order window upper acts are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A:
+rank 728 (B 5, (1196182016, 24, 2)), rank 729
+(B 6, (1196182528, 24, 0)), rank 730 (B 8,
+(1196183040, 32784, 1)), rank 731 (B 10,
+(1196216320, 7800, 2)) and rank 732 (B 11,
+(1196224120, 344, 2)). They sit in B's head
+interleaved with shared run-0 acts. The
+window's lower boundary is three shared
+run-102 acts at +2: rank 718 (B 733,
+(791776256, 24, 2), A 731), rank 719 (B 734,
+(791776768, 24, 0), A 732) and rank 720
+(B 746, (791778816, 24, 0), A 744). Runs 96
+(−283) and 97 (−300) are singletons; runs
+98 (−455) and 99 (−278) are singletons
+measured for the first time, each one
+contiguous B block. Next: the B-offset-order
+acts above the window at ranks 733–736 in
+full; runs 100 and 101 in full; run 102 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.179 (AES-NUM-179) is complete. All
+four B-offset-order acts above the window are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A, all
+channel 1: rank 733 (B 13, (1196224512, 32768,
+1)), rank 734 (B 14, (1196257280, 14416, 1)),
+rank 735 (B 15, (1196271696, 376, 1)) and rank
+736 (B 16, (1196272072, 24, 1)). They are
+consecutive in both B-index and B-offset
+order, and ranks 733-737 form one contiguous
+offset chain (each step equals the lower act's
+size). Runs 100 (-452) and 101 (-7) are
+singletons. Run 102, the final secondary run
+(58 acts at +2, A 683-744 / B 685-746), is NOT
+one contiguous B block but two: B 685-734
+(50 acts) and B 739-746 (8 acts), separated by
+four B-only 24 B acts at B 735-738, while four
+A-only 24 B acts at A 733-736 separate the
+blocks on the A side. Every secondary run
+0-102 has now been given in full. Next: the
+B-offset-order acts at ranks 737-742 in full;
+the four B-only interrupter acts at B 735-738
+in full; the four A-only acts at A 733-736 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.180 (AES-NUM-180) is complete. All
+six B-offset-order acts at ranks 737-742 are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A:
+rank 737 (B 17, (1196272096, 32728, 1)), rank
+738 (B 19, (1196304896, 7712, 0)), rank 739
+(B 20, (1196312608, 328, 0)), rank 740 (B 22,
+(1196313088, 24848, 1)), rank 741 (B 23,
+(1196337936, 264, 1)) and rank 742 (B 25,
+(1196338688, 30008, 2)). The four B-only
+interrupter acts at B 735-738 are the last
+four acts in B-offset order, at ranks
+747-750. The four A-only acts at A 733-736
+are A-offset ranks 740-743, with the same
+(size, channel) sequence as the interrupters
+but no shared act, key or offset. Every act
+from rank 721 to 750 in B-offset order is
+now B-only distinct. Next: the B-offset-order
+acts at ranks 743-746 in full; the A-only
+acts at A 745-747 in full; the A-offset-order
+acts at ranks 744-748 in full. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+
+Slice 4.181 (AES-NUM-181) is complete. All
+four B-offset-order acts at ranks 743-746 are
+B-only distinct with no A-side counterpart,
+each occurring once in B and nowhere in A:
+rank 743 (B 26, (1196368696, 280, 2)), rank
+744 (B 229, (1196369408, 26128, 2)), rank 745
+(B 272, (1196396032, 14352, 1)) and rank 746
+(B 674, (1196410880, 32784, 2)). The three
+A-only acts at A 745-747 are A-offset ranks
+745-747, each once in A, nowhere in B, with
+no B-side counterpart or key. The
+A-offset-order acts at ranks 744-748 are one
+shared run-102 act at +2 (rank 744, A 744)
+followed by four A-only acts at A 745-748
+that close both A orders, with uniform +512
+steps and the (size, channel) sequence
+[(24, 0), (24, 1), (24, 2), (24, 0)]. Next:
+the three further B-only acts inside 4.181's
+B-index neighbourhoods in full — B 27
+(rank 726), B 271 (rank 29) and B 671
+(rank 689). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.182 (AES-NUM-182) is complete. All
+three further B-only acts inside 4.181's
+B-index neighbourhoods are B-only distinct
+in full, each occurring once in B and nowhere
+in A: B 27 ((873199616, 24, 2), B-offset rank
+726, no A act under its key, the third act of
+the +512/+512 offset triplet at ranks
+724-726); B 271 ((3429888, 2064, 1), rank 29,
+no A act under its key, between shared
+run-17 and run-18 acts in B-index order); and
+B 671 ((791121408, 32784, 2), rank 689, no
+exact A counterpart, but its (offset, size)
+key is one of the 31 both-side keys, held on
+the A side by the A-only act at A 670
+(791121408, 32784, 1) on channel 1 against
+B's channel 2, A-offset rank 707; in offset
+order both acts sit between run 92's last
+act and run 93's act). Next: the two other
+acts of B 27's offset triplet in full
+(B 1 rank 724, B 0 rank 725); the two further
+A-only acts inside A 670's A-index
+neighbourhood in full (A 673 rank 710,
+A 675 rank 712); and the shared run-93 act
+following both in offset order in full
+((791154688, 18448, 2) at A 671 / B 280).
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.183 (AES-NUM-183) is complete. The
+two other acts of B 27's offset triplet are
+B-only distinct in full, each occurring once
+in B and nowhere in A with no A act under
+their keys: B 1 ((873198592, 24, 0), B-offset
+rank 724) and B 0 ((873199104, 24, 1), rank
+725), completing the +512/+512 triplet at
+ranks 724-726; in B-index order the pair sits
+at the head in the opposite order to offset
+order. The two further A-only acts inside
+A 670's neighbourhood are A-only distinct in
+full: A 673 ((791206912, 32784, 1), rank 710,
+no B act under its key) and A 675
+((791266816, 32784, 1), rank 712, no exact B
+counterpart but its key held in B by the
+B-only act (791266816, 32784, 2) at B 392 on
+channel 2). The shared run-93 act
+(791154688, 18448, 2) at A 671 / B 280 is a
+-391 singleton occurring once on each side,
+following B 671 and A 670 in offset order.
+Next: the B-only act at B 392 in full (rank
+693); the two B-only acts at B 5 (rank 728)
+and B 6 (rank 729) in full; and the shared
+run-94 act following the run-93 act in both
+offset orders in full ((791173632, 32784, 0)
+at A 672 / B 673). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.184 (AES-NUM-184) is complete. The
+B-only act at B 392 is B-only distinct in
+full, each occurring once in B and nowhere
+in A with no exact A-side counterpart, but
+its (791266816, 32784) correspondence key
+is held in A by the A-only act at A 675
+((791266816, 32784, 1), A-offset rank 712)
+— a 1-1 key pair differing only in channel
+(B 2, A 1); in B-offset order B 392 sits
+between run 95's act (rank 692) and run
+96's act (rank 694). The two B-only acts
+at B 5 ((1196182016, 24, 2), rank 728) and
+B 6 ((1196182528, 24, 0), rank 729) are
+B-only distinct in full with no A-side
+counterpart and no A act under their keys,
+inside eight consecutive B-only B-offset
+ranks 725-732; B 5, B 6 and B 8 form a
++512/+512 offset triplet. The shared
+run-94 act (791173632, 32784, 0) at
+A 672 / B 673 is a +1 singleton occurring
+once on each side, following the run-93
+act in both offset orders by +18944.
+Next: the B-only act at B 750 in full
+(rank 727); the B-only act at B 8 in full
+(rank 730); and the shared run-95 act
+following the run-94 act in both offset
+orders in full ((791240192, 26128, 1) at
+A 674 / B 676). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.185 (AES-NUM-185) is complete. The
+B-only act at B 750 ((973679616, 24, 0),
+B-offset rank 727) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; in B-index order it is the
+last act of context B, and in B-offset
+order it sits inside the all-B-only run at
+ranks 725-732 with gap in +100,480,000 and
+gap out +222,502,400. The B-only act at
+B 8 ((1196183040, 32784, 1), rank 730) is
+B-only distinct in full with no A act
+under its key, completing the +512/+512
+offset triplet at ranks 728-730. The
+shared run-95 act (791240192, 26128, 1) at
+A 674 / B 676 is a +2 singleton occurring
+once on each side, following the run-94
+act directly in B-offset order but with
+the A-only act at A 673 intervening in
+A-offset order. Next: the B-only act at
+B 10 in full (rank 731); the B-only acts
+at B 11 (rank 732) and B 13 (rank 733) in
+full; and the shared run-96 act following
+the run-95 act in full ((791300096,
+26128, 2) at A 676 / B 393). Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.186 (AES-NUM-186) is complete. The
+B-only act at B 10 ((1196216320, 7800, 2),
+B-offset rank 731) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; its outgoing B-offset gap
++7,800 to B 11 equals its own size exactly.
+The B-only acts at B 11 ((1196224120, 344, 2),
+rank 732) and B 13 ((1196224512, 32768, 1),
+rank 733) are B-only distinct in full with
+no A act under their keys; ranks 731-733
+have gaps +7,800 and +392 and B 13's outgoing
+gap +32,768 equals its own size. The shared
+run-96 act (791300096, 26128, 2) at
+A 676 / B 393 is a -283 singleton occurring
+once on each side; between run 95 and run 96
+each offset order carries exactly one
+intervening act — the two sides of the
+A 675 / B 392 key pair — with the same gap
+pair +26,624 then +33,280 in both orders.
+Next: the B-only act at B 14 in full
+(rank 734); the B-only acts at B 15
+(rank 735) and B 16 (rank 736) in full; and
+the shared run-97 act following the run-96
+act in full ((791326720, 32784, 2) at
+A 677 / B 377). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.187 (AES-NUM-187) is complete. The
+B-only act at B 14 ((1196257280, 14416, 1),
+B-offset rank 734) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 13 by +32,768,
+exactly B 13's size, and its outgoing gap
++14,416 to B 15 equals its own size. The
+B-only acts at B 15 ((1196271696, 376, 1),
+rank 735) and B 16 ((1196272072, 24, 1),
+rank 736) are B-only distinct in full with
+no A act under their keys; ranks 734-736
+have gaps +14,416 and +376, each exactly
+the lower act's size, all three acts on
+channel 1, and B 16's outgoing gap +24
+equals its own size. The shared run-97
+act (791326720, 32784, 2) at A 677 /
+B 377 is a -300 singleton occurring once
+on each side, following the run-96 act
+directly in both offset orders with no
+intervening act on either side. Next: the
+B-only act at B 17 in full (rank 737); the
+B-only acts at B 19 (rank 738) and B 20
+(rank 739) in full; and the shared run-98
+act following the run-97 act in full
+((791360000, 26128, 2) at A 678 / B 223).
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.188 (AES-NUM-188) is complete. The
+B-only act at B 17 ((1196272096, 32728, 1),
+B-offset rank 737) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 16 by +24,
+exactly B 16's size, and its outgoing gap
++32,800 to B 19 exceeds its own size by
+72. The B-only acts at B 19 ((1196304896,
+7712, 0), rank 738) and B 20 ((1196312608,
+328, 0), rank 739) are B-only distinct in
+full with no A act under their keys; ranks
+737-739 have gaps +32,800 and +7,712, the
+second exactly B 19's size, and B 20's
+outgoing gap +480 is not its own size.
+The shared run-98 act (791360000, 26128,
+2) at A 678 / B 223 is a -455 singleton
+occurring once on each side, following
+the run-97 act directly in both offset
+orders with no intervening act on either
+side. Next: the B-only act at B 22 in
+full (rank 740); the B-only acts at B 23
+(rank 741) and B 25 (rank 742) in full;
+and the shared run-99 act following the
+run-98 act in full ((791386624, 32784, 2)
+at A 679 / B 401). Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.189 (AES-NUM-189) is complete. The
+B-only act at B 22 ((1196313088, 24848, 1),
+B-offset rank 740) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 20 by +480,
+not B 20's size, and its outgoing gap
++24,848 to B 23 equals its own size. The
+B-only acts at B 23 ((1196337936, 264, 1),
+rank 741) and B 25 ((1196338688, 30008,
+2), rank 742) are B-only distinct in
+full with no A act under their keys; ranks
+740-742 have gaps +24,848 and +752, the
+first exactly B 22's size and the second
+an excess of 488 over B 23's size, and
+B 25's outgoing gap +30,008 equals its
+own size. The shared run-99 act (791386624,
+32784, 2) at A 679 / B 401 is a -278
+singleton occurring once on each side,
+following the run-98 act directly in both
+offset orders with no intervening act on
+either side. Next: the B-only act at B 26
+in full (rank 743); the B-only acts at
+B 229 (rank 744) and B 272 (rank 745) in
+full; and the shared run-100 act following
+the run-99 act in full ((791419904, 32784,
+2) at A 680 / B 228). Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.190 (AES-NUM-190) is complete. The
+B-only act at B 26 ((1196368696, 280, 2),
+B-offset rank 743) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 25 by +30,008,
+exactly B 25's size, and its outgoing gap
++712 to B 229 exceeds its own size by 432.
+The B-only acts at B 229 ((1196369408,
+26128, 2), rank 744) and B 272
+((1196396032, 14352, 1), rank 745) are
+B-only distinct in full with no A act
+under their keys; ranks 743-745 have gaps
++712 and +26,624, excesses of 432 and 496
+over the lower acts' sizes, and B 272's
+outgoing gap +14,848 exceeds its own size
+by 496. The shared run-100 act (791419904,
+32784, 2) at A 680 / B 228 is a -452
+singleton occurring once on each side,
+following the run-99 act directly in both
+offset orders with no intervening act on
+either side; its outgoing step is +32,784
+in A-offset order but +59,392 in B-offset
+order. Next: the B-only act at B 674
+in full (rank 746); the B-only acts at
+B 735 (rank 747) and B 736 (rank 748) in
+full; and the shared run-101 act following
+the run-100 act in full ((3446784, 24,
+2) at A 682 / B 675). Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.191 (AES-NUM-191) is complete. The
+B-only act at B 674 ((1196410880, 32784, 2),
+B-offset rank 746) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; it follows B 272 by +14,848,
+an excess of 496 over B 272's size, and its
+outgoing gap +33,280 to B 735 exceeds its
+own size by 496. The B-only acts at B 735
+((1196444160, 24, 0), rank 747) and B 736
+((1196444672, 24, 1), rank 748) are B-only
+distinct in full with no A act under their
+keys; ranks 746-748 have gaps +33,280 and
++512, and the last eight B-offset ranks
+743-750 are B-only throughout. The shared
+run-101 act (3446784, 24, 2) at A 682 /
+B 675 is a -7 singleton occurring once on
+each side (A-offset rank 29, B-offset rank
+30), not following the run-100 act in
+either offset order, with outgoing gap
++752,155,648 in both offset orders. The
+first launch crashed on a worker-authored
+range bug in the new section only and was
+closed; the retry under
+TASK_CONTRACT_4.191_RETRY (one-line patch)
+finished DONE191, exit 0, err empty. Next:
+the B-only act at B 737 in full (rank
+749); the B-only act at B 738 in full
+(rank 750, the last rank); and the shared
+run-102 act following the run-101 act in
+A-index order in full ((791479296, 32784,
+1) at A 683 / B 685). Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.192 (AES-NUM-192) is complete. The
+B-only act at B 737 ((1196445184, 24, 2),
+B-offset rank 749) is B-only distinct in
+full, occurring once in B and nowhere in A
+with no A-side counterpart and no A act
+under its key; its incoming and outgoing
+gaps are +512 each, and the last eight
+B-offset ranks 743-750 are B-only
+throughout. The B-only act at B 738
+((1196445696, 24, 0), rank 750) is B-only
+distinct in full, and rank 750 is the LAST
+rank of B-offset order (751 acts, ranks
+0-750; B 738 has no successor and no
+outgoing gap) — the B-only walk in
+B-offset rank order is complete. The
+shared run-102 act (791479296, 32784, 1)
+at A 683 / B 685 is the first act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 719, B-offset rank 699), following
+run 101 immediately in A-index order but
+not in either offset order, with outgoing
+gap +32,784 — exactly its own size — in
+both offset orders. The single launch
+finished DONE192, exit 0, err empty.
+Next: the A-only act at A 681 in full
+((791452688, 26128, 2), A-offset rank
+718); the shared run-102 acts at A 684 /
+B 686 and A 685 / B 687 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.193 (AES-NUM-193) is complete. The
+A-only act at A 681 ((791452688, 26128, 2),
+A-offset rank 718) is A-only distinct in
+full, occurring once in A and nowhere in B
+with no B-side counterpart and no B act
+under its key; in A-index order it sits
+between the run-100 singleton at A 680 and
+the run-101 singleton at A 682, and in
+A-offset order between the run-100 act
+(incoming gap +32,784) and the first
+run-102 act (outgoing gap +26,608, an
+excess of 480 over its own size) — run 101
+does not intervene in A-offset order. The
+shared run-102 act (791512080, 32784, 1)
+at A 684 / B 686 is the second act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 720, B-offset rank 700), following
+the first run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +32,784 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791544864, 26128, 1) at
+A 685 / B 687 is the third act of run 102,
+occurring once on each side (A-offset
+rank 721, B-offset rank 701), following
+the second act immediately in both index
+orders and both offset orders, with
+outgoing gap +26,128 — exactly its own
+size — in both offset orders; the first
+three run-102 acts are identical in order
+on both sides. The single launch finished
+DONE193, exit 0, err empty, and its
+52,427-line prefix is byte-identical to
+hef192.out in full. Next: the shared
+run-102 acts at A 686 / B 688, A 687 /
+B 689 and A 688 / B 690 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.194 (AES-NUM-194) is complete. The
+shared run-102 act (791570992, 32784, 1)
+at A 686 / B 688 is the fourth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 722, B-offset rank 702), following
+the third run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +32,784 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791603776, 26128, 1) at
+A 687 / B 689 is the fifth act of run 102,
+occurring once on each side (A-offset
+rank 723, B-offset rank 703), following
+the fourth act immediately in both index
+orders and both offset orders, with
+outgoing gap +26,128 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791629904, 32784, 1) at
+A 688 / B 690 is the sixth act of run 102,
+occurring once on each side (A-offset
+rank 724, B-offset rank 704), following
+the fifth act immediately in both index
+orders and both offset orders, with
+outgoing gap +32,784 — exactly its own
+size — in both offset orders; the first
+six run-102 acts are identical in order
+on both sides. The single launch finished
+DONE194, exit 0, err empty, and its
+52,578-line prefix is byte-identical to
+hef193.out in full. Next: the shared
+run-102 acts at A 689 / B 691, A 690 /
+B 692 and A 691 / B 693 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.195 (AES-NUM-195) is complete. The
+shared run-102 act (791662688, 26128, 1)
+at A 689 / B 691 is the seventh act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 725, B-offset rank 705), following
+the sixth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +26,128 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791688816, 32784, 1) at
+A 690 / B 692 is the eighth act of run 102,
+occurring once on each side (A-offset
+rank 726, B-offset rank 706), following
+the seventh act immediately in both index
+orders and both offset orders, with
+outgoing gap +32,784 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791721600, 32784, 1) at
+A 691 / B 693 is the ninth act of run 102,
+occurring once on each side (A-offset
+rank 727, B-offset rank 707), following
+the eighth act immediately in both index
+orders and both offset orders, with
+outgoing gap +32,784 — exactly its own
+size — in both offset orders; the first
+nine run-102 acts are identical in order
+on both sides. The single launch finished
+DONE195, exit 0, err empty, and exactly
+two of its 52,755 prefix lines differ
+from hef194.out (frozenset element order
+only, the AES-NUM-150 variance). Next: the shared
+run-102 acts at A 692 / B 694, A 693 /
+B 695 and A 694 / B 696 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.196 (AES-NUM-196) is complete. The
+shared run-102 act (791754384, 18448, 1)
+at A 692 / B 694 is the tenth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 728, B-offset rank 708), following
+the ninth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +18,800 in both offset
+orders — NOT exactly its own size
+(18,448). The shared run-102 act
+(3415040, 24, 1) at A 693 / B 695 is the
+eleventh act of run 102, occurring once
+on each side (A-offset rank 27, B-offset
+rank 27), following the tenth act
+immediately in both index orders but not
+in offset order, with outgoing offset gap
++3,072 in both offset orders. The shared
+run-102 act (262144, 376, 0) at A 694 /
+B 696 is the twelfth act of run 102,
+occurring once on each side at offset
+rank 0 on both sides — the smallest
+offset in either context — following the
+eleventh act immediately in both index
+orders but not in offset order, with
+outgoing gap +512 in both offset orders;
+the first twelve run-102 acts are
+identical in order on both sides. The
+single launch finished DONE196, exit 0,
+err empty, and exactly one of its 52,932
+prefix lines differs from hef195.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 695 / B 697, A 696 /
+B 698 and A 697 / B 699 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.197 (AES-NUM-197) is complete. The
+shared run-102 act (262656, 24, 0)
+at A 695 / B 697 is the thirteenth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 1, B-offset rank 1), following
+the twelfth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +24 — exactly its own
+size — in both offset orders. The shared
+run-102 act (262680, 24, 0) at A 696 /
+B 698 is the fourteenth act of run 102,
+occurring once on each side (A-offset rank 2,
+B-offset rank 2), following the thirteenth act
+immediately in both index orders and both
+offset orders, with outgoing gap +24 — exactly
+its own size — in both offset orders. The shared
+run-102 act (262704, 72, 0) at A 697 /
+B 699 is the fifteenth act of run 102,
+occurring once on each side at offset
+rank 3 on both sides, following the
+fourteenth act immediately in both index
+orders and both offset orders, with
+outgoing gap +72 — exactly its own size — in
+both offset orders; the first fifteen run-102 acts are
+identical in order on both sides. The
+single launch finished DONE197, exit 0,
+err empty, and its 53,103 prefix lines are
+byte-identical to hef196.out in full
+(no frozenset variance this run). Next: the shared
+run-102 acts at A 698 / B 700, A 699 /
+B 701 and A 700 / B 702 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.198 (AES-NUM-198) is complete. The
+shared run-102 act (262776, 24, 0)
+at A 698 / B 700 is the sixteenth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 4, B-offset rank 4), following
+the fifteenth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +904 — NOT its own
+size — in both offset orders. The shared
+run-102 act (791773184, 248, 0) at A 699 /
+B 701 is the seventeenth act of run 102,
+occurring once on each side (A-offset rank 729,
+B-offset rank 709), following the sixteenth act
+immediately in both index orders only, with
+outgoing gap +248 — exactly its own size — in
+both offset orders. The shared
+run-102 act (791773432, 176, 0) at A 700 /
+B 702 is the eighteenth act of run 102,
+occurring once on each side at offset
+rank 730 / 710, following the
+seventeenth act immediately in both index
+orders and both offset orders, with
+outgoing gap +264 — NOT its own size — in
+both offset orders; the first eighteen run-102 acts are
+identical in order on both sides. The
+single launch finished DONE198, exit 0,
+err empty, and exactly one of its 53,274
+prefix lines differs from hef197.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 701 / B 703, A 702 /
+B 704 and A 703 / B 705 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.199 (AES-NUM-199) is complete. The
+shared run-102 act (263680, 816, 0)
+at A 701 / B 703 is the nineteenth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 5, B-offset rank 5), following
+the eighteenth run-102 act immediately in both
+index orders only, with
+outgoing gap +816 — exactly its own
+size — in both offset orders. The shared
+run-102 act (264496, 24, 0) at A 702 /
+B 704 is the twentieth act of run 102,
+occurring once on each side (A-offset rank 6,
+B-offset rank 6), following the nineteenth act
+immediately in both index orders and both offset orders, with
+outgoing gap +24 — exactly its own size — in
+both offset orders. The shared
+run-102 act (264520, 24, 0) at A 703 /
+B 705 is the twenty-first act of run 102,
+occurring once on each side at offset
+rank 7 / 7, following the
+twentieth act immediately in both index
+orders and both offset orders, with
+outgoing gap +24 — exactly its own size — in
+both offset orders; the first twenty-one run-102 acts are
+identical in order on both sides. The
+single launch finished DONE199, exit 0,
+err empty, and its 53,451
+prefix lines are byte-identical to hef198.out
+in full (no frozenset variance this run). Next: the shared
+run-102 acts at A 704 / B 706, A 705 /
+B 707 and A 706 / B 708 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.200 (AES-NUM-200) is complete. The
+shared run-102 act (264544, 416, 0)
+at A 704 / B 706 is the twenty-second act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 8, B-offset rank 8), following
+the twenty-first run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +416 — exactly its own
+size — in both offset orders. The shared
+run-102 act (264960, 96, 0) at A 705 /
+B 707 is the twenty-third act of run 102,
+occurring once on each side (A-offset rank 9,
+B-offset rank 9), following the twenty-second act
+immediately in both index orders and both offset orders, with
+outgoing gap +96 — exactly its own size — in
+both offset orders. The shared
+run-102 act (265056, 24, 0) at A 706 /
+B 708 is the twenty-fourth act of run 102,
+occurring once on each side at offset
+rank 10 / 10, following the
+twenty-third act immediately in both index
+orders and both offset orders, with
+outgoing gap +24 — exactly its own size — in
+both offset orders; the first twenty-four run-102 acts are
+identical in order on both sides. The
+single launch finished DONE200, exit 0,
+err empty, and its 53,628
+prefix lines are byte-identical to hef199.out
+in full (no frozenset variance this run). Next: the shared
+run-102 acts at A 707 / B 709, A 708 /
+B 710 and A 709 / B 711 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.201 (AES-NUM-201) is complete. The
+shared run-102 act (265080, 24, 0)
+at A 707 / B 709 is the twenty-fifth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 11, B-offset rank 11), following
+the twenty-fourth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +648 — not its own
+size — in both offset orders. The shared
+run-102 act (791773696, 256, 0) at A 708 /
+B 710 is the twenty-sixth act of run 102,
+occurring once on each side (A-offset rank 731,
+B-offset rank 711), following the twenty-fifth act
+immediately in both index orders only, with
+outgoing gap +256 — exactly its own size — in
+both offset orders. The shared
+run-102 act (791773952, 176, 0) at A 709 /
+B 711 is the twenty-seventh act of run 102,
+occurring once on each side at offset
+rank 732 / 712, following the
+twenty-sixth act immediately in both index
+orders and both offset orders, with
+outgoing gap +256 — not its own size — in
+both offset orders; the first twenty-seven run-102 acts are
+identical in order on both sides. The
+single launch finished DONE201, exit 0,
+err empty, and exactly one of its 53,805
+prefix lines differs from hef200.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 710 / B 712, A 711 /
+B 713 and A 712 / B 714 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.202 (AES-NUM-202) is complete. The
+shared run-102 act (265728, 176, 0)
+at A 710 / B 712 is the twenty-eighth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 12, B-offset rank 12), following
+the twenty-seventh run-102 act immediately in both
+index orders only, with
+outgoing gap +176 — exactly its own
+size — in both offset orders. The shared
+run-102 act (265904, 344, 0) at A 711 /
+B 713 is the twenty-ninth act of run 102,
+occurring once on each side (A-offset rank 13,
+B-offset rank 13), following the twenty-eighth act
+immediately in both index orders and both offset orders, with
+outgoing gap +344 — exactly its own size — in
+both offset orders. The shared
+run-102 act (266248, 584, 0) at A 712 /
+B 714 is the thirtieth act of run 102,
+occurring once on each side at offset
+rank 14 / 14, following the
+twenty-ninth act immediately in both index
+orders and both offset orders, with
+outgoing gap +584 — exactly its own size — in
+both offset orders; the first thirty run-102 acts are
+identical in order on both sides. The
+single launch finished DONE202, exit 0,
+err empty, and exactly two of its 53,982
+prefix lines differ from hef201.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 713 / B 715, A 714 /
+B 716 and A 715 / B 717 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.203 (AES-NUM-203) is complete. The
+shared run-102 act (266832, 824, 0)
+at A 713 / B 715 is the thirty-first act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 15, B-offset rank 15), following
+the thirtieth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +824 — exactly its own
+size — in both offset orders. The shared
+run-102 act (267656, 24, 0) at A 714 /
+B 716 is the thirty-second act of run 102,
+occurring once on each side (A-offset rank 16,
+B-offset rank 16), following the thirty-first act
+immediately in both index orders and both offset orders, with
+outgoing gap +24 — exactly its own size — in
+both offset orders. The shared
+run-102 act (267680, 24, 0) at A 715 /
+B 717 is the thirty-third act of run 102,
+occurring once on each side at offset
+rank 17 / 17, following the
+thirty-second act immediately in both index
+orders and both offset orders, with
+outgoing gap +24 — exactly its own size — in
+both offset orders; the first thirty-three run-102 acts are
+identical in order on both sides. The
+single launch finished DONE203, exit 0,
+err empty, and exactly two of its 54,159
+prefix lines differ from hef202.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 716 / B 718, A 717 /
+B 719 and A 718 / B 720 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.204 (AES-NUM-204) is complete. The
+shared run-102 act (267704, 96, 0)
+at A 716 / B 718 is the thirty-fourth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 18, B-offset rank 18), following
+the thirty-third run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +96 — exactly its own
+size — in both offset orders. The shared
+run-102 act (267800, 176, 0) at A 717 /
+B 719 is the thirty-fifth act of run 102,
+occurring once on each side (A-offset rank 19,
+B-offset rank 19), following the thirty-fourth act
+immediately in both index orders and both offset orders, with
+outgoing gap +176 — exactly its own size — in
+both offset orders. The shared
+run-102 act (267976, 672, 0) at A 718 /
+B 720 is the thirty-sixth act of run 102,
+occurring once on each side at offset
+rank 20 / 20, following the
+thirty-fifth act immediately in both index
+orders and both offset orders, with
+outgoing gap +672 — exactly its own size — in
+both offset orders; the first thirty-six run-102 acts are
+identical in order on both sides. The
+single launch finished DONE204, exit 0,
+err empty, and exactly one of its 54,336
+prefix lines differs from hef203.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 719 / B 721, A 720 /
+B 722 and A 721 / B 723 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.205 (AES-NUM-205) is complete. The
+shared run-102 act (268648, 24, 0)
+at A 719 / B 721 is the thirty-seventh act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 21, B-offset rank 21), following
+the thirty-sixth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +24 — exactly its own
+size — in both offset orders. The shared
+run-102 act (268672, 120, 0) at A 720 /
+B 722 is the thirty-eighth act of run 102,
+occurring once on each side (A-offset rank 22,
+B-offset rank 22), following the thirty-seventh act
+immediately in both index orders and both offset orders, with
+outgoing gap +120 — exactly its own size — in
+both offset orders. The shared
+run-102 act (268792, 24, 0) at A 721 /
+B 723 is the thirty-ninth act of run 102,
+occurring once on each side at offset
+rank 23 / 23, following the
+thirty-eighth act immediately in both index
+orders and both offset orders, with
+outgoing gap +24 — exactly its own size — in
+both offset orders; the first thirty-nine run-102 acts are
+identical in order on both sides. The
+single launch finished DONE205, exit 0,
+err empty, and exactly one of its 54,513
+prefix lines differs from hef204.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 722 / B 724, A 723 /
+B 725 and A 724 / B 726 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.206 (AES-NUM-206) is complete. The
+shared run-102 act (268816, 64, 0)
+at A 722 / B 724 is the fortieth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 24, B-offset rank 24), following
+the thirty-ninth run-102 act immediately in both
+index orders and both offset orders, with
+outgoing gap +64 — exactly its own
+size — in both offset orders. The shared
+run-102 act (268880, 24, 0) at A 723 /
+B 725 is the forty-first act of run 102,
+occurring once on each side (A-offset rank 25,
+B-offset rank 25), following the fortieth act
+immediately in both index orders and both offset orders, with
+outgoing gap +24 — exactly its own size — in
+both offset orders. The shared
+run-102 act (268904, 216, 0) at A 724 /
+B 726 is the forty-second act of run 102,
+occurring once on each side at offset
+rank 26 / 26, following the
+forty-first act immediately in both index
+orders and both offset orders, with
+outgoing gap +3,146,136 — NOT its own size — in
+both offset orders; the first forty-two run-102 acts are
+identical in order on both sides. The
+single launch finished DONE206, exit 0,
+err empty, and exactly two of its 54,690
+prefix lines differ from hef205.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 725 / B 727, A 726 /
+B 728 and A 727 / B 729 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.207 (AES-NUM-207) is complete. The
+shared run-102 act (791774208, 328, 0)
+at A 725 / B 727 is the forty-third act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 733, B-offset rank 713), following
+the forty-second run-102 act immediately in both
+index orders (its offset placement distant,
+at the ranks stated), with
+outgoing gap +328 — exactly its own
+size — in both offset orders. The shared
+run-102 act (791774536, 328, 0) at A 726 /
+B 728 is the forty-fourth act of run 102,
+occurring once on each side (A-offset rank 734,
+B-offset rank 714), following the forty-third act
+immediately in both index orders and both offset orders, with
+outgoing gap +328 — exactly its own size — in
+both offset orders. The shared
+run-102 act (791774864, 328, 0) at A 727 /
+B 729 is the forty-fifth act of run 102,
+occurring once on each side at offset
+rank 735 / 715, following the
+forty-fourth act immediately in both index
+orders and both offset orders, with
+outgoing gap +368 — NOT its own size — in
+both offset orders; the first forty-five run-102 acts are
+identical in order on both sides. The
+single launch finished DONE207, exit 0,
+err empty, and exactly one of its 54,867
+prefix lines differs from hef206.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the shared
+run-102 acts at A 728 / B 730, A 729 /
+B 731 and A 730 / B 732 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.208 (AES-NUM-208) is complete. The
+shared run-102 act (3418112, 24, 0)
+at A 728 / B 730 is the forty-sixth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 28, B-offset rank 28), following
+the forty-fifth run-102 act immediately in both
+index orders (its offset placement distant,
+at the ranks stated), with
+incoming gap +3,072 in both offset orders and
+outgoing gaps differing by side — +28,672 on
+the A side and +11,776 on the B side —
+neither its own size. The shared
+run-102 act (791775232, 24, 0) at A 729 /
+B 731 is the forty-seventh act of run 102,
+occurring once on each side (A-offset rank 736,
+B-offset rank 716), following the forty-sixth act
+immediately in both index orders, with
+outgoing gap +512 — NOT its own size — in
+both offset orders. The shared
+run-102 act (791775744, 24, 1) at A 730 /
+B 732 is the forty-eighth act of run 102,
+occurring once on each side at offset
+rank 737 / 717, following the
+forty-seventh act immediately in both index
+orders and both offset orders, with
+outgoing gap +512 — NOT its own size — in
+both offset orders; the first forty-eight run-102 acts are
+identical in order on both sides. The
+single launch finished DONE208, exit 0,
+err empty, and its 55,044
+prefix lines are identical to hef207.out
+(zero differing lines this run — the
+AES-NUM-150 frozenset-order variance
+did not occur). Next: the shared
+run-102 acts at A 731 / B 733 and A 732 /
+B 734 in full, and the index-order divergence
+at A 733 and B 735 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.209 (AES-NUM-209) is complete. The
+shared run-102 act (791776256, 24, 2)
+at A 731 / B 733 is the forty-ninth act of run
+102 in full (length 58, shift +2),
+occurring once on each side (A-offset
+rank 738, B-offset rank 718), following
+the forty-eighth run-102 act immediately in both
+index orders and both offset orders, with
+incoming gap +512 in both offset orders and
+outgoing gap +512 — NOT its own size — in
+both offset orders. The shared
+run-102 act (791776768, 24, 0) at A 732 /
+B 734 is the fiftieth act of run 102,
+occurring once on each side (A-offset rank 739,
+B-offset rank 719), following the forty-ninth act
+immediately in both index orders and both offset
+orders, with outgoing gaps differing by side —
++24, exactly its own size, on the A side and
++2,048, NOT its own size, on the B side. After
+it the two index orders diverge: A 733 carries
+the A-only act (791776792, 24, 0) at A-offset
+rank 740 and B 735 carries the B-only act
+(1196444160, 24, 0) at B-offset rank 747; the
+first fifty run-102 acts are
+identical in order on both sides and the
+identical-order sequence ends exactly at the
+fiftieth act. The
+single launch finished DONE209, exit 0,
+err empty, and exactly two of its 55,221
+prefix lines differ from hef208.out
+(frozenset element order only, the
+AES-NUM-150 variance). Next: the A-only
+act at A 734 and the B-only act at B 736
+in full, and the shared resync act at
+A 737 / B 739 in full. Broad
+ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.210 (AES-NUM-210) is complete. The
+A-only act (791777280, 24, 1)
+at A 734 occurs once on the A side only
+(A-offset rank 741), following
+the divergent act at A 733 immediately in both
+A index order and A offset order, with
+outgoing gap +512 — NOT its own size. The
+B-only act (1196444672, 24, 1) at B 736
+occurs once on the B side only (B-offset
+rank 748), following the divergent act
+at B 735 immediately in both B index
+order and B offset order, with
+outgoing gap +512 — NOT its own size. The
+shared act (768609280, 24, 0) at A 737 /
+B 739 (offset rank 33 / 34) is the
+fifty-first act of run 102 in full, and the
+two index orders resync at it for exactly
+eight acts — run-102 members 51–58, ending
+at the last run-102 act — after which the
+tails of the two lists (A 745–748 /
+B 747–750) differ at every remaining
+position. The first launch crashed on a
+worker-authored out-of-range window in the
+new section only and was closed; the retry
+under its own published contract finished
+DONE210r, exit 0, err empty, and exactly
+two of its 55,401 prefix lines differ from
+hef209.out (frozenset element order only,
+the AES-NUM-150 variance). Next: the act
+at A 745 and the act at B 747 in full, and
+the tail ends A 746–748 / B 748–750 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.211 (AES-NUM-211) is complete. The
+act (791779328, 24, 0) at A 745 occurs once
+on the A side only (A-offset rank 745), is
+not a member of run 102, and follows the
+last run-102 act at A 744 immediately in
+both A index order and A offset order, with
+outgoing gap +512 — NOT its own size. The
+act (791781888, 24, 0) at B 747 occurs once
+on the B side only (B-offset rank 722),
+follows the last run-102 act at B 746
+immediately in B index order but not in
+B offset order (predecessor (791781376,
+24, 1) at B 748, rank 721), with outgoing
+gap +8,271,872 — NOT its own size. The A
+tail (A 745–748) is consecutive in both
+orders with gaps +512, ending at A 748, the
+last act of context A in both orders; the
+B tail acts sit at B-offset ranks 721, 722,
+723 and 727, B 750 being the last act of
+context B in index order only. No tail act
+occurs on the other side at any index, and
+the two tails differ at every one of their
+four positions, although the channel
+sequence by tail position is (0, 1, 2, 0)
+on both. The single launch finished
+DONE211, exit 0, err empty, and exactly one
+of its 55,529 prefix lines differs from
+hef210r.out (frozenset element order only,
+the AES-NUM-150 variance). Next: the
+B-offset-order successors of the B tail in
+full — the acts at B 1, B 0, B 27 and B 5,
+with the B-offset-order run of ranks
+721–728 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.212 (AES-NUM-212) is complete. The
+act (873198592, 24, 0) at B 1 occurs once
+on the B side only (B-offset rank 724),
+following the B tail act at B 749 in
+B-offset order with incoming gap
++73,144,832, outgoing gap +512 — NOT its
+own size. The act (873199104, 24, 1) at
+B 0 occurs once on the B side only (rank
+725), is the first act of context B in
+index order but follows B 1 in offset
+order (the pair reversed between the
+orders), outgoing +512. The act
+(873199616, 24, 2) at B 27 (rank 726)
+occurs once on the B side only, outgoing
++100,480,000 — NOT its own size. The act
+(1196182016, 24, 2) at B 5 (rank 728)
+occurs once on the B side only, incoming
++222,502,400 from B 750, outgoing +512.
+All four are B-only distinct, none in
+run 102, and the B-offset-order run of
+ranks 721–728 is eight consecutive
+B-only acts (B indices in rank order
+748, 747, 749, 1, 0, 27, 750, 5). The
+single launch finished DONE212, exit 0,
+err empty, and its first 55,713 prefix
+lines are identical to hef211.out (zero
+differing lines — the AES-NUM-150
+variance did not occur this run). Next:
+the acts at B 6, B 8 and B 10 in full,
+with the B-offset-order run of ranks
+729–736 in full. Broad ordinary
+UNMODIFIED source-model support100%
+remains the destination.
+
+Slice 4.213 (AES-NUM-213) is complete. The
+act (1196182528, 24, 0) at B 6 occurs once
+on the B side only (B-offset rank 729),
+following the B-only act at B 5 immediately
+in both B index order and B-offset order
+with incoming gap +512, outgoing gap +512
+— NOT its own size. The act
+(1196183040, 32784, 1) at B 8 occurs once
+on the B side only (rank 730), following
+B 6 immediately in B-offset order with
+incoming +512 (the shared act at B 7 sits
+between them in index order), outgoing
++33,280 — NOT its own size. The act
+(1196216320, 7800, 2) at B 10 (rank 731)
+occurs once on the B side only, following
+B 8 immediately in B-offset order with
+incoming +33,280 (the shared act at B 9
+sits between them in index order),
+outgoing +7,800 — exactly its own size.
+All three are B-only distinct, none in
+run 102, and the B-offset-order run of
+ranks 729–736 is eight consecutive
+B-only acts (B indices in rank order
+6, 8, 10, 11, 13, 14, 15, 16). The
+single launch finished DONE213, exit 0,
+err empty, and its first 55,836 prefix
+lines differ from hef212.out in exactly
+two lines (lines 41611 and 42872,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+B 17, B 19 and B 20 in full, with the
+B-offset-order run of ranks 737–744 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.214 (AES-NUM-214) is complete. The
+act (1196272096, 32728, 1) at B 17 occurs once
+on the B side only (B-offset rank 737),
+following the B-only act at B 16 immediately
+in both B index order and B-offset order
+with incoming gap +24, outgoing gap +32,800
+— NOT its own size. The act
+(1196304896, 7712, 0) at B 19 occurs once
+on the B side only (rank 738), following
+B 17 immediately in B-offset order with
+incoming +32,800 (the shared act at B 18 sits
+between them in index order), outgoing
++7,712 — exactly its own size. The act
+(1196312608, 328, 0) at B 20 (rank 739)
+occurs once on the B side only, following
+B 19 immediately in both B index order and
+B-offset order with incoming +7,712,
+outgoing +480 — NOT its own size.
+All three are B-only distinct, none in
+run 102, and the B-offset-order run of
+ranks 737–744 is eight consecutive
+B-only acts (B indices in rank order
+17, 19, 20, 22, 23, 25, 26, 229). The
+single launch finished DONE214, exit 0,
+err empty, and its first 55,942 prefix
+lines differ from hef213.out in exactly
+two lines (lines 41611 and 42872,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+B 272, B 674 and B 735 in full, with the
+B-offset-order run of ranks 745–750 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.215 (AES-NUM-215) is complete. The
+act (1196396032, 14352, 1) at B 272 occurs once
+on the B side only (B-offset rank 745),
+following the B-only act at B 229 immediately
+in B-offset order with incoming gap +26,624,
+outgoing gap +14,848 — NOT its own size. The act
+(1196410880, 32784, 2) at B 674 occurs once
+on the B side only (rank 746), following
+B 272 immediately in B-offset order with
+incoming +14,848, outgoing +33,280 — NOT
+its own size. The act
+(1196444160, 24, 0) at B 735 (rank 747)
+occurs once on the B side only, following
+B 674 immediately in B-offset order with
+incoming +33,280, outgoing +512 — NOT its
+own size. All three are B-only distinct, none in
+run 102, and the B-offset-order run of
+ranks 745–750 is six consecutive
+B-only acts (B indices in rank order
+272, 674, 735, 736, 737, 738), closing the
+B-offset order at rank 750 (gap None). The
+single launch finished DONE215, exit 0,
+err empty, and its first 56,048 prefix
+lines differ from hef214.out in exactly
+one line (line 41611, frozenset element
+order only — the AES-NUM-150 variance). Next: the acts at
+B 736, B 737 and B 738 in full, with the
+B-offset-order closure in full. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+
+Slice 4.216 (AES-NUM-216) is complete. The
+act (1196444672, 24, 1) at B 736 occurs once
+on the B side only (B-offset rank 748),
+following the B-only act at B 735 immediately
+in both B index order and B-offset order
+with incoming gap +512, outgoing gap +512 —
+NOT its own size. The act
+(1196445184, 24, 2) at B 737 occurs once
+on the B side only (rank 749), following
+B 736 immediately in both orders with
+incoming +512, outgoing +512 — NOT
+its own size. The act
+(1196445696, 24, 0) at B 738 (rank 750)
+occurs once on the B side only, following
+B 737 immediately in both orders with
+incoming +512, and no outgoing gap —
+rank 750 is the last measured rank, gap
+None. All three are B-only distinct, none in
+run 102, and the B-offset-order closure is
+complete: B acts 751, ranks 0–750, closing
+run 745–750 six consecutive B-only acts
+(B indices in rank order
+272, 674, 735, 736, 737, 738). The
+single launch finished DONE216, exit 0,
+err empty, and its first 56,152 prefix
+lines differ from hef215.out in exactly
+two lines (lines 41611 and 42872,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+A 746, A 747 and A 748 in full, with the
+A-offset-order closure in full. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+
+Slice 4.217 (AES-NUM-217) is complete. The
+act (791779840, 24, 1) at A 746 occurs once
+on the A side only (A-offset rank 746),
+following the A-only act at A 745 immediately
+in both A index order and A-offset order
+with incoming gap +512, outgoing gap +512 —
+NOT its own size. The act
+(791780352, 24, 2) at A 747 occurs once
+on the A side only (rank 747), following
+A 746 immediately in both orders with
+incoming +512, outgoing +512 — NOT
+its own size. The act
+(791780864, 24, 0) at A 748 (rank 748)
+occurs once on the A side only, following
+A 747 immediately in both orders with
+incoming +512, and no outgoing gap —
+rank 748 is the last measured rank, gap
+None; it is also the last A index. All three
+are A-only distinct, none in
+run 102, and the A-offset-order closure is
+complete: A acts 749, ranks 0–748, closing
+run 743–748 (A indices in rank order
+736, 744, 745, 746, 747, 748), whose
+rank-744 act is the shared run-102 final
+act, so the run is not uniformly A-only. The
+single launch finished DONE217, exit 0,
+err empty, and its first 56,255 prefix
+lines differ from hef216.out in exactly
+two lines (lines 41611 and 42872,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+B 748, B 749 and B 750 in full, with the
+B-index-order closure in full. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+
+Slice 4.218 (AES-NUM-218) is complete. The
+act (791781376, 24, 1) at B 748 occurs once
+on the B side only (B-offset rank 721),
+following the shared run-102 final act at
+B 746 immediately in B-offset order with
+incoming gap +2,560, outgoing gap +512 —
+NOT its own size; it stands in opposite
+orders against B 747 in the two orders.
+The act (800053760, 24, 2) at B 749 occurs
+once on the B side only (rank 723),
+following B 747 immediately in B-offset
+order with incoming +8,271,872, outgoing
++73,144,832 — NOT its own size. The act
+(973679616, 24, 0) at B 750 (rank 727)
+occurs once on the B side only, following
+B 27 immediately in B-offset order with
+incoming +100,480,000, outgoing
++222,502,400 — NOT its own size; rank 727
+is not the last B-offset rank, but B 750
+is the last B index, difference None.
+All three are B-only distinct, none in
+run 102, and the B-index-order closure is
+complete: B acts 751, indices 0–750, tail
+745–750 (indices 745 and 746 shared
+run-102 acts, 746 being run 102's last
+act; 747 B-only with difference −512;
+748, 749 and 750 B-only), so the tail is
+not uniformly B-only. The single launch
+finished DONE218, exit 0, err empty, and
+its first 56,346 prefix lines differ from
+hef217.out in exactly two lines (lines
+41611 and 42872, frozenset element order
+only — the AES-NUM-150 variance). Next:
+the acts at B 747, B 1 and B 0 in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+
+Slice 4.219 (AES-NUM-219) is complete. The
+act (791781888, 24, 0) at B 747 occurs once
+on the B side only (B-offset rank 722),
+following B 748 immediately in B-offset
+order with incoming gap +512, outgoing gap
++8,271,872 — NOT its own size; it stands in
+opposite orders against B 748 in the two
+orders. The act (873198592, 24, 0) at B 1
+occurs once on the B side only (rank 724),
+following B 749 immediately in B-offset
+order with incoming +73,144,832, outgoing
++512 — NOT its own size; it stands in
+opposite orders against B 0 in the two
+orders. The act (873199104, 24, 1) at B 0
+occurs once on the B side only (rank 725),
+following B 1 immediately in B-offset order
+with incoming +512, outgoing +512 — NOT
+its own size; B 0 is the first B index.
+All three are B-only distinct, none in
+run 102. The single launch finished
+DONE219, exit 0, err empty, and its first
+56,444 prefix lines differ from hef218.out
+in exactly one line (line 42872, frozenset
+element order only — the AES-NUM-150
+variance). Next: the acts at B 27, B 5
+and B 6 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.220 (AES-NUM-220) is complete. The
+act (873199616, 24, 2) at B 27 occurs once
+on the B side only (B-offset rank 726),
+following B 0 immediately in B-offset
+order with incoming gap +512, outgoing gap
++100,480,000 — NOT its own size. The act
+(1196182016, 24, 2) at B 5 occurs once on
+the B side only (rank 728), following
+B 750 immediately in B-offset order with
+incoming +222,502,400, outgoing +512 —
+NOT its own size. The act (1196182528, 24, 0)
+at B 6 occurs once on the B side only
+(rank 729), following B 5 immediately in
+BOTH B index order and B-offset order with
+incoming +512, outgoing +512 — NOT its
+own size. All three are B-only distinct,
+none in run 102. The single launch finished
+DONE220, exit 0, err empty, and its first
+56,531 prefix lines differ from hef219.out
+in exactly one line (line 41611, frozenset
+element order only — the AES-NUM-150
+variance). Next: the acts at B 8, B 10
+and B 11 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.221 (AES-NUM-221) is complete. The
+act (1196183040, 32784, 1) at B 8 occurs once
+on the B side only (B-offset rank 730),
+following B 6 immediately in B-offset
+order with incoming gap +512, outgoing gap
++33,280 — NOT its own size. The act
+(1196216320, 7800, 2) at B 10 occurs once on
+the B side only (rank 731), following
+B 8 immediately in B-offset order with
+incoming +33,280, outgoing +7,800 — EQUAL
+to its own size. The act (1196224120, 344, 2)
+at B 11 occurs once on the B side only
+(rank 732), following B 10 immediately in
+BOTH B index order and B-offset order with
+incoming +7,800, outgoing +392 — NOT its
+own size. All three are B-only distinct,
+none in run 102. The single launch finished
+DONE221, exit 0, err empty, and its first
+56,629 prefix lines differ from hef220.out
+in exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance). Next: the acts at B 13, B 14
+and B 15 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.222 (AES-NUM-222) is complete. The
+act (1196224512, 32768, 1) at B 13 occurs once
+on the B side only (B-offset rank 733),
+following B 11 immediately in B-offset
+order with incoming gap +392, outgoing gap
++32,768 — EQUAL to its own size. The act
+(1196257280, 14416, 1) at B 14 occurs once on
+the B side only (rank 734), following
+B 13 immediately in BOTH B index order and
+B-offset order with incoming +32,768, outgoing
++14,416 — EQUAL to its own size. The act
+(1196271696, 376, 1) at B 15 occurs once on
+the B side only (rank 735), following B 14
+immediately in BOTH B index order and
+B-offset order with incoming +14,416, outgoing
++376 — EQUAL to its own size. All three are
+B-only distinct, none in run 102. The single
+launch finished DONE222, exit 0, err empty,
+and its first 56,727 prefix lines differ from
+hef221.out in exactly one line (line 42872,
+frozenset element order only — the AES-NUM-150
+variance). Next: the acts at B 16, B 17
+and B 19 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.223 (AES-NUM-223) is complete. The
+act (1196272072, 24, 1) at B 16 occurs once
+on the B side only (B-offset rank 736),
+following B 15 immediately in BOTH B index
+order and B-offset order with incoming gap
++376, outgoing gap +24 — EQUAL to its own
+size. The act (1196272096, 32728, 1) at B 17
+occurs once on the B side only (rank 737),
+following B 16 immediately in BOTH B index
+order and B-offset order with incoming +24,
+outgoing +32,800 — NOT its own size. The act
+(1196304896, 7712, 0) at B 19 occurs once on
+the B side only (rank 738), following B 17
+immediately in B-offset order with incoming
++32,800, outgoing +7,712 — EQUAL to its own
+size. All three are B-only distinct, none in
+run 102. The single launch finished DONE223,
+exit 0, err empty, and its first 56,825
+prefix lines differ from hef222.out in
+exactly one line (line 42872, frozenset
+element order only — the AES-NUM-150
+variance). Next: the acts at B 20, B 22
+and B 23 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+
+Slice 4.224 (AES-NUM-224) is complete. The
+act (1196312608, 328, 0) at B 20 occurs once
+on the B side only (B-offset rank 739),
+following B 19 immediately in B-offset order
+with incoming gap +7,712, outgoing gap +480
+— NOT its own size. The act (1196313088,
+24848, 1) at B 22 occurs once on the B side
+only (rank 740), following B 20 immediately
+in B-offset order with incoming +480,
+outgoing +24,848 — EQUAL to its own size.
+The act (1196337936, 264, 1) at B 23 occurs
+once on the B side only (rank 741), following
+B 22 immediately in BOTH B index order and
+B-offset order with incoming +24,848,
+outgoing +752 — NOT its own size. All three
+are B-only distinct, none in run 102. The
+single launch finished DONE224, exit 0, err
+empty, and its first 56,923 prefix lines
+differ from hef223.out in exactly two lines
+(lines 41611 and 42872, frozenset element
+order only — the AES-NUM-150 variance).
+Next: the acts at B 25, B 26 and B 229 in
+full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.225 (AES-NUM-225) is complete. The
+act (1196338688, 30008, 2) at B 25 occurs once
+on the B side only (B-offset rank 742),
+following B 23 immediately in B-offset order
+with incoming gap +752, outgoing gap +30,008
+— EQUAL to its own size. The act (1196368696,
+280, 2) at B 26 occurs once on the B side
+only (rank 743), following B 25 immediately
+in BOTH B index order and B-offset order with
+incoming +30,008, outgoing +712 — NOT its own
+size. The act (1196369408, 26128, 2) at B 229
+occurs once on the B side only (rank 744),
+following B 26 immediately in B-offset order
+with incoming +712, outgoing +26,624 — NOT
+its own size. All three are B-only distinct,
+none in run 102. The single launch finished
+DONE225, exit 0, err empty, and its first
+57,021 prefix lines differ from hef224.out in
+exactly one line (line 42872, frozenset
+element order only — the AES-NUM-150
+variance). Next: the acts at B 272, B 674
+and B 735 in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.226 (AES-NUM-226) is complete. The
+act (1196396032, 14352, 1) at B 272 occurs once
+on the B side only (B-offset rank 745),
+following B 229 immediately in B-offset order
+with incoming gap +26,624, outgoing gap +14,848
+— NOT its own size. The act (1196410880,
+32784, 2) at B 674 occurs once on the B side
+only (rank 746), following B 272 immediately
+in B-offset order with incoming +14,848,
+outgoing +33,280 — NOT its own size. The act
+(1196444160, 24, 0) at B 735 occurs once on
+the B side only (rank 747), following B 674
+immediately in B-offset order with incoming
++33,280, outgoing +512 — NOT its own size,
+and B 735 and B 736 follow each other
+immediately in BOTH orders. All three are
+B-only distinct, none in run 102. The single
+launch finished DONE226, exit 0, err empty,
+and its first 57,119 prefix lines are
+IDENTICAL to hef225.out (zero differing
+lines — no AES-NUM-150 variance this run).
+Next: the acts at B 736, B 737 and B 738 in
+full — the final three B-offset ranks (748,
+749, 750). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.227 (AES-NUM-227) is complete. The
+act (1196444672, 24, 1) at B 736 occurs once
+on the B side only (B-offset rank 748),
+following B 735 immediately in B-offset order
+with incoming gap +512, outgoing gap +512
+— NOT its own size, and B 736 follows B 735
+immediately in BOTH orders. The act
+(1196445184, 24, 2) at B 737 occurs once on
+the B side only (rank 749), following B 736
+immediately in B-offset order with incoming
++512, outgoing +512 — NOT its own size, and
+B 737 and B 738 follow each other immediately
+in BOTH orders. The act (1196445696, 24, 0)
+at B 738 occurs once on the B side only
+(rank 750), following B 737 immediately in
+B-offset order with incoming +512, and it
+has NO outgoing gap — rank 750 is the last
+measured rank (B acts 751, ranks 0-750). The
+B-offset-order closure is complete: last
+rank 750 at B 738, and the closing run of
+ranks 743-750 is eight B-only acts, none in
+run 102. All three are B-only distinct, none
+in run 102. The single launch finished
+DONE227, exit 0, err empty, and its first
+57,217 prefix lines are IDENTICAL to
+hef226.out (zero differing lines — no
+AES-NUM-150 variance this run). Next: the
+B-offset-order closure in full as its own
+slice (ranks 745-750, the closing run
+743-750, and the full-order census over
+B-offset order). Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.228 (AES-NUM-228) is complete. The
+B-offset-order closure in full: ranks 745-750
+are B 272 (1196396032, 14352, 1) gap +14,848,
+B 674 (1196410880, 32784, 2) gap +33,280,
+B 735 (1196444160, 24, 0) gap +512, B 736
+(1196444672, 24, 1) gap +512, B 737
+(1196445184, 24, 2) gap +512, and B 738
+(1196445696, 24, 0) gap None — rank 750 is
+the last measured rank. The closing run
+743-750 adds B 26 (gap +712) and B 229
+(gap +26,624); every act in the closing run
+is B-only distinct and none is in run 102.
+The full-order census over B-offset order:
+B acts 751, ranks 0-750, first act at rank 0
+(262144, 376, 0) at B 696 (shared
+single-positioned, run 102, shift +2), last
+act at rank 750 at B 738, class census
+{shared single-positioned: 689, B-only
+distinct: 62} summing to 751 exactly, and
+run-102 membership 58 in / 693 not in over
+that order. The single launch finished
+DONE228, exit 0, err empty, and its first
+57,309 prefix lines differ from hef227.out
+in exactly one line (line 41611, frozenset
+element order only — the AES-NUM-150
+variance). Next: the act at B-offset rank 0
+in full, the A-offset-order closure in
+full, and the full-order census over
+A-offset order. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.229 (AES-NUM-229) is complete. The
+act at B-offset rank 0 in full: (262144, 376,
+0) at B 696, rank 0, shared single-positioned
+(run 102, shift +2; A pos 694, B pos 696),
+occurrences A [694] / B [696], no incoming gap
+(rank 0, none requested), outgoing gap +512,
+not its own size, to B 697 at rank 1. The
+A-offset-order closure in full: ranks 743-748
+are A 736 (791778304, 24, 0) A-only gap +512,
+A 744 (791778816, 24, 0) shared run 102 gap
++512 (run 102's last act), A 745, A 746 and
+A 747 A-only gap +512 each, and A 748
+(791780864, 24, 0) A-only gap None — rank 748
+is the last measured rank. The closing run
+741-748 adds A 734 and A 735, both A-only gap
++512; seven of its eight acts are A-only and
+exactly one is in run 102. The full-order
+census over A-offset order: A acts 749, ranks
+0-748, first act the same (262144, 376, 0) at
+A 694, last act at A 748, class census
+{shared single-positioned: 689, A-only
+distinct: 60} summing to 749 exactly, and
+run-102 membership 58 in / 691 not in over
+that order. The single launch finished
+DONE229, exit 0, err empty, and its first
+57,348 prefix lines differ from hef228.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+A-offset ranks 748 and 744 in full, and the
+cross-order census comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+Slice 4.230 (AES-NUM-230) is complete. The
+act at A-offset rank 748 in full: (791780864,
+24, 0) at A 748, rank 748, the last measured
+A rank, A-only distinct, occurrences A [748] /
+B none, incoming gap +512 from A 747 at rank
+747, not its own size, and no outgoing gap
+(rank 748 is last, none requested). The act
+at A-offset rank 744 in full: (791778816, 24,
+0) at A 744, shared single-positioned (run
+102, shift +2; A pos 744, B pos 746),
+occurrences A [744] / B [746], incoming gap
++512 from A 736 at rank 743 and outgoing gap
++512 to A 745 at rank 745, run 102's last act.
+The cross-order census comparison in full:
+A-offset order 749 acts, ranks 0-748, first
+act (262144, 376, 0) at A 694, last act at
+A 748, class census {shared single-positioned:
+689, A-only distinct: 60} summing to 749
+exactly, run-102 membership 58 in / 691 not
+in; B-offset order 751 acts, ranks 0-750,
+first act the same (262144, 376, 0) at B 696,
+last act (1196445696, 24, 0) at B 738, class
+census {shared single-positioned: 689, B-only
+distinct: 62} summing to 751 exactly, run-102
+membership 58 in / 693 not in; first acts
+identical, last acts different, and the whole
++2 total difference sits in the side-only
+classes. The single launch finished DONE230,
+exit 0, err empty, and its first 57,412 prefix
+lines differ from hef229.out in exactly one
+line (line 41611, frozenset element order
+only — the AES-NUM-150 variance). Next: the
+acts at B-offset ranks 750 and 743 in full,
+and the closing-run comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+Slice 4.231 (AES-NUM-231) is complete. The
+act at B-offset rank 750 in full: (1196445696,
+24, 0) at B 738, rank 750, the last measured
+B rank, B-only distinct, occurrences A none /
+B [738], incoming gap +512 from B 737 at rank
+749, not its own size, and no outgoing gap
+(rank 750 is last, none requested). The act
+at B-offset rank 743 in full: (1196368696, 280,
+2) at B 26, the B closing run's first act,
+B-only distinct, occurrences A none / B [26],
+incoming gap +30,008 from B 25 at rank 742 and
+outgoing gap +712 to B 229 at rank 744, neither
+its own size. The closing-run comparison in
+full: A closing run ranks 741-748, 8 acts,
+class composition {A-only distinct: 7, shared
+single-positioned: 1} summing to 8 exactly,
+run-102 membership 1 in / 7 not in, gap
+sequence [512, 512, 512, 512, 512, 512, 512];
+B closing run ranks 743-750, 8 acts, class
+composition {B-only distinct: 8} summing to 8
+exactly, run-102 membership 0 in / 8 not in,
+gap sequence [712, 26624, 14848, 33280, 512,
+512, 512]; the gap sequences are not identical,
+the runs agreeing only in their final three
+gaps. The single launch finished DONE231,
+exit 0, err empty, and its first 57,480 prefix
+lines are IDENTICAL to hef230.out (zero
+differing lines — no AES-NUM-150 frozenset
+variance this run). Next: the acts at B-offset
+rank 742 and A-offset rank 741 in full, and
+the closing-run first-act comparison. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+Slice 4.232 (AES-NUM-232) is complete. The
+act at B-offset rank 742 in full: (1196338688,
+30008, 2) at B 25, rank 742, the act immediately
+before the B closing run, B-only distinct,
+occurrences A none / B [25], incoming gap +752
+from B 23 at rank 741, not its own size, and
+outgoing gap +30,008 to B 26 at rank 743, EQUAL
+to its own size. The act at A-offset rank 741
+in full: (791777280, 24, 1) at A 734, the A
+closing run's first act, A-only distinct,
+occurrences A [734] / B none, incoming gap +488
+from A 733 at rank 740 and outgoing gap +512
+to A 735 at rank 742, neither its own size.
+The closing-run first-act comparison in full:
+A first act rank 741 index 734, A-only, in
+run 102 NO, incoming +488 outgoing +512; B
+first act rank 743 index 26, B-only, in run
+102 NO, incoming +30,008 outgoing +712; each
+outgoing gap equals the first gap of its own
+run's gap sequence as measured in AES-NUM-231.
+The single launch finished DONE232, exit 0,
+err empty, and its first 57,563 prefix lines
+differ from hef231.out in exactly two lines
+(lines 41611 and 42872, frozenset element
+order only — the AES-NUM-150 variance). Next:
+the acts at A-offset rank 742 and B-offset
+rank 744 in full, and the closing-run
+second-act comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+Slice 4.233 (AES-NUM-233) is complete. The
+act at A-offset rank 742 in full: (791777792,
+24, 2) at A 735, rank 742, the A closing run's
+second act, A-only distinct, occurrences
+A [735] / B none, incoming gap +512 from A 734
+at rank 741 and outgoing gap +512 to A 736 at
+rank 743, neither its own size. The act at
+B-offset rank 744 in full: (1196369408, 26128,
+2) at B 229, the B closing run's second act,
+B-only distinct, occurrences A none / B [229],
+incoming gap +712 from B 26 at rank 743 and
+outgoing gap +26,624 to B 272 at rank 745,
+neither its own size. The closing-run
+second-act comparison in full: A second act
+rank 742 index 735, A-only, in run 102 NO,
+incoming +512 outgoing +512; B second act
+rank 744 index 229, B-only, in run 102 NO,
+incoming +712 outgoing +26,624; each outgoing
+gap equals the second gap of its own run's
+gap sequence as measured in AES-NUM-231. The
+single launch finished DONE233, exit 0, err
+empty, and its first 57,632 prefix lines
+differ from hef232.out in exactly two lines
+(lines 41611 and 42872, frozenset element
+order only — the AES-NUM-150 variance). Next:
+the acts at A-offset rank 743 and B-offset
+rank 745 in full, and the closing-run
+third-act comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+Slice 4.234 (AES-NUM-234) is complete. The
+act at A-offset rank 743 in full: (791778304,
+24, 0) at A 736, rank 743, the A closing run's
+third act, A-only distinct, occurrences
+A [736] / B none, incoming gap +512 from A 735
+at rank 742 and outgoing gap +512 to A 744 at
+rank 744, neither its own size. The act at
+B-offset rank 745 in full: (1196396032, 14352,
+1) at B 272, the B closing run's third act,
+B-only distinct, occurrences A none / B [272],
+incoming gap +26,624 from B 229 at rank 744 and
+outgoing gap +14,848 to B 674 at rank 746,
+neither its own size. The closing-run
+third-act comparison in full: A third act
+rank 743 index 736, A-only, in run 102 NO,
+incoming +512 outgoing +512; B third act
+rank 745 index 272, B-only, in run 102 NO,
+incoming +26,624 outgoing +14,848; each outgoing
+gap equals the third gap of its own run's
+gap sequence as measured in AES-NUM-231. The
+single launch finished DONE234, exit 0, err
+empty, and its first 57,702 prefix lines
+differ from hef233.out in exactly two lines
+(lines 41611 and 42872, frozenset element
+order only — the AES-NUM-150 variance). Next:
+the acts at A-offset rank 744 and B-offset
+rank 746 in full, and the closing-run
+fourth-act comparison. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+Slice 4.235 (AES-NUM-235) is complete. The
+act at A-offset rank 744 in full: (791778816,
+24, 0) at A 744, rank 744, the A closing run's
+fourth act, shared single-positioned (run 102,
+shift +2; B 746), a member of run 102 and run
+102's last act, incoming gap +512 from A 736
+at rank 743 and outgoing gap +512 to A 745 at
+rank 745, neither its own size. The act at
+B-offset rank 746 in full: (1196410880, 32784,
+2) at B 674, the B closing run's fourth act,
+B-only distinct, occurrences A none / B [674],
+incoming gap +14,848 from B 272 at rank 745 and
+outgoing gap +33,280 to B 735 at rank 747,
+neither its own size. The closing-run
+fourth-act comparison in full: A fourth act
+rank 744 index 744, shared single-positioned,
+in run 102 YES, incoming +512 outgoing +512;
+B fourth act rank 746 index 674, B-only, in
+run 102 NO, incoming +14,848 outgoing +33,280;
+each outgoing gap equals the fourth gap of
+its own run's gap sequence as measured in
+AES-NUM-231. The single launch finished
+DONE235, exit 0, err empty, and its first
+57,772 prefix lines differ from hef234.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance). Next: the acts at A-offset rank 745
+and B-offset rank 747 in full, and the
+closing-run fifth-act comparison. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+Slice 4.236 (AES-NUM-236) is complete. The
+act at A-offset rank 745 in full: (791779328,
+24, 0) at A 745, rank 745, the A closing run's
+fifth act, A-only distinct, occurrences A [745] / B
+none, incoming gap +512 from A 744 at rank 744
+and outgoing gap +512 to A 746 at rank 746,
+neither its own size, its A-offset neighbours
+exactly its index neighbours on both sides. The
+act at B-offset rank 747 in full: (1196444160,
+24, 0) at B 735, the B closing run's fifth act,
+B-only distinct, occurrences A none / B [735],
+incoming gap +33,280 from B 674 at rank 746 and
+outgoing gap +512 to B 736 at rank 748, neither
+its own size. The closing-run fifth-act
+comparison in full: A fifth act rank 745 index
+745, A-only, in run 102 NO, incoming +512
+outgoing +512; B fifth act rank 747 index 735,
+B-only, in run 102 NO, incoming +33,280
+outgoing +512; each outgoing gap equals the
+fifth gap of its own run's gap sequence as
+measured in AES-NUM-231 — and the outgoing
+gaps are IDENTICAL (+512 both) for the first
+time in this comparison sequence. The single
+launch finished DONE236, exit 0, err empty,
+and its first 57,842 prefix lines differ from
+hef235.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+A-offset rank 746 and B-offset rank 748 in
+full, and the closing-run sixth-act
+comparison. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.237 (AES-NUM-237) is complete. The
+act at A-offset rank 746 in full: (791779840,
+24, 1) at A 746, rank 746, the A closing run's
+sixth act, A-only distinct, occurrences A [746] / B
+none, incoming gap +512 from A 745 at rank 745
+and outgoing gap +512 to A 747 at rank 747,
+neither its own size, its A-offset neighbours
+exactly its index neighbours on both sides. The
+act at B-offset rank 748 in full: (1196444672,
+24, 1) at B 736, the B closing run's sixth act,
+B-only distinct, occurrences A none / B [736],
+incoming gap +512 from B 735 at rank 747 and
+outgoing gap +512 to B 737 at rank 749, neither
+its own size, its B-offset neighbours exactly
+its index neighbours on both sides. The
+closing-run sixth-act comparison in full: A
+sixth act rank 746 index 746, A-only, in run
+102 NO, incoming +512 outgoing +512; B sixth
+act rank 748 index 736, B-only, in run 102 NO,
+incoming +512 outgoing +512; each outgoing gap
+equals the sixth gap of its own run's gap
+sequence as measured in AES-NUM-231 — and the
+two sixth acts agree in BOTH incoming and
+outgoing gaps (+512 both), differing only in
+class label. The single launch finished
+DONE237, exit 0, err empty, and its first
+57,910 prefix lines are identical to
+hef236.out in every line (zero differing
+lines — the AES-NUM-150 variance did not occur
+in this run). Next: the acts at A-offset rank
+747 and B-offset rank 749 in full, and the
+closing-run seventh-act comparison. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+Slice 4.238 (AES-NUM-238) is complete. The
+act at A-offset rank 747 in full: (791780352,
+24, 2) at A 747, rank 747, the A closing run's
+seventh act, A-only distinct, occurrences A [747] / B
+none, incoming gap +512 from A 746 at rank 746
+and outgoing gap +512 to A 748 at rank 748,
+neither its own size, its A-offset neighbours
+exactly its index neighbours on both sides. The
+act at B-offset rank 749 in full: (1196445184,
+24, 2) at B 737, the B closing run's seventh act,
+B-only distinct, occurrences A none / B [737],
+incoming gap +512 from B 736 at rank 748 and
+outgoing gap +512 to B 738 at rank 750, neither
+its own size, its B-offset neighbours exactly
+its index neighbours on both sides. The
+closing-run seventh-act comparison in full: A
+seventh act rank 747 index 747, A-only, in run
+102 NO, incoming +512 outgoing +512; B seventh
+act rank 749 index 737, B-only, in run 102 NO,
+incoming +512 outgoing +512; each outgoing gap
+equals the seventh gap of its own run's gap
+sequence as measured in AES-NUM-231 — and the
+two seventh acts agree in BOTH incoming and
+outgoing gaps (+512 both), differing only in
+class label. Known defect, recorded openly:
+the printed comparison line in the raw output
+carries B incoming +0 (arms238 computed it
+against rank 749, the act itself, instead of
+rank 748); the +512 above is established by
+the same run's (ii) statement and by arithmetic
+on the printed offsets, and the run was NOT
+rerun (one launch per contract); the 4.239
+contract carries the fix. The single launch
+finished DONE238, exit 0, err empty, and its
+first 57,975 prefix lines differ from
+hef237.out in exactly one line (line 41611,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+A-offset rank 748 and B-offset rank 750 in
+full, and the closing-run eighth-act
+comparison. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.239 (AES-NUM-239) is complete. The
+act at A-offset rank 748 in full: (791780864,
+24, 0) at A 748, rank 748, the A closing run's
+eighth and last act and the last act of
+context A in A-offset order, A-only distinct,
+occurrences A [748] / B none, incoming gap
++512 from A 747 at rank 747, not its own size,
+and NO outgoing gap — terminal in A-offset
+order, its offset-order predecessor exactly
+its index predecessor. The act at B-offset
+rank 750 in full: (1196445696, 24, 0) at B 738,
+rank 750, the B closing run's eighth and last
+act and the last act of context B in B-offset
+order, B-only distinct, occurrences A none /
+B [738], incoming gap +512 from B 737 at rank
+749, not its own size, and NO outgoing gap —
+terminal in B-offset order. The closing-run
+eighth-act comparison in full: A eighth act
+rank 748 index 748, A-only, in run 102 NO,
+incoming +512, terminal; B eighth act rank 750
+index 738, B-only, in run 102 NO, incoming
++512, terminal; each incoming gap equals the
+seventh gap of its own run's gap sequence as
+measured in AES-NUM-231 — and the two eighth
+acts agree in incoming gap and terminal
+status, differing only in class label. The
+AES-NUM-238 comparison defect fix is proven
+in print: the printed consistency check holds
+on both sides (TRUE). The single launch
+finished DONE239, exit 0, err empty, and its
+first 58,037 prefix lines differ from
+hef238.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance). With this slice both
+closing runs are walked in full in the paired
+sequence (4.232-4.239). Next: the two closing
+runs in full side by side, with their gap
+sequences. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.240 (AES-NUM-240) is complete. The
+A closing run in full: ranks 741-748 in
+A-offset order — A 734 (791777280, 24, 1),
+A 735 (791777792, 24, 2), A 736 (791778304,
+24, 0), A 744 (791778816, 24, 0) shared
+single-positioned and the run's sole run-102
+member, A 745 (791779328, 24, 0), A 746
+(791779840, 24, 1), A 747 (791780352, 24, 2),
+A 748 (791780864, 24, 0) terminal; internal
+gap sequence [512, 512, 512, 512, 512, 512,
+512]. The B closing run in full: ranks
+743-750 in B-offset order — B 26
+(1196368696, 280, 2), B 229 (1196369408,
+26128, 2), B 272 (1196396032, 14352, 1),
+B 674 (1196410880, 32784, 2), B 735
+(1196444160, 24, 0), B 736 (1196444672, 24,
+1), B 737 (1196445184, 24, 2), B 738
+(1196445696, 24, 0) terminal; internal gap
+sequence [712, 26624, 14848, 33280, 512, 512,
+512]. The closing-run full comparison in
+full: A run class composition {A-only
+distinct: 7, shared single-positioned: 1},
+run-102 members 1, terminal YES; B run class
+composition {B-only distinct: 8}, run-102
+members 0, terminal YES; each printed gap
+sequence equals its AES-NUM-231 measured
+sequence and all sixteen acts match their
+AES-NUM-232..239 per-act statements, so the
+AES-NUM-231 closing-run comparison is
+reproduced from the fully walked per-act
+sequence with no discrepancy; the gap
+sequences are NOT identical, agreeing only
+in their final three gaps (+512 each). The
+single launch finished DONE240, exit 0, err
+empty, and its first 58,097 prefix lines
+differ from hef239.out in exactly one line
+(line 42872, frozenset element order only —
+the AES-NUM-150 variance). Next: the two
+closing runs' size and channel sequences,
+compared position by position. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+Slice 4.241 (AES-NUM-241) is complete. The
+A closing run's size and channel sequences
+in full: ranks 741-748 in A-offset order,
+size sequence [24, 24, 24, 24, 24, 24, 24,
+24], channel sequence [1, 2, 0, 0, 0, 1, 2,
+0]. The B closing run's size and channel
+sequences in full: ranks 743-750 in B-offset
+order, size sequence [280, 26128, 14352,
+32784, 24, 24, 24, 24], channel sequence
+[2, 2, 1, 2, 0, 1, 2, 0]. The closing-run
+size/channel comparison in full: sizes agree
+at 4 of 8 positions (5, 6, 7, 8) and the size
+sequences are NOT identical; channels agree
+at 5 of 8 positions (2, 5, 6, 7, 8) and the
+channel sequences are NOT identical; each
+run's printed size and channel sequences
+equal the sequences read off the per-act
+statements of AES-NUM-232..239 as re-stated
+in AES-NUM-240. The single launch finished
+DONE241, exit 0, err empty, and its first
+58,141 prefix lines differ from hef240.out
+in exactly two lines (lines 41611 and
+42872, frozenset element order only — the
+AES-NUM-150 variance). Next: the two closing
+runs' class and run-102 membership
+sequences, compared position by position.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.242 (AES-NUM-242) is complete. The
+A closing run's class and run-102 membership
+sequences in full: ranks 741-748 in A-offset
+order, class sequence [A-only distinct, A-only
+distinct, A-only distinct, shared
+single-positioned, A-only distinct, A-only
+distinct, A-only distinct, A-only distinct],
+run-102 membership sequence [False, False,
+False, True, False, False, False, False]. The
+B closing run's class and run-102 membership
+sequences in full: ranks 743-750 in B-offset
+order, class sequence [B-only distinct x8],
+run-102 membership sequence [False x8]. The
+closing-run class/run-102 comparison in full:
+classes agree at 0 of 8 positions (no
+positions) and the class sequences are NOT
+identical; run-102 memberships agree at 7 of
+8 positions (1, 2, 3, 5, 6, 7, 8) and the
+run-102 membership sequences are NOT
+identical; each run's printed class and
+run-102 membership sequences equal the
+sequences read off the per-act statements of
+AES-NUM-232..239 as re-stated in AES-NUM-240.
+The single launch finished DONE242, exit 0,
+err empty, and its first 58,187 prefix lines
+differ from hef241.out in exactly one line
+(line 41611, frozenset element order only —
+the AES-NUM-150 variance). Next: the two
+closing runs' offset and index sequences,
+compared position by position. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.
+Slice 4.243 (AES-NUM-243) is complete. The
+A closing run's offset and index sequences
+in full: ranks 741-748 in A-offset order,
+offset sequence [791777280, 791777792,
+791778304, 791778816, 791779328, 791779840,
+791780352, 791780864], index sequence
+[734, 735, 736, 744, 745, 746, 747, 748].
+The B closing run's offset and index
+sequences in full: ranks 743-750 in B-offset
+order, offset sequence [1196368696,
+1196369408, 1196396032, 1196410880,
+1196444160, 1196444672, 1196445184,
+1196445696], index sequence [26, 229, 272,
+674, 735, 736, 737, 738]. The closing-run
+offset/index comparison in full: offsets
+agree at 0 of 8 positions (no positions) and
+the offset sequences are NOT identical;
+indices agree at 0 of 8 positions (no
+positions) and the index sequences are NOT
+identical; each run's printed offset and
+index sequences equal the sequences read
+off the per-act statements of
+AES-NUM-232..239 as re-stated in AES-NUM-240.
+The single launch finished DONE243, exit 0,
+err empty, and its first 58,233 prefix lines
+differ from hef242.out in exactly one line
+(line 41611, frozenset element order only —
+the AES-NUM-150 variance). Next: the two
+closing runs' internal gap sequences,
+compared position by position. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+Slice 4.244 (AES-NUM-244) is complete. The
+A closing run's internal gap sequence in
+full: ranks 741-748 in A-offset order, gap
+sequence [512, 512, 512, 512, 512, 512, 512].
+The B closing run's internal gap sequence
+in full: ranks 743-750 in B-offset order,
+gap sequence [712, 26624, 14848, 33280, 512,
+512, 512]. The closing-run gap comparison
+in full: gaps agree at 3 of 7 positions
+(positions 5, 6, 7) and the gap sequences
+are NOT identical; each run's printed gap
+sequence equals the sequence stated in
+AES-NUM-240 as measured in AES-NUM-231, and
+each printed gap equals the difference of
+the corresponding printed offsets from
+AES-NUM-243. The single launch finished
+DONE244, exit 0, err empty, and its first
+58,279 prefix lines differ from hef243.out
+in exactly one line (line 41611, frozenset
+element order only — the AES-NUM-150
+variance). Next: the two closing runs'
+combined sequences (size, channel, class,
+run-102 membership, offset, index and gap),
+compared sequence family by sequence
+family. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.245 (AES-NUM-245) is complete. The
+A closing run's combined sequences in
+full: ranks 741-748 in A-offset order, size
+[24, 24, 24, 24, 24, 24, 24, 24], channel
+[1, 2, 0, 0, 0, 1, 2, 0], class [A-only
+distinct x3, shared single-positioned,
+A-only distinct x4], run-102 [False, False,
+False, True, False, False, False, False],
+offset [791777280, 791777792, 791778304,
+791778816, 791779328, 791779840, 791780352,
+791780864], index [734, 735, 736, 744, 745,
+746, 747, 748], gap [512 x7]. The B closing
+run's combined sequences in full: ranks
+743-750 in B-offset order, size [280, 26128,
+14352, 32784, 24, 24, 24, 24], channel
+[2, 2, 1, 2, 0, 1, 2, 0], class [B-only
+distinct x8], run-102 [False x8], offset
+[1196368696, 1196369408, 1196396032,
+1196410880, 1196444160, 1196444672,
+1196445184, 1196445696], index [26, 229,
+272, 674, 735, 736, 737, 738], gap [712,
+26624, 14848, 33280, 512, 512, 512]. The
+closing-run combined comparison in full:
+no sequence family identical; size agree
+4 of 8, channel 5 of 8, class 0 of 8,
+run-102 7 of 8, offset 0 of 8, index 0 of
+8, gap 3 of 7; each printed sequence equals
+its own slice's sequence (AES-NUM-241..244)
+and each printed agreement count equals
+that slice's printed count. The single
+launch finished DONE245, exit 0, err empty,
+and its first 58,338 prefix lines differ
+from hef244.out in exactly one line (line
+41611, frozenset element order only — the
+AES-NUM-150 variance). Next: the two
+closing runs' combined sequences stated
+position by position, compared position by
+position. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.246 (AES-NUM-246) is complete. The
+two closing runs' combined sequences are now
+stated position by position: A positions 1-8
+(ranks 741-748) and B positions 1-8 (ranks
+743-750), each position carrying rank, index,
+act, size, channel, class, run-102 membership
+and offset, plus the gap to the next position
+(position 8 terminal on both sides). Every
+position's values equal its AES-NUM-245
+combined entry. The combined comparison
+stated position by position: position 1
+agreement set [RUN-102], position 2 [CHANNEL,
+RUN-102], position 3 [RUN-102], position 4 []
+(no family agrees), positions 5-8 [SIZE,
+CHANNEL, RUN-102] each; gap positions 1-4
+disagree and gap positions 5-7 agree. The
+family counts re-summed over positions equal
+AES-NUM-245 exactly: size 4, channel 5, class
+0, run-102 7, offset 0, index 0, gap 3. The
+single launch finished DONE246, exit 0, err
+empty, and its first 58,448 prefix lines
+differ from hef245.out in exactly two lines
+(lines 41611 and 42872, frozenset element
+order only — the AES-NUM-150 variance). Next:
+the agreement-set sequence in full, the
+distinct agreement sets with positions and
+counts and per-family position lists
+re-derived from the sets, and the
+gap-agreement sequence in full. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
+Slice 4.247 (AES-NUM-247) is complete. The
+closing-run agreement sets are now stated as
+one sequence: position 1 [RUN-102], position
+2 [CHANNEL, RUN-102], position 3 [RUN-102],
+position 4 [], positions 5-8 [SIZE, CHANNEL,
+RUN-102] each — equal to the AES-NUM-246
+printed sets at all eight positions. The
+distinct agreement sets are four forms:
+[RUN-102] x2 at positions 1, 3; [CHANNEL,
+RUN-102] x1 at position 2; [] x1 at position
+4; [SIZE, CHANNEL, RUN-102] x4 at positions
+5, 6, 7, 8 (counts sum to 8). The per-family
+position lists re-derived from the sets alone
+equal AES-NUM-245 exactly: size 5, 6, 7, 8;
+channel 2, 5, 6, 7, 8; class none; run-102
+1, 2, 3, 5, 6, 7, 8; offset none; index none.
+The gap-agreement sequence is [False, False,
+False, False, True, True, True], agreeing
+positions 5, 6, 7, count 3. The single launch
+finished DONE247, exit 0, err empty, and its
+first 58,500 prefix lines differ from
+hef246.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance). Next: the agreement-
+count sequence in full, the distinct
+agreement counts with positions and counts
+and the total agreeing family-instances
+re-summed, and the gap-agreement position
+lists in full. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
+Slice 4.248 (AES-NUM-248) is complete. The
+closing-run agreement counts are now stated as
+one sequence: [1, 2, 1, 0, 3, 3, 3, 3] over
+positions 1-8 — the counts of the AES-NUM-247
+agreement sets, each printed set and count
+equal to its expected value at all eight
+positions. The distinct agreement counts are
+four values: 1 x2 at positions 1, 3; 2 x1 at
+position 2; 0 x1 at position 4; 3 x4 at
+positions 5, 6, 7, 8 (counts sum to 8). The
+total agreeing family-instances re-summed over
+positions is 16, equal to AES-NUM-245's family
+counts (size 4 + channel 5 + class 0 + run-102
+7 + offset 0 + index 0). The gap-agreement
+position lists are agreeing 5, 6, 7 (count 3)
+and disagreeing 1, 2, 3, 4 (count 4), both
+equal to AES-NUM-245. The single launch
+finished DONE248, exit 0, err empty, and its
+first 58,547 prefix lines differ from
+hef247.out in exactly one line (line 41611,
+frozenset element order only — the AES-NUM-150
+variance; the second variance line seen in
+earlier runs, 42872, did not differ this run).
+Next: the closing-run cumulative agreement-
+count sequence in full, the distinct cumulative
+totals with positions and counts, and the gap
+cumulative agreement-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.249 (AES-NUM-249) is complete. The
+closing-run cumulative agreement counts are now
+stated as one sequence: [1, 3, 4, 4, 7, 10, 13,
+16] over positions 1-8 — the running totals of
+the AES-NUM-248 agreement counts, each printed
+set, count and cumulative total equal to its
+expected value at all eight positions, ending
+at the total 16. The distinct cumulative totals
+are seven values: 1 x1 at position 1; 3 x1 at
+position 2; 4 x2 at positions 3, 4; 7 x1 at
+position 5; 10 x1 at position 6; 13 x1 at
+position 7; 16 x1 at position 8 (counts sum to
+8). The gap cumulative agreement-count sequence
+is [0, 0, 0, 0, 1, 2, 3], ending at 3, with
+agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE249, exit 0, err empty, and its first
+58,588 prefix lines differ from hef248.out in
+exactly one line (line 41611, frozenset element
+order only — the AES-NUM-150 variance; the
+second variance line seen in earlier runs,
+42872, did not differ this run). Next: the
+closing-run cumulative-minus-count difference
+sequence in full, the distinct differences with
+positions and counts, and the gap cumulative
+difference sequence in full. Broad ordinary
+UNMODIFIED source-model support100% remains the
+destination.
+Slice 4.250 (AES-NUM-250) is complete. The
+closing-run cumulative-minus-count differences
+are now stated as one sequence: [0, 1, 3, 4, 4,
+7, 10, 13] over positions 1-8 — each position's
+AES-NUM-249 cumulative total minus its own
+AES-NUM-248 agreement count, equivalently the
+cumulative total before that position (0 at
+position 1); each printed set equals the
+AES-NUM-247 printed set, each count equals the
+AES-NUM-248 printed count, each cumulative
+equals the AES-NUM-249 printed cumulative, and
+difference plus count equals cumulative at all
+eight positions. The distinct differences are
+seven values: 0 x1 at position 1; 1 x1 at
+position 2; 3 x1 at position 3; 4 x2 at
+positions 4, 5; 7 x1 at position 6; 10 x1 at
+position 7; 13 x1 at position 8 (counts sum to
+8). The gap cumulative difference sequence is
+[0, 0, 0, 0, 1, 1, 1], summing to 3, exactly the
+AES-NUM-247 gap-agreement sequence read as 1/0,
+with agreeing positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE250, exit 0, err empty, and its first
+58,631 prefix lines differ from hef249.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance). Next: the closing-run remaining
+agreement-count sequence in full, the distinct
+remainings with positions and counts, and the
+gap remaining agreement-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.251 (AES-NUM-251) is complete. The
+closing-run remaining agreement counts are now
+stated as one sequence: [15, 13, 12, 12, 9, 6,
+3, 0] over positions 1-8 — the total 16 minus
+each position's AES-NUM-249 cumulative total,
+each printed set, count and cumulative total
+equal to its AES-NUM-247/248/249 value at all
+eight positions, ending at 0. The distinct
+remainings are seven values: 15 x1 at position
+1; 13 x1 at position 2; 12 x2 at positions 3, 4;
+9 x1 at position 5; 6 x1 at position 6; 3 x1 at
+position 7; 0 x1 at position 8 (counts sum to
+8). The gap remaining agreement-count sequence
+is [3, 3, 3, 3, 2, 1, 0], ending at 0, with
+agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE251, exit 0, err empty, and its first
+58,674 prefix lines differ from hef250.out in
+exactly one line (line 41611, frozenset element
+order only — the AES-NUM-150 variance; the
+second variance line seen in earlier runs,
+42872, did not differ this run). Next: the
+closing-run remaining-before-count sequence in
+full, the distinct remaining-before values with
+positions and counts, and the gap
+remaining-before-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.252 (AES-NUM-252) is complete. The
+closing-run remaining-before counts are now
+stated as one sequence: [16, 15, 13, 12, 12, 9,
+6, 3] over positions 1-8 — the total 16 minus
+each position's AES-NUM-250 cumulative-minus-
+count difference, equivalently each position's
+AES-NUM-251 remaining plus its own agreement
+count, each printed set, count, cumulative
+total, difference and remaining equal to its
+AES-NUM-247/248/249/250/251 value at all eight
+positions, starting at 16. The distinct
+remaining-before values are seven: 16 x1 at
+position 1; 15 x1 at position 2; 13 x1 at
+position 3; 12 x2 at positions 4, 5; 9 x1 at
+position 6; 6 x1 at position 7; 3 x1 at
+position 8 (counts sum to 8). The gap
+remaining-before-count sequence is
+[3, 3, 3, 3, 3, 2, 1], starting at 3, with
+agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE252, exit 0, err empty, and its first
+58,717 prefix lines differ from hef251.out in
+exactly one line (line 41611, frozenset element
+order only — the AES-NUM-150 variance; the
+second variance line seen in earlier runs,
+42872, did not differ this run). Next: the
+closing-run cumulative remaining-before-count
+sequence in full, the distinct cumulative
+remaining-before totals with positions and
+counts, and the gap cumulative
+remaining-before-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.253 (AES-NUM-253) is complete. The
+closing-run cumulative remaining-before counts
+are now stated as one sequence: [16, 31, 44, 56,
+68, 77, 83, 86] over positions 1-8 — the running
+total of the AES-NUM-252 remaining-before
+values, each printed set, count, cumulative
+total, difference, remaining and
+remaining-before equal to its
+AES-NUM-247/248/249/250/251/252 value at all
+eight positions, ending at 86. The distinct
+cumulative remaining-before totals are eight,
+each occurring once: 16 at position 1; 31 at
+position 2; 44 at position 3; 56 at position 4;
+68 at position 5; 77 at position 6; 83 at
+position 7; 86 at position 8 (counts sum to 8).
+The gap cumulative remaining-before-count
+sequence is [3, 6, 9, 12, 15, 17, 18], ending
+at 18, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch
+finished DONE253, exit 0, err empty, and its
+first 58,760 prefix lines differ from
+hef252.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance, each verified by
+same-sorted-characters comparison). The slice
+was resumed mid-transfer by the continuity
+worker after the original claim run stalled:
+the last four gzip parts landed via sha-gated
+sub-chunk writes, no byte accepted unverified.
+Next: the closing-run cumulative
+remaining-count sequence in full, the distinct
+cumulative remaining totals with positions and
+counts, and the gap cumulative remaining-count
+sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.254 (AES-NUM-254) is complete. The
+closing-run cumulative remaining counts are now
+stated as one sequence: [15, 28, 40, 52, 61, 67,
+70, 70] over positions 1-8 — the running
+total of the AES-NUM-251 remaining
+values, each printed set, count, cumulative
+total, difference and remaining equal to its
+AES-NUM-247/248/249/250/251 value at all eight
+positions, ending at 70. The distinct
+cumulative remaining totals are seven: 15 x1 at
+position 1; 28 x1 at position 2; 40 x1 at
+position 3; 52 x1 at position 4; 61 x1 at
+position 5; 67 x1 at position 6; 70 x2 at
+positions 7, 8 (counts sum to 8). The gap
+cumulative remaining-count sequence is
+[3, 6, 9, 12, 14, 15, 15], ending
+at 15, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE254, exit 0, err empty, and its
+first 58,804 prefix lines differ from
+hef253.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance, each verified by
+same-sorted-characters comparison). Next: the
+closing-run cumulative-remaining-minus-remaining
+difference sequence in full, the distinct
+differences with positions and counts, and the
+gap cumulative-remaining difference sequence
+in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.255 (AES-NUM-255) is complete. The
+closing-run cumulative-remaining-minus-remaining
+differences are now stated as one sequence:
+[0, 15, 28, 40, 52, 61, 67, 70] over positions
+1-8 — each position's AES-NUM-254 cumulative
+remaining total minus its own AES-NUM-251
+remaining value, each printed set, count,
+cumulative total, difference, remaining and
+cumulative remaining equal to its
+AES-NUM-247/248/249/250/251/254 value at all
+eight positions, ending at 70. The distinct
+differences are eight, each occurring once:
+0 at position 1; 15 at position 2; 28 at
+position 3; 40 at position 4; 52 at position 5;
+61 at position 6; 67 at position 7; 70 at
+position 8 (counts sum to 8). The gap
+cumulative-remaining difference sequence is
+[0, 3, 6, 9, 12, 14, 15], ending
+at 15, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The first launch (h255)
+crashed exit 1 on a worker-authored NameError
+in the new section only (expGapCumRem255 used
+inside the gap loop, defined after it); its
+partial section was read in full and the launch
+closed. A retry contract was published
+@ 63e003f3 before the replacement launch; the
+single patch defined the name before the loop
+(exactly one added line), and the retry child
+(h255r) finished DONE255, exit 0, err empty,
+its first 58,847 prefix lines differing from
+hef254.out in exactly one line (42872, frozenset
+element order only — the AES-NUM-150 variance).
+Next: the closing-run cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative-remaining remainings with positions
+and counts, and the gap cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.256 (AES-NUM-256) is complete. The
+closing-run cumulative-remaining remainings are
+now stated as one sequence: [55, 42, 30, 18, 9, 3,
+0, 0] over positions 1-8 — 70 minus each
+position's AES-NUM-254 cumulative remaining
+total, each printed set, count, cumulative
+total, difference, remaining and cumulative
+remaining equal to its
+AES-NUM-247/248/249/250/251/254 value at all
+eight positions, ending at 0. The distinct
+cumulative-remaining remainings are seven: 55 x1
+at position 1; 42 x1 at position 2; 30 x1 at
+position 3; 18 x1 at position 4; 9 x1 at
+position 5; 3 x1 at position 6; 0 x2 at
+positions 7, 8 (counts sum to 8). The gap
+cumulative-remaining remaining-count sequence is
+[12, 9, 6, 3, 1, 0, 0], ending at 0, with
+agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE256, exit 0, err empty, and its first
+58,891 prefix lines differ from hef255r.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance, each verified by same-sorted-characters
+comparison). Next: the closing-run cumulative
+cumulative-remaining remaining-count sequence in
+full, the distinct cumulative totals with
+positions and counts, and the gap cumulative
+cumulative-remaining remaining-count sequence
+in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.257 (AES-NUM-257) is complete. The
+closing-run cumulative cumulative-remaining
+remainings are now stated as one sequence:
+[55, 97, 127, 145, 154, 157, 157, 157] over
+positions 1-8 — the running total of each
+position's AES-NUM-256 cumulative-remaining
+remaining value, each printed set, count,
+cumulative total, difference, remaining,
+cumulative remaining and cumulative-remaining
+remaining equal to its
+AES-NUM-247/248/249/250/251/254/256 value at all
+eight positions, ending at 157. The distinct
+cumulative totals are six: 55 x1 at position 1;
+97 x1 at position 2; 127 x1 at position 3;
+145 x1 at position 4; 154 x1 at position 5;
+157 x3 at positions 6, 7, 8 (counts sum to 8).
+The gap cumulative cumulative-remaining
+remaining-count sequence is
+[12, 21, 27, 30, 31, 31, 31], ending at 31, with
+agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE257, exit 0, err empty, and its first
+58,934 prefix lines differ from hef256.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance, each verified by same-sorted-characters
+comparison). Next: the closing-run cumulative
+cumulative cumulative-remaining remaining-count
+sequence in full, the distinct cumulative
+cumulative totals with positions and counts, and
+the gap cumulative cumulative cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
+Slice 4.258 (AES-NUM-258) is complete. The
+closing-run cumulative cumulative
+cumulative-remaining remainings are now stated
+as one sequence:
+[55, 152, 279, 424, 578, 735, 892, 1049] over
+positions 1-8 — the running total of each
+position's AES-NUM-257 cumulative
+cumulative-remaining remaining value, each
+printed set, count, cumulative total,
+difference, remaining, cumulative remaining,
+cumulative-remaining remaining and cumulative
+cumulative-remaining remaining equal to its
+AES-NUM-247/248/249/250/251/254/256/257 value at
+all eight positions, ending at 1049. The
+distinct cumulative cumulative totals are
+eight: 55 x1 at position 1; 152 x1 at position 2;
+279 x1 at position 3; 424 x1 at position 4;
+578 x1 at position 5; 735 x1 at position 6;
+892 x1 at position 7; 1049 x1 at position 8
+(counts sum to 8). The gap cumulative
+cumulative cumulative-remaining remaining-count
+sequence is
+[12, 33, 60, 90, 121, 152, 183], ending at 183,
+with agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE258, exit 0, err empty, and its first
+58,976 prefix lines differ from hef257.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance, each verified by same-sorted-characters
+comparison). Next: the closing-run cumulative
+cumulative cumulative cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative cumulative cumulative totals with
+positions and counts, and the gap cumulative
+cumulative cumulative cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.

@@ -2871,7 +2871,7 @@
   Then broad ordinary
   UNMODIFIED source-model
   support100%.
-- [ ] Slice4.126 the
+- [x] Slice4.126 the
   (byte 3, byte 1 + byte 2)
   factoring's fibres in
   full and the map's
@@ -2909,10 +2909,3230 @@
   occurring exactly twice
   in the corpus, both
   times in the 114/251
-  pair); then broad
+  pair). DONE: every one
+  of the 222 factoring
+  fibres carries exactly
+  one distinct
+  (byte 1, byte 2) pair
+  (the two 2-pair fibres
+  differ only in byte 0),
+  so fibre arithmetic is
+  vacuous; the 167
+  difference cells hold
+  32 multi-key cells, the
+  16 two-key cells
+  constant-gap only
+  vacuously and all 16
+  cells with >=3 keys
+  failing the constant-gap
+  test (gap gcd 1 in 13) -
+  arithmetic structure NOT
+  PROVEN; the 189 steps'
+  324 ratios are pairwise
+  distinct, all in (0, 1),
+  and all 324 second
+  differences are negative
+  with exactly one
+  repeated value
+  (-38,363,136 at cidx 11
+  and cidx 29, both
+  k = 3, A side); each
+  cidx's ratios span at
+  most ~1.1e-6 yet decay
+  forms F1-F5 all fail on
+  every sequence (F1/F3/F5
+  54 of 54 cidx-sides, F2
+  161 of 162 per side, F4
+  27 of 27 cidxs) - exact
+  decay form NOT PROVEN;
+  the three displaced acts
+  live in exactly the same
+  eight cc9b9d1c contexts,
+  standing as the
+  consecutive block D2,
+  D3, D1 after the core's
+  final act in 128, 251
+  and 265; 251's closing
+  segment and 130's head
+  share exactly D1 and D2;
+  the occurrence-2
+  population is 127 of
+  the 168 shared acts in
+  24 runs, the 54-act run
+  verified as RUN 8 with
+  all 54 members in the
+  population (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_FIBRES_RATIOS_DISPLACED_PROFILES_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.127 the
+  (byte 3, byte 1 + byte 2)
+  -> difference table read
+  as a per-byte-3 function
+  of the sum in full (per
+  byte-3 keys ordered by
+  sum, monotonicity and
+  step structure tested
+  exactly) and byte 0's
+  own map over the 224
+  pairs (A byte 0 ->
+  B byte 0 in full, its
+  determination status
+  against the key); the
+  near-geometric steps'
+  wobble measured exactly
+  (per-cidx ratio
+  deviations from the
+  sequence median in full;
+  stated integer-rounding
+  geometric forms tested
+  exactly); the displaced
+  trio's eight contexts in
+  wider windows around
+  every occurrence in
+  full (the three block
+  contexts against the
+  five split contexts),
+  the block's flanking
+  acts profiled corpus-wide
+  ((2817536, 24, 0) before
+  the block,
+  (1113626112, 24, 0)
+  after it), and the 41
+  shared 114x251 acts that
+  are NOT occurrence-2
+  read in full by
+  occurrence-count class.
+  DONE: the difference is
+  NOT monotone in the sum
+  (37 multi-key byte-3
+  values: NEITHER 25,
+  non-decreasing 8,
+  non-increasing 2,
+  constant 2; constant-step
+  in 10 values, 8 of them
+  two-key vacuous and the
+  only >=3-key case being
+  byte 3 = 128's constant
+  -128) - per-byte-3 closed
+  form NOT PROVEN; byte 0
+  is determined by nothing
+  tested (not A byte 0
+  alone, 23 of 36 violate;
+  not the full key, not
+  the sum key - both fail
+  on exactly the two
+  narrow keys whose pairs
+  differ only in byte 0);
+  the wobble is never zero
+  (0 of 324 ratios equal
+  their median; max
+  deviation ~0.839 ppm)
+  and all six
+  integer-rounding
+  geometric forms fail on
+  all 54 sequences
+  (0 of 54 hold for any
+  form x candidate) -
+  exact decay form NOT
+  PROVEN; the block
+  contexts' +/-8 windows
+  are the flanked core
+  tail, the split contexts
+  scatter the trio; the
+  before-flank occurs once
+  in each of 271 contexts,
+  the after-flank exactly
+  3 times, block-exclusive;
+  the 41 acts fall in
+  classes {3: 4, 4: 3,
+  6: 1, 271: 30, 1058: 1,
+  1060: 2} at position
+  differences {0: 37,
+  -1: 3, +4: 1}
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_SUM_FUNCTION_BYTE0_WOBBLE_WINDOWS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.128 no ratio
+  sequence is monotone in
+  k (all 54 NEITHER,
+  inversions 4-11 each
+  way; 15 deviation sign
+  patterns, modal +-+-+-
+  x10); pooled steps 161
+  in 32 values, step not
+  a function of the sum
+  pooled under either
+  anchoring (27 violating
+  sums each), per byte-3
+  vacuous only; byte 0's
+  failure localized to
+  group (14, 9992)'s two
+  narrow keys, the other
+  two groups exact
+  functions, all eight
+  narrow pairs copy byte 0
+  (XOR 0x80000000); the
+  before-flank is
+  end-anchored at
+  from-end 20 in all 271
+  contexts, followed by
+  51 distinct (24, 0)
+  acts (block-first only
+  in the 3 block
+  contexts); the 30
+  class-271 acts hold
+  identical order in 114
+  and 251 (0 of 435
+  inversions; 29 at diff
+  0, lead at +4; 28 rigid
+  with 20 positions, the
+  first two 51/54); each
+  after-flank following
+  pair occurs consecutively
+  exactly once corpus-wide
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_RATIO_ORDER_STEP_CENSUS_BYTE0_GROUPS_FLANKS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.129 byte 0 IS
+  determined by the full
+  A word (extended key
+  224 pairs / 224 keys /
+  0 violations globally
+  and per group; the key
+  never repeats, the two
+  narrow collisions split
+  by A byte 0); identity
+  is narrow-only (8/8
+  narrow copy; beyond
+  them 36 same / 180 diff,
+  all in group (20,
+  32720), differences
+  -240..+240 in 40 values;
+  all-pairs 44 same); the
+  sides' sign patterns
+  almost never relate
+  (EQUAL 3, COMPLEMENT 0,
+  REVERSE 1, COMP-OF-REV
+  2 overlapping, NONE 23
+  of 27); step NOT a
+  function of (sum,
+  starting diff) (5
+  violating keys) and a
+  function of (sum,
+  byte 3) only vacuously
+  (161 keys / 161 steps);
+  the end block is fully
+  rigid (28 acts constant
+  from-end 54..20 in all
+  271 contexts; all 27
+  spacings constant:
+  1 x24, 3 x2, 4 x1 into
+  the before-flank); the
+  loose pair floats (L0
+  13 from-ends 55-87,
+  distances 1-33; L1 12
+  from-ends 55-68,
+  distances 1-14), always
+  before the block, order
+  L1-before-L0 170 vs
+  L0-before-L1 101
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_BYTE0_EXTENDED_KEY_PATTERN_PAIRING_END_BLOCK_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.130 the wide
+  gaps are shape-constant
+  but act-variable (gap 0:
+  34 tuples, sizes (248,
+  176) in all 271 contexts;
+  gap 1: 30 tuples, (256,
+  176); gap 2: 87 tuples,
+  (328, 328, 328)); the
+  loose distances do not
+  determine each other
+  (d1 = f(d0) fails 7/13
+  keys; d0 = f(d1) 9/12);
+  order is not a function
+  of either distance alone
+  (each fails only on its
+  distance-4 key) but IS a
+  function of (d0-d1) (19
+  differences, 0 violating
+  — the sign law); the
+  distance-33 outlier is
+  cidx 143 (L0 pos 518 /
+  from-end 87, 32 large
+  acts to the block, L1
+  inside at distance 2);
+  no proper sub-key
+  separates the great
+  group's byte-0 identity
+  from rewriting with
+  repetition to spare
+  (two-byte keys near-miss
+  on exactly one value
+  each; (byte3, byte1,
+  byte2) separates only by
+  unique identification,
+  216 values / 216 pairs);
+  the byte-0 difference is
+  not a function of A
+  byte 0 (21 of 32 values
+  violating) (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_WIDE_GAPS_LOOSE_JOINT_SUBKEYS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.131 in the
+  two-act gaps the second
+  act IS an exact function
+  of the first (gap 0: 34
+  keys, gap 1: 30 keys, 0
+  violating in either),
+  though the offset is not
+  constant (+248 in 187 of
+  271 gap-0 contexts, +512
+  in 46, negative in 38;
+  +256 in 257 gap-1, +512
+  in 8, negative in 6);
+  in gap 2 no position is
+  a function of an earlier
+  one (7 of 70, 8 of 70,
+  10 of 73 violating);
+  every one of the 333
+  distinct gap acts is
+  gap-only corpus-wide;
+  the outlier's 32-act run
+  occurs exactly once (its
+  own cidx 143) and 31 of
+  its 32 acts occur exactly
+  once corpus-wide (the
+  exception being L1 at run
+  index 30, 271 times), so
+  no two run acts co-occur
+  anywhere else; in modal
+  contexts the distance-1
+  loose act is followed by
+  the first rigid act in
+  every context (46/46,
+  43/43); the four near-miss
+  collisions are each
+  exactly two pairs, two
+  sharing the same identity
+  pair; B byte 0 is NOT a
+  function of any two-byte
+  sub-key ((byte3, byte1)
+  fails on exactly (249, 44)
+  and (252, 84), (byte3,
+  byte2) on exactly
+  (249, 181), (byte1, byte2)
+  on exactly (128, 146),
+  (byte0, byte1) on 5 values,
+  (byte0, byte3) on 27)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_GAP_FILLER_FUNCTIONS_OUTLIER_RUN_NEAR_MISS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.132 gap 2's
+  broken chain in full
+  (position-1 = f(position-0)
+  fails 7 of 70 keys,
+  (33312256, 328, 0) alone
+  carrying 5 alternatives
+  in 54 contexts;
+  position-2 = f(position-0)
+  8 of 70, that key carrying
+  7 alternatives; position-2
+  = f(position-1) 10 of 73);
+  every violating key's
+  carrying contexts share
+  exactly one context length
+  (and, the widest apart, one
+  gap-0 and one gap-1 tuple),
+  yet the alternatives split
+  inside those families;
+  gaps 0/1 wider lens: every
+  repeating first act carries
+  a contextual difference
+  (22 of 22, 21 of 21 —
+  always including the gap-2
+  tuple) but its own tuple
+  never differs, so the exact
+  functions stand; the
+  gap-only acts at offset
+  level: exactly 1 of 333
+  offsets is carried by
+  another distinct act (the
+  gap-2 act (120529920, 328,
+  0) sharing its offset with
+  (120529920, 32784, 0) in
+  another artifact), and 0
+  of 333 at (offset, size)
+  level; the outlier run's
+  31 unique acts likewise
+  (0 of 31 at either level);
+  B byte 0 against all four
+  three-byte sub-keys is a
+  function only by unique
+  identification (216 values
+  / 216 pairs, repetition 0,
+  violating 0, every key);
+  the identity pair
+  A 682cb5f9 -> B 6884f5f8
+  is the SAME side of both
+  its status collisions and
+  a singleton under every
+  three-byte key (29 lines
+  in hef132.out, 14 in the
+  4.132 section) (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_GAP2_CHAIN_OFFSET_LEVELS_THREEBYTE_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.133 gap 2's
+  chain against joint keys:
+  NO joint key repairs it
+  ((position-0, length) 70
+  distinct keys — length adds
+  none over position-0 alone —
+  position-1 fails 7,
+  position-2 8; (position-0,
+  gap-0 tuple) and
+  (position-0, gap-1 tuple)
+  71 each, splitting only the
+  widest first act into
+  halves that still violate,
+  failing 8 / 9;
+  (position-0, loose order)
+  73, failing 6 / 7, though
+  (1098455040, 328, 0) and
+  (961257984, 328, 0) fall
+  silent there; the whole
+  tuple as a function of
+  (length, position-0) fails
+  10 of 70, the union of the
+  positions' failures); the
+  offset-120529920 collision
+  is offset-only (the gap
+  act's 12 contexts identical
+  in every printed feature;
+  the large act's two
+  5ab3537d contexts share
+  ZERO distinct acts with
+  each of them and contain
+  no gap act at all);
+  cross-size offsets with
+  minimum size 328 number 19
+  corpus-wide, not one; and
+  beyond the great group
+  exactly one three-byte key
+  ever repeats without
+  violating — (byte0, byte3,
+  byte1) = (20, 128, 1)
+  across groups, both pairs
+  SAME at 20 — while
+  (byte3, byte1, byte2) is
+  NOT a function of the full
+  224 pairs, failing on
+  exactly its two repeated
+  narrow values (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_JOINT_KEYS_COLLISION_CENSUS_THREEBYTE_BEYOND_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.134 gap 2's
+  chain against compound
+  joint keys: NO compound
+  repairs it ((position-0,
+  order, gap-0) and
+  (position-0, order, gap-1)
+  75 distinct each, failing
+  6 / 7; (position-0, loose
+  distances) 84 distinct —
+  the strongest companion
+  yet — failing only 3 / 4;
+  the whole tuple as a
+  function of (position-0,
+  order) fails 9 of 73, the
+  widest carrying 6 tuples
+  under one order); the 19
+  cross-size offsets hold
+  exactly 19 distinct
+  size-328 acts (one per
+  offset): exactly ONE is a
+  gap act (the target
+  (120529920, 328, 0), gap-2
+  position-0), NONE is
+  class-271 / loose / rigid,
+  18 are neither, and all
+  21 partner acts are
+  neither; and the two-byte
+  cross-group sharings are
+  exactly 7 values over the
+  six sub-keys (agreeing
+  (20, 1), (68, 1) and
+  (20, 128), all small-group;
+  violating (32, 1) — the
+  only value touching the
+  great group — (1, 176),
+  (1, 0) and (1, 128); none
+  under (byte0, byte2) or
+  (byte2, byte3)); the
+  agreeing three-byte pair's
+  (byte1, byte3) projection
+  is the widest violating
+  value of all (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_COMPOUND_JOINT_328POP_CROSSGROUP_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.135 gap 2's chain against
+  distance-compound joint
+  keys: NO distance-
+  compound repairs it
+  ((position-0, distances,
+  order) 84 distinct — the
+  order adds NO key over
+  the distances alone —
+  failing 3 / 4, every
+  violating key under
+  L1-before-L0;
+  (position-0, distances,
+  gap-0) and (position-0,
+  distances, gap-1) 86
+  distinct each, failing
+  only 2 / 3, a sister
+  fill silencing exactly
+  the widest key's (2, 4)
+  branch; the whole tuple
+  as a function of
+  (position-0, distances)
+  fails 4 of 84); the 19
+  size-328 acts'
+  occurrence geometry in
+  full: every act confined
+  to a single artifact, 18
+  of 19 position-fixed,
+  and the sole exception
+  (791774208, 328, 0)
+  fixed from the END
+  (positions 725 / 727 in
+  contexts of 749 / 751
+  acts, position-from-end
+  23 in both); their 21
+  partners position-fixed
+  in only 16 cases, all
+  five twice-occurring
+  partners moving and end-
+  fixed neither; and the
+  agreeing cross-group
+  two-byte values' whole
+  company is exactly their
+  carriers ((20, 1) 3
+  pairs, (68, 1) 2, (20,
+  128) 2 — all SAME),
+  while inside a single
+  group NO three-byte
+  value ever repeats
+  agreeing under any key
+  (the only agreeing
+  three-byte repetition in
+  the 224 pairs is the
+  cross-group (20, 128, 1)
+  itself; the only within-
+  group repeats are the
+  two violating (byte3,
+  byte1, byte2) values of
+  group (14, 9992))
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_DISTCOMPO
+  UND_GEOMETRY_PAIRCOMPANY
+  _2026-10-24.md`. Then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.136 gap 2's chain against the
+  maximal compound joint
+  key: NO maximal compound
+  repairs it (86 distinct
+  keys — the maximal key
+  adds NO key over
+  (position-0, distances,
+  one sister) alone, and
+  the violating sets are
+  identical, 2 / 3; the
+  whole tuple under either
+  sister fails on the same
+  3 keys); the end-
+  anchoring census counted
+  exactly (size-328 acts
+  BOTH 18, END-ONLY 1 —
+  the exception — partners
+  BOTH 16 all trivially
+  single-occurrence,
+  NEITHER 5 exactly the
+  twice-occurring ones;
+  multi-occurrence split
+  total: small acts
+  anchored 9 of 9, partners
+  0 of 5); the exception's
+  two contexts share 689
+  distinct acts of an 811
+  union, only 126 at the
+  same position, 563 at
+  different positions; and
+  B byte 0 answers to no
+  two-byte sub-key inside
+  any group (great group
+  violates under all six
+  keys — (byte0, byte3)
+  34 repeats, 27 violating;
+  group (14, 9992) byte-0
+  keys never repeat and
+  the rest repeat only
+  violating; group
+  (19, 7712) holds the one
+  agreeing repeat (20, 1))
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_MAXIMAL_C
+  OMPOUND_ENDANCHOR_TWOBY
+  TE_GROUPS_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.137 gap 2's chain against the
+  maximal compound joint
+  key wed to the context
+  length and to the gap's
+  left position: NO wed
+  repairs it (86 distinct
+  keys under either wed —
+  neither wed adds a key
+  over the maximal key
+  alone, so length and left
+  position are each constant
+  on every maximal family;
+  violating sets identical,
+  2 / 3 / 3, the violating
+  keys carrying lengths
+  245 / 606 / 873 and left
+  positions 220 / 581 /
+  848); the exception
+  contexts' shared-act
+  shift anatomy is exact
+  (all 689 shared acts
+  single-positioned in
+  both; 69 distinct shifts
+  −455..+434, +2 on 283,
+  0 on 126, +3 on 55;
+  466 positive, 97
+  negative, 69 at |shift|
+  ≥100; the 126 same-
+  position acts at
+  A-positions 2–614,
+  clustered — sparse head,
+  solid 242–270 block,
+  dense 501–614 region
+  ending solid 581–614;
+  118 primary shift runs,
+  longest 158 at +2 over
+  A 26–183; 103 secondary
+  runs); and B byte 0
+  answers to no two-byte
+  sub-key over the FULL
+  224-pair population (63
+  repeating values, 13
+  agreeing, 50 violating;
+  every key violates;
+  (byte0,byte3) heaviest
+  35 repeating, 27
+  violating; only 7 of 63
+  repeated values cross a
+  group boundary, and
+  (32,1) is the only one
+  touching the great
+  group) (mechanisms NOT
+  PROVEN).
+  `docs/HAILO10H_MAXIMAL_W
+  ED_SHIFT_TWOBYTE_FULL
+  _2026-10-24.md`. Then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.138 the two wed redundancies
+  CERTIFIED directly
+  (context length IS a
+  function of the maximal
+  compound joint key — 86
+  distinct, 15 repeating, 0
+  violating; gap-2 left
+  position IS a function —
+  same counts; the maximal
+  key wed to BOTH companions
+  together still repairs
+  nothing, 86 distinct,
+  violating 2 / 3 / 3, the
+  same keys with both wed
+  values appended); the
+  shift anatomy's long runs
+  read act by act (exactly
+  8 primary runs ≥20,
+  carrying 394 of 689 acts:
+  158/+2, 50/+2, 41/+3,
+  37/+2, 34/0, 29/0, 25/0,
+  20/−2 the only negative;
+  the |shift| ≥100 tail is
+  69 acts over 40 distinct
+  shifts, 38 positive /
+  31 negative; shift class
+  by band of width 50 —
+  totals ≤−10: 44, −9..−1:
+  53, zero: 126, +1..+9:
+  395, ≥+10: 71; bands
+  50–149 purely +1..+9,
+  550–599 purely zero,
+  700–749 purely +1..+9);
+  and B byte 0 against the
+  six two-byte sub-keys wed
+  to the group over the
+  full 224 pairs (60
+  repeating wed values, 11
+  agreeing, 49 violating —
+  no wed key is a function;
+  the wed splits exactly
+  the cross-group repeats)
+  with the 13 agreeing
+  repeats' status company
+  (27 pairs with
+  multiplicity: 19 SAME,
+  8 DIFF; the 8 DIFF in
+  exactly 4 great-group
+  repeats, each pair-set
+  sharing one nonzero diff
+  +128 / −128 / +96 / +64)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_CERTIFIED
+  _WED_LONGRUNS_WEDGROUP
+  _2026-10-24.md`. Then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.139 the loose and rigid
+  positions CERTIFIED as
+  functions of the
+  doubly-wed key (L0, L1
+  and R0 positions each:
+  86 distinct, 15
+  repeating, 0 violating);
+  every further position
+  wed still repairs
+  nothing (86 distinct,
+  violating 2 / 3 / 3, the
+  same families with the
+  certified position value
+  appended); the long-run
+  boundaries in full (16
+  boundaries, all flanked,
+  shift changes 4 zero /
+  12 nonzero; 6 flank acts
+  themselves tail acts);
+  the tail cross-tabbed by
+  band (sign-pure outside
+  bands 350–449); the
+  secondary runs ≥20
+  exactly 7; and B byte 0
+  against the four
+  three-byte sub-keys wed
+  to the group over the
+  full 224 pairs (the
+  three byte-0 keys
+  injective, 0 repeats;
+  (byte1, byte2, byte3)
+  2 repeating, both
+  violating) with the 11
+  wed agreeing repeats'
+  status company (22
+  pairs: 14 SAME, 8 DIFF;
+  7 purely SAME, 4 purely
+  DIFF) (mechanisms NOT
+  PROVEN).
+  `docs/HAILO10H_DOUBLYWED
+  _POSITIONS_BOUNDARIES
+  _THREEBYTE_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.140 the artifact
+  identity CERTIFIED as a
+  function of the
+  doubly-wed key (86
+  distinct, 15 repeating, 0
+  violating) and the
+  context index NOT a
+  function (all 15
+  repeating keys violate);
+  the artifact wed repairs
+  nothing (86 distinct,
+  violating 2 / 3 / 3, the
+  same families with
+  'cc9b9d1c' appended) and
+  the cidx wed is vacuous
+  (271 distinct, 0
+  repeating); the
+  secondary long runs'
+  internal gaps almost all
+  unit (431 gaps: 423 of
+  size 1, only 8 larger,
+  all in the three
+  merging/extending runs);
+  the 16 flanking acts
+  classified (6 tail, 3
+  same-position, 7
+  neither); and B byte 0
+  against the four
+  three-byte sub-keys
+  UNWED over the full 224
+  pairs (two keys
+  injective; (byte0, byte1,
+  byte3) one agreeing
+  cross-group repeat;
+  (byte1, byte2, byte3)
+  the same 2 violating
+  repeats as wed) with the
+  two wed violating
+  repeats re-read against
+  A byte 0 (B byte 0 = A
+  byte 0 in all 4 pairs)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_ARTIFACT
+  _CIDX_SECONDARYGAPS
+  _FLANKS_UNWED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.141 the cidx
+  sets inside the 15
+  repeating doubly-wed
+  families are arithmetic
+  (eight step-8 families
+  pure progressions with
+  residues 0-7 exactly
+  once each; step-4
+  families missing single
+  lattice slots, three of
+  one family's four
+  missing slots exactly
+  its sister family's
+  whole set); the residue
+  CERTIFIED as a function
+  of the doubly-wed key
+  (86 distinct, 15
+  repeating, 0 violating),
+  the quotient NOT a
+  function (all 15
+  violate), the residue
+  wed repairing nothing
+  (2 / 3 / 3) and the
+  quotient wed vacuous
+  (271 distinct); the
+  acts at the 19 skipped
+  A-positions of the 8
+  non-unit secondary gaps
+  ALL A-only (not in B at
+  all, 19 of 19); and
+  B byte 0 against the
+  four three-byte sub-keys
+  wed to the pair's status
+  (two keys injective;
+  (byte0, byte1, byte3)
+  one agreeing repeat,
+  the status wed not
+  splitting it; (byte1,
+  byte2, byte3) the same
+  2 violating repeats,
+  both SAME) with the
+  unwed agreeing repeat's
+  pairs re-read record by
+  record (1 record against
+  27, no shared record)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_CIDX
+  _FAMILIES_SKIPPED_ACTS
+  _STATUS_WED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.142 every
+  missing lattice slot is
+  occupied (28 slots in
+  four families, 22 by
+  another repeating
+  family's row, 6 by a
+  singleton row, 0 empty;
+  the [146…] family and
+  its sister are mutual —
+  18 of the sister's 19
+  missing slots are the
+  [146…] family's rows,
+  and slot 182 is one
+  singleton row filling
+  both families); the
+  B-side mirror is exact
+  (B distance = A distance
+  in all 8 gaps; the 19
+  B-side skipped acts ALL
+  B-only and corpus-unique,
+  as are the 19 A-side
+  skipped acts, one
+  occurrence each); and
+  B byte 0 against the
+  four three-byte sub-keys
+  wed to status AND group
+  jointly earns no
+  determination (three
+  keys injective; (byte1,
+  byte2, byte3) the same
+  2 violating repeats;
+  SAME-only repeats the
+  pattern at subset scale,
+  DIFF-only all injective;
+  the violating pairs have
+  B byte 0 = own A byte 0)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_MISSING
+  _SLOTS_B_MIRROR_JOINT
+  _WED_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.143 the
+  missing-slot occupants
+  are their slot families
+  in everything but the
+  loose distances and the
+  tuple's third act
+  (modal positions 0/1
+  shared 28/28, position 2
+  differing in 25, d0
+  differing in 25, the
+  two sets overlapping in
+  23 only; singletons
+  share 6/7 key components
+  — loose distances only —
+  except slot 184 at 5/7
+  with the order too; slot
+  182 shares 6/7 with both
+  its families); the
+  insertions side by side
+  are size-identical in
+  order at all 8 gaps
+  (19/19) but channel-
+  different at gaps 1–7
+  (0/15, uniform per side)
+  with zero offset
+  differences, gap 8 alone
+  channel-equal (4/4) at
+  offset differences
+  +404,667,368/+404,667,392
+  (×3); and B byte 0 wed
+  to status, group AND
+  record count jointly
+  earns no determination
+  (three keys injective;
+  (byte1, byte2, byte3)
+  the same 2 violating
+  repeats, all four pairs
+  at 27 records; SAME-only
+  repeats the pattern; the
+  violating pairs differ
+  only in the cell — 1744/
+  6944 and 4336/9832 — with
+  cidx/centre spans and
+  poscat identical)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_OCCUPANTS
+  _INSERTIONS_TRIPLEWED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.144 the
+  occupants match their
+  OWN families' modal
+  third act in all 28
+  (slot modal matched
+  only 3; position-2
+  cross-tab (slot differs,
+  own matches) 25, (both)
+  3; repeating only 21/1);
+  the own-family key
+  match is identity by
+  construction (d0
+  cross-tab (slot differs,
+  own equal) 25, repeating
+  22/22, tautological on
+  the own side); the
+  per-gap channel mapping
+  is NOT a function of
+  the bounding acts
+  (identical in both
+  contexts, 16/16), the
+  shifts or the distances
+  (bounding-channel key
+  (1, 0) violating at
+  gaps 3 and 7; global
+  paired map one-to-many
+  in every channel); gap
+  8's B-side insertion is
+  a four-act 24 B block
+  at offsets 1,196,444,160
+  stepping 512, channels
+  0, 1, 2, 0, in a region
+  neither neighbour
+  occupies; and B byte 0
+  wed to status, group,
+  record count AND cell
+  jointly is injective
+  under all four sub-keys
+  (224 distinct, 0
+  repeating — the cell
+  splits the two violating
+  repeats, 1744/6944 and
+  4336/9832, each pair
+  keeping its own byte)
+  but earns no
+  determination, while
+  the cell as a companion
+  is NOT a determinant
+  (16 cells, 8 repeating
+  all violating at 27
+  pairs each in group
+  (20, 32720); the third
+  component alone the
+  identical test; (cell,
+  A byte 0) 36 violating)
+  (mechanisms NOT PROVEN).
+  `docs/HAILO10H_OWNFAMILY
+  _GAPCHANNEL_CELLWED
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.145 gaps 3
+  and 7 are the same gap
+  twice over at their
+  bounds (same run 74,
+  shift 0, length 83,
+  extents 524-614,
+  bounding channels
+  (1, 0), distances 2/2;
+  32-feature table 13
+  equal / 19 differing,
+  every difference a
+  location, an identity,
+  or a skipped-act
+  property; mappings
+  ((2->0),) vs ((1->2),));
+  the 8 violating cell
+  repeats earn no rescue
+  from any record-level
+  companion over 216
+  pairs (centre set the
+  constant {127}, 1
+  violating key; cidx
+  set 27 all violating;
+  poscat 3 all violating;
+  (cidx, centre) seq 27
+  all violating); and
+  the quad-wed injectivity
+  belongs to neither
+  added companion (byte-0
+  sub-keys: base wed
+  already injective, both
+  additions vacuous;
+  (byte1, byte2, byte3):
+  the 2 pair-pairs are
+  separated by BOTH the
+  cell and A byte 0, both
+  separate 2, cell-only
+  0, A-only 0) (mechanisms
+  NOT PROVEN).
+  `docs/HAILO10H_GAPS37
+  _CELL_COMPANIONS_WED
+  _DISSECTION_2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.146 the
+  per-gap channel mapping
+  is NOT a function of
+  the A-side skipped acts
+  (sizes violating at
+  gaps 3/5/6; residues
+  mod 512 violating at
+  gaps 3/5/6/7; count
+  violating; channels and
+  paired (size, channel)
+  one agreeing repeat
+  only, gaps 5/6); gaps
+  3 and 7's skipped acts
+  are corpus-unique (1
+  occurrence each in the
+  whole corpus); the 216
+  earn no rescue from the
+  remaining companions
+  (idx sequence 27 all
+  violating; in37 the
+  constant (False,) 1
+  violating; A byte 0 22
+  repeating all
+  violating; (cidx, idx)
+  27 all violating; zero
+  agreeing repeats in
+  all eight single
+  companions); and the
+  two (byte1, byte2,
+  byte3) pair-pairs are
+  twins separated only
+  by byte 0 (+4 in both
+  groups; B byte 0 ==
+  A byte 0 in all four)
+  and the cell (thirds
+  1744/6944, 4336/9832;
+  35 differing / 171
+  equal of 206 fields in
+  both groups)
+  (mechanisms NOT
+  PROVEN).
+  `docs/HAILO10H_SKIPPED
+  _ACTS_REMAINING
+  _COMPANIONS_PAIRPAIRS
+  _2026-10-24.md`.
+  Then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.147 the
+  per-gap channel mapping
+  as a function of the
+  B-side skipped acts and
+  the joint A/B skipped
+  tuples over all 8 gaps,
+  with gaps 3 and 7's
+  skipped (offset, size)
+  pairs read against the
+  corpus channel-blind; B
+  byte 0 over the 216
+  violating-cell pairs
+  against the JOINT
+  companions of the eight
+  exhausted singles
+  ((idx sequence, A byte
+  0), ((cidx, idx)
+  sequence, A byte 0),
+  (in37 pattern, A byte
+  0), (idx sequence,
+  in37 pattern)); and the
+  two pair-pairs' byte-0
+  step and cell-third
+  step tested across
+  every pair-pair sharing
+  the (byte1, byte2,
+  byte3) sub-key alone
+  over the full 224
+  pairs; then broad
   ordinary UNMODIFIED
   source-model support100%.
-
+- [x] Slice4.148 the two
+  refining joints
+  dissected over the 216
+  (their 7 agreeing
+  repeats in full; the
+  two joints' pair-by-pair
+  identity; (idx sequence,
+  A byte 0) wed to the
+  cell); the +4 byte-0
+  step across every
+  pair-pair sharing each
+  of the other three
+  three-byte sub-keys
+  alone over the full 224;
+  and the channel tuples
+  wed to count and to
+  sizes as determinants
+  of the per-gap mapping
+  over all 8 gaps; then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.149 the 7
+  agreeing repeats read
+  record by record (each
+  repeat's two pairs
+  compared field by field,
+  with the 35 violating
+  repeats as control);
+  the near-miss census
+  for the two injective
+  sub-keys (Hamming-1
+  pair-pairs, byte-0 steps
+  split by differing
+  position); and gaps 5
+  and 6 read in full
+  against each other (the
+  sole agreeing repeat of
+  every mapping test, the
+  AES-NUM-145 feature
+  table); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.150 the 3
+  control comparisons
+  with the agreeing
+  (12, 7) profile read
+  in full (which repeat
+  carries them; their
+  differing seven against
+  the agreeing seven);
+  the 8 byte-0-differing
+  near-miss pair-pairs
+  read against each
+  other (the +4 cases
+  against the 8/12/64
+  cases; the sub-keys'
+  population overlap);
+  and gap 4 read in full
+  against gaps 5 and 6
+  (feature tables; its
+  four-long skipped block
+  against their single
+  skipped acts); then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.151 the 6
+  distinct byte-0
+  near-miss pair-pairs
+  as one population
+  (the (14, 9992) ladder
+  chain read against the
+  full 224 — every pair
+  sharing (byte1, byte3)
+  = (1, 128)); the 50
+  control comparisons
+  decomposed by
+  verdict-field pattern
+  (B byte 0 only / status
+  only / both / neither,
+  status-only tested);
+  and run 74's internal
+  gaps as one sequence
+  (steps 31, 33, 37) with
+  skipped-block
+  contiguity measured
+  over all 8 gaps; then
+  broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.152 gap 8's
+  non-contiguous skipped
+  block read in full
+  against the contiguous
+  blocks of gaps 1 and 2
+  (its 512-stride 24-byte
+  skipped acts; the
+  A-side 488 first
+  advance); the two
+  (1, 128)-population
+  pairs in no near-miss
+  pair-pair (byte2 177 at
+  byte0 20; byte2 160 at
+  byte0 68) read against
+  the four member pairs
+  (their full sub-key
+  neighbourhoods under
+  both injective
+  sub-keys); and run 74's
+  remaining two gaps
+  (3 at step 24, mapping
+  ((2, 0),); 7 at step 48,
+  mapping ((1, 2),)) read
+  in full against gaps
+  4, 5 and 6 (feature
+  tables), completing
+  run 74; then broad
+  ordinary UNMODIFIED
+  source-model
+  support100%.
+- [x] Slice4.153 gap 8's
+  two skipped regions
+  read against their
+  contexts in full (every
+  24-byte act at a 512
+  stride around gap 8 in
+  contexts A and B; side
+  B's ladder at
+  1,196,444,160 — wider
+  ladder or isolated;
+  where side A's ladder
+  ends at the right
+  bound); the
+  byte2-differing
+  Hamming-1 pair-pairs
+  over the full 224 as a
+  census (the mirror of
+  the byte-0 census;
+  listings, steps, and
+  where the two
+  non-members and the
+  four members sit in
+  it); and run 62's gaps
+  1 and 2 read against
+  each other (32-feature
+  table), completing
+  run 62; then broad
+  ordinary UNMODIFIED
+  source-model
+  support100%.
+- [x] Slice4.154 the two
+  contexts' residue-0
+  offset sets read in
+  full against each
+  other (37 distinct in
+  context A vs 38 in
+  context B: shared,
+  A-only, B-only, and
+  positional order);
+  the byte2 census's hub
+  pairs (individual pairs
+  carrying >= 4 listings)
+  read as one population;
+  and run 102's single
+  gap (gap 8) read
+  against the run-62 /
+  run-74 frame (the 9
+  shared run-frame
+  features) as a one-gap
+  closure; then broad
+  ordinary UNMODIFIED
+  source-model
+  support100%.
+- [x] Slice4.155 the shared
+  offsets' chain
+  correspondence read in
+  full (each A 512-chain
+  against its B chains
+  over the 25 shared
+  offsets: surviving,
+  splitting, merging);
+  the hub closure's
+  boundary (the 7 pairs
+  carrying exactly 3
+  listings, and the hub
+  component's internal
+  partner/degree
+  structure); and gap 8
+  read against run 74's
+  gap 4 in full
+  (32-feature table; the
+  one split-kind match);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.156 the surviving
+  chains in context-position
+  space (identical chains'
+  rung positions in A vs B;
+  the split 12-chain's two
+  B fragments and the
+  truncated 6-chain
+  positionally); the three
+  population as a graph in
+  full (the 8 both-three
+  listings as edges; the 5
+  neither partners in full;
+  second-component test);
+  and the complete pairwise
+  gap table (all 28 gap
+  pairs on the 32 features);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.157 the position-
+  shift bands read in full
+  (every shared act's shift
+  as a function of position;
+  the 0/+2 band boundary;
+  the -7 singleton's
+  neighbourhood); the one
+  external listing (21) and
+  its 1-listing partner in
+  full (the leak's other
+  side); and gaps 5 and 6
+  in full (the maximum
+  pair's 13 differing
+  features); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.158 the +432/+434
+  excursion at A positions
+  184-191 in full (its 8
+  acts and their flanks);
+  the leaf chain's root
+  (three 40f019ce in full;
+  the chain leaf -> neither
+  -> three as one graph);
+  and gaps 3 x 5 and 3 x 6
+  in full (the 15/32
+  runners-up, completing
+  run 74's top pairs); then
+  broad ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.159 the excursion's
+  B fragments in full (the
+  B 616-625 neighbourhood:
+  what sits around and
+  between the +432 block,
+  the in-place pair's B
+  context, and the +434
+  pair); the root triangle's
+  two neither partners
+  (4092dbce and 40fcb4ce)
+  in full as a pair; and
+  gap 4 in full (step 31,
+  the one run-74 gap not
+  yet read in full,
+  completing run 74's five
+  gaps); then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.160 the B 615
+  intruder in full (the +93
+  act at A 522; secondary
+  run 72 at the seam); the
+  partner-cell correspondence
+  tested census-wide (every
+  neither partner's cell vs
+  the cells of the vertices
+  it touches); and the
+  first-skipped past-left-end
+  values of all 8 gaps as
+  one table (gap 4's 464 in
+  the population); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.161 gap 8's
+  B-side skipped population
+  in full against its A side
+  (its four B-side skipped
+  acts, their B bounds, and
+  each act's past-left-end
+  against its own B
+  neighbours); the (20,
+  32720) 6864/6932 cell
+  pair's full population
+  (every pair carrying
+  either cell, the induced
+  listing graph, cell
+  membership vs printed
+  fields); and the seam
+  runs 70/71/73's B
+  neighbourhoods in full
+  (B 276-290 and B 516-528);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.162 gap 8's
+  B-block offset region in
+  full (offset ranks
+  738-751, the B 674 offset
+  predecessor's run); the
+  6864/6932 split against
+  the untested fields (full
+  B value, byte1-byte3,
+  byte3/full differences,
+  XOR, factoring keys); and
+  the seam's remaining
+  displaced blocks (runs
+  93, 19 and 20 in full;
+  the B 280 singleton's A
+  neighbourhood 668-674);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.163 the top
+  offset region's thirteen
+  B-only acts against
+  context A in full (each
+  act's occurrence in A,
+  its offset's rank in A's
+  order, A's own top ranks
+  in full); the 6864/6932
+  split against the pairs'
+  record-level fields
+  (per-record cidx/idx/n/
+  centre/poscat/in37
+  sequences); and run 20's
+  full context (A 276-300,
+  B 301-310) plus runs
+  92/94/95 in full; then
+  broad ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.164 the offset-
+  range boundary between
+  the contexts in full
+  (every B act above A's
+  largest offset; the B
+  rank where B passes it);
+  the 6864/6932 split as a
+  matched-pair comparison
+  (the 6864 pair against
+  the 6932 pair at each of
+  the 27 shared cidx
+  values); and runs
+  21/22/23 and 46 in full;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.165 the above-
+  boundary population's
+  B-position structure in
+  full (the 30 acts in
+  B-position order; the
+  B 0-27 and B 747-750
+  windows in full); the
+  matched-pair byte3-
+  difference confinement
+  {14, 15, 16} against the
+  remaining companions (the
+  pairs' own byte3 values,
+  cidx/idx order position,
+  within-pair diffs, status);
+  and runs 43/44/45 and
+  47/48 in full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.166 the above
+  population's B-position /
+  offset-rank order relation
+  in full (every adjacent
+  pair in B-position order
+  with its rank delta; the
+  873M triple and the
+  ceiling pair reversals
+  against their full B
+  neighbourhoods); the
+  byte3-difference
+  confinement against the
+  matched pairs' remaining
+  byte fields (byte0-byte2
+  values and matched
+  differences, each side,
+  each cell); and runs
+  42/53/60 and 61/62 in
+  full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.167 run 62's
+  two internal gaps in full
+  (the B 447-448 and
+  B 455-459 acts against
+  both contexts in full;
+  the skipped A acts at
+  A 444-445 and A 452-456
+  in full); the matched A
+  byte2-difference to
+  byte3-difference
+  regularity against the
+  wider pair population
+  (all 224 pairs of the
+  (20, 32720) group, and
+  the other groups); and
+  runs 65 and 67 in full;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.168 the channel-
+  disagreement correspondence
+  across both full contexts
+  (every A-only and B-only
+  distinct act paired by
+  (offset, size); the channel
+  pairs; position correspondence;
+  the unmatched residue in
+  full); the per-ordered-cell-
+  pair FUNCTION pattern in
+  the great group (verdict
+  against ordered-pair
+  features; the never-
+  contradicted keys -191/-145
+  in the widened rows in
+  full); and runs 63 and 64
+  in full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.169 the 31
+  correspondence pairs'
+  position-delta law against
+  neighbouring secondary-run
+  shifts recomputed directly
+  (the 10 exceptions in
+  full); the unmatched
+  residue's head-sequence
+  relation (both heads aligned
+  by position in full; the
+  position-13 32,728/32,768
+  split; offset differences
+  at agreeing positions); and
+  runs 68 and 69 in full;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.170 the 31
+  pairs' delta match-distance
+  census (smallest run-order
+  distance at which a run
+  with shift == delta occurs,
+  within three runs either
+  side of both containing
+  runs); the heads'
+  offset-difference family
+  structure (417-family
+  differences against
+  position/size/channel; the
+  position-16 outlier in
+  full; the 873-family
+  relation across positions
+  0/1/27); and runs 70 and
+  71 in full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.171 the unbounded
+  delta match-distance census
+  for the eight NONE pairs
+  (smallest distance over the
+  full run table; every run
+  whose shift equals their
+  delta); the 417-family
+  equal-diff pairing structure
+  and the A-offset ordering
+  of its positions (the
+  position-16 A offset against
+  every other head A offset);
+  and runs 72 and 73 in full;
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.172 the full
+  run-table shift census
+  against the 31 pair deltas
+  (every distinct shift with
+  its runs; the NEVER deltas
+  -205/-212 in full); the
+  417-family A-offset ordering
+  with position 16 removed
+  and the (5, 6) reversal in
+  full; and runs 74 and 75
+  in full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.173 run 74's eight
+  internal gaps in full (the
+  delta-0 pairs inside its
+  extent against the ninth at
+  A 651); the head's three
+  lowest A offsets (positions
+  6, 16, 5) against the
+  remaining 25; and runs 76
+  and 77 in full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.174 the eight
+  larger head gaps in full
+  (rank pairs, positions
+  separated, 417/diff status
+  crossing each); the A
+  640-660 placement region
+  of the ninth delta-0 pair
+  in full (runs 85 and 86
+  against the seam at 651);
+  and runs 78 and 79 in
+  full; then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.175 the head's
+  twelve non-417-family
+  positions in full (nine
+  of the twelve are diff-0
+  identity acts; the other
+  three (0, 1, 27) carry
+  873-prefix B offsets, 0/1
+  in reversed B order, 27
+  the only size/channel
+  mismatch); runs 84, 87
+  and 88 in full; and runs
+  80 and 81 in full (all
+  five runs one contiguous
+  B block each); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.176 the
+  873-prefix trio's B-side
+  placement (the three B
+  acts are consecutive in
+  B-offset order at ranks
+  724-726, order 1, 0, 27,
+  gaps 512/512, and are the
+  only 873-prefix acts in
+  either context; the 0/1
+  reversal is the trio's
+  only reversal, against
+  107 inversions head-wide,
+  41 involving a trio
+  position); runs 82, 83
+  and 89 in full; and runs
+  90 and 91 in full (all
+  five runs singletons, one
+  contiguous B block each);
+  then broad ordinary
+  UNMODIFIED source-model
+  support100%.
+- [x] Slice4.177 the
+  trio's B-offset-order
+  flank acts in full (all
+  four are B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 747-750, ranks
+  722, 721, 723, 727);
+  runs 92 and 93 in full;
+  and runs 94 and 95 in
+  full (run 92 a +1 pair,
+  runs 93, 94 and 95
+  singletons, all one
+  contiguous B block
+  each); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.178 the
+  B-offset-order window's
+  upper acts at ranks
+  728-732 in full (all
+  five are B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 5, 6, 8, 10,
+  11) and its lower
+  shared boundary at
+  ranks 718-720 in full
+  (three shared run-102
+  acts at +2); runs 96
+  and 97 in full; and
+  runs 98 and 99 in full
+  (all four runs
+  singletons, one
+  contiguous B block
+  each); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.179 the
+  B-offset-order acts
+  above the window at
+  ranks 733-736 in full
+  (all four B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 13, 14, 15,
+  16, consecutive in both
+  orders, ranks 733-737
+  one contiguous offset
+  chain); runs 100 and 101
+  in full (both singletons,
+  one contiguous B block
+  each); and run 102 in
+  full (58 acts at +2 in
+  TWO contiguous B blocks,
+  B 685-734 and B 739-746,
+  split by four B-only acts
+  at B 735-738 and four
+  A-only acts at A 733-736);
+  then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.180 the
+  B-offset-order acts at
+  ranks 737-742 in full
+  (all six B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 17, 19, 20,
+  22, 23, 25); the four
+  B-only interrupter acts
+  at B 735-738 in full
+  (the last four acts in
+  B-offset order, ranks
+  747-750); and the four
+  A-only acts at A 733-736
+  in full (A-offset ranks
+  740-743, same (size,
+  channel) sequence as
+  the interrupters, no
+  shared act, key or
+  offset); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.181 the
+  B-offset-order acts at
+  ranks 743-746 in full
+  (all four B-only distinct
+  with no A-side
+  counterpart, at B
+  indices 26, 229, 272,
+  674); the A-only acts
+  at A 745-747 in full
+  (A-offset ranks
+  745-747, no B-side
+  counterpart or key);
+  and the A-offset-order
+  acts at ranks 744-748
+  in full (one shared
+  run-102 act at +2
+  followed by four A-only
+  acts closing both A
+  orders); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.182 the
+  three further B-only
+  acts inside 4.181's
+  B-index neighbourhoods
+  in full: the act at
+  B 27 (B-offset rank
+  726, no A counterpart
+  or key); the act at
+  B 271 (B-offset rank
+  29, no A counterpart
+  or key); and the act
+  at B 671 (B-offset
+  rank 689, no exact A
+  counterpart but its
+  key held on the A
+  side by A 670 on
+  channel 1); then
+  broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.183 the
+  two other acts of
+  B 27's offset triplet
+  in full (B 1 rank 724;
+  B 0 rank 725); the
+  two further A-only
+  acts inside A 670's
+  A-index neighbourhood
+  in full (A 673 rank
+  710; A 675 rank 712);
+  and the shared run-93
+  act following both
+  B 671 and A 670 in
+  offset order in full
+  ((791154688, 18448, 2)
+  at A 671 / B 280);
+  then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.184 the
+  B-only act at B 392
+  in full ((791266816,
+  32784, 2), B-offset
+  rank 693, its key
+  held on the A side
+  by A 675 on channel
+  1); the two B-only
+  acts at B 5 (rank
+  728) and B 6 (rank
+  729) in full; and
+  the shared run-94
+  act following the
+  run-93 act in both
+  offset orders in
+  full ((791173632,
+  32784, 0) at A 672 /
+  B 673); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.185 the
+  B-only act at B 750
+  in full ((973679616,
+  24, 0), B-offset
+  rank 727); the
+  B-only act at B 8
+  in full ((1196183040,
+  32784, 1), rank 730,
+  completing the
+  +512/+512 triplet
+  at ranks 728-730);
+  and the shared
+  run-95 act following
+  the run-94 act in
+  both offset orders
+  in full ((791240192,
+  26128, 1) at A 674 /
+  B 676); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.186 the
+  B-only act at B 10
+  in full ((1196216320,
+  7800, 2), B-offset
+  rank 731); the
+  B-only acts at B 11
+  in full ((1196224120,
+  344, 2), rank 732)
+  and B 13 in full
+  ((1196224512, 32768,
+  1), rank 733); and
+  the shared run-96
+  act following the
+  run-95 act in full
+  ((791300096, 26128,
+  2) at A 676 /
+  B 393); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.187 the
+  B-only act at B 14
+  in full ((1196257280,
+  14416, 1), B-offset
+  rank 734); the
+  B-only acts at B 15
+  in full ((1196271696,
+  376, 1), rank 735)
+  and B 16 in full
+  ((1196272072, 24,
+  1), rank 736); and
+  the shared run-97
+  act following the
+  run-96 act in full
+  ((791326720, 32784,
+  2) at A 677 /
+  B 377); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.188 the
+  B-only act at B 17
+  in full ((1196272096,
+  32728, 1), B-offset
+  rank 737); the
+  B-only acts at B 19
+  in full ((1196304896,
+  7712, 0), rank 738)
+  and B 20 in full
+  ((1196312608, 328,
+  0), rank 739); and
+  the shared run-98
+  act following the
+  run-97 act in full
+  ((791360000, 26128,
+  2) at A 678 /
+  B 223); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.189 the
+  B-only act at B 22
+  in full ((1196313088,
+  24848, 1), B-offset
+  rank 740); the
+  B-only acts at B 23
+  in full ((1196337936,
+  264, 1), rank 741)
+  and B 25 in full
+  ((1196338688, 30008,
+  2), rank 742); and
+  the shared run-99
+  act following the
+  run-98 act in full
+  ((791386624, 32784,
+  2) at A 679 /
+  B 401); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.190 the
+  B-only act at B 26
+  in full ((1196368696,
+  280, 2), B-offset
+  rank 743); the
+  B-only acts at B 229
+  in full ((1196369408,
+  26128, 2), rank 744)
+  and B 272 in full
+  ((1196396032, 14352,
+  1), rank 745); and
+  the shared run-100
+  act following the
+  run-99 act in full
+  ((791419904, 32784,
+  2) at A 680 /
+  B 228); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.191 the
+  B-only act at B 674
+  in full ((1196410880,
+  32784, 2), B-offset
+  rank 746); the
+  B-only acts at B 735
+  in full ((1196444160,
+  24, 0), rank 747)
+  and B 736 in full
+  ((1196444672, 24,
+  1), rank 748); and
+  the shared run-101
+  act following the
+  run-100 act in full
+  ((3446784, 24,
+  2) at A 682 /
+  B 675); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.192 the
+  B-only act at B 737
+  in full ((1196445184,
+  24, 2), B-offset
+  rank 749); the
+  B-only act at B 738
+  in full ((1196445696,
+  24, 0), rank 750,
+  the last rank); and
+  the shared run-102
+  act following the
+  run-101 act in
+  A-index order in
+  full ((791479296,
+  32784, 1) at A 683 /
+  B 685); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.193 the
+  A-only act at A 681
+  in full ((791452688,
+  26128, 2), A-offset
+  rank 718); the
+  shared run-102 act
+  at A 684 / B 686 in
+  full ((791512080,
+  32784, 1), A-offset
+  rank 720, B-offset
+  rank 700); and the
+  shared run-102 act
+  at A 685 / B 687 in
+  full ((791544864,
+  26128, 1), A-offset
+  rank 721, B-offset
+  rank 701); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.194 the
+  shared run-102 act
+  at A 686 / B 688 in
+  full ((791570992,
+  32784, 1), A-offset
+  rank 722, B-offset
+  rank 702); the
+  shared run-102 act
+  at A 687 / B 689 in
+  full ((791603776,
+  26128, 1), A-offset
+  rank 723, B-offset
+  rank 703); and the
+  shared run-102 act
+  at A 688 / B 690 in
+  full ((791629904,
+  32784, 1), A-offset
+  rank 724, B-offset
+  rank 704); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.195 the
+  shared run-102 act
+  at A 689 / B 691 in
+  full ((791662688,
+  26128, 1), A-offset
+  rank 725, B-offset
+  rank 705); the
+  shared run-102 act
+  at A 690 / B 692 in
+  full ((791688816,
+  32784, 1), A-offset
+  rank 726, B-offset
+  rank 706); and the
+  shared run-102 act
+  at A 691 / B 693 in
+  full ((791721600,
+  32784, 1), A-offset
+  rank 727, B-offset
+  rank 707); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.196 the
+  shared run-102 act
+  at A 692 / B 694 in
+  full ((791754384,
+  18448, 1), A-offset
+  rank 728, B-offset
+  rank 708); the
+  shared run-102 act
+  at A 693 / B 695 in
+  full ((3415040,
+  24, 1), A-offset
+  rank 27, B-offset
+  rank 27); and the
+  shared run-102 act
+  at A 694 / B 696 in
+  full ((262144,
+  376, 0), A-offset
+  rank 0, B-offset
+  rank 0); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.197 the
+  shared run-102 act
+  at A 695 / B 697 in
+  full ((262656,
+  24, 0), A-offset
+  rank 1, B-offset
+  rank 1); the
+  shared run-102 act
+  at A 696 / B 698 in
+  full ((262680,
+  24, 0), A-offset
+  rank 2, B-offset
+  rank 2); and the
+  shared run-102 act
+  at A 697 / B 699 in
+  full ((262704,
+  72, 0), A-offset
+  rank 3, B-offset
+  rank 3); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.198 the
+  shared run-102 act
+  at A 698 / B 700 in
+  full ((262776,
+  24, 0), A-offset
+  rank 4, B-offset
+  rank 4); the
+  shared run-102 act
+  at A 699 / B 701 in
+  full ((791773184,
+  248, 0), A-offset
+  rank 729, B-offset
+  rank 709); and the
+  shared run-102 act
+  at A 700 / B 702 in
+  full ((791773432,
+  176, 0), A-offset
+  rank 730, B-offset
+  rank 710); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.199 the
+  shared run-102 act
+  at A 701 / B 703 in
+  full ((263680,
+  816, 0), A-offset
+  rank 5, B-offset
+  rank 5); the
+  shared run-102 act
+  at A 702 / B 704 in
+  full ((264496,
+  24, 0), A-offset
+  rank 6, B-offset
+  rank 6); and the
+  shared run-102 act
+  at A 703 / B 705 in
+  full ((264520,
+  24, 0), A-offset
+  rank 7, B-offset
+  rank 7); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.200 the
+  shared run-102 act
+  at A 704 / B 706 in
+  full ((264544,
+  416, 0), A-offset
+  rank 8, B-offset
+  rank 8); the
+  shared run-102 act
+  at A 705 / B 707 in
+  full ((264960,
+  96, 0), A-offset
+  rank 9, B-offset
+  rank 9); and the
+  shared run-102 act
+  at A 706 / B 708 in
+  full ((265056,
+  24, 0), A-offset
+  rank 10, B-offset
+  rank 10); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.201 the
+  shared run-102 act
+  at A 707 / B 709 in
+  full ((265080,
+  24, 0), A-offset
+  rank 11, B-offset
+  rank 11); the
+  shared run-102 act
+  at A 708 / B 710 in
+  full ((791773696,
+  256, 0), A-offset
+  rank 731, B-offset
+  rank 711); and the
+  shared run-102 act
+  at A 709 / B 711 in
+  full ((791773952,
+  176, 0), A-offset
+  rank 732, B-offset
+  rank 712); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.202 the
+  shared run-102 act
+  at A 710 / B 712 in
+  full ((265728,
+  176, 0), A-offset
+  rank 12, B-offset
+  rank 12); the
+  shared run-102 act
+  at A 711 / B 713 in
+  full ((265904,
+  344, 0), A-offset
+  rank 13, B-offset
+  rank 13); and the
+  shared run-102 act
+  at A 712 / B 714 in
+  full ((266248,
+  584, 0), A-offset
+  rank 14, B-offset
+  rank 14); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.203 the
+  shared run-102 act
+  at A 713 / B 715 in
+  full ((266832,
+  824, 0), A-offset
+  rank 15, B-offset
+  rank 15); the
+  shared run-102 act
+  at A 714 / B 716 in
+  full ((267656,
+  24, 0), A-offset
+  rank 16, B-offset
+  rank 16); and the
+  shared run-102 act
+  at A 715 / B 717 in
+  full ((267680,
+  24, 0), A-offset
+  rank 17, B-offset
+  rank 17); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.204 the
+  shared run-102 act
+  at A 716 / B 718 in
+  full ((267704,
+  96, 0), A-offset
+  rank 18, B-offset
+  rank 18); the
+  shared run-102 act
+  at A 717 / B 719 in
+  full ((267800,
+  176, 0), A-offset
+  rank 19, B-offset
+  rank 19); and the
+  shared run-102 act
+  at A 718 / B 720 in
+  full ((267976,
+  672, 0), A-offset
+  rank 20, B-offset
+  rank 20); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.205 the
+  shared run-102 act
+  at A 719 / B 721 in
+  full ((268648,
+  24, 0), A-offset
+  rank 21, B-offset
+  rank 21); the
+  shared run-102 act
+  at A 720 / B 722 in
+  full ((268672,
+  120, 0), A-offset
+  rank 22, B-offset
+  rank 22); and the
+  shared run-102 act
+  at A 721 / B 723 in
+  full ((268792,
+  24, 0), A-offset
+  rank 23, B-offset
+  rank 23); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.206 the
+  shared run-102 act
+  at A 722 / B 724 in
+  full ((268816,
+  64, 0), A-offset
+  rank 24, B-offset
+  rank 24); the
+  shared run-102 act
+  at A 723 / B 725 in
+  full ((268880,
+  24, 0), A-offset
+  rank 25, B-offset
+  rank 25); and the
+  shared run-102 act
+  at A 724 / B 726 in
+  full ((268904,
+  216, 0), A-offset
+  rank 26, B-offset
+  rank 26); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.207 the
+  shared run-102 act
+  at A 725 / B 727 in
+  full ((791774208,
+  328, 0), A-offset
+  rank 733, B-offset
+  rank 713); the
+  shared run-102 act
+  at A 726 / B 728 in
+  full ((791774536,
+  328, 0), A-offset
+  rank 734, B-offset
+  rank 714); and the
+  shared run-102 act
+  at A 727 / B 729 in
+  full ((791774864,
+  328, 0), A-offset
+  rank 735, B-offset
+  rank 715); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.208 the
+  shared run-102 act
+  at A 728 / B 730 in
+  full ((3418112,
+  24, 0), A-offset
+  rank 28, B-offset
+  rank 28); the
+  shared run-102 act
+  at A 729 / B 731 in
+  full ((791775232,
+  24, 0), A-offset
+  rank 736, B-offset
+  rank 716); and the
+  shared run-102 act
+  at A 730 / B 732 in
+  full ((791775744,
+  24, 1), A-offset
+  rank 737, B-offset
+  rank 717); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.209 the
+  shared run-102 act
+  at A 731 / B 733 in
+  full ((791776256,
+  24, 2), A-offset
+  rank 738, B-offset
+  rank 718); the
+  shared run-102 act
+  at A 732 / B 734 in
+  full ((791776768,
+  24, 0), A-offset
+  rank 739, B-offset
+  rank 719); and the
+  index-order divergence
+  at A 733 ((791776792,
+  24, 0), A-only,
+  A-offset rank 740)
+  and B 735
+  ((1196444160, 24, 0),
+  B-only, B-offset
+  rank 747) in full;
+  then broad ordinary
+  UNMODIFIED
+  source-model support100%.
+- [x] Slice4.210 the
+  A-only run-102 act
+  at A 734 in
+  full ((791777280,
+  24, 1), A-offset
+  rank 741); the
+  B-only run-102 act
+  at B 736 in
+  full ((1196444672,
+  24, 1), B-offset
+  rank 748); and the
+  shared resync act
+  at A 737 / B 739 in
+  full ((768609280,
+  24, 0), A-offset
+  rank 33, B-offset
+  rank 34); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.211 the
+  act at A 745 in
+  full ((791779328,
+  24, 0)); the
+  act at B 747 in
+  full ((791781888,
+  24, 0)); and the
+  tail ends
+  A 746-748 /
+  B 748-750 in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.212 the
+  B-offset-order
+  successors of the
+  B tail in full:
+  the act at B 1
+  ((873198592, 24, 0),
+  B-offset rank 724);
+  the act at B 0
+  ((873199104, 24, 1),
+  B-offset rank 725);
+  and the acts at
+  B 27 ((873199616,
+  24, 2), rank 726)
+  and B 5
+  ((1196182016, 24, 2),
+  rank 728), with the
+  B-offset-order run
+  of ranks 721-728 in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.213 the
+  act at B 6 in
+  full ((1196182528,
+  24, 0), B-offset
+  rank 729); the
+  act at B 8 in
+  full ((1196183040,
+  32784, 1), B-offset
+  rank 730); and the
+  act at B 10 in
+  full ((1196216320,
+  7800, 2), B-offset
+  rank 731), with the
+  B-offset-order run
+  of ranks 729-736 in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.214 the
+  act at B 17 in
+  full ((1196272096,
+  32728, 1), B-offset
+  rank 737); the
+  act at B 19 in
+  full ((1196304896,
+  7712, 0), B-offset
+  rank 738); and the
+  act at B 20 in
+  full ((1196312608,
+  328, 0), B-offset
+  rank 739), with the
+  B-offset-order run
+  of ranks 737-744 in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.215 the
+  act at B 272 in
+  full ((1196396032,
+  14352, 1), B-offset
+  rank 745); the
+  act at B 674 in
+  full ((1196410880,
+  32784, 2), B-offset
+  rank 746); and the
+  act at B 735 in
+  full ((1196444160,
+  24, 0), B-offset
+  rank 747), with the
+  B-offset-order run
+  of ranks 745-750 in
+  full; then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.216 the
+  act at B 736 in
+  full ((1196444672,
+  24, 1), B-offset
+  rank 748); the
+  act at B 737 in
+  full ((1196445184,
+  24, 2), B-offset
+  rank 749); and the
+  act at B 738 in
+  full ((1196445696,
+  24, 0), B-offset
+  rank 750), with the
+  B-offset-order
+  closure in full;
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.217 the
+  act at A 746 in
+  full ((791779840,
+  24, 1), A-offset
+  rank 746); the
+  act at A 747 in
+  full ((791780352,
+  24, 2), A-offset
+  rank 747); and the
+  act at A 748 in
+  full ((791780864,
+  24, 0), A-offset
+  rank 748), with the
+  A-offset-order
+  closure in full;
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.218 the
+  act at B 748 in
+  full ((791781376,
+  24, 1), B-offset
+  rank 721); the
+  act at B 749 in
+  full ((800053760,
+  24, 2), B-offset
+  rank 723); and the
+  act at B 750 in
+  full ((973679616,
+  24, 0), B-offset
+  rank 727), with the
+  B-index-order
+  closure in full;
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.219 the
+  act at B 747 in
+  full ((791781888,
+  24, 0), B-offset
+  rank 722); the
+  act at B 1 in
+  full ((873198592,
+  24, 0), B-offset
+  rank 724); and the
+  act at B 0 in
+  full ((873199104,
+  24, 1), B-offset
+  rank 725);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.220 the
+  act at B 27 in
+  full ((873199616,
+  24, 2), B-offset
+  rank 726); the
+  act at B 5 in
+  full ((1196182016,
+  24, 2), B-offset
+  rank 728); and the
+  act at B 6 in
+  full ((1196182528,
+  24, 0), B-offset
+  rank 729);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.221 the
+  act at B 8 in
+  full ((1196183040,
+  32784, 1), B-offset
+  rank 730); the
+  act at B 10 in
+  full ((1196216320,
+  7800, 2), B-offset
+  rank 731); and the
+  act at B 11 in
+  full ((1196224120,
+  344, 2), B-offset
+  rank 732);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.222 the
+  act at B 13 in
+  full ((1196224512,
+  32768, 1), B-offset
+  rank 733); the
+  act at B 14 in
+  full ((1196257280,
+  14416, 1), B-offset
+  rank 734); and the
+  act at B 15 in
+  full ((1196271696,
+  376, 1), B-offset
+  rank 735);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.223 the
+  act at B 16 in
+  full ((1196272072,
+  24, 1), B-offset
+  rank 736); the
+  act at B 17 in
+  full ((1196272096,
+  32728, 1), B-offset
+  rank 737); and the
+  act at B 19 in
+  full ((1196304896,
+  7712, 0), B-offset
+  rank 738);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.224 the
+  act at B 20 in
+  full ((1196312608,
+  328, 0), B-offset
+  rank 739); the
+  act at B 22 in
+  full ((1196313088,
+  24848, 1), B-offset
+  rank 740); and the
+  act at B 23 in
+  full ((1196337936,
+  264, 1), B-offset
+  rank 741);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.225 the
+  act at B 25 in
+  full ((1196338688,
+  30008, 2), B-offset
+  rank 742); the
+  act at B 26 in
+  full ((1196368696,
+  280, 2), B-offset
+  rank 743); and the
+  act at B 229 in
+  full ((1196369408,
+  26128, 2), B-offset
+  rank 744);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.226 the
+  act at B 272 in
+  full ((1196396032,
+  14352, 1), B-offset
+  rank 745); the
+  act at B 674 in
+  full ((1196410880,
+  32784, 2), B-offset
+  rank 746); and the
+  act at B 735 in
+  full ((1196444160,
+  24, 0), B-offset
+  rank 747);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.227 the
+  act at B 736 in
+  full ((1196444672,
+  24, 1), B-offset
+  rank 748); the
+  act at B 737 in
+  full ((1196445184,
+  24, 2), B-offset
+  rank 749); and the
+  act at B 738 in
+  full ((1196445696,
+  24, 0), B-offset
+  rank 750);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.228 the
+  B-offset-order
+  closure in full
+  (ranks 745-750
+  and the closing
+  run 743-750 on
+  closure terms);
+  and the full-order
+  census over
+  B-offset order
+  (B acts 751,
+  ranks 0-750, first
+  and last acts,
+  class census over
+  all 751 acts in
+  that order);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.229 the
+  act at B-offset
+  rank 0 in full
+  ((262144, 376, 0)
+  at B 696, rank 0,
+  no incoming gap);
+  the A-offset-order
+  closure in full
+  (its last six
+  ranks and the
+  closing run of
+  its last eight
+  ranks); and the
+  full-order census
+  over A-offset
+  order (A acts 749,
+  first and last
+  acts, class census
+  over all A acts in
+  that order);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.230 the
+  act at A-offset
+  rank 748 in full
+  ((791780864, 24, 0)
+  at A 748, last
+  measured A rank,
+  no outgoing gap);
+  the act at A-offset
+  rank 744 in full
+  ((791778816, 24, 0)
+  at A 744, the
+  closing run's sole
+  shared act and
+  run 102's last
+  act); and the
+  cross-order census
+  comparison in full
+  (the A-offset and
+  B-offset censuses
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.231 the
+  act at B-offset
+  rank 750 in full
+  ((1196445696, 24, 0)
+  at B 738, last
+  measured B rank,
+  no outgoing gap);
+  the act at B-offset
+  rank 743 in full
+  ((1196368696, 280, 2)
+  at B 26, the B
+  closing run's first
+  act); and the
+  closing-run comparison
+  in full (the A
+  closing run and the
+  B closing run side
+  by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.232 the
+  act at B-offset
+  rank 742 in full
+  ((1196338688, 30008, 2)
+  at B 25, the act
+  immediately before
+  the B closing run's
+  first act); the
+  act at A-offset
+  rank 741 in full
+  ((791777280, 24, 1)
+  at A 734, the A
+  closing run's first
+  act); and the
+  closing-run first-act
+  comparison in full
+  (the two closing
+  runs' first acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.233 the
+  act at A-offset
+  rank 742 in full
+  ((791777792, 24, 2)
+  at A 735, the A
+  closing run's second
+  act); the act at
+  B-offset rank 744
+  in full
+  ((1196369408, 26128, 2)
+  at B 229, the B
+  closing run's second
+  act); and the
+  closing-run second-act
+  comparison in full
+  (the two closing
+  runs' second acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.234 the
+  act at A-offset
+  rank 743 in full
+  ((791778304, 24, 0)
+  at A 736, the A
+  closing run's third
+  act); the act at
+  B-offset rank 745
+  in full
+  ((1196396032, 14352, 1)
+  at B 272, the B
+  closing run's third
+  act); and the
+  closing-run third-act
+  comparison in full
+  (the two closing
+  runs' third acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.235 the
+  act at A-offset
+  rank 744 in full
+  ((791778816, 24, 0)
+  at A 744, the A
+  closing run's fourth
+  act); the act at
+  B-offset rank 746
+  in full
+  ((1196410880, 32784, 2)
+  at B 674, the B
+  closing run's fourth
+  act); and the
+  closing-run fourth-act
+  comparison in full
+  (the two closing
+  runs' fourth acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.236 the
+  act at A-offset
+  rank 745 in full
+  ((791779328, 24, 0)
+  at A 745, the A
+  closing run's fifth
+  act); the act at
+  B-offset rank 747
+  in full
+  ((1196444160, 24, 0)
+  at B 735, the B
+  closing run's fifth
+  act); and the
+  closing-run fifth-act
+  comparison in full
+  (the two closing
+  runs' fifth acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.237 the
+  act at A-offset
+  rank 746 in full
+  ((791779840, 24, 1)
+  at A 746, the A
+  closing run's sixth
+  act); the act at
+  B-offset rank 748
+  in full
+  ((1196444672, 24, 1)
+  at B 736, the B
+  closing run's sixth
+  act); and the
+  closing-run sixth-act
+  comparison in full
+  (the two closing
+  runs' sixth acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.238 the
+  act at A-offset
+  rank 747 in full
+  ((791780352, 24, 2)
+  at A 747, the A
+  closing run's seventh
+  act); the act at
+  B-offset rank 749
+  in full
+  ((1196445184, 24, 2)
+  at B 737, the B
+  closing run's seventh
+  act); and the
+  closing-run seventh-act
+  comparison in full
+  (the two closing
+  runs' seventh acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.239 the
+  act at A-offset
+  rank 748 in full
+  ((791780864, 24, 0)
+  at A 748, the A
+  closing run's eighth
+  and last act,
+  terminal in A-offset
+  order); the act at
+  B-offset rank 750
+  in full
+  ((1196445696, 24, 0)
+  at B 738, the B
+  closing run's eighth
+  and last act,
+  terminal in B-offset
+  order); and the
+  closing-run eighth-act
+  comparison in full
+  (the two closing
+  runs' eighth acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.240 the
+  A closing run in
+  full (all eight acts
+  at A-offset ranks
+  741-748, gap sequence
+  stated exactly); the
+  B closing run in
+  full (all eight acts
+  at B-offset ranks
+  743-750, gap sequence
+  stated exactly); and
+  the closing-run full
+  comparison in full
+  (the two runs side
+  by side, act by act);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.241 the
+  A closing run's size
+  and channel sequences
+  in full; the B closing
+  run's size and channel
+  sequences in full; and
+  the closing-run
+  size/channel comparison
+  in full (position by
+  position, agreement
+  counts stated exactly);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.242 the
+  A closing run's class
+  and run-102 membership
+  sequences in full; the
+  B closing run's class
+  and run-102 membership
+  sequences in full; and
+  the closing-run
+  class/run-102 comparison
+  in full (position by
+  position, agreement
+  counts stated exactly);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.243 the
+  A closing run's offset
+  and index sequences
+  in full; the B closing
+  run's offset and index
+  sequences in full; and
+  the closing-run
+  offset/index comparison
+  in full (position by
+  position, agreement
+  counts stated exactly);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.244 the
+  A closing run's internal
+  gap sequence in full; the
+  B closing run's internal
+  gap sequence in full; and
+  the closing-run gap
+  comparison in full
+  (position by position,
+  agreement count stated
+  exactly); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.245 the
+  A closing run's combined
+  sequences in full; the
+  B closing run's combined
+  sequences in full; and
+  the closing-run combined
+  comparison in full
+  (sequence family by
+  sequence family, identity
+  and agreement counts
+  stated exactly); then
+  broad ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.246 the
+  A closing run's combined
+  sequences stated position
+  by position in full; the
+  B closing run's combined
+  sequences stated position
+  by position in full; and
+  the closing-run combined
+  comparison stated position
+  by position in full
+  (per-position agreement
+  sets, checked against
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.247 the
+  closing-run agreement-set
+  sequence in full; the
+  distinct agreement sets
+  in full (positions and
+  counts, per-family
+  position lists re-derived
+  from the sets); and the
+  gap-agreement sequence
+  in full (checked against
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.248 the
+  closing-run agreement-count
+  sequence in full; the
+  distinct agreement counts
+  in full (positions and
+  counts, total agreeing
+  family-instances
+  re-summed); and the
+  gap-agreement position
+  lists in full (checked
+  against AES-NUM-245); then
+  broad ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.249 the
+  closing-run cumulative
+  agreement-count sequence
+  in full; the distinct
+  cumulative totals in full
+  (positions and counts);
+  and the gap cumulative
+  agreement-count sequence
+  in full (checked against
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.250 the
+  closing-run cumulative-
+  minus-count difference
+  sequence in full; the
+  distinct differences
+  in full (positions and
+  counts); and the gap
+  cumulative difference
+  sequence in full (checked
+  against AES-NUM-247 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.251 the
+  closing-run remaining
+  agreement-count sequence
+  in full; the distinct
+  remainings in full
+  (positions and counts);
+  and the gap remaining
+  agreement-count sequence
+  in full (checked against
+  AES-NUM-249 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.252 the
+  closing-run remaining-
+  before-count sequence
+  in full; the distinct
+  remaining-before values
+  in full (positions and
+  counts); and the gap
+  remaining-before-count
+  sequence in full (checked
+  against AES-NUM-249 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.253 the
+  closing-run cumulative
+  remaining-before-count
+  sequence in full; the
+  distinct cumulative
+  remaining-before totals
+  in full (positions and
+  counts); and the gap
+  cumulative remaining-
+  before-count sequence
+  in full (checked against
+  AES-NUM-252 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.254 the
+  closing-run cumulative
+  remaining-count sequence
+  in full; the distinct
+  cumulative remaining
+  totals in full (positions
+  and counts); and the gap
+  cumulative remaining-
+  count sequence in full
+  (checked against
+  AES-NUM-251 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.255 the
+  closing-run cumulative-
+  remaining-minus-remaining
+  difference sequence in
+  full; the distinct
+  differences in full
+  (positions and counts);
+  and the gap cumulative-
+  remaining difference
+  sequence in full (checked
+  against AES-NUM-254 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.256 the
+  closing-run cumulative-remaining
+  remaining-count sequence
+  in full; the distinct
+  cumulative-remaining
+  remainings in full
+  (positions and counts);
+  and the gap cumulative-
+  remaining remaining-count
+  sequence in full (checked
+  against AES-NUM-254 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.257 the
+  closing-run cumulative
+  cumulative-remaining
+  remaining-count sequence
+  in full; the distinct
+  cumulative totals in full
+  (positions and counts);
+  and the gap cumulative
+  cumulative-remaining
+  remaining-count sequence
+  in full (checked
+  against AES-NUM-256 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [x] Slice4.258 the
+  closing-run cumulative
+  cumulative cumulative-
+  remaining remaining-count
+  sequence in full; the
+  distinct cumulative
+  cumulative totals in full
+  (positions and counts);
+  and the gap cumulative
+  cumulative cumulative-
+  remaining remaining-count
+  sequence in full (checked
+  against AES-NUM-257 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.259 the
+  closing-run cumulative
+  cumulative cumulative
+  cumulative-remaining
+  remaining-count sequence
+  in full; the distinct
+  cumulative cumulative
+  cumulative totals in full
+  (positions and counts);
+  and the gap cumulative
+  cumulative cumulative
+  cumulative-remaining
+  remaining-count sequence
+  in full (checked
+  against AES-NUM-258 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 
 - [x] Host-qualify the new diagnostic/observer:7 methods,88 four-way comparisons
