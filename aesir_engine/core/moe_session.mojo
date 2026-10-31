@@ -267,6 +267,15 @@ struct MoEStreamSession(Movable):
         var code = self.cache.access(layer, expert, size_bytes)
         var key = layer * 1048576 + expert
         var use_scratch = False
+        if code == ACCESS_HIT and key not in self.payloads:
+            print(
+                "[MOE-DEBUG] HIT without payload: layer=",
+                layer,
+                " expert=",
+                expert,
+                " contains=",
+                self.cache.contains(layer, expert),
+            )
         if code == ACCESS_HIT:
             pass
         elif code == ACCESS_MISS_ADMITTED:
