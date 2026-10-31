@@ -51,6 +51,7 @@ from .external_quantization import (
 )
 from .extreme_quantization import (
     dequantize_iq1_s_blocks,
+    dequantize_iq1_m_blocks,
     dequantize_iq4_nl_blocks,
     dequantize_iq4_xs_blocks,
     dequantize_iq2_xxs_blocks,
@@ -695,6 +696,9 @@ def dequantize_compressed_tensor(
     elif format.value == CompressedFormatType.IQ1_S:
         var blocks = quantized_block_count(num_elements, 256, "IQ1_S")
         dequantize_iq1_s_blocks(data, blocks * 50, out_ptr, num_elements)
+    elif format.value == CompressedFormatType.IQ1_M:
+        var blocks = quantized_block_count(num_elements, 256, "IQ1_M")
+        dequantize_iq1_m_blocks(data, blocks * 56, out_ptr, num_elements)
     elif format.value == CompressedFormatType.IQ2_S:
         var blocks = quantized_block_count(num_elements, 256, "IQ2_S")
         dequantize_iq2_s_blocks(data, blocks * 82, out_ptr, num_elements)
@@ -2178,7 +2182,7 @@ def gemm_iq(
         raise Error(format_name + ": output matrix shape mismatch")
     if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
         raise Error(format_name + ": invalid storage")
-    if ggml_type != 16 and ggml_type != 17 and ggml_type != 18 and ggml_type != 19 and ggml_type != 20 and ggml_type != 21 and ggml_type != 22 and ggml_type != 23:
+    if ggml_type != 16 and ggml_type != 17 and ggml_type != 18 and ggml_type != 19 and ggml_type != 20 and ggml_type != 21 and ggml_type != 22 and ggml_type != 23 and ggml_type != 29:
         raise Error(format_name + ": unsupported GGML tensor type")
     _gemm_iq_fast(A, B, C, ggml_type)
 
@@ -2229,6 +2233,12 @@ def gemm_iq4_xs(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
     gemm_iq(A, B, C, 23, "gemm_iq4_xs")
+
+
+def gemm_iq1_m(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    gemm_iq(A, B, C, 29, "gemm_iq1_m")
 
 def gemm_ternary_158(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
@@ -2416,6 +2426,9 @@ def gemm_f16(
             return
         elif B.quant_format.value == CompressedFormatType.IQ4_XS:
             gemm_iq4_xs(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.IQ1_M:
+            gemm_iq1_m(A, B, C)
             return
         elif B.quant_format.value == CompressedFormatType.TERNARY_155BIT:
             gemm_ternary_158(A, B, C)

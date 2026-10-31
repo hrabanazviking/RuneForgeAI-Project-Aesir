@@ -915,6 +915,7 @@ def _embed_token_into(
             or token_embd.quant_format.value == CompressedFormatType.IQ2_XS
             or token_embd.quant_format.value == CompressedFormatType.IQ3_XXS
             or token_embd.quant_format.value == CompressedFormatType.IQ4_XS
+            or token_embd.quant_format.value == CompressedFormatType.IQ1_M
         ):
             # IQ embedding row: (hidden_dim // 256) super-blocks of
             # iq_block_bytes(kind) each, decoded block-by-block with
@@ -938,6 +939,8 @@ def _embed_token_into(
                 iq_kind = 18
             elif fmt == CompressedFormatType.IQ4_XS:
                 iq_kind = 23
+            elif fmt == CompressedFormatType.IQ1_M:
+                iq_kind = 29
             var iq_block = iq_block_bytes(iq_kind)
             var row_base = token_id * (hidden_dim // 256) * iq_block
             var emb_bytes = token_embd.data.unsafe_bitcast[Byte]()
