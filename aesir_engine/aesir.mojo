@@ -598,6 +598,38 @@ struct AesirEngine:
     # session consumes a drafts placement yet. Co-work
     # execution J-043, re-trials J-045. See
     # docs/janas/J042_AUTO_DRAFT_PLACEMENT.md.
+    #
+    # Co-work passes for the prompt kind (Janas road J-043):
+    # the split machinery lives in core/cowork_passes.mojo --
+    # plan_cowork_prompt() plans the pairs a resolved prompt
+    # option names (row-split fractions with exact per-side
+    # work and crossing/join byte accounting), classifies
+    # each pair (any NPU pair refused -- the parked Hailo
+    # ledger, J-037; an absent member excluded with the
+    # inventory's reason; a present non-CPU member
+    # unmeasurable-with-reason -- the harness has CPU prompt
+    # executors only and no GPU prompt executor exists), and
+    # applies the pre-registered survival rule inherited
+    # from J-040: a split survives as an option only when
+    # its measured joined time beats BOTH single-device
+    # parents by more than 10% of its median AND passes
+    # round separation against each parent; failures are
+    # measured-and-rejected, never kept. True two-device
+    # co-work is NOT PROVEN on today's tree (no device
+    # executor; the NPU is parked and refused) and no GPU/NPU
+    # timing is stated. The one measurable split,
+    # run_thread_partition_analogue(), divides the batch
+    # across two thread partitions of the SAME cpu through
+    # J-039's threaded executor with a timed List gather as
+    # the join, and is labelled an analogue on its face --
+    # it is not device co-work and creates no device option;
+    # its live verdicts on the VM were measured-and-rejected
+    # for all three fractions. An explicit co-work option is
+    # evaluated as written and never substituted (manual
+    # supremacy untouched). This slice wires the planner
+    # into NO live session path: no session consumes a
+    # co-work placement yet. The learned file is J-044,
+    # re-trials J-045. See docs/janas/J043_COWORK_PASSES.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
