@@ -35,6 +35,17 @@ Only arch "olmoe" is admitted. Any other architecture is refused by
 name in the constructor: a mixture whose block maths this module does
 not implement (shared experts, hybrid recurrence, per-head QK-norm
 variants) must fail closed, never silently run dense-shaped.
+
+Multi-model residency (J-026): two sessions in one process (the
+server case) must NOT each be constructed with a budget sized
+against the full free memory -- that over-commits the machine (see
+core/expert_cache.mojo's pool section). The host sizes ONE pool for
+the process (plan_shared_cache_pool), constructs each session with
+its opening cap from SharedExpertBudget.cap_for, and re-applies
+caps as residency and activity change through the session's public
+cache (resize_budget / shed_to_resident). This module's constructor
+contract is unchanged: it takes the budget it is given; the pool
+discipline is the host's, and it is unit-tested at the cache layer.
 """
 from std.collections import Dict
 from std.math import exp

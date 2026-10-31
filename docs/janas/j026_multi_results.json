@@ -1,0 +1,864 @@
+{
+ "trace_sha256": "85e1d2413cbfcd43516a03d8463c7266d486cf0f0d0a6ed3104d09111facf99a",
+ "n_tokens": 577,
+ "n_accesses": 73856,
+ "mean_scaled_pair_bytes": 3720,
+ "validation_gate": {
+  "tournament_fsketch@128": "EXACT",
+  "tournament_fsketch@256": "EXACT",
+  "tournament_fsketch@512": "EXACT",
+  "pool_solo_fsketch@256": "EXACT",
+  "pool_solo_fsketch@512": "EXACT"
+ },
+ "tenants": {
+  "A": {
+   "prompts": [
+    "prose",
+    "code",
+    "technical"
+   ],
+   "tokens": 266,
+   "accesses": 34048
+  },
+  "B": {
+   "prompts": [
+    "structured",
+    "numbers",
+    "instructions"
+   ],
+   "tokens": 311,
+   "accesses": 39808
+  }
+ },
+ "totals": {},
+ "schemes": {
+  "total@256": {
+   "total_pairs": 256,
+   "total_budget_scaled": 952320,
+   "ceiling": {
+    "A": {
+     "accesses": 34048,
+     "hits": 17438,
+     "misses": 16610,
+     "cold": 1018,
+     "hit_rate": 0.512159,
+     "bypasses": 15472,
+     "admissions": 1138,
+     "evictions": 882,
+     "evicted_before_reuse": 8209,
+     "streamed_full_bytes": 63346753536,
+     "streamed_mb_per_token": 238.146,
+     "entries_now": 256,
+     "resident_scaled": 949680
+    },
+    "B": {
+     "accesses": 39808,
+     "hits": 20399,
+     "misses": 19409,
+     "cold": 1024,
+     "hit_rate": 0.512435,
+     "bypasses": 18207,
+     "admissions": 1202,
+     "evictions": 946,
+     "evicted_before_reuse": 8636,
+     "streamed_full_bytes": 73933504512,
+     "streamed_mb_per_token": 237.728,
+     "entries_now": 256,
+     "resident_scaled": 951264
+    }
+   },
+   "naive_identity_vs_ceiling": true,
+   "naive": {
+    "per_tenant": {
+     "A": {
+      "accesses": 34048,
+      "hits": 17438,
+      "misses": 16610,
+      "cold": 1018,
+      "hit_rate": 0.512159,
+      "bypasses": 15472,
+      "admissions": 1138,
+      "evictions": 882,
+      "evicted_before_reuse": 8209,
+      "streamed_full_bytes": 63346753536,
+      "streamed_mb_per_token": 238.146,
+      "entries_now": 256,
+      "resident_scaled": 949680
+     },
+     "B": {
+      "accesses": 39808,
+      "hits": 20399,
+      "misses": 19409,
+      "cold": 1024,
+      "hit_rate": 0.512435,
+      "bypasses": 18207,
+      "admissions": 1202,
+      "evictions": 946,
+      "evicted_before_reuse": 8636,
+      "streamed_full_bytes": 73933504512,
+      "streamed_mb_per_token": 237.728,
+      "entries_now": 256,
+      "resident_scaled": 951264
+     }
+    },
+    "meta": {
+     "max_sum_resident_scaled": 1904640
+    },
+    "commitment_pairs": 512,
+    "fairness": {
+     "relative_hit": {
+      "A": 1.0,
+      "B": 1.0
+     },
+     "worst_relative_hit": 1.0,
+     "jain_relative": 1.0,
+     "jain_raw_hit": 1.0,
+     "total_streamed_full_bytes": 137280258048
+    }
+   },
+   "static": {
+    "per_tenant": {
+     "A": {
+      "accesses": 34048,
+      "hits": 11656,
+      "misses": 22392,
+      "cold": 1018,
+      "hit_rate": 0.34234,
+      "bypasses": 21606,
+      "admissions": 786,
+      "evictions": 657,
+      "evicted_before_reuse": 8679,
+      "streamed_full_bytes": 85308751872,
+      "streamed_mb_per_token": 320.71,
+      "entries_now": 129,
+      "resident_scaled": 475920
+     },
+     "B": {
+      "accesses": 39808,
+      "hits": 12843,
+      "misses": 26965,
+      "cold": 1024,
+      "hit_rate": 0.322624,
+      "bypasses": 26117,
+      "admissions": 848,
+      "evictions": 720,
+      "evicted_before_reuse": 9882,
+      "streamed_full_bytes": 102580715520,
+      "streamed_mb_per_token": 329.842,
+      "entries_now": 128,
+      "resident_scaled": 474576
+     }
+    },
+    "meta": {
+     "max_sum_resident_scaled": 952320
+    },
+    "commitment_pairs": 256,
+    "fairness": {
+     "relative_hit": {
+      "A": 0.668425,
+      "B": 0.62959
+     },
+     "worst_relative_hit": 0.62959,
+     "jain_relative": 0.999106,
+     "jain_raw_hit": 0.999122,
+     "total_streamed_full_bytes": 187889467392
+    }
+   },
+   "pool": {
+    "per_tenant": {
+     "A": {
+      "accesses": 34048,
+      "hits": 11605,
+      "misses": 22443,
+      "cold": 1018,
+      "hit_rate": 0.340842,
+      "bypasses": 21646,
+      "admissions": 797,
+      "evictions": 733,
+      "evicted_before_reuse": 8829,
+      "streamed_full_bytes": 85488697344,
+      "streamed_mb_per_token": 321.386,
+      "entries_now": 64,
+      "resident_scaled": 237552
+     },
+     "B": {
+      "accesses": 39808,
+      "hits": 13403,
+      "misses": 26405,
+      "cold": 1024,
+      "hit_rate": 0.336691,
+      "bypasses": 25417,
+      "admissions": 988,
+      "evictions": 796,
+      "evicted_before_reuse": 9670,
+      "streamed_full_bytes": 100428595200,
+      "streamed_mb_per_token": 322.922,
+      "entries_now": 192,
+      "resident_scaled": 713712
+     }
+    },
+    "meta": {
+     "max_sum_resident_scaled": 952320,
+     "floor_scaled": 238080,
+     "arbiter": {
+      "floor_enforcements": 0,
+      "shrink_backs": 0,
+      "arbiter_evicted_scaled": 0,
+      "cap_applications": 73856,
+      "lending_reclaims": 62,
+      "reclaim_evicted_scaled": 238896
+     }
+    },
+    "commitment_pairs": 256,
+    "fairness": {
+     "relative_hit": {
+      "A": 0.6655,
+      "B": 0.657041
+     },
+     "worst_relative_hit": 0.657041,
+     "jain_relative": 0.999959,
+     "jain_raw_hit": 0.999962,
+     "total_streamed_full_bytes": 185917292544
+    }
+   },
+   "sequential": {
+    "static": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 11656,
+       "misses": 22392,
+       "cold": 1018,
+       "hit_rate": 0.34234,
+       "bypasses": 21606,
+       "admissions": 786,
+       "evictions": 657,
+       "evicted_before_reuse": 8679,
+       "streamed_full_bytes": 85308751872,
+       "streamed_mb_per_token": 320.71,
+       "entries_now": 129,
+       "resident_scaled": 475920
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 12843,
+       "misses": 26965,
+       "cold": 1024,
+       "hit_rate": 0.322624,
+       "bypasses": 26117,
+       "admissions": 848,
+       "evictions": 720,
+       "evicted_before_reuse": 9882,
+       "streamed_full_bytes": 102580715520,
+       "streamed_mb_per_token": 329.842,
+       "entries_now": 128,
+       "resident_scaled": 474576
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 952080
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 0.668425,
+       "B": 0.62959
+      },
+      "worst_relative_hit": 0.62959,
+      "jain_relative": 0.999106,
+      "jain_raw_hit": 0.999122,
+      "total_streamed_full_bytes": 187889467392
+     }
+    },
+    "pool": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 17438,
+       "misses": 16610,
+       "cold": 1018,
+       "hit_rate": 0.512159,
+       "bypasses": 15472,
+       "admissions": 1138,
+       "evictions": 1074,
+       "evicted_before_reuse": 8209,
+       "streamed_full_bytes": 63346753536,
+       "streamed_mb_per_token": 238.146,
+       "entries_now": 64,
+       "resident_scaled": 237024
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 16868,
+       "misses": 22940,
+       "cold": 1024,
+       "hit_rate": 0.423734,
+       "bypasses": 21839,
+       "admissions": 1101,
+       "evictions": 909,
+       "evicted_before_reuse": 9583,
+       "streamed_full_bytes": 87320543232,
+       "streamed_mb_per_token": 280.773,
+       "entries_now": 192,
+       "resident_scaled": 712656
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 952320,
+      "floor_scaled": 238080,
+      "arbiter": {
+       "floor_enforcements": 0,
+       "shrink_backs": 0,
+       "arbiter_evicted_scaled": 0,
+       "cap_applications": 73856,
+       "lending_reclaims": 187,
+       "reclaim_evicted_scaled": 712656
+      }
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 1.0,
+       "B": 0.826903
+      },
+      "worst_relative_hit": 0.826903,
+      "jain_relative": 0.991103,
+      "jain_raw_hit": 0.991152,
+      "total_streamed_full_bytes": 150667296768
+     }
+    }
+   },
+   "return": {
+    "plan": [
+     [
+      "A",
+      133
+     ],
+     [
+      "B",
+      null
+     ],
+     [
+      "A",
+      null
+     ]
+    ],
+    "static": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 11656,
+       "misses": 22392,
+       "cold": 1018,
+       "hit_rate": 0.34234,
+       "bypasses": 21606,
+       "admissions": 786,
+       "evictions": 657,
+       "evicted_before_reuse": 8679,
+       "streamed_full_bytes": 85308751872,
+       "streamed_mb_per_token": 320.71,
+       "entries_now": 129,
+       "resident_scaled": 475920
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 12843,
+       "misses": 26965,
+       "cold": 1024,
+       "hit_rate": 0.322624,
+       "bypasses": 26117,
+       "admissions": 848,
+       "evictions": 720,
+       "evicted_before_reuse": 9882,
+       "streamed_full_bytes": 102580715520,
+       "streamed_mb_per_token": 329.842,
+       "entries_now": 128,
+       "resident_scaled": 474576
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 950736
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 0.668425,
+       "B": 0.62959
+      },
+      "worst_relative_hit": 0.62959,
+      "jain_relative": 0.999106,
+      "jain_raw_hit": 0.999122,
+      "total_streamed_full_bytes": 187889467392
+     }
+    },
+    "pool": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 15985,
+       "misses": 18063,
+       "cold": 1018,
+       "hit_rate": 0.469484,
+       "bypasses": 16746,
+       "admissions": 1317,
+       "evictions": 1124,
+       "evicted_before_reuse": 9725,
+       "streamed_full_bytes": 68893802496,
+       "streamed_mb_per_token": 258.999,
+       "entries_now": 193,
+       "resident_scaled": 716640
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 16945,
+       "misses": 22863,
+       "cold": 1024,
+       "hit_rate": 0.425668,
+       "bypasses": 21799,
+       "admissions": 1064,
+       "evictions": 1001,
+       "evicted_before_reuse": 9585,
+       "streamed_full_bytes": 87044800512,
+       "streamed_mb_per_token": 279.887,
+       "entries_now": 63,
+       "resident_scaled": 235152
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 952320,
+      "floor_scaled": 238080,
+      "arbiter": {
+       "floor_enforcements": 0,
+       "shrink_backs": 0,
+       "arbiter_evicted_scaled": 0,
+       "cap_applications": 73856,
+       "lending_reclaims": 313,
+       "reclaim_evicted_scaled": 1199472
+      }
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 0.916676,
+       "B": 0.830677
+      },
+      "worst_relative_hit": 0.830677,
+      "jain_relative": 0.997584,
+      "jain_raw_hit": 0.99761,
+      "total_streamed_full_bytes": 155938603008
+     }
+    }
+   }
+  },
+  "total@512": {
+   "total_pairs": 512,
+   "total_budget_scaled": 1904640,
+   "ceiling": {
+    "A": {
+     "accesses": 34048,
+     "hits": 25088,
+     "misses": 8960,
+     "cold": 1018,
+     "hit_rate": 0.736842,
+     "bypasses": 7570,
+     "admissions": 1390,
+     "evictions": 878,
+     "evicted_before_reuse": 5051,
+     "streamed_full_bytes": 34225766400,
+     "streamed_mb_per_token": 128.668,
+     "entries_now": 512,
+     "resident_scaled": 1903584
+    },
+    "B": {
+     "accesses": 39808,
+     "hits": 30132,
+     "misses": 9676,
+     "cold": 1024,
+     "hit_rate": 0.756933,
+     "bypasses": 8253,
+     "admissions": 1423,
+     "evictions": 910,
+     "evicted_before_reuse": 5339,
+     "streamed_full_bytes": 36894818304,
+     "streamed_mb_per_token": 118.633,
+     "entries_now": 513,
+     "resident_scaled": 1903872
+    }
+   },
+   "naive_identity_vs_ceiling": true,
+   "naive": {
+    "per_tenant": {
+     "A": {
+      "accesses": 34048,
+      "hits": 25088,
+      "misses": 8960,
+      "cold": 1018,
+      "hit_rate": 0.736842,
+      "bypasses": 7570,
+      "admissions": 1390,
+      "evictions": 878,
+      "evicted_before_reuse": 5051,
+      "streamed_full_bytes": 34225766400,
+      "streamed_mb_per_token": 128.668,
+      "entries_now": 512,
+      "resident_scaled": 1903584
+     },
+     "B": {
+      "accesses": 39808,
+      "hits": 30132,
+      "misses": 9676,
+      "cold": 1024,
+      "hit_rate": 0.756933,
+      "bypasses": 8253,
+      "admissions": 1423,
+      "evictions": 910,
+      "evicted_before_reuse": 5339,
+      "streamed_full_bytes": 36894818304,
+      "streamed_mb_per_token": 118.633,
+      "entries_now": 513,
+      "resident_scaled": 1903872
+     }
+    },
+    "meta": {
+     "max_sum_resident_scaled": 3809280
+    },
+    "commitment_pairs": 1024,
+    "fairness": {
+     "relative_hit": {
+      "A": 1.0,
+      "B": 1.0
+     },
+     "worst_relative_hit": 1.0,
+     "jain_relative": 1.0,
+     "jain_raw_hit": 0.999819,
+     "total_streamed_full_bytes": 71120584704
+    }
+   },
+   "static": {
+    "per_tenant": {
+     "A": {
+      "accesses": 34048,
+      "hits": 17438,
+      "misses": 16610,
+      "cold": 1018,
+      "hit_rate": 0.512159,
+      "bypasses": 15472,
+      "admissions": 1138,
+      "evictions": 882,
+      "evicted_before_reuse": 8209,
+      "streamed_full_bytes": 63346753536,
+      "streamed_mb_per_token": 238.146,
+      "entries_now": 256,
+      "resident_scaled": 949680
+     },
+     "B": {
+      "accesses": 39808,
+      "hits": 20399,
+      "misses": 19409,
+      "cold": 1024,
+      "hit_rate": 0.512435,
+      "bypasses": 18207,
+      "admissions": 1202,
+      "evictions": 946,
+      "evicted_before_reuse": 8636,
+      "streamed_full_bytes": 73933504512,
+      "streamed_mb_per_token": 237.728,
+      "entries_now": 256,
+      "resident_scaled": 951264
+     }
+    },
+    "meta": {
+     "max_sum_resident_scaled": 1904640
+    },
+    "commitment_pairs": 512,
+    "fairness": {
+     "relative_hit": {
+      "A": 0.695073,
+      "B": 0.676989
+     },
+     "worst_relative_hit": 0.676989,
+     "jain_relative": 0.999826,
+     "jain_raw_hit": 1.0,
+     "total_streamed_full_bytes": 137280258048
+    }
+   },
+   "pool": {
+    "per_tenant": {
+     "A": {
+      "accesses": 34048,
+      "hits": 18184,
+      "misses": 15864,
+      "cold": 1018,
+      "hit_rate": 0.53407,
+      "bypasses": 14686,
+      "admissions": 1178,
+      "evictions": 1051,
+      "evicted_before_reuse": 7854,
+      "streamed_full_bytes": 60499083264,
+      "streamed_mb_per_token": 227.44,
+      "entries_now": 127,
+      "resident_scaled": 472704
+     },
+     "B": {
+      "accesses": 39808,
+      "hits": 20317,
+      "misses": 19491,
+      "cold": 1024,
+      "hit_rate": 0.510375,
+      "bypasses": 18126,
+      "admissions": 1365,
+      "evictions": 979,
+      "evicted_before_reuse": 8162,
+      "streamed_full_bytes": 74285334528,
+      "streamed_mb_per_token": 238.86,
+      "entries_now": 386,
+      "resident_scaled": 1429584
+     }
+    },
+    "meta": {
+     "max_sum_resident_scaled": 1904640,
+     "floor_scaled": 476160,
+     "arbiter": {
+      "floor_enforcements": 0,
+      "shrink_backs": 0,
+      "arbiter_evicted_scaled": 0,
+      "cap_applications": 73856,
+      "lending_reclaims": 144,
+      "reclaim_evicted_scaled": 549264
+     }
+    },
+    "commitment_pairs": 512,
+    "fairness": {
+     "relative_hit": {
+      "A": 0.724809,
+      "B": 0.674267
+     },
+     "worst_relative_hit": 0.674267,
+     "jain_relative": 0.998697,
+     "jain_raw_hit": 0.999486,
+     "total_streamed_full_bytes": 134784417792
+    }
+   },
+   "sequential": {
+    "static": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 17438,
+       "misses": 16610,
+       "cold": 1018,
+       "hit_rate": 0.512159,
+       "bypasses": 15472,
+       "admissions": 1138,
+       "evictions": 882,
+       "evicted_before_reuse": 8209,
+       "streamed_full_bytes": 63346753536,
+       "streamed_mb_per_token": 238.146,
+       "entries_now": 256,
+       "resident_scaled": 949680
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 20399,
+       "misses": 19409,
+       "cold": 1024,
+       "hit_rate": 0.512435,
+       "bypasses": 18207,
+       "admissions": 1202,
+       "evictions": 946,
+       "evicted_before_reuse": 8636,
+       "streamed_full_bytes": 73933504512,
+       "streamed_mb_per_token": 237.728,
+       "entries_now": 256,
+       "resident_scaled": 951264
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 1902000
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 0.695073,
+       "B": 0.676989
+      },
+      "worst_relative_hit": 0.676989,
+      "jain_relative": 0.999826,
+      "jain_raw_hit": 1.0,
+      "total_streamed_full_bytes": 137280258048
+     }
+    },
+    "pool": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 25088,
+       "misses": 8960,
+       "cold": 1018,
+       "hit_rate": 0.736842,
+       "bypasses": 7570,
+       "admissions": 1390,
+       "evictions": 1263,
+       "evicted_before_reuse": 5051,
+       "streamed_full_bytes": 34225766400,
+       "streamed_mb_per_token": 128.668,
+       "entries_now": 127,
+       "resident_scaled": 472704
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 25828,
+       "misses": 13980,
+       "cold": 1024,
+       "hit_rate": 0.648814,
+       "bypasses": 12587,
+       "admissions": 1393,
+       "evictions": 1007,
+       "evicted_before_reuse": 7261,
+       "streamed_full_bytes": 53321859072,
+       "streamed_mb_per_token": 171.453,
+       "entries_now": 386,
+       "resident_scaled": 1431168
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 1904640,
+      "floor_scaled": 476160,
+      "arbiter": {
+       "floor_enforcements": 0,
+       "shrink_backs": 0,
+       "arbiter_evicted_scaled": 0,
+       "cap_applications": 73856,
+       "lending_reclaims": 374,
+       "reclaim_evicted_scaled": 1430880
+      }
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 1.0,
+       "B": 0.857162
+      },
+      "worst_relative_hit": 0.857162,
+      "jain_relative": 0.994119,
+      "jain_raw_hit": 0.99598,
+      "total_streamed_full_bytes": 87547625472
+     }
+    }
+   },
+   "return": {
+    "plan": [
+     [
+      "A",
+      133
+     ],
+     [
+      "B",
+      null
+     ],
+     [
+      "A",
+      null
+     ]
+    ],
+    "static": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 17438,
+       "misses": 16610,
+       "cold": 1018,
+       "hit_rate": 0.512159,
+       "bypasses": 15472,
+       "admissions": 1138,
+       "evictions": 882,
+       "evicted_before_reuse": 8209,
+       "streamed_full_bytes": 63346753536,
+       "streamed_mb_per_token": 238.146,
+       "entries_now": 256,
+       "resident_scaled": 949680
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 20399,
+       "misses": 19409,
+       "cold": 1024,
+       "hit_rate": 0.512435,
+       "bypasses": 18207,
+       "admissions": 1202,
+       "evictions": 946,
+       "evicted_before_reuse": 8636,
+       "streamed_full_bytes": 73933504512,
+       "streamed_mb_per_token": 237.728,
+       "entries_now": 256,
+       "resident_scaled": 951264
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 1903872
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 0.695073,
+       "B": 0.676989
+      },
+      "worst_relative_hit": 0.676989,
+      "jain_relative": 0.999826,
+      "jain_raw_hit": 1.0,
+      "total_streamed_full_bytes": 137280258048
+     }
+    },
+    "pool": {
+     "per_tenant": {
+      "A": {
+       "accesses": 34048,
+       "hits": 23127,
+       "misses": 10921,
+       "cold": 1018,
+       "hit_rate": 0.679247,
+       "bypasses": 9324,
+       "admissions": 1597,
+       "evictions": 1213,
+       "evicted_before_reuse": 6944,
+       "streamed_full_bytes": 41606283264,
+       "streamed_mb_per_token": 156.415,
+       "entries_now": 384,
+       "resident_scaled": 1427424
+      },
+      "B": {
+       "accesses": 39808,
+       "hits": 25805,
+       "misses": 14003,
+       "cold": 1024,
+       "hit_rate": 0.648237,
+       "bypasses": 12611,
+       "admissions": 1392,
+       "evictions": 1265,
+       "evicted_before_reuse": 7264,
+       "streamed_full_bytes": 53367570432,
+       "streamed_mb_per_token": 171.6,
+       "entries_now": 127,
+       "resident_scaled": 474288
+      }
+     },
+     "meta": {
+      "max_sum_resident_scaled": 1904640,
+      "floor_scaled": 476160,
+      "arbiter": {
+       "floor_enforcements": 0,
+       "shrink_backs": 0,
+       "arbiter_evicted_scaled": 0,
+       "cap_applications": 73856,
+       "lending_reclaims": 618,
+       "reclaim_evicted_scaled": 2381664
+      }
+     },
+     "fairness": {
+      "relative_hit": {
+       "A": 0.921835,
+       "B": 0.856399
+      },
+      "worst_relative_hit": 0.856399,
+      "jain_relative": 0.998648,
+      "jain_raw_hit": 0.999455,
+      "total_streamed_full_bytes": 94973853696
+     }
+    }
+   }
+  }
+ }
+}

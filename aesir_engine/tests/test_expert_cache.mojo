@@ -4,8 +4,10 @@ from core.expert_cache import (
     ACCESS_MISS_BYPASSED,
     ACCESS_MISS_TOO_LARGE,
     ExpertCache,
+    SharedExpertBudget,
     parse_byte_size,
     plan_expert_cache_budget,
+    plan_shared_cache_pool,
     resolve_hard_cap,
 )
 
@@ -219,12 +221,225 @@ def _no_scarcity_for_policy(policy: String) raises:
     expect_eq(stats.bytes_resident_now, 102400, policy + " resident bytes")
 
 
+def test_expert_cache_shared_pool() raises:
+    # J-026: the over-commit the pool exists to fix, in arithmetic.
+    # One session sized alone: reserve 300+200+100+2000 = 2600,
+    # budget 7400. Two sessions sized independently against the same
+    # free snapshot claim 14800 of a 10000-byte machine.
+    var solo = plan_expert_cache_budget(10000, 10000, 0, 300, 200, 100, 1000)
+    expect_eq(solo.budget_bytes, 7400, "solo sizing (pre-J-026 shape)")
+    if solo.budget_bytes * 2 <= 10000:
+        raise Error("Shared pool test premise broken: no over-commit")
+    # The pool sizes ONCE with summed reserves: resident 600, KV 400,
+    # scratch 100 (shared), headroom 2000 charged once -> budget 6900
+    # for the whole process.
+    var pool_sizing = plan_shared_cache_pool(
+        10000, 10000, 0, 600, 400, 100, 1000
+    )
+    expect_eq(pool_sizing.reserve_bytes, 3100, "pool reserve composition")
+    expect_eq(pool_sizing.budget_bytes, 6900, "pool budget sized once")
+
+    # Arbiter arithmetic: total 800, two tenants, floor 800/4 = 200.
+    var pool = SharedExpertBudget(800, 2)
+    expect_eq(pool.floor_bytes, 200, "pool floor is total / 2N")
+    var residents = List[Int]()
+    residents.append(100)
+    residents.append(0)
+    var actives = List[Bool]()
+    actives.append(True)
+    actives.append(True)
+    expect_eq(pool.cap_for(0, residents, actives), 800 - 0, "lone tenant cap")
+    expect_eq(
+        pool.cap_for(1, residents, actives), 800 - 100, "peer resident protected"
+    )
+    residents[0] = 700
+    residents[1] = 100
+    expect_eq(
+        pool.cap_for(1, residents, actives),
+        200,
+        "raw cap below floor clamps to the floor",
+    )
+    # Inactive lender: only its floor is protected.
+    actives[0] = False
+    expect_eq(
+        pool.cap_for(1, residents, actives),
+        800 - 200,
+        "inactive peer protects only its floor",
+    )
+    expect_eq(
+        pool.lender_reclaim_target(700, 700 + 100),
+        700,
+        "no reclaim while the sum fits",
+    )
+    expect_eq(
+        pool.lender_reclaim_target(700, 700 + 500),
+        300,
+        "reclaim sheds exactly the overage",
+    )
+    expect_eq(
+        pool.lender_reclaim_target(700, 700 + 900),
+        200,
+        "reclaim never goes below the floor",
+    )
+    var refused = False
+    try:
+        _ = SharedExpertBudget(3, 2)
+    except:
+        refused = True
+    if not refused:
+        raise Error("SharedExpertBudget accepted a floorless pool")
+    print("PASS: expert cache shared pool sizing and arbiter arithmetic")
+
+
+def _pool_apply(
+    pool: SharedExpertBudget,
+    tenant: Int,
+    mut caches: List[ExpertCache],
+    actives: List[Bool],
+) raises:
+    """The host loop J-026 prescribes, in miniature: read residents,
+    ask the arbiter for the tenant's cap, apply it (resize = shrink-
+    back when the cap fell), serve one access outside, then settle
+    any lending reclaim against an inactive lender."""
+    var residents = List[Int]()
+    for i in range(len(caches)):
+        residents.append(caches[i].snapshot().bytes_resident_now)
+    var cap = pool.cap_for(tenant, residents, actives)
+    _ = caches[tenant].resize_budget(cap)
+
+
+def _pool_reclaim(
+    pool: SharedExpertBudget,
+    lender: Int,
+    mut caches: List[ExpertCache],
+) raises:
+    var summed = 0
+    for i in range(len(caches)):
+        summed += caches[i].snapshot().bytes_resident_now
+    var lender_resident = caches[lender].snapshot().bytes_resident_now
+    var target = pool.lender_reclaim_target(lender_resident, summed)
+    if target < lender_resident:
+        _ = caches[lender].shed_to_resident(target)
+
+
+def test_expert_cache_shared_pool_drive() raises:
+    # Two real caches (LRU for deterministic admission; the pool is
+    # policy-agnostic) driven by the arbiter through the measured
+    # schedules' shapes: contention, idle lending, and the return.
+    var pool = SharedExpertBudget(800, 2)
+    var caches = List[ExpertCache]()
+    caches.append(ExpertCache(800, String("lru")))
+    caches.append(ExpertCache(800, String("lru")))
+    var actives = List[Bool]()
+    actives.append(True)
+    actives.append(True)
+
+    # Tenant 0 alone first: its cap is the whole pool; it fills 600.
+    for e in range(6):
+        _pool_apply(pool, 0, caches, actives)
+        _ = caches[0].access(0, e, 100)
+    expect_eq(
+        caches[0].snapshot().bytes_resident_now, 600, "tenant 0 fills alone"
+    )
+    # Tenant 1 arrives (both active): its cap is 800 - 600 = 200.
+    for e in range(20, 22):
+        _pool_apply(pool, 1, caches, actives)
+        _ = caches[1].access(0, e, 100)
+    expect_eq(
+        caches[1].snapshot().bytes_resident_now, 200, "tenant 1 capped by peer"
+    )
+    var summed = caches[0].snapshot().bytes_resident_now + caches[1].snapshot().bytes_resident_now
+    expect_eq(summed, 800, "summed residency holds the pool total")
+
+    # Tenant 0 goes inactive. Tenant 1's entitlement rises to
+    # 800 - floor = 600, but tenant 0's bytes still occupy the pool:
+    # admission settles by reclaiming the lender toward its floor.
+    actives[0] = False
+    for e in range(22, 26):
+        _pool_apply(pool, 1, caches, actives)
+        _ = caches[1].access(0, e, 100)
+        _pool_reclaim(pool, 0, caches)
+        var s = caches[0].snapshot().bytes_resident_now + caches[1].snapshot().bytes_resident_now
+        if s > 800:
+            raise Error("Shared pool invariant broken during lending")
+    expect_eq(
+        caches[1].snapshot().bytes_resident_now, 600, "borrower grew into lent space"
+    )
+    expect_eq(
+        caches[0].snapshot().bytes_resident_now,
+        200,
+        "lender reclaimed to exactly its floor, never below",
+    )
+
+    # Tenant 0 returns: its floor is intact (200 resident) and its
+    # cap is re-established against the now-inactive tenant 1.
+    actives[0] = True
+    actives[1] = False
+    _pool_apply(pool, 0, caches, actives)
+    expect_eq(caches[0].budget_bytes, 600, "returning tenant cap restored")
+    _ = caches[0].access(0, 40, 100)
+    _pool_reclaim(pool, 1, caches)
+    expect_eq(
+        caches[1].snapshot().bytes_resident_now,
+        500,
+        "second lending round sheds only the overage",
+    )
+    expect_eq(
+        caches[0].snapshot().bytes_resident_now, 300, "returnee admits again"
+    )
+
+    # Shrink-back: the pool total itself contracts (800 -> 500, a
+    # smaller SharedExpertBudget over the same caches): the tenant
+    # over its new cap is resized down to it, the floor holds.
+    var smaller = SharedExpertBudget(500, 2)
+    var residents = List[Int]()
+    residents.append(caches[0].snapshot().bytes_resident_now)
+    residents.append(caches[1].snapshot().bytes_resident_now)
+    var both_active = List[Bool]()
+    both_active.append(True)
+    both_active.append(True)
+    var cap0 = smaller.cap_for(0, residents, both_active)
+    expect_eq(cap0, 125, "contracted pool floor is 500 / 4")
+    _ = caches[0].resize_budget(cap0)
+    if caches[0].snapshot().bytes_resident_now > 125:
+        raise Error("resize_budget did not shrink back to the new cap")
+
+    # Invariant churn: caps applied before every access, reclaim
+    # after; the summed residency never exceeds the pool total and
+    # each cache's accounting closes.
+    var churn_pool = SharedExpertBudget(500, 2)
+    var churn = List[ExpertCache]()
+    churn.append(ExpertCache(500, String("lru")))
+    churn.append(ExpertCache(500, String("lru")))
+    var churn_actives = List[Bool]()
+    churn_actives.append(True)
+    churn_actives.append(True)
+    for round in range(200):
+        var tenant = round % 2
+        churn_actives[tenant] = True
+        churn_actives[1 - tenant] = (round % 7) != 0
+        _pool_apply(churn_pool, tenant, churn, churn_actives)
+        _ = churn[tenant].access(round % 4, round % 37, 100)
+        if not churn_actives[1 - tenant]:
+            _pool_reclaim(churn_pool, 1 - tenant, churn)
+        var s = churn[0].snapshot().bytes_resident_now + churn[1].snapshot().bytes_resident_now
+        if s > 500:
+            raise Error("Shared pool invariant broken during churn")
+    for i in range(2):
+        var st = churn[i].snapshot()
+        if st.hits + st.misses != st.accesses:
+            raise Error("Shared pool tenant accounting does not close")
+    print("PASS: expert cache shared pool drive (contention, lending, return)")
+
+
 def test_expert_cache() raises:
     test_expert_cache_sizing()
     test_expert_cache_behaviour()
     test_expert_cache_policies()
     test_expert_cache_fsketch()
     test_expert_cache_no_scarcity()
+    test_expert_cache_shared_pool()
+    test_expert_cache_shared_pool_drive()
 
 
 def main() raises:
