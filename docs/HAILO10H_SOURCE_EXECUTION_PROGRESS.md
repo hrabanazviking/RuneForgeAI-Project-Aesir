@@ -7694,3 +7694,42 @@ gap cumulative-remaining difference sequence
 in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.255 (AES-NUM-255) is complete. The
+closing-run cumulative-remaining-minus-remaining
+differences are now stated as one sequence:
+[0, 15, 28, 40, 52, 61, 67, 70] over positions
+1-8 — each position's AES-NUM-254 cumulative
+remaining total minus its own AES-NUM-251
+remaining value, each printed set, count,
+cumulative total, difference, remaining and
+cumulative remaining equal to its
+AES-NUM-247/248/249/250/251/254 value at all
+eight positions, ending at 70. The distinct
+differences are eight, each occurring once:
+0 at position 1; 15 at position 2; 28 at
+position 3; 40 at position 4; 52 at position 5;
+61 at position 6; 67 at position 7; 70 at
+position 8 (counts sum to 8). The gap
+cumulative-remaining difference sequence is
+[0, 3, 6, 9, 12, 14, 15], ending
+at 15, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The first launch (h255)
+crashed exit 1 on a worker-authored NameError
+in the new section only (expGapCumRem255 used
+inside the gap loop, defined after it); its
+partial section was read in full and the launch
+closed. A retry contract was published
+@ 63e003f3 before the replacement launch; the
+single patch defined the name before the loop
+(exactly one added line), and the retry child
+(h255r) finished DONE255, exit 0, err empty,
+its first 58,847 prefix lines differing from
+hef254.out in exactly one line (42872, frozenset
+element order only — the AES-NUM-150 variance).
+Next: the closing-run cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative-remaining remainings with positions
+and counts, and the gap cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
