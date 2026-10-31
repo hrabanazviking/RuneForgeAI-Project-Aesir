@@ -57,6 +57,7 @@ from tests.test_kv_cache import test_kv_cache
 from tests.test_checked_span import test_checked_span
 from tests.test_dense_residency import test_dense_residency
 from tests.test_expert_cache import test_expert_cache
+from tests.test_stream_reader import test_stream_reader
 from tests.test_rune_tensor_layout import test_rune_tensor_layout
 from tests.test_rmsnorm_interface import test_rmsnorm_interface
 from tests.test_rmsnorm_reference import test_rmsnorm_reference
@@ -476,6 +477,7 @@ def main() raises:
     run_case(ledger, "memory.checked_span", test_checked_span)
     run_case(ledger, "memory.dense_residency", test_dense_residency)
     run_case(ledger, "memory.expert_cache", test_expert_cache)
+    run_case(ledger, "io.stream_reader", test_stream_reader)
     run_case(ledger, "memory.rune_tensor_layout", test_rune_tensor_layout)
     run_case(ledger, "compute.rmsnorm_interface", test_rmsnorm_interface)
     run_case(ledger, "compute.rmsnorm_reference", test_rmsnorm_reference)
