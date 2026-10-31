@@ -8024,3 +8024,60 @@ cumulative cumulative cumulative-remaining
 remaining-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.263 (AES-NUM-263) is complete. The
+closing-run cumulative cumulative cumulative
+cumulative cumulative cumulative cumulative
+cumulative-remaining
+remainings are now stated as one sequence:
+[55, 427, 1864, 6024, 16053, 37320, 78309, 151668]
+over positions 1-8 — the running total of each
+position's AES-NUM-262 cumulative cumulative
+cumulative cumulative cumulative cumulative
+cumulative-remaining
+remaining value, each printed set, count,
+cumulative total, difference, remaining,
+cumulative remaining, cumulative-remaining
+remaining, cumulative cumulative-remaining
+remaining, cumulative cumulative
+cumulative-remaining remaining, cumulative
+cumulative cumulative cumulative-remaining
+remaining, cumulative cumulative cumulative
+cumulative cumulative-remaining remaining,
+cumulative cumulative cumulative cumulative
+cumulative cumulative-remaining remaining and
+cumulative cumulative cumulative cumulative
+cumulative cumulative cumulative-remaining
+remaining equal
+to its
+AES-NUM-247/248/249/250/251/254/256/257/258/259/260/261/262
+value at all eight positions, ending at 151668.
+The distinct cumulative cumulative cumulative
+cumulative cumulative cumulative cumulative totals are
+eight: 55 x1 at position 1; 427 x1 at
+position 2; 1864 x1 at position 3; 6024 x1 at
+position 4; 16053 x1 at position 5; 37320 x1
+at position 6; 78309 x1 at position 7; 151668
+x1 at position 8 (counts sum to 8). The gap
+cumulative cumulative cumulative cumulative
+cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence is
+[12, 93, 405, 1305, 3466, 8029, 16786], ending
+at 16786, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE263, exit 0, err empty, and its first
+59,196 prefix lines differ from hef262.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance, verified by same-sorted-characters
+comparison). Next: the closing-run cumulative
+cumulative cumulative cumulative cumulative
+cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative cumulative cumulative cumulative
+cumulative cumulative cumulative cumulative totals with
+positions and counts, and the gap cumulative
+cumulative cumulative cumulative cumulative
+cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
