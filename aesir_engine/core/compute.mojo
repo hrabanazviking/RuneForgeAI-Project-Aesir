@@ -286,20 +286,24 @@ def dequantize_q4_1(
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_blocks: Int,
 ):
+    # Packed GGUF layout, walked byte-level (S-083): the BlockQ4_1 struct's
+    # Mojo stride is 32 bytes, not the packed 20 — a struct-pointer walk
+    # drifts on real files. Block = f16 scale @0, f16 min @2, qs @4..19;
+    # value = nibble * scale + min, low nibbles first.
     if num_blocks <= 0:
         return
+    var b_bytes = block_ptr.unsafe_bitcast[Byte]()
     for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var min_val = blk.min_val
-        var qs = blk.qs
+        var b_ptr = b_bytes.unsafe_offset(b * 20)
+        var scale = b_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load()
+        var min_val = b_ptr.unsafe_offset(2).unsafe_bitcast[Scalar[f16]]().unsafe_load()
         var out_offset = b * 32
         for i in range(16):
-            var l = Scalar[f16](qs[i] & 0x0F) * scale + min_val
-            var u = Scalar[f16]((qs[i] >> 4) & 0x0F) * scale + min_val
+            var qs = b_ptr.unsafe_load(4 + i)
+            var l = Scalar[f16](qs & 0x0F) * scale + min_val
+            var u = Scalar[f16]((qs >> 4) & 0x0F) * scale + min_val
             out_ptr.unsafe_store(out_offset + i, l)
             out_ptr.unsafe_store(out_offset + 16 + i, u)
-
 
 @always_inline
 def dequantize_q5_0(
@@ -307,31 +311,33 @@ def dequantize_q5_0(
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_blocks: Int,
 ):
+    # Packed GGUF layout, walked byte-level (S-083; cf. the raw Q5_0 test's
+    # "legacy padded structs" note): BlockQ5_0's Mojo stride is 32 bytes,
+    # not the packed 22. Block = f16 scale @0, qh bytes @2..5, qs @6..21;
+    # value = ((nibble | high_bit<<4) - 16) * scale.
     if num_blocks <= 0:
         return
+    var b_bytes = block_ptr.unsafe_bitcast[Byte]()
     for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var qh = blk.qh
-        var qs = blk.qs
+        var b_ptr = b_bytes.unsafe_offset(b * 22)
+        var scale = b_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load()
         var out_offset = b * 32
         for i in range(16):
-            var qh_byte_lo = qh[i // 8]
+            var qh_byte_lo = b_ptr.unsafe_load(2 + i // 8)
             var h_bit_lo = Scalar[f16](
                 (qh_byte_lo >> Scalar[DType.uint8](i % 8)) & 1
             )
-            var qh_byte_hi = qh[(i + 16) // 8]
+            var qh_byte_hi = b_ptr.unsafe_load(2 + (i + 16) // 8)
             var h_bit_hi = Scalar[f16](
                 (qh_byte_hi >> Scalar[DType.uint8]((i + 16) % 8)) & 1
             )
-
-            var l_val = (Scalar[f16](qs[i] & 0x0F) + h_bit_lo * 16.0) - 16.0
+            var qs = b_ptr.unsafe_load(6 + i)
+            var l_val = (Scalar[f16](qs & 0x0F) + h_bit_lo * 16.0) - 16.0
             var u_val = (
-                Scalar[f16]((qs[i] >> 4) & 0x0F) + h_bit_hi * 16.0
+                Scalar[f16]((qs >> 4) & 0x0F) + h_bit_hi * 16.0
             ) - 16.0
             out_ptr.unsafe_store(out_offset + i, l_val * scale)
             out_ptr.unsafe_store(out_offset + 16 + i, u_val * scale)
-
 
 @always_inline
 def dequantize_q5_1(
@@ -339,30 +345,32 @@ def dequantize_q5_1(
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_blocks: Int,
 ):
+    # Packed GGUF layout, walked byte-level (S-083): BlockQ5_1's Mojo
+    # stride is 32 bytes, not the packed 24. Block = f16 scale @0,
+    # f16 min @2, qh bytes @4..7, qs @8..23;
+    # value = (nibble | high_bit<<4) * scale + min.
     if num_blocks <= 0:
         return
+    var b_bytes = block_ptr.unsafe_bitcast[Byte]()
     for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var min_val = blk.min_val
-        var qh = blk.qh
-        var qs = blk.qs
+        var b_ptr = b_bytes.unsafe_offset(b * 24)
+        var scale = b_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load()
+        var min_val = b_ptr.unsafe_offset(2).unsafe_bitcast[Scalar[f16]]().unsafe_load()
         var out_offset = b * 32
         for i in range(16):
-            var qh_byte_lo = qh[i // 8]
+            var qh_byte_lo = b_ptr.unsafe_load(4 + i // 8)
             var h_bit_lo = Scalar[f16](
                 (qh_byte_lo >> Scalar[DType.uint8](i % 8)) & 1
             )
-            var qh_byte_hi = qh[(i + 16) // 8]
+            var qh_byte_hi = b_ptr.unsafe_load(4 + (i + 16) // 8)
             var h_bit_hi = Scalar[f16](
                 (qh_byte_hi >> Scalar[DType.uint8]((i + 16) % 8)) & 1
             )
-
-            var l_val = Scalar[f16](qs[i] & 0x0F) + h_bit_lo * 16.0
-            var u_val = Scalar[f16]((qs[i] >> 4) & 0x0F) + h_bit_hi * 16.0
+            var qs = b_ptr.unsafe_load(8 + i)
+            var l_val = Scalar[f16](qs & 0x0F) + h_bit_lo * 16.0
+            var u_val = Scalar[f16]((qs >> 4) & 0x0F) + h_bit_hi * 16.0
             out_ptr.unsafe_store(out_offset + i, l_val * scale + min_val)
             out_ptr.unsafe_store(out_offset + 16 + i, u_val * scale + min_val)
-
 
 @always_inline
 def dequantize_q8_0(
@@ -759,41 +767,35 @@ def gemm_q4_1(
     var shared_dim = A.cols
     var output_dim = B.rows
     var blocks_per_row = shared_dim // 32
-    var block_base = B.data.unsafe_bitcast[BlockQ4_1]()
+    # Packed GGUF layout, walked byte-level (S-083): BlockQ4_1's Mojo
+    # stride is 32 bytes, not the packed 20 — the struct-pointer walk
+    # drifted on real files (corrupt values; SIGSEGV past tensor ends).
+    var src_bytes = B.data.unsafe_bitcast[Byte]()
 
     print("gemm_f16: A.rows:", A.rows, "A.cols:", A.cols, "B.rows:", B.rows, "B.cols:", B.cols, "B.is_quant:", B.is_quantized)
     for row in range(rows):
         for output_index in range(output_dim):
             var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
+            var row_byte_offset = (output_index * blocks_per_row) * 20
             for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var scale = blk.scale
-                var min_val = blk.min_val
-                var qs = blk.qs
-                var lower_4 = qs & 0x0F
-                var upper_4 = (qs >> 4) & 0x0F
+                var blk_ptr = src_bytes.unsafe_offset(row_byte_offset + b * 20)
+                var scale = blk_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load()
+                var min_val = blk_ptr.unsafe_offset(2).unsafe_bitcast[Scalar[f16]]().unsafe_load()
 
                 var col_idx = b * 32
-                var a_vec_lower = A.data.unsafe_load[width=16](
-                    row * shared_dim + col_idx
-                ).cast[f32]()
-                var a_vec_upper = A.data.unsafe_load[width=16](
-                    row * shared_dim + col_idx + 16
-                ).cast[f32]()
-
-                var w_lower = (lower_4.cast[f16]() * scale + min_val).cast[
-                    f32
-                ]()
-                var w_upper = (upper_4.cast[f16]() * scale + min_val).cast[
-                    f32
-                ]()
-
-                sum += (a_vec_lower * w_lower).reduce_add()
-                sum += (a_vec_upper * w_upper).reduce_add()
+                for i in range(16):
+                    var qs = blk_ptr.unsafe_load(4 + i)
+                    var w_lo = (Scalar[f16](qs & 0x0F) * scale + min_val).cast[f32]()
+                    var w_hi = (Scalar[f16]((qs >> 4) & 0x0F) * scale + min_val).cast[f32]()
+                    var a_lo = A.data.unsafe_load(
+                        row * shared_dim + col_idx + i
+                    ).cast[f32]()
+                    var a_hi = A.data.unsafe_load(
+                        row * shared_dim + col_idx + 16 + i
+                    ).cast[f32]()
+                    sum += a_lo * w_lo + a_hi * w_hi
 
             C.set(row, output_index, sum.cast[f16]())
-
 
 def gemm_q5_0(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
@@ -861,29 +863,30 @@ def gemm_q5_1(
     var shared_dim = A.cols
     var output_dim = B.rows
     var blocks_per_row = shared_dim // 32
-    var block_base = B.data.unsafe_bitcast[BlockQ5_1]()
+    # Packed GGUF layout, walked byte-level (S-083): BlockQ5_1's Mojo
+    # stride is 32 bytes, not the packed 24 — see gemm_q4_1's note.
+    var src_bytes = B.data.unsafe_bitcast[Byte]()
 
     for row in range(rows):
         for output_index in range(output_dim):
             var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
+            var row_byte_offset = (output_index * blocks_per_row) * 24
             for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var scale = blk.scale
-                var min_val = blk.min_val
-                var qh = blk.qh
-                var qs = blk.qs
+                var blk_ptr = src_bytes.unsafe_offset(row_byte_offset + b * 24)
+                var scale = blk_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load()
+                var min_val = blk_ptr.unsafe_offset(2).unsafe_bitcast[Scalar[f16]]().unsafe_load()
 
                 var col_idx = b * 32
                 for i in range(16):
-                    var qh_byte_lo = qh[i // 8]
+                    var qh_byte_lo = blk_ptr.unsafe_load(4 + i // 8)
                     var h_bit_lo = Scalar[f16](
                         (qh_byte_lo >> Scalar[DType.uint8](i % 8)) & 1
                     )
-                    var qh_byte_hi = qh[(i + 16) // 8]
+                    var qh_byte_hi = blk_ptr.unsafe_load(4 + (i + 16) // 8)
                     var h_bit_hi = Scalar[f16](
                         (qh_byte_hi >> Scalar[DType.uint8]((i + 16) % 8)) & 1
                     )
+                    var qs = blk_ptr.unsafe_load(8 + i)
 
                     var a_lo = A.data.unsafe_load(
                         row * shared_dim + col_idx + i
@@ -893,11 +896,11 @@ def gemm_q5_1(
                     ).cast[f32]()
 
                     var w_lo = (
-                        (Scalar[f16](qs[i] & 0x0F) + h_bit_lo * 16.0) * scale
+                        (Scalar[f16](qs & 0x0F) + h_bit_lo * 16.0) * scale
                         + min_val
                     ).cast[f32]()
                     var w_hi = (
-                        (Scalar[f16]((qs[i] >> 4) & 0x0F) + h_bit_hi * 16.0)
+                        (Scalar[f16]((qs >> 4) & 0x0F) + h_bit_hi * 16.0)
                         * scale
                         + min_val
                     ).cast[f32]()
@@ -905,7 +908,6 @@ def gemm_q5_1(
                     sum += a_lo * w_lo + a_hi * w_hi
 
             C.set(row, output_index, sum.cast[f16]())
-
 
 def _gemm_q8_0_range(
     a_addr: Int64,

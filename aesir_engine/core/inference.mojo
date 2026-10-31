@@ -8,7 +8,7 @@ from std.math import sqrt, tanh, exp, log, cos, sin
 from std.math import max, min
 from std.memory.alloc import alloc, Layout
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, CompressedFormatType, shard_split_cols, shard_split_rows, f16, f32
-from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, gelu_tanh, geglu, rmsnorm, apply_rope, apply_rope_partial_neox, dequantize_q4_0, BlockQ4_0, iq_grid_alloc
+from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, gelu_tanh, geglu, rmsnorm, apply_rope, apply_rope_partial_neox, dequantize_q4_0, BlockQ4_0, iq_grid_alloc, dequantize_q4_1, BlockQ4_1, dequantize_q5_0, BlockQ5_0, dequantize_q5_1, BlockQ5_1
 from .extreme_quantization import dequantize_iq_block, iq_block_bytes
 from loader.gguf import GGUFSeer
 from loader.quantization import dequantize_q4_0_block, dequantize_q8_0_block
@@ -867,7 +867,7 @@ def _embed_token_into(
 ) raises:
     """Writes one token's embedding row into dst (hidden_dim elements):
     quantized rows (Q8_0 / K-quant via the packed oracle / IQ via the
-    codebook block decoder / Q4_0) or plain rows, then the arch
+    codebook block decoder / Q4_0 / Q4_1 / Q5_0 / Q5_1) or plain rows, then the arch
     embedding scale (explicit metadata scale wins; the Gemma family
     falls back to sqrt(hidden_dim)). This is the body of _embed_token
     with the destination unrolled, so a batch of rows can be embedded
@@ -959,6 +959,21 @@ def _embed_token_into(
             var src_byte_offset = (token_id * num_blocks) * block_bytes
             var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
             dequantize_q4_0_block(src_ptr, dst, num_blocks)
+        elif token_embd.quant_format.value == CompressedFormatType.Q4_1:
+            var block_bytes = 20
+            var src_byte_offset = (token_id * num_blocks) * block_bytes
+            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+            dequantize_q4_1(src_ptr.unsafe_bitcast[BlockQ4_1](), dst, num_blocks)
+        elif token_embd.quant_format.value == CompressedFormatType.Q5_0:
+            var block_bytes = 22
+            var src_byte_offset = (token_id * num_blocks) * block_bytes
+            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+            dequantize_q5_0(src_ptr.unsafe_bitcast[BlockQ5_0](), dst, num_blocks)
+        elif token_embd.quant_format.value == CompressedFormatType.Q5_1:
+            var block_bytes = 24
+            var src_byte_offset = (token_id * num_blocks) * block_bytes
+            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+            dequantize_q5_1(src_ptr.unsafe_bitcast[BlockQ5_1](), dst, num_blocks)
         else:
             raise Error(
                 "Inference token embedding has an unsupported quantized format: "
