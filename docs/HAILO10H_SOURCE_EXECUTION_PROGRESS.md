@@ -7131,3 +7131,46 @@ in this run). Next: the acts at A-offset rank
 closing-run seventh-act comparison. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+Slice 4.238 (AES-NUM-238) is complete. The
+act at A-offset rank 747 in full: (791780352,
+24, 2) at A 747, rank 747, the A closing run's
+seventh act, A-only distinct, occurrences A [747] / B
+none, incoming gap +512 from A 746 at rank 746
+and outgoing gap +512 to A 748 at rank 748,
+neither its own size, its A-offset neighbours
+exactly its index neighbours on both sides. The
+act at B-offset rank 749 in full: (1196445184,
+24, 2) at B 737, the B closing run's seventh act,
+B-only distinct, occurrences A none / B [737],
+incoming gap +512 from B 736 at rank 748 and
+outgoing gap +512 to B 738 at rank 750, neither
+its own size, its B-offset neighbours exactly
+its index neighbours on both sides. The
+closing-run seventh-act comparison in full: A
+seventh act rank 747 index 747, A-only, in run
+102 NO, incoming +512 outgoing +512; B seventh
+act rank 749 index 737, B-only, in run 102 NO,
+incoming +512 outgoing +512; each outgoing gap
+equals the seventh gap of its own run's gap
+sequence as measured in AES-NUM-231 — and the
+two seventh acts agree in BOTH incoming and
+outgoing gaps (+512 both), differing only in
+class label. Known defect, recorded openly:
+the printed comparison line in the raw output
+carries B incoming +0 (arms238 computed it
+against rank 749, the act itself, instead of
+rank 748); the +512 above is established by
+the same run's (ii) statement and by arithmetic
+on the printed offsets, and the run was NOT
+rerun (one launch per contract); the 4.239
+contract carries the fix. The single launch
+finished DONE238, exit 0, err empty, and its
+first 57,975 prefix lines differ from
+hef237.out in exactly one line (line 41611,
+frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+A-offset rank 748 and B-offset rank 750 in
+full, and the closing-run eighth-act
+comparison. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
