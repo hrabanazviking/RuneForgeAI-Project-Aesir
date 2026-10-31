@@ -1,0 +1,30 @@
+=== prose ===
+The lighthouse keeper climbed the narrow stairs before dawn, carrying a lantern and a notebook in which he recorded the weather. The sea below was calm, and the first fishing boats were already leaving the harbour. He wrote the date, the wind direction, and the colour of the sky, as he had done every morning for thirty years.
+=== code ===
+def merge_sorted(left, right):
+    merged = []
+    i = 0
+    j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged
+=== structured ===
+Inventory for the winter store, checked on the first of November:
+- item: dried cod, quantity: 40 kg, location: north loft, condition: good
+- item: barley flour, quantity: 25 kg, location: pantry shelf two, condition: good
+- item: lamp oil, quantity: 12 litres, location: cellar, condition: one bottle leaking
+- item: rope, quantity: 3 coils, location: boat shed, condition: worn
+Status summary: {"store": "winter", "items_checked": 4, "problems": 1, "next_check": "December"}
+=== numbers ===
+A farmer has 17 baskets, and each basket holds 24 apples. He sells 9 full baskets at the market, then picks 53 more apples from the orchard. How many apples does he have now? First count the apples he started with: 17 times 24 is 408. The sequence of his daily sales was 31, 28, 35, 29, 33, and the total of those five days is what he recorded in the ledger on Friday.
+=== instructions ===
+To mend the fishing net, follow these steps carefully. First, wash the net in clean water and let it dry in the shade. Second, find the torn section and cut away the broken twine. Third, tie a new square knot at each corner of the hole. Fourth, weave fresh twine across the gap, row by row, keeping the mesh even. Finally, check the whole net against the light before you fold it away.
+=== technical ===
+Tides are caused mainly by the gravity of the Moon. As the Moon orbits the Earth, its gravity pulls the ocean water toward it, making a bulge on the side facing the Moon and another bulge on the opposite side. As the Earth rotates, coastal places pass through these bulges and experience high tide, and between them they experience low tide. The Sun also plays a part, which is why spring tides happen when the Sun, Moon, and Earth line up.
