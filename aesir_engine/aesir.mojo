@@ -655,6 +655,30 @@ struct AesirEngine:
     # slice wires the module into NO live session path: no
     # session consumes a learned choice yet. Re-trials are
     # J-045. See docs/janas/J044_LEARNED_FILE.md.
+    #
+    # Re-trials of learned choices (Janas road J-045): the
+    # re-measurement of a learned choice lives in
+    # core/retrial.mojo -- plan_retrial() applies the bounded
+    # cadence to one J-044 entry (due on age >= 30 days, or on
+    # >= 25 host-counted opens past an absolute 7-day floor;
+    # never per-open, never under clock skew; a drifted key is
+    # named KEY-DRIFT and is a fresh-measure road, not a
+    # re-trial). Only a DUE plan may re-measure: run_retrial()
+    # re-runs each due kind's own chooser (J-040/J-041/J-042)
+    # under the kind's stored option, and apply_retrial()
+    # adopts the verdict through J-044's store path -- a
+    # changed kind replaces the learned choice, a reproduced
+    # kind keeps it with the measured-at stamp refreshed to
+    # the re-trial instant, a fresh refusal makes the kind
+    # absent (an all-absent re-trial erases the entry) -- and
+    # appends the change record (old -> new, trigger, outcome)
+    # to the retrial log beside the learned file
+    # (<learned path>.retrials.log). MANUAL-FIXED kinds are
+    # never re-trialled and an all-manual entry is never due
+    # (manual supremacy). A skipped re-trial writes nothing.
+    # This slice wires the module into NO live session path:
+    # no session re-trials a learned choice yet. See
+    # docs/janas/J045_RETRIALS.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
