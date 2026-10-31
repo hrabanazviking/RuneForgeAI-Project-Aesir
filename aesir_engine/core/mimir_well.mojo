@@ -493,6 +493,8 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
     comptime IQ3_S = 27
     comptime IQ2_XS = 28
     comptime IQ3_XXS = 29
+    comptime IQ4_NL = 30
+    comptime IQ4_XS = 31
 
     var value: Int
 
@@ -576,6 +578,10 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
             return "IQ2_XS"
         elif self.value == 29:
             return "IQ3_XXS"
+        elif self.value == 30:
+            return "IQ4_NL"
+        elif self.value == 31:
+            return "IQ4_XS"
         return "UNKNOWN"
 
 

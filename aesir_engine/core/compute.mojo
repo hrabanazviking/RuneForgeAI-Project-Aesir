@@ -51,6 +51,8 @@ from .external_quantization import (
 )
 from .extreme_quantization import (
     dequantize_iq1_s_blocks,
+    dequantize_iq4_nl_blocks,
+    dequantize_iq4_xs_blocks,
     dequantize_iq2_xxs_blocks,
     dequantize_iq2_xs_blocks,
     dequantize_iq2_s_blocks,
@@ -705,6 +707,12 @@ def dequantize_compressed_tensor(
     elif format.value == CompressedFormatType.IQ3_XXS:
         var blocks = quantized_block_count(num_elements, 256, "IQ3_XXS")
         dequantize_iq3_xxs_blocks(data, blocks * 98, out_ptr, num_elements)
+    elif format.value == CompressedFormatType.IQ4_NL:
+        var blocks = quantized_block_count(num_elements, 32, "IQ4_NL")
+        dequantize_iq4_nl_blocks(data, blocks * 18, out_ptr, num_elements)
+    elif format.value == CompressedFormatType.IQ4_XS:
+        var blocks = quantized_block_count(num_elements, 256, "IQ4_XS")
+        dequantize_iq4_xs_blocks(data, blocks * 136, out_ptr, num_elements)
     elif format.value == CompressedFormatType.TERNARY_155BIT:
         var blocks = quantized_block_count(num_elements, 256, "TQ1_0")
         dequantize_tq1_0_blocks(data, blocks * 54, out_ptr, num_elements)
@@ -2170,7 +2178,7 @@ def gemm_iq(
         raise Error(format_name + ": output matrix shape mismatch")
     if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
         raise Error(format_name + ": invalid storage")
-    if ggml_type != 16 and ggml_type != 17 and ggml_type != 18 and ggml_type != 19 and ggml_type != 21 and ggml_type != 22:
+    if ggml_type != 16 and ggml_type != 17 and ggml_type != 18 and ggml_type != 19 and ggml_type != 20 and ggml_type != 21 and ggml_type != 22 and ggml_type != 23:
         raise Error(format_name + ": unsupported GGML tensor type")
     _gemm_iq_fast(A, B, C, ggml_type)
 
@@ -2209,6 +2217,18 @@ def gemm_iq3_xxs(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
     gemm_iq(A, B, C, 18, "gemm_iq3_xxs")
+
+
+def gemm_iq4_nl(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    gemm_iq(A, B, C, 20, "gemm_iq4_nl")
+
+
+def gemm_iq4_xs(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    gemm_iq(A, B, C, 23, "gemm_iq4_xs")
 
 def gemm_ternary_158(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
@@ -2390,6 +2410,12 @@ def gemm_f16(
             return
         elif B.quant_format.value == CompressedFormatType.IQ3_XXS:
             gemm_iq3_xxs(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.IQ4_NL:
+            gemm_iq4_nl(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.IQ4_XS:
+            gemm_iq4_xs(A, B, C)
             return
         elif B.quant_format.value == CompressedFormatType.TERNARY_155BIT:
             gemm_ternary_158(A, B, C)

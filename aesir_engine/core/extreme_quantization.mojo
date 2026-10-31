@@ -1,6 +1,7 @@
 """Canonical raw-byte IQ and versioned native ternary primitives."""
 
 from std.memory import Pointer
+from std.math import max
 
 from .iq_codebooks import (
     IQ1_S_GRID,
@@ -57,11 +58,133 @@ def _materialize_iq_grid[size: Int](
     dst.unsafe_store[width=size](0, grid_simd)
 
 
+@always_inline
+def _iq4nl_kv(nibble: Int) -> Float32:
+    """ggml kvalues_iq4nl: -127,-104,-83,-65,-49,-35,-22,-10,1,13,25,38,53,69,89,113."""
+    if nibble == 0:
+        return Float32(-127.0)
+    if nibble == 1:
+        return Float32(-104.0)
+    if nibble == 2:
+        return Float32(-83.0)
+    if nibble == 3:
+        return Float32(-65.0)
+    if nibble == 4:
+        return Float32(-49.0)
+    if nibble == 5:
+        return Float32(-35.0)
+    if nibble == 6:
+        return Float32(-22.0)
+    if nibble == 7:
+        return Float32(-10.0)
+    if nibble == 8:
+        return Float32(1.0)
+    if nibble == 9:
+        return Float32(13.0)
+    if nibble == 10:
+        return Float32(25.0)
+    if nibble == 11:
+        return Float32(38.0)
+    if nibble == 12:
+        return Float32(53.0)
+    if nibble == 13:
+        return Float32(69.0)
+    if nibble == 14:
+        return Float32(89.0)
+    return Float32(113.0)
+
+
+@always_inline
+def iq4_nl_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    """IQ4_NL (kind 20): 32-value blocks of 18 bytes (f16 d, 16 qs);
+    low nibbles are values 0..15, high 16..31; value = d * kv[nib]."""
+    var block = index // 32
+    var lane = index % 32
+    var bb = base + block * 18
+    var d = data.unsafe_offset(bb).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+    var qs = Int(data.unsafe_load(bb + 2 + lane % 16))
+    var nib = (qs & 0x0F) if lane < 16 else ((qs >> 4) & 0x0F)
+    return d * _iq4nl_kv(nib)
+
+
+@always_inline
+def iq4_xs_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    """IQ4_XS (kind 23): 256-value super-blocks of 136 bytes (f16 d,
+    u16 scales_h, 4 scales_l bytes, 128 qs). Group ib: ls =
+    ((scales_l[ib/2] >> 4*(ib%2)) & 0xf) | (((scales_h >> 2*ib) & 3) << 4);
+    dl = d * (ls - 32); value = dl * kv[nib] (ggml dequantize_row_iq4_xs)."""
+    var sb = index // 256
+    var lane = index % 256
+    var bb = base + sb * 136
+    var d = data.unsafe_offset(bb).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+    var group = lane // 32
+    var gl = lane % 32
+    var scales_h = Int(_read_u16_le(data, bb + 2))
+    var scales_l = Int(data.unsafe_load(bb + 4 + group // 2))
+    var ls = ((scales_l >> (4 * (group % 2))) & 0x0F) | (((scales_h >> (2 * group)) & 3) << 4)
+    var dl = d * Float32(ls - 32)
+    var qs = Int(data.unsafe_load(bb + 8 + group * 16 + gl % 16))
+    var nib = (qs & 0x0F) if gl < 16 else ((qs >> 4) & 0x0F)
+    return dl * _iq4nl_kv(nib)
+
+def dequantize_iq4_nl_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    input_bytes: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(data) <= 1 or Int(output) <= 1:
+        raise Error("dequantize_iq4_nl_blocks: storage pointers must be valid")
+    if output_elements <= 0 or output_elements % 32 != 0:
+        raise Error("dequantize_iq4_nl_blocks: output must contain complete 32-value blocks")
+    var blocks = output_elements // 32
+    if input_bytes != blocks * 18:
+        raise Error("dequantize_iq4_nl_blocks: input storage length mismatch")
+    for index in range(output_elements):
+        output.unsafe_store(index, iq4_nl_value(data, 0, index).cast[DType.float16]())
+
+
+def dequantize_iq4_xs_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    input_bytes: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(data) <= 1 or Int(output) <= 1:
+        raise Error("dequantize_iq4_xs_blocks: storage pointers must be valid")
+    if output_elements <= 0 or output_elements % 256 != 0:
+        raise Error("dequantize_iq4_xs_blocks: output must contain complete 256-value blocks")
+    var blocks = output_elements // 256
+    if input_bytes != blocks * 136:
+        raise Error("dequantize_iq4_xs_blocks: input storage length mismatch")
+    for index in range(output_elements):
+        output.unsafe_store(index, iq4_xs_value(data, 0, index).cast[DType.float16]())
+
+
+def dequantize_iq4_nl_block32(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    block_base: Int,
+    out_ptr: Pointer[Float32, MutUntrackedOrigin],
+):
+    """Decode one 32-value IQ4_NL block at block_base into out_ptr[0..32)
+    (embedding row path; rows are 32-aligned, not always 256-aligned)."""
+    var d = data.unsafe_offset(block_base).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+    for j in range(16):
+        var qs = Int(data.unsafe_load(block_base + 2 + j))
+        out_ptr.unsafe_store(j, d * _iq4nl_kv(qs & 0x0F))
+        out_ptr.unsafe_store(j + 16, d * _iq4nl_kv((qs >> 4) & 0x0F))
+
 def iq_grid_materialize(
     kind: Int, dst: Pointer[UInt16, MutUntrackedOrigin]
 ):
     """Wide-store the grid for a GGML IQ kind (16/17/18/19/21/22)
     into dst; the caller provides a buffer of at least 2048 UInt16."""
+    if kind == 20 or kind == 23:
+        return
     if kind == 19:
         _materialize_iq_grid[2048](IQ1_S_GRID, dst)
     elif kind == 16:
@@ -832,6 +955,10 @@ def iq_value_g(
         return iq3_s_value_g(data, base, grid, index)
     if kind == 17:
         return iq2_xs_value_g(data, base, grid, index)
+    if kind == 20:
+        return iq4_nl_value(data, base, index)
+    if kind == 23:
+        return iq4_xs_value(data, base, index)
     return iq3_xxs_value_g(data, base, grid, index)
 
 
@@ -852,6 +979,10 @@ def iq_value(
         return iq3_s_value(data, base, index)
     if kind == 17:
         return iq2_xs_value(data, base, index)
+    if kind == 20:
+        return iq4_nl_value(data, base, index)
+    if kind == 23:
+        return iq4_xs_value(data, base, index)
     return iq3_xxs_value(data, base, index)
 
 
@@ -868,6 +999,10 @@ def iq_block_bytes(kind: Int) -> Int:
         return 98
     if kind == 21:
         return 110
+    if kind == 20:
+        return 144
+    if kind == 23:
+        return 136
     return 82
 
 
@@ -952,6 +1087,35 @@ def _iq_digits3_4(encoded: Int) -> SIMD[DType.uint32, 4]:
     return (e >> sh) & UInt32(7)
 
 
+@always_inline
+def _iq4nl_map16(nib: SIMD[DType.uint32, 16]) -> SIMD[DType.float32, 16]:
+    """Map 16 nibbles through kvalues_iq4nl with vector ops only.
+    kv[n] = -127 + sum_k diff_k * step_k(n), where step_k(n) is
+    max(n-(k-1),0) - max(n-k,0) (exactly 1 for n >= k, else 0) and
+    diff_k = kv[k] - kv[k-1]. Every intermediate is a small integer,
+    exact in f32, so the result is bit-identical to the scalar
+    _iq4nl_kv lookup. (Mojo 1.0 SIMD == returns a scalar Bool, so
+    mask/select table mapping is not available in this toolchain.)"""
+    var nf = nib.cast[DType.float32]()
+    var z = SIMD[DType.float32, 16](Float32(0.0))
+    var r = SIMD[DType.float32, 16](Float32(-127.0))
+    r += Float32(23.0) * (max(nf - Float32(0), z) - max(nf - Float32(1), z))
+    r += Float32(21.0) * (max(nf - Float32(1), z) - max(nf - Float32(2), z))
+    r += Float32(18.0) * (max(nf - Float32(2), z) - max(nf - Float32(3), z))
+    r += Float32(16.0) * (max(nf - Float32(3), z) - max(nf - Float32(4), z))
+    r += Float32(14.0) * (max(nf - Float32(4), z) - max(nf - Float32(5), z))
+    r += Float32(13.0) * (max(nf - Float32(5), z) - max(nf - Float32(6), z))
+    r += Float32(12.0) * (max(nf - Float32(6), z) - max(nf - Float32(7), z))
+    r += Float32(11.0) * (max(nf - Float32(7), z) - max(nf - Float32(8), z))
+    r += Float32(12.0) * (max(nf - Float32(8), z) - max(nf - Float32(9), z))
+    r += Float32(12.0) * (max(nf - Float32(9), z) - max(nf - Float32(10), z))
+    r += Float32(13.0) * (max(nf - Float32(10), z) - max(nf - Float32(11), z))
+    r += Float32(15.0) * (max(nf - Float32(11), z) - max(nf - Float32(12), z))
+    r += Float32(16.0) * (max(nf - Float32(12), z) - max(nf - Float32(13), z))
+    r += Float32(20.0) * (max(nf - Float32(13), z) - max(nf - Float32(14), z))
+    r += Float32(24.0) * (max(nf - Float32(14), z) - max(nf - Float32(15), z))
+    return r
+
 def dequantize_iq_block(
     data: Pointer[UInt8, MutUntrackedOrigin],
     block_base: Int,
@@ -972,7 +1136,27 @@ def dequantize_iq_block(
     var scale = data.unsafe_offset(block_base).unsafe_bitcast[
         Float16
     ]().unsafe_load().cast[DType.float32]()
-    if kind == 19:
+    if kind == 20:
+        # IQ4_NL super-block: eight 32-value blocks of 18 bytes each
+        # (144 bytes per 256 values; iq_block_bytes(20) == 144).
+        for sb in range(8):
+            var bb = block_base + sb * 18
+            var d = data.unsafe_offset(bb).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+            var qv = data.unsafe_load[width=16](bb + 2).cast[DType.uint32]()
+            out_ptr.unsafe_store[width=16](sb * 32, d * _iq4nl_map16(qv & UInt32(0x0F)))
+            out_ptr.unsafe_store[width=16](sb * 32 + 16, d * _iq4nl_map16((qv >> UInt32(4)) & UInt32(0x0F)))
+    elif kind == 23:
+        # IQ4_XS super-block: 136 bytes; per-group scale from the
+        # packed scales_h/scales_l (see iq4_xs_value for the layout).
+        var scales_h = Int(_read_u16_le(data, block_base + 2))
+        for group in range(8):
+            var scales_l = Int(data.unsafe_load(block_base + 4 + group // 2))
+            var ls = ((scales_l >> (4 * (group % 2))) & 0x0F) | (((scales_h >> (2 * group)) & 3) << 4)
+            var dl = scale * Float32(ls - 32)
+            var qv = data.unsafe_load[width=16](block_base + 8 + group * 16).cast[DType.uint32]()
+            out_ptr.unsafe_store[width=16](group * 32, dl * _iq4nl_map16(qv & UInt32(0x0F)))
+            out_ptr.unsafe_store[width=16](group * 32 + 16, dl * _iq4nl_map16((qv >> UInt32(4)) & UInt32(0x0F)))
+    elif kind == 19:
         # IQ1_S: qs at +2 (32 bytes), qh u16s at +34 (8 groups).
         for group in range(8):
             var qh = Int(_read_u16_le(data, block_base + 34 + group * 2))

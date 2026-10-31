@@ -9,7 +9,7 @@ from std.math import max, min
 from std.memory.alloc import alloc, Layout
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, CompressedFormatType, shard_split_cols, shard_split_rows, f16, f32
 from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, gelu_tanh, geglu, rmsnorm, apply_rope, apply_rope_partial_neox, dequantize_q4_0, BlockQ4_0, iq_grid_alloc, dequantize_q4_1, BlockQ4_1, dequantize_q5_0, BlockQ5_0, dequantize_q5_1, BlockQ5_1
-from .extreme_quantization import dequantize_iq_block, iq_block_bytes
+from .extreme_quantization import dequantize_iq_block, iq_block_bytes, dequantize_iq4_nl_block32
 from loader.gguf import GGUFSeer
 from loader.quantization import dequantize_q4_0_block, dequantize_q8_0_block
 from .packed_quantization import packed_value, ggml_kind_of_format
@@ -914,6 +914,7 @@ def _embed_token_into(
             or token_embd.quant_format.value == CompressedFormatType.IQ3_S
             or token_embd.quant_format.value == CompressedFormatType.IQ2_XS
             or token_embd.quant_format.value == CompressedFormatType.IQ3_XXS
+            or token_embd.quant_format.value == CompressedFormatType.IQ4_XS
         ):
             # IQ embedding row: (hidden_dim // 256) super-blocks of
             # iq_block_bytes(kind) each, decoded block-by-block with
@@ -935,6 +936,8 @@ def _embed_token_into(
                 iq_kind = 17
             elif fmt == CompressedFormatType.IQ3_XXS:
                 iq_kind = 18
+            elif fmt == CompressedFormatType.IQ4_XS:
+                iq_kind = 23
             var iq_block = iq_block_bytes(iq_kind)
             var row_base = token_id * (hidden_dim // 256) * iq_block
             var emb_bytes = token_embd.data.unsafe_bitcast[Byte]()
@@ -954,6 +957,18 @@ def _embed_token_into(
                     )
             scratch.unsafe_free()
             grid_ptr.unsafe_free()
+        elif token_embd.quant_format.value == CompressedFormatType.IQ4_NL:
+            if hidden_dim % 32 != 0:
+                raise Error("Inference IQ4_NL token embedding requires complete 32-value blocks")
+            var nl_row_bytes = (hidden_dim // 32) * 18
+            var nl_base = token_id * nl_row_bytes
+            var nl_bytes = token_embd.data.unsafe_bitcast[Byte]()
+            var nl_scratch = alloc[Float32](32)
+            for b in range(hidden_dim // 32):
+                dequantize_iq4_nl_block32(nl_bytes, nl_base + b * 18, nl_scratch)
+                for i in range(32):
+                    dst.unsafe_store(b * 32 + i, Scalar[f16](nl_scratch.unsafe_load(i)))
+            nl_scratch.unsafe_free()
         elif token_embd.quant_format.value == CompressedFormatType.Q4_0:
             var block_bytes = 18
             var src_byte_offset = (token_id * num_blocks) * block_bytes
