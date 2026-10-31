@@ -450,6 +450,20 @@ struct AesirEngine:
             self.image_span_rows,
         )
 
+    # Placement options (Janas road J-036): the per-pass placement
+    # surface -- --prompt-on / --drafts-on / --reply-on, their
+    # AESIR_*_ON env equivalents, the device kill switches, and the
+    # quality-tier fields (J-014 gate A2) -- is parsed, validated
+    # and reported by core/placement_options.mojo (scan_placement_args
+    # + placement_env_inputs + resolve_placement_options). This
+    # engine does NOT consume a placement choice yet: passes still
+    # run where they have always run, and no surface may claim
+    # otherwise. Consumption is roaded to J-038+ (measurement and
+    # auto choice); the draft-check pass the drafts option names
+    # does not exist yet (J-035 gap G1, Part V J-071/J-072), and
+    # placement_options.require_draft_check_use fails closed until
+    # it does. See docs/janas/J036_PLACEMENT_OPTIONS.md.
+
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
         (default 256; 1 disables batching and restores the per-token
