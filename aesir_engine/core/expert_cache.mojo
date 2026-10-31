@@ -46,6 +46,17 @@ each session independently over-commits the machine. ExpertCache
 gains resize_budget (grow/shrink under an arbiter) and
 shed_to_resident (resident-only reclaim of lent bytes, budget
 unchanged) for that host loop.
+
+Memory pressure (J-028): free memory at open is not free memory
+forever. plan_pressure_budget (below, beside the open-time sizing)
+turns a fresh free-memory sample into a decision -- continue,
+shrink, regrow (never above the open-time budget or the hard cap),
+or refuse cleanly below the floor -- under the J-017 section 5.3
+ordering: the expert cache sheds before anything else does, the
+resident set and the KV cache are never cannibalised, and at the
+floor the run refuses with the reason stated instead of swapping
+the machine to death. The host contract is documented with the
+planner.
 """
 
 # Access outcome codes returned by ExpertCache.access.
@@ -233,6 +244,181 @@ def plan_expert_cache_budget(
         hard_cap_bytes,
         capped,
         budget < per_token_routed_bytes,
+    )
+
+
+# -- Memory pressure: the mid-run shrink / refuse policy (J-028) -------
+#
+# J-017 section 5.3 decided the ordering; this is its mechanism. Free
+# memory shrinks mid-run (another process takes RAM) and a cache sized
+# to the open moment becomes an overcommit -- the failure Janas's own
+# README warns of for its cache on a low-headroom desktop, engineered
+# against here.
+#
+# HOST CONTRACT (binding on the session host; this module makes no OS
+# calls and fakes none):
+# - The host samples free memory itself (its platform's counter) and
+#   calls plan_pressure_budget with the sample. Sampling cadence: at
+#   most once per token boundary, NEVER mid-token -- a token's
+#   in-flight experts are pinned for its duration, and a shrink is
+#   only ever applied between tokens, where no pin is held across
+#   the boundary by construction of the session loop.
+# - CONTINUE: do nothing. SHRINK: apply resize_budget(target) --
+#   the cache sheds policy-ordered entries (the policy's own shrink
+#   order), pins held; a pinned overage, if one somehow spans the
+#   boundary, is returned visibly by resize_budget, never forced.
+# - REGROW: apply resize_budget(target); growing only raises the
+#   cap -- shed entries are NOT resurrected, they re-earn residency
+#   through ordinary demand. The target never exceeds the open-time
+#   budget and never exceeds the hard cap: pressure easing is not a
+#   licence to grow past what open-time sizing granted.
+# - REFUSE: the pressured budget fell below the floor (one token's
+#   full routed demand). The host first sheds the cache to zero
+#   unpinned bytes with shed_to_resident(0) -- deliberately NOT
+#   resize_budget, whose contract refuses a non-positive budget --
+#   observes any pinned remainder the shed returns, and then stops
+#   the run cleanly, stating the refusal and the numbers that caused
+#   it (the PressurePlan carries them). The resident set and the KV
+#   allowance are never touched by any branch: the reserve that
+#   protects them is re-charged on every call, exactly as at open.
+
+comptime PRESSURE_CONTINUE = 0
+comptime PRESSURE_SHRINK = 1
+comptime PRESSURE_REGROW = 2
+comptime PRESSURE_REFUSE = 3
+
+
+struct PressurePlan(Copyable, ImplicitlyCopyable):
+    """One pressure decision, stated in full for the run report."""
+
+    var decision: Int
+    var target_bytes: Int
+    var raw_bytes: Int
+    var reserve_bytes: Int
+    var open_budget_bytes: Int
+    var current_budget_bytes: Int
+    var below_floor: Bool
+
+    def __init__(
+        out self,
+        decision: Int,
+        target_bytes: Int,
+        raw_bytes: Int,
+        reserve_bytes: Int,
+        open_budget_bytes: Int,
+        current_budget_bytes: Int,
+        below_floor: Bool,
+    ):
+        self.decision = decision
+        self.target_bytes = target_bytes
+        self.raw_bytes = raw_bytes
+        self.reserve_bytes = reserve_bytes
+        self.open_budget_bytes = open_budget_bytes
+        self.current_budget_bytes = current_budget_bytes
+        self.below_floor = below_floor
+
+    def describe(self) -> String:
+        var name = String("continue")
+        if self.decision == PRESSURE_SHRINK:
+            name = String("shrink")
+        elif self.decision == PRESSURE_REGROW:
+            name = String("regrow")
+        elif self.decision == PRESSURE_REFUSE:
+            name = String("refuse")
+        return (
+            "decision="
+            + name
+            + " target_bytes="
+            + String(self.target_bytes)
+            + " raw_bytes="
+            + String(self.raw_bytes)
+            + " reserve_bytes="
+            + String(self.reserve_bytes)
+            + " open_budget_bytes="
+            + String(self.open_budget_bytes)
+            + " current_budget_bytes="
+            + String(self.current_budget_bytes)
+            + " below_floor="
+            + String(self.below_floor)
+        )
+
+
+def plan_pressure_budget(
+    free_now_bytes: Int,
+    total_bytes: Int,
+    hard_cap_bytes: Int,
+    resident_bytes: Int,
+    kv_allowance_bytes: Int,
+    scratch_bytes: Int,
+    per_token_routed_bytes: Int,
+    open_budget_bytes: Int,
+    current_budget_bytes: Int,
+) raises -> PressurePlan:
+    """Decide the cache's fate under a fresh free-memory sample.
+
+    The arithmetic is the open-time sizing's, re-run mid-run: the
+    reserve (resident set + KV allowance + scratch + OS headroom of
+    one fifth of total memory) is charged again in full, so pressure
+    can never eat the memory the resident set and KV live in. The
+    pressured budget is min(hard cap if set, free-now - reserve),
+    additionally capped at the open-time budget -- the cache may
+    regrow toward what open granted, never beyond it.
+
+    Below the floor (one token's full routed demand) the plan is
+    REFUSE with target 0: a cache that cannot hold a single token's
+    working set would stream-thrash at maximum disk cost while
+    still holding memory the machine needs elsewhere; the honest
+    behaviour is the clean refusal the host performs per the
+    contract above. At exactly the floor the run continues -- the
+    floor is a working set that fits, barely, by definition.
+    """
+    if (
+        free_now_bytes < 0
+        or total_bytes <= 0
+        or hard_cap_bytes < 0
+        or resident_bytes < 0
+        or kv_allowance_bytes < 0
+        or scratch_bytes < 0
+        or per_token_routed_bytes <= 0
+        or open_budget_bytes <= 0
+        or current_budget_bytes <= 0
+    ):
+        raise Error("Expert cache pressure values out of range")
+    var os_headroom = total_bytes // 5
+    var reserve = resident_bytes + kv_allowance_bytes + scratch_bytes + os_headroom
+    if reserve < 0:
+        raise Error("Expert cache pressure reserve overflow")
+    var raw = free_now_bytes - reserve
+    if raw < 0:
+        raw = 0
+    if hard_cap_bytes > 0 and raw > hard_cap_bytes:
+        raw = hard_cap_bytes
+    var target = raw
+    if target > open_budget_bytes:
+        target = open_budget_bytes
+    if target < per_token_routed_bytes:
+        return PressurePlan(
+            PRESSURE_REFUSE,
+            0,
+            raw,
+            reserve,
+            open_budget_bytes,
+            current_budget_bytes,
+            True,
+        )
+    var decision = PRESSURE_CONTINUE
+    if target < current_budget_bytes:
+        decision = PRESSURE_SHRINK
+    elif target > current_budget_bytes:
+        decision = PRESSURE_REGROW
+    return PressurePlan(
+        decision,
+        target,
+        raw,
+        reserve,
+        open_budget_bytes,
+        current_budget_bytes,
+        False,
     )
 
 

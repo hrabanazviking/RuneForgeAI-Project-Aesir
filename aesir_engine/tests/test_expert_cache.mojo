@@ -3,10 +3,15 @@ from core.expert_cache import (
     ACCESS_MISS_ADMITTED,
     ACCESS_MISS_BYPASSED,
     ACCESS_MISS_TOO_LARGE,
+    PRESSURE_CONTINUE,
+    PRESSURE_REFUSE,
+    PRESSURE_REGROW,
+    PRESSURE_SHRINK,
     ExpertCache,
     SharedExpertBudget,
     parse_byte_size,
     plan_expert_cache_budget,
+    plan_pressure_budget,
     plan_shared_cache_pool,
     resolve_hard_cap,
 )
@@ -432,6 +437,113 @@ def test_expert_cache_shared_pool_drive() raises:
     print("PASS: expert cache shared pool drive (contention, lending, return)")
 
 
+def test_expert_cache_pressure() raises:
+    # J-028 decision arithmetic, on the sizing test's stated machine:
+    # total 10000, resident 300 + KV 200 + scratch 100 + headroom
+    # 2000 = reserve 2600; opened at free 10000 -> open budget 7400;
+    # floor (one token's routed demand) 1000.
+    var hold = plan_pressure_budget(10000, 10000, 0, 300, 200, 100, 1000, 7400, 7400)
+    expect_eq(hold.decision, PRESSURE_CONTINUE, "pressure hold decision")
+    expect_eq(hold.target_bytes, 7400, "pressure hold target")
+    expect_eq(hold.reserve_bytes, 2600, "pressure reserve re-charged in full")
+
+    var shrink = plan_pressure_budget(6000, 10000, 0, 300, 200, 100, 1000, 7400, 7400)
+    expect_eq(shrink.decision, PRESSURE_SHRINK, "pressure shrink decision")
+    expect_eq(shrink.target_bytes, 3400, "pressure shrink target")
+
+    # Exactly at the floor the run continues (barely, by definition).
+    var at_floor = plan_pressure_budget(3600, 10000, 0, 300, 200, 100, 1000, 7400, 7400)
+    expect_eq(at_floor.decision, PRESSURE_SHRINK, "at-floor still shrinks, not refuses")
+    expect_eq(at_floor.target_bytes, 1000, "at-floor target is the floor")
+    if at_floor.below_floor:
+        raise Error("Pressure plan flagged the exact floor as below it")
+
+    # Below the floor: REFUSE, target 0 (the host sheds via
+    # shed_to_resident(0); resize_budget is never called with it).
+    var refuse = plan_pressure_budget(3500, 10000, 0, 300, 200, 100, 1000, 7400, 7400)
+    expect_eq(refuse.decision, PRESSURE_REFUSE, "below-floor refuses")
+    expect_eq(refuse.target_bytes, 0, "refusal target is zero")
+    if not refuse.below_floor:
+        raise Error("Pressure plan missed the below-floor flag")
+    var broke = plan_pressure_budget(1000, 10000, 0, 300, 200, 100, 1000, 7400, 7400)
+    expect_eq(broke.decision, PRESSURE_REFUSE, "negative raw budget refuses")
+    expect_eq(broke.raw_bytes, 0, "raw budget never goes negative")
+
+    # Regrow is capped at the open-time budget however far free
+    # memory recovers...
+    var regrow = plan_pressure_budget(50000, 10000, 0, 300, 200, 100, 1000, 7400, 3400)
+    expect_eq(regrow.decision, PRESSURE_REGROW, "pressure regrow decision")
+    expect_eq(regrow.target_bytes, 7400, "regrow capped at the open budget")
+    # ...and at the hard cap where one is set.
+    var regrow_capped = plan_pressure_budget(
+        10000, 10000, 4096, 300, 200, 100, 1000, 4096, 2000
+    )
+    expect_eq(regrow_capped.decision, PRESSURE_REGROW, "capped regrow decision")
+    expect_eq(regrow_capped.target_bytes, 4096, "regrow capped at the hard cap")
+    print("PASS: expert cache pressure decisions (shrink, floor, refuse, regrow caps)")
+
+
+def test_expert_cache_pressure_drive() raises:
+    # J-028 host loop in miniature, on the real fsketch cache:
+    # shrink under pressure with a pin held, the refusal shed, and
+    # regrow (cap restored, shed entries not resurrected).
+    var cache = ExpertCache(800, String("fsketch"))
+    for expert in range(1, 7):
+        _ = cache.access(0, expert, 100)
+    expect_eq(cache.snapshot().bytes_resident_now, 600, "pressure drive fills")
+    if not cache.pin(0, 1):
+        raise Error("Pressure drive could not pin a resident expert")
+    # Apply a shrink to 200 through the prescribed resize path (the
+    # decision arithmetic itself is pinned by the group above).
+    var remaining = cache.resize_budget(200)
+    expect_eq(remaining, 200, "pressure shrink sheds to the target")
+    if not cache.contains(0, 1):
+        raise Error("Pressure shrink evicted the pinned expert")
+    if not cache.contains(0, 6):
+        raise Error("Pressure shrink shed past its policy order (LRU kept)")
+    if cache.contains(0, 2):
+        raise Error("Pressure shrink kept the coldest entry")
+
+    # Refusal: the prescribed shed is shed_to_resident(0), never a
+    # resize to a non-positive budget (which the cache refuses).
+    var refused_resize = False
+    try:
+        _ = cache.resize_budget(0)
+    except:
+        refused_resize = True
+    if not refused_resize:
+        raise Error("resize_budget accepted a non-positive budget")
+    var pinned_left = cache.shed_to_resident(0)
+    expect_eq(pinned_left, 100, "refusal shed leaves only the pinned overage, visibly")
+    if not cache.contains(0, 1) or cache.contains(0, 6):
+        raise Error("Refusal shed kept an unpinned entry or dropped the pin")
+    cache.unpin(0, 1)
+    expect_eq(cache.shed_to_resident(0), 0, "refusal completes once unpinned")
+    expect_eq(cache.snapshot().entries_now, 0, "refusal leaves an empty cache")
+
+    # Regrow: the cap comes back; what was shed stays shed until
+    # demand re-earns it.
+    var regrown = ExpertCache(800, String("fsketch"))
+    for expert in range(1, 7):
+        _ = regrown.access(0, expert, 100)
+    _ = regrown.resize_budget(200)
+    expect_eq(regrown.snapshot().bytes_resident_now, 200, "regrow drive shrinks first")
+    _ = regrown.resize_budget(800)
+    expect_eq(regrown.budget_bytes, 800, "regrow restores the cap")
+    expect_eq(
+        regrown.snapshot().bytes_resident_now, 200, "regrow does not resurrect shed entries"
+    )
+    expect_eq(
+        regrown.access(0, 40, 100),
+        ACCESS_MISS_ADMITTED,
+        "regrown cache admits on demand again",
+    )
+    var stats = regrown.snapshot()
+    if stats.hits + stats.misses != stats.accesses:
+        raise Error("Pressure drive accounting does not close")
+    print("PASS: expert cache pressure drive (pin held, refusal shed, regrow)")
+
+
 def test_expert_cache() raises:
     test_expert_cache_sizing()
     test_expert_cache_behaviour()
@@ -440,6 +552,8 @@ def test_expert_cache() raises:
     test_expert_cache_no_scarcity()
     test_expert_cache_shared_pool()
     test_expert_cache_shared_pool_drive()
+    test_expert_cache_pressure()
+    test_expert_cache_pressure_drive()
 
 
 def main() raises:

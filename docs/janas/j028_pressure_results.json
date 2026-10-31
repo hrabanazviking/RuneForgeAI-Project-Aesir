@@ -1,0 +1,279 @@
+{
+ "trace_sha256": "85e1d2413cbfcd43516a03d8463c7266d486cf0f0d0a6ed3104d09111facf99a",
+ "n_tokens": 577,
+ "n_accesses": 73856,
+ "open_pairs": 512,
+ "floor_pairs": 128,
+ "validation_gate": {
+  "tournament@128": "EXACT",
+  "mojo_replay@128": "EXACT",
+  "tournament@256": "EXACT",
+  "mojo_replay@256": "EXACT",
+  "tournament@512": "EXACT",
+  "mojo_replay@512": "EXACT"
+ },
+ "schedules": {
+  "base": {
+   "accesses": 73856,
+   "hits": 56781,
+   "misses": 17075,
+   "cold": 1024,
+   "hit_rate": 0.768807,
+   "bypasses": 14895,
+   "admissions": 2180,
+   "evictions": 1668,
+   "evicted_before_reuse": 12194,
+   "streamed_scaled": 63662880,
+   "streamed_full_bytes": 65190789120,
+   "streamed_mb_per_token": 112.982,
+   "entries_now": 512,
+   "resident_scaled": 1903056,
+   "tokens_served": 577,
+   "invariant_violations": 0,
+   "accounting_violations": 0,
+   "events": [],
+   "refusal": null,
+   "counterfactual_no_shed": {
+    "max_excess_full_bytes": 0,
+    "tokens_resident_over_allowance": 0
+   }
+  },
+  "step": {
+   "accesses": 73856,
+   "hits": 40277,
+   "misses": 33579,
+   "cold": 1024,
+   "hit_rate": 0.545345,
+   "bypasses": 31758,
+   "admissions": 1821,
+   "evictions": 1693,
+   "evicted_before_reuse": 27788,
+   "streamed_scaled": 124975392,
+   "streamed_full_bytes": 127974801408,
+   "streamed_mb_per_token": 221.793,
+   "entries_now": 128,
+   "resident_scaled": 472992,
+   "tokens_served": 577,
+   "invariant_violations": 0,
+   "accounting_violations": 0,
+   "events": [
+    {
+     "token": 192,
+     "decision": "shrink",
+     "to_pairs": 256,
+     "resident_after_scaled": 951264
+    },
+    {
+     "token": 384,
+     "decision": "shrink",
+     "to_pairs": 128,
+     "resident_after_scaled": 475632
+    }
+   ],
+   "refusal": null,
+   "counterfactual_no_shed": {
+    "max_excess_full_bytes": 1462763520,
+    "tokens_resident_over_allowance": 385
+   },
+   "degradation_vs_base": {
+    "hit_rate_delta": -0.223462,
+    "streamed_bytes_ratio_per_served_token": 1.963081
+   }
+  },
+  "crash": {
+   "accesses": 36864,
+   "hits": 30274,
+   "misses": 6590,
+   "cold": 1014,
+   "hit_rate": 0.821235,
+   "bypasses": 5211,
+   "admissions": 1379,
+   "evictions": 1379,
+   "evicted_before_reuse": 3201,
+   "streamed_scaled": 24603504,
+   "streamed_full_bytes": 25193988096,
+   "streamed_mb_per_token": 87.479,
+   "entries_now": 0,
+   "resident_scaled": 0,
+   "tokens_served": 288,
+   "invariant_violations": 0,
+   "accounting_violations": 0,
+   "events": [
+    {
+     "token": 288,
+     "decision": "refuse",
+     "to_pairs": 64,
+     "resident_after_scaled": 0
+    }
+   ],
+   "refusal": {
+    "token": 288,
+    "pressured_pairs": 64,
+    "floor_pairs": 128,
+    "resident_before_shed_scaled": 1903584,
+    "resident_after_shed_scaled": 0,
+    "entries_after_shed": 0,
+    "accesses_served": 36864
+   },
+   "counterfactual_no_shed": {
+    "max_excess_full_bytes": 1706016768,
+    "tokens_resident_over_allowance": 1
+   },
+   "degradation_vs_base": {
+    "hit_rate_delta": 0.052428,
+    "streamed_bytes_ratio_per_served_token": 0.774273
+   }
+  },
+  "recovery": {
+   "accesses": 73856,
+   "hits": 48622,
+   "misses": 25234,
+   "cold": 1024,
+   "hit_rate": 0.658335,
+   "bypasses": 22863,
+   "admissions": 2371,
+   "evictions": 1858,
+   "evicted_before_reuse": 19873,
+   "streamed_scaled": 94000896,
+   "streamed_full_bytes": 96256917504,
+   "streamed_mb_per_token": 166.823,
+   "entries_now": 513,
+   "resident_scaled": 1902288,
+   "tokens_served": 577,
+   "invariant_violations": 0,
+   "accounting_violations": 0,
+   "events": [
+    {
+     "token": 144,
+     "decision": "shrink",
+     "to_pairs": 256,
+     "resident_after_scaled": 950736
+    },
+    {
+     "token": 288,
+     "decision": "shrink",
+     "to_pairs": 128,
+     "resident_after_scaled": 473760
+    },
+    {
+     "token": 360,
+     "decision": "regrow",
+     "to_pairs": 512,
+     "resident_after_scaled": 476160
+    }
+   ],
+   "refusal": null,
+   "counterfactual_no_shed": {
+    "max_excess_full_bytes": 1462763520,
+    "tokens_resident_over_allowance": 216
+   },
+   "degradation_vs_base": {
+    "hit_rate_delta": -0.110472,
+    "streamed_bytes_ratio_per_served_token": 1.476542
+   }
+  },
+  "squeeze": {
+   "accesses": 73856,
+   "hits": 44525,
+   "misses": 29331,
+   "cold": 1024,
+   "hit_rate": 0.602862,
+   "bypasses": 27503,
+   "admissions": 1828,
+   "evictions": 1667,
+   "evicted_before_reuse": 23225,
+   "streamed_scaled": 109190256,
+   "streamed_full_bytes": 111810822144,
+   "streamed_mb_per_token": 193.78,
+   "entries_now": 161,
+   "resident_scaled": 593376,
+   "tokens_served": 577,
+   "invariant_violations": 0,
+   "accounting_violations": 0,
+   "events": [
+    {
+     "token": 48,
+     "decision": "shrink",
+     "to_pairs": 480,
+     "resident_after_scaled": 1782960
+    },
+    {
+     "token": 96,
+     "decision": "shrink",
+     "to_pairs": 448,
+     "resident_after_scaled": 1665264
+    },
+    {
+     "token": 144,
+     "decision": "shrink",
+     "to_pairs": 416,
+     "resident_after_scaled": 1547232
+    },
+    {
+     "token": 192,
+     "decision": "shrink",
+     "to_pairs": 384,
+     "resident_after_scaled": 1426896
+    },
+    {
+     "token": 240,
+     "decision": "shrink",
+     "to_pairs": 352,
+     "resident_after_scaled": 1305744
+    },
+    {
+     "token": 288,
+     "decision": "shrink",
+     "to_pairs": 320,
+     "resident_after_scaled": 1189344
+    },
+    {
+     "token": 336,
+     "decision": "shrink",
+     "to_pairs": 288,
+     "resident_after_scaled": 1070592
+    },
+    {
+     "token": 384,
+     "decision": "shrink",
+     "to_pairs": 256,
+     "resident_after_scaled": 949392
+    },
+    {
+     "token": 432,
+     "decision": "shrink",
+     "to_pairs": 224,
+     "resident_after_scaled": 830880
+    },
+    {
+     "token": 480,
+     "decision": "shrink",
+     "to_pairs": 192,
+     "resident_after_scaled": 712896
+    },
+    {
+     "token": 528,
+     "decision": "shrink",
+     "to_pairs": 160,
+     "resident_after_scaled": 592560
+    }
+   ],
+   "refusal": null,
+   "counterfactual_no_shed": {
+    "max_excess_full_bytes": 1340866560,
+    "tokens_resident_over_allowance": 529
+   },
+   "degradation_vs_base": {
+    "hit_rate_delta": -0.165945,
+    "streamed_bytes_ratio_per_served_token": 1.715132
+   }
+  }
+ },
+ "verdict": {
+  "rule_a_invariant": true,
+  "rule_b_accounting": true,
+  "rule_c_refusal": true,
+  "rule_d_reported": true,
+  "slice_passes": true
+ }
+}

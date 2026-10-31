@@ -46,6 +46,18 @@ caps as residency and activity change through the session's public
 cache (resize_budget / shed_to_resident). This module's constructor
 contract is unchanged: it takes the budget it is given; the pool
 discipline is the host's, and it is unit-tested at the cache layer.
+
+Memory pressure (J-028): free memory can shrink mid-run. The host
+samples free memory at token boundaries (never mid-token), asks
+plan_pressure_budget in core/expert_cache.mojo for the decision,
+and applies it through this session's public cache: shrink/regrow
+via resize_budget (regrow never above the open-time budget), and on
+a below-floor REFUSE, shed via shed_to_resident(0) and stop the run
+cleanly with the plan's numbers stated. The resident set and the
+KV cache are never cannibalised -- the pressure reserve re-charges
+them on every call. Like the pool discipline, this is a host
+contract over the cache layer, unit-tested there; no OS sampling
+is faked inside the engine.
 """
 from std.collections import Dict
 from std.math import exp

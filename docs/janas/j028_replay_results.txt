@@ -1,0 +1,7 @@
+event token 144 decision=shrink target_bytes=952320 raw_bytes=952320 reserve_bytes=0 open_budget_bytes=1904640 current_budget_bytes=1904640 below_floor=False resident_before 1903584
+ applied shrink resident_after 950736
+event token 288 decision=shrink target_bytes=476160 raw_bytes=476160 reserve_bytes=0 open_budget_bytes=1904640 current_budget_bytes=952320 below_floor=False resident_before 952080
+ applied shrink resident_after 473760
+event token 360 decision=regrow target_bytes=1904640 raw_bytes=1904640 reserve_bytes=0 open_budget_bytes=1904640 current_budget_bytes=476160 below_floor=False resident_before 476160
+ applied regrow resident_after 476160
+recovery accesses=73856 hits=48622 misses=25234 cold_misses=1024 hit_rate_per_mille=658 bypasses=22863 too_large=0 admissions=2371 promotions=0 evictions=1858 evicted_before_reuse=19873 bytes_streamed=94000896 bytes_evicted=6913344 bytes_resident_now=1902288 entries_now=513 budget_bytes=1904640
