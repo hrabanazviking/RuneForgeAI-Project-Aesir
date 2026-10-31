@@ -5,6 +5,8 @@
 **Method:** a purpose-written GGUF v3 header parser (`~/workspace/model-tests/janas/j015_parse_gguf.py`, sha256 `b512d63b4f4138fbebc68f9778e3e75dc745a6bcee3991da13256042073abed5`) that reads the metadata block and the tensor directory only — no tensor data. Every byte count below is computed from the directory (element count × quant block size) and cross-checked: for both files, header + Σ tensor bytes + padding gaps accounts for the file size **exactly**.
 **Honesty classes:** file facts are **MEASURED** from the files themselves. Derived figures (per-token bytes) are exact arithmetic on measured sizes, with their assumption stated. Anything not present in a file is recorded as absent / NOT PROVEN, never guessed. No Janas material was used in this slice at all (this is GGUF + Aesir only), so the clean-room law was not even engaged.
 
+**Verification & completion addendum (keeper worker, 2026-10-31 ~01:41 EDT).** The first worker's run stalled before banking, so a second worker re-measured everything independently before this document was filed: both wave-store files were re-hashed on purplelongship (sha256 match the §1 pins and Hugging Face's published LFS oids), re-parsed with gguf-py's canonical `GGUFReader`, and analysed with the campaign parser. **22 of 22 spot-checked claims from §§1–5 reproduced exactly** (file/tensor/expert/resident bytes, both down-quant layer patterns, the 28-byte Granite gap, the 251,904-byte Granite span excess, OLMoE layer-0 expert offsets, `file_type`, `size_label`). Two parser defects were found and fixed during verification (see §8): a mis-keyed GGUF type table, and a per-token shortcut that assumes uniform layers. Neither affected this document's §§1–5 numbers: the type-table errors touched only quant types absent from these Q4_K_M files (Q4_K/Q6_K/F32 entries were already correct), and §4's per-token figures already use the exact top-k ÷ expert-count × expert-bytes arithmetic. The same verification pass added a third witness — the `qwen2moe` family the first worker had to reject on budget — as §7. Machine state for the verification pass: the 204 road's S-087 worker was live on purplelongship; this pass ran download + header parsing only, no inference, and did not touch `~/s087`.
+
 ---
 
 ## 1. File choice — and the alternatives rejected
@@ -164,4 +166,39 @@ Down+gate are adjacent, but **up_exps sits after the router and the FFN norm**: 
 - **No inference was run.** That Aesir (or anything) executes these files is NOT PROVEN here and is not claimed; Aesir has no MoE execution code (J-012). Execution witnesses belong to J-022 and the Part VIII arch slices.
 - **Router behaviour** (hit distribution, reuse, working set over real prompts) is not in the files — it is J-016's measurement, deliberately not pre-judged here.
 - **Expert slab arithmetic assumes the standard GGUF quant block sizes** (Q4_K 144 B / 256 elems, Q6_K 210 B / 256 elems, F32/F16/Q4_K layouts per the format); the exact file-size accounting in §5 (header + Σ tensors + gaps = file size, to the byte, in both files) is the cross-check that those block sizes are right for these files.
-- The two files are the anatomy of **two** MoE families. The wave's other families (qwen2moe, qwen3moe, qwen3next, gemma4-MoE) are NOT PROVEN anatomies until their own files are parsed the same way — J-076 and Part VIII own those.
+- The two files above are the anatomy of **two** MoE families; §7 adds a third, **qwen2moe**, measured in the verification pass. The remaining families (qwen3moe, qwen3next, gemma4-MoE) are NOT PROVEN anatomies until their own files are parsed the same way — J-076 and Part VIII own those.
+
+---
+
+## 7. Witness C — Qwen1.5-MoE-A2.7B-Chat (`qwen2moe`), measured in the verification pass
+
+The family closest to Aesir's proven Qwen2 line, rejected by the first worker because its Q4_K_M-class files exceed the slice budget (the model is ~14.3 B total parameters, not the ~3 GB pre-slice estimate). The verification pass acquired the smallest file in the family instead — a low quant is sufficient for an anatomy, whose facts (tensor map, metadata, layout) are quant-independent in structure, with per-tensor quant choices recorded as found:
+
+| | |
+|---|---|
+| Repo / file | `tensorblock/Qwen1.5-MoE-A2.7B-Chat-GGUF` / `Qwen1.5-MoE-A2.7B-Chat-Q2_K.gguf` (Qwen's own GGUF repo answered HTTP 401 on 2026-10-31; this is its community mirror) |
+| Bytes / sha256 | 5,890,164,032 / `cce008140714bb8b76185c0e2db802c60ce62182fa2eddb86ac53303b7525986` — matches the repo's HF LFS oid exactly; held on purplelongship at `~/j015/` |
+| Header | GGUF v3, alignment 32, 34 KV keys, 411 tensors, tensor data starts at byte 5,954,880; Σ tensor bytes 5,884,209,152; header + Σ tensors = file size exactly, zero gaps |
+| Routing metadata | `qwen2moe.block_count` 24, `embedding_length` 2048, `context_length` 32768, heads 16/16, `feed_forward_length` 5632, **`expert_count` 60, `expert_used_count` 4**, `expert_feed_forward_length` 1408, `expert_shared_feed_forward_length` 5632; `general.file_type` 10 (Q2_K recipe label) |
+| Parameters (directory sum) | 14,315,784,192 |
+
+**Tensor map.** Uniform 17 tensors per layer × 24, plus `token_embd` / `output` / `output_norm`. The expert layout is the **same fused triple** as §§3–5 — `ffn_gate_exps` Q2_K [2048, 1408, 60], `ffn_up_exps` Q2_K [2048, 1408, 60], `ffn_down_exps` IQ4_NL [1408, 2048, 60] — no per-expert tensors, no combined gate+up tensor. Per-expert slabs: gate 946,176 / up 946,176 / down 1,622,016 = **3,514,368 bytes per expert per layer**; per-token routed bytes (top-4, exact) **337,379,328** across 24 layers.
+
+**Where it differs from both §1 witnesses — shared experts exist here.** Each layer carries a full shared-expert FFN (`ffn_gate_shexp` / `ffn_up_shexp` Q2_K [2048, 5632], `ffn_down_shexp` Q3_K [5632, 2048] — 12,525,568 bytes/layer) plus its own learned gate vector `ffn_gate_inp_shexp.weight` F32 [2048], beside the ordinary router `ffn_gate_inp.weight` F32 [2048, 60] (491,520 bytes/layer). The shared width 5632 is exactly 4× a routed expert's 1408. A residency design (J-017) must treat the shared expert as resident, not streamed: it fires on every token.
+
+**Byte split.** Routed experts 5,060,689,920 bytes = **86.03 %** of tensor bytes. Resident 823,519,232: token embedding 102,100,992 (Q2_K), output 255,260,672 (Q6_K `output.weight` + norm), attention 153,354,240, shared-expert FFN 300,613,632, routers (both gates) 11,993,088, norms 196,608. Quant mix: Q2_K 3,074,813,952 / IQ4_NL 2,335,703,040 / Q6_K 255,252,480 / Q3_K 205,455,360 / F32 12,984,320 — the recipe upgrades the routed `down` matrices to IQ4_NL inside a "Q2_K" file, the same per-tensor hand visible in §3's Q4_K_M files.
+
+**Layout.** Directory order = offset order, zero gaps, last tensor ends at EOF. Within a layer the expert tensors are interleaved with the shared-expert tensors (file order: `down_exps, down_shexp, gate_exps, gate_inp, gate_inp_shexp, gate_shexp, …, up_exps, up_shexp`), so a layer's expert span is 220,110,848 bytes for 210,862,080 bytes of experts — a third layout variant beside OLMoE's single run (§5) and Granite's split run (§5): the span's extra bytes are resident shared-expert data a streaming reader skips in place.
+
+**Fourth file (parser-validation fodder, not a §1 witness).** The verification pass also parsed `bartowski/OLMoE-1B-7B-0924-Instruct-GGUF`'s `OLMoE-1B-7B-0924-Instruct-Q2_K.gguf` (2,562,763,584 bytes, sha256 `0b6554d40b4ae1ed84c20f0411b7869c10da264e826b8f185758cfd02e782b33`, matches its HF LFS oid; `~/j015/` on purplelongship): same `olmoe` anatomy as §2/§3 at Q2_K recipe (expert share 91.06 %, per-token exact 291,504,128 bytes), included in the evidence JSON. Its directory is what exposed the §8 type-table bug — its sibling Q4_K_M file could not have.
+
+---
+
+## 8. Parser defects found and fixed; evidence files
+
+The campaign parser (`j015_parse_gguf.py`) is this slice's measuring instrument, so its defects are slice defects; both were fixed in scope and re-validated before banking:
+
+1. **Mis-keyed GGUF type table.** From type id 19 onward the entries were shifted (id 20 labelled `I16` — it is `IQ4_NL`, 18 B/block), `Q8_1` read 36 B/block (correct: 40), `IQ3_XXS` 50 (correct: 98). On the Qwen file this mis-sized all 24 `ffn_down_exps` tensors. The table was corrected entry-by-entry against gguf-py's `GGMLQuantizationType` + `GGML_QUANT_SIZES`; the fixed parser reproduces gguf-py's `n_bytes` for **all 1,123 tensors across the four parsed files with zero mismatches** (the §§1–5 files were unaffected only because their quant types sat in the table's correct region).
+2. **Uniform-layer per-token shortcut.** The parser's `per_token_expert_bytes_all_layers` multiplied one layer's per-expert bytes by the layer count — an overstatement on mixed-quant files (it reported 522,190,848 for OLMoE Q4_K_M against the exact 487,587,840). An exact field (`per_token_expert_bytes_all_layers_exact` = expert bytes × top-k ÷ expert count) was added; §4/§7 quote the exact figures.
+
+**Evidence files.** Campaign records `~/workspace/model-tests/janas/`: this document; `j015_anatomy.json` (fixed-parser analysis + full tensor directories for all four files); `j015_anatomy_raw_all.json` (the gguf-py reader dumps the analysis was computed from; the two device-side dumps sha256 `ebd1a880bca83614eb316c7abcc9cae58690bf05770c328d07276565921f5e51` and `8f5a94d48b210f57dc988ed623aac41ce0aeffe0ceaf04ad863a7a4cfcec9022`, retrieved byte-identical); `j015_parse_gguf.py` (fixed). Filed in the repo under `docs/janas/` (document, analysis JSON, parser). The models themselves are never committed; their pins are §§1 and 7.
