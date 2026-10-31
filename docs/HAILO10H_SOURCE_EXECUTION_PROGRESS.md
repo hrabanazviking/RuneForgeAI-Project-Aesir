@@ -7033,3 +7033,34 @@ rank 746 in full, and the closing-run
 fourth-act comparison. Broad ordinary
 UNMODIFIED source-model support100% remains
 the destination.
+Slice 4.235 (AES-NUM-235) is complete. The
+act at A-offset rank 744 in full: (791778816,
+24, 0) at A 744, rank 744, the A closing run's
+fourth act, shared single-positioned (run 102,
+shift +2; B 746), a member of run 102 and run
+102's last act, incoming gap +512 from A 736
+at rank 743 and outgoing gap +512 to A 745 at
+rank 745, neither its own size. The act at
+B-offset rank 746 in full: (1196410880, 32784,
+2) at B 674, the B closing run's fourth act,
+B-only distinct, occurrences A none / B [674],
+incoming gap +14,848 from B 272 at rank 745 and
+outgoing gap +33,280 to B 735 at rank 747,
+neither its own size. The closing-run
+fourth-act comparison in full: A fourth act
+rank 744 index 744, shared single-positioned,
+in run 102 YES, incoming +512 outgoing +512;
+B fourth act rank 746 index 674, B-only, in
+run 102 NO, incoming +14,848 outgoing +33,280;
+each outgoing gap equals the fourth gap of
+its own run's gap sequence as measured in
+AES-NUM-231. The single launch finished
+DONE235, exit 0, err empty, and its first
+57,772 prefix lines differ from hef234.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance). Next: the acts at A-offset rank 745
+and B-offset rank 747 in full, and the
+closing-run fifth-act comparison. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
