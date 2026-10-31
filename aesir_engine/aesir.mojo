@@ -679,6 +679,37 @@ struct AesirEngine:
     # This slice wires the module into NO live session path:
     # no session re-trials a learned choice yet. See
     # docs/janas/J045_RETRIALS.md.
+    #
+    # Within-tolerance proof (Janas road J-046): the grading
+    # of the auto choice against the full configuration sweep
+    # lives in core/within_tolerance.mojo --
+    # run_within_tolerance_proof() runs the real J-040/J-041
+    # choosers for REPETITIONS (3) independent repetitions per
+    # model shape (keyed the J-044 way) per kind (prompt,
+    # then reply) and grades each repetition under the
+    # pre-registered rule: best is the lowest median of the
+    # thread-ladder sweep the chooser ranks, auto is the
+    # median -- in the SAME sweep -- of the configuration the
+    # chooser actually chose, gap % = (auto - best) / best *
+    # 100 against the targets prompt <= 1.50% / reply <=
+    # 2.60% (Janas's published claim, adopted as a target to
+    # test); per-repetition verdicts BEATEN / MET / MISSED /
+    # NOT PROVEN aggregate per shape per kind (any MISSED
+    # with no NOT PROVEN makes the aggregate MISSED; any NOT
+    # PROVEN makes it NOT PROVEN). Both options must be auto
+    # -- a manual option has no auto choice to grade and the
+    # builder refuses it. Device-axis candidates are named on
+    # the chooser records and never ranked (no device
+    # executor exists; the device sweep's cpu timing is a
+    # cross-check from a different executor). Draft-check is
+    # NOT PROVEN by construction (no draft-check pass
+    # exists, J-035 gap G1) and no proxy is graded. The shape
+    # enters as the J-044 key only: the harness workloads are
+    # fixed shapes, the choosers take no model argument, and
+    # no model inference runs. This slice wires the proof
+    # into NO live session path: no session consumes a
+    # tolerance proof yet. See
+    # docs/janas/J046_WITHIN_TOLERANCE.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
