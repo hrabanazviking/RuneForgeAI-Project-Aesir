@@ -1,0 +1,147 @@
+J-047 manual override supremacy -- unit test + live output (VM, lightest target)
+Built from yrsa/janas-j047 tree: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread, then mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); runs with LD_LIBRARY_PATH=<staging>, the test_learned_file / test_retrial runs with J044_TEST_DIR / J045_TEST_DIR=<staging> testdata dirs. Staging lived on the workspace overlay (~/workspace/.verify-tmp/j047stage); nothing was deleted by this slice. One transient VM file-write interdict interrupted the neighbour builds for ~5 minutes (pixi activation could not write its /tmp activation script; the same class J-025/J-032 recorded); it lifted on its own and every filed number below is from a run this worker executed and captured in full afterwards.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor (as cpuinfo states this boot), 4 vCPU (4 logical / 4 physical / 1 package, no machine-stated hybrid split), kernel 7.0.0-39-generic. The VM was CONTENDED throughout (load average ~9-15 across the runs; MemAvailable ~0.9-1.3 GB -- far below the 5,500 MB inference gate, and no inference ran; lightest compiles only, one at a time). purplelongship was not used at all (the 204 road's S-101 is live there).
+Live outcome, stated plainly: manual override supremacy is BUILT and unit-PROVEN -- the --mode preset surface (auto|eco|max, AESIR_MODE, cli > env > default, refusals with reasons), the per-kind precedence stack (hand fixed / hand race / explicit hand auto over preset over learned over auto, provenance and re-trial applicability on every resolution), and the generalised invalid-device refusal at open (single, co-work, and race forms refused whole on any absent member or the parked NPU, with the device, the kind, and the inventory fact in the reason), proven on fixture inventories built from J-037's real fact types and on this machine's live inventory (gpu absent, npu parked: hand gpu and hand npu choices refused live with their reasons; hand cpu + eco pass). No number in this file is a placement verdict for any model: resolution and refusal are pure logic over resolved options, and no chooser was run by the new suite (the prompt chooser neighbour below ran its own live groups as J-040 filed them).
+
+== test_manual_override (filed run) ==
+PASS: override -- mode grammar and cli > env > default precedence
+PASS: override -- mode refusals (unknown, case, empty) with reasons
+PASS: override -- mode argv scan (forms, duplicate, missing, typo)
+PASS: override -- preset intents (auto none, eco fixed, max measure)
+PASS: override -- hand fixed (single + co-work) wins over all layers
+PASS: override -- hand race fixes the field; preset/learned skipped
+PASS: override -- explicit hand auto directs measurement; unset is silence
+PASS: override -- preset (eco fixed / max measure) governs over learned
+PASS: override -- learned applies under silence; absent falls to auto
+PASS: override -- learned MANUAL-FIXED keeps hand provenance, no re-trial
+PASS: override -- report renders the stack and every kind's layer
+PASS: override -- open refusal: single absent device (hand, reply)
+PASS: override -- open refusal: co-work + race refused whole, never trimmed
+PASS: override -- open refusal: parked NPU in single/co-work/race forms
+PASS: override -- open refusal: learned source; shadowed + preset paths
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+LIVE RESOLUTION:
+manual override resolution (J-047)
+mode: eco (cli)
+precedence: hand > preset > learned > auto, per kind; a hand choice is never measured against, never ranked, and never re-trialled
+prompt: MANUAL-FIXED (hand choice, source cli) -- fixed: cpu -- the hand choice 'cpu' for the prompt kind holds over the preset, the learned default, and auto measurement: it is never measured against, never ranked, and never re-trialled
+drafts: PRESET-FIXED (preset eco, source cli) -- fixed: cpu threads=1 -- preset eco (cli): the drafts kind runs on the cpu at the serial rung -- eco never uses the gpu for speed alone (census J-003), taken here at its strongest honest reading (the gpu is not in eco's field at all), and the serial rung is the session default of J-040, minimal by construction; eco claims no speed, only economy; choosing is not using -- any use of a drafts placement still fails closed (J-036 gap G1) until Part V builds the pass; the hand is silent for the drafts kind, so the preset governs over the learned default and auto measurement
+reply: MANUAL-FIXED (hand choice, source cli) -- fixed: cpu -- the hand choice 'cpu' for the reply kind holds over the preset, the learned default, and auto measurement: it is never measured against, never ranked, and never re-trialled
+learned values are defaults only; an explicit option overrides the learned value for its kind, always (J-044)
+
+PASS: override -- live inventory refusals + resolution on this VM
+ALL PASS: manual override supremacy (16 groups)
+
+== test_placement_options (neighbour, rebuilt from this tree) ==
+PASS: placement forms auto/single/cowork/race
+PASS: placement grammar refusals carry reasons
+PASS: pass-kind legality (npu refused for drafts and reply)
+PASS: precedence cli over env over default, sources recorded
+PASS: kill switches refuse named devices, shrink the auto field
+PASS: drafts-on stores, drafts use fails closed (G1)
+PASS: quality surface parses, stores, and fails closed at use
+PASS: argv scan forms, duplicates, typos, --no-cpu refusal
+PASS: environment layer reads, resolves, and kills end to end
+PASS: describe report states values, sources, kills, gates
+ALL PASS: placement options (10 groups)
+
+== test_learned_file (neighbour, rebuilt from this tree) ==
+PASS: keys -- derived from facts, exact equality, renders, validation
+PASS: serialise/parse round trip -- whole, exact, byte-identical
+PASS: refusal kind absent -- no learned default from a refusal
+PASS: npu refused -- a parked device is never persisted
+PASS: validation refusals -- form/decision consistency, decisions, threads
+PASS: path resolution -- file > cache home > HOME > relative fallback
+PASS: disk save/load -- MISSING clean, save atomic, load whole, lookup applies
+PASS: lookup mismatches -- model / machine / both / no-entry / not-loaded
+PASS: store -- append, same-key replace, corrupt store refused untouched
+PASS: corrupt loads -- garbage/truncated/flipped/version/empty all REFUSED whole
+PASS: erase -- per-key, last-key valid-empty, whole-file, absent clean
+PASS: report -- per-key dump, defaults-only, no expert maps
+LIVE LEARNED REPORT (this machine's facts):
+learned file report
+path: /home/hatch/workspace/.verify-tmp/j047stage/testdata44/live/learned-placement.v1
+state: LOADED (1 entry)
+entry
+  machine: cpu 'AMD EPYC 9D25 126-Core Processor', 4 logical / 4 physical / 1 package(s), hybrid split not machine-stated; gpu none stated
+  model: olmoe emb=2048 blk=16 heads=16/16 ffn=11008 ctx=8192 experts=64 used=8
+  measured-at: 1793490633 (unix s)
+  prompt: cpu threads=1 (device cpu, threads 1, decision DEFAULT-CONFIRMED, from option auto)
+  drafts: absent (no learned choice)
+  reply: absent (no learned choice)
+manual supremacy: learned values are defaults only; an explicit --prompt-on / --drafts-on / --reply-on option (or its env equivalent) overrides the learned value for its kind, always
+expert maps: none -- this file holds placement + thread choices only; no expert-map section exists (J-027 measured rejection)
+
+PASS: live round trip -- real cpu facts key, store, load, apply, mismatch
+ALL PASS: learned file (13 groups)
+
+== test_retrial (neighbour, rebuilt from this tree) ==
+PASS: cadence age -- 30d trigger, exact boundary, absent kind not due
+PASS: cadence opens -- 25 past the 7d floor; bursts bounded; never per-open
+PASS: clock skew -- negative age keeps, with the reason on the plan
+PASS: manual supremacy (plan) -- manual never due; mixed due per kind
+PASS: key drift -- machine / model / both named, never a re-trial
+PASS: adopt changed -- fresh verdict replaces, manual carried, change logged
+PASS: adopt reproduced -- choice kept, stamp honestly refreshed, logged
+PASS: adopt refusal -- kind goes absent, entry adopted, logged
+PASS: adopt all-refused -- entry erased, never stored as nothing
+PASS: adopt gate -- only a DUE plan can adopt
+PASS: disk apply + log -- adopted on disk, log appended per re-trial
+PASS: disk apply erased -- entry gone, valid empty file, erasure logged
+PASS: log discipline -- skipped re-trials write no log record
+PASS: run skips -- missing / not-due / manual-only / corrupt write nothing
+LIVE RETRIAL LOG RECORD:
+retrial: at 1793490703 (unix s)
+  machine: cpu 'AMD EPYC 9D25 126-Core Processor', 4 logical / 4 physical / 1 package(s), hybrid split not machine-stated; gpu none stated
+  model: olmoe emb=2048 blk=16 heads=16/16 ffn=11008 ctx=8192 experts=64 used=8
+  trigger: AGE (age 2678400 s, opens 0 since measure; cadence: age >= 2592000 s, or opens >= 25 with age >= 604800 s)
+  measured-at: 1790812303 -> 1793490703
+  prompt: CHANGED -- cpu threads=1 (device cpu, threads 1, decision DEFAULT-CONFIRMED, from option auto) -> cpu threads=1 (serial) (device cpu, threads 1, decision MEASURED-WIN, from option auto)
+  drafts: NOT-PRESENT -- absent (nothing learned for this kind)
+  reply: NOT-PRESENT -- absent (nothing learned for this kind)
+  outcome: ADOPTED -- at least one re-trialled kind changed (or refused to absent); the adopted entry replaces the learned entry under the same key, stamped with the re-trial instant
+
+PASS: live re-trial -- real facts key, real chooser, adopted/kept + logged
+ALL PASS: re-trials (15 groups)
+
+== test_prompt_placement (neighbour, rebuilt from this tree) ==
+PASS: decision rule -- a clear winner is chosen (measured win)
+PASS: decision rule -- within the margin band, default kept with reason
+PASS: decision rule -- margin clears but rounds interleave, default kept
+PASS: decision rule -- default fastest but unproven, kept as default
+PASS: decision rule -- sole measured candidate chosen, no margin claimed
+PASS: decision rule -- no measured: fallback with cpu, refusal without
+PASS: manual single and co-work fix the choice against faster numbers
+PASS: race ranks only its named members (non-member speed ignored)
+PASS: session keeping -- decided once, kept, reports identical
+LIVE PROMPT CHOICE:
+prompt placement report
+option: auto (source default)
+decision: DEFAULT-CONFIRMED -- the default itself was fastest (cpu threads=1 (serial), median 9247101 ns vs runner-up cpu threads=4 (all cores (physical == logical)) at 14934021 ns) but the win is not claimed: the best candidate's slowest counted round (54146800 ns) does not beat the runner-up's median (14934021 ns), so their rounds interleave -- the default is kept as the default
+chosen: cpu threads=1
+rule: pre-registered (J-040): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+best: cpu threads=1 (serial) median 9247101 ns; runner-up: cpu threads=4 (all cores (physical == logical)) median 14934021 ns; margin 61%; separation failed
+candidates:
+  gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+  npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+  cpu threads=1 (serial): median 9247101 ns (min 8055343, max 54146800, spread 46091457; rounds 5)
+  cpu threads=2 (half the cores): median 27638338 ns (min 15213320, max 75047932, spread 59834612; rounds 5)
+  cpu threads=4 (all cores (physical == logical)): median 14934021 ns (min 10960070, max 77023765, spread 66063695; rounds 5)
+device sweep: cpu measured at median 20333129 ns by the harness's serial executor -- a cross-check only, NOT ranked (the ranked CPU candidates are the thread rungs, measured through the threaded executor; the two executors' medians are not comparable, J-039)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live chooser over the real harness + thread trials on this VM
+LIVE MANUAL PROMPT CHOICE:
+prompt placement report
+option: cpu (source cli)
+decision: MANUAL-FIXED -- the explicit prompt option 'cpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate measured at median 9070325 ns in the device sweep; a device option does not fix a thread count, so the thread axis stands where the session leaves it; open-time refusal of a hand placement is J-047)
+chosen: cpu
+rule: pre-registered (J-040): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu: median 9070325 ns (min 8918728, max 60746129, spread 51827401; rounds 5)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live manual cpu option fixes the choice (no ranking ran)
+ALL PASS: prompt placement auto choice (11 groups)
