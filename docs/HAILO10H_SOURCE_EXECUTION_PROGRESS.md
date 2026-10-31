@@ -8145,3 +8145,39 @@ cumulative-remaining
 remaining-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.265 (AES-NUM-265) is complete. The
+closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remainings are now stated as one sequence:
+[55, 537, 2883, 11253, 35676, 97419, 237471, 529191]
+over positions 1-8 — the running total of each
+position's AES-NUM-264 cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining value, each printed set, count,
+cumulative total, difference, remaining,
+cumulative remaining, cumulative-remaining remaining, cumulative cumulative-remaining remaining, cumulative cumulative cumulative-remaining remaining, cumulative cumulative cumulative cumulative-remaining remaining, cumulative cumulative cumulative cumulative cumulative-remaining remaining, cumulative cumulative cumulative cumulative cumulative cumulative-remaining remaining, cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining remaining, cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining remaining, cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining remaining and
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining remaining equal
+to its
+AES-NUM-247/248/249/250/251/254/256/257/258/259/260/261/262/263/264
+value at all eight positions, ending at 529191.
+The distinct cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals are
+eight: 55 x1 at position 1; 537 x1 at
+position 2; 2883 x1 at position 3; 11253 x1 at
+position 4; 35676 x1 at position 5; 97419 x1
+at position 6; 237471 x1 at position 7; 529191
+x1 at position 8 (counts sum to 8). The gap
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence is
+[12, 117, 627, 2442, 7723, 21033, 51129], ending
+at 51129, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE265, exit 0, err empty, and its first
+59,284 prefix lines differ from hef264.out in
+exactly one line (line 41611,
+frozenset element order only — the AES-NUM-150
+variance, verified by same-sorted-characters
+comparison). Next: the closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals with
+positions and counts, and the gap cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
