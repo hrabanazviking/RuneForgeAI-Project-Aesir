@@ -5963,7 +5963,7 @@
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.248 the
+- [x] Slice4.248 the
   closing-run agreement-count
   sequence in full; the
   distinct agreement counts
@@ -5975,6 +5975,18 @@
   lists in full (checked
   against AES-NUM-245); then
   broad ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.249 the
+  closing-run cumulative
+  agreement-count sequence
+  in full; the distinct
+  cumulative totals in full
+  (positions and counts);
+  and the gap cumulative
+  agreement-count sequence
+  in full (checked against
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

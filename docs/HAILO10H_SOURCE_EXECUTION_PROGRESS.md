@@ -7477,3 +7477,32 @@ re-summed, and the gap-agreement position
 lists in full. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.248 (AES-NUM-248) is complete. The
+closing-run agreement counts are now stated as
+one sequence: [1, 2, 1, 0, 3, 3, 3, 3] over
+positions 1-8 — the counts of the AES-NUM-247
+agreement sets, each printed set and count
+equal to its expected value at all eight
+positions. The distinct agreement counts are
+four values: 1 x2 at positions 1, 3; 2 x1 at
+position 2; 0 x1 at position 4; 3 x4 at
+positions 5, 6, 7, 8 (counts sum to 8). The
+total agreeing family-instances re-summed over
+positions is 16, equal to AES-NUM-245's family
+counts (size 4 + channel 5 + class 0 + run-102
+7 + offset 0 + index 0). The gap-agreement
+position lists are agreeing 5, 6, 7 (count 3)
+and disagreeing 1, 2, 3, 4 (count 4), both
+equal to AES-NUM-245. The single launch
+finished DONE248, exit 0, err empty, and its
+first 58,547 prefix lines differ from
+hef247.out in exactly one line (line 41611,
+frozenset element order only — the AES-NUM-150
+variance; the second variance line seen in
+earlier runs, 42872, did not differ this run).
+Next: the closing-run cumulative agreement-
+count sequence in full, the distinct cumulative
+totals with positions and counts, and the gap
+cumulative agreement-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
