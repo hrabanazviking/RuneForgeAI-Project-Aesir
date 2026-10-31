@@ -60,6 +60,9 @@ from .extreme_quantization import (
     dequantize_iq3_xxs_blocks,
     dequantize_iq3_s_blocks,
     dequantize_tq1_0_blocks,
+    dequantize_tq2_0_blocks,
+    dequantize_tq_block,
+    tq_block_bytes,
     gemm_tq1_0_blocks,
     dequantize_iq_block,
     iq_block_bytes,
@@ -720,6 +723,9 @@ def dequantize_compressed_tensor(
     elif format.value == CompressedFormatType.TERNARY_155BIT:
         var blocks = quantized_block_count(num_elements, 256, "TQ1_0")
         dequantize_tq1_0_blocks(data, blocks * 54, out_ptr, num_elements)
+    elif format.value == CompressedFormatType.TQ2_0:
+        var blocks = quantized_block_count(num_elements, 256, "TQ2_0")
+        dequantize_tq2_0_blocks(data, blocks * 66, out_ptr, num_elements)
     elif format.value == CompressedFormatType.Q4_K_M or format.value == CompressedFormatType.Q4_K_S:
         var blocks = quantized_block_count(num_elements, 256, "Q4_K")
         dequantize_q4_k_m(data, out_ptr, blocks)
@@ -2260,6 +2266,152 @@ def gemm_ternary_158(
         C.rows * C.cols,
     )
 
+def _gemm_tq_fast_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    a_rows: Int,
+    a_cols: Int,
+    b_rows: Int,
+    c_cols: Int,
+    kind: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Range-bounded body of the fast ternary GEMM (see _gemm_tq_fast).
+
+    Computes output columns [out_lo, out_hi) of C = A @ B^T. Every
+    output element is computed entirely inside this call with the same
+    accumulation order over K as the unbounded body, so partitioning
+    the output columns across threads is bit-identical to running the
+    whole range serially. kind is the GGML tensor type (34 TQ1_0,
+    35 TQ2_0). Block decode goes through dequantize_tq_block, the
+    shared scalar decode definition."""
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var weights = Pointer[UInt8, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    var blocks_per_row = a_cols // 256
+    var block_bytes = tq_block_bytes(kind)
+    var scratch = InlineArray[Float32, 256](uninitialized=True)
+    var sp = scratch.unsafe_ptr()
+    var sp_t = sp.unsafe_origin_cast[MutUntrackedOrigin]()
+    var row_start = 0
+    while row_start < a_rows:
+        var rows_here = a_rows - row_start
+        if rows_here > 256:
+            rows_here = 256
+        var acc = InlineArray[Float32, 256](fill=Float32(0.0))
+        for output in range(out_lo, out_hi):
+            for r in range(rows_here):
+                acc[r] = Float32(0.0)
+            for sb in range(blocks_per_row):
+                var block_base = (output * blocks_per_row + sb) * block_bytes
+                dequantize_tq_block(weights, block_base, kind, sp_t)
+                var k0 = sb * 256
+                for r in range(rows_here):
+                    var a_row = row_start + r
+                    var accv = SIMD[DType.float32, 16](Float32(0.0))
+                    for chunk in range(16):
+                        var wv = sp.unsafe_load[width=16](chunk * 16)
+                        var av = a_data.unsafe_load[width=16](a_row * a_cols + k0 + chunk * 16).cast[f32]()
+                        accv += wv * av
+                    acc[r] += accv.reduce_add()
+            for r in range(rows_here):
+                c_data.unsafe_store((row_start + r) * c_cols + output, acc[r].cast[f16]())
+        row_start += rows_here
+
+
+def _gemm_tq_fast_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback for _gemm_tq_fast; ctx is an Int64 slot array:
+    [A.data, B.data, C.data, A.rows, A.cols, B.rows, C.cols, kind]."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    _gemm_tq_fast_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(ctx.unsafe_load(6)),
+        Int(ctx.unsafe_load(7)),
+        Int(start),
+        Int(end),
+    )
+
+
+def _gemm_tq_fast(
+    A: RuneTensor[f16],
+    B: RuneTensor[f16],
+    mut C: RuneTensor[f16],
+    kind: Int,
+) raises:
+    """Decode-once ternary GEMM for GGML kinds 34/35.
+
+    C = A @ B^T with B held as canonical packed GGUF bytes, B[N, K],
+    K % 256 == 0. Each 256-value block of B is decoded exactly once
+    into an f32 scratch row (scalar decode via dequantize_tq_block)
+    and dotted against every row of A with f32 SIMD accumulation --
+    the same shape as _gemm_iq_fast, replacing the per-element scalar
+    GEMMs in extreme_quantization, which re-decoded every weight for
+    every output. Accumulation order over K is ascending by block;
+    output columns are partitioned across OS threads through
+    core.parallel.par_for, bit-identical to the serial body."""
+    var cp = alloc[Int64](8)
+    cp.unsafe_store(0, Int64(Int(A.data)))
+    cp.unsafe_store(1, Int64(Int(B.data)))
+    cp.unsafe_store(2, Int64(Int(C.data)))
+    cp.unsafe_store(3, Int64(A.rows))
+    cp.unsafe_store(4, Int64(A.cols))
+    cp.unsafe_store(5, Int64(B.rows))
+    cp.unsafe_store(6, Int64(C.cols))
+    cp.unsafe_store(7, Int64(kind))
+    _ = par_for[_gemm_tq_fast_worker](
+        Int64(Int(cp)),
+        B.rows,
+        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+    )
+    cp.unsafe_free()
+
+
+def gemm_tq(
+    A: RuneTensor[f16],
+    B: RuneTensor[f16],
+    mut C: RuneTensor[f16],
+    ggml_type: Int,
+    format_name: String,
+) raises:
+    """CPU F32-accumulation GEMM over canonical GGUF ternary packed
+    bytes, B[N,K], via the decode-once fast path (_gemm_tq_fast)."""
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols != A.cols or A.cols % 256 != 0:
+        raise Error(format_name + ": invalid shape or incomplete quantization block")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error(format_name + ": output matrix shape mismatch")
+    if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
+        raise Error(format_name + ": invalid storage")
+    if ggml_type != 34 and ggml_type != 35:
+        raise Error(format_name + ": unsupported GGML tensor type")
+    _gemm_tq_fast(A, B, C, ggml_type)
+
+
+def gemm_tq1_0(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    gemm_tq(A, B, C, 34, "gemm_tq1_0")
+
+
+def gemm_tq2_0(
+    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
+) raises:
+    gemm_tq(A, B, C, 35, "gemm_tq2_0")
+
 def _gemm_f16_dense_range(
     a_addr: Int64,
     b_addr: Int64,
@@ -2431,7 +2583,10 @@ def gemm_f16(
             gemm_iq1_m(A, B, C)
             return
         elif B.quant_format.value == CompressedFormatType.TERNARY_155BIT:
-            gemm_ternary_158(A, B, C)
+            gemm_tq1_0(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.TQ2_0:
+            gemm_tq2_0(A, B, C)
             return
         elif B.quant_format.value == CompressedFormatType.Q4_K_M or B.quant_format.value == CompressedFormatType.Q4_K_S:
             gemm_q4_k_m(A, B, C)

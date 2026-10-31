@@ -42,6 +42,7 @@ struct GGMLType:
     comptime IQ4_XS = 23
     comptime IQ1_M = 29
     comptime TQ1_0 = 34
+    comptime TQ2_0 = 35
     comptime BF16 = 30
 
     @staticmethod
@@ -89,6 +90,8 @@ struct GGMLType:
             return CompressedFormatType(CompressedFormatType.IQ1_M)
         elif ggml_type == GGMLType.TQ1_0:
             return CompressedFormatType(CompressedFormatType.TQ1_0)
+        elif ggml_type == GGMLType.TQ2_0:
+            return CompressedFormatType(CompressedFormatType.TQ2_0)
         raise Error("unsupported GGML tensor type " + String(ggml_type))
 
 
@@ -935,6 +938,10 @@ struct GGUFSeer:
             if element_count < 0 or element_count // 256 > 9223372036854775807 // 54:
                 raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 256) * 54
+        elif tensor_type == GGMLType.TQ2_0:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 66:
+                raise Error("GGUF tensor byte size overflows host index")
+            return (element_count // 256) * 66
         if element_count < 0 or element_count // 32 > 9223372036854775807 // 18:
             raise Error("GGUF tensor byte size overflows host index")
         return (element_count // 32) * 18

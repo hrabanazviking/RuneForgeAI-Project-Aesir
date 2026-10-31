@@ -9,7 +9,7 @@ from std.math import max, min
 from std.memory.alloc import alloc, Layout
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, CompressedFormatType, shard_split_cols, shard_split_rows, f16, f32
 from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, gelu_tanh, geglu, rmsnorm, apply_rope, apply_rope_partial_neox, dequantize_q4_0, BlockQ4_0, iq_grid_alloc, dequantize_q4_1, BlockQ4_1, dequantize_q5_0, BlockQ5_0, dequantize_q5_1, BlockQ5_1
-from .extreme_quantization import dequantize_iq_block, iq_block_bytes, dequantize_iq4_nl_block32
+from .extreme_quantization import dequantize_iq_block, iq_block_bytes, dequantize_iq4_nl_block32, tq1_0_value, tq2_0_value
 from loader.gguf import GGUFSeer
 from loader.quantization import dequantize_q4_0_block, dequantize_q8_0_block
 from .packed_quantization import packed_value, ggml_kind_of_format
@@ -992,6 +992,25 @@ def _embed_token_into(
             var src_byte_offset = (token_id * num_blocks) * block_bytes
             var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
             dequantize_q5_1(src_ptr.unsafe_bitcast[BlockQ5_1](), dst, num_blocks)
+        elif (
+            token_embd.quant_format.value == CompressedFormatType.TQ1_0
+            or token_embd.quant_format.value == CompressedFormatType.TQ2_0
+        ):
+            # Ternary embedding row: (hidden_dim // 256) blocks of
+            # 54 (TQ1_0) or 66 (TQ2_0) bytes, decoded per element via
+            # the scalar block decoders (the K-quant branch pattern).
+            if hidden_dim % 256 != 0:
+                raise Error("Inference ternary token embedding requires complete 256-value blocks")
+            var tq_is_tq2 = token_embd.quant_format.value == CompressedFormatType.TQ2_0
+            var tq_block = 66 if tq_is_tq2 else 54
+            var tq_base = token_id * (hidden_dim // 256) * tq_block
+            var tq_bytes = token_embd.data.unsafe_bitcast[UInt8]()
+            if tq_is_tq2:
+                for i in range(hidden_dim):
+                    dst.unsafe_store(i, Scalar[f16](tq2_0_value(tq_bytes, tq_base, i)))
+            else:
+                for i in range(hidden_dim):
+                    dst.unsafe_store(i, Scalar[f16](tq1_0_value(tq_bytes, tq_base, i)))
         else:
             raise Error(
                 "Inference token embedding has an unsupported quantized format: "
