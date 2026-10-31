@@ -1808,7 +1808,8 @@ def _gemm_iq_fast_range(
     accumulation order over K as the unbounded body, so partitioning
     the output columns across threads is bit-identical to running the
     whole range serially. kind is the GGML tensor type (16 IQ2_XXS,
-    17 IQ2_XS, 18 IQ3_XXS, 19 IQ1_S, 21 IQ3_S, 22 IQ2_S).
+    17 IQ2_XS, 18 IQ3_XXS, 19 IQ1_S, 20 IQ4_NL, 21 IQ3_S, 22 IQ2_S,
+    23 IQ4_XS, 29 IQ1_M).
     """
     var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
         unsafe_from_address=Int(a_addr)
@@ -1887,7 +1888,7 @@ def _gemm_iq_fast(
     mut C: RuneTensor[f16],
     kind: Int,
 ) raises:
-    """Decode-once IQ GEMM for GGML kinds 16/17/18/19/21/22.
+    """Decode-once IQ GEMM for GGML kinds 16/17/18/19/20/21/22/23/29.
 
     C = A @ B^T with B held as canonical packed GGUF bytes, B[N, K],
     K % 256 == 0. Each 256-value super-block of B is decoded exactly

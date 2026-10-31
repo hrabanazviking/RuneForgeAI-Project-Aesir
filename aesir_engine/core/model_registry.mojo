@@ -14,6 +14,20 @@ comptime NATIVE_K_QUANTS = "Q4_K_S, Q4_K_M, Q5_K_S, Q5_K_M, Q6_K"
 
 
 def gguf_quantization_name(file_type: Int) -> String:
+    """Name a GGUF `general.file_type` value (the llama.cpp `llama_ftype`
+    enum: the file's MOSTLY_* rung label).
+
+    This is a file-level label, NOT a tensor type: one file mixes many
+    tensor types under a single file_type (see docs/GEMM_KIND_REGISTRY.md).
+
+    UD (dynamic) rungs CANNOT be expressed here: GGUF carries no UD
+    marker, and a UD file declares the same file_type as its canonical
+    neighbour (UD-Q4_K_XL declares 15, like Q4_K_M; UD-Q8_K_XL declares
+    7, like Q8_0 -- S-091 header census). A UD rung's identity therefore
+    lives in its catalog name:tag / filename rung string, never in this
+    name. Values removed from the enum upstream (4/5/6, 33/34/35) and
+    any other unlisted value fall through to "unknown(...)".
+    """
     if file_type == 0:
         return "F32"
     if file_type == 1:
@@ -24,6 +38,18 @@ def gguf_quantization_name(file_type: Int) -> String:
         return "Q4_1"
     if file_type == 7:
         return "Q8_0"
+    if file_type == 8:
+        return "Q5_0"
+    if file_type == 9:
+        return "Q5_1"
+    if file_type == 10:
+        return "Q2_K"
+    if file_type == 11:
+        return "Q3_K_S"
+    if file_type == 12:
+        return "Q3_K_M"
+    if file_type == 13:
+        return "Q3_K_L"
     if file_type == 14:
         return "Q4_K_S"
     if file_type == 15:
@@ -34,8 +60,44 @@ def gguf_quantization_name(file_type: Int) -> String:
         return "Q5_K_M"
     if file_type == 18:
         return "Q6_K"
+    if file_type == 19:
+        return "IQ2_XXS"
+    if file_type == 20:
+        return "IQ2_XS"
+    if file_type == 21:
+        return "Q2_K_S"
+    if file_type == 22:
+        return "IQ3_XS"
+    if file_type == 23:
+        return "IQ3_XXS"
+    if file_type == 24:
+        return "IQ1_S"
+    if file_type == 25:
+        return "IQ4_NL"
+    if file_type == 26:
+        return "IQ3_S"
+    if file_type == 27:
+        return "IQ3_M"
+    if file_type == 28:
+        return "IQ2_S"
+    if file_type == 29:
+        return "IQ2_M"
+    if file_type == 30:
+        return "IQ4_XS"
+    if file_type == 31:
+        return "IQ1_M"
     if file_type == 32:
         return "BF16"
+    if file_type == 36:
+        return "TQ1_0"
+    if file_type == 37:
+        return "TQ2_0"
+    if file_type == 38:
+        return "MXFP4_MOE"
+    if file_type == 39:
+        return "NVFP4"
+    if file_type == 40:
+        return "Q1_0"
     return "unknown(" + String(file_type) + ")"
 
 

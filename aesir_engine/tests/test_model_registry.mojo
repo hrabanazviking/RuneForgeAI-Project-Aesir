@@ -49,6 +49,77 @@ def test_model_architecture_registry() raises:
         raise Error("GGUF Q5_K_M file type mapping drifted")
     if gguf_quantization_name(18) != "Q6_K":
         raise Error("GGUF Q6_K file type mapping drifted")
+    # S-092 kind-table freeze: the full llama_ftype table is pinned.
+    # Every value observed in the acquired stores (S-092 census of 284
+    # files: 0,1,2,3,7,10-31) plus the enum's remaining live values.
+    if gguf_quantization_name(0) != "F32":
+        raise Error("GGUF F32 file type mapping drifted")
+    if gguf_quantization_name(1) != "F16":
+        raise Error("GGUF F16 file type mapping drifted")
+    if gguf_quantization_name(2) != "Q4_0":
+        raise Error("GGUF Q4_0 file type mapping drifted")
+    if gguf_quantization_name(3) != "Q4_1":
+        raise Error("GGUF Q4_1 file type mapping drifted")
+    if gguf_quantization_name(7) != "Q8_0":
+        raise Error("GGUF Q8_0 file type mapping drifted")
+    if gguf_quantization_name(8) != "Q5_0":
+        raise Error("GGUF Q5_0 file type mapping drifted")
+    if gguf_quantization_name(9) != "Q5_1":
+        raise Error("GGUF Q5_1 file type mapping drifted")
+    if gguf_quantization_name(10) != "Q2_K":
+        raise Error("GGUF Q2_K file type mapping drifted")
+    if gguf_quantization_name(11) != "Q3_K_S":
+        raise Error("GGUF Q3_K_S file type mapping drifted")
+    if gguf_quantization_name(12) != "Q3_K_M":
+        raise Error("GGUF Q3_K_M file type mapping drifted")
+    if gguf_quantization_name(13) != "Q3_K_L":
+        raise Error("GGUF Q3_K_L file type mapping drifted")
+    if gguf_quantization_name(14) != "Q4_K_S":
+        raise Error("GGUF Q4_K_S file type mapping drifted")
+    if gguf_quantization_name(16) != "Q5_K_S":
+        raise Error("GGUF Q5_K_S file type mapping drifted")
+    if gguf_quantization_name(19) != "IQ2_XXS":
+        raise Error("GGUF IQ2_XXS file type mapping drifted")
+    if gguf_quantization_name(20) != "IQ2_XS":
+        raise Error("GGUF IQ2_XS file type mapping drifted")
+    if gguf_quantization_name(21) != "Q2_K_S":
+        raise Error("GGUF Q2_K_S file type mapping drifted")
+    if gguf_quantization_name(22) != "IQ3_XS":
+        raise Error("GGUF IQ3_XS file type mapping drifted")
+    if gguf_quantization_name(23) != "IQ3_XXS":
+        raise Error("GGUF IQ3_XXS file type mapping drifted")
+    if gguf_quantization_name(24) != "IQ1_S":
+        raise Error("GGUF IQ1_S file type mapping drifted")
+    if gguf_quantization_name(25) != "IQ4_NL":
+        raise Error("GGUF IQ4_NL file type mapping drifted")
+    if gguf_quantization_name(26) != "IQ3_S":
+        raise Error("GGUF IQ3_S file type mapping drifted")
+    if gguf_quantization_name(27) != "IQ3_M":
+        raise Error("GGUF IQ3_M file type mapping drifted")
+    if gguf_quantization_name(28) != "IQ2_S":
+        raise Error("GGUF IQ2_S file type mapping drifted")
+    if gguf_quantization_name(29) != "IQ2_M":
+        raise Error("GGUF IQ2_M file type mapping drifted")
+    if gguf_quantization_name(30) != "IQ4_XS":
+        raise Error("GGUF IQ4_XS file type mapping drifted")
+    if gguf_quantization_name(31) != "IQ1_M":
+        raise Error("GGUF IQ1_M file type mapping drifted")
+    if gguf_quantization_name(32) != "BF16":
+        raise Error("GGUF BF16 file type mapping drifted")
+    if gguf_quantization_name(36) != "TQ1_0":
+        raise Error("GGUF TQ1_0 file type mapping drifted")
+    if gguf_quantization_name(37) != "TQ2_0":
+        raise Error("GGUF TQ2_0 file type mapping drifted")
+    if gguf_quantization_name(38) != "MXFP4_MOE":
+        raise Error("GGUF MXFP4_MOE file type mapping drifted")
+    if gguf_quantization_name(39) != "NVFP4":
+        raise Error("GGUF NVFP4 file type mapping drifted")
+    if gguf_quantization_name(40) != "Q1_0":
+        raise Error("GGUF Q1_0 file type mapping drifted")
+    if gguf_quantization_name(4) != "unknown(4)":
+        raise Error("GGUF removed file type 4 must stay unnamed")
+    if gguf_quantization_name(1024) != "unknown(1024)":
+        raise Error("GGUF GUESSED file type must stay unnamed")
     if not native_quantization_supported("Q5_K_S"):
         raise Error("native K-quant support policy drifted")
     if not native_k_quantization_supported("Q6_K") or native_k_quantization_supported("F16"):

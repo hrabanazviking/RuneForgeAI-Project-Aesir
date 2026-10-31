@@ -1057,4 +1057,7 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(277)
+    # S-092 re-pin: 277 -> 278 for memory.dense_residency, registered by
+    # the janas merges into 2444d610 without re-accounting this pin
+    # (base control at 2444d610 counted 276/0/2/278 and failed here).
+    ledger.finish(278)
