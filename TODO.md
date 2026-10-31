@@ -5910,7 +5910,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.244 the
+- [x] Slice4.244 the
   A closing run's internal
   gap sequence in full; the
   B closing run's internal
@@ -5921,6 +5921,19 @@
   agreement count stated
   exactly); then broad
   ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.245 the
+  A closing run's combined
+  sequences in full; the
+  B closing run's combined
+  sequences in full; and
+  the closing-run combined
+  comparison in full
+  (sequence family by
+  sequence family, identity
+  and agreement counts
+  stated exactly); then
+  broad ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
 

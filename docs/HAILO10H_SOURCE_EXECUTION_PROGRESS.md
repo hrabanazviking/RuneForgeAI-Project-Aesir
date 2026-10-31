@@ -7348,3 +7348,30 @@ closing runs' internal gap sequences,
 compared position by position. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+Slice 4.244 (AES-NUM-244) is complete. The
+A closing run's internal gap sequence in
+full: ranks 741-748 in A-offset order, gap
+sequence [512, 512, 512, 512, 512, 512, 512].
+The B closing run's internal gap sequence
+in full: ranks 743-750 in B-offset order,
+gap sequence [712, 26624, 14848, 33280, 512,
+512, 512]. The closing-run gap comparison
+in full: gaps agree at 3 of 7 positions
+(positions 5, 6, 7) and the gap sequences
+are NOT identical; each run's printed gap
+sequence equals the sequence stated in
+AES-NUM-240 as measured in AES-NUM-231, and
+each printed gap equals the difference of
+the corresponding printed offsets from
+AES-NUM-243. The single launch finished
+DONE244, exit 0, err empty, and its first
+58,279 prefix lines differ from hef243.out
+in exactly one line (line 41611, frozenset
+element order only — the AES-NUM-150
+variance). Next: the two closing runs'
+combined sequences (size, channel, class,
+run-102 membership, offset, index and gap),
+compared sequence family by sequence
+family. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
