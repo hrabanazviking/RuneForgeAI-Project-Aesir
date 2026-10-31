@@ -69,6 +69,26 @@ def _tensor_byte_size(element_count: Int, tensor_type: UInt32) raises -> Int:
     raise Error("MoE session: unsupported GGUF tensor type " + String(Int(tensor_type)))
 
 
+def _read_expert_slabs(
+    mut reader: StreamReader,
+    seer: GGUFSeer,
+    layer: Int,
+    expert: Int,
+    gate_bytes: Int,
+    up_bytes: Int,
+    down_bytes: Int,
+    mut payload: _ExpertPayload,
+) raises:
+    """Read one expert's three slabs at directory-true offsets."""
+    var prefix = "blk." + String(layer) + "."
+    var gate_off = seer.tensor_file_offsets[prefix + "ffn_gate_exps.weight"] + expert * gate_bytes
+    var up_off = seer.tensor_file_offsets[prefix + "ffn_up_exps.weight"] + expert * up_bytes
+    var down_off = seer.tensor_file_offsets[prefix + "ffn_down_exps.weight"] + expert * down_bytes
+    reader.read_slab(gate_off, gate_bytes, payload.gate)
+    reader.read_slab(up_off, up_bytes, payload.up)
+    reader.read_slab(down_off, down_bytes, payload.down)
+
+
 struct _ExpertPayload(Movable):
     """The three slabs of one expert, as read from disk."""
 
@@ -89,6 +109,7 @@ struct MoEStreamSession(Movable):
     var reader: StreamReader
     var cache: ExpertCache
     var payloads: Dict[Int, _ExpertPayload]
+    var payload_keys: List[Int]
     var scratch: _ExpertPayload
     var layer_count: Int
     var hidden: Int
@@ -147,6 +168,7 @@ struct MoEStreamSession(Movable):
         self.reader.advise_sequential()
         self.cache = ExpertCache(cache_budget_bytes, String("segmented"))
         self.payloads = Dict[Int, _ExpertPayload]()
+        self.payload_keys = List[Int]()
         # Directory-true per-layer slab sizes: the folded tensor's byte
         # size divided by the expert count (J-015: slabs are uniform
         # within a tensor; the down tensor's type varies by layer).
@@ -216,31 +238,18 @@ struct MoEStreamSession(Movable):
         var fmt = GGMLType.to_compressed_format(tensor_type)
         return RuneTensor[f16].checked(rows, cols, ptr, True, fmt)
 
-    def _load_expert(
-        mut self, layer: Int, expert: Int, mut payload: _ExpertPayload
-    ) raises:
-        """Read one expert's three slabs at directory-true offsets."""
-        var prefix = "blk." + String(layer) + "."
-        var gate_name = prefix + "ffn_gate_exps.weight"
-        var up_name = prefix + "ffn_up_exps.weight"
-        var down_name = prefix + "ffn_down_exps.weight"
-        var gate_off = self.seer.tensor_file_offsets[gate_name] + expert * self.gate_slab_bytes[layer]
-        var up_off = self.seer.tensor_file_offsets[up_name] + expert * self.up_slab_bytes[layer]
-        var down_off = self.seer.tensor_file_offsets[down_name] + expert * self.down_slab_bytes[layer]
-        self.reader.read_slab(gate_off, self.gate_slab_bytes[layer], payload.gate)
-        self.reader.read_slab(up_off, self.up_slab_bytes[layer], payload.up)
-        self.reader.read_slab(down_off, self.down_slab_bytes[layer], payload.down)
-
-    def _reconcile_payloads(mut self):
+    def _reconcile_payloads(mut self) raises:
         """Drop payloads the cache no longer holds (evicted keys)."""
-        var stale = List[Int]()
-        for key in self.payloads.keys():
+        var kept = List[Int]()
+        for i in range(len(self.payload_keys)):
+            var key = self.payload_keys[i]
             var layer = key // 1048576
             var expert = key % 1048576
-            if not self.cache.contains(layer, expert):
-                stale.append(key)
-        for i in range(len(stale)):
-            _ = self.payloads.pop(stale[i])
+            if self.cache.contains(layer, expert):
+                kept.append(key)
+            else:
+                _ = self.payloads.pop(key)
+        self.payload_keys = kept^
 
     def _expert_ffn(
         mut self,
@@ -249,7 +258,6 @@ struct MoEStreamSession(Movable):
         xn: RuneTensor[f16],
         weight: Float32,
         mut acc: List[Float32],
-        mut work: MimirWell,
     ) raises:
         var size_bytes = (
             self.gate_slab_bytes[layer]
@@ -268,21 +276,30 @@ struct MoEStreamSession(Movable):
                 self.up_slab_bytes[layer],
                 self.down_slab_bytes[layer],
             )
-            self._load_expert(layer, expert, payload)
+            _read_expert_slabs(
+                self.reader, self.seer, layer, expert,
+                self.gate_slab_bytes[layer], self.up_slab_bytes[layer],
+                self.down_slab_bytes[layer], payload,
+            )
             self.payloads[key] = payload^
+            self.payload_keys.append(key)
         else:
             # Bypassed or larger than the whole budget: compute from a
             # scratch payload; the bytes are streamed and not retained.
             use_scratch = True
-            self._load_expert(layer, expert, self.scratch)
+            _read_expert_slabs(
+                self.reader, self.seer, layer, expert,
+                self.gate_slab_bytes[layer], self.up_slab_bytes[layer],
+                self.down_slab_bytes[layer], self.scratch,
+            )
 
         var prefix = "blk." + String(layer) + "."
         var gate_type = self.seer.tensor_types[prefix + "ffn_gate_exps.weight"]
         var up_type = self.seer.tensor_types[prefix + "ffn_up_exps.weight"]
         var down_type = self.seer.tensor_types[prefix + "ffn_down_exps.weight"]
 
-        var gate_ptr = work.allocate(self.ffn)
-        var up_ptr = work.allocate(self.ffn)
+        var gate_ptr = self.well.allocate(self.ffn)
+        var up_ptr = self.well.allocate(self.ffn)
         var gate_out = RuneTensor[f16](1, self.ffn, gate_ptr, False)
         var up_out = RuneTensor[f16](1, self.ffn, up_ptr, False)
 
@@ -297,7 +314,7 @@ struct MoEStreamSession(Movable):
                     i, up_out.data.unsafe_load(i) * gate_out.data.unsafe_load(i)
                 )
             var down_view = self._slab_tensor(self.scratch.down, self.hidden, self.ffn, down_type)
-            var down_ptr = work.allocate(self.hidden)
+            var down_ptr = self.well.allocate(self.hidden)
             var down_out = RuneTensor[f16](1, self.hidden, down_ptr, False)
             gemm_f16(up_out, down_view, down_out)
             for i in range(self.hidden):
@@ -314,7 +331,7 @@ struct MoEStreamSession(Movable):
                     i, up_out.data.unsafe_load(i) * gate_out.data.unsafe_load(i)
                 )
             var down_view = self._slab_tensor(payload.down, self.hidden, self.ffn, down_type)
-            var down_ptr = work.allocate(self.hidden)
+            var down_ptr = self.well.allocate(self.hidden)
             var down_out = RuneTensor[f16](1, self.hidden, down_ptr, False)
             gemm_f16(up_out, down_view, down_out)
             for i in range(self.hidden):
@@ -426,7 +443,7 @@ struct MoEStreamSession(Movable):
         for _ in range(self.hidden):
             acc.append(Float32(0.0))
         for i in range(len(chosen)):
-            self._expert_ffn(layer, chosen[i], x, chosen_w[i], acc, self.well)
+            self._expert_ffn(layer, chosen[i], x, chosen_w[i], acc)
         for i in range(self.hidden):
             x.data.unsafe_store(
                 i,
