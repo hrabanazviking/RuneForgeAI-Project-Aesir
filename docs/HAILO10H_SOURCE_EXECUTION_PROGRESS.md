@@ -7284,3 +7284,35 @@ runs' class and run-102 membership
 sequences, compared position by position.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.242 (AES-NUM-242) is complete. The
+A closing run's class and run-102 membership
+sequences in full: ranks 741-748 in A-offset
+order, class sequence [A-only distinct, A-only
+distinct, A-only distinct, shared
+single-positioned, A-only distinct, A-only
+distinct, A-only distinct, A-only distinct],
+run-102 membership sequence [False, False,
+False, True, False, False, False, False]. The
+B closing run's class and run-102 membership
+sequences in full: ranks 743-750 in B-offset
+order, class sequence [B-only distinct x8],
+run-102 membership sequence [False x8]. The
+closing-run class/run-102 comparison in full:
+classes agree at 0 of 8 positions (no
+positions) and the class sequences are NOT
+identical; run-102 memberships agree at 7 of
+8 positions (1, 2, 3, 5, 6, 7, 8) and the
+run-102 membership sequences are NOT
+identical; each run's printed class and
+run-102 membership sequences equal the
+sequences read off the per-act statements of
+AES-NUM-232..239 as re-stated in AES-NUM-240.
+The single launch finished DONE242, exit 0,
+err empty, and its first 58,187 prefix lines
+differ from hef241.out in exactly one line
+(line 41611, frozenset element order only —
+the AES-NUM-150 variance). Next: the two
+closing runs' offset and index sequences,
+compared position by position. Broad ordinary
+UNMODIFIED source-model support100% remains
+the destination.

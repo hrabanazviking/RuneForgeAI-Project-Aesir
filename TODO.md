@@ -5881,7 +5881,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.242 the
+- [x] Slice4.242 the
   A closing run's class
   and run-102 membership
   sequences in full; the
@@ -5890,6 +5890,20 @@
   sequences in full; and
   the closing-run
   class/run-102 comparison
+  in full (position by
+  position, agreement
+  counts stated exactly);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.243 the
+  A closing run's offset
+  and index sequences
+  in full; the B closing
+  run's offset and index
+  sequences in full; and
+  the closing-run
+  offset/index comparison
   in full (position by
   position, agreement
   counts stated exactly);
