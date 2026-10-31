@@ -7174,3 +7174,43 @@ full, and the closing-run eighth-act
 comparison. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.239 (AES-NUM-239) is complete. The
+act at A-offset rank 748 in full: (791780864,
+24, 0) at A 748, rank 748, the A closing run's
+eighth and last act and the last act of
+context A in A-offset order, A-only distinct,
+occurrences A [748] / B none, incoming gap
++512 from A 747 at rank 747, not its own size,
+and NO outgoing gap — terminal in A-offset
+order, its offset-order predecessor exactly
+its index predecessor. The act at B-offset
+rank 750 in full: (1196445696, 24, 0) at B 738,
+rank 750, the B closing run's eighth and last
+act and the last act of context B in B-offset
+order, B-only distinct, occurrences A none /
+B [738], incoming gap +512 from B 737 at rank
+749, not its own size, and NO outgoing gap —
+terminal in B-offset order. The closing-run
+eighth-act comparison in full: A eighth act
+rank 748 index 748, A-only, in run 102 NO,
+incoming +512, terminal; B eighth act rank 750
+index 738, B-only, in run 102 NO, incoming
++512, terminal; each incoming gap equals the
+seventh gap of its own run's gap sequence as
+measured in AES-NUM-231 — and the two eighth
+acts agree in incoming gap and terminal
+status, differing only in class label. The
+AES-NUM-238 comparison defect fix is proven
+in print: the printed consistency check holds
+on both sides (TRUE). The single launch
+finished DONE239, exit 0, err empty, and its
+first 58,037 prefix lines differ from
+hef238.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance). With this slice both
+closing runs are walked in full in the paired
+sequence (4.232-4.239). Next: the two closing
+runs in full side by side, with their gap
+sequences. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.

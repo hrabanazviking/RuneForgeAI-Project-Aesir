@@ -5824,7 +5824,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.239 the
+- [x] Slice4.239 the
   act at A-offset
   rank 748 in full
   ((791780864, 24, 0)
@@ -5846,6 +5846,24 @@
   (the two closing
   runs' eighth acts
   side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.240 the
+  A closing run in
+  full (all eight acts
+  at A-offset ranks
+  741-748, gap sequence
+  stated exactly); the
+  B closing run in
+  full (all eight acts
+  at B-offset ranks
+  743-750, gap sequence
+  stated exactly); and
+  the closing-run full
+  comparison in full
+  (the two runs side
+  by side, act by act);
   then broad
   ordinary UNMODIFIED
   source-model support100%.
