@@ -630,6 +630,31 @@ struct AesirEngine:
     # into NO live session path: no session consumes a
     # co-work placement yet. The learned file is J-044,
     # re-trials J-045. See docs/janas/J043_COWORK_PASSES.md.
+    #
+    # The learned file (Janas road J-044): placement + thread
+    # choices persisted between sessions live in
+    # core/learned_file.mojo -- load_learned_file() loads the
+    # file at open from learned_file_path() (AESIR_LEARNED_FILE,
+    # else AESIR_CACHE_HOME, else $HOME/.cache/aesir, in Aesir's
+    # own versioned text format), keyed exactly by machine
+    # (derived from J-037's CPU/GPU facts) + model shape (the
+    # GGUF config's shape fields, mapped by the host). A missing
+    # file is the clean MISSING state and a corrupt/truncated
+    # file a clean REFUSED state with its reason -- neither
+    # raises through open and neither partially applies; a key
+    # mismatch (lookup_learned) names which half of the key
+    # failed. Learned values are DEFAULTS ONLY: an explicit
+    # --*-on option overrides them always (manual supremacy;
+    # J-047 owns the refusal surface). A kind whose chooser
+    # refused is stored absent; no expert map is stored (J-027
+    # measured rejection -- the format has no line for one).
+    # store_learned_entry() learns a fresh measured choice with
+    # its measured-at stamp (J-045's re-trial provenance);
+    # erase_learned_file() / erase_learned_entry() erase;
+    # LearnedLoad.report() is the show-on-request dump. This
+    # slice wires the module into NO live session path: no
+    # session consumes a learned choice yet. Re-trials are
+    # J-045. See docs/janas/J044_LEARNED_FILE.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
