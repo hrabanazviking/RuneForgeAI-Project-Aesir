@@ -15,15 +15,17 @@ pos = int(sys.argv[3])
 aes = {}
 routes_a = {}
 for line in open(sys.argv[2]):
-    parts = line.strip().split(" ", 2)
+    parts = line.strip().split(" ", 1)
     if parts[0] == "DUMP":
-        vals = np.array([int(x) for x in parts[2].split(",") if x != ""], dtype=np.float64) / 1e6
-        aes[int(parts[1])] = vals
+        fields = [x for x in parts[1].split(",") if x != ""]
+        vals = np.array([int(x) for x in fields[1:]], dtype=np.float64) / 1e6
+        aes[int(fields[0])] = vals
     elif parts[0] == "ROUTE":
-        nums = [x for x in parts[2].split(",") if x != ""]
+        fields = [x for x in parts[1].split(",") if x != ""]
+        nums = fields[1:]
         exps = [int(nums[i]) for i in range(0, len(nums), 2)]
         ws = [int(nums[i]) / 1e6 for i in range(1, len(nums), 2)]
-        routes_a[int(parts[1])] = (exps, ws)
+        routes_a[int(fields[0])] = (exps, ws)
     elif parts[0] == "NEXT":
         print("aesir NEXT pick:", parts[1])
 
