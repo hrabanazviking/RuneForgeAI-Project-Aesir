@@ -239,15 +239,29 @@ struct MoEStreamSession(Movable):
         return RuneTensor[f16].checked(rows, cols, ptr, True, fmt)
 
     def _reconcile_payloads(mut self) raises:
-        """Drop payloads the cache no longer holds (evicted keys)."""
+        """Drop payloads the cache no longer holds (evicted keys).
+
+        Duplicate-safe: an evict-then-readmit cycle can leave a key
+        listed twice (the readmission's reconcile sees the key as
+        contained because the cache admitted it before the payload
+        bookkeeping ran), so a key is kept once and popped at most
+        once -- the second pop of the same key is the DictKeyError
+        this guard exists to prevent.
+        """
         var kept = List[Int]()
         for i in range(len(self.payload_keys)):
             var key = self.payload_keys[i]
             var layer = key // 1048576
             var expert = key % 1048576
             if self.cache.contains(layer, expert):
-                kept.append(key)
-            else:
+                var already = False
+                for j in range(len(kept)):
+                    if kept[j] == key:
+                        already = True
+                        break
+                if not already:
+                    kept.append(key)
+            elif key in self.payloads:
                 _ = self.payloads.pop(key)
         self.payload_keys = kept^
 
@@ -267,15 +281,6 @@ struct MoEStreamSession(Movable):
         var code = self.cache.access(layer, expert, size_bytes)
         var key = layer * 1048576 + expert
         var use_scratch = False
-        if code == ACCESS_HIT and key not in self.payloads:
-            print(
-                "[MOE-DEBUG] HIT without payload: layer=",
-                layer,
-                " expert=",
-                expert,
-                " contains=",
-                self.cache.contains(layer, expert),
-            )
         if code == ACCESS_HIT:
             pass
         elif code == ACCESS_MISS_ADMITTED:
@@ -291,7 +296,13 @@ struct MoEStreamSession(Movable):
                 self.down_slab_bytes[layer], payload,
             )
             self.payloads[key] = payload^
-            self.payload_keys.append(key)
+            var listed = False
+            for j in range(len(self.payload_keys)):
+                if self.payload_keys[j] == key:
+                    listed = True
+                    break
+            if not listed:
+                self.payload_keys.append(key)
         else:
             # Bypassed or larger than the whole budget: compute from a
             # scratch payload; the bytes are streamed and not retained.

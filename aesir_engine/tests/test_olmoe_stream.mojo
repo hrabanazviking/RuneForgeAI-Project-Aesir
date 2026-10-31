@@ -55,8 +55,6 @@ def main() raises:
     var t0 = seconds()
     var next_token = 0
     for i in range(len(tokens)):
-        print("[STEP] prompt index", i)
-        _ = external_call["fflush", Int32](Int(0))
         next_token = session.step(tokens[i])
     var t1 = seconds()
     var generated = List[Int]()
