@@ -1,0 +1,17 @@
+WAITER_START 2026-10-31T08:36:14-04:00
+WAITER_GAP 2026-10-31T09:08:16-04:00 s093 gone; settling 10 s
+RUN_EXIT=0 leg=idle
+Generated IDs: [187, 187, 510, 1708, 5967, 6225, 327, 247, 33848, 562, 68, 1658, 13, 253, 760, 581, 323, 6574, 1475, 15, 733, 369, 247, 10086]
+[CACHE] accesses=11648 hits=3007 misses=8641 cold_misses=950 hit_rate_per_mille=258 bypasses=7376 too_large=0 admissions=1265 promotions=192 evictions=1125 evicted_before_reuse=3387 bytes_streamed=32948699136 bytes_evicted=4275437568 bytes_resident_now=532217856 entries_now=140 budget_bytes=536870912
+[STREAM] StreamReader(path=/home/volmarr/aesir-gpu/.aesir/models/olmoe-1b-7b-0924-instruct-q4_k_m.gguf, reads=25923, bytes_read=32948699136, advice_calls=34945, advised_bytes=44370493440)
+TIMING prompt_tokens= 67  prefill_s= 28.04011405305937  generated= 24  decode_s= 9.38856033293996
+LEG_DONE leg=idle rc=0
+WAITER_IDLE_RC=0
+RUN_EXIT=0 leg=loaded
+Generated IDs: [187, 187, 510, 1708, 5967, 6225, 327, 247, 33848, 562, 68, 1658, 13, 253, 760, 581, 323, 6574, 1475, 15, 733, 369, 247, 10086]
+[CACHE] accesses=11648 hits=3007 misses=8641 cold_misses=950 hit_rate_per_mille=258 bypasses=7376 too_large=0 admissions=1265 promotions=192 evictions=1125 evicted_before_reuse=3387 bytes_streamed=32948699136 bytes_evicted=4275437568 bytes_resident_now=532217856 entries_now=140 budget_bytes=536870912
+[STREAM] StreamReader(path=/home/volmarr/aesir-gpu/.aesir/models/olmoe-1b-7b-0924-instruct-q4_k_m.gguf, reads=25923, bytes_read=32948699136, advice_calls=34945, advised_bytes=44370493440)
+TIMING prompt_tokens= 67  prefill_s= 29.474192671012133  generated= 24  decode_s= 10.142578561906703
+LEG_DONE leg=loaded rc=0
+WAITER_LOADED_RC=0
+WAITER_DONE 2026-10-31T09:09:56-04:00

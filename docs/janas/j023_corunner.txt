@@ -1,0 +1,4 @@
+CORUNNER workers=4 holder_bytes=10737418240 mem_available_at_start=39072579584
+CORUNNER holder filled rss_target=10737418240
+CORUNNER spinners=[1077897, 1080763, 1083725, 1087536]
+CORUNNER stopped cleanly

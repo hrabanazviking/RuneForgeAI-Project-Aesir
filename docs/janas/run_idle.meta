@@ -1,0 +1,6 @@
+LEG=idle time=2026-10-31T09:08:26-04:00
+start: loadavg=1.86 2.55 3.33 tctl=+55.0°C mem_available_kb=38282652
+RUN_EXIT=0 leg=idle
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:37.91
+	Maximum resident set size (kbytes): 1938424
+end: loadavg=2.98 2.73 3.35 tctl=+66.9°C mem_available_kb=38126620
