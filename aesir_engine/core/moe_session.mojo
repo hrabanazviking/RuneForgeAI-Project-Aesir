@@ -5,7 +5,10 @@ The resident set (J-017 D1) -- embeddings, attention, norms, routers,
 output head -- is read through the ordinary GGUFSeer mmap. The routed
 experts are NEVER touched through the mmap: each (layer, expert) is
 admitted, bypassed, or refused by the J-018 ExpertCache (whole-expert
-unit, byte budget, segmented probationary/frequency policy), and its
+unit, byte budget, fsketch frequency-sketch policy -- the J-024
+tournament winner, made the shipping default by the J-024 integration
+step after its real-module replay reproduced the tournament counters
+exactly), and its
 three slabs are read from the file at directory-true offsets through
 the J-019 StreamReader (explicit pread + willneed advice for the next
 selected expert). Payload bytes live in per-expert buffers whose total
@@ -184,7 +187,7 @@ struct MoEStreamSession(Movable):
         )
         self.reader = StreamReader(path)
         self.reader.advise_sequential()
-        self.cache = ExpertCache(cache_budget_bytes, String("segmented"))
+        self.cache = ExpertCache(cache_budget_bytes, String("fsketch"))
         self.payloads = Dict[Int, _ExpertPayload]()
         self.payload_keys = List[Int]()
         # Directory-true per-layer slab sizes: the folded tensor's byte
