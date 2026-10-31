@@ -58,6 +58,19 @@ KV cache are never cannibalised -- the pressure reserve re-charges
 them on every call. Like the pool discipline, this is a host
 contract over the cache layer, unit-tested there; no OS sampling
 is faked inside the engine.
+
+GPU division (J-031): this session still computes on the host; no
+code path here touches a device. The GPU-assisted division of this
+machinery is planned, in bytes, by core/moe_gpu_plan.mojo
+(plan_moe_gpu_division / plan_moe_gpu_token_transfers): the resident
+set is the device-resident candidate, streamed experts would be
+uploaded on a device-cache miss and computed where they land, and a
+token's transfer account is taken from this cache's own statistics.
+The host contract, the grading discipline (token identity against
+the CPU line first), and the exact build/run recipe for the live
+leg live in docs/janas/J031_STREAMING_GPU_LINE.md; the live leg
+itself is deferred there, with reasons, to the J-034 gate. Nothing
+in this module may claim GPU execution until that leg lands.
 """
 from std.collections import Dict
 from std.math import exp
