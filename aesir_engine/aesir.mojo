@@ -495,6 +495,25 @@ struct AesirEngine:
     # unmeasurable-with-reason (gap G1 above; no pass exists to
     # measure) and co-work candidates likewise (J-043 owns the
     # split pass). See docs/janas/J038_PLACEMENT_MEASUREMENT_HARNESS.md.
+    #
+    # Thread topology trials (Janas road J-039): the thread-count
+    # axis of the same measurement step lives in
+    # core/thread_topology.mojo -- derive_thread_ladder() derives
+    # the candidate counts from the inventory's CPU facts alone
+    # (serial / half / all-physical / all-logical, and a
+    # performance-only rung only when the machine itself states a
+    # hybrid split; otherwise NOT APPLICABLE-WITH-REASON, never
+    # invented), and run_thread_trials() measures every rung per
+    # pass kind under the J-038 discipline (settle discarded,
+    # median of measured rounds, hard bounds) through the engine's
+    # own thread layer (AESIR_THREADS + par_for, checksums asserted
+    # bit-identical to the serial workload at every count). The
+    # i9 lesson (more threads can be slower) is graded per kind by
+    # a pre-registered rule, not assumed. Draft-check rungs record
+    # as unmeasurable-with-reason (gap G1 above). This slice wires
+    # the trials into NO live session path: no session consumes a
+    # thread verdict yet; auto choice is J-040--J-042. See
+    # docs/janas/J039_THREAD_TOPOLOGY.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
