@@ -463,6 +463,20 @@ struct AesirEngine:
     # does not exist yet (J-035 gap G1, Part V J-071/J-072), and
     # placement_options.require_draft_check_use fails closed until
     # it does. See docs/janas/J036_PLACEMENT_OPTIONS.md.
+    #
+    # Device inventory (Janas road J-037): the machine truth the
+    # placement surface deliberately does not carry lives in
+    # core/device_inventory.mojo -- observe_device_inventory()
+    # probes CPU topology from /proc/cpuinfo, the GPU through the
+    # nvidia-smi-class probe with its failure as the reason, and
+    # reports the NPU strictly from Aesir's ledgers (the Hailo is
+    # parked by campaign law: reported, never probed, never run).
+    # Its device_line() is the bench-style line a surface prints at
+    # open beside the placement report above; require_device_present
+    # is the feed point J-047's generalised refusal consumes. No
+    # surface consumes the inventory yet; claiming otherwise would
+    # fake an integration that does not exist. See
+    # docs/janas/J037_DEVICE_INVENTORY.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
