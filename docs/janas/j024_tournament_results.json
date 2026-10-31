@@ -1,0 +1,1913 @@
+{
+ "trace_sha256": "85e1d2413cbfcd43516a03d8463c7266d486cf0f0d0a6ed3104d09111facf99a",
+ "n_tokens": 577,
+ "n_accesses": 73856,
+ "total_pairs": 1024,
+ "mean_scaled_pair_bytes": 3720,
+ "validation_gate": {
+  "replica_vs_j018": {
+   "lru@128": "EXACT",
+   "lru@512": "EXACT",
+   "lfu@128": "EXACT",
+   "lfu@512": "EXACT",
+   "segmented@128": "EXACT",
+   "segmented@512": "EXACT"
+  },
+  "fast_vs_replica": {
+   "lru@128": "EXACT",
+   "lru@512": "EXACT",
+   "lfu@128": "EXACT",
+   "lfu@512": "EXACT",
+   "segmented@128": "EXACT",
+   "segmented@512": "EXACT"
+  }
+ },
+ "global_runs": {
+  "lru@128": {
+   "accesses": 73856,
+   "hits": 13733,
+   "misses": 60123,
+   "cold": 1024,
+   "hit_rate": 0.185943,
+   "bypasses": 0,
+   "admissions": 60123,
+   "promotions": 0,
+   "evictions": 59995,
+   "evicted_before_reuse": 58369,
+   "streamed_full_bytes": 228987764736,
+   "streamed_mb_per_token": 396.859,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "lru@256": {
+   "accesses": 73856,
+   "hits": 33416,
+   "misses": 40440,
+   "cold": 1024,
+   "hit_rate": 0.452448,
+   "bypasses": 0,
+   "admissions": 40440,
+   "promotions": 0,
+   "evictions": 40185,
+   "evicted_before_reuse": 39204,
+   "streamed_full_bytes": 153917521920,
+   "streamed_mb_per_token": 266.755,
+   "entries_now": 255,
+   "resident_scaled": 949920
+  },
+  "lru@512": {
+   "accesses": 73856,
+   "hits": 54691,
+   "misses": 19165,
+   "cold": 1024,
+   "hit_rate": 0.740509,
+   "bypasses": 0,
+   "admissions": 19165,
+   "promotions": 0,
+   "evictions": 18653,
+   "evicted_before_reuse": 18131,
+   "streamed_full_bytes": 72974843904,
+   "streamed_mb_per_token": 126.473,
+   "entries_now": 512,
+   "resident_scaled": 1902000
+  },
+  "lru@1024": {
+   "accesses": 73856,
+   "hits": 72832,
+   "misses": 1024,
+   "cold": 1024,
+   "hit_rate": 0.986135,
+   "bypasses": 0,
+   "admissions": 1024,
+   "promotions": 0,
+   "evictions": 0,
+   "evicted_before_reuse": 0,
+   "streamed_full_bytes": 3900702720,
+   "streamed_mb_per_token": 6.76,
+   "entries_now": 1024,
+   "resident_scaled": 3809280
+  },
+  "lfu@128": {
+   "accesses": 73856,
+   "hits": 22215,
+   "misses": 51641,
+   "cold": 1024,
+   "hit_rate": 0.300788,
+   "bypasses": 0,
+   "admissions": 51641,
+   "promotions": 0,
+   "evictions": 51514,
+   "evicted_before_reuse": 50139,
+   "streamed_full_bytes": 196565532672,
+   "streamed_mb_per_token": 340.668,
+   "entries_now": 127,
+   "resident_scaled": 474288
+  },
+  "lfu@256": {
+   "accesses": 73856,
+   "hits": 36610,
+   "misses": 37246,
+   "cold": 1024,
+   "hit_rate": 0.495694,
+   "bypasses": 0,
+   "admissions": 37246,
+   "promotions": 0,
+   "evictions": 36990,
+   "evicted_before_reuse": 36063,
+   "streamed_full_bytes": 142045347840,
+   "streamed_mb_per_token": 246.179,
+   "entries_now": 256,
+   "resident_scaled": 950736
+  },
+  "lfu@512": {
+   "accesses": 73856,
+   "hits": 55200,
+   "misses": 18656,
+   "cold": 1024,
+   "hit_rate": 0.7474,
+   "bypasses": 0,
+   "admissions": 18656,
+   "promotions": 0,
+   "evictions": 18144,
+   "evicted_before_reuse": 17620,
+   "streamed_full_bytes": 71089717248,
+   "streamed_mb_per_token": 123.206,
+   "entries_now": 512,
+   "resident_scaled": 1904112
+  },
+  "lfu@1024": {
+   "accesses": 73856,
+   "hits": 72832,
+   "misses": 1024,
+   "cold": 1024,
+   "hit_rate": 0.986135,
+   "bypasses": 0,
+   "admissions": 1024,
+   "promotions": 0,
+   "evictions": 0,
+   "evicted_before_reuse": 0,
+   "streamed_full_bytes": 3900702720,
+   "streamed_mb_per_token": 6.76,
+   "entries_now": 1024,
+   "resident_scaled": 3809280
+  },
+  "segmented@128": {
+   "accesses": 73856,
+   "hits": 24605,
+   "misses": 49251,
+   "cold": 1024,
+   "hit_rate": 0.333148,
+   "bypasses": 42551,
+   "admissions": 6700,
+   "promotions": 1021,
+   "evictions": 6573,
+   "evicted_before_reuse": 35416,
+   "streamed_full_bytes": 187499200512,
+   "streamed_mb_per_token": 324.955,
+   "entries_now": 127,
+   "resident_scaled": 470064
+  },
+  "segmented@256": {
+   "accesses": 73856,
+   "hits": 38433,
+   "misses": 35423,
+   "cold": 1024,
+   "hit_rate": 0.520377,
+   "bypasses": 26392,
+   "admissions": 9031,
+   "promotions": 1840,
+   "evictions": 8775,
+   "evicted_before_reuse": 29025,
+   "streamed_full_bytes": 134959104000,
+   "streamed_mb_per_token": 233.898,
+   "entries_now": 256,
+   "resident_scaled": 949680
+  },
+  "segmented@512": {
+   "accesses": 73856,
+   "hits": 56165,
+   "misses": 17691,
+   "cold": 1024,
+   "hit_rate": 0.760466,
+   "bypasses": 8149,
+   "admissions": 9542,
+   "promotions": 3089,
+   "evictions": 9031,
+   "evicted_before_reuse": 14728,
+   "streamed_full_bytes": 67477831680,
+   "streamed_mb_per_token": 116.946,
+   "entries_now": 511,
+   "resident_scaled": 1898544
+  },
+  "segmented@1024": {
+   "accesses": 73856,
+   "hits": 70905,
+   "misses": 2951,
+   "cold": 1024,
+   "hit_rate": 0.960044,
+   "bypasses": 377,
+   "admissions": 2574,
+   "promotions": 1749,
+   "evictions": 1611,
+   "evicted_before_reuse": 1618,
+   "streamed_full_bytes": 11253891072,
+   "streamed_mb_per_token": 19.504,
+   "entries_now": 963,
+   "resident_scaled": 3584208
+  },
+  "rda@128": {
+   "accesses": 73856,
+   "hits": 19033,
+   "misses": 54823,
+   "cold": 1024,
+   "hit_rate": 0.257704,
+   "bypasses": 46352,
+   "admissions": 8471,
+   "promotions": 0,
+   "evictions": 8344,
+   "evicted_before_reuse": 53797,
+   "streamed_full_bytes": 208744513536,
+   "streamed_mb_per_token": 361.776,
+   "entries_now": 127,
+   "resident_scaled": 473232
+  },
+  "rda@256": {
+   "accesses": 73856,
+   "hits": 32678,
+   "misses": 41178,
+   "cold": 1024,
+   "hit_rate": 0.442456,
+   "bypasses": 27889,
+   "admissions": 13289,
+   "promotions": 0,
+   "evictions": 13033,
+   "evicted_before_reuse": 39574,
+   "streamed_full_bytes": 156728770560,
+   "streamed_mb_per_token": 271.627,
+   "entries_now": 256,
+   "resident_scaled": 950736
+  },
+  "rda@512": {
+   "accesses": 73856,
+   "hits": 52988,
+   "misses": 20868,
+   "cold": 1024,
+   "hit_rate": 0.71745,
+   "bypasses": 9295,
+   "admissions": 11573,
+   "promotions": 0,
+   "evictions": 11063,
+   "evicted_before_reuse": 19772,
+   "streamed_full_bytes": 79502868480,
+   "streamed_mb_per_token": 137.787,
+   "entries_now": 510,
+   "resident_scaled": 1904592
+  },
+  "rda@1024": {
+   "accesses": 73856,
+   "hits": 72832,
+   "misses": 1024,
+   "cold": 1024,
+   "hit_rate": 0.986135,
+   "bypasses": 0,
+   "admissions": 1024,
+   "promotions": 0,
+   "evictions": 0,
+   "evicted_before_reuse": 0,
+   "streamed_full_bytes": 3900702720,
+   "streamed_mb_per_token": 6.76,
+   "entries_now": 1024,
+   "resident_scaled": 3809280
+  },
+  "fsketch@128": {
+   "accesses": 73856,
+   "hits": 25953,
+   "misses": 47903,
+   "cold": 1024,
+   "hit_rate": 0.3514,
+   "bypasses": 46724,
+   "admissions": 1179,
+   "promotions": 0,
+   "evictions": 1050,
+   "evicted_before_reuse": 22335,
+   "streamed_full_bytes": 182425387008,
+   "streamed_mb_per_token": 316.162,
+   "entries_now": 129,
+   "resident_scaled": 474336
+  },
+  "fsketch@256": {
+   "accesses": 73856,
+   "hits": 39394,
+   "misses": 34462,
+   "cold": 1024,
+   "hit_rate": 0.533389,
+   "bypasses": 32689,
+   "admissions": 1773,
+   "promotions": 0,
+   "evictions": 1516,
+   "evicted_before_reuse": 20797,
+   "streamed_full_bytes": 131338125312,
+   "streamed_mb_per_token": 227.622,
+   "entries_now": 257,
+   "resident_scaled": 949968
+  },
+  "fsketch@512": {
+   "accesses": 73856,
+   "hits": 56781,
+   "misses": 17075,
+   "cold": 1024,
+   "hit_rate": 0.768807,
+   "bypasses": 14895,
+   "admissions": 2180,
+   "promotions": 0,
+   "evictions": 1668,
+   "evicted_before_reuse": 12194,
+   "streamed_full_bytes": 65190789120,
+   "streamed_mb_per_token": 112.982,
+   "entries_now": 512,
+   "resident_scaled": 1903056
+  },
+  "fsketch@1024": {
+   "accesses": 73856,
+   "hits": 72832,
+   "misses": 1024,
+   "cold": 1024,
+   "hit_rate": 0.986135,
+   "bypasses": 0,
+   "admissions": 1024,
+   "promotions": 0,
+   "evictions": 0,
+   "evicted_before_reuse": 0,
+   "streamed_full_bytes": 3900702720,
+   "streamed_mb_per_token": 6.76,
+   "entries_now": 1024,
+   "resident_scaled": 3809280
+  }
+ },
+ "per_prompt_global": {
+  "lru@128": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 1449,
+    "hit_rate": 0.159441,
+    "streamed_mb_per_token": 409.98
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 4132,
+    "hit_rate": 0.322813,
+    "streamed_mb_per_token": 329.886
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 3144,
+    "hit_rate": 0.190407,
+    "streamed_mb_per_token": 394.949
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 1682,
+    "hit_rate": 0.144402,
+    "streamed_mb_per_token": 417.108
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 1542,
+    "hit_rate": 0.132383,
+    "streamed_mb_per_token": 422.82
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 1784,
+    "hit_rate": 0.146711,
+    "streamed_mb_per_token": 415.883
+   }
+  },
+  "lru@512": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 5919,
+    "hit_rate": 0.651298,
+    "streamed_mb_per_token": 169.874
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 12031,
+    "hit_rate": 0.939922,
+    "streamed_mb_per_token": 29.312
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 13854,
+    "hit_rate": 0.839026,
+    "streamed_mb_per_token": 78.606
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 7179,
+    "hit_rate": 0.616329,
+    "streamed_mb_per_token": 187.023
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 7657,
+    "hit_rate": 0.657366,
+    "streamed_mb_per_token": 166.788
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 8051,
+    "hit_rate": 0.662089,
+    "streamed_mb_per_token": 164.69
+   }
+  },
+  "lfu@128": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 2423,
+    "hit_rate": 0.266615,
+    "streamed_mb_per_token": 357.471
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 5979,
+    "hit_rate": 0.467109,
+    "streamed_mb_per_token": 259.866
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 6719,
+    "hit_rate": 0.406916,
+    "streamed_mb_per_token": 289.107
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 2486,
+    "hit_rate": 0.213427,
+    "streamed_mb_per_token": 383.452
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 2379,
+    "hit_rate": 0.204241,
+    "streamed_mb_per_token": 387.227
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 2229,
+    "hit_rate": 0.183306,
+    "streamed_mb_per_token": 397.598
+   }
+  },
+  "lfu@512": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 6321,
+    "hit_rate": 0.695533,
+    "streamed_mb_per_token": 148.771
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 10747,
+    "hit_rate": 0.839609,
+    "streamed_mb_per_token": 78.467
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 14109,
+    "hit_rate": 0.854469,
+    "streamed_mb_per_token": 71.33
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 7905,
+    "hit_rate": 0.678657,
+    "streamed_mb_per_token": 156.585
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 8150,
+    "hit_rate": 0.699691,
+    "streamed_mb_per_token": 145.756
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 7968,
+    "hit_rate": 0.655263,
+    "streamed_mb_per_token": 168.061
+   }
+  },
+  "segmented@128": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 1622,
+    "hit_rate": 0.178477,
+    "streamed_mb_per_token": 400.245
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 6526,
+    "hit_rate": 0.509844,
+    "streamed_mb_per_token": 239.075
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 6552,
+    "hit_rate": 0.396802,
+    "streamed_mb_per_token": 294.091
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 2922,
+    "hit_rate": 0.250859,
+    "streamed_mb_per_token": 365.023
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 3276,
+    "hit_rate": 0.28125,
+    "streamed_mb_per_token": 349.491
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 3707,
+    "hit_rate": 0.304852,
+    "streamed_mb_per_token": 339.114
+   }
+  },
+  "segmented@512": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 4847,
+    "hit_rate": 0.533341,
+    "streamed_mb_per_token": 227.739
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 11707,
+    "hit_rate": 0.914609,
+    "streamed_mb_per_token": 41.757
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 14243,
+    "hit_rate": 0.862585,
+    "streamed_mb_per_token": 67.256
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 7975,
+    "hit_rate": 0.684667,
+    "streamed_mb_per_token": 153.66
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 8428,
+    "hit_rate": 0.723558,
+    "streamed_mb_per_token": 134.594
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 8965,
+    "hit_rate": 0.737253,
+    "streamed_mb_per_token": 128.69
+   }
+  },
+  "rda@128": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 1789,
+    "hit_rate": 0.196853,
+    "streamed_mb_per_token": 391.723
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 4976,
+    "hit_rate": 0.38875,
+    "streamed_mb_per_token": 297.676
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 4612,
+    "hit_rate": 0.279312,
+    "streamed_mb_per_token": 351.671
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 2387,
+    "hit_rate": 0.204928,
+    "streamed_mb_per_token": 387.51
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 2657,
+    "hit_rate": 0.228108,
+    "streamed_mb_per_token": 375.833
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 2612,
+    "hit_rate": 0.214803,
+    "streamed_mb_per_token": 382.471
+   }
+  },
+  "rda@512": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 5891,
+    "hit_rate": 0.648217,
+    "streamed_mb_per_token": 171.384
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 10981,
+    "hit_rate": 0.857891,
+    "streamed_mb_per_token": 69.434
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 12747,
+    "hit_rate": 0.771984,
+    "streamed_mb_per_token": 111.36
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 7453,
+    "hit_rate": 0.639852,
+    "streamed_mb_per_token": 175.523
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 7762,
+    "hit_rate": 0.66638,
+    "streamed_mb_per_token": 162.366
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 8154,
+    "hit_rate": 0.670559,
+    "streamed_mb_per_token": 160.819
+   }
+  },
+  "fsketch@128": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 2443,
+    "hit_rate": 0.268816,
+    "streamed_mb_per_token": 356.589
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 6729,
+    "hit_rate": 0.525703,
+    "streamed_mb_per_token": 231.345
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 6767,
+    "hit_rate": 0.409823,
+    "streamed_mb_per_token": 287.593
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 2945,
+    "hit_rate": 0.252833,
+    "streamed_mb_per_token": 364.372
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 3358,
+    "hit_rate": 0.28829,
+    "streamed_mb_per_token": 346.207
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 3711,
+    "hit_rate": 0.305181,
+    "streamed_mb_per_token": 339.061
+   }
+  },
+  "fsketch@512": {
+   "prose": {
+    "accesses": 9088,
+    "hits": 6256,
+    "hit_rate": 0.68838,
+    "streamed_mb_per_token": 152.178
+   },
+   "code": {
+    "accesses": 12800,
+    "hits": 11195,
+    "hit_rate": 0.874609,
+    "streamed_mb_per_token": 61.417
+   },
+   "structured": {
+    "accesses": 16512,
+    "hits": 14124,
+    "hit_rate": 0.855378,
+    "streamed_mb_per_token": 70.872
+   },
+   "numbers": {
+    "accesses": 11648,
+    "hits": 7810,
+    "hit_rate": 0.670501,
+    "streamed_mb_per_token": 161.165
+   },
+   "instructions": {
+    "accesses": 11648,
+    "hits": 8407,
+    "hit_rate": 0.721755,
+    "streamed_mb_per_token": 135.44
+   },
+   "technical": {
+    "accesses": 12160,
+    "hits": 8989,
+    "hit_rate": 0.739227,
+    "streamed_mb_per_token": 127.483
+   }
+  }
+ },
+ "isolated_runs": {
+  "lru@128:prose": {
+   "accesses": 9088,
+   "hits": 1500,
+   "misses": 7588,
+   "cold": 975,
+   "hit_rate": 0.165053,
+   "bypasses": 0,
+   "admissions": 7588,
+   "promotions": 0,
+   "evictions": 7460,
+   "evicted_before_reuse": 6613,
+   "streamed_full_bytes": 28914548736,
+   "streamed_mb_per_token": 407.247,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "lru@128:code": {
+   "accesses": 12800,
+   "hits": 4092,
+   "misses": 8708,
+   "cold": 700,
+   "hit_rate": 0.319688,
+   "bypasses": 0,
+   "admissions": 8708,
+   "promotions": 0,
+   "evictions": 8580,
+   "evicted_before_reuse": 8008,
+   "streamed_full_bytes": 33140932608,
+   "streamed_mb_per_token": 331.409,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "lru@128:structured": {
+   "accesses": 16512,
+   "hits": 3135,
+   "misses": 13377,
+   "cold": 912,
+   "hit_rate": 0.189862,
+   "bypasses": 0,
+   "admissions": 13377,
+   "promotions": 0,
+   "evictions": 13249,
+   "evicted_before_reuse": 12436,
+   "streamed_full_bytes": 50983501824,
+   "streamed_mb_per_token": 395.221,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "lru@128:numbers": {
+   "accesses": 11648,
+   "hits": 1643,
+   "misses": 10005,
+   "cold": 1010,
+   "hit_rate": 0.141054,
+   "bypasses": 0,
+   "admissions": 10005,
+   "promotions": 0,
+   "evictions": 9877,
+   "evicted_before_reuse": 8993,
+   "streamed_full_bytes": 38104006656,
+   "streamed_mb_per_token": 418.725,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "lru@128:instructions": {
+   "accesses": 11648,
+   "hits": 1509,
+   "misses": 10139,
+   "cold": 1009,
+   "hit_rate": 0.12955,
+   "bypasses": 0,
+   "admissions": 10139,
+   "promotions": 0,
+   "evictions": 10011,
+   "evicted_before_reuse": 9125,
+   "streamed_full_bytes": 38600933376,
+   "streamed_mb_per_token": 424.186,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "lru@128:technical": {
+   "accesses": 12160,
+   "hits": 1750,
+   "misses": 10410,
+   "cold": 994,
+   "hit_rate": 0.143914,
+   "bypasses": 0,
+   "admissions": 10410,
+   "promotions": 0,
+   "evictions": 10282,
+   "evicted_before_reuse": 9411,
+   "streamed_full_bytes": 39637843968,
+   "streamed_mb_per_token": 417.24,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "lru@512:prose": {
+   "accesses": 9088,
+   "hits": 5917,
+   "misses": 3171,
+   "cold": 975,
+   "hit_rate": 0.651078,
+   "bypasses": 0,
+   "admissions": 3171,
+   "promotions": 0,
+   "evictions": 2661,
+   "evicted_before_reuse": 2196,
+   "streamed_full_bytes": 12069765120,
+   "streamed_mb_per_token": 169.997,
+   "entries_now": 510,
+   "resident_scaled": 1902480
+  },
+  "lru@512:code": {
+   "accesses": 12800,
+   "hits": 11854,
+   "misses": 946,
+   "cold": 700,
+   "hit_rate": 0.926094,
+   "bypasses": 0,
+   "admissions": 946,
+   "promotions": 0,
+   "evictions": 435,
+   "evicted_before_reuse": 246,
+   "streamed_full_bytes": 3607904256,
+   "streamed_mb_per_token": 36.079,
+   "entries_now": 511,
+   "resident_scaled": 1903824
+  },
+  "lru@512:structured": {
+   "accesses": 16512,
+   "hits": 13614,
+   "misses": 2898,
+   "cold": 912,
+   "hit_rate": 0.824491,
+   "bypasses": 0,
+   "admissions": 2898,
+   "promotions": 0,
+   "evictions": 2387,
+   "evicted_before_reuse": 1986,
+   "streamed_full_bytes": 11053891584,
+   "streamed_mb_per_token": 85.689,
+   "entries_now": 511,
+   "resident_scaled": 1902240
+  },
+  "lru@512:numbers": {
+   "accesses": 11648,
+   "hits": 6962,
+   "misses": 4686,
+   "cold": 1010,
+   "hit_rate": 0.597699,
+   "bypasses": 0,
+   "admissions": 4686,
+   "promotions": 0,
+   "evictions": 4175,
+   "evicted_before_reuse": 3676,
+   "streamed_full_bytes": 17843798016,
+   "streamed_mb_per_token": 196.086,
+   "entries_now": 511,
+   "resident_scaled": 1903296
+  },
+  "lru@512:instructions": {
+   "accesses": 11648,
+   "hits": 7493,
+   "misses": 4155,
+   "cold": 1009,
+   "hit_rate": 0.643286,
+   "bypasses": 0,
+   "admissions": 4155,
+   "promotions": 0,
+   "evictions": 3642,
+   "evicted_before_reuse": 3146,
+   "streamed_full_bytes": 15798632448,
+   "streamed_mb_per_token": 173.611,
+   "entries_now": 513,
+   "resident_scaled": 1904400
+  },
+  "lru@512:technical": {
+   "accesses": 12160,
+   "hits": 7867,
+   "misses": 4293,
+   "cold": 994,
+   "hit_rate": 0.646957,
+   "bypasses": 0,
+   "admissions": 4293,
+   "promotions": 0,
+   "evictions": 3781,
+   "evicted_before_reuse": 3299,
+   "streamed_full_bytes": 16342695936,
+   "streamed_mb_per_token": 172.028,
+   "entries_now": 512,
+   "resident_scaled": 1904112
+  },
+  "lfu@128:prose": {
+   "accesses": 9088,
+   "hits": 2431,
+   "misses": 6657,
+   "cold": 975,
+   "hit_rate": 0.267496,
+   "bypasses": 0,
+   "admissions": 6657,
+   "promotions": 0,
+   "evictions": 6529,
+   "evicted_before_reuse": 5682,
+   "streamed_full_bytes": 25361350656,
+   "streamed_mb_per_token": 357.202,
+   "entries_now": 128,
+   "resident_scaled": 474048
+  },
+  "lfu@128:code": {
+   "accesses": 12800,
+   "hits": 7323,
+   "misses": 5477,
+   "cold": 700,
+   "hit_rate": 0.572109,
+   "bypasses": 0,
+   "admissions": 5477,
+   "promotions": 0,
+   "evictions": 5349,
+   "evicted_before_reuse": 4777,
+   "streamed_full_bytes": 20860993536,
+   "streamed_mb_per_token": 208.61,
+   "entries_now": 128,
+   "resident_scaled": 473520
+  },
+  "lfu@128:structured": {
+   "accesses": 16512,
+   "hits": 6428,
+   "misses": 10084,
+   "cold": 912,
+   "hit_rate": 0.389293,
+   "bypasses": 0,
+   "admissions": 10084,
+   "promotions": 0,
+   "evictions": 9957,
+   "evicted_before_reuse": 9169,
+   "streamed_full_bytes": 38360875008,
+   "streamed_mb_per_token": 297.371,
+   "entries_now": 127,
+   "resident_scaled": 473760
+  },
+  "lfu@128:numbers": {
+   "accesses": 11648,
+   "hits": 2962,
+   "misses": 8686,
+   "cold": 1010,
+   "hit_rate": 0.254293,
+   "bypasses": 0,
+   "admissions": 8686,
+   "promotions": 0,
+   "evictions": 8559,
+   "evicted_before_reuse": 7676,
+   "streamed_full_bytes": 33027932160,
+   "streamed_mb_per_token": 362.944,
+   "entries_now": 127,
+   "resident_scaled": 473760
+  },
+  "lfu@128:instructions": {
+   "accesses": 11648,
+   "hits": 3402,
+   "misses": 8246,
+   "cold": 1009,
+   "hit_rate": 0.292067,
+   "bypasses": 0,
+   "admissions": 8246,
+   "promotions": 0,
+   "evictions": 8119,
+   "evicted_before_reuse": 7237,
+   "streamed_full_bytes": 31342657536,
+   "streamed_mb_per_token": 344.425,
+   "entries_now": 127,
+   "resident_scaled": 473232
+  },
+  "lfu@128:technical": {
+   "accesses": 12160,
+   "hits": 3447,
+   "misses": 8713,
+   "cold": 994,
+   "hit_rate": 0.28347,
+   "bypasses": 0,
+   "admissions": 8713,
+   "promotions": 0,
+   "evictions": 8585,
+   "evicted_before_reuse": 7719,
+   "streamed_full_bytes": 33187823616,
+   "streamed_mb_per_token": 349.346,
+   "entries_now": 128,
+   "resident_scaled": 474048
+  },
+  "lfu@512:prose": {
+   "accesses": 9088,
+   "hits": 6298,
+   "misses": 2790,
+   "cold": 975,
+   "hit_rate": 0.693002,
+   "bypasses": 0,
+   "admissions": 2790,
+   "promotions": 0,
+   "evictions": 2279,
+   "evicted_before_reuse": 1815,
+   "streamed_full_bytes": 10653302784,
+   "streamed_mb_per_token": 150.047,
+   "entries_now": 511,
+   "resident_scaled": 1902240
+  },
+  "lfu@512:code": {
+   "accesses": 12800,
+   "hits": 11867,
+   "misses": 933,
+   "cold": 700,
+   "hit_rate": 0.927109,
+   "bypasses": 0,
+   "admissions": 933,
+   "promotions": 0,
+   "evictions": 422,
+   "evicted_before_reuse": 233,
+   "streamed_full_bytes": 3561357312,
+   "streamed_mb_per_token": 35.614,
+   "entries_now": 511,
+   "resident_scaled": 1901712
+  },
+  "lfu@512:structured": {
+   "accesses": 16512,
+   "hits": 13955,
+   "misses": 2557,
+   "cold": 912,
+   "hit_rate": 0.845143,
+   "bypasses": 0,
+   "admissions": 2557,
+   "promotions": 0,
+   "evictions": 2046,
+   "evicted_before_reuse": 1645,
+   "streamed_full_bytes": 9772498944,
+   "streamed_mb_per_token": 75.756,
+   "entries_now": 511,
+   "resident_scaled": 1903824
+  },
+  "lfu@512:numbers": {
+   "accesses": 11648,
+   "hits": 7721,
+   "misses": 3927,
+   "cold": 1010,
+   "hit_rate": 0.662861,
+   "bypasses": 0,
+   "admissions": 3927,
+   "promotions": 0,
+   "evictions": 3414,
+   "evicted_before_reuse": 2917,
+   "streamed_full_bytes": 14942011392,
+   "streamed_mb_per_token": 164.198,
+   "entries_now": 513,
+   "resident_scaled": 1902288
+  },
+  "lfu@512:instructions": {
+   "accesses": 11648,
+   "hits": 8332,
+   "misses": 3316,
+   "cold": 1009,
+   "hit_rate": 0.715316,
+   "bypasses": 0,
+   "admissions": 3316,
+   "promotions": 0,
+   "evictions": 2803,
+   "evicted_before_reuse": 2307,
+   "streamed_full_bytes": 12627787776,
+   "streamed_mb_per_token": 138.767,
+   "entries_now": 513,
+   "resident_scaled": 1902288
+  },
+  "lfu@512:technical": {
+   "accesses": 12160,
+   "hits": 8869,
+   "misses": 3291,
+   "cold": 994,
+   "hit_rate": 0.729359,
+   "bypasses": 0,
+   "admissions": 3291,
+   "promotions": 0,
+   "evictions": 2779,
+   "evicted_before_reuse": 2297,
+   "streamed_full_bytes": 12576620544,
+   "streamed_mb_per_token": 132.385,
+   "entries_now": 512,
+   "resident_scaled": 1904640
+  },
+  "segmented@128:prose": {
+   "accesses": 9088,
+   "hits": 1646,
+   "misses": 7442,
+   "cold": 975,
+   "hit_rate": 0.181118,
+   "bypasses": 6350,
+   "admissions": 1092,
+   "promotions": 155,
+   "evictions": 964,
+   "evicted_before_reuse": 2623,
+   "streamed_full_bytes": 28323790848,
+   "streamed_mb_per_token": 398.927,
+   "entries_now": 128,
+   "resident_scaled": 474576
+  },
+  "segmented@128:code": {
+   "accesses": 12800,
+   "hits": 5496,
+   "misses": 7304,
+   "cold": 700,
+   "hit_rate": 0.429375,
+   "bypasses": 5845,
+   "admissions": 1459,
+   "promotions": 198,
+   "evictions": 1331,
+   "evicted_before_reuse": 3971,
+   "streamed_full_bytes": 27835957248,
+   "streamed_mb_per_token": 278.36,
+   "entries_now": 128,
+   "resident_scaled": 473520
+  },
+  "segmented@128:structured": {
+   "accesses": 16512,
+   "hits": 5265,
+   "misses": 11247,
+   "cold": 912,
+   "hit_rate": 0.318859,
+   "bypasses": 9342,
+   "admissions": 1905,
+   "promotions": 239,
+   "evictions": 1778,
+   "evicted_before_reuse": 5757,
+   "streamed_full_bytes": 42822696960,
+   "streamed_mb_per_token": 331.959,
+   "entries_now": 127,
+   "resident_scaled": 472176
+  },
+  "segmented@128:numbers": {
+   "accesses": 11648,
+   "hits": 2300,
+   "misses": 9348,
+   "cold": 1010,
+   "hit_rate": 0.197459,
+   "bypasses": 7964,
+   "admissions": 1384,
+   "promotions": 178,
+   "evictions": 1257,
+   "evicted_before_reuse": 3609,
+   "streamed_full_bytes": 35551838208,
+   "streamed_mb_per_token": 390.68,
+   "entries_now": 127,
+   "resident_scaled": 472176
+  },
+  "segmented@128:instructions": {
+   "accesses": 11648,
+   "hits": 2620,
+   "misses": 9028,
+   "cold": 1009,
+   "hit_rate": 0.224931,
+   "bypasses": 7741,
+   "admissions": 1287,
+   "promotions": 179,
+   "evictions": 1160,
+   "evicted_before_reuse": 3620,
+   "streamed_full_bytes": 34307457024,
+   "streamed_mb_per_token": 377.005,
+   "entries_now": 127,
+   "resident_scaled": 472704
+  },
+  "segmented@128:technical": {
+   "accesses": 12160,
+   "hits": 2680,
+   "misses": 9480,
+   "cold": 994,
+   "hit_rate": 0.220395,
+   "bypasses": 8135,
+   "admissions": 1345,
+   "promotions": 184,
+   "evictions": 1218,
+   "evicted_before_reuse": 3820,
+   "streamed_full_bytes": 36102242304,
+   "streamed_mb_per_token": 380.024,
+   "entries_now": 127,
+   "resident_scaled": 471648
+  },
+  "segmented@512:prose": {
+   "accesses": 9088,
+   "hits": 4877,
+   "misses": 4211,
+   "cold": 975,
+   "hit_rate": 0.536642,
+   "bypasses": 2295,
+   "admissions": 1916,
+   "promotions": 590,
+   "evictions": 1406,
+   "evicted_before_reuse": 1833,
+   "streamed_full_bytes": 16058990592,
+   "streamed_mb_per_token": 226.183,
+   "entries_now": 510,
+   "resident_scaled": 1900896
+  },
+  "segmented@512:code": {
+   "accesses": 12800,
+   "hits": 10639,
+   "misses": 2161,
+   "cold": 700,
+   "hit_rate": 0.831172,
+   "bypasses": 926,
+   "admissions": 1235,
+   "promotions": 507,
+   "evictions": 726,
+   "evicted_before_reuse": 919,
+   "streamed_full_bytes": 8230502400,
+   "streamed_mb_per_token": 82.305,
+   "entries_now": 509,
+   "resident_scaled": 1896384
+  },
+  "segmented@512:structured": {
+   "accesses": 16512,
+   "hits": 12588,
+   "misses": 3924,
+   "cold": 912,
+   "hit_rate": 0.762355,
+   "bypasses": 1807,
+   "admissions": 2117,
+   "promotions": 748,
+   "evictions": 1606,
+   "evicted_before_reuse": 1929,
+   "streamed_full_bytes": 14967619584,
+   "streamed_mb_per_token": 116.028,
+   "entries_now": 511,
+   "resident_scaled": 1901712
+  },
+  "segmented@512:numbers": {
+   "accesses": 11648,
+   "hits": 6241,
+   "misses": 5407,
+   "cold": 1010,
+   "hit_rate": 0.5358,
+   "bypasses": 3070,
+   "admissions": 2337,
+   "promotions": 680,
+   "evictions": 1826,
+   "evicted_before_reuse": 2746,
+   "streamed_full_bytes": 20574339072,
+   "streamed_mb_per_token": 226.092,
+   "entries_now": 511,
+   "resident_scaled": 1901712
+  },
+  "segmented@512:instructions": {
+   "accesses": 11648,
+   "hits": 6564,
+   "misses": 5084,
+   "cold": 1009,
+   "hit_rate": 0.56353,
+   "bypasses": 2899,
+   "admissions": 2185,
+   "promotions": 604,
+   "evictions": 1673,
+   "evicted_before_reuse": 2463,
+   "streamed_full_bytes": 19337723904,
+   "streamed_mb_per_token": 212.502,
+   "entries_now": 512,
+   "resident_scaled": 1900944
+  },
+  "segmented@512:technical": {
+   "accesses": 12160,
+   "hits": 6929,
+   "misses": 5231,
+   "cold": 994,
+   "hit_rate": 0.569819,
+   "bypasses": 2858,
+   "admissions": 2373,
+   "promotions": 663,
+   "evictions": 1861,
+   "evicted_before_reuse": 2751,
+   "streamed_full_bytes": 19935264768,
+   "streamed_mb_per_token": 209.845,
+   "entries_now": 512,
+   "resident_scaled": 1898832
+  },
+  "rda@128:prose": {
+   "accesses": 9088,
+   "hits": 1754,
+   "misses": 7334,
+   "cold": 975,
+   "hit_rate": 0.193002,
+   "bypasses": 5404,
+   "admissions": 1930,
+   "promotions": 0,
+   "evictions": 1802,
+   "evicted_before_reuse": 6359,
+   "streamed_full_bytes": 27945910272,
+   "streamed_mb_per_token": 393.604,
+   "entries_now": 128,
+   "resident_scaled": 475104
+  },
+  "rda@128:code": {
+   "accesses": 12800,
+   "hits": 6288,
+   "misses": 6512,
+   "cold": 700,
+   "hit_rate": 0.49125,
+   "bypasses": 4905,
+   "admissions": 1607,
+   "promotions": 0,
+   "evictions": 1479,
+   "evicted_before_reuse": 5812,
+   "streamed_full_bytes": 24774131712,
+   "streamed_mb_per_token": 247.741,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "rda@128:structured": {
+   "accesses": 16512,
+   "hits": 4779,
+   "misses": 11733,
+   "cold": 912,
+   "hit_rate": 0.289426,
+   "bypasses": 9148,
+   "admissions": 2585,
+   "promotions": 0,
+   "evictions": 2457,
+   "evicted_before_reuse": 10821,
+   "streamed_full_bytes": 44732940288,
+   "streamed_mb_per_token": 346.767,
+   "entries_now": 128,
+   "resident_scaled": 473520
+  },
+  "rda@128:numbers": {
+   "accesses": 11648,
+   "hits": 2348,
+   "misses": 9300,
+   "cold": 1010,
+   "hit_rate": 0.20158,
+   "bypasses": 7298,
+   "admissions": 2002,
+   "promotions": 0,
+   "evictions": 1874,
+   "evicted_before_reuse": 8290,
+   "streamed_full_bytes": 35405758464,
+   "streamed_mb_per_token": 389.074,
+   "entries_now": 128,
+   "resident_scaled": 474048
+  },
+  "rda@128:instructions": {
+   "accesses": 11648,
+   "hits": 2483,
+   "misses": 9165,
+   "cold": 1009,
+   "hit_rate": 0.21317,
+   "bypasses": 7306,
+   "admissions": 1859,
+   "promotions": 0,
+   "evictions": 1732,
+   "evicted_before_reuse": 8156,
+   "streamed_full_bytes": 34867986432,
+   "streamed_mb_per_token": 383.165,
+   "entries_now": 127,
+   "resident_scaled": 472704
+  },
+  "rda@128:technical": {
+   "accesses": 12160,
+   "hits": 2499,
+   "misses": 9661,
+   "cold": 994,
+   "hit_rate": 0.20551,
+   "bypasses": 7564,
+   "admissions": 2097,
+   "promotions": 0,
+   "evictions": 1969,
+   "evicted_before_reuse": 8667,
+   "streamed_full_bytes": 36757929984,
+   "streamed_mb_per_token": 386.926,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "rda@512:prose": {
+   "accesses": 9088,
+   "hits": 5852,
+   "misses": 3236,
+   "cold": 975,
+   "hit_rate": 0.643926,
+   "bypasses": 1078,
+   "admissions": 2158,
+   "promotions": 0,
+   "evictions": 1647,
+   "evicted_before_reuse": 2261,
+   "streamed_full_bytes": 12317097984,
+   "streamed_mb_per_token": 173.48,
+   "entries_now": 511,
+   "resident_scaled": 1903296
+  },
+  "rda@512:code": {
+   "accesses": 12800,
+   "hits": 11702,
+   "misses": 1098,
+   "cold": 700,
+   "hit_rate": 0.914219,
+   "bypasses": 107,
+   "admissions": 991,
+   "promotions": 0,
+   "evictions": 480,
+   "evicted_before_reuse": 398,
+   "streamed_full_bytes": 4187455488,
+   "streamed_mb_per_token": 41.875,
+   "entries_now": 511,
+   "resident_scaled": 1901184
+  },
+  "rda@512:structured": {
+   "accesses": 16512,
+   "hits": 13147,
+   "misses": 3365,
+   "cold": 912,
+   "hit_rate": 0.796209,
+   "bypasses": 975,
+   "admissions": 2390,
+   "promotions": 0,
+   "evictions": 1879,
+   "evicted_before_reuse": 2453,
+   "streamed_full_bytes": 12827688960,
+   "streamed_mb_per_token": 99.439,
+   "entries_now": 511,
+   "resident_scaled": 1901712
+  },
+  "rda@512:numbers": {
+   "accesses": 11648,
+   "hits": 7313,
+   "misses": 4335,
+   "cold": 1010,
+   "hit_rate": 0.627833,
+   "bypasses": 1777,
+   "admissions": 2558,
+   "promotions": 0,
+   "evictions": 2046,
+   "evicted_before_reuse": 3325,
+   "streamed_full_bytes": 16504307712,
+   "streamed_mb_per_token": 181.366,
+   "entries_now": 512,
+   "resident_scaled": 1903584
+  },
+  "rda@512:instructions": {
+   "accesses": 11648,
+   "hits": 7586,
+   "misses": 4062,
+   "cold": 1009,
+   "hit_rate": 0.651271,
+   "bypasses": 1532,
+   "admissions": 2530,
+   "promotions": 0,
+   "evictions": 2017,
+   "evicted_before_reuse": 3053,
+   "streamed_full_bytes": 15446261760,
+   "streamed_mb_per_token": 169.739,
+   "entries_now": 513,
+   "resident_scaled": 1902816
+  },
+  "rda@512:technical": {
+   "accesses": 12160,
+   "hits": 8220,
+   "misses": 3940,
+   "cold": 994,
+   "hit_rate": 0.675987,
+   "bypasses": 1560,
+   "admissions": 2380,
+   "promotions": 0,
+   "evictions": 1870,
+   "evicted_before_reuse": 2946,
+   "streamed_full_bytes": 15007481856,
+   "streamed_mb_per_token": 157.973,
+   "entries_now": 510,
+   "resident_scaled": 1904064
+  },
+  "fsketch@128:prose": {
+   "accesses": 9088,
+   "hits": 2478,
+   "misses": 6610,
+   "cold": 975,
+   "hit_rate": 0.272667,
+   "bypasses": 6145,
+   "admissions": 465,
+   "promotions": 0,
+   "evictions": 337,
+   "evicted_before_reuse": 1565,
+   "streamed_full_bytes": 25180962816,
+   "streamed_mb_per_token": 354.661,
+   "entries_now": 128,
+   "resident_scaled": 476160
+  },
+  "fsketch@128:code": {
+   "accesses": 12800,
+   "hits": 7373,
+   "misses": 5427,
+   "cold": 700,
+   "hit_rate": 0.576016,
+   "bypasses": 5055,
+   "admissions": 372,
+   "promotions": 0,
+   "evictions": 244,
+   "evicted_before_reuse": 1922,
+   "streamed_full_bytes": 20674854912,
+   "streamed_mb_per_token": 206.749,
+   "entries_now": 128,
+   "resident_scaled": 474576
+  },
+  "fsketch@128:structured": {
+   "accesses": 16512,
+   "hits": 6531,
+   "misses": 9981,
+   "cold": 912,
+   "hit_rate": 0.395531,
+   "bypasses": 9445,
+   "admissions": 536,
+   "promotions": 0,
+   "evictions": 409,
+   "evicted_before_reuse": 3374,
+   "streamed_full_bytes": 37981224960,
+   "streamed_mb_per_token": 294.428,
+   "entries_now": 127,
+   "resident_scaled": 473232
+  },
+  "fsketch@128:numbers": {
+   "accesses": 11648,
+   "hits": 3080,
+   "misses": 8568,
+   "cold": 1010,
+   "hit_rate": 0.264423,
+   "bypasses": 8012,
+   "admissions": 556,
+   "promotions": 0,
+   "evictions": 428,
+   "evicted_before_reuse": 2162,
+   "streamed_full_bytes": 32593035264,
+   "streamed_mb_per_token": 358.165,
+   "entries_now": 128,
+   "resident_scaled": 475632
+  },
+  "fsketch@128:instructions": {
+   "accesses": 11648,
+   "hits": 3425,
+   "misses": 8223,
+   "cold": 1009,
+   "hit_rate": 0.294042,
+   "bypasses": 7704,
+   "admissions": 519,
+   "promotions": 0,
+   "evictions": 392,
+   "evicted_before_reuse": 2093,
+   "streamed_full_bytes": 31239634944,
+   "streamed_mb_per_token": 343.293,
+   "entries_now": 127,
+   "resident_scaled": 472704
+  },
+  "fsketch@128:technical": {
+   "accesses": 12160,
+   "hits": 3547,
+   "misses": 8613,
+   "cold": 994,
+   "hit_rate": 0.291694,
+   "bypasses": 8111,
+   "admissions": 502,
+   "promotions": 0,
+   "evictions": 374,
+   "evicted_before_reuse": 2278,
+   "streamed_full_bytes": 32816627712,
+   "streamed_mb_per_token": 345.438,
+   "entries_now": 128,
+   "resident_scaled": 472992
+  },
+  "fsketch@512:prose": {
+   "accesses": 9088,
+   "hits": 6262,
+   "misses": 2826,
+   "cold": 975,
+   "hit_rate": 0.68904,
+   "bypasses": 1981,
+   "admissions": 845,
+   "promotions": 0,
+   "evictions": 334,
+   "evicted_before_reuse": 666,
+   "streamed_full_bytes": 10790977536,
+   "streamed_mb_per_token": 151.986,
+   "entries_now": 511,
+   "resident_scaled": 1903296
+  },
+  "fsketch@512:code": {
+   "accesses": 12800,
+   "hits": 11823,
+   "misses": 977,
+   "cold": 700,
+   "hit_rate": 0.923672,
+   "bypasses": 315,
+   "admissions": 662,
+   "promotions": 0,
+   "evictions": 152,
+   "evicted_before_reuse": 103,
+   "streamed_full_bytes": 3733831680,
+   "streamed_mb_per_token": 37.338,
+   "entries_now": 510,
+   "resident_scaled": 1901952
+  },
+  "fsketch@512:structured": {
+   "accesses": 16512,
+   "hits": 13918,
+   "misses": 2594,
+   "cold": 912,
+   "hit_rate": 0.842902,
+   "bypasses": 1679,
+   "admissions": 915,
+   "promotions": 0,
+   "evictions": 404,
+   "evicted_before_reuse": 761,
+   "streamed_full_bytes": 9918578688,
+   "streamed_mb_per_token": 76.888,
+   "entries_now": 511,
+   "resident_scaled": 1902768
+  },
+  "fsketch@512:numbers": {
+   "accesses": 11648,
+   "hits": 7781,
+   "misses": 3867,
+   "cold": 1010,
+   "hit_rate": 0.668012,
+   "bypasses": 2853,
+   "admissions": 1014,
+   "promotions": 0,
+   "evictions": 501,
+   "evicted_before_reuse": 1236,
+   "streamed_full_bytes": 14711291904,
+   "streamed_mb_per_token": 161.663,
+   "entries_now": 513,
+   "resident_scaled": 1904400
+  },
+  "fsketch@512:instructions": {
+   "accesses": 11648,
+   "hits": 8308,
+   "misses": 3340,
+   "cold": 1009,
+   "hit_rate": 0.713255,
+   "bypasses": 2439,
+   "admissions": 901,
+   "promotions": 0,
+   "evictions": 389,
+   "evicted_before_reuse": 975,
+   "streamed_full_bytes": 12716507136,
+   "streamed_mb_per_token": 139.742,
+   "entries_now": 512,
+   "resident_scaled": 1901472
+  },
+  "fsketch@512:technical": {
+   "accesses": 12160,
+   "hits": 8720,
+   "misses": 3440,
+   "cold": 994,
+   "hit_rate": 0.717105,
+   "bypasses": 2532,
+   "admissions": 908,
+   "promotions": 0,
+   "evictions": 396,
+   "evicted_before_reuse": 1158,
+   "streamed_full_bytes": 13153124352,
+   "streamed_mb_per_token": 138.454,
+   "entries_now": 512,
+   "resident_scaled": 1902528
+  }
+ },
+ "dropping": {
+  "threshold": 0.1,
+  "top_k": 8,
+  "runs": {
+   "segmented@128:documented": {
+    "policy": "segmented",
+    "budget_pairs": 128,
+    "active": true,
+    "threshold": 0.1,
+    "accesses": 73856,
+    "dropped": 17133,
+    "dropped_share": 0.231978,
+    "dropped_mass_total": 1404.229,
+    "dropped_mass_per_token_layer": 0.152105,
+    "demand_accesses": 56723,
+    "hits": 23996,
+    "hit_rate_on_demand": 0.423038,
+    "hit_rate_on_all": 0.324903,
+    "streamed_full_bytes": 124277293056,
+    "streamed_mb_per_token": 215.385,
+    "per_prompt": {
+     "prose": {
+      "accesses": 9088,
+      "dropped": 2448,
+      "dropped_share": 0.269366,
+      "dropped_mass": 197.089
+     },
+     "code": {
+      "accesses": 12800,
+      "dropped": 2778,
+      "dropped_share": 0.217031,
+      "dropped_mass": 220.443
+     },
+     "structured": {
+      "accesses": 16512,
+      "dropped": 3474,
+      "dropped_share": 0.210392,
+      "dropped_mass": 288.846
+     },
+     "numbers": {
+      "accesses": 11648,
+      "dropped": 2730,
+      "dropped_share": 0.234375,
+      "dropped_mass": 226.608
+     },
+     "instructions": {
+      "accesses": 11648,
+      "dropped": 2826,
+      "dropped_share": 0.242617,
+      "dropped_mass": 234.053
+     },
+     "technical": {
+      "accesses": 12160,
+      "dropped": 2877,
+      "dropped_share": 0.236595,
+      "dropped_mass": 237.191
+     }
+    }
+   },
+   "lru@128:documented": {
+    "policy": "lru",
+    "budget_pairs": 128,
+    "active": true,
+    "threshold": 0.1,
+    "accesses": 73856,
+    "dropped": 18703,
+    "dropped_share": 0.253236,
+    "dropped_mass_total": 1536.885,
+    "dropped_mass_per_token_layer": 0.166474,
+    "demand_accesses": 55153,
+    "hits": 17710,
+    "hit_rate_on_demand": 0.321107,
+    "hit_rate_on_all": 0.239791,
+    "streamed_full_bytes": 142255374336,
+    "streamed_mb_per_token": 246.543,
+    "per_prompt": {
+     "prose": {
+      "accesses": 9088,
+      "dropped": 2351,
+      "dropped_share": 0.258693,
+      "dropped_mass": 189.261
+     },
+     "code": {
+      "accesses": 12800,
+      "dropped": 3011,
+      "dropped_share": 0.235234,
+      "dropped_mass": 240.896
+     },
+     "structured": {
+      "accesses": 16512,
+      "dropped": 4135,
+      "dropped_share": 0.250424,
+      "dropped_mass": 343.413
+     },
+     "numbers": {
+      "accesses": 11648,
+      "dropped": 2997,
+      "dropped_share": 0.257297,
+      "dropped_mass": 248.763
+     },
+     "instructions": {
+      "accesses": 11648,
+      "dropped": 3055,
+      "dropped_share": 0.262277,
+      "dropped_mass": 253.668
+     },
+     "technical": {
+      "accesses": 12160,
+      "dropped": 3154,
+      "dropped_share": 0.259375,
+      "dropped_mass": 260.883
+     }
+    }
+   },
+   "segmented@512:whatif_fraction_waived": {
+    "policy": "segmented",
+    "budget_pairs": 512,
+    "active": true,
+    "threshold": 0.1,
+    "accesses": 73856,
+    "dropped": 7048,
+    "dropped_share": 0.095429,
+    "dropped_mass_total": 569.484,
+    "dropped_mass_per_token_layer": 0.061686,
+    "demand_accesses": 66808,
+    "hits": 55691,
+    "hit_rate_on_demand": 0.833598,
+    "hit_rate_on_all": 0.754048,
+    "streamed_full_bytes": 42315595776,
+    "streamed_mb_per_token": 73.337,
+    "per_prompt": {
+     "prose": {
+      "accesses": 9088,
+      "dropped": 1589,
+      "dropped_share": 0.174846,
+      "dropped_mass": 124.096
+     },
+     "code": {
+      "accesses": 12800,
+      "dropped": 749,
+      "dropped_share": 0.058516,
+      "dropped_mass": 57.392
+     },
+     "structured": {
+      "accesses": 16512,
+      "dropped": 956,
+      "dropped_share": 0.057897,
+      "dropped_mass": 78.422
+     },
+     "numbers": {
+      "accesses": 11648,
+      "dropped": 1259,
+      "dropped_share": 0.108087,
+      "dropped_mass": 105.105
+     },
+     "instructions": {
+      "accesses": 11648,
+      "dropped": 1222,
+      "dropped_share": 0.104911,
+      "dropped_mass": 100.62
+     },
+     "technical": {
+      "accesses": 12160,
+      "dropped": 1273,
+      "dropped_share": 0.104688,
+      "dropped_mass": 103.848
+     }
+    }
+   }
+  },
+  "near_threshold_band": {
+   "prose": {
+    "accesses": 9088,
+    "share_below_threshold": 0.3136,
+    "share_within_0.01": 0.25143,
+    "share_within_0.02": 0.455766,
+    "mean_weight_below": 0.08097
+   },
+   "code": {
+    "accesses": 12800,
+    "share_below_threshold": 0.332969,
+    "share_within_0.01": 0.222578,
+    "share_within_0.02": 0.411953,
+    "mean_weight_below": 0.080549
+   },
+   "structured": {
+    "accesses": 16512,
+    "share_below_threshold": 0.319525,
+    "share_within_0.01": 0.256722,
+    "share_within_0.02": 0.459423,
+    "mean_weight_below": 0.08318
+   },
+   "numbers": {
+    "accesses": 11648,
+    "share_below_threshold": 0.308808,
+    "share_within_0.01": 0.26511,
+    "share_within_0.02": 0.468492,
+    "mean_weight_below": 0.082781
+   },
+   "instructions": {
+    "accesses": 11648,
+    "share_below_threshold": 0.309667,
+    "share_within_0.01": 0.268458,
+    "share_within_0.02": 0.468407,
+    "mean_weight_below": 0.082784
+   },
+   "technical": {
+    "accesses": 12160,
+    "share_below_threshold": 0.311349,
+    "share_within_0.01": 0.252796,
+    "share_within_0.02": 0.457401,
+    "mean_weight_below": 0.082432
+   },
+   "ALL": {
+    "accesses": 73856,
+    "share_below_threshold": 0.316535,
+    "share_within_0.01": 0.252681,
+    "share_within_0.02": 0.45326,
+    "mean_weight_below": 0.082187
+   }
+  }
+ }
+}
