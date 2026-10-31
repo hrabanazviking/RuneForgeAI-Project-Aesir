@@ -540,6 +540,38 @@ struct AesirEngine:
     # prompt placement yet. Reply choice is J-041, draft-check
     # J-042, co-work execution J-043, re-trials J-045. See
     # docs/janas/J040_AUTO_PROMPT_PLACEMENT.md.
+    #
+    # Auto choice for reply passes (Janas road J-041): the reply
+    # kind's chooser lives in core/reply_placement.mojo --
+    # choose_reply_placement() runs the J-038 device sweep for
+    # the reply kind (the field and its exclusions; its CPU
+    # timing is a cross-check only, never ranked -- a different
+    # executor from the threaded one) and the J-039 thread
+    # trials for the reply kind (the rankable CPU rungs), then
+    # applies the pre-registered decision rule adopted unchanged
+    # from J-040: a measured winner must beat the runner-up by
+    # more than 10% of its median AND its slowest counted round
+    # must beat the runner-up's median, otherwise the session
+    # default (cpu, 1 thread) is kept with the failed hurdle
+    # stated; a sole measured candidate is chosen as
+    # sole-measured; no measured candidate falls back to the
+    # default while the cpu is present, else the record is a
+    # refusal. An explicit single/co-work reply option fixes
+    # the choice and is never ranked against. The record is
+    # kept for the session in a ReplyPlacementSession (decided
+    # once; a second decision is refused) and rendered by its
+    # report(). The integrated-GPU question is answered
+    # honestly on every record: no GPU reply executor exists
+    # in the harness yet, so GPU candidates ride as excluded /
+    # unmeasurable-with-reason and are never ranked -- single
+    # tokens go to the GPU only when a measured GPU reply
+    # executor exists and clears the same hurdles (NOT PROVEN
+    # today). The NPU never takes a reply pass (J-036 refuses
+    # it at parse; in the auto field the inventory excludes it,
+    # parked). This slice wires the chooser into NO live
+    # session path: no session consumes a reply placement yet.
+    # Draft-check choice is J-042, co-work execution J-043,
+    # re-trials J-045. See docs/janas/J041_AUTO_REPLY_PLACEMENT.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
