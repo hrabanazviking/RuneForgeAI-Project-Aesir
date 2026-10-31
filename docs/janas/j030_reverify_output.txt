@@ -1,0 +1,30 @@
+[idle] prompt=67 generated=24 context=512 cache_budget_bytes=536870912
+[idle] prefill_s=28.040114 decode_s=9.388560 engine_wall_s=37.428674
+[idle] wall/token=0.411304 s  prefill_tok/s=2.3894  decode_tok/s=2.5563  overall_tok/s=2.4313
+[idle] accesses=11648 hits=3007 misses=8641 cold=950 hit_rate=0.258156 admissions=1265 promotions=192 evictions=1125 bypasses=7376 evicted_before_reuse=3387
+[idle] bytes_streamed=32948699136 bytes/token=362073616.9 stream_reads=25923 stream_bytes=32948699136 advice_calls=34945
+[idle] generated_ids=[187, 187, 510, 1708, 5967, 6225, 327, 247, 33848, 562, 68, 1658, 13, 253, 760, 581, 323, 6574, 1475, 15, 733, 369, 247, 10086]
+[loaded] prompt=67 generated=24 context=512 cache_budget_bytes=536870912
+[loaded] prefill_s=29.474193 decode_s=10.142579 engine_wall_s=39.616771
+[loaded] wall/token=0.435349 s  prefill_tok/s=2.2732  decode_tok/s=2.3663  overall_tok/s=2.2970
+[loaded] accesses=11648 hits=3007 misses=8641 cold=950 hit_rate=0.258156 admissions=1265 promotions=192 evictions=1125 bypasses=7376 evicted_before_reuse=3387
+[loaded] bytes_streamed=32948699136 bytes/token=362073616.9 stream_reads=25923 stream_bytes=32948699136 advice_calls=34945
+[loaded] generated_ids=[187, 187, 510, 1708, 5967, 6225, 327, 247, 33848, 562, 68, 1658, 13, 253, 760, 581, 323, 6574, 1475, 15, 733, 369, 247, 10086]
+[j022_postfix] prompt=67 generated=24 context=512 cache_budget_bytes=536870912
+[j022_postfix] prefill_s=47.320765 decode_s=14.422598 engine_wall_s=61.743363
+[j022_postfix] wall/token=0.678498 s  prefill_tok/s=1.4159  decode_tok/s=1.6641  overall_tok/s=1.4738
+[j022_postfix] accesses=11648 hits=3007 misses=8641 cold=950 hit_rate=0.258156 admissions=1265 promotions=192 evictions=1125 bypasses=7376 evicted_before_reuse=3387
+[j022_postfix] bytes_streamed=32948699136 bytes/token=362073616.9 stream_reads=25923 stream_bytes=32948699136 advice_calls=34945
+[j022_postfix] generated_ids=[187, 187, 510, 1708, 5967, 6225, 327, 247, 33848, 562, 68, 1658, 13, 253, 760, 581, 323, 6574, 1475, 15, 733, 369, 247, 10086]
+CHECK idle ids == J-022 post-fix ids: PASS
+CHECK loaded ids == J-022 post-fix ids: PASS
+CHECK idle prompt ids == J-022 prompt ids: PASS
+CHECK idle cache == J-022 cache (all counters): PASS
+CHECK loaded cache == idle cache (all counters): PASS
+CHECK loaded stream == idle stream: PASS
+CHECK stream bytes == cache bytes_streamed (idle): PASS
+RATIO loaded/idle wall/token = 1.0585
+RATIO loaded/idle prefill = 1.0511
+RATIO loaded/idle decode = 1.0803
+J022_POSTFIX (S-093-contended) wall/token = 0.678498 s  decode_tok/s=1.6641  (MEASURED-INDICATIVE only, per J-022 S7.3)
+VERDICT: ALL CHECKS PASS
