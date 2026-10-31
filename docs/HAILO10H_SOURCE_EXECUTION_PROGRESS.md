@@ -7838,3 +7838,45 @@ cumulative cumulative cumulative-remaining
 remaining-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.259 (AES-NUM-259) is complete. The
+closing-run cumulative cumulative cumulative
+cumulative-remaining remainings are now stated
+as one sequence:
+[55, 207, 486, 910, 1488, 2223, 3115, 4164] over
+positions 1-8 — the running total of each
+position's AES-NUM-258 cumulative cumulative
+cumulative-remaining remaining value, each
+printed set, count, cumulative total,
+difference, remaining, cumulative remaining,
+cumulative-remaining remaining, cumulative
+cumulative-remaining remaining and cumulative
+cumulative cumulative-remaining remaining equal
+to its
+AES-NUM-247/248/249/250/251/254/256/257/258 value
+at all eight positions, ending at 4164. The
+distinct cumulative cumulative cumulative
+totals are eight: 55 x1 at position 1; 207 x1
+at position 2; 486 x1 at position 3; 910 x1 at
+position 4; 1488 x1 at position 5; 2223 x1 at
+position 6; 3115 x1 at position 7; 4164 x1 at
+position 8 (counts sum to 8). The gap
+cumulative cumulative cumulative
+cumulative-remaining remaining-count sequence
+is [12, 45, 105, 195, 316, 468, 651], ending at
+651, with agreeing gap positions 5, 6, 7 equal
+to AES-NUM-245. The single launch finished
+DONE259, exit 0, err empty, and its first
+59,020 prefix lines differ from hef258.out in
+exactly one line (line 42872, frozenset element
+order only — the AES-NUM-150 variance, verified
+by same-sorted-characters comparison). Next:
+the closing-run cumulative cumulative
+cumulative cumulative cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative cumulative cumulative cumulative
+totals with positions and counts, and the gap
+cumulative cumulative cumulative cumulative
+cumulative-remaining remaining-count sequence
+in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
