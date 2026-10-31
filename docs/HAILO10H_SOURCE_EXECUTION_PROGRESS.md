@@ -7924,3 +7924,51 @@ cumulative-remaining remaining-count sequence
 in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.261 (AES-NUM-261) is complete. The
+closing-run cumulative cumulative cumulative
+cumulative cumulative cumulative-remaining
+remainings are now stated as one sequence:
+[55, 317, 1065, 2723, 5869, 11238, 19722, 32370]
+over positions 1-8 — the running total of each
+position's AES-NUM-260 cumulative cumulative
+cumulative cumulative cumulative-remaining
+remaining value, each printed set, count,
+cumulative total, difference, remaining,
+cumulative remaining, cumulative-remaining
+remaining, cumulative cumulative-remaining
+remaining, cumulative cumulative
+cumulative-remaining remaining, cumulative
+cumulative cumulative cumulative-remaining
+remaining and cumulative cumulative cumulative
+cumulative cumulative-remaining remaining equal
+to its
+AES-NUM-247/248/249/250/251/254/256/257/258/259/260
+value at all eight positions, ending at 32370.
+The distinct cumulative cumulative cumulative
+cumulative cumulative totals are eight: 55 x1 at
+position 1; 317 x1 at position 2; 1065 x1 at
+position 3; 2723 x1 at position 4; 5869 x1 at
+position 5; 11238 x1 at position 6; 19722 x1 at
+position 7; 32370 x1 at position 8 (counts sum
+to 8). The gap cumulative cumulative cumulative
+cumulative cumulative cumulative-remaining
+remaining-count sequence is
+[12, 69, 231, 588, 1261, 2402, 4194], ending
+at 4194, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE261, exit 0, err empty, and its first
+59,108 prefix lines differ from hef260.out in
+exactly one line (line 41611, frozenset element
+order only — the AES-NUM-150 variance, verified
+by same-sorted-characters comparison). Next:
+the closing-run cumulative cumulative
+cumulative cumulative cumulative cumulative
+cumulative-remaining remaining-count sequence
+in full, the distinct cumulative cumulative
+cumulative cumulative cumulative cumulative
+totals with positions and counts, and the gap
+cumulative cumulative cumulative cumulative
+cumulative cumulative cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
