@@ -14,6 +14,12 @@ always reported by the constructor line; this session never silently
 degenerates to all-CPU or all-GPU execution.
 """
 from loader.gguf import GGUFSeer
+from core.dense_residency import (
+    DenseResidencyPlan,
+    dense_always_resident_bytes,
+    dense_layer_bytes,
+    describe_dense_spill,
+)
 from core.llama3_cuda import Llama3CUDASession
 from core.inference import TransformerBlock
 from core.mimir_well import MimirWell, KVCache, RuneTensor, f16, f32
@@ -27,6 +33,7 @@ struct Llama3SpillSession(Movable):
     var kv_cache: KVCache
     var blocks: List[TransformerBlock]
     var exec_layers: Int
+    var residency: DenseResidencyPlan
     var layer_count: Int
     var hidden: Int
     var context_length: Int
@@ -57,13 +64,33 @@ struct Llama3SpillSession(Movable):
                                self.seer.config.head_count, self.seer))
         self.position = 0
         print("[SPILL] gpu_layers=" + String(self.exec_layers) + "/" + String(self.layer_count) + " cpu_layers=" + String(self.layer_count - self.exec_layers) + " context=" + String(context_length))
+        # J-021: the same split, stated through the Part II residency
+        # machinery -- per-layer bytes summed from the front session's
+        # tensor directory (its directory keeps true file sizes; the
+        # compaction rewrote only descriptor copies), the always-
+        # resident set derived from the same directory. Accounting
+        # only: nothing on the execution path reads this plan.
+        var layer_sizes = List[Int]()
+        for layer in range(self.layer_count):
+            layer_sizes.append(dense_layer_bytes(self.front.model, layer))
+        self.residency = describe_dense_spill(
+            layer_sizes,
+            self.exec_layers,
+            dense_always_resident_bytes(self.front.model),
+        )
+        print("[RESIDENCY] " + self.residency.describe())
 
     def step(mut self, token: Int) raises -> Int:
         """Process one token at the current position across the split and
         return the greedily selected next token. The GPU front runs the
         embedding and front layers; the hidden vector crosses to host
         once; the CPU tail runs the remaining layers, the final norm, the
-        output projection, and the argmax."""
+        output projection, and the argmax. Since J-021 the constructor also
+reports the split through the Part II residency machinery
+(core/dense_residency.mojo): the [RESIDENCY] line states the front
+prefix as pinned device-resident layers and the tail as host-resident
+layers, at directory-true byte sizes, in the J-018 statistics
+vocabulary's terms."""
         if token < 0 or self.position >= self.context_length:
             raise Error("Spill session token/context bound exceeded")
         self.front.forward_front(token)
