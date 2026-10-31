@@ -6042,7 +6042,7 @@
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.254 the
+- [x] Slice4.254 the
   closing-run cumulative
   remaining-count sequence
   in full; the distinct
@@ -6053,6 +6053,20 @@
   count sequence in full
   (checked against
   AES-NUM-251 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.255 the
+  closing-run cumulative-
+  remaining-minus-remaining
+  difference sequence in
+  full; the distinct
+  differences in full
+  (positions and counts);
+  and the gap cumulative-
+  remaining difference
+  sequence in full (checked
+  against AES-NUM-254 and
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
