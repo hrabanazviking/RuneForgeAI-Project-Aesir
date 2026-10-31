@@ -1,0 +1,9 @@
+Admission attempt, purplelongship 2026-10-31 ~06:47 EDT.
+Command: test_olmoe_stream_v2 /home/volmarr/j022/Qwen3-Next-80B-A3B-Instruct-Q4_K_M.gguf 512 536870912 510,1708 1
+(LD_LIBRARY_PATH=j022/stage, CUDA_VISIBLE_DEVICES=, nice 10, timeout 90. Machine state at attempt:
+MemAvailable 37,465 MB, GPU 1 MiB used / 6,144 MiB total, 204 road's S-093 build live — the attempt
+is header/loader work only and exited before any stepping.)
+
+EXIT=1
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: GGUF is missing required tensor: blk.0.attn_q.weight

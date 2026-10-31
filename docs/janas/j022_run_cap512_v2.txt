@@ -1,0 +1,7 @@
+GGUF validated: 195 tensors, 38 metadata entries, architecture olmoe
+[MOE] arch=olmoe layers=16 hidden=2048 experts=64 topk=8 expert_bytes=3900702720 cache_budget_bytes=536870912 context=512
+Prompt IDs: [510, 1708, 5967, 43775, 21863, 253, 6891, 16303, 1078, 20632, 13, 8785, 247, 40962, 285, 247, 24849, 275, 534, 344, 5950, 253, 8588, 15, 380, 6150, 2708, 369, 11874, 13, 285, 253, 806, 15133, 19750, 497, 2168, 6108, 253, 36050, 15, 754, 4159, 253, 3522, 13, 253, 5448, 3884, 13, 285, 253, 10688, 273, 253, 8467, 13, 347, 344, 574, 2218, 1046, 4131, 323, 10488, 1107, 15]
+Generated IDs: [187, 187, 510, 1708, 5967, 13, 285, 253, 806, 281, 320, 2326, 323, 253, 1846, 390, 348, 2352, 327, 253, 2659, 273, 253, 411]
+[CACHE] accesses=11648 hits=2519 misses=9129 cold_misses=998 hit_rate_per_mille=216 bypasses=7762 too_large=0 admissions=1367 promotions=209 evictions=1226 evicted_before_reuse=3637 bytes_streamed=34741125120 bytes_evicted=4636114944 bytes_resident_now=535216128 entries_now=141 budget_bytes=536870912
+[STREAM] StreamReader(path=/home/volmarr/aesir-gpu/.aesir/models/olmoe-1b-7b-0924-instruct-q4_k_m.gguf, reads=27387, bytes_read=34741125120, advice_calls=34945, advised_bytes=44370493440)
+TIMING prompt_tokens= 67  prefill_s= 27.380323703982867  generated= 24  decode_s= 9.250191758037545
