@@ -7594,3 +7594,36 @@ positions and counts, and the gap
 remaining-before-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.252 (AES-NUM-252) is complete. The
+closing-run remaining-before counts are now
+stated as one sequence: [16, 15, 13, 12, 12, 9,
+6, 3] over positions 1-8 — the total 16 minus
+each position's AES-NUM-250 cumulative-minus-
+count difference, equivalently each position's
+AES-NUM-251 remaining plus its own agreement
+count, each printed set, count, cumulative
+total, difference and remaining equal to its
+AES-NUM-247/248/249/250/251 value at all eight
+positions, starting at 16. The distinct
+remaining-before values are seven: 16 x1 at
+position 1; 15 x1 at position 2; 13 x1 at
+position 3; 12 x2 at positions 4, 5; 9 x1 at
+position 6; 6 x1 at position 7; 3 x1 at
+position 8 (counts sum to 8). The gap
+remaining-before-count sequence is
+[3, 3, 3, 3, 3, 2, 1], starting at 3, with
+agreeing gap positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE252, exit 0, err empty, and its first
+58,717 prefix lines differ from hef251.out in
+exactly one line (line 41611, frozenset element
+order only — the AES-NUM-150 variance; the
+second variance line seen in earlier runs,
+42872, did not differ this run). Next: the
+closing-run cumulative remaining-before-count
+sequence in full, the distinct cumulative
+remaining-before totals with positions and
+counts, and the gap cumulative
+remaining-before-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
