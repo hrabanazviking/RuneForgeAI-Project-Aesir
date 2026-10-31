@@ -1,0 +1,61 @@
+J-021 spill re-proof runs -- purplelongship, 2026-10-31 ~05:44-05:47 EDT.
+Binaries built on-box from the J-021 tree (28f6fca9): mojo build
+--mcpu znver2 --target-accelerator sm_75, BUILD_EXIT=0 both vehicles.
+Model: L3-8B-Stheno-v3.2-Q4_K_M.gguf, 4,920,734,240 B,
+sha256 8e98c1953f9c04e060fd9640bbe866685c844363a2360f09099b79c6c9195fc4
+(the S-011 spill proof's own file). Machine state: 204 road's S-090
+driver finished (driver_done.txt present) before the first run;
+1-min loadavg 0.10-0.52, GPU idle 1 MiB before runs, Tctl 52 C at the
+first run (cooling from S-090's grade phase). Walls are single runs:
+MEASURED-INDICATIVE, not baselines.
+
+=== whole-GPU, context 4096 (test_llama3_cuda, J-021 tree) -- REFUSED ===
+CUDA_RUN_EXIT=1
+Unhandled exception: CUDA model does not fit:
+code=device_required_exceeds_usable required_bytes=5459657764
+available_bytes=5637144576 reserve_bytes=268435456
+usable_bytes=5368709120 deficit_bytes=90948644 headroom_bytes=0;
+reduce context or choose another device; no CPU fallback
+(The whole model at 4096 does not fit the 6 GB card -- the reason the
+spill path exists. The whole-GPU comparator therefore runs at 2048,
+where it fits; context does not change the math for 28 tokens.)
+
+=== whole-GPU, context 2048 (test_llama3_cuda, J-021 tree) ===
+EXIT=0
+[CUDA] native Mojo Llama 3 8B; device=0 api=cuda layers=32/32 weights_bytes=4920734240 kv_bytes=268435456 context=2048 host_staging_bytes=67108864 cpu_offload=0
+Prompt IDs: [128000, 128006, 882, 128007, 271, 3923, 374, 1403, 5636, 1403, 30, 22559, 304, 832, 2875, 11914, 13, 128009, 128006, 78191, 128007, 271]
+Two plus two equals four.
+EOS 128009
+TIMING prompt_tokens= 22  prefill_s= 1.147096739965491  generated= 6  decode_s= 0.436305048991926
+
+=== spill 31/32, context 2048 (test_llama3_spill, J-021 tree) ===
+EXIT2048=0
+[CUDA] native Mojo Llama 3 8B; device=0 api=cuda layers=31/32 weights_bytes=4359225344 kv_bytes=260046848 context=2048 host_staging_bytes=48168960 cpu_offload=1
+GGUF validated: 291 tensors, 26 metadata entries, architecture llama
+[SPILL] gpu_layers=31/32 cpu_layers=1 context=2048
+[RESIDENCY] layers=32 gpu_layers=31 host_layers=1 always_resident_bytes=295501824 host_resident_bytes=430956544 gpu_layer_bytes=4063723520 host_layer_bytes=122716160 total_layer_bytes=4186439680 device_resident_bytes=4359225344 host_total_bytes=553672704 device_budget_bytes=0 spilled=True
+Prompt IDs: [128000, 128006, 882, 128007, 271, 3923, 374, 1403, 5636, 1403, 30, 22559, 304, 832, 2875, 11914, 13, 128009, 128006, 78191, 128007, 271]
+Two plus two equals four.
+EOS 128009
+TIMING prompt_tokens= 22  prefill_s= 1.803939276956953  generated= 6  decode_s= 0.5997758930316195
+
+=== spill 31/32, context 4096 (test_llama3_spill, J-021 tree) ===
+EXIT4096=0
+[CUDA] native Mojo Llama 3 8B; device=0 api=cuda layers=31/32 weights_bytes=4359225344 kv_bytes=520093696 context=4096 host_staging_bytes=48168960 cpu_offload=1
+GGUF validated: 291 tensors, 26 metadata entries, architecture llama
+[SPILL] gpu_layers=31/32 cpu_layers=1 context=4096
+[RESIDENCY] layers=32 gpu_layers=31 host_layers=1 always_resident_bytes=295501824 host_resident_bytes=430956544 gpu_layer_bytes=4063723520 host_layer_bytes=122716160 total_layer_bytes=4186439680 device_resident_bytes=4359225344 host_total_bytes=553672704 device_budget_bytes=0 spilled=True
+Prompt IDs: [128000, 128006, 882, 128007, 271, 3923, 374, 1403, 5636, 1403, 30, 22559, 304, 832, 2875, 11914, 13, 128009, 128006, 78191, 128007, 271]
+Two plus two equals four.
+EOS 128009
+TIMING prompt_tokens= 22  prefill_s= 1.6943177139619365  generated= 6  decode_s= 0.5834972170414403
+
+=== the S-011 record this re-proves (204 road, binary from 9ef77ad9) ===
+[CUDA] native Mojo Llama 3 8B; device=0 api=cuda layers=31/32 weights_bytes=4359225344 kv_bytes=520093696 context=4096 host_staging_bytes=48168960 cpu_offload=1
+[SPILL] gpu_layers=31/32 cpu_layers=1 context=4096
+Prompt IDs: [128000, 128006, 882, 128007, 271, 3923, 374, 1403, 5636, 1403, 30, 22559, 304, 832, 2875, 11914, 13, 128009, 128006, 78191, 128007, 271]
+Two plus two equals four.
+EOS 128009
+TIMING prompt_tokens= 22  prefill_s= 1.665  generated= 6  decode_s= 0.520
+GPU peak 4,746 MiB, 44 C (J-021 runs: not sampled; single-run walls
+above are MEASURED-INDICATIVE beside it, same numbers class.)

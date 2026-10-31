@@ -1,0 +1,14 @@
+J-021 cyclic-scan replay through DenseLayerCache (docs/janas/j021_layer_replay.mojo),
+run on the VM 2026-10-31 (light compute only, no inference). Demand: 28 tokens x
+32 layers in order; sizes = the measured Stheno Q4_K_M layer sizes (see
+j021_layer_sizes.py output in J021_DENSE_SPILL_GENERALISED.md section 3).
+
+layer_body_bytes=4186439680 layers=32
+SCAN policy=lru budget=4186439680 accesses=896 hits=864 misses=32 cold_misses=32 hit_rate_per_mille=964 bypasses=0 too_large=0 admissions=32 promotions=0 evictions=0 evicted_before_reuse=0 bytes_streamed=4186439680 bytes_evicted=0 bytes_resident_now=4186439680 entries_now=32 budget_bytes=4186439680
+SCAN policy=segmented budget=4186439680 accesses=896 hits=0 misses=896 cold_misses=32 hit_rate_per_mille=0 bypasses=0 too_large=0 admissions=896 promotions=0 evictions=892 evicted_before_reuse=864 bytes_streamed=117220311040 bytes_evicted=116697006080 bytes_resident_now=523304960 entries_now=4 budget_bytes=4186439680
+SCAN policy=lru budget=4063723520 accesses=896 hits=0 misses=896 cold_misses=32 hit_rate_per_mille=0 bypasses=0 too_large=0 admissions=896 promotions=0 evictions=865 evicted_before_reuse=864 bytes_streamed=117220311040 bytes_evicted=113172807680 bytes_resident_now=4047503360 entries_now=31 budget_bytes=4063723520
+SCAN policy=segmented budget=4063723520 accesses=896 hits=0 misses=896 cold_misses=32 hit_rate_per_mille=0 bypasses=0 too_large=0 admissions=896 promotions=0 evictions=893 evicted_before_reuse=864 bytes_streamed=117220311040 bytes_evicted=116835942400 bytes_resident_now=384368640 entries_now=3 budget_bytes=4063723520
+SCAN policy=lru budget=2093219840 accesses=896 hits=0 misses=896 cold_misses=32 hit_rate_per_mille=0 bypasses=0 too_large=0 admissions=896 promotions=0 evictions=880 evicted_before_reuse=864 bytes_streamed=117220311040 bytes_evicted=115175751680 bytes_resident_now=2044559360 entries_now=16 budget_bytes=2093219840
+SCAN policy=segmented budget=2093219840 accesses=896 hits=0 misses=896 cold_misses=32 hit_rate_per_mille=0 bypasses=0 too_large=0 admissions=896 promotions=0 evictions=894 evicted_before_reuse=864 bytes_streamed=117220311040 bytes_evicted=116958658560 bytes_resident_now=261652480 entries_now=2 budget_bytes=2093219840
+SCAN policy=lru budget=523304960 accesses=896 hits=0 misses=896 cold_misses=32 hit_rate_per_mille=0 bypasses=0 too_large=0 admissions=896 promotions=0 evictions=892 evicted_before_reuse=864 bytes_streamed=117220311040 bytes_evicted=116697006080 bytes_resident_now=523304960 entries_now=4 budget_bytes=523304960
+SCAN policy=segmented budget=523304960 accesses=896 hits=0 misses=896 cold_misses=32 hit_rate_per_mille=0 bypasses=896 too_large=0 admissions=0 promotions=0 evictions=0 evicted_before_reuse=0 bytes_streamed=117220311040 bytes_evicted=0 bytes_resident_now=0 entries_now=0 budget_bytes=523304960
