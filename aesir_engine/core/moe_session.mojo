@@ -12,9 +12,18 @@ selected expert). Payload bytes live in per-expert buffers whose total
 tracks the cache's own residency: when the cache evicts, the payload
 is dropped before the next admission is loaded.
 
-Routing follows the file's published rule (J-016's adopted readings):
-softmax over the router logits, top-k selection, weights renormalized
-to sum 1; Q/K RMSNorm applied full-width (the file stores hidden-wide
+Routing follows the ggml comparator's OLMoE graph (the raw-oracle
+reference this engine is graded against): softmax over the router
+logits, top-k selection, and the selected experts' weights are their
+RAW softmax probabilities -- NOT renormalized to sum 1 (llama.cpp's
+OLMoE builder passes norm_w=false and expert_weights_scale=0). The
+renormalized reading (J-016's adopted rule, taken from the HF-style
+description) was the J-022 B1 defect: it shrank every layer's MoE
+output by the top-8 probability mass (~0.5-0.8), a per-token error
+that compounds through depth and context; measured 2026-10-31 --
+removing the renormalization reproduces the comparator's
+last-position logits at seq2 and seq8 to <=0.14 over the top-5.
+Q/K RMSNorm applied full-width (the file stores hidden-wide
 norm vectors); RoPE is the NeoX rotate-half form at the file's base;
 attention, norms, and GEMMs are the engine's existing host primitives,
 the same ones the dense TransformerBlock uses.
@@ -428,7 +437,8 @@ struct MoEStreamSession(Movable):
             for i in range(self.hidden):
                 self.dump_hidden.append(x.data.unsafe_load(i).cast[DType.float32]())
 
-        # FFN: norm, router, softmax, top-k, renormalize (J-016 rules).
+        # FFN: norm, router, softmax, top-k, raw-probability weights
+        # (comparator's OLMoE rule; NOT renormalized -- B1 fix).
         for i in range(self.hidden):
             residual.data.unsafe_store(i, x.data.unsafe_load(i))
         rmsnorm(x, self.seer.tensors[prefix + "ffn_norm.weight"], epsilon)
@@ -455,7 +465,10 @@ struct MoEStreamSession(Movable):
         var picked = List[Bool]()
         for _ in range(self.expert_count):
             picked.append(False)
-        var wsum: Float32 = 0.0
+        # B1 fix (2026-10-31): the comparator's OLMoE graph does NOT
+        # renormalize the top-k weights -- the experts are weighted by
+        # their raw softmax probabilities. Do not re-add a renorm here;
+        # it was the J-022 forward deviation (see module docstring).
         for _ in range(self.expert_used):
             var best = -1
             var best_p: Float32 = -1.0
@@ -466,9 +479,6 @@ struct MoEStreamSession(Movable):
             picked[best] = True
             chosen.append(best)
             chosen_w.append(best_p)
-            wsum += best_p
-        for i in range(len(chosen_w)):
-            chosen_w[i] = chosen_w[i] / wsum
         if self.debug_dump:
             for i in range(len(chosen)):
                 self.dump_route.append(Float32(chosen[i]))
