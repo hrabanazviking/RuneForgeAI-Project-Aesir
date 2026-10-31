@@ -60,7 +60,7 @@ def main() raises:
         var line = String("DUMP ") + String(c)
         for i in range(hidden):
             var v = session.dump_hidden[c * hidden + i]
-            line += "," + String(Int(v * 1000000.0 + (0.5 if v >= 0 else -0.5)))
+            line += "," + String(Int(v * Float32(1000000.0) + (Float32(0.5) if v >= 0 else Float32(-0.5))))
         print(line)
     var per_layer = session.expert_used * 2
     for layer in range(session.layer_count):
@@ -70,5 +70,5 @@ def main() raises:
             if i % 2 == 0:
                 line += "," + String(Int(v))
             else:
-                line += "," + String(Int(v * 1000000.0 + (0.5 if v >= 0 else -0.5)))
+                line += "," + String(Int(v * Float32(1000000.0) + (Float32(0.5) if v >= 0 else Float32(-0.5))))
         print(line)
