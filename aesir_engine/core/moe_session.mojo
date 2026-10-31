@@ -129,6 +129,15 @@ struct MoEStreamSession(Movable):
     var max_gate_bytes: Int
     var max_up_bytes: Int
     var max_down_bytes: Int
+    # B1 bisection hook (J-022): when debug_dump is set, step() records
+    # the hidden vector after the embedding, after each layer's
+    # attention residual, after each layer's MoE residual, and after the
+    # last layer, plus each layer's chosen experts/weights for the
+    # dumped token, into dump_hidden / dump_route. Default off; no
+    # behaviour change when off.
+    var debug_dump: Bool
+    var dump_hidden: List[Float32]
+    var dump_route: List[Float32]
 
     def __init__(
         out self,
@@ -212,6 +221,9 @@ struct MoEStreamSession(Movable):
         self.scratch = _ExpertPayload(
             self.max_gate_bytes, self.max_up_bytes, self.max_down_bytes
         )
+        self.debug_dump = False
+        self.dump_hidden = List[Float32]()
+        self.dump_route = List[Float32]()
         print(
             "[MOE] arch=olmoe layers="
             + String(self.layer_count)
@@ -412,6 +424,9 @@ struct MoEStreamSession(Movable):
         gemm_f16(attn_out, self.seer.tensors[prefix + "attn_output.weight"], x)
         for i in range(self.hidden):
             x.data.unsafe_store(i, x.data.unsafe_load(i) + residual.data.unsafe_load(i))
+        if self.debug_dump:
+            for i in range(self.hidden):
+                self.dump_hidden.append(x.data.unsafe_load(i).cast[DType.float32]())
 
         # FFN: norm, router, softmax, top-k, renormalize (J-016 rules).
         for i in range(self.hidden):
@@ -454,6 +469,10 @@ struct MoEStreamSession(Movable):
             wsum += best_p
         for i in range(len(chosen_w)):
             chosen_w[i] = chosen_w[i] / wsum
+        if self.debug_dump:
+            for i in range(len(chosen)):
+                self.dump_route.append(Float32(chosen[i]))
+                self.dump_route.append(chosen_w[i])
 
         # J-019 pipeline discipline: advise the kernel for every chosen
         # expert's slabs before the first read of this layer.
@@ -476,6 +495,9 @@ struct MoEStreamSession(Movable):
                 i,
                 residual.data.unsafe_load(i) + Scalar[f16](acc[i]),
             )
+        if self.debug_dump:
+            for i in range(self.hidden):
+                self.dump_hidden.append(x.data.unsafe_load(i).cast[DType.float32]())
         self.well.offset = mark
 
     def step(mut self, token: Int) raises -> Int:
@@ -487,8 +509,14 @@ struct MoEStreamSession(Movable):
         var x_ptr = self.well.allocate(self.hidden)
         _embed_token_into(self.seer, token, x_ptr)
         var x = RuneTensor[f16](1, self.hidden, x_ptr, False)
+        if self.debug_dump:
+            for i in range(self.hidden):
+                self.dump_hidden.append(x.data.unsafe_load(i).cast[DType.float32]())
         for layer in range(self.layer_count):
             self._layer_forward(layer, x, self.position)
+        if self.debug_dump:
+            for i in range(self.hidden):
+                self.dump_hidden.append(x.data.unsafe_load(i).cast[DType.float32]())
         var epsilon: Scalar[f32] = 1e-5
         if self.seer.config.rms_epsilon > 0.0:
             epsilon = self.seer.config.rms_epsilon
