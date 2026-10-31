@@ -1,0 +1,647 @@
+{
+ "trace_kind": "synthetic-validation",
+ "model": "SYNTHETIC (no model)",
+ "arch": "synthetic",
+ "instrument": "j016_make_synthetic_trace.py (invented Zipf process, seed 16016)",
+ "n_tokens": 210,
+ "n_prompts": 3,
+ "prompts": {
+  "syn-prose": {
+   "tokens": 90,
+   "accesses": 11520,
+   "distinct_pairs": 1000,
+   "cold_first_use_in_prompt": 1000
+  },
+  "syn-code": {
+   "tokens": 70,
+   "accesses": 8960,
+   "distinct_pairs": 978,
+   "cold_first_use_in_prompt": 978
+  },
+  "syn-numbers": {
+   "tokens": 50,
+   "accesses": 6400,
+   "distinct_pairs": 933,
+   "cold_first_use_in_prompt": 933
+  }
+ },
+ "hit_distribution": {
+  "total_accesses": 26880,
+  "distinct_experts_hit_aggregate": 64,
+  "dead_experts_aggregate": 0,
+  "entropy_bits": 5.8489,
+  "entropy_max_bits": 6.0,
+  "top10": [
+   {
+    "expert": 31,
+    "hits": 1164,
+    "share": 0.043304
+   },
+   {
+    "expert": 40,
+    "hits": 840,
+    "share": 0.03125
+   },
+   {
+    "expert": 29,
+    "hits": 751,
+    "share": 0.027939
+   },
+   {
+    "expert": 26,
+    "hits": 735,
+    "share": 0.027344
+   },
+   {
+    "expert": 48,
+    "hits": 729,
+    "share": 0.027121
+   },
+   {
+    "expert": 21,
+    "hits": 699,
+    "share": 0.026004
+   },
+   {
+    "expert": 18,
+    "hits": 692,
+    "share": 0.025744
+   },
+   {
+    "expert": 59,
+    "hits": 682,
+    "share": 0.025372
+   },
+   {
+    "expert": 33,
+    "hits": 657,
+    "share": 0.024442
+   },
+   {
+    "expert": 11,
+    "hits": 643,
+    "share": 0.023921
+   }
+  ],
+  "bottom_share": 0.073624,
+  "per_layer": [
+   {
+    "layer": 0,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4257,
+    "top5": [
+     {
+      "expert": 27,
+      "hits": 139
+     },
+     {
+      "expert": 31,
+      "hits": 106
+     },
+     {
+      "expert": 1,
+      "hits": 98
+     },
+     {
+      "expert": 26,
+      "hits": 89
+     },
+     {
+      "expert": 16,
+      "hits": 83
+     }
+    ]
+   },
+   {
+    "layer": 1,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.2809,
+    "top5": [
+     {
+      "expert": 31,
+      "hits": 181
+     },
+     {
+      "expert": 21,
+      "hits": 159
+     },
+     {
+      "expert": 34,
+      "hits": 80
+     },
+     {
+      "expert": 0,
+      "hits": 79
+     },
+     {
+      "expert": 49,
+      "hits": 74
+     }
+    ]
+   },
+   {
+    "layer": 2,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.3572,
+    "top5": [
+     {
+      "expert": 0,
+      "hits": 169
+     },
+     {
+      "expert": 34,
+      "hits": 131
+     },
+     {
+      "expert": 14,
+      "hits": 90
+     },
+     {
+      "expert": 15,
+      "hits": 82
+     },
+     {
+      "expert": 38,
+      "hits": 59
+     }
+    ]
+   },
+   {
+    "layer": 3,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4257,
+    "top5": [
+     {
+      "expert": 60,
+      "hits": 150
+     },
+     {
+      "expert": 0,
+      "hits": 101
+     },
+     {
+      "expert": 42,
+      "hits": 100
+     },
+     {
+      "expert": 12,
+      "hits": 83
+     },
+     {
+      "expert": 18,
+      "hits": 60
+     }
+    ]
+   },
+   {
+    "layer": 4,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4449,
+    "top5": [
+     {
+      "expert": 7,
+      "hits": 141
+     },
+     {
+      "expert": 55,
+      "hits": 100
+     },
+     {
+      "expert": 40,
+      "hits": 98
+     },
+     {
+      "expert": 5,
+      "hits": 82
+     },
+     {
+      "expert": 48,
+      "hits": 82
+     }
+    ]
+   },
+   {
+    "layer": 5,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.3505,
+    "top5": [
+     {
+      "expert": 24,
+      "hits": 149
+     },
+     {
+      "expert": 48,
+      "hits": 109
+     },
+     {
+      "expert": 13,
+      "hits": 95
+     },
+     {
+      "expert": 26,
+      "hits": 90
+     },
+     {
+      "expert": 40,
+      "hits": 85
+     }
+    ]
+   },
+   {
+    "layer": 6,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4656,
+    "top5": [
+     {
+      "expert": 56,
+      "hits": 146
+     },
+     {
+      "expert": 12,
+      "hits": 96
+     },
+     {
+      "expert": 8,
+      "hits": 95
+     },
+     {
+      "expert": 59,
+      "hits": 92
+     },
+     {
+      "expert": 21,
+      "hits": 88
+     }
+    ]
+   },
+   {
+    "layer": 7,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.2943,
+    "top5": [
+     {
+      "expert": 31,
+      "hits": 152
+     },
+     {
+      "expert": 56,
+      "hits": 137
+     },
+     {
+      "expert": 46,
+      "hits": 104
+     },
+     {
+      "expert": 16,
+      "hits": 99
+     },
+     {
+      "expert": 29,
+      "hits": 85
+     }
+    ]
+   },
+   {
+    "layer": 8,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.3367,
+    "top5": [
+     {
+      "expert": 44,
+      "hits": 146
+     },
+     {
+      "expert": 18,
+      "hits": 102
+     },
+     {
+      "expert": 59,
+      "hits": 100
+     },
+     {
+      "expert": 29,
+      "hits": 86
+     },
+     {
+      "expert": 31,
+      "hits": 83
+     }
+    ]
+   },
+   {
+    "layer": 9,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4585,
+    "top5": [
+     {
+      "expert": 25,
+      "hits": 130
+     },
+     {
+      "expert": 7,
+      "hits": 91
+     },
+     {
+      "expert": 18,
+      "hits": 76
+     },
+     {
+      "expert": 59,
+      "hits": 75
+     },
+     {
+      "expert": 4,
+      "hits": 74
+     }
+    ]
+   },
+   {
+    "layer": 10,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.3822,
+    "top5": [
+     {
+      "expert": 31,
+      "hits": 150
+     },
+     {
+      "expert": 51,
+      "hits": 143
+     },
+     {
+      "expert": 26,
+      "hits": 104
+     },
+     {
+      "expert": 50,
+      "hits": 83
+     },
+     {
+      "expert": 48,
+      "hits": 70
+     }
+    ]
+   },
+   {
+    "layer": 11,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.2862,
+    "top5": [
+     {
+      "expert": 40,
+      "hits": 162
+     },
+     {
+      "expert": 48,
+      "hits": 156
+     },
+     {
+      "expert": 21,
+      "hits": 99
+     },
+     {
+      "expert": 37,
+      "hits": 74
+     },
+     {
+      "expert": 56,
+      "hits": 73
+     }
+    ]
+   },
+   {
+    "layer": 12,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4898,
+    "top5": [
+     {
+      "expert": 32,
+      "hits": 141
+     },
+     {
+      "expert": 11,
+      "hits": 118
+     },
+     {
+      "expert": 19,
+      "hits": 82
+     },
+     {
+      "expert": 1,
+      "hits": 64
+     },
+     {
+      "expert": 49,
+      "hits": 57
+     }
+    ]
+   },
+   {
+    "layer": 13,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4487,
+    "top5": [
+     {
+      "expert": 39,
+      "hits": 137
+     },
+     {
+      "expert": 59,
+      "hits": 127
+     },
+     {
+      "expert": 26,
+      "hits": 84
+     },
+     {
+      "expert": 40,
+      "hits": 74
+     },
+     {
+      "expert": 27,
+      "hits": 69
+     }
+    ]
+   },
+   {
+    "layer": 14,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4198,
+    "top5": [
+     {
+      "expert": 51,
+      "hits": 148
+     },
+     {
+      "expert": 15,
+      "hits": 110
+     },
+     {
+      "expert": 19,
+      "hits": 102
+     },
+     {
+      "expert": 5,
+      "hits": 89
+     },
+     {
+      "expert": 40,
+      "hits": 86
+     }
+    ]
+   },
+   {
+    "layer": 15,
+    "accesses": 1680,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4078,
+    "top5": [
+     {
+      "expert": 29,
+      "hits": 147
+     },
+     {
+      "expert": 7,
+      "hits": 144
+     },
+     {
+      "expert": 42,
+      "hits": 106
+     },
+     {
+      "expert": 26,
+      "hits": 106
+     },
+     {
+      "expert": 34,
+      "hits": 62
+     }
+    ]
+   }
+  ]
+ },
+ "reuse": {
+  "cold_accesses": 1024,
+  "cold_fraction": 0.038095,
+  "repeat_accesses": 25856,
+  "stack_distance": {
+   "mean": 336.247,
+   "median": 277,
+   "p90": 700,
+   "max": 1023
+  },
+  "token_gap_between_uses": {
+   "mean": 6.941,
+   "median": 3,
+   "p90": 17,
+   "max": 188
+  }
+ },
+ "working_set": {
+  "32": {
+   "mean_distinct_pairs": 853.89,
+   "max_distinct_pairs": 890,
+   "min_distinct_pairs": 831,
+   "of_total_pairs": 1024,
+   "mean_bytes": 3021862763,
+   "max_bytes": 3149660160
+  },
+  "128": {
+   "mean_distinct_pairs": 1018.92,
+   "max_distinct_pairs": 1022,
+   "min_distinct_pairs": 1015,
+   "of_total_pairs": 1024,
+   "mean_bytes": 3605885470,
+   "max_bytes": 3616800768
+  },
+  "512": {
+   "mean_distinct_pairs": 1024.0,
+   "max_distinct_pairs": 1024,
+   "min_distinct_pairs": 1024,
+   "of_total_pairs": 1024,
+   "mean_bytes": 3623878656,
+   "max_bytes": 3623878656
+  },
+  "full_trace": {
+   "distinct_pairs": 1024,
+   "of_total_pairs": 1024,
+   "bytes": 3623878656
+  }
+ },
+ "routed_counts": {
+  "expected_per_token": 128,
+  "all_tokens_match_topk_x_layers": true,
+  "distinct_pairs_per_token_mean": 128.0,
+  "distinct_pairs_per_token_max": 128
+ },
+ "cache_simulation": {
+  "128": {
+   "capacity_pairs": 128,
+   "lru_hit_rate": 0.198698,
+   "lfu_hit_rate": 0.394345,
+   "approx_bytes_at_mean_expert": 452984832
+  },
+  "256": {
+   "capacity_pairs": 256,
+   "lru_hit_rate": 0.465439,
+   "lfu_hit_rate": 0.580246,
+   "approx_bytes_at_mean_expert": 905969664
+  },
+  "512": {
+   "capacity_pairs": 512,
+   "lru_hit_rate": 0.758445,
+   "lfu_hit_rate": 0.787277,
+   "approx_bytes_at_mean_expert": 1811939328
+  },
+  "1024": {
+   "capacity_pairs": 1024,
+   "lru_hit_rate": 0.961905,
+   "lfu_hit_rate": 0.961905,
+   "approx_bytes_at_mean_expert": 3623878656
+  },
+  "2048": {
+   "capacity_pairs": 2048,
+   "lru_hit_rate": 0.961905,
+   "lfu_hit_rate": 0.961905,
+   "approx_bytes_at_mean_expert": 7247757312
+  },
+  "4096": {
+   "capacity_pairs": 4096,
+   "lru_hit_rate": 0.961905,
+   "lfu_hit_rate": 0.961905,
+   "approx_bytes_at_mean_expert": 14495514624
+  }
+ },
+ "integrity": "PASS (every token has n_layer selections of top_k distinct in-range experts)"
+}

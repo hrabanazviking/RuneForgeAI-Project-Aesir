@@ -1,0 +1,33 @@
+model loaded: layers=16 hidden=2048 heads=16 experts=64 top_k=8 eps=9.999999747378752e-06 rope_base=10000.0 qknorm=full
+expert_bytes_per_layer=[4079616, 4079616, 3538944, 3538944, 4079616, 3538944, 3538944, 4079616, 3538944, 3538944, 4079616, 3538944, 3538944, 4079616, 4079616, 4079616]
+prompt prose: 67 tokens (round-trip OK)
+prompt code: 100 tokens (round-trip OK)
+prompt structured: 129 tokens (round-trip OK)
+prompt numbers: 91 tokens (round-trip OK)
+prompt instructions: 91 tokens (round-trip OK)
+prompt technical: 95 tokens (round-trip OK)
+layer 0 done in 4.7s
+layer 1 done in 4.1s
+layer 2 done in 4.3s
+layer 3 done in 4.2s
+layer 4 done in 4.0s
+layer 5 done in 4.2s
+layer 6 done in 4.2s
+layer 7 done in 3.9s
+layer 8 done in 4.1s
+layer 9 done in 4.2s
+layer 10 done in 3.9s
+layer 11 done in 4.2s
+layer 12 done in 4.1s
+layer 13 done in 3.9s
+layer 14 done in 3.9s
+layer 15 done in 3.8s
+prompt prose last-token top5: '\n' p=0.226, ' He' p=0.039, ' I' p=0.034, ' .' p=0.029, ' The' p=0.021
+prompt code last-token top5: '\n' p=0.561, '\n\n' p=0.078, '.' p=0.022, ' \\' p=0.013, ' */' p=0.012
+prompt structured last-token top5: '\n' p=0.344, '-' p=0.159, ' -' p=0.111, ' be' p=0.018, '<|endoftext|>' p=0.015
+prompt numbers last-token top5: '\n' p=0.610, '\xa0' p=0.080, '<|endoftext|>' p=0.036, '\xa0\n' p=0.034, ' The' p=0.016
+prompt instructions last-token top5: ' The' p=0.172, '\n' p=0.067, ' To' p=0.066, ' A' p=0.023, ' Net' p=0.021
+prompt technical last-token top5: '\n' p=0.157, ' The' p=0.078, '\xa0' p=0.039, ' (' p=0.038, '  ' p=0.036
+greedy continuation of prose: '\n\nThe question'
+margins (k-th minus (k+1)-th router prob): mean=0.0021 median=0.0012 frac<0.01=0.979 frac<0.001=0.433
+total wall 259.9s; trace written to trace_olmoe.jsonl

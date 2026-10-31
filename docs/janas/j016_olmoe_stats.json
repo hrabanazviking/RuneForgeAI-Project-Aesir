@@ -1,0 +1,668 @@
+{
+ "trace_kind": "measured",
+ "model": "allenai/OLMoE-1B-7B-0924-Instruct-GGUF olmoe-1b-7b-0924-instruct-q4_k_m.gguf",
+ "arch": "olmoe",
+ "instrument": "j016_router_forward.py (GGUF-tensor reference forward, gguf-py dequant + numpy float32 prefill; NOT the Aesir engine)",
+ "n_tokens": 577,
+ "n_prompts": 6,
+ "prompts": {
+  "prose": {
+   "tokens": 71,
+   "accesses": 9088,
+   "distinct_pairs": 975,
+   "cold_first_use_in_prompt": 975
+  },
+  "code": {
+   "tokens": 100,
+   "accesses": 12800,
+   "distinct_pairs": 700,
+   "cold_first_use_in_prompt": 700
+  },
+  "structured": {
+   "tokens": 129,
+   "accesses": 16512,
+   "distinct_pairs": 912,
+   "cold_first_use_in_prompt": 912
+  },
+  "numbers": {
+   "tokens": 91,
+   "accesses": 11648,
+   "distinct_pairs": 1010,
+   "cold_first_use_in_prompt": 1010
+  },
+  "instructions": {
+   "tokens": 91,
+   "accesses": 11648,
+   "distinct_pairs": 1009,
+   "cold_first_use_in_prompt": 1009
+  },
+  "technical": {
+   "tokens": 95,
+   "accesses": 12160,
+   "distinct_pairs": 994,
+   "cold_first_use_in_prompt": 994
+  }
+ },
+ "hit_distribution": {
+  "total_accesses": 73856,
+  "distinct_experts_hit_aggregate": 64,
+  "dead_experts_aggregate": 0,
+  "entropy_bits": 5.9836,
+  "entropy_max_bits": 6.0,
+  "top10": [
+   {
+    "expert": 6,
+    "hits": 1749,
+    "share": 0.023681
+   },
+   {
+    "expert": 62,
+    "hits": 1607,
+    "share": 0.021759
+   },
+   {
+    "expert": 23,
+    "hits": 1601,
+    "share": 0.021677
+   },
+   {
+    "expert": 9,
+    "hits": 1431,
+    "share": 0.019376
+   },
+   {
+    "expert": 58,
+    "hits": 1380,
+    "share": 0.018685
+   },
+   {
+    "expert": 38,
+    "hits": 1377,
+    "share": 0.018644
+   },
+   {
+    "expert": 14,
+    "hits": 1359,
+    "share": 0.018401
+   },
+   {
+    "expert": 2,
+    "hits": 1352,
+    "share": 0.018306
+   },
+   {
+    "expert": 22,
+    "hits": 1344,
+    "share": 0.018198
+   },
+   {
+    "expert": 54,
+    "hits": 1284,
+    "share": 0.017385
+   }
+  ],
+  "bottom_share": 0.125081,
+  "per_layer": [
+   {
+    "layer": 0,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.6772,
+    "top5": [
+     {
+      "expert": 6,
+      "hits": 382
+     },
+     {
+      "expert": 9,
+      "hits": 208
+     },
+     {
+      "expert": 41,
+      "hits": 196
+     },
+     {
+      "expert": 0,
+      "hits": 144
+     },
+     {
+      "expert": 21,
+      "hits": 136
+     }
+    ]
+   },
+   {
+    "layer": 1,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.8353,
+    "top5": [
+     {
+      "expert": 18,
+      "hits": 188
+     },
+     {
+      "expert": 23,
+      "hits": 145
+     },
+     {
+      "expert": 14,
+      "hits": 140
+     },
+     {
+      "expert": 15,
+      "hits": 131
+     },
+     {
+      "expert": 54,
+      "hits": 118
+     }
+    ]
+   },
+   {
+    "layer": 2,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.8502,
+    "top5": [
+     {
+      "expert": 10,
+      "hits": 180
+     },
+     {
+      "expert": 16,
+      "hits": 152
+     },
+     {
+      "expert": 4,
+      "hits": 147
+     },
+     {
+      "expert": 36,
+      "hits": 126
+     },
+     {
+      "expert": 48,
+      "hits": 123
+     }
+    ]
+   },
+   {
+    "layer": 3,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.7343,
+    "top5": [
+     {
+      "expert": 23,
+      "hits": 241
+     },
+     {
+      "expert": 15,
+      "hits": 181
+     },
+     {
+      "expert": 0,
+      "hits": 163
+     },
+     {
+      "expert": 61,
+      "hits": 151
+     },
+     {
+      "expert": 10,
+      "hits": 126
+     }
+    ]
+   },
+   {
+    "layer": 4,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.7096,
+    "top5": [
+     {
+      "expert": 47,
+      "hits": 214
+     },
+     {
+      "expert": 63,
+      "hits": 195
+     },
+     {
+      "expert": 25,
+      "hits": 189
+     },
+     {
+      "expert": 6,
+      "hits": 180
+     },
+     {
+      "expert": 21,
+      "hits": 156
+     }
+    ]
+   },
+   {
+    "layer": 5,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.7111,
+    "top5": [
+     {
+      "expert": 55,
+      "hits": 226
+     },
+     {
+      "expert": 2,
+      "hits": 177
+     },
+     {
+      "expert": 53,
+      "hits": 170
+     },
+     {
+      "expert": 0,
+      "hits": 166
+     },
+     {
+      "expert": 21,
+      "hits": 161
+     }
+    ]
+   },
+   {
+    "layer": 6,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.5726,
+    "top5": [
+     {
+      "expert": 18,
+      "hits": 251
+     },
+     {
+      "expert": 40,
+      "hits": 235
+     },
+     {
+      "expert": 36,
+      "hits": 219
+     },
+     {
+      "expert": 1,
+      "hits": 173
+     },
+     {
+      "expert": 49,
+      "hits": 169
+     }
+    ]
+   },
+   {
+    "layer": 7,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4349,
+    "top5": [
+     {
+      "expert": 33,
+      "hits": 324
+     },
+     {
+      "expert": 13,
+      "hits": 272
+     },
+     {
+      "expert": 1,
+      "hits": 249
+     },
+     {
+      "expert": 35,
+      "hits": 239
+     },
+     {
+      "expert": 21,
+      "hits": 223
+     }
+    ]
+   },
+   {
+    "layer": 8,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.4556,
+    "top5": [
+     {
+      "expert": 62,
+      "hits": 303
+     },
+     {
+      "expert": 60,
+      "hits": 240
+     },
+     {
+      "expert": 27,
+      "hits": 216
+     },
+     {
+      "expert": 32,
+      "hits": 214
+     },
+     {
+      "expert": 16,
+      "hits": 200
+     }
+    ]
+   },
+   {
+    "layer": 9,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.6015,
+    "top5": [
+     {
+      "expert": 34,
+      "hits": 240
+     },
+     {
+      "expert": 39,
+      "hits": 234
+     },
+     {
+      "expert": 4,
+      "hits": 189
+     },
+     {
+      "expert": 51,
+      "hits": 182
+     },
+     {
+      "expert": 12,
+      "hits": 163
+     }
+    ]
+   },
+   {
+    "layer": 10,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.5828,
+    "top5": [
+     {
+      "expert": 44,
+      "hits": 286
+     },
+     {
+      "expert": 22,
+      "hits": 271
+     },
+     {
+      "expert": 20,
+      "hits": 184
+     },
+     {
+      "expert": 4,
+      "hits": 181
+     },
+     {
+      "expert": 48,
+      "hits": 170
+     }
+    ]
+   },
+   {
+    "layer": 11,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.5901,
+    "top5": [
+     {
+      "expert": 14,
+      "hits": 368
+     },
+     {
+      "expert": 23,
+      "hits": 208
+     },
+     {
+      "expert": 47,
+      "hits": 200
+     },
+     {
+      "expert": 62,
+      "hits": 191
+     },
+     {
+      "expert": 7,
+      "hits": 171
+     }
+    ]
+   },
+   {
+    "layer": 12,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.6779,
+    "top5": [
+     {
+      "expert": 8,
+      "hits": 214
+     },
+     {
+      "expert": 23,
+      "hits": 212
+     },
+     {
+      "expert": 38,
+      "hits": 183
+     },
+     {
+      "expert": 45,
+      "hits": 175
+     },
+     {
+      "expert": 29,
+      "hits": 167
+     }
+    ]
+   },
+   {
+    "layer": 13,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.6886,
+    "top5": [
+     {
+      "expert": 2,
+      "hits": 184
+     },
+     {
+      "expert": 62,
+      "hits": 184
+     },
+     {
+      "expert": 55,
+      "hits": 182
+     },
+     {
+      "expert": 32,
+      "hits": 180
+     },
+     {
+      "expert": 16,
+      "hits": 178
+     }
+    ]
+   },
+   {
+    "layer": 14,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.663,
+    "top5": [
+     {
+      "expert": 58,
+      "hits": 204
+     },
+     {
+      "expert": 7,
+      "hits": 170
+     },
+     {
+      "expert": 11,
+      "hits": 169
+     },
+     {
+      "expert": 36,
+      "hits": 168
+     },
+     {
+      "expert": 8,
+      "hits": 161
+     }
+    ]
+   },
+   {
+    "layer": 15,
+    "accesses": 4616,
+    "distinct_hit": 64,
+    "dead": 0,
+    "entropy_bits": 5.5604,
+    "top5": [
+     {
+      "expert": 24,
+      "hits": 247
+     },
+     {
+      "expert": 58,
+      "hits": 236
+     },
+     {
+      "expert": 3,
+      "hits": 204
+     },
+     {
+      "expert": 12,
+      "hits": 194
+     },
+     {
+      "expert": 8,
+      "hits": 185
+     }
+    ]
+   }
+  ]
+ },
+ "reuse": {
+  "cold_accesses": 1024,
+  "cold_fraction": 0.013865,
+  "repeat_accesses": 72832,
+  "stack_distance": {
+   "mean": 357.272,
+   "median": 298,
+   "p90": 716,
+   "max": 1023
+  },
+  "token_gap_between_uses": {
+   "mean": 7.617,
+   "median": 3,
+   "p90": 16,
+   "max": 373
+  }
+ },
+ "working_set": {
+  "32": {
+   "mean_distinct_pairs": 805.36,
+   "max_distinct_pairs": 953,
+   "min_distinct_pairs": 490,
+   "of_total_pairs": 1024,
+   "mean_bytes": 3068393899,
+   "max_bytes": 3630514176
+  },
+  "128": {
+   "mean_distinct_pairs": 980.7,
+   "max_distinct_pairs": 1023,
+   "min_distinct_pairs": 899,
+   "of_total_pairs": 1024,
+   "mean_bytes": 3736582662,
+   "max_bytes": 3897163776
+  },
+  "512": {
+   "mean_distinct_pairs": 1024.0,
+   "max_distinct_pairs": 1024,
+   "min_distinct_pairs": 1024,
+   "of_total_pairs": 1024,
+   "mean_bytes": 3900702720,
+   "max_bytes": 3900702720
+  },
+  "full_trace": {
+   "distinct_pairs": 1024,
+   "of_total_pairs": 1024,
+   "bytes": 3900702720
+  }
+ },
+ "routed_counts": {
+  "expected_per_token": 128,
+  "all_tokens_match_topk_x_layers": true,
+  "distinct_pairs_per_token_mean": 128.0,
+  "distinct_pairs_per_token_max": 128,
+  "distinct_expert_ids_per_token_mean": 56.458,
+  "distinct_expert_ids_per_token_min": 48,
+  "distinct_expert_ids_per_token_max": 61
+ },
+ "cache_simulation": {
+  "128": {
+   "capacity_pairs": 128,
+   "lru_hit_rate": 0.185943,
+   "lfu_hit_rate": 0.301858,
+   "approx_bytes_at_mean_expert": 487587840
+  },
+  "256": {
+   "capacity_pairs": 256,
+   "lru_hit_rate": 0.452692,
+   "lfu_hit_rate": 0.495667,
+   "approx_bytes_at_mean_expert": 975175680
+  },
+  "512": {
+   "capacity_pairs": 512,
+   "lru_hit_rate": 0.740698,
+   "lfu_hit_rate": 0.747631,
+   "approx_bytes_at_mean_expert": 1950351360
+  },
+  "1024": {
+   "capacity_pairs": 1024,
+   "lru_hit_rate": 0.986135,
+   "lfu_hit_rate": 0.986135,
+   "approx_bytes_at_mean_expert": 3900702720
+  },
+  "2048": {
+   "capacity_pairs": 2048,
+   "lru_hit_rate": 0.986135,
+   "lfu_hit_rate": 0.986135,
+   "approx_bytes_at_mean_expert": 7801405440
+  },
+  "4096": {
+   "capacity_pairs": 4096,
+   "lru_hit_rate": 0.986135,
+   "lfu_hit_rate": 0.986135,
+   "approx_bytes_at_mean_expert": 15602810880
+  }
+ },
+ "integrity": "PASS (every token has n_layer selections of top_k distinct in-range experts)"
+}
