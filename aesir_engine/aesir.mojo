@@ -477,6 +477,24 @@ struct AesirEngine:
     # surface consumes the inventory yet; claiming otherwise would
     # fake an integration that does not exist. See
     # docs/janas/J037_DEVICE_INVENTORY.md.
+    #
+    # Placement measurement harness (Janas road J-038): the step
+    # between the options above and the inventory is
+    # core/placement_harness.mojo -- run_placement_measurement()
+    # enumerates the candidates a resolved option names for one
+    # pass kind, filters them through the inventory (excluded
+    # candidates are recorded with the inventory's own reason,
+    # never silently dropped), and runs bounded micro-runs per
+    # surviving candidate: at least one settle round whose timing
+    # is discarded, then measured rounds summarized by median,
+    # under hard per-candidate and per-sweep time bounds. It is
+    # callable at model open OR on demand -- the same entry point
+    # either way -- and this slice wires it into NO live session
+    # path: no session consumes a measurement yet, and auto choice
+    # is J-040--J-042. Draft-check candidates record as
+    # unmeasurable-with-reason (gap G1 above; no pass exists to
+    # measure) and co-work candidates likewise (J-043 owns the
+    # split pass). See docs/janas/J038_PLACEMENT_MEASUREMENT_HARNESS.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
