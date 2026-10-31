@@ -140,6 +140,10 @@ struct GGUFModelConfig(Copyable):
     var per_layer_input_length: Int
     var sliding_window_pattern_mask: UInt64
     var sliding_window_pattern_count: Int
+    # Mixture-of-experts routing geometry (J-022): <arch>.expert_count /
+    # <arch>.expert_used_count from GGUF metadata; 0 = dense file.
+    var expert_count: Int
+    var expert_used_count: Int
 
     def __init__(out self):
         self.architecture = ""
@@ -175,6 +179,8 @@ struct GGUFModelConfig(Copyable):
         self.per_layer_input_length = 0
         self.sliding_window_pattern_mask = UInt64(0)
         self.sliding_window_pattern_count = 0
+        self.expert_count = 0
+        self.expert_used_count = 0
 
     def __copyinit__(out self, existing: Self):
         self.architecture = String(existing.architecture)
@@ -210,6 +216,8 @@ struct GGUFModelConfig(Copyable):
         self.per_layer_input_length = existing.per_layer_input_length
         self.sliding_window_pattern_mask = existing.sliding_window_pattern_mask
         self.sliding_window_pattern_count = existing.sliding_window_pattern_count
+        self.expert_count = existing.expert_count
+        self.expert_used_count = existing.expert_used_count
 
     def head_dim(self) -> Int:
         if self.head_dim_override > 0:
@@ -587,6 +595,8 @@ struct GGUFSeer:
             or key.endswith(".ssm.time_step_rank")
             or key.endswith(".ssm.inner_size")
             or key.endswith(".full_attention_interval")
+            or key.endswith(".expert_count")
+            or key.endswith(".expert_used_count")
             or key == "general.alignment"
             or key == "tokenizer.ggml.unknown_token_id"
             or key == "tokenizer.ggml.bos_token_id"
@@ -672,6 +682,10 @@ struct GGUFSeer:
             self.config.ssm_inner_size = Int(self._read_u32(scalar_offset))
         elif key.endswith(".full_attention_interval") and scalar_type == 4:
             self.config.full_attention_interval = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".expert_count") and scalar_type == 4:
+            self.config.expert_count = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".expert_used_count") and scalar_type == 4:
+            self.config.expert_used_count = Int(self._read_u32(scalar_offset))
         elif key == "general.alignment" and scalar_type == 4:
             self.alignment = Int(self._read_u32(scalar_offset))
         elif key == "tokenizer.ggml.unknown_token_id" and scalar_type == 4:
@@ -1020,20 +1034,35 @@ struct GGUFSeer:
             cursor = self._string_end(cursor)
             var dimension_count = Int(self._read_u32(cursor))
             cursor += 4
-            if dimension_count <= 0 or dimension_count > 2:
-                raise Error("Inference tensor must have one or two dimensions: " + name)
+            if dimension_count <= 0 or dimension_count > 3:
+                raise Error("Inference tensor must have one to three dimensions: " + name)
             var cols_u64 = self._read_u64(cursor)
             if cols_u64 > UInt64(9223372036854775807):
                 raise Error("GGUF tensor dimension exceeds host index: " + name)
             var cols = Int(cols_u64)
             cursor += 8
             var rows = 1
-            if dimension_count == 2:
+            if dimension_count >= 2:
                 var rows_u64 = self._read_u64(cursor)
                 if rows_u64 > UInt64(9223372036854775807):
                     raise Error("GGUF tensor dimension exceeds host index: " + name)
                 rows = Int(rows_u64)
                 cursor += 8
+            if dimension_count == 3:
+                # MoE expert tensors (J-022): dims are [in, out, experts]
+                # with the expert axis slowest. Folding out*experts into
+                # rows preserves the element count, the byte size, and
+                # the quant row structure (blocks run along dim 0), so
+                # expert e's slab is the contiguous row block
+                # [e*out, (e+1)*out) of the folded view.
+                var experts_u64 = self._read_u64(cursor)
+                if experts_u64 > UInt64(9223372036854775807):
+                    raise Error("GGUF tensor dimension exceeds host index: " + name)
+                var experts = Int(experts_u64)
+                cursor += 8
+                if experts <= 0 or rows > 9223372036854775807 // experts:
+                    raise Error("GGUF tensor dimension exceeds host index: " + name)
+                rows = rows * experts
             if rows <= 0 or cols <= 0:
                 raise Error("GGUF tensor has a non-positive dimension: " + name)
             var tensor_type = self._read_u32(cursor)
@@ -1086,6 +1115,9 @@ struct GGUFSeer:
             return
         if self.config.architecture == "gemma4":
             self._validate_gemma4_tensors()
+            return
+        if self.config.architecture == "olmoe":
+            self._validate_olmoe_tensors()
             return
         var required = List[String]()
         required.append("token_embd.weight")
@@ -1150,6 +1182,77 @@ struct GGUFSeer:
                 prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
             )
 
+
+    def _validate_olmoe_tensors(mut self) raises:
+        """Layer-aware validation for OLMoE (J-022).
+
+        OLMoE breaks the flat dense required-tensor assumptions: the
+        per-layer FFN is a routed expert triple (ffn_gate_exps /
+        ffn_up_exps / ffn_down_exps, stored 3-D and folded by
+        _parse_tensors to [out*experts, in]) plus an F32 router
+        (ffn_gate_inp), and Q/K norms are full-width (hidden-wide, not
+        per-head). Shapes are therefore checked relationally from the
+        config's routing geometry and each tensor's own folded shape.
+        """
+        var hidden = self.config.embedding_length
+        var ffn = self.config.feed_forward_length
+        var layers = self.config.block_count
+        var experts = self.config.expert_count
+        var used = self.config.expert_used_count
+        if experts <= 0 or used <= 0 or used > experts:
+            raise Error("GGUF olmoe expert routing metadata is incomplete")
+        if hidden <= 0 or ffn <= 0 or layers <= 0:
+            raise Error("GGUF olmoe shape metadata is incomplete")
+        var vocab = self.tensors["token_embd.weight"].rows
+        self._require_tensor_shape(
+            "token_embd.weight", vocab, hidden, GGMLType.F16
+        )
+        self._require_tensor_shape(
+            "output_norm.weight", 1, hidden, GGMLType.F32
+        )
+        self._require_tensor_shape(
+            "output.weight", vocab, hidden, GGMLType.F16
+        )
+        var q_width = self.config.head_count * self.config.head_dim()
+        var kv_dim = self.config.kv_dim()
+        for layer_index in range(layers):
+            var prefix = String("blk.") + String(layer_index) + String(".")
+            self._require_tensor_shape(
+                prefix + "attn_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "attn_q.weight", q_width, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_k.weight", kv_dim, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_v.weight", kv_dim, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_output.weight", hidden, q_width, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_q_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "attn_k_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_gate_inp.weight", experts, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_gate_exps.weight", ffn * experts, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_up_exps.weight", ffn * experts, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_down_exps.weight", hidden * experts, ffn, GGMLType.F16
+            )
 
     def _validate_gemma4_tensors(mut self) raises:
         """Layer-aware validation for Gemma 4 (S-039).
