@@ -572,6 +572,32 @@ struct AesirEngine:
     # session path: no session consumes a reply placement yet.
     # Draft-check choice is J-042, co-work execution J-043,
     # re-trials J-045. See docs/janas/J041_AUTO_REPLY_PLACEMENT.md.
+    #
+    # Auto choice for draft-check passes (Janas road J-042):
+    # the draft-check kind's chooser lives in
+    # core/draft_placement.mojo -- choose_draft_placement()
+    # enumerates the J-038 device sweep and the J-039 thread
+    # ladder for the drafts kind, then applies the
+    # pre-registered decision rule adopted unchanged from
+    # J-040/J-041. Its honest state today: Aesir has no
+    # draft-check pass (J-035 gap G1), so the harness
+    # classifies every candidate on both axes
+    # UNMEASURABLE-WITH-REASON, nothing is timed or ranked,
+    # and the live outcome is the rule's NO-MEASURED-FALLBACK
+    # (the session default kept as a label) while the cpu is
+    # present, else a refusal. An explicit single/co-work
+    # drafts option fixes the choice (MANUAL-FIXED) with its
+    # unmeasurable state on the record; choosing is not
+    # using -- any actual use of a drafts placement still
+    # fails closed through require_draft_check_use() (J-036)
+    # until Part V (J-071/J-072) builds the pass and a real
+    # verify-pass executor for the harness. The record is
+    # kept for the session in a DraftPlacementSession
+    # (decided once; a second decision is refused). This
+    # slice wires the chooser into NO live session path: no
+    # session consumes a drafts placement yet. Co-work
+    # execution J-043, re-trials J-045. See
+    # docs/janas/J042_AUTO_DRAFT_PLACEMENT.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
