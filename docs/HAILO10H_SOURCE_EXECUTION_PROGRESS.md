@@ -7534,3 +7534,35 @@ positions and counts, and the gap cumulative
 difference sequence in full. Broad ordinary
 UNMODIFIED source-model support100% remains the
 destination.
+Slice 4.250 (AES-NUM-250) is complete. The
+closing-run cumulative-minus-count differences
+are now stated as one sequence: [0, 1, 3, 4, 4,
+7, 10, 13] over positions 1-8 — each position's
+AES-NUM-249 cumulative total minus its own
+AES-NUM-248 agreement count, equivalently the
+cumulative total before that position (0 at
+position 1); each printed set equals the
+AES-NUM-247 printed set, each count equals the
+AES-NUM-248 printed count, each cumulative
+equals the AES-NUM-249 printed cumulative, and
+difference plus count equals cumulative at all
+eight positions. The distinct differences are
+seven values: 0 x1 at position 1; 1 x1 at
+position 2; 3 x1 at position 3; 4 x2 at
+positions 4, 5; 7 x1 at position 6; 10 x1 at
+position 7; 13 x1 at position 8 (counts sum to
+8). The gap cumulative difference sequence is
+[0, 0, 0, 0, 1, 1, 1], summing to 3, exactly the
+AES-NUM-247 gap-agreement sequence read as 1/0,
+with agreeing positions 5, 6, 7 equal to
+AES-NUM-245. The single launch finished
+DONE250, exit 0, err empty, and its first
+58,631 prefix lines differ from hef249.out in
+exactly two lines (lines 41611 and 42872,
+frozenset element order only — the AES-NUM-150
+variance). Next: the closing-run remaining
+agreement-count sequence in full, the distinct
+remainings with positions and counts, and the
+gap remaining agreement-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
