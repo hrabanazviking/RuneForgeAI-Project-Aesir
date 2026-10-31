@@ -7316,3 +7316,35 @@ closing runs' offset and index sequences,
 compared position by position. Broad ordinary
 UNMODIFIED source-model support100% remains
 the destination.
+Slice 4.243 (AES-NUM-243) is complete. The
+A closing run's offset and index sequences
+in full: ranks 741-748 in A-offset order,
+offset sequence [791777280, 791777792,
+791778304, 791778816, 791779328, 791779840,
+791780352, 791780864], index sequence
+[734, 735, 736, 744, 745, 746, 747, 748].
+The B closing run's offset and index
+sequences in full: ranks 743-750 in B-offset
+order, offset sequence [1196368696,
+1196369408, 1196396032, 1196410880,
+1196444160, 1196444672, 1196445184,
+1196445696], index sequence [26, 229, 272,
+674, 735, 736, 737, 738]. The closing-run
+offset/index comparison in full: offsets
+agree at 0 of 8 positions (no positions) and
+the offset sequences are NOT identical;
+indices agree at 0 of 8 positions (no
+positions) and the index sequences are NOT
+identical; each run's printed offset and
+index sequences equal the sequences read
+off the per-act statements of
+AES-NUM-232..239 as re-stated in AES-NUM-240.
+The single launch finished DONE243, exit 0,
+err empty, and its first 58,233 prefix lines
+differ from hef242.out in exactly one line
+(line 41611, frozenset element order only —
+the AES-NUM-150 variance). Next: the two
+closing runs' internal gap sequences,
+compared position by position. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.

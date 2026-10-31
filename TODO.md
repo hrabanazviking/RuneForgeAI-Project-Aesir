@@ -5896,7 +5896,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.243 the
+- [x] Slice4.243 the
   A closing run's offset
   and index sequences
   in full; the B closing
@@ -5908,6 +5908,18 @@
   position, agreement
   counts stated exactly);
   then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.244 the
+  A closing run's internal
+  gap sequence in full; the
+  B closing run's internal
+  gap sequence in full; and
+  the closing-run gap
+  comparison in full
+  (position by position,
+  agreement count stated
+  exactly); then broad
   ordinary UNMODIFIED
   source-model support100%.
 ## 2026-10-24 — One grouped physical attempt,offset rejection
