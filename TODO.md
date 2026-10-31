@@ -5935,7 +5935,7 @@
   stated exactly); then
   broad ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.246 the
+- [x] Slice4.246 the
   A closing run's combined
   sequences stated position
   by position in full; the
@@ -5947,6 +5947,19 @@
   by position in full
   (per-position agreement
   sets, checked against
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.247 the
+  closing-run agreement-set
+  sequence in full; the
+  distinct agreement sets
+  in full (positions and
+  counts, per-family
+  position lists re-derived
+  from the sets); and the
+  gap-agreement sequence
+  in full (checked against
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.

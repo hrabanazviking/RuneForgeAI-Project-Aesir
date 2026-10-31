@@ -7415,3 +7415,34 @@ position by position, compared position by
 position. Broad ordinary UNMODIFIED
 source-model support100% remains the
 destination.
+Slice 4.246 (AES-NUM-246) is complete. The
+two closing runs' combined sequences are now
+stated position by position: A positions 1-8
+(ranks 741-748) and B positions 1-8 (ranks
+743-750), each position carrying rank, index,
+act, size, channel, class, run-102 membership
+and offset, plus the gap to the next position
+(position 8 terminal on both sides). Every
+position's values equal its AES-NUM-245
+combined entry. The combined comparison
+stated position by position: position 1
+agreement set [RUN-102], position 2 [CHANNEL,
+RUN-102], position 3 [RUN-102], position 4 []
+(no family agrees), positions 5-8 [SIZE,
+CHANNEL, RUN-102] each; gap positions 1-4
+disagree and gap positions 5-7 agree. The
+family counts re-summed over positions equal
+AES-NUM-245 exactly: size 4, channel 5, class
+0, run-102 7, offset 0, index 0, gap 3. The
+single launch finished DONE246, exit 0, err
+empty, and its first 58,448 prefix lines
+differ from hef245.out in exactly two lines
+(lines 41611 and 42872, frozenset element
+order only — the AES-NUM-150 variance). Next:
+the agreement-set sequence in full, the
+distinct agreement sets with positions and
+counts and per-family position lists
+re-derived from the sets, and the
+gap-agreement sequence in full. Broad
+ordinary UNMODIFIED source-model support100%
+remains the destination.
