@@ -7627,3 +7627,39 @@ counts, and the gap cumulative
 remaining-before-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+Slice 4.253 (AES-NUM-253) is complete. The
+closing-run cumulative remaining-before counts
+are now stated as one sequence: [16, 31, 44, 56,
+68, 77, 83, 86] over positions 1-8 — the running
+total of the AES-NUM-252 remaining-before
+values, each printed set, count, cumulative
+total, difference, remaining and
+remaining-before equal to its
+AES-NUM-247/248/249/250/251/252 value at all
+eight positions, ending at 86. The distinct
+cumulative remaining-before totals are eight,
+each occurring once: 16 at position 1; 31 at
+position 2; 44 at position 3; 56 at position 4;
+68 at position 5; 77 at position 6; 83 at
+position 7; 86 at position 8 (counts sum to 8).
+The gap cumulative remaining-before-count
+sequence is [3, 6, 9, 12, 15, 17, 18], ending
+at 18, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch
+finished DONE253, exit 0, err empty, and its
+first 58,760 prefix lines differ from
+hef252.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance, each verified by
+same-sorted-characters comparison). The slice
+was resumed mid-transfer by the continuity
+worker after the original claim run stalled:
+the last four gzip parts landed via sha-gated
+sub-chunk writes, no byte accepted unverified.
+Next: the closing-run cumulative
+remaining-count sequence in full, the distinct
+cumulative remaining totals with positions and
+counts, and the gap cumulative remaining-count
+sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
