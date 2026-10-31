@@ -5761,7 +5761,7 @@
   then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.236 the
+- [x] Slice4.236 the
   act at A-offset
   rank 745 in full
   ((791779328, 24, 0)
@@ -5778,6 +5778,27 @@
   comparison in full
   (the two closing
   runs' fifth acts
+  side by side);
+  then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.237 the
+  act at A-offset
+  rank 746 in full
+  ((791779840, 24, 1)
+  at A 746, the A
+  closing run's sixth
+  act); the act at
+  B-offset rank 748
+  in full
+  ((1196444672, 24, 1)
+  at B 736, the B
+  closing run's sixth
+  act); and the
+  closing-run sixth-act
+  comparison in full
+  (the two closing
+  runs' sixth acts
   side by side);
   then broad
   ordinary UNMODIFIED

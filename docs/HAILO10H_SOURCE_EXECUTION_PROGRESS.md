@@ -7064,3 +7064,36 @@ and B-offset rank 747 in full, and the
 closing-run fifth-act comparison. Broad
 ordinary UNMODIFIED source-model support100%
 remains the destination.
+Slice 4.236 (AES-NUM-236) is complete. The
+act at A-offset rank 745 in full: (791779328,
+24, 0) at A 745, rank 745, the A closing run's
+fifth act, A-only distinct, occurrences A [745] / B
+none, incoming gap +512 from A 744 at rank 744
+and outgoing gap +512 to A 746 at rank 746,
+neither its own size, its A-offset neighbours
+exactly its index neighbours on both sides. The
+act at B-offset rank 747 in full: (1196444160,
+24, 0) at B 735, the B closing run's fifth act,
+B-only distinct, occurrences A none / B [735],
+incoming gap +33,280 from B 674 at rank 746 and
+outgoing gap +512 to B 736 at rank 748, neither
+its own size. The closing-run fifth-act
+comparison in full: A fifth act rank 745 index
+745, A-only, in run 102 NO, incoming +512
+outgoing +512; B fifth act rank 747 index 735,
+B-only, in run 102 NO, incoming +33,280
+outgoing +512; each outgoing gap equals the
+fifth gap of its own run's gap sequence as
+measured in AES-NUM-231 — and the outgoing
+gaps are IDENTICAL (+512 both) for the first
+time in this comparison sequence. The single
+launch finished DONE236, exit 0, err empty,
+and its first 57,842 prefix lines differ from
+hef235.out in exactly two lines (lines 41611
+and 42872, frozenset element order only — the
+AES-NUM-150 variance). Next: the acts at
+A-offset rank 746 and B-offset rank 748 in
+full, and the closing-run sixth-act
+comparison. Broad ordinary UNMODIFIED
+source-model support100% remains the
+destination.
