@@ -1,0 +1,153 @@
+J-075 acceptance measurement -- test output (VM, lightest target)
+Tree: yrsa/janas-j075 from yrsa/janas-j074 tip eb3f1ec638a7afc009263ee4fa20b350016b7539 (verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then per module: mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j075stage, nothing deleted.
+Build-route note: `pixi run` remains blocked on this VM (the J-072-recorded activation failure), so the builds invoked the SAME pixi environment's mojo binary directly (the installed env in the J-071 worktree's aesir_engine/.pixi), with the activation variables the tree's own activate script sets (CONDA_PREFIX, PATH, MODULAR_HOME). Same compiler (Mojo 1.0.0 ed45d567), same flags, same linker line as J-071/J-072/J-073/J-074's filed recipes.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.95 GB at slice start -- far below the 5,500 MB inference gate throughout; no inference ran anywhere. purplelongship not used at all (unreachable tonight per the 204 road's heartbeat, device offline last seen 2026-11-01T02:07:13Z, and yielded under the coordination law). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run or probed.
+Build note (own-build defect, fixed before filing): the first run of test_speculative_acceptance failed on one expectation of the suite's own making -- the English-prose fixture's fully-accepted histogram bin was asserted as 5 while the stated fixture list holds six 4s (its accepted sum, 34, was asserted and correct in the same run). The expectation was corrected to the fixture's true count; every filed run below is from the fixed tree.
+Incident note: the slice's initial `git fetch` of the j074 branch over this VM's degraded HTTPS hung past ten minutes and was terminated by the runtime; the branch tips had already been verified by git ls-remote in the same opening step, the worktree was created from the local eb3f1ec6 object, and its checkout completed cleanly (tracked tree clean). No work was lost.
+Measurement note: every MEASURE line below is SIMULATED -- synthetic rounds for the first pair's shape (cross_model, pair id 1, k=4) built through J-071's plan_verify from stated draft/target lists in the suite. No model drafted or verified; the numbers are properties of the fixtures, not of any model pair (doc section 4). Real-pair acceptance is NOT PROVEN (doc section 6, recipe re-cited at the J-086 gate).
+
+
+=== inspection recount (docs/janas/j075_inspect.py, filed as j075_inspect_output.txt) ===
+PASS acceptance module defines classify_text
+PASS acceptance module defines record_round
+PASS acceptance module defines record_round_classified
+PASS acceptance module defines rate_basis_points
+PASS acceptance module defines ledger_totals
+PASS acceptance module defines row_totals_reproduce
+PASS records gated on J-071 account consistency
+PASS kind read from the J-071 account, never restated
+PASS pair id 1 names the J-074 first pair
+PASS acceptance module contains no speed
+PASS J-071 host contract assigns J-075 the filing
+PASS J-072 loop contains no acceptance statistic (owned here)
+PASS J-074 pairing contains no acceptance statistic (owned here)
+PASS acceptance module names TEXT_PROSE
+PASS acceptance module names TEXT_CODE
+PASS acceptance module names TEXT_STRUCTURED
+PASS acceptance module names LANG_ENGLISH
+PASS acceptance module names LANG_ITALIAN
+PASS acceptance module names LANG_OTHER
+PASS acceptance module names LANG_NOT_APPLICABLE
+PASS structured rule stated in the module header
+PASS code rule stated in the module header
+PASS language threshold stated in the module header
+PASS acceptance test defines its 10 groups
+PASS acceptance test builds fixtures through plan_verify
+PASS acceptance test contains no speed or timing
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS acceptance imported only by its own test
+PASS MoE session carries no loop or acceptance state
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 prose/english a
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 prose/italian a
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 prose/AGGREGATE
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 code accepted=3
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 structured acce
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 ALL accepted=11
+PASS test record -- ALL PASS: speculative acceptance measurement (10 gro
+PASS test record -- ALL PASS: speculative verification account (13 group
+PASS test record -- ALL PASS: speculative draft loop (12 groups)
+PASS test record -- ALL PASS: speculative token-identity proof (8 groups
+PASS test record -- ALL PASS: cross-model draft pairing (10 groups)
+PASS doc element -- verdict is CLOSED-WITH-DEFERRED-LEG
+PASS doc element -- measurement class is SIMULATED
+PASS doc element -- italian row filed at 30.00%
+PASS doc element -- english row filed at 85.00%
+PASS doc element -- prose aggregate filed at 57.50%
+PASS doc element -- real-pair acceptance NOT PROVEN
+PASS doc element -- re-cite point is the J-086 gate
+PASS doc element -- guarded idle-gap rule names the 204 heartbeat
+PASS doc element -- ids-first criterion re-cited
+PASS doc element -- acceptance filed per pair x text type x language
+PASS doc element -- classifier recorded as answered-locally
+PASS doc element -- first pair target pin re-cited
+== done ==
+(53/53 checks PASS)
+
+=== test_speculative_acceptance ===
+PASS: classifier -- structured first, then code, by stated features
+PASS: classifier -- prose language by markers; tie/low = other; code NA
+PASS: record -- bound to the J-071 account, totals from the account alone
+PASS: record refusals -- inconsistent account, pair-id misuse, language misuse
+PASS: separation -- rows keyed by kind, pair, text type, language
+MEASURE SIMULATED pair=cross_model/1 prose/english accepted=34 drafted=40 rate_bp=8500
+MEASURE SIMULATED pair=cross_model/1 prose/italian accepted=12 drafted=40 rate_bp=3000
+MEASURE SIMULATED pair=cross_model/1 prose/AGGREGATE accepted=46 drafted=80 rate_bp=5750
+PASS: measurement -- italian-prose collapse separated; aggregate hides it
+MEASURE SIMULATED pair=cross_model/1 code accepted=36 drafted=40 rate_bp=9000
+MEASURE SIMULATED pair=cross_model/1 structured accepted=31 drafted=40 rate_bp=7750
+MEASURE SIMULATED pair=cross_model/1 ALL accepted=113 drafted=160 rate_bp=7062
+PASS: measurement -- per-text-type rates for one pair, aggregate beside them
+PASS: distribution -- histogram reproduces rounds and accepted per row
+PASS: classified recording -- the host path files by classifier verdict
+PASS: rate edges -- empty pair has no rate; names are the stated words
+ALL PASS: speculative acceptance measurement (10 groups)
+(exit 0)
+
+=== test_speculative_verify ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+(exit 0)
+
+=== test_speculative_loop ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+(exit 0)
+
+=== test_speculative_identity ===
+PASS: checker negative control -- tamper at 257 and truncation at 599 both detected
+PASS: A head/MTP k=4 always-right -- identity 500/500 over 100 rounds, plain state exact
+PASS: B head/assistant k=15 (band top) always-right -- identity 512/512 over 32 rounds, plain state exact
+PASS: C cross-model k=5 always-wrong -- identity 300/300 over 296 rounds (295 zero-accepted + closing), plain state exact
+PASS: D conversation k=8 (cap) alternating right/wrong -- identity 400/400 over 80 rounds, plain state exact
+PASS: E cross-model k=6 coincidence-past-mismatch traps -- identity 450/450 over 149 rounds, plain state exact
+PASS: F head/MTP capacity-shortened tail -- identity 330/330 over 40 rounds, 10 shortened rounds on record, final KV at capacity
+PASS: G slot switching (head/conversation/cross/head, 25 cycles) -- identity 350/350 over 100 rounds, plain state exact, cross KV exact
+ALL PASS: speculative token-identity proof (8 groups; 7 long configurations, 2842 tokens, 797 rounds)
+(exit 0)
+
+=== test_cross_model_pairing ===
+PASS: tokenizer identity -- full tables equal, divergences -1
+PASS: tokenizer mismatch -- one token, refused at its index
+PASS: tokenizer length + merges -- divergence, one-sided, both-absent
+PASS: tokenizer model/BOS/EOS -- each inequality breaks identity
+PASS: admissible pair -- k cap from J-071, memory sized once (J-026)
+PASS: missing-file refusals -- either side, named reason
+PASS: family refusals -- cross-family and unknown refused, same-family admitted
+PASS: size refusals -- equal and 60% refused, exactly-half admitted
+PASS: tokenizer gate -- unverified refused, mismatch refused with index
+PASS: k and budget refusals -- cap enforced, starved pool refused
+ALL PASS: cross-model draft pairing (10 groups)
+(exit 0)
+
+=== test_speculative ===
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+(exit 0)
+
