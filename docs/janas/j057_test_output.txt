@@ -1,0 +1,30 @@
+J-057 prefill/decode overlap plan -- test output (VM, lightest target)
+Tree: yrsa/janas-j057 from yrsa/janas-j056 tip 54473afe1b9d4cfdc819c2c972ab55366a11aefb
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j057stage, TMPDIR redirected there. (Direct mojo binary fails without pixi activation, per J-052's filed recipe -- the pixi route was used from the start.)
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.9 GB -- far below the 5,500 MB inference gate; no inference ran, no CUDA ran; lightest compiles only, one at a time. purplelongship not used at all (unreachable/offline per the 204 road's 23:12/23:22 EDT ticks, and in any case yielded to the 204 road).
+
+=== test_prefill_overlap ===
+PASS: pipeline arithmetic -- both schedules exact, fill exposed
+PASS: min bound -- hidden per boundary is min(prep, compute)
+PASS: nothing to hide -- schedules coincide, verdict named
+PASS: single chunk -- no boundary, no hiding, verdict named
+PASS: ragged final chunk -- compute conserves, hiding exact
+PASS: filed Llama 3 8B -- hidden share 0 bp at parity and 10000x
+PASS: margin thresholds -- survives above 10%, rejected below
+PASS: decode boundary -- hidden capped, graded at prompt scale
+PASS: refusals -- shapes, compute, negative prep, decode inputs
+ALL PASS: prefill overlap plan (9 groups)
+exit=0
+
+=== neighbour: test_split_prompt (J-056) rebuilt from this tree ===
+PASS: even halves -- 16/16 blocks, MACs and weight reads conserve
+PASS: join accounting -- transfers, bytes and crossings exact
+PASS: ragged halves -- 35 blocks split 18/17, MACs conserve
+PASS: ragged final chunk -- 67/4, join priced on real tokens
+PASS: width-1 shape -- one transfer per token, crossings 3x parent
+PASS: filed Llama 3 8B accounting -- J-053 totals split exactly
+PASS: survival rule -- dominated by both parents at both widths
+PASS: survival rule -- not graded where the GPU parent is absent
+PASS: refusals -- tokens, width, one-block, hidden, MACs, empty side
+ALL PASS: split prompt plan (9 groups)
+exit=0
