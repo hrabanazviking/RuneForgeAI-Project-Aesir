@@ -599,6 +599,28 @@ struct AesirEngine:
     # execution J-043, re-trials J-045. See
     # docs/janas/J042_AUTO_DRAFT_PLACEMENT.md.
     #
+    # Verification-first speculative design (Janas road
+    # J-071): the verify pass is a draft-check pass in
+    # J-035's taxonomy, and its account lives in
+    # core/speculative_verify.mojo -- plan_verify() derives
+    # each greedy round from a proposer's draft list and the
+    # TARGET's own greedy list (k+1 choices from one pass of
+    # width k+1, inside the 2..16 band), emitting the accepted
+    # prefix plus exactly one further target choice, built
+    # from the target list only, with exact KV/context
+    # rollback and zero RNG draws; plan_proposer() states the
+    # shapes for J-072's three proposer slots (head --
+    # MTP head or assistant model; cross-model; conversation).
+    # The invariant is by construction: speculative greedy
+    # output is token-identical to non-speculative greedy
+    # because nothing but target choices is ever emitted.
+    # This slice builds the account only: no loop runs, no
+    # session consumes it, and require_draft_check_use()
+    # (J-036) still fails closed -- J-072 builds the draft
+    # loop and replaces the refusal with real consumption
+    # then, and only then. See
+    # docs/janas/J071_VERIFICATION_FIRST_DESIGN.md.
+    #
     # Co-work passes for the prompt kind (Janas road J-043):
     # the split machinery lives in core/cowork_passes.mojo --
     # plan_cowork_prompt() plans the pairs a resolved prompt
