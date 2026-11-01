@@ -771,6 +771,48 @@ struct AesirEngine:
     # This slice wires the planner into NO live session path:
     # no session consumes a contention plan yet. See
     # docs/janas/J048_PLACEMENT_MEMORY_PRESSURE.md.
+    #
+    # Server placement parity (Janas road J-049): the parity
+    # layer between the placement surface above and Aesir's
+    # server surface lives in core/server_placement.mojo.
+    # The live service (cli/native_serve.mojo serve_loaded)
+    # is one resident CUDA session, concurrency 1, its
+    # backend/device/profile/context fixed at startup; per
+    # request it reconfigures only cheap state (sampling,
+    # control, output, tool) -- there is no configure-placement
+    # on any session and no placement field in any request
+    # parser today. Placement is allocation-bound state, like
+    # the context (server/local_protocol.mojo's
+    # require_loaded_context refuses a per-request value that
+    # differs from the loaded one), not cheap state like
+    # sampling. The parity rule: session defaults govern --
+    # resolve_server_defaults() resolves the J-036 options +
+    # J-047 mode once at serve open (open refusal + quality
+    # gate + one precedence resolution) and
+    # require_server_defaults_conformance() checks every
+    # fixed outcome against the resident placement the host
+    # states (for the CUDA service, single gpu for prompt and
+    # reply -- the backend its own banner states); the three
+    # generation request shapes may carry prompt_on /
+    # drafts_on / reply_on / mode as flat fields (claimed via
+    # apply_server_placement_field(); never inside Ollama's
+    # numbers-only options object, and never on non-generation
+    # routes), resolved per request by
+    # resolve_server_request_placement() (request hand >
+    # request preset > session resolution, per kind, J-036 /
+    # J-047 refusals inherited whole) and checked by
+    # require_server_request_conformance(): a request-governed
+    # fixed placement must equal the resident session's
+    # executed placement, and a request-governed measurement
+    # demand is refused (measurement is an open-time act).
+    # A request states nothing -> the session default governs
+    # the kind; request outcomes never mutate the defaults.
+    # This slice wires the layer into NO live server path:
+    # serve_loaded consumes no placement resolution yet, and
+    # dispatch_native_serve still refuses the placement flags
+    # as unsupported service options -- the wiring is the host
+    # contract in the module, named, not faked. See
+    # docs/janas/J049_SERVER_PLACEMENT_PARITY.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
