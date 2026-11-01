@@ -1,0 +1,25 @@
+PASS: ceiling functions exist
+PASS: peaks defined through kv_ladder (J-091)
+PASS: pool defined through expert_cache (J-026)
+PASS: definitions + forms + shape rule PRE-REGISTERED in the header
+PASS: module states an accounted ceiling is not a measured peak
+PASS: tests pin the J-091 validation gate totals
+PASS: harness prints no live peak (stated)
+PASS: no session/execution file imports core.memory_ceiling -- importers=[]
+PASS: test_memory_ceiling not registered in run_all (J-031 section 10)
+PASS: dense session is dense-profile shaped; MoE session admits olmoe only
+PASS: two harness runs filed, byte-identical CEILING lines (determinism) -- found 20 CEILING lines
+PASS: CEILHEAD + CEILDONE + GROWTH lines filed
+PASS: every CEILING field re-derived exactly (all rungs, both precisions)
+PASS: every COMBINED field re-derived exactly (pool rule, summed reserves)
+PASS: every GROWTH field re-derived exactly; all shapes FLATTER
+PASS: validation gate: GPU session peaks == J-091 section 5.3 EXACTLY (parsed from the filed J-091 LADDER lines)
+PASS: Janas shape ratio is 49/26 = 1,884,615 ppm (floored)
+PASS: KV share of the f16 GPU peak: 13,904 ppm base -> 286,908 ppm top -- derived 13904 -> 286908
+PASS: accounted ceiling constant on the stated machine (free - headroom)
+PASS: doc files both forms labelled and the tension resolved from the tree
+PASS: doc states the shape verdict plainly (FLATTER, with the ratios)
+PASS: doc files every live peak as NOT PROVEN / deferred to J-098
+PASS: doc files the deferred recipe (guarded window + sha pin + RSS / nvidia-smi high-water + raw-oracle)
+PASS: doc states the stated machine is an accounting input, not measured
+INSPECT SUMMARY: 24/24 PASS, 0 FAIL

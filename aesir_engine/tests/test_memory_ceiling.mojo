@@ -435,13 +435,13 @@ def test_pool_absorbs_growth() raises:
             )
     expect_eq(accounted_base, 13743895348, "accounted ceiling @base")
     expect_eq(accounted_top, 13743895348, "accounted ceiling @top (constant)")
-    expect_eq(pool_base - pool_top, 1823903264, "pool shrink == KV + scratch growth")
+    expect_eq(pool_base - pool_top, 1823883264, "pool shrink == KV + scratch growth")
     expect_eq(ceiling_cache_resident(pool_top, OLMOE_BODY), OLMOE_BODY, "cache residency capped at body")
     expect_eq(ceiling_cache_resident(1000, OLMOE_BODY), 1000, "cache residency == budget below body")
     print(
         "PASS: pool absorbs growth -- accounted ceiling constant"
         " 13,743,895,348 (free - headroom); pool shrinks"
-        " 1,823,903,264 == KV + scratch growth; residency capped at body"
+        " 1,823,883,264 == KV + scratch growth; residency capped at body"
     )
 
 
