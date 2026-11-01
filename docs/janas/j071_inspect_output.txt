@@ -1,0 +1,24 @@
+PASS speculative.mojo is 142 lines -- 142
+PASS speculative is acceptance arithmetic: min(1, p_target/p_draft) stated
+PASS speculative docstring disclaims integration
+PASS fail-closed raise present: draft proposal requires a real draft-mod...
+PASS fail-closed raise present: speculative reconciliation requires per-...
+PASS fail-closed raise present: legacy speculative token verification is...
+PASS draft bound: default 4, hard limit 64
+PASS evaluate_acceptance returns prefix + rollback marker + kv step
+PASS engine facade speculative_generate raises not-implemented
+PASS SpeculativeEngine referenced only by its module + tests (wired to no session) -- aesir_engine/core/speculative.mojo, aesir_engine/tests/test_multi_engine.mojo, aesir_engine/tests/test_speculative.mojo
+PASS require_draft_check_use raises naming G1 and J-071/J-072
+PASS harness classifies draft-check UNMEASURABLE-WITH-REASON (G1, no proxy)
+PASS draft_placement chooser exists (J-042, Part V input surface)
+PASS sampler greedy branch (temperature<=0 or top_k==1) precedes any RNG use in sample_token_from_logits
+PASS greedy tie-break documented: equal finite maxima choose the lowest ID
+PASS RuneRNG state is a single UInt64 word (snapshot = one word)
+PASS KVCache is fixed-capacity contiguous positions [0, max_seq_len), no wrap/reorder
+PASS KVCache appends by explicit position (append / append_block exist)
+PASS no rollback/truncate machinery exists anywhere in mimir_well.mojo
+PASS MoE session carries kv_cache: KVCache and a single position counter
+PASS MoE step() forwards at self.position then position += 1
+PASS SessionContext carries active_tokens + session_kv_offset (host session state)
+PASS host forward bounds KV reads by active_seq_len = min(start_pos + 1, max_seq_len)
+== done ==
