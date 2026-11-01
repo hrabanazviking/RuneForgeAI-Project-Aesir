@@ -1,0 +1,283 @@
+J-086 Part V gate -- re-verification test output (VM, lightest target)
+Tree: yrsa/janas-j086 from yrsa/janas-j085 tip 9c87377be8e6b3167b61c4c4da5f54fd5f15e7db (base verified by git ls-remote at gate start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; no remote yrsa/janas-j086 existed before this slice)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-079--J-085 staging builds, as expected from the identical source; this gate's staging was compiled fresh), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0, the J-071 worktree's installed env at aesir-janas-j071/aesir_engine/.pixi invoked directly with its pixi activation variables exported by hand, as J-071--J-085 filed; pixi run remains blocked on this VM). Every suite build exit 0. Runs with LD_LIBRARY_PATH=<staging>; the draft-config suite ran with J083_TEST_DIR pointed at a fresh directory under the build tree. Staging ~/workspace/.verify-tmp/j086stage, build dir ~/workspace/.verify-tmp/j086build, nothing deleted.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~4,102,808 kB at gate start, load average ~5.9-6.5 across the runs -- below the 5,500 MB inference gate at every moment; no inference ran; lightest compiles only, one at a time. purplelongship not used (unreachable, last_seen 2026-11-01T02:07:13Z; 204 road owns it -- yielded).
+NOTE on scope: each module below was rebuilt from THIS gate tree and re-run first-hand at this gate. Per-module output is tail-trimmed in the runner capture; the ALL PASS line and RUN_EXIT for every module are complete and verbatim. test_speculative and test_expert_cache print per-group PASS lines without an ALL PASS summary line; both were additionally re-run whole at this gate: test_speculative 2/2 groups PASS, test_expert_cache 9/9 PASS lines, both exit 0.
+
+=== test_speculative_verify ===
+build exit=0
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+RUN_EXIT=0
+=== test_speculative_loop ===
+build exit=0
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+RUN_EXIT=0
+=== test_speculative_identity ===
+build exit=0
+PASS: checker negative control -- tamper at 257 and truncation at 599 both detected
+PASS: A head/MTP k=4 always-right -- identity 500/500 over 100 rounds, plain state exact
+PASS: B head/assistant k=15 (band top) always-right -- identity 512/512 over 32 rounds, plain state exact
+PASS: C cross-model k=5 always-wrong -- identity 300/300 over 296 rounds (295 zero-accepted + closing), plain state exact
+PASS: D conversation k=8 (cap) alternating right/wrong -- identity 400/400 over 80 rounds, plain state exact
+PASS: E cross-model k=6 coincidence-past-mismatch traps -- identity 450/450 over 149 rounds, plain state exact
+PASS: F head/MTP capacity-shortened tail -- identity 330/330 over 40 rounds, 10 shortened rounds on record, final KV at capacity
+PASS: G slot switching (head/conversation/cross/head, 25 cycles) -- identity 350/350 over 100 rounds, plain state exact, cross KV exact
+ALL PASS: speculative token-identity proof (8 groups; 7 long configurations, 2842 tokens, 797 rounds)
+RUN_EXIT=0
+=== test_cross_model_pairing ===
+build exit=0
+PASS: tokenizer identity -- full tables equal, divergences -1
+PASS: tokenizer mismatch -- one token, refused at its index
+PASS: tokenizer length + merges -- divergence, one-sided, both-absent
+PASS: tokenizer model/BOS/EOS -- each inequality breaks identity
+PASS: admissible pair -- k cap from J-071, memory sized once (J-026)
+PASS: missing-file refusals -- either side, named reason
+PASS: family refusals -- cross-family and unknown refused, same-family admitted
+PASS: size refusals -- equal and 60% refused, exactly-half admitted
+PASS: tokenizer gate -- unverified refused, mismatch refused with index
+PASS: k and budget refusals -- cap enforced, starved pool refused
+ALL PASS: cross-model draft pairing (10 groups)
+RUN_EXIT=0
+=== test_speculative_acceptance ===
+build exit=0
+PASS: classifier -- structured first, then code, by stated features
+PASS: classifier -- prose language by markers; tie/low = other; code NA
+PASS: record -- bound to the J-071 account, totals from the account alone
+PASS: record refusals -- inconsistent account, pair-id misuse, language misuse
+PASS: separation -- rows keyed by kind, pair, text type, language
+MEASURE SIMULATED pair=cross_model/1 prose/english accepted=34 drafted=40 rate_bp=8500
+MEASURE SIMULATED pair=cross_model/1 prose/italian accepted=12 drafted=40 rate_bp=3000
+MEASURE SIMULATED pair=cross_model/1 prose/AGGREGATE accepted=46 drafted=80 rate_bp=5750
+PASS: measurement -- italian-prose collapse separated; aggregate hides it
+MEASURE SIMULATED pair=cross_model/1 code accepted=36 drafted=40 rate_bp=9000
+MEASURE SIMULATED pair=cross_model/1 structured accepted=31 drafted=40 rate_bp=7750
+MEASURE SIMULATED pair=cross_model/1 ALL accepted=113 drafted=160 rate_bp=7062
+PASS: measurement -- per-text-type rates for one pair, aggregate beside them
+PASS: distribution -- histogram reproduces rounds and accepted per row
+PASS: classified recording -- the host path files by classifier verdict
+PASS: rate edges -- empty pair has no rate; names are the stated words
+ALL PASS: speculative acceptance measurement (10 groups)
+RUN_EXIT=0
+=== test_mtp_census ===
+build exit=0
+PASS: classifier -- nextn names
+PASS: classifier -- mtp names
+PASS: classifier -- assistant names
+PASS: classifier -- ordinary names carry no head
+PASS: classifier -- first-match order nextn before mtp
+PASS: census -- aggregation counts per kind
+PASS: census -- verdicts vocab-only / no-mtp / with-mtp
+PASS: census -- kind and verdict names
+ALL PASS: mtp census classifier (8 groups)
+RUN_EXIT=0
+=== test_mtp_head_support ===
+build exit=0
+PASS: admission -- nextn WITH_MTP admitted, heads named
+PASS: admission -- mixed heads admitted as mtp-head
+PASS: admission -- assistant-only admitted, assistant shape
+PASS: refusal -- proven NO_MTP files refused by name
+PASS: refusal -- VOCAB_ONLY fixtures refused by name
+PASS: refusal -- uncensused file refused as NOT PROVEN
+PASS: refusal -- empty file name refused
+PASS: record -- refusal/admission lines name file+verdict+reason
+PASS: binding -- refused has no shape; admitted shape is J-072 dispatch
+PASS: binding -- k cap from J-071, reason names round-trip
+ALL PASS: mtp head support (10 groups)
+RUN_EXIT=0
+=== test_assistant_pairing ===
+build exit=0
+PASS: admission -- head-form assistant admitted through J-077 gate
+PASS: admission -- standalone small model of the family admitted
+PASS: budget -- pair sized once, exact arithmetic, headroom once
+PASS: refusal -- empty / missing / uncensused / vocab-only by name
+PASS: refusal -- family mismatch and unknown family refused
+PASS: refusal -- MTP-head files refused as assistants by name
+PASS: tokenizer gate -- unverified refused, mismatch at its index
+PASS: refusal -- not-smaller and over-share; both bounds exact-admit
+PASS: k and budget refusals -- cap enforced, starved pool refused
+PASS: record -- lines name both files; refused pairs yield no shape
+ALL PASS: assistant-model draft pairing (10 groups)
+RUN_EXIT=0
+=== test_speculative_adaptive ===
+/home/hatch/workspace/aesir-janas-j086/aesir_engine/tests/test_speculative_adaptive.mojo:334:9: warning: ref 'i' was never used, remove it?
+    for i in range(3):
+        ^
+build exit=0
+PASS: bounds -- initial k=4; floor/caps from J-071/J-072; bad starts refused 4/4
+PASS: minimum evidence -- 3 hot rounds pending, the 4th decides
+PASS: deepen -- hot window (9375 bp) deepens 4 -> 6, window resets
+PASS: shallow -- cold window (1666 bp) shallows 6 -> 4
+PASS: hysteresis -- deadband holds at 5000/6875/4375 bp (warm is not saturated)
+PASS: thresholds exact -- 2 wasted deepens, 3 holds at 8125 bp; 3000 bp shallows
+PASS: bounds clamp -- cap/floor are holds there; steps clamp exactly to them
+PASS: no pathological oscillation -- alternation holds; reversal needs a full opposite window
+PASS: ledger binding -- J-075 rows decide via J-075's rate; short row pending; wrong kind refused
+PASS: refusals -- inconsistent/foreign accounts leave the controller untouched
+PASS: determinism -- identical trajectories; hot climb and cold fall clamp; J-072 planning bound
+ALL PASS: speculative adaptive depth (11 groups)
+RUN_EXIT=0
+=== test_speculative_placement ===
+build exit=0
+PASS: both-on-CPU -- priced, zero crossings, zero syncs
+PASS: CPU draft + GPU check -- h2d 12, d2h 16, syncs 2
+PASS: both-on-GPU syncs 4 / d2h 16; reverse syncs 4 / d2h 12
+PASS: kept (dense cross-model, w4 tile) -- CPU draft + GPU check
+PASS: MoE GPU check REFUSED (J-031 admission); expert re-pay priced; MoE kept = both-on-CPU
+PASS: GPU verify width -- w5 refused, w4 off-tile refused (J-054), kept falls to CPU
+PASS: conversation proposer -- off-host draft refused by name; host draft + GPU check kept
+PASS: iGPU -- 0 copy bytes, contended priced, REFUSED (no backend, J-066); kept = both-on-CPU
+PASS: device absent -- refused first by name; CPU-only set keeps both-on-CPU
+PASS: coupled proposers -- split crosses hidden per draft step; MTP kept = both-on-GPU
+PASS: MoE draft on GPU REFUSED (J-031 admission); its re-pay priced as a plan
+PASS: enumeration -- 4 priced / 5 refused on the dense GPU set; choose deterministic
+PASS: input refusals -- k bounds, proposer cap, miss layers, negative bytes (4/4)
+ALL PASS: speculative placement (13 groups)
+RUN_EXIT=0
+=== test_speculative_sampling ===
+build exit=0
+PASS: shaping plain -- case A target/draft softmax exact (1e-6)
+PASS: shaping temperature -- case B (T=0.7) exact; sharpening binds both models
+PASS: shaping greedy -- T=0 one-hot at argmax; tie goes to the lowest id
+PASS: shaping top-k -- case C supports exact (target {0,1,2}, draft {0,2,4}), renormalised
+PASS: shaping top-p + combined -- cases D and E exact (nucleus after top-k, renormalised)
+PASS: shaping refusals -- empty, non-finite logit, bad temperature, bad top-p (4/4)
+PASS: acceptance probability -- min(1, p/q) exact incl. cap and p=0; q=0 refused
+PASS: residual -- norm(max(0, p-q)) exact; identical p=q refused as undefined
+PASS: draw -- inverse-CDF boundaries exact; zero-probability tokens unreachable
+PASS: position scripted -- accept emits draft; reject emits residual; p=0 never accepts
+PASS: round full-accept -- drafts emitted, bonus drawn from the target at position k
+PASS: round rejections -- prefix kept, residual correction emitted, round ends (no bonus)
+PASS: round refusals -- k outside 1..15, flat/draw length mismatches, draw = 1 (6/6)
+PASS: chi-square helper -- exact/hand-computed statistics, zero-bin sentinel, critical table
+PASS: distribution A (T=1, no truncation) -- corrected chi2=8.518317808246318 < crit 24.322 (df 7, N=60000, seed 20261101); naive chi2=69594.86843846613 FAILS as required
+PASS: distribution B (T=0.7) -- corrected chi2=5.676113519656582 < crit 24.322 (df 7, N=60000, seed 20261101); naive chi2=183613.43940857553 FAILS as required
+PASS: distribution C (top-k 3) -- corrected chi2=0.6410602255139279 < crit 13.816 (df 2, N=60000, seed 20261101); naive chi2=-1.0 FAILS as required
+PASS: distribution D (top-p 0.8) -- corrected chi2=1.6746789124683283 < crit 13.816 (df 2, N=60000, seed 20261101); naive chi2=-1.0 FAILS as required
+PASS: distribution E (T=1.4, top-k 4, top-p 0.9) -- corrected chi2=5.59680442984888 < crit 16.266 (df 3, N=60000, seed 20261101); naive chi2=-1.0 FAILS as required
+PASS: bonus distribution -- chi2=6.747470637230754 < crit 24.322 (df 7, 12000 bonus tokens from 34835 rounds, seed 424242)
+ALL PASS: speculative sampling correctness (17 groups)
+RUN_EXIT=0
+=== test_draft_config ===
+build exit=0
+PASS: defaults -- no source, mtp unset, k = J-072 initial (4)
+PASS: --mtp -- head source on both surfaces, foreign flags ignored
+PASS: --draft forms -- spaced/equals identical; --no-mtp + --draft allowed
+PASS: parity matrix -- 6 argv shapes, chat == server on every field
+PASS: precedence -- cli > env per field, independently
+PASS: env layer -- AESIR_MTP/AESIR_DRAFT_K read; bad value refused
+PASS: contradictions -- mtp+no-mtp (same/cross layer), mtp+draft (3/3)
+PASS: scan refusals -- dup/missing/valued-switch/typo/empty (6/6)
+PASS: k band -- cap 15 from plan_proposer; 0/16/bad refused (5/5)
+PASS: hand-built validation -- file-on-head, mtp-on-draft, mtp-on-none, unknown (4/4)
+PASS: mtp gate (J-077) -- admitted head file; no-head/uncensused/wrong-source refused (3/3)
+PASS: pair gate (J-074) -- pair admitted; missing/unverified/not-smaller refused
+PASS: use gate -- configured mtp, configured draft, unconfigured (3/3 refused)
+PASS: persistence round trip -- save -> load -> identical configuration
+PASS: persistence replace/miss -- same-key replace; MODEL-MISMATCH; MISSING clean
+PASS: V1 compat -- no-draft files unchanged; corrupt file refused clean
+PASS: apply/merge -- pass choices and draft config round-trip together
+ALL PASS: draft configuration surface (17 groups)
+RUN_EXIT=0
+=== test_draft_loss_guard ===
+build exit=0
+PASS: start validation -- row keys by J-075's rules; refusals 6/6
+PASS: minimum evidence -- pending until the window closes; one losing window holds
+PASS: losing stream -- the Italian shape disables at exactly round 8
+PASS: disable record -- every field pinned; refused before the disable
+PASS: winning stream -- English prose at worst-case costs never disables
+PASS: boundary stream -- exactly at the floor, net zero, holds forever
+PASS: hysteresis -- alternation resets; two in a row disable at round 16
+PASS: cost sensitivity -- same Italian stream, first-pair costs, no disable
+PASS: byte currency -- J-080's cold tax priced per round disables at round 8
+PASS: row separation -- italian disables; english and code rows unaffected
+PASS: refusals -- bad rounds consume nothing; a disabled guard refuses loudly
+PASS: determinism -- identical streams, identical records
+ALL PASS: draft loss guard (12 groups)
+RUN_EXIT=0
+=== test_long_session_stability ===
+build exit=0
+PASS: stream table -- 8 segments, 2,224 plain, 5 rows, bounds stated
+PASS: plain + drafts -- reproducible stream; accepted == min(k, L)
+PASS: sampling band -- J-082 bound to J-071's draft-check band
+PASS: single segment -- drift-free, leakage zero, accounts close
+PASS: long drift -- 2,224 emitted, divergence -1, verdict PASS
+PASS: long leakage -- violations 0 over every round + boundary
+PASS: long memory -- bounds held, plateau reached, growth accounted
+PASS: long controllers -- adaptive in bounds; ledger complete
+PASS: hostile segment -- disable at round 8, plain fallback exact
+PASS: fixed hot segment -- no disable, drift-free at fixed k=2
+PASS: boundary isolation -- each session closes on its own account
+PASS: refusals -- bad drives refused 6/6, ledger untouched
+PASS: determinism -- identical streams, identical reports
+ALL PASS: long session stability (13 groups)
+RUN_EXIT=0
+=== test_speculative ===
+build exit=0
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+RUN_EXIT=0
+=== test_expert_cache ===
+build exit=0
+PASS: expert cache sizing, cap resolution and size parsing
+PASS: expert cache admission, promotion, pinning, shrink, cap
+PASS: expert cache LRU baseline and LFU policy modes
+PASS: expert cache fsketch sketch-admission policy
+PASS: expert cache no-scarcity starvation fix (segmented, fsketch)
+PASS: expert cache shared pool sizing and arbiter arithmetic
+PASS: expert cache shared pool drive (contention, lending, return)
+PASS: expert cache pressure decisions (shrink, floor, refuse, regrow caps)
+PASS: expert cache pressure drive (pin held, refusal shed, regrow)
+RUN_EXIT=0
+=== test_j080_replay ===
+build exit=0
+
+=== test_j080_replay (gate re-run) ===
+build exit=0
+Flatten: python3 docs/janas/j080_flatten.py <campaign j016_trace_olmoe.jsonl> <staging>/j080_accesses.csv -> 73,856 rows (BATCH-ALL k=4 hot)
+Run (LD_LIBRARY_PATH=<staging>, CWD=<staging>):
+batch_all k4 hot budget 476160 accesses=73856 hits=25698 misses=48158 cold_misses=1024 hit_rate_per_mille=347 bypasses=46842 too_large=0 admissions=1316 promotions=0 evictions=1187 evicted_before_reuse=22819 bytes_streamed=179059584 bytes_evicted=4405872 bytes_resident_now=475392 entries_now=129 budget_bytes=476160
+batch_all k4 hot budget 1904640 accesses=73856 hits=56741 misses=17115 cold_misses=1024 hit_rate_per_mille=768 bypasses=14857 too_large=0 admissions=2258 promotions=0 evictions=1745 evicted_before_reuse=12472 bytes_streamed=63839664 bytes_evicted=6491136 bytes_resident_now=1903344 entries_now=513 budget_bytes=1904640
+Gate verdict: EXACT vs the filed j080_replay_results.txt at both budgets, every compared counter (hits / streamed / bypasses / admissions / evictions / evicted-before-reuse / entries / resident).
+
+=== inspection recounts (gate re-runs, pure Python) ===
+All fifteen Part V inspect scripts were re-run individually from this gate tree at this gate, exit code and FAIL lines recorded per script -- 500 checks in total, 488 PASS, 12 FAIL, and every FAIL is a slice-time snapshot assertion of the one named class (see the gate doc section 2.3 for the full disposition; no FAIL touches a number, a suite, or a built module):
+- Fully clean from the gate tree (exit 0): j078 45/45, j080 24/24, j081 20/20, j082 22/22, j083 20/20.
+- j071: 20/23 PASS -- FAILs: 'speculative.mojo is 142 lines' (now 150), 'draft bound: default 4, hard limit 64', 'SpeculativeEngine referenced only by its module + tests'. All three are superseded by J-072's own documented commit 0017bebe (the legacy-bound reconciliation, hard 15 / default 4, +8 lines) and by the J-072/J-082 modules referencing the engine, verified first-hand at this gate via git log.
+- j072 18/19, j073 39/40, j074 40/41, j075 52/53, j076 53/54, j077 40/41, j079 51/52: the single FAIL in each is its 'imported only by its own test' assertion; the importer lists printed by the failures contain ONLY later Part V modules and their tests (the road's own bindings: J-077 binds J-076, J-078 binds J-077/J-074, J-084/J-085 bind J-075/J-079) -- no session, facade, or live wiring appears anywhere in any list.
+- j084 21/22 and j085 23/24: the single FAIL in each is its 'no other tree file changed' slice-time diff assertion, which cannot hold in a descendant tree (j084's tree now also carries J-085's files; j085's re-run was taken with this gate's own j086_test_output.txt already present in the tree).
+The substantive claim underneath every one of these assertions -- no proposer implementation and no verify executor/session wiring exists -- was verified directly at this gate and still holds: aesir.mojo:1086 the facade's speculative_generate raises 'speculative model generation and KV reconciliation are not implemented', and J-036's require_draft_check_use() still fails closed (git grep, this tree).
+
+=== deterministic artefact re-runs (gate) ===
+j077_admission.py: byte-identical to the filed j077_admission_output.txt (admission summary censused=27 admitted=0 refuse_no_mtp=8 refuse_vocab_only=19 refuse_not_proven=5).
+j078_pair_record.py: byte-identical to the filed j078_pair_record_output.txt.
+j079_measurement.py: byte-identical to the filed j079_measurement_output.txt.
+j074_tokenizer_probe.py (against the VM wave files): byte-identical to the filed j074_probe_output.txt.
+j082_mirror.py: every statistic identical to the filed j082_mirror_output.txt (the filed copy carries a 4-line filing header the raw script output does not; all statistic lines agree verbatim: corrected chi2 8.518 / 5.676 / 0.641 / 1.675 / 5.597, bonus 6.747).
+j076_mtp_census.py: see the gate doc -- the rerun's verdict counts are asserted there (0 head tensors; NO_MTP x8, VOCAB_ONLY x19 over the same 27 files).
