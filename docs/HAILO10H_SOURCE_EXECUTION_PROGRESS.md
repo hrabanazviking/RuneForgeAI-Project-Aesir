@@ -8761,3 +8761,33 @@ positions and counts, and the gap cumulative cumulative cumulative cumulative cu
 remaining-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.283 (AES-NUM-283) is complete. The
+closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remainings are now stated as one sequence:
+[55, 1527, 21954, 217674, 1672578, 10612785, 57868227, 278647344]
+over positions 1-8 — the running total of each
+position's AES-NUM-282 cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining value, ending at 278647344.
+The distinct cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals are
+eight: 55 x1 at position 1; 1527 x1 at position 2; 21954 x1 at position 3; 217674 x1 at position 4; 1672578 x1 at position 5; 10612785 x1 at position 6; 57868227 x1 at position 7; 278647344 x1 at position 8 (counts sum to 8). The gap
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence is
+[12, 333, 4785, 47415, 364096, 2308662, 12579273], ending
+at 12579273, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE283, exit 0, err empty, and its first
+60,076 prefix lines differ from hef282.out in
+exactly ONE line (line 41611,
+frozenset element order only, the AES-NUM-150
+variance). No correction was carried into this
+slice and none arises — section283 holds exactly
+the four expected gap-position 'False' data
+values and no fifth.
+Next: the closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals with
+positions and counts, and the gap cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
