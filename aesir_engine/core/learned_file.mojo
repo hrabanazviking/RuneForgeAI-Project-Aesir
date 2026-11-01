@@ -138,6 +138,20 @@ a learned entry must do so only for kinds the user left on
 auto. Every report this module renders carries that sentence
 on its face.
 
+J-083 EXTENSION (the draft configuration section). J-044's
+own record named J-083's draft configuration surface as
+persisting via this file. A LearnedEntry therefore also
+carries one draft configuration (source / mtp state / draft
+file / k, validated structurally by validate_draft; the
+surface refusals live in core/draft_config.mojo). Files with
+no draft configuration serialise exactly as J-044's V1; a
+file carrying one serialises as V2 (five extra fixed-order
+lines per entry, draft file hex-encoded like the other
+free-text material). The parser accepts both versions and
+refuses any other. This is a configuration record, not an
+expert map: J-027's binding stands and the report still
+carries its sentence.
+
 HOST CONTRACT (binding on the surfaces that consume this
 module; this module fakes no integration): at model open a
 surface (1) observes the inventory and CPU facts (J-037),
@@ -183,6 +197,41 @@ from core.placement_options import (
 from core.text_admission import admit_text_bytes
 
 comptime LEARNED_HEADER = "AESIR_LEARNED_PLACEMENT_V1"
+# J-083: a file in which at least one entry carries a draft
+# configuration serialises under the V2 header (V1 entries gain
+# five draftcfg lines per entry; see the serialisation note).
+# The parser accepts both versions; a V1 file parses with every
+# draft configuration ABSENT, and a state with no draft
+# configuration serialises as V1, byte-identical to J-044.
+comptime LEARNED_HEADER_V2 = "AESIR_LEARNED_PLACEMENT_V2"
+
+# Draft-configuration source codes (J-083; the vocabulary is
+# defined here, in the persistence layer, and
+# core/draft_config.mojo imports it -- one definition site).
+comptime LEARNED_DRAFT_SOURCE_NONE = 0
+comptime LEARNED_DRAFT_SOURCE_MTP_HEAD = 1
+comptime LEARNED_DRAFT_SOURCE_DRAFT_MODEL = 2
+
+# Draft-configuration MTP states (J-083).
+comptime LEARNED_DRAFT_MTP_UNSET = 0
+comptime LEARNED_DRAFT_MTP_ON = 1
+comptime LEARNED_DRAFT_MTP_OFF = 2
+
+
+def learned_draft_source_name(code: Int) -> String:
+    if code == LEARNED_DRAFT_SOURCE_MTP_HEAD:
+        return String("mtp-head")
+    if code == LEARNED_DRAFT_SOURCE_DRAFT_MODEL:
+        return String("draft-model")
+    return String("none")
+
+
+def learned_draft_mtp_name(code: Int) -> String:
+    if code == LEARNED_DRAFT_MTP_ON:
+        return String("on")
+    if code == LEARNED_DRAFT_MTP_OFF:
+        return String("off")
+    return String("unset")
 comptime LEARNED_FILE_NAME = "learned-placement.v1"
 comptime MAX_LEARNED_BYTES = 262144
 comptime MAX_LEARNED_ENTRIES = 64
@@ -792,6 +841,16 @@ struct LearnedEntry(Copyable, Movable):
     var prompt: LearnedPassChoice
     var drafts: LearnedPassChoice
     var reply: LearnedPassChoice
+    # J-083: the entry's learned draft configuration (the
+    # --mtp / --no-mtp / --draft surface's resolved state, as
+    # validated by core/draft_config.mojo). Absent by default:
+    # draft_present False carries the canonical empties
+    # (source none, mtp unset, model "-", k 0).
+    var draft_present: Bool
+    var draft_source: Int
+    var draft_mtp: Int
+    var draft_model: String
+    var draft_k: Int
 
     def __init__(out self):
         self.machine = MachineKey()
@@ -800,6 +859,11 @@ struct LearnedEntry(Copyable, Movable):
         self.prompt = LearnedPassChoice()
         self.drafts = LearnedPassChoice()
         self.reply = LearnedPassChoice()
+        self.draft_present = False
+        self.draft_source = LEARNED_DRAFT_SOURCE_NONE
+        self.draft_mtp = LEARNED_DRAFT_MTP_UNSET
+        self.draft_model = String("-")
+        self.draft_k = 0
 
     def pass_choice(self, pass_kind: Int) -> LearnedPassChoice:
         if pass_kind == PASS_DRAFTS:
@@ -809,7 +873,72 @@ struct LearnedEntry(Copyable, Movable):
         return self.prompt
 
     def has_any(self) -> Bool:
-        return self.prompt.present or self.drafts.present or self.reply.present
+        return (
+            self.prompt.present
+            or self.drafts.present
+            or self.reply.present
+            or self.draft_present
+        )
+
+    def validate_draft(self) raises:
+        """The J-083 draft configuration's structural validity.
+
+        This layer checks form only (canonical empties when
+        absent; a named source, a stated MTP state, the J-071
+        draft-check band for k, and the source/file consistency
+        when present). The surface refusals (contradictions,
+        pair gates, caps read from J-071's account) are
+        core/draft_config.mojo's, applied before a configuration
+        ever reaches this file."""
+        if not self.draft_present:
+            if (
+                self.draft_source != LEARNED_DRAFT_SOURCE_NONE
+                or self.draft_mtp != LEARNED_DRAFT_MTP_UNSET
+                or self.draft_model != "-"
+                or self.draft_k != 0
+            ):
+                raise Error(
+                    "LearnedFile: an absent draft configuration"
+                    " must carry its canonical empty fields"
+                )
+            return
+        if (
+            self.draft_source != LEARNED_DRAFT_SOURCE_MTP_HEAD
+            and self.draft_source != LEARNED_DRAFT_SOURCE_DRAFT_MODEL
+        ):
+            raise Error(
+                "LearnedFile: a present draft configuration names"
+                " an unknown source code"
+            )
+        if self.draft_mtp < 0 or self.draft_mtp > 2:
+            raise Error(
+                "LearnedFile: a present draft configuration holds"
+                " an unknown mtp state code"
+            )
+        if self.draft_k < 1 or self.draft_k > 15:
+            raise Error(
+                "LearnedFile: a present draft configuration's k"
+                " is outside the draft-check band 1..15 (J-071)"
+            )
+        _check_printable(self.draft_model, "draft model", 512)
+        if self.draft_source == LEARNED_DRAFT_SOURCE_MTP_HEAD:
+            if self.draft_model != "-":
+                raise Error(
+                    "LearnedFile: an mtp-head draft configuration"
+                    " names no separate draft file (the head is"
+                    " the target's own)"
+                )
+            if self.draft_mtp != LEARNED_DRAFT_MTP_ON:
+                raise Error(
+                    "LearnedFile: an mtp-head draft configuration"
+                    " must record mtp on"
+                )
+        else:
+            if self.draft_model == "-" or self.draft_model.byte_length() == 0:
+                raise Error(
+                    "LearnedFile: a draft-model configuration"
+                    " must name its draft file"
+                )
 
     def validate(self) raises:
         self.machine.validate()
@@ -827,6 +956,7 @@ struct LearnedEntry(Copyable, Movable):
         self.prompt.validate(PASS_PROMPT)
         self.drafts.validate(PASS_DRAFTS)
         self.reply.validate(PASS_REPLY)
+        self.validate_draft()
 
     def render(self) -> String:
         var out_str = String("entry\n")
@@ -836,6 +966,20 @@ struct LearnedEntry(Copyable, Movable):
         out_str += "  " + self.prompt.render(PASS_PROMPT) + "\n"
         out_str += "  " + self.drafts.render(PASS_DRAFTS) + "\n"
         out_str += "  " + self.reply.render(PASS_REPLY) + "\n"
+        if self.draft_present:
+            out_str += (
+                "  drafts-config: source "
+                + learned_draft_source_name(self.draft_source)
+                + ", mtp "
+                + learned_draft_mtp_name(self.draft_mtp)
+                + ", model "
+                + self.draft_model
+                + ", k "
+                + String(self.draft_k)
+                + "\n"
+            )
+        else:
+            out_str += "  drafts-config: absent (no learned draft configuration)\n"
         return out_str
 
 
@@ -854,6 +998,15 @@ struct LearnedEntry(Copyable, Movable):
 #   <kind>_device, <kind>_threads, <kind>_decision / end
 #   checksum=<16 lowercase hex, FNV-1a over every line above,
 #   each terminated by exactly one newline>
+#
+# J-083 extension: when any entry carries a draft
+# configuration, the file serialises as
+# AESIR_LEARNED_PLACEMENT_V2 and each entry block is 44 lines:
+# the 39 above plus, before `end`, draftcfg_present,
+# draftcfg_source, draftcfg_mtp, draftcfg_model_hex (the
+# draft file name hex-encoded, like the other free-text key
+# material), draftcfg_k. A state with no draft configuration
+# serialises as V1, byte-identical to J-044's format.
 #
 # Absent kinds write "-" for their three text fields and 0 for
 # device/threads (the canonical empty values validate() pins).
@@ -890,7 +1043,11 @@ def serialize_learned_file(entries: List[LearnedEntry]) raises -> String:
                     "LearnedFile: two entries share one machine+model"
                     " key; a key holds exactly one learned state"
                 )
-    var body = String(LEARNED_HEADER) + "\n"
+    var any_draft = False
+    for i in range(len(entries)):
+        if entries[i].draft_present:
+            any_draft = True
+    var body = String(LEARNED_HEADER_V2 if any_draft else LEARNED_HEADER) + "\n"
     body += "count=" + String(len(entries)) + "\n"
     for i in range(len(entries)):
         var entry = entries[i].copy()
@@ -917,6 +1074,16 @@ def serialize_learned_file(entries: List[LearnedEntry]) raises -> String:
         _append_pass_lines(body, "prompt", entry.prompt)
         _append_pass_lines(body, "drafts", entry.drafts)
         _append_pass_lines(body, "reply", entry.reply)
+        if any_draft:
+            body += (
+                "draftcfg_present="
+                + (String("1") if entry.draft_present else String("0"))
+                + "\n"
+            )
+            body += "draftcfg_source=" + String(entry.draft_source) + "\n"
+            body += "draftcfg_mtp=" + String(entry.draft_mtp) + "\n"
+            body += "draftcfg_model_hex=" + _hex_encode(entry.draft_model) + "\n"
+            body += "draftcfg_k=" + String(entry.draft_k) + "\n"
         body += "end\n"
     if len(body.bytes()) + 26 > MAX_LEARNED_BYTES:
         raise Error("LearnedFile: serialised state exceeds the file cap")
@@ -984,26 +1151,30 @@ def parse_learned_file(text: String) raises -> List[LearnedEntry]:
         body += lines[i] + "\n"
     if _learned_checksum(body) != stated:
         raise Error("LearnedFile: checksum mismatch (corrupt or truncated file)")
-    if lines[0] != LEARNED_HEADER:
+    var is_v2 = lines[0] == LEARNED_HEADER_V2
+    if lines[0] != LEARNED_HEADER and not is_v2:
         raise Error(
             "LearnedFile: header is not "
             + LEARNED_HEADER
+            + " or "
+            + LEARNED_HEADER_V2
             + " (unknown version or not a learned file)"
         )
+    var block_lines = 44 if is_v2 else 39
     var count = _parse_signed(_field(lines, 1, "count="), "entry count")
     if count < 0 or count > MAX_LEARNED_ENTRIES:
         raise Error("LearnedFile: entry count is outside its bound")
-    if len(lines) != 2 + count * 39 + 1:
+    if len(lines) != 2 + count * block_lines + 1:
         raise Error(
             "LearnedFile: line count does not match the entry count"
             " (truncated or extended file)"
         )
     var entries = List[LearnedEntry]()
     for e in range(count):
-        var base = 2 + e * 39
+        var base = 2 + e * block_lines
         if lines[base] != "entry":
             raise Error("LearnedFile: entry block does not start with 'entry'")
-        if lines[base + 38] != "end":
+        if lines[base + block_lines - 1] != "end":
             raise Error("LearnedFile: entry block does not end with 'end'")
         var entry = LearnedEntry()
         entry.machine.cpu_model = _hex_decode(
@@ -1065,6 +1236,26 @@ def parse_learned_file(text: String) raises -> List[LearnedEntry]:
         entry.prompt = _parse_pass(lines, base + 20, "prompt", PASS_PROMPT)
         entry.drafts = _parse_pass(lines, base + 26, "drafts", PASS_DRAFTS)
         entry.reply = _parse_pass(lines, base + 32, "reply", PASS_REPLY)
+        if is_v2:
+            var present_text = _field(lines, base + 38, "draftcfg_present=")
+            if present_text == "1":
+                entry.draft_present = True
+            elif present_text == "0":
+                entry.draft_present = False
+            else:
+                raise Error("LearnedFile: draftcfg_present must be 0 or 1")
+            entry.draft_source = _parse_signed(
+                _field(lines, base + 39, "draftcfg_source="), "draft source"
+            )
+            entry.draft_mtp = _parse_signed(
+                _field(lines, base + 40, "draftcfg_mtp="), "draft mtp"
+            )
+            entry.draft_model = _hex_decode(
+                _field(lines, base + 41, "draftcfg_model_hex="), "draft model"
+            )
+            entry.draft_k = _parse_signed(
+                _field(lines, base + 42, "draftcfg_k="), "draft k"
+            )
         entry.validate()
         for j in range(len(entries)):
             if (
@@ -1135,7 +1326,8 @@ struct LearnedLoad(Copyable, Movable):
         )
         out_str += (
             "expert maps: none -- this file holds placement +"
-            " thread choices only; no expert-map section exists"
+            " thread choices and draft configurations (J-083)"
+            " only; no expert-map section exists"
             " (J-027 measured rejection)\n"
         )
         return out_str
