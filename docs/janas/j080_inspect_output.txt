@@ -1,0 +1,25 @@
+PASS: trace sha256 is the J-016 pin
+PASS: model sha256 is the J-015/J-022 OLMoE pin
+PASS: trace shape 577 tokens / 73,856 sequential accesses
+PASS: validation gate EXACT vs tournament at 128/256/512
+PASS: validation gate EXACT vs real-module replay at 128/512
+PASS: SEQ@128 counters are the J-024 fsketch row
+PASS: SEQ@512 counters are the J-024 fsketch row
+PASS: no buildable BATCH-ALL cell is cache-neutral at either budget
+PASS: verdict is MIXED per the pre-registered rule
+PASS: the only prefix-beats-SEQ cell is mixed/k2@512
+PASS: hot == perfect at k2@128 (filed fixtures accept all)
+PASS: hot == perfect at k4@128 (filed fixtures accept all)
+PASS: cold waste tax strictly grows with k @128
+PASS: cold k8 tax exceeds +190% @128
+PASS: even PERFECT batching costs bytes at k8 @128
+PASS: cold PREFIX identical across k @128 (A set by L alone)
+PASS: hot == perfect at k2@512 (filed fixtures accept all)
+PASS: hot == perfect at k4@512 (filed fixtures accept all)
+PASS: cold waste tax strictly grows with k @512
+PASS: cold k8 tax exceeds +190% @512
+PASS: even PERFECT batching costs bytes at k8 @512
+PASS: cold PREFIX identical across k @512 (A set by L alone)
+PASS: real-module replay streamed/hits/evictions EXACT @128
+PASS: real-module replay streamed/hits/evictions EXACT @512
+== 24/24 checks PASS ==
