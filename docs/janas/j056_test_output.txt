@@ -1,0 +1,29 @@
+J-056 split prompt plan -- test output (VM, lightest target)
+Tree: yrsa/janas-j056 from yrsa/janas-j055 tip 2327a911a633b785f208ef68c55bcde62d7a3edf
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j056stage, TMPDIR redirected there. (Direct mojo binary fails without pixi activation, per J-052's filed recipe -- the pixi route was used from the start.)
+Machine: VM (KVM), 4 vCPU; MemAvailable ~1.4 GB -- far below the 5,500 MB inference gate; no inference ran, no CUDA ran; lightest compiles only, one at a time. purplelongship not used at all (204 road live there).
+
+=== test_split_prompt ===
+PASS: even halves -- 16/16 blocks, MACs and weight reads conserve
+PASS: join accounting -- transfers, bytes and crossings exact
+PASS: ragged halves -- 35 blocks split 18/17, MACs conserve
+PASS: ragged final chunk -- 67/4, join priced on real tokens
+PASS: width-1 shape -- one transfer per token, crossings 3x parent
+PASS: filed Llama 3 8B accounting -- J-053 totals split exactly
+PASS: survival rule -- dominated by both parents at both widths
+PASS: survival rule -- not graded where the GPU parent is absent
+PASS: refusals -- tokens, width, one-block, hidden, MACs, empty side
+ALL PASS: split prompt plan (9 groups)
+exit=0
+
+=== neighbour: test_whole_layer_gpu (J-055) rebuilt from this tree ===
+PASS: whole-layer fit with exact headroom, verdict named in-plan
+PASS: Stheno pair -- no-fit at 4096 (exact shortfall), fits at 2048
+PASS: max-weights inversion exact; negative allowance stated, not clamped
+PASS: sync counts -- whole-layer vs per-layer ratio is exactly layers
+PASS: agreement basis points on the filed Gemma counts (floor, exact)
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: KV charged for the full session context (J-053 figure exact)
+PASS: refusals -- fit, max-weights, sync, agreement, upload inputs
+ALL PASS: whole-layer GPU plan (8 groups)
+exit=0
