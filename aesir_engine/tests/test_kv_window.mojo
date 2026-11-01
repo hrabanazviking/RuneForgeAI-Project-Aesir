@@ -29,6 +29,7 @@ from core.kv_window import (
     kw_account,
     kw_first_divergence,
     kw_reusable,
+    kw_saved_ppm,
     kw_service_verdict,
     kw_shape_first_divergence,
     kw_shape_new_len,
@@ -214,7 +215,7 @@ def test_divergence_exercise() raises:
     var old = doc_tokens()
     var rows = shape_rows()
     for i in range(len(rows)):
-        var r = rows[i]
+        var r = rows[i].copy()
         var new = concrete_new(r[0], r[1], r[2])
         expect_eq(len(new), r[3], "concrete new length, shape row " + String(i))
         expect_eq(
@@ -245,7 +246,7 @@ def test_divergence_exercise() raises:
 def test_reuse_cap() raises:
     var rows = shape_rows()
     for i in range(len(rows)):
-        var r = rows[i]
+        var r = rows[i].copy()
         expect_eq(
             kw_reusable(KW_DOC_TOKENS, r[3], r[4]), r[5],
             "reuse, shape row " + String(i),
@@ -261,7 +262,7 @@ def test_reuse_cap() raises:
 def test_account_pins() raises:
     var rows = shape_rows()
     for i in range(len(rows)):
-        var r = rows[i]
+        var r = rows[i].copy()
         var acct = kw_account(
             LAYERS, HIDDEN, QW, KVW, FFN, HEADS, HD, r[3], r[5])
         expect_eq(acct.naive_work, r[6], "naive, shape row " + String(i))
@@ -274,7 +275,7 @@ def test_account_pins() raises:
 def test_conservation_and_verdicts() raises:
     var rows = shape_rows()
     for i in range(len(rows)):
-        var r = rows[i]
+        var r = rows[i].copy()
         var acct = kw_account(
             LAYERS, HIDDEN, QW, KVW, FFN, HEADS, HD, r[3], r[5])
         expect_eq(
@@ -296,7 +297,7 @@ def test_conservation_and_verdicts() raises:
 def test_kv_rewritten() raises:
     var rows = shape_rows()
     for i in range(len(rows)):
-        var r = rows[i]
+        var r = rows[i].copy()
         var acct = kw_account(
             LAYERS, HIDDEN, QW, KVW, FFN, HEADS, HD, r[3], r[5])
         expect_eq(acct.kv_rewritten_f16, r[10], "kv rewritten f16, shape row " + String(i))
@@ -328,14 +329,14 @@ def test_mix_verdict() raises:
     var ta = 0
     var tn = 0
     for i in range(len(rows)):
-        var r = rows[i]
+        var r = rows[i].copy()
         var acct = kw_account(
             LAYERS, HIDDEN, QW, KVW, FFN, HEADS, HD, r[3], r[5])
         ta += acct.avoided_work
         tn += acct.naive_work
     expect_eq(ta, 244430291861504, "mix avoided total")
     expect_eq(tn, 542238528634880, "mix naive total")
-    expect_eq(ta * 1000000 // tn, 450780, "mix saved ppm")
+    expect_eq(kw_saved_ppm(ta, tn), 450780, "mix saved ppm")
     expect_eq(
         kw_service_verdict(ta, tn, True, True), KW_KEPT,
         "the service is KEPT under the pre-registered rule",

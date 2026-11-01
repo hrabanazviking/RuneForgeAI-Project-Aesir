@@ -46,6 +46,7 @@ from core.kv_window import (
     kw_account,
     kw_first_divergence,
     kw_reusable,
+    kw_saved_ppm,
     kw_service_verdict,
     kw_shape_first_divergence,
     kw_shape_new_len,
@@ -205,7 +206,7 @@ def main() raises:
     print(
         "MIX shapes=9 avoided=" + String(ta)
         + " naive=" + String(tn)
-        + " saved_ppm=" + String(ta * 1000000 // tn)
+        + " saved_ppm=" + String(kw_saved_ppm(ta, tn))
         + " exact=" + String(exact)
         + " never_worse=" + String(never_worse)
     )

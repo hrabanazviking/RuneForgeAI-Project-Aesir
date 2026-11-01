@@ -344,6 +344,20 @@ def kw_work_at(
     return read_work_total(layers, hidden, q_width, kv_width, ffn, length)
 
 
+def kw_saved_ppm(avoided: Int, naive: Int) raises -> Int:
+    """Avoided work as floored ppm of the naive work,
+    computed in two scaling steps (x1000, then x1000
+    on the remainder): the work totals reach 1e14,
+    so a single avoided x 1,000,000 would overflow a
+    64-bit integer -- the two-step form is exact and
+    cannot (each intermediate stays below naive x
+    1000 and avoided x 1000)."""
+    if naive <= 0 or avoided < 0 or avoided > naive:
+        raise Error("KVWindow: ppm inputs must satisfy 0 <= avoided <= naive, naive positive")
+    var scaled = avoided * 1000
+    return (scaled // naive) * 1000 + ((scaled % naive) * 1000) // naive
+
+
 struct WindowAccount(Copyable, ImplicitlyCopyable):
     """One edit's window account (the header's
     section (c)): the naive full re-read, the work
@@ -400,7 +414,7 @@ def kw_account(
         naive,
         avoided,
         naive - avoided,
-        avoided * 1000000 // naive,
+        kw_saved_ppm(avoided, naive),
         rewritten * kvp_per_token(KVP_PRECISION_F16, layers, kv_heads, head_dim),
         rewritten * kvp_per_token(KVP_PRECISION_INT8, layers, kv_heads, head_dim),
     )
@@ -432,6 +446,6 @@ def kw_service_verdict(
         raise Error("KVWindow: mix totals must satisfy 0 <= avoided <= naive, naive positive")
     if not exact or not never_worse:
         return KW_NOT_KEPT
-    if total_avoided * 1000000 // total_naive < KW_MIN_SAVED_PPM:
+    if kw_saved_ppm(total_avoided, total_naive) < KW_MIN_SAVED_PPM:
         return KW_NOT_KEPT
     return KW_KEPT
