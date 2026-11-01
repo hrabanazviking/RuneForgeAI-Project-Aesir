@@ -1,0 +1,52 @@
+J-087 KV precision census -- account test output (VM, lightest target)
+Tree: yrsa/janas-j087 from yrsa/janas-j086 tip e4c0f14c73ce6dfd744b1580a6e11ed3dd34d000 (verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; no remote yrsa/janas-j087 existed before this slice)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-086 gate staging build, as expected from the identical source; staging compiled fresh), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables, as J-071--J-086 filed; pixi run remains blocked on this VM). Every suite build exit 0, no warnings shown. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j087stage, build dir ~/workspace/.verify-tmp/j087build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic; MemAvailable 612,012 kB at the inspect run, ~1.84 GB during the builds -- far below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run.
+Evidence note: every number in test_kv_account is exact arithmetic over the profile constants parsed from this tree by docs/janas/j087_inspect.py (43/43 checks PASS, filed as j087_inspect_output.txt). No live memory measurement is claimed anywhere in this slice.
+
+=== test_kv_account (J-087, new) ===
+build exit=0
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+exit=0
+
+=== neighbour: test_igpu_account (J-067) rebuilt from this tree ===
+build exit=0
+PASS: iGPU kind distinct from discrete; pools: integrated=shared-system, discrete=separate
+PASS: own VRAM is discrete-only; an iGPU's 'device memory' is system RAM
+PASS: iGPU budget never additive with the system pool; charged+headroom == pool exactly
+PASS: full budget -- fixed 2500 + cache 4000 charged once against pool 10000
+PASS: shrunk budget -- cache absorbs the squeeze (3500), floor 1000 held
+PASS: refuse below the floor and refuse fixed-over-pool, numbers stated
+PASS: J-048 floor discipline unchanged with an iGPU -- fixed first, cache elastic, floor exact
+PASS: prefill tax -- 0 copy bytes; contended 1250000; shared traffic 1550000 with co-load
+PASS: tax refuses a nonzero copy claim (discrete shape) and negative traffic
+PASS: claim verdict -- admission permitted; speed/reply require live; unfit/floor-broken refused
+PASS: claim names exact; unknown codes and invalid budgets refused
+ALL PASS: igpu account (11 groups)
+exit=0
+
+=== neighbour: test_dense_buffers rebuilt from this tree ===
+build exit=0
+PASS: compact tile spans, byte counts, bounds, defaults and overflow
+exit=0
+
+=== neighbour: test_moe_gpu_plan (J-031) rebuilt from this tree ===
+build exit=0
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals
+exit=0

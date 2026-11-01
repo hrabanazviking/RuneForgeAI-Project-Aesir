@@ -1,0 +1,65 @@
+PASS: host KVCache stores K and V as RuneTensor[f16]
+PASS: host KVCache layout offset is (layer*max_seq + pos)*hidden_dim
+PASS: host KVCache is fixed-capacity: append raises past capacity, no wrap
+PASS: PagedKVCache wraps the same f16 KVCache (base_cache: KVCache)
+PASS: PagedKVCache default block_size is 16
+PASS: dense CUDA cache buffer is DType.float16
+PASS: dense CUDA per-layer KV offset is layer*2*context*kv_width (K block then V block)
+PASS: Gemma 4 CUDA cache buffer is DType.float32 (NOT f16)
+PASS: Gemma 4 CUDA local-layer capacity is the 512 sliding window
+PASS: Gemma 4 CUDA cache offsets are per owning layer only
+PASS: Gemma 4 CUDA cache_kernel wraps local slots: slot = position % capacity
+PASS: Gemma 4 CUDA cache_kernel layout: K slots then V slots per layer
+PASS: dense CUDA llama_cache layout: K at pos*width, V at +capacity*width
+PASS: inference_memory prices dense KV at kv_elements * 2 bytes (f16)
+PASS: inference_memory prices Gemma 4 KV at kv_elements * 4 bytes (f32)
+PASS: inference_memory Gemma 4 sum skips shared layers and caps local at 512
+PASS: runtime KV ceiling MAX_RUNTIME_CONTEXT is 16000
+PASS: engine generation allocates KVCache for ALL block_count layers
+PASS: host forward_pass overload caps context at 16000 like the engine
+PASS: CPU Gemma 4 pads local K/V rows to the cache width (zero-pad)
+PASS: Qwen3.5 appends KV only on full-attention layers
+PASS: MoE session KV is the host KVCache at the file's kv_dim
+PASS: no 8-bit / quantized KV storage exists anywhere in aesir_engine -- 0 hits
+PASS: PagedKVCache has no production session user (definition + tests only) -- aesir_engine/core/mimir_well.mojo, aesir_engine/tests/test_kv_cache.mojo
+
+== dense GQA profiles (parsed from dense_gqa_profile.mojo) ==
+-- llama3_8b_profile: layers=32 kv_heads=8 head_dim=128 cap=8192 -> 131,072 B/token (f16); @512=67,108,864; @4096=536,870,912; @8192=1,073,741,824; @cap=1,073,741,824
+PASS: llama3_8b_profile per-token KV == 131,072
+PASS: llama3_8b_profile context cap == 8192
+-- llama3_2_3b_profile: layers=28 kv_heads=8 head_dim=128 cap=8192 -> 114,688 B/token (f16); @512=58,720,256; @4096=469,762,048; @8192=939,524,096; @cap=939,524,096
+PASS: llama3_2_3b_profile per-token KV == 114,688
+PASS: llama3_2_3b_profile context cap == 8192
+-- qwen3_0_6b_profile: layers=28 kv_heads=8 head_dim=128 cap=32768 -> 114,688 B/token (f16); @512=58,720,256; @4096=469,762,048; @8192=939,524,096; @cap=3,758,096,384
+PASS: qwen3_0_6b_profile per-token KV == 114,688
+PASS: qwen3_0_6b_profile context cap == 32768
+-- qwen2_coder_7b_profile: layers=28 kv_heads=4 head_dim=128 cap=32768 -> 57,344 B/token (f16); @512=29,360,128; @4096=234,881,024; @8192=469,762,048; @cap=1,879,048,192
+PASS: qwen2_coder_7b_profile per-token KV == 57,344
+PASS: qwen2_coder_7b_profile context cap == 32768
+PASS: J-053 filed 3B KV figure is the defect (131072 != derived 114688) -- j053_inspect.py ARCHS row carries 131072 for the 28-layer 3B profile
+
+== Gemma 4 profiles (parsed from gemma4_profile.mojo) ==
+-- gemma4_e4b_profile: layers=42 shared=18 owning=24 (local 20 / global 4) kv_heads=2 head_dim local 256 / global 512 cap=32768
+   host f16: allocated 172,032/token; written (padded) 98,304/token; useful 57,344/token
+   CUDA f32: local ring fixed 41,943,040; global marginal 32,768/token; total @cap 1,115,684,864
+PASS: gemma4_e4b_profile host allocated/token == 172,032
+PASS: gemma4_e4b_profile host useful/token == 57,344
+PASS: gemma4_e4b_profile CUDA fixed == 41,943,040
+PASS: gemma4_e4b_profile CUDA marginal/token == 32,768
+-- gemma4_e2b_profile: layers=35 shared=20 owning=15 (local 12 / global 3) kv_heads=1 head_dim local 256 / global 512 cap=16384
+   host f16: allocated 71,680/token; written (padded) 30,720/token; useful 18,432/token
+   CUDA f32: local ring fixed 12,582,912; global marginal 12,288/token; total @cap 213,909,504
+PASS: gemma4_e2b_profile host allocated/token == 71,680
+PASS: gemma4_e2b_profile host useful/token == 18,432
+PASS: gemma4_e2b_profile CUDA fixed == 12,582,912
+PASS: gemma4_e2b_profile CUDA marginal/token == 12,288
+
+== OLMoE (MoE session shape, J-015 dims as filed in J-053) ==
+PASS: OLMoE per-token KV == 131,072 (16 layers x kv_dim 2048 x K+V x f16)
+-- olmoe: layers=16 kv_dim=2048 -> 131,072 B/token (f16, host); @512=67,108,864; @4096 (file cap)=536,870,912
+
+== 8-bit projection (J-088 baseline arithmetic, NOT a tree fact) ==
+-- Llama 3 8B at int8 + one f32 scale per (layer, K/V, kv-head) row: 65,536 payload + 2,048 scales = 67,584 B/token vs f16 131,072 (ratio 0.5156)
+PASS: int8 projection arithmetic closes
+
+J087_INSPECT: 43/43 checks PASS
