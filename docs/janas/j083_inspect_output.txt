@@ -1,0 +1,21 @@
+PASS: new module exists and names J-083
+PASS: verdict/refusal rules are in the module header before the code
+PASS: contradictory-sources refusal exists by name
+PASS: contradictory-mtp refusal exists by name
+PASS: --no-mtp + --draft stated NOT a contradiction in the header
+PASS: k cap is read through J-071 plan_proposer, never restated
+PASS: k default binds J-072 LOOP_K_INITIAL by import, not restated
+PASS: pair gate binds J-074 evaluate_pair by import and call
+PASS: mtp gate binds J-077 evaluate_mtp_admission by import and call
+PASS: use gate fails closed for every configuration (blockers named)
+PASS: chat and server entries are wrappers over the ONE resolver
+PASS: module wires no session (no cli import; header states it)
+PASS: learned file carries the V2 header beside V1
+PASS: V2 serialisation writes the five fixed-order draftcfg lines
+PASS: parser accepts both versions (is_v2 branch present)
+PASS: use gate still fails closed (J-036, unedited by this slice)
+PASS: facade speculative_generate still raises not-implemented
+PASS: suite has 17 groups
+PASS: suite drives both surface wrappers (parity by construction)
+PASS: doc numbers match the filed test output numbers
+== 20/20 checks PASS ==

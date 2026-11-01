@@ -1,0 +1,190 @@
+J-083 Draft configuration surface -- test output (VM, lightest target)
+Tree: yrsa/janas-j083 from yrsa/janas-j082 tip 6284bfb2b4ebd1261223c610f581b46a52ab002c (base verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; no remote yrsa/janas-j083 existed before this slice)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-079/J-080/J-082 staging builds, as expected from the identical source; this slice's staging was compiled fresh, not reused), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env at aesir-janas-j071/aesir_engine/.pixi invoked directly with its pixi activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH, TMPDIR redirected to the staging tree, as J-071--J-082 filed; pixi run remains blocked on this VM). Every suite build exit 0. Runs with LD_LIBRARY_PATH=<staging>; the draft-config suite ran with J083_TEST_DIR and the learned-file suite with J044_TEST_DIR pointed at fresh directories under the build tree. Staging ~/workspace/.verify-tmp/j083stage, build dir ~/workspace/.verify-tmp/j083build, nothing deleted.
+Build-route note (filed honestly): an early attempt in this continuation used the canonical checkout's pixi env binary directly; that env's mojo could not locate module 'std' even for a two-line hello program, so it was set aside and the J-071 worktree env -- the precedent env for this road -- was used for every filed build. The failure is in that env's invocation, not in any tree file: the identical sources build and pass under the J-071 env.
+Machine: VM (KVM), 4 vCPU; MemAvailable measured ~0.65-2.1 GB across the slice (659,656 kB at the keeper tick, 796,968 kB at the last filed run) -- far below the 5,500 MB inference gate at every moment, so no VM inference was attempted; lightest compiles only, one at a time. purplelongship was not used at all -- unreachable (the 204 road's state file records its fifty-eighth consecutive UNREACHABLE tick at 2026-11-01 ~09:02 EST, last_seen 2026-11-01T02:07:13Z), and yielded to under the coordination law in any case.
+Evidence note: every fixture in test_draft_config is a stated shape (stated argv lists, stated raw layers, stated tensor-name lists, stated pair facts in J-074's own shapes), never a model's output; the learned-file legs write and read real files under the test directory. No live pair, speed, wall, or tok/s is proved or claimed anywhere.
+
+=== inspection recount ===
+j083_inspect.py: 20/20 checks PASS, exit 0 (filed as j083_inspect_output.txt) -- verdict/refusal rules in the module header before the code, both contradictory refusals by name, --no-mtp + --draft stated NOT a contradiction, k cap through J-071 plan_proposer and k default = J-072 LOOP_K_INITIAL by import (neither restated), pair/head gates bound to J-074 evaluate_pair / J-077 evaluate_mtp_admission, use gate naming G-PROPOSER + G-EXECUTOR, both surface wrappers over the one resolver, no session wired, learned-file V1+V2 headers with the five fixed-order draftcfg lines and a both-versions parser, J-036 use gate still fail-closed unedited, facade speculative_generate still raises not-implemented, suite's 17 groups driving both wrappers, doc numbers == test output numbers.
+
+=== test_draft_config (J-083, new) ===
+PASS: defaults -- no source, mtp unset, k = J-072 initial (4)
+PASS: --mtp -- head source on both surfaces, foreign flags ignored
+PASS: --draft forms -- spaced/equals identical; --no-mtp + --draft allowed
+PASS: parity matrix -- 6 argv shapes, chat == server on every field
+PASS: precedence -- cli > env per field, independently
+PASS: env layer -- AESIR_MTP/AESIR_DRAFT_K read; bad value refused
+PASS: contradictions -- mtp+no-mtp (same/cross layer), mtp+draft (3/3)
+PASS: scan refusals -- dup/missing/valued-switch/typo/empty (6/6)
+PASS: k band -- cap 15 from plan_proposer; 0/16/bad refused (5/5)
+PASS: hand-built validation -- file-on-head, mtp-on-draft, mtp-on-none, unknown (4/4)
+PASS: mtp gate (J-077) -- admitted head file; no-head/uncensused/wrong-source refused (3/3)
+PASS: pair gate (J-074) -- pair admitted; missing/unverified/not-smaller refused
+PASS: use gate -- configured mtp, configured draft, unconfigured (3/3 refused)
+PASS: persistence round trip -- save -> load -> identical configuration
+PASS: persistence replace/miss -- same-key replace; MODEL-MISMATCH; MISSING clean
+PASS: V1 compat -- no-draft files unchanged; corrupt file refused clean
+PASS: apply/merge -- pass choices and draft config round-trip together
+ALL PASS: draft configuration surface (17 groups)
+RUN_EXIT=0
+
+=== test_learned_file ===
+PASS: keys -- derived from facts, exact equality, renders, validation
+PASS: serialise/parse round trip -- whole, exact, byte-identical
+PASS: refusal kind absent -- no learned default from a refusal
+PASS: npu refused -- a parked device is never persisted
+PASS: validation refusals -- form/decision consistency, decisions, threads
+PASS: path resolution -- file > cache home > HOME > relative fallback
+PASS: disk save/load -- MISSING clean, save atomic, load whole, lookup applies
+PASS: lookup mismatches -- model / machine / both / no-entry / not-loaded
+PASS: store -- append, same-key replace, corrupt store refused untouched
+PASS: corrupt loads -- garbage/truncated/flipped/version/empty all REFUSED whole
+PASS: erase -- per-key, last-key valid-empty, whole-file, absent clean
+PASS: report -- per-key dump, defaults-only, no expert maps
+LIVE LEARNED REPORT (this machine's facts):
+learned file report
+path: /home/hatch/workspace/.verify-tmp/j083build/data3/live/learned-placement.v1
+state: LOADED (1 entry)
+entry
+  machine: cpu 'AMD EPYC 9D25 126-Core Processor', 4 logical / 4 physical / 1 package(s), hybrid split not machine-stated; gpu none stated
+  model: olmoe emb=2048 blk=16 heads=16/16 ffn=11008 ctx=8192 experts=64 used=8
+  measured-at: 1793542156 (unix s)
+  prompt: cpu threads=1 (device cpu, threads 1, decision DEFAULT-CONFIRMED, from option auto)
+  drafts: absent (no learned choice)
+  reply: absent (no learned choice)
+  drafts-config: absent (no learned draft configuration)
+manual supremacy: learned values are defaults only; an explicit --prompt-on / --drafts-on / --reply-on option (or its env equivalent) overrides the learned value for its kind, always
+expert maps: none -- this file holds placement + thread choices and draft configurations (J-083) only; no expert-map section exists (J-027 measured rejection)
+
+PASS: live round trip -- real cpu facts key, store, load, apply, mismatch
+ALL PASS: learned file (13 groups)
+RUN_EXIT=0
+
+=== test_speculative_verify ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+RUN_EXIT=0
+
+=== test_speculative_loop ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+RUN_EXIT=0
+
+=== test_draft_placement ===
+PASS: decision rule -- a clear winner is chosen (measured win)
+PASS: decision rule -- within the margin band, default kept with reason
+PASS: decision rule -- margin clears but rounds interleave, default kept
+PASS: decision rule -- default fastest but unproven, kept as default
+PASS: decision rule -- sole measured candidate chosen, no margin claimed
+PASS: unmeasurable field -- fallback with cpu, refusal without
+PASS: manual single and co-work fix the choice; npu refused at parse
+PASS: race ranks members only; unmeasurable race carried unranked
+PASS: session keeping -- decided once, kept, reports identical
+LIVE DRAFT-CHECK CHOICE:
+draft-check placement report
+option: auto (source default)
+decision: NO-MEASURED-FALLBACK -- no candidate measured (every candidate is unmeasurable-with-reason for this kind today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- with its reason on this record); the session default is kept because the inventory states the cpu present -- a fallback, not a measurement result, and a kept label only: no draft-check pass runs anywhere until Part V builds it
+chosen: cpu threads=1
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  gpu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  npu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  cpu threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+axes: no timing stands for this kind on either axis: the device sweep measured nothing (every candidate unmeasurable-with-reason, G1) and the thread trials timed nothing (every rung unmeasurable-with-reason, G1) -- there is no cross-check and no ranked set today; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+PASS: live chooser -- all-unmeasurable field, fallback outcome
+LIVE MANUAL DRAFT-CHECK CHOICE:
+draft-check placement report
+option: cpu (source cli)
+decision: MANUAL-FIXED -- the explicit drafts option 'cpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate is UNMEASURABLE on this tree today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name; a device option does not fix a thread count, so the thread axis stands where the session leaves it -- and for this kind that axis is unmeasured in any case, every rung unmeasurable-with-reason (G1); choosing is not using: any actual use of a drafts placement still fails closed through require_draft_check_use() (J-036) until Part V (J-071/J-072) builds the pass; open-time refusal of a hand placement is J-047)
+chosen: cpu
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu: UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+axes: no timing stands for this kind: the device sweep measured nothing (the named candidate is unmeasurable-with-reason, G1); the thread trials were not run -- a manual option fixes the choice and no ranking follows -- and every rung would record unmeasurable-with-reason (G1) in any case; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+LIVE MANUAL DRAFT-CHECK CO-WORK CHOICE:
+draft-check placement report
+option: cpu+gpu (source cli)
+decision: MANUAL-FIXED -- the explicit drafts option 'cpu+gpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate is UNMEASURABLE on this tree today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name; a device option does not fix a thread count, so the thread axis stands where the session leaves it -- and for this kind that axis is unmeasured in any case, every rung unmeasurable-with-reason (G1); choosing is not using: any actual use of a drafts placement still fails closed through require_draft_check_use() (J-036) until Part V (J-071/J-072) builds the pass; open-time refusal of a hand placement is J-047)
+chosen: cpu+gpu
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu+gpu: UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+axes: no timing stands for this kind: the device sweep measured nothing (the named candidate is unmeasurable-with-reason, G1); the thread trials were not run -- a manual option fixes the choice and no ranking follows -- and every rung would record unmeasurable-with-reason (G1) in any case; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+PASS: live manual single and co-work fix the choice, unranked
+LIVE DRAFT-CHECK RACE CHOICE:
+draft-check placement report
+option: cpu,gpu (source cli)
+decision: NO-MEASURED-FALLBACK -- no candidate measured (every candidate is unmeasurable-with-reason for this kind today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- with its reason on this record); the session default is kept because the inventory states the cpu present -- a fallback, not a measurement result, and a kept label only: no draft-check pass runs anywhere until Part V builds it
+chosen: cpu threads=1
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu (race): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  gpu (race): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  cpu threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+axes: no timing stands for this kind on either axis: the device sweep measured nothing (every candidate unmeasurable-with-reason, G1) and the thread trials timed nothing (every rung unmeasurable-with-reason, G1) -- there is no cross-check and no ranked set today; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+PASS: live race unranked; the J-036 use gate still fails closed
+ALL PASS: draft-check placement auto choice (12 groups)
+RUN_EXIT=0
+
+=== test_speculative_placement ===
+PASS: both-on-CPU -- priced, zero crossings, zero syncs
+PASS: CPU draft + GPU check -- h2d 12, d2h 16, syncs 2
+PASS: both-on-GPU syncs 4 / d2h 16; reverse syncs 4 / d2h 12
+PASS: kept (dense cross-model, w4 tile) -- CPU draft + GPU check
+PASS: MoE GPU check REFUSED (J-031 admission); expert re-pay priced; MoE kept = both-on-CPU
+PASS: GPU verify width -- w5 refused, w4 off-tile refused (J-054), kept falls to CPU
+PASS: conversation proposer -- off-host draft refused by name; host draft + GPU check kept
+PASS: iGPU -- 0 copy bytes, contended priced, REFUSED (no backend, J-066); kept = both-on-CPU
+PASS: device absent -- refused first by name; CPU-only set keeps both-on-CPU
+PASS: coupled proposers -- split crosses hidden per draft step; MTP kept = both-on-GPU
+PASS: MoE draft on GPU REFUSED (J-031 admission); its re-pay priced as a plan
+PASS: enumeration -- 4 priced / 5 refused on the dense GPU set; choose deterministic
+PASS: input refusals -- k bounds, proposer cap, miss layers, negative bytes (4/4)
+ALL PASS: speculative placement (13 groups)
+RUN_EXIT=0
+
