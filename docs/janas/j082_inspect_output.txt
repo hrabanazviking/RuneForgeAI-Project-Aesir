@@ -1,0 +1,23 @@
+PASS: new module exists and names J-082
+PASS: verdict rule is in the module header before the code
+PASS: k band constants are the J-071 band 1..15
+PASS: zero-bin sentinel is the named constant -1.0
+PASS: alpha=0.001 critical table in the module (df 2/3/7)
+PASS: correction consumes SHAPED distributions (host contract)
+PASS: residual and bonus rules stated in the module header
+PASS: no speed/wall/tok-per-s claim function in the module
+PASS: shaping binds the engine sampler's RuneRNG by import
+PASS: sampler's shaping stack exists as recorded (temp/top-k/top-p)
+PASS: legacy engine's min(1, p/q) arithmetic stands as recorded
+PASS: legacy residual/KV refusal stands (layer is additive)
+PASS: module's acceptance is the same arithmetic over shaped p/q
+PASS: use gate still fails closed (J-036, unedited by this slice)
+PASS: facade speculative_generate still raises not-implemented
+PASS: J-071 greedy zero-draw invariant stands unedited
+PASS: suite has 17 groups
+PASS: suite pins the registered seeds and N
+PASS: suite requires the naive control to FAIL
+PASS: doc registers the verdict rule (N, seed, alpha)
+PASS: mirror is an independent RuneRNG replica, filed with output
+PASS: doc's filed statistics match the mirror's statistics
+== 22/22 checks PASS ==

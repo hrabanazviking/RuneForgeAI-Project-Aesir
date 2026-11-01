@@ -1,0 +1,10 @@
+J-082 sampling correctness -- independent Python mirror of the registered seeded runs
+Script: docs/janas/j082_mirror.py (same RuneRNG arithmetic, same fixed draw consumption -- 3 draws per position, 5 per bonus round -- same shaping order as core/speculative_sampling.mojo). Run on the VM with python3, exit 0.
+Each line: corrected chi-square and naive-control chi-square per registered case (seed 20261101, N=60000); -1.0 is the zero-bin sentinel (automatic FAIL). The Mojo suite's filed statistics in j082_test_output.txt agree with every value here to six decimal places.
+
+A corr=8.518318 naive=69594.8684384072
+B corr=5.676114 naive=183613.4394083955
+C corr=0.641060 naive=-1.0
+D corr=1.674679 naive=-1.0
+E corr=5.596804 naive=-1.0
+bonus chi2=6.747471 rounds=34835
