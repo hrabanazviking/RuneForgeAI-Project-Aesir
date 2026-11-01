@@ -621,6 +621,28 @@ struct AesirEngine:
     # then, and only then. See
     # docs/janas/J071_VERIFICATION_FIRST_DESIGN.md.
     #
+    # The draft loop (Janas road J-072): the loop machinery
+    # lives in core/speculative_loop.mojo -- dispatch over
+    # J-071's three proposer slots, plan_round_k() (band,
+    # proposer caps, and explicit KV-capacity shortening),
+    # run_loop_round() (snapshot, one plan_verify round,
+    # exact rollback of KV / context / proposer KV asserted
+    # against the snapshot, RNG word unchanged), and
+    # run_loop() (multi-round driving, emission asserted
+    # token-identical to plain greedy). The legacy draft
+    # bound in core/speculative.mojo is reconciled there:
+    # hard limit 15 (the band), default 4 retained as the
+    # loop's initial k. The adaptation rule's shape is
+    # stated (suggest_next_k); measured tuning is J-079.
+    # Honest wiring state: NO session consumes the loop --
+    # no proposer implementation or verify-pass executor
+    # exists for a session to call, so
+    # require_draft_check_use() still fails closed and this
+    # facade's speculative_generate still raises
+    # not-implemented. Claiming consumption would fake an
+    # integration that cannot run. See
+    # docs/janas/J072_DRAFT_LOOP.md.
+    #
     # Co-work passes for the prompt kind (Janas road J-043):
     # the split machinery lives in core/cowork_passes.mojo --
     # plan_cowork_prompt() plans the pairs a resolved prompt
