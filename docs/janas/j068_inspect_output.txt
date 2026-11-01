@@ -1,0 +1,24 @@
+causal pairs/layer at 8192 = 33558528
+windowed (512) pairs/layer at 8192 = 4063488
+attention quadratic share: pairs(8192)/pairs(4096) = 3.9995x for 2x tokens
+Llama 3 8B: KV@8192=1073741824 B; proj total=57174604644352; attn total=8797166764032; attn share=1333 bp (13.33%); dominates=False; head x1=525336576
+Llama 3.2 3B: KV@8192=1073741824 B; proj total=23089744183296; attn total=5773140688896; attn share=2000 bp (20.00%); dominates=False; head x1=394002432
+Qwen3 0.6B: KV@8192=939524096 B; proj total=3607772528640; attn total=3848760459264; attn share=5161 bp (51.61%); dominates=True; head x1=155582464
+Qwen2.5 Coder 7B: KV@8192=469762048 B; proj total=53455162966016; attn total=6735330803712; attn share=1119 bp (11.19%); dominates=False; head x1=544997376
+Gemma 4 E2B (hybrid): KV@8192=150994944 B; proj total=10146860236800; attn total=2390413541376; attn share=1906 bp (19.06%); dominates=False; head x1=402653184
+OLMoE (routed): KV@8192=1073741824 B; proj total=8813272891392; attn total=2199291691008; attn share=1997 bp (19.97%); dominates=False; head x1=103022592
+OLMoE F1 head waste at 8192 (width-1 step): 843858051072 MACs (head paid 8192x, 8191 discarded); chunk form (J-058) pays 1x, waste 0
+OLMoE stream projection at J-030 mean (SIMULATED): 2966107069473 B -- arithmetic only; OLMoE file context cap 4096 refuses the run
+host batched passes at 8192 (cap 256): 32 total / 31 pure / 1 head
+width-1 passes at 8192: 8192 / 8191 pure / 1 head (MoE width-1: 8192 head passes)
+CUDA tile-4 passes at 8192: 2051 / 2050 pure / 1 head
+dense_gqa_profile caps: ['8192'] profile rows context fields: [('Qwen 3', '1024'), ('Qwen 2.5 Coder 7B: QKV biases, NEOX RoPE, untied Q6_K output.', '3584'), ('Llama 3.2', '3072')]
+  cap line: 151936, 32768, 151669, 151645, 151645,
+  cap line: 152064, 32768, 151643, 151645, 151645,
+  cap line: "Llama 3.2", "llama", "3B", 28, 3072, 8192, 24, 8, 128,
+  cap line: 128256, 8192, 128000, 128001, 128009,
+gemma4 profile context caps in rows: ['16384', '262144', '32768']
+J-054 filed at 8192 (Llama 3 8B shape, width 256): chunks 32, GEMM calls 7168, per-row attention calls 786432, scores 256 MiB at full context (test file)
+J-058 filed: plan_moe_gpu_prefill at 8192 with OLMoE context cap 4096 is a REFUSAL case in its test file
+J-059 filed at 8192: host-width read = 32 chunks, records_expected = 10 (watched: >=1024 tokens and >=4 chunks)
+== done ==
