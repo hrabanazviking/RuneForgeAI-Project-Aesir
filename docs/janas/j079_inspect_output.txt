@@ -1,0 +1,54 @@
+PASS adaptive defines record_adaptive_round
+PASS adaptive defines decide_from_ledger_row
+PASS adaptive defines plan_adaptive_round
+PASS evidence gated on J-071's account_is_consistent
+PASS cap read from J-071's plan_proposer, never restated
+PASS floor and start read from J-072, never restated
+PASS capacity planning is J-072's plan_round_k
+PASS ledger rate is J-075's rate_basis_points, not restated
+PASS J-075's rate_basis_points exists in its module
+PASS J-071 premises exist (plan_verify, proposer kinds)
+PASS J-072 premises exist (suggest_next_k superseded shape)
+PASS window pre-registered at 4 rounds
+PASS deepen allowance pre-registered at 2 wasted
+PASS cold threshold pre-registered at 3000 bp
+PASS step pre-registered at 2
+PASS deepen scales with evidence length (exact integers)
+PASS module contains no speed and executes no forward
+PASS adaptive test defines its 11 groups
+PASS adaptive test labels its fixtures SIMULATED
+PASS adaptive test builds accounts through J-071's plan_verify
+PASS measurement -- regime=hot/adaptive drafted=360 accepted=319 wasted=
+PASS measurement -- regime=hot/adaptive moves=2 trajectory=4->6->8->8
+PASS measurement -- regime=cold/adaptive drafted=104 accepted=48 wasted=
+PASS measurement -- regime=cold/adaptive moves=1 trajectory=4->2->2
+PASS measurement -- regime=mixed/adaptive moves=0 trajectory=4->4->4
+PASS measurement -- regime=switch/adaptive drafted=264 accepted=175 wast
+PASS measurement -- trajectory=4->6->8->8->8->8->8->6->4->2->2->2->2
+PASS measurement -- regime=hot/fixed8 drafted=384 accepted=336 wasted=48
+PASS measurement -- regime=cold/fixed4 drafted=192 accepted=48 wasted=14
+PASS measurement script mirrors the filed rule constants
+PASS measurement is labelled SIMULATED throughout
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS speculative_adaptive imported only by its own test
+PASS test record -- ALL PASS: speculative adaptive depth (11 groups)
+PASS test record -- ALL PASS: speculative verification account (13 group
+PASS test record -- ALL PASS: speculative draft loop (12 groups)
+PASS test record -- ALL PASS: speculative acceptance measurement (10 gro
+PASS test record -- ALL PASS: speculative token-identity proof (8 groups
+PASS test record -- ALL PASS: cross-model draft pairing (10 groups)
+PASS test record -- ALL PASS: mtp census classifier (8 groups)
+PASS test record -- ALL PASS: mtp head support (10 groups)
+PASS test record -- ALL PASS: assistant-model draft pairing (10 groups)
+PASS test record -- MEASUREMENT DETERMINISM: rerun sha256 == filed sha25
+PASS doc element -- verdict is CLOSED-WITH-DEFERRED-LEG
+PASS doc element -- box unreachable, last seen filed
+PASS doc element -- live tuning deferred with reason
+PASS doc element -- rejected rate-only variant recorded
+PASS doc element -- recipe names the J-072 loop
+PASS doc element -- re-cite point is the J-086 gate
+PASS doc element -- rules recorded as answered-locally
+PASS doc element -- fixture evidence labelled SIMULATED
+== done ==
+(52/52 checks PASS)

@@ -1,0 +1,170 @@
+J-079 Adaptive depth -- test output (VM, lightest target)
+Tree: yrsa/janas-j079 from yrsa/janas-j078 tip 427326fc56f0bdf4a22099790b616fb4dcf724c0 (base verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; no remote yrsa/janas-j079 existed before this slice)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then per module: mojo build -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j079stage, build dir ~/workspace/.verify-tmp/j079build, nothing deleted.
+Build-route note: `pixi run` remains blocked on this VM (the J-072-recorded activation failure), so the builds invoked the SAME pixi environment's mojo binary directly (the installed env in the J-071 worktree's aesir_engine/.pixi), with the activation variables the tree's own activate script sets (CONDA_PREFIX, PATH, MODULAR_HOME=${CONDA_PREFIX}/share/max). Same compiler (Mojo 1.0.0 ed45d567), same flags, same linker line as J-071--J-078's filed recipes. One benign warning on the new suite's build (unused loop variable in test_speculative_adaptive.mojo line 334), no errors.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.85 GB at slice start, ~0.6-0.8 GB during the builds -- far below the 5,500 MB inference gate at every moment, so no VM inference was attempted; lightest compiles only, one at a time. purplelongship was not used at all -- unreachable (device offline, last seen 2026-11-01T02:07:13Z, unchanged from J-076/J-077/J-078's checks), and yielded to under the coordination law in any case.
+Evidence note: every account in test_speculative_adaptive is a synthetic account built through J-071's plan_verify over stated draft/target lists (SIMULATED fixtures): the suite proves the pre-registered tuning rule's properties, never a model pair's acceptance. The fixture replay below (docs/janas/j079_measurement.py) is likewise SIMULATED; its determinism line is at the end of this record.
+Continuation note: this slice was resumed by the keeper's continuation worker from the 06:32 worker's existing worktree (module, suite, and measurement written 06:39 EST, untracked); the continuation inspected all three first-hand, compiled and ran everything below, and filed the doc, inspect, and banking. No line of the inherited module or suite needed correction (doc section 7).
+
+=== fixture replay (from docs/janas/j079_measurement_output.txt) ===
+J-079 fixture replay (SIMULATED) -- adaptive vs fixed k
+rule window=4 deepen_max_wasted=2 cold_bp=3000 step=2 bounds=[1,15] start_k=4 rounds=48
+cost model: drafted=k, accepted=min(k,L), wasted=k-accepted, emitted=accepted+1 per round
+-- regime hot: L cycle [8, 6, 9, 7, 8, 6, 9, 5]
+MEASURE SIMULATED regime=hot/fixed2 drafted=96 accepted=96 wasted=0 emitted=144 rate_bp=10000 accepted_per_round_milli=2000 wasted_per_emitted_milli=0
+MEASURE SIMULATED regime=hot/fixed4 drafted=192 accepted=192 wasted=0 emitted=240 rate_bp=10000 accepted_per_round_milli=4000 wasted_per_emitted_milli=0
+MEASURE SIMULATED regime=hot/fixed8 drafted=384 accepted=336 wasted=48 emitted=384 rate_bp=8750 accepted_per_round_milli=7000 wasted_per_emitted_milli=125
+MEASURE SIMULATED regime=hot/adaptive drafted=360 accepted=319 wasted=41 emitted=367 rate_bp=8861 accepted_per_round_milli=6645 wasted_per_emitted_milli=111
+MEASURE SIMULATED regime=hot/adaptive moves=2 trajectory=4->6->8->8->8->8->8->8->8->8->8->8->8
+-- regime cold: L cycle [1, 0, 2, 1, 1, 0, 1, 2]
+MEASURE SIMULATED regime=cold/fixed2 drafted=96 accepted=48 wasted=48 emitted=96 rate_bp=5000 accepted_per_round_milli=1000 wasted_per_emitted_milli=500
+MEASURE SIMULATED regime=cold/fixed4 drafted=192 accepted=48 wasted=144 emitted=96 rate_bp=2500 accepted_per_round_milli=1000 wasted_per_emitted_milli=1500
+MEASURE SIMULATED regime=cold/fixed8 drafted=384 accepted=48 wasted=336 emitted=96 rate_bp=1250 accepted_per_round_milli=1000 wasted_per_emitted_milli=3500
+MEASURE SIMULATED regime=cold/adaptive drafted=104 accepted=48 wasted=56 emitted=96 rate_bp=4615 accepted_per_round_milli=1000 wasted_per_emitted_milli=583
+MEASURE SIMULATED regime=cold/adaptive moves=1 trajectory=4->2->2->2->2->2->2->2->2->2->2->2->2
+-- regime mixed: L cycle [3, 1, 4, 0, 2, 5, 1, 3]
+MEASURE SIMULATED regime=mixed/fixed2 drafted=96 accepted=72 wasted=24 emitted=120 rate_bp=7500 accepted_per_round_milli=1500 wasted_per_emitted_milli=200
+MEASURE SIMULATED regime=mixed/fixed4 drafted=192 accepted=108 wasted=84 emitted=156 rate_bp=5625 accepted_per_round_milli=2250 wasted_per_emitted_milli=538
+MEASURE SIMULATED regime=mixed/fixed8 drafted=384 accepted=114 wasted=270 emitted=162 rate_bp=2968 accepted_per_round_milli=2375 wasted_per_emitted_milli=1666
+MEASURE SIMULATED regime=mixed/adaptive drafted=192 accepted=108 wasted=84 emitted=156 rate_bp=5625 accepted_per_round_milli=2250 wasted_per_emitted_milli=538
+MEASURE SIMULATED regime=mixed/adaptive moves=0 trajectory=4->4->4->4->4->4->4->4->4->4->4->4->4
+-- regime switch: 24 hot rounds then 24 cold rounds
+MEASURE SIMULATED regime=switch/fixed4 drafted=192 accepted=120 wasted=72 emitted=168 rate_bp=6250 accepted_per_round_milli=2500 wasted_per_emitted_milli=428
+MEASURE SIMULATED regime=switch/adaptive drafted=264 accepted=175 wasted=89 emitted=223 rate_bp=6628 accepted_per_round_milli=3645 wasted_per_emitted_milli=399
+MEASURE SIMULATED regime=switch/adaptive moves=5 trajectory=4->6->8->8->8->8->8->6->4->2->2->2->2
+== done ==
+
+=== test_speculative_adaptive ===
+PASS: bounds -- initial k=4; floor/caps from J-071/J-072; bad starts refused 4/4
+PASS: minimum evidence -- 3 hot rounds pending, the 4th decides
+PASS: deepen -- hot window (9375 bp) deepens 4 -> 6, window resets
+PASS: shallow -- cold window (1666 bp) shallows 6 -> 4
+PASS: hysteresis -- deadband holds at 5000/6875/4375 bp (warm is not saturated)
+PASS: thresholds exact -- 2 wasted deepens, 3 holds at 8125 bp; 3000 bp shallows
+PASS: bounds clamp -- cap/floor are holds there; steps clamp exactly to them
+PASS: no pathological oscillation -- alternation holds; reversal needs a full opposite window
+PASS: ledger binding -- J-075 rows decide via J-075's rate; short row pending; wrong kind refused
+PASS: refusals -- inconsistent/foreign accounts leave the controller untouched
+PASS: determinism -- identical trajectories; hot climb and cold fall clamp; J-072 planning bound
+ALL PASS: speculative adaptive depth (11 groups)
+
+=== neighbours (rebuilt from this tree) ===
+=== test_speculative_verify ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+RUN_EXIT=0
+=== test_speculative_loop ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+RUN_EXIT=0
+=== test_speculative_acceptance ===
+PASS: classifier -- structured first, then code, by stated features
+PASS: classifier -- prose language by markers; tie/low = other; code NA
+PASS: record -- bound to the J-071 account, totals from the account alone
+PASS: record refusals -- inconsistent account, pair-id misuse, language misuse
+PASS: separation -- rows keyed by kind, pair, text type, language
+MEASURE SIMULATED pair=cross_model/1 prose/english accepted=34 drafted=40 rate_bp=8500
+MEASURE SIMULATED pair=cross_model/1 prose/italian accepted=12 drafted=40 rate_bp=3000
+MEASURE SIMULATED pair=cross_model/1 prose/AGGREGATE accepted=46 drafted=80 rate_bp=5750
+PASS: measurement -- italian-prose collapse separated; aggregate hides it
+MEASURE SIMULATED pair=cross_model/1 code accepted=36 drafted=40 rate_bp=9000
+MEASURE SIMULATED pair=cross_model/1 structured accepted=31 drafted=40 rate_bp=7750
+MEASURE SIMULATED pair=cross_model/1 ALL accepted=113 drafted=160 rate_bp=7062
+PASS: measurement -- per-text-type rates for one pair, aggregate beside them
+PASS: distribution -- histogram reproduces rounds and accepted per row
+PASS: classified recording -- the host path files by classifier verdict
+PASS: rate edges -- empty pair has no rate; names are the stated words
+ALL PASS: speculative acceptance measurement (10 groups)
+RUN_EXIT=0
+=== test_speculative_identity ===
+PASS: checker negative control -- tamper at 257 and truncation at 599 both detected
+PASS: A head/MTP k=4 always-right -- identity 500/500 over 100 rounds, plain state exact
+PASS: B head/assistant k=15 (band top) always-right -- identity 512/512 over 32 rounds, plain state exact
+PASS: C cross-model k=5 always-wrong -- identity 300/300 over 296 rounds (295 zero-accepted + closing), plain state exact
+PASS: D conversation k=8 (cap) alternating right/wrong -- identity 400/400 over 80 rounds, plain state exact
+PASS: E cross-model k=6 coincidence-past-mismatch traps -- identity 450/450 over 149 rounds, plain state exact
+PASS: F head/MTP capacity-shortened tail -- identity 330/330 over 40 rounds, 10 shortened rounds on record, final KV at capacity
+PASS: G slot switching (head/conversation/cross/head, 25 cycles) -- identity 350/350 over 100 rounds, plain state exact, cross KV exact
+ALL PASS: speculative token-identity proof (8 groups; 7 long configurations, 2842 tokens, 797 rounds)
+RUN_EXIT=0
+=== test_cross_model_pairing ===
+PASS: tokenizer identity -- full tables equal, divergences -1
+PASS: tokenizer mismatch -- one token, refused at its index
+PASS: tokenizer length + merges -- divergence, one-sided, both-absent
+PASS: tokenizer model/BOS/EOS -- each inequality breaks identity
+PASS: admissible pair -- k cap from J-071, memory sized once (J-026)
+PASS: missing-file refusals -- either side, named reason
+PASS: family refusals -- cross-family and unknown refused, same-family admitted
+PASS: size refusals -- equal and 60% refused, exactly-half admitted
+PASS: tokenizer gate -- unverified refused, mismatch refused with index
+PASS: k and budget refusals -- cap enforced, starved pool refused
+ALL PASS: cross-model draft pairing (10 groups)
+RUN_EXIT=0
+=== test_mtp_census ===
+PASS: classifier -- nextn names
+PASS: classifier -- mtp names
+PASS: classifier -- assistant names
+PASS: classifier -- ordinary names carry no head
+PASS: classifier -- first-match order nextn before mtp
+PASS: census -- aggregation counts per kind
+PASS: census -- verdicts vocab-only / no-mtp / with-mtp
+PASS: census -- kind and verdict names
+ALL PASS: mtp census classifier (8 groups)
+RUN_EXIT=0
+=== test_mtp_head_support ===
+PASS: admission -- nextn WITH_MTP admitted, heads named
+PASS: admission -- mixed heads admitted as mtp-head
+PASS: admission -- assistant-only admitted, assistant shape
+PASS: refusal -- proven NO_MTP files refused by name
+PASS: refusal -- VOCAB_ONLY fixtures refused by name
+PASS: refusal -- uncensused file refused as NOT PROVEN
+PASS: refusal -- empty file name refused
+PASS: record -- refusal/admission lines name file+verdict+reason
+PASS: binding -- refused has no shape; admitted shape is J-072 dispatch
+PASS: binding -- k cap from J-071, reason names round-trip
+ALL PASS: mtp head support (10 groups)
+RUN_EXIT=0
+=== test_assistant_pairing ===
+PASS: admission -- head-form assistant admitted through J-077 gate
+PASS: admission -- standalone small model of the family admitted
+PASS: budget -- pair sized once, exact arithmetic, headroom once
+PASS: refusal -- empty / missing / uncensused / vocab-only by name
+PASS: refusal -- family mismatch and unknown family refused
+PASS: refusal -- MTP-head files refused as assistants by name
+PASS: tokenizer gate -- unverified refused, mismatch at its index
+PASS: refusal -- not-smaller and over-share; both bounds exact-admit
+PASS: k and budget refusals -- cap enforced, starved pool refused
+PASS: record -- lines name both files; refused pairs yield no shape
+ALL PASS: assistant-model draft pairing (10 groups)
+RUN_EXIT=0
+=== test_speculative ===
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+RUN_EXIT=0
+
+MEASUREMENT DETERMINISM: rerun sha256 == filed sha256 (j079_measurement_output.txt sha256 198e5a4e16dd02573c9e208671aa7eb3a7bb188a1fac44a000bdc53e16f7cec6, byte-identical on rerun by the continuation worker)
