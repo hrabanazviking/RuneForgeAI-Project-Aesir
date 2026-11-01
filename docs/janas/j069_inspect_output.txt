@@ -1,0 +1,22 @@
+native serve: timings_ms splits prefill/decode around begin_turn only; no open/compile/prep component exists in the record
+cuda_chat: begin_turn precedes started_at -- its speed figure is decode-only; the first turn's cold prefill is inside no figure at all
+host engine (aesir.mojo): monotonic clock imported for generation control; no open or prefill wall is reported by the host path
+expert_cache: cold_misses tracked apart from misses (first-ever-access fact, ever-seen set)
+npu_prompt_prep: prep_bytes_to_write is 0 on a graph-cache hit, footprint otherwise -- C3 cold vs cached already separate in the account
+placement_harness: settle round executed and its timing DISCARDED (first-touch absorbed) -- its medians are warm figures by construction
+J-019: cold page state measured (DONTNEED evict, mincore resident 0.0 on all 7 cold legs); warm legs run immediately after the cold pass
+J-020 token 0: cold streams 487587840 B, warm streams 130056192 B; warm/cold = 0.2667 (warm streams 73.3% fewer bytes); cold ceiling == J-015 per-token ceiling
+J-030 idle leg: prefill 28.04 s / decode 9.39 s / wall-per-token 0.4113 s, classed MEASURED-INDICATIVE; each leg a fresh single-shot process, so its prefill is a cold first prompt (empty expert cache) published without a cold label
+  J054_GPU_BLOCK_PREFILL.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J055_WHOLE_LAYER_GPU.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J056_SPLIT_PROMPT.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J057_PREFILL_DECODE_OVERLAP.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J058_MOE_PROMPT_GPU.md: cold=1 warm=0 -- no live wall filed (all live legs deferred)
+  J059_LONG_PROMPT_WATCHING.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J060_PREFILL_FAITHFULNESS_BATTERY.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J066_VULKAN_QUESTION.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J067_IGPU_AWARENESS.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+  J068_PREFILL_AT_8K.md: cold=0 warm=0 -- no live wall filed (all live legs deferred)
+J-053: baseline table stated for cold prompts; 'J-069 owns cold-vs-warm separation' -- this slice is that owner
+J-061: conditional recipe files preparation walls (cold vs graph-cached) separately from prompt walls, per J-069 -- honoured by this account's C3
+== done ==
