@@ -1,0 +1,59 @@
+J-088 8-bit KV -- test + bench output (VM, lightest target)
+Tree: yrsa/janas-j088 from yrsa/janas-j087 tip 09bc5552ede24e49fc3dccd3b49c55e2eb49b060 (verified by git at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables, as J-071--J-087 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j088stage, build dir ~/workspace/.verify-tmp/j088build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~2.5-3.1 GB during the builds and 1.4-2.7 GB during the bench runs -- below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. The VM was CONTENDED throughout (load average 3.4-13.0 on 4 vCPU from other campaigns): the bench walls below are MEASURED-INDICATIVE single runs whose spread is reported, never a baseline. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+Bench run 1 (earlier, load average 11.35/8.22/7.05, MemAvailable 2,600,496 kB):
+FAITH_KV elements=524288 max_abs_err=0.003937006 mean_abs_err=0.0018527067165905464
+FAITH_ATTN elements=1024 max_abs_dev=0.0023426115 mean_abs_dev=0.0011660499518484357 sink=0.6705474039772525
+WALL reps=200 int8_total_ns=884238784 int8_ns_per_step=4421193 ref_total_ns=904461896 ref_ns_per_step=4522309 ratio_x1000=977 sink=-52.253855473711155
+BENCH DONE
+
+=== test_kv_int8 (J-088, new) ===
+build exit=0
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+exit=0
+
+=== neighbour: test_kv_account (J-087) rebuilt from this tree ===
+build exit=0
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+exit=0
+
+=== bench run 2 (state first, then output) ===
+MemAvailable:    1534500 kB
+ 16:59:27 up 58 min,  0 user,  load average: 4.32, 7.48, 7.06
+7.0.0-39-generic
+4
+FAITH_KV elements=524288 max_abs_err=0.003937006 mean_abs_err=0.0018527067165905464
+FAITH_ATTN elements=1024 max_abs_dev=0.0023426115 mean_abs_dev=0.0011660499518484357 sink=0.6705474039772525
+WALL reps=200 int8_total_ns=2908011483 int8_ns_per_step=14540057 ref_total_ns=1691854661 ref_ns_per_step=8459273 ratio_x1000=1718 sink=-52.253855473711155
+BENCH DONE
+exit=0
+
+=== bench run 3 (state first, then output) ===
+MemAvailable:    1446476 kB
+ 16:59:49 up 59 min,  0 user,  load average: 3.44, 7.07, 6.94
+FAITH_KV elements=524288 max_abs_err=0.003937006 mean_abs_err=0.0018527067165905464
+FAITH_ATTN elements=1024 max_abs_dev=0.0023426115 mean_abs_dev=0.0011660499518484357 sink=0.6705474039772525
+WALL reps=200 int8_total_ns=2263938167 int8_ns_per_step=11319690 ref_total_ns=2664983257 ref_ns_per_step=13324916 ratio_x1000=849 sink=-52.253855473711155
+BENCH DONE
+exit=0
+
+Bench reading (filed in the doc section 5): faithfulness numbers are byte-identical across all three runs (deterministic). The wall ratio int8/reference is 0.977 / 1.718 / 0.849 across runs 1/2/3 -- contention spread, not a stable overhead: dequant cost at this shape is NOT separable from machine weather on this VM in this tick.

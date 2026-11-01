@@ -1,0 +1,36 @@
+PASS: store holds K and V as separate List[Int8] buffers
+PASS: scales are separate List[Float32] buffers (f32 scales)
+PASS: scale constant is 4 bytes (one f32 per scale)
+PASS: per-row scale is maxabs / 127
+PASS: append quantizes (kv8_quantize called in append)
+PASS: attention dequantizes inside its loops (kv8_dequantize in attention)
+PASS: an unquantized reference attention exists for the exercise
+PASS: store is fixed-capacity (append raises past capacity, host shape)
+PASS: flag --kv-precision exists in the scanner
+PASS: flag --kv-scale exists in the scanner
+PASS: env equivalents AESIR_KV_PRECISION / AESIR_KV_SCALE are read
+PASS: the default precision is f16 (existing precision, not int8)
+PASS: per-channel use is refused in the module (priced, not built)
+-- Llama 3 8B: per-row int8 67,584 B/token vs f16 131,072 (ratio 0.5156)
+PASS: Llama 3 8B per-row int8 == 67,584
+PASS: Llama 3 8B figure pinned in test_kv_int8.mojo
+-- Llama 3.2 3B / Qwen3 0.6B: per-row int8 59,136 B/token vs f16 114,688 (ratio 0.5156)
+PASS: Llama 3.2 3B / Qwen3 0.6B per-row int8 == 59,136
+PASS: Llama 3.2 3B / Qwen3 0.6B figure pinned in test_kv_int8.mojo
+-- Qwen2.5 Coder 7B: per-row int8 29,568 B/token vs f16 57,344 (ratio 0.5156)
+PASS: Qwen2.5 Coder 7B per-row int8 == 29,568
+PASS: Qwen2.5 Coder 7B figure pinned in test_kv_int8.mojo
+-- OLMoE (32x64): per-row int8 69,632 B/token vs f16 131,072 (ratio 0.5312)
+PASS: OLMoE (32x64) per-row int8 == 69,632
+PASS: OLMoE (32x64) figure pinned in test_kv_int8.mojo
+PASS: J-087's doc carries the 67,584 projection this slice reproduces
+PASS: module accounting is defined through the census projection (no drift)
+PASS: 8B total at its 8192 cap == 553,648,128
+PASS: per-channel 8B total at 8192 == 537,133,056 (table paid once)
+PASS: saving vs f16 for the 8B shape == 63,488 B/token
+PASS: saving vs f32 for the 8B shape == 194,560 B/token
+PASS: no session/execution file imports kv_int8 (integration deferred, honestly) -- 0 importers outside the module + its test
+PASS: bench shape is the stated one (8 heads, head_dim 128, 256 positions)
+PASS: bench measures both paths (int8 and reference) with reps stated
+
+J088_INSPECT: 30/30 checks PASS
