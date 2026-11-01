@@ -72,7 +72,7 @@ check("gate shim hashes match the Part VI staging builds",
 FILED_HARNESS_SHA = {
     91: "b7c8f3c8df5dd9c8491810f28d1fc5bd5b837ba8dd8a2d08cbef27c3c5cbc2f5",
     92: "18c6f279c22538293832a9c72cd33a11a4efe10fed7208e0ac8c21335acfeeed",
-    93: "703c5514",
+    93: "703c5514eb5e8e01cc29050d81addc3cb16585788f0d2d7131b9390156d52092",
     94: "4a95869ad6e4b5e1ba2a4d33d892526c6c8bfe87973a931c9ebc2c71c1415359",
     95: "f2fac570133ffa2a3f25b69ce9a945ef200bdd1f3b001e7602a8478aa3a1074d",
     96: "ebc9780eefe78e8331857dc4f9d264c8a71fcee0633281c16057fb1eba2dc507",
@@ -126,6 +126,18 @@ check("window: mix saved ppm = 450,780 (two-step form == direct division)",
       244430291861504 * 1000000 // 542238528634880 == 450780
       and 450780 >= 250000)
 
+# --- per-slice inspect re-runs: totals + the snapshot-class disposition ---
+check("gate inspect re-run total: 428/435 PASS, 7 FAIL (snapshot class)",
+      "INSPECT_RERUN TOTAL: 428/435 checks PASS, 7 FAIL" in gate_tests)
+check("gate fully clean inspect re-runs: J-089/J-090/J-092/J-093/J-097",
+      all(s in gate_tests for s in (
+          "INSPECT_RERUN J-089: 31/31", "INSPECT_RERUN J-090: 43/43",
+          "INSPECT_RERUN J-092: 27/27", "INSPECT_RERUN J-093: 24/24",
+          "INSPECT_RERUN J-097: 59/59")))
+check("gate J-088 bench FAITH exercise reproduces filed exactly",
+      "FAITH_KV max_abs_err=0.003937006" in gate_tests
+      and "FAITH_ATTN max_abs_dev=0.0023426115" in gate_tests)
+
 # --- faithfulness evidence as filed (per precision, section 3 of the gate) ---
 doc88 = read("docs/janas/J088_8BIT_KV.md")
 doc89 = read("docs/janas/J089_KV_FAITHFULNESS.md")
@@ -178,6 +190,8 @@ check("gate files the mixed-layout decision on record (NOT KEPT)",
 check("gate re-cites all ten deferred legs J-088..J-097 (section 5 items)",
       all(f"J-{n:03d}" in gate_doc for n in range(88, 98))
       and "§5" in gate_doc)
+check("gate files the inspect snapshot-class disposition (7 FAIL)",
+      "428 PASS" in gate_doc and "7 FAIL" in gate_doc)
 check("gate files concordance deltas for rows 35-36",
       "| 35 |" in gate_doc and "| 36 |" in gate_doc)
 check("gate grades under the raw-oracle discipline, never single-turn",

@@ -1,0 +1,98 @@
+PASS: J-87 doc sha-identical tree vs campaign
+PASS: J-87 filed test output sha-identical tree vs campaign
+PASS: J-87 filed inspect output sha-identical tree vs campaign
+PASS: J-88 doc sha-identical tree vs campaign
+PASS: J-88 filed test output sha-identical tree vs campaign
+PASS: J-88 filed inspect output sha-identical tree vs campaign
+PASS: J-89 doc sha-identical tree vs campaign
+PASS: J-89 filed test output sha-identical tree vs campaign
+PASS: J-89 filed inspect output sha-identical tree vs campaign
+PASS: J-90 doc sha-identical tree vs campaign
+PASS: J-90 filed test output sha-identical tree vs campaign
+PASS: J-90 filed inspect output sha-identical tree vs campaign
+PASS: J-91 doc sha-identical tree vs campaign
+PASS: J-91 filed test output sha-identical tree vs campaign
+PASS: J-91 filed inspect output sha-identical tree vs campaign
+PASS: J-92 doc sha-identical tree vs campaign
+PASS: J-92 filed test output sha-identical tree vs campaign
+PASS: J-92 filed inspect output sha-identical tree vs campaign
+PASS: J-93 doc sha-identical tree vs campaign
+PASS: J-93 filed test output sha-identical tree vs campaign
+PASS: J-93 filed inspect output sha-identical tree vs campaign
+PASS: J-94 doc sha-identical tree vs campaign
+PASS: J-94 filed test output sha-identical tree vs campaign
+PASS: J-94 filed inspect output sha-identical tree vs campaign
+PASS: J-95 doc sha-identical tree vs campaign
+PASS: J-95 filed test output sha-identical tree vs campaign
+PASS: J-95 filed inspect output sha-identical tree vs campaign
+PASS: J-96 doc sha-identical tree vs campaign
+PASS: J-96 filed test output sha-identical tree vs campaign
+PASS: J-96 filed inspect output sha-identical tree vs campaign
+PASS: J-97 doc sha-identical tree vs campaign
+PASS: J-97 filed test output sha-identical tree vs campaign
+PASS: J-97 filed inspect output sha-identical tree vs campaign
+PASS: gate re-run: ALL PASS: kv account (10 groups)
+PASS: gate re-run: ALL PASS: kv int8 (8 groups)
+PASS: gate re-run: ALL PASS: kv faith (6 groups)
+PASS: gate re-run: ALL PASS: kv mixed (6 groups)
+PASS: gate re-run: ALL PASS: kv ladder (8 groups)
+PASS: gate re-run: ALL PASS: attention share (10 groups)
+PASS: gate re-run: ALL PASS: memory ceiling (10 groups)
+PASS: gate re-run: ALL PASS: prompt read (11 groups)
+PASS: gate re-run: ALL PASS: kv drafts (11 groups)
+PASS: gate re-run: ALL PASS: kv persistence (11 groups)
+PASS: gate re-run: ALL PASS: kv window (10 groups)
+PASS: gate primary groups sum to 101
+PASS: every gate module RUN_EXIT=0 (11 primaries)
+PASS: gate shim hashes match the Part VI staging builds
+PASS: gate harness J-91 sha256 reproduces the filed sha
+PASS: gate harness J-92 sha256 reproduces the filed sha
+PASS: gate harness J-93 sha256 reproduces the filed sha
+PASS: gate harness J-94 sha256 reproduces the filed sha
+PASS: gate harness J-95 sha256 reproduces the filed sha
+PASS: gate harness J-96 sha256 reproduces the filed sha
+PASS: gate harness J-97 sha256 reproduces the filed sha
+PASS: census: Llama 3 8B f16 = 131,072 B/token
+PASS: census: Llama 3.2 3B / Qwen3 0.6B f16 = 114,688 B/token
+PASS: census: Coder 7B f16 = 57,344 B/token
+PASS: census: J-053's 3B defect figure 131,072 does NOT derive from its shape
+PASS: int8: 8B shape = 67,584 B/token (0.5156 of f16)
+PASS: int8: Coder shape = 29,568 B/token
+PASS: ladder: KV f16 column re-derives exactly at all 5 rungs
+PASS: ladder: KV int8 column re-derives exactly at all 5 rungs
+PASS: ladder: prefill attention MACs @8,192 == J-053's filed figure
+PASS: share: prefill marginal crossing 32,512 is exact (200,704 x 32,512)
+PASS: ceiling: Form A GPU f16 growth = 1,383,894 ppm (FLATTER than 1,884,615)
+PASS: read: chunking delta @32,768 = 152,855,557,816,320 B
+PASS: persistence: @32,768 f16 = 85,568 MACs/traffic-byte, verdict PAYS
+PASS: window: mix saved ppm = 450,780 (two-step form == direct division)
+PASS: gate inspect re-run total: 428/435 PASS, 7 FAIL (snapshot class)
+PASS: gate fully clean inspect re-runs: J-089/J-090/J-092/J-093/J-097
+PASS: gate J-088 bench FAITH exercise reproduces filed exactly
+PASS: J-088 quantizer bound filed: max round-trip error 0.003937
+PASS: J-089 synthetic ladder: NO SYNTHETIC COST FOUND, worst rung 0.0023426115
+PASS: J-089 files the live grade as NOT PROVEN with its recipe in section 7
+PASS: J-090 verdict filed: NOT_KEPT_NO_INDICTMENT for every candidate
+PASS: J-090 concentration: max/median never exceeds 1.032 (< 2.0 threshold)
+PASS: J-095 rollback EXACT at int8 (store level) and f16 (account/loop level)
+PASS: J-095 acceptance UNCHANGED at account level: difference (0, 0, 0)
+PASS: no session/well file imports the int8 store (INTEGRATION_BLOCKED stands)
+PASS: J-88 doc files its deferred leg for the J-098 gate
+PASS: J-89 doc files its deferred leg for the J-098 gate
+PASS: J-90 doc files its deferred leg for the J-098 gate
+PASS: J-91 doc files its deferred leg for the J-098 gate
+PASS: J-92 doc files its deferred leg for the J-098 gate
+PASS: J-93 doc files its deferred leg for the J-098 gate
+PASS: J-94 doc files its deferred leg for the J-098 gate
+PASS: J-95 doc files its deferred leg for the J-098 gate
+PASS: J-96 doc files its deferred leg for the J-098 gate
+PASS: J-97 doc files its deferred leg for the J-098 gate
+PASS: J-087 files its baseline deferrals to J-088/J-098 by name
+PASS: gate verdict is CLOSED-WITH-DEFERRED-LEGS for Part VI
+PASS: gate files faithfulness verdicts per precision (f16 and int8 rows)
+PASS: gate files the mixed-layout decision on record (NOT KEPT)
+PASS: gate re-cites all ten deferred legs J-088..J-097 (section 5 items)
+PASS: gate files the inspect snapshot-class disposition (7 FAIL)
+PASS: gate files concordance deltas for rows 35-36
+PASS: gate grades under the raw-oracle discipline, never single-turn
+== 97/97 checks PASS ==
