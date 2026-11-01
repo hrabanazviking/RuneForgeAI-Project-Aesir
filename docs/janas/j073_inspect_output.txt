@@ -1,0 +1,42 @@
+PASS identity test defines its 8 groups
+PASS identity test drives run_loop and run_loop_round
+PASS identity test grades through J-071's checker
+PASS identity test contains no speed or timing
+PASS coverage marker -- config A: 500 tokens
+PASS coverage marker -- config B: 512 tokens at the band top
+PASS coverage marker -- config C: 295 zero-accepted rounds
+PASS coverage marker -- config D: 39 alternating pairs at the conversation cap
+PASS coverage marker -- config E: 148 coincidence-trap rounds
+PASS coverage marker -- config F: capacity-shortened rounds recorded
+PASS coverage marker -- config G: 25 slot-switching cycles
+PASS coverage marker -- filed totals stated in the suite
+PASS coverage marker -- negative control: tamper index 257
+PASS identity test states its honesty grade (SIMULATED, not live)
+PASS capacity shortening goes through plan_round_k
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS loop imported only by its own test and the J-073 proof test -- aesir_engine/tests/test_speculative_identity.mojo, aesir_engine/tests/test_speculative_loop.mojo
+PASS MoE session carries no loop state
+PASS loop and account modules carry the J-071/J-072 premises
+PASS doc recipe element -- live leg deferred with reason
+PASS doc recipe element -- re-cite point is the J-086 gate
+PASS doc recipe element -- dependency slice J-074 named
+PASS doc recipe element -- dependency slice J-077 named
+PASS doc recipe element -- dependency slice J-078 named
+PASS doc recipe element -- unroaded wiring named honestly
+PASS doc recipe element -- arch row Llama 3 8B
+PASS doc recipe element -- arch row Llama 3.2 3B
+PASS doc recipe element -- arch row Gemma 4 E2B
+PASS doc recipe element -- arch row Gemma 4 E4B
+PASS doc recipe element -- arch row Qwen3 0.6B
+PASS doc recipe element -- arch row Qwen2.5 Coder 7B
+PASS doc recipe element -- arch row Qwen3.5
+PASS doc recipe element -- arch row OLMoE
+PASS doc recipe element -- raw-oracle grading in the recipe
+PASS doc recipe element -- template-rendering comparator refused
+PASS doc recipe element -- guarded idle-gap rule names the 204 heartbeat
+PASS doc recipe element -- live pass criterion stated exactly
+PASS doc recipe element -- loop proof graded in the doc's own words
+PASS doc recipe element -- verdict shape stated
+== done ==
+(40/40 checks PASS)
