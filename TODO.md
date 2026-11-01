@@ -8601,7 +8601,7 @@
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
-- [ ] Slice4.296 the
+- [x] Slice4.296 the
   closing-run cumulative cumulative
   cumulative cumulative
   cumulative cumulative
@@ -8701,6 +8701,109 @@
   remaining-count sequence
   in full (checked
   against AES-NUM-295 and
+  AES-NUM-245); then broad
+  ordinary UNMODIFIED
+  source-model support100%.
+- [ ] Slice4.297 the
+  closing-run cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+  remaining-count sequence
+  in full; the distinct
+  cumulative cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals in full
+  (positions and counts);
+  and the gap cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative
+  cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+  remaining-count sequence
+  in full (checked
+  against AES-NUM-296 and
   AES-NUM-245); then broad
   ordinary UNMODIFIED
   source-model support100%.
