@@ -1,0 +1,101 @@
+J-090 mixed discipline -- test + concentration output (VM, lightest target)
+Tree: yrsa/janas-j090 from yrsa/janas-j089 tip 2b9ce151ad97f8b291984f8e875f24c81e9dca46 (verified by git at slice start, local == ls-remote; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087/J-088/J-089 staging builds, as expected from the identical source; staging compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables -- CONDA_PREFIX, MODULAR_HOME=<env>/share/max, PATH -- exported by hand, as J-071--J-089 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j090stage, build dir ~/workspace/.verify-tmp/j090build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~2.3 GB at the worktree step, ~1.2 GB at the staging build, ~0.9 GB at the final suite runs -- below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. Load average 1.6--6.9 across the slice (other campaigns); no wall is filed anywhere in this slice, so contention touches no number. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+
+=== test_kv_mixed (J-090, new) ===
+build exit=0
+PASS: endpoints -- zero upgrades == J-088 int8 == J-087 projection; all upgrades == f16 census (8B / 0.6B / Coder / OLMoE)
+PASS: candidate prices (8B) -- first layer 69,568; first+last 71,552; one head 75,520; half layers / K-only / V-only 99,328 B/token
+PASS: candidate prices (Qwen3 0.6B) -- int8 59,136; first layer 61,120; one head 66,080 B/token; overhead/saving split closes
+PASS: per-channel break-even -- exactly head_dim tokens (128 / 64); totals agree there; per-channel saves 16,515,072 B at 8,192
+PASS: keep verdict -- no-indictment / not-restored / price-boundary all NOT KEPT; indicted+restored+cheap KEPT
+PASS: refusals -- pair counts out of range, zero layers, degenerate head_dim, layer/head counts out of range, endpoint candidates and inverted uniforms in the verdict, zero context
+ALL PASS: kv mixed (6 groups)
+exit=0
+
+=== neighbour: test_kv_int8 (J-088) rebuilt from this tree ===
+build exit=0
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+exit=0
+
+=== neighbour: test_kv_account (J-087) rebuilt from this tree ===
+build exit=0
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+exit=0
+
+=== neighbour: test_kv_faith (J-089) rebuilt from this tree ===
+build exit=0
+PASS: exact + near-tie steps -- rank 0/gap 0 exact; rank 1 gap 108 near-tie; gap rounding half-up
+PASS: near-tie band edges -- rank2+gap999 IN; rank2+gap1000 OUT; rank3 OUT; rank2+gap1138 OUT
+PASS: ties -- argmax takes the first maximum; a tied maximum shares rank 0 / gap 0
+PASS: pair verdicts -- FAITHFUL / NEAR_TIE / DIVERGENT (first at 2) / STEP0_BOUNDARY
+PASS: pair honesty -- empty NOT_GRADED; invalid comparator overrides perfect rows; J-022 pattern (23 exact + 1 near) grades NEAR_TIE
+PASS: refusals -- width mismatch, empty rows, step-count mismatch, NaN, inf, sub-milli positive-rank gap
+ALL PASS: kv faith (6 groups)
+exit=0
+
+=== concentration: docs/janas/j090_concentration.mojo, run 1 ===
+(state at run: MemAvailable ~1.2 GB class; exit=0)
+CONCHEAD L=128 h=0 both_max=0.0022414923 both_mean=0.0011165969262947328 k_max=0.0005503893 v_max=0.0020381808 chan_max=0.0022414923
+CONCHEAD L=128 h=1 both_max=0.0022693276 both_mean=0.0011487844749353826 k_max=0.0005585402 v_max=0.0020348728 chan_max=0.0022693276
+CONCHEAD L=128 h=2 both_max=0.0021395087 both_mean=0.0011377867886039894 k_max=0.00066804886 v_max=0.001962006 chan_max=0.0021395087
+CONCHEAD L=128 h=3 both_max=0.0022833496 both_mean=0.0011529617258929648 k_max=0.0005685091 v_max=0.0020695925 chan_max=0.0022833496
+CONCHEAD L=128 h=4 both_max=0.0022304952 both_mean=0.0011248741357121617 k_max=0.0004491806 v_max=0.001996845 chan_max=0.0022304952
+CONCHEAD L=128 h=5 both_max=0.002113998 both_mean=0.0010736617878137622 k_max=0.00057184696 v_max=0.0019079149 chan_max=0.002113998
+CONCHEAD L=128 h=6 both_max=0.0022339225 both_mean=0.0011618995340541005 k_max=0.00058710575 v_max=0.002012521 chan_max=0.0022339225
+CONCHEAD L=128 h=7 both_max=0.0022515059 both_mean=0.0011272813517280156 k_max=0.00047133863 v_max=0.0020413697 chan_max=0.0022515059
+CONC L=128 both_max=0.0022833496 both_mean=0.0011304808406293887 konly_max=0.00066804886 vonly_max=0.0020695925 chan_max=0.0022833496 chan_mean=0.0011304808406293887 worst_head=3 worstheadf16_max=0.0022693276 head_max_median=0.0022377073764801025 ratio_x1000=1020 indicted_conc=0 indicted_tensor=0
+CROSSCHECK L=256 inline_vs_module_ref_max=0.0
+CONCHEAD L=256 h=0 both_max=0.0022453666 both_mean=0.0011505314678288414 k_max=0.00048333407 v_max=0.0020069182 chan_max=0.0022453666
+CONCHEAD L=256 h=1 both_max=0.0023426115 both_mean=0.001180285171358264 k_max=0.00051473454 v_max=0.0021027327 chan_max=0.0023426115
+CONCHEAD L=256 h=2 both_max=0.0021864772 both_mean=0.0011700069917424116 k_max=0.0005851835 v_max=0.0019480288 chan_max=0.0021864772
+CONCHEAD L=256 h=3 both_max=0.0023145825 both_mean=0.0011791329561674502 k_max=0.00048047304 v_max=0.002062589 chan_max=0.0023145825
+CONCHEAD L=256 h=4 both_max=0.0022825003 both_mean=0.0011711946808645735 k_max=0.00044345856 v_max=0.0020431578 chan_max=0.0022825003
+CONCHEAD L=256 h=5 both_max=0.002152264 both_mean=0.0011225897305848775 k_max=0.00053572655 v_max=0.0019389093 chan_max=0.002152264
+CONCHEAD L=256 h=6 both_max=0.0022583604 both_mean=0.0011864155203511473 k_max=0.0005276799 v_max=0.0020017922 chan_max=0.0022583604
+CONCHEAD L=256 h=7 both_max=0.0023158789 both_mean=0.0011682430958899204 k_max=0.00046682358 v_max=0.002082318 chan_max=0.0023158789
+CONC L=256 both_max=0.0023426115 both_mean=0.0011660499518484357 konly_max=0.0005851835 vonly_max=0.0021027327 chan_max=0.0023426115 chan_mean=0.0011660499518484357 worst_head=1 worstheadf16_max=0.0023158789 head_max_median=0.002270430326461792 ratio_x1000=1031 indicted_conc=0 indicted_tensor=0
+CONCHEAD L=2048 h=0 both_max=0.002187699 both_mean=0.0011418958893045783 k_max=0.0004785061 v_max=0.0019580424 chan_max=0.002187699
+CONCHEAD L=2048 h=1 both_max=0.0022938848 both_mean=0.0011722878807631787 k_max=0.0005093571 v_max=0.002039522 chan_max=0.0022938848
+CONCHEAD L=2048 h=2 both_max=0.0021339655 both_mean=0.0011626067534962203 k_max=0.0005814731 v_max=0.0019008219 chan_max=0.0021339655
+CONCHEAD L=2048 h=3 both_max=0.0022627413 both_mean=0.001175230688204465 k_max=0.0004836321 v_max=0.0020117462 chan_max=0.0022627413
+CONCHEAD L=2048 h=4 both_max=0.0022340715 both_mean=0.0011609184875851497 k_max=0.00043940544 v_max=0.0019922852 chan_max=0.0022340715
+CONCHEAD L=2048 h=5 both_max=0.002105102 both_mean=0.0011111705771327252 k_max=0.00054240227 v_max=0.0018747747 chan_max=0.002105102
+CONCHEAD L=2048 h=6 both_max=0.0022108257 both_mean=0.0011824079283542233 k_max=0.00053077936 v_max=0.001961857 chan_max=0.0022108257
+CONCHEAD L=2048 h=7 both_max=0.0022880137 both_mean=0.0011587675871851388 k_max=0.00045871735 v_max=0.002030462 chan_max=0.0022880137
+CONC L=2048 both_max=0.0022938848 both_mean=0.00115816072400321 konly_max=0.0005814731 vonly_max=0.002039522 chan_max=0.0022938848 chan_mean=0.00115816072400321 worst_head=1 worstheadf16_max=0.0022880137 head_max_median=0.0022224485874176025 ratio_x1000=1032 indicted_conc=0 indicted_tensor=0
+CONCHEAD L=32768 h=0 both_max=0.0021888614 both_mean=0.0011446960706962273 k_max=0.00049096346 v_max=0.0019580722 chan_max=0.0021888614
+CONCHEAD L=32768 h=1 both_max=0.0022859573 both_mean=0.0011752742993849097 k_max=0.0005099699 v_max=0.0020333529 chan_max=0.0022859573
+CONCHEAD L=32768 h=2 both_max=0.0021301806 both_mean=0.0011658270141197136 k_max=0.00058341026 v_max=0.0019082725 chan_max=0.0021301806
+CONCHEAD L=32768 h=3 both_max=0.0022789836 both_mean=0.0011757482770917704 k_max=0.00049227476 v_max=0.0020140112 chan_max=0.0022789836
+CONCHEAD L=32768 h=4 both_max=0.0022332072 both_mean=0.0011643856414593756 k_max=0.00043708086 v_max=0.0019889176 chan_max=0.0022332072
+CONCHEAD L=32768 h=5 both_max=0.0020972788 both_mean=0.0011209057174710324 k_max=0.00057572126 v_max=0.0018756092 chan_max=0.0020972788
+CONCHEAD L=32768 h=6 both_max=0.0022179484 both_mean=0.0011816573678515851 k_max=0.0005208254 v_max=0.0019859672 chan_max=0.0022179484
+CONCHEAD L=32768 h=7 both_max=0.0022866875 both_mean=0.0011612911584961694 k_max=0.0004441738 v_max=0.0020180643 chan_max=0.0022866875
+CONC L=32768 both_max=0.0022866875 both_mean=0.001161223193321348 konly_max=0.00058341026 vonly_max=0.0020333529 chan_max=0.0022866875 chan_mean=0.001161223193321348 worst_head=7 worstheadf16_max=0.0022859573 head_max_median=0.0022255778312683105 ratio_x1000=1027 indicted_conc=0 indicted_tensor=0
+RULEM concentration_or_tensor_indicted=0 bound=0.003937006
+CONCENTRATION DONE
+
+=== concentration run 2 ===
+exit=0; output byte-identical to run 1 (diff clean) -- the exercise is deterministic.
+
+Concentration reading (filed in the doc sections 4-5): the BOTH aggregate at every length reproduces J-089's filed ladder exactly (128: 0.0022833496 / 0.0011304808406293887; 256: 0.0023426115 / 0.0011660499518484357; 2,048: 0.0022938848 / 0.00115816072400321; 32,768: 0.0022866875 / 0.001161223193321348) and the inline reference matches the module's attention_f32_head exactly at 256 (CROSSCHECK 0.0) -- the harness's validation gate. Per-head deviation is DIFFUSE (every head 0.00210--0.00234; max/median ratio 1.020--1.032, threshold 2.0); neither tensor alone exceeds the bound (K-only max 0.00067, V-only max 0.00210, bound 0.003937006); oracle-calibrated per-channel is digit-for-digit identical to per-row on this data (the synthetic rows are range-saturated -- every row slice and every channel attains maxabs 1.0, so both scale shapes are 1/127 everywhere; the inspect script proves the saturation mechanically). No indictment fires under the pre-registered rule (doc section 2): the mixed layout is NOT KEPT (NOT_KEPT_NO_INDICTMENT). All concentration numbers are SIMULATED (deterministic synthetic data); model faithfulness remains NOT PROVEN (doc sections 7, 9).

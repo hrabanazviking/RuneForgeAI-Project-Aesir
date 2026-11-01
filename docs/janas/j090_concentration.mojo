@@ -221,7 +221,7 @@ def main() raises:
             var q = List[Float32]()
             for j in range(HD):
                 q.append(synth(h * HD + j + 97))
-            var ref = attn_mode(h, seq, q, MODE_EXACT, MODE_EXACT, ks, vs)
+            var want = attn_mode(h, seq, q, MODE_EXACT, MODE_EXACT, ks, vs)
             var both = attn_mode(h, seq, q, MODE_ROW, MODE_ROW, ks, vs)
             var konly = attn_mode(h, seq, q, MODE_ROW, MODE_EXACT, ks, vs)
             var vonly = attn_mode(h, seq, q, MODE_EXACT, MODE_ROW, ks, vs)
@@ -236,17 +236,17 @@ def main() raises:
                 var modref = attention_f32_head(rk, rv, q, seq, HD)
                 var cmax = Float32(0)
                 for j in range(HD):
-                    var cd = _abs32(ref[j] - modref[j])
+                    var cd = _abs32(want[j] - modref[j])
                     if cd > cmax:
                         cmax = cd
                 print(
                     "CROSSCHECK L=256 inline_vs_module_ref_max="
                     + String(cmax)
                 )
-            var sb = dev_stats(both, ref)
-            var sk = dev_stats(konly, ref)
-            var sv = dev_stats(vonly, ref)
-            var sc2 = dev_stats(chan, ref)
+            var sb = dev_stats(both, want)
+            var sk = dev_stats(konly, want)
+            var sv = dev_stats(vonly, want)
+            var sc2 = dev_stats(chan, want)
             head_max[h] = sb[0]
             if sb[0] > both_max:
                 both_max = sb[0]
