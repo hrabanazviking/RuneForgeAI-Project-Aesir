@@ -1,0 +1,18 @@
+J-067 INSPECT -- GPU representation / iGPU environment
+tree root: /home/hatch/workspace/aesir-janas-j067
+device_inventory.mojo: 582 lines
+GpuFacts fields: ['name', 'vram_total_bytes', 'vram_free_bytes', 'count']
+GpuFacts has integrated/shared flag: False
+gpu_entry detail uses vram_total_bytes: True
+probe is nvidia-smi only: 9
+moe_gpu_plan.mojo: 416 lines; device_budget param: True; separate-pool wording 'usable device budget': True
+moe_gpu_plan mentions integrated/shared pool: False
+placement_pressure.mojo: 319 lines; one contested pool per call: True; fixed-first: True
+integrated/iGPU hits in core/*.mojo: 2
+  amd_gate.mojo:58: """Rejects simulated HIP allocation until hipMalloc is integrated."""
+  expert_cache.mojo:789: # (J-024 tournament winner, integrated verbatim from the
+tool nvidia-smi: ABSENT
+tool vulkaninfo: ABSENT
+/dev/dri: ABSENT
+/sys/class/drm: dir entries=['version']
+MemAvailable: 1105212 kB

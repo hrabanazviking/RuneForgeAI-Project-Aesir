@@ -1,0 +1,47 @@
+J-067 iGPU awareness -- account + claim-verdict test output (VM, lightest target)
+Tree: yrsa/janas-j067 from yrsa/janas-j066 tip 1fb27731ce58760f156d33252fb27a21be5ead69
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j067stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable 1,105,212 kB at the inspect run -- far below the 5,500 MB inference gate throughout; no inference ran, no GPU of any kind exists here (see j067_inspect_output.txt: nvidia-smi/vulkaninfo ABSENT, /dev/dri ABSENT, /sys/class/drm lists only 'version'); lightest compiles only, one at a time. purplelongship not used at all (discrete NVIDIA, unreachable per the 204 road, and yielded to it under the coordination law; it is not an iGPU machine in any case). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run.
+Gate state verified at slice start by git ls-remote: remote yrsa/janas-j066 == 1fb27731ce58760f156d33252fb27a21be5ead69; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j067 existed before this slice.
+
+=== inspection recount (docs/janas/j067_inspect.py, filed as j067_inspect_output.txt) ===
+device_inventory.mojo: 582 lines; GpuFacts fields: ['name', 'vram_total_bytes', 'vram_free_bytes', 'count']; no integrated/shared flag; gpu detail is VRAM-shaped; probe is nvidia-smi only (9 mentions)
+moe_gpu_plan.mojo: 416 lines; separate device_budget_bytes pool; no integrated/shared-pool mention
+placement_pressure.mojo: 319 lines; one contested pool per call; FIXED FIRST present
+integrated/iGPU hits in core/*.mojo: 2 (both false positives -- 'integrated' as a verb in amd_gate/expert_cache comments; no iGPU representation exists)
+
+=== test_igpu_account (J-067, new) ===
+PASS: iGPU kind distinct from discrete; pools: integrated=shared-system, discrete=separate
+PASS: own VRAM is discrete-only; an iGPU's 'device memory' is system RAM
+PASS: iGPU budget never additive with the system pool; charged+headroom == pool exactly
+PASS: full budget -- fixed 2500 + cache 4000 charged once against pool 10000
+PASS: shrunk budget -- cache absorbs the squeeze (3500), floor 1000 held
+PASS: refuse below the floor and refuse fixed-over-pool, numbers stated
+PASS: J-048 floor discipline unchanged with an iGPU -- fixed first, cache elastic, floor exact
+PASS: prefill tax -- 0 copy bytes; contended 1250000; shared traffic 1550000 with co-load
+PASS: tax refuses a nonzero copy claim (discrete shape) and negative traffic
+PASS: claim verdict -- admission permitted; speed/reply require live; unfit/floor-broken refused
+PASS: claim names exact; unknown codes and invalid budgets refused
+ALL PASS: igpu account (11 groups)
+exit=0
+
+=== neighbour: test_device_inventory (J-037) rebuilt from this tree ===
+ALL PASS: device inventory (9 groups)
+exit=0
+
+=== neighbour: test_placement_pressure (J-048) rebuilt from this tree ===
+ALL PASS: placement under memory pressure (14 groups)
+exit=0
+
+=== neighbour: test_moe_gpu_plan (J-031, discrete division) rebuilt from this tree ===
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals
+(7 groups, all PASS -- the suite prints no ALL PASS line; exit=0)
+exit=0
+
+No iGPU wall, tok/s, bandwidth, or faithfulness quantity was measured anywhere tonight: no iGPU machine is in hand (VM none, purplelongship discrete NVIDIA + unreachable, ROG Flow Z13 not landed). The live leg is DEFERRED-WITH-REASON with the exact recipe in doc section 7.
