@@ -1,0 +1,135 @@
+PASS: tolerance -- auto is the best configuration (BEATEN, gap 0)
+PASS: tolerance -- gap exactly at the 1.50% prompt target is MET
+PASS: tolerance -- gap 1.51% on prompt is MISSED
+PASS: tolerance -- reply 2.60% target boundary MET, 2.61% MISSED
+PASS: tolerance -- chosen rung bound-stopped in its sweep: NOT PROVEN
+PASS: tolerance -- empty sweep and chooser refusal are NOT PROVEN
+PASS: tolerance -- aggregate rule (BEATEN/MET/MISSED/NOT PROVEN)
+PASS: tolerance -- report renders aggregates and the drafts line
+PASS: tolerance -- formatter and target pins exact
+PASS: tolerance -- live builder refuses a manual option (auto only)
+LIVE WITHIN-TOLERANCE PROOF:
+within-tolerance proof (J-046)
+rule: pre-registered (J-046): per shape, per kind, per repetition, best = the lowest median of the full thread-ladder sweep the chooser ranks; auto = the median, in the same sweep, of the configuration the real chooser chose; gap % = (auto - best) / best * 100; targets prompt <= 1.50%, reply <= 2.60% (Janas's published claim, adopted as a target to test). 3 repetitions per shape per kind, all reported; aggregate: BEATEN when all repetitions are BEATEN, MET when all are BEATEN/MET with at least one MET, MISSED when any is MISSED and none is NOT PROVEN, NOT PROVEN when any is NOT PROVEN. Device-axis candidates are named on the chooser records (excluded / unmeasurable-with-reason) and are never ranked; the device sweep's cpu timing is a cross-check from a different executor, never ranked (J-040). Draft-check is NOT PROVEN by construction (no draft-check pass exists, J-035 gap G1; Part V owns it) and no proxy is graded.
+models: the shape enters as the J-044 learned-file key only -- the harness workloads are fixed shapes and the choosers take no model argument; no model inference ran and no number here is a model pass timing.
+shape: olmoe (J-015 measured shape)
+  repetition 1 [prompt] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 23407397 ns
+    cpu threads=2 (half the cores): median 70069390 ns
+    cpu threads=4 (all cores (physical == logical)): median 34574049 ns
+    best: cpu threads=1 (serial) median 23407397 ns; auto: cpu threads=1 median 23407397 ns; gap 0.00% (target <= 1.50%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 2 [prompt] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 9623479 ns
+    cpu threads=2 (half the cores): median 107634014 ns
+    cpu threads=4 (all cores (physical == logical)): median 15495443 ns
+    best: cpu threads=1 (serial) median 9623479 ns; auto: cpu threads=1 median 9623479 ns; gap 0.00% (target <= 1.50%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 3 [prompt] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 68939495 ns
+    cpu threads=2 (half the cores): median 90295797 ns
+    cpu threads=4 (all cores (physical == logical)): median 19718055 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 19718055 ns; auto: cpu threads=1 median 68939495 ns; gap 249.62% (target <= 1.50%)
+    verdict: MISSED -- the auto choice lands 249.62% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 1.50% target
+  aggregate [prompt]: MISSED
+  repetition 1 [reply] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 33373820 ns
+    cpu threads=2 (half the cores): median 100594729 ns
+    cpu threads=4 (all cores (physical == logical)): median 25510891 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 25510891 ns; auto: cpu threads=1 median 33373820 ns; gap 30.82% (target <= 2.60%)
+    verdict: MISSED -- the auto choice lands 30.82% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 2.60% target
+  repetition 2 [reply] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 17355202 ns
+    cpu threads=2 (half the cores): median 86411743 ns
+    cpu threads=4 (all cores (physical == logical)): median 24429039 ns
+    best: cpu threads=1 (serial) median 17355202 ns; auto: cpu threads=1 median 17355202 ns; gap 0.00% (target <= 2.60%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 3 [reply] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 98470333 ns
+    cpu threads=2 (half the cores): median 72726784 ns
+    cpu threads=4 (all cores (physical == logical)): median 26048677 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 26048677 ns; auto: cpu threads=1 median 98470333 ns; gap 278.02% (target <= 2.60%)
+    verdict: MISSED -- the auto choice lands 278.02% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 2.60% target
+  aggregate [reply]: MISSED
+shape: granitemoe (J-015 measured shape)
+  repetition 1 [prompt] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 19986497 ns
+    cpu threads=2 (half the cores): median 81548701 ns
+    cpu threads=4 (all cores (physical == logical)): median 77898599 ns
+    best: cpu threads=1 (serial) median 19986497 ns; auto: cpu threads=1 median 19986497 ns; gap 0.00% (target <= 1.50%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 2 [prompt] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 9014876 ns
+    cpu threads=2 (half the cores): median 15114221 ns
+    cpu threads=4 (all cores (physical == logical)): median 18720749 ns
+    best: cpu threads=1 (serial) median 9014876 ns; auto: cpu threads=1 median 9014876 ns; gap 0.00% (target <= 1.50%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 3 [prompt] chooser: MEASURED-WIN
+    cpu threads=1 (serial): median 17527740 ns
+    cpu threads=2 (half the cores): median 115064193 ns
+    cpu threads=4 (all cores (physical == logical)): median 87072314 ns
+    best: cpu threads=1 (serial) median 17527740 ns; auto: cpu threads=1 (serial) median 17527740 ns; gap 0.00% (target <= 1.50%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  aggregate [prompt]: BEATEN
+  repetition 1 [reply] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 80063715 ns
+    cpu threads=2 (half the cores): median 83291916 ns
+    cpu threads=4 (all cores (physical == logical)): median 76800603 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 76800603 ns; auto: cpu threads=1 median 80063715 ns; gap 4.24% (target <= 2.60%)
+    verdict: MISSED -- the auto choice lands 4.24% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 2.60% target
+  repetition 2 [reply] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 14065930 ns
+    cpu threads=2 (half the cores): median 90007264 ns
+    cpu threads=4 (all cores (physical == logical)): median 16290115 ns
+    best: cpu threads=1 (serial) median 14065930 ns; auto: cpu threads=1 median 14065930 ns; gap 0.00% (target <= 2.60%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 3 [reply] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 74984560 ns
+    cpu threads=2 (half the cores): median 76198460 ns
+    cpu threads=4 (all cores (physical == logical)): median 72187025 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 72187025 ns; auto: cpu threads=1 median 74984560 ns; gap 3.87% (target <= 2.60%)
+    verdict: MISSED -- the auto choice lands 3.87% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 2.60% target
+  aggregate [reply]: MISSED
+shape: llama dense (J-044/J-045 fixture shape)
+  repetition 1 [prompt] chooser: MEASURED-WIN
+    cpu threads=1 (serial): median 10517920 ns
+    cpu threads=2 (half the cores): median 81693879 ns
+    cpu threads=4 (all cores (physical == logical)): median 76625010 ns
+    best: cpu threads=1 (serial) median 10517920 ns; auto: cpu threads=1 (serial) median 10517920 ns; gap 0.00% (target <= 1.50%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 2 [prompt] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 78878699 ns
+    cpu threads=2 (half the cores): median 35055561 ns
+    cpu threads=4 (all cores (physical == logical)): median 21208028 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 21208028 ns; auto: cpu threads=1 median 78878699 ns; gap 271.92% (target <= 1.50%)
+    verdict: MISSED -- the auto choice lands 271.92% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 1.50% target
+  repetition 3 [prompt] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 17294601 ns
+    cpu threads=2 (half the cores): median 40988847 ns
+    cpu threads=4 (all cores (physical == logical)): median 64954661 ns
+    best: cpu threads=1 (serial) median 17294601 ns; auto: cpu threads=1 median 17294601 ns; gap 0.00% (target <= 1.50%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  aggregate [prompt]: MISSED
+  repetition 1 [reply] chooser: DEFAULT-CONFIRMED
+    cpu threads=1 (serial): median 19551995 ns
+    cpu threads=2 (half the cores): median 20287578 ns
+    cpu threads=4 (all cores (physical == logical)): median 82039798 ns
+    best: cpu threads=1 (serial) median 19551995 ns; auto: cpu threads=1 median 19551995 ns; gap 0.00% (target <= 2.60%)
+    verdict: BEATEN -- the auto choice IS the sweep's best configuration (cpu threads=1 (serial)); gap 0.00%
+  repetition 2 [reply] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 88272924 ns
+    cpu threads=2 (half the cores): median 80906138 ns
+    cpu threads=4 (all cores (physical == logical)): median 76589576 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 76589576 ns; auto: cpu threads=1 median 88272924 ns; gap 15.25% (target <= 2.60%)
+    verdict: MISSED -- the auto choice lands 15.25% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 2.60% target
+  repetition 3 [reply] chooser: DEFAULT-BY-NOISE
+    cpu threads=1 (serial): median 175633890 ns
+    cpu threads=2 (half the cores): median 73883529 ns
+    cpu threads=4 (all cores (physical == logical)): median 60850307 ns
+    best: cpu threads=4 (all cores (physical == logical)) median 60850307 ns; auto: cpu threads=1 median 175633890 ns; gap 188.63% (target <= 2.60%)
+    verdict: MISSED -- the auto choice lands 188.63% above the best (cpu threads=4 (all cores (physical == logical))), beyond the 2.60% target
+  aggregate [reply]: MISSED
+draft-check: NOT PROVEN -- no draft-check pass exists (J-035 gap G1), so no measured pair exists to grade; Part V (J-071/J-072) owns the pass that could change this
+
+PASS: live within-tolerance proof over three shapes on this VM
+ALL PASS: within-tolerance proof (11 groups)
