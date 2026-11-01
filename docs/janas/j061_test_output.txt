@@ -1,0 +1,32 @@
+J-061 NPU prompt design (host-side) -- test output (VM, lightest target)
+Tree: yrsa/janas-j061 from yrsa/janas-j060 tip af903eb0d4aae57cdeac3ebf60dc8135730f0e9b
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j061stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.6-0.9 GB at slice start -- far below the 5,500 MB inference gate throughout; no inference ran, no CUDA ran, no NPU was probed or touched; lightest compiles only, one at a time. purplelongship not used at all (unreachable/offline per the 204 road's ticks through 01:22 EDT, and in any case yielded to the 204 road). One build defect in this slice's own module draft (a struct field named `copy`, which collides with the imported builtin) was caught by the first build and fixed by renaming the field to `copy_set` before any test ran; the banked module is the fixed version.
+
+=== test_npu_prompt_prep ===
+PASS: pass law -- reply/draft-check refused by construction, 64-token floor binds
+PASS: copy pricing -- 1 B/elem payload + 2 B/row scales, broken shapes refused
+PASS: Qwen3-0.6B dense-whole -- filed shape priced exact (441,323,520 B footprint)
+PASS: OLMoE resident-products -- filed shape priced exact (271,067,136 B footprint)
+PASS: form rules -- partial dense-whole refused, split leftover open, int8 dense-only
+PASS: prep progress -- 25/28/16 units emit 10, 4 emit 4, 3 silent, final once
+PASS: prep render -- the census status-line shape, time only when supplied
+PASS: graph cache hit -- zero bytes to write, footprint still charged in full
+PASS: contention admitted -- stated machine, cache FULL, headroom 533,590,016 B
+PASS: contention closed at floor-1; hand copy refuses (required) / degrades (optional)
+ALL PASS: NPU prompt preparation account (10 groups)
+exit=0
+
+=== neighbour: test_prefill_grade (J-060) rebuilt from this tree ===
+PASS: filed post-fix OLMoE grade -- NEAR_TIE (23 exact, step 23 near-tie)
+PASS: filed pre-fix OLMoE grade -- DIVERGENT (8 exact, 1 near-tie, first at 5)
+PASS: all-exact cell -- FAITHFUL, distinct from NEAR_TIE
+PASS: step-0 boundary -- own verdict class, near-tie later steps keep it
+PASS: step-0 plus later divergence -- DIVERGENT, boundary class does not shelter
+PASS: step-0 near-tie only -- NEAR_TIE, not the boundary class
+PASS: comparator artifact -- precedence over perfect and divergent records
+PASS: no records -- NOT_GRADED (the unbuilt/unrun cell's only home)
+PASS: near-tie edges -- both conjuncts bind, sub-logit is strict
+PASS: refusals -- length mismatch, negatives, inconsistent rank/gap pairs
+ALL PASS: prefill grade account (10 groups)
+exit=0
