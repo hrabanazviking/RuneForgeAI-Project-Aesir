@@ -1,0 +1,74 @@
+== anchors (file:line: text) ==
+aesir_engine/aesir.mojo /def _prefill_batch_cap/ -> lines [843]
+aesir_engine/aesir.mojo /def _forward_batch/ -> lines [871]
+aesir_engine/aesir.mojo /def _run_generation/ -> lines [1070]
+aesir_engine/aesir.mojo /AESIR_PREFILL_BATCH/ -> lines [844, 855, 890]
+aesir_engine/core/inference.mojo /def forward_pass\(/ -> lines [1068, 1363]
+aesir_engine/core/inference.mojo /def forward_pass_batched/ -> lines [1232]
+aesir_engine/core/inference.mojo /def forward_pass_gemma4_batched/ -> lines [1984]
+aesir_engine/core/inference.mojo /def forward_pass_qwen35_batched/ -> lines [2725]
+aesir_engine/core/inference.mojo /def forward_batched\(/ -> lines [639, 1770, 2482]
+aesir_engine/core/llama3_cuda.mojo /def prefill_four/ -> lines [435]
+aesir_engine/core/llama3_cuda.mojo /def begin_turn/ -> lines [496]
+aesir_engine/core/gemma4_cuda.mojo /def begin_turn/ -> lines [287]
+aesir_engine/core/gemma4_cuda.mojo /def forward\(mut self, token/ -> lines [207]
+aesir_engine/core/moe_session.mojo /def step\(mut self, token/ -> lines [552]
+aesir_engine/core/moe_session.mojo /def _layer_forward/ -> lines [427]
+aesir_engine/core/mimir_well.mojo /def append_block/ -> lines [990]
+aesir_engine/core/dense_buffers.mojo /def effective_prefill_batch/ -> lines [17]
+aesir_engine/cli/native_serve.mojo /prefill_started_ms/ -> lines [516, 518]
+aesir_engine/cli/native_serve.mojo /timings_ms/ -> lines [541, 543]
+
+== pass plans (passes / pure-prefill / LM-head passes) ==
+host batched (cap 256): n=256: 1/0/1 | n=1024: 4/3/1 | n=4096: 16/15/1 | n=8192: 32/31/1
+host per-token / CUDA width-1: n=256: 256/255/1 | n=1024: 1024/1023/1 | n=4096: 4096/4095/1 | n=8192: 8192/8191/1
+CUDA tile-4 (llama3-3B only): n=256: 67/66/1 | n=1024: 259/258/1 | n=4096: 1027/1026/1 | n=8192: 2051/2050/1
+MoE width-1 (step): n=256: 256/0/256 | n=1024: 1024/0/1024 | n=4096: 4096/0/4096 | n=8192: 8192/0/8192
+
+== per-arch baseline quantities ==
+-- Llama 3 8B (dense GQA): proj MACs/token = 6,979,321,856; LM head MACs = 525,336,576
+   n=256: KV written = 33,554,432 B; causal pairs/layer = 32,896; attention MACs (all layers, full-causal) = 8,623,489,024; proj MACs total = 1,786,706,395,136
+   n=1024: KV written = 134,217,728 B; causal pairs/layer = 524,800; attention MACs (all layers, full-causal) = 137,573,171,200; proj MACs total = 7,146,825,580,544
+   n=4096: KV written = 536,870,912 B; causal pairs/layer = 8,390,656; attention MACs (all layers, full-causal) = 2,199,560,126,464; proj MACs total = 28,587,302,322,176
+   n=8192: KV written = 1,073,741,824 B; causal pairs/layer = 33,558,528; attention MACs (all layers, full-causal) = 8,797,166,764,032; proj MACs total = 57,174,604,644,352
+-- Llama 3.2 3B (dense GQA): proj MACs/token = 2,818,572,288; LM head MACs = 394,002,432
+   n=256: KV written = 33,554,432 B; causal pairs/layer = 32,896; attention MACs (all layers, full-causal) = 5,659,164,672; proj MACs total = 721,554,505,728
+   n=1024: KV written = 134,217,728 B; causal pairs/layer = 524,800; attention MACs (all layers, full-causal) = 90,282,393,600; proj MACs total = 2,886,218,022,912
+   n=4096: KV written = 536,870,912 B; causal pairs/layer = 8,390,656; attention MACs (all layers, full-causal) = 1,443,461,332,992; proj MACs total = 11,544,872,091,648
+   n=8192: KV written = 1,073,741,824 B; causal pairs/layer = 33,558,528; attention MACs (all layers, full-causal) = 5,773,140,688,896; proj MACs total = 23,089,744,183,296
+-- Qwen3 0.6B (dense GQA): proj MACs/token = 440,401,920; LM head MACs = 155,582,464
+   n=256: KV written = 29,360,128 B; causal pairs/layer = 32,896; attention MACs (all layers, full-causal) = 3,772,776,448; proj MACs total = 112,742,891,520
+   n=1024: KV written = 117,440,512 B; causal pairs/layer = 524,800; attention MACs (all layers, full-causal) = 60,188,262,400; proj MACs total = 450,971,566,080
+   n=4096: KV written = 469,762,048 B; causal pairs/layer = 8,390,656; attention MACs (all layers, full-causal) = 962,307,555,328; proj MACs total = 1,803,886,264,320
+   n=8192: KV written = 939,524,096 B; causal pairs/layer = 33,558,528; attention MACs (all layers, full-causal) = 3,848,760,459,264; proj MACs total = 3,607,772,528,640
+-- Qwen2.5 Coder 7B (dense GQA): proj MACs/token = 6,525,288,448; LM head MACs = 544,997,376
+   n=256: KV written = 14,680,064 B; causal pairs/layer = 32,896; attention MACs (all layers, full-causal) = 6,602,358,784; proj MACs total = 1,670,473,842,688
+   n=1024: KV written = 58,720,256 B; causal pairs/layer = 524,800; attention MACs (all layers, full-causal) = 105,329,459,200; proj MACs total = 6,681,895,370,752
+   n=4096: KV written = 234,881,024 B; causal pairs/layer = 8,390,656; attention MACs (all layers, full-causal) = 1,684,038,221,824; proj MACs total = 26,727,581,483,008
+   n=8192: KV written = 469,762,048 B; causal pairs/layer = 33,558,528; attention MACs (all layers, full-causal) = 6,735,330,803,712; proj MACs total = 53,455,162,966,016
+-- Gemma 4 E2B (hybrid SWA): proj MACs/token = 1,238,630,400; LM head MACs = 402,653,184
+   n=256: KV written = 4,718,592 B; causal pairs/layer = 32,896; attention MACs (all layers, full-causal) = 4,715,970,560; proj MACs total = 317,089,382,400
+   n=1024: KV written = 18,874,368 B; causal pairs/layer = 524,800; attention MACs (all layers, full-causal) = 75,235,328,000; proj MACs total = 1,268,357,529,600
+   n=4096: KV written = 75,497,472 B; causal pairs/layer = 8,390,656; attention MACs (all layers, full-causal) = 1,202,884,444,160; proj MACs total = 5,073,430,118,400
+   n=8192: KV written = 150,994,944 B; causal pairs/layer = 33,558,528; attention MACs (all layers, full-causal) = 4,810,950,574,080; proj MACs total = 10,146,860,236,800
+   windowed pairs/layer at 8192 (window 512) = 4,063,488
+   E2B attention MACs at 8192 by layer class: local 28L = 466,033,311,744; global 7L = 1,924,380,229,632; total = 2,390,413,541,376
+-- OLMoE 1B-7B (streamed MoE): proj MACs/token = 369,098,752; LM head MACs = 103,022,592
+   n=256: KV written = 33,554,432 B; causal pairs/layer = 32,896; attention MACs (all layers, full-causal) = 2,155,872,256; proj MACs total = 94,489,280,512
+   n=1024: KV written = 134,217,728 B; causal pairs/layer = 524,800; attention MACs (all layers, full-causal) = 34,393,292,800; proj MACs total = 377,957,122,048
+   n=4096: KV written = 536,870,912 B; causal pairs/layer = 8,390,656; attention MACs (all layers, full-causal) = 549,890,031,616; proj MACs total = 1,511,828,488,192
+   n=8192: KV written = 1,073,741,824 B; causal pairs/layer = 33,558,528; attention MACs (all layers, full-causal) = 2,199,291,691,008; proj MACs total = 3,023,656,976,384
+
+== OLMoE routed MACs (replaces the dense-formula row above) ==
+   per token per layer = 67,239,936; x16 layers = 1,075,838,976 MACs/token
+   n=256: routed proj MACs total = 275,414,777,856
+   n=1024: routed proj MACs total = 1,101,659,111,424
+   n=4096: routed proj MACs total = 4,406,636,445,696
+   n=8192: routed proj MACs total = 8,813,272,891,392
+
+== MoE stream projection at the J-030 filed mean ==
+   n=256: 92,690,845,921 B (SIMULATED projection of a measured rate)
+   n=1024: 370,763,383,684 B (SIMULATED projection of a measured rate)
+   n=4096: 1,483,053,534,736 B (SIMULATED projection of a measured rate)
+   n=8192: 2,966,107,069,473 B (SIMULATED projection of a measured rate)
+== done ==
