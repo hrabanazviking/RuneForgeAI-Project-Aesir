@@ -813,6 +813,32 @@ struct AesirEngine:
     # as unsupported service options -- the wiring is the host
     # contract in the module, named, not faked. See
     # docs/janas/J049_SERVER_PLACEMENT_PARITY.md.
+    #
+    # Placement explainability (Janas road J-050): the
+    # `--explain-placement` report lives in
+    # core/placement_explain.mojo --
+    # assemble_placement_explanation() assembles ONE report
+    # from the Part III pieces a surface kept at open (the
+    # J-036 options + J-047 precedence, the J-037 inventory,
+    # the J-040--J-042 chooser records with every candidate
+    # and its numbers or its exclusion reason, the J-043
+    # co-work record, the J-044 learned load + lookup with
+    # the stored choice per kind, the J-045 re-trial plan,
+    # the J-046 tolerance grades, the J-048 pressure plan,
+    # and J-049's per-request outcomes where a request
+    # governed). Per pass kind the report states the
+    # candidates, the choice, the governing layer and its
+    # provenance, and the learned-file state; a piece that
+    # was not supplied renders as its stated absence (a kind
+    # with no chooser record was never measured and says
+    # so). The flag itself (scan_explain_placement_args) is
+    # a bare boolean that changes no placement and takes no
+    # value. This slice wires the report into NO live
+    # session or server path: no session consumes a
+    # placement plan yet, so none consumes an explanation
+    # yet either -- the wiring is the host contract in the
+    # module, named, not faked, and roaded to the J-052
+    # gate. See docs/janas/J050_PLACEMENT_EXPLAINABILITY.md.
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it

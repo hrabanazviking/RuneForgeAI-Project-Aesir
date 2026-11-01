@@ -1,0 +1,132 @@
+J-050 placement explainability -- unit test + live output (VM, lightest target)
+Built from yrsa/janas-j050 tree: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread, then mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); runs with LD_LIBRARY_PATH=<staging>, the test_learned_file run with J044_TEST_DIR=<staging> testdata dir. Staging lived on the workspace overlay (~/workspace/.verify-tmp/j050stage); TMPDIR redirected there; nothing was deleted by this slice.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor (as cpuinfo states this boot), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable was ~1.26 GB at dispatch and ~1.0 GB at output capture -- far below the 5,500 MB inference gate throughout; lightest compiles only, one at a time, no inference, no session or server started. purplelongship was not used at all (the 204 road is live there; this slice yields per coordination law).
+Live outcome, stated plainly: placement explainability is BUILT and unit-PROVEN as a pure assembly layer -- one `--explain-placement` report assembled from the real Part III pieces (J-036 options + J-047 precedence, J-037 inventory, J-040/J-041/J-042 chooser records with every candidate and its numbers or its exclusion reason, J-043 co-work, J-044 learned load + lookup with the stored choice per kind, J-045 re-trial plan, J-046 tolerance grades, J-048 pressure plan, J-049 per-request outcomes), per pass kind, with every absent piece rendered as its stated absence (a kind with no chooser record was never measured and says so). No live session or server consumes an explanation yet -- no session in the tree consumes a placement plan yet (the gap every Part III slice records); the host contract is documented in core/placement_explain.mojo and the wiring recipe is filed for the J-052 gate in the J-050 doc. The live group proves the assembly against this machine's real inventory (gpu absent, npu parked) and its real learned-path load only; no placement verdict for any model is made.
+
+== test_placement_explain (filed run) ==
+PASS: explain -- flag scan (once / absent / duplicate / value)
+PASS: explain -- candidate conversion (statuses, numbers, reasons)
+PASS: explain -- never-measured + absent-piece honesty
+PASS: explain -- full chooser records (choice, numbers, refusal)
+PASS: explain -- governing layers (hand / learned / auto, J-047)
+PASS: explain -- learned state applied (key, choices, stamp)
+PASS: explain -- learned missing / refused / mismatch states
+PASS: explain -- re-trial due / not-due / manual-only (J-045)
+PASS: explain -- co-work + pressure lines (supplied / absent)
+PASS: explain -- tolerance summary counts (J-046)
+PASS: explain -- server governing provenance (J-049)
+PASS: explain -- report shape (order, header, honesty)
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: explain -- live inventory + learned load on this VM
+ALL PASS: placement explainability (13 groups)
+
+== test_placement_options (neighbour, rebuilt from this tree) ==
+PASS: placement forms auto/single/cowork/race
+PASS: placement grammar refusals carry reasons
+PASS: pass-kind legality (npu refused for drafts and reply)
+PASS: precedence cli over env over default, sources recorded
+PASS: kill switches refuse named devices, shrink the auto field
+PASS: drafts-on stores, drafts use fails closed (G1)
+PASS: quality surface parses, stores, and fails closed at use
+PASS: argv scan forms, duplicates, typos, --no-cpu refusal
+PASS: environment layer reads, resolves, and kills end to end
+PASS: describe report states values, sources, kills, gates
+ALL PASS: placement options (10 groups)
+
+== test_manual_override (neighbour, rebuilt from this tree) ==
+PASS: override -- mode grammar and cli > env > default precedence
+PASS: override -- mode refusals (unknown, case, empty) with reasons
+PASS: override -- mode argv scan (forms, duplicate, missing, typo)
+PASS: override -- preset intents (auto none, eco fixed, max measure)
+PASS: override -- hand fixed (single + co-work) wins over all layers
+PASS: override -- hand race fixes the field; preset/learned skipped
+PASS: override -- explicit hand auto directs measurement; unset is silence
+PASS: override -- preset (eco fixed / max measure) governs over learned
+PASS: override -- learned applies under silence; absent falls to auto
+PASS: override -- learned MANUAL-FIXED keeps hand provenance, no re-trial
+PASS: override -- report renders the stack and every kind's layer
+PASS: override -- open refusal: single absent device (hand, reply)
+PASS: override -- open refusal: co-work + race refused whole, never trimmed
+PASS: override -- open refusal: parked NPU in single/co-work/race forms
+PASS: override -- open refusal: learned source; shadowed + preset paths
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+LIVE RESOLUTION:
+manual override resolution (J-047)
+mode: eco (cli)
+precedence: hand > preset > learned > auto, per kind; a hand choice is never measured against, never ranked, and never re-trialled
+prompt: MANUAL-FIXED (hand choice, source cli) -- fixed: cpu -- the hand choice 'cpu' for the prompt kind holds over the preset, the learned default, and auto measurement: it is never measured against, never ranked, and never re-trialled
+drafts: PRESET-FIXED (preset eco, source cli) -- fixed: cpu threads=1 -- preset eco (cli): the drafts kind runs on the cpu at the serial rung -- eco never uses the gpu for speed alone (census J-003), taken here at its strongest honest reading (the gpu is not in eco's field at all), and the serial rung is the session default of J-040, minimal by construction; eco claims no speed, only economy; choosing is not using -- any use of a drafts placement still fails closed (J-036 gap G1) until Part V builds the pass; the hand is silent for the drafts kind, so the preset governs over the learned default and auto measurement
+reply: MANUAL-FIXED (hand choice, source cli) -- fixed: cpu -- the hand choice 'cpu' for the reply kind holds over the preset, the learned default, and auto measurement: it is never measured against, never ranked, and never re-trialled
+learned values are defaults only; an explicit option overrides the learned value for its kind, always (J-044)
+
+PASS: override -- live inventory refusals + resolution on this VM
+ALL PASS: manual override supremacy (16 groups)
+
+== test_server_placement (neighbour, rebuilt from this tree) ==
+PASS: server placement -- field claiming (names, raw store, duplicate)
+PASS: server placement -- silent defaults resolve AUTO (session)
+PASS: server placement -- session hand governs a silent request
+PASS: server placement -- session preset + learned fall-through
+PASS: server placement -- request hand overrides, defaults unmutated
+PASS: server placement -- partial request falls through per kind
+PASS: server placement -- request race + explicit auto shapes
+PASS: server placement -- request mode presets (eco / max / auto)
+PASS: server placement -- request hand beats request preset
+PASS: server placement -- request parse refusals with reasons
+PASS: server placement -- session kills bind requests
+PASS: server placement -- request inventory refusals (whole, parked)
+PASS: server placement -- defaults conformance at open
+PASS: server placement -- request conformance (equal / differ / measure)
+PASS: server placement -- drafts resolves, no conformance, G1 stated
+PASS: server placement -- report rendering
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: server placement -- live inventory on this VM
+ALL PASS: server placement parity (17 groups)
+
+== test_placement_pressure (neighbour, rebuilt from this tree) ==
+PASS: pressure -- J-031 stated machine reproduces FULL exact
+PASS: pressure -- contention shrinks the cache to 512 pairs
+PASS: pressure -- floor exactly continues (J-028 boundary)
+PASS: pressure -- optional device cache degrades before refusal
+PASS: pressure -- required cache below floor refuses cleanly
+PASS: pressure -- over-pool hand placement refused, never traded
+PASS: pressure -- auto duplicate copy closed / admitted at floor
+PASS: pressure -- hand-named copy charges as fixed (supremacy)
+PASS: pressure -- regrow capped at open budget and at the body
+PASS: pressure -- largest-pair threshold binds optional caches only
+PASS: pressure -- under a hand choice only the cache moves
+PASS: pressure -- validation refusals (pool, floor, open, pair)
+PASS: pressure -- describe states decision, bytes, supremacy
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: pressure -- live inventory: absent GPU offers no pool
+ALL PASS: placement under memory pressure (14 groups)
+
+== test_learned_file (neighbour, rebuilt from this tree) ==
+PASS: keys -- derived from facts, exact equality, renders, validation
+PASS: serialise/parse round trip -- whole, exact, byte-identical
+PASS: refusal kind absent -- no learned default from a refusal
+PASS: npu refused -- a parked device is never persisted
+PASS: validation refusals -- form/decision consistency, decisions, threads
+PASS: path resolution -- file > cache home > HOME > relative fallback
+PASS: disk save/load -- MISSING clean, save atomic, load whole, lookup applies
+PASS: lookup mismatches -- model / machine / both / no-entry / not-loaded
+PASS: store -- append, same-key replace, corrupt store refused untouched
+PASS: corrupt loads -- garbage/truncated/flipped/version/empty all REFUSED whole
+PASS: erase -- per-key, last-key valid-empty, whole-file, absent clean
+PASS: report -- per-key dump, defaults-only, no expert maps
+LIVE LEARNED REPORT (this machine's facts):
+learned file report
+path: /home/hatch/workspace/.verify-tmp/j050stage/live/learned-placement.v1
+state: LOADED (1 entry)
+entry
+  machine: cpu 'AMD EPYC 9D25 126-Core Processor', 4 logical / 4 physical / 1 package(s), hybrid split not machine-stated; gpu none stated
+  model: olmoe emb=2048 blk=16 heads=16/16 ffn=11008 ctx=8192 experts=64 used=8
+  measured-at: 1793495717 (unix s)
+  prompt: cpu threads=1 (device cpu, threads 1, decision DEFAULT-CONFIRMED, from option auto)
+  drafts: absent (no learned choice)
+  reply: absent (no learned choice)
+manual supremacy: learned values are defaults only; an explicit --prompt-on / --drafts-on / --reply-on option (or its env equivalent) overrides the learned value for its kind, always
+expert maps: none -- this file holds placement + thread choices only; no expert-map section exists (J-027 measured rejection)
+
+PASS: live round trip -- real cpu facts key, store, load, apply, mismatch
+ALL PASS: learned file (13 groups)
