@@ -1,0 +1,64 @@
+J-048 placement under memory pressure -- unit test + live output (VM, lightest target)
+Built from yrsa/janas-j048 tree: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread, then mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); runs with LD_LIBRARY_PATH=<staging>. Staging lived on the workspace overlay (~/workspace/.verify-tmp/j048stage); TMPDIR redirected there; nothing was deleted by this slice.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor (as cpuinfo states this boot), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable was ~0.67 GB at dispatch and ~3.3 GB at the neighbour runs -- below the 5,500 MB inference gate throughout in the sense that no inference ran; lightest compiles only, one at a time. purplelongship was not used at all (the 204 road's S-102 is live there).
+Live outcome, stated plainly: the contention rule is BUILT and unit-PROVEN -- fixed placement bytes charged first in full, the cache the only elastic consumer (floor = one token's routed demand), duplicate copies cache-class unless a hand names them, optional device cache degrades before any refusal, required cache refuses cleanly below the floor, and a governing hand choice is refused whole, never overridden (choice_overridden=False on every plan). The J-031 stated machine reproduces FULL exact (headroom 804,657,152 B). The offline sweep (j048_contention.py) reproduces the filed J-024 fsketch and J-028 schedule counters EXACT as its gate, then prices cache shrinkage on those filed counters. No placement verdict for any model on live hardware is made: the live group only proves an absent GPU offers no device pool on this VM.
+
+== test_placement_pressure (filed run) ==
+PASS: pressure -- J-031 stated machine reproduces FULL exact
+PASS: pressure -- contention shrinks the cache to 512 pairs
+PASS: pressure -- floor exactly continues (J-028 boundary)
+PASS: pressure -- optional device cache degrades before refusal
+PASS: pressure -- required cache below floor refuses cleanly
+PASS: pressure -- over-pool hand placement refused, never traded
+PASS: pressure -- auto duplicate copy closed / admitted at floor
+PASS: pressure -- hand-named copy charges as fixed (supremacy)
+PASS: pressure -- regrow capped at open budget and at the body
+PASS: pressure -- largest-pair threshold binds optional caches only
+PASS: pressure -- under a hand choice only the cache moves
+PASS: pressure -- validation refusals (pool, floor, open, pair)
+PASS: pressure -- describe states decision, bytes, supremacy
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: pressure -- live inventory: absent GPU offers no pool
+ALL PASS: placement under memory pressure (14 groups)
+
+== test_expert_cache (neighbour, rebuilt from this tree) ==
+PASS: expert cache sizing, cap resolution and size parsing
+PASS: expert cache admission, promotion, pinning, shrink, cap
+PASS: expert cache LRU baseline and LFU policy modes
+PASS: expert cache fsketch sketch-admission policy
+PASS: expert cache no-scarcity starvation fix (segmented, fsketch)
+PASS: expert cache shared pool sizing and arbiter arithmetic
+PASS: expert cache shared pool drive (contention, lending, return)
+PASS: expert cache pressure decisions (shrink, floor, refuse, regrow caps)
+PASS: expert cache pressure drive (pin held, refusal shed, regrow)
+
+== test_moe_gpu_plan (neighbour, rebuilt from this tree) ==
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals
+
+== test_manual_override (neighbour, rebuilt from this tree) ==
+PASS: override -- mode grammar and cli > env > default precedence
+PASS: override -- mode refusals (unknown, case, empty) with reasons
+PASS: override -- mode argv scan (forms, duplicate, missing, typo)
+PASS: override -- preset intents (auto none, eco fixed, max measure)
+PASS: override -- hand fixed (single + co-work) wins over all layers
+PASS: override -- hand race fixes the field; preset/learned skipped
+PASS: override -- explicit hand auto directs measurement; unset is silence
+PASS: override -- preset (eco fixed / max measure) governs over learned
+PASS: override -- learned applies under silence; absent falls to auto
+PASS: override -- learned MANUAL-FIXED keeps hand provenance, no re-trial
+PASS: override -- report renders the stack and every kind's layer
+PASS: override -- open refusal: single absent device (hand, reply)
+PASS: override -- open refusal: co-work + race refused whole, never trimmed
+PASS: override -- open refusal: parked NPU in single/co-work/race forms
+PASS: override -- open refusal: learned source; shadowed + preset paths
+PASS: override -- live inventory refusals + resolution on this VM
+ALL PASS: manual override supremacy (16 groups)
+
+== j048_contention.py (offline sweep, SIMULATED on MEASURED inputs) ==
+gate: j024 fsketch@128/256/512/1024 EXACT; j028 base/step/crash EXACT -- verdict PASS (full output in j048_contention_results.json)

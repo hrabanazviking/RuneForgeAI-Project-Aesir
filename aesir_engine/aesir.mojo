@@ -746,6 +746,32 @@ struct AesirEngine:
     # precedence resolution or a mode preset yet. See
     # docs/janas/J047_MANUAL_OVERRIDE.md.
 
+    # Placement under memory pressure (Janas road J-048): the
+    # contention rule where the expert cache and a device
+    # placement compete for one memory pool lives in
+    # core/placement_pressure.mojo -- plan_placement_pressure().
+    # Fixed placement bytes (resident + KV + activation + the
+    # pool reserve, J-031's / J-028's charging order) are charged
+    # first in full and are never cannibalised by the cache; the
+    # expert cache is the only elastic consumer (capped at its
+    # open-time budget and at the expert body, shed first, floor
+    # = one token's full routed demand as in J-028); a duplicate
+    # device copy (the census's NPU-copy shape) is cache-class --
+    # admitted only where the cache keeps the floor after it,
+    # otherwise it stays closed -- unless a hand choice names
+    # it, when it charges as fixed (J-047 supremacy: a governing
+    # hand choice is never shrunk, migrated, substituted, or
+    # trimmed; an impossible contention refuses the whole
+    # session at open with the numbers stated, it never
+    # overrides the choice). Below the floor an optional device
+    # cache degrades to zero and the placement stands (J-031's
+    # resident-only division); a required host cache refuses
+    # cleanly (J-028). Placement never migrates mid-run: a
+    # token-boundary re-plan moves only the cache and copies.
+    # This slice wires the planner into NO live session path:
+    # no session consumes a contention plan yet. See
+    # docs/janas/J048_PLACEMENT_MEMORY_PRESSURE.md.
+
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
         (default 256; 1 disables batching and restores the per-token
