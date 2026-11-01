@@ -284,6 +284,16 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.healthy = True
         return result
 
+    # Long-prompt watching (Janas road J-059) -- host contract:
+    # this loop is a prompt read at width 1. The progress
+    # account lives in core/prompt_progress.mojo: the host
+    # builds the plan from prompt_tokens (set before the loop
+    # below) at width 1, and takes progress_record() per
+    # completed token boundary; the 10% step throttle caps the
+    # read at 10 records. This session consumes NO progress
+    # plan yet and emits nothing while it reads -- the sink it
+    # would report to is a named missing piece (docs/janas/
+    # J059_LONG_PROMPT_WATCHING.md section 3), not faked here.
     def begin_turn(mut self, prompt: String, system: String, max_tokens: Int) raises:
         """Admit and prefill a turn without truncating existing conversation KV."""
         if self.reset_required:

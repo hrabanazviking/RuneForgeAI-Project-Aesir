@@ -839,6 +839,32 @@ struct AesirEngine:
     # yet either -- the wiring is the host contract in the
     # module, named, not faked, and roaded to the J-052
     # gate. See docs/janas/J050_PLACEMENT_EXPLAINABILITY.md.
+    #
+    # Long-prompt watching (Janas road J-059): the progress
+    # account for a prompt read lives in
+    # core/prompt_progress.mojo -- plan_prompt_progress()
+    # states the read's shape under the pre-registered
+    # discipline (watched iff >= 1024 prompt tokens AND
+    # >= 4 chunks; boundary-only records; a 10% step
+    # throttle, so at most 10 records per read at any
+    # width; the final 100% record exactly once; never a
+    # token not yet read), progress_record() states one
+    # chunk boundary (with the caller's monotonic elapsed
+    # ms riding as the O2 timestamp), and
+    # render_progress_line() / render_progress_event()
+    # render it for the CLI and the server stream. The
+    # host wiring for THIS loop: build the plan once from
+    # len(tokens) and batch_cap before the prefill loop in
+    # _run_generation, take one record per completed chunk
+    # (width batch_cap, or width 1 in the per-token
+    # fallback), and print the line only when record.emit.
+    # This slice wires the account into NO live loop yet:
+    # _run_generation consumes no progress plan today, so
+    # no loop prints one -- the wiring is the host contract
+    # in the module, named, not faked, and roaded to the
+    # deferred live leg in docs/janas/J059_LONG_PROMPT_
+    # WATCHING.md (progress must stay text-invisible: a
+    # watched read produces the same ids as a silent one).
 
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it

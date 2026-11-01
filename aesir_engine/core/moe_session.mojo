@@ -549,6 +549,17 @@ struct MoEStreamSession(Movable):
                 self.dump_hidden.append(x.data.unsafe_load(i).cast[DType.float32]())
         self.well.offset = mark
 
+    # Long-prompt watching (Janas road J-059) -- host contract:
+    # a prompt on this session is N step() calls at width 1, so
+    # the harness driving the calls owns the boundary count.
+    # The progress account lives in core/prompt_progress.mojo:
+    # the harness builds the plan from the prompt's token count
+    # at width 1 and takes progress_record() after each step;
+    # the 10% step throttle caps the read at 10 records however
+    # long it runs. This session consumes NO progress plan yet
+    # and step() emits nothing -- the harness-side wiring is a
+    # named missing piece (docs/janas/J059_LONG_PROMPT_
+    # WATCHING.md section 3), not faked here.
     def step(mut self, token: Int) raises -> Int:
         """Process one token at the current position; return the greedy
         next token (argmax over the final norm + output projection)."""

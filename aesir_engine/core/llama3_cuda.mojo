@@ -493,6 +493,17 @@ struct Llama3CUDASession(ControlledTextSession):
         self.position += 4
         self.healthy = True
 
+    # Long-prompt watching (Janas road J-059) -- host contract:
+    # this loop is a prompt read at width 1 (width 4 inside
+    # prefill_four tiles). The progress account lives in
+    # core/prompt_progress.mojo: the host builds the plan from
+    # prompt_tokens (set before the loop below) and the width,
+    # and takes progress_record() per completed boundary; the
+    # 10% step throttle caps a width-1 read at 10 records.
+    # This session consumes NO progress plan yet and emits
+    # nothing while it reads -- the sink it would report to is
+    # a named missing piece (docs/janas/J059_LONG_PROMPT_
+    # WATCHING.md section 3), not faked here.
     def begin_turn(mut self, prompt: String, system: String, max_tokens: Int) raises:
         if self.reset_required:
             raise Error("Interrupted prefill requires an explicit conversation reset")

@@ -246,6 +246,34 @@ def openai_catalog_names(catalog: List[OllamaModelInfo]) -> List[String]:
     return names^
 
 
+# Long-prompt watching (Janas road J-059) -- host contract for
+# this server surface. The progress account lives in
+# core/prompt_progress.mojo: plan_prompt_progress() states a
+# prompt read's shape under the pre-registered discipline
+# (watched iff >= 1024 prompt tokens AND >= 4 chunks;
+# boundary-only records; a 10% step throttle, at most 10
+# records per read; the final 100% record exactly once),
+# progress_record() states one chunk boundary (the caller's
+# monotonic elapsed ms rides as the O2 timestamp), and
+# render_progress_event() renders one record as the flat JSON
+# object a streaming route sends as one NDJSON line (native /
+# Ollama routes) or one SSE data payload (OpenAI route)
+# between the stream head and the first generated chunk.
+# The wiring this contract names: the session gains a
+# progress sink that serve_loaded supplies before begin_turn;
+# the session's begin_turn loop takes one record per boundary
+# (width 1, or 4 on the admitted tile) and hands emitted
+# records to the sink; the route sends each event as it
+# arrives, BEFORE the decode loop. That wiring does NOT exist
+# yet and this slice does not fake it: today begin_turn blocks
+# for the whole read, the stream head on every route is sent
+# only after it returns, and the only prefill figure served
+# is the native route's after-the-fact timings_ms total -- a
+# streaming client sits in silence for the whole read, which
+# is exactly the gap J-059 names and J-107 builds against
+# this contract. See docs/janas/J059_LONG_PROMPT_WATCHING.md.
+
+
 def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: String,
         profile: String, context: Int, token_limit: Int, timeout_ms: Int,
         io_timeout_ms: Int, interrupt_fd: Int, ollama: Bool,
