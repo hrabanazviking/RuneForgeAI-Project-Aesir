@@ -47,8 +47,8 @@ for sym in (
 ):
     check(f"core module carries {sym!r}", sym in mod)
 check("core module states J-100", "J-100" in mod)
-check("core module refuses --report scope (no report flag logic)",
-      "--report" not in mod)
+check("core module has no --report flag literal (J-101's scope)",
+      '"--report"' not in mod)
 
 # --- the CLI module + dispatch wiring ---------------------------------
 cli_path = ROOT / "cli" / "bench.mojo"

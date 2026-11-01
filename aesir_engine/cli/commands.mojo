@@ -18,6 +18,7 @@ from server.keyfiles import create_service_key
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
+from cli.bench import dispatch_bench
 from cli.model_inspect import dispatch_model_inspect
 from cli.vision import dispatch_vision
 from cli.doctor import dispatch_doctor
@@ -55,6 +56,9 @@ def print_general_help():
     print("  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal")
     print("  keygen <new-private-file> — create an OS-random service key without overwriting")
     print("  hardware list — observed CPU/CUDA devices and backend availability")
+    print("  bench [--settle N] [--rounds N] [--pass prompt|reply|draft-check]")
+    print("      Sweep the configurations the placement engine may choose")
+    print("      (threads x devices x pass kinds) and print the machine report.")
     print("  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]")
     print("      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]")
     print("  pull <owner/repo> <filename.gguf> --revision <commit-sha>")
@@ -1068,6 +1072,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "compute":
         dispatch_compute(args)
+        return
+
+    if cmd == "bench":
+        dispatch_bench(args)
         return
 
     var options = parse_cli_options(args)

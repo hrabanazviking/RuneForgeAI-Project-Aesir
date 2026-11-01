@@ -515,6 +515,21 @@ struct AesirEngine:
     # thread verdict yet; auto choice is J-040--J-042. See
     # docs/janas/J039_THREAD_TOPOLOGY.md.
     #
+    # Bench that measures configurations (Janas road J-100): the
+    # user-facing sweep lives in core/bench_configurations.mojo --
+    # run_bench_sweep() composes the J-038 device sweep and the
+    # J-039 thread trials per pass kind (prompt / draft-check /
+    # reply) into the cross product the placement engine may
+    # choose (threads x devices x pass kinds), every cell
+    # enumerated with its classification and reason, the CPU cells
+    # measured through the threaded executor, and machine_report()
+    # renders the whole as one stable, sendable text. The `bench`
+    # command (cli/bench.mojo, dispatched from cli/commands.mojo)
+    # is its one surface in this slice. No session consumes a
+    # bench report yet: choice remains J-040--J-042's and the
+    # learned file J-044's; `bench --report` is J-101's surface.
+    # See docs/janas/J100_BENCH_CONFIGURATIONS.md.
+    #
     # Auto choice for prompt passes (Janas road J-040): the
     # prompt kind's chooser lives in core/prompt_placement.mojo --
     # choose_prompt_placement() runs the J-038 device sweep (the
