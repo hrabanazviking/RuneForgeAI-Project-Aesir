@@ -1,0 +1,46 @@
+PASS: module structure: from core.kv_ladder import
+PASS: module structure: from core.attention_share import
+PASS: module structure: from core.gpu_block_prefill import
+PASS: module structure: from core.prefill_anatomy import
+PASS: module structure: from core.split_prompt import
+PASS: module structure: PROMPT READ, DEFINED (pre-registered)
+PASS: module structure: PRE-REGISTERED
+PASS: module structure: NOT PROVEN
+PASS: module structure: J-098
+PASS: module structure: ladder_cell_verdict
+PASS: module structure: share_prefill_kv_shape_bytes
+PASS: module structure: plan_split_prompt
+PASS: module structure: evaluate_split_accounting
+PASS: harness header states no wall
+PASS: harness defined through core/prompt_read
+PASS: no other tree file references prompt_read (found: [])
+PASS: run_all does not register test_prompt_read
+PASS: READHEAD x2 runs
+PASS: READDONE x2 runs
+PASS: READ lines: 5 rungs x 2 precisions x 2 runs (20)
+PASS: EFFECT lines: 5 rungs x 2 runs (10)
+PASS: READ runs byte-identical
+PASS: EFFECT runs byte-identical
+PASS: every READ field re-derived exactly (all rungs/precisions)
+PASS: every EFFECT field re-derived exactly (all rungs)
+PASS: gate: READ work/KV/verdict columns == J-091 filed LADDER lines exactly
+PASS: gate: GPU read admission == J-093 filed CEILING gpu_read exactly (both precisions)
+PASS: gate: KV shapes == J-092 filed SHARE pre_kv exactly; ppm forms differ only by the head
+PASS: headline: 32k read work total
+PASS: headline: 32k mean work/token
+PASS: headline: 32k f16 read ACCOUNTED on GPU line only, SPILL_REQUIRED
+PASS: headline: 32k CPU read CAP_REFUSED
+PASS: headline: chunking delta @32768
+PASS: headline: split @32768 parent-absent, join 469,762,048
+PASS: doc states: 15 minutes
+PASS: doc states: NOT PROVEN
+PASS: doc states: CAP_REFUSED
+PASS: doc states: INTEGRATION_BLOCKED
+PASS: doc states: 321,576,079,720,448
+PASS: doc states: J-098
+PASS: doc states: guarded
+PASS: doc states: 8053aeda222ba79e865a6eddd268332fd4e4dbe406371318d6df1f9beae9502b
+PASS: doc states: llama-bench
+PASS: doc states: never `llama-cli --single-turn`
+PASS: doc states: teacher-forcing rank + logit gap
+INSPECT: 45 checks, 0 fails

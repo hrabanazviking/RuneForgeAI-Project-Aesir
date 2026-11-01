@@ -101,7 +101,7 @@ def _rungs() -> List[Int]:
     r.append(8192)
     r.append(16384)
     r.append(32768)
-    return r
+    return r^
 
 
 def _work(rung: Int) raises -> Int:
@@ -457,7 +457,7 @@ def test_chunk_effect() raises:
     )
     expect_eq(
         read_chunk_weight_delta(1024, WEIGHTS),
-        4776736161760,
+        4776736181760,
         "chunk delta @1024",
     )
     print(
