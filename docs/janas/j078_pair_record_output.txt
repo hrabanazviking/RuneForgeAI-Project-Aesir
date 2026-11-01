@@ -1,0 +1,9 @@
+REFUSED target=Gemma 4 main file (absent on VM, J-076) assistant=Gemma 4 assistant file (absent at ledger level, J-076) reason=REFUSE_MISSING_FILE -- assistant pair not run
+REFUSED target=zen-4b.i1-Q4_K_M.gguf assistant=tinyllama.Q4_0.gguf reason=REFUSE_FAMILY_MISMATCH -- assistant pair not run
+REFUSED target=zen-4b.i1-Q4_K_M.gguf assistant=zen-4b.i1-Q6_K.gguf reason=REFUSE_ASSISTANT_NOT_SMALLER -- assistant pair not run
+REFUSED target=zen-4b.i1-Q4_K_M.gguf assistant=ggml-vocab-gemma-4.gguf reason=REFUSE_VOCAB_ONLY -- assistant pair not run
+REFUSED target=zen-4b.i1-Q4_K_M.gguf assistant=Qwen3-Next-80B-A3B-Instruct-Q4_K_M.gguf reason=REFUSE_UNCENSUSED_FILE -- assistant pair not run
+ADMITTED target=gemma-target.gguf (SIMULATED) assistant=gemma-assistant.gguf (SIMULATED) route=head_assistant share_per_mille=103 budget_bytes=3450000000 reserve_bytes=16550000000
+ADMITTED target=gemma-target.gguf (SIMULATED) assistant=gemma-assistant.gguf (SIMULATED) route=standalone_model share_per_mille=120 budget_bytes=3250000000 reserve_bytes=16750000000
+SUMMARY rows=7 admitted=2 refuse_missing_file=1 refuse_uncensused=1 refuse_vocab_only=1 refuse_family_mismatch=1 refuse_not_smaller=1
+NOTE admitted rows are the SIMULATED fixtures only; no real pair is admitted on any filed fact tonight
