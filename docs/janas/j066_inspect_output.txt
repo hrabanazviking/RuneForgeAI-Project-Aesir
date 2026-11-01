@@ -1,0 +1,36 @@
+J-066 INSPECT -- Aesir GPU surface / Vulkan environment
+tree root: /home/hatch/workspace/aesir-janas-j066
+packed_projection.mojo: 68 lines, defs=['block_matvec_kernel', 'four_matvec_kernel']
+llama3_kernels.mojo: 226 lines, defs=['llama_add_bias', 'llama_residual', '_llama_rope_pair', 'llama_rope', 'llama_scaled_rope', 'llama_rope_transform', 'llama_cache_cell', 'llama_residual_cell', 'llama_silu_cell', 'llama_silu', 'llama_cache', 'llama_scores', 'llama_softmax', 'llama_attention', 'llama_attention_tiled']
+gemma4_kernels.mojo: 263 lines, defs=['fast_fast_tanh', 'embedding_kernel', 'matvec_kernel', 'packed_matvec_kernel', 'norm_kernel', 'fast_tanh', 'element_kernel', 'rope_kernel', 'cache_kernel', 'scores_kernel', 'softmax_kernel', 'attention_kernel', 'argmax_kernel', 'span_copy_kernel']
+cuda_compute.mojo: 385 lines, defs=['_cuda_f16_gemm_kernel', '_cuda_rmsnorm_kernel', '_cuda_silu_kernel', '_cuda_swiglu_kernel', '_cuda_rope_kernel', '_cuda_dequantize_q4_0_kernel', '_cuda_dequantize_q8_0_kernel']
+llama3_cuda.mojo: 722 lines, defs=['copy_hidden_kernel', '_front_place', 'llama3_compact_front']
+fused_causal_attention.mojo: 85 lines, defs=['admit_attention', 'fused_attention_kernel', 'attend_fused']
+fused_small_attention.mojo: 74 lines, defs=['admit_small_attention', 'small_attention_kernel', 'attend_small']
+packed_matrix.mojo: 112 lines, defs=['packed_matrix_kernel', 'admit_matrix', 'project_matrix']
+PINNED llama3_kernels device functions: 15
+PINNED gemma4_kernels *_kernel functions: 12
+PINNED cuda_compute kernels: 7
+PINNED packed_projection matvec forms: 2
+PINNED llama3_cuda session kernels: 1 ['copy_hidden_kernel']
+PINNED fused/packed-matrix kernels: 3 ['fused_attention_kernel', 'small_attention_kernel', 'packed_matrix_kernel']
+PINNED TOTAL kernel families to port: 40
+llama3_cuda.mojo: struct Llama3CUDASession present: True; lines=722
+gemma4_cuda.mojo: struct Gemma4CUDASession present: True; lines=496
+core/*.mojo importing max.gpu: 15 ['cuda_compute.mojo', 'cuda_gate.mojo', 'cuda_resources.mojo', 'cuda_sampling.mojo', 'cuda_upload.mojo', 'fused_causal_attention.mojo', 'fused_small_attention.mojo', 'gemma4_cuda.mojo', 'llama3_cuda.mojo', 'packed_matrix.mojo', 'packed_turing_loop.mojo', 'packed_turing_matrix.mojo', 'packed_turing_pair.mojo', 'packed_turing_partition.mojo', 'turing_mma_probe.mojo']
+api() != "cuda" guards in core: 7 ['cuda_compute.mojo:173', 'cuda_resources.mojo:341', 'cuda_upload.mojo:39', 'fused_causal_attention.mojo:81', 'fused_small_attention.mojo:70', 'gemma4_cuda.mojo:108', 'llama3_cuda.mojo:220']
+Vulkan/SPIR-V/GLSL hits in .mojo code: 1
+  aesir_engine/cli/hardware.mojo:44: print("hip/vulkan/metal/oneapi/npu: execution not implemented; not probed by this command")
+amd_gate.mojo: 'not implemented' occurrences: 5; get_device_count returns 0: True
+tool vulkaninfo: ABSENT
+tool glslangValidator: ABSENT
+tool glslc: ABSENT
+tool nvcc: ABSENT
+tool nvidia-smi: ABSENT
+/dev/dri: ABSENT
+/dev/nvidia0: ABSENT
+/usr/share/vulkan/icd.d: ABSENT
+/etc/vulkan/icd.d: directory, entries=[]
+libvulkan.so.1 present: True
+libcuda present: False
+MemAvailable: 2208756 kB
