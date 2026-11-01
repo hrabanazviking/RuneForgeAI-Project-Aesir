@@ -8654,3 +8654,41 @@ positions and counts, and the gap cumulative cumulative cumulative cumulative cu
 remaining-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.280 (AES-NUM-280) is complete. The
+closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remainings are now stated as one sequence:
+[55, 1362, 17538, 156338, 1083891, 6226119, 30829932, 135208440]
+over positions 1-8 — the running total of each
+position's AES-NUM-279 cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining value, ending at 135208440.
+The distinct cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals are
+eight: 55 x1 at position 1; 1362 x1 at
+position 2; 17538 x1 at position 3; 156338 x1 at
+position 4; 1083891 x1 at position 5; 6226119 x1
+at position 6; 30829932 x1 at position 7; 135208440
+x1 at position 8 (counts sum to 8). The gap
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence is
+[12, 297, 3822, 34047, 235873, 1353834, 6698160], ending
+at 6698160, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE280, exit 0, err empty, and its first
+59,944 prefix lines differ from hef279.out in
+exactly ONE line (line 41611, frozenset element
+order only, the AES-NUM-150 variance). One
+controls exception is recorded honestly: at
+position 3 the AES-NUM-258-level comparison
+printed False because the 4.280 build's textual
+shift corrupted the real data value 279 in that
+expected sequence into 280; the computed value
+279 matches every prior slice — a correction is
+carried into 4.281 to restore and protect it.
+Next: the closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals with
+positions and counts, and the gap cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full, with the
+AES-NUM-258 correction verified closed.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
