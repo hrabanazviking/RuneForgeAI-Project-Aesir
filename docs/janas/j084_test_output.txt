@@ -1,0 +1,111 @@
+J-084 When drafts lose -- test output (VM, lightest target)
+Tree: yrsa/janas-j084 from yrsa/janas-j083 tip 2e9c0195b075764e01039a09b4e3e547fbf9c681 (base verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; no remote yrsa/janas-j084 existed before this slice)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-079/J-080/J-082/J-083 staging builds, as expected from the identical source; this slice's staging was compiled fresh, not reused), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env at aesir-janas-j071/aesir_engine/.pixi invoked directly with its pixi activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH, TMPDIR redirected to the staging tree, as J-071--J-083 filed; pixi run remains blocked on this VM). Every suite build exit 0. Runs with LD_LIBRARY_PATH=<staging>; the draft-config suite ran with J083_TEST_DIR and the learned-file suite with J044_TEST_DIR pointed at fresh directories under the build tree. Staging ~/workspace/.verify-tmp/j084stage, build dir ~/workspace/.verify-tmp/j084build, nothing deleted.
+Build-route note (filed honestly): the first build attempt in this slice exported CONDA_PREFIX and MODULAR_HOME in a single export statement, so MODULAR_HOME expanded from the unset prefix and mojo could not locate module 'std'; exporting the variables in separate statements (the filed precedent's order) built every suite cleanly. The failure was in this worker's invocation, not in any tree file or env: the identical sources build and pass under the corrected invocation.
+Machine: VM (KVM), 4 vCPU; MemAvailable measured ~3.49 GB at slice start (3,489,944 kB), ~1.06 GB at the last filed run (1,084,972 kB) -- below the 5,500 MB inference gate at every moment, so no VM inference was attempted; lightest compiles only, one at a time. purplelongship was not used at all -- unreachable (the 204 road's state file records its sixtieth consecutive UNREACHABLE tick at 2026-11-01 ~09:22 EST, last_seen 2026-11-01T02:07:13Z), and yielded to under the coordination law in any case.
+Evidence note: every fixture in test_draft_loss_guard is a stated shape traceable to filed numbers (J-075's acceptance rows, J-079's window, J-080's filed cold byte tax, J-074's size facts), never a model's output; the neighbour suites are rebuilt from this tree unchanged. No live pair, speed, wall, or tok/s is proved or claimed anywhere.
+
+=== inspection recount ===
+j084_inspect.py: 22/22 checks PASS, exit 0 (filed as j084_inspect_output.txt) -- the disable rule and the measured-floor arithmetic sit in the module header before the code, the window is J-079's ADAPT_WINDOW_ROUNDS imported and aliased (never restated), disable needs exactly two consecutive losing windows, a window is losing iff net < 0 strictly with break-even stated NOT a loss, the session posture (no re-probe) is stated in header and code, the disable record carries every pinned field in order and is refused before any disable, a disabled guard refuses further rounds by name, row keys are validated by J-075's rules, evidence is J-071 accounts only (consistency + kind gated), the module holds no speed or timing function, the suite's 12 groups pin the filed fixture shapes (italian/english/byte/boundary) and the round-8 disable with the record byte-for-byte, the J-036 use gate and the facade still fail closed unedited, the tree diff is exactly this slice's files (J-083's module unedited), and doc numbers == test output numbers with the floor derivation and NOT PROVEN cells filed.
+
+=== test_draft_loss_guard (J-084, new) ===
+PASS: start validation -- row keys by J-075's rules; refusals 6/6
+PASS: minimum evidence -- pending until the window closes; one losing window holds
+PASS: losing stream -- the Italian shape disables at exactly round 8
+PASS: disable record -- every field pinned; refused before the disable
+PASS: winning stream -- English prose at worst-case costs never disables
+PASS: boundary stream -- exactly at the floor, net zero, holds forever
+PASS: hysteresis -- alternation resets; two in a row disable at round 16
+PASS: cost sensitivity -- same Italian stream, first-pair costs, no disable
+PASS: byte currency -- J-080's cold tax priced per round disables at round 8
+PASS: row separation -- italian disables; english and code rows unaffected
+PASS: refusals -- bad rounds consume nothing; a disabled guard refuses loudly
+PASS: determinism -- identical streams, identical records
+ALL PASS: draft loss guard (12 groups)
+RUN_EXIT=0
+
+=== test_speculative_loop ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+RUN_EXIT=0
+
+=== test_speculative_verify ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+RUN_EXIT=0
+
+=== test_draft_config ===
+PASS: defaults -- no source, mtp unset, k = J-072 initial (4)
+PASS: --mtp -- head source on both surfaces, foreign flags ignored
+PASS: --draft forms -- spaced/equals identical; --no-mtp + --draft allowed
+PASS: parity matrix -- 6 argv shapes, chat == server on every field
+PASS: precedence -- cli > env per field, independently
+PASS: env layer -- AESIR_MTP/AESIR_DRAFT_K read; bad value refused
+PASS: contradictions -- mtp+no-mtp (same/cross layer), mtp+draft (3/3)
+PASS: scan refusals -- dup/missing/valued-switch/typo/empty (6/6)
+PASS: k band -- cap 15 from plan_proposer; 0/16/bad refused (5/5)
+PASS: hand-built validation -- file-on-head, mtp-on-draft, mtp-on-none, unknown (4/4)
+PASS: mtp gate (J-077) -- admitted head file; no-head/uncensused/wrong-source refused (3/3)
+PASS: pair gate (J-074) -- pair admitted; missing/unverified/not-smaller refused
+PASS: use gate -- configured mtp, configured draft, unconfigured (3/3 refused)
+PASS: persistence round trip -- save -> load -> identical configuration
+PASS: persistence replace/miss -- same-key replace; MODEL-MISMATCH; MISSING clean
+PASS: V1 compat -- no-draft files unchanged; corrupt file refused clean
+PASS: apply/merge -- pass choices and draft config round-trip together
+ALL PASS: draft configuration surface (17 groups)
+RUN_EXIT=0
+
+=== test_learned_file ===
+PASS: keys -- derived from facts, exact equality, renders, validation
+PASS: serialise/parse round trip -- whole, exact, byte-identical
+PASS: refusal kind absent -- no learned default from a refusal
+PASS: npu refused -- a parked device is never persisted
+PASS: validation refusals -- form/decision consistency, decisions, threads
+PASS: path resolution -- file > cache home > HOME > relative fallback
+PASS: disk save/load -- MISSING clean, save atomic, load whole, lookup applies
+PASS: lookup mismatches -- model / machine / both / no-entry / not-loaded
+PASS: store -- append, same-key replace, corrupt store refused untouched
+PASS: corrupt loads -- garbage/truncated/flipped/version/empty all REFUSED whole
+PASS: erase -- per-key, last-key valid-empty, whole-file, absent clean
+PASS: report -- per-key dump, defaults-only, no expert maps
+LIVE LEARNED REPORT (this machine's facts):
+learned file report
+path: /home/hatch/workspace/.verify-tmp/j084build/data44b/live/learned-placement.v1
+state: LOADED (1 entry)
+entry
+  machine: cpu 'AMD EPYC 9D25 126-Core Processor', 4 logical / 4 physical / 1 package(s), hybrid split not machine-stated; gpu none stated
+  model: olmoe emb=2048 blk=16 heads=16/16 ffn=11008 ctx=8192 experts=64 used=8
+  measured-at: 1793543874 (unix s)
+  prompt: cpu threads=1 (device cpu, threads 1, decision DEFAULT-CONFIRMED, from option auto)
+  drafts: absent (no learned choice)
+  reply: absent (no learned choice)
+  drafts-config: absent (no learned draft configuration)
+manual supremacy: learned values are defaults only; an explicit --prompt-on / --drafts-on / --reply-on option (or its env equivalent) overrides the learned value for its kind, always
+expert maps: none -- this file holds placement + thread choices and draft configurations (J-083) only; no expert-map section exists (J-027 measured rejection)
+
+PASS: live round trip -- real cpu facts key, store, load, apply, mismatch
+ALL PASS: learned file (13 groups)
+RUN_EXIT=0
