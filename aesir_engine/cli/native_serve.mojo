@@ -27,6 +27,7 @@ from server.ollama import (OllamaRequest, OllamaShowRequest, OllamaModelInfo, ol
                            ollama_generate_chunk, ollama_chat_chunk,
                            ollama_done_reason)
 from server.openai import OpenAIRequest, OpenAIGate, openai_created_unix
+from core.openai_audit import ROUTE_REFUSED_501, route_verdict, unsupported_route_body
 
 
 struct GenerateRequest:
@@ -120,6 +121,8 @@ def local_response(code: Int, body: String, ollama: Bool = False,
         reason = "Unprocessable Content"
     elif code == 500:
         reason = "Internal Server Error"
+    elif code == 501:
+        reason = "Not Implemented"
     elif code == 503:
         reason = "Service Unavailable"
     elif code == 504:
@@ -417,6 +420,23 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             names, openai_created_unix()
                         )
                         status = 200
+                    elif head.method == "GET" and head.path.startswith("/v1/models/"):
+                        status = 404
+                        var wanted = String(head.path[byte=11:])
+                        if "/" not in wanted:
+                            var retrieve_catalog = ollama_catalog_models(model_store, model)
+                            for listed in retrieve_catalog:
+                                if ollama_model_matches(wanted, listed.name):
+                                    body = OpenAIGate.format_model_object(
+                                        listed.name, openai_created_unix()
+                                    )
+                                    status = 200
+                                    break
+                            if status != 200 and ollama_model_matches(wanted, model.name):
+                                body = OpenAIGate.format_model_object(
+                                    model.name, openai_created_unix()
+                                )
+                                status = 200
                     elif head.method == "POST" and (head.path == "/v1/chat/completions" or head.path == "/v1/completions"):
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
@@ -453,7 +473,11 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             var tool_block_complete = False
                             status = 500
                             var created = openai_created_unix()
-                            var request_id = "cmpl-aesir-" + String(sequence)
+                            var request_id = (
+                                "chatcmpl-aesir-" + String(sequence)
+                                if head.path == "/v1/chat/completions"
+                                else "cmpl-aesir-" + String(sequence)
+                            )
                             if request.stream:
                                 response_started = True
                                 stream_kind = "openai"
@@ -498,7 +522,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                     request_id, created, model.name,
                                     "call-aesir-" + String(created) + "-" + String(sequence) + "-0",
                                     tool_call.name, tool_call.arguments_json,
-                                    state.prompt_tokens, state.generated_tokens)
+                                    state.prompt_tokens, state.generated_tokens,
+                                    state.cached_tokens)
                             else:
                                 var finish = ollama_done_reason(state.finish_reason)
                                 if request.stream:
@@ -512,11 +537,13 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                     body = OpenAIGate.format_chat_completion(
                                         request_id, created, model.name, answer, finish,
                                         state.prompt_tokens, state.generated_tokens,
+                                        state.cached_tokens,
                                     )
                                 else:
                                     body = OpenAIGate.format_completion(
                                         request_id, created, model.name, answer, finish,
                                         state.prompt_tokens, state.generated_tokens,
+                                        state.cached_tokens,
                                     )
                             status = 200
                     elif not ollama and head.method == "GET" and head.path == "/health":
@@ -570,6 +597,14 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         else:
                             body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"timings_ms\":{\"prefill\":" + String(prefill_elapsed_ms) + ",\"decode\":" + String(decode_elapsed_ms) + "}}"
                         status = 200
+                    elif route_verdict(head.method, head.path) == ROUTE_REFUSED_501:
+                        # The honest refusal class (J-106): known
+                        # OpenAI-shape operations this service does
+                        # not run answer 501 with their reason,
+                        # never an indistinguishable 404.
+                        status = 501
+                        body = unsupported_route_body(head.method, head.path)
+                        preserve_status_body = True
                     else:
                         status = 404
             except error:

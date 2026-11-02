@@ -75,15 +75,22 @@ struct NativeGenerationStatus(Copyable, ImplicitlyCopyable):
     var generated_tokens: Int
     var position: Int
     var finish_reason: String
+    var cached_tokens: Int
 
     def __init__(out self, healthy: Bool, generating: Bool, prompt_tokens: Int,
-                 generated_tokens: Int, position: Int, finish_reason: String):
+                 generated_tokens: Int, position: Int, finish_reason: String,
+                 cached_tokens: Int = 0):
         self.healthy = healthy
         self.generating = generating
         self.prompt_tokens = prompt_tokens
         self.generated_tokens = generated_tokens
         self.position = position
         self.finish_reason = finish_reason
+        # Prompt tokens this turn was served from the session's prefix
+        # reuse instead of a fresh read (J-106: the OpenAI usage object's
+        # prompt_tokens_details.cached_tokens). Sessions without prefix
+        # reuse keep the default 0, which is the truth for them.
+        self.cached_tokens = cached_tokens
 
 
 

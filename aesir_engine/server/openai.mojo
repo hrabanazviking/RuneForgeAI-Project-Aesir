@@ -26,6 +26,7 @@ struct OpenAIRequest:
     var output_mode: String
     var tool_name: String
     var tool_description: String
+    var completion_budget: Int
 
     def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
@@ -43,6 +44,7 @@ struct OpenAIRequest:
         self.output_mode = ""
         self.tool_name = ""
         self.tool_description = ""
+        self.completion_budget = 0
         var seen_tool_choice = False
         var parser = FlatJSON(body)
         parser.take(123)
@@ -77,6 +79,10 @@ struct OpenAIRequest:
                     self.max_tokens = bounded_decimal(parser.number())
                     if self.max_tokens == 0:
                         raise Error("OpenAI max_tokens must be positive")
+                elif name == "max_completion_tokens":
+                    self.completion_budget = bounded_decimal(parser.number())
+                    if self.completion_budget == 0:
+                        raise Error("OpenAI max_completion_tokens must be positive")
                 elif name == "temperature" or name == "seed":
                     self.sampling = with_sampling_option(
                         self.sampling, name, parser.number()
@@ -98,6 +104,13 @@ struct OpenAIRequest:
         parser.space()
         if parser.peek() != -1:
             raise Error("Trailing OpenAI JSON content")
+        # max_completion_tokens takes precedence over max_tokens (the
+        # shape's stated relation; its predecessor is deprecated in its
+        # favour). Aesir sessions have no reasoning channel, so the
+        # answer-only vs reasoning-inclusive distinction collapses to
+        # this one completion budget -- recorded in the J-106 doc.
+        if self.completion_budget > 0:
+            self.max_tokens = self.completion_budget
         if self.model.byte_length() == 0 or self.model.byte_length() > 256:
             raise Error("OpenAI request requires a bounded model name")
         if (self.prompt.byte_length() > 65536
@@ -288,7 +301,7 @@ struct OpenAIRequest:
                 parser.take(125)
                 if content.byte_length() == 0 or content.byte_length() > 65536:
                     raise Error("OpenAI chat message content must be bounded and nonempty")
-                if role == "system":
+                if role == "system" or role == "developer":
                     if self.system != "":
                         self.system += "\n"
                     self.system += content
@@ -297,7 +310,7 @@ struct OpenAIRequest:
                         "User: " if role == "user" else "Assistant: "
                     ) + content + "\n"
                 else:
-                    raise Error("OpenAI chat supports system, user, and assistant roles")
+                    raise Error("OpenAI chat supports system, developer, user, and assistant roles")
                 last_role = role
                 count += 1
                 parser.space()
@@ -352,6 +365,13 @@ struct OpenAIGate:
             raise Error("OpenAI response text exceeds the 16 MiB serializer limit")
 
     @staticmethod
+    def _validate_cached_tokens(prompt_tokens: Int, cached_tokens: Int) raises:
+        if cached_tokens < 0:
+            raise Error("OpenAI response cached token count must be non-negative")
+        if cached_tokens > prompt_tokens:
+            raise Error("OpenAI response cached token count exceeds the prompt token count")
+
+    @staticmethod
     def format_chat_completion(
         request_id: String,
         created_unix: Int,
@@ -360,11 +380,13 @@ struct OpenAIGate:
         finish_reason: String,
         prompt_tokens: Int,
         completion_tokens: Int,
+        cached_tokens: Int = 0,
     ) raises -> String:
         """Formats one bounded response from caller-observed generation data."""
         OpenAIGate._validate_identity(request_id, created_unix, model)
         OpenAIGate._validate_finish_reason(finish_reason, False)
         OpenAIGate._validate_text(text)
+        OpenAIGate._validate_cached_tokens(prompt_tokens, cached_tokens)
         if prompt_tokens < 0 or completion_tokens < 0:
             raise Error("OpenAI response token counts must be non-negative")
         # Keep addition inside a portable signed-Int safety margin.
@@ -385,7 +407,9 @@ struct OpenAIGate:
         res += "\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\": "
         res += String(prompt_tokens)
         res += ",\n    \"completion_tokens\": " + String(completion_tokens)
-        res += ",\n    \"total_tokens\": " + String(total_tokens) + "\n  }\n}"
+        res += ",\n    \"total_tokens\": " + String(total_tokens)
+        res += ",\n    \"prompt_tokens_details\": {\n      \"cached_tokens\": "
+        res += String(cached_tokens) + "\n    }\n  }\n}"
         return res
 
     @staticmethod
@@ -393,6 +417,7 @@ struct OpenAIGate:
         request_id: String, created_unix: Int, model: String,
         call_id: String, tool_name: String, arguments_json: String,
         prompt_tokens: Int, completion_tokens: Int,
+        cached_tokens: Int = 0,
     ) raises -> String:
         """Serialize one observed Gemma call; the host never executes it."""
         OpenAIGate._validate_identity(request_id, created_unix, model)
@@ -407,7 +432,8 @@ struct OpenAIGate:
         if (prompt_tokens > 4611686018427387903
                 or completion_tokens > 4611686018427387903 - prompt_tokens):
             raise Error("OpenAI response token count overflow")
-        return "{\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"chat.completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":null,\"tool_calls\":[{\"id\":\"" + json_escape_string(call_id) + "\",\"type\":\"function\",\"function\":{\"name\":\"" + json_escape_string(tool_name) + "\",\"arguments\":\"" + json_escape_string(arguments_json) + "\"}}]},\"finish_reason\":\"tool_calls\"}],\"usage\":{\"prompt_tokens\":" + String(prompt_tokens) + ",\"completion_tokens\":" + String(completion_tokens) + ",\"total_tokens\":" + String(prompt_tokens + completion_tokens) + "}}"
+        OpenAIGate._validate_cached_tokens(prompt_tokens, cached_tokens)
+        return "{\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"chat.completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":null,\"tool_calls\":[{\"id\":\"" + json_escape_string(call_id) + "\",\"type\":\"function\",\"function\":{\"name\":\"" + json_escape_string(tool_name) + "\",\"arguments\":\"" + json_escape_string(arguments_json) + "\"}}]},\"finish_reason\":\"tool_calls\"}],\"usage\":{\"prompt_tokens\":" + String(prompt_tokens) + ",\"completion_tokens\":" + String(completion_tokens) + ",\"total_tokens\":" + String(prompt_tokens + completion_tokens) + ",\"prompt_tokens_details\":{\"cached_tokens\":" + String(cached_tokens) + "}}}"
 
     @staticmethod
     def format_chat_chunk(
@@ -448,6 +474,7 @@ struct OpenAIGate:
     def format_completion(
         request_id: String, created_unix: Int, model: String, text: String,
         finish_reason: String, prompt_tokens: Int, completion_tokens: Int,
+        cached_tokens: Int = 0,
     ) raises -> String:
         OpenAIGate._validate_identity(request_id, created_unix, model)
         OpenAIGate._validate_finish_reason(finish_reason, False)
@@ -457,8 +484,9 @@ struct OpenAIGate:
         if (prompt_tokens > 4611686018427387903
                 or completion_tokens > 4611686018427387903 - prompt_tokens):
             raise Error("OpenAI response token count overflow")
+        OpenAIGate._validate_cached_tokens(prompt_tokens, cached_tokens)
         var total_tokens = prompt_tokens + completion_tokens
-        return "{\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"text_completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"text\":\"" + json_escape_string(text) + "\",\"index\":0,\"finish_reason\":\"" + json_escape_string(finish_reason) + "\"}],\"usage\":{\"prompt_tokens\":" + String(prompt_tokens) + ",\"completion_tokens\":" + String(completion_tokens) + ",\"total_tokens\":" + String(total_tokens) + "}}"
+        return "{\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"text_completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"text\":\"" + json_escape_string(text) + "\",\"index\":0,\"finish_reason\":\"" + json_escape_string(finish_reason) + "\"}],\"usage\":{\"prompt_tokens\":" + String(prompt_tokens) + ",\"completion_tokens\":" + String(completion_tokens) + ",\"total_tokens\":" + String(total_tokens) + ",\"prompt_tokens_details\":{\"cached_tokens\":" + String(cached_tokens) + "}}}"
 
     @staticmethod
     def format_completion_chunk(
@@ -484,6 +512,21 @@ struct OpenAIGate:
         res += "\",\n      \"object\": \"model\",\n      \"created\": "
         res += String(created_unix)
         res += ",\n      \"owned_by\": \"" + json_escape_string(owned_by) + "\"\n    }\n  ]\n}"
+        return res
+
+    @staticmethod
+    def format_model_object(
+        model: String, created_unix: Int, owned_by: String = "local-operator"
+    ) raises -> String:
+        """Formats one caller-observed model record (the retrieve form)."""
+        OpenAIGate._validate_identity("catalog", created_unix, model)
+        if len(owned_by.bytes()) == 0 or len(owned_by.bytes()) > 256:
+            raise Error("OpenAI model owner must contain 1..256 bytes")
+        var res = String("{\n  \"id\": \"")
+        res += json_escape_string(model)
+        res += "\",\n  \"object\": \"model\",\n  \"created\": "
+        res += String(created_unix)
+        res += ",\n  \"owned_by\": \"" + json_escape_string(owned_by) + "\"\n}"
         return res
 
     @staticmethod

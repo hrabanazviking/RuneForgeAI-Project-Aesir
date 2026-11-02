@@ -1,0 +1,75 @@
+J-106 OpenAI-shape audit -- test output (VM, lightest target)
+Tree: yrsa/janas-j106 from yrsa/janas-j105 tip fde780603396066b410a4c32995326e9f09c0464 (ls-remote verified at slice start; remote yrsa/janas-j106 absent at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (feaae2ac).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-100..J-105 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables exported by hand -- PATH, CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max per the env's own 10-activate-max.sh; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j106stage, build dir ~/workspace/.verify-tmp/j106build, TMPDIR redirected to the staging dir throughout.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~4.3 GB at the keeper's dispatch check and ~3.9-4.3 GB during the completion builds -- below the 5,500 MB inference gate throughout. Lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere, and NO live server was started (the live server leg is deferred-with-reason, doc section 5). purplelongship not used at all (the 204 road's S-104 runner was live there; yielded, and not needed by design).
+Completion note: the original worker built the audit suite, the neighbours, and the compile driver and filed their build logs in staging, then stalled before filing this output; the completion worker re-verified the inherited diff against protocol section 0 first-hand, then REBUILT AND RE-RAN every suite below from the final tree (the server-placement suite rebuilt as a second binary after a first rebuild attempt hung on a transient mojo cache lock -- zero CPU, futex wait, killed; the retry built in 67 s and ran 17/17; the multi-engine build's first attempt failed on the intermittent home-quota EDQUOT wall in the mojo transform cache and passed on retry after a pause; doc section 7 records both). Every line below is from the completion worker's own runs on the final tree. No warnings from this slice's files in any build.
+
+== test_openai_audit (J-106, new) ==
+build exit=0 run exit=0
+PASS: chat field table (31 fields: 8 honoured, 4 partial, 19 refused; strangers refused)
+PASS: completion field table (19 fields: 8 honoured, 1 partial, 10 refused)
+PASS: message tables (2/7 fields honoured; 4/6 roles honoured incl. developer)
+PASS: route table (8 served incl. retrieve, 6 refused-501, families + strangers 404)
+PASS: refusal bodies (501 + route + a real reason, per refused route)
+PASS: parser closures (max_completion_tokens precedence, developer role; kept refusals hold)
+PASS: usage accounting (prompt_tokens_details.cached_tokens on all three forms; status carries it)
+ALL PASS: openai audit (7 groups)
+
+== native serve wiring compile driver (staging driver importing cli/native_serve whole) ==
+build exit=0 run exit=0
+native serve + openai audit modules compile + import: PASS
+
+== test_local_protocol (neighbour: the parser + Gate surface) ==
+build exit=0 run exit=0
+PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy
+PASS bounded JSON and HTTP rejection
+
+== test_server_placement (neighbour: the T20 parity layer this slice dispositions) ==
+build exit=0 run exit=0
+PASS: server placement -- field claiming (names, raw store, duplicate)
+PASS: server placement -- silent defaults resolve AUTO (session)
+PASS: server placement -- session hand governs a silent request
+PASS: server placement -- session preset + learned fall-through
+PASS: server placement -- request hand overrides, defaults unmutated
+PASS: server placement -- partial request falls through per kind
+PASS: server placement -- request race + explicit auto shapes
+PASS: server placement -- request mode presets (eco / max / auto)
+PASS: server placement -- request hand beats request preset
+PASS: server placement -- request parse refusals with reasons
+PASS: server placement -- session kills bind requests
+PASS: server placement -- request inventory refusals (whole, parked)
+PASS: server placement -- defaults conformance at open
+PASS: server placement -- request conformance (equal / differ / measure)
+PASS: server placement -- drafts resolves, no conformance, G1 stated
+PASS: server placement -- report rendering
+LIVE DEVICE LINE: devices: cpu present -- AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent -- no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent -- Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: server placement -- live inventory on this VM
+ALL PASS: server placement parity (17 groups)
+
+== test_multi_engine (neighbour: Gate formatter callers) ==
+build exit=0 run exit=0
+--- Testing OpenAIGate caller-observed JSON serialization ---
+OpenAIGate: PASS
+--- Testing fail-closed legacy grammar boundary ---
+fail-closed legacy grammar boundary: PASS
+--- Testing fail-closed legacy speculative boundary ---
+fail-closed legacy speculative boundary: PASS
+--- Testing honest ONNX execution boundary ---
+honest ONNX execution boundary: PASS
+--- Testing unsupported multi-engine CLI dispatchers ---
+unsupported multi-engine CLI dispatchers: PASS
+--- Testing honest unsupported HTTP responses ---
+honest unsupported HTTP responses: PASS
+--- Testing bare-metal POSIX socket bind/listen setup & options ---
+Bifrost socket listener open on http://127.0.0.1:0; no model-backed service loop is attached
+bare-metal POSIX socket bind/listen setup & options: PASS
+--- Testing HTTP/1.1 request parser & route dispatcher ---
+HTTP/1.1 request parser & route dispatcher: PASS
+--- Testing HTTP/1.1 response framing & streaming utilities ---
+HTTP/1.1 response framing & streaming utilities: PASS
+--- Testing fail-closed OpenAI REST compatibility boundaries ---
+OpenAI REST API Gateway: PASS
+--- Testing JSON string escaper for quotes, backslashes, tabs, and newlines ---
+JSON string escaper: PASS
+--- Testing RequestContext & Structured Error Formatting ---
+RequestContext & Structured Error Formatting: PASS

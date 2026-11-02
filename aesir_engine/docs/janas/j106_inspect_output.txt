@@ -1,0 +1,39 @@
+PASS: chat table: 31 fields, 8 honoured / 4 partial / 19 refused
+PASS: completion table: 19 fields, 8 honoured / 1 partial / 10 refused
+PASS: message tables: 7 fields (2 honoured), 6 roles (4 honoured)
+PASS: route table: 8 served / 6 refused-501 / 8 kept families
+PASS: parser honoured set == audit honoured+partial union (13)
+PASS: C1: max_completion_tokens parsed + precedence after parse
+PASS: C2: developer role aliased to system in the message parser
+PASS: parser still refuses strangers by name
+PASS: C3: prompt_tokens_details.cached_tokens on all three usage formatters
+PASS: C4: format_model_object exists beside the catalog formatter
+PASS: C3: status gains the defaulted trailing cached_tokens
+PASS: C3: Llama status passes its reused count; Gemma untouched-honest
+PASS: serve imports the audit refusal rule
+PASS: C5: 501 branch before the standing 404, body preserved
+PASS: C4: models retrieve branch with the standing match rule
+PASS: C6: chatcmpl- on chat, cmpl- kept on raw completions
+PASS: C3: serve passes the status cached count into all three formatters
+PASS: legacy scaffold still the disconnected 501-for-model-routes scaffold
+PASS: doc 2.1 chat table == module chat table
+PASS: doc 2.2 completion table == module completion table
+PASS: doc 2.3 message field table == module table
+PASS: doc 2.4 role table == module table
+PASS: doc 2.5 route rows: 8 SERVED + 6 REFUSED_501 present
+PASS: test suite has 7 group prints + ALL PASS line
+PASS: test pins the table counts 31/19/8/6 + the closures
+PASS: doc carries: DEFERRED-WITH-REASON
+PASS: doc carries: NOT PROVEN
+PASS: doc carries: J-118 Part VII gate
+PASS: doc carries: T20
+PASS: doc carries: fde780603396066b410a4c32995326e9f09c0464
+PASS: test output carries: ALL PASS: openai audit (7 groups)
+PASS: test output carries: native serve + openai audit modules compile + import: PASS
+PASS: test output carries: PASS bounded JSON and HTTP rejection
+PASS: test output carries: ALL PASS: server placement parity (17 groups)
+PASS: test output carries: OpenAI REST API Gateway: PASS
+PASS: no README in the slice diff
+PASS: no .gguf in the slice diff
+PASS: slice diff is exactly the expected file set
+j106 inspect: 38/38 PASS

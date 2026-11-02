@@ -719,4 +719,5 @@ struct Llama3CUDASession(ControlledTextSession):
 
     def status(self) -> NativeGenerationStatus:
         return NativeGenerationStatus(self.healthy, self.generating, self.prompt_tokens,
-                                      self.generated_tokens, self.position, self.finish_reason)
+                                      self.generated_tokens, self.position, self.finish_reason,
+                                      self.reused_prompt_tokens)
