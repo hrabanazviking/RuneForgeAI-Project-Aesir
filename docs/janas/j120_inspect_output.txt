@@ -1,0 +1,65 @@
+PASS core defines lc_parse_safetensors
+PASS core defines lc_build_safetensors
+PASS core defines lc_parse_adapter_config
+PASS core defines lc_merge_model
+PASS core defines lc_gguf_name_for_hf
+PASS core defines lc_convert_base
+PASS core defines lc_read_gguf
+PASS core defines lc_convert_from_gguf
+PASS core defines lc_refuse_quantize
+PASS core defines lc_c05_scope_text
+PASS core merge scale is alpha/rank
+PASS core refuses unsupported dtype by name
+PASS core refuses incomplete pair by name
+PASS core refuses rank mismatch by name
+PASS core refuses quantized from-gguf tensor by name
+PASS core states BF16-only C05 scope
+PASS test suite has a test-local slow_merge
+PASS test suite has 9 test groups -- 9
+PASS artefact present docs/janas/j120_convert.mojo
+PASS artefact present docs/janas/j120_reread.mojo
+PASS artefact present docs/janas/j120_fixtures.py
+PASS artefact present docs/janas/j120_verify.py
+PASS fixtures carry protocol geometry hidden 8
+PASS fixtures carry protocol geometry ffn 16
+PASS fixtures target q_proj and gate_proj
+PASS convert driver geometry hidden 8 / ffn 16 / rope 4
+PASS reread driver covers PackedGGUF
+PASS reread driver covers inspect_metadata
+PASS reread driver covers mmap_and_load
+PASS reread driver covers VALIDATED
+PASS reread census gate bytes 256
+PASS verify recomputes slow merge with Float32 rounding
+PASS verify checks hidden 8
+PASS unit suite ALL PASS (9 groups)
+PASS filed output has at least 9 PASS lines
+PASS convert driver ALL PASS filed
+PASS convert census filed (GGUF BYTES: 3200)
+PASS from-gguf byte-identical filed
+PASS verify ALL PASS 41 checks filed
+PASS verify merged elements 192 filed
+PASS reread ALL PASS filed
+PASS reread level 3 VALIDATED filed
+PASS merged.gguf sha filed
+PASS doc states BF16-only
+PASS doc states VALIDATED
+PASS doc states NOT PROVEN
+PASS doc states DEFERRED
+PASS doc states repl.mojo
+PASS doc states G-119-1
+PASS doc states 192
+PASS doc states 41 checks
+PASS doc states 9 groups
+PASS doc sections 1+ filed
+PASS campaign copy sha-identical: J120_LORA_MERGE_CONVERSION.md
+PASS campaign copy sha-identical: j120_test_output.txt
+PASS campaign copy sha-identical: j120_inspect.py
+PASS campaign copy sha-identical: j120_convert.mojo
+PASS campaign copy sha-identical: j120_reread.mojo
+PASS campaign copy sha-identical: j120_fixtures.py
+PASS campaign copy sha-identical: j120_verify.py
+PASS campaign copy sha-identical: lora_convert.mojo
+PASS campaign copy sha-identical: test_lora_convert.mojo
+PASS no README.md touched in worktree -- M docs/janas/J120_LORA_MERGE_CONVERSION.md
+?? docs/janas/j12
+TOTAL 63 PASS 63 FAIL 0
