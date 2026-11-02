@@ -1,0 +1,15 @@
+J-110 MCP ecosystem consumer -- test output (VM, lightest target)
+Tree: yrsa/janas-j110 from yrsa/janas-j109 tip 52258cd8f6ebf5f5a5d10ded2f22d88563500f02 (ls-remote verified at slice start; remote yrsa/janas-j110 absent at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (e51b32cf).
+Machine: VM (KVM), 4 vCPU. MemAvailable ~0.30-0.56 GB throughout this slice -- far below the 5,500 MB inference gate and below what a Mojo toolchain build safely needs. NO model inference ran anywhere; NO fresh Mojo build was attempted (machine gate, stated plainly per protocol section 0.4(a)).
+Host binary provenance: this slice changes no engine code (git diff of the base commit against this branch for aesir_engine/core and aesir_engine/cli is empty), and the two host sources are byte-identical across the J-109 and J-110 worktrees (sha256: cli/mcp_serve.mojo 374f7f51af901dfb..., core/mcp_tools.mojo 19d649fd8dff132a... in both trees). The consumer therefore drove the J-109 compiled staging binary (~/workspace/.verify-tmp/j109build/aesir_mcp_host, built fresh by J-109 from this identical source at this identical commit, LD_LIBRARY_PATH=~/workspace/.verify-tmp/j109stage with its libaesir_par.so) -- the fallback protocol section 0.4(a) pre-registered for exactly this gate. A one-line smoke test before the consumer run: initialize answered with protocolVersion 2024-11-05, serverInfo aesir/1.0.0, exit 0.
+purplelongship not used at all (the 204 road's S-104 live there at dispatch; yielded, and not needed by design).
+
+== consumer proof (j110_runmal_consumer.py, Python 3.12 stdlib, against the compiled host) ==
+run exit=0
+CONSUMER PROOF: ALL PASS (14 OK, 0 FAIL; full transcript in j110_consumer_session.txt)
+Health report artefact: j110_consumer_report.json -- profile_id aesir-mcp-local, ok true, capabilities [local-models, model-info] (generate honestly NOT advertised: the same session's aesir_generate call returned the no-engine tool error), models = the 5 real catalogue references, first record olmoe-1b-7b:q4_k_m with sha256 pin 8c310f1435a1...f3f (== the J-015/J-030 measured pin), revision 02ab6ea6...8080, size 4213512672 bytes.
+
+== inspect (j110_inspect.py) ==
+See j110_inspect_output.txt.
+
+Suites not rebuilt, named with reasons (never silently skipped): every Janas Mojo suite -- this slice modifies no .mojo file at all; the MCP layer and host are J-109's, proven there (test_mcp_tools 7/7, client session 27 OK) and re-exercised live here through the consumer. Runmal's own test suite was not run: this slice does not modify Runmal's tree (protocol section 0.3); the consumer follows its prober contract by shape and is proven against the real host.

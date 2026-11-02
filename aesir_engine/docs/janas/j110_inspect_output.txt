@@ -1,0 +1,50 @@
+PASS: consumer imports are stdlib-only (['json', 're', 'subprocess', 'sys', 'time'])
+PASS: consumer does not import an MCP SDK
+PASS: consumer spawns the host process
+PASS: doc parse ok
+PASS: consumer calls no Aesir internal module
+PASS: consumer speaks framing: "initialize"
+PASS: consumer speaks framing: "notifications/initialized"
+PASS: consumer speaks framing: "tools/list"
+PASS: consumer speaks framing: "tools/call"
+PASS: consumer speaks framing: "aesir_model_info"
+PASS: consumer speaks framing: "aesir_generate"
+PASS: consumer names Runmal's health shape
+PASS: consumer cites the on-disk Runmal contract it follows
+PASS: session has 14 OK lines (got 14)
+PASS: session has 0 FAIL lines
+PASS: session verdict line present
+PASS: session carries the real OLMoE sha256 pin
+PASS: session shows clean exit
+PASS: session shows the three tools/call requests
+PASS: report carries HealthResult field profile_id
+PASS: report carries HealthResult field ok
+PASS: report carries HealthResult field latency_ms
+PASS: report carries HealthResult field capabilities
+PASS: report carries HealthResult field detail
+PASS: report carries HealthResult field models
+PASS: report ok is true
+PASS: report backend is aesir-mcp
+PASS: report models list has the 5 entries
+PASS: report first model is the catalogue's first reference
+PASS: report capabilities are exactly the session-earned pair
+PASS: report does not advertise generate
+PASS: report quotes the generate refusal reason
+PASS: report record pin matches
+PASS: report record size matches catalogue
+PASS: report latency is a real positive number
+PASS: report model olmoe-1b-7b:q4_k_m appears in the session listing
+PASS: report model granite-3.1-3b-a800m:q4_k_m appears in the session listing
+PASS: report model qwen1.5-moe-a2.7b-chat:q2_k appears in the session listing
+PASS: report model olmoe-1b-7b:q2_k appears in the session listing
+PASS: report model qwen3-next-80b-a3b:q4_k_m appears in the session listing
+PASS: doc tallies match the session verdict
+PASS: doc states the catalogue size
+PASS: doc carries the verified pin prefix
+PASS: test output carries the verdict
+PASS: doc re-cites the deferred legs at the J-118 gate
+PASS: doc keeps its honesty ledger explicit
+PASS: slice file set == expected (extra=[] missing=[])
+PASS: no README in the slice file set
+PASS: no .gguf in the slice file set
+INSPECT: ALL PASS (49 checks passed, 0 failed)

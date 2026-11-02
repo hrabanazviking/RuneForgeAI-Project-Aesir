@@ -1,0 +1,36 @@
+{
+  "profile_id": "aesir-mcp-local",
+  "ok": true,
+  "latency_ms": 221.3,
+  "capabilities": [
+    "local-models",
+    "model-info"
+  ],
+  "detail": "aesir-mcp catalogue: 5 models; olmoe-1b-7b:q4_k_m pin 8c310f1435a1... verified",
+  "models": [
+    "olmoe-1b-7b:q4_k_m",
+    "granite-3.1-3b-a800m:q4_k_m",
+    "qwen1.5-moe-a2.7b-chat:q2_k",
+    "olmoe-1b-7b:q2_k",
+    "qwen3-next-80b-a3b:q4_k_m"
+  ],
+  "backend": "aesir-mcp",
+  "annex": {
+    "first_model_record": {
+      "name": "olmoe-1b-7b",
+      "tag": "q4_k_m",
+      "repository": "allenai/OLMoE-1B-7B-0924-Instruct-GGUF",
+      "filename": "olmoe-1b-7b-0924-instruct-q4_k_m.gguf",
+      "revision": "02ab6ea6894a8418eb14f6d8ee1bfb08bd298080",
+      "sha256": "8c310f1435a1222338fd2d3d974975be9cd908180b644bab0c2a94da1ac32f3f",
+      "size_bytes": 4213512672,
+      "quantization": "Q4_K_M",
+      "source": "known-models catalogue record",
+      "live_session_bound": false
+    },
+    "generate": {
+      "advertised": false,
+      "reason": "no live model session is bound in this MCP host: generation needs an engine-bound host started over a locally present model file. This host answers model info from the catalogue and refuses generation honestly rather than inventing text. The engine-binding leg is filed in the J-109 doc section 5."
+    }
+  }
+}

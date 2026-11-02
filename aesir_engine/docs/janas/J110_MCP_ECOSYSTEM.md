@@ -48,4 +48,53 @@ The slice **passes** iff all of the following hold, each filed:
 
 **No README is touched. Hailo stays parked (no finish-line branch contact, no chip run or probe). No Docker. Nothing is deleted to free disk; staging lives under `~/workspace/.verify-tmp/`.**
 
-*(The sections after §0 are filed from the build, under this protocol.)*
+---
+
+## 1. What was built
+
+**`aesir_engine/docs/janas/j110_runmal_consumer.py`** (new, the consumer) — exactly §0.2's wiring: a Python-3-stdlib-only prober in Rúnmál's S211 shape (`probe_aesir_mcp(host_argv, profile_id)` returning the `HealthResult`-shaped dict, latency measured around the probe as Rúnmál's own contract does). It spawns the compiled Aesir MCP host, speaks newline-delimited JSON-RPC (`initialize` → `notifications/initialized` → `tools/list` → three `tools/call`s), and **uses** the results: the `aesir_model_info` listing becomes the report's `models` list; the first model's record is verified (64-hex sha256 pin, 40-hex revision, positive size, honest `live_session_bound:false`) before its pin is carried into the report `detail`; a real `aesir_generate` call decides the advertised capabilities — in this host build it returned the honest no-engine tool error, so `generate` is recorded in the annex as not advertised, with the tool's own reason text quoted verbatim. No engine code was changed in this slice; no Rúnmál file was changed (§0.3).
+
+**Artefacts filed beside it:** `j110_consumer_session.txt` (the full run transcript), `j110_consumer_report.json` (the health report the consumer wrote from the tool results), `j110_test_output.txt` (build/gate record), `j110_inspect.py` + `j110_inspect_output.txt` (§4).
+
+## 2. The consumer proof (the §0.4(a) evidence)
+
+The consumer ran against the compiled host and **every assertion passed: CONSUMER PROOF: ALL PASS (14 OK, 0 FAIL)**, exit code 0, host exiting cleanly at EOF. The exchange, from the filed transcript: initialize answered (protocol `2024-11-05`, serverInfo `aesir`/`1.0.0`) → discovery found exactly the three J-109 tools → the listing call returned the real catalogue (5 entries) → the record call for `olmoe-1b-7b:q4_k_m` returned its record with sha256 pin `8c310f1435a1…f3f` — byte-identical to the J-015/J-030 measured pin — revision `02ab6ea6…8080`, size 4,213,512,672 bytes → the generate call returned the no-engine tool error in plain words. The report the consumer produced from those results (`j110_consumer_report.json`): `ok: true`, `capabilities: ["local-models", "model-info"]`, `models:` all five catalogue references (`olmoe-1b-7b:q4_k_m`, `granite-3.1-3b-a800m:q4_k_m`, `qwen1.5-moe-a2.7b-chat:q2_k`, `olmoe-1b-7b:q2_k`, `qwen3-next-80b-a3b:q4_k_m`), `detail` carrying the verified pin prefix, and the annex holding the full first record plus the generate verdict with its quoted reason.
+
+**Host binary provenance (stated plainly, per §0.4(a)):** no fresh Mojo build was attempted — VM MemAvailable stayed ~0.30–0.56 GB, below what the toolchain build safely needs, and this slice changes no engine code (the base-to-branch diff for `aesir_engine/core` and `aesir_engine/cli` is empty; `cli/mcp_serve.mojo` and `core/mcp_tools.mojo` are sha256-identical in the J-109 and J-110 worktrees). The consumer therefore drove J-109's compiled staging binary of the identical source at the identical commit — the fallback the protocol pre-registered for exactly this gate. A one-line smoke test preceded the run (initialize answered correctly, exit 0).
+
+## 3. The integration, written up (what a real wiring takes from here)
+
+- **Rúnmál registration step (roaded, not done here — §0.3):** in Rúnmál's own tree, add `"aesir-mcp"` to `VALID_BACKENDS` and `BACKEND_CAPABILITIES` in `src/runmal/connections/service.py` (advertising only what a session proves — this slice's run supports `["local-models", "model-info"]` today, `generate` joining only when an engine-bound host answers a generate call in the same probe), and register this prober as the injectable `Prober` for profiles of that backend kind, with the profile's model field validated against the probe's `models` list. The prober's argv is the host launch command (`aesir mcp` once the engine-bound build is the deployment, or the compiled host path as here). That is a small, mechanical change in Rúnmál's repo under Rúnmál's own road and tests; the Aesir side needs nothing further.
+- **Hermes direction:** the wiring is transport-identical — any MCP host command can be substituted as the prober's argv — so when a Hermes harness grows a backend-probe seam, this consumer is its Aesir prober unchanged. No Hermes code exists on disk today with such a seam (§0.1); nothing is claimed for it.
+- **What changes when the engine-bound host lands (J-118 recipe, J-109 §5):** the same probe, unchanged, would find `generate` answering with engine text and would advertise it; the capability set is session-earned by construction, so no consumer change is needed and no capability is ever advertised ahead of proof.
+
+## 4. Inspect
+
+`docs/janas/j110_inspect.py` re-derives the load-bearing claims from the tree and the filed outputs — the consumer's stdlib-only imports and real MCP framing strings; the absence of any Aesir-internal contact (no engine import, the host reached only as a spawned argv); the session transcript's tallies (14 OK, 0 FAIL, the verdict line, the real OLMoE pin, clean exit); the report artefact's shape against Rúnmál's `HealthResult` fields, its models list against the transcript's listing, its capabilities against the session's generate verdict; the doc's tallies against the filed outputs; and repo hygiene (diff == the expected file set; no README, no `.gguf`). Result filed in `docs/janas/j110_inspect_output.txt`.
+
+## 5. Defects found and dispositioned
+
+None in the J-109 surface: the consumer's first run passed whole — handshake, discovery, listing, record, and the honest generate refusal all behaved exactly as J-109 filed them, now witnessed from a second, independent program with a different purpose. No defect was found in Rúnmál's prober contract either (the consumer follows its documented shape without adaptation). The one environmental constraint — VM memory far below even a safe toolchain build — is a gate observation, not a defect, and is handled in §2's provenance statement rather than hidden.
+
+## 6. Deferred legs (DEFERRED-WITH-REASON — re-cite at the J-118 Part VII gate)
+
+1. **Live generate-through-MCP (the engine-bound host)** — unchanged from J-109 §5, with its exact recipe filed there: VM below the 5,500 MB inference gate with no CUDA device; purplelongship yielded to the 204 road's S-104. This slice's consumer is built so the leg closes by re-running the same probe against the bound host (§3).
+2. **In-Rúnmál registration** (`VALID_BACKENDS` + capability table + prober registration in Rúnmál's own repo, §3): roaded to Rúnmál's own road — it is a change to a different project's tree with its own tests, and this slice's bound (§0.3) was to prove the consumer against the real host, which is done. NOT PROVEN inside Rúnmál itself; proven at its contract boundary.
+3. **Hermes-side wiring:** no harness with a probe seam exists on disk (§0.1); the transport-identical prober is ready when one does. NOT PROVEN, not claimed.
+
+## 7. Answered-locally (clean-room)
+
+- **Consumer choice (Rúnmál over Hermes):** decided on on-disk evidence (§0.1) — a runnable app with a documented, injectable backend-probe contract versus a documentation workspace with no such seam. Wiring to the seam that exists is the honest reading of "bound where Aesir is actually consumed."
+- **Capabilities are session-earned:** the consumer advertises only what the same session's tool calls actually did. This follows Rúnmál's own probe semantics (capabilities come from the probe outcome, and a failed probe advertises none) and Aesir's honesty law; it is also what keeps the J-109 no-engine truth visible to the ecosystem instead of papered over.
+- **The consumer lives in Aesir's docs tree, not Rúnmál's:** the slice's deliverable is the wiring proven at the contract boundary; modifying another project's tree from this road would mix two campaigns' banking. The registration step is written up exactly (§3) instead.
+- No Janas document beyond the already-filed road records and no Janas code was consulted; MCP decisions follow the protocol's public shape as proven in J-109.
+
+## 8. Honesty ledger
+
+- **PROVEN:** one real consumer wired and proven — a Rúnmál-shaped backend prober, an independent program outside the engine, speaking real MCP over stdio to the compiled Aesir host, using the tool results to produce a real artefact (the health report: verified model list, verified pin, session-earned capabilities), every assertion passing (14 OK, 0 FAIL) with the full transcript filed; the integration written up (§3) including the exact Rúnmál registration step.
+- **NOT PROVEN:** engine-generated text through MCP (deferred leg 1); the registration inside Rúnmál's own tree (deferred leg 2 — proven at its contract boundary only); Hermes-side wiring (deferred leg 3); interoperability with a vendor editor's bundled MCP client (this slice adds a second independent consumer witness, but both ends of the pipe are still this road's own code).
+- **SIMULATED / MEASURED-INDICATIVE:** none. The report's `latency_ms` is a real measurement of the filed run, printed in the artefact itself; no number in this doc is simulated.
+
+## 9. Banking
+
+Per-slice commits on `yrsa/janas-j110` from the §0 base (`e51b32cf` protocol + the build/evidence commit), pushed by explicit refspec and verified with `git ls-remote` (remote == local HEAD; `yrsa/janas-j109` and origin/main unchanged); campaign copies of this doc, the consumer script, the session transcript, the report artefact, the inspect script + output, and the test output filed sha-identical in `~/workspace/model-tests/janas/`. No README touched. Hailo untouched/parked. Nothing was deleted to free disk; staging lived under `~/workspace/.verify-tmp/j110stage`.

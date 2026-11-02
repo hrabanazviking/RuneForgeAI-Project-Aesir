@@ -1,0 +1,68 @@
+consumer: runmal-shaped prober; host: /home/hatch/workspace/.verify-tmp/j109build/aesir_mcp_host
+>> {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "runmal-prober (J-110 consumer)", "version": "1.0.0"}}}
+<< {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{}},"serverInfo":{"name":"aesir","version":"1.0.0"}}}
+OK: initialize answered with a result
+OK: server protocol version is 2024-11-05
+OK: server identifies itself as aesir
+>> {"jsonrpc": "2.0", "method": "notifications/initialized"}  (notification, no reply expected)
+>> {"jsonrpc": "2.0", "id": 2, "method": "tools/list"}
+<< {"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"aesir_generate","description":"Generate text with the model bound to this MCP host. Generation runs the engine's real facade path; a host started without a bound model answers with an honest error instead of invented text.","inputSchema":{"type":"object","properties":{"prompt":{"type":"string","description":"The prompt to generate from."},"model":{"type":"string","description":"Optional catalogue name of the bound model."},"max_tokens":{"type":"integer","minimum":1,"maximum":4096,"default":256}},"required":["prompt"]}},{"name":"aesir_model_info","description":"Report a model's catalogue record (source repository, file, revision, sha256 pin, size, quantization) from Aesir's known-models catalogue. With no argument, list the catalogue. This is the catalogue record, not a loaded model's self-report.","inputSchema":{"type":"object","properties":{"model":{"type":"string","description":"Catalogue name or name:tag; omit to list the catalogue."}}}},{"name":"aesir_embed","description":"Embed text -- UNAVAILABLE in Aesir today: no embedding data path exists, so this tool always refuses honestly rather than returning a fake vector.","inputSchema":{"type":"object","properties":{"input":{"type":"string"}},"required":["input"]}}]}}
+OK: discovery finds exactly the three J-109 tools
+== consumer use 1: the model list a profile would offer ==
+>> {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "aesir_model_info", "arguments": {}}}
+<< {"jsonrpc":"2.0","id":3,"result":{"content":[{"type":"text","text":"known-models catalogue (5 entries):\n- olmoe-1b-7b:q4_k_m (Q4_K_M, 4213512672 bytes)\n- granite-3.1-3b-a800m:q4_k_m (Q4_K_M, 2016888384 bytes)\n- qwen1.5-moe-a2.7b-chat:q2_k (Q2_K, 5890164032 bytes)\n- olmoe-1b-7b:q2_k (Q2_K, 2562763584 bytes)\n- qwen3-next-80b-a3b:q4_k_m (Q4_K_M, 48506100512 bytes)"}],"isError":false}}
+OK: listing call succeeded
+OK: listing produced a non-empty models list
+models offered to the profile user: olmoe-1b-7b:q4_k_m, granite-3.1-3b-a800m:q4_k_m, qwen1.5-moe-a2.7b-chat:q2_k, olmoe-1b-7b:q2_k, qwen3-next-80b-a3b:q4_k_m
+== consumer use 2: verify the first model's record ==
+>> {"jsonrpc": "2.0", "id": 4, "method": "tools/call", "params": {"name": "aesir_model_info", "arguments": {"model": "olmoe-1b-7b:q4_k_m"}}}
+<< {"jsonrpc":"2.0","id":4,"result":{"content":[{"type":"text","text":"{\"name\":\"olmoe-1b-7b\",\"tag\":\"q4_k_m\",\"repository\":\"allenai/OLMoE-1B-7B-0924-Instruct-GGUF\",\"filename\":\"olmoe-1b-7b-0924-instruct-q4_k_m.gguf\",\"revision\":\"02ab6ea6894a8418eb14f6d8ee1bfb08bd298080\",\"sha256\":\"8c310f1435a1222338fd2d3d974975be9cd908180b644bab0c2a94da1ac32f3f\",\"size_bytes\":4213512672,\"quantization\":\"Q4_K_M\",\"source\":\"known-models catalogue record\",\"live_session_bound\":false}"}],"isError":false}}
+OK: record call succeeded
+OK: record states its catalogue source
+OK: record sha256 pin is 64-hex (verified before trust)
+OK: record revision is 40-hex (verified before trust)
+OK: record size is positive
+OK: record honestly states no live session bound
+== consumer use 3: may generation be advertised? ==
+>> {"jsonrpc": "2.0", "id": 5, "method": "tools/call", "params": {"name": "aesir_generate", "arguments": {"prompt": "Name the raven of memory.", "max_tokens": 16}}}
+<< {"jsonrpc":"2.0","id":5,"result":{"content":[{"type":"text","text":"no live model session is bound in this MCP host: generation needs an engine-bound host started over a locally present model file. This host answers model info from the catalogue and refuses generation honestly rather than inventing text. The engine-binding leg is filed in the J-109 doc section 5."}],"isError":true}}
+OK: generate refuses honestly (no engine bound) -- not advertised
+OK: host exited cleanly at EOF (code 0)
+== health report written to /home/hatch/workspace/.verify-tmp/j110stage/j110_consumer_report.json ==
+{
+  "profile_id": "aesir-mcp-local",
+  "ok": true,
+  "latency_ms": 221.3,
+  "capabilities": [
+    "local-models",
+    "model-info"
+  ],
+  "detail": "aesir-mcp catalogue: 5 models; olmoe-1b-7b:q4_k_m pin 8c310f1435a1... verified",
+  "models": [
+    "olmoe-1b-7b:q4_k_m",
+    "granite-3.1-3b-a800m:q4_k_m",
+    "qwen1.5-moe-a2.7b-chat:q2_k",
+    "olmoe-1b-7b:q2_k",
+    "qwen3-next-80b-a3b:q4_k_m"
+  ],
+  "backend": "aesir-mcp",
+  "annex": {
+    "first_model_record": {
+      "name": "olmoe-1b-7b",
+      "tag": "q4_k_m",
+      "repository": "allenai/OLMoE-1B-7B-0924-Instruct-GGUF",
+      "filename": "olmoe-1b-7b-0924-instruct-q4_k_m.gguf",
+      "revision": "02ab6ea6894a8418eb14f6d8ee1bfb08bd298080",
+      "sha256": "8c310f1435a1222338fd2d3d974975be9cd908180b644bab0c2a94da1ac32f3f",
+      "size_bytes": 4213512672,
+      "quantization": "Q4_K_M",
+      "source": "known-models catalogue record",
+      "live_session_bound": false
+    },
+    "generate": {
+      "advertised": false,
+      "reason": "no live model session is bound in this MCP host: generation needs an engine-bound host started over a locally present model file. This host answers model info from the catalogue and refuses generation honestly rather than inventing text. The engine-binding leg is filed in the J-109 doc section 5."
+    }
+  }
+}
+CONSUMER PROOF: ALL PASS (14 OK, 0 FAIL)
