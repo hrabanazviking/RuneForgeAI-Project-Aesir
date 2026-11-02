@@ -1,0 +1,21 @@
+PASS: page carries exactly one extractable script block
+PASS: page uses textContent only (no innerHTML anywhere)
+PASS: page references no external URL (no scheme string in the document)
+PASS: page is a single self-contained document under the 24576-byte bound
+PASS: startup called GET /v1/models exactly once
+PASS: model field filled from the filed models shape
+PASS: status reports the loaded model in words
+PASS: streamed send issued exactly one chat request
+PASS: streamed request body: model + stream + include_usage, one user message
+PASS: streamed request carried the typed key as Bearer and JSON content type
+PASS: streamed answer assembled from the content chunks
+PASS: progress event reached the status line in words
+PASS: usage chunk rendered as counts in the final status
+PASS: plain send issued a second chat request
+PASS: plain request body: stream false, no stream_options, full history sent
+PASS: plain answer shown and counted
+PASS: refused send issued a third chat request
+PASS: refusal shown verbatim in the status line
+PASS: clear reports itself and sends nothing
+PASS: after clear, the refused turn stayed out and history restarted at one message
+ALL PASS: web example client logic (20 checks)

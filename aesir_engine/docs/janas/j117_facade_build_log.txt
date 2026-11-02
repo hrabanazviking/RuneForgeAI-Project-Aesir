@@ -1,0 +1,245 @@
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:2123:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:2124:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:2125:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:2126:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:7:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/parallel.mojo:29:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:948:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:969:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1787:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1086:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:2448:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1991:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1001:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1752:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1903:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:2368:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1449:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1560:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1561:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Imported from aesir_engine/aesir.mojo:6:
+Imported from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:1562:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:1215:30: warning: assignment to 'next_token' was never used; assign to '_' instead?
+            var next_token = -1
+                             ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:15:
+aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:67:5: error: function instantiation failed
+def main() raises:
+    ^
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:106:40: note: call expansion failed
+        var raw_reply = engine.generate(
+                                       ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:1411:9: note: function instantiation failed
+    def generate(mut self, prompt: String) raises -> String:
+        ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:1413:42: note: call expansion failed
+        var result = self.generate_tokens(prompt, 32)
+                                         ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:1322:9: note: function instantiation failed
+    def generate_tokens(
+        ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:1327:36: note: call expansion failed
+        return self._run_generation(prompt, config, Int32(-1), False)
+                                   ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:1169:9: note: function instantiation failed
+    def _run_generation(
+        ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:1295:52: note: call expansion failed
+                next_token = self._forward_position(
+                                                   ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:388:9: note: function instantiation failed
+    def _forward_position(
+        ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+aesir_engine/aesir.mojo:429:28: note: call expansion failed
+        return forward_pass(
+                           ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:1068:5: note: function instantiation failed
+def forward_pass(
+    ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:1157:21: note: call expansion failed
+        gemm_f16_gpu(x, output_weight_eff, logits, gpu_realm)
+                    ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:3581:5: note: function instantiation failed
+def gemm_f16_gpu(
+    ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:3598:34: note: call expansion failed
+        CUDAGate.launch_gemm_cuda(A, B, C)
+                                 ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:28:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/cuda_gate.mojo:234:9: note: function instantiation failed
+    def launch_gemm_cuda(
+        ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:28:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/cuda_gate.mojo:264:25: note: call expansion failed
+        executor.execute(A, B, C)
+                        ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:28:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/cuda_gate.mojo:20:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/cuda_compute.mojo:176:9: note: function instantiation failed
+    def execute(
+        ^
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/docs/janas/j117_example_embed.mojo:55:
+Included from aesir_engine/aesir.mojo:6:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/inference.mojo:11:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/compute.mojo:28:
+Included from /home/hatch/workspace/aesir-janas-j117/aesir_engine/core/cuda_gate.mojo:20:
+/home/hatch/workspace/aesir-janas-j117/aesir_engine/core/cuda_compute.mojo:204:14: note: call expansion failed with parameter value(s): (..., ..., ..., ..., ..., ..., ..., "_ptxas_info_verbose": False)
+            ](
+             ^
+max/mojo/max/gpu/host/_device_context_extras.mojo:282:9: note: function instantiation failed
+max/mojo/max/gpu/host/_device_context_extras.mojo:282:9: note: call expansion failed with parameter value(s): (...)
+oss/modular/mojo/stdlib/std/gpu/host/info.mojo:1879:9: note: function instantiation failed
+oss/modular/mojo/stdlib/std/gpu/host/info.mojo:1888:43: note: call expansion failed with parameter value(s): (...)
+oss/modular/mojo/stdlib/std/gpu/host/info.mojo:2107:5: note: function instantiation failed
+oss/modular/mojo/stdlib/std/gpu/host/info.mojo:2145:5: note: constraint failed: Unknown GPU architecture detected.
+
+Supported GPU architectures:
+
+  NVIDIA: sm_52 (Maxwell), sm_60/sm_61 (Pascal), sm_75 (Turing), sm_80 (Ampere A100), sm_86 (Ampere A10), sm_87 (Orin), sm_89 (Ada L4/RTX4090), sm_90/sm_90a (Hopper H100), sm_100/sm_100a (Blackwell B100/B200), sm_110 (Jetson Thor), sm_120/sm_120a (Blackwell RTX5090), sm_121 (DGX Spark)
+  See: https://developer.nvidia.com/cuda-gpus
+
+  AMD: gfx90a (MI250X), gfx942 (MI300X/MI300A), gfx950 (MI355X), gfx1030 (Radeon 6900), gfx1033 (Van Gogh), gfx1100 (Radeon 7900), gfx1101 (Radeon 7800), gfx1102 (Radeon 7600), gfx1103 (Radeon 780M), gfx1150/gfx1151/gfx1152 (Radeon 8xx), gfx1200 (Radeon 9060), gfx1201 (Radeon 9070)
+  See: https://rocm.docs.amd.com/en/latest/release/gpu_os_support.html
+
+  Apple: metal:1 (M1), metal:2 (M2), metal:3 (M3), metal:4 (M4)
+  See: https://developer.apple.com/metal/Metal-Feature-Set-Tables.pdf
+mojo: error: failed to run the pass manager

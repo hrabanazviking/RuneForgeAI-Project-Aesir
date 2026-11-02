@@ -1,0 +1,32 @@
+PASS: page: one self-contained document, 11987 bytes, inside the bound
+PASS: page: doctype first, exactly one script block
+PASS: page: textContent only, no forbidden insertion API named or used
+PASS: page: no external scheme string anywhere in the document
+PASS: page: calls only the audited routes (models + chat completions)
+PASS: page: speaks the J-107 stream vocabulary
+PASS: page: design-law numbers present (16px text, 44px controls, labels, aria-live)
+PASS: fixtures: models shape carries the J-109-filed catalogue id
+PASS: fixtures: SSE carries progress event, both content chunks, usage, [DONE]
+PASS: fixtures: plain completion and refusal shapes as filed
+PASS: web check: harness extracts and runs the page's own script (vm + fixtures)
+PASS: web check: filed output is ALL PASS with 20 PASS lines and no FAIL
+PASS: web check: filed output covers request, stream, refusal, and clear legs
+PASS: embed example: imports the facade and the chat types
+PASS: embed example: exercises the answering entries it claims
+PASS: embed example: its calls match the facade's real signatures
+PASS: embed example: the reserved five are named on its face
+PASS: embed example: none of the reserved five is ever called
+PASS: embed example: fail-closed over a path that does not load
+PASS: tier-2 driver: imports the facade's delegation modules
+PASS: tier-2: filed output is ALL PASS (3 groups), build and run exit 0
+PASS: tier-1: the filed build log ends in the GPU-architecture constraint
+PASS: tier-1: the test output records exit 1 and the serve-graph control PASS
+PASS: doc: states the web tally (20/20) and the page size it filed
+PASS: doc: carries J-116 section 1.3 as an OPEN deferred item for J-118
+PASS: doc: defers the live leg and the facade tier with recipes, to J-118
+PASS: hygiene: the base tip is an ancestor of HEAD
+PASS: hygiene: slice file set == the 11 expected artefacts (inspect output may lag one run)
+PASS: hygiene: no README and no .gguf in the slice file set
+
+TOTAL: 29 PASS, 0 FAIL
+ALL PASS
