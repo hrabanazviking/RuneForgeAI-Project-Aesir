@@ -6,6 +6,7 @@ from cli.interrupts import read_interruptible_line_result
 from cli.terminal_view import terminal_columns
 from core.native_diagnostics import human_bytes
 from loader.huggingface import HuggingFaceSeer
+from cli.known_models import known_models_dataset
 
 
 comptime MODEL_PAGE_SIZE = 10
@@ -312,13 +313,14 @@ def validate_known_model_entry(entry: KnownModelEntry) raises:
 def known_model_catalogue() -> List[KnownModelEntry]:
     """The known-models catalogue interface.
 
-    J-102 defines the shape and the contract; the list is honestly empty
-    today -- no curated entries exist in this tree, and invented pins
-    would be false catalogue data. J-103 lands the curated in-repo
-    dataset behind this same function and shape.
+    J-102 defined the shape and the contract and returned an honest
+    empty list. J-103 lands the curated in-repo dataset behind this
+    same function and shape: the provider delegates to the dataset
+    module (cli/known_models.mojo), whose entries each carry a real,
+    citable pin provenance (J-103 doc sections 0.2-0.3). No entry is
+    constructed anywhere else, and no pin is invented.
     """
-    var entries = List[KnownModelEntry]()
-    return entries^
+    return known_models_dataset()
 
 
 struct PickerEntry(Copyable, ImplicitlyCopyable):
@@ -577,6 +579,73 @@ def fetch_known_model(
     return first_run_decision(
         picker_entry, True, record.digest, record.size_bytes
     )
+
+
+def find_known_model(reference: String) raises -> KnownModelEntry:
+    """The catalogue entry for one `name:tag` reference (J-103).
+
+    Raises naming the known references when the catalogue has no such
+    entry -- `get` never falls back to treating its argument as a
+    repository or a path.
+    """
+    var catalogue = known_model_catalogue()
+    for entry in catalogue:
+        if entry.reference() == reference:
+            return entry.copy()
+    var known = String("")
+    for entry in catalogue:
+        if len(known.bytes()) > 0:
+            known += ", "
+        known += entry.reference()
+    raise Error(
+        "unknown catalogue model: " + reference
+        + " (known: " + known + ")"
+    )
+
+
+def get_decision(entry: KnownModelEntry, installed: Bool) -> FirstRunDecision:
+    """The standalone `get` decision for one catalogue entry (J-103):
+    J-102's first_run_decision, applied without the picker -- an
+    already-installed entry runs (no fetch); a fetchable entry
+    fetches through pull before it is usable."""
+    var picker_entry = PickerEntry(
+        entry.name, entry.tag, entry.quantization, entry.size_bytes,
+        installed, entry.copy(),
+    )
+    return first_run_decision(picker_entry, False, "", 0)
+
+
+def get_known_model(reference: String, model_store: String) raises -> String:
+    """The standalone `get` behaviour (J-103): fetch one catalogue
+    entry and checksum-verify it before it is usable, through the
+    same pull machinery and decision rule as the picker fetch.
+
+    An entry already in the durable catalog returns at once (no
+    fetch). Otherwise the fetch runs through fetch_known_model
+    (download_hf_model, which publishes only after size + header +
+    SHA-256 checks, then ingest_model, which re-measures and refuses
+    registration on any mismatch); the post-fetch decision must
+    resolve RUN, or this raises with the refusal reason and no model
+    is registered or returned.
+    """
+    var entry = find_known_model(reference)
+    var installed = installed_model_choices(
+        DurableModelStore(model_store).list_models()
+    )
+    var already = False
+    for model in installed:
+        if model.name + ":" + model.tag == entry.reference():
+            already = True
+    var decision = get_decision(entry, already)
+    if decision.action == "run":
+        return decision.reference
+    if decision.action == "fetch":
+        var destination = model_store + "/" + entry.filename
+        var after = fetch_known_model(entry, model_store, destination)
+        if after.action == "run":
+            return after.reference
+        raise Error(after.reason)
+    raise Error(decision.reason)
 
 
 def prompt_model_picker(

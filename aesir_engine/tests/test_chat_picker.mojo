@@ -1,6 +1,7 @@
 """Chat picker (J-102): the known-models catalogue interface
-(zero entries today -- the honest state, J-103 lands the curated
-dataset behind the same shape), entry pin validation, the
+(J-103 landed the curated dataset behind the same shape -- five
+pin-verified entries; the catalogue group below asserts the real
+catalogue, a J-103 change to this suite), entry pin validation, the
 installed + fetchable merge (installed first, already-installed
 catalogue entries deduped), the combined render (fetchable rows
 marked `fetch`), numeric selection over the combined list, the
@@ -91,10 +92,23 @@ def test_entry_validation() raises:
 
 
 def test_catalogue_interface() raises:
+    # J-103 change: J-102's honest-zero assertion is replaced by an
+    # assertion over the real curated catalogue J-103 landed behind
+    # this same shape -- non-empty, every entry pin-valid, references
+    # unique. Field-for-field provenance lives in test_model_get.
     var catalogue = known_model_catalogue()
-    if len(catalogue) != 0:
-        raise Error("ChatPicker catalogue: expected zero entries today")
-    print("PASS: catalogue interface (zero entries today; J-103 lands the data)")
+    if len(catalogue) != 5:
+        raise Error(
+            "ChatPicker catalogue: expected the 5 curated J-103 entries, got "
+            + String(len(catalogue))
+        )
+    for entry in catalogue:
+        validate_known_model_entry(entry)
+    for i in range(len(catalogue)):
+        for j in range(i + 1, len(catalogue)):
+            if catalogue[i].reference() == catalogue[j].reference():
+                raise Error("ChatPicker catalogue: duplicate reference")
+    print("PASS: catalogue interface (5 curated entries, all pin-valid; J-103 data)")
 
 
 def test_picker_merge() raises:
@@ -215,7 +229,11 @@ def test_pull_args_and_regression() raises:
     var installed_only = installed_model_choices(mixed)
     if len(installed_only) != 1:
         raise Error("ChatPicker regression: installed filter changed")
-    var entries = picker_entries(installed_only, known_model_catalogue())
+    # J-103 change: the regression now feeds an explicitly empty
+    # catalogue (the provider itself returns the real J-103 dataset);
+    # the invariant is unchanged -- an empty catalogue yields exactly
+    # the installed list.
+    var entries = picker_entries(installed_only, List[KnownModelEntry]())
     if len(entries) != 1 or not entries[0].installed:
         raise Error("ChatPicker regression: empty catalogue must equal the installed list")
     expect_eq_str(
