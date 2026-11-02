@@ -1,0 +1,28 @@
+PASS pin sha256 filed verbatim in J-032 doc
+PASS pin size 48,506,100,512 filed in J-032 doc
+PASS source repo unsloth/Qwen3-Next-80B-A3B-Instruct-GGUF filed
+PASS refusal text verbatim in J-022 attempt artefact
+PASS attempt EXIT=1 in artefact
+PASS header fact 'qwen3next' in J-032 doc
+PASS header fact '48 blocks' in J-032 doc
+PASS header fact '512 experts' in J-032 doc
+PASS header fact '843 tensors' in J-032 doc
+PASS SSM key ssm.conv_kernel in J-032 doc
+PASS SSM key ssm.state_size in J-032 doc
+PASS SSM key ssm.group_count in J-032 doc
+PASS SSM key ssm.time_step_rank in J-032 doc
+PASS SSM key ssm.inner_size in J-032 doc
+PASS B2a named in J-032 doc
+PASS B2b named in J-032 doc
+PASS J-032 verdict NOT PROVEN
+PASS pre-build: no qwen3next branch in loader gguf.mojo
+PASS pre-build: moe_session admits only olmoe
+PASS pre-build: qwen3next absent from moe_session
+PASS loader has qwen35 hybrid precedent branch
+PASS loader has olmoe MoE precedent branch
+PASS loader parses .expert_count suffix
+PASS loader parses .ssm.inner_size suffix
+PASS loader does NOT yet parse expert_shared_feed_forward_length
+PASS census arithmetic 36*18+12*16+3 == 843
+TOTAL 26 checks, FAIL 0
+ALL PASS

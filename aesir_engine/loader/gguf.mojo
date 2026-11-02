@@ -13,6 +13,11 @@ from core.mimir_well import (
     convert_bf16_to_f16,
     f16,
 )
+from core.qwen3next_layout import (
+    qwen3next_common_suffixes,
+    qwen3next_is_attention_layer,
+    qwen3next_ssm_suffixes,
+)
 from loader.tokenizer import RuneWeaver
 from hailbru.source_sealed_copy import _require_sealed_source
 from hailbru.syscall import os_host_architecture, os_mmap, os_close_descriptor
@@ -144,6 +149,9 @@ struct GGUFModelConfig(Copyable):
     # <arch>.expert_used_count from GGUF metadata; 0 = dense file.
     var expert_count: Int
     var expert_used_count: Int
+    # Qwen3-Next (J-123): <arch>.expert_shared_feed_forward_length --
+    # the shared expert's FFN width; 0 = no shared expert recorded.
+    var expert_shared_feed_forward_length: Int
 
     def __init__(out self):
         self.architecture = ""
@@ -181,6 +189,7 @@ struct GGUFModelConfig(Copyable):
         self.sliding_window_pattern_count = 0
         self.expert_count = 0
         self.expert_used_count = 0
+        self.expert_shared_feed_forward_length = 0
 
     def __copyinit__(out self, existing: Self):
         self.architecture = String(existing.architecture)
@@ -218,6 +227,7 @@ struct GGUFModelConfig(Copyable):
         self.sliding_window_pattern_count = existing.sliding_window_pattern_count
         self.expert_count = existing.expert_count
         self.expert_used_count = existing.expert_used_count
+        self.expert_shared_feed_forward_length = existing.expert_shared_feed_forward_length
 
     def head_dim(self) -> Int:
         if self.head_dim_override > 0:
@@ -628,6 +638,9 @@ struct GGUFSeer:
             self.config.context_length = Int(self._read_u32(scalar_offset))
         elif key.endswith(".embedding_length") and scalar_type == 4:
             self.config.embedding_length = Int(self._read_u32(scalar_offset))
+        elif key.endswith(".expert_shared_feed_forward_length") and scalar_type == 4:
+            # Before .feed_forward_length: this key also ends with it.
+            self.config.expert_shared_feed_forward_length = Int(self._read_u32(scalar_offset))
         elif key.endswith(".feed_forward_length") and scalar_type == 4:
             self.config.feed_forward_length = Int(self._read_u32(scalar_offset))
         elif key.endswith(".block_count") and scalar_type == 4:
@@ -1119,6 +1132,9 @@ struct GGUFSeer:
         if self.config.architecture == "olmoe":
             self._validate_olmoe_tensors()
             return
+        if self.config.architecture == "qwen3next":
+            self._validate_qwen3next_tensors()
+            return
         var required = List[String]()
         required.append("token_embd.weight")
         required.append("output_norm.weight")
@@ -1253,6 +1269,148 @@ struct GGUFSeer:
             self._require_tensor_shape(
                 prefix + "ffn_down_exps.weight", hidden * experts, ffn, GGMLType.F16
             )
+
+    def _validate_qwen3next_tensors(mut self) raises:
+        """Hybrid layer-type-aware validation for Qwen3-Next (J-123).
+
+        Qwen3-Next breaks the flat dense assumptions three ways at
+        once: most blocks are Gated-DeltaNet SSM blocks carrying no
+        attn_q at all (the J-032 refusal), every block's FFN is a
+        routed expert triple plus a shared-expert triple (no dense
+        ffn_gate/up/down), and the attention blocks that remain are
+        gated -- either a separate attn_gate at the Q width or the
+        gate fused into attn_q at twice the Q width (the qwen35
+        fused form). Layer kinds and tensor names come from
+        core.qwen3next_layout. Shapes are checked relationally from
+        the file's own metadata for everything the public record
+        pins down; the SSM internals whose per-tensor shapes no
+        filed census has measured yet (attn_qkv, the SSM block's
+        attn_gate, ssm_alpha, ssm_beta, ssm_conv1d) are required
+        present, with exact shapes -- tightening them is the named
+        follow-on of the real file's header census (J-123 doc
+        sections 0.4/0.6). Admission is loader-level only: no
+        session steps this arch until a forward exists (B2b).
+        """
+        var hidden = self.config.embedding_length
+        var ffn = self.config.feed_forward_length
+        var layers = self.config.block_count
+        var experts = self.config.expert_count
+        var used = self.config.expert_used_count
+        var shared = self.config.expert_shared_feed_forward_length
+        if experts <= 0 or used <= 0 or used > experts:
+            raise Error("GGUF qwen3next expert routing metadata is incomplete")
+        if shared <= 0:
+            raise Error("GGUF qwen3next shared expert metadata is incomplete")
+        if hidden <= 0 or ffn <= 0 or layers <= 0:
+            raise Error("GGUF qwen3next shape metadata is incomplete")
+        var inner = self.config.ssm_inner_size
+        var groups = self.config.ssm_group_count
+        var state = self.config.ssm_state_size
+        var dt_rank = self.config.ssm_time_step_rank
+        if inner <= 0 or groups <= 0 or state <= 0 or dt_rank <= 0:
+            raise Error("GGUF qwen3next SSM metadata is incomplete")
+        var interval = self.config.full_attention_interval
+        var vocab = self.tensors["token_embd.weight"].rows
+        self._require_tensor_shape(
+            "token_embd.weight", vocab, hidden, GGMLType.F16
+        )
+        self._require_tensor_shape(
+            "output_norm.weight", 1, hidden, GGMLType.F32
+        )
+        self._require_tensor_shape(
+            "output.weight", vocab, hidden, GGMLType.F16
+        )
+        var q_width = self.config.head_count * self.config.head_dim()
+        var kv_dim = self.config.kv_dim()
+        var head_dim = self.config.head_dim()
+        var common = qwen3next_common_suffixes()
+        var ssm_extra = qwen3next_ssm_suffixes()
+        for layer_index in range(layers):
+            var prefix = String("blk.") + String(layer_index) + String(".")
+            # Presence of every common tensor first, so a missing
+            # name is refused by that name before any shape check.
+            for ci in range(len(common)):
+                if prefix + common[ci] not in self.tensors:
+                    raise Error(
+                        "GGUF is missing required tensor: "
+                        + prefix + common[ci]
+                    )
+            self._require_tensor_shape(
+                prefix + "attn_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "post_attention_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_gate_inp.weight", experts, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_gate_exps.weight", ffn * experts, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_up_exps.weight", ffn * experts, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_down_exps.weight", hidden * experts, ffn, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_gate_shexp.weight", shared, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_up_shexp.weight", shared, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_down_shexp.weight", hidden, shared, GGMLType.F16
+            )
+            if qwen3next_is_attention_layer(layer_index, interval):
+                var fused = False
+                if prefix + "attn_gate.weight" not in self.tensors:
+                    fused = True
+                if fused:
+                    self._require_tensor_shape(
+                        prefix + "attn_q.weight", 2 * q_width, hidden, GGMLType.F16
+                    )
+                else:
+                    self._require_tensor_shape(
+                        prefix + "attn_q.weight", q_width, hidden, GGMLType.F16
+                    )
+                    self._require_tensor_shape(
+                        prefix + "attn_gate.weight", q_width, hidden, GGMLType.F16
+                    )
+                self._require_tensor_shape(
+                    prefix + "attn_k.weight", kv_dim, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_v.weight", kv_dim, hidden, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_output.weight", hidden, q_width, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_q_norm.weight", 1, head_dim, GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "attn_k_norm.weight", 1, head_dim, GGMLType.F32
+                )
+            else:
+                for si in range(len(ssm_extra)):
+                    if prefix + ssm_extra[si] not in self.tensors:
+                        raise Error(
+                            "GGUF is missing required tensor: "
+                            + prefix + ssm_extra[si]
+                        )
+                self._require_tensor_shape(
+                    prefix + "ssm_out.weight", hidden, inner, GGMLType.F16
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_a", 1, dt_rank, GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_dt.bias", 1, dt_rank, GGMLType.F32
+                )
+                self._require_tensor_shape(
+                    prefix + "ssm_norm.weight", 1, state, GGMLType.F32
+                )
 
     def _validate_gemma4_tensors(mut self) raises:
         """Layer-aware validation for Gemma 4 (S-039).

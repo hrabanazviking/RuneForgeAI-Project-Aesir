@@ -1,0 +1,137 @@
+J-123 Qwen3-Next verification -- test output (VM, lightest target)
+Tree: yrsa/janas-j123 from yrsa/janas-j122 tip b77b51865008b0d6ee46b67f08df41f6581283af (ls-remote verified by the keeper at dispatch; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (7172a693cbe4b6aa0f23af8593067c432a6e4d2e, push ls-remote verified before the build).
+Build: mojo build -I aesir_engine -I . (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH); -I . covers the hailbru package at the repo root, which loader/gguf.mojo imports. Build dir ~/workspace/.verify-tmp/j123build, staging ~/workspace/.verify-tmp/j123stage (TMPDIR redirected), fixtures ~/workspace/.verify-tmp/j123work2. Builds staged one at a time. One pre-existing warning only (loader/gguf.mojo:576 unused 'width', present on the base tree, not in this slice's code).
+Machine: VM (KVM), NO GPU device used. MemAvailable ~0.6-1.6 GB observed across the run -- far below the 5,500 MB inference gate at every observation; NO inference ran anywhere (none is in scope). purplelongship not used at all (no device route; the 204 road yielded to). No wall/rate/latency numbers are in scope for this slice.
+Defects found and fixed in-slice (doc section 7): (1) loader/packed_gguf.mojo refused every 3-D tensor ('only dense vectors/matrices supported'), so the protocol section 0.2 level-1 PackedGGUF census could not run on any MoE file -- fixed by folding dims==3 [in, out, experts] into rows exactly as GGUFSeer._parse_tensors (J-022) does; dense (dims 1/2) behaviour unchanged, proven by the J-121 dense re-read regression below. (2) The impostor refusal names blk.0.post_attention_norm.weight (the first missing common tensor), not an SSM tensor as protocol section 0.2(2) loosely pre-registered -- the driver expectation was corrected to the actual first-missing tensor; the SSM-missing case is proven separately by the miss_ssm_out fixture. No other defect found.
+
+== stage (a) re-verification (j123_reverify.py, filed pre-build) ==
+PASS pin sha256 filed verbatim in J-032 doc
+PASS pin size 48,506,100,512 filed in J-032 doc
+PASS source repo unsloth/Qwen3-Next-80B-A3B-Instruct-GGUF filed
+PASS refusal text verbatim in J-022 attempt artefact
+PASS attempt EXIT=1 in artefact
+PASS header fact 'qwen3next' in J-032 doc
+PASS header fact '48 blocks' in J-032 doc
+PASS header fact '512 experts' in J-032 doc
+PASS header fact '843 tensors' in J-032 doc
+PASS SSM key ssm.conv_kernel in J-032 doc
+PASS SSM key ssm.state_size in J-032 doc
+PASS SSM key ssm.group_count in J-032 doc
+PASS SSM key ssm.time_step_rank in J-032 doc
+PASS SSM key ssm.inner_size in J-032 doc
+PASS B2a named in J-032 doc
+PASS B2b named in J-032 doc
+PASS J-032 verdict NOT PROVEN
+PASS pre-build: no qwen3next branch in loader gguf.mojo
+PASS pre-build: moe_session admits only olmoe
+PASS pre-build: qwen3next absent from moe_session
+PASS loader has qwen35 hybrid precedent branch
+PASS loader has olmoe MoE precedent branch
+PASS loader parses .expert_count suffix
+PASS loader parses .ssm.inner_size suffix
+PASS loader does NOT yet parse expert_shared_feed_forward_length
+PASS census arithmetic 36*18+12*16+3 == 843
+TOTAL 26 checks, FAIL 0
+ALL PASS
+Note: the filed output above is the pre-build run (26 checks, FAIL 0, ALL PASS) as the script's own header requires (its B2 checks assert the admission does NOT yet exist). Re-run after the build it reports TOTAL 26 checks, FAIL 2 -- exactly the two pre-build assertions flipping ('no qwen3next branch in loader', 'does NOT yet parse expert_shared_feed_forward_length'), which is the build landing, not a regression; the other 24 checks still PASS, including 'moe_session admits only olmoe' and 'qwen3next absent from moe_session' (the session gate stays shut).
+
+== fixtures (j123_fixtures.py) ==
+wrote /home/hatch/workspace/.verify-tmp/j123work2/main.gguf variant main tensors 73 bytes 36896
+wrote /home/hatch/workspace/.verify-tmp/j123work2/fused.gguf variant fused tensors 72 bytes 36832
+wrote /home/hatch/workspace/.verify-tmp/j123work2/miss_ssm_out.gguf variant miss_ssm_out tensors 72 bytes 36320
+wrote /home/hatch/workspace/.verify-tmp/j123work2/miss_shexp.gguf variant miss_shexp tensors 72 bytes 36576
+wrote /home/hatch/workspace/.verify-tmp/j123work2/impostor.gguf variant impostor tensors 39 bytes 14720
+
+== stage (b) census tool on synthetic fixtures (j123_census.py) ==
+-- main
+SUMMARY arch qwen3next tensors 73
+SUMMARY qwen3next blocks 4 attention 1 ssm 3
+census exit=0
+-- fused
+SUMMARY arch qwen3next tensors 72
+SUMMARY qwen3next blocks 4 attention 1 ssm 3
+census exit=0
+-- miss_ssm_out
+SUMMARY arch qwen3next tensors 72
+SUMMARY qwen3next blocks 4 attention 1 ssm 3
+census exit=0
+-- miss_shexp
+SUMMARY arch qwen3next tensors 72
+SUMMARY qwen3next blocks 4 attention 1 ssm 3
+census exit=0
+-- impostor
+SUMMARY arch qwen3next tensors 39
+SUMMARY qwen3next blocks 4 attention 1 ssm 3
+census exit=0
+
+== test_qwen3next_layout (J-123, new) ==
+PASS: classification -- real geometry 48 blocks (36 SSM / 12 attention)
+PASS: classification -- fixture geometry 4 blocks (3 SSM / 1 attention)
+PASS: classification -- interval default rule
+PASS: directory lists -- common 9, SSM +9, attention +7/+6
+PASS: counts -- census witness 843 (36x18 + 12x16 + 3), fixture 73/72
+PASS: kind names -- ssm / attention
+test_qwen3next_layout: ALL PASS (6 groups)
+run exit=0
+
+== j123_reread driver, separate-gate form (73 tensors) ==
+PASS: level 1 PackedGGUF census (count, arch, geometry, hybrid directory)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 73 tensors, 29 metadata entries, architecture qwen3next
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED)
+REREAD DRIVER: ALL PASS
+run exit=0
+
+== j123_reread driver, fused-gate form (72 tensors) ==
+PASS: level 1 PackedGGUF census (count, arch, geometry, hybrid directory)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 72 tensors, 29 metadata entries, architecture qwen3next
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED)
+REREAD DRIVER: ALL PASS
+run exit=0
+
+== j123_refuse: SSM block missing ssm_out ==
+REFUSAL: GGUF is missing required tensor: blk.1.ssm_out.weight
+REFUSAL DRIVER: ALL PASS
+run exit=0
+
+== j123_refuse: block missing shared-expert gate ==
+REFUSAL: GGUF is missing required tensor: blk.2.ffn_gate_shexp.weight
+REFUSAL DRIVER: ALL PASS
+run exit=0
+
+== j123_refuse: dense-shaped impostor ==
+REFUSAL: GGUF is missing required tensor: blk.0.post_attention_norm.weight
+REFUSAL DRIVER: ALL PASS
+run exit=0
+
+== test_gguf (neighbour) ==
+--- Testing GGUFSeer validation (The Runecaster's Vision) ---
+GGUFSeer malformed-model rejection & FAILED state transition: PASS
+--- Testing GGUFState Machine Discriminants ---
+GGUFState Machine Discriminants: PASS
+--- Testing GGMLType Constants ---
+GGMLType: PASS
+run exit=0
+
+== test_mtp_census (neighbour: J-076) ==
+PASS: classifier -- nextn names
+PASS: classifier -- mtp names
+PASS: classifier -- assistant names
+PASS: classifier -- ordinary names carry no head
+PASS: classifier -- first-match order nextn before mtp
+PASS: census -- aggregation counts per kind
+PASS: census -- verdicts vocab-only / no-mtp / with-mtp
+PASS: census -- kind and verdict names
+ALL PASS: mtp census classifier (8 groups)
+run exit=0
+
+== dense re-read regression (J-121 chain, this tree's binaries) ==
+converted.gguf sha256 730dadae10b033c22b2e2345d2a478d717043a5c3f225e5977ba1b433ec77005 (J-121 banked pin, reproduced)
+block.gguf sha256 7f8f0070aae658a4aca5f4209b9d7e70eea0a539ede251a8251328252f29008b (J-121 banked pin, reproduced)
+PASS: level 1 PackedGGUF census (16 tensors, shapes/types/bytes agree)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 16 tensors, 21 metadata entries, architecture llama
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED, 16 tensors)
+REREAD DRIVER: ALL PASS
+run exit=0

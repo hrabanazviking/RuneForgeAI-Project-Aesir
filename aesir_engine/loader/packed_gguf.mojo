@@ -132,17 +132,30 @@ struct PackedGGUF:
             cursor = self.source._string_end(cursor)
             var dims = Int(self.source._read_u32(cursor))
             cursor += 4
-            if dims < 1 or dims > 2:
-                raise Error("Packed GGUF: only dense vectors/matrices supported: " + name)
+            if dims < 1 or dims > 3:
+                raise Error("Packed GGUF: only dense vectors/matrices and folded expert tensors supported: " + name)
             var columns = Int(self.source._read_u64(cursor))
             cursor += 8
             var rows = 1
-            if dims == 2:
+            if dims >= 2:
                 rows = Int(self.source._read_u64(cursor))
                 cursor += 8
+            if dims == 3:
+                # MoE expert tensors (J-022/J-123): dims are
+                # [in, out, experts] with the expert axis slowest.
+                # Fold out*experts into rows exactly as
+                # GGUFSeer._parse_tensors does: element count, byte
+                # size, and quant row structure are preserved, and
+                # expert e's slab is the contiguous row block
+                # [e*out, (e+1)*out) of the folded view.
+                var experts = Int(self.source._read_u64(cursor))
+                cursor += 8
+                if experts <= 0 or rows <= 0 or rows > 9223372036854775807 // experts:
+                    raise Error("Packed GGUF: invalid expert tensor extent: " + name)
+                rows = rows * experts
             var declared_shape = List[Int]()
             declared_shape.append(columns)
-            if dims == 2:
+            if dims >= 2:
                 declared_shape.append(rows)
             var kind = Int(self.source._read_u32(cursor))
             var relative = Int(self.source._read_u64(cursor + 4))
