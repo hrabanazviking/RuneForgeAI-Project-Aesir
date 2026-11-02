@@ -1,0 +1,75 @@
+PASS artefact present docs/janas/j123_census.py
+PASS artefact present docs/janas/j123_fixtures.py
+PASS artefact present docs/janas/j123_reread.mojo
+PASS artefact present docs/janas/j123_refuse.mojo
+PASS artefact present docs/janas/j123_reverify.py
+PASS artefact present docs/janas/j123_reverify_output.txt
+PASS artefact present docs/janas/j123_test_output.txt
+PASS artefact present aesir_engine/core/qwen3next_layout.mojo
+PASS artefact present aesir_engine/tests/test_qwen3next_layout.mojo
+PASS loader gguf.mojo states _validate_qwen3next_tensors
+PASS loader gguf.mojo states "qwen3next"
+PASS loader gguf.mojo states expert_shared_feed_forward_length
+PASS loader gguf.mojo states qwen3next_common_suffixes
+PASS loader gguf.mojo states qwen3next_is_attention_layer
+PASS loader gguf.mojo states qwen3next_ssm_suffixes
+PASS loader gguf.mojo states GGUF qwen3next shared expert metadata is incomplete
+PASS loader gguf.mojo states GGUF qwen3next SSM metadata is incomplete
+PASS shared-width key parsed before plain feed_forward_length rule
+PASS packed_gguf.mojo states dims == 3
+PASS packed_gguf.mojo states rows = rows * experts
+PASS packed_gguf.mojo states Packed GGUF: invalid expert tensor extent
+PASS qwen3next_layout.mojo states qwen3next_is_attention_layer
+PASS qwen3next_layout.mojo states qwen3next_common_suffixes
+PASS qwen3next_layout.mojo states qwen3next_ssm_suffixes
+PASS qwen3next_layout.mojo states qwen3next_attention_suffixes
+PASS qwen3next_layout.mojo states qwen3next_total_tensor_count
+PASS qwen3next_layout.mojo states 843
+PASS moe_session still admits only olmoe (session gate shut)
+PASS reverify filed output 26 checks FAIL 0 ALL PASS
+PASS reverify filed pin verbatim
+PASS test output states test_qwen3next_layout: ALL PASS (6 groups)
+PASS test output states census witness 843 (36x18 + 12x16 + 3), fixture 73/72
+PASS test output states SUMMARY arch qwen3next tensors 73
+PASS test output states SUMMARY arch qwen3next tensors 72
+PASS test output states SUMMARY arch qwen3next tensors 39
+PASS test output states SUMMARY qwen3next blocks 4 attention 1 ssm 3
+PASS test output states GGUF validated: 73 tensors, 29 metadata entries, architect
+PASS test output states GGUF validated: 72 tensors, 29 metadata entries, architect
+PASS test output states REFUSAL: GGUF is missing required tensor: blk.1.ssm_out.we
+PASS test output states REFUSAL: GGUF is missing required tensor: blk.2.ffn_gate_s
+PASS test output states REFUSAL: GGUF is missing required tensor: blk.0.post_atten
+PASS test output states GGUFSeer malformed-model rejection & FAILED state transiti
+PASS test output states ALL PASS: mtp census classifier (8 groups)
+PASS test output states 730dadae10b033c22b2e2345d2a478d717043a5c3f225e5977ba1b433e
+PASS test output states 7f8f0070aae658a4aca5f4209b9d7e70eea0a539ede251a8251328252f
+PASS test output states TOTAL 26 checks, FAIL 2
+PASS test output re-read drivers ALL PASS x3 -- 3
+PASS test output refusal drivers ALL PASS x3 -- 3
+PASS doc states DEFERRED-WITH-REASON
+PASS doc states NOT PROVEN
+PASS doc states J-133
+PASS doc states J-136
+PASS doc states repl.mojo
+PASS doc states G-119-1
+PASS doc states 7172a693
+PASS doc states MEASURED-INDICATIVE
+PASS doc states blk.0.post_attention_norm.weight
+PASS doc states PackedGGUF
+PASS doc states moe_session
+PASS doc states f73551b5
+PASS doc sections 1+ filed
+PASS campaign copy sha-identical: J123_QWEN3NEXT_VERIFICATION.md
+PASS campaign copy sha-identical: j123_census.py
+PASS campaign copy sha-identical: j123_fixtures.py
+PASS campaign copy sha-identical: j123_reread.mojo
+PASS campaign copy sha-identical: j123_refuse.mojo
+PASS campaign copy sha-identical: j123_reverify.py
+PASS campaign copy sha-identical: j123_reverify_output.txt
+PASS campaign copy sha-identical: j123_test_output.txt
+PASS campaign copy sha-identical: j123_inspect.py
+PASS campaign copy sha-identical: qwen3next_layout.mojo
+PASS campaign copy sha-identical: test_qwen3next_layout.mojo
+PASS no README.md touched in worktree -- M aesir_engine/loader/gguf.mojo
+ M aesir_engine/loader/packe
+TOTAL 73 PASS 73 FAIL 0
