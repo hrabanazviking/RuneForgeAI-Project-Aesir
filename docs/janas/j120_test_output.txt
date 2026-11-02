@@ -1,0 +1,63 @@
+J-120 LoRA merge at conversion — test output (VM, lightest target)
+Tree: yrsa/janas-j120 from yrsa/janas-j119 tip f8f69f4d4ca57157df629d0d70fda1fd76832658 (ls-remote verified at dispatch; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (4b66af6ead03d9678164a18f096decd31a8c1cd7, push ls-remote verified before the build).
+Build: mojo build -I aesir_engine (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand — CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH); the re-read driver additionally takes -I . for the hailbru package at the repo root. Staging ~/workspace/.verify-tmp/j120stage, build dir ~/workspace/.verify-tmp/j120build, TMPDIR redirected to the staging dir throughout. Builds staged one at a time.
+Machine: VM (KVM), NO GPU device used. MemAvailable ~3.7 GB at keeper check, ~4.4-4.7 GB observed during builds — below the 5,500 MB inference gate at every moment; NO inference ran anywhere (none is in scope). purplelongship not used at all (the 204 road's live S-104 there — yielded). No wall/rate/latency numbers are in scope for this slice.
+Defects found and fixed in-slice (doc section 8): (1) the stopped worker's core/test drafts carried 14 implicit-copy build errors under this toolchain (LcTensor / LcGeometry / List[Int] values moved without .copy()) — fixed in place, no logic change; (2) the file-level artefacts' first drafts carried the unit fixture's geometry (hidden 4, ffn 6) instead of the protocol section 0.7 geometry (hidden 8, ffn 16) — corrected in fixtures/convert/verify/reread before any evidence run, and every filed number below is from the corrected geometry; (3) three dead first-assignments flagged by the compiler (core 'ends', test 'want'/'rounded') removed. No filed number rested on any earlier draft.
+
+== unit suite: aesir_engine/tests/test_lora_convert.mojo (build exit=0, run exit=0) ==
+PASS: safetensors round-trip (F32 exact, BF16/F16 exact on exact values)
+PASS: safetensors refusals (duplicate name, truncated data, empty file)
+PASS: adapter config (by-name parse, nested decoy, missing/zero refused)
+PASS: merge exact vs slow way (0 diffs, PEFT names, pass-through exact)
+PASS: merge refusals (empty, non-LoRA, incomplete, no-base, rank x2, shape, non-2-D)
+PASS: naming (llama subset exact, unknown refused)
+PASS: GGUF write + re-read (census 12, BF16/F32 split, values exact)
+PASS: from-gguf (byte-identical re-emission, merged == slow way)
+PASS: quantized refusal + C05 scope (BF16-only, refused by name)
+ALL PASS: lora convert (9 groups)
+
+== convert driver: docs/janas/j120_convert.mojo over docs/janas/j120_fixtures.py output (build exit=0, run exit=0) ==
+fixtures written: /tmp/j120/work
+BASE TENSORS: 12  ADAPTER TENSORS: 4  RANK: 2  ALPHA: 4.0
+MERGED: model.layers.0.self_attn.q_proj.weight
+MERGED: model.layers.0.mlp.gate_proj.weight
+PASSTHROUGH: model.embed_tokens.weight
+PASSTHROUGH: model.norm.weight
+PASSTHROUGH: lm_head.weight
+PASSTHROUGH: model.layers.0.input_layernorm.weight
+PASSTHROUGH: model.layers.0.self_attn.k_proj.weight
+PASSTHROUGH: model.layers.0.self_attn.v_proj.weight
+PASSTHROUGH: model.layers.0.self_attn.o_proj.weight
+PASSTHROUGH: model.layers.0.post_attention_layernorm.weight
+PASSTHROUGH: model.layers.0.mlp.up_proj.weight
+PASSTHROUGH: model.layers.0.mlp.down_proj.weight
+GGUF BYTES: 3200  DATA OFFSET: 1696
+TENSOR token_embd.weight dims [8,8] type 30 offset 0 bytes 128
+TENSOR output_norm.weight dims [8] type 0 offset 128 bytes 32
+TENSOR output.weight dims [8,8] type 30 offset 160 bytes 128
+TENSOR blk.0.attn_norm.weight dims [8] type 0 offset 288 bytes 32
+TENSOR blk.0.attn_q.weight dims [8,8] type 30 offset 320 bytes 128
+TENSOR blk.0.attn_k.weight dims [8,4] type 30 offset 448 bytes 64
+TENSOR blk.0.attn_v.weight dims [8,4] type 30 offset 512 bytes 64
+TENSOR blk.0.attn_output.weight dims [8,8] type 30 offset 576 bytes 128
+TENSOR blk.0.ffn_norm.weight dims [8] type 0 offset 704 bytes 32
+TENSOR blk.0.ffn_gate.weight dims [8,16] type 30 offset 736 bytes 256
+TENSOR blk.0.ffn_up.weight dims [8,16] type 30 offset 992 bytes 256
+TENSOR blk.0.ffn_down.weight dims [16,8] type 30 offset 1248 bytes 256
+FROM-GGUF RE-EMISSION: BYTE-IDENTICAL ( 3200 bytes )
+QUANTIZE REQUEST REFUSED: q4_k_m (C05 BF16-only scope)
+CONVERT DRIVER: ALL PASS
+
+== independent file-level verifier: docs/janas/j120_verify.py (exit=0) ==
+merged elements verified: 192
+checks: 41 fails: 0
+VERIFY: ALL PASS (41 checks)
+
+== loader re-read driver: docs/janas/j120_reread.mojo (build exit=0 with -I aesir_engine -I ., run exit=0) ==
+PASS: level 1 PackedGGUF census (12 tensors, shapes/types/bytes agree)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 12 tensors, 19 metadata entries, architecture llama
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED, 12 tensors)
+REREAD DRIVER: ALL PASS
+
+merged.gguf sha256 c26af51dd9ebbea7a31635d3354ebb2dcf570dd69bd5df576ca01f1c1c7e2c6a; remitted.gguf (C10 plain re-emission) sha256 identical.
