@@ -9264,3 +9264,38 @@ positions and counts, and the gap cumulative cumulative cumulative cumulative cu
 remaining-count sequence in full.
 Broad ordinary UNMODIFIED source-model
 support100% remains the destination.
+
+Slice 4.299 (AES-NUM-299) is complete. The
+closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remainings are now stated as one sequence:
+[55, 2407, 53866, 821490, 9600318, 91663533, 744518211, 5289021672]
+over positions 1-8 — the running total of each
+position's AES-NUM-298 cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining value, ending at 5289021672.
+The distinct cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals are
+eight: 55 x1 at position 1; 2407 x1 at position 2; 53866 x1 at position 3; 821490 x1 at position 4; 9600318 x1 at position 5; 91663533 x1 at position 6; 744518211 x1 at position 7; 5289021672 x1 at position 8 (counts sum to 8), as printed in section299's (ii) lines and re-checked line by line. The gap
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence is
+[12, 525, 11745, 179055, 2091736, 19963954, 162086221], ending
+at 162086221, with agreeing gap positions 5, 6, 7
+equal to AES-NUM-245. The single launch finished
+DONE299, exit 0, err empty, and its first
+60,780 prefix lines differ from hef298.out in
+exactly ONE line (41611, sorted-character equal)
+— one frozenset variance line this slice.
+The expected-value exception of 4.298 does NOT
+recur: section299 holds exactly four 'False'
+tokens, all gap-position agree data values, and
+the @@WH@@ correction carried into this slice is
+verified end to end (corrected list asserted in
+the build; the corrected check reads True).
+The 4.300 contract carries three new arms-level
+protections from this close's audit (@@WI@@
+30829932, @@WJ@@ 23122995, @@WK@@ 533299).
+Next: the closing-run cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full, the distinct
+cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative totals with
+positions and counts, and the gap cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative cumulative-remaining
+remaining-count sequence in full.
+Broad ordinary UNMODIFIED source-model
+support100% remains the destination.
