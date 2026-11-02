@@ -1,0 +1,29 @@
+J-109 MCP model-as-tools -- test output (VM, lightest target)
+Tree: yrsa/janas-j109 from yrsa/janas-j108 tip 5b52061397ddc00bb2157d01df29d634d77a8d67 (ls-remote verified at slice start; remote yrsa/janas-j109 absent at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (d706fddb).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-100..J-108 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables exported by hand -- PATH, CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max per the env's own 10-activate-max.sh; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j109stage, build dir ~/workspace/.verify-tmp/j109build, TMPDIR redirected to the staging dir throughout (/tmp 100% full, pre-existing; nothing deleted).
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~3.2-3.9 GB during the builds -- below the 5,500 MB inference gate throughout. Lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere (constructing AesirEngine loads a whole model; the live generation leg is deferred-with-reason, J-109 doc section 5). purplelongship not used at all (the 204 road's S-104 live there at dispatch; yielded, and not needed by design).
+Defect found + fixed in scope during the first run (J-109 doc section 7): String(List[Byte]) yields the list's debug representation in this toolchain ("[97]", measured), not its characters; the layer's byte-assembled strings were rebuilt through the tree's proven NUL-terminate + unsafe_from_utf8_ptr idiom. The outputs below are from the fixed code.
+
+== test_mcp_tools (J-109, new) ==
+build exit=0 run exit=0
+PASS: scanner (fields, nesting, escapes, malformed refused)
+PASS: classification (methods, three tool names, facts)
+PASS: handshake + protocol errors (-32002/-32601/-32600/-32700)
+PASS: tools/list (exactly three tools, honest embed schema)
+PASS: model_info (record verbatim, listing, unknown refused)
+PASS: embed refusal (tool error, reason, no vector anywhere)
+PASS: generate dispatch (validation, unbound, bound, envelopes)
+ALL PASS: mcp tools (7 groups)
+
+== MCP host wiring compile driver (staging driver importing cli/mcp_serve whole; this binary is the server the client session drives) ==
+build exit=0 run exit=0 (driven end-to-end by j109_mcp_client.py; see j109_client_session.txt)
+host module compiles + imports + serves: PASS
+
+== commands wiring compile driver (staging driver importing cli/commands whole -- the module this slice modified) ==
+build exit=0 run exit=0
+commands module compile + import: PASS
+
+== MCP client session (j109_mcp_client.py, Python 3.12 stdlib, against the compiled host binary) ==
+CLIENT PROOF: ALL PASS (27 OK lines, 0 FAIL; full transcript in j109_client_session.txt)
+
+Suites not rebuilt, named with reasons (never silently skipped): every other Janas suite -- no file they exercise changed in this slice (core/mcp_tools.mojo and cli/mcp_serve.mojo are new; cli/commands.mojo is exercised by the whole-module driver above, and no existing test imports it).

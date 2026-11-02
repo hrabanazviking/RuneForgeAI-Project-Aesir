@@ -78,3 +78,88 @@ The slice **passes** iff all of the following hold, each filed:
 **No README is touched. Hailo stays parked (no finish-line branch contact, no chip run or probe). No Docker. Nothing is deleted to free disk.**
 
 *(§§1–10 are filed below from the build, under this protocol.)*
+
+---
+
+## 1. What was built
+
+**`aesir_engine/core/mcp_tools.mojo`** (new, the pure layer; ~700 lines) — everything §0.2 promised:
+
+- Protocol facts: version `2024-11-05`, server name `aesir`, server version `1.0.0`; method classification into initialize / ping / tools-list / tools-call / notification / unknown.
+- The bounded scanner: `mcp_json_object_ok` (a line is exactly one balanced, string-aware JSON object within the 64 KiB bound, or it is a parse verdict) and `mcp_scan_field` (top-level field extraction: strings decoded with escapes, objects/arrays captured as balanced raw text, numbers/booleans/null as raw literals; a 64-byte field-name bound, a nesting bound of 32). Plus `mcp_json_escape` for building payloads.
+- The handler `mcp_handle_line(line, session, facts, engine_bound, bound_model) -> McpReply` implementing every verdict rule of §0.2: `-32700 / -32600 / -32601 / -32602 / -32002`, notification silence, raw id echo (number and string ids both proven), the initialize result with `now_initialized` for the host to apply, `tools/list` with the three schemas, `tools/call` dispatch for the three tools, and for a bound generate the `needs_generate` verdict carrying the prompt, the clamped `max_tokens` (1..4096, default 256), and the raw id — completed by the host through `mcp_generate_completion` / `mcp_generate_failure`, both layer-built and layer-tested.
+- Model info from `McpModelFact` records: exact-name and `name:tag` resolution, the record JSON (name, tag, repository, filename, revision, sha256, size_bytes, quantization, `"source":"known-models catalogue record"`, `"live_session_bound":<bool>`), the whole-catalogue listing for an absent argument, and the unknown-name tool error naming every known reference.
+- The embed refusal (`mcp_embed_refusal_reason`) and the no-engine reason (`mcp_no_engine_reason`) as named layer constants, so the host, the tests, and any later consumer quote one text.
+
+**`aesir_engine/cli/mcp_serve.mojo`** (new, the host) — `run_mcp_stdio()`: converts `known_models_dataset()` to facts once, carries one `McpSession`, hands each stdin line to the layer with `engine_bound = false`, prints only reply payloads (one line each), applies `now_initialized`, exits cleanly at EOF. Its stdin reader is host-local (the `cli/repl.mojo` getchar shape, duplicated deliberately per §0.3 — and see §7: the duplication also avoids importing a reader whose own return idiom is defective in this toolchain).
+
+**`aesir_engine/cli/commands.mojo`** (modified, three small hunks + help) — the import of `run_mcp_stdio`; `parse_mcp_request` (parsed without I/O first; any argument refused by name with the §0.3 text); `dispatch_mcp`; the `mcp` branch in `dispatch_command` beside `get`; and the four help lines. No existing behaviour is changed: the dispatcher's other branches are untouched.
+
+**`aesir_engine/tests/test_mcp_tools.mojo`** (new) — 7 groups, §3.
+
+**`aesir_engine/docs/janas/j109_mcp_client.py`** (new) — the §0.5 stdlib client; **`j109_client_session.txt`** — its filed transcript against the compiled host, §4.
+
+**`aesir_engine/docs/janas/j109_inspect.py`** + **`j109_inspect_output.txt`** — the §0.6(d) mechanical re-derivation, §6.
+
+## 2. The three tools, as built
+
+Exactly §0.4's table, verified three ways (unit dispatch, the live client session, the inspect's source scan): `aesir_generate` (prompt required non-empty; `max_tokens` integer clamped 1..4096; in this host build the honest no-engine tool error; the bound-build dispatch verdict + completion envelopes proven at the layer), `aesir_model_info` (the real J-103 catalogue — the live session below shows all 5 entries and the OLMoE record with its J-015-measured sha256 pin `8c310f14…f3f`, revision `02ab6ea6…8080`, size 4,213,512,672 bytes), `aesir_embed` (schema requires `input`; a well-formed call always receives the refusal as a tool error; its `tools/list` description states UNAVAILABLE up front). No fourth tool exists; J-112's wider services inventory was not built here, per the slice's bound.
+
+## 3. Test evidence (VM, lightest target)
+
+Filed in full in `docs/janas/j109_test_output.txt`. Build shape (the J-100…J-108 staging pattern): `cc -std=c11 -O2 -fPIC -shared thread_par.c` → staging `libaesir_par.so` (source sha256 `88f19b95…cacd`, library sha256 `2082ce3f…a8` — byte-identical to the J-108 staging build, as expected from the identical source), then `mojo build -I aesir_engine -I .` (Mojo 1.0.0 `ed45d567`, the J-071 worktree's installed env) per suite, runs under `LD_LIBRARY_PATH=<staging>`.
+
+- **`test_mcp_tools` (new): 7/7 groups PASS** — the suite's own verdict line, verbatim: `ALL PASS: mcp tools (7 groups)` — scanner (fields, nesting, escapes, malformed refused); classification; handshake + protocol errors (`-32002` before initialize, initialize result + string-id echo, notification silence, ping, `-32601`, `-32600`, `-32700` with null id); tools/list (exactly three, honest embed schema); model_info (record verbatim from facts incl. the sha pin, `name:tag` resolution, listing, unknown refused with known references named); embed refusal (tool error, reason + ground present, no vector field or numbers anywhere); generate dispatch (missing/empty prompt `-32602`, unbound tool error, bound `needs_generate` with prompt + clamped `max_tokens` + carried id, completion/failure envelopes, bound-model mismatch tool error, unknown tool `-32602`).
+- **Host wiring:** a staging driver importing `cli/mcp_serve` whole compiles and runs (it is the binary the client session drives, §4). A second staging driver importing `cli/commands` whole — the module this slice modified — compiles and runs, proving the dispatch wiring composes with the full CLI import graph.
+- **Suites not rebuilt, named with reasons (never silently skipped):** every other Janas suite — no file they exercise changed in this slice (`core/mcp_tools.mojo`, `cli/mcp_serve.mojo` are new; `cli/commands.mojo` is exercised by the whole-module driver above, and no existing test imports it).
+
+## 4. The client session (the §0.5 proof)
+
+`j109_mcp_client.py` (Python 3.12 standard library only) spawned the compiled Mojo host as a subprocess and spoke newline-delimited JSON-RPC: `initialize` (protocol `2024-11-05`, serverInfo `aesir`, tools capability) → `notifications/initialized` (silence, as required) → `tools/list` (exactly the three tools; the embed description carrying UNAVAILABLE) → `aesir_model_info` listing (the real catalogue: 5 entries) → the record call for the listing's first reference, `olmoe-1b-7b:q4_k_m` (record JSON parsed by the client: source stated, 64-hex sha pin, 40-hex revision, real size, `live_session_bound:false`) → unknown model (tool error naming the known references) → `aesir_embed` (tool error, the plain refusal, no vector) → `aesir_generate` (tool error, "no live model session is bound…" in plain words) → `ping` (`{}`) → unknown method (`-32601`) → a malformed line (`-32700`, id null) → EOF (server exit code 0). **Every client assertion PASSes (27 OK lines, 0 FAIL)** — the client's own verdict line, verbatim: `CLIENT PROOF: ALL PASS`; the full transcript is filed in `docs/janas/j109_client_session.txt`.
+
+## 5. The deferred live leg (DEFERRED-WITH-REASON — re-cite at the J-118 Part VII gate)
+
+**What is deferred:** a client session whose `aesir_generate` returns real engine text — the engine-bound host.
+
+**Why:** (i) this VM has no CUDA device and MemAvailable stayed ~3.2–3.9 GB, below the road's 5,500 MB inference gate — constructing `AesirEngine` (which mmaps and loads a whole model) here would break the gate the road set for itself; (ii) purplelongship, the machine that could host it, was owned by the 204 road's S-104 at dispatch and is yielded per the coordination law. Nothing about the deferral is a defect in what was built: the layer's bound dispatch, the host seam, and the completion envelopes are all proven; only the engine's presence is missing.
+
+**Exact recipe (for the J-118 gate or any device-capable worker):**
+1. On purplelongship in a verified idle gap (204 state heartbeat checked first; the J-023/J-030 guard pattern): confirm a catalogue model file is locally present and re-verify its sha256 against the J-103 pin (the OLMoE Q4_K_M pin `8c310f14…f3f` is the natural first witness — it is the road's most-measured file).
+2. Build the bound host: a variant entry that constructs `AesirEngine(<model path>)`, converts the catalogue to facts, and runs the same stdio loop with `engine_bound = true, bound_model = <name:tag>`, answering `needs_generate` via `generate_tokens_config(prompt, max_tokens)` and `mcp_generate_completion` / `mcp_generate_failure`. (The loop body is `cli/mcp_serve.mojo`'s with the binding substituted at its marked seam; no layer change is needed — that is what the seam is for.)
+3. Drive it with `j109_mcp_client.py` extended by one assertion set: a generate call whose text is non-empty and is NOT either honest error text.
+4. Grade ids-first: run the same prompt through the CLI single-shot on the same file and compare token ids; then teacher-forcing rank + logit gap against the ggml CPU comparator on the raw prompt (never `llama-cli --single-turn`), per the raw-oracle discipline.
+5. File the transcript beside this doc and close the leg at the gate.
+
+**Also deferred, recorded here so the gate sees it:** the chat-integrated MCP client door (T22's in-chat form — Janas's chat consuming MCP tools with its confirm-before-run manner). This slice proved T22's client side standalone (a real client session); the in-chat wiring belongs with J-112's services wiring, which owns the chat door's other services, and is NOT PROVEN here.
+
+## 6. Inspect
+
+`docs/janas/j109_inspect.py` re-derives the load-bearing claims from the tree and the filed outputs — the layer's protocol facts and error codes, the exactly-three-tools scan, the host's stdout discipline (print sites ≤ 3: the two reply prints and nothing else), the dispatch wiring and the by-name argument refusal, the T13 honesty grounds in `server/openai.mojo` + `core/openai_audit.mojo`, the client's stdlib-only real-framing shape, the session transcript's tallies (≥25 OK lines, no FAIL, the real OLMoE pin, both error codes, clean exit), the doc/test-output tally agreement, and repo hygiene (diff == the expected file set; no README, no `.gguf`). Result filed in `docs/janas/j109_inspect_output.txt`.
+
+## 7. Defects found and dispositioned
+
+- **FIXED IN SCOPE (this slice's own code, caught by its own first test run): `String(List[Byte])` does not build a string from bytes in this toolchain.** Measured directly: `String` of a one-byte list `[97]` is the 4-character debug representation `"[97]"`, not `"a"`. The layer's first build assembled strings byte-by-byte with that constructor and every scan returned not-found (the suite's first run failed at the scanner group; root-caused with a 6-line driver before any number was filed). Fixed by building all byte-derived strings through the tree's own proven idiom — NUL-terminate + `String(unsafe_from_utf8_ptr=...)`, as `core/tool_use.mojo` and kin do — in the layer's `_str_from_bytes`/`_char_str` and the host's `_buffer_text`. The full suite + client session pass on the fixed code.
+- **RECORDED, OUT OF SCOPE (the keeper's next-item material, not silently left): `cli/repl.mojo`'s `read_line()` returns `String(buffer)` over a `List[Byte]`** — the same defective idiom measured above, in pre-existing code this slice did not touch. On this toolchain that return value is a debug representation, not the typed line. The module's own docstring already marks its live-stdin path unsupported, and no J-109 surface imports it; fixing the REPL is a different slice's scope (it changes chat-adjacent behaviour and wants its own tests). The J-109 host therefore carries its own reader (§0.3) and does not import `cli/repl.mojo`. Filed here as the discovery record the never-leave-a-bug rule requires; the fix itself is roaded to the keeper's judgement.
+- No defect was found in J-103's catalogue data (the live session's OLMoE record matches the J-015/J-030 measured pin byte-for-byte), in J-106's audit texts, or in the dispatcher's existing branches (the whole-module driver compiles the untouched branches as they were).
+
+## 8. Answered-locally (clean-room)
+
+Recorded per the road's rule — every choice below was answered from the MCP specification's public shape and Aesir's own architecture; no Janas document beyond the already-filed census rows and no Janas code was consulted:
+
+- **Transport:** JSON-RPC 2.0 over stdio, newline-delimited — MCP's canonical local shape, and the shape editor/agent clients spawn. The HTTP door (J-106–J-108) is a different surface for different clients; MCP is not bolted onto it.
+- **Protocol version `2024-11-05`** (the widely-deployed revision) answered as the server's own version in `initialize`, per spec, whatever the client asked.
+- **Tool names** carry the `aesir_` prefix (the tree's namespacing habit; unprefixed `generate`/`embed` would collide in multi-server clients). **Server name/version** `aesir` / `1.0.0`.
+- **Error-code mapping:** spec codes where the spec has them (`-32002` server-not-initialized), JSON-RPC codes elsewhere; tool-level failures as `isError` results, not protocol errors — the spec's own distinction.
+- **The flat parser not reused:** `FlatJSON` refuses nested values by design; the layer's own bounded scanner is the honest fit (§0.1).
+- **The embed refusal's shape:** a tool error with the reason, and the refusal stated in the discovery description — because a protocol error would blame the client for the engine's missing data path.
+- **T22's split:** the standalone client proof here; the in-chat door with J-112 (§5). **T23 stays refused** (J-013/J-099): no domain services are exposed.
+
+## 9. Honesty ledger
+
+- **PROVEN:** the MCP protocol handling end-to-end (initialize, notifications, tools/list, tools/call, ping, the five error codes, raw id echo) — unit suite 7/7 + a live client session against the compiled Mojo host with every assertion passing; the three tool schemas; model-info payloads served from the real J-103 catalogue records through the real host; the embed refusal (shape, reason, no vector); the generate dispatch verdicts (validation, the no-engine tool error, the bound `needs_generate` verdict + completion envelopes); the `aesir mcp` CLI wiring (whole-module compile + parse refusal by inspection); the host's stdout discipline.
+- **NOT PROVEN:** any engine-generated text through MCP (the live leg, §5 — DEFERRED-WITH-REASON, re-cited at J-118); the chat-integrated MCP client door (§5); interoperability with a third-party MCP client implementation (the proving client is this slice's own stdlib client — protocol-faithful, but one client; an editor's bundled client is a second witness the J-110 slice, which binds a real consumer, is the natural place to earn); MCP features beyond tools (resources/prompts/sampling — not in the roadmap text, not built, not claimed).
+- **SIMULATED / MEASURED-INDICATIVE:** none. No number in this doc is either.
+
+## 10. Banking
+
+Per-slice commits on `yrsa/janas-j109` from the §0 base, pushed by explicit refspec and verified with `git ls-remote` (remote == local HEAD; `yrsa/janas-j108` and origin/main unchanged); campaign copies of this doc, the inspect script + output, the test output, the client script, and the session transcript filed sha-identical in `~/workspace/model-tests/janas/`. No README touched. Hailo untouched/parked. Environment incidents (the intermittent Errno 122 / EDQUOT write wall at worktree creation; /tmp 100 % full, pre-existing) are recorded in the campaign state entry for this slice; nothing was deleted to free disk, and all staging lived under `~/workspace/.verify-tmp/`.

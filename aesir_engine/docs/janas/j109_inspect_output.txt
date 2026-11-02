@@ -1,0 +1,67 @@
+PASS: layer handler exists
+PASS: protocol version in layer
+PASS: generate tool in layer
+PASS: model_info tool in layer
+PASS: embed tool in layer
+PASS: tool surface substantial
+PASS: error code -32700 in layer
+PASS: error code -32600 in layer
+PASS: error code -32601 in layer
+PASS: error code -32602 in layer
+PASS: error code -32002 in layer
+PASS: tool-error shape in layer
+PASS: generate seam in layer
+PASS: completion builders in layer
+PASS: embed refusal ground in layer
+PASS: byte->string uses the tree's proven idiom
+PASS: scanner note present
+PASS: exactly the three tools in layer: aesir_embed, aesir_generate, aesir_model_info
+PASS: host loop exists
+PASS: host reads the real catalogue
+PASS: host binds no engine in this build
+PASS: host prints only reply payloads (print sites <= 3)
+PASS: dispatch_mcp exists
+PASS: mcp branch in dispatch_command
+PASS: commands imports the host
+PASS: argument refusal by name in parse
+PASS: parse-before-IO function exists
+PASS: embeddings formatter is error-only in tree (T13 ground)
+PASS: J-106 audit refuses embeddings in tree
+PASS: client spawns the server process
+PASS: client sends initialize
+PASS: client sends initialized
+PASS: client lists tools
+PASS: client calls tools
+PASS: client does not fake an SDK
+PASS: session OK lines >= 25 (got 27)
+PASS: session has no FAIL
+PASS: session verdict ALL PASS
+PASS: session record carries the real OLMoE sha pin
+PASS: no-engine text in session
+PASS: embed refusal in session
+PASS: -32601 in session
+PASS: -32700 in session
+PASS: clean server exit in session
+PASS: test output verdict
+PASS: doc cites the test verdict
+PASS: doc cites the client verdict
+PASS: test group filed: scanner
+PASS: test group filed: classification
+PASS: test group filed: handshake
+PASS: test group filed: tools/list
+PASS: test group filed: model_info
+PASS: test group filed: embed refusal
+PASS: test group filed: generate dispatch
+PASS: doc section present: ## 0.
+PASS: doc section present: ## 5.
+PASS: doc section present: ## 8.
+PASS: doc section present: ## 9.
+PASS: deferred leg stated in doc
+PASS: re-cite at J-118 in doc
+PASS: NOT PROVEN named in doc
+PASS: no stray engine files in diff: 
+PASS: no README in diff
+PASS: no model file in diff
+PASS: test suite is substantial
+
+INSPECT: ALL PASS
