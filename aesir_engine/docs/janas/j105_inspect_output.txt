@@ -1,0 +1,48 @@
+PASS: prompt-line decision literals present
+PASS: classify + post-turn functions present
+PASS: suggestion functions present
+PASS: env audit functions present
+PASS: write classifier present, model checked first
+PASS: cuda_chat imports the manners decisions
+PASS: both loops read via the result form
+PASS: both loops act on classify_prompt_line
+PASS: both loops re-prompt on LINE_REPROMPT
+PASS: post-turn rule in both loops
+PASS: no post-turn break-on-interrupt remains
+PASS: result-form helper beside the wrapper
+PASS: interrupts wrapper docstring corrected (no session-end claim)
+PASS: CLI unknown-command refusal gains a suggestion
+PASS: both chat_control refusals name the word + suggest
+PASS: unknown-option refusal gains a suggestion
+PASS: env warnings printed at chat start, before model choice
+PASS: CLI candidate set == dispatch + catalog + preference surfaces
+PASS: chat candidate set == chat_control + loop surfaces + /bye
+PASS: option candidate set == chat parser flag literals
+PASS: known env set == read-site census (21) + documented three
+PASS: write-census set == doc section 3 table (20 files)
+PASS: GGUF loader opens read-only (526336, O_RDONLY comment)
+PASS: GGUF mapping is PROT_READ (mmap prot 1)
+PASS: stream reader is read-only + pread
+PASS: test suite has 7 group prints + ALL PASS line
+PASS: test pins the candidate counts 41/16/18 + known env 24
+PASS: doc carries: DEFERRED-WITH-REASON
+PASS: doc carries: NOT PROVEN
+PASS: doc carries: J-118 Part VII gate
+PASS: doc carries: T06
+PASS: doc carries: 8e9da5269271d3cf066d24ee120d1ac5f0e55564
+PASS: doc carries: cli 41
+PASS: test output carries: ALL PASS: chat manners (7 groups)
+PASS: test output carries: cuda chat + commands modules compile + import: PASS
+PASS: test output carries: ALL PASS: saved configuration (8 groups)
+PASS: test output carries: ALL PASS: learned file (13 groups)
+PASS: test output carries: ALL PASS: draft configuration surface (17 groups)
+PASS: test output carries: ALL PASS: chat picker (7 groups)
+PASS: test output carries: ALL PASS: model getting (5 groups)
+PASS: test output carries: ALL PASS: machine report (6 groups)
+PASS: test output carries: ALL PASS: bench configurations (8 groups)
+PASS: test output carries: candidate sets (cli 41, chat 16, options 18
+PASS: test output carries: completion re-run: test_chat_manners 7/7 PASS on the final tree (cli 41)
+PASS: no README in the slice diff
+PASS: no .gguf in the slice diff
+PASS: slice diff is exactly the expected file set
+j105 inspect: 47/47 PASS

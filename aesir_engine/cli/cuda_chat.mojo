@@ -5,7 +5,7 @@ from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option, sampling_option_name, sampling_decimal_text
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
-from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
+from cli.interrupts import ChatInterrupts, InterruptibleLine, consume_interrupts, read_interruptible_line, read_interruptible_line_result
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference, lease_resolved_model
 from cli.model_selector import choose_model
@@ -37,6 +37,18 @@ from cli.chat_recovery import (
 from loader.packed_gguf import PackedGGUF
 from core.model_registry import ModelArchitectureRegistry
 from core.saved_config import saved_config_command_response
+from core.chat_manners import (
+    LINE_LEAVE,
+    LINE_REPROMPT,
+    POST_TURN_STAY_NOTED,
+    classify_prompt_line,
+    env_manner_warnings,
+    first_word,
+    post_turn_action,
+    suggest_chat_command,
+    suggest_chat_option,
+    suggestion_suffix,
+)
 
 
 struct ChatTranscript:
@@ -278,6 +290,14 @@ def read_chat_line(interrupt_fd: Int = -1) raises -> String:
     return read_interruptible_line(interrupt_fd)
 
 
+def read_chat_line_result(interrupt_fd: Int = -1) raises -> InterruptibleLine:
+    """The prompt read in its distinct-outcome form (J-105):
+    the interactive loops decide from the outcome, never
+    from the collapsed text -- Ctrl-C and Ctrl-D are
+    different facts and the manners treat them differently."""
+    return read_interruptible_line_result(interrupt_fd)
+
+
 def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript, mut attempt: ChatTurnAttempt) raises -> ChatTurnResult:
     session.begin_turn(prompt, system, max_tokens)
     var started_at = monotonic_milliseconds()
@@ -454,7 +474,10 @@ def _dispatch_cuda_chat(
         elif sampling_option_name(flag) != "":
             sampling = with_sampling_option(sampling, sampling_option_name(flag), value)
         else:
-            raise Error("Unknown chat option: " + flag)
+            raise Error(
+                "Unknown chat option: " + flag
+                + suggestion_suffix(suggest_chat_option(flag))
+            )
         i += 2
     sampling.validate()
     if "--autosave-retain" in seen and autosave_dir == "":
@@ -489,6 +512,11 @@ def _dispatch_cuda_chat(
     validate_conversation_autosave(autosave_dir, autosave_retain)
     var interrupts = ChatInterrupts()
     var interrupt_fd = interrupts.fd
+    # J-105 manner (J-099 row T06): report near-miss AESIR_*
+    # env vars at start -- a misspelt name is never read, so
+    # the setting it carries would otherwise drop silently.
+    for manner_warning in env_manner_warnings():
+        print(manner_warning)
     if model_reference == "":
         try:
             model_reference = choose_model(model_store, interrupt_fd)
@@ -622,7 +650,19 @@ def run_gemma_chat(
         while True:
             print("You> ", end="")
             _ = external_call["fflush", Int32](Int(0))
-            var prompt = read_chat_line(interrupt_fd)
+            var line = read_chat_line_result(interrupt_fd)
+            var line_action = classify_prompt_line(
+                line.interrupted, line.eof, line.text
+            )
+            if line_action == LINE_REPROMPT:
+                # J-105 manner M1: Ctrl-C at the prompt stops
+                # nothing (no reply is running) and ends
+                # nothing: the reader already discarded the
+                # partial line; re-prompt.
+                continue
+            if line_action == LINE_LEAVE:
+                break
+            var prompt = line.text
             var composed_prompt = False
             if prompt == "/compose":
                 var composed = read_chat_compose(interrupt_fd)
@@ -643,8 +683,6 @@ def run_gemma_chat(
             elif prompt == "/transcript":
                 _ = read_chat_transcript(conversation, interrupt_fd)
                 continue
-            if (prompt == "" or prompt == "/bye") and not composed_prompt:
-                break
             if prompt.startswith("/") and not composed_prompt:
                 var state_changed = False
                 var model_switch_command = prompt.startswith("/model")
@@ -705,9 +743,17 @@ def run_gemma_chat(
                     "\n[" + recovery.instruction + "; cause: "
                     + String(error) + "]\n"
                 )
-            if (consume_interrupts(interrupt_fd)
-                    and session.finish_reason != "cancelled"):
-                break
+            # J-105 manner M1: an interrupt after a turn never
+            # ends the session -- one that cancelled the reply
+            # is spent; a late one is drained and noted.
+            if post_turn_action(
+                consume_interrupts(interrupt_fd), session.finish_reason
+            ) == POST_TURN_STAY_NOTED:
+                transcript.emit(
+                    "\n[interrupt received after the reply finished;"
+                    " nothing to stop -- session continues]\n"
+                )
+                transcript.flush()
     transcript.emit("\nCompleted turns: " + String(turns) + "\n")
     transcript.flush()
     return ChatSwitchRequest(
@@ -849,7 +895,19 @@ def run_llama_chat(
         while True:
             print("You> ", end="")
             _ = external_call["fflush", Int32](Int(0))
-            var prompt = read_chat_line(interrupt_fd)
+            var line = read_chat_line_result(interrupt_fd)
+            var line_action = classify_prompt_line(
+                line.interrupted, line.eof, line.text
+            )
+            if line_action == LINE_REPROMPT:
+                # J-105 manner M1: Ctrl-C at the prompt stops
+                # nothing (no reply is running) and ends
+                # nothing: the reader already discarded the
+                # partial line; re-prompt.
+                continue
+            if line_action == LINE_LEAVE:
+                break
+            var prompt = line.text
             var composed_prompt = False
             if prompt == "/compose":
                 var composed = read_chat_compose(interrupt_fd)
@@ -870,8 +928,6 @@ def run_llama_chat(
             elif prompt == "/transcript":
                 _ = read_chat_transcript(conversation, interrupt_fd)
                 continue
-            if (prompt == "" or prompt == "/bye") and not composed_prompt:
-                break
             if prompt.startswith("/") and not composed_prompt:
                 var state_changed = False
                 var model_switch_command = prompt.startswith("/model")
@@ -932,9 +988,17 @@ def run_llama_chat(
                     "\n[" + recovery.instruction + "; cause: "
                     + String(error) + "]\n"
                 )
-            if (consume_interrupts(interrupt_fd)
-                    and session.finish_reason != "cancelled"):
-                break
+            # J-105 manner M1: an interrupt after a turn never
+            # ends the session -- one that cancelled the reply
+            # is spent; a late one is drained and noted.
+            if post_turn_action(
+                consume_interrupts(interrupt_fd), session.finish_reason
+            ) == POST_TURN_STAY_NOTED:
+                transcript.emit(
+                    "\n[interrupt received after the reply finished;"
+                    " nothing to stop -- session continues]\n"
+                )
+                transcript.flush()
     transcript.emit("\nCompleted turns: " + String(turns) + "\n")
     transcript.flush()
     return ChatSwitchRequest(
@@ -1014,7 +1078,11 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
         state_changed = True
         transcript.emit("\n[sampling=" + session.sampler.config.description() + "]\n")
     else:
-        raise Error("Unknown chat command; use /help")
+        raise Error(
+            "Unknown chat command: " + first_word(command)
+            + suggestion_suffix(suggest_chat_command(first_word(command)))
+            + "; use /help"
+        )
     transcript.flush()
     return state_changed
 
@@ -1078,6 +1146,10 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
         state_changed = True
         transcript.emit("\n[sampling=" + session.sampler.config.description() + "]\n")
     else:
-        raise Error("Unknown chat command; use /help")
+        raise Error(
+            "Unknown chat command: " + first_word(command)
+            + suggestion_suffix(suggest_chat_command(first_word(command)))
+            + "; use /help"
+        )
     transcript.flush()
     return state_changed

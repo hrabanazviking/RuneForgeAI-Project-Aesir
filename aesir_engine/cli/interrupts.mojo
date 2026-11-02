@@ -146,6 +146,10 @@ def read_interruptible_line_result(fd: Int) raises -> InterruptibleLine:
 
 
 def read_interruptible_line(fd: Int) raises -> String:
-    """Compatibility wrapper: chat treats interruption and EOF as session end."""
+    """Compatibility wrapper for callers that need only the text:
+    interruption and EOF both read as the empty string here.
+    Session-driving callers use read_interruptible_line_result:
+    since J-105 the chat distinguishes the outcomes (an
+    interrupted read re-prompts; EOF leaves)."""
     var result = read_interruptible_line_result(fd)
     return result.text

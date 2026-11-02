@@ -24,6 +24,7 @@ from cli.vision import dispatch_vision
 from cli.doctor import dispatch_doctor
 from cli.model_preferences import DurableModelPreferences, stale_preference_count
 from cli.model_selector import get_known_model, known_model_catalogue
+from core.chat_manners import suggest_cli_command, suggestion_suffix
 from server.api import json_escape_string
 from std.ffi import external_call
 from std.memory import Pointer
@@ -1247,4 +1248,7 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         _ = dispatch_onnx_cli(args)
         return
 
-    raise Error("unknown command: " + cmd)
+    raise Error(
+        "unknown command: " + cmd
+        + suggestion_suffix(suggest_cli_command(cmd))
+    )
