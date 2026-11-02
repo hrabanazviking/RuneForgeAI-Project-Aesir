@@ -1,0 +1,34 @@
+PASS J-076: qwen35moe row names no file and no pin
+PASS J-076: qwen35moe verdict ABSENT-FILE / NOT PROVEN
+PASS J-076: census phrase 'GGUF keeps its MTP block' for qwen35moe
+PASS J-076: 193-row ledger has no qwen35moe row (per J-076)
+PASS J-076 section 5: families enter only as pinned, named acquisitions
+PASS CENSUS: qwen35moe row names Qwen3.6-35B-A3B
+PASS CENSUS: qwen35moe classed Qwen3.5-MoE
+PASS DELTA row 81: Qwen3.5 MoE / Qwen3.6 MoE routed to J-124/J-125
+PASS S-065 ledger is the 193-row ledger
+PASS S-065 ledger md: zero qwen35moe occurrences
+PASS S-065 ledger csv: zero qwen35moe occurrences
+PASS S-065 ledger csv: zero Qwen3.6 occurrences
+PASS J-077 admission output refuses qwen35moe as NOT PROVEN
+PASS VM wave store holds exactly the 7 Zen files
+PASS VM workspace root holds only tinyllama.Q4_0.gguf
+PASS qwen35-2b-heretic dir holds no .gguf (bench record only)
+PASS no store file name carries qwen35moe / 35b / 3.6
+PASS pre-build: no qwen35moe anywhere in loader gguf.mojo
+PASS pre-build: no _validate_qwen35moe_tensors in loader
+PASS loader has qwen35 dense hybrid precedent branch
+PASS loader has qwen3next hybrid-MoE precedent branch (J-123)
+PASS loader has olmoe MoE precedent branch
+PASS loader parses .expert_count suffix
+PASS loader parses .ssm.inner_size suffix
+PASS loader parses expert_shared_feed_forward_length (J-123 field)
+PASS pre-build: moe_session admits only olmoe
+PASS pre-build: qwen35moe absent from moe_session
+PASS inference admits the qwen35 dense arch
+PASS pre-build: qwen35moe absent from inference
+PASS J-076 classifier present (core/mtp_census.mojo)
+PASS census arithmetic 30*18+10*15+3 == 693
+PASS fixture arithmetic 3*18+1*15+3 == 72
+TOTAL 32 checks, FAIL 0
+ALL PASS
