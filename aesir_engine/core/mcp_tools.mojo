@@ -87,7 +87,35 @@ speed; any live generation through MCP is graded under
 the road's honesty rules and is deferred with its
 recipe in the J-109 doc section 5, re-cited at the
 J-118 gate.
+
+J-112 EXTENSION (the services surface). Four tools join
+the three above, all decided in this layer and
+inventoried in core/services_surface.mojo (the registry
+both doors serve): aesir_tokenize (MODEL_BOUND,
+mirroring generate: validated here, the honest
+no-tokenizer tool error when the host has no tokenizer
+bound, NEEDS_TOKENIZE with completion/failure envelopes
+when it has), aesir_grade (pure: one teacher-forcing
+step record graded by core/prefill_grade through
+core/services_surface -- never a re-implementation;
+comparator_valid defaults to false, so an unstated
+comparator check grades COMPARATOR_ARTIFACT),
+aesir_census (pure: the catalogue census plus the
+services inventory, from the same facts), and
+aesir_bench (the bench report form: the layer sets
+NEEDS_BENCH and the host executes it -- observing the
+device inventory and rendering the filed evidence
+table need no model -- completing through
+mcp_bench_completion; the sweep itself stays CLI-only,
+J-112 doc section 0.2).
 """
+
+from core.services_surface import (
+    ServiceModelFact,
+    svc_census_text,
+    svc_grade_step_text,
+    svc_inventory_text,
+)
 
 
 # ------------------------------------------------------------------
@@ -155,7 +183,24 @@ def mcp_tool_names() -> List[String]:
     names.append(String("aesir_generate"))
     names.append(String("aesir_model_info"))
     names.append(String("aesir_embed"))
+    names.append(String("aesir_tokenize"))
+    names.append(String("aesir_grade"))
+    names.append(String("aesir_census"))
+    names.append(String("aesir_bench"))
     return names^
+
+
+def mcp_no_tokenizer_reason() -> String:
+    return String(
+        "no tokenizer is bound in this MCP host: a"
+        " tokenizer is constructed from a loaded model"
+        " file, so token ids need an engine-bound host"
+        " (the same binding as aesir_generate). This host"
+        " answers honestly rather than returning"
+        " pre-tokenization segments dressed as token ids."
+        " The binding leg is filed in the J-112 doc"
+        " section 5."
+    )
 
 
 def mcp_embed_refusal_reason() -> String:
@@ -586,6 +631,9 @@ struct McpReply(Copyable, ImplicitlyCopyable):
     var gen_max_tokens: Int
     var gen_id_raw: String
     var now_initialized: Bool
+    var needs_tokenize: Bool
+    var tok_text: String
+    var needs_bench: Bool
 
     def __init__(out self):
         self.respond = False
@@ -595,6 +643,9 @@ struct McpReply(Copyable, ImplicitlyCopyable):
         self.gen_max_tokens = 0
         self.gen_id_raw = String("null")
         self.now_initialized = False
+        self.needs_tokenize = False
+        self.tok_text = String("")
+        self.needs_bench = False
 
     def __copyinit__(out self, existing: Self):
         self.respond = existing.respond
@@ -604,6 +655,9 @@ struct McpReply(Copyable, ImplicitlyCopyable):
         self.gen_max_tokens = existing.gen_max_tokens
         self.gen_id_raw = existing.gen_id_raw
         self.now_initialized = existing.now_initialized
+        self.needs_tokenize = existing.needs_tokenize
+        self.tok_text = existing.tok_text
+        self.needs_bench = existing.needs_bench
 
 
 # ------------------------------------------------------------------
@@ -648,6 +702,30 @@ def mcp_generate_failure(id_raw: String, reason: String) -> String:
     return mcp_result_response(id_raw, mcp_tool_text_result(reason, True))
 
 
+def mcp_tokenize_completion(id_raw: String, ids_text: String) -> String:
+    """The success envelope for a tokenize call the host
+    executed through the bound tokenizer (the bound
+    build): ids_text is the host's formatted id list
+    (core/services_surface.svc_format_tokenize)."""
+    return mcp_result_response(id_raw, mcp_tool_text_result(ids_text, False))
+
+
+def mcp_tokenize_failure(id_raw: String, reason: String) -> String:
+    """The tool-error envelope for a tokenize call whose
+    tokenizer execution failed in the host."""
+    return mcp_result_response(id_raw, mcp_tool_text_result(reason, True))
+
+
+def mcp_bench_completion(id_raw: String, report_text: String) -> String:
+    """The success envelope for a bench call the host
+    executed (the report form: its observed device
+    inventory composed with the filed evidence table,
+    core/services_surface.svc_bench_text)."""
+    return mcp_result_response(
+        id_raw, mcp_tool_text_result(report_text, False)
+    )
+
+
 def mcp_tools_list_result() -> String:
     var generate = String(
         "{\"name\":\"aesir_generate\",\"description\":"
@@ -686,9 +764,64 @@ def mcp_tools_list_result() -> String:
         "\"properties\":{\"input\":{\"type\":\"string\"}},"
         "\"required\":[\"input\"]}}"
     )
+    var tokenize = String(
+        "{\"name\":\"aesir_tokenize\",\"description\":"
+        "\"Tokenize text to token ids with the tokenizer"
+        " bound to this MCP host. A tokenizer is built"
+        " from a loaded model file, so a host started"
+        " without a bound model answers with an honest"
+        " error instead of pre-tokenization segments"
+        " dressed as ids.\",\"inputSchema\":{\"type\":"
+        "\"object\",\"properties\":{\"text\":{\"type\":"
+        "\"string\",\"description\":\"The text to"
+        " tokenize.\"},\"model\":{\"type\":\"string\","
+        "\"description\":\"Optional catalogue name of"
+        " the bound model.\"}},\"required\":[\"text\"]}}"
+    )
+    var grade = String(
+        "{\"name\":\"aesir_grade\",\"description\":"
+        "\"Grade one teacher-forcing step record by"
+        " Aesir's raw-oracle rule (rank + logit gap):"
+        " the step class and cell verdict from"
+        " core/prefill_grade. comparator_valid defaults"
+        " to false -- an unstated comparator check"
+        " grades COMPARATOR_ARTIFACT, never a free"
+        " FAITHFUL.\",\"inputSchema\":{\"type\":"
+        "\"object\",\"properties\":{\"rank\":{\"type\":"
+        "\"integer\",\"minimum\":0,\"description\":"
+        "\"Teacher-forcing rank of the engine's id.\"},"
+        "\"gap_milli\":{\"type\":\"integer\",\"minimum\""
+        ":0,\"description\":\"Logit gap in milli-"
+        "logits.\"},\"comparator_valid\":{\"type\":"
+        "\"boolean\",\"description\":\"The caller's"
+        " statement that the comparator check passed"
+        " (CPU comparator, raw prompt).\"}},\"required\""
+        ":[\"rank\",\"gap_milli\"]}}"
+    )
+    var census = String(
+        "{\"name\":\"aesir_census\",\"description\":"
+        "\"The known-models catalogue as a population"
+        " (count, total bytes, per-quantization counts,"
+        " per-entry lines) plus Aesir's services"
+        " inventory with each service's availability"
+        " and reason.\",\"inputSchema\":{\"type\":"
+        "\"object\",\"properties\":{}}}"
+    )
+    var bench = String(
+        "{\"name\":\"aesir_bench\",\"description\":"
+        "\"The bench machine report (report form): this"
+        " host's live device inventory plus the filed"
+        " per-model evidence table. The configuration"
+        " sweep itself is CLI-only (aesir bench) -- a"
+        " minutes-long run no stdio host is blocked"
+        " on.\",\"inputSchema\":{\"type\":\"object\","
+        "\"properties\":{}}}"
+    )
     return (
         String("{\"tools\":[") + generate + String(",") + info
-        + String(",") + embed + String("]}")
+        + String(",") + embed + String(",") + tokenize
+        + String(",") + grade + String(",") + census
+        + String(",") + bench + String("]}")
     )
 
 
@@ -811,12 +944,17 @@ def _handle_tools_call(
         if n == tool:
             known = True
     if not known:
+        var known_text = String("")
+        var all_names = mcp_tool_names()
+        for i in range(len(all_names)):
+            if i > 0:
+                known_text += String(", ")
+            known_text += all_names[i]
         return _reply_error(
             id_raw,
             -32602,
             String("unknown tool: ") + tool
-            + String(" (known: aesir_generate, aesir_model_info,"
-                     " aesir_embed)"),
+            + String(" (known: ") + known_text + String(")"),
         )
     var args = mcp_scan_field(params.value, "arguments")
     var args_text = String("{}")
@@ -862,6 +1000,108 @@ def _handle_tools_call(
                 _fact_record_json(facts[idx], engine_bound), False
             ),
         )
+
+    if tool == "aesir_census":
+        var service_facts = List[ServiceModelFact]()
+        for fact in facts:
+            service_facts.append(
+                ServiceModelFact(
+                    fact.name, fact.tag, fact.quantization,
+                    fact.size_bytes,
+                )
+            )
+        return _reply_result(
+            id_raw,
+            mcp_tool_text_result(
+                svc_census_text(service_facts)
+                + String("\n")
+                + svc_inventory_text(),
+                False,
+            ),
+        )
+
+    if tool == "aesir_grade":
+        var rank_f = mcp_scan_field(args_text, "rank")
+        var gap_f = mcp_scan_field(args_text, "gap_milli")
+        if not rank_f.found or rank_f.kind != "number":
+            return _reply_error(
+                id_raw,
+                -32602,
+                "aesir_grade requires an integer 'rank' argument",
+            )
+        if not gap_f.found or gap_f.kind != "number":
+            return _reply_error(
+                id_raw,
+                -32602,
+                "aesir_grade requires an integer 'gap_milli'"
+                " argument",
+            )
+        var rank = _parse_int_literal(rank_f.value)
+        var gap = _parse_int_literal(gap_f.value)
+        if rank < 0 or gap < 0:
+            return _reply_error(
+                id_raw,
+                -32602,
+                "aesir_grade rank and gap_milli must be"
+                " non-negative integers",
+            )
+        var comparator_valid = False
+        var valid_f = mcp_scan_field(args_text, "comparator_valid")
+        if valid_f.found:
+            if valid_f.kind != "bool":
+                return _reply_error(
+                    id_raw,
+                    -32602,
+                    "comparator_valid must be a boolean",
+                )
+            comparator_valid = valid_f.value == "true"
+        try:
+            var graded = svc_grade_step_text(rank, gap, comparator_valid)
+            return _reply_result(
+                id_raw, mcp_tool_text_result(graded, False)
+            )
+        except e:
+            return _reply_tool_error(
+                id_raw,
+                String("grade refused: ") + String(e),
+            )
+
+    if tool == "aesir_bench":
+        var bench_reply = McpReply()
+        bench_reply.respond = False
+        bench_reply.needs_bench = True
+        bench_reply.gen_id_raw = id_raw
+        return bench_reply
+
+    if tool == "aesir_tokenize":
+        var text_f = mcp_scan_field(args_text, "text")
+        if (
+            not text_f.found
+            or text_f.kind != "string"
+            or text_f.value.byte_length() == 0
+        ):
+            return _reply_error(
+                id_raw,
+                -32602,
+                "aesir_tokenize requires a non-empty string"
+                " 'text'",
+            )
+        var tok_model_f = mcp_scan_field(args_text, "model")
+        if engine_bound and tok_model_f.found and tok_model_f.kind == "string":
+            if tok_model_f.value != bound_model:
+                return _reply_tool_error(
+                    id_raw,
+                    String("the bound model is ") + bound_model
+                    + String(", not ") + tok_model_f.value,
+                )
+        if not engine_bound:
+            return _reply_tool_error(id_raw, mcp_no_tokenizer_reason())
+        var tok_reply = McpReply()
+        tok_reply.respond = False
+        tok_reply.needs_tokenize = True
+        tok_reply.tok_text = text_f.value
+        tok_reply.gen_id_raw = id_raw
+        return tok_reply
 
     # aesir_generate
     var prompt_f = mcp_scan_field(args_text, "prompt")

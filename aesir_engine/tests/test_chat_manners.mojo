@@ -186,7 +186,7 @@ def test_suggestion_rules() raises:
 
 def test_candidate_suggestions() raises:
     expect_eq_int(len(cli_command_names()), 41, "cli candidate count")
-    expect_eq_int(len(chat_command_names()), 16, "chat candidate count")
+    expect_eq_int(len(chat_command_names()), 17, "chat candidate count")
     expect_eq_int(len(chat_option_names()), 18, "option candidate count")
     expect_eq_str(suggest_cli_command("pul"), "pull", "pul -> pull")
     expect_eq_str(suggest_cli_command("benhc"), "bench", "benhc -> bench")
@@ -356,7 +356,7 @@ def main() raises:
     test_suggestion_rules()
     print("PASS: suggestion rules (distances, threshold, tie order, exact/empty/short suggest nothing, suffix)")
     test_candidate_suggestions()
-    print("PASS: candidate sets (cli 41, chat 16, options 18; their own near misses resolve)")
+    print("PASS: candidate sets (cli 41, chat 17, options 18; their own near misses resolve)")
     test_env_audit()
     print("PASS: env audit (known never reported; near misses named with target; strangers and non-AESIR silent)")
     test_write_classifier()

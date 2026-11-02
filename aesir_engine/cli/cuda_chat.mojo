@@ -8,7 +8,7 @@ from cli.native_settings import resolve_native_settings, native_settings_json, l
 from cli.interrupts import ChatInterrupts, InterruptibleLine, consume_interrupts, read_interruptible_line, read_interruptible_line_result
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference, lease_resolved_model
-from cli.model_selector import choose_model
+from cli.model_selector import choose_model, known_model_catalogue
 from cli.terminal_view import terminal_columns
 from cli.chat_history import chat_command_help, render_history_command, render_turn_command
 from cli.chat_compose import read_chat_compose
@@ -37,6 +37,15 @@ from cli.chat_recovery import (
 from loader.packed_gguf import PackedGGUF
 from core.model_registry import ModelArchitectureRegistry
 from core.saved_config import saved_config_command_response
+from core.services_surface import (
+    ServiceModelFact,
+    services_chat_response,
+    svc_format_tokenize,
+    svc_is_tokenize_command,
+    svc_parse_tokenize,
+)
+from core.device_inventory import observe_device_inventory
+from core.machine_report import filed_model_rows, model_table
 from core.chat_manners import (
     LINE_LEAVE,
     LINE_REPROMPT,
@@ -1019,6 +1028,37 @@ def parse_model_switch(command: String) raises -> String:
     return _chat_command_path(command, "/model")
 
 
+def _chat_service_facts() -> List[ServiceModelFact]:
+    """The J-103 catalogue as services-layer facts (the
+    J-109/J-112 conversion: the pure layer never imports
+    the CLI layer, so the host converts)."""
+    var facts = List[ServiceModelFact]()
+    for entry in known_model_catalogue():
+        facts.append(
+            ServiceModelFact(
+                entry.name,
+                entry.tag,
+                entry.quantization,
+                Int(entry.size_bytes),
+            )
+        )
+    return facts^
+
+
+def _services_response(command: String) -> String:
+    """Every '/services' form except tokenize (which the
+    chat_control bodies execute through the resident
+    session's tokenizer): the services layer answers
+    from the catalogue facts, the observed device
+    inventory, and the filed per-model evidence table."""
+    return services_chat_response(
+        command,
+        _chat_service_facts(),
+        observe_device_inventory().describe(),
+        model_table(filed_model_rows()),
+    )
+
+
 def chat_control(mut session: Gemma4CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises -> Bool:
     var state_changed = False
     if command == "/show":
@@ -1034,6 +1074,21 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
         transcript.emit(chat_command_help(terminal_columns()))
+    elif svc_is_tokenize_command(command):
+        # J-112: tokenize through the resident session's own
+        # tokenizer (a chat session exists only with a model
+        # loaded, so the tokenizer is really bound). The
+        # encode is the tokenizer's plain form (no BOS added).
+        var tok_text = svc_parse_tokenize(command)
+        var tok_ids = session.tokenizer.encode(tok_text)
+        transcript.emit("\n" + svc_format_tokenize(tok_text, tok_ids) + "\n")
+    elif command == "/services" or command.startswith("/services "):
+        # J-112: the services surface (inventory, census,
+        # grade, bench report, the T22 disposition) -- the
+        # pure services layer answers; this branch MUST stay
+        # before the /save branch below for the same
+        # prefix reason as /save-config.
+        transcript.emit("\n" + _services_response(command) + "\n")
     elif command == "/save-config" or command.startswith("/save-config "):
         # J-104: the saved-configuration family. This branch MUST stay
         # before the /save branch below: /save matches by prefix, so a
@@ -1102,6 +1157,21 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
         transcript.emit(chat_command_help(terminal_columns()))
+    elif svc_is_tokenize_command(command):
+        # J-112: tokenize through the resident session's own
+        # tokenizer (a chat session exists only with a model
+        # loaded, so the tokenizer is really bound). The
+        # encode is the tokenizer's plain form (no BOS added).
+        var tok_text = svc_parse_tokenize(command)
+        var tok_ids = session.tokenizer.encode(tok_text)
+        transcript.emit("\n" + svc_format_tokenize(tok_text, tok_ids) + "\n")
+    elif command == "/services" or command.startswith("/services "):
+        # J-112: the services surface (inventory, census,
+        # grade, bench report, the T22 disposition) -- the
+        # pure services layer answers; this branch MUST stay
+        # before the /save branch below for the same
+        # prefix reason as /save-config.
+        transcript.emit("\n" + _services_response(command) + "\n")
     elif command == "/save-config" or command.startswith("/save-config "):
         # J-104: the saved-configuration family. This branch MUST stay
         # before the /save branch below: /save matches by prefix, so a

@@ -17,6 +17,10 @@
 # No engine is bound in this build (engine_bound = false):
 # generation requests are answered by the layer with the
 # honest no-engine tool error, never with invented text.
+# J-112: the same holds for tokenize (no tokenizer is
+# bound without an engine); the bench report form IS
+# executed here, because observing the device inventory
+# and rendering filed evidence need no model.
 # The engine binding -- constructing an AesirEngine over
 # a locally present model file and completing
 # needs_generate replies through the facade -- is the
@@ -34,9 +38,14 @@ from std.ffi import external_call
 from core.mcp_tools import (
     McpModelFact,
     McpSession,
+    mcp_bench_completion,
     mcp_generate_failure,
     mcp_handle_line,
+    mcp_tokenize_failure,
 )
+from core.device_inventory import observe_device_inventory
+from core.machine_report import filed_model_rows, model_table
+from core.services_surface import svc_bench_text
 from cli.known_models import known_models_dataset
 
 
@@ -125,6 +134,41 @@ def run_mcp_stdio() raises:
                         String(
                             "internal: generate dispatched with"
                             " no engine bound in this host build"
+                        ),
+                    )
+                )
+            elif reply.needs_tokenize:
+                # Unreachable in this build for the same
+                # reason (no tokenizer is bound without an
+                # engine); the bound build's seam: it encodes
+                # reply.tok_text through the bound tokenizer
+                # and prints mcp_tokenize_completion with
+                # svc_format_tokenize's text instead.
+                print(
+                    mcp_tokenize_failure(
+                        reply.gen_id_raw,
+                        String(
+                            "internal: tokenize dispatched with"
+                            " no tokenizer bound in this host"
+                            " build"
+                        ),
+                    )
+                )
+            elif reply.needs_bench:
+                # Executed in this build (J-112): the bench
+                # report form needs no model -- observe the
+                # device inventory, render the filed
+                # per-model evidence table, compose through
+                # the services layer, complete through the
+                # MCP layer's builder. One stdout line, like
+                # every reply: the report's newlines ride
+                # inside the JSON string.
+                print(
+                    mcp_bench_completion(
+                        reply.gen_id_raw,
+                        svc_bench_text(
+                            observe_device_inventory().describe(),
+                            model_table(filed_model_rows()),
                         ),
                     )
                 )

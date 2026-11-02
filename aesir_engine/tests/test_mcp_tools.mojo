@@ -1,10 +1,13 @@
 """MCP model-as-tools (J-109): the pure protocol +
 dispatch layer -- the bounded scanner, the method
-classification, the initialize handshake, the three
-tool schemas, model-info dispatch from catalogue facts,
+classification, the initialize handshake, the tool
+schemas, model-info dispatch from catalogue facts,
 the embed refusal, the generate dispatch verdicts
 (no-engine tool error; NEEDS_GENERATE when bound; the
 completion envelopes), and the protocol error codes.
+J-112 adds the services dispatch group: census, grade,
+tokenize (the no-tokenizer error; NEEDS_TOKENIZE when
+bound), and bench (NEEDS_BENCH, host-executed).
 
 No number in this suite is a behaviour of a live engine:
 no model was loaded and no text was generated. The live
@@ -15,6 +18,7 @@ from core.mcp_tools import (
     McpModelFact,
     McpReply,
     McpSession,
+    mcp_bench_completion,
     mcp_classify_method,
     mcp_embed_refusal_reason,
     mcp_generate_completion,
@@ -29,9 +33,12 @@ from core.mcp_tools import (
     mcp_method_tools_list,
     mcp_method_unknown,
     mcp_no_engine_reason,
+    mcp_no_tokenizer_reason,
     mcp_protocol_version,
     mcp_scan_field,
     mcp_server_name,
+    mcp_tokenize_completion,
+    mcp_tokenize_failure,
     mcp_tool_names,
     mcp_tools_list_result,
 )
@@ -186,13 +193,17 @@ def test_classification() raises:
         "unknown class",
     )
     var names = mcp_tool_names()
-    expect_eq(len(names), 3, "three tools")
+    expect_eq(len(names), 7, "seven tools")
     expect_true(names[0] == "aesir_generate", "tool 0")
     expect_true(names[1] == "aesir_model_info", "tool 1")
     expect_true(names[2] == "aesir_embed", "tool 2")
+    expect_true(names[3] == "aesir_tokenize", "tool 3")
+    expect_true(names[4] == "aesir_grade", "tool 4")
+    expect_true(names[5] == "aesir_census", "tool 5")
+    expect_true(names[6] == "aesir_bench", "tool 6")
     expect_true(mcp_server_name() == "aesir", "server name")
     expect_true(mcp_protocol_version() == "2024-11-05", "protocol version")
-    print("PASS: classification (methods, three tool names, facts)")
+    print("PASS: classification (methods, seven tool names, facts)")
 
 
 def test_handshake_and_errors() raises:
@@ -261,6 +272,10 @@ def test_tools_list() raises:
     expect_in(result, "\"name\":\"aesir_generate\"", "generate listed")
     expect_in(result, "\"name\":\"aesir_model_info\"", "info listed")
     expect_in(result, "\"name\":\"aesir_embed\"", "embed listed")
+    expect_in(result, "\"name\":\"aesir_tokenize\"", "tokenize listed")
+    expect_in(result, "\"name\":\"aesir_grade\"", "grade listed")
+    expect_in(result, "\"name\":\"aesir_census\"", "census listed")
+    expect_in(result, "\"name\":\"aesir_bench\"", "bench listed")
     expect_in(result, "\"inputSchema\"", "schemas present")
     expect_in(result, "\"required\":[\"prompt\"]", "prompt required")
     expect_in(result, "UNAVAILABLE", "embed refusal in description")
@@ -270,7 +285,7 @@ def test_tools_list() raises:
     )
     expect_true(reply.respond, "list responds")
     expect_in(reply.payload, "\"tools\":[", "tools array")
-    print("PASS: tools/list (exactly three tools, honest embed schema)")
+    print("PASS: tools/list (exactly seven tools, honest embed schema)")
 
 
 def test_model_info() raises:
@@ -408,6 +423,106 @@ def test_generate_dispatch() raises:
     print("PASS: generate dispatch (validation, unbound, bound, envelopes)")
 
 
+def test_services_dispatch() raises:
+    var f = facts()
+    var s = initialized_session()
+    # census: the population + the services inventory, no model bound.
+    var census = mcp_handle_line(
+        call_line("aesir_census", "{}"), s, f, False, ""
+    )
+    expect_true(census.respond, "census responds")
+    expect_in(census.payload, "\"isError\":false", "census not error")
+    expect_in(census.payload, "known-models census: 2 entries", "census count")
+    expect_in(census.payload, "4611512672 bytes total", "census total")
+    expect_in(census.payload, "aesir services (9 inventoried)", "inventory in census")
+    expect_in(census.payload, "mcp_client", "inventory names deferred door")
+    # grade: exact + valid -> FAITHFUL; unstated comparator -> artifact.
+    var exact = mcp_handle_line(
+        call_line(
+            "aesir_grade",
+            "{\"rank\":0,\"gap_milli\":0,\"comparator_valid\":true}",
+        ),
+        s, f, False, "",
+    )
+    expect_in(exact.payload, "step EXACT", "grade exact step")
+    expect_in(exact.payload, "verdict FAITHFUL", "grade faithful verdict")
+    var unstated = mcp_handle_line(
+        call_line("aesir_grade", "{\"rank\":1,\"gap_milli\":250}"),
+        s, f, False, "",
+    )
+    expect_in(unstated.payload, "step NEAR_TIE", "grade near-tie step")
+    expect_in(
+        unstated.payload, "COMPARATOR_ARTIFACT", "unstated comparator verdict"
+    )
+    var inconsistent = mcp_handle_line(
+        call_line(
+            "aesir_grade",
+            "{\"rank\":0,\"gap_milli\":5,\"comparator_valid\":true}",
+        ),
+        s, f, False, "",
+    )
+    expect_in(
+        inconsistent.payload, "\"isError\":true", "inconsistent is tool error"
+    )
+    expect_in(inconsistent.payload, "grade refused", "inconsistent refused")
+    var missing = mcp_handle_line(
+        call_line("aesir_grade", "{\"rank\":1}"), s, f, False, ""
+    )
+    expect_in(missing.payload, "\"code\":-32602", "missing gap code")
+    var negative = mcp_handle_line(
+        call_line("aesir_grade", "{\"rank\":-1,\"gap_milli\":0}"),
+        s, f, False, "",
+    )
+    expect_in(negative.payload, "\"code\":-32602", "negative rank code")
+    # tokenize: validation, the unbound error, the bound verdict.
+    var tok_missing = mcp_handle_line(
+        call_line("aesir_tokenize", "{}"), s, f, False, ""
+    )
+    expect_in(tok_missing.payload, "\"code\":-32602", "tokenize missing code")
+    var tok_unbound = mcp_handle_line(
+        call_line("aesir_tokenize", "{\"text\":\"hello\"}"),
+        s, f, False, "",
+    )
+    expect_true(tok_unbound.respond, "tokenize unbound responds")
+    expect_false(tok_unbound.needs_tokenize, "unbound does not tokenize")
+    expect_in(tok_unbound.payload, "\"isError\":true", "unbound tool error")
+    expect_in(tok_unbound.payload, "no tokenizer is bound", "unbound reason")
+    expect_true(
+        mcp_no_tokenizer_reason().byte_length() > 100, "tokenizer reason len"
+    )
+    var tok_bound = mcp_handle_line(
+        call_line("aesir_tokenize", "{\"text\":\"hello\"}"),
+        s, f, True, "qwen3-0.6b:latest",
+    )
+    expect_false(tok_bound.respond, "bound tokenize waits for host")
+    expect_true(tok_bound.needs_tokenize, "bound needs tokenize")
+    expect_true(tok_bound.tok_text == "hello", "bound text carried")
+    expect_true(tok_bound.gen_id_raw == "7", "bound tokenize id carried")
+    var tok_done = mcp_tokenize_completion(tok_bound.gen_id_raw, "ids: [9707]")
+    expect_in(tok_done, "\"isError\":false", "tokenize completion ok")
+    expect_in(tok_done, "9707", "tokenize completion ids")
+    var tok_failed = mcp_tokenize_failure(tok_bound.gen_id_raw, "no vocab")
+    expect_in(tok_failed, "\"isError\":true", "tokenize failure is error")
+    var tok_mismatch = mcp_handle_line(
+        call_line(
+            "aesir_tokenize", "{\"text\":\"hi\",\"model\":\"other\"}"
+        ),
+        s, f, True, "qwen3-0.6b:latest",
+    )
+    expect_in(tok_mismatch.payload, "qwen3-0.6b:latest", "tokenize bound named")
+    # bench: the host-executed verdict + its completion envelope.
+    var bench = mcp_handle_line(
+        call_line("aesir_bench", "{}"), s, f, False, ""
+    )
+    expect_false(bench.respond, "bench waits for host")
+    expect_true(bench.needs_bench, "bench needs host execution")
+    expect_true(bench.gen_id_raw == "7", "bench id carried")
+    var bench_done = mcp_bench_completion(bench.gen_id_raw, "REPORT")
+    expect_in(bench_done, "\"isError\":false", "bench completion ok")
+    expect_in(bench_done, "REPORT", "bench completion text")
+    print("PASS: services dispatch (census, grade, tokenize, bench)")
+
+
 def main() raises:
     test_scanner()
     test_classification()
@@ -416,4 +531,5 @@ def main() raises:
     test_model_info()
     test_embed_refusal()
     test_generate_dispatch()
-    print("ALL PASS: mcp tools (7 groups)")
+    test_services_dispatch()
+    print("ALL PASS: mcp tools (8 groups)")

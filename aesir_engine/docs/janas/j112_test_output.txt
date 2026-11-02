@@ -1,0 +1,84 @@
+J-112 Services surface -- test output (VM, lightest target)
+Tree: yrsa/janas-j112 from yrsa/janas-j111 tip cdf70d7a759ce28d8ef9435314fb8a4301386482 (ls-remote verified at slice start; remote yrsa/janas-j112 absent and no aesir-janas-j112 worktree at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (3415bf9e26d66f1ce9cfd6bcfe265dd2b417da2d).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-097..J-111 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j112stage, build dir ~/workspace/.verify-tmp/j112build, TMPDIR redirected to the staging dir throughout.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~0.42-0.76 GB across the slice -- far below the 5,500 MB inference gate at every moment: lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere and NO live chat session was started. The MCP client session below ran against the compiled stdio host (no model bound; the bench call in it is the host's real device observation + filed evidence render, no inference). purplelongship not used at all: the 204 road's S-104 was live there throughout -- yielded under the coordination law.
+Defects found and fixed in-slice (doc section 7): (1) the new MCP services test group was first written with over-escaped isError needles (triple backslashes in the file where the J-109 groups use one) -- its first run failed the census assertion on a payload that was itself correct; the needles were corrected to the file's own pattern and the suite passes whole. (2) One client-proof check asserted the word "ids" absent from the tokenize refusal, whose honest text contains the words "token ids"; the check was corrected to assert no id LIST ("ids: [") is returned. (3) The chat-wiring edit was first applied twice to the first chat_control body (the edit tool matched the first body's /save-config anchor twice); caught by a grep count before any build, the duplicate removed, and the second body wired against its distinct context -- both bodies now carry the branches exactly once. (4) test_chat_manners' candidate-set PASS label still printed the pre-slice count (chat 16) after the count assertion moved to 17; the label was corrected and the suite rebuilt. No filed number rested on any of these. Every PASS below is from the final tree.
+
+== test_services_surface (J-112, new) ==
+build exit=0 run exit=0
+PASS: registry (9 services, classes + reasons, refusals stated)
+PASS: census (count, total, per-quantization, per-entry lines)
+PASS: grade delegation (verdicts equal prefill_grade; refusals)
+PASS: bench composition (inventory + filed table + CLI reason)
+PASS: chat answers (inventory/census/grade/bench/mcp/refusals)
+PASS: tokenize parse + format (usage refusals, exact ids)
+ALL PASS: services surface (6 groups)
+
+== test_mcp_tools (J-109 suite, extended by J-112) ==
+build exit=0 run exit=0
+PASS: scanner (fields, nesting, escapes, malformed refused)
+PASS: classification (methods, seven tool names, facts)
+PASS: handshake + protocol errors (-32002/-32601/-32600/-32700)
+PASS: tools/list (exactly seven tools, honest embed schema)
+PASS: model_info (record verbatim, listing, unknown refused)
+PASS: embed refusal (tool error, reason, no vector anywhere)
+PASS: generate dispatch (validation, unbound, bound, envelopes)
+PASS: services dispatch (census, grade, tokenize, bench)
+ALL PASS: mcp tools (8 groups)
+
+== test_chat_manners (neighbour; updated only for the /services candidate) ==
+build exit=0 run exit=0
+PASS: prompt-line decisions (interrupt re-prompts; eof leaves; final line submits; blank//bye kept)
+PASS: post-turn decisions (cancelled spends the interrupt; a late interrupt is noted, never a leave)
+PASS: suggestion rules (distances, threshold, tie order, exact/empty/short suggest nothing, suffix)
+PASS: candidate sets (cli 41, chat 17, options 18; their own near misses resolve)
+PASS: env audit (known never reported; near misses named with target; strangers and non-AESIR silent)
+PASS: write classifier (cache + chosen allowed; sibling/stray refused; model refused first, even in cache)
+PASS: environ surface (names parsed from /proc/self/environ; live warnings are manner lines)
+ALL PASS: chat manners (7 groups)
+
+== test_machine_report (neighbour) ==
+build exit=0 run exit=0
+PASS: filed model rows (evidence rule: source + class on every line)
+PASS: per-model table render (rule stated, all rows present)
+PASS: device refusal summary (device line + per-entry reasons verbatim)
+PASS: artefact render on an injected report (label, J-100 core, sections)
+PASS: CLI report refusals (--report+--pass either order; duplicate --report)
+PASS: live fixture artefact (27 cells, model table, refusal reasons)
+ALL PASS: machine report (6 groups)
+
+== test_bench_configurations (neighbour) ==
+build exit=0 run exit=0
+PASS: bench config (defaults stated; settle 0 / rounds < 3 refused)
+PASS: pass-kind order is the J-035 taxonomy order
+PASS: enumeration cross product on VM fixtures (27 cells, 6 pending)
+PASS: GPU-present fixtures (GPU cells unmeasurable-with-reason)
+PASS: fastest-cell grading (measured only, ties keep table order)
+PASS: machine report render on an injected report
+PASS: CLI refusals (--report+--pass incoherent per J-101; bad counts/kinds refused)
+PASS: live bench sweep over fixtures (27 cells, cpu cells resolved)
+ALL PASS: bench configurations (8 groups)
+
+== test_code_completion (neighbour) ==
+build exit=0 run exit=0
+PASS: arch FIM honesty (5 recognised archs, none carries FIM, every mode PREFIX_SUFFIX, reasons stated, strangers refused)
+PASS: plan (generation prompt == prefix exactly, suffix separate and never inside it, cursor-at-edge plans, bounds + empty-document refusals)
+PASS: window composition (J-097 divergence account capped at the cursor: after-cursor 9, before-cursor 4, no-change 9, insert 2, empty prefix 0)
+PASS: overlap trim (suffix opening removed byte-exactly, full overlap empties, no overlap unchanged, edges held)
+PASS: latency grading (published band 1500-2200 ms pinned as published; 1499 faster, 1500/2200 within, 2201 slower, negative refused)
+PASS: parser + audit surface (suffix parsed and bounded by the standing grammar, duplicates refused, audit row PARTIAL)
+ALL PASS: code completion (6 groups)
+
+== MCP host wiring (staging driver importing cli/mcp_serve whole) ==
+build exit=0 run exit=0 (clean EOF exit with no input; the binary the client session drives)
+
+== chat wiring compile driver (staging driver importing cli/cuda_chat whole) ==
+build exit=0 run exit=0
+cuda chat module compile + import: PASS
+
+== CLI commands compile driver (staging driver importing cli/commands whole) ==
+build exit=0 run exit=0
+cli commands module compile + import: PASS
+
+== MCP client session (j112_mcp_client.py vs the compiled host) ==
+exit=0; 40 OK lines, 0 FAIL; verdict line: CLIENT PROOF: ALL PASS; server exit code 0. Full transcript filed in j112_client_session.txt. The session's real numbers: census over the live catalogue -- 5 entries, 63189429184 bytes total, Q4_K_M 3 / Q2_K 2; the bench call returned the host-observed device inventory composed with the filed per-model evidence table.

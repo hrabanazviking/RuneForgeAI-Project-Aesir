@@ -1,0 +1,111 @@
+PASS: registry carries exactly 9 services
+PASS: registry names service generate
+PASS: registry names service tokenize
+PASS: registry names service grade
+PASS: registry names service census
+PASS: registry names service bench_report
+PASS: registry names service bench_sweep
+PASS: registry names service embed
+PASS: registry names service segment
+PASS: registry names service mcp_client
+PASS: availability class SVC_AVAILABLE defined
+PASS: availability class SVC_MODEL_BOUND defined
+PASS: availability class SVC_REFUSED defined
+PASS: availability class SVC_CLI_ONLY defined
+PASS: availability class SVC_DEFERRED defined
+PASS: availability class SVC_NOT_EXPOSED defined
+PASS: generate's executing path exists (engine facade)
+PASS: llama3 tokenizer carries encode
+PASS: gemma4 tokenizer carries encode
+PASS: segment splits exist inside the tokenizers (not token ids)
+PASS: grading layer carries def step_class
+PASS: grading layer carries def grade_prefill_cell
+PASS: grading layer carries def verdict_name
+PASS: services layer imports the grading layer
+PASS: grade is delegated, never re-implemented in the services layer
+PASS: census source exists (the J-103 catalogue)
+PASS: bench sweep executing path exists (CLI door)
+PASS: machine report carries def filed_model_rows
+PASS: machine report carries def model_table
+PASS: machine report carries def report_artefact
+PASS: embed refusal reason exists in the MCP layer
+PASS: no-tokenizer reason exists in the MCP layer
+PASS: the T22 disposition is served by the layer
+PASS: tool-name list carries aesir_generate
+PASS: tools/list JSON carries aesir_generate
+PASS: tool-name list carries aesir_model_info
+PASS: tools/list JSON carries aesir_model_info
+PASS: tool-name list carries aesir_embed
+PASS: tools/list JSON carries aesir_embed
+PASS: tool-name list carries aesir_tokenize
+PASS: tools/list JSON carries aesir_tokenize
+PASS: tool-name list carries aesir_grade
+PASS: tools/list JSON carries aesir_grade
+PASS: tool-name list carries aesir_census
+PASS: tools/list JSON carries aesir_census
+PASS: tool-name list carries aesir_bench
+PASS: tools/list JSON carries aesir_bench
+PASS: dispatch branch exists for aesir_model_info
+PASS: dispatch branch exists for aesir_embed
+PASS: dispatch branch exists for aesir_tokenize
+PASS: dispatch branch exists for aesir_grade
+PASS: dispatch branch exists for aesir_census
+PASS: dispatch branch exists for aesir_bench
+PASS: generate dispatch (the fallthrough) is present
+PASS: MCP layer carries def mcp_tokenize_completion
+PASS: MCP layer carries def mcp_tokenize_failure
+PASS: MCP layer carries def mcp_bench_completion
+PASS: host branches on needs_bench
+PASS: host branches on needs_tokenize
+PASS: host executes the bench report through the layer builders
+PASS: tokenize branch present exactly once per chat body (2 total)
+PASS: services branch present exactly once per chat body (2 total)
+PASS: each body encodes through its resident session's tokenizer
+PASS: chat host helpers convert the catalogue and answer via the layer
+PASS: manners candidate set grows by exactly the /services name
+PASS: manners suite asserts the chat candidate count 17
+PASS: narrow help names /services
+PASS: wide help names the services family
+PASS: services suite carries group test_registry
+PASS: services suite carries group test_census
+PASS: services suite carries group test_grade_delegation
+PASS: services suite carries group test_bench_composition
+PASS: services suite carries group test_chat_answers
+PASS: services suite carries group test_tokenize_parse_format
+PASS: mcp suite carries the services dispatch group
+PASS: filed test output carries: ALL PASS: services surface (6 groups)
+PASS: filed test output carries: ALL PASS: mcp tools (8 groups)
+PASS: filed test output carries: ALL PASS: chat manners (7 groups)
+PASS: filed test output carries: ALL PASS: machine report (6 groups)
+PASS: filed test output carries: ALL PASS: bench configurations (8 groups)
+PASS: filed test output carries: ALL PASS: code completion (6 groups)
+PASS: filed test output carries the chat compile driver verdict
+PASS: filed test output carries the commands compile driver verdict
+PASS: filed test output carries the MCP host wiring driver
+PASS: filed test output cites the verified protocol commit
+PASS: filed test output carries no misrendered protocol hash
+PASS: client transcript tallies 40 OK lines
+PASS: client transcript carries no FAIL
+PASS: client transcript carries its verdict
+PASS: client transcript records the host's clean exit
+PASS: census in transcript lists 5 entries
+PASS: census per-entry bytes sum to the filed total 63189429184
+PASS: census per-quantization counts are Q4_K_M 3 / Q2_K 2
+PASS: transcript census line matches the re-derived population
+PASS: tokenize refusal returns no id list
+PASS: doc carries post-protocol section: ## 1. Headline
+PASS: doc carries post-protocol section: ## 5. Deferred legs
+PASS: doc carries post-protocol section: ## 10. Banking
+PASS: doc tallies match the filed services verdict
+PASS: doc carries the extended/neighbour tallies
+PASS: doc tallies match the client transcript
+PASS: doc carries the census population numbers
+PASS: doc cites the verified protocol commit
+PASS: doc records the protocol-hash correction honestly
+PASS: doc defers the live legs to the J-118 gate with reason
+PASS: doc keeps its honesty ledger explicit
+PASS: slice file set == expected (extra=[] missing=[])
+PASS: no README in the slice file set
+PASS: no .gguf in the slice file set
+INSPECT: 109 PASS, 0 FAIL
+INSPECT VERDICT: ALL PASS
