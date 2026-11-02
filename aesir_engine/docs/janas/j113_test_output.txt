@@ -1,0 +1,32 @@
+J-113 The NSM question -- test output (VM, lightest target)
+Tree: yrsa/janas-j113 from yrsa/janas-j112 tip 0a52d91506dbf86643fe838f9ebff9bc720087e4 (ls-remote verified at slice start; remote yrsa/janas-j113 absent and no aesir-janas-j113 worktree at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (f7defd6d91ea6e0c388ca407e5a04f79cc16d04b).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-097..J-112 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j113stage, build dir ~/workspace/.verify-tmp/j113build, TMPDIR redirected to the staging dir throughout.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~2.8 GB at dispatch and ~3.5 GB across the builds -- far below the 5,500 MB inference gate at every moment: lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere, NO live session was started, and NO sampler was touched. purplelongship not used at all: the 204 road's S-104 was live there throughout -- yielded under the coordination law.
+Defects found and fixed in-slice: none in the module, the test suites, or prior work -- the new suite and both neighbours passed whole on their first runs on the final tree (the module's one design-time choice, a named struct for the restrictor's walk result instead of a tuple return, was made before any build and is recorded in doc section 7, not a defect). The inspect script's own first-run defects (a misspelled variable, an over-broad purity substring check) were found and fixed in-slice and are disposed in doc section 7; no filed number rested on any of them. Every PASS below is from the final tree.
+
+== test_vocab_restriction (J-113, new) ==
+build exit=0 run exit=0
+PASS: parse + render (separators, dedupe, order, round-trip)
+PASS: membership + bounds (exact/case, empty, byte + entry caps)
+PASS: restrictor (validity, spanning tokens, commit/refusal)
+PASS: selection (allowed indices exact, none-allowed is -1)
+PASS: simulated loop (greedy first-allowed, clean stop, audit)
+PASS: audit + disposition (counts, first offender, REFUSED text)
+ALL PASS: vocab restriction (6 groups)
+The simulated loop's filed demonstration (SIMULATED evidence -- synthetic candidates, the layer's decisions only, not a sampler): word list "the cat sat on the mat" (5 distinct entries); greedy first-allowed picks "the" / " cat" / " sat" / " on" / " the" / " mat" produce the text "the cat sat on the mat" (5 words completed, ends accepting); the seventh step's candidates (" dog", " bird") admit none (first_allowed -1) and the loop stops; the audit of the demonstrated text reports 6 words, 6 permitted, no offender.
+
+== test_gbnf_grammar (neighbour: the grammar layer this slice mirrors) ==
+build exit=0 run exit=0 (its three filed PASS lines, no ALL PASS line in this suite's own form)
+GBNF rule construction: PASS
+bounded token-text grammar masking: PASS
+Boolean JSON token trie: PASS
+
+== test_code_completion (neighbour: the adjacent J-111 pure layer) ==
+build exit=0 run exit=0
+PASS: arch FIM honesty (5 recognised archs, none carries FIM, every mode PREFIX_SUFFIX, reasons stated, strangers refused)
+PASS: plan (generation prompt == prefix exactly, suffix separate and never inside it, cursor-at-edge plans, bounds + empty-document refusals)
+PASS: window composition (J-097 divergence account capped at the cursor: after-cursor 9, before-cursor 4, no-change 9, insert 2, empty prefix 0)
+PASS: overlap trim (suffix opening removed byte-exactly, full overlap empties, no overlap unchanged, edges held)
+PASS: latency grading (published band 1500-2200 ms pinned as published; 1499 faster, 1500/2200 within, 2201 slower, negative refused)
+PASS: parser + audit surface (suffix parsed and bounded by the standing grammar, duplicates refused, audit row PARTIAL)
+ALL PASS: code completion (6 groups)

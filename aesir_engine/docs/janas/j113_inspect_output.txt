@@ -1,0 +1,54 @@
+PASS: scan ran over the engine tree (482 files)
+PASS: NSM appears only in the J-113 layer and its test (got ['core/vocab_restriction.mojo', 'tests/test_vocab_restriction.mojo'])
+PASS: permitted-vocabulary handling exists only in the new layer and its test (got ['core/vocab_restriction.mojo', 'tests/test_vocab_restriction.mojo'])
+PASS: the facade's grammar entry still raises not-implemented (no sampler enforcement was smuggled in; J-114 owns it)
+PASS: the facade grammar entry exists at its cited place
+PASS: the grammar grain (token-text validity + advance) exists
+PASS: the bounded GBNF grammar layer exists
+PASS: the layer imports nothing from the engine (pure)
+PASS: layer carries def vr_parse_word_list
+PASS: layer carries def vr_contains
+PASS: layer carries def vr_word_count
+PASS: layer carries def vr_render_word_list
+PASS: layer carries def vr_audit_text
+PASS: layer carries def vr_nsm_disposition
+PASS: restrictor carries def is_token_valid
+PASS: restrictor carries def advance_state
+PASS: restrictor carries def is_accepting
+PASS: restrictor carries def allowed_indices
+PASS: restrictor carries def first_allowed
+PASS: the layer's three structs are present
+PASS: the entry bound is 8192 on the layer's face
+PASS: the word byte bound is 64 on the layer's face
+PASS: the trailing-partial rule is the permitted-prefix rule
+PASS: layer disposition carries: REFUSED
+PASS: layer disposition carries: CC BY-NC-SA
+PASS: layer disposition carries: single-paper
+PASS: layer disposition carries: no Aesir consumer
+PASS: layer disposition carries: Re-open only if
+PASS: layer disposition carries: J-114
+PASS: doc section 0.2 files the REFUSED verdict
+PASS: doc cites concordance rows 69 (dressing) and 70 (core)
+PASS: doc defers the live leg to the J-118 gate with reason
+PASS: doc keeps its honesty ledger explicit
+PASS: suite carries group test_parse_render
+PASS: suite carries group test_membership_bounds
+PASS: suite carries group test_restrictor
+PASS: suite carries group test_selection
+PASS: suite carries group test_simulated_loop
+PASS: suite carries group test_audit_disposition
+PASS: filed test output carries: ALL PASS: vocab restriction (6 groups)
+PASS: filed test output carries: ALL PASS: code completion (6 groups)
+PASS: filed test output carries: Boolean JSON token trie: PASS
+PASS: filed test output records the demonstrated text
+PASS: filed test output names the loop SIMULATED
+PASS: filed test output cites the verified protocol commit
+PASS: doc cites the verified protocol commit
+PASS: doc carries post-protocol section: ## 1. Headline
+PASS: doc carries post-protocol section: ## 5. Deferred legs
+PASS: doc carries post-protocol section: ## 10. Banking
+PASS: slice file set == expected (extra=[] missing=[])
+PASS: no README in the slice file set
+PASS: no .gguf in the slice file set
+INSPECT: 52 PASS, 0 FAIL
+INSPECT VERDICT: ALL PASS
