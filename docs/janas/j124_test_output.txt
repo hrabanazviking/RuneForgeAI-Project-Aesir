@@ -1,0 +1,159 @@
+J-124 Qwen3.6 verification -- test output (VM, lightest target)
+Tree: yrsa/janas-j124 from yrsa/janas-j123 tip 9016e7853829c868bc379052bf06324f814ae2c5 (ls-remote verified at slice start; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (215efa37dcd318f363162e5a7e2e367e65b81e93, push ls-remote verified before the build). Duplicate guard: the local branch yrsa/janas-j124 pre-existed at exactly the base tip (no commits beyond base, no remote branch, no worktree) and was adopted as the base; the worktree was created fresh by the --no-checkout + sparse route (aesir_engine/ + docs/janas/ + hailbru/) after a full checkout hit the disk-quota interdict.
+Build: mojo build -I aesir_engine -I . (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH). Builds staged one at a time. The layout suite and the re-read driver were built under the shared cache (build dirs ~/workspace/.verify-tmp/j124build, staging ~/workspace/.verify-tmp/j124stage, fixtures ~/workspace/.verify-tmp/j124work). Mid-slice the shared Mojo transform cache wedged VM-wide (every build, including a hello-world control, waited indefinitely on its lock after an EDQUOT-interrupted cache-archive write; diagnosis in doc section 7), so the refuse driver and the neighbour suites were built with a private MODULAR_HOME (identical modular.cfg, cache_dir redirected to a fresh private cache; same env, same Mojo binary, only the cache directory differs; builds in /tmp/j124build, TMPDIR /tmp/j124stage). One pre-existing warning only (loader/gguf.mojo unused 'width', present on the base tree, not in this slice's code).
+Machine: VM (KVM), NO GPU device used. MemAvailable ~0.6-5.0 GB observed across the run -- below the 5,500 MB inference gate at every observation; NO inference ran anywhere (none is in scope). purplelongship not used at all (the 204 road's S-105 is live there; yielded to, and no real qwen35moe file exists in any case). No wall/rate/latency numbers are in scope for this slice.
+Environment incidents (doc section 7): (1) the recurring disk-quota interdict (EDQUOT, os error 122, 39 GB free on the volume) blocked workspace writes in waves during this slice (worktree creation, two driver writes, the private-home setup) -- nothing was deleted to free disk, every blocked step completed on a later window or by an on-/tmp route; (2) the shared Mojo transform cache wedge described above -- routed around with the private cache, not fixed (the shared cache is every campaign's, not this slice's to repair).
+
+== stage (a) re-verification (j124_reverify.py, filed pre-build) ==
+PASS J-076: qwen35moe row names no file and no pin
+PASS J-076: qwen35moe verdict ABSENT-FILE / NOT PROVEN
+PASS J-076: census phrase 'GGUF keeps its MTP block' for qwen35moe
+PASS J-076: 193-row ledger has no qwen35moe row (per J-076)
+PASS J-076 section 5: families enter only as pinned, named acquisitions
+PASS CENSUS: qwen35moe row names Qwen3.6-35B-A3B
+PASS CENSUS: qwen35moe classed Qwen3.5-MoE
+PASS DELTA row 81: Qwen3.5 MoE / Qwen3.6 MoE routed to J-124/J-125
+PASS S-065 ledger is the 193-row ledger
+PASS S-065 ledger md: zero qwen35moe occurrences
+PASS S-065 ledger csv: zero qwen35moe occurrences
+PASS S-065 ledger csv: zero Qwen3.6 occurrences
+PASS J-077 admission output refuses qwen35moe as NOT PROVEN
+PASS VM wave store holds exactly the 7 Zen files
+PASS VM workspace root holds only tinyllama.Q4_0.gguf
+PASS qwen35-2b-heretic dir holds no .gguf (bench record only)
+PASS no store file name carries qwen35moe / 35b / 3.6
+PASS pre-build: no qwen35moe anywhere in loader gguf.mojo
+PASS pre-build: no _validate_qwen35moe_tensors in loader
+PASS loader has qwen35 dense hybrid precedent branch
+PASS loader has qwen3next hybrid-MoE precedent branch (J-123)
+PASS loader has olmoe MoE precedent branch
+PASS loader parses .expert_count suffix
+PASS loader parses .ssm.inner_size suffix
+PASS loader parses expert_shared_feed_forward_length (J-123 field)
+PASS pre-build: moe_session admits only olmoe
+PASS pre-build: qwen35moe absent from moe_session
+PASS inference admits the qwen35 dense arch
+PASS pre-build: qwen35moe absent from inference
+PASS J-076 classifier present (core/mtp_census.mojo)
+PASS census arithmetic 30*18+10*15+3 == 693
+PASS fixture arithmetic 3*18+1*15+3 == 72
+TOTAL 32 checks, FAIL 0
+ALL PASS
+Note: the filed output above is the pre-build run (32 checks, FAIL 0, ALL PASS) as the script's own header requires (its pre-build checks assert the admission does NOT yet exist). Re-run after the build it reports TOTAL 32 checks, FAIL 2 -- exactly the two pre-build assertions flipping ('no qwen35moe anywhere in loader gguf.mojo', 'no _validate_qwen35moe_tensors in loader'), which is the build landing, not a regression; the other 30 checks still PASS, including 'moe_session admits only olmoe' and 'qwen35moe absent from moe_session' and 'qwen35moe absent from inference' (the session and forward gates stay shut).
+
+== fixtures (j124_fixtures.py) ==
+wrote /home/hatch/workspace/.verify-tmp/j124work/main.gguf variant main tensors 72 bytes 36832
+wrote /home/hatch/workspace/.verify-tmp/j124work/mtp.gguf variant mtp tensors 76 bytes 38304
+wrote /home/hatch/workspace/.verify-tmp/j124work/miss_ssm_out.gguf variant miss_ssm_out tensors 71 bytes 36256
+wrote /home/hatch/workspace/.verify-tmp/j124work/miss_shexp.gguf variant miss_shexp tensors 71 bytes 36512
+wrote /home/hatch/workspace/.verify-tmp/j124work/impostor.gguf variant impostor tensors 39 bytes 14720
+wrote /home/hatch/workspace/.verify-tmp/j124work/sep_gate.gguf variant sep_gate tensors 73 bytes 36896
+
+== stage (b) census tool on synthetic fixtures (j124_census.py) ==
+-- main
+SUMMARY arch qwen35moe tensors 72
+SUMMARY qwen35moe blocks 4 attention 1 ssm 3
+SUMMARY mtp nextn 0 mtp 0 assistant 0 verdict NO_MTP
+census exit=0
+-- mtp (SYNTHETIC head tensors; the verdict grades the fixture, never a real file)
+SUMMARY arch qwen35moe tensors 76
+SUMMARY qwen35moe blocks 4 attention 1 ssm 3
+SUMMARY mtp nextn 4 mtp 0 assistant 0 verdict WITH_MTP
+census exit=0
+-- miss_ssm_out
+SUMMARY arch qwen35moe tensors 71
+SUMMARY qwen35moe blocks 4 attention 1 ssm 3
+SUMMARY mtp nextn 0 mtp 0 assistant 0 verdict NO_MTP
+census exit=0
+-- miss_shexp
+SUMMARY arch qwen35moe tensors 71
+SUMMARY qwen35moe blocks 4 attention 1 ssm 3
+SUMMARY mtp nextn 0 mtp 0 assistant 0 verdict NO_MTP
+census exit=0
+-- impostor
+SUMMARY arch qwen35moe tensors 39
+SUMMARY qwen35moe blocks 4 attention 1 ssm 3
+SUMMARY mtp nextn 0 mtp 0 assistant 0 verdict NO_MTP
+census exit=0
+-- sep_gate
+SUMMARY arch qwen35moe tensors 73
+SUMMARY qwen35moe blocks 4 attention 1 ssm 3
+SUMMARY mtp nextn 0 mtp 0 assistant 0 verdict NO_MTP
+census exit=0
+
+== test_qwen35moe_layout (J-124, new) ==
+PASS: classification -- real geometry 40 blocks (30 SSM / 10 attention)
+PASS: classification -- fixture geometry 4 blocks (3 SSM / 1 attention)
+PASS: classification -- interval default rule
+PASS: directory lists -- common 9, SSM +9, attention +6 (fused)
+PASS: counts -- directory arithmetic 693 (30x18 + 10x15 + 3), fixture 72
+PASS: kind names -- ssm / attention
+test_qwen35moe_layout: ALL PASS (6 groups)
+run exit=0
+
+== j124_reread driver, main form (72 tensors) ==
+PASS: level 1 PackedGGUF census (count, arch, geometry, hybrid directory)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 72 tensors, 29 metadata entries, architecture qwen35moe
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED)
+REREAD DRIVER: ALL PASS
+run exit=0
+
+== j124_reread driver, MTP-carrying form (76 tensors, synthetic head) ==
+PASS: level 1 PackedGGUF census (count, arch, geometry, hybrid directory)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 76 tensors, 29 metadata entries, architecture qwen35moe
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED)
+REREAD DRIVER: ALL PASS
+run exit=0
+
+== j124_refuse: SSM block missing ssm_out ==
+REFUSAL: GGUF is missing required tensor: blk.1.ssm_out.weight
+REFUSAL DRIVER: ALL PASS
+run exit=0
+
+== j124_refuse: block missing shared-expert gate ==
+REFUSAL: GGUF is missing required tensor: blk.2.ffn_gate_shexp.weight
+REFUSAL DRIVER: ALL PASS
+run exit=0
+
+== j124_refuse: dense-shaped impostor ==
+REFUSAL: GGUF is missing required tensor: blk.0.post_attention_norm.weight
+REFUSAL DRIVER: ALL PASS
+run exit=0
+
+== j124_refuse: separate-gate attention block (fused-only rule) ==
+REFUSAL: GGUF required tensor has an invalid shape: blk.3.attn_q.weight actual: 16x16 expected: 32x16
+REFUSAL DRIVER: ALL PASS
+run exit=0
+
+== test_gguf (neighbour) ==
+--- Testing GGUFSeer validation (The Runecaster's Vision) ---
+GGUFSeer malformed-model rejection & FAILED state transition: PASS
+--- Testing GGUFState Machine Discriminants ---
+GGUFState Machine Discriminants: PASS
+--- Testing GGMLType Constants ---
+GGMLType: PASS
+run exit=0
+
+== test_mtp_census (neighbour: J-076) ==
+PASS: classifier -- nextn names
+PASS: classifier -- mtp names
+PASS: classifier -- assistant names
+PASS: classifier -- ordinary names carry no head
+PASS: classifier -- first-match order nextn before mtp
+PASS: census -- aggregation counts per kind
+PASS: census -- verdicts vocab-only / no-mtp / with-mtp
+PASS: census -- kind and verdict names
+ALL PASS: mtp census classifier (8 groups)
+run exit=0
+
+== test_qwen3next_layout (neighbour: J-123) ==
+PASS: classification -- real geometry 48 blocks (36 SSM / 12 attention)
+PASS: classification -- fixture geometry 4 blocks (3 SSM / 1 attention)
+PASS: classification -- interval default rule
+PASS: directory lists -- common 9, SSM +9, attention +7/+6
+PASS: counts -- census witness 843 (36x18 + 12x16 + 3), fixture 73/72
+PASS: kind names -- ssm / attention
+test_qwen3next_layout: ALL PASS (6 groups)
+run exit=0
