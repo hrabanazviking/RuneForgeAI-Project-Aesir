@@ -1,0 +1,63 @@
+J-109 MCP client session -- j109_mcp_client.py (Python 3 stdlib) against the compiled Mojo host (staging driver importing cli/mcp_serve whole; binary aesir_mcp_host, Mojo 1.0.0 ed45d567). VM, MemAvailable ~3.7 GB (below the inference gate; no model loaded, no inference).
+
+== initialize ==
+>>> {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "j109-proof-client", "version": "1.0.0"}}}
+<<< {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{}},"serverInfo":{"name":"aesir","version":"1.0.0"}}}
+  OK    protocol version 2024-11-05
+  OK    serverInfo name aesir
+  OK    tools capability offered
+>>> {"jsonrpc": "2.0", "method": "notifications/initialized"}
+== tools/list ==
+>>> {"jsonrpc": "2.0", "id": 2, "method": "tools/list"}
+<<< {"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"aesir_generate","description":"Generate text with the model bound to this MCP host. Generation runs the engine's real facade path; a host started without a bound model answers with an honest error instead of invented text.","inputSchema":{"type":"object","properties":{"prompt":{"type":"string","description":"The prompt to generate from."},"model":{"type":"string","description":"Optional catalogue name of the bound model."},"max_tokens":{"type":"integer","minimum":1,"maximum":4096,"default":256}},"required":["prompt"]}},{"name":"aesir_model_info","description":"Report a model's catalogue record (source repository, file, revision, sha256 pin, size, quantization) from Aesir's known-models catalogue. With no argument, list the catalogue. This is the catalogue record, not a loaded model's self-report.","inputSchema":{"type":"object","properties":{"model":{"type":"string","description":"Catalogue name or name:tag; omit to list the catalogue."}}}},{"name":"aesir_embed","description":"Embed text -- UNAVAILABLE in Aesir today: no embedding data path exists, so this tool always refuses honestly rather than returning a fake vector.","inputSchema":{"type":"object","properties":{"input":{"type":"string"}},"required":["input"]}}]}}
+  OK    exactly the three tools: aesir_generate, aesir_model_info, aesir_embed
+  OK    embed refusal stated in its tools/list description
+== tools/call aesir_model_info (listing) ==
+>>> {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "aesir_model_info", "arguments": {}}}
+<<< {"jsonrpc":"2.0","id":3,"result":{"content":[{"type":"text","text":"known-models catalogue (5 entries):\n- olmoe-1b-7b:q4_k_m (Q4_K_M, 4213512672 bytes)\n- granite-3.1-3b-a800m:q4_k_m (Q4_K_M, 2016888384 bytes)\n- qwen1.5-moe-a2.7b-chat:q2_k (Q2_K, 5890164032 bytes)\n- olmoe-1b-7b:q2_k (Q2_K, 2562763584 bytes)\n- qwen3-next-80b-a3b:q4_k_m (Q4_K_M, 48506100512 bytes)"}],"isError":false}}
+  OK    listing is not an error
+  OK    listing names its source
+  OK    listing carries a first reference
+known model for the record call: olmoe-1b-7b:q4_k_m
+== tools/call aesir_model_info (record) ==
+>>> {"jsonrpc": "2.0", "id": 4, "method": "tools/call", "params": {"name": "aesir_model_info", "arguments": {"model": "olmoe-1b-7b:q4_k_m"}}}
+<<< {"jsonrpc":"2.0","id":4,"result":{"content":[{"type":"text","text":"{\"name\":\"olmoe-1b-7b\",\"tag\":\"q4_k_m\",\"repository\":\"allenai/OLMoE-1B-7B-0924-Instruct-GGUF\",\"filename\":\"olmoe-1b-7b-0924-instruct-q4_k_m.gguf\",\"revision\":\"02ab6ea6894a8418eb14f6d8ee1bfb08bd298080\",\"sha256\":\"8c310f1435a1222338fd2d3d974975be9cd908180b644bab0c2a94da1ac32f3f\",\"size_bytes\":4213512672,\"quantization\":\"Q4_K_M\",\"source\":\"known-models catalogue record\",\"live_session_bound\":false}"}],"isError":false}}
+  OK    record is not an error
+  OK    record states its source
+  OK    record carries the sha256 pin
+  OK    record carries the revision
+  OK    record carries a real size
+  OK    record states no live session bound
+== tools/call aesir_model_info (unknown) ==
+>>> {"jsonrpc": "2.0", "id": 5, "method": "tools/call", "params": {"name": "aesir_model_info", "arguments": {"model": "no-such-model"}}}
+<<< {"jsonrpc":"2.0","id":5,"result":{"content":[{"type":"text","text":"unknown model: no-such-model (known: olmoe-1b-7b:q4_k_m, granite-3.1-3b-a800m:q4_k_m, qwen1.5-moe-a2.7b-chat:q2_k, olmoe-1b-7b:q2_k, qwen3-next-80b-a3b:q4_k_m)"}],"isError":true}}
+  OK    unknown is a tool error
+  OK    unknown named in the error
+== tools/call aesir_embed (honest refusal) ==
+>>> {"jsonrpc": "2.0", "id": 6, "method": "tools/call", "params": {"name": "aesir_embed", "arguments": {"input": "hello"}}}
+<<< {"jsonrpc":"2.0","id":6,"result":{"content":[{"type":"text","text":"embeddings are not available in Aesir: no embedding data path exists (the HTTP service states embeddings:false and its embeddings formatter is an error-only stub), and the engine facade's mean-pooled token embeddings are not a graded embedding model. Returning them as embeddings would be a fake vector, so this tool refuses until a graded embedding model kind exists."}],"isError":true}}
+  OK    embed refusal is tool error
+  OK    embed refusal gives its reason
+  OK    no vector field
+  OK    no vector numbers in the refusal
+== tools/call aesir_generate (no engine bound) ==
+>>> {"jsonrpc": "2.0", "id": 7, "method": "tools/call", "params": {"name": "aesir_generate", "arguments": {"prompt": "Hello", "max_tokens": 16}}}
+<<< {"jsonrpc":"2.0","id":7,"result":{"content":[{"type":"text","text":"no live model session is bound in this MCP host: generation needs an engine-bound host started over a locally present model file. This host answers model info from the catalogue and refuses generation honestly rather than inventing text. The engine-binding leg is filed in the J-109 doc section 5."}],"isError":true}}
+  OK    unbound generate is a tool error
+  OK    unbound generate states why, in plain words
+== ping ==
+>>> {"jsonrpc": "2.0", "id": 8, "method": "ping"}
+<<< {"jsonrpc":"2.0","id":8,"result":{}}
+  OK    ping answers {}
+== unknown method ==
+>>> {"jsonrpc": "2.0", "id": 9, "method": "resources/list"}
+<<< {"jsonrpc":"2.0","id":9,"error":{"code":-32601,"message":"method not found: resources/list"}}
+  OK    unknown method is -32601
+== malformed line ==
+>>> {not json
+<<< {"jsonrpc":"2.0","id":null,"error":{"code":-32700,"message":"parse error"}}
+  OK    malformed is -32700
+  OK    parse error id is null
+server exit code: 0
+  OK    server exits cleanly at EOF
+CLIENT PROOF: ALL PASS

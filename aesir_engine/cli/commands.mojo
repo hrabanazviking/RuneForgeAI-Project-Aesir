@@ -19,6 +19,7 @@ from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
 from cli.bench import dispatch_bench
+from cli.mcp_serve import run_mcp_stdio
 from cli.model_inspect import dispatch_model_inspect
 from cli.vision import dispatch_vision
 from cli.doctor import dispatch_doctor
@@ -68,6 +69,10 @@ def print_general_help():
     print("      [--name <name[:tag]> [--config <path>]]")
     print("      Download and verify a pinned GGUF; optionally register stored bytes.")
     print("      Default single-connection pulls resume verified partial downloads.")
+    print("  mcp")
+    print("      Serve Aesir as MCP tools on stdio (JSON-RPC): generate,")
+    print("      model info, and embed (which refuses honestly -- no")
+    print("      embedding data path exists). No arguments in this build.")
     print("  get <name[:tag]> [--config <path>]")
     print("      Fetch one model from the in-repo known-models catalogue by name;")
     print("      downloaded and checksum-verified before use; a mismatch is refused.")
@@ -1033,6 +1038,36 @@ def dispatch_preference_command(args: List[String]) raises:
     print("Favorite model removed: " + canonical)
 
 
+def parse_mcp_request(args: List[String]) raises:
+    """Parses mcp syntax without performing I/O (J-109).
+
+    The MCP stdio host takes no arguments in this build;
+    any argument is refused by name rather than silently
+    ignored. The engine-binding options arrive with the
+    live generation leg (J-109 doc section 5).
+    """
+    if len(args) > 1:
+        raise Error(
+            "unknown mcp argument: " + args[1]
+            + " (mcp takes no arguments in this build; the"
+            + " engine-binding options arrive with the live"
+            + " leg, J-109 doc section 5)"
+        )
+
+
+def dispatch_mcp(args: List[String]) raises:
+    """Serves Aesir as MCP tools on stdio (J-109, T21).
+
+    JSON-RPC 2.0, one object per line: aesir_generate,
+    aesir_model_info, aesir_embed (which refuses honestly
+    -- no embedding data path exists). All protocol and
+    dispatch decisions live in core/mcp_tools.mojo; the
+    host loop is cli/mcp_serve.mojo's run_mcp_stdio.
+    """
+    parse_mcp_request(args)
+    run_mcp_stdio()
+
+
 def dispatch_command(args: List[String]) raises:
     """Routes implemented commands, using durable state where required."""
     if len(args) > 0 and _is_catalog_command(args[0]):
@@ -1111,6 +1146,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "get":
         dispatch_get(args)
+        return
+
+    if cmd == "mcp":
+        dispatch_mcp(args)
         return
 
     if cmd == "inspect":
