@@ -1,0 +1,74 @@
+PASS artefact present docs/janas/j122_harness.py
+PASS artefact present docs/janas/j122_run_pairs.py
+PASS artefact present docs/janas/j122_test_harness.py
+PASS artefact present docs/janas/j122_pair_records.json
+PASS harness states hf-gguf
+PASS harness states gguf-gguf
+PASS harness states hf-gguf-subset-head
+PASS harness states merged
+PASS harness states pass-through
+PASS harness states labelled-head
+PASS harness states carried-verbatim
+PASS harness states REFUSED-by-name
+PASS harness states missing-in-converted
+PASS harness states extra-in-converted
+PASS harness states label-mismatch
+PASS harness states DEFERRED-WITH-REASON
+PASS harness states J-128
+PASS harness states J-136
+PASS harness states element-exact (synthetic pair grade)
+PASS harness never grades via llama-cli single-turn
+PASS four pair records filed -- 4
+PASS P1-j120-lora-merge verdict PASS
+PASS P1-j120-lora-merge class counts exact -- {'merged': 2, 'pass-through': 10}
+PASS P1-j120-lora-merge grade element-exact 0 diffs -- {'differing_elements': 0, 'kind': 'element-exact (synthetic pair grade)', 'max_abs_diff': 0.0, 'total_elements': 728}
+PASS P1-j120-lora-merge live leg DEFERRED-WITH-REASON to J-128 + J-136
+PASS P2-j120-c10-reemission verdict PASS
+PASS P2-j120-c10-reemission class counts exact -- {'carried-verbatim': 12}
+PASS P2-j120-c10-reemission grade element-exact 0 diffs -- {'differing_elements': 0, 'kind': 'element-exact (synthetic pair grade)', 'max_abs_diff': 0.0, 'total_elements': 728}
+PASS P2-j120-c10-reemission live leg DEFERRED-WITH-REASON to J-128 + J-136
+PASS P3-j121-mtp-conversion verdict PASS
+PASS P3-j121-mtp-conversion class counts exact -- {'labelled-head': 4, 'pass-through': 12}
+PASS P3-j121-mtp-conversion grade element-exact 0 diffs -- {'differing_elements': 0, 'kind': 'element-exact (synthetic pair grade)', 'max_abs_diff': 0.0, 'total_elements': 936}
+PASS P3-j121-mtp-conversion live leg DEFERRED-WITH-REASON to J-128 + J-136
+PASS P4-j121-block-extraction verdict PASS
+PASS P4-j121-block-extraction class counts exact -- {'labelled-head': 4}
+PASS P4-j121-block-extraction grade element-exact 0 diffs -- {'differing_elements': 0, 'kind': 'element-exact (synthetic pair grade)', 'max_abs_diff': 0.0, 'total_elements': 208}
+PASS P4-j121-block-extraction live leg DEFERRED-WITH-REASON to J-128 + J-136
+PASS P1 converted sha is the J-120 banked pin
+PASS P3 converted sha is the J-121 banked pin
+PASS P4 converted sha is the J-121 banked block pin
+PASS P2 source sha == converted sha (byte-identical re-emission)
+PASS P3 metadata label filed (4 heads, 21 entries)
+PASS test output states PIN merged.gguf OK
+PASS test output states PIN converted.gguf OK
+PASS test output states PIN block.gguf OK
+PASS test output states RUN PAIRS: ALL PASS (4 pairs)
+PASS test output states TEST HARNESS: ALL PASS (11 groups)
+PASS test output states group 6: flipped element FAILs
+PASS test output states group 7: missing tensors FAIL
+PASS test output states group 8: mislabelled head FAILs
+PASS test output states group 9: extra tensors FAIL
+PASS test output states group 10: silently dropped unmapped tensor REFUSED-by-name
+PASS test output states checks: 21, fails: 0
+PASS doc states No silent conversions
+PASS doc states DEFERRED-WITH-REASON
+PASS doc states NOT PROVEN
+PASS doc states repl.mojo
+PASS doc states G-119-1
+PASS doc states J-128
+PASS doc states J-136
+PASS doc states element-exact
+PASS doc states REFUSED-by-name
+PASS doc states 3754494b
+PASS doc sections 1+ filed
+PASS campaign copy sha-identical: J122_CONVERSION_VERIFICATION_HARNESS.md
+PASS campaign copy sha-identical: j122_harness.py
+PASS campaign copy sha-identical: j122_run_pairs.py
+PASS campaign copy sha-identical: j122_test_harness.py
+PASS campaign copy sha-identical: j122_pair_records.json
+PASS campaign copy sha-identical: j122_test_output.txt
+PASS campaign copy sha-identical: j122_inspect.py
+PASS no README.md touched in worktree -- M docs/janas/J122_CONVERSION_VERIFICATION_HARNESS.md
+?? docs
+TOTAL 72 PASS 72 FAIL 0
