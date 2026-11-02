@@ -530,6 +530,20 @@ struct AesirEngine:
     # learned file J-044's; `bench --report` is J-101's surface.
     # See docs/janas/J100_BENCH_CONFIGURATIONS.md.
     #
+    # The machine report artefact (Janas road J-101): the
+    # sendable form of the bench lives in
+    # core/machine_report.mojo -- report_artefact() opens with
+    # J-100's machine_report() verbatim (hardware inventory,
+    # sweeps, cell table) and appends the per-model read/write
+    # table of filed evidence (each cell carrying its source and
+    # honesty class, or NOT PROVEN with its reason -- nothing in
+    # the table is invented) and the device refusal summary
+    # (J-037's device line verbatim, then each entry's own line
+    # with its refusal reason). The `bench --report` flag
+    # (cli/bench.mojo) is its one surface in this slice; it
+    # refuses --pass, because the artefact is the whole machine.
+    # See docs/janas/J101_MACHINE_REPORT.md.
+    #
     # Auto choice for prompt passes (Janas road J-040): the
     # prompt kind's chooser lives in core/prompt_placement.mojo --
     # choose_prompt_placement() runs the J-038 device sweep (the

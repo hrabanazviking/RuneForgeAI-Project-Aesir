@@ -1,0 +1,9 @@
+J-101 purplelongship example -- DEFERRED-WITH-REASON (no artefact was run on that box in this slice)
+
+Reason: coordination law. The 204 road relaunched its S-103 runner on purplelongship at 18:55:13 EST on 2026-11-01 (ROADMAP_204_STATE.md, final entry at slice start: laptop rebooted ~18:44 EST, runner relaunched in tmux s103, SHA phase re-verified, reg phase in progress). A live 204 run owns that box; this slice yields and attempted no device access that could contend.
+
+Exact recipe for the tick/gate that can run it (guarded, 204-yielding):
+1. Read ~/workspace/model-tests/ROADMAP_204_STATE.md's tail: proceed only if no live 204 run owns purplelongship (no live runner process on-box, its heartbeat states the box idle or its road closed for the window).
+2. On purplelongship, in a fresh worktree of yrsa/janas-j101 (or its successor tip), build the filed driver at the lightest target per the header of aesir_engine/docs/janas/j101_bench.mojo (staging libaesir_par.so from aesir_engine/thread_par.c, sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd).
+3. Run once: LD_LIBRARY_PATH=<staging> <build>/j101_bench --report, stdout filed verbatim as an addendum to this file, with the on-box machine state (model, cores, GPU via the run's own inventory line, load, temperature class) recorded beside it.
+4. Record the filing in AESIR_JANAS_STATE.md. Until then, every purplelongship claim in J-101's doc rests on the already-filed J-022/J-023/J-030 legs cited in the per-model table -- no new purplelongship number is claimed by this slice.

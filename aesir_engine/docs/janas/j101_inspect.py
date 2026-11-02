@@ -87,7 +87,7 @@ bc_test = read(ROOT / "tests" / "test_bench_configurations.mojo")
 check("bench configurations suite exists", bc_test != "")
 check("bench configurations suite has 8 groups", bc_test.count("def test_") == 8)
 check("J-100 suite group 7 updated in-scope (J-101 change recorded)",
-      "J-101 in-scope change" in bc_test and "--report + --pass" in bc_test.replace("+", " + ") or "--report+--pass" in bc_test)
+      "J-101 in-scope change" in bc_test and "--report+--pass" in bc_test)
 check("J-100 suite no longer asserts --report alone refused",
       '["bench", "--report"]' not in bc_test)
 
@@ -109,7 +109,9 @@ check("test output filed", test_out != "")
 check("test output: machine report 6/6", "ALL PASS: machine report (6 groups)" in test_out)
 check("test output: bench configurations 8/8",
       "ALL PASS: bench configurations (8 groups)" in test_out)
-check("test output: neighbour placement_harness 10/10", "10/10" in test_out)
+check("test output: neighbours 10/10 + 10/10",
+      "placement measurement harness (10 groups)" in test_out
+      and "thread topology trials (10 groups)" in test_out)
 fixture = read(JANAS / "j101_example_vm_fixture.txt")
 check("VM fixture example filed", fixture != "")
 check("VM fixture example labelled FIXTURE", "FIXTURE" in fixture)
@@ -117,6 +119,16 @@ check("fixture example carries the model table",
       "per-model read/write" in fixture and "OLMoE Q4_K_M" in fixture)
 check("fixture example carries refusal reasons",
       "device lines with refusal reasons" in fixture)
+live = read(JANAS / "j101_example_vm_live.txt")
+check("VM live example filed", live != "")
+check("VM live example is a live observation", "live machine observation" in live)
+check("VM live example enumerates 27 cells", "27 enumerated, 6 measured" in live)
+check("VM live example records the gate measurement", "5,747,088 kB" in live)
+check("VM live example discharges J-100 section 5 on its face",
+      "DISCHARGED" in live)
+pls = read(JANAS / "j101_example_purplelongship.txt")
+check("purplelongship example filed as deferred-with-reason",
+      "DEFERRED-WITH-REASON" in pls and "S-103" in pls)
 
 # --- no README in the slice -----------------------------------------------------
 try:

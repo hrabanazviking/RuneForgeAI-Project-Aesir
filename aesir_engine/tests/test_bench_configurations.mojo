@@ -6,9 +6,16 @@ GPU-present: the GPU cells turn unmeasurable-with-reason, never
 excluded and never measured), the fastest-cell grading on
 injected cells (measured only, ties keep table order, a kind
 with no measured cell grades -1), the machine report's render on
-an injected report, the CLI argument refusals (including
---report, which is J-101's), and one full bench sweep over
-fixture inventory/facts on this machine.
+an injected report, the CLI argument refusals, and one full bench
+sweep over fixture inventory/facts on this machine.
+
+J-101 in-scope change (its doc section 0.5): group 7's CLI
+refusals no longer assert that --report alone is refused --
+lifting that refusal is J-101's commission (the artefact lives in
+core/machine_report.mojo, its suite is test_machine_report.mojo).
+The group instead refuses the incoherent --report + --pass
+combination J-101's protocol names, beside the same five other
+malformed invocations; the group still refuses 6 in total.
 
 The live group measures HARNESS MECHANICS only: the workloads
 are J-038's pass-shaped micro-workloads, and no number here is
@@ -240,7 +247,9 @@ def _dispatch_refused(args: List[String]) -> Bool:
 
 def test_cli_refusals() raises:
     var refused = 0
-    if _dispatch_refused(List[String](["bench", "--report"])):
+    if _dispatch_refused(
+        List[String](["bench", "--report", "--pass", "prompt"])
+    ):
         refused += 1
     if _dispatch_refused(List[String](["bench", "--settle", "0"])):
         refused += 1
@@ -255,7 +264,7 @@ def test_cli_refusals() raises:
     ):
         refused += 1
     expect_eq(refused, 6, "every malformed bench invocation is refused")
-    print("PASS: CLI refusals (--report is J-101's; bad counts/kinds refused)")
+    print("PASS: CLI refusals (--report+--pass incoherent per J-101; bad counts/kinds refused)")
 
 
 def test_live_bench_sweep() raises:
