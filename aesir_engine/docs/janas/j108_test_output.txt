@@ -1,0 +1,38 @@
+J-108 Server browser page -- test output (VM, lightest target)
+Tree: yrsa/janas-j108 from yrsa/janas-j107 tip 68c78d6c2cde4c42ba575e153e3049edb7aed940 (ls-remote verified at slice start; remote yrsa/janas-j108 absent at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (0b5625fd).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-100..J-107 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables exported by hand -- PATH, CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max per the env's own 10-activate-max.sh; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j108stage, build dir ~/workspace/.verify-tmp/j108build, TMPDIR redirected to the staging dir throughout (/tmp 100% full, pre-existing; nothing deleted).
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~3.2-3.6 GB during the builds -- below the 5,500 MB inference gate throughout. Lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere, and NO live server was started and NO browser was driven (the live browser leg is deferred-with-reason, doc section 5). purplelongship not used at all (the 204 road's S-104 live there; yielded, and not needed by design).
+
+== test_browser_page (J-108, new) ==
+build exit=0 run exit=0
+PASS: route predicate (GET / exactly; no alias, no other method)
+PASS: content type (text/html; charset=utf-8)
+PASS: document shape (one self-contained HTML document)
+PASS: document calls (only the audited shape; J-107 stream vocabulary)
+PASS: document hygiene (zero external references; textContent only)
+PASS: design law (16px text, 44px targets, labels, words-not-colour status)
+PASS: size bound (2048 < page <= 24576 bytes; actual 9576)
+PASS: origin discipline (serving origin only; cross-site refused)
+ALL PASS: browser page (8 groups)
+
+== native serve wiring compile driver (staging driver importing cli/native_serve whole) ==
+build exit=0 run exit=0
+native serve + browser page modules compile + import: PASS
+
+== test_openai_audit (neighbour: J-106 audit, updated only for the J-108 route-table flip) ==
+build exit=0 run exit=0
+PASS: chat field table (31 fields: 8 honoured, 5 partial, 18 refused; strangers refused)
+PASS: completion field table (19 fields: 8 honoured, 2 partial, 9 refused)
+PASS: message tables (2/7 fields honoured; 4/6 roles honoured incl. developer)
+PASS: route table (9 served incl. page + retrieve, 6 refused-501, families + strangers 404)
+PASS: refusal bodies (501 + route + a real reason, per refused route)
+PASS: parser closures (max_completion_tokens precedence, developer role; kept refusals hold)
+PASS: usage accounting (prompt_tokens_details.cached_tokens on all three forms; status carries it)
+ALL PASS: openai audit (7 groups)
+
+== test_local_protocol (neighbour: the head + transport surface, extended only with the J-108 cases) ==
+build exit=0 run exit=0
+PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy
+PASS bounded JSON and HTTP rejection
+
+Suites not rebuilt, named with reasons (never silently skipped): test_stream_progress and test_prompt_progress -- no file they exercise changed in this slice (core/stream_progress.mojo, core/prompt_progress.mojo, server/openai.mojo all untouched); test_multi_engine -- cli/multi_engine.mojo and everything it exercises are untouched by this slice (the J-107 precedent names it the same way).

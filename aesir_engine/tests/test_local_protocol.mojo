@@ -116,6 +116,33 @@ def test_local_http() raises:
         raise Error("Explicit loopback compatibility mode still required authentication")
     if LocalHTTPHead(head, 18435, key).status != 403:
         raise Error("Untrusted Host accepted")
+    # Browser page discipline (J-108, T16): the page document
+    # (GET / exactly) needs no key -- a browser navigation
+    # cannot present one -- while every data route keeps the
+    # Bearer rule, and browser headers are refused by value:
+    # exactly the serving origin passes, cross-site fails.
+    var page_head = String("GET / HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n\r\n")
+    if LocalHTTPHead(page_head, 18434, key).status != 200:
+        raise Error("Browser page document demanded a key")
+    if LocalHTTPHead(page_head.replace("GET / ", "GET /health "), 18434, key).status != 401:
+        raise Error("Page exemption leaked to a data route")
+    var post_page = String("POST / HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nContent-Type: application/json\r\nContent-Length: 2\r\n\r\n")
+    if LocalHTTPHead(post_page, 18434, key).status != 401:
+        raise Error("Page exemption leaked to the wrong method")
+    var nav_head = page_head.replace("\r\n\r\n", "\r\nSec-Fetch-Site: none\r\n\r\n")
+    if LocalHTTPHead(nav_head, 18434, key).status != 200:
+        raise Error("Direct browser navigation to the page refused")
+    if LocalHTTPHead(nav_head.replace("none", "cross-site"), 18434, key).status != 403:
+        raise Error("Cross-site navigation accepted")
+    var browser_api = head.replace("\r\n\r\n", "\r\nOrigin: http://127.0.0.1:18434\r\nReferer: http://127.0.0.1:18434/\r\nSec-Fetch-Site: same-origin\r\n\r\n")
+    if LocalHTTPHead(browser_api, 18434, key).status != 200:
+        raise Error("Same-origin browser API call refused")
+    if LocalHTTPHead(browser_api.replace("http://127.0.0.1:18434\r\n", "http://example.com\r\n"), 18434, key).status != 403:
+        raise Error("Cross-site Origin accepted")
+    if LocalHTTPHead(browser_api.replace("http://127.0.0.1:18434/\r\n", "http://127.0.0.1:9999/\r\n"), 18434, key).status != 403:
+        raise Error("Referer from another port accepted")
+    if LocalHTTPHead(browser_api.replace("same-origin", "same-site"), 18434, key).status != 403:
+        raise Error("Same-site fetch accepted")
     var unavailable = local_response(503, model_readiness(False, "m", "d", "gemma4", 512), False,
                                      "application/json", True)
     if "HTTP/1.1 503 Service Unavailable" not in unavailable or '"ready":false' not in unavailable:

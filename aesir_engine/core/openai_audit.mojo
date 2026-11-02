@@ -88,6 +88,16 @@ move to chat 8 honoured / 5 partial / 18 refused and
 completions 8 / 2 / 9. The J-106 doc's section 2 rows
 for stream_options are superseded by the J-107 doc.
 
+J-108 EVOLUTION (recorded, not silent): the census row
+T15 (a browser chat page served by the server itself)
+was ABSENT at J-106 -- the route table's served set had
+no page. J-108 builds it (core/browser_page.mojo): GET /
+joins the served set (8 -> 9 served; the refused class
+and the kept families are unchanged), answered with the
+page document as text/html, in both modes. The field
+tables do not move: the page sends only fields these
+tables already honour.
+
 HOST CONTRACT. cli/native_serve.mojo's serve loop consults
 route_verdict for the 501 class (a refused route answers
 501 with unsupported_route_body's reason, preserved body,
@@ -302,8 +312,11 @@ def served_route_names() -> List[String]:
     "METHOD path" keys. GET /v1/models/{id} is the retrieve
     pattern this slice closes; the health trio and the
     native generate route are Aesir's own additions, listed
-    so the audit's served set is the serve's whole truth."""
+    so the audit's served set is the serve's whole truth.
+    GET / is the browser page J-108 adds (T15): the one
+    non-JSON route, answered as text/html."""
     var names = List[String]()
+    names.append(String("GET /"))
     names.append(String("POST /v1/chat/completions"))
     names.append(String("POST /v1/completions"))
     names.append(String("GET /v1/models"))

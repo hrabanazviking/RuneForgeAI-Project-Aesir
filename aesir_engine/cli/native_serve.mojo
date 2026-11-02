@@ -31,6 +31,7 @@ from core.openai_audit import ROUTE_REFUSED_501, route_verdict, unsupported_rout
 from core.stream_progress import (STREAM_NATIVE_NDJSON, STREAM_OLLAMA_NDJSON,
                                   STREAM_OPENAI_SSE, progress_frames,
                                   stream_usage_requested)
+from core.browser_page import browser_page_html, browser_page_content_type
 
 
 struct GenerateRequest:
@@ -283,6 +284,24 @@ def openai_catalog_names(catalog: List[OllamaModelInfo]) -> List[String]:
 # sessions' begin_turn loops), deferred with its recipe
 # in docs/janas/J107_SERVER_STREAMING_PROGRESS.md
 # sections 0.4/5, re-cited at the J-118 gate.
+#
+# The browser page (Janas road J-108) -- host contract.
+# GET / answers the try-it chat page (core/browser_page
+# .mojo: one self-contained HTML document, no external
+# references, no model name or key baked in) as
+# text/html, in both modes -- the chat route it calls
+# exists in both. The page document itself is exempt
+# from the Bearer rule in LocalHTTPHead (a browser
+# navigation cannot present one; the page is a constant
+# with no secrets, the Host check still applies, and
+# every data route keeps the rule; the page's API calls
+# present the key the operator types into it). The head
+# layer's browser-header discipline (T16) refuses
+# Origin / Referer / Sec-Fetch-Site by VALUE through the
+# page layer's rules: exactly the serving origin is
+# allowed, cross-site values stay 403. The decision and
+# its price are recorded in docs/janas/
+# J108_SERVER_BROWSER_PAGE.md section 0.2.
 
 
 def send_progress_frames(fd: Int32, kind: Int, prompt_tokens: Int,
@@ -434,6 +453,12 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             if request.stream:
                                 send_local(client.fd, body + "\n", io_timeout_ms, interrupt_fd)
                             status = 200
+                    elif head.method == "GET" and head.path == "/":
+                        # The browser page (J-108, T15): the one
+                        # non-JSON route, served in both modes.
+                        status = 200
+                        body = browser_page_html()
+                        content_type = browser_page_content_type()
                     elif head.method == "GET" and head.path == "/v1/models":
                         status = 503
                         var current_catalog = ollama_catalog_models(model_store, model)

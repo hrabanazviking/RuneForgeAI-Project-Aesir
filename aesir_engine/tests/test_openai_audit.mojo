@@ -20,6 +20,11 @@ the table tallies are chat 8/5/18 and completions 8/2/9,
 and the parser-closures group asserts the honouring. The
 detailed stream_options grammar is graded by
 test_stream_progress.
+
+J-108 update: the browser page (T15) joins the served
+route set (GET /, 8 -> 9 served); the route-table group
+asserts it. The page itself is graded by
+test_browser_page.
 """
 from core.openai_audit import (
     FIELD_HONOURED,
@@ -164,9 +169,11 @@ def test_message_tables() raises:
 
 
 def test_route_table() raises:
-    expect_eq_int(len(served_route_names()), 8, "served route count")
+    expect_eq_int(len(served_route_names()), 9, "served route count")
     expect_eq_int(len(refused_route_names()), 6, "refused route count")
     expect_eq_int(len(kept_404_route_families()), 8, "kept family count")
+    expect_eq_int(route_verdict("GET", "/"), ROUTE_SERVED,
+                  "browser page served (J-108)")
     expect_eq_int(route_verdict("POST", "/v1/chat/completions"), ROUTE_SERVED,
                   "chat served")
     expect_eq_int(route_verdict("POST", "/v1/completions"), ROUTE_SERVED,
@@ -196,7 +203,7 @@ def test_route_table() raises:
     expect_true(not is_model_retrieve("GET", "/v1/models/"), "empty id is not retrieve")
     expect_true(not is_model_retrieve("POST", "/v1/models/m"), "retrieve is GET only")
     expect_eq_str(route_verdict_name(ROUTE_REFUSED_501), "REFUSED_501", "route name")
-    print("PASS: route table (8 served incl. retrieve, 6 refused-501, families + strangers 404)")
+    print("PASS: route table (9 served incl. page + retrieve, 6 refused-501, families + strangers 404)")
 
 
 def test_refusal_bodies() raises:

@@ -4,6 +4,10 @@ This intentionally implements a small protocol, not general HTTP pipelining or
 OpenAI compatibility. Transport must pass exactly the declared body bytes.
 """
 from core.observation_integer import bounded_decimal
+from core.browser_page import (browser_fetch_site_allowed,
+                               browser_origin_allowed,
+                               browser_referer_allowed,
+                               is_browser_page_request)
 
 
 def resolve_request_token_limit(requested: Int, ceiling: Int) raises -> Int:
@@ -330,11 +334,29 @@ struct LocalHTTPHead:
                 content_type = value
             elif name == "transfer-encoding" or name == "expect":
                 raise Error("Transfer encoding and Expect are unsupported")
-            elif name == "origin" or name == "referer" or name == "sec-fetch-site":
-                self.status = 403
+            elif name == "origin":
+                # Browser discipline (J-108, T16): an Origin is
+                # refused unless it is exactly the serving origin
+                # (core/browser_page). Non-browser clients send
+                # none; cross-site values stay refused.
+                if not browser_origin_allowed(value, port):
+                    self.status = 403
+            elif name == "referer":
+                if not browser_referer_allowed(value, port):
+                    self.status = 403
+            elif name == "sec-fetch-site":
+                if not browser_fetch_site_allowed(value):
+                    self.status = 403
         if host != "127.0.0.1:" + String(port) and host != "localhost:" + String(port):
             self.status = 403
-        if require_auth and not constant_time_equal(self.authorization, "Bearer " + key):
+        # The browser page document itself (J-108) is exempt
+        # from the Bearer rule: a browser navigation cannot
+        # present an Authorization header, and the page is a
+        # compile-time constant with no model data, key, or
+        # user data (the Host check above still applies to
+        # it). Every data route keeps the rule unchanged;
+        # the page's API calls present the operator's key.
+        if require_auth and not is_browser_page_request(self.method, self.path) and not constant_time_equal(self.authorization, "Bearer " + key):
             self.status = 401
         if self.length > 131072:
             self.status = 413

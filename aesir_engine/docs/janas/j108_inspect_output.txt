@@ -1,0 +1,40 @@
+PASS: layer: route, document, content type and the three rules all present
+PASS: layer: the route is GET / exactly
+PASS: layer: content type is text/html with charset
+PASS: layer: serving origins are the two loopback spellings at the port
+PASS: layer: fetch-site allows same-origin and none only
+PASS: layer: referer must be the origin or under it
+PASS: document: the literal opens with the doctype
+PASS: document: closes the html element
+PASS: document: zero external references
+PASS: document: no backslash anywhere (served bytes are literal)
+PASS: document: textContent only, no innerHTML
+PASS: document: inline style and script, empty data-URI favicon
+PASS: document: calls only the audited routes
+PASS: document: the J-107 stream vocabulary is handled
+PASS: document: errors stated in words, key presented to the API
+PASS: document: design-law numbers (16px text, 44px targets, labels, live region)
+PASS: document: the accent marks the send control
+PASS: document: size inside the filed bound (2048 < bytes <= 24576)
+PASS: document: extracted size matches the filed test output
+PASS: head: imports the page layer's rules
+PASS: head: the three browser headers decided by the layer's rules
+PASS: head: the Bearer condition exempts exactly the page request
+PASS: serve: imports the page document and its content type
+PASS: serve: the page branch answers GET / with the document
+PASS: serve: the page branch sits before the 501/404 fallthrough
+PASS: serve: the host-contract comment records the page and its discipline
+PASS: audit: GET / is in the served route set
+PASS: audit: the J-108 evolution is recorded in the module
+PASS: doc: tallies stated (9 served; page 9,576 bytes; 8/8 and 7/7 suites)
+PASS: suite: test_browser_page has 8 groups and the ALL PASS line
+PASS: suite: audit suite carries the flipped route table
+PASS: suite: local protocol suite carries the J-108 head cases
+PASS: filed output: browser page 8/8
+PASS: filed output: openai audit 7/7 at the flipped route table
+PASS: filed output: local protocol neighbour PASS
+PASS: filed output: native serve compile driver PASS
+PASS: no README in the slice diff
+PASS: no .gguf in the slice diff
+PASS: slice diff is exactly the expected file set
+INSPECT: 39/39 PASS

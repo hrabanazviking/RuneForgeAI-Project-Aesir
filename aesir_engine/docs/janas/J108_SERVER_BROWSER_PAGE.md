@@ -75,3 +75,90 @@ The slice **passes** iff all of the following hold, each filed:
 **No README is touched. Hailo stays parked (no finish-line branch contact, no chip run or probe). No Docker. Nothing is deleted to free disk.**
 
 *(§§1–10 are filed below from the build, under this protocol.)*
+
+## 1. Headline
+
+**The server now serves its own try-it chat page.** `GET /` answers one self-contained HTML document (**9,576 bytes**, inline style and script, zero external references, no framework) from a new pure layer, `core/browser_page.mojo`, wired as a single branch in `serve_loaded` in both modes. The page calls only the J-106-audited shape — `GET /v1/models` to name the model, `POST /v1/chat/completions` with `model`/`messages`/`stream` (plus `stream_options.include_usage` when streaming) — and speaks J-107's stream vocabulary: `prefill_progress` events land in the status line as words, streamed errors and pre-stream HTTP errors are shown verbatim, and a usage chunk renders as plain counts. The slice's real delta is the one J-099 pre-registered: the head layer's browser-header refusal (T16) now refuses **by value** through the page layer's origin rules — exactly the serving origin passes, cross-site values stay 403 — and the Bearer rule exempts exactly the page document (a browser navigation cannot present a key; the page is a constant with no secrets; every data route keeps the rule). J-106's audit gains the page: **9 served** routes (field tables unmoved). **Unit suites: `test_browser_page` 8/8 groups PASS; neighbours `test_openai_audit` 7/7 (flipped route table), `test_local_protocol` PASS (extended only with this slice's head cases); the native-serve compile driver PASS; inspect filed in §6.** The **live browser leg is DEFERRED-WITH-REASON** (no CUDA device on this VM; MemAvailable below the 5,500 MB gate throughout; purplelongship yielded to the 204 road's S-104), re-cited at the **J-118 Part VII gate**. No README touched. Hailo untouched/parked. No Docker.
+
+## 2. The diff this slice closes (J-099 row T15 + the T16 exception)
+
+| Item | Before J-108 | After J-108 |
+|---|---|---|
+| Served browser page (T15) | ABSENT — no `text/html` anywhere; `GET /` falls through to the standing 404 | `GET /` → 200 + the page document as `text/html; charset=utf-8`, both modes; J-106's route table: **9 served** |
+| The page document | — | One constant string in `core/browser_page.mojo`: 9,576 bytes, inline style + script, zero external references (no `http://`/`https://` substring), empty `data:,` favicon, no model name/key/user data baked in |
+| What the page calls | — | Only the audited shape: `GET /v1/models`; `POST /v1/chat/completions` (`model`, `messages`, `stream`; `stream_options.include_usage` when streaming). Refusals/errors shown verbatim |
+| Stream handling on the page | — | J-107's vocabulary: progress events → status words; `delta.content` appended; usage chunk → counts line; `[DONE]` ends; streamed `error` events shown |
+| Origin / Referer / Sec-Fetch-Site (T16) | Any value → 403 (no browser could load or use any page, in either mode) | Refused **by value** via the page layer's rules: Origin exactly the serving origin; Referer at/under it; Sec-Fetch-Site `same-origin`/`none`. Cross-site — incl. another loopback port (`same-site`) — stays 403; absent headers unaffected; no CORS header added |
+| Bearer rule, native mode | Every request, incl. any page navigation (which cannot present one) | Unchanged for every data route; `GET /` — the constant page document only — is exempt (Host check still applies). The page's API calls present the operator's typed key |
+| Transcript safety | — | `textContent` only; the document contains no `innerHTML` at all |
+
+## 3. What was built
+
+- **`aesir_engine/core/browser_page.mojo`** (new): `is_browser_page_request(method, path)` (GET + `/` exactly); `browser_page_html()` (the whole document as one constant — its text carries no backslash anywhere, so the literal is byte-for-byte what is served); `browser_page_content_type()`; the origin discipline `browser_origin_allowed` / `browser_referer_allowed` / `browser_fetch_site_allowed` (the serving origin in both loopback spellings, at the serving port). The header carries the contract, the design-law numbers, and the host contract.
+- **`aesir_engine/server/local_protocol.mojo`**: `LocalHTTPHead` imports and executes the layer's rules — the three browser-header branches decide by value with the serving port; the Bearer condition skips exactly `is_browser_page_request(...)`. Host, length, content-type, method, and framing rules untouched.
+- **`aesir_engine/cli/native_serve.mojo`**: one dispatch branch (`GET /` → 200 + document + HTML content type) placed with the GET routes before the 501/404 fallthrough, served in both modes; the host-contract comment block gains the page paragraph with §0.2's reasoning kept in the tree.
+- **`aesir_engine/core/openai_audit.mojo`**: `GET /` joins `served_route_names()` (9 served); the header gains the J-108 evolution note. Field tables untouched.
+- **The page itself** (in the layer): header + status line (`role="status"`, always words) + transcript (`aria-live="polite"`); labelled Model / API key (password) / Message fields; Send (the one accent-coloured control), Load models, Clear; Stream checkbox default on. Loads the model list on open and on demand, degrading to a typed name with the refusal shown. Conversation held in page memory as user/assistant turns; an errored turn is removed from the history it sends (it received no answer) while staying visible in the transcript beside the error. Clear empties page state and sends nothing.
+- **`aesir_engine/tests/test_browser_page.mojo`** (new): 8 groups (§6). **`aesir_engine/tests/test_openai_audit.mojo`**: updated only for the route-table flip (count 9, the `GET /` verdict, header note). **`aesir_engine/tests/test_local_protocol.mojo`**: `test_local_http` extended only with the §0.6(b) head cases.
+
+## 4. Per-surface state after this slice
+
+| Surface | Page | Browser headers | Bearer (native mode) | Live state |
+|---|---|---|---|---|
+| `GET /` | 200, the document, `text/html; charset=utf-8`, both modes | Same-origin values pass; cross-site 403 | Exempt (the document only; Host still checked) | Wiring compile-proven; live NOT PROVEN (§5) |
+| `POST /v1/chat/completions` (+ all data routes) | — (JSON, as before) | Same rule by value — the page's fetches pass, cross-site stays 403 | Required, unchanged | Unchanged |
+| Non-browser clients (curl, SDKs) | — | Send none of the three headers: unaffected, byte for byte | Unchanged | Unchanged |
+| Cross-origin web pages | Cannot read any response (no CORS header added); their API calls 403 on the header rules before auth is even judged | Refused | — | By construction |
+
+## 5. Deferred — the live browser leg (DEFERRED-WITH-REASON, exact recipe)
+
+**Why deferred:** VM MemAvailable ~3.2–3.6 GB at build time (gate: 5,500 MB) and no CUDA device on the VM, so no live serve can run here; purplelongship was not used at all (the 204 road's S-104 was live there; yielded under the coordination law). A page's real test is a browser engine's behaviour — fetch, SSE reading, rendering — which no unit suite here can supply.
+
+**Exact recipe** (device-capable worker, purplelongship quiet window; re-cited at the **J-118 Part VII gate**):
+
+1. **Gate checks first:** read the 204 heartbeat (`~/workspace/model-tests/ROADMAP_204_STATE.md`), confirm no live run and the box reachable; record loadavg, Tctl, MemAvailable, GPU idle (VRAM ~1 MiB) at start/end. One heavy run at a time. Fetch `yrsa/janas-j108` on-box; verify the tree against the banked tip.
+2. **Raw probes (curl, before any browser):** `GET /` → 200 + `text/html; charset=utf-8` + the document byte-identical to `browser_page_html()`; `GET /` with `Origin: http://127.0.0.1:9999` → 403; an authenticated API POST with `Origin: http://example.com` → 403 and with the serving Origin → its normal answer; in native mode `GET /health` without the key → 401 while `GET /` without it → 200.
+3. **Browser leg (a real browser on the box, both modes):** open the page; the model list loads (Ollama mode unauthenticated; native mode after pasting the key, with the pre-key 401 shown plainly first); send one message non-streamed and one streamed; with a ≥ 1,024-token prompt the status line shows the read's progress in words before the answer completes; the streamed turn's usage line matches the non-streamed twin's counts. **Ids first:** both turns' generated ids vs the same requests made by curl, token for token — any divergence is a page/wiring defect, never a number to file quietly; then teacher-forcing rank + logit gap against the ggml **CPU** comparator on the raw prompt (never `llama-cli --single-turn`).
+4. **Design-law spot checks at the same sitting:** the page at 200 % text scaling (no clipped controls, primary task still obvious), in a grayscale screenshot (status readable as words), and with the network panel confirming zero external requests.
+5. **Filing:** results in an addendum on the measuring slice's branch, machine state per run, captures filed beside it; `test_browser_page` registration in `tests/run_all.mojo` with the counted-run pin re-accounted in the same leg (J-031 §10 pattern). J-117's web-page example rides this page — its live proof is this recipe's step 3, re-cited there.
+
+## 6. Evidence
+
+Filed in full in `docs/janas/j108_test_output.txt` (VM, lightest target; staging builds byte-identical to the road's: `libaesir_par.so` sha256 `2082ce3f…` from the pinned `thread_par.c`):
+
+- **`test_browser_page` — 8/8 groups PASS:** route predicate; content type; document shape; document calls (only the audited shape, J-107 vocabulary); document hygiene (zero external references, `textContent` only, no backslash); design law (16 px text, 44 px targets, labels, status region); size bound (actual **9,576** bytes, inside 2,048 < n ≤ 24,576); origin discipline (both spellings at the serving port allowed; other ports, https spelling, foreign origins, lookalike referers, `same-site`/`cross-site` refused).
+- **`test_openai_audit` — 7/7 PASS** at the flipped route table (9 served incl. page + retrieve; field tables unchanged at chat 8/5/18, completions 8/2/9).
+- **`test_local_protocol` — PASS** (both filed sections; the HTTP group now includes the J-108 cases: page without key 200, `/health` without key still 401, POST `/` without key still 401, direct navigation 200, cross-site navigation/Origin/Referer/fetch-site 403, same-origin browser API call 200).
+- **Native-serve compile driver — PASS** (`cli/native_serve` imported whole: the page branch, the audit import, and the head-layer import chain all compile together).
+- **Inspect — `docs/janas/j108_inspect.py`:** re-derives the layer's rules, extracts the document from its literal and re-checks every invariant against the extracted bytes (incl. the extracted size matching the filed test output), the head exception's narrowness, the serve branch's placement before the fallthrough, the audit flip, the doc/suite/output tallies, and repo hygiene (diff == the expected 11-file set). Its tally is filed in `j108_inspect_output.txt`.
+- **Not rebuilt, named:** `test_stream_progress`, `test_prompt_progress` (no exercised file changed), `test_multi_engine` (its surface untouched — the J-107 precedent names it the same way).
+
+## 7. Environment
+
+- /tmp stood at 100 % full (pre-existing) for the whole slice; nothing was deleted. `TMPDIR` was redirected to `~/workspace/.verify-tmp/j108stage` throughout; staging and builds live under `~/workspace/.verify-tmp/j108{stage,build}`.
+- The intermittent Errno 122 write wall did not appear in this slice: the worktree add, the sparse checkout, all commits, and all builds completed without a retry.
+- VM MemAvailable ~3.5 GB at dispatch, ~3.2–3.6 GB during the builds — below the 5,500 MB inference gate throughout; lightest compiles and pure-logic runs only, one at a time. No inference, no live server, no browser driven.
+- purplelongship not used at all: the 204 road's S-104 was live there at dispatch (its 03:32 EST heartbeat) and the slice needed no heavy run by design.
+- A `git fetch origin` in this campaign can report a pre-existing stray-ref error (`bad object refs/heads/yrsa/c4.txt`, recorded at J-106/J-107); pushes and ls-remote are unaffected. This slice did not fetch and did not touch the ref (shared-repo write, outside scope).
+
+## 8. Answered-locally (the clean-room record)
+
+Janas's public documentation states only that its server ships a browser chat page; it does not document the page's route, contents, or protocol. Every such question was answered from Aesir's own architecture, and is recorded here:
+
+- **Q: At which route does the page live?** `GET /` — the serve's root, the address an operator types. No alias is served (`/chat`, `/index.html` stay strangers): one route, one document, nothing to drift.
+- **Q: Which API does the page use — the native `/v1/generate`, the Ollama routes, or the OpenAI routes?** The OpenAI chat route: it is the audited surface (J-106), exists in both modes, and carries J-107's streaming progress + usage the page wants to show. The page sends only fields the audit honours.
+- **Q: How does the page authenticate in native mode?** The operator pastes the service key into the page; it is held in page memory only and sent as the Bearer header on API calls. The page document itself is exempt from the Bearer rule (§0.2) — the recorded price: anyone who can reach the loopback port can fetch a constant document that contains no secrets; the Host check still binds it to the loopback names.
+- **Q: Does the page need its own progress protocol?** No — J-107 already filed one; the page consumes `prefill_progress` events and the usage chunk exactly as served, and renders them as words and counts, inventing neither.
+- **Q: Ornament — runes, glow, ceremony?** None. The Cyber-Viking law's Prime Directive (every themed element needs a measurable job; cut ornament before touching information architecture) leaves a tool page with exactly one themed decision: a single accent colour whose job is to mark the one primary action (and the focus outline, so keyboard position is visible). The page must stay coherent in grayscale, and it does — status is words, roles are labels, the accent is never the only signal.
+
+## 9. NOT PROVEN
+
+- **Any live behaviour:** no live server was started and no browser was driven in this slice. The page's rendering, its fetch/SSE handling in a real browser engine, the live 401-then-key flow, and any generated text through the page are NOT PROVEN; §5's recipe is the proof path, re-cited at the J-118 gate.
+- **Browser variance:** the head rules were graded against the header values the protocol names (`same-origin`/`none`, the two origin spellings). A specific browser's exact header set on every navigation class (prerender, restore, translation proxies) was not measured; the rules refuse unknown values, so an unlisted value degrades to a plain 403 the operator can see, never to a silent allowance.
+- **The page against a second model/profile:** the document is model-agnostic by construction (names come from `/v1/models`), but no second profile's list or stream was exercised — the live leg's step 3 grades the wave profiles it names.
+- **J-117's web-page example** rides this page but is not built here; its execution proof is §5 step 3, owned by J-117/the gate.
+
+## 10. Files
+
+New: `aesir_engine/core/browser_page.mojo`, `aesir_engine/tests/test_browser_page.mojo`, `aesir_engine/docs/janas/J108_SERVER_BROWSER_PAGE.md`, `aesir_engine/docs/janas/j108_inspect.py`, `aesir_engine/docs/janas/j108_inspect_output.txt`, `aesir_engine/docs/janas/j108_test_output.txt`. Edited: `aesir_engine/server/local_protocol.mojo` (the head exception), `aesir_engine/cli/native_serve.mojo` (the page branch + host-contract comment), `aesir_engine/core/openai_audit.mojo` (the route flip + evolution note), `aesir_engine/tests/test_openai_audit.mojo` (route-table expectations only), `aesir_engine/tests/test_local_protocol.mojo` (the J-108 head cases only). Campaign copies of the doc, inspect script, and both outputs are filed sha-identical in `~/workspace/model-tests/janas/`. No README touched. Hailo untouched/parked.
+
