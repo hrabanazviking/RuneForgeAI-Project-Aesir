@@ -1,5 +1,13 @@
 # core/speculative.mojo
 # Validated speculative-token acceptance arithmetic and explicit integration gaps.
+#
+# Draft bound reconciled by J-072 (the discrepancy J-071 section 6
+# named): the hard limit below was 64, an older bound from before
+# Part III's taxonomy. The verify pass is a draft-check pass whose
+# width k+1 must sit in the J-035 band 2..16, so the hard limit is
+# now 15 -- every draft count that can reach a verify pass obeys
+# the band. The default 4 is unchanged and is retained as the
+# draft loop's initial k (core/speculative_loop.mojo LOOP_K_INITIAL).
 
 from std.math import isinf, isnan
 from std.memory import Pointer
@@ -69,8 +77,8 @@ struct SpeculativeEngine(Copyable):
         and tests can reproduce the decision exactly.
         """
         var count = len(proposal.draft_tokens)
-        if self.num_draft_tokens <= 0 or self.num_draft_tokens > 64:
-            raise Error("speculative draft-token limit must be between 1 and 64")
+        if self.num_draft_tokens <= 0 or self.num_draft_tokens > 15:
+            raise Error("speculative draft-token limit must be between 1 and 15")
         if count <= 0 or count > self.num_draft_tokens:
             raise Error("speculative proposal count is outside the configured limit")
         if len(proposal.draft_probs) != count or len(target_token_probs) != count or len(uniform_draws) != count:

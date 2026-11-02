@@ -1,0 +1,63 @@
+J-045 re-trials -- unit test + live re-trial output (VM, lightest target)
+Built from yrsa/janas-j045 tree: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread, then mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); test_retrial run with LD_LIBRARY_PATH=<staging> and J045_TEST_DIR=<staging>/testdata; test_learned_file run with J044_TEST_DIR=<staging>/testdata44. Staging lived on the workspace overlay (~/workspace/.verify-tmp/j045stage); nothing was deleted by this slice.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor (as cpuinfo states this boot), 4 vCPU (4 logical / 4 physical / 1 package, no machine-stated hybrid split), kernel 7.0.0-39-generic. The VM was CONTENDED throughout (load average ~17.9 at slice start, 7.3-12.6 across the builds and runs; MemAvailable ~0.8-1.0 GB -- far below the 5,500 MB inference gate, and no inference ran; lightest compiles only, one at a time). purplelongship was not used at all (the 204 road's S-101 is live there).
+Live outcome, stated plainly: the re-trial machinery is BUILT and unit-PROVEN -- the bounded cadence as a pure function of an injected clock + opens counter (age >= 30 days, or >= 25 opens past an absolute 7-day floor; never per-open, never under clock skew; key drift named, never a re-trial), manual supremacy at plan and adoption (a MANUAL-FIXED kind is never re-trialled; an all-manual entry is never due, at any age or opens), adoption through J-044's store path (changed replaces, reproduced keeps with the measured-at stamp refreshed, fresh refusal goes absent, all-absent erases), the append-only change log beside the learned file (old -> new, trigger, outcome), and skipped re-trials writing nothing (missing / not-due / manual-only / corrupt learned states all skip clean, files byte-identical). The live group re-trialled an entry keyed by this machine's real CPU facts through the real J-040 chooser: the prompt choice (cpu threads=1, DEFAULT-CONFIRMED fixture) was REPRODUCED under contention, so the outcome was KEPT with the stamp refreshed -- the machinery's verdict, not a placement claim. No number in this file is a placement verdict for any model.
+
+== test_retrial (filed run) ==
+PASS: cadence age -- 30d trigger, exact boundary, absent kind not due
+PASS: cadence opens -- 25 past the 7d floor; bursts bounded; never per-open
+PASS: clock skew -- negative age keeps, with the reason on the plan
+PASS: manual supremacy (plan) -- manual never due; mixed due per kind
+PASS: key drift -- machine / model / both named, never a re-trial
+PASS: adopt changed -- fresh verdict replaces, manual carried, change logged
+PASS: adopt reproduced -- choice kept, stamp honestly refreshed, logged
+PASS: adopt refusal -- kind goes absent, entry adopted, logged
+PASS: adopt all-refused -- entry erased, never stored as nothing
+PASS: adopt gate -- only a DUE plan can adopt
+PASS: disk apply + log -- adopted on disk, log appended per re-trial
+PASS: disk apply erased -- entry gone, valid empty file, erasure logged
+PASS: log discipline -- skipped re-trials write no log record
+PASS: run skips -- missing / not-due / manual-only / corrupt write nothing
+LIVE RETRIAL LOG RECORD:
+retrial: at 1793487181 (unix s)
+  machine: cpu 'AMD EPYC 9D25 126-Core Processor', 4 logical / 4 physical / 1 package(s), hybrid split not machine-stated; gpu none stated
+  model: olmoe emb=2048 blk=16 heads=16/16 ffn=11008 ctx=8192 experts=64 used=8
+  trigger: AGE (age 2678400 s, opens 0 since measure; cadence: age >= 2592000 s, or opens >= 25 with age >= 604800 s)
+  measured-at: 1790808781 -> 1793487181
+  prompt: REPRODUCED -- cpu threads=1 (device cpu, threads 1, decision DEFAULT-CONFIRMED, from option auto) (re-measured and reproduced; the choice is kept and the stamp refreshed)
+  drafts: NOT-PRESENT -- absent (nothing learned for this kind)
+  reply: NOT-PRESENT -- absent (nothing learned for this kind)
+  outcome: KEPT -- every re-trialled kind reproduced its learned choice; the choice is kept and the entry re-stored with its measured-at stamp refreshed to the re-trial instant (the choice was re-measured then and stood)
+
+PASS: live re-trial -- real facts key, real chooser, adopted/kept + logged
+ALL PASS: re-trials (15 groups)
+
+== test_learned_file (neighbour, rebuilt from this tree) ==
+PASS: keys -- derived from facts, exact equality, renders, validation
+PASS: serialise/parse round trip -- whole, exact, byte-identical
+PASS: refusal kind absent -- no learned default from a refusal
+PASS: npu refused -- a parked device is never persisted
+PASS: validation refusals -- form/decision consistency, decisions, threads
+PASS: path resolution -- file > cache home > HOME > relative fallback
+PASS: disk save/load -- MISSING clean, save atomic, load whole, lookup applies
+PASS: lookup mismatches -- model / machine / both / no-entry / not-loaded
+PASS: store -- append, same-key replace, corrupt store refused untouched
+PASS: corrupt loads -- garbage/truncated/flipped/version/empty all REFUSED whole
+PASS: erase -- per-key, last-key valid-empty, whole-file, absent clean
+PASS: report -- per-key dump, defaults-only, no expert maps
+LIVE LEARNED REPORT (this machine's facts):
+learned file report
+path: /home/hatch/workspace/.verify-tmp/j045stage/testdata44/live/learned-placement.v1
+state: LOADED (1 entry)
+entry
+  machine: cpu 'AMD EPYC 9D25 126-Core Processor', 4 logical / 4 physical / 1 package(s), hybrid split not machine-stated; gpu none stated
+  model: olmoe emb=2048 blk=16 heads=16/16 ffn=11008 ctx=8192 experts=64 used=8
+  measured-at: 1793487297 (unix s)
+  prompt: cpu threads=1 (device cpu, threads 1, decision DEFAULT-CONFIRMED, from option auto)
+  drafts: absent (no learned choice)
+  reply: absent (no learned choice)
+manual supremacy: learned values are defaults only; an explicit --prompt-on / --drafts-on / --reply-on option (or its env equivalent) overrides the learned value for its kind, always
+expert maps: none -- this file holds placement + thread choices only; no expert-map section exists (J-027 measured rejection)
+
+PASS: live round trip -- real cpu facts key, store, load, apply, mismatch
+ALL PASS: learned file (13 groups)

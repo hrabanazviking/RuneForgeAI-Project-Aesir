@@ -1,0 +1,30 @@
+J-080 Drafts + streaming -- test/measurement output (VM, offline / lightest target)
+Tree: yrsa/janas-j080 from yrsa/janas-j079 tip 9f17123c77111f31fc0992bf3465d03ed1dd8beb (base verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; no remote yrsa/janas-j080 existed before this slice)
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.6 GB at slice start -- far below the 5,500 MB inference gate at every moment, so no VM inference was attempted; simulation + one lightest Mojo build only, one at a time. purplelongship was not used at all -- unreachable (device offline, last seen 2026-11-01T02:07:13Z, per the 204 road's heartbeat checked at slice start), and yielded to under the coordination law in any case.
+Evidence note: this is a measurement slice in the J-025/J-027 shape -- no new engine module and no new Mojo suite. The code evidence is (a) the validation gate inside j080_streaming.py, (b) the real-module replay of the headline configuration (j080_replay.mojo through the REAL ExpertCache), and (c) the inspection recount (j080_inspect.py). Acceptance in every batch run is MODELLED from J-079's filed fixture cycles (shaped from J-075's fixtures); every batch number is SIMULATED on the MEASURED J-016 trace. No live pair is admitted on any filed fact (J-078/J-079 record stands).
+
+=== validation gate (inside j080_streaming.py; runs before any interplay number) ===
+seq@128: tournament EXACT, mojo_replay EXACT
+seq@256: tournament EXACT
+seq@512: tournament EXACT, mojo_replay EXACT
+Gate: PASS (3/3 budgets EXACT against j024_tournament_results.json fsketch global runs, every exported counter; 2/2 against j024_replay_results.txt real-module counters)
+First attempt FAILED the gate (see doc section 7): the first segment grouping merged prose's 4 generation tokens (filed last in the trace) into the prose prompt, reordering the global stream. Fixed by contiguous file-order segments; every filed number is from the fixed script.
+
+=== measurement (docs/janas/j080_streaming.py; full counters in j080_streaming_results.json) ===
+SEQ base: @128 hit 0.3514, 316.16 MB/emitted-token, evictions 1050, bypasses 46724, evicted-before-reuse 22335; @512 hit 0.7688, 112.98 MB/emitted-token, evictions 1668, bypasses 14895, evicted-before-reuse 12194.
+BATCH-ALL net vs SEQ (streamed MB per emitted token): hot +0.21/+0.51/+13.58% @128 and +0.46/+0.28/+10.63% @512 (k=2/4/8); cold +47.10/+135.55/+307.33% @128 and +38.50/+104.18/+193.00% @512; mixed +19.48/+49.40/+151.20% @128 and +17.69/+38.76/+106.22% @512; perfect +0.21/+0.51/+2.09% @128 and +0.46/+0.28/+1.71% @512.
+BATCH-PREFIX net vs SEQ: positive everywhere except mixed/k2@512 at -0.33% (the single prefix-beats-SEQ cell).
+Verdict (pre-registered rule, doc section 1): MIXED -- batching pays, waste eats it (triggered by exactly one cell; no buildable BATCH-ALL cell is cache-neutral at either budget).
+Determinism: the full matrix ran twice; the two results files were byte-identical as parsed JSON (equality asserted in Python; the run-2 file was then removed, the canonical results file is run 1's).
+
+=== real-module replay (headline configuration: BATCH-ALL, k=4, hot) ===
+Flatten: python3 j080_flatten.py j016_trace_olmoe.jsonl <staging>/j080_accesses.csv -> 73,856 rows (hot at k=4 wastes nothing under the filed fixtures, so the schedule holds exactly the sequential access count, re-issued layer-major).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par docs/janas/j080_replay.mojo (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its activation variables, as J-071--J-079 filed; pixi run remains blocked on this VM). Build exit 0, no warnings filed. Staging ~/workspace/.verify-tmp/j080stage, build dir ~/workspace/.verify-tmp/j080build, nothing deleted.
+Run (LD_LIBRARY_PATH=<staging>, CWD=<staging>): both lines in j080_replay_results.txt --
+  batch_all k4 hot budget 476160: accesses=73856 hits=25698 misses=48158 cold=1024 bypasses=46842 admissions=1316 evictions=1187 evicted_before_reuse=22819 bytes_streamed(scaled)=179059584 entries=129 resident=475392
+  batch_all k4 hot budget 1904640: accesses=73856 hits=56741 misses=17115 cold=1024 bypasses=14857 admissions=2258 evictions=1745 evicted_before_reuse=12472 bytes_streamed(scaled)=63839664 entries=513 resident=1903344
+Simulator for the same configuration: @128 hits 25698 / streamed_scaled 179059584 / bypasses 46842 / admissions 1316 / evictions 1187 / ebr 22819 / entries 129 / resident 475392; @512 hits 56741 / 63839664 / 14857 / 2258 / 1745 / 12472 / 513 / 1903344.
+Replay verdict: EXACT at both budgets, every compared counter.
+
+=== inspection recount ===
+j080_inspect.py: 24/24 checks PASS, exit 0 (filed as j080_inspect_output.txt) -- pins, gate, SEQ rows, verdict-rule outcome, hot==perfect at k<=4, cold tax monotonic in k and >+190% at k8, cold PREFIX identical across k, real-module replay EXACT at both budgets.

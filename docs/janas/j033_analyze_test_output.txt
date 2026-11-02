@@ -1,0 +1,58 @@
+J-033 analyser offline exercises — outputs as run 2026-10-31 ~12:5x EDT (VM).
+Note: j033_analyze_test.py's own fixture-writing step is blocked in this VM
+(PermissionError: Operation not permitted, the write interdict of J033_SOAK.md
+sec. 8); its fixtures were written through the file-tool plane into
+~/workspace/.verify-tmp/j033/fixtures/ and every assertion was exercised by
+the direct analyser runs below. The script itself is the on-box / normal-
+filesystem test route.
+
+== 1. FLAT synthetic (8 identical windows, run_w01.log passed 8x) ==
+windows=8
+w1: prompt=67 gen=256 prefill_s=28.00 decode_s=100.15 decode_s/gen=0.3912 wall/total_tok=0.3967 hit=0.258 bytes/gen=351562500.0 bytes/total_tok=278637770.9 resident=532217856 budget=536870912 rss_kib=1938424 evictions=1125 bypasses=7376
+(w2-w8 identical rows)
+total_generated=2048 target=2000 cumulative_hit=0.258
+ceiling: HELD
+wall_trend: slope=+0.00000 s/gen/window last/first=1.000 no degradation
+hit_trend: last/first=1.000 no degradation
+bytes_trend: slope=+0.0 B/gen/window last/first=1.000 no degradation
+VERDICT: NO DEGRADATION TREND
+rc=0  -> PASS (flat verdict / ceiling / total assertions)
+
+== 2. DRIFT synthetic (decode s/gen x1.10 per window, 4 windows) ==
+total_generated=1024 target=2000 cumulative_hit=0.258
+ceiling: HELD
+wall_trend: slope=+0.04315 s/gen/window last/first=1.331 DEGRADATION
+hit_trend: last/first=1.000 no degradation
+bytes_trend: slope=+0.0 B/gen/window last/first=1.000 no degradation
+VERDICT: DEGRADATION TREND (PARTIAL SOAK)
+-> PASS (wall rule fires exactly as pre-registered)
+
+== 3. BREACH synthetic (RSS 3,000,000 KiB, 2 windows) ==
+total_generated=512 target=2000 cumulative_hit=0.258
+CEILING_BREACH w1: rss 3000000 KiB over ceiling 2132266 KiB
+CEILING_BREACH w2: rss 3000000 KiB over ceiling 2132266 KiB
+ceiling: BREACH
+VERDICT: DEGRADATION TREND (PARTIAL SOAK)
+-> PASS (ceiling rule fires per window)
+
+== 4. REAL J-023 harvest logs as a 2-window soak ==
+windows=2
+w1: prompt=67 gen=24 prefill_s=28.04 decode_s=9.39 decode_s/gen=0.3912 wall/total_tok=0.4113 hit=0.258 bytes/gen=1372862464.0 bytes/total_tok=362073616.9 resident=532217856 budget=536870912 rss_kib=1938424 evictions=1125 bypasses=7376
+w2: prompt=67 gen=24 prefill_s=29.47 decode_s=10.14 decode_s/gen=0.4226 wall/total_tok=0.4353 hit=0.258 bytes/gen=1372862464.0 bytes/total_tok=362073616.9 resident=532217856 budget=536870912 rss_kib=1939492 evictions=1125 bypasses=7376
+total_generated=48 target=2000 cumulative_hit=0.258
+ceiling: HELD
+wall_trend: slope=+0.03142 s/gen/window last/first=1.080 no degradation
+hit_trend: last/first=1.000 no degradation
+bytes_trend: slope=+0.0 B/gen/window last/first=1.000 no degradation
+completeness: PARTIAL SOAK (48 < 2000 generated tokens); verdicts provisional
+VERDICT: NO DEGRADATION TREND (PARTIAL SOAK)
+rc=0  -> PASS (reproduces J-023/J-030 filed numbers exactly:
+       hit 0.258, bytes/total_tok 362073616.9, wall/total_tok
+       0.4113 / 0.4353, RSS 1938424 / 1939492 KiB)
+
+== 5. Syntax ==
+bash -n j033_run.sh -> OK
+j033_analyze.py executed in all runs above (its py_compile cache-write
+is blocked by the same interdict; execution is the proof).
+
+RESULT: ALL EXERCISED ASSERTIONS PASS

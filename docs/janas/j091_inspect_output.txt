@@ -1,0 +1,35 @@
+PASS: ladder KV per-token exists
+PASS: cell verdict exists
+PASS: GPU admission exists
+PASS: f16 price defined through kv_account (J-087)
+PASS: int8 price defined through kv_int8 (J-088)
+PASS: work counts defined through prefill_anatomy (J-053)
+PASS: definitions + verdict rule PRE-REGISTERED in the header
+PASS: gen length is 128 in module and harness
+PASS: rungs are the roadmap's five
+PASS: tests pin the J-053/J-068 reproduction @8192
+PASS: harness prints no wall (walls deferred, stated)
+PASS: host runtime cap 16000 (aesir.mojo)
+PASS: generation allocates min(cap, file context)
+PASS: forward_pass clamps at 16000 (inference.mojo)
+PASS: Coder profile parsed (28/3584/18944/28/4/128/152064/cap 32768)
+PASS: dense CUDA KV buffer is f16
+PASS: no session/execution file imports kv_int8 or kv_ladder (INTEGRATION_BLOCKED is a checked fact) -- importers: []
+PASS: two harness runs filed, byte-identical LADDER lines (determinism) -- found 10 LADDER lines
+PASS: LADDERHEAD + LADDERDONE lines filed
+PASS: every LADDER field re-derived exactly (all rungs, all columns)
+PASS: J-087 Coder per-token reproduced (57,344)
+PASS: J-087 Coder total @8192 reproduced (469,762,048)
+PASS: J-088 Coder per-token reproduced (29,568)
+PASS: J-053 inspect output pins Coder proj/token (6,525,288,448) and its doc tables the attention figure -- coder lines: 1
+PASS: ladder attention MACs @8192 == J-053 filed
+PASS: J-068 filed projection total @8192 (doc) reproduced
+PASS: module arithmetic @16384 within 16 B of the filed refusal total -- derived 5626175104, filed 5626175108, delta 4
+PASS: refusal direction reproduced (required > usable under both)
+PASS: int8 counterfactual holds the 16512 session whole (derived)
+PASS: doc files the sha pin for the live recipe
+PASS: doc files the J-098 deferred recipe (guarded window + comparator)
+PASS: doc states walls NOT PROVEN
+PASS: doc names the CAP_REFUSED and INTEGRATION_BLOCKED cells as results
+PASS: doc states the comparator conditions caveat
+INSPECT SUMMARY: 34/34 PASS, 0 FAIL

@@ -281,3 +281,28 @@ J-024's tournament, extended by this design into a **dropping trial**: on the J-
 - **Open questions recorded for their owners:** reserve default (J-018), I/O mechanism verdict (J-019), warm-up source and trigger (J-020), policy winner (J-024), warm-map persistence (J-027), streamed-expert compute placement (J-031), dropping knob's exact surface (J-036).
 
 **Evidence files.** This document is the slice's deliverable; its evidence is the J-015/J-016 record (`~/workspace/model-tests/janas/J015_MOE_ANATOMY.md`, `J016_ROUTER_INSTRUMENTATION.md`, and their filed data). Filed in the repo under `docs/janas/`. No model files, no README, and no engine code are touched by this slice.
+
+---
+
+## 9. J-029 verdict addendum (2026-10-31) — NVMe vs page cache: SETTLED
+
+*Appended by J-029 (`docs/janas/J029_NVME_PAGE_CACHE_VERDICT.md`, which carries the full numbers table and provenance). This addendum is the only change to this document in that slice; the text above stands exactly as designed in J-017. Provenance note: this file was absent from the J-018+ branch line (it lived only on `yrsa/janas-j017` @ `4225e639`) and was imported into the J-029 tree verbatim — sha256 `cf0e982b425897f6e19f67158d446e2458449fe01540d5aa7e103d42fab71c8a` before this addendum — so the design and its verdict travel together from here.*
+
+**The open item this closes.** §6.2 handed J-019 the read pattern as binding (3 slab reads per missed expert, offsets/extents from the tensor directory only) and left open: I/O mechanism, readahead depth, queue depth, read ordering within a token's miss set. J-019 measured and decided the mechanism at bench scale, J-020 priced it at session scale, J-023 measured the assembled path under load, and J-029 renders the final verdict this design's §8 promised. **The I/O mechanism question is closed; the settled discipline below is now part of this design.**
+
+**Settled disk discipline (DECIDED, measured).** Aesir's streaming path — the reader a J-018 expert-cache miss calls — is **explicit pread of exactly the missed slabs at directory-true offsets, with next-slab readahead advice issued while the current slab is consumed**: `stream_reader.mojo`'s `read_slab` (pread, exact bytes) + `advise_willneed` (`posix_fadvise(POSIX_FADV_WILLNEED)`, unaligned-safe), `readahead(2)` as the inline equivalent, `POSIX_FADV_SEQUENTIAL` at open. Readahead depth, as built and measured, is **one slab**.
+
+**Why, in the design's numbers (all MEASURED on purplelongship's NVMe, kernel 7.0.0-38-generic, the J-015-pinned OLMoE Q4_K_M file, cold verified by DONTNEED + mincore resident fraction 0.0; full table and artefact hashes in J-029 §2–§3):**
+
+- **Cold, identical demand (J-019):** pread+readahead **2.364 s / 1.470 GB/s** vs plain mmap **2.874 s / 1.209 GB/s** — the streaming path wins by 17.7 % of wall; plain pread alone wins by 12.0 %; `madvise(WILLNEED)` on the mmap path buys only ~2.9 % — the fault path, not the advice, is mmap's cost.
+- **Warm (J-019):** every page-cache strategy converges to 3.127–3.469 GB/s (consume-bound; warm rankings MEASURED-INDICATIVE). The streaming path pays no warm penalty for its cold win.
+- **Session scale (J-020):** the streaming path at full-session miss streams runs 2.93–3.21 GB/s (cold stream / cold page 22.513 s over 67,477,831,680 B); page-cache warmth is worth 6.6 % of wall, expert-cache warmth 8.6 % on 10.5 % fewer bytes — warmth pays in the cache, not the pager.
+- **Under load (J-023):** the assembled path's cache/stream counters are bit-identical idle vs loaded (hit 0.258, 32,948,699,136 B streamed in both), token identity holds, degradation is wall-only at +5.8 % (MEASURED-INDICATIVE, single run per leg) — NO THRASH by the pre-registered definition.
+
+**What this verdict does and does not change in the design above:**
+
+- **Plain mmap paging is not the streaming path** — it is the slowest cold discipline measured and §6.2's comparison is answered against it. mmap remains the resident set's load shape in the assembled session (J-022/J-023): residency is a one-time, every-token load, not a demand stream. The verdict governs the streamed set's miss path (§3.1), the traffic that scales with tokens.
+- **The page cache is demoted from pager to cache, not bypassed.** The winning discipline reads through it and takes its warm band; what is refused is letting page faults decide the demand stream.
+- **O_DIRECT stays rejected** (J-019 §6, reaffirmed J-029): cold tie with the winner, no warm state (1.486 GB/s "warm"), +11,231,232 B aligned-cover over-read. Not to be re-litigated without new evidence.
+- **Async I/O remains NOT PROVEN** — no io_uring/AIO binding exists in Mojo 1.0 or this tree, and none is faked; the overlap it would buy is largely captured synchronously by one-slab-ahead advice on this device.
+- **Scope:** the discipline is offset-agnostic by construction (§3.3), but its numbers are OLMoE-on-this-NVMe numbers. Other families' and devices' numbers are **NOT PROVEN**; a session-scale mmap head-to-head and decode-heavy demand remain **NOT PROVEN** (J-029 §7). J-033's soak owns full-scale re-measurement; a contradictory measurement there is the named re-open route for this verdict.

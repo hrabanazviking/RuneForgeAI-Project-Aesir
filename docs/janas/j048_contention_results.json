@@ -1,0 +1,147 @@
+{
+ "gate": {
+  "fsketch@128": "EXACT",
+  "fsketch@256": "EXACT",
+  "fsketch@512": "EXACT",
+  "fsketch@1024": "EXACT",
+  "j028_base_step_crash": "EXACT"
+ },
+ "inputs": {
+  "pair_bytes": 3809280,
+  "floor_pairs": 128,
+  "floor_bytes": 487587840,
+  "body_bytes": 3900702720,
+  "resident_bytes": 311027712,
+  "allowances_bytes": 352321536,
+  "fixed_bytes": 663349248,
+  "stated_device_budget_bytes": 5368709120
+ },
+ "stated_machine": {
+  "plan": {
+   "decision": "full",
+   "cache_bytes": 3900702720,
+   "copy_charged": 0,
+   "copy_closed": false,
+   "placement_stands": true
+  },
+  "headroom_bytes": 804657152
+ },
+ "sweep": [
+  {
+   "cache_pairs": 1024,
+   "pool_bytes": 4564051968,
+   "device_pool": {
+    "decision": "full",
+    "cache_bytes": 3900702720,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "host_pool": {
+    "decision": "full",
+    "cache_bytes": 3900702720,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "filed_fsketch_hit_rate": 0.986135,
+   "filed_fsketch_streamed_mb_per_token": 6.76
+  },
+  {
+   "cache_pairs": 512,
+   "pool_bytes": 2613700608,
+   "device_pool": {
+    "decision": "shrunk",
+    "cache_bytes": 1950351360,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "host_pool": {
+    "decision": "shrunk",
+    "cache_bytes": 1950351360,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "filed_fsketch_hit_rate": 0.768807,
+   "filed_fsketch_streamed_mb_per_token": 112.982
+  },
+  {
+   "cache_pairs": 256,
+   "pool_bytes": 1638524928,
+   "device_pool": {
+    "decision": "shrunk",
+    "cache_bytes": 975175680,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "host_pool": {
+    "decision": "shrunk",
+    "cache_bytes": 975175680,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "filed_fsketch_hit_rate": 0.533389,
+   "filed_fsketch_streamed_mb_per_token": 227.622
+  },
+  {
+   "cache_pairs": 128,
+   "pool_bytes": 1150937088,
+   "device_pool": {
+    "decision": "shrunk",
+    "cache_bytes": 487587840,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "host_pool": {
+    "decision": "shrunk",
+    "cache_bytes": 487587840,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "filed_fsketch_hit_rate": 0.3514,
+   "filed_fsketch_streamed_mb_per_token": 316.162
+  },
+  {
+   "cache_pairs": 64,
+   "pool_bytes": 907143168,
+   "device_pool": {
+    "decision": "no_cache",
+    "cache_bytes": 0,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": true
+   },
+   "host_pool": {
+    "decision": "refuse",
+    "cache_bytes": 0,
+    "copy_charged": 0,
+    "copy_closed": false,
+    "placement_stands": false
+   }
+  }
+ ],
+ "auto_copy_scenario": {
+  "copy_bytes": 975175680,
+  "at_floor_minus_1": {
+   "decision": "shrunk",
+   "cache_bytes": 1462763519,
+   "copy_charged": 0,
+   "copy_closed": true,
+   "placement_stands": true
+  },
+  "at_floor": {
+   "decision": "shrunk",
+   "cache_bytes": 487587840,
+   "copy_charged": 975175680,
+   "copy_closed": false,
+   "placement_stands": true
+  }
+ },
+ "verdict": "PASS: gate EXACT; stated machine FULL; device pool degrades at 64 pairs while host pool refuses there; auto copy closes exactly at the floor line"
+}

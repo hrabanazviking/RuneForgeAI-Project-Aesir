@@ -1,0 +1,48 @@
+J-051 Windows parity check -- audit + neighbour verification output (VM, lightest target)
+Audit script: docs/janas/j051_audit.py (read-only tree inspection), full output filed as
+docs/janas/j051_audit_output.txt (618 lines). Built/run from the yrsa/janas-j051 tree
+(base yrsa/janas-j050 tip 9e1d605c). No model inference ran; no Windows host or WSL
+exists on this VM, so no Windows-side test was run or claimed by this slice.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor (as cpuinfo states this boot),
+4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~1.6 GB at dispatch, ~2.4 GB at the
+neighbour build -- below the 5,500 MB inference gate throughout; lightest work only.
+purplelongship was not used at all (the 204 road is live there).
+
+== audit headline results (from j051_audit_output.txt) ==
+pixi.toml:5: platforms = ["linux-64"]; pixi.lock mentions: linux-64 x86, win-64 x0,
+osx-64 x0, osx-arm64 x0. CI: one workflow, one job, runs-on: ubuntu-latest; the only
+Windows-named steps are contract tests for the WSL bridge, run on Ubuntu (pwsh +
+mocked WSL). Tree-wide: MSVC projects 0, CMake 0, Meson 0, Makefiles 0, .bat/.cmd 0,
+.exe 0. PowerShell files 4, all launcher/bridge or their tests: scripts/launch.ps1,
+scripts/launch_windows.psm1, scripts/test_windows_launch.ps1,
+scripts/test_native_windows_launch.ps1. The bridge requires wsl.exe and execs
+python3 scripts/launch.py INSIDE a WSL distro; launch.py's own header: "Offline
+Linux/WSL build and terminal entry." Part III modules containing the word
+"windows" (any case): 0 of 17. Verdict: NO Windows-native build exists in this
+tree -- see the J-051 doc, Delta W1.
+
+== test_placement_explain (neighbour, rebuilt from THIS tree) ==
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so
+-lpthread, then mojo build -I . -I aesir_engine aesir_engine/tests/test_placement_explain.mojo
+(pixi Mojo 1.0.0 via the j021 env manifest), staging on the workspace overlay
+(~/workspace/.verify-tmp/j051stage); run with LD_LIBRARY_PATH=<staging>.
+This slice changes no code; the rebuild verifies the audited tree is exactly the
+tree J-050 banked, compiling and passing as filed.
+PASS: explain -- flag scan (once / absent / duplicate / value)
+PASS: explain -- candidate conversion (statuses, numbers, reasons)
+PASS: explain -- never-measured + absent-piece honesty
+PASS: explain -- full chooser records (choice, numbers, refusal)
+PASS: explain -- governing layers (hand / learned / auto, J-047)
+PASS: explain -- learned state applied (key, choices, stamp)
+PASS: explain -- learned missing / refused / mismatch states
+PASS: explain -- re-trial due / not-due / manual-only (J-045)
+PASS: explain -- co-work + pressure lines (supplied / absent)
+PASS: explain -- tolerance summary counts (J-046)
+PASS: explain -- server governing provenance (J-049)
+PASS: explain -- report shape (order, header, honesty)
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: explain -- live inventory + learned load on this VM
+ALL PASS: placement explainability (13 groups)
+(One pre-existing compiler warning in the test file -- "transfer from an owned
+value has no effect" at test_placement_explain.mojo:718 -- is J-050's filed code
+building as banked, not a finding of this slice.)

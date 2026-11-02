@@ -1,0 +1,28 @@
+PASS: share crossing functions exist
+PASS: counts defined through kv_ladder (J-091)
+PASS: passes/weight bytes defined through prefill_anatomy (J-053)
+PASS: definitions + crossing rule PRE-REGISTERED in the header
+PASS: module states a MAC share is not a time share
+PASS: tests pin the J-091 reproduction totals
+PASS: tests pin all eleven crossings
+PASS: harness prints no wall / no time split (stated)
+PASS: two harness runs filed, byte-identical SHARE lines (determinism) -- found 10 SHARE lines
+PASS: SHAREHEAD + SHAREDONE + CROSS lines filed
+PASS: every SHARE field re-derived exactly (all rungs, all forms)
+PASS: every CROSS field re-derived exactly (closed forms + scans) -- derived {'marg_work': '32512', 'dec_work': '35228', 'preavg_work': '65024', 'traf_dec_f16': '81667', 'traf_dec_int8': '158384', 'traf_pre_host_f16_first': '700', 'traf_pre_host_f16_perm': '808', 'traf_pre_host_int8_first': '1259', 'traf_pre_host_int8_perm': '1379', 'traf_pre_gpu_f16': '163332', 'traf_pre_gpu_int8': '316766'}
+PASS: crossings are the filed values (32,512 / 35,228 / 65,024 / 81,667 / 158,384 / 700 / 808 / 1,259 / 1,379 / 163,332 / 316,766)
+PASS: J-091 section 5.1 columns reproduced EXACTLY (attention, projection+head, write attention, all rungs)
+PASS: J-053/J-087/J-088 endpoints (6,525,288,448 / 57,344 / 29,568)
+PASS: marginal crossing is exact equality (unit x 32,512 == rest)
+PASS: decode at the cap is 481,914 ppm (below half, cap 32,768)
+PASS: host plan closed form == the plan's loop (every length to 8192 + every chunk boundary to 1,000,000)
+PASS: host f16: no length in (808, 1,000,000] is below half
+PASS: host int8: no length in (1,379, 1,000,000] is below half
+PASS: closed-form bound above half at 8192 and increasing (8,192 / 16,384 / 32,768 / 65,024)
+PASS: doc names the optimisation target for later roads
+PASS: doc files every TIME split as NOT PROVEN / deferred to J-098
+PASS: doc records the refused two-point time fit and why
+PASS: doc files the deferred recipe (guarded window + sha pin + same-placement attribution + raw-oracle)
+PASS: doc states the crossing contexts (35,228 / 32,512 / 65,024)
+PASS: doc states int8 moves bytes/admission, not the work crossing
+INSPECT SUMMARY: 27/27 PASS, 0 FAIL

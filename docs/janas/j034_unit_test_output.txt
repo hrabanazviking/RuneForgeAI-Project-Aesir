@@ -1,0 +1,24 @@
+J-034 gate lightest unit tests — run 2026-10-31 ~13:1x EDT on the VM (MemAvailable ~5,787 MB at start; lightest standalone targets only, no inference).
+Built in worktree ~/workspace/aesir-janas-j034 (branch yrsa/janas-j034, base 664cb523) with: pixi run mojo build -I . -I aesir_engine <test> ; binaries in ~/workspace/.verify-tmp/j034/.
+
+== aesir_engine/tests/test_moe_gpu_plan.mojo ==
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals
+(7/7 groups PASS)
+
+== aesir_engine/tests/test_expert_cache.mojo ==
+PASS: expert cache sizing, cap resolution and size parsing
+PASS: expert cache admission, promotion, pinning, shrink, cap
+PASS: expert cache LRU baseline and LFU policy modes
+PASS: expert cache fsketch sketch-admission policy
+PASS: expert cache no-scarcity starvation fix (segmented, fsketch)
+PASS: expert cache shared pool sizing and arbiter arithmetic
+PASS: expert cache shared pool drive (contention, lending, return)
+PASS: expert cache pressure decisions (shrink, floor, refuse, regrow caps)
+PASS: expert cache pressure drive (pin held, refusal shed, regrow)
+(9/9 groups PASS)

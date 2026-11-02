@@ -1,0 +1,96 @@
+# J-075 — Acceptance Measurement
+
+**Slice:** J-075 (Part V — Drafts: speculative decoding, J-071–J-086), Project Aesir Janas clean-room road.
+**Roadmap text:** "Acceptance measurement. Acceptance rate by text type (prose, code, structured) per pair; the instrumentation permanent, the numbers filed; the Italian-prose lesson (acceptance can collapse by language) reproduced on Aesir's own pairs."
+**Executed:** 2026-11-01, by the keeper's dispatched worker. **No model inference ran anywhere** — the real-pair acceptance leg is deferred with its exact recipe (§6), for the same stated reasons as J-073's and J-074's deferred legs.
+**Base:** worktree `~/workspace/aesir-janas-j075` on branch `yrsa/janas-j075`, from `yrsa/janas-j074` tip `eb3f1ec6` (verified by `git ls-remote` at slice start; origin/main untouched at `605562f6`; no remote `yrsa/janas-j075` existed before this slice).
+**Machine state (VM, stated for every number below):** KVM, 4 vCPU. MemAvailable ~0.95 GB at slice start — **far below the 5,500 MB inference gate at every moment**, so no VM inference was attempted; lightest compiles only, one at a time. purplelongship was **not used at all** — unreachable tonight (204 road: device offline, last seen 2026-11-01T02:07:13Z), and yielded to under the coordination law in any case.
+**Clean-room record:** no Janas material was consulted in this slice beyond what the road already filed: the text-type table and the Italian-prose lesson come from the J-006 census record (`~/workspace/model-tests/janas/CENSUS.md`, from Janas's public docs — its published-acceptance row: English explanation text 74–89% kept on Qwen models; Italian prose collapsed Qwen3.5-2B to ~⅓ kept) and the roadmap text. No Janas source code was opened, in this slice or any other.
+
+---
+
+## 1. Verdict — and the definitions, stated before building
+
+**J-075 closes CLOSED-WITH-DEFERRED-LEG:** the permanent acceptance instrumentation is built and proven, bound to J-071's verify account and J-072's loop accounts (bound, not duplicated); the one measurement tonight's evidence honestly supports — over synthetic-proposer fixtures — is filed at the **SIMULATED** class with the Italian-prose lesson demonstrated at that class (§4); and every real-pair acceptance table is **NOT PROVEN**, deferred with its exact recipe (§6), re-cited at the **J-086** gate.
+
+- The instrument is built and proven: `core/speculative_acceptance.mojo` — a ledger whose rows are keyed by (proposer kind read off the J-071 account itself, cross-model pair id, text type, language), accepting a round **only** as a consistent J-071 `VerifyAccount`; per row it files rounds, tokens drafted, tokens accepted, the rate as the exact pair (accepted, drafted) plus basis points, and the per-round accepted-count histogram from which rounds and accepted are reproducible exactly. **10/10 test groups PASS** (§5). Neighbour suites rebuilt from this tree: verify **13/13**, loop **12/12**, identity **8/8**, cross-model pairing **10/10**, pre-existing acceptance arithmetic **2/2** (§5).
+- The definitions (pre-registered; the module header is their normative text):
+  - **Acceptance rate** of a row = tokens accepted / tokens drafted = sum(`accepted_count`) / sum(`k`) over the row's filed J-071 accounts. The bonus/correction token a round emits (accepted + 1) is not an accepted draft token and enters neither side. A row with zero drafted has **no rate** — the instrument refuses it rather than reporting 0 or 100%.
+  - **A pair** is (proposer kind, pair id). Pair id 0 for every non-cross-model proposer (one pair per kind); for `PROPOSER_CROSS_MODEL`, the index of the J-074 pairing verdict the rounds ran under — pair id **1** is the road's first pair, Qwen3-0.6B → Qwen3-4B (J-074 §4). A pair id on any other kind is refused at record time.
+  - **Text type** is prose / code / structured, assigned by the mechanical classifier of §3 from a stated feature record — never by impression. **Language** is a second dimension for **prose rows only** (english / italian / other); code and structured rows carry `not_applicable` by rule. Rows are never merged after the fact: any aggregate is formed *from* the rows, in the open, beside them.
+
+## 2. Inspection — what the tree holds, and why no real pair can be measured tonight (PROVEN by inspection)
+
+Re-verified first-hand on this tree (the inspection recount, §5, asserts each line):
+
+- J-071's account (`core/speculative_verify.mojo`) already derives everything a round's acceptance consists of — `k`, `accepted_count`, the proposer kind — and its host contract step (6) expressly assigns this slice the filing: "J-075's acceptance instrumentation reads accounts, not reconstructions." The ledger therefore consumes `VerifyAccount` directly and gates every record on `account_is_consistent()`.
+- J-072's loop (`core/speculative_loop.mojo`) produces those accounts round by round and contains, by its own header, "no acceptance statistic" — the statistic is this slice's module, filed beside the loop, not inside it.
+- J-074's pairing account contains "no acceptance statistic" by construction and names J-075 as where an admissible pair's payoff is measured; pair id 1 in this ledger is exactly J-074's first pair.
+- **No proposer implementation, no verify-pass executor, and no session wiring exist** — unchanged from J-072/J-073/J-074: `require_draft_check_use()` still fails closed, the engine facade's `speculative_generate` still raises not-implemented, the loop/pairing/acceptance modules are imported only by their own tests, and the MoE session carries no loop state. A live acceptance run for a real pair therefore has nothing to run on, on any machine, tonight — no real-pair number is faked anywhere in this doc.
+- Machine bounds tonight (stated in the header): the VM sat far below its inference gate at every moment, and purplelongship is unreachable. The only accounts that exist to measure are synthetic ones.
+
+## 3. The instrument — classifier, ledger, host contract
+
+**The classifier (mechanical, deterministic, Aesir-local — answered-locally, §7).** The host counts a fixed feature record over the round's prompt + generated text: triple-backtick fences; semicolon / brace / bracket / colon counts; whole-word hits of the fixed code-keyword list {def, fn, function, return, import, class, var, let, const, static, void, int}; whether the first non-whitespace character is `{` or `[`; and whole-word hits of two fixed marker lists — italian {il, lo, la, di, che, e, non, un, una, del, della, sono, per, con, anche, questo}, english {the, of, and, a, in, is, you, that, it, he, was, for, on, are, with}. Rules, in order, first match wins:
+
+1. **structured**: starts with `{`/`[` AND colons ≥ 1 AND (braces + brackets) ≥ 2.
+2. **code**: fences ≥ 1, OR code-keyword hits ≥ 2, OR (semicolons ≥ 2 AND braces ≥ 1).
+3. **prose**: everything else. Language (prose only): **italian** when italian hits ≥ 2 AND italian > english; **english** when english hits ≥ 2 AND english > italian; **other** otherwise (a tie, or neither list reaching 2 — the row is filed, never forced into a language it did not evidence). Code/structured verdicts carry `not_applicable` whatever the marker counts say — a rule the suite demonstrates with Italian markers inside a fenced block.
+
+Because classification is a pure function of the filed feature record, any reader can re-classify a filed record and check the row its round was filed under.
+
+**The ledger.** `record_round` files one round under the account's own kind; `record_round_classified` is the host's one-call path (classify, then record). Refusals, each unit-tested: an inconsistent account; a pair id on a non-cross-model kind; prose filed without a real language; code/structured filed with one; an unknown proposer kind or text type; negative feature counts. `ledger_totals` forms a pair's aggregate as a synthetic, never-filed row so a reader sets the aggregate's rate **beside** its rows' rates — the comparison the Italian lesson is about.
+
+**Host contract (binding on the first live host):** (1) run rounds under J-072's host contract and file every round's `VerifyAccount`; (2) count the feature record by §3's rules and classify with `classify_text` — never hand-label a row; (3) record under the round's true pair id (cross-model rounds: the J-074 verdict's index); (4) file the ledger's rows with the run's evidence — a rate is quotable only with its (accepted, drafted) pair and its row's (kind, pair id, text type, language); (5) never quote an aggregate without its rows.
+
+## 4. Measurement — what tonight's evidence honestly supports (SIMULATED)
+
+**Fixture (stated in full, in the suite):** synthetic rounds for the first pair's shape — proposer kind `cross_model`, pair id 1, k = 4, ten rounds per row — built through J-071's `plan_verify` from stated draft/target lists whose drafts match the target for exactly the stated accepted counts. The acceptance in these rows is a property of the fixture's stated lists, **not of any model pair**: no model drafted, no model verified. Class: **SIMULATED**.
+
+| Pair | Text type | Language | Rounds | Drafted | Accepted | Rate |
+|---|---|---|---|---|---|---|
+| cross_model / 1 | prose | english | 10 | 40 | 34 | 85.00% |
+| cross_model / 1 | prose | italian | 10 | 40 | 12 | **30.00%** |
+| cross_model / 1 | prose | *(aggregate)* | 20 | 80 | 46 | 57.50% |
+| cross_model / 1 | code | not_applicable | 10 | 40 | 36 | 90.00% |
+| cross_model / 1 | structured | not_applicable | 10 | 40 | 31 | 77.50% |
+| cross_model / 1 | *(all rows)* | — | 40 | 160 | 113 | 70.62% |
+
+**The Italian-prose lesson, reproduced at the SIMULATED class:** the same pair, the same depth, the same round count — English prose keeps 85.00% of its drafts while Italian prose keeps 30.00%, under half. The prose aggregate (57.50%) sits between the two rows and describes **neither**: quoted alone it would hide the collapse exactly as the census's lesson warns (Janas's published Italian collapse on a real Qwen3.5-2B, ~⅓ kept, is the same shape — the census's number on Janas's machine, quoted here as the lesson's source, never as Aesir's result). The instrument's separation is what makes the collapse *visible*: italian-prose rounds accepting 0/1/2 drafts file at histogram bins 0/1/2 (1/6/3 rounds) with **no** round accepting all four, against English prose's six fully-accepted rounds — and every row's distribution reproduces its rounds and accepted totals exactly (suite-proven). What this demonstrates is that the instrument *can* show the lesson on Aesir's own pairs the moment a real pair runs; it does **not** show that any real Aesir pair collapses in Italian — that claim is §6's, and it is NOT PROVEN.
+
+## 5. Tests (PROVEN, VM, lightest target)
+
+Build route as filed in `docs/janas/j075_test_output.txt`: the tree's `thread_par.c` compiled with cc, then each suite built with the same pixi environment's Mojo 1.0.0 binary directly (`pixi run` remains blocked on this VM — the J-072-recorded activation failure — so the activation variables the tree's own activate script sets were exported and the env's binary invoked, exactly as J-071–J-074 filed). Full outputs in the test-evidence file; counts:
+
+- **test_speculative_acceptance (J-075, new) — 10/10 groups PASS:** classifier rule order (structured before code before prose, by stated features alone); prose language by markers with tie/low-evidence filed as other and code's language locked to not_applicable; recording bound to the J-071 account (kind read off the account, totals from the account alone, same key accumulating); record refusals (inconsistent account, pair-id misuse, language misuse — each leaving the ledger untouched); row separation by kind/pair/type/language; the SIMULATED measurement (§4) with the Italian collapse separated and the aggregate shown hiding it; per-text-type rates for one pair with the pair aggregate beside them; the histogram reproducing every row's rounds and accepted; the classified recording path; and rate edges (an unmeasured pair has no rate).
+- **test_speculative_verify (J-071 neighbour, rebuilt from this tree) — 13/13 PASS.**
+- **test_speculative_loop (J-072 neighbour, rebuilt) — 12/12 PASS.**
+- **test_speculative_identity (J-073 neighbour, rebuilt) — 8/8 PASS.**
+- **test_cross_model_pairing (J-074 neighbour, rebuilt) — 10/10 PASS.**
+- **test_speculative (pre-existing, rebuilt) — 2/2 PASS.**
+- **Inspection recount** (`docs/janas/j075_inspect.py`, filed as `j075_inspect_output.txt`): every inspection, instrument, and deferred-recipe claim in this doc as an assertion over the tree and the filed test record.
+
+**Own-build defect, fixed before filing:** the first run of the new suite failed on one expectation of the suite's own making — the English-prose fixture's histogram bin for fully-accepted rounds was asserted as 5 while the stated fixture list holds six 4s (its accepted sum, 34, was asserted and correct in the same group). The expectation was corrected to the fixture's true count; every filed run is from the fixed tree, and the failed run produced no filed number.
+
+## 6. NOT PROVEN — real-pair acceptance, DEFERRED-WITH-REASON, with its exact recipe
+
+- **Acceptance rates for any real pair — NOT PROVEN.** No real pair's draft round has run on any hardware, so no row of §4's table exists for a real pair at any text type or language, and the Italian-prose collapse is **not** claimed on a real Aesir pair. §4's numbers are SIMULATED over stated fixtures; §5 proves the instrument over those fixtures; neither proves, and neither may be quoted as proving, any model's acceptance.
+- **Why deferred, exactly:** (i) no proposer implementation, no verify-pass executor, and no session wiring exist (§2) — the leg has nothing to run on; (ii) purplelongship is unreachable tonight and the VM is below its inference gate in any case. All reasons stated; none is a verdict against the leg.
+- **Dependencies, named honestly:** the wiring/executor gap named in J-073 §7 and J-074 §6 (no slice of their own yet in Part V); J-077/J-078 build sibling proposer forms whose pairs this ledger will measure under their own pair ids.
+- **The recipe (binding on the worker who runs the live leg):**
+  1. **Machine and gap:** run on purplelongship in a guarded idle gap — check `ROADMAP_204_STATE.md`'s heartbeat first, yield to any live 204 run, one heavy run at a time, load and temperature stated. The VM may host a leg only behind MemAvailable > 5,500 MB at run time.
+  2. **Re-pin files, then pair, before any round:** re-pin both files by full sha256 (the first pair's target pin is J-074 §3's `9190094f…1547` for the Qwen3-4B Q4_K_M file; the executing worker files the 0.6B file's pin from the box); run J-074's pairing verdict on the real quantities and honour it exactly — an inadmissible pair files no acceptance rows.
+  3. **Identity first (J-073 §7's ids-first criterion):** plain greedy ids filed first; speculative ids over the same raw prompt (never template-rendered) compared by J-071's checker — a pair whose ids diverge files DIVERGENT and its acceptance is not measured until the divergence is resolved, because acceptance over text the target would not have written is not acceptance.
+  4. **Rounds filed through this instrument:** every round's `VerifyAccount` recorded via `record_round_classified` under the pair's J-074 pair id, the feature record counted by §3's rules over the round's prompt + generated text; prompts spanning prose (English **and** Italian, stated texts filed verbatim), code, and structured, so the filed table is per pair × text type × language with no row reconstructed after the fact.
+  5. **Filing:** the ledger rows, the prompts, the ids, and the machine state file together; rates quoted only as (accepted, drafted) with their row keys, aggregates only beside their rows; walls, if taken, are MEASURED-INDICATIVE and ground no speed claim (net tok/s per pair per text type is the J-086 gate's own evidence).
+- **Re-cite point:** the **J-086 Part V gate** re-cites this deferred leg with this recipe, beside J-073's and J-074's — the gate's evidence pack names "acceptance tables" as its own required contents. If the dependencies still do not exist at the gate, the gate records real-pair acceptance NOT PROVEN again — it is not waived and not inherited from this slice's instrument proof or its SIMULATED table.
+- **Also NOT PROVEN here, for the record:** any acceptance for the head/assistant/conversation proposers on real rounds (same leg, same recipe, their own rows); the classifier's marker lists against real multilingual model output (they are stated rules, validated tonight only on stated feature records — the live leg's filed prompts are their first real test, and a misclassified filed row is corrected by restating its feature record, never by hand-moving it); the full counted suite (`run_all`) on this tree — not run, per the standing gate precedent; the standalone suites in §5 are the filed evidence.
+
+## 7. Answered-locally / exclusions (clean-room)
+
+- No Janas material was consulted; every design question was answered from Aesir's tree and the road's filed records, and is recorded here as answered-locally: (a) the classification rule — the filed docs name the text types and the Italian lesson but state no rule for assigning a text to a type or a language, so §3's feature record, fixed lists, thresholds, and rule order are Aesir's own, stated in advance and unit-tested; (b) the rate definition — accepted/drafted over filed accounts, the emitted bonus/correction token excluded, is J-071's arithmetic read plainly (the census's "kept" percentages are consistent with it but do not state it); (c) the language dimension applies to prose only — extending it to code/structured would file marker noise as language evidence, and the roadmap's lesson is a prose lesson; (d) pair identity binds to J-074's pairing-verdict index rather than a new pair registry — bind, don't duplicate; (e) the aggregate is a derived synthetic row, never a filed row, so no stored number can be quoted without its components existing.
+- **Stated exclusions from this slice's scope:** no proposer was implemented, no gate was lifted, no session was wired, no live run was attempted or simulated-as-live, no real-pair number is claimed, and no prior slice's doc was edited. J-076 is not started here.
+
+## 8. Banking
+
+Filed on branch `yrsa/janas-j075` (worktree `~/workspace/aesir-janas-j075`, base `eb3f1ec6`): `docs/janas/J075_ACCEPTANCE_MEASUREMENT.md` (this doc), `docs/janas/j075_inspect.py`, `docs/janas/j075_inspect_output.txt`, `docs/janas/j075_test_output.txt`; in the tree: `aesir_engine/core/speculative_acceptance.mojo` (new instrumentation), `aesir_engine/tests/test_speculative_acceptance.mojo` (new suite, 10 groups). Campaign copies of the doc + evidence files in `~/workspace/model-tests/janas/`, sha-identical. Push by explicit refspec, foreground, with `git ls-remote` verification that the branch moved and origin/main stayed at `605562f6`; the commit hash and ls-remote lines are recorded in the campaign state entry for J-075 and the slice worker's report (a doc cannot contain its own commit hash). No README touched. Hailo untouched/parked. No Docker.

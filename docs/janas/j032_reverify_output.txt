@@ -1,0 +1,28 @@
+PASS  J-022 pin: size 48,506,100,512 B + full sha256 present  
+PASS  sha256 == f73551b5...80fd (full value re-read)  f73551b55e3796526c37772c96227151fa11af328802b8f9865d635104e280fd
+PASS  repo named unsloth/Qwen3-Next-80B-A3B-Instruct-GGUF  
+PASS  official-Qwen file distinguished (48,410,988,384 B, d103b273...)  
+PASS  attempt artefact: loader refusal text exact  
+PASS  attempt artefact: EXIT=1  
+PASS  attempt artefact: MemAvailable 37,465 MB recorded  
+PASS  attempt artefact: GPU 1 MiB used / 6,144 MiB total recorded  
+PASS  attempt artefact: CUDA_VISIBLE_DEVICES= (no GPU claim)  
+PASS  machine total recomputed: 39,517 + 6,144 = 45,661 MiB  45661 MiB = 47.88 GB
+PASS  J-022 doc states approx 47.88 GB total  recomputed 47.8790 GB
+PASS  file exceeds total GPU+RAM  file 48.51 GB > total 47.88 GB by 0.63 GB
+PASS  file exceeds RAM alone by a wide margin  
+PASS  header fact present: architecture `qwen3next`  
+PASS  header fact present: 48 blocks  
+PASS  header fact present: 512 experts, top-10  
+PASS  header fact present: 843 tensors  
+PASS  header fact present: ssm.conv_kernel` 4  
+PASS  header fact present: ssm.inner_size` 4096  
+PASS  moe_session admits only arch 'olmoe' (gate in this tree)  
+PASS  no qwen3next forward/loader in moe_session  
+PASS  J-011 census: qwen3next row is Qwen3-Next-80B-A3B-Instruct + Coder-Next  
+PASS  J-011 census: only other >=74B MoE rows are nemotron 74B (branch, unmerged in Janas docs) and qwen4exp 177B (experimental)  
+PASS  J-015: larger MoE anatomies deferred to J-022/J-032/J-123 (no other pin taken)  
+PASS  J-015 pins are OLMoE + Granite only (no 80B-class pin there)  
+
+25/25 checks PASS
+ALL CHECKS PASS

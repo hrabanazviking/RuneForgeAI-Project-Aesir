@@ -1,0 +1,122 @@
+J-039 thread topology trials -- unit test + live trial output (VM, lightest target)
+Built from yrsa/janas-j039 tree: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread, then mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); run with LD_LIBRARY_PATH=<staging>.
+Machine: VM (KVM), AMD EPYC 9D64 88-Core Processor, 4 vCPU (4 logical / 4 physical / 1 package, no machine-stated hybrid split), kernel 7.0.0-39-generic. The VM was CONTENDED throughout (load average 2.5-8.6 across the runs; sibling campaign work live); MemAvailable ~0.9-1.5 GB -- far below the 5,500 MB inference gate, and no inference ran: these are harness micro-workload trials (J-038 shapes threaded through Aesir's own par_for), NOT model placement verdicts.
+The main output below is one complete run (all 10 groups). An appendix files the trial lines of three further complete runs the same hour: the per-kind verdict FLIPS between runs under this contention, and the doc (J039_THREAD_TOPOLOGY.md section 6) reports all seven sweeps per kind executed (three earlier console runs + the four filed here). No run is cherry-picked as the verdict.
+
+== test_thread_topology (filed run) ==
+PASS: ladder from VM-shaped facts [1, 2, 4], P/E not applicable-with-reason
+PASS: ladder on a machine-stated hybrid split [1, 6, 8 perf-only, 12]
+PASS: ladder on an SMT machine [1, 4, 8 physical, 16 logical]
+PASS: ladder de-duplication on small machines ([1, 2] and [1])
+PASS: ladder on topology-poor facts stands on the logical count, stated
+PASS: verdict rule on injected medians (all-fastest / band / confirmed)
+PASS: threaded checksum identical to serial at 1/2/4 threads; chunks == threads
+PASS: thread knobs set/read back/clear through Aesir's own thread layer
+LIVE REPLY THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+reply threads=1 (serial): median 29829729 ns (min 15023302, max 78958833, spread 63935531; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+reply threads=2 (half the cores): median 37757790 ns (min 13302467, max 93273591, spread 79971124; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+reply threads=4 (all cores (physical == logical)): median 78755508 ns (min 19981281, max 215160433, spread 195179152; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 29829729 ns; all-cores (4) is slower by 164% (median 78755508 ns), beyond the 5% noise band
+sweep total 1018677884 ns
+
+LIVE PROMPT THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+prompt threads=1 (serial): median 23485025 ns (min 19349562, max 32793381, spread 13443819; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+prompt threads=2 (half the cores): median 24866932 ns (min 12855846, max 80163504, spread 67307658; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+prompt threads=4 (all cores (physical == logical)): median 40241161 ns (min 12480842, max 78630800, spread 66149958; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 23485025 ns; all-cores (4) is slower by 71% (median 40241161 ns), beyond the 5% noise band
+sweep total 658562320 ns
+
+PASS: live thread trials on this machine (prompt + reply, all rungs measured)
+LIVE DRAFT-CHECK THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+drafts threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+verdict: not graded: draft-check is unmeasurable-with-reason (G1)
+sweep total 0 ns
+
+LIVE BOUND THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+reply threads=1 (serial): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply threads=2 (half the cores): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply threads=4 (all cores (physical == logical)): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+verdict: not graded: no measured rung
+sweep total 211540494 ns
+
+PASS: draft-check unmeasurable-with-reason (G1); live bound enforced
+ALL PASS: thread topology trials (10 groups)
+
+== appendix: repeatability runs (trial lines only; each run printed ALL PASS: thread topology trials (10 groups), exit 0) ==
+-- run 5 --
+reply threads=1 (serial): median 11525347 ns (min 9016287, max 56105246, spread 47088959; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+reply threads=2 (half the cores): median 11980370 ns (min 6486565, max 71419565, spread 64933000; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+reply threads=4 (all cores (physical == logical)): median 12056074 ns (min 9645272, max 68800141, spread 59154869; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: WITHIN NOISE (5% band) -- best is 1 threads at median 11525347 ns; all-cores (4) median 12056074 ns is inside the 5% noise band
+prompt threads=1 (serial): median 9277889 ns (min 8715635, max 66456058, spread 57740423; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+prompt threads=2 (half the cores): median 9843059 ns (min 9087494, max 71416571, spread 62329077; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+prompt threads=4 (all cores (physical == logical)): median 26701759 ns (min 15713489, max 46684082, spread 30970593; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 9277889 ns; all-cores (4) is slower by 187% (median 26701759 ns), beyond the 5% noise band
+-- run 6 --
+reply threads=1 (serial): median 23788762 ns (min 17091309, max 55965667, spread 38874358; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+reply threads=2 (half the cores): median 30628178 ns (min 28128212, max 101452259, spread 73324047; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+reply threads=4 (all cores (physical == logical)): median 50731663 ns (min 22827818, max 93370426, spread 70542608; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 23788762 ns; all-cores (4) is slower by 113% (median 50731663 ns), beyond the 5% noise band
+prompt threads=1 (serial): median 16356435 ns (min 10866947, max 47763954, spread 36897007; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+prompt threads=2 (half the cores): median 10779036 ns (min 10415519, max 58032573, spread 47617054; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+prompt threads=4 (all cores (physical == logical)): median 20508042 ns (min 13221285, max 84175141, spread 70953856; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 2 threads at median 10779036 ns; all-cores (4) is slower by 90% (median 20508042 ns), beyond the 5% noise band
+-- run 7 --
+reply threads=1 (serial): median 14501588 ns (min 12631138, max 48650787, spread 36019649; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+reply threads=2 (half the cores): median 22370140 ns (min 12699050, max 106339783, spread 93640733; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+reply threads=4 (all cores (physical == logical)): median 32117636 ns (min 16434232, max 63964455, spread 47530223; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 14501588 ns; all-cores (4) is slower by 121% (median 32117636 ns), beyond the 5% noise band
+prompt threads=1 (serial): median 11909163 ns (min 9668767, max 47087448, spread 37418681; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+prompt threads=2 (half the cores): median 14407987 ns (min 9606503, max 61292540, spread 51686037; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+prompt threads=4 (all cores (physical == logical)): median 11012346 ns (min 6576210, max 65781405, spread 59205195; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: ALL-CORES FASTEST -- the widest rung (4 threads) holds the lowest median (11012346 ns)
+
+== test_device_inventory (neighbouring, rebuilt from this tree) ==
+PASS: cpuinfo topology (logical/physical/packages, no guessed split)
+PASS: cpuinfo topology-poor source states what it does not know
+PASS: hybrid split only when the machine states it
+PASS: gpu probe parse (name, VRAM bytes, device count)
+PASS: gpu probe refusals (empty, malformed, non-numeric)
+PASS: drm listing cross-check (card vs connector entries)
+PASS: npu entry is the ledger state, never a live chip claim
+PASS: device line completeness + require_device_present feed point
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D64 88-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: live probe on this machine (cpu present, gpu absent-with-reason, npu parked)
+ALL PASS: device inventory (9 groups)
+
+== test_placement_harness (neighbouring, rebuilt from this tree) ==
+PASS: summary statistics on injected timings (median/min/max/spread)
+PASS: settle round discarded, measured rounds counted
+PASS: candidate filtering against inventory (present vs excluded-with-reason)
+PASS: time bound enforced in the round accounting + config refusals
+PASS: draft-check unmeasurable-with-reason (G1), never proxied
+PASS: co-work unmeasurable-with-reason (J-043); absent member excluded first
+PASS: present device without an executor is unmeasurable-with-reason
+PASS: workload shapes (reply width 1, prompt batched, deterministic)
+LIVE REPLY SWEEP:
+reply cpu (auto): median 16638569 ns (min 9840745, max 68867501, spread 59026756; rounds 5, settle 1 discarded)
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 184260056 ns
+
+LIVE PROMPT SWEEP:
+prompt cpu (auto): median 22008307 ns (min 15372026, max 82661977, spread 67289951; rounds 5, settle 1 discarded)
+prompt gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+prompt npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 228323009 ns
+
+PASS: live micro-runs on this machine (cpu measured; gpu/npu excluded with reasons)
+LIVE BOUND SWEEP:
+reply cpu (auto): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 17820755 ns
+
+PASS: live time bound enforced (bound-stopped, zero counted rounds)
+ALL PASS: placement measurement harness (10 groups)

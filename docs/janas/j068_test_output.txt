@@ -1,0 +1,63 @@
+J-068 prefill at 8k -- account test output (VM, lightest target)
+Tree: yrsa/janas-j068 from yrsa/janas-j067 tip 8e05ff6c1979af6e6e1b5463087d105ec0dac3fc
+Build: cc thread_par shim (libaesir_par.so already staged by the first worker, 02:29 EST), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j068stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable 666,272 kB at the first build check, 763,860-1,076,696 kB across the run -- far below the 5,500 MB inference gate throughout; no inference ran anywhere, lightest compiles only, one at a time. purplelongship not used at all (unreachable -- 204 road state: device offline, last seen 2026-11-01T02:07:13Z; its S-103 owns the box in any case -- yielded under the coordination law). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run.
+Gate state verified at slice start by git ls-remote: remote yrsa/janas-j067 == 8e05ff6c1979af6e6e1b5463087d105ec0dac3fc; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j068 existed before this slice.
+Continuation note: the slice + neighbour suites were built and run by the continuation worker (the first worker stalled after writing the module, tests, and inspect files at 02:28-02:29 EST; the tests had never been run). Every filed figure in the inherited test file was independently recomputed in Python before the run (all exact -- see doc section 5) and the inspect script was re-run first-hand: its output is byte-identical to the filed j068_inspect_output.txt.
+
+=== inspection recount (docs/janas/j068_inspect.py, filed as j068_inspect_output.txt; re-run by the continuation worker, diff clean) ===
+causal pairs/layer at 8192 = 33558528
+windowed (512) pairs/layer at 8192 = 4063488
+attention quadratic share: pairs(8192)/pairs(4096) = 3.9995x for 2x tokens
+Llama 3 8B attn share = 1333 bp (13.33%), dominates=False
+Llama 3.2 3B attn share = 2000 bp (20.00%), dominates=False
+Qwen3 0.6B attn share = 5161 bp (51.61%), dominates=True
+Qwen2.5 Coder 7B attn share = 1119 bp (11.19%), dominates=False
+Gemma 4 E2B (hybrid) attn share = 1906 bp (19.06%), dominates=False
+OLMoE (routed) attn share = 1997 bp (19.97%), dominates=False
+OLMoE F1 head waste at 8192 = 843858051072 MACs; chunk form waste 0
+J-054 filed at 8192: chunks 32, GEMM calls 7168, per-row attention calls 786432
+J-058 filed: plan_moe_gpu_prefill at 8192 under OLMoE cap 4096 is a REFUSAL case
+J-059 filed at 8192: host-width read = 32 chunks, records_expected = 10
+(full recount in j068_inspect_output.txt)
+
+=== test_prefill_at_8k (J-068, new) ===
+PASS: host batched Llama 3 8B row at 8192 (share 1333 bp)
+PASS: width-1 passes 8192, tile-4 passes 2051 at 8192
+PASS: MoE width-1 row at 8192; F1 head waste exact; chunk form zero
+PASS: attention shares per arch at 8192; dominance is per-arch
+PASS: sliding-window pairs at 8192 = 4,063,488 per layer
+PASS: context verdicts at 8192 (refused / no-room / fits)
+PASS: invalid inputs refused (7/7)
+ALL PASS: prefill at 8k account (7 groups)
+exit=0
+
+=== neighbour: test_prefill_anatomy (J-053) rebuilt from this tree ===
+PASS: host batched plans at the baseline lengths + S-033 shape
+PASS: per-token, CUDA width-1, and CUDA tile-4 plans
+PASS: MoE width-1 plan pins the per-token LM head finding
+PASS: KV bytes written per prompt, per profile shape
+PASS: causal pair counts (full + windowed) and attention MACs
+PASS: dense projection + FFN MACs per token, per profile
+PASS: weight-pass traffic shape + MoE mean stream projection
+PASS: refusals -- cap, token count, surface, window, shape, rate
+ALL PASS: prefill anatomy accounting (8 groups)
+exit=0
+
+=== neighbour: test_igpu_account (J-067) rebuilt from this tree ===
+PASS: iGPU kind distinct from discrete; pools: integrated=shared-system, discrete=separate
+PASS: own VRAM is discrete-only; an iGPU's 'device memory' is system RAM
+PASS: iGPU budget never additive with the system pool; charged+headroom == pool exactly
+PASS: full budget -- fixed 2500 + cache 4000 charged once against pool 10000
+PASS: shrunk budget -- cache absorbs the squeeze (3500), floor 1000 held
+PASS: refuse below the floor and refuse fixed-over-pool, numbers stated
+PASS: J-048 floor discipline unchanged with an iGPU -- fixed first, cache elastic, floor exact
+PASS: prefill tax -- 0 copy bytes; contended 1250000; shared traffic 1550000 with co-load
+PASS: tax refuses a nonzero copy claim (discrete shape) and negative traffic
+PASS: claim verdict -- admission permitted; speed/reply require live; unfit/floor-broken refused
+PASS: claim names exact; unknown codes and invalid budgets refused
+ALL PASS: igpu account (11 groups)
+exit=0
+(one pre-existing docstring-style warning on test_igpu_account.mojo line 1 at build; no error)
+
+No 8k reading-speed, wall, tok/s, or faithfulness quantity was measured anywhere tonight: the VM is far below its inference gate and purplelongship is unreachable and yielded to the 204 road. Every live 8k leg is DEFERRED-WITH-REASON with the exact recipe in doc section 7.

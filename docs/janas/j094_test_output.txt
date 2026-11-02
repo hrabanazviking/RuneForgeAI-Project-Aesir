@@ -1,0 +1,160 @@
+J-094 prompt-read economics -- test + read harness output (VM, lightest target)
+Tree: yrsa/janas-j094 from yrsa/janas-j093 tip 454d70c09ca5db92c39086dd9ce6a2da459fa718 (verified by git at slice start, local == ls-remote; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Design committed first: 635bc62c6dd05698491409e2b273d41a0b731449 (module + tests + harness, prompt-read definition, verdict/placement inheritance and the Part IV effect forms pre-registered in their headers, before any build or run of this slice; the one later change to the filed files is the section-9 test-expectation fix in test_prompt_read.mojo and the List transfer fix, both before the first passing run).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087..J-093 staging builds, as expected from the identical source; staging compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables -- CONDA_PREFIX, MODULAR_HOME=<env>/share/max, PATH -- exported by hand, as J-071..J-093 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j094stage, build dir ~/workspace/.verify-tmp/j094build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~0.58-1.87 GB across the slice (1,879 MB at the first check) -- far below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. Load average up to ~15.9 (other campaigns); no wall and no live read is filed anywhere in this slice, so contention touches no number. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+
+=== test_prompt_read (J-094, new) ===
+build exit=0
+PASS: endpoints -- projection/token 6,525,288,448 and head 544,997,376 (J-053); KV 57,344 f16 / 29,568 int8 per token (J-087/J-088); host cap 256
+PASS: validation gate -- work columns reproduce J-091 section 5.1 EXACTLY at all 5 rungs (@8192 attention == J-053 filed; total @32768 321,576,079,720,448, mean 9,813,723,136/token; head excluded and priced separately)
+PASS: KV columns -- written == J-091 totals (f16 58,720,256 .. 1,879,048,192; int8 roughly half); read shape == J-092 section 4.3 (f16 @32768 30,787,265,101,824)
+PASS: surfaces -- host passes 4..128 vs width-1 1,024..32,768; touch shapes exact per surface/precision (@32768 f16: host 31,388,577,710,080 vs gpu 184,244,135,526,400)
+PASS: verdicts + placement -- cpu f16 read CAP_REFUSED @16384/32768; gpu f16 read ACCOUNTED all rungs, WHOLE through 8192 then SPILL (5,626,175,104 @16384 == J-091 cross-check); int8 blocked 10/10 read cells, CF placement whole through 16384
+PASS: chunk effect (J-053) -- weight-pass delta @32768 152,855,557,816,320 (32,640 fewer passes x the file); the touch-shape difference equals it exactly at every rung, so chunking's work and KV deltas are zero by construction
+PASS: precision effect -- written delta 910,163,968 and read- shape delta 14,912,581,533,696 @32768; work delta exactly zero (the work account is precision-free by construction)
+PASS: block CF (J-054, UNBUILT) -- @32768 width 256: 128 chunks/syncs, 25,088 GEMM calls, 2,752,512 per-row attention calls, weight 599,433,560,064 vs width-1 153,454,991,376,384; every field == plan_gpu_block_prefill's own
+PASS: split (J-056, not kept/unbuilt) -- total MACs and weight bytes conserve exactly; @8192 REJECTED (dominated by both parents: crossings 96 vs 32/0, join 117,440,512 added); @32768 PARENT-ABSENT, join 469,762,048, crossings 384
+PASS: whole-layer identity (J-055) -- the GPU line's width-1 account is the whole-layer account at every rung; accounted delta of whole-layer placement on the read: exactly zero
+PASS: refusals -- zero rung, unknown surface (incl. tile-4, not a Coder surface), unknown precision, zero weights/KV price, zero block width
+ALL PASS: prompt read (11 groups)
+exit=0
+
+=== read harness (J-094, new): run 1 ===
+build exit=0
+READHEAD model=qwen2.5-coder-7b weights=4683074688 usable_gpu=5368709120 host_cap=256 block_width=256 split_width=256
+READ L=1024 prec=f16 pairs=524800 work_attn=105329459200 work_proj=6681895370752 work_total=6787224829952 work_per_token=6628149248 attn_share_ppm=15518 head=544997376 kv_written=58720256 kv_read_shape=30094131200 passes_host=4 weight_host=18732298752 touch_host=48885150208 passes_gpu=1024 weight_gpu=4795468480512 touch_gpu=4825621331968 syncs_gpu=1024 verdict_cpu=ACCOUNTED verdict_gpu=ACCOUNTED gpu_required=4743650944 gpu_place=WHOLE_GPU
+READ L=1024 prec=int8 pairs=524800 work_attn=105329459200 work_proj=6681895370752 work_total=6787224829952 work_per_token=6628149248 attn_share_ppm=15518 head=544997376 kv_written=30277632 kv_read_shape=15517286400 passes_host=4 weight_host=18732298752 touch_host=34279862784 passes_gpu=1024 weight_gpu=4795468480512 touch_gpu=4811016044544 syncs_gpu=1024 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=4715208320 gpu_place=WHOLE_GPU
+EFFECT L=1024 chunk_weight_delta=4776736181760 kvw_delta=28442624 kvr_delta=14576844800 block_chunks=4 block_syncs=4 block_gemm=784 block_attn_calls=86016 block_weight=18732298752 block_admission=unbuilt split_fits=True split_join=14680064 split_transfers=4 split_crossings=12 split_verdict=accounted_and_rejected_dominated
+READ L=4096 prec=f16 pairs=8390656 work_attn=1684038221824 work_proj=26727581483008 work_total=28411619704832 work_per_token=6936430592 attn_share_ppm=59272 head=544997376 kv_written=234881024 kv_read_shape=481153777664 passes_host=16 weight_host=74929195008 touch_host=556317853696 passes_gpu=4096 weight_gpu=19181873922048 touch_gpu=19663262580736 syncs_gpu=4096 verdict_cpu=ACCOUNTED verdict_gpu=ACCOUNTED gpu_required=4920155776 gpu_place=WHOLE_GPU
+READ L=4096 prec=int8 pairs=8390656 work_attn=1684038221824 work_proj=26727581483008 work_total=28411619704832 work_per_token=6936430592 attn_share_ppm=59272 head=544997376 kv_written=121110528 kv_read_shape=248094916608 passes_host=16 weight_host=74929195008 touch_host=323145222144 passes_gpu=4096 weight_gpu=19181873922048 touch_gpu=19430089949184 syncs_gpu=4096 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=4806385280 gpu_place=WHOLE_GPU
+EFFECT L=4096 chunk_weight_delta=19106944727040 kvw_delta=113770496 kvr_delta=233058861056 block_chunks=16 block_syncs=16 block_gemm=3136 block_attn_calls=344064 block_weight=74929195008 block_admission=unbuilt split_fits=True split_join=58720256 split_transfers=16 split_crossings=48 split_verdict=accounted_and_rejected_dominated
+READ L=8192 prec=f16 pairs=33558528 work_attn=6735330803712 work_proj=53455162966016 work_total=60190493769728 work_per_token=7347472384 attn_share_ppm=111900 head=544997376 kv_written=469762048 kv_read_shape=1924380229632 passes_host=32 weight_host=149858390016 touch_host=2074708381696 passes_gpu=8192 weight_gpu=38363747844096 touch_gpu=40288597835776 syncs_gpu=8192 verdict_cpu=ACCOUNTED verdict_gpu=ACCOUNTED gpu_required=5155495552 gpu_place=WHOLE_GPU
+READ L=8192 prec=int8 pairs=33558528 work_attn=6735330803712 work_proj=53455162966016 work_total=60190493769728 work_per_token=7347472384 attn_share_ppm=111900 head=544997376 kv_written=242221056 kv_read_shape=992258555904 passes_host=32 weight_host=149858390016 touch_host=1142359166976 passes_gpu=8192 weight_gpu=38363747844096 touch_gpu=39356248621056 syncs_gpu=8192 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=4927954560 gpu_place=WHOLE_GPU
+EFFECT L=8192 chunk_weight_delta=38213889454080 kvw_delta=227540992 kvr_delta=932121673728 block_chunks=32 block_syncs=32 block_gemm=6272 block_attn_calls=688128 block_weight=149858390016 block_admission=unbuilt split_fits=True split_join=117440512 split_transfers=32 split_crossings=96 split_verdict=accounted_and_rejected_dominated
+READ L=16384 prec=f16 pairs=134225920 work_attn=26939679047680 work_proj=106910325932032 work_total=133850004979712 work_per_token=8169555968 attn_share_ppm=201267 head=544997376 kv_written=939524096 kv_read_shape=7697051156480 passes_host=64 weight_host=299716780032 touch_host=7997707460608 passes_gpu=16384 weight_gpu=76727495688192 touch_gpu=84425486368768 syncs_gpu=16384 verdict_cpu=CAP_REFUSED verdict_gpu=ACCOUNTED gpu_required=5626175104 gpu_place=SPILL_REQUIRED
+READ L=16384 prec=int8 pairs=134225920 work_attn=26939679047680 work_proj=106910325932032 work_total=133850004979712 work_per_token=8169555968 attn_share_ppm=201267 head=544997376 kv_written=484442112 kv_read_shape=3968792002560 passes_host=64 weight_host=299716780032 touch_host=4268993224704 passes_gpu=16384 weight_gpu=76727495688192 touch_gpu=80696772132864 syncs_gpu=16384 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=5171093120 gpu_place=WHOLE_GPU
+EFFECT L=16384 chunk_weight_delta=76427778908160 kvw_delta=455081984 kvr_delta=3728259153920 block_chunks=64 block_syncs=64 block_gemm=12544 block_attn_calls=1376256 block_weight=299716780032 block_admission=unbuilt split_fits=False split_join=234881024 split_transfers=64 split_crossings=192 split_verdict=parent_absent_spill_fallback_shape
+READ L=32768 prec=f16 pairs=536887296 work_attn=107755427856384 work_proj=213820651864064 work_total=321576079720448 work_per_token=9813723136 attn_share_ppm=335085 head=544997376 kv_written=1879048192 kv_read_shape=30787265101824 passes_host=128 weight_host=599433560064 touch_host=31388577710080 passes_gpu=32768 weight_gpu=153454991376384 touch_gpu=184244135526400 syncs_gpu=32768 verdict_cpu=CAP_REFUSED verdict_gpu=ACCOUNTED gpu_required=6567534208 gpu_place=SPILL_REQUIRED
+READ L=32768 prec=int8 pairs=536887296 work_attn=107755427856384 work_proj=213820651864064 work_total=321576079720448 work_per_token=9813723136 attn_share_ppm=335085 head=544997376 kv_written=968884224 kv_read_shape=15874683568128 passes_host=128 weight_host=599433560064 touch_host=16475086012416 passes_gpu=32768 weight_gpu=153454991376384 touch_gpu=169330643828736 syncs_gpu=32768 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=5657370240 gpu_place=SPILL_REQUIRED
+EFFECT L=32768 chunk_weight_delta=152855557816320 kvw_delta=910163968 kvr_delta=14912581533696 block_chunks=128 block_syncs=128 block_gemm=25088 block_attn_calls=2752512 block_weight=599433560064 block_admission=unbuilt split_fits=False split_join=469762048 split_transfers=128 split_crossings=384 split_verdict=parent_absent_spill_fallback_shape
+READDONE rungs=5 walls=NOT_PROVEN_DEFERRED_J098
+exit=0
+
+=== read harness: run 2 (determinism) ===
+READHEAD model=qwen2.5-coder-7b weights=4683074688 usable_gpu=5368709120 host_cap=256 block_width=256 split_width=256
+READ L=1024 prec=f16 pairs=524800 work_attn=105329459200 work_proj=6681895370752 work_total=6787224829952 work_per_token=6628149248 attn_share_ppm=15518 head=544997376 kv_written=58720256 kv_read_shape=30094131200 passes_host=4 weight_host=18732298752 touch_host=48885150208 passes_gpu=1024 weight_gpu=4795468480512 touch_gpu=4825621331968 syncs_gpu=1024 verdict_cpu=ACCOUNTED verdict_gpu=ACCOUNTED gpu_required=4743650944 gpu_place=WHOLE_GPU
+READ L=1024 prec=int8 pairs=524800 work_attn=105329459200 work_proj=6681895370752 work_total=6787224829952 work_per_token=6628149248 attn_share_ppm=15518 head=544997376 kv_written=30277632 kv_read_shape=15517286400 passes_host=4 weight_host=18732298752 touch_host=34279862784 passes_gpu=1024 weight_gpu=4795468480512 touch_gpu=4811016044544 syncs_gpu=1024 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=4715208320 gpu_place=WHOLE_GPU
+EFFECT L=1024 chunk_weight_delta=4776736181760 kvw_delta=28442624 kvr_delta=14576844800 block_chunks=4 block_syncs=4 block_gemm=784 block_attn_calls=86016 block_weight=18732298752 block_admission=unbuilt split_fits=True split_join=14680064 split_transfers=4 split_crossings=12 split_verdict=accounted_and_rejected_dominated
+READ L=4096 prec=f16 pairs=8390656 work_attn=1684038221824 work_proj=26727581483008 work_total=28411619704832 work_per_token=6936430592 attn_share_ppm=59272 head=544997376 kv_written=234881024 kv_read_shape=481153777664 passes_host=16 weight_host=74929195008 touch_host=556317853696 passes_gpu=4096 weight_gpu=19181873922048 touch_gpu=19663262580736 syncs_gpu=4096 verdict_cpu=ACCOUNTED verdict_gpu=ACCOUNTED gpu_required=4920155776 gpu_place=WHOLE_GPU
+READ L=4096 prec=int8 pairs=8390656 work_attn=1684038221824 work_proj=26727581483008 work_total=28411619704832 work_per_token=6936430592 attn_share_ppm=59272 head=544997376 kv_written=121110528 kv_read_shape=248094916608 passes_host=16 weight_host=74929195008 touch_host=323145222144 passes_gpu=4096 weight_gpu=19181873922048 touch_gpu=19430089949184 syncs_gpu=4096 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=4806385280 gpu_place=WHOLE_GPU
+EFFECT L=4096 chunk_weight_delta=19106944727040 kvw_delta=113770496 kvr_delta=233058861056 block_chunks=16 block_syncs=16 block_gemm=3136 block_attn_calls=344064 block_weight=74929195008 block_admission=unbuilt split_fits=True split_join=58720256 split_transfers=16 split_crossings=48 split_verdict=accounted_and_rejected_dominated
+READ L=8192 prec=f16 pairs=33558528 work_attn=6735330803712 work_proj=53455162966016 work_total=60190493769728 work_per_token=7347472384 attn_share_ppm=111900 head=544997376 kv_written=469762048 kv_read_shape=1924380229632 passes_host=32 weight_host=149858390016 touch_host=2074708381696 passes_gpu=8192 weight_gpu=38363747844096 touch_gpu=40288597835776 syncs_gpu=8192 verdict_cpu=ACCOUNTED verdict_gpu=ACCOUNTED gpu_required=5155495552 gpu_place=WHOLE_GPU
+READ L=8192 prec=int8 pairs=33558528 work_attn=6735330803712 work_proj=53455162966016 work_total=60190493769728 work_per_token=7347472384 attn_share_ppm=111900 head=544997376 kv_written=242221056 kv_read_shape=992258555904 passes_host=32 weight_host=149858390016 touch_host=1142359166976 passes_gpu=8192 weight_gpu=38363747844096 touch_gpu=39356248621056 syncs_gpu=8192 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=4927954560 gpu_place=WHOLE_GPU
+EFFECT L=8192 chunk_weight_delta=38213889454080 kvw_delta=227540992 kvr_delta=932121673728 block_chunks=32 block_syncs=32 block_gemm=6272 block_attn_calls=688128 block_weight=149858390016 block_admission=unbuilt split_fits=True split_join=117440512 split_transfers=32 split_crossings=96 split_verdict=accounted_and_rejected_dominated
+READ L=16384 prec=f16 pairs=134225920 work_attn=26939679047680 work_proj=106910325932032 work_total=133850004979712 work_per_token=8169555968 attn_share_ppm=201267 head=544997376 kv_written=939524096 kv_read_shape=7697051156480 passes_host=64 weight_host=299716780032 touch_host=7997707460608 passes_gpu=16384 weight_gpu=76727495688192 touch_gpu=84425486368768 syncs_gpu=16384 verdict_cpu=CAP_REFUSED verdict_gpu=ACCOUNTED gpu_required=5626175104 gpu_place=SPILL_REQUIRED
+READ L=16384 prec=int8 pairs=134225920 work_attn=26939679047680 work_proj=106910325932032 work_total=133850004979712 work_per_token=8169555968 attn_share_ppm=201267 head=544997376 kv_written=484442112 kv_read_shape=3968792002560 passes_host=64 weight_host=299716780032 touch_host=4268993224704 passes_gpu=16384 weight_gpu=76727495688192 touch_gpu=80696772132864 syncs_gpu=16384 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=5171093120 gpu_place=WHOLE_GPU
+EFFECT L=16384 chunk_weight_delta=76427778908160 kvw_delta=455081984 kvr_delta=3728259153920 block_chunks=64 block_syncs=64 block_gemm=12544 block_attn_calls=1376256 block_weight=299716780032 block_admission=unbuilt split_fits=False split_join=234881024 split_transfers=64 split_crossings=192 split_verdict=parent_absent_spill_fallback_shape
+READ L=32768 prec=f16 pairs=536887296 work_attn=107755427856384 work_proj=213820651864064 work_total=321576079720448 work_per_token=9813723136 attn_share_ppm=335085 head=544997376 kv_written=1879048192 kv_read_shape=30787265101824 passes_host=128 weight_host=599433560064 touch_host=31388577710080 passes_gpu=32768 weight_gpu=153454991376384 touch_gpu=184244135526400 syncs_gpu=32768 verdict_cpu=CAP_REFUSED verdict_gpu=ACCOUNTED gpu_required=6567534208 gpu_place=SPILL_REQUIRED
+READ L=32768 prec=int8 pairs=536887296 work_attn=107755427856384 work_proj=213820651864064 work_total=321576079720448 work_per_token=9813723136 attn_share_ppm=335085 head=544997376 kv_written=968884224 kv_read_shape=15874683568128 passes_host=128 weight_host=599433560064 touch_host=16475086012416 passes_gpu=32768 weight_gpu=153454991376384 touch_gpu=169330643828736 syncs_gpu=32768 verdict_cpu=INTEGRATION_BLOCKED verdict_gpu=INTEGRATION_BLOCKED gpu_required=5657370240 gpu_place=SPILL_REQUIRED
+EFFECT L=32768 chunk_weight_delta=152855557816320 kvw_delta=910163968 kvr_delta=14912581533696 block_chunks=128 block_syncs=128 block_gemm=25088 block_attn_calls=2752512 block_weight=599433560064 block_admission=unbuilt split_fits=False split_join=469762048 split_transfers=128 split_crossings=384 split_verdict=parent_absent_spill_fallback_shape
+READDONE rungs=5 walls=NOT_PROVEN_DEFERRED_J098
+exit=0
+sha256 run1 == run2 == 4a95869ad6e4b5e1ba2a4d33d892526c6c8bfe87973a931c9ebc2c71c1415359
+
+=== neighbour: test_kv_ladder (J-091) rebuilt from this tree ===
+build exit=0
+PASS: rungs + per-token -- 1024/4096/8192/16384/32768, gen 128; f16 57,344 == J-087 census, int8 29,568 == J-088 store
+PASS: KV totals -- f16 58,720,256 .. 1,879,048,192 and int8 30,277,632 .. 968,884,224 across the rungs (@8192 f16 == J-087 filed)
+PASS: work frame -- pairs, attention MACs @8192 == J-053 filed, projection @8192 == J-068 filed, head 544,997,376
+PASS: decode traffic -- context sums pinned; KV read f16 7,982,284,800 @1024 .. 240,984,260,608 @32768 (int8 roughly half)
+PASS: CPU verdicts -- f16 ACCOUNTED at 1024/4096/8192, CAP_REFUSED at 16384/32768 (host cap 16000), both directions
+PASS: GPU + int8 verdicts -- gpu f16 reads all ACCOUNTED, write @32768 CAP_REFUSED; int8 INTEGRATION_BLOCKED everywhere as the tree stands, caps binding only behind integration
+PASS: GPU admission -- required 4,751,005,312 @1152 .. 5,633,529,472 @16512; WHOLE through 8192, SPILL from 16384; @16384 pure context reproduces the filed refusal within 4 B; int8 counterfactual holds 16384 whole, still spills at 32768
+PASS: refusals -- rung index, unknown precision/line/direction, zero shape/context/gen, invalid admission and placement inputs
+ALL PASS: kv ladder (8 groups)
+exit=0
+
+=== neighbour: test_attention_share (J-092) rebuilt from this tree ===
+build exit=0
+PASS: endpoints -- unit 200,704; projection/token 6,525,288,448 == J-053 filed; head 544,997,376; rests 6,525,288,448 (prefill) / 7,070,285,824 (decode); KV 57,344 f16 / 29,568 int8
+PASS: J-091 frame reproduced -- prefill attention, projection (+head) and write-leg attention totals EXACT at all 5 rungs
+PASS: decode token split -- 28,247 ppm @1024 .. 481,914 ppm @32768 (48.19% at the cap); below half at every rung
+PASS: marginal + write split -- marginal 30,534 ppm @1024 .. 501,960 ppm @32768 (above half only at the top rung); write-leg average 29,946 .. 482,398 ppm
+PASS: prompt-average split -- 15,517 ppm @1024 .. 335,084 ppm @32768 (33.51%); below half at every rung
+PASS: work crossings -- marginal 32,512 (exact equality); decode 35,228 (86,016 MACs short at 35,227; cap is 32,768); prompt-average 65,024 (beyond 2x the cap)
+PASS: decode traffic -- f16 12,383 ppm @1024 .. 286,347 ppm @32768, crossing 81,667; int8 6,423 .. 171,424 ppm, crossing 158,384 (weights dominate throughout the ladder)
+PASS: prefill traffic at rungs -- host f16 616,349 ppm @1024 .. 980,901 @32768 vs GPU width-1 6,236 .. 167,102 ppm; host int8 453,064 .. 963,613; GPU int8 3,225 .. 93,750 ppm
+PASS: prefill traffic crossings -- host f16 first 700 / permanent 808 (re-dip at 769); host int8 first 1,259 / permanent 1,379 (re-dip at 1,281); GPU width-1 163,332 (f16) / 316,766 (int8), monotone, beyond any runnable length
+PASS: refusals -- zero shape/context/price/weights, negative share inputs, unknown surface, zero gen length
+ALL PASS: attention share (10 groups)
+exit=0
+
+=== neighbour: test_memory_ceiling (J-093) rebuilt from this tree ===
+build exit=0
+PASS: endpoints -- Coder 57,344 f16 / 29,568 int8 (J-087/J-088); OLMoE 131,072 / 67,584, @512 67,108,864 / 34,603,008; activation 964,608 @1152 .. 4,519,936 @32896
+PASS: validation gate -- GPU session peaks reproduce J-091 section 5.3 EXACTLY at all 5 rungs, both precisions
+PASS: CPU line + read leg -- CPU == GPU - 905,728 at all 10 session cells; read totals below the peak; read @16384 5,626,175,104 (J-091's cross-check figure)
+PASS: peak verdicts -- J-091's inherited: cpu f16 CAP_REFUSED @16384/32768, gpu write @32768 CAP_REFUSED, int8 INTEGRATION_BLOCKED in all 20 line x rung x direction cells
+PASS: growth shape -- gpu/cpu f16 1,383,894 / 1,383,967 ppm, gpu/cpu int8 1,199,652 / 1,199,690 ppm, all FLATTER than Janas's 1,884,615; KV share 13,904 -> 286,908 ppm (f16 gpu)
+PASS: pool sizing @base f16 -- reserve 8,580,987,212, pool 8,598,881,972, floor 2,149,720,493, MoE cap == pool; independent J-018 sizing over-commits the stated machine
+PASS: combined peaks -- f16 9,045,716,096 .. 10,869,599,360 (growth 1,201,629 ppm FLATTER); int8 CF 8,981,212,288 .. 9,923,374,208 (1,104,903 ppm FLATTER)
+PASS: pool absorbs growth -- accounted ceiling constant 13,743,895,348 (free - headroom); pool shrinks 1,823,883,264 == KV + scratch growth; residency capped at body
+PASS: below-floor shape -- tiny stated machine sizes 7,400 against a 487,587,840 floor demand: below_floor stated, not hidden
+PASS: refusals -- unknown line, zero context/ratio, negative share/component, zero pool/body, zero routed demand
+ALL PASS: memory ceiling (10 groups)
+exit=0
+
+=== neighbour: test_prefill_anatomy (J-053) rebuilt from this tree ===
+build exit=0
+PASS: host batched plans at the baseline lengths + S-033 shape
+PASS: per-token, CUDA width-1, and CUDA tile-4 plans
+PASS: MoE width-1 plan pins the per-token LM head finding
+PASS: KV bytes written per prompt, per profile shape
+PASS: causal pair counts (full + windowed) and attention MACs
+PASS: dense projection + FFN MACs per token, per profile
+PASS: weight-pass traffic shape + MoE mean stream projection
+PASS: refusals -- cap, token count, surface, window, shape, rate
+ALL PASS: prefill anatomy accounting (8 groups)
+exit=0
+
+=== neighbour: test_gpu_block_prefill (J-054) rebuilt from this tree ===
+build exit=0
+PASS: baseline chunk plans at 256/1024/4096/8192, width 256
+PASS: width-1 plan equals the proven decode shape exactly
+PASS: width-4 block shape (ceil chunks, final chunk carries head)
+PASS: weight traffic scales with chunks, not tokens (256x at width 256)
+PASS: F2 -- attention kernel calls dominate GEMM calls at every length
+PASS: chunk activation scratch + batched-attention scores sizing
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: admission stated in-plan -- widths above 4 are UNBUILT
+PASS: refusals -- tokens, width, over-context, layers, upload bytes
+ALL PASS: gpu block prefill plan (9 groups)
+exit=0
+
+=== neighbour: test_split_prompt (J-056) rebuilt from this tree ===
+build exit=0
+PASS: even halves -- 16/16 blocks, MACs and weight reads conserve
+PASS: join accounting -- transfers, bytes and crossings exact
+PASS: ragged halves -- 35 blocks split 18/17, MACs conserve
+PASS: ragged final chunk -- 67/4, join priced on real tokens
+PASS: width-1 shape -- one transfer per token, crossings 3x parent
+PASS: filed Llama 3 8B accounting -- J-053 totals split exactly
+PASS: survival rule -- dominated by both parents at both widths
+PASS: survival rule -- not graded where the GPU parent is absent
+PASS: refusals -- tokens, width, one-block, hidden, MACs, empty side
+ALL PASS: split prompt plan (9 groups)
+exit=0
+
+=== neighbour: test_whole_layer_gpu (J-055) rebuilt from this tree ===
+build exit=0
+PASS: whole-layer fit with exact headroom, verdict named in-plan
+PASS: Stheno pair -- no-fit at 4096 (exact shortfall), fits at 2048
+PASS: max-weights inversion exact; negative allowance stated, not clamped
+PASS: sync counts -- whole-layer vs per-layer ratio is exactly layers
+PASS: agreement basis points on the filed Gemma counts (floor, exact)
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: KV charged for the full session context (J-053 figure exact)
+PASS: refusals -- fit, max-weights, sync, agreement, upload inputs
+ALL PASS: whole-layer GPU plan (8 groups)
+exit=0

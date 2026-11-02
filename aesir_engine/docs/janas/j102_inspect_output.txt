@@ -1,0 +1,57 @@
+PASS: model_selector module exists
+PASS: model_selector carries 'struct KnownModelEntry'
+PASS: model_selector carries 'def validate_known_model_entry'
+PASS: model_selector carries 'def known_model_catalogue'
+PASS: model_selector carries 'struct PickerEntry'
+PASS: model_selector carries 'def picker_entries'
+PASS: model_selector carries 'def render_model_picker_page'
+PASS: model_selector carries 'def selected_picker_entry'
+PASS: model_selector carries 'def first_run_decision'
+PASS: model_selector carries 'def pull_args_for_entry'
+PASS: model_selector carries 'def fetch_known_model'
+PASS: model_selector carries 'def choose_model'
+PASS: catalogue provider returns an empty list in J-102 (honest zero)
+PASS: model_selector states the J-103 boundary
+PASS: fetch glue calls download_hf_model (pull machinery, not a re-implementation)
+PASS: fetch glue registers via ingest_model
+PASS: fetch glue imports HuggingFaceSeer
+PASS: decision rule names all three actions
+PASS: decision rule refuses on digest mismatch
+PASS: decision rule refuses on size mismatch
+PASS: existing installed-only picker functions untouched (still present)
+PASS: cancel error text preserved for the chat caller
+PASS: commands still carries parse_pull_request
+PASS: commands still carries dispatch_pull
+PASS: pull grammar accepts "--revision"
+PASS: picker argv builder emits "--revision"
+PASS: pull grammar accepts "--sha256"
+PASS: picker argv builder emits "--sha256"
+PASS: pull grammar accepts "--size"
+PASS: picker argv builder emits "--size"
+PASS: pull grammar accepts "--name"
+PASS: picker argv builder emits "--name"
+PASS: dispatch_pull calls download_hf_model
+PASS: dispatch_pull registers via ingest_model
+PASS: cuda_chat imports choose_model
+PASS: cuda_chat calls choose_model at the no-reference site
+PASS: cuda_chat no longer calls choose_installed_model
+PASS: chat picker suite exists
+PASS: chat picker suite has 7 groups
+PASS: chat picker suite prints ALL PASS line
+PASS: suite states the honest-zero catalogue on its face
+PASS: doc exists
+PASS: doc states '0. Protocol'
+PASS: doc states 'J-102 / J-103 boundary'
+PASS: doc states 'decision rule'
+PASS: doc states 'DEFERRED-WITH-REASON'
+PASS: doc states 'NOT PROVEN'
+PASS: doc states 'T03'
+PASS: doc states 'T10'
+PASS: test output filed
+PASS: test output: chat picker 7/7
+PASS: test output: machine report 6/6
+PASS: test output: bench configurations 8/8
+PASS: test output: neighbours 10/10 + 10/10
+PASS: test output: model browser PASS
+PASS: no README.md in the slice diff
+j102_inspect: 56/56 checks PASS

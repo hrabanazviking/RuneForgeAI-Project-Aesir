@@ -1,0 +1,164 @@
+J-041 auto choice for reply passes -- unit test + live chooser output (VM, lightest target)
+Built from yrsa/janas-j041 tree: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread, then mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); run with LD_LIBRARY_PATH=<staging>. Staging lived on the workspace overlay (~/workspace/.verify-tmp/j041stage) from the start of this slice (the J-040 /tmp-loss lesson); nothing was deleted by this slice.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor (as cpuinfo states this boot), 4 vCPU (4 logical / 4 physical / 1 package, no machine-stated hybrid split), kernel 7.0.0-39-generic. The VM was CONTENDED throughout (load average 6.64 at the reply chooser run, rising to 11.14 by the end of the neighbour runs); MemAvailable ~0.73-0.97 GB -- far below the 5,500 MB inference gate, and no inference ran: the live groups run the chooser over J-038's device sweep + J-039's thread trials of the harness's own reply-shaped micro-workload (width-1 matvec 1x(1024->512) reps 4), NOT a model pass, and no number here is a placement verdict for any model.
+Live outcome, stated plainly: DEFAULT-BY-NOISE -- the threads=2 rung was fastest by median (10,965,928 ns, a 28% margin over the threads=4 runner-up, clearing the 10% margin hurdle) but its slowest counted round (74,633,560 ns, a contention spike) did not beat the runner-up's median, so the pre-registered separation hurdle failed and the win was NOT claimed; the session default (cpu threads=1) was kept and the faster number reported, not chosen. The neighbouring thread-topology suite's own reply sweep minutes later produced the same rung ordering (2 < 4 < 1) with all-cores graded slower by 42% (i9 lesson CONFIRMED in that sweep) -- agreement between two sweeps is recorded as observed, and choice stability is still NOT PROVEN (single sweeps per record; J-039's flip finding stands).
+
+== test_reply_placement (filed run) ==
+PASS: decision rule -- a clear winner is chosen (measured win)
+PASS: decision rule -- within the margin band, default kept with reason
+PASS: decision rule -- margin clears but rounds interleave, default kept
+PASS: decision rule -- default fastest but unproven, kept as default
+PASS: decision rule -- sole measured candidate chosen, no margin claimed
+PASS: decision rule -- no measured: fallback with cpu, refusal without
+PASS: manual single and co-work fix the choice against faster numbers
+PASS: race ranks only its named members (non-member speed ignored)
+PASS: session keeping -- decided once, kept, reports identical
+LIVE REPLY CHOICE:
+reply placement report
+option: auto (source default)
+decision: DEFAULT-BY-NOISE -- cpu threads=2 (half the cores) was fastest (median 10965928 ns vs runner-up cpu threads=4 (all cores (physical == logical)) at 14077045 ns) but did not clear the pre-registered rule: the best candidate's slowest counted round (74633560 ns) does not beat the runner-up's median (14077045 ns), so their rounds interleave -- the session default is kept and the faster number is reported, not chosen
+chosen: cpu threads=1
+rule: pre-registered (J-041, adopting J-040 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+best: cpu threads=2 (half the cores) median 10965928 ns; runner-up: cpu threads=4 (all cores (physical == logical)) median 14077045 ns; margin 28%; separation failed
+candidates:
+  gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+  npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+  cpu threads=1 (serial): median 18765027 ns (min 10836865, max 69619308, spread 58782443; rounds 5)
+  cpu threads=2 (half the cores): median 10965928 ns (min 9299479, max 74633560, spread 65334081; rounds 5)
+  cpu threads=4 (all cores (physical == logical)): median 14077045 ns (min 6351337, max 66004306, spread 59652969; rounds 5)
+device sweep: cpu measured at median 11771007 ns by the harness's serial executor -- a cross-check only, NOT ranked (the ranked CPU candidates are the thread rungs, measured through the threaded executor; the two executors' medians are not comparable, J-039)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live chooser over the real harness + thread trials on this VM
+LIVE MANUAL REPLY CHOICE:
+reply placement report
+option: cpu (source cli)
+decision: MANUAL-FIXED -- the explicit reply option 'cpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate measured at median 7920401 ns in the device sweep; a device option does not fix a thread count, so the thread axis stands where the session leaves it; open-time refusal of a hand placement is J-047)
+chosen: cpu
+rule: pre-registered (J-041, adopting J-040 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu: median 7920401 ns (min 7833530, max 64768763, spread 56935233; rounds 5)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live manual cpu option fixes the choice (no ranking ran)
+ALL PASS: reply placement auto choice (11 groups)
+
+== test_prompt_placement (neighbouring, rebuilt from this tree) ==
+PASS: decision rule -- a clear winner is chosen (measured win)
+PASS: decision rule -- within the margin band, default kept with reason
+PASS: decision rule -- margin clears but rounds interleave, default kept
+PASS: decision rule -- default fastest but unproven, kept as default
+PASS: decision rule -- sole measured candidate chosen, no margin claimed
+PASS: decision rule -- no measured: fallback with cpu, refusal without
+PASS: manual single and co-work fix the choice against faster numbers
+PASS: race ranks only its named members (non-member speed ignored)
+PASS: session keeping -- decided once, kept, reports identical
+LIVE PROMPT CHOICE:
+prompt placement report
+option: auto (source default)
+decision: DEFAULT-BY-NOISE -- cpu threads=4 (all cores (physical == logical)) was fastest (median 9260040 ns vs runner-up cpu threads=1 (serial) at 11255924 ns) but did not clear the pre-registered rule: the best candidate's slowest counted round (70817796 ns) does not beat the runner-up's median (11255924 ns), so their rounds interleave -- the session default is kept and the faster number is reported, not chosen
+chosen: cpu threads=1
+rule: pre-registered (J-040): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+best: cpu threads=4 (all cores (physical == logical)) median 9260040 ns; runner-up: cpu threads=1 (serial) median 11255924 ns; margin 21%; separation failed
+candidates:
+  gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+  npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+  cpu threads=1 (serial): median 11255924 ns (min 7925017, max 63008432, spread 55083415; rounds 5)
+  cpu threads=2 (half the cores): median 25757396 ns (min 9511327, max 87620110, spread 78108783; rounds 5)
+  cpu threads=4 (all cores (physical == logical)): median 9260040 ns (min 6436085, max 70817796, spread 64381711; rounds 5)
+device sweep: cpu measured at median 9210575 ns by the harness's serial executor -- a cross-check only, NOT ranked (the ranked CPU candidates are the thread rungs, measured through the threaded executor; the two executors' medians are not comparable, J-039)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live chooser over the real harness + thread trials on this VM
+LIVE MANUAL PROMPT CHOICE:
+prompt placement report
+option: cpu (source cli)
+decision: MANUAL-FIXED -- the explicit prompt option 'cpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate measured at median 11741152 ns in the device sweep; a device option does not fix a thread count, so the thread axis stands where the session leaves it; open-time refusal of a hand placement is J-047)
+chosen: cpu
+rule: pre-registered (J-040): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu: median 11741152 ns (min 9644296, max 73508983, spread 63864687; rounds 5)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live manual cpu option fixes the choice (no ranking ran)
+ALL PASS: prompt placement auto choice (11 groups)
+
+== test_thread_topology (neighbouring, rebuilt from this tree) ==
+PASS: ladder from VM-shaped facts [1, 2, 4], P/E not applicable-with-reason
+PASS: ladder on a machine-stated hybrid split [1, 6, 8 perf-only, 12]
+PASS: ladder on an SMT machine [1, 4, 8 physical, 16 logical]
+PASS: ladder de-duplication on small machines ([1, 2] and [1])
+PASS: ladder on topology-poor facts stands on the logical count, stated
+PASS: verdict rule on injected medians (all-fastest / band / confirmed)
+PASS: threaded checksum identical to serial at 1/2/4 threads; chunks == threads
+PASS: thread knobs set/read back/clear through Aesir's own thread layer
+LIVE REPLY THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+reply threads=1 (serial): median 21647761 ns (min 7668153, max 73714821, spread 66046668; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+reply threads=2 (half the cores): median 12790756 ns (min 12020220, max 61803405, spread 49783185; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+reply threads=4 (all cores (physical == logical)): median 18262534 ns (min 8589824, max 77472207, spread 68882383; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 2 threads at median 12790756 ns; all-cores (4) is slower by 42% (median 18262534 ns), beyond the 5% noise band
+sweep total 510386525 ns
+
+LIVE PROMPT THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+prompt threads=1 (serial): median 10757796 ns (min 9062224, max 69763104, spread 60700880; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+prompt threads=2 (half the cores): median 67137556 ns (min 10099008, max 92517075, spread 82418067; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+prompt threads=4 (all cores (physical == logical)): median 14160871 ns (min 11231747, max 75749133, spread 64517386; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 10757796 ns; all-cores (4) is slower by 31% (median 14160871 ns), beyond the 5% noise band
+sweep total 712714496 ns
+
+PASS: live thread trials on this machine (prompt + reply, all rungs measured)
+LIVE DRAFT-CHECK THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+drafts threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+verdict: not graded: draft-check is unmeasurable-with-reason (G1)
+sweep total 0 ns
+
+LIVE BOUND THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+reply threads=1 (serial): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply threads=2 (half the cores): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply threads=4 (all cores (physical == logical)): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+verdict: not graded: no measured rung
+sweep total 127162703 ns
+
+PASS: draft-check unmeasurable-with-reason (G1); live bound enforced
+ALL PASS: thread topology trials (10 groups)
+
+== test_placement_harness (neighbouring, rebuilt from this tree) ==
+PASS: summary statistics on injected timings (median/min/max/spread)
+PASS: settle round discarded, measured rounds counted
+PASS: candidate filtering against inventory (present vs excluded-with-reason)
+PASS: time bound enforced in the round accounting + config refusals
+PASS: draft-check unmeasurable-with-reason (G1), never proxied
+PASS: co-work unmeasurable-with-reason (J-043); absent member excluded first
+PASS: present device without an executor is unmeasurable-with-reason
+PASS: workload shapes (reply width 1, prompt batched, deterministic)
+LIVE REPLY SWEEP:
+reply cpu (auto): median 23541402 ns (min 11497326, max 71284636, spread 59787310; rounds 5, settle 1 discarded)
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 195962863 ns
+
+LIVE PROMPT SWEEP:
+prompt cpu (auto): median 23753189 ns (min 16404116, max 75911396, spread 59507280; rounds 5, settle 1 discarded)
+prompt gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+prompt npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 215808701 ns
+
+PASS: live micro-runs on this machine (cpu measured; gpu/npu excluded with reasons)
+LIVE BOUND SWEEP:
+reply cpu (auto): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 98298046 ns
+
+PASS: live time bound enforced (bound-stopped, zero counted rounds)
+ALL PASS: placement measurement harness (10 groups)

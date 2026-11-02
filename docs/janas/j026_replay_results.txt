@@ -1,0 +1,6 @@
+pool total_budget 952320
+ tenant A accesses=34048 hits=11605 misses=22443 cold_misses=1018 hit_rate_per_mille=340 bypasses=21646 too_large=0 admissions=797 promotions=0 evictions=733 evicted_before_reuse=8829 bytes_streamed=83485056 bytes_evicted=2720160 bytes_resident_now=237552 entries_now=64 budget_bytes=476448
+ tenant B accesses=39808 hits=13403 misses=26405 cold_misses=1024 hit_rate_per_mille=336 bypasses=25417 too_large=0 admissions=988 promotions=0 evictions=796 evicted_before_reuse=9670 bytes_streamed=98074800 bytes_evicted=2954784 bytes_resident_now=713712 entries_now=192 budget_bytes=714768
+pool total_budget 1904640
+ tenant A accesses=34048 hits=18184 misses=15864 cold_misses=1018 hit_rate_per_mille=534 bypasses=14686 too_large=0 admissions=1178 promotions=0 evictions=1051 evicted_before_reuse=7854 bytes_streamed=59081136 bytes_evicted=3899424 bytes_resident_now=472704 entries_now=127 budget_bytes=1025904
+ tenant B accesses=39808 hits=20317 misses=19491 cold_misses=1024 hit_rate_per_mille=510 bypasses=18126 too_large=0 admissions=1365 promotions=0 evictions=979 evicted_before_reuse=8162 bytes_streamed=72544272 bytes_evicted=3630528 bytes_resident_now=1429584 entries_now=386 budget_bytes=1431936

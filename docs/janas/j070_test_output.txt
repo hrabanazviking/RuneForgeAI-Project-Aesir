@@ -1,0 +1,272 @@
+J-070 Part IV gate -- re-verification test output (VM, lightest target)
+Tree: yrsa/janas-j070 from yrsa/janas-j069 tip 2904fd9ccad966fefb7de0f10551dc824b9905d3
+Build: cc thread_par shim, then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j070stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~1.5-1.9 GB at gate start, ~0.88 GB at gate end; loadavg 8.68 at start, 1.25-8.69 across the run -- far below the 5,500 MB inference gate throughout; no inference ran; lightest compiles only, one at a time. purplelongship not used (unreachable; 204 road owns it -- yielded).
+NOTE: this file is from the gate's second, clean run. The first attempt failed instantly on every module with 'pixi: command not found' (the background shell lacked ~/.pixi/bin on PATH) and was discarded whole; no number in this file comes from it. The defect was in this gate's harness invocation only (the J-052 gate-process class).
+
+shim exit=0
+
+=== test_prefill_anatomy ===
+build exit=0
+PASS: host batched plans at the baseline lengths + S-033 shape
+PASS: per-token, CUDA width-1, and CUDA tile-4 plans
+PASS: MoE width-1 plan pins the per-token LM head finding
+PASS: KV bytes written per prompt, per profile shape
+PASS: causal pair counts (full + windowed) and attention MACs
+PASS: dense projection + FFN MACs per token, per profile
+PASS: weight-pass traffic shape + MoE mean stream projection
+PASS: refusals -- cap, token count, surface, window, shape, rate
+ALL PASS: prefill anatomy accounting (8 groups)
+exit=0
+
+=== test_gpu_block_prefill ===
+build exit=0
+PASS: baseline chunk plans at 256/1024/4096/8192, width 256
+PASS: width-1 plan equals the proven decode shape exactly
+PASS: width-4 block shape (ceil chunks, final chunk carries head)
+PASS: weight traffic scales with chunks, not tokens (256x at width 256)
+PASS: F2 -- attention kernel calls dominate GEMM calls at every length
+PASS: chunk activation scratch + batched-attention scores sizing
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: admission stated in-plan -- widths above 4 are UNBUILT
+PASS: refusals -- tokens, width, over-context, layers, upload bytes
+ALL PASS: gpu block prefill plan (9 groups)
+exit=0
+
+=== test_whole_layer_gpu ===
+build exit=0
+PASS: whole-layer fit with exact headroom, verdict named in-plan
+PASS: Stheno pair -- no-fit at 4096 (exact shortfall), fits at 2048
+PASS: max-weights inversion exact; negative allowance stated, not clamped
+PASS: sync counts -- whole-layer vs per-layer ratio is exactly layers
+PASS: agreement basis points on the filed Gemma counts (floor, exact)
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: KV charged for the full session context (J-053 figure exact)
+PASS: refusals -- fit, max-weights, sync, agreement, upload inputs
+ALL PASS: whole-layer GPU plan (8 groups)
+exit=0
+
+=== test_split_prompt ===
+build exit=0
+PASS: even halves -- 16/16 blocks, MACs and weight reads conserve
+PASS: join accounting -- transfers, bytes and crossings exact
+PASS: ragged halves -- 35 blocks split 18/17, MACs conserve
+PASS: ragged final chunk -- 67/4, join priced on real tokens
+PASS: width-1 shape -- one transfer per token, crossings 3x parent
+PASS: filed Llama 3 8B accounting -- J-053 totals split exactly
+PASS: survival rule -- dominated by both parents at both widths
+PASS: survival rule -- not graded where the GPU parent is absent
+PASS: refusals -- tokens, width, one-block, hidden, MACs, empty side
+ALL PASS: split prompt plan (9 groups)
+exit=0
+
+=== test_prefill_overlap ===
+build exit=0
+PASS: pipeline arithmetic -- both schedules exact, fill exposed
+PASS: min bound -- hidden per boundary is min(prep, compute)
+PASS: nothing to hide -- schedules coincide, verdict named
+PASS: single chunk -- no boundary, no hiding, verdict named
+PASS: ragged final chunk -- compute conserves, hiding exact
+PASS: filed Llama 3 8B -- hidden share 0 bp at parity and 10000x
+PASS: margin thresholds -- survives above 10%, rejected below
+PASS: decode boundary -- hidden capped, graded at prompt scale
+PASS: refusals -- shapes, compute, negative prep, decode inputs
+ALL PASS: prefill overlap plan (9 groups)
+exit=0
+
+=== test_moe_gpu_prefill ===
+build exit=0
+PASS: chunk plan -- both forms exact, verdict survives
+PASS: filed OLMoE FULL 1024/256 -- survives accounting
+PASS: F1 head collapse -- 256 and 67-token prompts priced
+PASS: width-1 GPU form -- head only, no chunk economy
+PASS: cache division -- uploads re-pay streamed bytes exactly
+PASS: resident-only split -- priced at width, still rejected
+PASS: CPU-only division -- not applicable, account restated
+PASS: expert-bytes guard -- uploads above streamed rejected
+PASS: margin -- saving recomputed from fields, demotion exact
+PASS: refusals -- shapes, context, division, miss facts
+ALL PASS: MoE GPU prefill plan (10 groups)
+exit=0
+
+=== test_prompt_progress ===
+build exit=0
+PASS: silence bounds -- token bound and chunk bound both bind
+PASS: host 1024/256 -- four boundaries, four records, final once
+PASS: host 4096/256 -- step throttle, exactly the 10 filed boundaries
+PASS: width 1 -- 4096 boundaries, 10 records, no per-token spam
+PASS: tile width 4 -- 256 boundaries, 10 records
+PASS: ragged final chunk -- true totals, never padded, final exact
+PASS: monotonic -- done and emitted fractions rise, final once
+PASS: O2 timestamp carriage -- both render forms exact
+PASS: baseline lengths -- 0 / 4 / 10 / 10 on the road's own table
+PASS: refusals -- shapes, boundaries outside the read, timestamps
+ALL PASS: prompt progress account (10 groups)
+exit=0
+
+=== test_prefill_grade ===
+build exit=0
+PASS: filed post-fix OLMoE grade -- NEAR_TIE (23 exact, step 23 near-tie)
+PASS: filed pre-fix OLMoE grade -- DIVERGENT (8 exact, 1 near-tie, first at 5)
+PASS: all-exact cell -- FAITHFUL, distinct from NEAR_TIE
+PASS: step-0 boundary -- own verdict class, near-tie later steps keep it
+PASS: step-0 plus later divergence -- DIVERGENT, boundary class does not shelter
+PASS: step-0 near-tie only -- NEAR_TIE, not the boundary class
+PASS: comparator artifact -- precedence over perfect and divergent records
+PASS: no records -- NOT_GRADED (the unbuilt/unrun cell's only home)
+PASS: near-tie edges -- both conjuncts bind, sub-logit is strict
+PASS: refusals -- length mismatch, negatives, inconsistent rank/gap pairs
+ALL PASS: prefill grade account (10 groups)
+exit=0
+
+=== test_npu_prompt_prep ===
+build exit=0
+PASS: pass law -- reply/draft-check refused by construction, 64-token floor binds
+PASS: copy pricing -- 1 B/elem payload + 2 B/row scales, broken shapes refused
+PASS: Qwen3-0.6B dense-whole -- filed shape priced exact (441,323,520 B footprint)
+PASS: OLMoE resident-products -- filed shape priced exact (271,067,136 B footprint)
+PASS: form rules -- partial dense-whole refused, split leftover open, int8 dense-only
+PASS: prep progress -- 25/28/16 units emit 10, 4 emit 4, 3 silent, final once
+PASS: prep render -- the census status-line shape, time only when supplied
+PASS: graph cache hit -- zero bytes to write, footprint still charged in full
+PASS: contention admitted -- stated machine, cache FULL, headroom 533,590,016 B
+PASS: contention closed at floor-1; hand copy refuses (required) / degrades (optional)
+ALL PASS: NPU prompt preparation account (10 groups)
+exit=0
+
+=== test_npu_gate_evidence ===
+build exit=0
+PASS: tonight's empty record -- gate closed at every level, gaps named
+PASS: text-on-chip alone -- gate stays closed (generation is not a prompt graph)
+PASS: gate block through G3 -- closed, first missing item is prompt_graph_evidence
+PASS: gate block complete -- gate open, J-063 not ready, executor named
+PASS: gate + start complete -- J-063 ready, J-064/J-065 still closed
+PASS: downstream items -- each gates its own slice and no other
+PASS: mid-block gap -- first missing start item is copy_builder_graded
+PASS: start block without the gate -- nothing ready at any level
+PASS: full record -- gate open, all three slices ready (readiness only, no quantity)
+PASS: names -- gate/start item and state strings exact
+ALL PASS: NPU gate-evidence account (10 groups)
+exit=0
+
+=== test_vulkan_port_surface ===
+build exit=0
+PASS: kernel family counts match the inspect recount, per file
+PASS: totals -- 40 kernel families, 50 work items in the port
+PASS: quant kinds -- 3 prefill (Q4_K/Q5_K/Q6_K) + 2 dequant
+PASS: tonight's record evaluates to DEFER
+PASS: BUILD_NOW on the full five-item conjunction only
+PASS: hardware / consumer / measurement each missing -> DEFER
+PASS: unmeasured faithful/competitive flags earn nothing
+PASS: a measured unfaithful spike is REFUSE
+PASS: faithful but buys nothing on target hardware -> REFUSE
+PASS: verdict names exact; unknown code refused
+ALL PASS: vulkan port surface account (10 groups)
+exit=0
+
+=== test_igpu_account ===
+/home/hatch/workspace/aesir-janas-j070/aesir_engine/tests/test_igpu_account.mojo:1:4: warning: doc string summary should begin with a capital letter or non-alpha character, but this begins with 'i'
+"""iGPU account (J-067): the integrated GPU's shape pinned --
+   ^
+build exit=0
+PASS: iGPU kind distinct from discrete; pools: integrated=shared-system, discrete=separate
+PASS: own VRAM is discrete-only; an iGPU's 'device memory' is system RAM
+PASS: iGPU budget never additive with the system pool; charged+headroom == pool exactly
+PASS: full budget -- fixed 2500 + cache 4000 charged once against pool 10000
+PASS: shrunk budget -- cache absorbs the squeeze (3500), floor 1000 held
+PASS: refuse below the floor and refuse fixed-over-pool, numbers stated
+PASS: J-048 floor discipline unchanged with an iGPU -- fixed first, cache elastic, floor exact
+PASS: prefill tax -- 0 copy bytes; contended 1250000; shared traffic 1550000 with co-load
+PASS: tax refuses a nonzero copy claim (discrete shape) and negative traffic
+PASS: claim verdict -- admission permitted; speed/reply require live; unfit/floor-broken refused
+PASS: claim names exact; unknown codes and invalid budgets refused
+ALL PASS: igpu account (11 groups)
+exit=0
+
+=== test_prefill_at_8k ===
+build exit=0
+PASS: host batched Llama 3 8B row at 8192 (share 1333 bp)
+PASS: width-1 passes 8192, tile-4 passes 2051 at 8192
+PASS: MoE width-1 row at 8192; F1 head waste exact; chunk form zero
+PASS: attention shares per arch at 8192; dominance is per-arch
+PASS: sliding-window pairs at 8192 = 4,063,488 per layer
+PASS: context verdicts at 8192 (refused / no-room / fits)
+PASS: invalid inputs refused (7/7)
+ALL PASS: prefill at 8k account (7 groups)
+exit=0
+
+=== test_cold_start_account ===
+build exit=0
+PASS: cold components kept separate; total is the exact sum
+PASS: prep cold vs graph-cached kept as distinct C3 figures
+PASS: plan refusals -- negative / stray prep / stray hit / warm cache (4/4)
+PASS: first prompt after open with empty cache classifies cold-first
+PASS: later prompt with no open/compile/prep inside classifies warm
+PASS: mixed figures classify conflated, grounding neither claim
+PASS: repetition rule -- warm median never contains the cold run
+PASS: separation claim permitted only with every component stated
+PASS: cold wall -- permitted live+cold, requires-live unmeasured, refused warm
+PASS: warm wall -- cold-first and conflated refused; live warm permitted
+PASS: names exact; unknown codes and zero totals refused (5/5)
+ALL PASS: cold-start honesty account (11 groups)
+exit=0
+
+=== test_moe_gpu_plan ===
+build exit=0
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals
+exit=0
+
+=== test_device_inventory ===
+build exit=0
+PASS: cpuinfo topology (logical/physical/packages, no guessed split)
+PASS: cpuinfo topology-poor source states what it does not know
+PASS: hybrid split only when the machine states it
+PASS: gpu probe parse (name, VRAM bytes, device count)
+PASS: gpu probe refusals (empty, malformed, non-numeric)
+PASS: drm listing cross-check (card vs connector entries)
+PASS: npu entry is the ledger state, never a live chip claim
+PASS: device line completeness + require_device_present feed point
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: live probe on this machine (cpu present, gpu absent-with-reason, npu parked)
+ALL PASS: device inventory (9 groups)
+exit=0
+
+=== test_placement_pressure ===
+build exit=0
+PASS: pressure -- J-031 stated machine reproduces FULL exact
+PASS: pressure -- contention shrinks the cache to 512 pairs
+PASS: pressure -- floor exactly continues (J-028 boundary)
+PASS: pressure -- optional device cache degrades before refusal
+PASS: pressure -- required cache below floor refuses cleanly
+PASS: pressure -- over-pool hand placement refused, never traded
+PASS: pressure -- auto duplicate copy closed / admitted at floor
+PASS: pressure -- hand-named copy charges as fixed (supremacy)
+PASS: pressure -- regrow capped at open budget and at the body
+PASS: pressure -- largest-pair threshold binds optional caches only
+PASS: pressure -- under a hand choice only the cache moves
+PASS: pressure -- validation refusals (pool, floor, open, pair)
+PASS: pressure -- describe states decision, bytes, supremacy
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D25 126-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: pressure -- live inventory: absent GPU offers no pool
+ALL PASS: placement under memory pressure (14 groups)
+exit=0
+
+=== test_expert_cache ===
+build exit=0
+PASS: expert cache sizing, cap resolution and size parsing
+PASS: expert cache admission, promotion, pinning, shrink, cap
+PASS: expert cache LRU baseline and LFU policy modes
+PASS: expert cache fsketch sketch-admission policy
+PASS: expert cache no-scarcity starvation fix (segmented, fsketch)
+PASS: expert cache shared pool sizing and arbiter arithmetic
+PASS: expert cache shared pool drive (contention, lending, return)
+PASS: expert cache pressure decisions (shrink, floor, refuse, regrow caps)
+PASS: expert cache pressure drive (pin held, refusal shed, regrow)
+exit=0
+GATE_RUN_DONE

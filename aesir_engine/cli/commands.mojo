@@ -18,10 +18,12 @@ from server.keyfiles import create_service_key
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
+from cli.bench import dispatch_bench
 from cli.model_inspect import dispatch_model_inspect
 from cli.vision import dispatch_vision
 from cli.doctor import dispatch_doctor
 from cli.model_preferences import DurableModelPreferences, stale_preference_count
+from cli.model_selector import get_known_model, known_model_catalogue
 from server.api import json_escape_string
 from std.ffi import external_call
 from std.memory import Pointer
@@ -55,6 +57,9 @@ def print_general_help():
     print("  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal")
     print("  keygen <new-private-file> — create an OS-random service key without overwriting")
     print("  hardware list — observed CPU/CUDA devices and backend availability")
+    print("  bench [--settle N] [--rounds N] [--pass prompt|reply|draft-check]")
+    print("      Sweep the configurations the placement engine may choose")
+    print("      (threads x devices x pass kinds) and print the machine report.")
     print("  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]")
     print("      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]")
     print("  pull <owner/repo> <filename.gguf> --revision <commit-sha>")
@@ -62,6 +67,9 @@ def print_general_help():
     print("      [--name <name[:tag]> [--config <path>]]")
     print("      Download and verify a pinned GGUF; optionally register stored bytes.")
     print("      Default single-connection pulls resume verified partial downloads.")
+    print("  get <name[:tag]> [--config <path>]")
+    print("      Fetch one model from the in-repo known-models catalogue by name;")
+    print("      downloaded and checksum-verified before use; a mismatch is refused.")
     print("  inspect <model> [--format text|json] [--context N] [--model-store path]")
     print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
     print("  vision inspect <model> [--model-store path]")
@@ -593,6 +601,75 @@ def dispatch_pull(args: List[String]) raises:
         )
 
 
+struct GetRequest(Copyable, ImplicitlyCopyable):
+    """One parsed `get` invocation (J-103): a catalogue reference."""
+
+    var reference: String
+    var config_path: String
+
+    def __init__(out self, reference: String, config_path: String):
+        self.reference = reference
+        self.config_path = config_path
+
+    def __copyinit__(out self, existing: Self):
+        self.reference = existing.reference
+        self.config_path = existing.config_path
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(self.reference, self.config_path)
+
+
+def parse_get_request(args: List[String]) raises -> GetRequest:
+    """Parses get syntax without performing network or filesystem I/O."""
+    if len(args) < 2:
+        var known = String("")
+        for entry in known_model_catalogue():
+            if len(known.bytes()) > 0:
+                known += ", "
+            known += entry.reference()
+        raise Error(
+            "get requires a catalogue model reference (known: " + known + ")"
+        )
+    var reference = normalize_model_reference(args[1])
+    var config_path = String("")
+    var index = 2
+    while index < len(args):
+        var option = args[index]
+        if option != "--config":
+            raise Error("unknown get option: " + option)
+        if len(config_path.bytes()) > 0:
+            raise Error("duplicate get option: " + option)
+        if index + 1 >= len(args):
+            raise Error("missing value for get option " + option)
+        config_path = args[index + 1]
+        index += 2
+    return GetRequest(reference, config_path)
+
+
+def dispatch_get(args: List[String]) raises:
+    """Fetches one catalogue model and verifies it before use (J-103).
+
+    The standalone form of the picker's fetch leg: the entry is
+    resolved against the in-repo catalogue, fetched through pull's
+    machinery (download_hf_model + ingest_model via fetch_known_model),
+    and registered only after size + header + SHA-256 verification;
+    a mismatch refuses with its reason and registers nothing.
+    """
+    var request = parse_get_request(args)
+    var config = AesirConfig()
+    if len(request.config_path.bytes()) > 0:
+        config = load_config_file(request.config_path)
+    var store_root = config.model_store_path
+    # Reject invalid/corrupt store state before beginning a transfer.
+    _ = DurableModelStore(store_root)
+    var reference = get_known_model(request.reference, store_root)
+    print(
+        "Got catalogue model: " + reference
+        + " (fetched and checksum-verified, or already installed)"
+    )
+
+
 def _read_bounded_modelfile(path: String) raises -> String:
     """Reads one regular Modelfile without following its final symlink."""
     var clean = String(path.strip())
@@ -1031,6 +1108,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         dispatch_pull(args)
         return
 
+    if cmd == "get":
+        dispatch_get(args)
+        return
+
     if cmd == "inspect":
         dispatch_model_inspect(args)
         return
@@ -1068,6 +1149,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "compute":
         dispatch_compute(args)
+        return
+
+    if cmd == "bench":
+        dispatch_bench(args)
         return
 
     var options = parse_cli_options(args)

@@ -1,0 +1,29 @@
+J-055 whole-layer GPU plan -- test output (VM, lightest target)
+Tree: yrsa/janas-j055 from yrsa/janas-j054 tip aa38d643cb4de09e759e48c6e6be0c1ff10bb8e9
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j055stage, TMPDIR redirected there. (Direct mojo binary fails without pixi activation, per J-052's filed recipe -- the pixi route was used from the start.)
+Machine: VM (KVM), 4 vCPU; MemAvailable ~1.4 GB -- far below the 5,500 MB inference gate; no inference ran, no CUDA ran; lightest compiles only, one at a time. purplelongship not used at all (204 road live there).
+
+=== test_whole_layer_gpu ===
+PASS: whole-layer fit with exact headroom, verdict named in-plan
+PASS: Stheno pair -- no-fit at 4096 (exact shortfall), fits at 2048
+PASS: max-weights inversion exact; negative allowance stated, not clamped
+PASS: sync counts -- whole-layer vs per-layer ratio is exactly layers
+PASS: agreement basis points on the filed Gemma counts (floor, exact)
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: KV charged for the full session context (J-053 figure exact)
+PASS: refusals -- fit, max-weights, sync, agreement, upload inputs
+ALL PASS: whole-layer GPU plan (8 groups)
+exit=0
+
+=== neighbour: test_gpu_block_prefill (J-054) rebuilt from this tree ===
+PASS: baseline chunk plans at 256/1024/4096/8192, width 256
+PASS: width-1 plan equals the proven decode shape exactly
+PASS: width-4 block shape (ceil chunks, final chunk carries head)
+PASS: weight traffic scales with chunks, not tokens (256x at width 256)
+PASS: F2 -- attention kernel calls dominate GEMM calls at every length
+PASS: chunk activation scratch + batched-attention scores sizing
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: admission stated in-plan -- widths above 4 are UNBUILT
+PASS: refusals -- tokens, width, over-context, layers, upload bytes
+ALL PASS: gpu block prefill plan (9 groups)
+exit=0

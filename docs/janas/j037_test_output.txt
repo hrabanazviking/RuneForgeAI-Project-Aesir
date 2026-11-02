@@ -1,0 +1,42 @@
+J-037 device inventory -- unit test output (VM, lightest target)
+Built from yrsa/janas-j037 tree: mojo build -I . -I aesir_engine (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path)
+Run on the VM (AMD EPYC 9D64, 4 vCPU, kernel 7.0.0-39-generic, MemAvailable ~0.93 GB): no GPU, no nvidia-smi, CUDA_VISIBLE_DEVICES unset.
+The live-probe group runs the module's real probes on this machine; its printed line is the VM's actual device line.
+
+== test_device_inventory ==
+PASS: cpuinfo topology (logical/physical/packages, no guessed split)
+PASS: cpuinfo topology-poor source states what it does not know
+PASS: hybrid split only when the machine states it
+PASS: gpu probe parse (name, VRAM bytes, device count)
+PASS: gpu probe refusals (empty, malformed, non-numeric)
+PASS: drm listing cross-check (card vs connector entries)
+PASS: npu entry is the ledger state, never a live chip claim
+PASS: device line completeness + require_device_present feed point
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D64 88-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: live probe on this machine (cpu present, gpu absent-with-reason, npu parked)
+ALL PASS: device inventory (9 groups)
+exit=0
+
+== test_placement_options (neighbouring, rebuilt from this tree) ==
+PASS: placement forms auto/single/cowork/race
+PASS: placement grammar refusals carry reasons
+PASS: pass-kind legality (npu refused for drafts and reply)
+PASS: precedence cli over env over default, sources recorded
+PASS: kill switches refuse named devices, shrink the auto field
+PASS: drafts-on stores, drafts use fails closed (G1)
+PASS: quality surface parses, stores, and fails closed at use
+PASS: argv scan forms, duplicates, typos, --no-cpu refusal
+PASS: environment layer reads, resolves, and kills end to end
+PASS: describe report states values, sources, kills, gates
+ALL PASS: placement options (10 groups)
+exit=0
+
+== test_moe_gpu_plan (neighbouring, rebuilt from this tree) ==
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals
+exit=0

@@ -1,0 +1,43 @@
+PASS: core module exists
+PASS: core module carries 'struct BenchConfig'
+PASS: core module carries 'struct BenchCell'
+PASS: core module carries 'struct BenchReport'
+PASS: core module carries 'def enumerate_bench_cells'
+PASS: core module carries 'def run_bench_sweep'
+PASS: core module carries 'def fastest_cell_index'
+PASS: core module carries 'def machine_report'
+PASS: core module carries 'run_placement_measurement'
+PASS: core module carries 'run_thread_trials'
+PASS: core module carries 'derive_thread_ladder'
+PASS: core module carries 'enumerate_candidates'
+PASS: core module states J-100
+PASS: core module has no --report flag literal (J-101's scope)
+PASS: cli bench module exists
+PASS: cli bench carries 'def dispatch_bench'
+PASS: cli bench carries 'run_bench_sweep'
+PASS: cli bench carries 'observe_device_inventory'
+PASS: cli bench carries 'observe_cpu_facts'
+PASS: cli bench carries 'machine_report'
+PASS: cli bench usage names the command
+PASS: cli bench refuses unknown options
+PASS: commands imports dispatch_bench
+PASS: commands dispatches bench
+PASS: general help lists bench
+PASS: llama-bench stays a separate reserved name
+PASS: facade comment block records J-100 bench
+PASS: test suite exists
+PASS: test suite has >= 8 groups
+PASS: test suite prints ALL PASS line
+PASS: filed driver exists and calls dispatch_bench
+PASS: cross product is 27 cells
+PASS: measurable cells are 6 (2 kinds x cpu x 3 rungs)
+PASS: doc states 27 cells
+PASS: doc states the verdict rule
+PASS: doc names J-101 as the --report owner
+PASS: test output filed
+PASS: test output ALL PASS tally present
+PASS: test output group count == suite group count
+PASS: neighbour placement_harness 10/10 in output
+PASS: neighbour thread_topology 10/10 in output
+PASS: no README.md in the slice diff
+j100_inspect: 42/42 checks PASS

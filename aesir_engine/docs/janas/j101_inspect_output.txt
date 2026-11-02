@@ -1,0 +1,64 @@
+PASS: core module exists
+PASS: core module carries 'struct ModelRow'
+PASS: core module carries 'def filed_model_rows'
+PASS: core module carries 'def model_table'
+PASS: core module carries 'def device_refusal_summary'
+PASS: core module carries 'def report_artefact'
+PASS: core module carries 'machine_report(report)'
+PASS: core module carries 'device_line()'
+PASS: core module states J-101
+PASS: core module states the evidence rule
+PASS: filed row cites '2.389 tok/s'
+PASS: filed row cites '2.556 tok/s'
+PASS: filed row cites 'J-030'
+PASS: filed row cites 'MEASURED-INDICATIVE'
+PASS: filed row cites 'J-091'
+PASS: filed row cites '58720256'
+PASS: filed row cites 'CAP_REFUSED'
+PASS: filed row cites 'J-032'
+PASS: filed row cites 'blocker B2'
+PASS: J-100 core still carries machine_report
+PASS: J-100 core still refuses nothing of J-101's render
+PASS: cli bench module exists
+PASS: cli accepts --report flag
+PASS: cli refuses --report with --pass
+PASS: cli calls report_artefact
+PASS: cli calls filed_model_rows
+PASS: cli still calls machine_report (J-100 path intact)
+PASS: cli usage names --report
+PASS: commands imports dispatch_bench
+PASS: commands dispatches bench
+PASS: facade comment block records J-101
+PASS: machine report suite exists
+PASS: machine report suite has 6 groups
+PASS: machine report suite prints ALL PASS line
+PASS: bench configurations suite exists
+PASS: bench configurations suite has 8 groups
+PASS: J-100 suite group 7 updated in-scope (J-101 change recorded)
+PASS: J-100 suite no longer asserts --report alone refused
+PASS: filed driver exists and calls bench_main
+PASS: doc exists
+PASS: doc states '0. Protocol'
+PASS: doc states 'evidence rule'
+PASS: doc states 'DEFERRED-WITH-REASON'
+PASS: doc states 'purplelongship'
+PASS: doc states 'NOT PROVEN'
+PASS: doc states 'J-100'
+PASS: doc states 'section 5'
+PASS: doc states 'FIXTURE'
+PASS: test output filed
+PASS: test output: machine report 6/6
+PASS: test output: bench configurations 8/8
+PASS: test output: neighbours 10/10 + 10/10
+PASS: VM fixture example filed
+PASS: VM fixture example labelled FIXTURE
+PASS: fixture example carries the model table
+PASS: fixture example carries refusal reasons
+PASS: VM live example filed
+PASS: VM live example is a live observation
+PASS: VM live example enumerates 27 cells
+PASS: VM live example records the gate measurement
+PASS: VM live example discharges J-100 section 5 on its face
+PASS: purplelongship example filed as deferred-with-reason
+PASS: no README.md in the slice diff
+j101_inspect: 63/63 checks PASS

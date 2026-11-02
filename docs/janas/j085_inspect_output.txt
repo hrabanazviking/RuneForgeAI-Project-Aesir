@@ -1,0 +1,25 @@
+PASS: new module exists and names J-085
+PASS: the verdict rule is in the module header before the code
+PASS: the three legs are named in the header before the code
+PASS: soak constants are the J-033 shape (8 windows, 2,000 floor, 512 ctx)
+PASS: rounds bind J-072's loop over a real LoopState
+PASS: every round files through J-075's ledger
+PASS: k is planned by J-079's controller through J-072's plan
+PASS: one J-084 guard per segment, step-form price stated once
+PASS: a guard disable stops speculating and falls back plain
+PASS: J-082 binds by band (sampled cap == J-071 band top less one)
+PASS: ledger bound + units bound to J-075 (5 rows; 3 + hist bins)
+PASS: drift is J-071's checker over the concatenated streams
+PASS: leakage is counted, and the verdict refuses any violation
+PASS: the verdict requires the closing plateau at the row bound
+PASS: rollback identity and ledger completeness are verdict terms
+PASS: module contains no speed or timing function
+PASS: suite has 13 groups
+PASS: suite pins the soak totals and the round-8 hostile disable
+PASS: use gate still fails closed (J-036, unedited by this slice)
+PASS: facade speculative_generate still raises not-implemented
+PASS: no other tree file changed (J-071--J-084 modules unedited)
+PASS: doc numbers match the filed test output numbers
+PASS: doc files the filed totals and the bound table
+PASS: doc files the deferred leg, its recipe, and NOT PROVEN
+== 24/24 checks PASS ==

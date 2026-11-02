@@ -1,0 +1,76 @@
+PASS: dataset module exists (cli/known_models.mojo)
+PASS: dataset module is data behind known_models_dataset()
+PASS: dataset constructs exactly 5 entries
+PASS: dataset entry olmoe-1b-7b:q4_k_m matches the provenance table field-for-field
+PASS: dataset entry granite-3.1-3b-a800m:q4_k_m matches the provenance table field-for-field
+PASS: dataset entry qwen1.5-moe-a2.7b-chat:q2_k matches the provenance table field-for-field
+PASS: dataset entry olmoe-1b-7b:q2_k matches the provenance table field-for-field
+PASS: dataset entry qwen3-next-80b-a3b:q4_k_m matches the provenance table field-for-field
+PASS: dataset references are unique
+PASS: entry olmoe-1b-7b:q4_k_m revision is 40 lowercase hex
+PASS: entry olmoe-1b-7b:q4_k_m sha256 is 64 lowercase hex
+PASS: entry olmoe-1b-7b:q4_k_m filename is a bare .gguf
+PASS: entry granite-3.1-3b-a800m:q4_k_m revision is 40 lowercase hex
+PASS: entry granite-3.1-3b-a800m:q4_k_m sha256 is 64 lowercase hex
+PASS: entry granite-3.1-3b-a800m:q4_k_m filename is a bare .gguf
+PASS: entry qwen1.5-moe-a2.7b-chat:q2_k revision is 40 lowercase hex
+PASS: entry qwen1.5-moe-a2.7b-chat:q2_k sha256 is 64 lowercase hex
+PASS: entry qwen1.5-moe-a2.7b-chat:q2_k filename is a bare .gguf
+PASS: entry olmoe-1b-7b:q2_k revision is 40 lowercase hex
+PASS: entry olmoe-1b-7b:q2_k sha256 is 64 lowercase hex
+PASS: entry olmoe-1b-7b:q2_k filename is a bare .gguf
+PASS: entry qwen3-next-80b-a3b:q4_k_m revision is 40 lowercase hex
+PASS: entry qwen3-next-80b-a3b:q4_k_m sha256 is 64 lowercase hex
+PASS: entry qwen3-next-80b-a3b:q4_k_m filename is a bare .gguf
+PASS: dataset states its provenance rule (no invented pins)
+PASS: known_model_catalogue delegates to the dataset
+PASS: model_selector imports the dataset module
+PASS: provider no longer returns the honest-zero list
+PASS: model_selector carries 'def find_known_model'
+PASS: model_selector carries 'def get_decision'
+PASS: model_selector carries 'def get_known_model'
+PASS: get_known_model reuses fetch_known_model (pull machinery)
+PASS: fetch glue still calls download_hf_model
+PASS: fetch glue still registers via ingest_model
+PASS: J-102 decision rule untouched (three actions present)
+PASS: J-102 entry shape untouched (KnownModelEntry fields)
+PASS: commands carries 'def parse_get_request'
+PASS: commands carries 'def dispatch_get'
+PASS: dispatch_command routes cmd == "get" to dispatch_get
+PASS: commands imports the get surface from model_selector
+PASS: help names the get command
+PASS: pull surface untouched (parse + dispatch still present)
+PASS: model get suite exists
+PASS: model get suite has 5 groups
+PASS: model get suite prints ALL PASS line
+PASS: model get suite carries provenance pin for olmoe-1b-7b:q4_k_m
+PASS: model get suite carries provenance pin for granite-3.1-3b-a800m:q4_k_m
+PASS: model get suite carries provenance pin for qwen1.5-moe-a2.7b-chat:q2_k
+PASS: model get suite carries provenance pin for olmoe-1b-7b:q2_k
+PASS: model get suite carries provenance pin for qwen3-next-80b-a3b:q4_k_m
+PASS: chat picker suite asserts the real catalogue (J-103 update)
+PASS: chat picker suite no longer asserts the honest zero
+PASS: chat picker suite still has 7 groups
+PASS: doc exists
+PASS: doc states '0. Protocol'
+PASS: doc states 'pin-provenance'
+PASS: doc states 'DEFERRED-WITH-REASON'
+PASS: doc states 'NOT PROVEN'
+PASS: doc states 'T10'
+PASS: doc states 'J-015'
+PASS: doc states 'J-032'
+PASS: doc provenance table carries olmoe-1b-7b:q4_k_m pins
+PASS: doc provenance table carries granite-3.1-3b-a800m:q4_k_m pins
+PASS: doc provenance table carries qwen1.5-moe-a2.7b-chat:q2_k pins
+PASS: doc provenance table carries olmoe-1b-7b:q2_k pins
+PASS: doc provenance table carries qwen3-next-80b-a3b:q4_k_m pins
+PASS: test output filed
+PASS: test output: model getting 5/5
+PASS: test output: chat picker 7/7
+PASS: test output: machine report 6/6
+PASS: test output: bench configurations 8/8
+PASS: test output: neighbours 10/10 + 10/10
+PASS: test output: model browser PASS
+PASS: no README.md in the slice diff
+PASS: no .gguf model bytes in the slice diff
+j103_inspect: 75/75 checks PASS

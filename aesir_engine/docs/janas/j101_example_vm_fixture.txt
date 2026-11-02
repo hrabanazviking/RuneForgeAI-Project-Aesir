@@ -1,0 +1,96 @@
+J-101 VM example -- FIXTURE (not a live machine observation)
+Source: test_machine_report's live-fixture group, run on this VM (KVM, 4 vCPU) on 2026-11-01 EST slice time: fixture inventory/facts (GPU absent with a fixture reason, NPU parked from the ledger, ladder [1, 2, 4]) with live harness timings from run_bench_sweep. Filed beside the live VM example (j101_example_vm_live.txt) so the artefact's shape can be read even where a reader cannot run the bench; it is labelled FIXTURE here and on its own label line, and is never quoted as a live observation.
+
+aesir bench --report — machine report artefact
+artefact: FIXTURE example -- fixture inventory/facts, live timings on this VM; not a live machine observation
+aesir bench — machine report
+discipline: settle 1 discarded, 5 measured rounds, median; per-candidate bound 2000000000 ns, per-sweep bound 10000000000 ns (per kind-sweep)
+honesty: pass-shaped micro-workload timings (harness mechanics on this machine) -- not placement verdicts for any model
+devices: cpu present — AMD EPYC 9D64 88-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (test fixture) | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+== prompt ==
+-- device sweep --
+prompt cpu (auto): median 89468977 ns (min 26295542, max 121268448, spread 94972906; rounds 5, settle 1 discarded)
+prompt gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+prompt npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 423931206 ns
+-- thread sweep --
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+prompt threads=1 (serial): median 9572035 ns (min 8710181, max 50385504, spread 41675323; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+prompt threads=2 (half the cores): median 16863928 ns (min 12855492, max 81839056, spread 68983564; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+prompt threads=4 (all cores (physical == logical)): median 21064241 ns (min 10469151, max 75656858, spread 65187707; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 9572035 ns; all-cores (4) is slower by 120% (median 21064241 ns), beyond the 5% noise band
+sweep total 514193233 ns
+-- cells (devices x threads) --
+prompt cpu (auto) threads=1 (serial): median 9572035 ns (min 8710181, max 50385504, spread 41675323; rounds 5, settle 1 discarded)
+prompt cpu (auto) threads=2 (half the cores): median 16863928 ns (min 12855492, max 81839056, spread 68983564; rounds 5, settle 1 discarded)
+prompt cpu (auto) threads=4 (all cores (physical == logical)): median 21064241 ns (min 10469151, max 75656858, spread 65187707; rounds 5, settle 1 discarded)
+prompt gpu (auto) threads=1 (serial): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+prompt gpu (auto) threads=2 (half the cores): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+prompt gpu (auto) threads=4 (all cores (physical == logical)): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+prompt npu (auto) threads=1 (serial): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+prompt npu (auto) threads=2 (half the cores): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+prompt npu (auto) threads=4 (all cores (physical == logical)): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+fastest measured cell (prompt): cpu (auto) threads=1 (serial) median 9572035 ns
+== drafts ==
+-- device sweep --
+drafts cpu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts gpu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts npu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+sweep total 2483 ns
+-- thread sweep --
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+drafts threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+verdict: not graded: draft-check is unmeasurable-with-reason (G1)
+sweep total 0 ns
+-- cells (devices x threads) --
+drafts cpu (auto) threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts cpu (auto) threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts cpu (auto) threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts gpu (auto) threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts gpu (auto) threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts gpu (auto) threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts npu (auto) threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts npu (auto) threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+drafts npu (auto) threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+fastest measured cell (drafts): none -- no cell of this kind measured (see the cell reasons above)
+== reply ==
+-- device sweep --
+reply cpu (auto): median 12330755 ns (min 8793236, max 60345771, spread 51552535; rounds 5, settle 1 discarded)
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 202459813 ns
+-- thread sweep --
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+reply threads=1 (serial): median 20550790 ns (min 11965848, max 70107461, spread 58141613; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+reply threads=2 (half the cores): median 12535492 ns (min 10428640, max 77080395, spread 66651755; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+reply threads=4 (all cores (physical == logical)): median 14304486 ns (min 11264745, max 71601663, spread 60336918; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 2 threads at median 12535492 ns; all-cores (4) is slower by 14% (median 14304486 ns), beyond the 5% noise band
+sweep total 597766101 ns
+-- cells (devices x threads) --
+reply cpu (auto) threads=1 (serial): median 20550790 ns (min 11965848, max 70107461, spread 58141613; rounds 5, settle 1 discarded)
+reply cpu (auto) threads=2 (half the cores): median 12535492 ns (min 10428640, max 77080395, spread 66651755; rounds 5, settle 1 discarded)
+reply cpu (auto) threads=4 (all cores (physical == logical)): median 14304486 ns (min 11264745, max 71601663, spread 60336918; rounds 5, settle 1 discarded)
+reply gpu (auto) threads=1 (serial): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+reply gpu (auto) threads=2 (half the cores): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+reply gpu (auto) threads=4 (all cores (physical == logical)): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (test fixture)
+reply npu (auto) threads=1 (serial): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+reply npu (auto) threads=2 (half the cores): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+reply npu (auto) threads=4 (all cores (physical == logical)): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+fastest measured cell (reply): cpu (auto) threads=2 (half the cores) median 12535492 ns
+cells: 27 enumerated, 6 measured
+bench total 1883689574 ns
+not measured: every cell whose line above states EXCLUDED or UNMEASURABLE, with its reason -- an absent device, a device with no executor yet, or a pass kind that does not exist yet; nothing was timed in their names
+== per-model read/write (filed evidence) ==
+rule: a cell carries only a number already proven or filed in this tree (source + honesty on the line), an ACCOUNTED exact-arithmetic quantity, or NOT PROVEN with its reason -- nothing here is invented, simulated, or extrapolated
+OLMoE Q4_K_M | cpu+disk expert streaming, purplelongship, 512 MiB expert cache, ctx 512, 67-token prompt + 24 generated | read: 2.389 tok/s (prefill 28.04 s) | write: 2.556 tok/s (decode 9.39 s) | source: J-030 section 4 (the J-022/J-023 legs re-verified; token identity across those legs PROVEN) | honesty: MEASURED-INDICATIVE (single runs per leg)
+Qwen2.5-Coder-7B-Instruct-heretic Q4_K_M (wave crown pin 8053aeda) | context ladder 1k-32k, cpu f16 / gpu f16 (J-091) | read: NOT PROVEN -- wall deferred (J-091 section 7); frame ACCOUNTED: KV f16 58720256 B at 1024 tokens, 1879048192 B at 32768 | write: NOT PROVEN -- wall deferred (J-091 section 7); cpu 16384/32768 CAP_REFUSED (host cap 16000), gpu write at 32768 CAP_REFUSED (profile cap 32768) | source: J-091 sections 5-6 (ACCOUNTED ladder frame) | honesty: ACCOUNTED frame / NOT PROVEN walls
+Qwen3-Next-80B-A3B-Instruct Q4_K_M (48506100512 B, pin f73551b5) | attempted on purplelongship (J-022), re-verified J-032 | read: NOT PROVEN -- refused before any stepping (no qwen3next loader/forward in the tree; J-032 blocker B2) | write: NOT PROVEN -- refused before any stepping (same B2; roaded to J-123) | source: J-032 (refusal re-verified 25/25 checks) | honesty: NOT PROVEN
+== device lines with refusal reasons ==
+devices: cpu present — AMD EPYC 9D64 88-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (test fixture) | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+cpu present — AMD EPYC 9D64 88-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine
+gpu absent — no GPU probe answered: nvidia-smi failed (test fixture)
+npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+closing honesty: this artefact is a bench report plus filed evidence -- its sweep timings are harness mechanics, not placement verdicts for any model, and its per-model cells claim only what their cited sources filed, at the honesty class printed on each line

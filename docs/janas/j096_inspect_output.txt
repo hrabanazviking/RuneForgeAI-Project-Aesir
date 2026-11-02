@@ -1,0 +1,45 @@
+PASS: module structure: from core.kv_account import
+PASS: module structure: from core.kv_int8 import
+PASS: module structure: from core.prompt_read import
+PASS: module structure: (a) THE PERSISTENCE QUESTION
+PASS: module structure: CANDIDATE
+PASS: module structure: BENEFIT DEFINITION
+PASS: module structure: PROMPT-EQUIVALENT
+PASS: module structure: DECISION RULE
+PASS: module structure: VERDICT RULE (pre-registered)
+PASS: module structure: BUILT ONLY IF IT
+PASS: module structure: NOT PROVEN
+PASS: module structure: J-098
+PASS: module structure: serialize_int8_store
+PASS: module structure: deserialize_int8_store
+PASS: module structure: kvp_privacy_verdict
+PASS: module structure: kvp_benefit_verdict
+PASS: module structure: INTEGRATION_BLOCKED
+PASS: harness header states no live leg
+PASS: harness defined through core/kv_persistence
+PASS: no other tree file references kv_persistence (found: [])
+PASS: run_all does not register test_kv_persistence
+PASS: PERSISTHEAD x2 runs
+PASS: PERSISTDONE x2 runs
+PASS: harness runs byte-identical
+PASS: benefit account re-derived: every PERSIST field at all 5 rungs x 2 precisions; verdict PAYS everywhere under the pre-registered rule
+PASS: worst cell re-derived: 57,792 MACs per traffic byte (f16 @1024)
+PASS: prefix account re-derived: avoided == W(P), remaining == W(L) - W(P), files at both precisions
+PASS: privacy verdicts re-derived: OPT-IN ACCEPTED, SILENT and SHARED REJECTED
+PASS: gate: PERSIST work/kv/touch == J-094 filed READ lines exactly (10 cells)
+PASS: round-trip file length re-derived: Python serialisation is 1,832 B, matching the harness
+PASS: round-trip checksum re-derived: Python-built file's checksum == the Mojo harness's filed checksum (byte-level cross-implementation agreement)
+PASS: round-trip filed: diffs (0, 0, 0), dequant 0.0, attention equal, verdict EXACT
+PASS: doc states: PAYS
+PASS: doc states: ACCEPTED
+PASS: doc states: NOT PROVEN
+PASS: doc states: INTEGRATION_BLOCKED
+PASS: doc states: 321,576,079,720,448
+PASS: doc states: 57,792
+PASS: doc states: J-098
+PASS: doc states: guarded
+PASS: doc states: J-088 §7
+PASS: doc states: never `llama-cli --single-turn`
+PASS: doc states: teacher-forcing rank + logit gap
+PASS: doc states: PROMPT-EQUIVALENT
+INSPECT: 44 checks, 0 fails

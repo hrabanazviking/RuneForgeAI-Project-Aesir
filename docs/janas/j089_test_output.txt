@@ -1,0 +1,60 @@
+J-089 KV faithfulness -- test + ladder output (VM, lightest target)
+Tree: yrsa/janas-j089 from yrsa/janas-j088 tip 4c89ea7421a6b4c4c3d6ef2da69f0be7b7553d65 (verified by git at slice start, local == ls-remote; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087/J-088 staging builds, as expected from the identical source; staging compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables -- CONDA_PREFIX, MODULAR_HOME=<env>/share/max, PATH -- exported by hand, as J-071--J-088 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j089stage, build dir ~/workspace/.verify-tmp/j089build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~839 MB at the first test build, ~1,056 MB at the ladder run, ~1,193 MB at the final suite runs -- below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. Load average 2.9--15 across the slice (other campaigns); no wall is filed anywhere in this slice, so contention touches no number. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+
+=== test_kv_faith (J-089, new) ===
+build exit=0
+PASS: exact + near-tie steps -- rank 0/gap 0 exact; rank 1 gap 108 near-tie; gap rounding half-up
+PASS: near-tie band edges -- rank2+gap999 IN; rank2+gap1000 OUT; rank3 OUT; rank2+gap1138 OUT
+PASS: ties -- argmax takes the first maximum; a tied maximum shares rank 0 / gap 0
+PASS: pair verdicts -- FAITHFUL / NEAR_TIE / DIVERGENT (first at 2) / STEP0_BOUNDARY
+PASS: pair honesty -- empty NOT_GRADED; invalid comparator overrides perfect rows; J-022 pattern (23 exact + 1 near) grades NEAR_TIE
+PASS: refusals -- width mismatch, empty rows, step-count mismatch, NaN, inf, sub-milli positive-rank gap
+ALL PASS: kv faith (6 groups)
+exit=0
+
+=== neighbour: test_kv_int8 (J-088) rebuilt from this tree ===
+build exit=0
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+exit=0
+
+=== neighbour: test_kv_account (J-087) rebuilt from this tree ===
+build exit=0
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+exit=0
+
+=== ladder: docs/janas/j089_ladder.mojo, run 1 ===
+(state at run: MemAvailable 1,056 MB; load average 2.91, 6.89, 7.51; exit=0)
+LADDER L=128 attn_max=0.0022833496 attn_mean=0.0011304808406293887 proxy_max=0.011664987 proxy_mean=0.004012653022073209 proxy_rank=0 proxy_gap_milli=0 proxy_class=EXACT proxy_ref_top=3 proxy_test_top=3
+LADDER L=256 attn_max=0.0023426115 attn_mean=0.0011660499518484357 proxy_max=0.013811767 proxy_mean=0.003773179021663964 proxy_rank=0 proxy_gap_milli=0 proxy_class=EXACT proxy_ref_top=1 proxy_test_top=1
+CROSSCHECK inline_vs_module_ref_max=0.0 ladder256_attn_max=0.0023426115 ladder256_attn_mean=0.0011660499518484357
+LADDER L=512 attn_max=0.00232175 attn_mean=0.001163119527291201 proxy_max=0.014031529 proxy_mean=0.003764673601835966 proxy_rank=0 proxy_gap_milli=0 proxy_class=EXACT proxy_ref_top=1 proxy_test_top=1
+LADDER L=2048 attn_max=0.0022938848 attn_mean=0.00115816072400321 proxy_max=0.014677465 proxy_mean=0.003913243766874075 proxy_rank=0 proxy_gap_milli=0 proxy_class=EXACT proxy_ref_top=1 proxy_test_top=1
+LADDER L=8192 attn_max=0.0022944808 attn_mean=0.0011602669567309931 proxy_max=0.014742017 proxy_mean=0.0039603691548109055 proxy_rank=0 proxy_gap_milli=0 proxy_class=EXACT proxy_ref_top=1 proxy_test_top=1
+LADDER L=32768 attn_max=0.0022866875 attn_mean=0.001161223193321348 proxy_max=0.014760971 proxy_mean=0.003951857332140207 proxy_rank=0 proxy_gap_milli=0 proxy_class=EXACT proxy_ref_top=1 proxy_test_top=1
+VERDICT first_cost_len=-1 growth_x1000=1001 bound=0.003937006 sink=3.883124728949042
+LADDER DONE
+
+=== ladder run 2 ===
+exit=0; output byte-identical to run 1 (diff clean) -- the exercise is deterministic.
+
+Ladder reading (filed in the doc section 5): the 256 rung reproduces J-088's filed FAITH_ATTN numbers exactly (max 0.0023426115, mean 0.0011660499518484357) and the inline reference matches the module's attention_f32_head exactly (CROSSCHECK 0.0) -- the ladder's validation gate. Attention deviation is FLAT across 128..32,768 (max 0.00228--0.00234, growth x1.001); the proxy grade is EXACT at every length; under the pre-registered rule (doc section 2) no length costs at the synthetic level: first_cost_len=-1. All ladder numbers are SIMULATED (deterministic synthetic data); the proxy is a fixed linear read-out of attention outputs, NOT model logits; model faithfulness is NOT PROVEN (doc sections 5, 7, 9).

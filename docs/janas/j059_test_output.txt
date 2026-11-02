@@ -1,0 +1,30 @@
+J-059 long-prompt watching -- test output (VM, lightest target)
+Tree: yrsa/janas-j059 from yrsa/janas-j058 tip cdcdd83dc393db026523b93cb9aa01500ad0bf43
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j059stage, TMPDIR redirected there. (Direct mojo binary fails without pixi activation, per J-052's filed recipe -- the pixi route was used from the start.)
+Machine: VM (KVM), 4 vCPU; MemAvailable ~2.8 GB at slice start, ~2.1 GB after the builds -- below the 5,500 MB inference gate throughout; no inference ran, no CUDA ran; lightest compiles only, one at a time. purplelongship not used at all (unreachable/offline per the 204 road's ticks, and in any case yielded to the 204 road).
+
+=== test_prompt_progress ===
+PASS: silence bounds -- token bound and chunk bound both bind
+PASS: host 1024/256 -- four boundaries, four records, final once
+PASS: host 4096/256 -- step throttle, exactly the 10 filed boundaries
+PASS: width 1 -- 4096 boundaries, 10 records, no per-token spam
+PASS: tile width 4 -- 256 boundaries, 10 records
+PASS: ragged final chunk -- true totals, never padded, final exact
+PASS: monotonic -- done and emitted fractions rise, final once
+PASS: O2 timestamp carriage -- both render forms exact
+PASS: baseline lengths -- 0 / 4 / 10 / 10 on the road's own table
+PASS: refusals -- shapes, boundaries outside the read, timestamps
+ALL PASS: prompt progress account (10 groups)
+exit=0
+
+=== neighbour: test_prefill_anatomy (J-053) rebuilt from this tree ===
+PASS: host batched plans at the baseline lengths + S-033 shape
+PASS: per-token, CUDA width-1, and CUDA tile-4 plans
+PASS: MoE width-1 plan pins the per-token LM head finding
+PASS: KV bytes written per prompt, per profile shape
+PASS: causal pair counts (full + windowed) and attention MACs
+PASS: dense projection + FFN MACs per token, per profile
+PASS: weight-pass traffic shape + MoE mean stream projection
+PASS: refusals -- cap, token count, surface, window, shape, rate
+ALL PASS: prefill anatomy accounting (8 groups)
+exit=0

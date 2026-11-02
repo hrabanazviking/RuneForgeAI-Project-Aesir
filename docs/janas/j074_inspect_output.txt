@@ -1,0 +1,43 @@
+PASS pairing module defines compare_tokenizers
+PASS pairing module defines evaluate_pair
+PASS pairing module names PAIR_REFUSE_MISSING_FILE
+PASS pairing module names PAIR_REFUSE_UNKNOWN_FAMILY_PAIRING
+PASS pairing module names PAIR_REFUSE_DRAFTER_NOT_SMALLER
+PASS pairing module names PAIR_REFUSE_TOKENIZER_UNVERIFIED
+PASS pairing module names PAIR_REFUSE_TOKENIZER_MISMATCH
+PASS pairing module names PAIR_REFUSE_K_OVER_CAP
+PASS pairing module names PAIR_REFUSE_BUDGET_EXCEEDED
+PASS k cap read from J-071, not restated
+PASS pair memory bound to J-026 shared pool
+PASS pairing module contains no speed or acceptance statistic
+PASS pairing test defines its 10 groups
+PASS pairing test sizes through plan_shared_cache_pool directly
+PASS pairing test contains no speed or timing
+PASS cross-model shape in J-071 requires tokenizer match
+PASS loop dispatches the cross-model slot
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS pairing imported only by its own test -- aesir_engine/tests/test_cross_model_pairing.mojo
+PASS MoE session carries no loop or pairing state
+PASS probe record -- target file pin
+PASS probe record -- cross-quant file pin
+PASS probe record -- target tokenizer fingerprint
+PASS probe record -- target vocab length 151936
+PASS probe record -- target merges length 151387
+PASS probe record -- same-size relative refused at index 151646
+PASS probe record -- identity passes recorded
+PASS probe record -- mismatch refusals recorded
+PASS doc element -- first pair drafter named
+PASS doc element -- first pair target named
+PASS doc element -- paper-admissibility class stated
+PASS doc element -- pair identity NOT PROVEN
+PASS doc element -- live leg deferred with reason
+PASS doc element -- re-cite point is the J-086 gate
+PASS doc element -- acceptance owned by J-075
+PASS doc element -- guarded idle-gap rule names the 204 heartbeat
+PASS doc element -- ids-first criterion re-cited
+PASS doc element -- unverified refusal named in the doc
+PASS doc element -- same-size divergence index in the doc
+PASS doc element -- clean-room answers recorded
+== done ==
+(41/41 checks PASS)

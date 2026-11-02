@@ -1,0 +1,45 @@
+PASS: mixed pricing exists (mixed_bytes_per_token)
+PASS: keep verdict exists (mixed_keep_verdict)
+PASS: break-even exists (per_channel_break_even_context)
+PASS: prices defined through kv_int8 (J-088)
+PASS: prices defined through kv_account (J-087)
+PASS: rule is stated PRE-REGISTERED in the module header
+PASS: verdict codes include NOT_KEPT_NO_INDICTMENT
+PASS: tests pin the candidate table (69568 / 75520 / 99328)
+PASS: tests pin the price boundary as NOT KEPT on price
+PASS: harness synth is byte-identical to J-089's ladder synth
+PASS: harness lengths are the stated four
+PASS: pre-registered bound is J-088's round-trip bound
+PASS: per-channel is named ORACLE CALIBRATION (upper bound, not a scheme)
+PASS: harness exercises the worst-head restoration control
+PASS: harness states per-layer concentration is NOT exercisable here
+PASS: filed suites: kv mixed 6/6
+PASS: filed suites: neighbour kv int8 8/8
+PASS: filed suites: neighbour kv account 10/10
+PASS: filed suites: neighbour kv faith 6/6
+PASS: J-089's filed verdict found (first_cost_len)
+PASS: indictment I1 (J-089 uniform) does NOT fire -- first_cost_len=-1
+PASS: 32 per-head lines filed (4 lengths x 8 heads)
+PASS: four CONC lines filed, in the stated order -- 128, 256, 2048, 32768
+PASS: inline reference == module attention_f32_head at 256 (CROSSCHECK 0.0)
+PASS: VALIDATION GATE: BOTH aggregate reproduces J-089's ladder exactly (4 lengths)
+PASS: median / ratio / worst head / control / tensor maxima recompute from per-head lines
+PASS: indictment I2 (concentration) does NOT fire (max <= B and ratio < 2.0 everywhere) -- max ratio 1.032
+PASS: indictment I3 (tensor) does NOT fire (K-only and V-only maxima < B) -- worst V-only 0.0021027327
+PASS: filed RULEM line agrees: no concentration/tensor indictment
+PASS: verdict under the pre-registered rule is NOT KEPT (no indictment)
+PASS: per-channel == per-row exactly at every length, as filed
+PASS: every head at every length is under the bound B
+PASS: Python re-derivation of the 128 rung agrees per head (maxima + BOTH means < 2e-6)
+PASS: range saturation proven: every row slice and every channel attains maxabs 1.0 (per-row scale == per-channel scale == 1/127, so chan == both mechanically)
+PASS: 8B candidate table re-derives (int8 67584; first 69568; one head 75520; half/K/V 99328; f16 131072)
+PASS: 0.6B candidate table re-derives (59136 / 61120 / 66080 / 114688)
+PASS: R3 price boundary re-derives: half-layers overhead x2 EQUALS the saving (strict rule refuses)
+PASS: per-channel break-even re-derives: totals agree at 128 tokens (8,650,752 B)
+PASS: doc states the verdict NOT KEPT with its mechanical code
+PASS: doc files the deferred live recipe for the J-098 gate
+PASS: doc states the live model verdict remains NOT PROVEN
+PASS: doc's section-5 medians match the filed CONC lines
+PASS: doc's section-5 V-only maximum at 2,048 matches the filed line (0.002039522)
+
+J090_INSPECT: 43/43 checks PASS

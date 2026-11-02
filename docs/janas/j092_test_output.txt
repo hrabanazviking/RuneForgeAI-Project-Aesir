@@ -1,0 +1,107 @@
+J-092 attention share -- test + share harness output (VM, lightest target)
+Tree: yrsa/janas-j092 from yrsa/janas-j091 tip 0abf7be670de6e20b0d48fe4a11023ea9aba1ec2 (verified by git at slice start, local == ls-remote; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Design committed first: 1b54cfe257ae2ddfaa9c05743ed096967e1bb6c7 (module + tests + harness, definitions and crossing rule pre-registered in their headers, before any build or run of this slice).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087..J-091 staging builds, as expected from the identical source; staging compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables -- CONDA_PREFIX, MODULAR_HOME=<env>/share/max, PATH -- exported by hand, as J-071..J-091 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j092stage, build dir ~/workspace/.verify-tmp/j092build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~0.69-0.97 GB across the slice (688,032 kB at the first check) -- far below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. Load average up to ~12.4 (other campaigns); no wall is filed anywhere in this slice, so contention touches no number. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+
+=== test_attention_share (J-092, new) ===
+build exit=0
+PASS: endpoints -- unit 200,704; projection/token 6,525,288,448 == J-053 filed; head 544,997,376; rests 6,525,288,448 (prefill) / 7,070,285,824 (decode); KV 57,344 f16 / 29,568 int8
+PASS: J-091 frame reproduced -- prefill attention, projection (+head) and write-leg attention totals EXACT at all 5 rungs
+PASS: decode token split -- 28,247 ppm @1024 .. 481,914 ppm @32768 (48.19% at the cap); below half at every rung
+PASS: marginal + write split -- marginal 30,534 ppm @1024 .. 501,960 ppm @32768 (above half only at the top rung); write-leg average 29,946 .. 482,398 ppm
+PASS: prompt-average split -- 15,517 ppm @1024 .. 335,084 ppm @32768 (33.51%); below half at every rung
+PASS: work crossings -- marginal 32,512 (exact equality); decode 35,228 (86,016 MACs short at 35,227; cap is 32,768); prompt-average 65,024 (beyond 2x the cap)
+PASS: decode traffic -- f16 12,383 ppm @1024 .. 286,347 ppm @32768, crossing 81,667; int8 6,423 .. 171,424 ppm, crossing 158,384 (weights dominate throughout the ladder)
+PASS: prefill traffic at rungs -- host f16 616,349 ppm @1024 .. 980,901 @32768 vs GPU width-1 6,236 .. 167,102 ppm; host int8 453,064 .. 963,613; GPU int8 3,225 .. 93,750 ppm
+PASS: prefill traffic crossings -- host f16 first 700 / permanent 808 (re-dip at 769); host int8 first 1,259 / permanent 1,379 (re-dip at 1,281); GPU width-1 163,332 (f16) / 316,766 (int8), monotone, beyond any runnable length
+PASS: refusals -- zero shape/context/price/weights, negative share inputs, unknown surface, zero gen length
+ALL PASS: attention share (10 groups)
+exit=0
+
+=== neighbour: test_kv_ladder (J-091) rebuilt from this tree ===
+build exit=0
+PASS: rungs + per-token -- 1024/4096/8192/16384/32768, gen 128; f16 57,344 == J-087 census, int8 29,568 == J-088 store
+PASS: KV totals -- f16 58,720,256 .. 1,879,048,192 and int8 30,277,632 .. 968,884,224 across the rungs (@8192 f16 == J-087 filed)
+PASS: work frame -- pairs, attention MACs @8192 == J-053 filed, projection @8192 == J-068 filed, head 544,997,376
+PASS: decode traffic -- context sums pinned; KV read f16 7,982,284,800 @1024 .. 240,984,260,608 @32768 (int8 roughly half)
+PASS: CPU verdicts -- f16 ACCOUNTED at 1024/4096/8192, CAP_REFUSED at 16384/32768 (host cap 16000), both directions
+PASS: GPU + int8 verdicts -- gpu f16 reads all ACCOUNTED, write @32768 CAP_REFUSED; int8 INTEGRATION_BLOCKED everywhere as the tree stands, caps binding only behind integration
+PASS: GPU admission -- required 4,751,005,312 @1152 .. 5,633,529,472 @16512; WHOLE through 8192, SPILL from 16384; @16384 pure context reproduces the filed refusal within 4 B; int8 counterfactual holds 16384 whole, still spills at 32768
+PASS: refusals -- rung index, unknown precision/line/direction, zero shape/context/gen, invalid admission and placement inputs
+ALL PASS: kv ladder (8 groups)
+exit=0
+
+=== neighbour: test_kv_mixed (J-090) rebuilt from this tree ===
+build exit=0
+PASS: endpoints -- zero upgrades == J-088 int8 == J-087 projection; all upgrades == f16 census (8B / 0.6B / Coder / OLMoE)
+PASS: candidate prices (8B) -- first layer 69,568; first+last 71,552; one head 75,520; half layers / K-only / V-only 99,328 B/token
+PASS: candidate prices (Qwen3 0.6B) -- int8 59,136; first layer 61,120; one head 66,080 B/token; overhead/saving split closes
+PASS: per-channel break-even -- exactly head_dim tokens (128 / 64); totals agree there; per-channel saves 16,515,072 B at 8,192
+PASS: keep verdict -- no-indictment / not-restored / price-boundary all NOT KEPT; indicted+restored+cheap KEPT
+PASS: refusals -- pair counts out of range, zero layers, degenerate head_dim, layer/head counts out of range, endpoint candidates and inverted uniforms in the verdict, zero context
+ALL PASS: kv mixed (6 groups)
+exit=0
+
+=== neighbour: test_kv_int8 (J-088) rebuilt from this tree ===
+build exit=0
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+exit=0
+
+=== neighbour: test_kv_account (J-087) rebuilt from this tree ===
+build exit=0
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+exit=0
+
+=== neighbour: test_kv_faith (J-089) rebuilt from this tree ===
+build exit=0
+PASS: exact + near-tie steps -- rank 0/gap 0 exact; rank 1 gap 108 near-tie; gap rounding half-up
+PASS: near-tie band edges -- rank2+gap999 IN; rank2+gap1000 OUT; rank3 OUT; rank2+gap1138 OUT
+PASS: ties -- argmax takes the first maximum; a tied maximum shares rank 0 / gap 0
+PASS: pair verdicts -- FAITHFUL / NEAR_TIE / DIVERGENT (first at 2) / STEP0_BOUNDARY
+PASS: pair honesty -- empty NOT_GRADED; invalid comparator overrides perfect rows; J-022 pattern (23 exact + 1 near) grades NEAR_TIE
+PASS: refusals -- width mismatch, empty rows, step-count mismatch, NaN, inf, sub-milli positive-rank gap
+ALL PASS: kv faith (6 groups)
+exit=0
+
+=== share harness: docs/janas/j092_share.mojo, run 1 ===
+build exit=0
+SHAREHEAD model=qwen2.5-coder-7b unit=200704 rest_prefill_token=6525288448 rest_decode_token=7070285824 kv_per_token_f16=57344 kv_per_token_int8=29568 weights=4683074688 gen=128
+SHARE L=1024 pre_attn=105329459200 pre_rest=6682440368128 pre_ppm=15517 tok_attn=205520896 marg_ppm=30534 dec_ppm=28247 write_attn=27937996800 write_rest=904996585472 write_ppm=29946 dec_kv_f16=58720256 traf_dec_f16_ppm=12383 dec_kv_int8=30277632 traf_dec_int8_ppm=6423 pre_kv_f16=30094131200 traf_pre_host_f16_ppm=616349 traf_pre_gpu_f16_ppm=6236 pre_kv_int8=15517286400 traf_pre_host_int8_ppm=453064 traf_pre_gpu_int8_ppm=3225
+SHARE L=4096 pre_attn=1684038221824 pre_rest=26728126480384 pre_ppm=59271 tok_attn=822083584 marg_ppm=111888 dec_ppm=104161 write_attn=106858020864 write_rest=904996585472 write_ppm=105606 dec_kv_f16=234881024 traf_dec_f16_ppm=47759 dec_kv_int8=121110528 traf_dec_int8_ppm=25209 pre_kv_f16=481153777664 traf_pre_host_f16_ppm=865255 traf_pre_gpu_f16_ppm=24469 pre_kv_int8=248094916608 traf_pre_host_int8_ppm=768038 traf_pre_gpu_int8_ppm=12768
+SHARE L=8192 pre_attn=6735330803712 pre_rest=53455707963392 pre_ppm=111899 tok_attn=1644167168 marg_ppm=201257 dec_ppm=188671 write_attn=212084719616 write_rest=904996585472 write_ppm=189856 dec_kv_f16=469762048 traf_dec_f16_ppm=91165 dec_kv_int8=242221056 traf_dec_int8_ppm=49178 pre_kv_f16=1924380229632 traf_pre_host_f16_ppm=927752 traf_pre_gpu_f16_ppm=47765 pre_kv_int8=992258555904 traf_pre_host_int8_ppm=868788 traf_pre_gpu_int8_ppm=25212
+SHARE L=16384 pre_attn=26939679047680 pre_rest=106910870929408 pre_ppm=201266 tok_attn=3288334336 marg_ppm=335078 dec_ppm=317449 write_attn=422538117120 write_rest=904996585472 write_ppm=318287 dec_kv_f16=939524096 traf_dec_f16_ppm=167097 dec_kv_int8=484442112 traf_dec_int8_ppm=93747 pre_kv_f16=7697051156480 traf_pre_host_f16_ppm=962520 traf_pre_gpu_f16_ppm=91170 pre_kv_int8=3968792002560 traf_pre_host_int8_ppm=929784 traf_pre_gpu_int8_ppm=49181
+SHARE L=32768 pre_attn=107755427856384 pre_rest=213821196861440 pre_ppm=335084 tok_attn=6576668672 marg_ppm=501960 dec_ppm=481914 write_attn=843444912128 write_rest=904996585472 write_ppm=482398 dec_kv_f16=1879048192 traf_dec_f16_ppm=286347 dec_kv_int8=968884224 traf_dec_int8_ppm=171424 pre_kv_f16=30787265101824 traf_pre_host_f16_ppm=980901 traf_pre_gpu_f16_ppm=167102 pre_kv_int8=15874683568128 traf_pre_host_int8_ppm=963613 traf_pre_gpu_int8_ppm=93750
+CROSS marg_work=32512 dec_work=35228 preavg_work=65024 traf_dec_f16=81667 traf_dec_int8=158384 traf_pre_host_f16_first=700 traf_pre_host_f16_perm=808 traf_pre_host_int8_first=1259 traf_pre_host_int8_perm=1379 traf_pre_gpu_f16=163332 traf_pre_gpu_int8=316766
+SHAREDONE rungs=5 time_split=NOT_PROVEN_DEFERRED_J098
+exit=0
+
+=== share harness: docs/janas/j092_share.mojo, run 2 ===
+SHAREHEAD model=qwen2.5-coder-7b unit=200704 rest_prefill_token=6525288448 rest_decode_token=7070285824 kv_per_token_f16=57344 kv_per_token_int8=29568 weights=4683074688 gen=128
+SHARE L=1024 pre_attn=105329459200 pre_rest=6682440368128 pre_ppm=15517 tok_attn=205520896 marg_ppm=30534 dec_ppm=28247 write_attn=27937996800 write_rest=904996585472 write_ppm=29946 dec_kv_f16=58720256 traf_dec_f16_ppm=12383 dec_kv_int8=30277632 traf_dec_int8_ppm=6423 pre_kv_f16=30094131200 traf_pre_host_f16_ppm=616349 traf_pre_gpu_f16_ppm=6236 pre_kv_int8=15517286400 traf_pre_host_int8_ppm=453064 traf_pre_gpu_int8_ppm=3225
+SHARE L=4096 pre_attn=1684038221824 pre_rest=26728126480384 pre_ppm=59271 tok_attn=822083584 marg_ppm=111888 dec_ppm=104161 write_attn=106858020864 write_rest=904996585472 write_ppm=105606 dec_kv_f16=234881024 traf_dec_f16_ppm=47759 dec_kv_int8=121110528 traf_dec_int8_ppm=25209 pre_kv_f16=481153777664 traf_pre_host_f16_ppm=865255 traf_pre_gpu_f16_ppm=24469 pre_kv_int8=248094916608 traf_pre_host_int8_ppm=768038 traf_pre_gpu_int8_ppm=12768
+SHARE L=8192 pre_attn=6735330803712 pre_rest=53455707963392 pre_ppm=111899 tok_attn=1644167168 marg_ppm=201257 dec_ppm=188671 write_attn=212084719616 write_rest=904996585472 write_ppm=189856 dec_kv_f16=469762048 traf_dec_f16_ppm=91165 dec_kv_int8=242221056 traf_dec_int8_ppm=49178 pre_kv_f16=1924380229632 traf_pre_host_f16_ppm=927752 traf_pre_gpu_f16_ppm=47765 pre_kv_int8=992258555904 traf_pre_host_int8_ppm=868788 traf_pre_gpu_int8_ppm=25212
+SHARE L=16384 pre_attn=26939679047680 pre_rest=106910870929408 pre_ppm=201266 tok_attn=3288334336 marg_ppm=335078 dec_ppm=317449 write_attn=422538117120 write_rest=904996585472 write_ppm=318287 dec_kv_f16=939524096 traf_dec_f16_ppm=167097 dec_kv_int8=484442112 traf_dec_int8_ppm=93747 pre_kv_f16=7697051156480 traf_pre_host_f16_ppm=962520 traf_pre_gpu_f16_ppm=91170 pre_kv_int8=3968792002560 traf_pre_host_int8_ppm=929784 traf_pre_gpu_int8_ppm=49181
+SHARE L=32768 pre_attn=107755427856384 pre_rest=213821196861440 pre_ppm=335084 tok_attn=6576668672 marg_ppm=501960 dec_ppm=481914 write_attn=843444912128 write_rest=904996585472 write_ppm=482398 dec_kv_f16=1879048192 traf_dec_f16_ppm=286347 dec_kv_int8=968884224 traf_dec_int8_ppm=171424 pre_kv_f16=30787265101824 traf_pre_host_f16_ppm=980901 traf_pre_gpu_f16_ppm=167102 pre_kv_int8=15874683568128 traf_pre_host_int8_ppm=963613 traf_pre_gpu_int8_ppm=93750
+CROSS marg_work=32512 dec_work=35228 preavg_work=65024 traf_dec_f16=81667 traf_dec_int8=158384 traf_pre_host_f16_first=700 traf_pre_host_f16_perm=808 traf_pre_host_int8_first=1259 traf_pre_host_int8_perm=1379 traf_pre_gpu_f16=163332 traf_pre_gpu_int8=316766
+SHAREDONE rungs=5 time_split=NOT_PROVEN_DEFERRED_J098
+exit=0
+Harness determinism: runs 1 and 2 byte-identical (cmp clean; sha256 18c6f279c22538293832a9c72cd33a11a4efe10fed7208e0ac8c21335acfeeed).

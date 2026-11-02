@@ -1,0 +1,82 @@
+J-082 Sampling correctness -- test output (VM, lightest target)
+Tree: yrsa/janas-j082 from yrsa/janas-j081 tip 40bb186b8733b502a171646520825856ae5b6193 (base verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; no remote yrsa/janas-j082 existed before this slice)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-079/J-080 staging builds, as expected from the identical source; this slice's staging was compiled fresh, not reused), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables exported by hand, as J-071--J-081 filed; pixi run remains blocked on this VM). New-suite build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j082stage, build dir ~/workspace/.verify-tmp/j082build, nothing deleted.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.50-0.80 GB at every moment -- far below the 5,500 MB inference gate, so no VM inference was attempted; lightest compiles only, one at a time. purplelongship was not used at all -- unreachable, and yielded to under the coordination law in any case.
+Evidence note: every fixture in test_speculative_sampling is a stated logit vector (the pre-registered verdict rule in the module header of core/speculative_sampling.mojo and doc section 1), never a model's output; the seeded distribution runs grade the correction layer over those fixtures. The independent Python mirror (j082_mirror.py / j082_mirror_output.txt) reproduces every filed chi-square statistic to six decimal places. No live pair, speed, wall, or tok/s is proved or claimed anywhere.
+
+=== inspection recount ===
+j082_inspect.py: 22/22 checks PASS, exit 0 (filed as j082_inspect_output.txt) -- verdict rule in the module header before the code, J-071 band 1..15, zero-bin sentinel, alpha=0.001 critical table, shaped-distribution host contract, sampler binding by import (shaping stack + RuneRNG), legacy min(1, p/q) arithmetic and residual/KV refusal standing, J-036 use gate still fail-closed unedited, facade speculative_generate still raises not-implemented, J-071 zero-draw invariant unedited, suite's 17 groups and registered seeds/N pinned, doc statistics == mirror statistics.
+
+=== test_speculative_sampling (J-082, new) ===
+PASS: shaping plain -- case A target/draft softmax exact (1e-6)
+PASS: shaping temperature -- case B (T=0.7) exact; sharpening binds both models
+PASS: shaping greedy -- T=0 one-hot at argmax; tie goes to the lowest id
+PASS: shaping top-k -- case C supports exact (target {0,1,2}, draft {0,2,4}), renormalised
+PASS: shaping top-p + combined -- cases D and E exact (nucleus after top-k, renormalised)
+PASS: shaping refusals -- empty, non-finite logit, bad temperature, bad top-p (4/4)
+PASS: acceptance probability -- min(1, p/q) exact incl. cap and p=0; q=0 refused
+PASS: residual -- norm(max(0, p-q)) exact; identical p=q refused as undefined
+PASS: draw -- inverse-CDF boundaries exact; zero-probability tokens unreachable
+PASS: position scripted -- accept emits draft; reject emits residual; p=0 never accepts
+PASS: round full-accept -- drafts emitted, bonus drawn from the target at position k
+PASS: round rejections -- prefix kept, residual correction emitted, round ends (no bonus)
+PASS: round refusals -- k outside 1..15, flat/draw length mismatches, draw = 1 (6/6)
+PASS: chi-square helper -- exact/hand-computed statistics, zero-bin sentinel, critical table
+PASS: distribution A (T=1, no truncation) -- corrected chi2=8.518317808246318 < crit 24.322 (df 7, N=60000, seed 20261101); naive chi2=69594.86843846613 FAILS as required
+PASS: distribution B (T=0.7) -- corrected chi2=5.676113519656582 < crit 24.322 (df 7, N=60000, seed 20261101); naive chi2=183613.43940857553 FAILS as required
+PASS: distribution C (top-k 3) -- corrected chi2=0.6410602255139279 < crit 13.816 (df 2, N=60000, seed 20261101); naive chi2=-1.0 FAILS as required
+PASS: distribution D (top-p 0.8) -- corrected chi2=1.6746789124683283 < crit 13.816 (df 2, N=60000, seed 20261101); naive chi2=-1.0 FAILS as required
+PASS: distribution E (T=1.4, top-k 4, top-p 0.9) -- corrected chi2=5.59680442984888 < crit 16.266 (df 3, N=60000, seed 20261101); naive chi2=-1.0 FAILS as required
+PASS: bonus distribution -- chi2=6.747470637230754 < crit 24.322 (df 7, 12000 bonus tokens from 34835 rounds, seed 424242)
+ALL PASS: speculative sampling correctness (17 groups)
+RUN_EXIT=0
+
+=== test_speculative_verify ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+RUN_EXIT=0
+
+=== test_speculative_loop ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+RUN_EXIT=0
+
+=== test_speculative_placement ===
+PASS: both-on-CPU -- priced, zero crossings, zero syncs
+PASS: CPU draft + GPU check -- h2d 12, d2h 16, syncs 2
+PASS: both-on-GPU syncs 4 / d2h 16; reverse syncs 4 / d2h 12
+PASS: kept (dense cross-model, w4 tile) -- CPU draft + GPU check
+PASS: MoE GPU check REFUSED (J-031 admission); expert re-pay priced; MoE kept = both-on-CPU
+PASS: GPU verify width -- w5 refused, w4 off-tile refused (J-054), kept falls to CPU
+PASS: conversation proposer -- off-host draft refused by name; host draft + GPU check kept
+PASS: iGPU -- 0 copy bytes, contended priced, REFUSED (no backend, J-066); kept = both-on-CPU
+PASS: device absent -- refused first by name; CPU-only set keeps both-on-CPU
+PASS: coupled proposers -- split crosses hidden per draft step; MTP kept = both-on-GPU
+PASS: MoE draft on GPU REFUSED (J-031 admission); its re-pay priced as a plan
+PASS: enumeration -- 4 priced / 5 refused on the dense GPU set; choose deterministic
+PASS: input refusals -- k bounds, proposer cap, miss layers, negative bytes (4/4)
+ALL PASS: speculative placement (13 groups)
+RUN_EXIT=0

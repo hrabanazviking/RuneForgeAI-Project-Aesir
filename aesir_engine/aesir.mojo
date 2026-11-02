@@ -450,6 +450,495 @@ struct AesirEngine:
             self.image_span_rows,
         )
 
+    # Placement options (Janas road J-036): the per-pass placement
+    # surface -- --prompt-on / --drafts-on / --reply-on, their
+    # AESIR_*_ON env equivalents, the device kill switches, and the
+    # quality-tier fields (J-014 gate A2) -- is parsed, validated
+    # and reported by core/placement_options.mojo (scan_placement_args
+    # + placement_env_inputs + resolve_placement_options). This
+    # engine does NOT consume a placement choice yet: passes still
+    # run where they have always run, and no surface may claim
+    # otherwise. Consumption is roaded to J-038+ (measurement and
+    # auto choice); the draft-check pass the drafts option names
+    # does not exist yet (J-035 gap G1, Part V J-071/J-072), and
+    # placement_options.require_draft_check_use fails closed until
+    # it does. See docs/janas/J036_PLACEMENT_OPTIONS.md.
+    #
+    # Device inventory (Janas road J-037): the machine truth the
+    # placement surface deliberately does not carry lives in
+    # core/device_inventory.mojo -- observe_device_inventory()
+    # probes CPU topology from /proc/cpuinfo, the GPU through the
+    # nvidia-smi-class probe with its failure as the reason, and
+    # reports the NPU strictly from Aesir's ledgers (the Hailo is
+    # parked by campaign law: reported, never probed, never run).
+    # Its device_line() is the bench-style line a surface prints at
+    # open beside the placement report above; require_device_present
+    # is the feed point J-047's generalised refusal consumes. No
+    # surface consumes the inventory yet; claiming otherwise would
+    # fake an integration that does not exist. See
+    # docs/janas/J037_DEVICE_INVENTORY.md.
+    #
+    # Placement measurement harness (Janas road J-038): the step
+    # between the options above and the inventory is
+    # core/placement_harness.mojo -- run_placement_measurement()
+    # enumerates the candidates a resolved option names for one
+    # pass kind, filters them through the inventory (excluded
+    # candidates are recorded with the inventory's own reason,
+    # never silently dropped), and runs bounded micro-runs per
+    # surviving candidate: at least one settle round whose timing
+    # is discarded, then measured rounds summarized by median,
+    # under hard per-candidate and per-sweep time bounds. It is
+    # callable at model open OR on demand -- the same entry point
+    # either way -- and this slice wires it into NO live session
+    # path: no session consumes a measurement yet, and auto choice
+    # is J-040--J-042. Draft-check candidates record as
+    # unmeasurable-with-reason (gap G1 above; no pass exists to
+    # measure) and co-work candidates likewise (J-043 owns the
+    # split pass). See docs/janas/J038_PLACEMENT_MEASUREMENT_HARNESS.md.
+    #
+    # Thread topology trials (Janas road J-039): the thread-count
+    # axis of the same measurement step lives in
+    # core/thread_topology.mojo -- derive_thread_ladder() derives
+    # the candidate counts from the inventory's CPU facts alone
+    # (serial / half / all-physical / all-logical, and a
+    # performance-only rung only when the machine itself states a
+    # hybrid split; otherwise NOT APPLICABLE-WITH-REASON, never
+    # invented), and run_thread_trials() measures every rung per
+    # pass kind under the J-038 discipline (settle discarded,
+    # median of measured rounds, hard bounds) through the engine's
+    # own thread layer (AESIR_THREADS + par_for, checksums asserted
+    # bit-identical to the serial workload at every count). The
+    # i9 lesson (more threads can be slower) is graded per kind by
+    # a pre-registered rule, not assumed. Draft-check rungs record
+    # as unmeasurable-with-reason (gap G1 above). This slice wires
+    # the trials into NO live session path: no session consumes a
+    # thread verdict yet; auto choice is J-040--J-042. See
+    # docs/janas/J039_THREAD_TOPOLOGY.md.
+    #
+    # Bench that measures configurations (Janas road J-100): the
+    # user-facing sweep lives in core/bench_configurations.mojo --
+    # run_bench_sweep() composes the J-038 device sweep and the
+    # J-039 thread trials per pass kind (prompt / draft-check /
+    # reply) into the cross product the placement engine may
+    # choose (threads x devices x pass kinds), every cell
+    # enumerated with its classification and reason, the CPU cells
+    # measured through the threaded executor, and machine_report()
+    # renders the whole as one stable, sendable text. The `bench`
+    # command (cli/bench.mojo, dispatched from cli/commands.mojo)
+    # is its one surface in this slice. No session consumes a
+    # bench report yet: choice remains J-040--J-042's and the
+    # learned file J-044's; `bench --report` is J-101's surface.
+    # See docs/janas/J100_BENCH_CONFIGURATIONS.md.
+    #
+    # The machine report artefact (Janas road J-101): the
+    # sendable form of the bench lives in
+    # core/machine_report.mojo -- report_artefact() opens with
+    # J-100's machine_report() verbatim (hardware inventory,
+    # sweeps, cell table) and appends the per-model read/write
+    # table of filed evidence (each cell carrying its source and
+    # honesty class, or NOT PROVEN with its reason -- nothing in
+    # the table is invented) and the device refusal summary
+    # (J-037's device line verbatim, then each entry's own line
+    # with its refusal reason). The `bench --report` flag
+    # (cli/bench.mojo) is its one surface in this slice; it
+    # refuses --pass, because the artefact is the whole machine.
+    # See docs/janas/J101_MACHINE_REPORT.md.
+    #
+    # Auto choice for prompt passes (Janas road J-040): the
+    # prompt kind's chooser lives in core/prompt_placement.mojo --
+    # choose_prompt_placement() runs the J-038 device sweep (the
+    # field and its exclusions; its CPU timing is a cross-check
+    # only, never ranked -- a different executor from the
+    # threaded one) and the J-039 thread trials (the rankable
+    # CPU rungs), then applies the pre-registered decision rule:
+    # a measured winner must beat the runner-up by more than 10%
+    # of its median AND its slowest counted round must beat the
+    # runner-up's median, otherwise the session default (cpu,
+    # 1 thread) is kept with the failed hurdle stated; a sole
+    # measured candidate is chosen as sole-measured; no measured
+    # candidate falls back to the default while the cpu is
+    # present, else the record is a refusal. An explicit
+    # single/co-work prompt option fixes the choice and is never
+    # ranked against. The record is kept for the session in a
+    # PromptPlacementSession (decided once; a second decision is
+    # refused) and rendered by its report(). Present GPU/NPU and
+    # co-work candidates ride on the record as excluded /
+    # unmeasurable-with-reason -- no device executor exists yet
+    # and no GPU or split number is faked. This slice wires the
+    # chooser into NO live session path: no session consumes a
+    # prompt placement yet. Reply choice is J-041, draft-check
+    # J-042, co-work execution J-043, re-trials J-045. See
+    # docs/janas/J040_AUTO_PROMPT_PLACEMENT.md.
+    #
+    # Auto choice for reply passes (Janas road J-041): the reply
+    # kind's chooser lives in core/reply_placement.mojo --
+    # choose_reply_placement() runs the J-038 device sweep for
+    # the reply kind (the field and its exclusions; its CPU
+    # timing is a cross-check only, never ranked -- a different
+    # executor from the threaded one) and the J-039 thread
+    # trials for the reply kind (the rankable CPU rungs), then
+    # applies the pre-registered decision rule adopted unchanged
+    # from J-040: a measured winner must beat the runner-up by
+    # more than 10% of its median AND its slowest counted round
+    # must beat the runner-up's median, otherwise the session
+    # default (cpu, 1 thread) is kept with the failed hurdle
+    # stated; a sole measured candidate is chosen as
+    # sole-measured; no measured candidate falls back to the
+    # default while the cpu is present, else the record is a
+    # refusal. An explicit single/co-work reply option fixes
+    # the choice and is never ranked against. The record is
+    # kept for the session in a ReplyPlacementSession (decided
+    # once; a second decision is refused) and rendered by its
+    # report(). The integrated-GPU question is answered
+    # honestly on every record: no GPU reply executor exists
+    # in the harness yet, so GPU candidates ride as excluded /
+    # unmeasurable-with-reason and are never ranked -- single
+    # tokens go to the GPU only when a measured GPU reply
+    # executor exists and clears the same hurdles (NOT PROVEN
+    # today). The NPU never takes a reply pass (J-036 refuses
+    # it at parse; in the auto field the inventory excludes it,
+    # parked). This slice wires the chooser into NO live
+    # session path: no session consumes a reply placement yet.
+    # Draft-check choice is J-042, co-work execution J-043,
+    # re-trials J-045. See docs/janas/J041_AUTO_REPLY_PLACEMENT.md.
+    #
+    # Auto choice for draft-check passes (Janas road J-042):
+    # the draft-check kind's chooser lives in
+    # core/draft_placement.mojo -- choose_draft_placement()
+    # enumerates the J-038 device sweep and the J-039 thread
+    # ladder for the drafts kind, then applies the
+    # pre-registered decision rule adopted unchanged from
+    # J-040/J-041. Its honest state today: Aesir has no
+    # draft-check pass (J-035 gap G1), so the harness
+    # classifies every candidate on both axes
+    # UNMEASURABLE-WITH-REASON, nothing is timed or ranked,
+    # and the live outcome is the rule's NO-MEASURED-FALLBACK
+    # (the session default kept as a label) while the cpu is
+    # present, else a refusal. An explicit single/co-work
+    # drafts option fixes the choice (MANUAL-FIXED) with its
+    # unmeasurable state on the record; choosing is not
+    # using -- any actual use of a drafts placement still
+    # fails closed through require_draft_check_use() (J-036)
+    # until Part V (J-071/J-072) builds the pass and a real
+    # verify-pass executor for the harness. The record is
+    # kept for the session in a DraftPlacementSession
+    # (decided once; a second decision is refused). This
+    # slice wires the chooser into NO live session path: no
+    # session consumes a drafts placement yet. Co-work
+    # execution J-043, re-trials J-045. See
+    # docs/janas/J042_AUTO_DRAFT_PLACEMENT.md.
+    #
+    # Verification-first speculative design (Janas road
+    # J-071): the verify pass is a draft-check pass in
+    # J-035's taxonomy, and its account lives in
+    # core/speculative_verify.mojo -- plan_verify() derives
+    # each greedy round from a proposer's draft list and the
+    # TARGET's own greedy list (k+1 choices from one pass of
+    # width k+1, inside the 2..16 band), emitting the accepted
+    # prefix plus exactly one further target choice, built
+    # from the target list only, with exact KV/context
+    # rollback and zero RNG draws; plan_proposer() states the
+    # shapes for J-072's three proposer slots (head --
+    # MTP head or assistant model; cross-model; conversation).
+    # The invariant is by construction: speculative greedy
+    # output is token-identical to non-speculative greedy
+    # because nothing but target choices is ever emitted.
+    # This slice builds the account only: no loop runs, no
+    # session consumes it, and require_draft_check_use()
+    # (J-036) still fails closed -- J-072 builds the draft
+    # loop and replaces the refusal with real consumption
+    # then, and only then. See
+    # docs/janas/J071_VERIFICATION_FIRST_DESIGN.md.
+    #
+    # The draft loop (Janas road J-072): the loop machinery
+    # lives in core/speculative_loop.mojo -- dispatch over
+    # J-071's three proposer slots, plan_round_k() (band,
+    # proposer caps, and explicit KV-capacity shortening),
+    # run_loop_round() (snapshot, one plan_verify round,
+    # exact rollback of KV / context / proposer KV asserted
+    # against the snapshot, RNG word unchanged), and
+    # run_loop() (multi-round driving, emission asserted
+    # token-identical to plain greedy). The legacy draft
+    # bound in core/speculative.mojo is reconciled there:
+    # hard limit 15 (the band), default 4 retained as the
+    # loop's initial k. The adaptation rule's shape is
+    # stated (suggest_next_k); measured tuning is J-079.
+    # Honest wiring state: NO session consumes the loop --
+    # no proposer implementation or verify-pass executor
+    # exists for a session to call, so
+    # require_draft_check_use() still fails closed and this
+    # facade's speculative_generate still raises
+    # not-implemented. Claiming consumption would fake an
+    # integration that cannot run. See
+    # docs/janas/J072_DRAFT_LOOP.md.
+    #
+    # Co-work passes for the prompt kind (Janas road J-043):
+    # the split machinery lives in core/cowork_passes.mojo --
+    # plan_cowork_prompt() plans the pairs a resolved prompt
+    # option names (row-split fractions with exact per-side
+    # work and crossing/join byte accounting), classifies
+    # each pair (any NPU pair refused -- the parked Hailo
+    # ledger, J-037; an absent member excluded with the
+    # inventory's reason; a present non-CPU member
+    # unmeasurable-with-reason -- the harness has CPU prompt
+    # executors only and no GPU prompt executor exists), and
+    # applies the pre-registered survival rule inherited
+    # from J-040: a split survives as an option only when
+    # its measured joined time beats BOTH single-device
+    # parents by more than 10% of its median AND passes
+    # round separation against each parent; failures are
+    # measured-and-rejected, never kept. True two-device
+    # co-work is NOT PROVEN on today's tree (no device
+    # executor; the NPU is parked and refused) and no GPU/NPU
+    # timing is stated. The one measurable split,
+    # run_thread_partition_analogue(), divides the batch
+    # across two thread partitions of the SAME cpu through
+    # J-039's threaded executor with a timed List gather as
+    # the join, and is labelled an analogue on its face --
+    # it is not device co-work and creates no device option;
+    # its live verdicts on the VM were measured-and-rejected
+    # for all three fractions. An explicit co-work option is
+    # evaluated as written and never substituted (manual
+    # supremacy untouched). This slice wires the planner
+    # into NO live session path: no session consumes a
+    # co-work placement yet. The learned file is J-044,
+    # re-trials J-045. See docs/janas/J043_COWORK_PASSES.md.
+    #
+    # The learned file (Janas road J-044): placement + thread
+    # choices persisted between sessions live in
+    # core/learned_file.mojo -- load_learned_file() loads the
+    # file at open from learned_file_path() (AESIR_LEARNED_FILE,
+    # else AESIR_CACHE_HOME, else $HOME/.cache/aesir, in Aesir's
+    # own versioned text format), keyed exactly by machine
+    # (derived from J-037's CPU/GPU facts) + model shape (the
+    # GGUF config's shape fields, mapped by the host). A missing
+    # file is the clean MISSING state and a corrupt/truncated
+    # file a clean REFUSED state with its reason -- neither
+    # raises through open and neither partially applies; a key
+    # mismatch (lookup_learned) names which half of the key
+    # failed. Learned values are DEFAULTS ONLY: an explicit
+    # --*-on option overrides them always (manual supremacy;
+    # J-047 owns the refusal surface). A kind whose chooser
+    # refused is stored absent; no expert map is stored (J-027
+    # measured rejection -- the format has no line for one).
+    # store_learned_entry() learns a fresh measured choice with
+    # its measured-at stamp (J-045's re-trial provenance);
+    # erase_learned_file() / erase_learned_entry() erase;
+    # LearnedLoad.report() is the show-on-request dump. This
+    # slice wires the module into NO live session path: no
+    # session consumes a learned choice yet. Re-trials are
+    # J-045. See docs/janas/J044_LEARNED_FILE.md.
+    #
+    # Re-trials of learned choices (Janas road J-045): the
+    # re-measurement of a learned choice lives in
+    # core/retrial.mojo -- plan_retrial() applies the bounded
+    # cadence to one J-044 entry (due on age >= 30 days, or on
+    # >= 25 host-counted opens past an absolute 7-day floor;
+    # never per-open, never under clock skew; a drifted key is
+    # named KEY-DRIFT and is a fresh-measure road, not a
+    # re-trial). Only a DUE plan may re-measure: run_retrial()
+    # re-runs each due kind's own chooser (J-040/J-041/J-042)
+    # under the kind's stored option, and apply_retrial()
+    # adopts the verdict through J-044's store path -- a
+    # changed kind replaces the learned choice, a reproduced
+    # kind keeps it with the measured-at stamp refreshed to
+    # the re-trial instant, a fresh refusal makes the kind
+    # absent (an all-absent re-trial erases the entry) -- and
+    # appends the change record (old -> new, trigger, outcome)
+    # to the retrial log beside the learned file
+    # (<learned path>.retrials.log). MANUAL-FIXED kinds are
+    # never re-trialled and an all-manual entry is never due
+    # (manual supremacy). A skipped re-trial writes nothing.
+    # This slice wires the module into NO live session path:
+    # no session re-trials a learned choice yet. See
+    # docs/janas/J045_RETRIALS.md.
+    #
+    # Within-tolerance proof (Janas road J-046): the grading
+    # of the auto choice against the full configuration sweep
+    # lives in core/within_tolerance.mojo --
+    # run_within_tolerance_proof() runs the real J-040/J-041
+    # choosers for REPETITIONS (3) independent repetitions per
+    # model shape (keyed the J-044 way) per kind (prompt,
+    # then reply) and grades each repetition under the
+    # pre-registered rule: best is the lowest median of the
+    # thread-ladder sweep the chooser ranks, auto is the
+    # median -- in the SAME sweep -- of the configuration the
+    # chooser actually chose, gap % = (auto - best) / best *
+    # 100 against the targets prompt <= 1.50% / reply <=
+    # 2.60% (Janas's published claim, adopted as a target to
+    # test); per-repetition verdicts BEATEN / MET / MISSED /
+    # NOT PROVEN aggregate per shape per kind (any MISSED
+    # with no NOT PROVEN makes the aggregate MISSED; any NOT
+    # PROVEN makes it NOT PROVEN). Both options must be auto
+    # -- a manual option has no auto choice to grade and the
+    # builder refuses it. Device-axis candidates are named on
+    # the chooser records and never ranked (no device
+    # executor exists; the device sweep's cpu timing is a
+    # cross-check from a different executor). Draft-check is
+    # NOT PROVEN by construction (no draft-check pass
+    # exists, J-035 gap G1) and no proxy is graded. The shape
+    # enters as the J-044 key only: the harness workloads are
+    # fixed shapes, the choosers take no model argument, and
+    # no model inference runs. This slice wires the proof
+    # into NO live session path: no session consumes a
+    # tolerance proof yet. See
+    # docs/janas/J046_WITHIN_TOLERANCE.md.
+    #
+    # Manual override supremacy (Janas road J-047): the layer
+    # that decides whose choice governs lives in
+    # core/manual_override.mojo. It carries the --mode preset
+    # surface the census names (scan_mode_args +
+    # mode_env_inputs + resolve_mode: --mode auto|eco|max,
+    # env AESIR_MODE, cli > env > default, sources recorded;
+    # eco is a fixed cpu threads=1 intent -- the census's eco
+    # rule, gpu never in its field, the serial rung minimal by
+    # construction, no speed claimed; max is a measure intent
+    # over the full auto field with the learned default
+    # bypassed; auto governs nothing). resolve_precedence()
+    # applies the stack per pass kind -- hand > preset >
+    # learned > auto: a set hand option governs as
+    # MANUAL-FIXED (single/co-work, never measured against,
+    # never ranked, never re-trialled), MANUAL-RACE (the field
+    # is exactly the hand's list), or MANUAL-AUTO (an explicit
+    # auto is a hand statement directing fresh measurement;
+    # an unset auto is silence and falls through); only under
+    # silence may a preset govern (PRESET-FIXED /
+    # PRESET-MEASURE), only under silence with no preset may
+    # a learned default apply (a learned MANUAL-FIXED keeps
+    # its persisted-hand provenance and is never re-trialled),
+    # and AUTO is the remainder. validate_open_choices() is
+    # the generalised invalid-device refusal at open: every
+    # device a governing hand, preset, or learned choice
+    # names -- single, both co-work members, every race
+    # member -- is checked against the J-037 inventory, and
+    # an absent device (or the parked NPU as an execution
+    # device) refuses the whole choice with the device, the
+    # kind, and the inventory fact in the reason; nothing is
+    # dropped, substituted, or trimmed. This slice wires the
+    # layer into NO live session path: no session consumes a
+    # precedence resolution or a mode preset yet. See
+    # docs/janas/J047_MANUAL_OVERRIDE.md.
+
+    # Placement under memory pressure (Janas road J-048): the
+    # contention rule where the expert cache and a device
+    # placement compete for one memory pool lives in
+    # core/placement_pressure.mojo -- plan_placement_pressure().
+    # Fixed placement bytes (resident + KV + activation + the
+    # pool reserve, J-031's / J-028's charging order) are charged
+    # first in full and are never cannibalised by the cache; the
+    # expert cache is the only elastic consumer (capped at its
+    # open-time budget and at the expert body, shed first, floor
+    # = one token's full routed demand as in J-028); a duplicate
+    # device copy (the census's NPU-copy shape) is cache-class --
+    # admitted only where the cache keeps the floor after it,
+    # otherwise it stays closed -- unless a hand choice names
+    # it, when it charges as fixed (J-047 supremacy: a governing
+    # hand choice is never shrunk, migrated, substituted, or
+    # trimmed; an impossible contention refuses the whole
+    # session at open with the numbers stated, it never
+    # overrides the choice). Below the floor an optional device
+    # cache degrades to zero and the placement stands (J-031's
+    # resident-only division); a required host cache refuses
+    # cleanly (J-028). Placement never migrates mid-run: a
+    # token-boundary re-plan moves only the cache and copies.
+    # This slice wires the planner into NO live session path:
+    # no session consumes a contention plan yet. See
+    # docs/janas/J048_PLACEMENT_MEMORY_PRESSURE.md.
+    #
+    # Server placement parity (Janas road J-049): the parity
+    # layer between the placement surface above and Aesir's
+    # server surface lives in core/server_placement.mojo.
+    # The live service (cli/native_serve.mojo serve_loaded)
+    # is one resident CUDA session, concurrency 1, its
+    # backend/device/profile/context fixed at startup; per
+    # request it reconfigures only cheap state (sampling,
+    # control, output, tool) -- there is no configure-placement
+    # on any session and no placement field in any request
+    # parser today. Placement is allocation-bound state, like
+    # the context (server/local_protocol.mojo's
+    # require_loaded_context refuses a per-request value that
+    # differs from the loaded one), not cheap state like
+    # sampling. The parity rule: session defaults govern --
+    # resolve_server_defaults() resolves the J-036 options +
+    # J-047 mode once at serve open (open refusal + quality
+    # gate + one precedence resolution) and
+    # require_server_defaults_conformance() checks every
+    # fixed outcome against the resident placement the host
+    # states (for the CUDA service, single gpu for prompt and
+    # reply -- the backend its own banner states); the three
+    # generation request shapes may carry prompt_on /
+    # drafts_on / reply_on / mode as flat fields (claimed via
+    # apply_server_placement_field(); never inside Ollama's
+    # numbers-only options object, and never on non-generation
+    # routes), resolved per request by
+    # resolve_server_request_placement() (request hand >
+    # request preset > session resolution, per kind, J-036 /
+    # J-047 refusals inherited whole) and checked by
+    # require_server_request_conformance(): a request-governed
+    # fixed placement must equal the resident session's
+    # executed placement, and a request-governed measurement
+    # demand is refused (measurement is an open-time act).
+    # A request states nothing -> the session default governs
+    # the kind; request outcomes never mutate the defaults.
+    # This slice wires the layer into NO live server path:
+    # serve_loaded consumes no placement resolution yet, and
+    # dispatch_native_serve still refuses the placement flags
+    # as unsupported service options -- the wiring is the host
+    # contract in the module, named, not faked. See
+    # docs/janas/J049_SERVER_PLACEMENT_PARITY.md.
+    #
+    # Placement explainability (Janas road J-050): the
+    # `--explain-placement` report lives in
+    # core/placement_explain.mojo --
+    # assemble_placement_explanation() assembles ONE report
+    # from the Part III pieces a surface kept at open (the
+    # J-036 options + J-047 precedence, the J-037 inventory,
+    # the J-040--J-042 chooser records with every candidate
+    # and its numbers or its exclusion reason, the J-043
+    # co-work record, the J-044 learned load + lookup with
+    # the stored choice per kind, the J-045 re-trial plan,
+    # the J-046 tolerance grades, the J-048 pressure plan,
+    # and J-049's per-request outcomes where a request
+    # governed). Per pass kind the report states the
+    # candidates, the choice, the governing layer and its
+    # provenance, and the learned-file state; a piece that
+    # was not supplied renders as its stated absence (a kind
+    # with no chooser record was never measured and says
+    # so). The flag itself (scan_explain_placement_args) is
+    # a bare boolean that changes no placement and takes no
+    # value. This slice wires the report into NO live
+    # session or server path: no session consumes a
+    # placement plan yet, so none consumes an explanation
+    # yet either -- the wiring is the host contract in the
+    # module, named, not faked, and roaded to the J-052
+    # gate. See docs/janas/J050_PLACEMENT_EXPLAINABILITY.md.
+    #
+    # Long-prompt watching (Janas road J-059): the progress
+    # account for a prompt read lives in
+    # core/prompt_progress.mojo -- plan_prompt_progress()
+    # states the read's shape under the pre-registered
+    # discipline (watched iff >= 1024 prompt tokens AND
+    # >= 4 chunks; boundary-only records; a 10% step
+    # throttle, so at most 10 records per read at any
+    # width; the final 100% record exactly once; never a
+    # token not yet read), progress_record() states one
+    # chunk boundary (with the caller's monotonic elapsed
+    # ms riding as the O2 timestamp), and
+    # render_progress_line() / render_progress_event()
+    # render it for the CLI and the server stream. The
+    # host wiring for THIS loop: build the plan once from
+    # len(tokens) and batch_cap before the prefill loop in
+    # _run_generation, take one record per completed chunk
+    # (width batch_cap, or width 1 in the per-token
+    # fallback), and print the line only when record.emit.
+    # This slice wires the account into NO live loop yet:
+    # _run_generation consumes no progress plan today, so
+    # no loop prints one -- the wiring is the host contract
+    # in the module, named, not faked, and roaded to the
+    # deferred live leg in docs/janas/J059_LONG_PROMPT_
+    # WATCHING.md (progress must stay text-invisible: a
+    # watched read produces the same ids as a silent one).
+
     def _prefill_batch_cap(self) -> Int:
         """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
         (default 256; 1 disables batching and restores the per-token

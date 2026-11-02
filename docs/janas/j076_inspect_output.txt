@@ -1,0 +1,56 @@
+PASS classifier defines classify_tensor_name
+PASS classifier defines MtpCensus verdict
+PASS module rule "nextn" in name
+PASS module rule "mtp" in name
+PASS module rule "assistant" in name
+PASS script rule "nextn"
+PASS script rule "mtp"
+PASS script rule "assistant"
+PASS script reads directory only (no tensor data claim)
+PASS classifier contains no speed
+PASS census test defines its 8 groups
+PASS census files 27 records
+PASS census files 8 full model files
+PASS census files 19 vocab-only fixtures
+PASS total tensors read is 2987
+PASS zero head hits in the whole census
+PASS zero metadata mtp/nextn keys in the whole census
+PASS every full file verdict is NO_MTP
+PASS seven zen files, 398 tensors each
+PASS zen arch is qwen3 in all seven
+PASS zen pin matches S-060 -- zen-4b.i1-IQ1_S.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-IQ2_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q2_K.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q3_K_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q4_K_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q5_K_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q6_K.gguf
+PASS tinyllama pin matches J-074's filed pin
+PASS qwen35 vocab fixture is VOCAB_ONLY with arch filed as qwen2
+PASS gemma-4 vocab fixture is VOCAB_ONLY, arch gemma4
+PASS acquisition ledger has 193 data rows
+PASS no mtp/assistant filename in the acquisition ledger
+PASS no mtp/assistant filename in the Gemma live inventory
+PASS qwen3.5-2b bench record files its size, no hash
+PASS qwen3.5-2b file itself absent from its directory
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS mtp_census imported only by its own test
+PASS test record -- ALL PASS: mtp census classifier (8 groups)
+PASS test record -- ALL PASS: speculative acceptance measurement (10 gro
+PASS test record -- ALL PASS: speculative verification account (13 group
+PASS test record -- ALL PASS: speculative draft loop (12 groups)
+PASS test record -- ALL PASS: speculative token-identity proof (8 groups
+PASS test record -- ALL PASS: cross-model draft pairing (10 groups)
+PASS test record -- CENSUS DETERMINISM: run1 sha256 == run2 sha256
+PASS doc element -- verdict is CLOSED-WITH-DEFERRED-LEG
+PASS doc element -- headline tensors total 2987
+PASS doc element -- zen verdict PRESENT-NO-MTP proven
+PASS doc element -- qwen3-next pin re-cited
+PASS doc element -- on-box leg is J-077's first act
+PASS doc element -- re-cite point is the J-086 gate
+PASS doc element -- guarded idle-gap rule names the 204 heartbeat
+PASS doc element -- rules recorded as answered-locally
+PASS doc element -- unread files file as NOT PROVEN
+== done ==
+(54/54 checks PASS)

@@ -1,0 +1,196 @@
+
+== CENSUS doc census (in-tree vs campaign-only) ==
+in-tree: ['J017_EXPERT_RESIDENCY_DESIGN.md', 'J018_EXPERT_CACHE.md', 'J019_DISK_READING.md', 'J020_COLD_AND_WARM.md', 'J022_FIRST_BIGGER_THAN_RAM.md', 'J023_STREAMING_UNDER_LOAD.md', 'J024_CACHE_POLICY_TOURNAMENT.md', 'J025_ROUTER_SHADOW_PREFETCH.md', 'J026_MULTI_MODEL_RESIDENCY.md', 'J027_CACHE_PERSISTENCE.md', 'J028_MEMORY_PRESSURE.md', 'J029_NVME_PAGE_CACHE_VERDICT.md', 'J030_STREAMING_CPU_LINE.md', 'J031_STREAMING_GPU_LINE.md', 'J032_80B_CLASS_TARGET.md', 'J033_SOAK.md']
+campaign: ['J015_MOE_ANATOMY.md', 'J016_ROUTER_INSTRUMENTATION.md', 'J017_EXPERT_RESIDENCY_DESIGN.md', 'J018_EXPERT_CACHE.md', 'J019_DISK_READING.md', 'J020_COLD_AND_WARM.md', 'J021_DENSE_SPILL_GENERALISED.md', 'J024_CACHE_POLICY_TOURNAMENT.md', 'J025_ROUTER_SHADOW_PREFETCH.md', 'J027_CACHE_PERSISTENCE.md', 'J028_MEMORY_PRESSURE.md', 'J029_NVME_PAGE_CACHE_VERDICT.md', 'J030_STREAMING_CPU_LINE.md', 'J031_STREAMING_GPU_LINE.md', 'J032_80B_CLASS_TARGET.md', 'J033_SOAK.md']
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J015 doc present somewhere (tree or campaign)  tree=False campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J016 doc present somewhere (tree or campaign)  tree=False campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J017 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J018 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J019 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J020 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J021 doc present somewhere (tree or campaign)  tree=False campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J022 doc present somewhere (tree or campaign)  tree=True campaign=False
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J023 doc present somewhere (tree or campaign)  tree=True campaign=False
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J024 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J025 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J026 doc present somewhere (tree or campaign)  tree=True campaign=False
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J027 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J028 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J029 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J030 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J031 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J032 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] J033 doc present somewhere (tree or campaign)  tree=True campaign=True
+PASS  [CENSUS doc census (in-tree vs campaign-only)] campaign-only Part II docs are exactly J015/J016/J021  campaign-only=['J015_MOE_ANATOMY.md', 'J016_ROUTER_INSTRUMENTATION.md', 'J021_DENSE_SPILL_GENERALISED.md']
+
+== J-016 trace sha + stats ==
+PASS  [J-016 trace sha + stats] trace sha256 == filed pin 85e1d241...cf99a  85e1d2413cbfcd43516a03d8463c7266d486cf0f0d0a6ed3104d09111facf99a
+PASS  [J-016 trace sha + stats] n_tokens == 577  577
+PASS  [J-016 trace sha + stats] total accesses == 73,856  
+PASS  [J-016 trace sha + stats] entropy 5.9836 / 6.0  
+PASS  [J-016 trace sha + stats] cold accesses == 1,024  
+PASS  [J-016 trace sha + stats] median stack distance == 298  
+PASS  [J-016 trace sha + stats] 32-token working set mean 805.36 pairs  
+PASS  [J-016 trace sha + stats] integrity PASS  
+PASS  [J-016 trace sha + stats] j024_tournament_results.json trace_sha256 field == recomputed sha  
+PASS  [J-016 trace sha + stats] j025_prefetch_results.json trace_sha256 field == recomputed sha  
+PASS  [J-016 trace sha + stats] j026_multi_results.json trace_sha256 field == recomputed sha  
+PASS  [J-016 trace sha + stats] j027_persistence_results.json trace_sha256 field == recomputed sha  
+PASS  [J-016 trace sha + stats] j028_pressure_results.json trace_sha256 field == recomputed sha  
+
+== J-018 cache replay (real module, filed output) ==
+PASS  [J-018 cache replay (real module, filed output)] 6 replay runs present (3 policies x 2 budgets)  [('lfu', 476160), ('lfu', 1904640), ('lru', 476160), ('lru', 1904640), ('segmented', 476160), ('segmented', 1904640)]
+PASS  [J-018 cache replay (real module, filed output)] cold == 1,024 in all 6 runs  
+PASS  [J-018 cache replay (real module, filed output)] accesses == 73,856 in all 6 runs  
+PASS  [J-018 cache replay (real module, filed output)] LRU hits 13,733 @128 / 54,691 @512  (73856, 13733, 1024)
+PASS  [J-018 cache replay (real module, filed output)] segmented hits 24,605 @128 beats LRU/LFU @128  
+
+== J-019 disk bench (pread_ra vs mmap) ==
+PASS  [J-019 disk bench (pread_ra vs mmap)] 12 demand legs + 2 seq legs filed  14 legs
+PASS  [J-019 disk bench (pread_ra vs mmap)] all demand legs agree on checksum 5887966450294  
+PASS  [J-019 disk bench (pread_ra vs mmap)] all cold legs resident_before == 0.0  
+PASS  [J-019 disk bench (pread_ra vs mmap)] pread_ra cold wall 2.364 s  2.3637
+PASS  [J-019 disk bench (pread_ra vs mmap)] mmap cold wall 2.874 s  2.8738
+PASS  [J-019 disk bench (pread_ra vs mmap)] pread_ra beats mmap cold by 17.7% of mmap wall  17.75%
+PASS  [J-019 disk bench (pread_ra vs mmap)] pread_ra cold GB/s recomputed == filed (bytes/wall)  1.470
+PASS  [J-019 disk bench (pread_ra vs mmap)] O_DIRECT cold over-read == 11,231,232 B  
+PASS  [J-019 disk bench (pread_ra vs mmap)] mmap+madvise cold buys only ~2.9% over plain mmap  
+
+== J-020 cold/warm (session-scale disk legs) ==
+PASS  [J-020 cold/warm (session-scale disk legs)] cold/cold wall 22.513 s, 67,477,831,680 B  
+PASS  [J-020 cold/warm (session-scale disk legs)] page-cache warmth -6.6% wall  6.59%
+PASS  [J-020 cold/warm (session-scale disk legs)] expert-cache warmth -8.6% wall on -10.5% bytes  
+PASS  [J-020 cold/warm (session-scale disk legs)] per-leg checksums internally consistent (cold legs share miss stream)  
+
+== J-022 faithfulness + streamed counters ==
+PASS  [J-022 faithfulness + streamed counters] 24 grade steps filed  24
+PASS  [J-022 faithfulness + streamed counters] rank 0 at 23/24 steps  rank0=23
+PASS  [J-022 faithfulness + streamed counters] step 23 is the near-tie: rank 1, gap 0.108  ('23', '1', '0.108')
+PASS  [J-022 faithfulness + streamed counters] streamed counters: accesses 11,648 / hits 3,007 / admissions 1,265 / promotions 192 / evictions 1,125 / bypasses 7,376 / evicted-before-reuse 3,387  {'accesses': 11648, 'hits': 3007, 'misses': 8641, 'cold_misses': 950, 'hit_rate_per_mille': 258, 'bypasses': 7376, 'too_large': 0, 'admissions': 1265, 'promotions': 192, 'evictions': 1125, 'evicted_before_reuse': 3387, 'bytes_streamed': 32948699136, 'bytes_evicted': 4275437568, 'bytes_resident_now': 532217856, 'entries_now': 140, 'budget_bytes': 536870912}
+PASS  [J-022 faithfulness + streamed counters] bytes streamed 32,948,699,136 == stream bytes_read  
+PASS  [J-022 faithfulness + streamed counters] 24 generated ids filed  
+PASS  [J-022 faithfulness + streamed counters] 80B attempt refusal verbatim + EXIT=1  
+
+== J-023 idle/loaded identity + NO THRASH counters ==
+PASS  [J-023 idle/loaded identity + NO THRASH counters] loaded ids == idle ids == J-022 post-fix ids (24)  
+PASS  [J-023 idle/loaded identity + NO THRASH counters] loaded cache == idle cache (every counter)  
+PASS  [J-023 idle/loaded identity + NO THRASH counters] loaded stream == idle stream  
+PASS  [J-023 idle/loaded identity + NO THRASH counters] wall/token idle 0.4113 / loaded 0.4353, ratio 1.058  0.4113 0.4353 ratio 1.0585
+PASS  [J-023 idle/loaded identity + NO THRASH counters] NO THRASH by the pre-registered definition (hit ratio 1.000, bytes ratio 1.000, wall ratio < 3, ids identical)  
+
+== J-024 tournament + fsketch replay exactness + starvation fix ==
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] validation gate: replica-vs-J018 EXACT 6/6 and fast-vs-replica EXACT 6/6  
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] fsketch @128 hit 0.3514  0.3514
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] fsketch @128 beats segmented/LFU/LRU  
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] fsketch @256 hit 0.5334  0.533389
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] fsketch @256 beats segmented/LFU/LRU  
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] fsketch @512 hit 0.7688  0.768807
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] fsketch @512 beats segmented/LFU/LRU  
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] pre-fix segmented @1024 starvation on record (0.960, 963 resident)  
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] real-module fsketch replay == tournament hits at 128/256/512/1024  {476160: (25953, 178149792), 952320: (39394, 128259888), 1904640: (56781, 63662880), 3809280: (72832, 3809280)}
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] starvation fix: post-fix segmented @1024 hits 72,832 == fsketch ceiling, bypasses/evictions 0 in replay line  segmented budget 3809280 accesses=73856 hits=72832 misses=1024 cold_misses=1024 hit_rate_per_mille=986 bypasses=0 too_large=0 admissions=1024 promotions=657 evictions=0 evicted_before_reuse=0 bytes_streamed=3809280 bytes_evicted=0 bytes_resident_now=3809280 entries_now=1024 budget_bytes=3809280
+PASS  [J-024 tournament + fsketch replay exactness + starvation fix] dropping trial: 23.2% dropped, mass/token-layer 0.152  
+
+== J-025 rejection matrix / oracle ceiling ==
+PASS  [J-025 rejection matrix / oracle ceiling] validation gate fsketch EXACT @128/256/512  
+PASS  [J-025 rejection matrix / oracle ceiling] PL overlap 0.977/8 BELOW random expectation 1.000  
+PASS  [J-025 rejection matrix / oracle ceiling] verdict REJECT, no passing candidate  
+PASS  [J-025 rejection matrix / oracle ceiling] ORACLE-direct still loses: +28.54% @128 / +12.36% @512  
+PASS  [J-025 rejection matrix / oracle ceiling] ORACLE-gatedpre headroom only -0.03% / -0.49%  
+PASS  [J-025 rejection matrix / oracle ceiling] best buildable row (PT-TOP4 gatedpre @128) still positive (+0.22% class): no row in runs_headline with net<0 except oracle gatedpre  
+
+== J-026 pool / replay exactness ==
+PASS  [J-026 pool / replay exactness] validation gate EXACT (tournament 3 + pool-solo 2)  
+PASS  [J-026 pool / replay exactness] tenants: A 266 tok / 34,048 acc, B 311 tok / 39,808 acc  
+PASS  [J-026 pool / replay exactness] naive independent sizing == ceiling identity (over-commit on record)  
+PASS  [J-026 pool / replay exactness] pool @256 worst tenant B hit 0.3367 > static 0.3226  
+PASS  [J-026 pool / replay exactness] real-module replay == simulator pool counters @256 (A hits 11,605 / B hits 13,403)  
+PASS  [J-026 pool / replay exactness] real-module replay == simulator pool counters @512 (A hits 18,184 / B hits 20,317)  
+
+== J-027 rejection + oracle-zero ==
+PASS  [J-027 rejection + oracle-zero] validation gate 7/7 EXACT  
+PASS  [J-027 rejection + oracle-zero] verdict REJECT, no winner  
+PASS  [J-027 rejection + oracle-zero] ORACLE preload nets exactly 0.000% in every segmentation/budget  
+PASS  [J-027 rejection + oracle-zero] FIRSTTOK near-miss: net -0.334% @512 NATURAL, tok0 saving 86.077%  
+
+== J-028 pressure schedules + replay exactness + refusal token 288 ==
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] validation gate 6/6 EXACT  
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] BASE hit 0.7688 / 112.982 MB-per-token  
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] STEP hit 0.5453, streamed 1.963x base (recomputed ratio)  
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] SQUEEZE hit 0.6029 / RECOVERY hit 0.6583  
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] CRASH refusal at exactly token 288, 36,864 accesses served, resident 0 after shed  
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] all non-refusal schedules: 0 invariant + 0 accounting violations  
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] verdict rules a-d all true  
+PASS  [J-028 pressure schedules + replay exactness + refusal token 288] real-module RECOVERY replay == simulator (hits 48,622, evictions 1,858, streamed 94,000,896)  
+
+== J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts) ==
+PASS  [J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts)] J-029 doc quotes 2.364 (matches recomputed artefact values above)  
+PASS  [J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts)] J-029 doc quotes 2.874 (matches recomputed artefact values above)  
+PASS  [J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts)] J-029 doc quotes 1.470 (matches recomputed artefact values above)  
+PASS  [J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts)] J-029 doc quotes 1.209 (matches recomputed artefact values above)  
+PASS  [J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts)] J-029 doc quotes 22.513 (matches recomputed artefact values above)  
+PASS  [J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts)] J-029 doc quotes 2.997 (matches recomputed artefact values above)  
+PASS  [J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts)] J-029 verdict discipline == pread_ra (the J-019 cold winner recomputed above)  
+
+== J-030 CPU-line recomputation (7 checks, re-derived here) ==
+PASS  [J-030 CPU-line recomputation (7 checks, re-derived here)] filed j030 output: 7/7 CHECK PASS + ALL CHECKS PASS  7
+PASS  [J-030 CPU-line recomputation (7 checks, re-derived here)] re-derived: idle ids == loaded ids == J-022 ids  
+PASS  [J-030 CPU-line recomputation (7 checks, re-derived here)] re-derived: idle cache == loaded cache == J-022 cache  
+PASS  [J-030 CPU-line recomputation (7 checks, re-derived here)] re-derived: stream bytes == cache bytes_streamed (idle)  
+PASS  [J-030 CPU-line recomputation (7 checks, re-derived here)] CPU-line walls recomputed: prefill 2.3894 / decode 2.5563 / overall 2.4313 tok/s  {'prefill_tok_s': 2.3894339328726746, 'decode_tok_s': 2.5563024733190987, 'overall': 2.4312910219988906}
+PASS  [J-030 CPU-line recomputation (7 checks, re-derived here)] loaded/idle wall ratio recomputed 1.0585  
+
+== J-031 GPU plan accounting arithmetic ==
+PASS  [J-031 GPU plan accounting arithmetic] FULL_GPU sum: 311,027,712 + 352,321,536 + 3,900,702,720 == 4,564,051,968  
+PASS  [J-031 GPU plan accounting arithmetic] headroom: usable 5,368,709,120 - total == 804,657,152  
+PASS  [J-031 GPU plan accounting arithmetic] J-031 doc carries accounting figure 311,027,712  
+PASS  [J-031 GPU plan accounting arithmetic] J-031 doc carries accounting figure 3,900,702,720  
+PASS  [J-031 GPU plan accounting arithmetic] J-031 doc carries accounting figure 4,564,051,968  
+PASS  [J-031 GPU plan accounting arithmetic] J-031 doc carries accounting figure 804,657,152  
+PASS  [J-031 GPU plan accounting arithmetic] J-031 doc carries accounting figure 487,587,840  
+PASS  [J-031 GPU plan accounting arithmetic] plan unit tests: 7/7 PASS lines filed  7
+PASS  [J-031 GPU plan accounting arithmetic] cold-token demand 487,587,840 B == J-015 ceiling (128 pairs x mean pair, stats file)  
+
+== J-032 25/25 re-verification (filed output re-counted + headline re-derived) ==
+PASS  [J-032 25/25 re-verification (filed output re-counted + headline re-derived)] filed j032 output: 25 PASS lines, '25/25 checks PASS', ALL CHECKS PASS  
+PASS  [J-032 25/25 re-verification (filed output re-counted + headline re-derived)] size arithmetic re-derived: file exceeds total GPU+RAM by ~0.63 GB  0.63 GB
+
+== J-033 analyser exercises (re-run offline at this gate) ==
+PASS  [J-033 analyser exercises (re-run offline at this gate)] filed test output: 4 exercises PASS + RESULT ALL ASSERTIONS PASS  
+windows=2
+w1: prompt=67 gen=24 prefill_s=28.04 decode_s=9.39 decode_s/gen=0.3912 wall/total_tok=0.4113 hit=0.258 bytes/gen=1372862464.0 bytes/total_tok=362073616.9 resident=532217856 budget=536870912 rss_kib=1938424 evictions=1125 bypasses=7376
+w2: prompt=67 gen=24 prefill_s=29.47 decode_s=10.14 decode_s/gen=0.4226 wall/total_tok=0.4353 hit=0.258 bytes/gen=1372862464.0 bytes/total_tok=362073616.9 resident=532217856 budget=536870912 rss_kib=1939492 evictions=1125 bypasses=7376
+total_generated=48 target=2000 cumulative_hit=0.258
+ceiling: HELD
+wall_trend: slope=+0.03142 s/gen/window last/first=1.080 no degradation
+hit_trend: last/first=1.000 no degradation
+bytes_trend: slope=+0.0 B/gen/window last/first=1.000 no degradation
+completeness: PARTIAL SOAK (48 < 2000 generated tokens); verdicts provisional
+VERDICT: NO DEGRADATION TREND (PARTIAL SOAK)
+
+PASS  [J-033 analyser exercises (re-run offline at this gate)] analyser re-run on real J-023 harvest logs exits 0  rc=0
+PASS  [J-033 analyser exercises (re-run offline at this gate)] analyser re-run: total_generated=48 + PARTIAL SOAK label  
+PASS  [J-033 analyser exercises (re-run offline at this gate)] analyser re-run: cumulative_hit=0.258, ceiling HELD, NO DEGRADATION TREND  
+PASS  [J-033 analyser exercises (re-run offline at this gate)] analyser re-run: bytes/total_tok 362073616.9 both windows  
+PASS  [J-033 analyser exercises (re-run offline at this gate)] analyser re-run: wall/total_tok 0.4113 / 0.4353  
+
+== SUMMARY ==
+CENSUS doc census (in-tree vs campaign-only): 20/20 PASS
+J-016 trace sha + stats: 13/13 PASS
+J-018 cache replay (real module, filed output): 5/5 PASS
+J-019 disk bench (pread_ra vs mmap): 9/9 PASS
+J-020 cold/warm (session-scale disk legs): 4/4 PASS
+J-022 faithfulness + streamed counters: 7/7 PASS
+J-023 idle/loaded identity + NO THRASH counters: 5/5 PASS
+J-024 tournament + fsketch replay exactness + starvation fix: 11/11 PASS
+J-025 rejection matrix / oracle ceiling: 6/6 PASS
+J-026 pool / replay exactness: 6/6 PASS
+J-027 rejection + oracle-zero: 4/4 PASS
+J-028 pressure schedules + replay exactness + refusal token 288: 8/8 PASS
+J-029 verdict numbers (cross-checked against J-019/J-020/J-023 artefacts): 7/7 PASS
+J-030 CPU-line recomputation (7 checks, re-derived here): 6/6 PASS
+J-031 GPU plan accounting arithmetic: 9/9 PASS
+J-032 25/25 re-verification (filed output re-counted + headline re-derived): 2/2 PASS
+J-033 analyser exercises (re-run offline at this gate): 6/6 PASS
+TOTAL: 128/128 PASS, 0 FAIL
+VERDICT: ALL CHECKS PASS

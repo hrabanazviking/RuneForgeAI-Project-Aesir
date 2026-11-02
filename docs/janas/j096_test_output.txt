@@ -1,0 +1,143 @@
+J-096 KV persistence -- test + persist harness output (VM, lightest target)
+Tree: yrsa/janas-j096 from yrsa/janas-j095 tip 38003d38f41badbe05d47a0a8fe48b1e84786a42 (verified by git at slice start, local == ls-remote; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; remote yrsa/janas-j096 absent at slice start)
+Design committed first: 351838dd8c5320bd165147d703e5bfd08f83b0e0 (module + tests + harness, the persistence question and candidate shapes, the benefit definition, the privacy/storage decision rule and the worth-building verdict rule pre-registered in core/kv_persistence.mojo's header, before any build or run of this slice; no change to the filed design files was needed -- every suite passed on its first run).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087..J-095 staging builds, as expected from the identical source; staging compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables -- CONDA_PREFIX, MODULAR_HOME=<env>/share/max, PATH -- exported by hand, as J-071..J-095 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j096stage, build dir ~/workspace/.verify-tmp/j096build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~0.87-2.96 GB across the slice (874,700 kB at the first check) -- far below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. Load average 2.32-6.41 (other campaigns); no wall, no live restart and no live benefit is filed anywhere in this slice, so contention touches no number. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+
+=== test_kv_persistence (J-096, new) ===
+build exit=0
+PASS: codes + prices -- per-token KV through J-087/J-088 accounting; file = 72 + KV; traffic = 2 x file
+PASS: validation gate A -- J-094 read-work totals reproduced EXACTLY at all 5 rungs
+PASS: validation gate B -- J-094 KV totals + host touch shapes reproduced EXACTLY (f16 all rungs; int8 CF @32768)
+PASS: benefit account -- PAYS at all 5 rungs x both precisions; worst cell 57,792 MACs/traffic-byte; both failure clauses exercised
+PASS: prefix account -- avoided == W(P) exactly, remaining == W(L) - W(P), conservation at 4 prefixes of 32768
+PASS: storage burden -- file <= model file at all rungs x precisions (worst 40.12% f16 @32768); over-model file fails
+PASS: round-trip -- serialise/restore BIT-EXACT (0 codes, 0 scales, dequant 0.0, attention identical); dead rows never stored
+PASS: checksum + tamper -- one flipped payload byte and one flipped scale byte each refused; trailer verified
+PASS: restore refusals -- bad magic, truncated, trailing byte, fingerprint mismatch, sub-header file, inconsistent kv_width (6/6)
+PASS: privacy verdicts -- OPT-IN ACCEPTED; SILENT and SHARED REJECTED; each of the 5 properties individually disqualifying
+PASS: refusals -- zero length, unknown precision, prefix >= prompt, non-positive benefit input, negative diff, saved_len 0 / past capacity, negative fingerprint (8/8)
+ALL PASS: kv persistence (11 groups)
+exit=0
+
+=== persist harness (J-096, new): run 1 ===
+build exit=0
+PERSISTHEAD witness=coder-28x4x128 weights=4683074688 overhead=72 min_work_per_traffic_byte=1000
+PERSIST rung=1024 precision=f16 work_avoided=6787224829952 kv_bytes=58720256 file_bytes=58720328 traffic=117440656 touch=48885150208 work_per_traffic_byte=57792 storage_ppm=12538 verdict=PAYS
+PERSIST rung=1024 precision=int8 work_avoided=6787224829952 kv_bytes=30277632 file_bytes=30277704 traffic=60555408 touch=34279862784 work_per_traffic_byte=112082 storage_ppm=6465 verdict=PAYS
+PERSIST rung=4096 precision=f16 work_avoided=28411619704832 kv_bytes=234881024 file_bytes=234881096 traffic=469762192 touch=556317853696 work_per_traffic_byte=60480 storage_ppm=50155 verdict=PAYS
+PERSIST rung=4096 precision=int8 work_avoided=28411619704832 kv_bytes=121110528 file_bytes=121110600 traffic=242221200 touch=323145222144 work_per_traffic_byte=117296 storage_ppm=25861 verdict=PAYS
+PERSIST rung=8192 precision=f16 work_avoided=60190493769728 kv_bytes=469762048 file_bytes=469762120 traffic=939524240 touch=2074708381696 work_per_traffic_byte=64064 storage_ppm=100310 verdict=PAYS
+PERSIST rung=8192 precision=int8 work_avoided=60190493769728 kv_bytes=242221056 file_bytes=242221128 traffic=484442256 touch=1142359166976 work_per_traffic_byte=124246 storage_ppm=51722 verdict=PAYS
+PERSIST rung=16384 precision=f16 work_avoided=133850004979712 kv_bytes=939524096 file_bytes=939524168 traffic=1879048336 touch=7997707460608 work_per_traffic_byte=71232 storage_ppm=200621 verdict=PAYS
+PERSIST rung=16384 precision=int8 work_avoided=133850004979712 kv_bytes=484442112 file_bytes=484442184 traffic=968884368 touch=4268993224704 work_per_traffic_byte=138148 storage_ppm=103445 verdict=PAYS
+PERSIST rung=32768 precision=f16 work_avoided=321576079720448 kv_bytes=1879048192 file_bytes=1879048264 traffic=3758096528 touch=31388577710080 work_per_traffic_byte=85568 storage_ppm=401242 verdict=PAYS
+PERSIST rung=32768 precision=int8 work_avoided=321576079720448 kv_bytes=968884224 file_bytes=968884296 traffic=1937768592 touch=16475086012416 work_per_traffic_byte=165951 storage_ppm=206890 verdict=PAYS
+PREFIX base=32768 prefix=1024 work_avoided=6787224829952 remaining=314788854890496 file_f16=58720328 file_int8=30277704
+PREFIX base=32768 prefix=4096 work_avoided=28411619704832 remaining=293164460015616 file_f16=234881096 file_int8=121110600
+PREFIX base=32768 prefix=8192 work_avoided=60190493769728 remaining=261385585950720 file_f16=469762120 file_int8=242221128
+PREFIX base=32768 prefix=16384 work_avoided=133850004979712 remaining=187726074740736 file_f16=939524168 file_int8=484442184
+PRIVACY shape=opt_in_bound_cache_home verdict=ACCEPTED
+PRIVACY shape=silent_default_unbound verdict=REJECTED
+PRIVACY shape=shared_world_readable verdict=REJECTED
+ROUNDTRIP layers=2 heads=2 head_dim=16 cap=24 len=11 fingerprint=424242 file_bytes=1832 checksum=425810098 code_diff=0 scale_diff=0 state_diff=0 dequant_max=0.0 attn_equal=True verdict=EXACT
+PERSISTDONE live=NOT_PROVEN_DEFERRED_J098 walls=NOT_PROVEN
+exit=0
+
+=== persist harness: run 2 (determinism) ===
+PERSISTHEAD witness=coder-28x4x128 weights=4683074688 overhead=72 min_work_per_traffic_byte=1000
+PERSIST rung=1024 precision=f16 work_avoided=6787224829952 kv_bytes=58720256 file_bytes=58720328 traffic=117440656 touch=48885150208 work_per_traffic_byte=57792 storage_ppm=12538 verdict=PAYS
+PERSIST rung=1024 precision=int8 work_avoided=6787224829952 kv_bytes=30277632 file_bytes=30277704 traffic=60555408 touch=34279862784 work_per_traffic_byte=112082 storage_ppm=6465 verdict=PAYS
+PERSIST rung=4096 precision=f16 work_avoided=28411619704832 kv_bytes=234881024 file_bytes=234881096 traffic=469762192 touch=556317853696 work_per_traffic_byte=60480 storage_ppm=50155 verdict=PAYS
+PERSIST rung=4096 precision=int8 work_avoided=28411619704832 kv_bytes=121110528 file_bytes=121110600 traffic=242221200 touch=323145222144 work_per_traffic_byte=117296 storage_ppm=25861 verdict=PAYS
+PERSIST rung=8192 precision=f16 work_avoided=60190493769728 kv_bytes=469762048 file_bytes=469762120 traffic=939524240 touch=2074708381696 work_per_traffic_byte=64064 storage_ppm=100310 verdict=PAYS
+PERSIST rung=8192 precision=int8 work_avoided=60190493769728 kv_bytes=242221056 file_bytes=242221128 traffic=484442256 touch=1142359166976 work_per_traffic_byte=124246 storage_ppm=51722 verdict=PAYS
+PERSIST rung=16384 precision=f16 work_avoided=133850004979712 kv_bytes=939524096 file_bytes=939524168 traffic=1879048336 touch=7997707460608 work_per_traffic_byte=71232 storage_ppm=200621 verdict=PAYS
+PERSIST rung=16384 precision=int8 work_avoided=133850004979712 kv_bytes=484442112 file_bytes=484442184 traffic=968884368 touch=4268993224704 work_per_traffic_byte=138148 storage_ppm=103445 verdict=PAYS
+PERSIST rung=32768 precision=f16 work_avoided=321576079720448 kv_bytes=1879048192 file_bytes=1879048264 traffic=3758096528 touch=31388577710080 work_per_traffic_byte=85568 storage_ppm=401242 verdict=PAYS
+PERSIST rung=32768 precision=int8 work_avoided=321576079720448 kv_bytes=968884224 file_bytes=968884296 traffic=1937768592 touch=16475086012416 work_per_traffic_byte=165951 storage_ppm=206890 verdict=PAYS
+PREFIX base=32768 prefix=1024 work_avoided=6787224829952 remaining=314788854890496 file_f16=58720328 file_int8=30277704
+PREFIX base=32768 prefix=4096 work_avoided=28411619704832 remaining=293164460015616 file_f16=234881096 file_int8=121110600
+PREFIX base=32768 prefix=8192 work_avoided=60190493769728 remaining=261385585950720 file_f16=469762120 file_int8=242221128
+PREFIX base=32768 prefix=16384 work_avoided=133850004979712 remaining=187726074740736 file_f16=939524168 file_int8=484442184
+PRIVACY shape=opt_in_bound_cache_home verdict=ACCEPTED
+PRIVACY shape=silent_default_unbound verdict=REJECTED
+PRIVACY shape=shared_world_readable verdict=REJECTED
+ROUNDTRIP layers=2 heads=2 head_dim=16 cap=24 len=11 fingerprint=424242 file_bytes=1832 checksum=425810098 code_diff=0 scale_diff=0 state_diff=0 dequant_max=0.0 attn_equal=True verdict=EXACT
+PERSISTDONE live=NOT_PROVEN_DEFERRED_J098 walls=NOT_PROVEN
+exit=0
+sha256 run1 == run2 == ebc9780eefe78e8331857dc4f9d264c8a71fcee0633281c16057fb1eba2dc507
+
+=== neighbour: test_kv_int8 (J-088) rebuilt from this tree ===
+build exit=0
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+exit=0
+
+=== neighbour: test_kv_account (J-087) rebuilt from this tree ===
+build exit=0
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+exit=0
+
+=== neighbour: test_kv_ladder (J-091) rebuilt from this tree ===
+build exit=0
+PASS: rungs + per-token -- 1024/4096/8192/16384/32768, gen 128; f16 57,344 == J-087 census, int8 29,568 == J-088 store
+PASS: KV totals -- f16 58,720,256 .. 1,879,048,192 and int8 30,277,632 .. 968,884,224 across the rungs (@8192 f16 == J-087 filed)
+PASS: work frame -- pairs, attention MACs @8192 == J-053 filed, projection @8192 == J-068 filed, head 544,997,376
+PASS: decode traffic -- context sums pinned; KV read f16 7,982,284,800 @1024 .. 240,984,260,608 @32768 (int8 roughly half)
+PASS: CPU verdicts -- f16 ACCOUNTED at 1024/4096/8192, CAP_REFUSED at 16384/32768 (host cap 16000), both directions
+PASS: GPU + int8 verdicts -- gpu f16 reads all ACCOUNTED, write @32768 CAP_REFUSED; int8 INTEGRATION_BLOCKED everywhere as the tree stands, caps binding only behind integration
+PASS: GPU admission -- required 4,751,005,312 @1152 .. 5,633,529,472 @16512; WHOLE through 8192, SPILL from 16384; @16384 pure context reproduces the filed refusal within 4 B; int8 counterfactual holds 16384 whole, still spills at 32768
+PASS: refusals -- rung index, unknown precision/line/direction, zero shape/context/gen, invalid admission and placement inputs
+ALL PASS: kv ladder (8 groups)
+exit=0
+
+=== neighbour: test_kv_drafts (J-095) rebuilt from this tree ===
+build exit=0
+PASS: codes + prices -- per-token KV through J-087/J-088 accounting (Coder 57,344 f16 / 29,568 int8)
+PASS: validation gate A -- J-075 fixture reproduced EXACTLY (40 rounds, 160 drafted, 113 accepted; en 34 / it 12 / code 36 / structured 31)
+PASS: validation gate B -- J-072 scenario reproduced EXACTLY (24 tokens, accepted 18, rollback 6, KV 67->91, RNG unchanged)
+PASS: R-A/R-C -- tentative appends changed 0 committed scalars; attention over the committed length identical
+PASS: R-B -- after rollback + overwrite the int8 state is BIT-EXACT against the never-drafted state (diff 0 codes, 0 scales)
+PASS: tamper controls -- one flipped code / one shifted scale each seen as exactly 1 diff, verdict NOT_EXACT
+PASS: quantization != rollback error -- round-trip error at the J-088 bound in both states; rollback extra diff is 0 (R-B group)
+PASS: acceptance invariance (account level) -- two replays of the filed fixture differ by exactly (0, 0, 0), UNCHANGED
+PASS: changed-target control -- one changed target match moves acceptance by exactly (0, 0, -1), DIFFERS
+PASS: round byte prices -- rollback of 3 rows: 172,032 B f16 vs 88,704 B int8 (Coder); J-085's 930 rows: 121,896,960 vs 64,757,760 (OLMoE)
+PASS: refusals -- shape mismatch, length outside the stores, unknown precision, negative diff, inconsistent account, cross-row difference (7/7)
+ALL PASS: kv drafts (11 groups)
+exit=0
+
+=== neighbour: test_prompt_read (J-094) rebuilt from this tree ===
+build exit=0
+PASS: endpoints -- projection/token 6,525,288,448 and head 544,997,376 (J-053); KV 57,344 f16 / 29,568 int8 per token (J-087/J-088); host cap 256
+PASS: validation gate -- work columns reproduce J-091 section 5.1 EXACTLY at all 5 rungs (@8192 attention == J-053 filed; total @32768 321,576,079,720,448, mean 9,813,723,136/token; head excluded and priced separately)
+PASS: KV columns -- written == J-091 totals (f16 58,720,256 .. 1,879,048,192; int8 roughly half); read shape == J-092 section 4.3 (f16 @32768 30,787,265,101,824)
+PASS: surfaces -- host passes 4..128 vs width-1 1,024..32,768; touch shapes exact per surface/precision (@32768 f16: host 31,388,577,710,080 vs gpu 184,244,135,526,400)
+PASS: verdicts + placement -- cpu f16 read CAP_REFUSED @16384/32768; gpu f16 read ACCOUNTED all rungs, WHOLE through 8192 then SPILL (5,626,175,104 @16384 == J-091 cross-check); int8 blocked 10/10 read cells, CF placement whole through 16384
+PASS: chunk effect (J-053) -- weight-pass delta @32768 152,855,557,816,320 (32,640 fewer passes x the file); the touch-shape difference equals it exactly at every rung, so chunking's work and KV deltas are zero by construction
+PASS: precision effect -- written delta 910,163,968 and read- shape delta 14,912,581,533,696 @32768; work delta exactly zero (the work account is precision-free by construction)
+PASS: block CF (J-054, UNBUILT) -- @32768 width 256: 128 chunks/syncs, 25,088 GEMM calls, 2,752,512 per-row attention calls, weight 599,433,560,064 vs width-1 153,454,991,376,384; every field == plan_gpu_block_prefill's own
+PASS: split (J-056, not kept/unbuilt) -- total MACs and weight bytes conserve exactly; @8192 REJECTED (dominated by both parents: crossings 96 vs 32/0, join 117,440,512 added); @32768 PARENT-ABSENT, join 469,762,048, crossings 384
+PASS: whole-layer identity (J-055) -- the GPU line's width-1 account is the whole-layer account at every rung; accounted delta of whole-layer placement on the read: exactly zero
+PASS: refusals -- zero rung, unknown surface (incl. tile-4, not a Coder surface), unknown precision, zero weights/KV price, zero block width
+ALL PASS: prompt read (11 groups)
+exit=0
+

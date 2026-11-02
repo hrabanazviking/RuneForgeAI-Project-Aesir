@@ -1,0 +1,128 @@
+J-095 KV + drafts -- test + drafts harness output (VM, lightest target)
+Tree: yrsa/janas-j095 from yrsa/janas-j094 tip f01f8d7ff92cad77818461b08b81c68d4dfe020b (verified by git at slice start, local == ls-remote; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; remote yrsa/janas-j095 absent at slice start)
+Design committed first: 8f6cedf68f07aef11b09bcb8a9f93d9bef0709e5 (module + tests + harness, rollback grades R-A/R-B/R-C, the acceptance verdict rule and the changed-target control pre-registered in core/kv_drafts.mojo's header, before any build or run of this slice; no change to the filed design files was needed -- every suite passed on its first run).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087..J-094 staging builds, as expected from the identical source; staging compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables -- CONDA_PREFIX, MODULAR_HOME=<env>/share/max, PATH -- exported by hand, as J-071..J-094 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j095stage, build dir ~/workspace/.verify-tmp/j095build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~0.26-0.76 GB across the slice (265 MB at the first check) -- far below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. Load average 1.87-5.33 (other campaigns); no wall and no live acceptance or live rollback is filed anywhere in this slice, so contention touches no number. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+
+=== test_kv_drafts (J-095, new) ===
+build exit=0
+PASS: codes + prices -- per-token KV through J-087/J-088 accounting (Coder 57,344 f16 / 29,568 int8)
+PASS: validation gate A -- J-075 fixture reproduced EXACTLY (40 rounds, 160 drafted, 113 accepted; en 34 / it 12 / code 36 / structured 31)
+PASS: validation gate B -- J-072 scenario reproduced EXACTLY (24 tokens, accepted 18, rollback 6, KV 67->91, RNG unchanged)
+PASS: R-A/R-C -- tentative appends changed 0 committed scalars; attention over the committed length identical
+PASS: R-B -- after rollback + overwrite the int8 state is BIT-EXACT against the never-drafted state (diff 0 codes, 0 scales)
+PASS: tamper controls -- one flipped code / one shifted scale each seen as exactly 1 diff, verdict NOT_EXACT
+PASS: quantization != rollback error -- round-trip error at the J-088 bound in both states; rollback extra diff is 0 (R-B group)
+PASS: acceptance invariance (account level) -- two replays of the filed fixture differ by exactly (0, 0, 0), UNCHANGED
+PASS: changed-target control -- one changed target match moves acceptance by exactly (0, 0, -1), DIFFERS
+PASS: round byte prices -- rollback of 3 rows: 172,032 B f16 vs 88,704 B int8 (Coder); J-085's 930 rows: 121,896,960 vs 64,757,760 (OLMoE)
+PASS: refusals -- shape mismatch, length outside the stores, unknown precision, negative diff, inconsistent account, cross-row difference (7/7)
+ALL PASS: kv drafts (11 groups)
+exit=0
+
+=== drafts harness (J-095, new): run 1 ===
+build exit=0
+ROLLBACKHEAD layers=2 heads=2 head_dim=16 width=32 cap=24 prefix=6 final=11 salts_plain_k=11 salts_plain_v=5000 salts_wrong_k=777 salts_wrong_v=9000
+PRESERVE upto=6 code_diff=0 scale_diff=0 attn_committed_equal=True
+CONTROL upto=11 state_diff_before_overwrite=256 code_diff=256 scale_diff=0
+FINAL upto=11 code_diff=0 scale_diff=0 state_diff=0 dequant_max=0.0 attn_final_equal=True verdict=EXACT
+TAMPER code_diff=1 scale_diff=1 verdict=NOT_EXACT
+QUANT bound_row_max_err=0.003937006 bound=0.003937006
+ACCEPT row=english rounds=10 drafted=40 accepted=34 rate_bp=8500
+ACCEPT row=italian rounds=10 drafted=40 accepted=12 rate_bp=3000
+ACCEPT row=code rounds=10 drafted=40 accepted=36 rate_bp=9000
+ACCEPT row=structured rounds=10 drafted=40 accepted=31 rate_bp=7750
+ACCEPTTOTAL rounds=40 drafted=160 accepted=113 rate_bp=7062 replay_diff=(0,0,0) verdict=UNCHANGED
+ACCEPTCONTROL diff=(0,0,-1) verdict=DIFFERS
+PRICE shape=coder-28x4x128 account_k=4 accepted=1 tentative_f16=286720 tentative_int8=147840 committed_f16=114688 committed_int8=59136 rollback_f16=172032 rollback_int8=88704
+PRICE shape=olmoe-16x32x64 rollback_rows=930 rollback_f16=121896960 rollback_int8=64757760
+DRAFTSDONE live=NOT_PROVEN_DEFERRED_J098 walls=NOT_PROVEN
+exit=0
+
+=== drafts harness: run 2 (determinism) ===
+ROLLBACKHEAD layers=2 heads=2 head_dim=16 width=32 cap=24 prefix=6 final=11 salts_plain_k=11 salts_plain_v=5000 salts_wrong_k=777 salts_wrong_v=9000
+PRESERVE upto=6 code_diff=0 scale_diff=0 attn_committed_equal=True
+CONTROL upto=11 state_diff_before_overwrite=256 code_diff=256 scale_diff=0
+FINAL upto=11 code_diff=0 scale_diff=0 state_diff=0 dequant_max=0.0 attn_final_equal=True verdict=EXACT
+TAMPER code_diff=1 scale_diff=1 verdict=NOT_EXACT
+QUANT bound_row_max_err=0.003937006 bound=0.003937006
+ACCEPT row=english rounds=10 drafted=40 accepted=34 rate_bp=8500
+ACCEPT row=italian rounds=10 drafted=40 accepted=12 rate_bp=3000
+ACCEPT row=code rounds=10 drafted=40 accepted=36 rate_bp=9000
+ACCEPT row=structured rounds=10 drafted=40 accepted=31 rate_bp=7750
+ACCEPTTOTAL rounds=40 drafted=160 accepted=113 rate_bp=7062 replay_diff=(0,0,0) verdict=UNCHANGED
+ACCEPTCONTROL diff=(0,0,-1) verdict=DIFFERS
+PRICE shape=coder-28x4x128 account_k=4 accepted=1 tentative_f16=286720 tentative_int8=147840 committed_f16=114688 committed_int8=59136 rollback_f16=172032 rollback_int8=88704
+PRICE shape=olmoe-16x32x64 rollback_rows=930 rollback_f16=121896960 rollback_int8=64757760
+DRAFTSDONE live=NOT_PROVEN_DEFERRED_J098 walls=NOT_PROVEN
+exit=0
+sha256 run1 == run2 == f2fac570133ffa2a3f25b69ce9a945ef200bdd1f3b001e7602a8478aa3a1074d
+
+=== neighbour: test_kv_int8 (J-088) rebuilt from this tree ===
+build exit=0
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+exit=0
+
+=== neighbour: test_speculative_acceptance (J-075) rebuilt from this tree ===
+build exit=0
+PASS: classifier -- structured first, then code, by stated features
+PASS: classifier -- prose language by markers; tie/low = other; code NA
+PASS: record -- bound to the J-071 account, totals from the account alone
+PASS: record refusals -- inconsistent account, pair-id misuse, language misuse
+PASS: separation -- rows keyed by kind, pair, text type, language
+MEASURE SIMULATED pair=cross_model/1 prose/english accepted=34 drafted=40 rate_bp=8500
+MEASURE SIMULATED pair=cross_model/1 prose/italian accepted=12 drafted=40 rate_bp=3000
+MEASURE SIMULATED pair=cross_model/1 prose/AGGREGATE accepted=46 drafted=80 rate_bp=5750
+PASS: measurement -- italian-prose collapse separated; aggregate hides it
+MEASURE SIMULATED pair=cross_model/1 code accepted=36 drafted=40 rate_bp=9000
+MEASURE SIMULATED pair=cross_model/1 structured accepted=31 drafted=40 rate_bp=7750
+MEASURE SIMULATED pair=cross_model/1 ALL accepted=113 drafted=160 rate_bp=7062
+PASS: measurement -- per-text-type rates for one pair, aggregate beside them
+PASS: distribution -- histogram reproduces rounds and accepted per row
+PASS: classified recording -- the host path files by classifier verdict
+PASS: rate edges -- empty pair has no rate; names are the stated words
+ALL PASS: speculative acceptance measurement (10 groups)
+exit=0
+
+=== neighbour: test_speculative_verify (J-071) rebuilt from this tree ===
+build exit=0
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+exit=0
+
+=== neighbour: test_speculative_loop (J-072) rebuilt from this tree ===
+build exit=0
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+exit=0

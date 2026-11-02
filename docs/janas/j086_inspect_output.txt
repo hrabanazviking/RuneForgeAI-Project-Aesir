@@ -1,0 +1,98 @@
+PASS: J-71 doc sha-identical tree vs campaign
+PASS: J-71 filed test output sha-identical tree vs campaign
+PASS: J-71 filed inspect output sha-identical tree vs campaign
+PASS: J-72 doc sha-identical tree vs campaign
+PASS: J-72 filed test output sha-identical tree vs campaign
+PASS: J-72 filed inspect output sha-identical tree vs campaign
+PASS: J-73 doc sha-identical tree vs campaign
+PASS: J-73 filed test output sha-identical tree vs campaign
+PASS: J-73 filed inspect output sha-identical tree vs campaign
+PASS: J-74 doc sha-identical tree vs campaign
+PASS: J-74 filed test output sha-identical tree vs campaign
+PASS: J-74 filed inspect output sha-identical tree vs campaign
+PASS: J-75 doc sha-identical tree vs campaign
+PASS: J-75 filed test output sha-identical tree vs campaign
+PASS: J-75 filed inspect output sha-identical tree vs campaign
+PASS: J-76 doc sha-identical tree vs campaign
+PASS: J-76 filed test output sha-identical tree vs campaign
+PASS: J-76 filed inspect output sha-identical tree vs campaign
+PASS: J-77 doc sha-identical tree vs campaign
+PASS: J-77 filed test output sha-identical tree vs campaign
+PASS: J-77 filed inspect output sha-identical tree vs campaign
+PASS: J-78 doc sha-identical tree vs campaign
+PASS: J-78 filed test output sha-identical tree vs campaign
+PASS: J-78 filed inspect output sha-identical tree vs campaign
+PASS: J-79 doc sha-identical tree vs campaign
+PASS: J-79 filed test output sha-identical tree vs campaign
+PASS: J-79 filed inspect output sha-identical tree vs campaign
+PASS: J-80 doc sha-identical tree vs campaign
+PASS: J-80 filed test output sha-identical tree vs campaign
+PASS: J-80 filed inspect output sha-identical tree vs campaign
+PASS: J-81 doc sha-identical tree vs campaign
+PASS: J-81 filed test output sha-identical tree vs campaign
+PASS: J-81 filed inspect output sha-identical tree vs campaign
+PASS: J-82 doc sha-identical tree vs campaign
+PASS: J-82 filed test output sha-identical tree vs campaign
+PASS: J-82 filed inspect output sha-identical tree vs campaign
+PASS: J-83 doc sha-identical tree vs campaign
+PASS: J-83 filed test output sha-identical tree vs campaign
+PASS: J-83 filed inspect output sha-identical tree vs campaign
+PASS: J-84 doc sha-identical tree vs campaign
+PASS: J-84 filed test output sha-identical tree vs campaign
+PASS: J-84 filed inspect output sha-identical tree vs campaign
+PASS: J-85 doc sha-identical tree vs campaign
+PASS: J-85 filed test output sha-identical tree vs campaign
+PASS: J-85 filed inspect output sha-identical tree vs campaign
+PASS: gate re-run: ALL PASS: speculative verification account (13 groups)
+PASS: gate re-run: ALL PASS: speculative draft loop (12 groups)
+PASS: gate re-run: ALL PASS: speculative token-identity proof (8 groups)
+PASS: gate re-run: ALL PASS: cross-model draft pairing (10 groups)
+PASS: gate re-run: ALL PASS: speculative acceptance measurement (10 groups)
+PASS: gate re-run: ALL PASS: mtp census classifier (8 groups)
+PASS: gate re-run: ALL PASS: mtp head support (10 groups)
+PASS: gate re-run: ALL PASS: assistant-model draft pairing (10 groups)
+PASS: gate re-run: ALL PASS: speculative adaptive depth (11 groups)
+PASS: gate re-run: ALL PASS: speculative placement (13 groups)
+PASS: gate re-run: ALL PASS: speculative sampling correctness (17 groups)
+PASS: gate re-run: ALL PASS: draft configuration surface (17 groups)
+PASS: gate re-run: ALL PASS: draft loss guard (12 groups)
+PASS: gate re-run: ALL PASS: long session stability (13 groups)
+PASS: gate primary groups sum to 164
+PASS: gate neighbours: test_speculative 2/2 + test_expert_cache 9/9 filed
+PASS: every gate module RUN_EXIT=0 (16 modules + replay build)
+PASS: gate shim hashes match the J-079--J-085 staging builds
+PASS: gate J-080 replay EXACT at both budgets
+PASS: J-080 trace + model pins as filed
+PASS: J-080 validation gate EXACT (tournament + mojo replay)
+PASS: J-080 cold byte tax: k=8 @128 above +300%, k=2 @128 +47.10%
+PASS: J-080 single prefix-beats-SEQ cell is mixed k=2 @512 at -0.33%
+PASS: J-076 census: 27 files, 0 MTP hits, 2,987 tensor entries
+PASS: J-076 census verdicts: NO_MTP x8, VOCAB_ONLY x19
+PASS: J-077 admission summary: 27 censused, 0 admitted, 8/19/5 refusals
+PASS: J-075 fixture table: english 85.00 / italian 30.00 / code 90.00 / structured 77.50
+PASS: J-075 table labelled SIMULATED, real-pair acceptance NOT PROVEN
+PASS: J-082 mirror statistics present (8.518318 / 5.676114 / 0.641060 / 1.674679 / 5.596804 / 6.747471)
+PASS: J-073 loop identity: 7 configurations, 2,842 tokens, 797 rounds
+PASS: J-085 totals: 2,224 emitted, 7,003 checks, 0 violations
+PASS: facade speculative_generate still raises not-implemented
+PASS: J-036 require_draft_check_use still fails closed
+PASS: J-73 doc files its deferred leg for the J-086 gate
+PASS: J-74 doc files its deferred leg for the J-086 gate
+PASS: J-75 doc files its deferred leg for the J-086 gate
+PASS: J-76 doc files its deferred leg for the J-086 gate
+PASS: J-77 doc files its deferred leg for the J-086 gate
+PASS: J-78 doc files its deferred leg for the J-086 gate
+PASS: J-79 doc files its deferred leg for the J-086 gate
+PASS: J-80 doc files its deferred leg for the J-086 gate
+PASS: J-81 doc files its deferred leg for the J-086 gate
+PASS: J-82 doc files its deferred leg for the J-086 gate
+PASS: J-83 doc files its deferred leg for the J-086 gate
+PASS: J-84 doc files its deferred leg for the J-086 gate
+PASS: J-85 doc files its deferred leg for the J-086 gate
+PASS: gate verdict is CLOSED-WITH-DEFERRED-LEGS for Part V
+PASS: gate names net tok/s NOT PROVEN per pair
+PASS: gate names the losses (J-080 byte tax, J-084 floor)
+PASS: gate re-cites all thirteen deferred legs J-073..J-085
+PASS: gate files the inspect snapshot-class disposition (12 FAIL)
+PASS: gate files concordance deltas for rows 28-33
+== 97/97 checks PASS ==

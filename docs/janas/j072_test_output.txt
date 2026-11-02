@@ -1,0 +1,70 @@
+J-072 draft loop -- test output (VM, lightest target)
+Tree: yrsa/janas-j072 from yrsa/janas-j071 tip c6626f2628bc6d74e076639b076152e8e6e5693d
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then per module: mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j072stage, nothing deleted.
+Build-route note: `pixi run` is currently blocked on this VM -- its activation step fails writing activation.sh into a fresh temp dir ("Operation not permitted"), for this tree's manifest and for the J-071 tree's alike (environment incident, section 6 of the doc). The builds below therefore invoked the SAME pixi environment's mojo binary directly (the installed env in the J-071 worktree's aesir_engine/.pixi), with the activation variables the tree's own activate script sets (CONDA_PREFIX, PATH, MODULAR_HOME). Same compiler (Mojo 1.0.0 ed45d567), same flags, same linker line as J-071's filed recipe.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~2,424 MB at slice start, ~2,361 MB at the last run -- below the 5,500 MB inference gate throughout; no inference ran anywhere. Load average measured 0.61 at the filed rerun; no timing stands on any run in this file. purplelongship not used at all (unreachable tonight per the 204 road's heartbeat, and yielded under the coordination law). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run or probed.
+Gate state verified at slice start by git ls-remote: remote yrsa/janas-j071 == c6626f2628bc6d74e076639b076152e8e6e5693d; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j072 existed before this slice.
+Build note: the first compile of test_speculative_loop from the fixed environment failed on the test fixtures -- they constructed LoopState without its context_count argument (the module's init takes capacity, KV length, context count, RNG word, proposer KV length). The fixtures were corrected to state the context count explicitly (equal to the KV length in every fixture, as a generation starts on its committed prefix); every filed run below is from the fixed tree. The failed attempt produced no binary and no number.
+
+=== inspection recount (docs/janas/j072_inspect.py, filed as j072_inspect_output.txt) ===
+PASS loop module defines dispatch_proposer
+PASS loop module defines plan_round_k
+PASS loop module defines suggest_next_k
+PASS loop module defines run_loop_round
+PASS loop module defines run_loop
+PASS loop derives rounds through J-071's plan_verify
+PASS loop k bounds stated (initial 4, caps 15 / 8)
+PASS capacity shortening is a recorded plan fact
+PASS rollback asserted against the snapshot (KV, context, proposer KV, RNG)
+PASS driver asserts identity under J-071's checker
+PASS legacy hard bound reconciled: 15 in code, no 64 bound left
+PASS legacy default 4 retained
+PASS J-071 account untouched (band still 2..16)
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS host contract comment for J-072 recorded in aesir.mojo
+PASS loop imported only by its own test (no session wiring faked) -- aesir_engine/tests/test_speculative_loop.mojo
+PASS MoE session carries no loop state
+PASS loop module contains no speed or timing
+== done ==
+(19/19 checks PASS)
+
+=== test_speculative_loop (J-072, new) ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+(exit 0)
+
+=== test_speculative_verify (J-071 neighbour, rebuilt from this tree) ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+(exit 0)
+
+=== test_speculative (pre-existing, rebuilt from this tree) ===
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+(exit 0)

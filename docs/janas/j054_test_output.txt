@@ -1,0 +1,29 @@
+J-054 GPU block prefill plan -- test output (VM, lightest target)
+Tree: yrsa/janas-j054 from yrsa/janas-j053 tip 47a2bad9b3cbdaf768b92a8aec4df8b4a0f91a93
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j054stage, TMPDIR redirected there. (Direct mojo binary fails without pixi activation, per J-052's filed recipe -- the pixi route was used from the start.)
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.72-1.0 GB -- far below the 5,500 MB inference gate; no inference ran, no CUDA ran; lightest compiles only, one at a time. purplelongship not used at all (204 road's S-103 live there).
+
+=== test_gpu_block_prefill ===
+PASS: baseline chunk plans at 256/1024/4096/8192, width 256
+PASS: width-1 plan equals the proven decode shape exactly
+PASS: width-4 block shape (ceil chunks, final chunk carries head)
+PASS: weight traffic scales with chunks, not tokens (256x at width 256)
+PASS: F2 -- attention kernel calls dominate GEMM calls at every length
+PASS: chunk activation scratch + batched-attention scores sizing
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: admission stated in-plan -- widths above 4 are UNBUILT
+PASS: refusals -- tokens, width, over-context, layers, upload bytes
+ALL PASS: gpu block prefill plan (9 groups)
+exit=0
+
+=== neighbour: test_prefill_anatomy (J-053) rebuilt from this tree ===
+PASS: host batched plans at the baseline lengths + S-033 shape
+PASS: per-token, CUDA width-1, and CUDA tile-4 plans
+PASS: MoE width-1 plan pins the per-token LM head finding
+PASS: KV bytes written per prompt, per profile shape
+PASS: causal pair counts (full + windowed) and attention MACs
+PASS: dense projection + FFN MACs per token, per profile
+PASS: weight-pass traffic shape + MoE mean stream projection
+PASS: refusals -- cap, token count, surface, window, shape, rate
+ALL PASS: prefill anatomy accounting (8 groups)
+exit=0

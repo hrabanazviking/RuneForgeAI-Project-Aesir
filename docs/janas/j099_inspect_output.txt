@@ -1,0 +1,94 @@
+PASS: cli/ holds 44 .mojo modules (exactly J-012's filed count)
+PASS: main.mojo dispatches chat via dispatch_command + prepare_chat_process
+PASS: commands dispatch contains chat and serve
+PASS: cuda_chat handles /show
+PASS: cuda_chat handles /history
+PASS: cuda_chat handles /turn
+PASS: cuda_chat handles /clear
+PASS: cuda_chat handles /new
+PASS: cuda_chat handles /help
+PASS: cuda_chat handles /save
+PASS: cuda_chat handles /load
+PASS: cuda_chat handles /export
+PASS: cuda_chat handles /compose
+PASS: cuda_chat handles /edit
+PASS: cuda_chat handles /transcript
+PASS: cuda_chat handles /bye
+PASS: no /experts command anywhere in cli/
+PASS: no /save-config command anywhere in cli/
+PASS: no /load-config command anywhere in cli/
+PASS: no /del-config command anywhere in cli/
+PASS: no /stats command anywhere in cli/
+PASS: no /about command anywhere in cli/
+PASS: no /markdown command anywhere in cli/
+PASS: model_selector module exists
+PASS: help: omit model to choose an installed catalog model
+PASS: core/learned_file.mojo exists (J-044)
+PASS: draft config persists via the learned file (J-083)
+PASS: native_settings resolver exists
+PASS: no /save-config command in the whole engine tree
+PASS: no recap/summarisation in cli/
+PASS: interrupts module wires SIGINT cancellation
+PASS: unknown commands/options refused by name
+PASS: no did-you-mean suggestion machinery in cli/
+PASS: core/prompt_progress.mojo exists with both render forms (J-059)
+PASS: prompt_progress imported only by its own test (no live consumer)
+PASS: placement harness sweeps with settle rounds (J-038)
+PASS: no bench command in the CLI dispatch
+PASS: device_inventory carries the bench-style device_line (J-037)
+PASS: hardware list + compute plan|explain commands exist
+PASS: pull command dispatched
+PASS: pull is pinned: revision + sha256 + size in help
+PASS: pull resumes verified partial downloads (help)
+PASS: HuggingFaceSeer downloads with the pin
+PASS: native_serve routes /v1/chat/completions
+PASS: native_serve routes /v1/completions
+PASS: native_serve routes /v1/models
+PASS: native_serve routes /health
+PASS: native_serve routes /v1/generate
+PASS: native_serve routes /api/generate
+PASS: native_serve routes /api/chat
+PASS: native_serve has no /v1/responses route
+PASS: native_serve has no /v1/files route
+PASS: native_serve has no /v1/batches route
+PASS: native_serve has no /v1/vector_stores route
+PASS: native_serve has no /v1/assistants route
+PASS: legacy api.mojo is the disconnected 501 scaffold
+PASS: live serve answers unknown routes 404 (not the 501 class)
+PASS: no /v1/embeddings route in native_serve
+PASS: openai embeddings formatter is an error-only stub
+PASS: health reports embeddings:false
+PASS: llama3 CUDA session has exact prefix reuse
+PASS: gemma4 CUDA session has no prefix reuse
+PASS: serve exposes --no-prefix-cache and health exact_prefix_reuse
+PASS: no cached_tokens accounting in serve responses
+PASS: no HTML page served anywhere in cli/server surfaces
+PASS: local_protocol refuses Origin/Referer/Sec-Fetch-Site with 403
+PASS: local_protocol checks Host and Bearer (constant-time)
+PASS: serve requires --api-key-file
+PASS: no TLS in the server surface
+PASS: core/grammar.mojo bounded GBNF module exists
+PASS: server holds a Boolean JSON response_format
+PASS: engine facade grammar entry still raises not-implemented
+PASS: SSE + NDJSON streaming in native_serve
+PASS: OpenAI route still calls begin_turn before send_stream_head (J-059)
+PASS: core/server_placement.mojo exists (J-049)
+PASS: native_serve consumes no placement layer (unwired)
+PASS: no MCP anywhere in the engine tree (word scan)
+PASS: no HF->GGUF converter module in aesir_engine
+PASS: mmproj vision read path + vision inspect command exist
+PASS: verify command rehashes via the durable store
+PASS: doctor and inspect commands exist
+PASS: no NSM anywhere in the engine tree (word scan)
+PASS: openai parser refuses unknown fields (suffix has no home)
+PASS: core/kv_window.mojo exists (J-097) with no serve consumer
+PASS: engine facade offers generate/generate_chat/generate_image_chat
+PASS: facade reserved stubs raise (speculative/grammar/ingest)
+PASS: no examples directory in the repo
+PASS: no Node module or FreeBASIC binding files
+PASS: delta table has exactly 37 rows
+PASS: verdict tally PRESENT 2 / PARTIAL 22 / ABSENT 7 / REFUSED-candidate 6
+PASS: changed-since-J-012 tally is 15 CHANGED / 22 STEADY
+PASS: every row names a Part VII/VIII owner or NONE
+
+92/92 checks PASS

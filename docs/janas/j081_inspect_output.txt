@@ -1,0 +1,21 @@
+PASS: new module exists and names J-081
+PASS: module binds J-071 via plan_proposer (caps never restated)
+PASS: verdict rule is in the module header before the code
+PASS: token ids priced at J-031's 4 bytes
+PASS: all five missing pieces are named in check order
+PASS: global blockers stated (proposer + verify executor)
+PASS: choose restricts to highest non-refused check rank
+PASS: no speed/wall/tok-per-s claim function in the module
+PASS: use gate still fails closed (J-036, unedited by this slice)
+PASS: facade speculative_generate still raises not-implemented
+PASS: J-071 caps: model proposers 15, conversation 8
+PASS: J-072 loop initial k is 4 (recorded, not restated in the module)
+PASS: J-031 MoE GPU plan is a planning layer (no device execution)
+PASS: J-054 admissions: width 1 and width 4 proven shapes only
+PASS: J-067 iGPU copy bytes are zero by construction
+PASS: suite has 13 groups
+PASS: suite pins the dense kept combination (CPU draft + GPU check)
+PASS: suite pins the MoE kept combination (both-on-CPU)
+PASS: suite pins the MTP kept combination (both-on-GPU)
+PASS: suite prices the expert re-pay exactly (J-031/J-080)
+== 20/20 checks PASS ==

@@ -1,0 +1,618 @@
+
+=== A1 pixi platforms (the package/build definition) ===
+pixi.toml:5: platforms = ["linux-64"]
+pixi.lock mentions linux-64       : 86
+pixi.lock mentions win-64         : 0
+pixi.lock mentions osx-64         : 0
+pixi.lock mentions osx-arm64      : 0
+pixi.lock mentions linux-aarch64  : 0
+
+=== A2 CI runners and Windows steps ===
+.github/workflows/ci.yml:11:     runs-on: ubuntu-latest
+.github/workflows/ci.yml:149:       - name: Prove WSL Bridge and Desktop Export Contracts
+.github/workflows/ci.yml:154:       - name: Prove PowerShell Launch Contracts Without Requiring WSL
+.github/workflows/ci.yml:155:         shell: pwsh
+.github/workflows/ci.yml:156:         run: ./scripts/test_windows_launch.ps1
+workflow files: ['ci.yml']
+
+=== A3 native build files / Windows binaries anywhere in the tree ===
+MSVC project     : 0 []
+batch/cmd script : 0 []
+exe binary       : 0 []
+CMake            : 0 []
+Meson            : 0 []
+Makefile         : 0 []
+PowerShell files : 4 ['scripts/launch.ps1', 'scripts/launch_windows.psm1', 'scripts/test_native_windows_launch.ps1', 'scripts/test_windows_launch.ps1']
+shell scripts    : 16 (first 8) ['armvegr/build.sh', 'bench/h164_sweep.sh', 'bench/run.sh', 'deploy_mimir.sh', 'docs/janas/j022_b1_run_b.sh', 'docs/janas/j022_b1_verify.sh', 'docs/janas/j023_run.sh', 'docs/janas/j023_wait.sh']
+
+=== A4 what the PowerShell surface executes (WSL bridge evidence) ===
+--- scripts/launch.ps1 (26 lines)
+scripts/launch.ps1:3: Launch the prepared native Aesir application through WSL, without installation.
+scripts/launch.ps1:19:     Import-Module (Join-Path $PSScriptRoot 'launch_windows.psm1') -Force
+scripts/launch.ps1:20:     Invoke-AesirWindowsLaunch -Root (Split-Path $PSScriptRoot -Parent) `
+scripts/launch.ps1:24:     [Console]::Error.WriteLine(('Aesir Windows launcher: ' + $_.Exception.Message))
+[4 hits]
+--- scripts/launch_windows.psm1 (62 lines)
+scripts/launch_windows.psm1:3: function Resolve-AesirWsl {
+scripts/launch_windows.psm1:4:     $command = Get-Command wsl.exe -CommandType Application -ErrorAction SilentlyContinue
+scripts/launch_windows.psm1:6:         throw 'WSL is missing. Prepare WSL 2 and a Linux distribution while connected; nothing was installed.'
+scripts/launch_windows.psm1:11: function Invoke-AesirNativeWsl {
+scripts/launch_windows.psm1:17: function Invoke-AesirWindowsLaunch {
+scripts/launch_windows.psm1:34:     if (-not (Test-Path -LiteralPath (Join-Path $resolvedRoot 'scripts/launch_windows_bridge.py') -PathType Leaf)) {
+scripts/launch_windows.psm1:35:         throw 'Missing WSL bridge. Use a complete Project Aesir checkout.'
+scripts/launch_windows.psm1:45:     if ($payload.Length -gt 24000) { throw 'AppArgs exceed the supported Windows command-line budget.' }
+scripts/launch_windows.psm1:46:     $wsl = Resolve-AesirWsl
+scripts/launch_windows.psm1:50:     Invoke-AesirNativeWsl $wsl ($prefix + @('/bin/true'))
+scripts/launch_windows.psm1:52:         throw 'WSL could not open this checkout in the selected distribution. Check wsl --list --verbose and the checkout mount; nothing was installed.'
+scripts/launch_windows.psm1:54:     Invoke-AesirNativeWsl $wsl ($prefix + @('python3', '--version')) > $null
+scripts/launch_windows.psm1:56:         throw 'Python 3 is unavailable in the selected WSL distribution. Prepare it while connected; nothing was installed.'
+scripts/launch_windows.psm1:58:     Invoke-AesirNativeWsl $wsl ($prefix + @('python3', 'scripts/launch_windows_bridge.py', $payload))
+scripts/launch_windows.psm1:62: Export-ModuleMember -Function Invoke-AesirWindowsLaunch
+[15 hits]
+--- scripts/launch_windows_bridge.py (36 lines)
+scripts/launch_windows_bridge.py:13:         raise ValueError("Argument payload exceeds the supported Windows command-line budget")
+scripts/launch_windows_bridge.py:29:         os.execv(sys.executable, [sys.executable, str(launcher), *args])
+scripts/launch_windows_bridge.py:31:         print(f"Aesir WSL bridge: {error}", file=sys.stderr)
+[3 hits]
+--- scripts/test_windows_launch.ps1 (75 lines)
+scripts/test_windows_launch.ps1:1: # Isolated PowerShell contracts; no WSL changes, downloads or external modules.
+scripts/test_windows_launch.ps1:4: $module = Import-Module (Join-Path $PSScriptRoot 'launch_windows.psm1') -Force -PassThru
+scripts/test_windows_launch.ps1:12:     $script:missingWsl = $false
+scripts/test_windows_launch.ps1:13:     function script:Resolve-AesirWsl {
+scripts/test_windows_launch.ps1:14:         if ($script:missingWsl) { throw 'WSL is missing.' }
+scripts/test_windows_launch.ps1:15:         return 'fake-wsl'
+scripts/test_windows_launch.ps1:17:     function script:Invoke-AesirNativeWsl {
+scripts/test_windows_launch.ps1:28:     & $module { param($f, $m) $script:calls.Clear(); $script:failureAt = $f; $script:missingWsl = $m } $Failure $Missing
+scripts/test_windows_launch.ps1:35: Invoke-AesirWindowsLaunch -Root $root -Distribution 'Test Distro' -AppArgs $literalArgs
+scripts/test_windows_launch.ps1:37: Assert-True ($calls.Count -eq 3) 'expected WSL, Python and launch calls'
+scripts/test_windows_launch.ps1:47: Invoke-AesirWindowsLaunch -Root $root
+scripts/test_windows_launch.ps1:52: Invoke-AesirWindowsLaunch -Root $root -Build -Target sm_89
+scripts/test_windows_launch.ps1:57: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root } 'WSL could not open'
+scripts/test_windows_launch.ps1:58: Assert-True ((& $module { $script:calls.Count }) -eq 1) 'launched after WSL failure'
+scripts/test_windows_launch.ps1:60: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root } 'Python 3 is unavailable'
+scripts/test_windows_launch.ps1:63: Invoke-AesirWindowsLaunch -Root $root -Check
+scripts/test_windows_launch.ps1:66: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root } 'WSL is missing'
+scripts/test_windows_launch.ps1:68: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -Build -Check } 'mutually exclusive'
+scripts/test_windows_launch.ps1:69: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -Check -AppArgs @('home') } 'mutually exclusive'
+scripts/test_windows_launch.ps1:70: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -AppArgs @([string][char]0) } 'NUL'
+scripts/test_windows_launch.ps1:71: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -AppArgs @(('a' * 25000)) } 'budget'
+scripts/test_windows_launch.ps1:72: Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -Distribution "bad`nname" } 'unsupported'
+scripts/test_windows_launch.ps1:73: Assert-True ((& $module { $script:calls.Count }) -eq 0) 'rejected options reached WSL'
+scripts/test_windows_launch.ps1:75: Write-Output 'PASS Windows launch: literal argv, mode transport, WSL/Python failures, exit status and preflight validation'
+[24 hits]
+
+=== A5 launch.py platform handling ===
+scripts/launch.py:2: """Offline Linux/WSL build and terminal entry. No inference or package installation."""
+scripts/launch.py:16: ROOT = Path(__file__).resolve().parent.parent
+scripts/launch.py:18: REBUILD = "Run python3 scripts/launch.py --build in this checkout (prepared Pixi environment required)."
+scripts/launch.py:25:     # final-component replacement window for a FIFO or symlink.
+scripts/launch.py:36: def source_fingerprint():
+scripts/launch.py:51:     # Native library search paths can embed the environment's absolute path.
+scripts/launch.py:65:         if manifest.get("source") != source_fingerprint():
+scripts/launch.py:158:         raise ValueError("Pixi is missing. Prepare the documented Linux/WSL environment while connected; nothing was installed.")
+scripts/launch.py:160:         raise ValueError("Mojo environment is missing. Prepare this checkout's Pixi environment while connected; nothing was installed.")
+scripts/launch.py:164:         before = source_fingerprint()
+scripts/launch.py:190:             if before != source_fingerprint():
+scripts/launch.py:194:             staged_manifest.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+scripts/launch.py:201:     print(f"Built and recorded local executable: {BUILD / 'aesir'}")
+scripts/launch.py:206:     parser.add_argument("--build", action="store_true", help="compile locally without installing or downloading")
+scripts/launch.py:207:     parser.add_argument("--target", default="sm_89", help="explicit CUDA build target (default: sm_89)")
+scripts/launch.py:208:     parser.add_argument("--check", action="store_true", help="verify freshness and checksum without starting the app")
+scripts/launch.py:209:     parser.add_argument("args", nargs=argparse.REMAINDER)
+scripts/launch.py:224:             print("Local build fingerprint and executable checksum match; inference is not tested.")
+scripts/launch.py:231:         print(f"Aesir launcher: {error}", file=sys.stderr)
+scripts/launch.py:232:         print("If the loader reports missing shared libraries, restore this checkout's prepared Pixi runtime; see docs/LOCAL_LAUNCH.md.", file=sys.stderr)
+scripts/launch.py:240:         print("Build/launch cancelled.", file=sys.stderr)
+[21 hits]
+
+=== A6 docs that mention Windows (top-level docs only, not evidence corpus) ===
+01_THE_SELF_COMPILER.md:166:         for chunk in sliding_windows(ids, len = 256, stride = 192):
+03_PRIMITIVE_HEF_LIBRARY.md:159: Per decode token, wire traffic = Σ (activation buffers between primitives that cross the link) + Σ (weight planes for primitives whose weights aren't already de
+08_TOOLCHAIN_AND_WORKFLOW.md:15: The requirements page states the platform story in one line: “Mojo runs on Mac, Linux, and Windows (with WSL). You don’t need a GPU to program with Mojo — GPU s
+08_TOOLCHAIN_AND_WORKFLOW.md:17: - **OS:** Linux with glibc 2.34 or later (e.g. Ubuntu 22.04 LTS or later — Modular tests on Ubuntu 22.04 LTS or later, expects other distributions meeting the g
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:45: Runtime option:  DirectML on Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1278: Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1532: DirectML on Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1953: DirectML on Windows Snapdragon systems where supported by platform
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1960: # 61. Windows on Snapdragon
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1962: Windows Snapdragon systems are particularly interesting because one machine may expose:
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:2315: DirectML provides a low-level ML abstraction over DirectX 12 compatible GPUs on Windows.
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:2329: Aesir Windows backend hierarchy might be:
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3379: LUID on Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3412: # 119. Windows Device Association
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3414: Useful Windows concepts:
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3667: ## Windows generic GPU
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:4647: Windows/Linux cross-platform
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:4793:   https://learn.microsoft.com/windows/ai/directml/dml
+AI.rules.part2.md:938: - **PORT-006:** Do not assume POSIX behavior on Windows or Apple behavior on
+BEST_IN_CLASS_GAMEPLAN.md:126: | S06 | WSL/Windows launch helpers, Linux desktop/terminal entry and actionable missing-runtime diagnostics. Packaging/scripts. | S05 | Paths with spaces, cold 
+BEST_IN_CLASS_GAMEPLAN.md:212: - A local GUI cannot promise a native Windows inference backend; WSL remains
+BEST_IN_CLASS_GAMEPLAN.md:356:   Windows/WSL and desktop integration, preserving the parent acceptance gate.
+BEST_IN_CLASS_GAMEPLAN.md:366:   help through the helper without network. Desktop/Windows and physical offline
+BEST_IN_CLASS_GAMEPLAN.md:375: - S06b active contract: Windows PowerShell wrapper selects an optional prepared
+BEST_IN_CLASS_GAMEPLAN.md:377:   launcher. Encode app argv as UTF-8 JSON/base64 across Windows native quoting;
+BEST_IN_CLASS_GAMEPLAN.md:381: - S06b gates: Windows PowerShell argument/failure fixtures and actual WSL Home
+BEST_IN_CLASS_GAMEPLAN.md:387:   passed through the real Windows wrapper. Four Linux platform tests (including
+BEST_IN_CLASS_GAMEPLAN.md:1382:   and vertical windows, and clips long or hostile draft text without emitting
+BEST_IN_CLASS_GAMEPLAN.md:1388:   windows, 41-line vertical following, control-byte replacement and a 64 KiB
+Bare_Metal_Programming_Philosophy_Mojo_v1.0-August-15-2026.md:681: - Non-POSIX targets such as Windows
+CAPABILITY_LEDGER.md:158: - **Executable evidence:** none on Windows, macOS, iOS, or Android.
+CAPABILITY_LEDGER.md:194: - **Platform-entry evidence:** `scripts/test_windows_launch.ps1` and actual WSL
+CAPABILITY_LEDGER.md:195:   transport `scripts/test_native_windows_launch.ps1` pass on PowerShell 5.1/7;
+CAPABILITY_LEDGER.md:204:   Windows uses WSL, not a Windows-native engine. Desktop command parsing/export
+CAPABILITY_LEDGER.md:207:   creation requests owner-only mode; WSL DrvFS applies its mounted Windows
+CAPABILITY_LEDGER.md:902: - **Evidence boundary:** Import, deduplicated storage, copy-by-reference, full verification, and explicit validate-before-delete garbage collection are real. `r
+CAPABILITY_LEDGER.md:925: - **Next acceptance gate:** Systematic crash recovery and concurrent hostile-filesystem tests for collection, plus broader Linux/Windows portability where expli
+CAPABILITY_LEDGER.md:1049: - **Evidence boundary:** This is Linux `/proc/self/exe` plus `execv` process-image switching for interactive native CUDA chat. It preserves PID and user-facing 
+CAPABILITY_LEDGER.md:1071:   or Windows-native launcher is claimed. Parent shutdown supervision and job
+CAPABILITY_LEDGER.md:1073: - **Next acceptance gate:** Windows/WSL launch helpers (S06), richer terminal
+... (189 more hits)
+[229 hits]
+
+Part III modules audited: 17; direct deps audited: 4
+  aesir_engine/core/placement_options.mojo             present
+  aesir_engine/core/device_inventory.mojo              present
+  aesir_engine/core/placement_harness.mojo             present
+  aesir_engine/core/thread_topology.mojo               present
+  aesir_engine/core/prompt_placement.mojo              present
+  aesir_engine/core/reply_placement.mojo               present
+  aesir_engine/core/draft_placement.mojo               present
+  aesir_engine/core/cowork_passes.mojo                 present
+  aesir_engine/core/learned_file.mojo                  present
+  aesir_engine/core/retrial.mojo                       present
+  aesir_engine/core/within_tolerance.mojo              present
+  aesir_engine/core/manual_override.mojo               present
+  aesir_engine/core/placement_pressure.mojo            present
+  aesir_engine/core/server_placement.mojo              present
+  aesir_engine/core/placement_explain.mojo             present
+  aesir_engine/core/moe_gpu_plan.mojo                  present
+  aesir_engine/core/expert_cache.mojo                  present
+  aesir_engine/core/parallel.mojo                      present
+  aesir_engine/core/posix_process.mojo                 present
+  aesir_engine/core/native_hardware.mojo               present
+  aesir_engine/core/thread_pool.mojo                   present
+
+=== C1 hard-coded '/' path joins / absolute POSIX paths -- Part III modules ===
+aesir_engine/core/device_inventory.mojo:534:             var listing = run_checked_argv(["ls", "/sys/class/drm"], 4096)
+aesir_engine/core/device_inventory.mojo:559:         with open("/proc/cpuinfo", "r") as source:
+aesir_engine/core/device_inventory.mojo:565:             with open("/sys/devices/cpu_core/cpulist", "r") as source:
+aesir_engine/core/device_inventory.mojo:567:             with open("/sys/devices/cpu_atom/cpulist", "r") as source:
+aesir_engine/core/thread_topology.mojo:293:     with open("/proc/cpuinfo", "r") as source:
+aesir_engine/core/thread_topology.mojo:299:         with open("/sys/devices/cpu_core/cpulist", "r") as source:
+aesir_engine/core/thread_topology.mojo:301:         with open("/sys/devices/cpu_atom/cpulist", "r") as source:
+aesir_engine/core/learned_file.mojo:1264:         return cache_env[1] + "/" + LEARNED_FILE_NAME
+[8 hits]
+
+=== C1 hard-coded '/' path joins / absolute POSIX paths -- direct deps ===
+aesir_engine/core/native_hardware.mojo:52:     with open("/proc/meminfo", "r") as source:
+aesir_engine/core/native_hardware.mojo:66:     with open("/proc/cpuinfo", "r") as source:
+[2 hits]
+
+=== C2 backslash / Windows separator or drive letters -- Part III modules ===
+[0 hits]
+
+=== C2 backslash / Windows separator or drive letters -- direct deps ===
+[0 hits]
+
+=== C3 HOME / environment variables -- Part III modules ===
+aesir_engine/core/placement_options.mojo:21:   environment, the environment beats the default. The resolved
+aesir_engine/core/placement_options.mojo:70: argv with scan_placement_args, reads the environment with
+aesir_engine/core/placement_options.mojo:999: # --- environment read ----------------------------------------------
+aesir_engine/core/placement_options.mojo:1003:     """Read one environment variable: (is_set, value).
+aesir_engine/core/placement_options.mojo:1006:     staged in a fixed buffer for getenv, and the value is read back
+aesir_engine/core/placement_options.mojo:1017:     var raw = external_call["getenv", Pointer[UInt8, MutUntrackedOrigin]](
+aesir_engine/core/placement_options.mojo:1034:     """Read this surface's environment equivalents into a raw layer.
+aesir_engine/core/device_inventory.mojo:472:     """Read one environment variable (placement_options' shape)."""
+aesir_engine/core/device_inventory.mojo:479:     var raw = external_call["getenv", Pointer[UInt8, MutUntrackedOrigin]](
+aesir_engine/core/thread_topology.mojo:313:     """setenv(3) through FFI, overwrite. Best-effort by design:
+aesir_engine/core/thread_topology.mojo:315:     back (the live proof in the test suite), so a silent setenv
+aesir_engine/core/thread_topology.mojo:328:     _ = external_call["setenv", Int32](
+aesir_engine/core/thread_topology.mojo:339:     _ = external_call["unsetenv", Int32](name_buf.unsafe_ptr())
+aesir_engine/core/learned_file.mojo:94: THE CACHE HOME. The tree resolves no cache/config home today
+aesir_engine/core/learned_file.mojo:98: a full path; else $AESIR_CACHE_HOME/learned-placement.v1 when
+aesir_engine/core/learned_file.mojo:99: AESIR_CACHE_HOME names a directory; else
+aesir_engine/core/learned_file.mojo:100: $HOME/.cache/aesir/learned-placement.v1; else
+aesir_engine/core/learned_file.mojo:102: directory. learned_file_path() reads the live environment;
+aesir_engine/core/learned_file.mojo:1225:     """Read one environment variable: (is_set, value), in
+aesir_engine/core/learned_file.mojo:1233:     var raw = external_call["getenv", Pointer[UInt8, MutUntrackedOrigin]](
+aesir_engine/core/learned_file.mojo:1255:     names the file itself and wins; AESIR_CACHE_HOME names the
+aesir_engine/core/learned_file.mojo:1256:     cache directory; HOME gives $HOME/.cache/aesir; with none
+aesir_engine/core/learned_file.mojo:1274:         _learned_env_value("AESIR_CACHE_HOME"),
+aesir_engine/core/learned_file.mojo:1275:         _learned_env_value("HOME"),
+aesir_engine/core/manual_override.mojo:347:     """Read one environment variable: (is_set, value), in
+aesir_engine/core/manual_override.mojo:356:     var raw = external_call["getenv", Pointer[UInt8, MutUntrackedOrigin]](
+aesir_engine/core/server_placement.mojo:48:   and environment exactly as a CLI surface does, validates
+aesir_engine/core/expert_cache.mojo:31: --expert-cache-bytes and the environment variable
+aesir_engine/core/expert_cache.mojo:33: over the environment when both are set. Host wiring that reads the
+aesir_engine/core/expert_cache.mojo:34: actual environment into resolve_hard_cap lands with the MoE core; this
+[30 hits]
+
+=== C3 HOME / environment variables -- direct deps ===
+aesir_engine/core/parallel.mojo:35:     """Reads a non-negative decimal integer environment variable.
+aesir_engine/core/parallel.mojo:46:     var raw = external_call["getenv", Pointer[UInt8, MutUntrackedOrigin]](
+[2 hits]
+
+=== C4 procfs / sysfs reads -- Part III modules ===
+aesir_engine/core/device_inventory.mojo:8: - CPU -- /proc/cpuinfo parsed as the kernel reports it: model name,
+aesir_engine/core/device_inventory.mojo:13:   cpulists /sys/devices/cpu_core and /sys/devices/cpu_atom); on a
+aesir_engine/core/device_inventory.mojo:20:   cross-checked against the /sys/class/drm listing so a card the
+aesir_engine/core/device_inventory.mojo:112:     """Parse /proc/cpuinfo text into CpuFacts.
+aesir_engine/core/device_inventory.mojo:286:     """True when a /sys/class/drm listing names a card device
+aesir_engine/core/device_inventory.mojo:534:             var listing = run_checked_argv(["ls", "/sys/class/drm"], 4096)
+aesir_engine/core/device_inventory.mojo:537:                     "; /sys/class/drm lists a card device, but no"
+aesir_engine/core/device_inventory.mojo:542:                 reason += "; /sys/class/drm lists no card device"
+aesir_engine/core/device_inventory.mojo:544:             reason += "; /sys/class/drm could not be listed either"
+aesir_engine/core/device_inventory.mojo:559:         with open("/proc/cpuinfo", "r") as source:
+aesir_engine/core/device_inventory.mojo:565:             with open("/sys/devices/cpu_core/cpulist", "r") as source:
+aesir_engine/core/device_inventory.mojo:567:             with open("/sys/devices/cpu_atom/cpulist", "r") as source:
+aesir_engine/core/thread_topology.mojo:293:     with open("/proc/cpuinfo", "r") as source:
+aesir_engine/core/thread_topology.mojo:299:         with open("/sys/devices/cpu_core/cpulist", "r") as source:
+aesir_engine/core/thread_topology.mojo:301:         with open("/sys/devices/cpu_atom/cpulist", "r") as source:
+[15 hits]
+
+=== C4 procfs / sysfs reads -- direct deps ===
+aesir_engine/core/native_hardware.mojo:52:     with open("/proc/meminfo", "r") as source:
+aesir_engine/core/native_hardware.mojo:66:     with open("/proc/cpuinfo", "r") as source:
+[2 hits]
+
+=== C5 external commands (nvidia-smi etc.) -- Part III modules ===
+aesir_engine/core/device_inventory.mojo:16: - GPU -- the nvidia-smi-class probe (argv-only, through the tree's
+aesir_engine/core/device_inventory.mojo:253:     """Parse `nvidia-smi --query-gpu=name,memory.total,memory.free
+aesir_engine/core/device_inventory.mojo:269:                 "DeviceInventory: nvidia-smi row '"
+aesir_engine/core/device_inventory.mojo:276:                 raise Error("DeviceInventory: nvidia-smi row has no name")
+aesir_engine/core/device_inventory.mojo:281:         raise Error("DeviceInventory: nvidia-smi returned no GPU rows")
+aesir_engine/core/device_inventory.mojo:496:     """The live GPU probe: nvidia-smi-class, argv-only.
+aesir_engine/core/device_inventory.mojo:514:                 "nvidia-smi",
+aesir_engine/core/device_inventory.mojo:524:                 "nvidia-smi answered but its output could not be"
+aesir_engine/core/device_inventory.mojo:529:             "no GPU probe answered: nvidia-smi failed ("
+[9 hits]
+
+=== C5 external commands (nvidia-smi etc.) -- direct deps ===
+[0 hits]
+
+=== C6 POSIX FFI: fsync/rename/mkdir/open/read/write/pread -- Part III modules ===
+aesir_engine/core/device_inventory.mojo:559:         with open("/proc/cpuinfo", "r") as source:
+aesir_engine/core/device_inventory.mojo:565:             with open("/sys/devices/cpu_core/cpulist", "r") as source:
+aesir_engine/core/device_inventory.mojo:567:             with open("/sys/devices/cpu_atom/cpulist", "r") as source:
+aesir_engine/core/placement_harness.mojo:28: one spike move the verdict. The minimum, maximum, and spread
+aesir_engine/core/placement_harness.mojo:338:     why); min/max/spread ride beside it so the noise is visible.
+aesir_engine/core/placement_harness.mojo:347:     var spread_ns: Int
+aesir_engine/core/placement_harness.mojo:354:         self.spread_ns = 0
+aesir_engine/core/placement_harness.mojo:358:     """Median / min / max / spread of one candidate's counted
+aesir_engine/core/placement_harness.mojo:383:     summary.spread_ns = summary.max_ns - summary.min_ns
+aesir_engine/core/placement_harness.mojo:602:                 + ", spread "
+aesir_engine/core/placement_harness.mojo:603:                 + String(self.summary.spread_ns)
+aesir_engine/core/thread_topology.mojo:66: the raw medians and spreads are reported whatever the verdict.
+aesir_engine/core/thread_topology.mojo:70: the reported statistic is the median with min/max/spread beside
+aesir_engine/core/thread_topology.mojo:293:     with open("/proc/cpuinfo", "r") as source:
+aesir_engine/core/thread_topology.mojo:299:         with open("/sys/devices/cpu_core/cpulist", "r") as source:
+aesir_engine/core/thread_topology.mojo:301:         with open("/sys/devices/cpu_atom/cpulist", "r") as source:
+aesir_engine/core/thread_topology.mojo:520:                 + ", spread "
+aesir_engine/core/thread_topology.mojo:521:                 + String(self.summary.spread_ns)
+aesir_engine/core/prompt_placement.mojo:228:                 + ", spread "
+aesir_engine/core/prompt_placement.mojo:229:                 + String(self.summary.spread_ns)
+aesir_engine/core/reply_placement.mojo:274:                 + ", spread "
+aesir_engine/core/reply_placement.mojo:275:                 + String(self.summary.spread_ns)
+aesir_engine/core/draft_placement.mojo:288:                 + ", spread "
+aesir_engine/core/draft_placement.mojo:289:                 + String(self.summary.spread_ns)
+aesir_engine/core/cowork_passes.mojo:1088:                 + ", spread "
+aesir_engine/core/cowork_passes.mojo:1089:                 + String(result.measure.summary.spread_ns)
+aesir_engine/core/learned_file.mojo:90: directory, fsync, rename, sync the parent -- the StateVault
+aesir_engine/core/learned_file.mojo:1321:     other mkdir failure raises with the step named."""
+aesir_engine/core/learned_file.mojo:1337:         if external_call["mkdir", Int32](encoded.unsafe_ptr(), 448) != 0:
+aesir_engine/core/learned_file.mojo:1353:         var written = external_call["pwrite", Int](
+aesir_engine/core/learned_file.mojo:1376:     var sync_result = external_call["fsync", Int32](fd)
+aesir_engine/core/learned_file.mojo:1392:         if external_call["fsync", Int32](fd) != 0:
+aesir_engine/core/learned_file.mojo:1401:     if external_call["rename", Int32](staged.unsafe_ptr(), target.unsafe_ptr()) != 0:
+aesir_engine/core/learned_file.mojo:1444:         var count = external_call["pread", Int](
+aesir_engine/core/retrial.mojo:777:     creating the log if needed, and fsync before close: a
+aesir_engine/core/retrial.mojo:792:     # Append by position, in the tree's proven pwrite discipline
+aesir_engine/core/retrial.mojo:808:             var written = external_call["pwrite", Int](
+aesir_engine/core/retrial.mojo:822:         if external_call["fsync", Int32](fd) != 0:
+aesir_engine/core/manual_override.mojo:816: def validate_choice_at_open(
+aesir_engine/core/manual_override.mojo:864:             validate_choice_at_open(
+... (10 more hits)
+[50 hits]
+
+=== C6 POSIX FFI: fsync/rename/mkdir/open/read/write/pread -- direct deps ===
+aesir_engine/core/native_hardware.mojo:52:     with open("/proc/meminfo", "r") as source:
+aesir_engine/core/native_hardware.mojo:66:     with open("/proc/cpuinfo", "r") as source:
+[2 hits]
+
+=== C7 shared-library / dlopen assumptions (.so, pthread) -- Part III modules ===
+aesir_engine/core/placement_options.mojo:454:         self.source = SOURCE_DEFAULT
+aesir_engine/core/placement_options.mojo:523:             + source_name(self.prompt.source)
+aesir_engine/core/placement_options.mojo:537:             + source_name(self.drafts.source)
+aesir_engine/core/placement_options.mojo:554:             + source_name(self.reply.source)
+aesir_engine/core/placement_options.mojo:735:     option.source = picked[1]
+aesir_engine/core/thread_topology.mojo:38: the pthread shim (aesir_engine/thread_par.c), controlled by the
+aesir_engine/core/prompt_placement.mojo:749:         measurements, option, options.prompt.source, inventory.cpu.present
+aesir_engine/core/reply_placement.mojo:795:         measurements, option, options.reply.source, inventory.cpu.present
+aesir_engine/core/draft_placement.mojo:820:         measurements, option, options.drafts.source, inventory.cpu.present
+aesir_engine/core/cowork_passes.mojo:953:     record.option_source = options.prompt.source
+aesir_engine/core/retrial.mojo:880:     option.source = SOURCE_DEFAULT
+aesir_engine/core/manual_override.mojo:255:         self.source = SOURCE_DEFAULT
+aesir_engine/core/manual_override.mojo:263:             + source_name(self.source)
+aesir_engine/core/manual_override.mojo:275:         option.source = SOURCE_CLI
+aesir_engine/core/manual_override.mojo:280:         option.source = SOURCE_ENV
+aesir_engine/core/manual_override.mojo:428:             + source_name(mode.source)
+aesir_engine/core/manual_override.mojo:444:             + source_name(mode.source)
+aesir_engine/core/manual_override.mojo:545:             "hand choice, source " + source_name(hand.source)
+aesir_engine/core/manual_override.mojo:586:                 + source_name(hand.source)
+aesir_engine/core/manual_override.mojo:607:             + source_name(mode.source)
+[20 hits]
+
+=== C7 shared-library / dlopen assumptions (.so, pthread) -- direct deps ===
+aesir_engine/core/parallel.mojo:6: # is the pthread shim in aesir_engine/thread_par.c (libaesir_par.so,
+aesir_engine/core/native_hardware.mojo:20:         self.source = "procfs"
+aesir_engine/core/native_hardware.mojo:60:             host.source = "procfs+cgroup2-visible-ancestry"
+[3 hits]
+
+=== C8 newline handling (\n splits, \r tolerance) -- Part III modules ===
+aesir_engine/core/learned_file.mojo:322:     them so); control bytes or a newline would break the line
+aesir_engine/core/learned_file.mojo:856: #   each terminated by exactly one newline>
+[2 hits]
+
+=== C8 newline handling (\n splits, \r tolerance) -- direct deps ===
+[0 hits]
+
+=== C9 OS / platform conditionals -- Part III modules ===
+[0 hits]
+
+=== C9 OS / platform conditionals -- direct deps ===
+[0 hits]
+
+=== C10 threading primitives -- Part III modules ===
+aesir_engine/core/device_inventory.mojo:345:                 + " thread(s) per core"
+aesir_engine/core/thread_topology.mojo:1: """Thread topology trials (Janas road J-039).
+aesir_engine/core/thread_topology.mojo:6: its CPU workload is single-threaded scalar arithmetic by design:
+aesir_engine/core/thread_topology.mojo:7: it grades placement mechanics, not threading, and it records
+aesir_engine/core/thread_topology.mojo:8: thread-topology candidates as J-039's to own. This module is that
+aesir_engine/core/thread_topology.mojo:9: step: per pass kind (J-035's taxonomy), it derives a thread-count
+aesir_engine/core/thread_topology.mojo:12: Aesir's own threading vehicle.
+aesir_engine/core/thread_topology.mojo:17: - 1 thread (the serial rung; every scaling claim needs its base);
+aesir_engine/core/thread_topology.mojo:35: threads to most.
+aesir_engine/core/thread_topology.mojo:38: the pthread shim (aesir_engine/thread_par.c), controlled by the
+aesir_engine/core/thread_topology.mojo:47: order -- so a threaded round's checksum must equal the J-038
+aesir_engine/core/thread_topology.mojo:48: serial workload's checksum EXACTLY, at every thread count, or
+aesir_engine/core/thread_topology.mojo:49: the trial raises. A thread count that changed the arithmetic
+aesir_engine/core/thread_topology.mojo:53: Janas's docs record that on a hybrid i9 more threads can be
+aesir_engine/core/thread_topology.mojo:58: the measured rung with the most threads. The lesson is
+aesir_engine/core/thread_topology.mojo:59: CONFIRMED for the kind when BEST uses fewer threads than ALL
+aesir_engine/core/thread_topology.mojo:63: is BEST; WITHIN-NOISE when BEST uses fewer threads but the gap
+aesir_engine/core/thread_topology.mojo:65: medians (grade_thread_results), unit-tested on injected values;
+aesir_engine/core/thread_topology.mojo:77: building it), so there is no draft-check workload to thread,
+aesir_engine/core/thread_topology.mojo:82: HOST CONTRACT: run_thread_trials(facts, pass_kind, spec,
+aesir_engine/core/thread_topology.mojo:83: config) is a pure function of its inputs apart from the thread
+aesir_engine/core/thread_topology.mojo:87: live session path: no session consumes a thread verdict yet,
+aesir_engine/core/thread_topology.mojo:90: grade thread scaling of harness mechanics on this machine, and
+aesir_engine/core/thread_topology.mojo:101: from core.parallel import par_for, par_thread_count
+aesir_engine/core/thread_topology.mojo:114: # Thread candidate kinds (which ladder rung a count is).
+aesir_engine/core/thread_topology.mojo:121: # Thread result status (after a trial sweep).
+aesir_engine/core/thread_topology.mojo:126: # Verdict codes (grade_thread_results / ThreadSweep.verdict_code).
+aesir_engine/core/thread_topology.mojo:141: struct ThreadCandidate(Copyable, ImplicitlyCopyable):
+aesir_engine/core/thread_topology.mojo:142:     """One rung of the thread ladder: a count, which rung it is,
+aesir_engine/core/thread_topology.mojo:146:     var threads: Int
+aesir_engine/core/thread_topology.mojo:151:         self.threads = 0
+aesir_engine/core/thread_topology.mojo:156: struct ThreadLadder(Copyable, Movable):
+aesir_engine/core/thread_topology.mojo:163:     var candidates: List[ThreadCandidate]
+aesir_engine/core/thread_topology.mojo:168:         self.candidates = List[ThreadCandidate]()
+aesir_engine/core/thread_topology.mojo:173:         var out_str = String("thread ladder: ")
+aesir_engine/core/thread_topology.mojo:178:                 String(self.candidates[i].threads)
+aesir_engine/core/thread_topology.mojo:189:     mut ladder: ThreadLadder, threads: Int, kind: Int, label: String
+aesir_engine/core/thread_topology.mojo:194:     if threads < 1:
+aesir_engine/core/thread_topology.mojo:197:         if cand.threads == threads:
+aesir_engine/core/thread_topology.mojo:199:     var rung = ThreadCandidate()
+... (359 more hits)
+[399 hits]
+
+=== C10 threading primitives -- direct deps ===
+aesir_engine/core/parallel.mojo:2: # Real OS-thread parallelism for the CPU forward path, via FFI.
+aesir_engine/core/parallel.mojo:5: # RuneThreadPool is cooperative bookkeeping, not threads. The vehicle
+aesir_engine/core/parallel.mojo:6: # is the pthread shim in aesir_engine/thread_par.c (libaesir_par.so,
+aesir_engine/core/parallel.mojo:9: # Mojo range callback once per chunk on genuine POSIX threads.
+aesir_engine/core/parallel.mojo:13: #     fixed per-element reduction order, so threaded results are
+aesir_engine/core/parallel.mojo:19: #     multiply-accumulates below which thread overhead is not paid).
+aesir_engine/core/parallel.mojo:20: #   - Any shim failure (bad return, thread-creation failure handled
+aesir_engine/core/parallel.mojo:91: def par_thread_count() -> Int:
+aesir_engine/core/parallel.mojo:116:     the FFI shim call it back from other threads.
+aesir_engine/core/parallel.mojo:118:     Serial in-process when threading is disabled, the range is trivial,
+aesir_engine/core/parallel.mojo:120:     split across OS threads by the FFI shim. A shim return below 1
+aesir_engine/core/parallel.mojo:123:     var threads = par_thread_count()
+aesir_engine/core/parallel.mojo:124:     if threads <= 1 or n <= 1 or work < par_min_work():
+aesir_engine/core/parallel.mojo:128:         f, ctx, Int64(n), Int64(threads)
+aesir_engine/core/thread_pool.mojo:1: # core/thread_pool.mojo
+aesir_engine/core/thread_pool.mojo:2: # RuneThreadPool: bounded local task descriptors; worker execution unavailable
+aesir_engine/core/thread_pool.mojo:24: struct RuneThreadPool(Copyable):
+aesir_engine/core/thread_pool.mojo:26:     ᚱᛢᚾᛖ·ᛏᚺᚱᛖᚨᛞ·ᛈᛟᛟᛚ — The Multi-Threaded Forge (RuneThreadPool)
+aesir_engine/core/thread_pool.mojo:29:     No threads, callbacks, payload execution, synchronization, or completion
+aesir_engine/core/thread_pool.mojo:32:     var num_threads: Int
+aesir_engine/core/thread_pool.mojo:37:     def __init__(out self, num_threads: Int = 8):
+aesir_engine/core/thread_pool.mojo:38:         self.num_threads = max(1, num_threads)
+aesir_engine/core/thread_pool.mojo:44:         self.num_threads = existing.num_threads
+aesir_engine/core/thread_pool.mojo:54:             raise Error("RuneThreadPool descriptor queue is shut down")
+aesir_engine/core/thread_pool.mojo:56:             raise Error("RuneThreadPool task id must not be negative")
+... (6 more hits)
+[31 hits]
+
+=== C11 learned-file path construction (verbatim block) ===
+learned_file.mojo:94: THE CACHE HOME. The tree resolves no cache/config home today
+learned_file.mojo:98: a full path; else $AESIR_CACHE_HOME/learned-placement.v1 when
+learned_file.mojo:99: AESIR_CACHE_HOME names a directory; else
+learned_file.mojo:100: $HOME/.cache/aesir/learned-placement.v1; else
+learned_file.mojo:102: directory. learned_file_path() reads the live environment;
+learned_file.mojo:146: load_learned_file(learned_file_path()) once -- MISSING and
+learned_file.mojo:1255:     names the file itself and wins; AESIR_CACHE_HOME names the
+learned_file.mojo:1256:     cache directory; HOME gives $HOME/.cache/aesir; with none
+learned_file.mojo:1266:         return home_env[1] + "/.cache/aesir/" + LEARNED_FILE_NAME
+learned_file.mojo:1270: def learned_file_path() -> String:
+learned_file.mojo:1274:         _learned_env_value("AESIR_CACHE_HOME"),
+learned_file.mojo:1275:         _learned_env_value("HOME"),
+
+=== C12 learned-file line parsing (does a \r break it?) ===
+learned_file.mojo:9: record is decided once, held in a session holder, and gone when
+learned_file.mojo:33:   count, exactly as the choosers record it);
+learned_file.mojo:46: net byte anywhere on the real trace; the oracle ceiling nets
+learned_file.mojo:59:   split from CpuFacts, plus the GPU name, VRAM total and
+learned_file.mojo:62:   existing fields (answered-locally, recorded in the J-044
+learned_file.mojo:83: fixed-order line block per entry, and an FNV-1a checksum over
+learned_file.mojo:84: the whole body in the tree's persisted-record style
+learned_file.mojo:86: key material that can carry arbitrary bytes (the CPU model
+learned_file.mojo:111: - LOADED: the file parsed whole, checksum verified, every
+learned_file.mojo:183: from core.text_admission import admit_text_bytes
+learned_file.mojo:227: # --- small shared helpers (the tree's persisted-record style) --------
+learned_file.mojo:230: def _learned_checksum(payload: String) -> UInt64:
+learned_file.mojo:231:     """FNV-1a over the canonical body (state_vault's checksum)."""
+learned_file.mojo:232:     var checksum: UInt64 = 14695981039346656037
+learned_file.mojo:233:     for byte in payload.as_bytes():
+learned_file.mojo:234:         checksum = (checksum ^ UInt64(byte)) * 1099511628211
+learned_file.mojo:235:     return checksum
+learned_file.mojo:243:         result += String(chars[byte=nibble : nibble + 1])
+learned_file.mojo:248:     if len(value.bytes()) != 16:
+learned_file.mojo:249:         raise Error("LearnedFile: checksum must be 16 lowercase hex digits")
+learned_file.mojo:251:     for byte in value.as_bytes():
+learned_file.mojo:253:         if byte >= 48 and byte <= 57:
+learned_file.mojo:254:             nibble = Int(byte - 48)
+learned_file.mojo:255:         elif byte >= 97 and byte <= 102:
+learned_file.mojo:256:             nibble = Int(byte - 87)
+learned_file.mojo:258:             raise Error("LearnedFile: checksum holds a non-hex digit")
+learned_file.mojo:266:     for byte in value.as_bytes():
+learned_file.mojo:267:         var code = Int(byte)
+learned_file.mojo:268:         output += String(alphabet[byte=code >> 4 : (code >> 4) + 1])
+learned_file.mojo:269:         output += String(alphabet[byte=code & 15 : (code & 15) + 1])
+learned_file.mojo:282:     if len(value.bytes()) % 2 != 0:
+learned_file.mojo:285:     var source = value.as_bytes()
+learned_file.mojo:292:     return admit_text_bytes(output, label, MAX_TEXT_BYTES, True)
+learned_file.mojo:303:     if value.byte_length() == 0:
+learned_file.mojo:309:         digits = String(value[byte=1:])
+learned_file.mojo:310:         if digits.byte_length() == 0:
+learned_file.mojo:318: def _check_printable(text: String, field: String, max_bytes: Int) raises:
+learned_file.mojo:322:     them so); control bytes or a newline would break the line
+learned_file.mojo:325:     if text.byte_length() == 0 or text.byte_length() > max_bytes:
+learned_file.mojo:330:             + String(max_bytes)
+learned_file.mojo:331:             + " bytes"
+learned_file.mojo:333:     for byte in text.as_bytes():
+learned_file.mojo:334:         var code = Int(byte)
+learned_file.mojo:337:                 "LearnedFile: " + field + " holds a non-printable byte"
+learned_file.mojo:362:     cores, packages, the hybrid split). A GPU the facts do not
+learned_file.mojo:373:     var gpu_vram_total_bytes: Int
+learned_file.mojo:384:         self.gpu_vram_total_bytes = -1
+learned_file.mojo:396:             and self.gpu_vram_total_bytes == other.gpu_vram_total_bytes
+learned_file.mojo:410:         var split_unset = self.perf_cores == -1 and self.eff_cores == -1
+learned_file.mojo:411:         var split_set = self.perf_cores >= 0 and self.eff_cores >= 0
+learned_file.mojo:412:         if not (split_unset or split_set):
+learned_file.mojo:414:                 "LearnedFile: machine hybrid split must be both -1"
+learned_file.mojo:420:             if self.gpu_name.byte_length() != 0 or self.gpu_vram_total_bytes != -1:
+learned_file.mojo:427:             if self.gpu_vram_total_bytes < 0:
+learned_file.mojo:451:             out_str += ", hybrid split not machine-stated"
+learned_file.mojo:459:                 + String(self.gpu_vram_total_bytes)
+learned_file.mojo:482:     key.gpu_vram_total_bytes = gpu.vram_total_bytes
+learned_file.mojo:530:         if self.architecture.byte_length() == 0 or self.architecture.byte_length() > 64:
+learned_file.mojo:531:             raise Error("LearnedFile: model architecture must be 1..64 bytes")
+learned_file.mojo:532:         for byte in self.architecture.as_bytes():
+learned_file.mojo:533:             var code = Int(byte)
+learned_file.mojo:543:                     "LearnedFile: model architecture holds a byte outside"
+learned_file.mojo:691:                 " the thread axis is the cpu's, as the choosers record)"
+learned_file.mojo:761:     """Build one kind's learned choice from a chooser record's own
+learned_file.mojo:762:     fields (every J-040/J-041/J-042 record carries exactly these:
+learned_file.mojo:764:     decision name, has_choice). A record with no choice (a
+learned_file.mojo:844: # The line format, fixed order (the parser walks it by exact
+learned_file.mojo:845: # offsets; any unknown, missing, reordered, or extra line is a
+learned_file.mojo:855: #   checksum=<16 lowercase hex, FNV-1a over every line above,
+learned_file.mojo:905:         body += "machine_gpu_vram_total=" + String(entry.machine.gpu_vram_total_bytes) + "\n"
+learned_file.mojo:921:     if len(body.bytes()) + 26 > MAX_LEARNED_BYTES:
+learned_file.mojo:923:     return body + "checksum=" + _learned_hex(_learned_checksum(body))
+learned_file.mojo:938:     return String(line[byte=prefix.byte_length():])
+learned_file.mojo:969:     size, header, count, line order, field form, checksum,
+learned_file.mojo:973:     if len(text.bytes()) == 0 or len(text.bytes()) > MAX_LEARNED_BYTES:
+learned_file.mojo:976:     for raw in text.split("\n"):
+learned_file.mojo:979:         raise Error("LearnedFile: file is truncated (header/count/checksum)")
+learned_file.mojo:980:     var checksum_text = _field(lines, len(lines) - 1, "checksum=")
+learned_file.mojo:981:     var stated = _learned_parse_hex(checksum_text)
+learned_file.mojo:985:     if _learned_checksum(body) != stated:
+learned_file.mojo:986:         raise Error("LearnedFile: checksum mismatch (corrupt or truncated file)")
+learned_file.mojo:1030:         entry.machine.gpu_vram_total_bytes = _parse_signed(
+learned_file.mojo:1228:     var bytes = name.as_bytes()
+learned_file.mojo:1229:     if len(bytes) >= 32:
+learned_file.mojo:1231:     for i in range(len(bytes)):
+learned_file.mojo:1232:         buf[i] = Int8(bytes[i])
+learned_file.mojo:1261:     if file_env[0] and file_env[1].byte_length() > 0:
+learned_file.mojo:1263:     if cache_env[0] and cache_env[1].byte_length() > 0:
+learned_file.mojo:1265:     if home_env[0] and home_env[1].byte_length() > 0:
+learned_file.mojo:1294:     if len(value.bytes()) == 0 or len(value.bytes()) >= 4096:
+learned_file.mojo:1295:         raise Error("LearnedFile: path must contain 1..4095 bytes")
+learned_file.mojo:1297:     for byte in value.as_bytes():
+learned_file.mojo:1298:         if byte == 0:
+learned_file.mojo:1300:         result.append(Int8(byte))
+learned_file.mojo:1307:     var source = path.as_bytes()
+learned_file.mojo:1315:     return String(path[byte=0:last_slash])
+learned_file.mojo:1325:     var segments = parent.split("/")
+learned_file.mojo:1331:         if segment.byte_length() == 0:
+learned_file.mojo:1333:         if current.byte_length() > 0 and not current.endswith("/"):
+learned_file.mojo:1350:     var source = content.as_bytes()
+learned_file.mojo:1383:     if len(content.bytes()) == 0 or len(content.bytes()) > MAX_LEARNED_BYTES:
+learned_file.mojo:1471:         var text = admit_text_bytes(content, "learned file", MAX_LEARNED_BYTES)
+learned_file.mojo:1484:     checksum-verified, fully validated file is LOADED."""
+
+=== C13 retrial log path construction ===
+aesir_engine/core/retrial.mojo:13: through J-044's own store path, replacing the entry) with the
+aesir_engine/core/retrial.mojo:15: that fired, in the append-only retrial log beside the learned
+aesir_engine/core/retrial.mojo:100: entry with the re-trial instant, and appends the change
+aesir_engine/core/retrial.mojo:101: record to the retrial log at retrial_log_path(path) (the
+aesir_engine/core/retrial.mojo:102: learned path + ".retrials.log" -- answered-locally, recorded
+aesir_engine/core/retrial.mojo:103: in the J-045 doc: the log lives beside the state it audits).
+aesir_engine/core/retrial.mojo:104: The log record states the key, the trigger with the age and
+aesir_engine/core/retrial.mojo:109: store, no log line -- the log records re-trials, not checks.
+aesir_engine/core/retrial.mojo:110: apply_retrial stores BEFORE appending the log: the learned
+aesir_engine/core/retrial.mojo:111: file is the authority, the log its audit trail; if the append
+aesir_engine/core/retrial.mojo:116: live session path, following the J-036--J-044 pattern): at
+aesir_engine/core/retrial.mojo:126: J-038/J-039-bounded harness, adopts, stores, and logs;
+aesir_engine/core/retrial.mojo:127: (4) prints RetrialOutcome.log_text() wherever it prints the
+aesir_engine/core/retrial.mojo:476:     run; reason stated; nothing was stored or logged), KEPT
+aesir_engine/core/retrial.mojo:481:     absent; the entry was erased). log_text() is the change
+aesir_engine/core/retrial.mojo:482:     log record for the outcomes that ran."""
+aesir_engine/core/retrial.mojo:510:     def log_text(self) -> String:
+aesir_engine/core/retrial.mojo:511:         """The change log record (module header): key, trigger
+aesir_engine/core/retrial.mojo:516:         appended (apply/run append only ran outcomes)."""
+aesir_engine/core/retrial.mojo:597:     """One choice rendered without its kind prefix (the log
+... (49 more hits)
+[69 hits]
+
+=== C14 .gitattributes Windows awareness (verbatim) ===
+# Byte-pinned text fixtures must have stable hashes on Windows and Linux.
+aesir_engine/tests/fixtures/gemma4_conversation_20.txt text eol=lf
+aesir_engine/tests/fixtures/gemma4_tokenizer.json text eol=lf
+aesir_engine/tests/fixtures/llama3_tokenizer.json text eol=lf
+aesir_engine/tests/fixtures/stheno_roleplay_20.txt text eol=lf
+docs/evidence/stheno-roleplay-20.md text eol=lf
+
+# Preserve exact ordinary safetensors JSON header padding as observed bytes.
+docs/evidence/ordinary-projection-facts-2026-10-20/0-header.json -text whitespace=-blank-at-eol
+docs/evidence/ordinary-projection-facts-2026-10-20/1-header.json -text whitespace=-blank-at-eol
+
+
+=== C15 Mojo stdlib platform support note (tree's own words) ===
+01_THE_SELF_COMPILER.md:166:         for chunk in sliding_windows(ids, len = 256, stride = 192):
+03_PRIMITIVE_HEF_LIBRARY.md:159: Per decode token, wire traffic = Σ (activation buffers between primitives that cross the link) + Σ (weight planes for primitives whose weights aren't already de
+08_TOOLCHAIN_AND_WORKFLOW.md:15: The requirements page states the platform story in one line: “Mojo runs on Mac, Linux, and Windows (with WSL). You don’t need a GPU to program with Mojo — GPU s
+08_TOOLCHAIN_AND_WORKFLOW.md:17: - **OS:** Linux with glibc 2.34 or later (e.g. Ubuntu 22.04 LTS or later — Modular tests on Ubuntu 22.04 LTS or later, expects other distributions meeting the g
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:45: Runtime option:  DirectML on Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1278: Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1532: DirectML on Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1953: DirectML on Windows Snapdragon systems where supported by platform
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1960: # 61. Windows on Snapdragon
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:1962: Windows Snapdragon systems are particularly interesting because one machine may expose:
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:2315: DirectML provides a low-level ML abstraction over DirectX 12 compatible GPUs on Windows.
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:2329: Aesir Windows backend hierarchy might be:
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3379: LUID on Windows
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3412: # 119. Windows Device Association
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3414: Useful Windows concepts:
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:3667: ## Windows generic GPU
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:4647: Windows/Linux cross-platform
+AESIR_BARE_METAL_COMPUTE_FIELD_MANUAL.md:4793:   https://learn.microsoft.com/windows/ai/directml/dml
+AI.rules.part2.md:938: - **PORT-006:** Do not assume POSIX behavior on Windows or Apple behavior on
+BEST_IN_CLASS_GAMEPLAN.md:28: Baseline source: `dba9da2`. Linux x86-64/WSL and NVIDIA CUDA are the exercised
+... (264 more hits)
+[284 hits]
+
+AUDIT DONE

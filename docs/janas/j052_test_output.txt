@@ -1,0 +1,86 @@
+J-052 Part III gate -- full Part III suite re-verification output (VM, lightest target)
+Gate tree: yrsa/janas-j052 at J-051 tip 7a8d1c1ff1360bc810f2ec2164243d452589b963 (clean).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then per module: mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); runs with LD_LIBRARY_PATH=<staging>, test_learned_file / test_retrial with J044_TEST_DIR / J045_TEST_DIR=<staging> testdata dirs. Staging on the workspace overlay (~/workspace/.verify-tmp/j052stage); TMPDIR redirected there; nothing deleted.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor, 4 vCPU (4 logical / 4 physical / 1 package, no machine-stated hybrid split), kernel 7.0.0-39-generic. HEAVILY CONTENDED throughout: load average 14.45/8.14/3.38 at run start, 15.32/9.85/5.63 at run end; MemAvailable 1,805,848 kB at start, 1,218,500 kB at end -- far below the 5,500 MB inference gate; no inference ran; lightest compiles only, one at a time. purplelongship was not used at all (the 204 road's S-103 is live there).
+Run window: 2026-11-01 02:11:38-02:19:36 UTC (VM clock) = 2026-10-31 ~22:11-22:19 EDT.
+
+== summary (every module: BUILD OK, exit=0, 0 FAIL lines) ==
+=== test_placement_options build 02:11:39 ===
+BUILD OK test_placement_options
+=== test_placement_options run 02:11:53 ===
+test_placement_options exit=0 pass_lines=10 fail_lines=0
+ALL PASS: placement options (10 groups)
+=== test_device_inventory build 02:11:53 ===
+BUILD OK test_device_inventory
+=== test_device_inventory run 02:12:10 ===
+test_device_inventory exit=0 pass_lines=9 fail_lines=0
+ALL PASS: device inventory (9 groups)
+=== test_placement_harness build 02:12:10 ===
+BUILD OK test_placement_harness
+=== test_placement_harness run 02:12:41 ===
+test_placement_harness exit=0 pass_lines=10 fail_lines=0
+ALL PASS: placement measurement harness (10 groups)
+=== test_thread_topology build 02:12:42 ===
+BUILD OK test_thread_topology
+=== test_thread_topology run 02:13:02 ===
+test_thread_topology exit=0 pass_lines=10 fail_lines=0
+ALL PASS: thread topology trials (10 groups)
+=== test_prompt_placement build 02:13:08 ===
+BUILD OK test_prompt_placement
+=== test_prompt_placement run 02:13:30 ===
+test_prompt_placement exit=0 pass_lines=11 fail_lines=0
+ALL PASS: prompt placement auto choice (11 groups)
+=== test_reply_placement build 02:13:33 ===
+BUILD OK test_reply_placement
+=== test_reply_placement run 02:14:05 ===
+test_reply_placement exit=0 pass_lines=11 fail_lines=0
+ALL PASS: reply placement auto choice (11 groups)
+=== test_draft_placement build 02:14:07 ===
+BUILD OK test_draft_placement
+=== test_draft_placement run 02:14:33 ===
+test_draft_placement exit=0 pass_lines=12 fail_lines=0
+ALL PASS: draft-check placement auto choice (12 groups)
+=== test_cowork_passes build 02:14:33 ===
+BUILD OK test_cowork_passes
+=== test_cowork_passes run 02:15:00 ===
+test_cowork_passes exit=0 pass_lines=12 fail_lines=0
+ALL PASS: co-work passes (12 groups)
+=== test_learned_file build 02:15:04 ===
+BUILD OK test_learned_file
+=== test_learned_file run 02:15:24 ===
+test_learned_file exit=0 pass_lines=13 fail_lines=0
+ALL PASS: learned file (13 groups)
+=== test_retrial build 02:15:25 ===
+BUILD OK test_retrial
+=== test_retrial run 02:16:10 ===
+test_retrial exit=0 pass_lines=15 fail_lines=0
+ALL PASS: re-trials (15 groups)
+=== test_within_tolerance build 02:16:12 ===
+BUILD OK test_within_tolerance
+=== test_within_tolerance run 02:16:38 ===
+test_within_tolerance exit=0 pass_lines=11 fail_lines=0
+ALL PASS: within-tolerance proof (11 groups)
+=== test_manual_override build 02:17:06 ===
+BUILD OK test_manual_override
+=== test_manual_override run 02:17:25 ===
+test_manual_override exit=0 pass_lines=16 fail_lines=0
+ALL PASS: manual override supremacy (16 groups)
+=== test_placement_pressure build 02:17:25 ===
+BUILD OK test_placement_pressure
+=== test_placement_pressure run 02:17:39 ===
+test_placement_pressure exit=0 pass_lines=14 fail_lines=0
+ALL PASS: placement under memory pressure (14 groups)
+=== test_server_placement build 02:17:39 ===
+BUILD OK test_server_placement
+=== test_server_placement run 02:17:58 ===
+test_server_placement exit=0 pass_lines=17 fail_lines=0
+ALL PASS: server placement parity (17 groups)
+=== test_placement_explain build 02:17:59 ===
+BUILD OK test_placement_explain
+=== test_placement_explain run 02:18:33 ===
+test_placement_explain exit=0 pass_lines=13 fail_lines=0
+ALL PASS: placement explainability (13 groups)
+=== test_expert_cache build 02:18:33 ===
+BUILD OK test_expert_cache
+=== test_expert_cache run 02:19:35 ===
+test_expert_cache exit=0 pass_lines=9 fail_lines=0

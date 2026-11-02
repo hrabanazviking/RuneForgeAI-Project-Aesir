@@ -1,0 +1,49 @@
+J-069 cold-start honesty -- account test output (VM, lightest target)
+Tree: yrsa/janas-j069 from yrsa/janas-j068 tip 1caf56f1054fd4d78e28a8e44e647d0296b90927
+Build: pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 via the tree's pixi env); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j069stage (libaesir_par.so copied from the J-068 staging), TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable 570,324 kB at the slice-start check and 683,312 kB at the first build check -- far below the 5,500 MB inference gate throughout; no inference ran anywhere, lightest compiles only, one at a time. purplelongship not used at all (unreachable tonight; the 204 road's S-103 owns the box in any case -- yielded under the coordination law). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run.
+Gate state verified at slice start by git ls-remote (from the canonical checkout's origin): remote yrsa/janas-j068 == 1caf56f1054fd4d78e28a8e44e647d0296b90927; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j069 existed before this slice.
+
+=== inspection recount (docs/janas/j069_inspect.py, filed as j069_inspect_output.txt) ===
+native serve: timings_ms splits prefill/decode around begin_turn only; no open/compile/prep component exists in the record
+cuda_chat: begin_turn precedes started_at -- its speed figure is decode-only; the first turn's cold prefill is inside no figure at all
+host engine (aesir.mojo): monotonic clock imported for generation control; no open or prefill wall is reported by the host path
+expert_cache: cold_misses tracked apart from misses (first-ever-access fact, ever-seen set)
+npu_prompt_prep: prep_bytes_to_write is 0 on a graph-cache hit, footprint otherwise -- C3 cold vs cached already separate in the account
+placement_harness: settle round executed and its timing DISCARDED (first-touch absorbed) -- its medians are warm figures by construction
+J-019: cold page state measured (DONTNEED evict, mincore resident 0.0 on all 7 cold legs); warm legs run immediately after the cold pass
+J-020 token 0: cold streams 487587840 B, warm streams 130056192 B; warm/cold = 0.2667 (warm streams 73.3% fewer bytes); cold ceiling == J-015 per-token ceiling
+J-030 idle leg: prefill 28.04 s / decode 9.39 s / wall-per-token 0.4113 s, classed MEASURED-INDICATIVE; each leg a fresh single-shot process, so its prefill is a cold first prompt (empty expert cache) published without a cold label
+  J054..J068 Part IV docs: cold/warm counts as filed in j069_inspect_output.txt -- no live wall filed in any of them (all live legs deferred)
+J-053: baseline table stated for cold prompts; 'J-069 owns cold-vs-warm separation' -- this slice is that owner
+J-061: conditional recipe files preparation walls (cold vs graph-cached) separately from prompt walls, per J-069 -- honoured by this account's C3
+== done ==
+(One first-draft assertion in the inspect script -- an over-literal timings_ms string -- failed on its first run and was corrected to the file's actual escaped-JSON shape before the filed run; the filed output above is from the corrected script, run once, exit 0.)
+
+=== test_cold_start_account (J-069, new) ===
+PASS: cold components kept separate; total is the exact sum
+PASS: prep cold vs graph-cached kept as distinct C3 figures
+PASS: plan refusals -- negative / stray prep / stray hit / warm cache (4/4)
+PASS: first prompt after open with empty cache classifies cold-first
+PASS: later prompt with no open/compile/prep inside classifies warm
+PASS: mixed figures classify conflated, grounding neither claim
+PASS: repetition rule -- warm median never contains the cold run
+PASS: separation claim permitted only with every component stated
+PASS: cold wall -- permitted live+cold, requires-live unmeasured, refused warm
+PASS: warm wall -- cold-first and conflated refused; live warm permitted
+PASS: names exact; unknown codes and zero totals refused (5/5)
+ALL PASS: cold-start honesty account (11 groups)
+exit=0
+
+=== neighbour: test_prefill_at_8k (J-068) rebuilt from this tree ===
+PASS: host batched Llama 3 8B row at 8192 (share 1333 bp)
+PASS: width-1 passes 8192, tile-4 passes 2051 at 8192
+PASS: MoE width-1 row at 8192; F1 head waste exact; chunk form zero
+PASS: attention shares per arch at 8192; dominance is per-arch
+PASS: sliding-window pairs at 8192 = 4,063,488 per layer
+PASS: context verdicts at 8192 (refused / no-room / fits)
+PASS: invalid inputs refused (7/7)
+ALL PASS: prefill at 8k account (7 groups)
+exit=0
+
+No cold or warm wall, tok/s, or first-token latency was measured anywhere tonight: the VM is far below its inference gate and purplelongship is unreachable and yielded to the 204 road. Every live cold-vs-warm leg is DEFERRED-WITH-REASON with the exact recipe in doc section 7.

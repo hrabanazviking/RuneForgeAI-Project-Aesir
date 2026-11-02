@@ -1,0 +1,46 @@
+J-066 Vulkan question -- port-surface account + verdict rule test output (VM, lightest target)
+Tree: yrsa/janas-j066 from yrsa/janas-j065 tip fca9760c1d5d117359eb0b1d65aa92177c70a560
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j066stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~1.0 GB at the keeper's dispatch check, 2,208,756 kB at the inspect run, 2,518,696 kB before the neighbour build, 2,797,136 kB after it -- far below the 5,500 MB inference gate throughout; no inference ran, no CUDA ran, no Vulkan device exists here (see j066_inspect_output.txt: no vulkaninfo/glslang, /etc/vulkan/icd.d empty, no /dev/dri, no /dev/nvidia0, no libcuda); lightest compiles only, one at a time. purplelongship not used at all (unreachable per the 204 road, S-103 unverifiable there, and yielded to it under the coordination law in any case). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run.
+Gate state verified at slice start by git ls-remote: remote yrsa/janas-j065 == fca9760c1d5d117359eb0b1d65aa92177c70a560; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j066 existed before this slice.
+
+=== inspection recount (docs/janas/j066_inspect.py, filed as j066_inspect_output.txt) ===
+PINNED llama3_kernels device functions: 15
+PINNED gemma4_kernels *_kernel functions: 12
+PINNED cuda_compute kernels: 7
+PINNED packed_projection matvec forms: 2
+PINNED llama3_cuda session kernels: 1 ['copy_hidden_kernel']
+PINNED fused/packed-matrix kernels: 3 ['fused_attention_kernel', 'small_attention_kernel', 'packed_matrix_kernel']
+PINNED TOTAL kernel families to port: 40
+core/*.mojo importing max.gpu: 15; api() != "cuda" guards in core: 7
+Vulkan/SPIR-V/GLSL hits in .mojo code: 1 (cli/hardware.mojo:44 -- "execution not implemented")
+Environment: vulkaninfo/glslangValidator/glslc/nvcc/nvidia-smi all ABSENT; /dev/dri ABSENT; /usr/share/vulkan/icd.d ABSENT; /etc/vulkan/icd.d empty; libvulkan.so.1 present (loader only, no ICD, no device); libcuda ABSENT.
+
+=== test_vulkan_port_surface (J-066, new) ===
+PASS: kernel family counts match the inspect recount, per file
+PASS: totals -- 40 kernel families, 50 work items in the port
+PASS: quant kinds -- 3 prefill (Q4_K/Q5_K/Q6_K) + 2 dequant
+PASS: tonight's record evaluates to DEFER
+PASS: BUILD_NOW on the full five-item conjunction only
+PASS: hardware / consumer / measurement each missing -> DEFER
+PASS: unmeasured faithful/competitive flags earn nothing
+PASS: a measured unfaithful spike is REFUSE
+PASS: faithful but buys nothing on target hardware -> REFUSE
+PASS: verdict names exact; unknown code refused
+ALL PASS: vulkan port surface account (10 groups)
+exit=0
+
+=== neighbour: test_gpu_block_prefill (J-054) rebuilt from this tree ===
+PASS: baseline chunk plans at 256/1024/4096/8192, width 256
+PASS: width-1 plan equals the proven decode shape exactly
+PASS: width-4 block shape (ceil chunks, final chunk carries head)
+PASS: weight traffic scales with chunks, not tokens (256x at width 256)
+PASS: F2 -- attention kernel calls dominate GEMM calls at every length
+PASS: chunk activation scratch + batched-attention scores sizing
+PASS: staging chunks reproduce J-031's filed 5 / 59
+PASS: admission stated in-plan -- widths above 4 are UNBUILT
+PASS: refusals -- tokens, width, over-context, layers, upload bytes
+ALL PASS: gpu block prefill plan (9 groups)
+exit=0
+
+Tonight's record evaluated through the account (the suite's fourth group is exactly this record): all five evidence items absent (no non-NVIDIA hardware in hand, no named consumer, no spike measured, faithful/competitive unmeasured) -> VERDICT DEFER. No Vulkan kernel, wall, tok/s, or faithfulness quantity was measured anywhere tonight; the spike both ways was impossible on this VM (no Vulkan device, no CUDA device) and purplelongship is NVIDIA (already served by the proven CUDA road) and unreachable.

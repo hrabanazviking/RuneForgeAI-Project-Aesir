@@ -1,0 +1,32 @@
+J-062 NPU prompt gate brief -- test output (VM, lightest target)
+Tree: yrsa/janas-j062 from yrsa/janas-j061 tip 8b8bec4f6afa88c18621835b98963ea7f01467ff
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j062stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.84 GB at slice start -- far below the 5,500 MB inference gate throughout; no inference ran, no CUDA ran, no NPU was probed or touched, no device work of any kind; lightest compiles only, one at a time. purplelongship not used at all (unreachable per the 204 road's heartbeat ~01:22 EDT and in any case yielded to the 204 road). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run.
+
+=== test_npu_gate_evidence ===
+PASS: tonight's empty record -- gate closed at every level, gaps named
+PASS: text-on-chip alone -- gate stays closed (generation is not a prompt graph)
+PASS: gate block through G3 -- closed, first missing item is prompt_graph_evidence
+PASS: gate block complete -- gate open, J-063 not ready, executor named
+PASS: gate + start complete -- J-063 ready, J-064/J-065 still closed
+PASS: downstream items -- each gates its own slice and no other
+PASS: mid-block gap -- first missing start item is copy_builder_graded
+PASS: start block without the gate -- nothing ready at any level
+PASS: full record -- gate open, all three slices ready (readiness only, no quantity)
+PASS: names -- gate/start item and state strings exact
+ALL PASS: NPU gate-evidence account (10 groups)
+exit=0
+
+=== neighbour: test_npu_prompt_prep (J-061) rebuilt from this tree ===
+PASS: pass law -- reply/draft-check refused by construction, 64-token floor binds
+PASS: copy pricing -- 1 B/elem payload + 2 B/row scales, broken shapes refused
+PASS: Qwen3-0.6B dense-whole -- filed shape priced exact (441,323,520 B footprint)
+PASS: OLMoE resident-products -- filed shape priced exact (271,067,136 B footprint)
+PASS: form rules -- partial dense-whole refused, split leftover open, int8 dense-only
+PASS: prep progress -- 25/28/16 units emit 10, 4 emit 4, 3 silent, final once
+PASS: prep render -- the census status-line shape, time only when supplied
+PASS: graph cache hit -- zero bytes to write, footprint still charged in full
+PASS: contention admitted -- stated machine, cache FULL, headroom 533,590,016 B
+PASS: contention closed at floor-1; hand copy refuses (required) / degrades (optional)
+ALL PASS: NPU prompt preparation account (10 groups)
+exit=0

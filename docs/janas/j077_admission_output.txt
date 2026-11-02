@@ -1,0 +1,33 @@
+REFUSED file=zen-4b.i1-IQ1_S.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=zen-4b.i1-IQ2_M.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=zen-4b.i1-Q2_K.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=zen-4b.i1-Q3_K_M.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=zen-4b.i1-Q4_K_M.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=zen-4b.i1-Q5_K_M.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=zen-4b.i1-Q6_K.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=tinyllama.Q4_0.gguf verdict=NO_MTP reason=REFUSE_NO_MTP -- MTP requested; not run plain
+REFUSED file=ggml-vocab-aquila.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-baichuan.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-bert-bge.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-command-r.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-deepseek-coder.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-deepseek-llm.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-falcon.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-gemma-4.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-gpt-2.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-gpt-neox.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-llama-bpe.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-llama-spm.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-mpt.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-nomic-bert-moe.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-phi-3.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-qwen2.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-qwen35.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-refact.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=ggml-vocab-starcoder.gguf verdict=VOCAB_ONLY reason=REFUSE_VOCAB_ONLY -- MTP requested; not run plain
+REFUSED file=Qwen3-Next-80B-A3B-Instruct-Q4_K_M.gguf verdict=NOT_PROVEN reason=REFUSE_NOT_PROVEN -- MTP requested; not run plain
+REFUSED file=Qwen3.5-2B-Claude-4.6-OS-Auto-Variable-HERETIC-UNCENSORED-THINKING.i1-Q4_K_M.gguf verdict=NOT_PROVEN reason=REFUSE_NOT_PROVEN -- MTP requested; not run plain
+REFUSED file=qwen35moe (no file, no pin in any Aesir record) verdict=NOT_PROVEN reason=REFUSE_NOT_PROVEN -- MTP requested; not run plain
+REFUSED file=qwen4exp / Qwen3.8-Flash-Next (no file, unpinned) verdict=NOT_PROVEN reason=REFUSE_NOT_PROVEN -- MTP requested; not run plain
+REFUSED file=Gemma 4 assistant file (absent at ledger level) verdict=NOT_PROVEN reason=REFUSE_NOT_PROVEN -- MTP requested; not run plain
+SUMMARY censused=27 admitted=0 refuse_no_mtp=8 refuse_vocab_only=19 refuse_not_proven=5

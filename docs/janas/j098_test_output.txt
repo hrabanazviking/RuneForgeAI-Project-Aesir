@@ -1,0 +1,180 @@
+J-098 Part VI gate -- test + harness re-run output (VM, lightest target)
+Tree: yrsa/janas-j098 from yrsa/janas-j097 tip 64d9fe0dc11f4fe52b214552ee87a6e8987904f9 (ls-remote verified at gate start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5; remote yrsa/janas-j098 absent at gate start). Gate protocol committed first: 3430971e (doc section 0 + j098_inspect.py, before any build or run of this gate).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087..J-097 staging builds, as expected from the identical source; this gate's staging was compiled fresh, not reused), then per suite/harness: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env at aesir-janas-j071/aesir_engine/.pixi invoked directly with its pixi activation variables exported by hand, as J-071..J-097 filed; pixi run remains blocked on this VM). Every build exit 0. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j098stage, build dir ~/workspace/.verify-tmp/j098build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~1.4 GB at gate start -- far below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. purplelongship not used at all (offline, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked.
+
+== Part VI primary suites, rebuilt + re-run from this gate tree ==
+test_kv_account: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv account (10 groups)
+test_kv_int8: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv int8 (8 groups)
+test_kv_faith: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv faith (6 groups)
+test_kv_mixed: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv mixed (6 groups)
+test_kv_ladder: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv ladder (8 groups)
+test_attention_share: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: attention share (10 groups)
+test_memory_ceiling: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: memory ceiling (10 groups)
+test_prompt_read: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: prompt read (11 groups)
+test_kv_drafts: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv drafts (11 groups)
+test_kv_persistence: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv persistence (11 groups)
+test_kv_window: BUILD_EXIT=0 RUN_EXIT=0
+ALL PASS: kv window (10 groups)
+Gate primary total: 101 groups, 11/11 modules build exit 0 and run exit 0, every count exactly as its slice filed.
+
+== Deterministic harnesses, rebuilt + re-run (two runs each) ==
+GATE HARNESS j091: sha256 b7c8f3c8df5dd9c8491810f28d1fc5bd5b837ba8dd8a2d08cbef27c3c5cbc2f5 == filed; run1 == run2 byte-identical
+GATE HARNESS j092: sha256 18c6f279c22538293832a9c72cd33a11a4efe10fed7208e0ac8c21335acfeeed == filed; run1 == run2 byte-identical
+GATE HARNESS j093: sha256 703c5514eb5e8e01cc29050d81addc3cb16585788f0d2d7131b9390156d52092 == filed (filed abbreviated 703c5514...2092); run1 == run2 byte-identical
+GATE HARNESS j094: sha256 4a95869ad6e4b5e1ba2a4d33d892526c6c8bfe87973a931c9ebc2c71c1415359 == filed; run1 == run2 byte-identical
+GATE HARNESS j095: sha256 f2fac570133ffa2a3f25b69ce9a945ef200bdd1f3b001e7602a8478aa3a1074d == filed; run1 == run2 byte-identical
+GATE HARNESS j096: sha256 ebc9780eefe78e8331857dc4f9d264c8a71fcee0633281c16057fb1eba2dc507 == filed; run1 == run2 byte-identical
+GATE HARNESS j097: sha256 d8593c57776490c509a9db19e1e23d066b5b3ea9c0bf9dd25e698d2413555b8e == filed; run1 == run2 byte-identical
+GATE HARNESS j089: two runs byte-identical; every LADDER/CROSSCHECK/VERDICT line identical to the filed harness lines (first_cost_len=-1, CROSSCHECK 0.0)
+GATE HARNESS j090: two runs byte-identical; every CONC/CONCHEAD line identical to the filed harness lines
+GATE BENCH j088: FAITH lines reproduce the filed exercise exactly (FAITH_KV max_abs_err=0.003937006; FAITH_ATTN max_abs_dev=0.0023426115); the WALL timing line differs between runs, as filed by J-088 itself (MEASURED-INDICATIVE machine weather, not re-graded)
+
+== Per-slice inspect scripts, re-run individually from this gate tree ==
+INSPECT_RERUN J-087: 41/43 checks PASS, 2 FAIL (snapshot class, gate doc section 2.3)
+INSPECT_RERUN J-088: 29/30 checks PASS, 1 FAIL (snapshot class, gate doc section 2.3)
+INSPECT_RERUN J-089: 31/31 checks PASS, 0 FAIL
+INSPECT_RERUN J-090: 43/43 checks PASS, 0 FAIL
+INSPECT_RERUN J-091: 33/34 checks PASS, 1 FAIL (snapshot class, gate doc section 2.3)
+INSPECT_RERUN J-092: 27/27 checks PASS, 0 FAIL
+INSPECT_RERUN J-093: 24/24 checks PASS, 0 FAIL
+INSPECT_RERUN J-094: 44/45 checks PASS, 1 FAIL (snapshot class, gate doc section 2.3)
+INSPECT_RERUN J-095: 54/55 checks PASS, 1 FAIL (snapshot class, gate doc section 2.3)
+INSPECT_RERUN J-096: 43/44 checks PASS, 1 FAIL (snapshot class, gate doc section 2.3)
+INSPECT_RERUN J-097: 59/59 checks PASS, 0 FAIL
+INSPECT_RERUN TOTAL: 428/435 checks PASS, 7 FAIL -- every FAIL in the single snapshot class disposed in the gate doc section 2.3
+
+== Full suite run logs (verbatim) ==
+--- test_kv_account ---
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+--- test_kv_int8 ---
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+--- test_kv_faith ---
+PASS: exact + near-tie steps -- rank 0/gap 0 exact; rank 1 gap 108 near-tie; gap rounding half-up
+PASS: near-tie band edges -- rank2+gap999 IN; rank2+gap1000 OUT; rank3 OUT; rank2+gap1138 OUT
+PASS: ties -- argmax takes the first maximum; a tied maximum shares rank 0 / gap 0
+PASS: pair verdicts -- FAITHFUL / NEAR_TIE / DIVERGENT (first at 2) / STEP0_BOUNDARY
+PASS: pair honesty -- empty NOT_GRADED; invalid comparator overrides perfect rows; J-022 pattern (23 exact + 1 near) grades NEAR_TIE
+PASS: refusals -- width mismatch, empty rows, step-count mismatch, NaN, inf, sub-milli positive-rank gap
+ALL PASS: kv faith (6 groups)
+--- test_kv_mixed ---
+PASS: endpoints -- zero upgrades == J-088 int8 == J-087 projection; all upgrades == f16 census (8B / 0.6B / Coder / OLMoE)
+PASS: candidate prices (8B) -- first layer 69,568; first+last 71,552; one head 75,520; half layers / K-only / V-only 99,328 B/token
+PASS: candidate prices (Qwen3 0.6B) -- int8 59,136; first layer 61,120; one head 66,080 B/token; overhead/saving split closes
+PASS: per-channel break-even -- exactly head_dim tokens (128 / 64); totals agree there; per-channel saves 16,515,072 B at 8,192
+PASS: keep verdict -- no-indictment / not-restored / price-boundary all NOT KEPT; indicted+restored+cheap KEPT
+PASS: refusals -- pair counts out of range, zero layers, degenerate head_dim, layer/head counts out of range, endpoint candidates and inverted uniforms in the verdict, zero context
+ALL PASS: kv mixed (6 groups)
+--- test_kv_ladder ---
+PASS: rungs + per-token -- 1024/4096/8192/16384/32768, gen 128; f16 57,344 == J-087 census, int8 29,568 == J-088 store
+PASS: KV totals -- f16 58,720,256 .. 1,879,048,192 and int8 30,277,632 .. 968,884,224 across the rungs (@8192 f16 == J-087 filed)
+PASS: work frame -- pairs, attention MACs @8192 == J-053 filed, projection @8192 == J-068 filed, head 544,997,376
+PASS: decode traffic -- context sums pinned; KV read f16 7,982,284,800 @1024 .. 240,984,260,608 @32768 (int8 roughly half)
+PASS: CPU verdicts -- f16 ACCOUNTED at 1024/4096/8192, CAP_REFUSED at 16384/32768 (host cap 16000), both directions
+PASS: GPU + int8 verdicts -- gpu f16 reads all ACCOUNTED, write @32768 CAP_REFUSED; int8 INTEGRATION_BLOCKED everywhere as the tree stands, caps binding only behind integration
+PASS: GPU admission -- required 4,751,005,312 @1152 .. 5,633,529,472 @16512; WHOLE through 8192, SPILL from 16384; @16384 pure context reproduces the filed refusal within 4 B; int8 counterfactual holds 16384 whole, still spills at 32768
+PASS: refusals -- rung index, unknown precision/line/direction, zero shape/context/gen, invalid admission and placement inputs
+ALL PASS: kv ladder (8 groups)
+--- test_attention_share ---
+PASS: endpoints -- unit 200,704; projection/token 6,525,288,448 == J-053 filed; head 544,997,376; rests 6,525,288,448 (prefill) / 7,070,285,824 (decode); KV 57,344 f16 / 29,568 int8
+PASS: J-091 frame reproduced -- prefill attention, projection (+head) and write-leg attention totals EXACT at all 5 rungs
+PASS: decode token split -- 28,247 ppm @1024 .. 481,914 ppm @32768 (48.19% at the cap); below half at every rung
+PASS: marginal + write split -- marginal 30,534 ppm @1024 .. 501,960 ppm @32768 (above half only at the top rung); write-leg average 29,946 .. 482,398 ppm
+PASS: prompt-average split -- 15,517 ppm @1024 .. 335,084 ppm @32768 (33.51%); below half at every rung
+PASS: work crossings -- marginal 32,512 (exact equality); decode 35,228 (86,016 MACs short at 35,227; cap is 32,768); prompt-average 65,024 (beyond 2x the cap)
+PASS: decode traffic -- f16 12,383 ppm @1024 .. 286,347 ppm @32768, crossing 81,667; int8 6,423 .. 171,424 ppm, crossing 158,384 (weights dominate throughout the ladder)
+PASS: prefill traffic at rungs -- host f16 616,349 ppm @1024 .. 980,901 @32768 vs GPU width-1 6,236 .. 167,102 ppm; host int8 453,064 .. 963,613; GPU int8 3,225 .. 93,750 ppm
+PASS: prefill traffic crossings -- host f16 first 700 / permanent 808 (re-dip at 769); host int8 first 1,259 / permanent 1,379 (re-dip at 1,281); GPU width-1 163,332 (f16) / 316,766 (int8), monotone, beyond any runnable length
+PASS: refusals -- zero shape/context/price/weights, negative share inputs, unknown surface, zero gen length
+ALL PASS: attention share (10 groups)
+--- test_memory_ceiling ---
+PASS: endpoints -- Coder 57,344 f16 / 29,568 int8 (J-087/J-088); OLMoE 131,072 / 67,584, @512 67,108,864 / 34,603,008; activation 964,608 @1152 .. 4,519,936 @32896
+PASS: validation gate -- GPU session peaks reproduce J-091 section 5.3 EXACTLY at all 5 rungs, both precisions
+PASS: CPU line + read leg -- CPU == GPU - 905,728 at all 10 session cells; read totals below the peak; read @16384 5,626,175,104 (J-091's cross-check figure)
+PASS: peak verdicts -- J-091's inherited: cpu f16 CAP_REFUSED @16384/32768, gpu write @32768 CAP_REFUSED, int8 INTEGRATION_BLOCKED in all 20 line x rung x direction cells
+PASS: growth shape -- gpu/cpu f16 1,383,894 / 1,383,967 ppm, gpu/cpu int8 1,199,652 / 1,199,690 ppm, all FLATTER than Janas's 1,884,615; KV share 13,904 -> 286,908 ppm (f16 gpu)
+PASS: pool sizing @base f16 -- reserve 8,580,987,212, pool 8,598,881,972, floor 2,149,720,493, MoE cap == pool; independent J-018 sizing over-commits the stated machine
+PASS: combined peaks -- f16 9,045,716,096 .. 10,869,599,360 (growth 1,201,629 ppm FLATTER); int8 CF 8,981,212,288 .. 9,923,374,208 (1,104,903 ppm FLATTER)
+PASS: pool absorbs growth -- accounted ceiling constant 13,743,895,348 (free - headroom); pool shrinks 1,823,883,264 == KV + scratch growth; residency capped at body
+PASS: below-floor shape -- tiny stated machine sizes 7,400 against a 487,587,840 floor demand: below_floor stated, not hidden
+PASS: refusals -- unknown line, zero context/ratio, negative share/component, zero pool/body, zero routed demand
+ALL PASS: memory ceiling (10 groups)
+--- test_prompt_read ---
+PASS: endpoints -- projection/token 6,525,288,448 and head 544,997,376 (J-053); KV 57,344 f16 / 29,568 int8 per token (J-087/J-088); host cap 256
+PASS: validation gate -- work columns reproduce J-091 section 5.1 EXACTLY at all 5 rungs (@8192 attention == J-053 filed; total @32768 321,576,079,720,448, mean 9,813,723,136/token; head excluded and priced separately)
+PASS: KV columns -- written == J-091 totals (f16 58,720,256 .. 1,879,048,192; int8 roughly half); read shape == J-092 section 4.3 (f16 @32768 30,787,265,101,824)
+PASS: surfaces -- host passes 4..128 vs width-1 1,024..32,768; touch shapes exact per surface/precision (@32768 f16: host 31,388,577,710,080 vs gpu 184,244,135,526,400)
+PASS: verdicts + placement -- cpu f16 read CAP_REFUSED @16384/32768; gpu f16 read ACCOUNTED all rungs, WHOLE through 8192 then SPILL (5,626,175,104 @16384 == J-091 cross-check); int8 blocked 10/10 read cells, CF placement whole through 16384
+PASS: chunk effect (J-053) -- weight-pass delta @32768 152,855,557,816,320 (32,640 fewer passes x the file); the touch-shape difference equals it exactly at every rung, so chunking's work and KV deltas are zero by construction
+PASS: precision effect -- written delta 910,163,968 and read- shape delta 14,912,581,533,696 @32768; work delta exactly zero (the work account is precision-free by construction)
+PASS: block CF (J-054, UNBUILT) -- @32768 width 256: 128 chunks/syncs, 25,088 GEMM calls, 2,752,512 per-row attention calls, weight 599,433,560,064 vs width-1 153,454,991,376,384; every field == plan_gpu_block_prefill's own
+PASS: split (J-056, not kept/unbuilt) -- total MACs and weight bytes conserve exactly; @8192 REJECTED (dominated by both parents: crossings 96 vs 32/0, join 117,440,512 added); @32768 PARENT-ABSENT, join 469,762,048, crossings 384
+PASS: whole-layer identity (J-055) -- the GPU line's width-1 account is the whole-layer account at every rung; accounted delta of whole-layer placement on the read: exactly zero
+PASS: refusals -- zero rung, unknown surface (incl. tile-4, not a Coder surface), unknown precision, zero weights/KV price, zero block width
+ALL PASS: prompt read (11 groups)
+--- test_kv_drafts ---
+PASS: codes + prices -- per-token KV through J-087/J-088 accounting (Coder 57,344 f16 / 29,568 int8)
+PASS: validation gate A -- J-075 fixture reproduced EXACTLY (40 rounds, 160 drafted, 113 accepted; en 34 / it 12 / code 36 / structured 31)
+PASS: validation gate B -- J-072 scenario reproduced EXACTLY (24 tokens, accepted 18, rollback 6, KV 67->91, RNG unchanged)
+PASS: R-A/R-C -- tentative appends changed 0 committed scalars; attention over the committed length identical
+PASS: R-B -- after rollback + overwrite the int8 state is BIT-EXACT against the never-drafted state (diff 0 codes, 0 scales)
+PASS: tamper controls -- one flipped code / one shifted scale each seen as exactly 1 diff, verdict NOT_EXACT
+PASS: quantization != rollback error -- round-trip error at the J-088 bound in both states; rollback extra diff is 0 (R-B group)
+PASS: acceptance invariance (account level) -- two replays of the filed fixture differ by exactly (0, 0, 0), UNCHANGED
+PASS: changed-target control -- one changed target match moves acceptance by exactly (0, 0, -1), DIFFERS
+PASS: round byte prices -- rollback of 3 rows: 172,032 B f16 vs 88,704 B int8 (Coder); J-085's 930 rows: 121,896,960 vs 64,757,760 (OLMoE)
+PASS: refusals -- shape mismatch, length outside the stores, unknown precision, negative diff, inconsistent account, cross-row difference (7/7)
+ALL PASS: kv drafts (11 groups)
+--- test_kv_persistence ---
+PASS: codes + prices -- per-token KV through J-087/J-088 accounting; file = 72 + KV; traffic = 2 x file
+PASS: validation gate A -- J-094 read-work totals reproduced EXACTLY at all 5 rungs
+PASS: validation gate B -- J-094 KV totals + host touch shapes reproduced EXACTLY (f16 all rungs; int8 CF @32768)
+PASS: benefit account -- PAYS at all 5 rungs x both precisions; worst cell 57,792 MACs/traffic-byte; both failure clauses exercised
+PASS: prefix account -- avoided == W(P) exactly, remaining == W(L) - W(P), conservation at 4 prefixes of 32768
+PASS: storage burden -- file <= model file at all rungs x precisions (worst 40.12% f16 @32768); over-model file fails
+PASS: round-trip -- serialise/restore BIT-EXACT (0 codes, 0 scales, dequant 0.0, attention identical); dead rows never stored
+PASS: checksum + tamper -- one flipped payload byte and one flipped scale byte each refused; trailer verified
+PASS: restore refusals -- bad magic, truncated, trailing byte, fingerprint mismatch, sub-header file, inconsistent kv_width (6/6)
+PASS: privacy verdicts -- OPT-IN ACCEPTED; SILENT and SHARED REJECTED; each of the 5 properties individually disqualifying
+PASS: refusals -- zero length, unknown precision, prefix >= prompt, non-positive benefit input, negative diff, saved_len 0 / past capacity, negative fingerprint (8/8)
+ALL PASS: kv persistence (11 groups)
+--- test_kv_window ---
+PASS: codes + geometry -- document 128 lines x 64 tokens = 8,192 (a ladder rung); mix bar 250,000 ppm pre-registered
+PASS: validation gate -- J-094 read-work totals reproduced EXACTLY at all 5 rungs; W(0) == 0
+PASS: divergence exercise -- predicted == computed first divergence on the concretely edited sequences for all 9 shapes; prefix controls exact
+PASS: reuse cap -- reuse == min(divergence, new_len - 1, old_len) on all 9 shapes; identical length-11 sequences reuse 10 (final-token rule)
+PASS: account pins -- naive / avoided / window cost / saved ppm exact for all 9 shapes (EDIT_LATE saves 729,021 ppm; EDIT_FIRST 0; APPEND 991,381)
+PASS: conservation + shape verdicts -- avoided + cost == naive and cost <= naive on all 9 shapes; SAVES wherever reuse > 0, NO_SAVE only at C = 0
+PASS: KV rewritten -- suffix rewrite bytes exact at both precisions on all 9 shapes (EDIT_LATE 117,440,512 f16 / 60,555,264 int8; NO_CHANGE one token)
+PASS: moved-line honesty -- the moved line's tokens are verbatim at the new position yet none of its rows is reused (position + ancestry changed); reuse stops at 6,400
+PASS: mix + service verdict -- mix saves 450,780 ppm (avoided 244,430,291,861,504 of 542,238,528,634,880); KEPT; all three failure clauses and the boundary exercised
+PASS: refusals -- unknown shape, line/destination outside the document, one-line deletion, zero length, divergence outside both documents, reuse == new length, window above naive, avoided above naive (9/9)
+ALL PASS: kv window (10 groups)

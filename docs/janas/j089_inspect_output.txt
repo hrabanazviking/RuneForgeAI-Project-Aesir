@@ -1,0 +1,33 @@
+PASS: step reduction exists (grade_kv_step)
+PASS: pair reduction exists (grade_kv_pair)
+PASS: pair verdicts compose through J-060's grade_prefill_cell
+PASS: module defines NO near-tie constant (no second verdict rule)
+PASS: forced token is the reference row's top (argmax over ref)
+PASS: ties resolve to the first (lowest-index) maximum
+PASS: rank counts strictly-greater test logits only
+PASS: gap is measured inside the test row (test top - forced logit)
+PASS: sub-milli positive-rank gap is refused, not reclassified
+PASS: non-finite logits are refused (NaN / infinite)
+PASS: tests pin the band edges (999 in, 1000 out, rank 3 out)
+PASS: tests reproduce the J-022 pattern through logit rows
+PASS: ladder synth is byte-identical to J-088's bench synth
+PASS: ladder lengths are the stated six
+PASS: pre-registered bound is J-088's round-trip bound
+PASS: proxy is named PROXY in the ladder header (not model logits)
+PASS: ladder grades its proxy rows through the new harness
+PASS: six ladder rungs filed, in the stated order -- 128, 256, 512, 2048, 8192, 32768
+PASS: J-088's filed FAITH_ATTN found in its output file
+PASS: 256 rung reproduces J-088's FAITH_ATTN exactly (validation gate) -- max 0.0023426115 vs filed 0.0023426115
+PASS: inline reference == module attention_f32_head at 256 (CROSSCHECK 0.0)
+PASS: VERDICT line matches the pre-registered rule applied to the rungs -- rule gives first_cost_len=-1
+PASS: growth_x1000 recomputes from the filed rungs -- 1001
+PASS: every rung's proxy grade is EXACT (rank 0, gap 0)
+PASS: no rung's attention max exceeds the bound B
+PASS: Python re-derivation of the 128 rung agrees (deviations < 2e-6, grade exact) -- py attn_max=0.0022835 vs filed 0.0022833496
+PASS: Python re-derivation of the 256 rung agrees (deviations < 2e-6, grade exact) -- py attn_max=0.0023427 vs filed 0.0023426115
+PASS: doc states the live model verdict NOT PROVEN
+PASS: doc files the deferred live recipe for the J-098 gate
+PASS: doc names the proxy as not a model logit at the table
+PASS: doc's synthetic verdict is the rule's verdict
+
+J089_INSPECT: 31/31 checks PASS

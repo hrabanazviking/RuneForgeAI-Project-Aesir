@@ -1,0 +1,21 @@
+PASS loop module defines dispatch_proposer
+PASS loop module defines plan_round_k
+PASS loop module defines suggest_next_k
+PASS loop module defines run_loop_round
+PASS loop module defines run_loop
+PASS loop derives rounds through J-071's plan_verify
+PASS loop k bounds stated (initial 4, caps 15 / 8)
+PASS capacity shortening is a recorded plan fact
+PASS rollback asserted against the snapshot (KV, context, proposer KV, RNG)
+PASS driver asserts identity under J-071's checker
+PASS legacy hard bound reconciled: 15 in code, no 64 bound left
+PASS legacy default 4 retained
+PASS J-071 account untouched (band still 2..16)
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS host contract comment for J-072 recorded in aesir.mojo
+PASS loop imported only by its own test (no session wiring faked) -- aesir_engine/tests/test_speculative_loop.mojo
+PASS MoE session carries no loop state
+PASS loop module contains no speed or timing
+== done ==
+(19/19 checks PASS)

@@ -14,11 +14,14 @@ Implements the J-017 expert residency design (D4, section 4.1 and 5.1):
 - Resident-set bytes (embeddings, attention, norms, routers, shared
   experts) are never counted here and never evictable; this module only
   ever holds routed-expert bytes.
-- Admission is probationary, never unconditional: a first touch enters
-  only the small probation segment, and promotion to the main segment
-  requires a second touch plus a frequency comparison against the
-  eviction victim. A miss may be bypassed (served without admission)
-  when the policy judges admission harmful; bypasses are counted.
+- Admission is never unconditional in the filtering policies: the
+  shipping default (fsketch, since J-024's integration step) admits a
+  miss only when its aged sketch frequency exceeds the LRU victim's;
+  the segmented policy admits a first touch to probation under a
+  frequency gate and promotes on second touch. A miss may be bypassed
+  (served without admission) when the policy judges admission
+  harmful; bypasses are counted. J-024 starvation fix: when the total
+  free budget can hold the incoming pair, no gate may refuse it.
 - The budget can shrink after open; in-flight experts are pinned and
   never evicted, and the cache sheds before anything else does.
 - Statistics are reported in the J-016 trace vocabulary: (layer, expert)
@@ -34,6 +37,26 @@ module is the tested engine the wiring will call.
 There is no MoE forward path in the engine yet (J-012, J-016, J-017):
 this module is deliberately standalone so the later Part II slices
 integrate a proven cache instead of designing one under load.
+
+Multi-model residency (J-026, at the end of this module): when one
+process holds two models (the server case), the caches share ONE
+pool sized once for the process (plan_shared_cache_pool) and a
+floor-and-borrow arbiter (SharedExpertBudget) divides it; sizing
+each session independently over-commits the machine. ExpertCache
+gains resize_budget (grow/shrink under an arbiter) and
+shed_to_resident (resident-only reclaim of lent bytes, budget
+unchanged) for that host loop.
+
+Memory pressure (J-028): free memory at open is not free memory
+forever. plan_pressure_budget (below, beside the open-time sizing)
+turns a fresh free-memory sample into a decision -- continue,
+shrink, regrow (never above the open-time budget or the hard cap),
+or refuse cleanly below the floor -- under the J-017 section 5.3
+ordering: the expert cache sheds before anything else does, the
+resident set and the KV cache are never cannibalised, and at the
+floor the run refuses with the reason stated instead of swapping
+the machine to death. The host contract is documented with the
+planner.
 """
 
 # Access outcome codes returned by ExpertCache.access.
@@ -224,6 +247,181 @@ def plan_expert_cache_budget(
     )
 
 
+# -- Memory pressure: the mid-run shrink / refuse policy (J-028) -------
+#
+# J-017 section 5.3 decided the ordering; this is its mechanism. Free
+# memory shrinks mid-run (another process takes RAM) and a cache sized
+# to the open moment becomes an overcommit -- the failure Janas's own
+# README warns of for its cache on a low-headroom desktop, engineered
+# against here.
+#
+# HOST CONTRACT (binding on the session host; this module makes no OS
+# calls and fakes none):
+# - The host samples free memory itself (its platform's counter) and
+#   calls plan_pressure_budget with the sample. Sampling cadence: at
+#   most once per token boundary, NEVER mid-token -- a token's
+#   in-flight experts are pinned for its duration, and a shrink is
+#   only ever applied between tokens, where no pin is held across
+#   the boundary by construction of the session loop.
+# - CONTINUE: do nothing. SHRINK: apply resize_budget(target) --
+#   the cache sheds policy-ordered entries (the policy's own shrink
+#   order), pins held; a pinned overage, if one somehow spans the
+#   boundary, is returned visibly by resize_budget, never forced.
+# - REGROW: apply resize_budget(target); growing only raises the
+#   cap -- shed entries are NOT resurrected, they re-earn residency
+#   through ordinary demand. The target never exceeds the open-time
+#   budget and never exceeds the hard cap: pressure easing is not a
+#   licence to grow past what open-time sizing granted.
+# - REFUSE: the pressured budget fell below the floor (one token's
+#   full routed demand). The host first sheds the cache to zero
+#   unpinned bytes with shed_to_resident(0) -- deliberately NOT
+#   resize_budget, whose contract refuses a non-positive budget --
+#   observes any pinned remainder the shed returns, and then stops
+#   the run cleanly, stating the refusal and the numbers that caused
+#   it (the PressurePlan carries them). The resident set and the KV
+#   allowance are never touched by any branch: the reserve that
+#   protects them is re-charged on every call, exactly as at open.
+
+comptime PRESSURE_CONTINUE = 0
+comptime PRESSURE_SHRINK = 1
+comptime PRESSURE_REGROW = 2
+comptime PRESSURE_REFUSE = 3
+
+
+struct PressurePlan(Copyable, ImplicitlyCopyable):
+    """One pressure decision, stated in full for the run report."""
+
+    var decision: Int
+    var target_bytes: Int
+    var raw_bytes: Int
+    var reserve_bytes: Int
+    var open_budget_bytes: Int
+    var current_budget_bytes: Int
+    var below_floor: Bool
+
+    def __init__(
+        out self,
+        decision: Int,
+        target_bytes: Int,
+        raw_bytes: Int,
+        reserve_bytes: Int,
+        open_budget_bytes: Int,
+        current_budget_bytes: Int,
+        below_floor: Bool,
+    ):
+        self.decision = decision
+        self.target_bytes = target_bytes
+        self.raw_bytes = raw_bytes
+        self.reserve_bytes = reserve_bytes
+        self.open_budget_bytes = open_budget_bytes
+        self.current_budget_bytes = current_budget_bytes
+        self.below_floor = below_floor
+
+    def describe(self) -> String:
+        var name = String("continue")
+        if self.decision == PRESSURE_SHRINK:
+            name = String("shrink")
+        elif self.decision == PRESSURE_REGROW:
+            name = String("regrow")
+        elif self.decision == PRESSURE_REFUSE:
+            name = String("refuse")
+        return (
+            "decision="
+            + name
+            + " target_bytes="
+            + String(self.target_bytes)
+            + " raw_bytes="
+            + String(self.raw_bytes)
+            + " reserve_bytes="
+            + String(self.reserve_bytes)
+            + " open_budget_bytes="
+            + String(self.open_budget_bytes)
+            + " current_budget_bytes="
+            + String(self.current_budget_bytes)
+            + " below_floor="
+            + String(self.below_floor)
+        )
+
+
+def plan_pressure_budget(
+    free_now_bytes: Int,
+    total_bytes: Int,
+    hard_cap_bytes: Int,
+    resident_bytes: Int,
+    kv_allowance_bytes: Int,
+    scratch_bytes: Int,
+    per_token_routed_bytes: Int,
+    open_budget_bytes: Int,
+    current_budget_bytes: Int,
+) raises -> PressurePlan:
+    """Decide the cache's fate under a fresh free-memory sample.
+
+    The arithmetic is the open-time sizing's, re-run mid-run: the
+    reserve (resident set + KV allowance + scratch + OS headroom of
+    one fifth of total memory) is charged again in full, so pressure
+    can never eat the memory the resident set and KV live in. The
+    pressured budget is min(hard cap if set, free-now - reserve),
+    additionally capped at the open-time budget -- the cache may
+    regrow toward what open granted, never beyond it.
+
+    Below the floor (one token's full routed demand) the plan is
+    REFUSE with target 0: a cache that cannot hold a single token's
+    working set would stream-thrash at maximum disk cost while
+    still holding memory the machine needs elsewhere; the honest
+    behaviour is the clean refusal the host performs per the
+    contract above. At exactly the floor the run continues -- the
+    floor is a working set that fits, barely, by definition.
+    """
+    if (
+        free_now_bytes < 0
+        or total_bytes <= 0
+        or hard_cap_bytes < 0
+        or resident_bytes < 0
+        or kv_allowance_bytes < 0
+        or scratch_bytes < 0
+        or per_token_routed_bytes <= 0
+        or open_budget_bytes <= 0
+        or current_budget_bytes <= 0
+    ):
+        raise Error("Expert cache pressure values out of range")
+    var os_headroom = total_bytes // 5
+    var reserve = resident_bytes + kv_allowance_bytes + scratch_bytes + os_headroom
+    if reserve < 0:
+        raise Error("Expert cache pressure reserve overflow")
+    var raw = free_now_bytes - reserve
+    if raw < 0:
+        raw = 0
+    if hard_cap_bytes > 0 and raw > hard_cap_bytes:
+        raw = hard_cap_bytes
+    var target = raw
+    if target > open_budget_bytes:
+        target = open_budget_bytes
+    if target < per_token_routed_bytes:
+        return PressurePlan(
+            PRESSURE_REFUSE,
+            0,
+            raw,
+            reserve,
+            open_budget_bytes,
+            current_budget_bytes,
+            True,
+        )
+    var decision = PRESSURE_CONTINUE
+    if target < current_budget_bytes:
+        decision = PRESSURE_SHRINK
+    elif target > current_budget_bytes:
+        decision = PRESSURE_REGROW
+    return PressurePlan(
+        decision,
+        target,
+        raw,
+        reserve,
+        open_budget_bytes,
+        current_budget_bytes,
+        False,
+    )
+
+
 struct ExpertCacheStats(Copyable, ImplicitlyCopyable):
     """Run statistics in the J-016 trace vocabulary ((layer, expert) pairs)."""
 
@@ -337,15 +535,27 @@ def _pair_key(layer: Int, expert: Int) -> Int:
 
 
 struct ExpertCache(Copyable, Movable):
-    """Byte-budgeted probationary/frequency expert cache (J-018).
+    """Byte-budgeted expert cache (J-018; fsketch + starvation fix J-024).
 
-    Shipping policy (J-018 decision; the verdict is J-024's tournament):
-    two segments. Probation (one eighth of the budget) admits on first
-    touch under LRU with a frequency gate; the main segment promotes on
-    second touch and evicts by (frequency, recency). Pure LRU and pure
-    LFU modes are selectable for comparability with the J-016 offline
-    simulations, through the same policy interface, so J-024 can re-run
-    the tournament against the live implementation.
+    Policies behind one interface:
+    - fsketch (shipping default since the J-024 integration step): a
+      single segment with LRU victims and TinyLFU-style sketch
+      admission over aged exact counters -- a miss is admitted only
+      when the candidate's frequency exceeds the LRU victim's;
+      otherwise it is bypassed. The sketch ages (counters halved)
+      every FREQ_AGING_INTERVAL accesses, the J-018 cadence.
+    - segmented (the J-018 shipping policy, kept selectable): two
+      segments. Probation (one eighth of the budget) admits on first
+      touch under LRU with a frequency gate; the main segment holds
+      promoted entries. J-024 starvation fix: admission and promotion
+      are governed by the total budget, not by segment caps alone --
+      when the total free budget can hold the incoming pair, no gate
+      may refuse it and no resident may be evicted to satisfy a
+      segment cap; promotion moves bytes between segments (the total
+      never changes), so it never evicts either. Eviction happens
+      only where the total budget actually binds, at admission time.
+    - lru / lfu: pure baselines, faithful to the J-016 offline
+      simulations, for comparability.
     """
 
     var budget_bytes: Int
@@ -361,8 +571,15 @@ struct ExpertCache(Copyable, Movable):
     def __init__(out self, budget_bytes: Int, policy: String) raises:
         if budget_bytes <= 0:
             raise Error("Expert cache budget must be positive")
-        if policy != "segmented" and policy != "lru" and policy != "lfu":
-            raise Error("Expert cache policy must be segmented, lru or lfu")
+        if (
+            policy != "segmented"
+            and policy != "lru"
+            and policy != "lfu"
+            and policy != "fsketch"
+        ):
+            raise Error(
+                "Expert cache policy must be segmented, lru, lfu or fsketch"
+            )
         self.budget_bytes = budget_bytes
         self.probation_bytes = budget_bytes // 8
         if self.probation_bytes == 0:
@@ -502,10 +719,13 @@ struct ExpertCache(Copyable, Movable):
             raise Error("Expert cache access values out of range")
         var key = _pair_key(layer, expert)
         self.tick += 1
-        # Aging belongs to the segmented policy's frequency sketch. The
-        # lru/lfu baselines keep J-016's cumulative semantics so their
-        # numbers stay comparable with the offline simulations.
-        if self.policy == "segmented" and self.tick % FREQ_AGING_INTERVAL == 0:
+        # Aging belongs to the frequency-sketch policies (segmented and
+        # fsketch). The lru/lfu baselines keep J-016's cumulative
+        # semantics so their numbers stay comparable with the offline
+        # simulations.
+        if (
+            self.policy == "segmented" or self.policy == "fsketch"
+        ) and self.tick % FREQ_AGING_INTERVAL == 0:
             self._freq_age()
         # Cold is a first-ever-access fact, tracked apart from the aged
         # sketch: a decayed frequency of zero must never re-label a
@@ -564,7 +784,58 @@ struct ExpertCache(Copyable, Movable):
             self._sync_stats()
             return ACCESS_MISS_ADMITTED
 
-        # Segmented policy: first touch is probationary only.
+        if self.policy == "fsketch":
+            # Frequency-sketch admission over a single LRU segment
+            # (J-024 tournament winner, integrated verbatim from the
+            # tournament definition): evict LRU victims one at a time,
+            # admitting only while the candidate's aged frequency
+            # exceeds each victim's; the first victim that is at least
+            # as frequent as the candidate refuses the admission
+            # (bypass), with any victims already evicted standing --
+            # exactly the tournament simulator's loop. When the total
+            # free budget already holds the pair the loop never runs:
+            # no gate can refuse under no scarcity (J-024 step 4).
+            while self._total_bytes() + size_bytes > self.budget_bytes:
+                var victim = self._victim(SEGMENT_MAIN, String("lru"))
+                if victim < 0:
+                    self.stats.bypasses += 1
+                    self._sync_stats()
+                    return ACCESS_MISS_BYPASSED
+                if self._freq_of(key) <= self._freq_of(
+                    self.entries[victim].key
+                ):
+                    self.stats.bypasses += 1
+                    self._sync_stats()
+                    return ACCESS_MISS_BYPASSED
+                self._evict_at(victim)
+            self.entries.append(
+                _Entry(key, size_bytes, SEGMENT_MAIN, self.tick)
+            )
+            self.stats.admissions += 1
+            self._sync_stats()
+            return ACCESS_MISS_ADMITTED
+
+        # Segmented policy, with the J-024 starvation fix.
+        if self._total_bytes() + size_bytes <= self.budget_bytes:
+            # No scarcity: the total budget holds the pair, so the
+            # probation gate must not refuse it and no resident may be
+            # evicted for a segment cap. The pair enters probation
+            # while probation has room, otherwise main directly.
+            var target = SEGMENT_PROBATION
+            if (
+                self._segment_bytes(SEGMENT_PROBATION) + size_bytes
+                > self.probation_bytes
+            ):
+                target = SEGMENT_MAIN
+            self.entries.append(_Entry(key, size_bytes, target, self.tick))
+            self.stats.admissions += 1
+            self._sync_stats()
+            return ACCESS_MISS_ADMITTED
+        # Scarcity: the original probationary path (frequency gate +
+        # probation segment room), then total-budget room: promotions
+        # may have carried main past its segment cap, so admission
+        # evicts main victims by (frequency, recency) until the total
+        # budget fits -- the cap that binds is the total.
         var probation_victim = self._victim(SEGMENT_PROBATION, String("lru"))
         if (
             probation_victim >= 0
@@ -582,6 +853,13 @@ struct ExpertCache(Copyable, Movable):
             self.stats.bypasses += 1
             self._sync_stats()
             return ACCESS_MISS_BYPASSED
+        while self._total_bytes() + size_bytes > self.budget_bytes:
+            var main_victim = self._victim(SEGMENT_MAIN, String("freq"))
+            if main_victim < 0:
+                self.stats.bypasses += 1
+                self._sync_stats()
+                return ACCESS_MISS_BYPASSED
+            self._evict_at(main_victim)
         self.entries.append(
             _Entry(key, size_bytes, SEGMENT_PROBATION, self.tick)
         )
@@ -590,23 +868,18 @@ struct ExpertCache(Copyable, Movable):
         return ACCESS_MISS_ADMITTED
 
     def _try_promote(mut self, index_in: Int):
-        """Second touch: promote probation -> main if it earns the bytes."""
-        var index = index_in
-        var size = self.entries[index].size_bytes
-        var key = self.entries[index].key
-        var main_cap = self.budget_bytes - self.probation_bytes
-        while self._segment_bytes(SEGMENT_MAIN) + size > main_cap:
-            var victim = self._victim(SEGMENT_MAIN, String("freq"))
-            if victim < 0:
-                return
-            if self._freq_of(self.entries[victim].key) > self._freq_of(key):
-                return
-            self._evict_at(victim)
-            # Swap-remove may have moved the promoting entry; re-find it.
-            index = self._find(key)
-            if index < 0:
-                return
-        self.entries[index].segment = SEGMENT_MAIN
+        """Second touch: promote probation -> main.
+
+        J-024 starvation fix: promotion only moves bytes between
+        segments -- the total resident bytes never change -- so it
+        never needs to evict a resident to satisfy the main segment's
+        cap, and it is never refused by a frequency comparison.
+        Eviction is deferred to admission, the one place the total
+        budget actually binds. (Pre-fix, promotion evicted main
+        residents even when the budget held the whole expert body,
+        which is half of the @1024 starvation J-024 §2.2 measured.)
+        """
+        self.entries[index_in].segment = SEGMENT_MAIN
         self.stats.promotions += 1
 
     # -- pinning and shrink ----------------------------------------------
@@ -625,6 +898,46 @@ struct ExpertCache(Copyable, Movable):
             raise Error("Expert cache unpin of an unpinned expert")
         self.entries[index].pin_count -= 1
 
+    def shed_to_resident(mut self, target_bytes: Int) raises -> Int:
+        """Evict (shrink order) until resident bytes fit a target,
+        WITHOUT changing the budget. This is the arbiter's reclaim
+        operation (J-026): an idle lender's above-floor bytes are
+        lent, not freed -- they still occupy the shared pool until a
+        borrower's admission needs the room, at which point the host
+        sheds the lender toward its floor with this call. Pinned
+        entries are never victims; if only pinned entries remain
+        above the target the return value exceeds it, visibly.
+        """
+        if target_bytes < 0:
+            raise Error("Expert cache shed target must be nonnegative")
+        while self._total_bytes() > target_bytes:
+            var victim = self._victim(SEGMENT_PROBATION, String("lru"))
+            if victim < 0:
+                victim = self._victim(SEGMENT_MAIN, String("freq"))
+            if victim < 0:
+                break
+            self._evict_at(victim)
+        self._sync_stats()
+        return self._total_bytes()
+
+    def resize_budget(mut self, new_budget_bytes: Int) raises -> Int:
+        """Set a new budget, growing or shrinking (J-026).
+
+        Growing only raises the cap (no entry moves). Shrinking sets
+        the cap and sheds policy-order entries to it (probation LRU
+        first, then main by (frequency, recency)), pins held. Returns
+        the bytes still resident; a pinned overage is returned
+        visibly rather than corrupting an in-flight token.
+        """
+        if new_budget_bytes <= 0:
+            raise Error("Expert cache resize budget must be positive")
+        self.budget_bytes = new_budget_bytes
+        self.probation_bytes = new_budget_bytes // 8
+        if self.probation_bytes == 0:
+            self.probation_bytes = new_budget_bytes
+        self.stats.budget_bytes = new_budget_bytes
+        return self.shed_to_resident(new_budget_bytes)
+
     def shrink(mut self, new_budget_bytes: Int) raises -> Int:
         """Reduce the budget, shedding policy-order entries, pins held.
 
@@ -634,22 +947,7 @@ struct ExpertCache(Copyable, Movable):
         exceeds it and the caller sees the overage rather than a
         corrupted in-flight token.
         """
-        if new_budget_bytes <= 0:
-            raise Error("Expert cache shrink budget must be positive")
-        self.budget_bytes = new_budget_bytes
-        self.probation_bytes = new_budget_bytes // 8
-        if self.probation_bytes == 0:
-            self.probation_bytes = new_budget_bytes
-        self.stats.budget_bytes = new_budget_bytes
-        while self._total_bytes() > new_budget_bytes:
-            var victim = self._victim(SEGMENT_PROBATION, String("lru"))
-            if victim < 0:
-                victim = self._victim(SEGMENT_MAIN, String("freq"))
-            if victim < 0:
-                break
-            self._evict_at(victim)
-        self._sync_stats()
-        return self._total_bytes()
+        return self.resize_budget(new_budget_bytes)
 
     # -- reporting ---------------------------------------------------------
 
@@ -663,3 +961,165 @@ struct ExpertCache(Copyable, Movable):
 
     def contains(self, layer: Int, expert: Int) -> Bool:
         return self._find(_pair_key(layer, expert)) >= 0
+
+
+# -- Multi-model residency: the shared budget pool (J-026) -------------
+#
+# Two sessions opened in one process (the server case) must not each
+# size against the full free memory: plan_expert_cache_budget charges
+# the reserve -- resident set, KV allowance, scratch, and an OS
+# headroom of one fifth of total memory -- per call, so two
+# independent calls against the same free-memory snapshot over-commit
+# the machine (the summed budgets can exceed free memory itself, and
+# the headroom is charged twice). The pool fixes the accounting at
+# the process level: ONE sizing for the process, then a fairness
+# arbiter dividing that total between the tenants' caches.
+#
+# FAIRNESS RULE -- floor-and-borrow (Aesir's own; Janas's public
+# documentation specifies no multi-model fairness rule -- recorded
+# as answered-locally in the J-026 doc):
+# - Per-tenant floor F = total / (2N) for N tenants. The floor is a
+#   RETURN GUARANTEE, not standing empty space.
+# - Tenant i's instantaneous cap is
+#       cap_i = max(F, total - sum_{j != i} P_j)
+#       P_j = resident_j            if tenant j is active
+#       P_j = min(resident_j, F)    if tenant j is inactive
+#   An active peer's resident bytes are fully protected; an
+#   inactive (idle, session still open) peer protects only its
+#   floor -- the rest is lendable.
+# - Work-conserving: a lone or first tenant may use the whole pool;
+#   unused space is borrowed, never left idle while a peer streams.
+# - Shrink behaviour: the host re-applies caps before a tenant's
+#   access (resize_budget: a borrower whose cap fell is shrunk to
+#   it, pins held). An inactive lender's above-floor bytes still
+#   occupy the pool until a borrower's admission needs the room;
+#   the arbiter then reclaims them (shed_to_resident toward
+#   lender_reclaim_target, never below the lender's floor). A
+#   returning tenant's floor is re-established the same way.
+# - The invariant the host maintains after every admission is
+#   sum(resident) <= total.
+
+
+def plan_shared_cache_pool(
+    free_at_open_bytes: Int,
+    total_bytes: Int,
+    hard_cap_bytes: Int,
+    resident_total_bytes: Int,
+    kv_allowance_total_bytes: Int,
+    scratch_total_bytes: Int,
+    per_token_routed_bytes: Int,
+) raises -> ExpertCacheSizing:
+    """Size ONE cache pool for a whole process (J-026).
+
+    The caller sums the per-session quantities across every model
+    the process will hold -- resident sets, KV allowances, scratch
+    -- and calls this once. The reserve arithmetic is exactly
+    plan_expert_cache_budget's (the OS headroom is charged once, for
+    the process, not once per session), and the returned budget is
+    the pool total a SharedExpertBudget then divides. Sizing each
+    session independently and adding the budgets is the over-commit
+    this function exists to replace.
+    """
+    return plan_expert_cache_budget(
+        free_at_open_bytes,
+        total_bytes,
+        hard_cap_bytes,
+        resident_total_bytes,
+        kv_allowance_total_bytes,
+        scratch_total_bytes,
+        per_token_routed_bytes,
+    )
+
+
+struct SharedExpertBudget(Copyable, ImplicitlyCopyable):
+    """Floor-and-borrow arbiter over one shared pool total (J-026).
+
+    Pure arithmetic: the host (server / session owner) reports each
+    tenant cache's resident bytes and activity, asks for caps, and
+    applies them with ExpertCache.resize_budget /
+    shed_to_resident. Tenants are indices 0..tenant_count-1.
+    """
+
+    var total_bytes: Int
+    var tenant_count: Int
+    var floor_bytes: Int
+
+    def __init__(
+        out self, total_bytes: Int, tenant_count: Int
+    ) raises:
+        if total_bytes <= 0 or tenant_count <= 0:
+            raise Error("Shared expert budget values out of range")
+        var floor = total_bytes // (2 * tenant_count)
+        if floor <= 0:
+            raise Error(
+                "Shared expert budget too small to guarantee a floor"
+            )
+        self.total_bytes = total_bytes
+        self.tenant_count = tenant_count
+        self.floor_bytes = floor
+
+    def protected_bytes(self, resident_bytes: Int, active: Bool) -> Int:
+        """Bytes of one tenant the pool protects from lending."""
+        if active:
+            return resident_bytes
+        if resident_bytes < self.floor_bytes:
+            return resident_bytes
+        return self.floor_bytes
+
+    def cap_for(
+        self, tenant: Int, residents: List[Int], actives: List[Bool]
+    ) raises -> Int:
+        """Tenant's instantaneous cap under floor-and-borrow.
+
+        cap = max(floor, total - sum of the other tenants'
+        protected bytes). The floor clamp is what makes the floor
+        a guarantee: when the raw cap would fall below it, the
+        host first shrinks the other tenants toward their
+        protected levels (see lender_reclaim_target), then the
+        tenant proceeds at the floor.
+        """
+        if tenant < 0 or tenant >= self.tenant_count:
+            raise Error("Shared expert budget tenant out of range")
+        if len(residents) != self.tenant_count or len(actives) != self.tenant_count:
+            raise Error("Shared expert budget tenant vectors mis-sized")
+        var protected_sum = 0
+        for j in range(self.tenant_count):
+            if j == tenant:
+                continue
+            if residents[j] < 0:
+                raise Error("Shared expert budget resident out of range")
+            protected_sum += self.protected_bytes(residents[j], actives[j])
+        var cap = self.total_bytes - protected_sum
+        if cap < self.floor_bytes:
+            cap = self.floor_bytes
+        if cap > self.total_bytes:
+            cap = self.total_bytes
+        return cap
+
+    def lender_reclaim_target(
+        self, lender_resident_bytes: Int, summed_resident_bytes: Int
+    ) -> Int:
+        """Resident ceiling for an inactive lender after a reclaim.
+
+        If the summed residency fits the pool, the lender keeps
+        everything (target = its resident bytes). Otherwise it
+        sheds exactly the overage, and never below its floor.
+        """
+        if summed_resident_bytes <= self.total_bytes:
+            return lender_resident_bytes
+        var target = lender_resident_bytes - (
+            summed_resident_bytes - self.total_bytes
+        )
+        if target < self.floor_bytes:
+            target = self.floor_bytes
+        return target
+
+    def describe(self) -> String:
+        return (
+            "total_bytes="
+            + String(self.total_bytes)
+            + " tenant_count="
+            + String(self.tenant_count)
+            + " floor_bytes="
+            + String(self.floor_bytes)
+        )

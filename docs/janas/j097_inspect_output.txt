@@ -1,0 +1,60 @@
+PASS: module structure: from core.kv_persistence import
+PASS: module structure: from core.prompt_read import
+PASS: module structure: (a) THE WINDOW SERVICE
+PASS: module structure: SUFFIX INVALIDATION
+PASS: module structure: (b) WORKLOAD MODEL
+PASS: module structure: (c) COST DEFINITION
+PASS: module structure: CORRECTNESS RULE
+PASS: module structure: VERDICT RULE (pre-registered)
+PASS: module structure: KEPT ONLY IF IT
+PASS: module structure: KW_MIN_SAVED_PPM = 250000
+PASS: module structure: kw_first_divergence
+PASS: module structure: kw_reusable
+PASS: module structure: kw_saved_ppm
+PASS: module structure: kw_service_verdict
+PASS: module structure: NOT PROVEN
+PASS: module structure: J-098
+PASS: module structure: J-111
+PASS: module structure: INTEGRATION_BLOCKED
+PASS: harness header states no live leg
+PASS: harness defined through core/kv_window
+PASS: module uses kw_saved_ppm
+PASS: module has no single-step scaled ppm (overflow form)
+PASS: tests uses kw_saved_ppm
+PASS: tests has no single-step scaled ppm (overflow form)
+PASS: harness uses kw_saved_ppm
+PASS: harness has no single-step scaled ppm (overflow form)
+PASS: overflow fact: avoided * 1000000 exceeds Int64 max on exactly 6 of 9 shapes (got 6)
+PASS: overflow fact: the mix total also overflows single-step
+PASS: two-step kw_saved_ppm == direct big-integer ppm on every shape and the mix (450,780); intermediates fit Int64
+PASS: no other tree file references kv_window (found: [])
+PASS: run_all does not register test_kv_window
+PASS: WINDOWHEAD x2 runs
+PASS: WINDOWDONE x2 runs
+PASS: harness runs byte-identical
+PASS: window account re-derived: every WINDOW field for all 9 shapes (divergence, reuse under the final-token cap, work, ppm, KV rewrite at both precisions, verdicts)
+PASS: mix re-derived: avoided 244,430,291,861,504 of naive 542,238,528,634,880 = 450,780 ppm >= the 250,000 bar
+PASS: service verdict re-derived: KEPT under the pre-registered rule
+PASS: gate: harness naive at 8,192 == J-094's filed read total for the rung (60,190,493,769,728)
+PASS: gate: filed test output reproduces J-094 totals at all 5 rungs
+PASS: filed test output: test_kv_window ALL PASS (10 groups)
+PASS: filed neighbour PASS: kv persistence (11 groups)
+PASS: filed neighbour PASS: kv int8 (8 groups)
+PASS: filed neighbour PASS: kv account (10 groups)
+PASS: filed neighbour PASS: prompt read (11 groups)
+PASS: filed neighbour PASS: kv drafts (11 groups)
+PASS: doc states: KEPT
+PASS: doc states: 450,780
+PASS: doc states: 244,430,291,861,504
+PASS: doc states: 542,238,528,634,880
+PASS: doc states: 729,021
+PASS: doc states: NOT PROVEN
+PASS: doc states: DEFERRED-WITH-REASON
+PASS: doc states: J-098
+PASS: doc states: J-111
+PASS: doc states: guarded
+PASS: doc states: never `llama-cli --single-turn`
+PASS: doc states: teacher-forcing rank + logit gap
+PASS: doc states: kw_saved_ppm
+PASS: doc states: INTEGRATION_BLOCKED
+INSPECT: 59 checks, 0 fails

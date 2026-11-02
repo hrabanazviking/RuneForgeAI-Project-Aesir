@@ -1,0 +1,170 @@
+J-076 MTP census in files -- test output (VM, lightest target)
+Tree: yrsa/janas-j076 from yrsa/janas-j075 tip 0fd9095e1aa8d82e6a65655fc0483db96be3e552 (verified by git ls-remote at slice start; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then per module: mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j076stage, nothing deleted.
+Build-route note: `pixi run` remains blocked on this VM (the J-072-recorded activation failure), so the builds invoked the SAME pixi environment's mojo binary directly (the installed env in the J-071 worktree's aesir_engine/.pixi), with the activation variables the tree's own activate script sets (CONDA_PREFIX, PATH, MODULAR_HOME). Same compiler (Mojo 1.0.0 ed45d567), same flags, same linker line as J-071--J-075's filed recipes.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.9-1.0 GB at slice start -- far below the 5,500 MB inference gate throughout; no inference ran anywhere. purplelongship not used at all (unreachable tonight per the 204 road's heartbeat, device offline last seen 2026-11-01T02:07:13Z, and yielded under the coordination law). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run or probed.
+Census note: docs/janas/j076_mtp_census.py reads GGUF metadata + tensor directory only (no tensor data) and streams each file for its sha256 pin. It ran twice over the same 27 files; the determinism line is filed at the end of this record.
+
+=== census summary (from docs/janas/j076_census_output.txt) ===
+27 files: 8 full model files (7x zen-4b.i1 arch qwen3, 398 tensors each, NO_MTP; tinyllama.Q4_0 arch llama, 201 tensors, NO_MTP) + 19 ggml-vocab fixtures (0 tensors each, VOCAB_ONLY). Total tensors read 2987; head hits 0; metadata nextn/mtp keys 0.
+All seven zen sha256 pins computed this slice equal the S-060/S-065 HF LFS pins exactly; tinyllama's equals J-074 section 3's filed pin.
+
+
+=== inspection recount (docs/janas/j076_inspect.py, filed as j076_inspect_output.txt) ===
+PASS classifier defines classify_tensor_name
+PASS classifier defines MtpCensus verdict
+PASS module rule "nextn" in name
+PASS module rule "mtp" in name
+PASS module rule "assistant" in name
+PASS script rule "nextn"
+PASS script rule "mtp"
+PASS script rule "assistant"
+PASS script reads directory only (no tensor data claim)
+PASS classifier contains no speed
+PASS census test defines its 8 groups
+PASS census files 27 records
+PASS census files 8 full model files
+PASS census files 19 vocab-only fixtures
+PASS total tensors read is 2987
+PASS zero head hits in the whole census
+PASS zero metadata mtp/nextn keys in the whole census
+PASS every full file verdict is NO_MTP
+PASS seven zen files, 398 tensors each
+PASS zen arch is qwen3 in all seven
+PASS zen pin matches S-060 -- zen-4b.i1-IQ1_S.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-IQ2_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q2_K.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q3_K_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q4_K_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q5_K_M.gguf
+PASS zen pin matches S-060 -- zen-4b.i1-Q6_K.gguf
+PASS tinyllama pin matches J-074's filed pin
+PASS qwen35 vocab fixture is VOCAB_ONLY with arch filed as qwen2
+PASS gemma-4 vocab fixture is VOCAB_ONLY, arch gemma4
+PASS acquisition ledger has 193 data rows
+PASS no mtp/assistant filename in the acquisition ledger
+PASS no mtp/assistant filename in the Gemma live inventory
+PASS qwen3.5-2b bench record files its size, no hash
+PASS qwen3.5-2b file itself absent from its directory
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS mtp_census imported only by its own test
+PASS test record -- ALL PASS: mtp census classifier (8 groups)
+PASS test record -- ALL PASS: speculative acceptance measurement (10 gro
+PASS test record -- ALL PASS: speculative verification account (13 group
+PASS test record -- ALL PASS: speculative draft loop (12 groups)
+PASS test record -- ALL PASS: speculative token-identity proof (8 groups
+PASS test record -- ALL PASS: cross-model draft pairing (10 groups)
+PASS test record -- CENSUS DETERMINISM: run1 sha256 == run2 sha256
+PASS doc element -- verdict is CLOSED-WITH-DEFERRED-LEG
+PASS doc element -- headline tensors total 2987
+PASS doc element -- zen verdict PRESENT-NO-MTP proven
+PASS doc element -- qwen3-next pin re-cited
+PASS doc element -- on-box leg is J-077's first act
+PASS doc element -- re-cite point is the J-086 gate
+PASS doc element -- guarded idle-gap rule names the 204 heartbeat
+PASS doc element -- rules recorded as answered-locally
+PASS doc element -- unread files file as NOT PROVEN
+== done ==
+(54/54 checks PASS)
+
+=== test_mtp_census ===
+PASS: classifier -- nextn names
+PASS: classifier -- mtp names
+PASS: classifier -- assistant names
+PASS: classifier -- ordinary names carry no head
+PASS: classifier -- first-match order nextn before mtp
+PASS: census -- aggregation counts per kind
+PASS: census -- verdicts vocab-only / no-mtp / with-mtp
+PASS: census -- kind and verdict names
+ALL PASS: mtp census classifier (8 groups)
+(exit 0)
+
+=== test_speculative_acceptance ===
+PASS: classifier -- structured first, then code, by stated features
+PASS: classifier -- prose language by markers; tie/low = other; code NA
+PASS: record -- bound to the J-071 account, totals from the account alone
+PASS: record refusals -- inconsistent account, pair-id misuse, language misuse
+PASS: separation -- rows keyed by kind, pair, text type, language
+MEASURE SIMULATED pair=cross_model/1 prose/english accepted=34 drafted=40 rate_bp=8500
+MEASURE SIMULATED pair=cross_model/1 prose/italian accepted=12 drafted=40 rate_bp=3000
+MEASURE SIMULATED pair=cross_model/1 prose/AGGREGATE accepted=46 drafted=80 rate_bp=5750
+PASS: measurement -- italian-prose collapse separated; aggregate hides it
+MEASURE SIMULATED pair=cross_model/1 code accepted=36 drafted=40 rate_bp=9000
+MEASURE SIMULATED pair=cross_model/1 structured accepted=31 drafted=40 rate_bp=7750
+MEASURE SIMULATED pair=cross_model/1 ALL accepted=113 drafted=160 rate_bp=7062
+PASS: measurement -- per-text-type rates for one pair, aggregate beside them
+PASS: distribution -- histogram reproduces rounds and accepted per row
+PASS: classified recording -- the host path files by classifier verdict
+PASS: rate edges -- empty pair has no rate; names are the stated words
+ALL PASS: speculative acceptance measurement (10 groups)
+(exit 0)
+
+=== test_speculative_verify ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+(exit 0)
+
+=== test_speculative_loop ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+(exit 0)
+
+=== test_speculative_identity ===
+PASS: checker negative control -- tamper at 257 and truncation at 599 both detected
+PASS: A head/MTP k=4 always-right -- identity 500/500 over 100 rounds, plain state exact
+PASS: B head/assistant k=15 (band top) always-right -- identity 512/512 over 32 rounds, plain state exact
+PASS: C cross-model k=5 always-wrong -- identity 300/300 over 296 rounds (295 zero-accepted + closing), plain state exact
+PASS: D conversation k=8 (cap) alternating right/wrong -- identity 400/400 over 80 rounds, plain state exact
+PASS: E cross-model k=6 coincidence-past-mismatch traps -- identity 450/450 over 149 rounds, plain state exact
+PASS: F head/MTP capacity-shortened tail -- identity 330/330 over 40 rounds, 10 shortened rounds on record, final KV at capacity
+PASS: G slot switching (head/conversation/cross/head, 25 cycles) -- identity 350/350 over 100 rounds, plain state exact, cross KV exact
+ALL PASS: speculative token-identity proof (8 groups; 7 long configurations, 2842 tokens, 797 rounds)
+(exit 0)
+
+=== test_cross_model_pairing ===
+PASS: tokenizer identity -- full tables equal, divergences -1
+PASS: tokenizer mismatch -- one token, refused at its index
+PASS: tokenizer length + merges -- divergence, one-sided, both-absent
+PASS: tokenizer model/BOS/EOS -- each inequality breaks identity
+PASS: admissible pair -- k cap from J-071, memory sized once (J-026)
+PASS: missing-file refusals -- either side, named reason
+PASS: family refusals -- cross-family and unknown refused, same-family admitted
+PASS: size refusals -- equal and 60% refused, exactly-half admitted
+PASS: tokenizer gate -- unverified refused, mismatch refused with index
+PASS: k and budget refusals -- cap enforced, starved pool refused
+ALL PASS: cross-model draft pairing (10 groups)
+(exit 0)
+
+=== test_speculative ===
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+(exit 0)
+
+=== census determinism ===
+CENSUS DETERMINISM: run1 sha256 == run2 sha256 == 39efb8b4579bf644e78a0680e1c539bca2937ed52c74e875ce0f51d355876496 (two independent runs of j076_mtp_census.py over the same 27 files, byte-identical outputs)

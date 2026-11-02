@@ -1,0 +1,25 @@
+J-053 prefill anatomy accounting -- test output (VM, lightest target)
+Tree: yrsa/janas-j053 from yrsa/janas-j052 tip 7ea89f6638d867bff0d1967b2bddddbc838b8c34
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j053stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; HEAVILY CONTENDED (loadavg ~16 at start); MemAvailable ~1.4-1.5 GB -- far below the 5,500 MB inference gate; no inference ran; lightest compiles only, one at a time. purplelongship not used (204 road S-103 live there).
+
+=== test_prefill_anatomy ===
+PASS: host batched plans at the baseline lengths + S-033 shape
+PASS: per-token, CUDA width-1, and CUDA tile-4 plans
+PASS: MoE width-1 plan pins the per-token LM head finding
+PASS: KV bytes written per prompt, per profile shape
+PASS: causal pair counts (full + windowed) and attention MACs
+PASS: dense projection + FFN MACs per token, per profile
+PASS: weight-pass traffic shape + MoE mean stream projection
+PASS: refusals -- cap, token count, surface, window, shape, rate
+ALL PASS: prefill anatomy accounting (8 groups)
+exit=0
+
+=== neighbour: test_moe_gpu_plan (J-031) rebuilt from this tree ===
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals

@@ -1,0 +1,35 @@
+J-064 NPU prompt split-block (CONDITIONAL, DEFERRED-WITH-REASON) -- gate re-verification output (VM, lightest target)
+Tree: yrsa/janas-j064 from yrsa/janas-j063 tip bc326b389161a93a826ec67d81cebaebc0963e94
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j064stage, TMPDIR redirected there.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~0.79-1.69 GB during the slice (786 MB at the slice-start check, 975,428 kB after the shim build, 1,687,956 kB after the gate-evidence build, 1,548,724 kB after the neighbour run) -- far below the 5,500 MB inference gate throughout; no inference ran, no CUDA ran, no NPU was probed or touched, no device work of any kind; lightest compiles only, one at a time. purplelongship not used at all (not needed for this host-side deferred filing; yielded to the 204 road under the coordination law in any case). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run.
+Gate state verified at slice start by git ls-remote: remote yrsa/janas-j063 == bc326b389161a93a826ec67d81cebaebc0963e94; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j064 existed before this slice.
+
+=== test_npu_gate_evidence (J-062 evaluator, rebuilt from this tree) ===
+PASS: tonight's empty record -- gate closed at every level, gaps named
+PASS: text-on-chip alone -- gate stays closed (generation is not a prompt graph)
+PASS: gate block through G3 -- closed, first missing item is prompt_graph_evidence
+PASS: gate block complete -- gate open, J-063 not ready, executor named
+PASS: gate + start complete -- J-063 ready, J-064/J-065 still closed
+PASS: downstream items -- each gates its own slice and no other
+PASS: mid-block gap -- first missing start item is copy_builder_graded
+PASS: start block without the gate -- nothing ready at any level
+PASS: full record -- gate open, all three slices ready (readiness only, no quantity)
+PASS: names -- gate/start item and state strings exact
+ALL PASS: NPU gate-evidence account (10 groups)
+exit=0
+
+Tonight's record evaluated through that account (the suite's first group is exactly this record): gate CLOSED (present 0/4, first missing decision_recorded); J-063 start NOT READY (present 0/8, first missing executor_session_path); J-064 not ready (additionally missing D1 dense_whole_graded and D2 split_executor_exists); J-065 not ready. J-064 therefore records itself DEFERRED-WITH-REASON -- no NPU execution was attempted, faked, or forced.
+
+=== neighbour: test_npu_prompt_prep (J-061) rebuilt from this tree ===
+PASS: pass law -- reply/draft-check refused by construction, 64-token floor binds
+PASS: copy pricing -- 1 B/elem payload + 2 B/row scales, broken shapes refused
+PASS: Qwen3-0.6B dense-whole -- filed shape priced exact (441,323,520 B footprint)
+PASS: OLMoE resident-products -- filed shape priced exact (271,067,136 B footprint)
+PASS: form rules -- partial dense-whole refused, split leftover open, int8 dense-only
+PASS: prep progress -- 25/28/16 units emit 10, 4 emit 4, 3 silent, final once
+PASS: prep render -- the census status-line shape, time only when supplied
+PASS: graph cache hit -- zero bytes to write, footprint still charged in full
+PASS: contention admitted -- stated machine, cache FULL, headroom 533,590,016 B
+PASS: contention closed at floor-1; hand copy refuses (required) / degrades (optional)
+ALL PASS: NPU prompt preparation account (10 groups)
+exit=0

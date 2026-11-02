@@ -1,0 +1,144 @@
+J-093 memory ceiling -- test + ceiling harness output (VM, lightest target)
+Tree: yrsa/janas-j093 from yrsa/janas-j092 tip 4bb58a0d60c320077888b2667ef811ea07b44e11 (verified by git at slice start, local == ls-remote; origin/main untouched at 605562f6b919a0f58fa6decd0b45a83cdc41a6d5)
+Design committed first: fa99680a4f728243b8d6d736ff9d8eb884a8a8e6 (module + tests + harness, definitions, the two forms, the pool rule and the growth-shape rule pre-registered in their headers, before any build or run of this slice).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-087..J-092 staging builds, as expected from the identical source; staging compiled fresh for this slice), then per suite: mojo build -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables -- CONDA_PREFIX, MODULAR_HOME=<env>/share/max, PATH -- exported by hand, as J-071..J-092 filed; pixi run remains blocked on this VM). Every build exit 0, no warnings. Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j093stage, build dir ~/workspace/.verify-tmp/j093build, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~0.39-1.16 GB across the slice (1,182,624 kB at the first check) -- far below the 5,500 MB inference gate at every moment; no inference ran anywhere; lightest compiles only, one at a time. Load average up to ~15.2 (other campaigns); no wall and no live peak is filed anywhere in this slice, so contention touches no number. purplelongship not used at all (unreachable, last_seen 2026-11-01T02:07:13Z; the 204 road owns it when it returns -- yielded). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, chip never run.
+
+=== test_memory_ceiling (J-093, new) ===
+build exit=0
+PASS: endpoints -- Coder 57,344 f16 / 29,568 int8 (J-087/J-088); OLMoE 131,072 / 67,584, @512 67,108,864 / 34,603,008; activation 964,608 @1152 .. 4,519,936 @32896
+PASS: validation gate -- GPU session peaks reproduce J-091 section 5.3 EXACTLY at all 5 rungs, both precisions
+PASS: CPU line + read leg -- CPU == GPU - 905,728 at all 10 session cells; read totals below the peak; read @16384 5,626,175,104 (J-091's cross-check figure)
+PASS: peak verdicts -- J-091's inherited: cpu f16 CAP_REFUSED @16384/32768, gpu write @32768 CAP_REFUSED, int8 INTEGRATION_BLOCKED in all 20 line x rung x direction cells
+PASS: growth shape -- gpu/cpu f16 1,383,894 / 1,383,967 ppm, gpu/cpu int8 1,199,652 / 1,199,690 ppm, all FLATTER than Janas's 1,884,615; KV share 13,904 -> 286,908 ppm (f16 gpu)
+PASS: pool sizing @base f16 -- reserve 8,580,987,212, pool 8,598,881,972, floor 2,149,720,493, MoE cap == pool; independent J-018 sizing over-commits the stated machine
+PASS: combined peaks -- f16 9,045,716,096 .. 10,869,599,360 (growth 1,201,629 ppm FLATTER); int8 CF 8,981,212,288 .. 9,923,374,208 (1,104,903 ppm FLATTER)
+PASS: pool absorbs growth -- accounted ceiling constant 13,743,895,348 (free - headroom); pool shrinks 1,823,883,264 == KV + scratch growth; residency capped at body
+PASS: below-floor shape -- tiny stated machine sizes 7,400 against a 487,587,840 floor demand: below_floor stated, not hidden
+PASS: refusals -- unknown line, zero context/ratio, negative share/component, zero pool/body, zero routed demand
+ALL PASS: memory ceiling (10 groups)
+exit=0
+
+=== neighbour: test_kv_ladder (J-091) rebuilt from this tree ===
+build exit=0
+PASS: rungs + per-token -- 1024/4096/8192/16384/32768, gen 128; f16 57,344 == J-087 census, int8 29,568 == J-088 store
+PASS: KV totals -- f16 58,720,256 .. 1,879,048,192 and int8 30,277,632 .. 968,884,224 across the rungs (@8192 f16 == J-087 filed)
+PASS: work frame -- pairs, attention MACs @8192 == J-053 filed, projection @8192 == J-068 filed, head 544,997,376
+PASS: decode traffic -- context sums pinned; KV read f16 7,982,284,800 @1024 .. 240,984,260,608 @32768 (int8 roughly half)
+PASS: CPU verdicts -- f16 ACCOUNTED at 1024/4096/8192, CAP_REFUSED at 16384/32768 (host cap 16000), both directions
+PASS: GPU + int8 verdicts -- gpu f16 reads all ACCOUNTED, write @32768 CAP_REFUSED; int8 INTEGRATION_BLOCKED everywhere as the tree stands, caps binding only behind integration
+PASS: GPU admission -- required 4,751,005,312 @1152 .. 5,633,529,472 @16512; WHOLE through 8192, SPILL from 16384; @16384 pure context reproduces the filed refusal within 4 B; int8 counterfactual holds 16384 whole, still spills at 32768
+PASS: refusals -- rung index, unknown precision/line/direction, zero shape/context/gen, invalid admission and placement inputs
+ALL PASS: kv ladder (8 groups)
+exit=0
+
+=== neighbour: test_attention_share (J-092) rebuilt from this tree ===
+build exit=0
+PASS: endpoints -- unit 200,704; projection/token 6,525,288,448 == J-053 filed; head 544,997,376; rests 6,525,288,448 (prefill) / 7,070,285,824 (decode); KV 57,344 f16 / 29,568 int8
+PASS: J-091 frame reproduced -- prefill attention, projection (+head) and write-leg attention totals EXACT at all 5 rungs
+PASS: decode token split -- 28,247 ppm @1024 .. 481,914 ppm @32768 (48.19% at the cap); below half at every rung
+PASS: marginal + write split -- marginal 30,534 ppm @1024 .. 501,960 ppm @32768 (above half only at the top rung); write-leg average 29,946 .. 482,398 ppm
+PASS: prompt-average split -- 15,517 ppm @1024 .. 335,084 ppm @32768 (33.51%); below half at every rung
+PASS: work crossings -- marginal 32,512 (exact equality); decode 35,228 (86,016 MACs short at 35,227; cap is 32,768); prompt-average 65,024 (beyond 2x the cap)
+PASS: decode traffic -- f16 12,383 ppm @1024 .. 286,347 ppm @32768, crossing 81,667; int8 6,423 .. 171,424 ppm, crossing 158,384 (weights dominate throughout the ladder)
+PASS: prefill traffic at rungs -- host f16 616,349 ppm @1024 .. 980,901 @32768 vs GPU width-1 6,236 .. 167,102 ppm; host int8 453,064 .. 963,613; GPU int8 3,225 .. 93,750 ppm
+PASS: prefill traffic crossings -- host f16 first 700 / permanent 808 (re-dip at 769); host int8 first 1,259 / permanent 1,379 (re-dip at 1,281); GPU width-1 163,332 (f16) / 316,766 (int8), monotone, beyond any runnable length
+PASS: refusals -- zero shape/context/price/weights, negative share inputs, unknown surface, zero gen length
+ALL PASS: attention share (10 groups)
+exit=0
+
+=== neighbour: test_kv_account (J-087) rebuilt from this tree ===
+build exit=0
+PASS: precision codes -- host/dense-CUDA KV is f16, Gemma 4 CUDA KV is f32, int8 is projection-only
+PASS: dense GQA per-token KV at f16 -- 8B 131072; 3B and Qwen3-0.6B 114688; Coder 57344
+PASS: totals close at the profile caps; the host allocates min(16000, file context), never the trained context
+PASS: OLMoE (MoE session, host KVCache) -- 131,072 B/token by the kv_dim form; 512 MiB at the file cap
+PASS: Gemma 4 E4B host tiers -- allocated 172032 > written 98304 > useful 57344 B/token (shared slots + local padding priced)
+PASS: Gemma 4 E2B host tiers -- allocated 71680; written 30720; useful 18432 (the J-053 headline is the useful tier)
+PASS: Gemma 4 CUDA -- f32 rings fixed (E4B 41,943,040 / E2B 12,582,912) + global marginal (32,768 / 12,288 per token)
+PASS: 8-bit projection (J-088's grading baseline) -- 67,584 B/token for the 8B shape with f32 scales, ratio 0.5156 not 0.5
+PASS: claim verdict is mechanical -- and J-053's Llama 3.2 3B figure is pinned as a MISMATCH against its own profile
+PASS: invalid inputs refused -- zero layers, 3-byte elements, unknown precision, zero context, shared>=layers, scaleless projection
+ALL PASS: kv account (10 groups)
+exit=0
+
+=== neighbour: test_kv_int8 (J-088) rebuilt from this tree ===
+build exit=0
+PASS: codes -- f16 beside int8; scale modes per-row (built) and per-channel (priced)
+PASS: accounting reproduces J-087 -- 8B 67,584 B/token (65,536 payload + 2,048 scales), ratio 0.5156 of f16
+PASS: per-channel accounting -- scale table paid once (262,144 B for the 8B shape), payload per token
+PASS: quantizer bounds -- round-trip within scale/2, row max exact at 127, clamping, zero row exact
+PASS: store append/read -- quantize-on-append, per-head round-trip within scale/2, buffer accounting closes
+PASS: attention exercise -- dequantize-inside-attention output within 0.05 of the f32 reference (synthetic)
+PASS: option surface -- default f16; cli > env > default; = and space forms; int8+per-row usable
+PASS: refusals -- bad precision, typo'd flag, missing value, duplicate, per-channel at use, bad dims, append past capacity, zero scale
+ALL PASS: kv int8 (8 groups)
+exit=0
+
+=== neighbour: test_expert_cache (J-018/J-026/J-028) rebuilt from this tree ===
+build exit=0
+PASS: expert cache sizing, cap resolution and size parsing
+PASS: expert cache admission, promotion, pinning, shrink, cap
+PASS: expert cache LRU baseline and LFU policy modes
+PASS: expert cache fsketch sketch-admission policy
+PASS: expert cache no-scarcity starvation fix (segmented, fsketch)
+PASS: expert cache shared pool sizing and arbiter arithmetic
+PASS: expert cache shared pool drive (contention, lending, return)
+PASS: expert cache pressure decisions (shrink, floor, refuse, regrow caps)
+PASS: expert cache pressure drive (pin held, refusal shed, regrow)
+NOTE: test_expert_cache prints per-group PASS lines without an ALL PASS summary line; 9/9 PASS lines above, exit 0.
+exit=0
+
+=== ceiling harness (J-093, new), run 1 ===
+CEILHEAD model=qwen2.5-coder-7b weights=4683074688 gen=128 usable_gpu=5368709120 stated_total=17179869184 janas_ratio_ppm=1884615
+CEILING L=1024 prec=f16 session=1152 kv_sess=66060288 act_sess=964608 gpu_read=4743650944 gpu_peak=4751005312 cpu_peak=4750099584 kv_share_gpu_ppm=13904 cpu_read_verdict=ACCOUNTED cpu_peak_verdict=ACCOUNTED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=1024 prec=f16 kv_total=133169152 scratch_total=17741824 reserve=8580987212 pool=8598881972 floor=2149720493 combined_peak=9045716096 accounted_ceiling=13743895348 below_floor=False
+CEILING L=4096 prec=f16 session=4224 kv_sess=242221056 act_sess=1308672 gpu_read=4920155776 gpu_peak=4927510144 cpu_peak=4926604416 kv_share_gpu_ppm=49156 cpu_read_verdict=ACCOUNTED cpu_peak_verdict=ACCOUNTED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=4096 prec=f16 kv_total=309329920 scratch_total=18085888 reserve=8757492044 pool=8422377140 floor=2105594285 combined_peak=9222220928 accounted_ceiling=13743895348 below_floor=False
+CEILING L=8192 prec=f16 session=8320 kv_sess=477102080 act_sess=1767424 gpu_read=5155495552 gpu_peak=5162849920 cpu_peak=5161944192 kv_share_gpu_ppm=92410 cpu_read_verdict=ACCOUNTED cpu_peak_verdict=ACCOUNTED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=8192 prec=f16 kv_total=544210944 scratch_total=18544640 reserve=8992831820 pool=8187037364 floor=2046759341 combined_peak=9457560704 accounted_ceiling=13743895348 below_floor=False
+CEILING L=16384 prec=f16 session=16512 kv_sess=946864128 act_sess=2684928 gpu_read=5626175104 gpu_peak=5633529472 cpu_peak=5632623744 kv_share_gpu_ppm=168076 cpu_read_verdict=CAP_REFUSED cpu_peak_verdict=CAP_REFUSED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=16384 prec=f16 kv_total=1013972992 scratch_total=19462144 reserve=9463511372 pool=7716357812 floor=1929089453 combined_peak=9928240256 accounted_ceiling=13743895348 below_floor=False
+CEILING L=32768 prec=f16 session=32896 kv_sess=1886388224 act_sess=4519936 gpu_read=6567534208 gpu_peak=6574888576 cpu_peak=6573982848 kv_share_gpu_ppm=286908 cpu_read_verdict=CAP_REFUSED cpu_peak_verdict=CAP_REFUSED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=CAP_REFUSED
+COMBINED L=32768 prec=f16 kv_total=1953497088 scratch_total=21297152 reserve=10404870476 pool=6774998708 floor=1693749677 combined_peak=10869599360 accounted_ceiling=13743895348 below_floor=False
+GROWTH prec=f16 gpu_ratio_ppm=1383894 gpu_shape=FLATTER cpu_ratio_ppm=1383967 cpu_shape=FLATTER combined_ratio_ppm=1201629 combined_shape=FLATTER
+CEILING L=1024 prec=int8 session=1152 kv_sess=34062336 act_sess=964608 gpu_read=4715208320 gpu_peak=4719007360 cpu_peak=4718101632 kv_share_gpu_ppm=7218 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=1024 prec=int8 kv_total=68665344 scratch_total=17741824 reserve=8516483404 pool=8663385780 floor=2165846445 combined_peak=8981212288 accounted_ceiling=13743895348 below_floor=False
+CEILING L=4096 prec=int8 session=4224 kv_sess=124895232 act_sess=1308672 gpu_read=4806385280 gpu_peak=4810184320 cpu_peak=4809278592 kv_share_gpu_ppm=25964 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=4096 prec=int8 kv_total=159498240 scratch_total=18085888 reserve=8607660364 pool=8572208820 floor=2143052205 combined_peak=9072389248 accounted_ceiling=13743895348 below_floor=False
+CEILING L=8192 prec=int8 session=8320 kv_sess=246005760 act_sess=1767424 gpu_read=4927954560 gpu_peak=4931753600 cpu_peak=4930847872 kv_share_gpu_ppm=49882 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=8192 prec=int8 kv_total=280608768 scratch_total=18544640 reserve=8729229644 pool=8450639540 floor=2112659885 combined_peak=9193958528 accounted_ceiling=13743895348 below_floor=False
+CEILING L=16384 prec=int8 session=16512 kv_sess=488226816 act_sess=2684928 gpu_read=5171093120 gpu_peak=5174892160 cpu_peak=5173986432 kv_share_gpu_ppm=94345 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=16384 prec=int8 kv_total=522829824 scratch_total=19462144 reserve=8972368204 pool=8207500980 floor=2051875245 combined_peak=9437097088 accounted_ceiling=13743895348 below_floor=False
+CEILING L=32768 prec=int8 session=32896 kv_sess=972668928 act_sess=4519936 gpu_read=5657370240 gpu_peak=5661169280 cpu_peak=5660263552 kv_share_gpu_ppm=171814 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=32768 prec=int8 kv_total=1007271936 scratch_total=21297152 reserve=9458645324 pool=7721223860 floor=1930305965 combined_peak=9923374208 accounted_ceiling=13743895348 below_floor=False
+GROWTH prec=int8 gpu_ratio_ppm=1199652 gpu_shape=FLATTER cpu_ratio_ppm=1199690 cpu_shape=FLATTER combined_ratio_ppm=1104903 combined_shape=FLATTER
+CEILDONE rungs=5 live_peaks=NOT_PROVEN_DEFERRED_J098
+exit=0
+
+=== ceiling harness, run 2 (determinism) ===
+CEILHEAD model=qwen2.5-coder-7b weights=4683074688 gen=128 usable_gpu=5368709120 stated_total=17179869184 janas_ratio_ppm=1884615
+CEILING L=1024 prec=f16 session=1152 kv_sess=66060288 act_sess=964608 gpu_read=4743650944 gpu_peak=4751005312 cpu_peak=4750099584 kv_share_gpu_ppm=13904 cpu_read_verdict=ACCOUNTED cpu_peak_verdict=ACCOUNTED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=1024 prec=f16 kv_total=133169152 scratch_total=17741824 reserve=8580987212 pool=8598881972 floor=2149720493 combined_peak=9045716096 accounted_ceiling=13743895348 below_floor=False
+CEILING L=4096 prec=f16 session=4224 kv_sess=242221056 act_sess=1308672 gpu_read=4920155776 gpu_peak=4927510144 cpu_peak=4926604416 kv_share_gpu_ppm=49156 cpu_read_verdict=ACCOUNTED cpu_peak_verdict=ACCOUNTED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=4096 prec=f16 kv_total=309329920 scratch_total=18085888 reserve=8757492044 pool=8422377140 floor=2105594285 combined_peak=9222220928 accounted_ceiling=13743895348 below_floor=False
+CEILING L=8192 prec=f16 session=8320 kv_sess=477102080 act_sess=1767424 gpu_read=5155495552 gpu_peak=5162849920 cpu_peak=5161944192 kv_share_gpu_ppm=92410 cpu_read_verdict=ACCOUNTED cpu_peak_verdict=ACCOUNTED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=8192 prec=f16 kv_total=544210944 scratch_total=18544640 reserve=8992831820 pool=8187037364 floor=2046759341 combined_peak=9457560704 accounted_ceiling=13743895348 below_floor=False
+CEILING L=16384 prec=f16 session=16512 kv_sess=946864128 act_sess=2684928 gpu_read=5626175104 gpu_peak=5633529472 cpu_peak=5632623744 kv_share_gpu_ppm=168076 cpu_read_verdict=CAP_REFUSED cpu_peak_verdict=CAP_REFUSED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=ACCOUNTED
+COMBINED L=16384 prec=f16 kv_total=1013972992 scratch_total=19462144 reserve=9463511372 pool=7716357812 floor=1929089453 combined_peak=9928240256 accounted_ceiling=13743895348 below_floor=False
+CEILING L=32768 prec=f16 session=32896 kv_sess=1886388224 act_sess=4519936 gpu_read=6567534208 gpu_peak=6574888576 cpu_peak=6573982848 kv_share_gpu_ppm=286908 cpu_read_verdict=CAP_REFUSED cpu_peak_verdict=CAP_REFUSED gpu_read_verdict=ACCOUNTED gpu_peak_verdict=CAP_REFUSED
+COMBINED L=32768 prec=f16 kv_total=1953497088 scratch_total=21297152 reserve=10404870476 pool=6774998708 floor=1693749677 combined_peak=10869599360 accounted_ceiling=13743895348 below_floor=False
+GROWTH prec=f16 gpu_ratio_ppm=1383894 gpu_shape=FLATTER cpu_ratio_ppm=1383967 cpu_shape=FLATTER combined_ratio_ppm=1201629 combined_shape=FLATTER
+CEILING L=1024 prec=int8 session=1152 kv_sess=34062336 act_sess=964608 gpu_read=4715208320 gpu_peak=4719007360 cpu_peak=4718101632 kv_share_gpu_ppm=7218 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=1024 prec=int8 kv_total=68665344 scratch_total=17741824 reserve=8516483404 pool=8663385780 floor=2165846445 combined_peak=8981212288 accounted_ceiling=13743895348 below_floor=False
+CEILING L=4096 prec=int8 session=4224 kv_sess=124895232 act_sess=1308672 gpu_read=4806385280 gpu_peak=4810184320 cpu_peak=4809278592 kv_share_gpu_ppm=25964 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=4096 prec=int8 kv_total=159498240 scratch_total=18085888 reserve=8607660364 pool=8572208820 floor=2143052205 combined_peak=9072389248 accounted_ceiling=13743895348 below_floor=False
+CEILING L=8192 prec=int8 session=8320 kv_sess=246005760 act_sess=1767424 gpu_read=4927954560 gpu_peak=4931753600 cpu_peak=4930847872 kv_share_gpu_ppm=49882 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=8192 prec=int8 kv_total=280608768 scratch_total=18544640 reserve=8729229644 pool=8450639540 floor=2112659885 combined_peak=9193958528 accounted_ceiling=13743895348 below_floor=False
+CEILING L=16384 prec=int8 session=16512 kv_sess=488226816 act_sess=2684928 gpu_read=5171093120 gpu_peak=5174892160 cpu_peak=5173986432 kv_share_gpu_ppm=94345 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=16384 prec=int8 kv_total=522829824 scratch_total=19462144 reserve=8972368204 pool=8207500980 floor=2051875245 combined_peak=9437097088 accounted_ceiling=13743895348 below_floor=False
+CEILING L=32768 prec=int8 session=32896 kv_sess=972668928 act_sess=4519936 gpu_read=5657370240 gpu_peak=5661169280 cpu_peak=5660263552 kv_share_gpu_ppm=171814 cpu_read_verdict=INTEGRATION_BLOCKED cpu_peak_verdict=INTEGRATION_BLOCKED gpu_read_verdict=INTEGRATION_BLOCKED gpu_peak_verdict=INTEGRATION_BLOCKED
+COMBINED L=32768 prec=int8 kv_total=1007271936 scratch_total=21297152 reserve=9458645324 pool=7721223860 floor=1930305965 combined_peak=9923374208 accounted_ceiling=13743895348 below_floor=False
+GROWTH prec=int8 gpu_ratio_ppm=1199652 gpu_shape=FLATTER cpu_ratio_ppm=1199690 cpu_shape=FLATTER combined_ratio_ppm=1104903 combined_shape=FLATTER
+CEILDONE rungs=5 live_peaks=NOT_PROVEN_DEFERRED_J098
+exit=0

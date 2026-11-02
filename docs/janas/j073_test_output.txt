@@ -1,0 +1,103 @@
+J-073 token-identity proof -- test output (VM, lightest target)
+Tree: yrsa/janas-j073 from yrsa/janas-j072 tip 5b09d16ae67309836fbb8f2a5e9ca863024555ec
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then per module: mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j073stage, nothing deleted.
+Build-route note: `pixi run` remains blocked on this VM (the J-072-recorded activation failure), so the builds invoked the SAME pixi environment's mojo binary directly (the installed env in the J-071 worktree's aesir_engine/.pixi), with the activation variables the tree's own activate script sets (CONDA_PREFIX, PATH, MODULAR_HOME). Same compiler (Mojo 1.0.0 ed45d567), same flags, same linker line as J-071/J-072's filed recipes.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~1.4 GB at dispatch, ~0.8-1.0 GB during the filed builds -- far below the 5,500 MB inference gate throughout; no inference ran anywhere. Load average up to ~12.6 during builds (contended; no timing stands on any run in this file). purplelongship not used at all (unreachable tonight per the 204 road's heartbeat, device offline last seen 2026-11-01T02:07:13Z, and yielded under the coordination law). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run or probed.
+Gate state verified at slice start by git ls-remote: remote yrsa/janas-j072 == 5b09d16ae67309836fbb8f2a5e9ca863024555ec; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j073 existed before this slice.
+Build note (own-build defect, fixed before filing): the first run of test_speculative_identity passed the negative control and configurations A/B, then crashed with an index-out-of-bounds at configuration C -- the always-wrong fixture sliced draft/target tokens past the end of the 300-token continuation on its final low-acceptance rounds (the closing-round property recorded in the doc section 6). The fixtures were fixed (stated closing rounds for C/D/E; a source stream 16 tokens longer than the generation in the spec driver and in G, its past-end entries discarded by their rounds and never compared). The inspection recount's importer-order check was likewise made order-insensitive after its first pass (39/40, the single failure being list order only). Every filed run below is from the fixed tree; the failed attempts produced no filed numbers.
+
+=== inspection recount (docs/janas/j073_inspect.py, filed as j073_inspect_output.txt) ===
+PASS identity test defines its 8 groups
+PASS identity test drives run_loop and run_loop_round
+PASS identity test grades through J-071's checker
+PASS identity test contains no speed or timing
+PASS coverage marker -- config A: 500 tokens
+PASS coverage marker -- config B: 512 tokens at the band top
+PASS coverage marker -- config C: 295 zero-accepted rounds
+PASS coverage marker -- config D: 39 alternating pairs at the conversation cap
+PASS coverage marker -- config E: 148 coincidence-trap rounds
+PASS coverage marker -- config F: capacity-shortened rounds recorded
+PASS coverage marker -- config G: 25 slot-switching cycles
+PASS coverage marker -- filed totals stated in the suite
+PASS coverage marker -- negative control: tamper index 257
+PASS identity test states its honesty grade (SIMULATED, not live)
+PASS capacity shortening goes through plan_round_k
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS loop imported only by its own test and the J-073 proof test -- aesir_engine/tests/test_speculative_identity.mojo, aesir_engine/tests/test_speculative_loop.mojo
+PASS MoE session carries no loop state
+PASS loop and account modules carry the J-071/J-072 premises
+PASS doc recipe element -- live leg deferred with reason
+PASS doc recipe element -- re-cite point is the J-086 gate
+PASS doc recipe element -- dependency slice J-074 named
+PASS doc recipe element -- dependency slice J-077 named
+PASS doc recipe element -- dependency slice J-078 named
+PASS doc recipe element -- unroaded wiring named honestly
+PASS doc recipe element -- arch row Llama 3 8B
+PASS doc recipe element -- arch row Llama 3.2 3B
+PASS doc recipe element -- arch row Gemma 4 E2B
+PASS doc recipe element -- arch row Gemma 4 E4B
+PASS doc recipe element -- arch row Qwen3 0.6B
+PASS doc recipe element -- arch row Qwen2.5 Coder 7B
+PASS doc recipe element -- arch row Qwen3.5
+PASS doc recipe element -- arch row OLMoE
+PASS doc recipe element -- raw-oracle grading in the recipe
+PASS doc recipe element -- template-rendering comparator refused
+PASS doc recipe element -- guarded idle-gap rule names the 204 heartbeat
+PASS doc recipe element -- live pass criterion stated exactly
+PASS doc recipe element -- loop proof graded in the doc's own words
+PASS doc recipe element -- verdict shape stated
+== done ==
+(40/40 checks PASS)
+
+=== test_speculative_identity (J-073, new) ===
+PASS: checker negative control -- tamper at 257 and truncation at 599 both detected
+PASS: A head/MTP k=4 always-right -- identity 500/500 over 100 rounds, plain state exact
+PASS: B head/assistant k=15 (band top) always-right -- identity 512/512 over 32 rounds, plain state exact
+PASS: C cross-model k=5 always-wrong -- identity 300/300 over 296 rounds (295 zero-accepted + closing), plain state exact
+PASS: D conversation k=8 (cap) alternating right/wrong -- identity 400/400 over 80 rounds, plain state exact
+PASS: E cross-model k=6 coincidence-past-mismatch traps -- identity 450/450 over 149 rounds, plain state exact
+PASS: F head/MTP capacity-shortened tail -- identity 330/330 over 40 rounds, 10 shortened rounds on record, final KV at capacity
+PASS: G slot switching (head/conversation/cross/head, 25 cycles) -- identity 350/350 over 100 rounds, plain state exact, cross KV exact
+ALL PASS: speculative token-identity proof (8 groups; 7 long configurations, 2842 tokens, 797 rounds)
+(exit 0)
+
+=== test_speculative_loop (J-072 neighbour, rebuilt from this tree) ===
+PASS: slot dispatch -- three slots, four kinds, wrong slots refused (4/4)
+PASS: all-accepted round -- commit exact, no rollback, RNG word intact
+PASS: partial round -- KV/context/proposer-KV rollback exact vs snapshot
+PASS: zero-accepted round -- whole draft rolls back, one target token commits
+PASS: k planning -- floor, band top, proposer caps enforced (4/4 refusals)
+PASS: KV capacity -- host shortens k explicitly; no-fit refused, never truncated
+PASS: refused rounds (capacity / RNG draw) leave the state at its snapshot
+PASS: adaptation shape -- deepen / halve / hold, bounds stated and enforced
+PASS: legacy bound reconciled -- hard limit 15 in code, default 4 = initial k
+PASS: multi-round loop -- emission identical to plain greedy (24/24), totals exact
+PASS: multi-round slot switching -- head/conversation/cross rounds, identity holds
+PASS: driver refusals -- short drafts / partial drive / zero-depth round (3/3)
+ALL PASS: speculative draft loop (12 groups)
+(exit 0)
+
+=== test_speculative_verify (J-071 neighbour, rebuilt from this tree) ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+(exit 0)
+
+=== test_speculative (pre-existing, rebuilt from this tree) ===
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+(exit 0)

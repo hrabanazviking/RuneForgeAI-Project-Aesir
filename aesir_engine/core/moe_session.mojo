@@ -5,7 +5,10 @@ The resident set (J-017 D1) -- embeddings, attention, norms, routers,
 output head -- is read through the ordinary GGUFSeer mmap. The routed
 experts are NEVER touched through the mmap: each (layer, expert) is
 admitted, bypassed, or refused by the J-018 ExpertCache (whole-expert
-unit, byte budget, segmented probationary/frequency policy), and its
+unit, byte budget, fsketch frequency-sketch policy -- the J-024
+tournament winner, made the shipping default by the J-024 integration
+step after its real-module replay reproduced the tournament counters
+exactly), and its
 three slabs are read from the file at directory-true offsets through
 the J-019 StreamReader (explicit pread + willneed advice for the next
 selected expert). Payload bytes live in per-expert buffers whose total
@@ -32,6 +35,42 @@ Only arch "olmoe" is admitted. Any other architecture is refused by
 name in the constructor: a mixture whose block maths this module does
 not implement (shared experts, hybrid recurrence, per-head QK-norm
 variants) must fail closed, never silently run dense-shaped.
+
+Multi-model residency (J-026): two sessions in one process (the
+server case) must NOT each be constructed with a budget sized
+against the full free memory -- that over-commits the machine (see
+core/expert_cache.mojo's pool section). The host sizes ONE pool for
+the process (plan_shared_cache_pool), constructs each session with
+its opening cap from SharedExpertBudget.cap_for, and re-applies
+caps as residency and activity change through the session's public
+cache (resize_budget / shed_to_resident). This module's constructor
+contract is unchanged: it takes the budget it is given; the pool
+discipline is the host's, and it is unit-tested at the cache layer.
+
+Memory pressure (J-028): free memory can shrink mid-run. The host
+samples free memory at token boundaries (never mid-token), asks
+plan_pressure_budget in core/expert_cache.mojo for the decision,
+and applies it through this session's public cache: shrink/regrow
+via resize_budget (regrow never above the open-time budget), and on
+a below-floor REFUSE, shed via shed_to_resident(0) and stop the run
+cleanly with the plan's numbers stated. The resident set and the
+KV cache are never cannibalised -- the pressure reserve re-charges
+them on every call. Like the pool discipline, this is a host
+contract over the cache layer, unit-tested there; no OS sampling
+is faked inside the engine.
+
+GPU division (J-031): this session still computes on the host; no
+code path here touches a device. The GPU-assisted division of this
+machinery is planned, in bytes, by core/moe_gpu_plan.mojo
+(plan_moe_gpu_division / plan_moe_gpu_token_transfers): the resident
+set is the device-resident candidate, streamed experts would be
+uploaded on a device-cache miss and computed where they land, and a
+token's transfer account is taken from this cache's own statistics.
+The host contract, the grading discipline (token identity against
+the CPU line first), and the exact build/run recipe for the live
+leg live in docs/janas/J031_STREAMING_GPU_LINE.md; the live leg
+itself is deferred there, with reasons, to the J-034 gate. Nothing
+in this module may claim GPU execution until that leg lands.
 """
 from std.collections import Dict
 from std.math import exp
@@ -184,7 +223,7 @@ struct MoEStreamSession(Movable):
         )
         self.reader = StreamReader(path)
         self.reader.advise_sequential()
-        self.cache = ExpertCache(cache_budget_bytes, String("segmented"))
+        self.cache = ExpertCache(cache_budget_bytes, String("fsketch"))
         self.payloads = Dict[Int, _ExpertPayload]()
         self.payload_keys = List[Int]()
         # Directory-true per-layer slab sizes: the folded tensor's byte
@@ -510,6 +549,17 @@ struct MoEStreamSession(Movable):
                 self.dump_hidden.append(x.data.unsafe_load(i).cast[DType.float32]())
         self.well.offset = mark
 
+    # Long-prompt watching (Janas road J-059) -- host contract:
+    # a prompt on this session is N step() calls at width 1, so
+    # the harness driving the calls owns the boundary count.
+    # The progress account lives in core/prompt_progress.mojo:
+    # the harness builds the plan from the prompt's token count
+    # at width 1 and takes progress_record() after each step;
+    # the 10% step throttle caps the read at 10 records however
+    # long it runs. This session consumes NO progress plan yet
+    # and step() emits nothing -- the harness-side wiring is a
+    # named missing piece (docs/janas/J059_LONG_PROMPT_
+    # WATCHING.md section 3), not faked here.
     def step(mut self, token: Int) raises -> Int:
         """Process one token at the current position; return the greedy
         next token (argmax over the final norm + output projection)."""

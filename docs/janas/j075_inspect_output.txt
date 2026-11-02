@@ -1,0 +1,55 @@
+PASS acceptance module defines classify_text
+PASS acceptance module defines record_round
+PASS acceptance module defines record_round_classified
+PASS acceptance module defines rate_basis_points
+PASS acceptance module defines ledger_totals
+PASS acceptance module defines row_totals_reproduce
+PASS records gated on J-071 account consistency
+PASS kind read from the J-071 account, never restated
+PASS pair id 1 names the J-074 first pair
+PASS acceptance module contains no speed
+PASS J-071 host contract assigns J-075 the filing
+PASS J-072 loop contains no acceptance statistic (owned here)
+PASS J-074 pairing contains no acceptance statistic (owned here)
+PASS acceptance module names TEXT_PROSE
+PASS acceptance module names TEXT_CODE
+PASS acceptance module names TEXT_STRUCTURED
+PASS acceptance module names LANG_ENGLISH
+PASS acceptance module names LANG_ITALIAN
+PASS acceptance module names LANG_OTHER
+PASS acceptance module names LANG_NOT_APPLICABLE
+PASS structured rule stated in the module header
+PASS code rule stated in the module header
+PASS language threshold stated in the module header
+PASS acceptance test defines its 10 groups
+PASS acceptance test builds fixtures through plan_verify
+PASS acceptance test contains no speed or timing
+PASS require_draft_check_use still fails closed
+PASS engine facade speculative_generate still raises not-implemented
+PASS acceptance imported only by its own test
+PASS MoE session carries no loop or acceptance state
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 prose/english a
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 prose/italian a
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 prose/AGGREGATE
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 code accepted=3
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 structured acce
+PASS test record -- MEASURE SIMULATED pair=cross_model/1 ALL accepted=11
+PASS test record -- ALL PASS: speculative acceptance measurement (10 gro
+PASS test record -- ALL PASS: speculative verification account (13 group
+PASS test record -- ALL PASS: speculative draft loop (12 groups)
+PASS test record -- ALL PASS: speculative token-identity proof (8 groups
+PASS test record -- ALL PASS: cross-model draft pairing (10 groups)
+PASS doc element -- verdict is CLOSED-WITH-DEFERRED-LEG
+PASS doc element -- measurement class is SIMULATED
+PASS doc element -- italian row filed at 30.00%
+PASS doc element -- english row filed at 85.00%
+PASS doc element -- prose aggregate filed at 57.50%
+PASS doc element -- real-pair acceptance NOT PROVEN
+PASS doc element -- re-cite point is the J-086 gate
+PASS doc element -- guarded idle-gap rule names the 204 heartbeat
+PASS doc element -- ids-first criterion re-cited
+PASS doc element -- acceptance filed per pair x text type x language
+PASS doc element -- classifier recorded as answered-locally
+PASS doc element -- first pair target pin re-cited
+== done ==
+(53/53 checks PASS)

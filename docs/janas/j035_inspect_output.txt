@@ -1,0 +1,75 @@
+== J-035 inspection: pass widths and routing in the Aesir tree ==
+tree root: /home/hatch/workspace/aesir-janas-j035
+
+--- host engine entry points: aesir_engine/aesir.mojo /def (_forward_position|_forward_batch|_prefill_batch_cap|_run_generation|speculative_generate)/
+aesir_engine/aesir.mojo:388: def _forward_position(
+aesir_engine/aesir.mojo:453: def _prefill_batch_cap(self) -> Int:
+aesir_engine/aesir.mojo:481: def _forward_batch(
+aesir_engine/aesir.mojo:617: def speculative_generate(
+aesir_engine/aesir.mojo:680: def _run_generation(
+
+--- host prefill chunk cap: aesir_engine/aesir.mojo /AESIR_PREFILL_BATCH|batch_cap > 1/
+aesir_engine/aesir.mojo:454: """Chunk size for batched prefill: AESIR_PREFILL_BATCH sets it
+aesir_engine/aesir.mojo:465: var cap = _env_int("AESIR_PREFILL_BATCH", 256)
+aesir_engine/aesir.mojo:500: # + forward_pass_gemma4_batched; AESIR_PREFILL_BATCH=1 keeps
+aesir_engine/aesir.mojo:728: if batch_cap > 1 and len(tokens) > 1:
+
+--- inference forward passes: aesir_engine/core/inference.mojo /def (forward_pass|forward_pass_batched|forward_pass_gemma4|forward_pass_gemma4_batched|forward_pass_qwen35|forward_pass_qwen35_batched)/
+aesir_engine/core/inference.mojo:1068: def forward_pass(
+aesir_engine/core/inference.mojo:1232: def forward_pass_batched(
+aesir_engine/core/inference.mojo:1363: def forward_pass(
+aesir_engine/core/inference.mojo:1917: def forward_pass_gemma4(
+aesir_engine/core/inference.mojo:1984: def forward_pass_gemma4_batched(
+aesir_engine/core/inference.mojo:2725: def forward_pass_qwen35_batched(
+aesir_engine/core/inference.mojo:2802: def forward_pass_qwen35(
+
+--- batched block forwards: aesir_engine/core/inference.mojo /def forward_batched/
+aesir_engine/core/inference.mojo:639: def forward_batched(
+aesir_engine/core/inference.mojo:1770: def forward_batched(
+aesir_engine/core/inference.mojo:2482: def forward_batched(
+
+--- MoE session step (only forward entry): aesir_engine/core/moe_session.mojo /def step/
+aesir_engine/core/moe_session.mojo:552: def step(mut self, token: Int) raises -> Int:
+
+--- Llama3 CUDA session: aesir_engine/core/llama3_cuda.mojo /def (forward|prefill_four|begin_turn|next_chunk)/
+aesir_engine/core/llama3_cuda.mojo:365: def forward_front(mut self, token: Int) raises:
+aesir_engine/core/llama3_cuda.mojo:387: def forward(mut self, token: Int, need_logits: Bool = True) raises -> Int:
+aesir_engine/core/llama3_cuda.mojo:435: def prefill_four(mut self, tokens: List[Int], start: Int) raises:
+aesir_engine/core/llama3_cuda.mojo:496: def begin_turn(mut self, prompt: String, system: String, max_tokens: Int) raises:
+aesir_engine/core/llama3_cuda.mojo:676: def next_chunk(mut self) raises -> String:
+
+--- Llama3 CUDA tile admission: aesir_engine/core/llama3_cuda.mojo /prefill_batch == 4/
+aesir_engine/core/llama3_cuda.mojo:554: elif self.prefill_batch == 4 and len(tokens) - 1 - i >= 4:
+aesir_engine/core/llama3_cuda.mojo:603: if self.prefill_batch == 4 and len(tokens) - restored >= 4:
+
+--- Gemma4 CUDA session (no batched entry exists): aesir_engine/core/gemma4_cuda.mojo /def (forward|begin_turn|next_chunk)/
+aesir_engine/core/gemma4_cuda.mojo:207: def forward(mut self, token: Int, need_logits: Bool = True) raises -> Int:
+aesir_engine/core/gemma4_cuda.mojo:287: def begin_turn(mut self, prompt: String, system: String, max_tokens: Int) raises:
+aesir_engine/core/gemma4_cuda.mojo:451: def next_chunk(mut self) raises -> String:
+
+--- native prefill batch values {1,4}: aesir_engine/core/dense_buffers.mojo /requested != 1 and requested != 4|admitted only for the exercised/
+aesir_engine/core/dense_buffers.mojo:18: if requested != 0 and requested != 1 and requested != 4:
+aesir_engine/core/dense_buffers.mojo:22: raise Error("Four-token prefill is admitted only for the exercised 3B profile")
+
+--- speculative: integration points fail closed: aesir_engine/core/speculative.mojo /raise Error\(\"(draft proposal|speculative reconciliation|legacy speculative)/
+aesir_engine/core/speculative.mojo:118: raise Error("draft proposal requires a real draft-model decoding loop")
+aesir_engine/core/speculative.mojo:130: raise Error("speculative reconciliation requires per-step normalized distributions, residual sampling, and KV coordination")
+aesir_engine/core/speculative.mojo:142: raise Error("legacy speculative token verification is unsupported")
+
+--- speculative: engine entry point reserved: aesir_engine/aesir.mojo /speculative model generation and KV reconciliation are not implemented/
+aesir_engine/aesir.mojo:626: raise Error("speculative model generation and KV reconciliation are not implemented")
+
+--- speculative wiring: importers outside the module and its tests
+aesir_engine/aesir.mojo:617: def speculative_generate(
+aesir_engine/aesir.mojo:621: Reserved speculative-generation entry point.
+aesir_engine/aesir.mojo:626: raise Error("speculative model generation and KV reconciliation are not implemented")
+
+--- threshold sweep: any token-count threshold routing execution?
+NONE: no token-count threshold routes execution. (A naive sweep for
+the literal 17 hits only GGML quant type codes and an errno check --
+storage.mojo, extreme_quantization.mojo, mimir_well.mojo,
+model_registry.mojo, loader/mmproj.mojo -- none is a token count.)
+The only draft-count bound in the tree is SpeculativeEngine's own
+1..64 proposal limit (core/speculative.mojo, default 4), tests only.
+
+== end ==

@@ -1,0 +1,23 @@
+PASS: new module exists and names J-084
+PASS: the disable rule is in the module header before the code
+PASS: the measured-floor arithmetic is in the header before the code
+PASS: window is J-079's, imported and aliased, never restated
+PASS: disable needs exactly two consecutive losing windows
+PASS: a window is losing iff its net is strictly negative
+PASS: break-even (net == 0) is stated NOT a loss in the header
+PASS: posture is disabled-for-the-session, no re-probe, in header and code
+PASS: disable record carries every pinned field in order
+PASS: the record is refused before any disable
+PASS: a disabled guard refuses further rounds by name
+PASS: row keys validated by J-075's rules (pair id + prose language)
+PASS: evidence is J-071 accounts only, consistency + kind gated
+PASS: module contains no speed or timing function
+PASS: suite has 12 groups
+PASS: suite fixtures are the filed shapes (italian/english/byte/boundary)
+PASS: suite pins the disable at exactly round 8 and the record byte-for-byte
+PASS: use gate still fails closed (J-036, unedited by this slice)
+PASS: facade speculative_generate still raises not-implemented
+PASS: no other tree file changed (J-083 module unedited in particular)
+PASS: doc numbers match the filed test output numbers
+PASS: doc files the floor derivation and the NOT PROVEN cells
+== 22/22 checks PASS ==

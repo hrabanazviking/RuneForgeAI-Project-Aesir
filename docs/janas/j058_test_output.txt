@@ -1,0 +1,29 @@
+J-058 MoE GPU prefill plan -- test output (VM, lightest target)
+Tree: yrsa/janas-j058 from yrsa/janas-j057 tip 220534d117ee84df597406aca82b2b25ccf09082
+Build: cc thread_par shim (exit 0), then pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0); run with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j058stage, TMPDIR redirected there. (Direct mojo binary fails without pixi activation, per J-052's filed recipe -- the pixi route was used from the start.)
+Machine: VM (KVM), 4 vCPU; MemAvailable ~1.1 GB at slice start, ~3.4 GB after the builds -- below the 5,500 MB inference gate throughout; no inference ran, no CUDA ran; lightest compiles only, one at a time. purplelongship not used at all (unreachable/offline per the 204 road's ticks through 00:02 EDT, and in any case yielded to the 204 road).
+
+=== test_moe_gpu_prefill ===
+PASS: chunk plan -- both forms exact, verdict survives
+PASS: filed OLMoE FULL 1024/256 -- survives accounting
+PASS: F1 head collapse -- 256 and 67-token prompts priced
+PASS: width-1 GPU form -- head only, no chunk economy
+PASS: cache division -- uploads re-pay streamed bytes exactly
+PASS: resident-only split -- priced at width, still rejected
+PASS: CPU-only division -- not applicable, account restated
+PASS: expert-bytes guard -- uploads above streamed rejected
+PASS: margin -- saving recomputed from fields, demotion exact
+PASS: refusals -- shapes, context, division, miss facts
+ALL PASS: MoE GPU prefill plan (10 groups)
+exit=0
+
+=== neighbour: test_moe_gpu_plan (J-031) rebuilt from this tree ===
+PASS: moe gpu division full residency on the stated card
+PASS: moe gpu division device expert cache + boundary
+PASS: moe gpu division resident-only below one whole expert
+PASS: moe gpu division cpu-only refusal stated in the plan
+PASS: moe gpu per-token transfer accounting per division
+PASS: moe gpu open-upload staging chunks
+PASS: moe gpu division input refusals
+ALL PASS: moe gpu plan (7 groups)
+exit=0

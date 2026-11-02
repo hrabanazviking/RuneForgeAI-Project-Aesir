@@ -1,0 +1,64 @@
+J-038 placement measurement harness -- unit test + live proof output (VM, lightest target)
+Built from yrsa/janas-j038 tree: mojo build -I . -I aesir_engine (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path)
+Run on the VM (AMD EPYC 9D64 88-Core Processor, 4 vCPU, kernel 7.0.0-39-generic, MemAvailable ~0.5-1.0 GB during the runs): no GPU, no nvidia-smi, CUDA_VISIBLE_DEVICES unset, NPU parked by campaign law.
+The live groups run the harness's real entry point against the VM's real inventory: the cpu candidate measures the harness's own pass-shaped micro-workloads (reply: width-1 matvec 1x(1024->512) reps 4; prompt: batched 16x(512->256) reps 2); gpu/npu candidates are excluded with the inventory's own reasons. These timings are HARNESS MECHANICS evidence only -- not placement verdicts for any model (J-040--J-042 own choices). No model inference ran.
+
+== test_placement_harness ==
+PASS: summary statistics on injected timings (median/min/max/spread)
+PASS: settle round discarded, measured rounds counted
+PASS: candidate filtering against inventory (present vs excluded-with-reason)
+PASS: time bound enforced in the round accounting + config refusals
+PASS: draft-check unmeasurable-with-reason (G1), never proxied
+PASS: co-work unmeasurable-with-reason (J-043); absent member excluded first
+PASS: present device without an executor is unmeasurable-with-reason
+PASS: workload shapes (reply width 1, prompt batched, deterministic)
+LIVE REPLY SWEEP:
+reply cpu (auto): median 7347490 ns (min 6940739, max 7670164, spread 729425; rounds 5, settle 1 discarded)
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 74998043 ns
+
+LIVE PROMPT SWEEP:
+prompt cpu (auto): median 9744541 ns (min 8873372, max 44637367, spread 35763995; rounds 5, settle 1 discarded)
+prompt gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+prompt npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 93261373 ns
+
+PASS: live micro-runs on this machine (cpu measured; gpu/npu excluded with reasons)
+LIVE BOUND SWEEP:
+reply cpu (auto): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 17847856 ns
+
+PASS: live time bound enforced (bound-stopped, zero counted rounds)
+ALL PASS: placement measurement harness (10 groups)
+exit=0
+
+== test_device_inventory (neighbouring, rebuilt from this tree) ==
+PASS: cpuinfo topology (logical/physical/packages, no guessed split)
+PASS: cpuinfo topology-poor source states what it does not know
+PASS: hybrid split only when the machine states it
+PASS: gpu probe parse (name, VRAM bytes, device count)
+PASS: gpu probe refusals (empty, malformed, non-numeric)
+PASS: drm listing cross-check (card vs connector entries)
+PASS: npu entry is the ledger state, never a live chip claim
+PASS: device line completeness + require_device_present feed point
+LIVE DEVICE LINE: devices: cpu present — AMD EPYC 9D64 88-Core Processor: 4 logical, 4 physical cores in 1 package, 1 thread(s) per core; performance/efficiency split not reported by this machine | gpu absent — no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device | npu absent — Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+PASS: live probe on this machine (cpu present, gpu absent-with-reason, npu parked)
+ALL PASS: device inventory (9 groups)
+exit=0
+
+== test_placement_options (neighbouring, rebuilt from this tree) ==
+PASS: placement forms auto/single/cowork/race
+PASS: placement grammar refusals carry reasons
+PASS: pass-kind legality (npu refused for drafts and reply)
+PASS: precedence cli over env over default, sources recorded
+PASS: kill switches refuse named devices, shrink the auto field
+PASS: drafts-on stores, drafts use fails closed (G1)
+PASS: quality surface parses, stores, and fails closed at use
+PASS: argv scan forms, duplicates, typos, --no-cpu refusal
+PASS: environment layer reads, resolves, and kills end to end
+PASS: describe report states values, sources, kills, gates
+ALL PASS: placement options (10 groups)
+exit=0

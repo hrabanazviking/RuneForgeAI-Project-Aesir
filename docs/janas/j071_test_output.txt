@@ -1,0 +1,72 @@
+J-071 verification-first design -- test output (VM, lightest target)
+Tree: yrsa/janas-j071 from yrsa/janas-j070 tip b614d012cb60c4c9fa00f80cabb5a353479be3bf
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0), then per module: pixi run --manifest-path aesir_engine/pixi.toml mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 via the tree's pixi env); runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j071stage, TMPDIR redirected there, nothing deleted.
+Machine: VM (KVM), 4 vCPU; MemAvailable ~1,054 MB at slice start, ~788 MB at the last run -- far below the 5,500 MB inference gate throughout; load average 9.17 at slice start, up to 14.19 during the neighbour builds (contended; no timing stands on any run in this file). No inference ran anywhere. purplelongship not used at all (unreachable tonight and yielded to the 204 road under the coordination law). Hailo untouched/parked: branch yrsa/finish-line-roadmap never checked out, never read, chip never run or probed.
+Gate state verified at slice start by git ls-remote: remote yrsa/janas-j070 == b614d012cb60c4c9fa00f80cabb5a353479be3bf; origin/main == 605562f6b919a0f58fa6decd0b45a83cdc41a6d5 (untouched); no remote yrsa/janas-j071 existed before this slice.
+Build note: the first build of test_speculative_verify failed on one line -- VerifyAccount was briefly declared ImplicitlyCopyable, which Mojo refuses for a struct holding List[Int] ("cannot synthesize implicit copy constructor"); the trait was removed (the struct follows core/speculative.mojo's Copyable + explicit __copyinit__ pattern) and the tamper test re-derives its accounts instead of copying. The filed runs below are all from the fixed tree; the failed attempt produced no binary and no number.
+
+=== inspection recount (docs/janas/j071_inspect.py, filed as j071_inspect_output.txt) ===
+PASS speculative.mojo is 142 lines -- 142
+PASS speculative is acceptance arithmetic: min(1, p_target/p_draft) stated
+PASS speculative docstring disclaims integration
+PASS fail-closed raise present: draft proposal requires a real draft-mod...
+PASS fail-closed raise present: speculative reconciliation requires per-step normalized distributions, residual sampling, and KV coordination
+PASS fail-closed raise present: legacy speculative token verification is unsupported
+PASS draft bound: default 4, hard limit 64
+PASS evaluate_acceptance returns prefix + rollback marker + kv step
+PASS engine facade speculative_generate raises not-implemented
+PASS SpeculativeEngine referenced only by its module + tests (wired to no session) -- aesir_engine/core/speculative.mojo, aesir_engine/tests/test_multi_engine.mojo, aesir_engine/tests/test_speculative.mojo
+PASS require_draft_check_use raises naming G1 and J-071/J-072
+PASS harness classifies draft-check UNMEASURABLE-WITH-REASON (G1, no proxy)
+PASS draft_placement chooser exists (J-042, Part V input surface)
+PASS sampler greedy branch (temperature<=0 or top_k==1) precedes any RNG use in sample_token_from_logits
+PASS greedy tie-break documented: equal finite maxima choose the lowest ID
+PASS RuneRNG state is a single UInt64 word (snapshot = one word)
+PASS KVCache is fixed-capacity contiguous positions [0, max_seq_len), no wrap/reorder
+PASS KVCache appends by explicit position (append / append_block exist)
+PASS no rollback/truncate machinery exists anywhere in mimir_well.mojo
+PASS MoE session carries kv_cache: KVCache and a single position counter
+PASS MoE step() forwards at self.position then position += 1
+PASS SessionContext carries active_tokens + session_kv_offset (host session state)
+PASS host forward bounds KV reads by active_seq_len = min(start_pos + 1, max_seq_len)
+== done ==
+(23/23 checks PASS, exit 0, single run of the final script.)
+
+=== test_speculative_verify (J-071, new) ===
+PASS: all-accepted round emits prefix + target bonus, no rollback
+PASS: prefix + correction -- emitted built from the target list
+PASS: coincidence past the first mismatch is never emitted
+PASS: zero-accepted round still emits exactly one target token
+PASS: band top (width 16) admitted; width 17 and over-cap k refused
+PASS: pass that cannot fit the KV capacity refused; exact fit admitted
+PASS: a greedy verify round consumes zero RNG draws, enforced
+PASS: validation refusals -- empty draft / short target / negative id / bad kind / negative length (5/5)
+PASS: proposer shapes -- four sources, three slots, flags exact
+PASS: identity checker -- identical / divergence index / length / empty
+PASS: multi-round adversarial simulation -- emission identical to plain greedy (24/24)
+PASS: inconsistent accounts detected mechanically
+PASS: claim verdicts -- construction / live identity / speed on every branch
+ALL PASS: speculative verification account (13 groups)
+(exit 0)
+
+=== test_cold_start_account (J-069 neighbour, rebuilt from this tree) ===
+PASS: cold components kept separate; total is the exact sum
+PASS: prep cold vs graph-cached kept as distinct C3 figures
+PASS: plan refusals -- negative / stray prep / stray hit / warm cache (4/4)
+PASS: first prompt after open with empty cache classifies cold-first
+PASS: later prompt with no open/compile/prep inside classifies warm
+PASS: mixed figures classify conflated, grounding neither claim
+PASS: repetition rule -- warm median never contains the cold run
+PASS: separation claim permitted only with every component stated
+PASS: cold wall -- permitted live+cold, requires-live unmeasured, refused warm
+PASS: warm wall -- cold-first and conflated refused; live warm permitted
+PASS: names exact; unknown codes and zero totals refused (5/5)
+ALL PASS: cold-start honesty account (11 groups)
+(exit 0)
+
+=== test_speculative (pre-existing acceptance arithmetic, rebuilt from this tree) ===
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+(exit 0; 2/2 groups)

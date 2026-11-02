@@ -1,0 +1,253 @@
+J-042 auto choice for draft-check passes -- unit test + live chooser output (VM, lightest target)
+Built from yrsa/janas-j042 tree: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread, then mojo build -I . -I aesir_engine -Xlinker -L<staging> -Xlinker -laesir_par (pixi Mojo 1.0.0, j021 env, via pixi run --manifest-path); run with LD_LIBRARY_PATH=<staging>. Staging lived on the workspace overlay (~/workspace/.verify-tmp/j042stage) from the start of this slice (the J-040 /tmp-loss lesson); nothing was deleted by this slice.
+Machine: VM (KVM), AMD EPYC 9D25 126-Core Processor (as cpuinfo states this boot), 4 vCPU (4 logical / 4 physical / 1 package, no machine-stated hybrid split), kernel 7.0.0-39-generic. The VM was CONTENDED throughout (load average 5.56 at the filed draft-check run, 6.0-7.9 across the neighbour runs); MemAvailable ~0.92-1.02 GB -- far below the 5,500 MB inference gate, and no inference ran.
+Live outcome, stated plainly: NO-MEASURED-FALLBACK -- draft-check has NO pass in Aesir today (J-035 gap G1), so the harness classified every candidate on both axes UNMEASURABLE-WITH-REASON (device axis: cpu/gpu/npu, with the G1 reason, never excluded -- the harness's classification order puts the pass's absence before inventory truth; thread axis: rungs 1/2/4, same reason), nothing was timed or ranked, and the pre-registered rule kept the session default (cpu threads=1) as a kept label only, because the inventory states the cpu present. Live manual single (cpu) and co-work (cpu+gpu) records are MANUAL-FIXED with their unmeasurable state on the record; the live race (cpu,gpu) was carried unranked to the same fallback; and J-036's require_draft_check_use() was called in the final group and still raises, naming G1 + Part V J-071/J-072 -- the chooser does not weaken the use gate. No number in this file is a placement verdict for any model; there is no draft-check timing in this file at all, and that absence is the slice's honest result.
+
+== test_draft_placement (filed run) ==
+PASS: decision rule -- a clear winner is chosen (measured win)
+PASS: decision rule -- within the margin band, default kept with reason
+PASS: decision rule -- margin clears but rounds interleave, default kept
+PASS: decision rule -- default fastest but unproven, kept as default
+PASS: decision rule -- sole measured candidate chosen, no margin claimed
+PASS: unmeasurable field -- fallback with cpu, refusal without
+PASS: manual single and co-work fix the choice; npu refused at parse
+PASS: race ranks members only; unmeasurable race carried unranked
+PASS: session keeping -- decided once, kept, reports identical
+LIVE DRAFT-CHECK CHOICE:
+draft-check placement report
+option: auto (source default)
+decision: NO-MEASURED-FALLBACK -- no candidate measured (every candidate is unmeasurable-with-reason for this kind today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- with its reason on this record); the session default is kept because the inventory states the cpu present -- a fallback, not a measurement result, and a kept label only: no draft-check pass runs anywhere until Part V builds it
+chosen: cpu threads=1
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  gpu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  npu (auto): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  cpu threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+axes: no timing stands for this kind on either axis: the device sweep measured nothing (every candidate unmeasurable-with-reason, G1) and the thread trials timed nothing (every rung unmeasurable-with-reason, G1) -- there is no cross-check and no ranked set today; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+PASS: live chooser -- all-unmeasurable field, fallback outcome
+LIVE MANUAL DRAFT-CHECK CHOICE:
+draft-check placement report
+option: cpu (source cli)
+decision: MANUAL-FIXED -- the explicit drafts option 'cpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate is UNMEASURABLE on this tree today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name; a device option does not fix a thread count, so the thread axis stands where the session leaves it -- and for this kind that axis is unmeasured in any case, every rung unmeasurable-with-reason (G1); choosing is not using: any actual use of a drafts placement still fails closed through require_draft_check_use() (J-036) until Part V (J-071/J-072) builds the pass; open-time refusal of a hand placement is J-047)
+chosen: cpu
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu: UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+axes: no timing stands for this kind: the device sweep measured nothing (the named candidate is unmeasurable-with-reason, G1); the thread trials were not run -- a manual option fixes the choice and no ranking follows -- and every rung would record unmeasurable-with-reason (G1) in any case; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+LIVE MANUAL DRAFT-CHECK CO-WORK CHOICE:
+draft-check placement report
+option: cpu+gpu (source cli)
+decision: MANUAL-FIXED -- the explicit drafts option 'cpu+gpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate is UNMEASURABLE on this tree today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name; a device option does not fix a thread count, so the thread axis stands where the session leaves it -- and for this kind that axis is unmeasured in any case, every rung unmeasurable-with-reason (G1); choosing is not using: any actual use of a drafts placement still fails closed through require_draft_check_use() (J-036) until Part V (J-071/J-072) builds the pass; open-time refusal of a hand placement is J-047)
+chosen: cpu+gpu
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu+gpu: UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+axes: no timing stands for this kind: the device sweep measured nothing (the named candidate is unmeasurable-with-reason, G1); the thread trials were not run -- a manual option fixes the choice and no ranking follows -- and every rung would record unmeasurable-with-reason (G1) in any case; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+PASS: live manual single and co-work fix the choice, unranked
+LIVE DRAFT-CHECK RACE CHOICE:
+draft-check placement report
+option: cpu,gpu (source cli)
+decision: NO-MEASURED-FALLBACK -- no candidate measured (every candidate is unmeasurable-with-reason for this kind today -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- with its reason on this record); the session default is kept because the inventory states the cpu present -- a fallback, not a measurement result, and a kept label only: no draft-check pass runs anywhere until Part V builds it
+chosen: cpu threads=1
+rule: pre-registered (J-042, adopting J-040/J-041 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu (race): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  gpu (race): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check pass to measure, and no synthetic proxy is measured in its name
+  cpu threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+  cpu threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+axes: no timing stands for this kind on either axis: the device sweep measured nothing (every candidate unmeasurable-with-reason, G1) and the thread trials timed nothing (every rung unmeasurable-with-reason, G1) -- there is no cross-check and no ranked set today; both axes become measurable only when Part V (J-071/J-072) provides a real draft-check verify-pass executor for the harness
+measurability: no draft-check pass exists in Aesir today (J-035 gap G1; Part V J-071/J-072 own building it), so no candidate above carries a timing and nothing was ranked; this record becomes measurable only when the harness gains a real draft-check verify-pass executor (Part V), and any actual use of a drafts placement fails closed through require_draft_check_use() (J-036) until then
+session: this choice is kept for the session; it is decided once and is not re-decided per pass (re-trials are J-045)
+stability: this choice rests on no measurement at all today -- it is the pre-registered fallback for an unmeasurable kind, not a measured verdict; when Part V makes the kind measurable, single-sweep stability is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps under contention) -- the record states the field and its reasons, nothing more
+
+PASS: live race unranked; the J-036 use gate still fails closed
+ALL PASS: draft-check placement auto choice (12 groups)
+
+== test_reply_placement (neighbouring, rebuilt from this tree) ==
+PASS: decision rule -- a clear winner is chosen (measured win)
+PASS: decision rule -- within the margin band, default kept with reason
+PASS: decision rule -- margin clears but rounds interleave, default kept
+PASS: decision rule -- default fastest but unproven, kept as default
+PASS: decision rule -- sole measured candidate chosen, no margin claimed
+PASS: decision rule -- no measured: fallback with cpu, refusal without
+PASS: manual single and co-work fix the choice against faster numbers
+PASS: race ranks only its named members (non-member speed ignored)
+PASS: session keeping -- decided once, kept, reports identical
+LIVE REPLY CHOICE:
+reply placement report
+option: auto (source default)
+decision: DEFAULT-BY-NOISE -- cpu threads=4 (all cores (physical == logical)) was fastest (median 6401902 ns vs runner-up cpu threads=2 (half the cores) at 7722163 ns) but did not clear the pre-registered rule: the best candidate's slowest counted round (42283054 ns) does not beat the runner-up's median (7722163 ns), so their rounds interleave -- the session default is kept and the faster number is reported, not chosen
+chosen: cpu threads=1
+rule: pre-registered (J-041, adopting J-040 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+best: cpu threads=4 (all cores (physical == logical)) median 6401902 ns; runner-up: cpu threads=2 (half the cores) median 7722163 ns; margin 20%; separation failed
+candidates:
+  gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+  npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+  cpu threads=1 (serial): median 10927040 ns (min 9930686, max 10950626, spread 1019940; rounds 5)
+  cpu threads=2 (half the cores): median 7722163 ns (min 6140201, max 27809544, spread 21669343; rounds 5)
+  cpu threads=4 (all cores (physical == logical)): median 6401902 ns (min 4355032, max 42283054, spread 37928022; rounds 5)
+device sweep: cpu measured at median 7493970 ns by the harness's serial executor -- a cross-check only, NOT ranked (the ranked CPU candidates are the thread rungs, measured through the threaded executor; the two executors' medians are not comparable, J-039)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live chooser over the real harness + thread trials on this VM
+LIVE MANUAL REPLY CHOICE:
+reply placement report
+option: cpu (source cli)
+decision: MANUAL-FIXED -- the explicit reply option 'cpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate measured at median 7572609 ns in the device sweep; a device option does not fix a thread count, so the thread axis stands where the session leaves it; open-time refusal of a hand placement is J-047)
+chosen: cpu
+rule: pre-registered (J-041, adopting J-040 unchanged): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu: median 7572609 ns (min 7197436, max 8137827, spread 940391; rounds 5)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live manual cpu option fixes the choice (no ranking ran)
+ALL PASS: reply placement auto choice (11 groups)
+
+== test_prompt_placement (neighbouring, rebuilt from this tree) ==
+PASS: decision rule -- a clear winner is chosen (measured win)
+PASS: decision rule -- within the margin band, default kept with reason
+PASS: decision rule -- margin clears but rounds interleave, default kept
+PASS: decision rule -- default fastest but unproven, kept as default
+PASS: decision rule -- sole measured candidate chosen, no margin claimed
+PASS: decision rule -- no measured: fallback with cpu, refusal without
+PASS: manual single and co-work fix the choice against faster numbers
+PASS: race ranks only its named members (non-member speed ignored)
+PASS: session keeping -- decided once, kept, reports identical
+LIVE PROMPT CHOICE:
+prompt placement report
+option: auto (source default)
+decision: DEFAULT-BY-NOISE -- cpu threads=2 (half the cores) was fastest (median 5645408 ns vs runner-up cpu threads=4 (all cores (physical == logical)) at 6959720 ns) but did not clear the pre-registered rule: the best candidate's slowest counted round (10896574 ns) does not beat the runner-up's median (6959720 ns), so their rounds interleave -- the session default is kept and the faster number is reported, not chosen
+chosen: cpu threads=1
+rule: pre-registered (J-040): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+best: cpu threads=2 (half the cores) median 5645408 ns; runner-up: cpu threads=4 (all cores (physical == logical)) median 6959720 ns; margin 23%; separation failed
+candidates:
+  gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+  npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+  cpu threads=1 (serial): median 10098358 ns (min 9279750, max 39293279, spread 30013529; rounds 5)
+  cpu threads=2 (half the cores): median 5645408 ns (min 5245308, max 10896574, spread 5651266; rounds 5)
+  cpu threads=4 (all cores (physical == logical)): median 6959720 ns (min 4789534, max 9650305, spread 4860771; rounds 5)
+device sweep: cpu measured at median 10326330 ns by the harness's serial executor -- a cross-check only, NOT ranked (the ranked CPU candidates are the thread rungs, measured through the threaded executor; the two executors' medians are not comparable, J-039)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live chooser over the real harness + thread trials on this VM
+LIVE MANUAL PROMPT CHOICE:
+prompt placement report
+option: cpu (source cli)
+decision: MANUAL-FIXED -- the explicit prompt option 'cpu' fixes this choice; the auto rule was not applied and no measured candidate was substituted (the named candidate measured at median 13232689 ns in the device sweep; a device option does not fix a thread count, so the thread axis stands where the session leaves it; open-time refusal of a hand placement is J-047)
+chosen: cpu
+rule: pre-registered (J-040): a measured winner must beat the runner-up by more than 10% of its own median AND its slowest counted round must beat the runner-up's median; otherwise the session default (cpu threads=1) is kept. A sole measured candidate is chosen as sole-measured; no measured candidate falls back to the default when the cpu is present, else the record is a refusal. An explicit single/co-work option fixes the choice and is never ranked against.
+candidates:
+  cpu: median 13232689 ns (min 8701843, max 55440120, spread 46738277; rounds 5)
+session: this choice is kept for the session; it is decided once and is not re-decided per token (re-trials are J-045)
+stability: this choice rests on a single sweep; choice stability under contention is NOT PROVEN (J-039: per-kind verdicts flipped between sweeps on this class of machine) -- the record states what this sweep measured, nothing more
+
+PASS: live manual cpu option fixes the choice (no ranking ran)
+ALL PASS: prompt placement auto choice (11 groups)
+
+== test_thread_topology (neighbouring, rebuilt from this tree) ==
+PASS: ladder from VM-shaped facts [1, 2, 4], P/E not applicable-with-reason
+PASS: ladder on a machine-stated hybrid split [1, 6, 8 perf-only, 12]
+PASS: ladder on an SMT machine [1, 4, 8 physical, 16 logical]
+PASS: ladder de-duplication on small machines ([1, 2] and [1])
+PASS: ladder on topology-poor facts stands on the logical count, stated
+PASS: verdict rule on injected medians (all-fastest / band / confirmed)
+PASS: threaded checksum identical to serial at 1/2/4 threads; chunks == threads
+PASS: thread knobs set/read back/clear through Aesir's own thread layer
+LIVE REPLY THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+reply threads=1 (serial): median 12088032 ns (min 11433891, max 47930215, spread 36496324; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+reply threads=2 (half the cores): median 14806219 ns (min 7513770, max 43190155, spread 35676385; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+reply threads=4 (all cores (physical == logical)): median 63443545 ns (min 16075583, max 162992017, spread 146916434; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 1 threads at median 12088032 ns; all-cores (4) is slower by 424% (median 63443545 ns), beyond the 5% noise band
+sweep total 636787847 ns
+
+LIVE PROMPT THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+prompt threads=1 (serial): median 9253070 ns (min 8743004, max 57869634, spread 49126630; rounds 5, settle 1 discarded, chunks 1, checksum identical)
+prompt threads=2 (half the cores): median 5045679 ns (min 4396896, max 65642012, spread 61245116; rounds 5, settle 1 discarded, chunks 2, checksum identical)
+prompt threads=4 (all cores (physical == logical)): median 8031538 ns (min 5189755, max 63752388, spread 58562633; rounds 5, settle 1 discarded, chunks 4, checksum identical)
+verdict: I9 LESSON CONFIRMED (more threads slower) -- best is 2 threads at median 5045679 ns; all-cores (4) is slower by 59% (median 8031538 ns), beyond the 5% noise band
+sweep total 302687079 ns
+
+PASS: live thread trials on this machine (prompt + reply, all rungs measured)
+LIVE DRAFT-CHECK THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+drafts threads=1 (serial): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=2 (half the cores): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+drafts threads=4 (all cores (physical == logical)): UNMEASURABLE -- draft-check passes do not exist in Aesir yet (J-035 gap G1; Part V J-071/J-072 own building the pass) -- there is no draft-check workload to thread, and no prompt/reply proxy is timed in its name
+verdict: not graded: draft-check is unmeasurable-with-reason (G1)
+sweep total 0 ns
+
+LIVE BOUND THREAD TRIAL:
+thread ladder: 1 (serial), 2 (half the cores), 4 (all cores (physical == logical)) | basis: physical core count stated by cpuinfo (4) | performance/efficiency: NOT APPLICABLE-WITH-REASON: this machine states no performance/efficiency split (J-037: the split is reported only when the machine's own hybrid sysfs cpulists state it), so no performance-only or hybrid candidate exists to trial -- never invented
+reply threads=1 (serial): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply threads=2 (half the cores): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply threads=4 (all cores (physical == logical)): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+verdict: not graded: no measured rung
+sweep total 92728672 ns
+
+PASS: draft-check unmeasurable-with-reason (G1); live bound enforced
+ALL PASS: thread topology trials (10 groups)
+
+== test_placement_harness (neighbouring, rebuilt from this tree) ==
+PASS: summary statistics on injected timings (median/min/max/spread)
+PASS: settle round discarded, measured rounds counted
+PASS: candidate filtering against inventory (present vs excluded-with-reason)
+PASS: time bound enforced in the round accounting + config refusals
+PASS: draft-check unmeasurable-with-reason (G1), never proxied
+PASS: co-work unmeasurable-with-reason (J-043); absent member excluded first
+PASS: present device without an executor is unmeasurable-with-reason
+PASS: workload shapes (reply width 1, prompt batched, deterministic)
+LIVE REPLY SWEEP:
+reply cpu (auto): median 8046570 ns (min 7893750, max 41123034, spread 33229284; rounds 5, settle 1 discarded)
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 81135943 ns
+
+LIVE PROMPT SWEEP:
+prompt cpu (auto): median 9356935 ns (min 9189724, max 55161962, spread 45972238; rounds 5, settle 1 discarded)
+prompt gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+prompt npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 102107030 ns
+
+PASS: live micro-runs on this machine (cpu measured; gpu/npu excluded with reasons)
+LIVE BOUND SWEEP:
+reply cpu (auto): BOUND-STOPPED -- per-candidate budget of 1 ns reached after 0 measured round(s); the counted rounds stand
+reply gpu (auto): EXCLUDED -- DeviceInventory: gpu was requested, but this machine's inventory says: no GPU probe answered: nvidia-smi failed (subprocess failed: nvidia-smi (wait status 32512)); /sys/class/drm lists no card device
+reply npu (auto): EXCLUDED -- DeviceInventory: npu was requested, but this machine's inventory says: Hailo NPU is parked by Aesir's campaign law (finish-line gate closed); reported from the ledger, not probed, never run by this road
+sweep total 8511778 ns
+
+PASS: live time bound enforced (bound-stopped, zero counted rounds)
+ALL PASS: placement measurement harness (10 groups)
+
+== test_placement_options (neighbouring, rebuilt from this tree) ==
+PASS: placement forms auto/single/cowork/race
+PASS: placement grammar refusals carry reasons
+PASS: pass-kind legality (npu refused for drafts and reply)
+PASS: precedence cli over env over default, sources recorded
+PASS: kill switches refuse named devices, shrink the auto field
+PASS: drafts-on stores, drafts use fails closed (G1)
+PASS: quality surface parses, stores, and fails closed at use
+PASS: argv scan forms, duplicates, typos, --no-cpu refusal
+PASS: environment layer reads, resolves, and kills end to end
+PASS: describe report states values, sources, kills, gates
+ALL PASS: placement options (10 groups)

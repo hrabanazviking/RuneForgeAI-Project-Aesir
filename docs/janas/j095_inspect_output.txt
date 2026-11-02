@@ -1,0 +1,56 @@
+PASS: module structure: from core.kv_account import
+PASS: module structure: from core.kv_int8 import
+PASS: module structure: from core.speculative_acceptance import
+PASS: module structure: from core.speculative_verify import
+PASS: module structure: (R-A) COMMITTED PRESERVATION
+PASS: module structure: (R-B) NEVER-DRAFTED EQUALITY
+PASS: module structure: (R-C) DEAD-ROW IRRELEVANCE
+PASS: module structure: quantization error
+PASS: module structure: is NOT rollback error
+PASS: module structure: VERDICT RULE (pre-registered)
+PASS: module structure: UNCHANGED iff a replay of the filed
+PASS: module structure: changed-target control
+PASS: module structure: NOT PROVEN
+PASS: module structure: J-098
+PASS: module structure: int8_state_diff_count
+PASS: module structure: acceptance_difference
+PASS: module structure: rollback_rows_bytes
+PASS: harness header states no live leg
+PASS: harness defined through core/kv_drafts
+PASS: precision-free module: core/speculative_verify
+PASS: precision-free module: core/speculative_loop
+PASS: precision-free module: core/speculative_acceptance
+PASS: no other tree file references kv_drafts (found: [])
+PASS: run_all does not register test_kv_drafts
+PASS: ROLLBACKHEAD x2 runs
+PASS: DRAFTSDONE x2 runs
+PASS: harness runs byte-identical
+PASS: R-A re-derived: preserve diffs (0 codes, 0 scales) over the committed prefix
+PASS: R-C filed: attention over the committed length equal (state identical there)
+PASS: control re-derived: intermediate diff before overwrite (256 codes, 0 scales)
+PASS: control is real: the rejected rows differ before overwrite
+PASS: R-B re-derived: final diffs (0, 0, 0) -- bit-exact vs never-drafted
+PASS: R-B filed: dequant max 0.0, verdict EXACT
+PASS: R-C filed: final attention equal at every head/layer
+PASS: tamper re-derived: one code / one scale diff, verdict NOT_EXACT
+PASS: quantization re-derived: bound-row round-trip error == scale/2 (0.003937006)
+PASS: acceptance replay re-derived: every row's totals + rate from the fixture lists
+PASS: acceptance total re-derived: 40 / 160 / 113, 7062 bp
+PASS: account-level verdict re-derived: replay difference exactly (0,0,0), UNCHANGED
+PASS: changed-target control re-derived: exactly (0,0,-1), DIFFERS
+PASS: gate: ACCEPT rows + total == J-075 filed MEASURE lines exactly
+PASS: round prices re-derived: tentative 5 / committed 2 / rollback 3 rows, both precisions
+PASS: gate: J-085's filed 930 rollback rows re-read
+PASS: J-085 price re-derived: 930 rows = 121,896,960 f16 / 64,757,760 int8 (OLMoE)
+PASS: doc states: EXACT
+PASS: doc states: UNCHANGED
+PASS: doc states: NOT PROVEN
+PASS: doc states: INTEGRATION_BLOCKED
+PASS: doc states: (0, 0, -1)
+PASS: doc states: 121,896,960
+PASS: doc states: J-098
+PASS: doc states: guarded
+PASS: doc states: J-088 §7
+PASS: doc states: never `llama-cli --single-turn`
+PASS: doc states: teacher-forcing rank + logit gap
+INSPECT: 55 checks, 0 fails
