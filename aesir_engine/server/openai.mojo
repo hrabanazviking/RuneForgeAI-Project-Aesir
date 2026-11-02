@@ -27,6 +27,7 @@ struct OpenAIRequest:
     var tool_name: String
     var tool_description: String
     var completion_budget: Int
+    var include_usage: Bool
 
     def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
@@ -45,6 +46,7 @@ struct OpenAIRequest:
         self.tool_name = ""
         self.tool_description = ""
         self.completion_budget = 0
+        self.include_usage = False
         var seen_tool_choice = False
         var parser = FlatJSON(body)
         parser.take(123)
@@ -67,6 +69,8 @@ struct OpenAIRequest:
                     self.has_messages = True
                 elif name == "stream":
                     self.stream = parser.boolean()
+                elif name == "stream_options":
+                    self.include_usage = self._parse_stream_options(parser)
                 elif name == "response_format":
                     self.output_mode = self._parse_response_format(parser)
                 elif name == "tools":
@@ -129,6 +133,32 @@ struct OpenAIRequest:
         if self.tool_name != "" and (
                 self.stream or self.output_mode != "" or self.has_prompt or not self.has_messages):
             raise Error("Gemma tool calls require nonstreaming chat without response_format")
+
+    def _parse_stream_options(mut self, mut parser: FlatJSON) raises -> Bool:
+        # stream_options (J-107, closing J-106's K5 keep): the only
+        # honoured key is include_usage, a JSON boolean; an empty
+        # object states false. Any other key, a duplicate, or a
+        # non-boolean value is refused by name -- the surface's
+        # standing fail-closed manner.
+        parser.take(123)
+        var seen_usage = False
+        var include_usage = False
+        parser.space()
+        if parser.peek() != 125:
+            while True:
+                var name = parser.string()
+                parser.take(58)
+                if name == "include_usage" and not seen_usage:
+                    include_usage = parser.boolean()
+                    seen_usage = True
+                else:
+                    raise Error("Unsupported or duplicate stream_options field: " + name)
+                parser.space()
+                if parser.peek() != 44:
+                    break
+                parser.position += 1
+        parser.take(125)
+        return include_usage
 
     def _parse_tool_function(mut self, mut parser: FlatJSON) raises:
         parser.take(123)
@@ -462,6 +492,70 @@ struct OpenAIGate:
             res += json_escape_string(text)
             res += "\"},\"finish_reason\":null"
         res += "}]}\n\n"
+        return res
+
+    @staticmethod
+    def format_chat_usage_chunk(
+        request_id: String,
+        created_unix: Int,
+        model: String,
+        prompt_tokens: Int,
+        completion_tokens: Int,
+        cached_tokens: Int = 0,
+    ) raises -> String:
+        """The streaming usage chunk (J-107, J-106 K5): sent only
+        when the request set stream_options.include_usage, after
+        the final finish chunk and before [DONE]. Caller-observed
+        counts, validated like every Gate usage field; the chunk
+        carries empty choices, as the shape states."""
+        OpenAIGate._validate_identity(request_id, created_unix, model)
+        OpenAIGate._validate_cached_tokens(prompt_tokens, cached_tokens)
+        if prompt_tokens < 0 or completion_tokens < 0:
+            raise Error("OpenAI response token counts must be non-negative")
+        if prompt_tokens > 4611686018427387903 or completion_tokens > 4611686018427387903 - prompt_tokens:
+            raise Error("OpenAI response token count overflow")
+        var res = String("data: {\"id\":\"")
+        res += json_escape_string(request_id)
+        res += "\",\"object\":\"chat.completion.chunk\",\"created\":"
+        res += String(created_unix)
+        res += ",\"model\":\""
+        res += json_escape_string(model)
+        res += "\",\"choices\":[],\"usage\":{\"prompt_tokens\":"
+        res += String(prompt_tokens)
+        res += ",\"completion_tokens\":" + String(completion_tokens)
+        res += ",\"total_tokens\":" + String(prompt_tokens + completion_tokens)
+        res += ",\"prompt_tokens_details\":{\"cached_tokens\":"
+        res += String(cached_tokens) + "}}}\n\n"
+        return res
+
+    @staticmethod
+    def format_completion_usage_chunk(
+        request_id: String,
+        created_unix: Int,
+        model: String,
+        prompt_tokens: Int,
+        completion_tokens: Int,
+        cached_tokens: Int = 0,
+    ) raises -> String:
+        """The raw-completions sibling of format_chat_usage_chunk."""
+        OpenAIGate._validate_identity(request_id, created_unix, model)
+        OpenAIGate._validate_cached_tokens(prompt_tokens, cached_tokens)
+        if prompt_tokens < 0 or completion_tokens < 0:
+            raise Error("OpenAI response token counts must be non-negative")
+        if prompt_tokens > 4611686018427387903 or completion_tokens > 4611686018427387903 - prompt_tokens:
+            raise Error("OpenAI response token count overflow")
+        var res = String("data: {\"id\":\"")
+        res += json_escape_string(request_id)
+        res += "\",\"object\":\"text_completion\",\"created\":"
+        res += String(created_unix)
+        res += ",\"model\":\""
+        res += json_escape_string(model)
+        res += "\",\"choices\":[],\"usage\":{\"prompt_tokens\":"
+        res += String(prompt_tokens)
+        res += ",\"completion_tokens\":" + String(completion_tokens)
+        res += ",\"total_tokens\":" + String(prompt_tokens + completion_tokens)
+        res += ",\"prompt_tokens_details\":{\"cached_tokens\":"
+        res += String(cached_tokens) + "}}}\n\n"
         return res
 
     @staticmethod

@@ -13,6 +13,13 @@ No number in this suite is a behaviour of a live server: no
 socket was opened, no session started, no inference ran.
 The live server leg is J-106's deferred leg (doc section
 5), re-cited at the J-118 gate.
+
+J-107 update: stream_options moved REFUSED -> PARTIAL
+(include_usage honoured, J-106's K5 closed by J-107), so
+the table tallies are chat 8/5/18 and completions 8/2/9,
+and the parser-closures group asserts the honouring. The
+detailed stream_options grammar is graded by
+test_stream_progress.
 """
 from core.openai_audit import (
     FIELD_HONOURED,
@@ -87,8 +94,8 @@ def test_chat_field_table() raises:
         elif verdict == FIELD_REFUSED:
             refused += 1
     expect_eq_int(honoured, 8, "chat honoured count")
-    expect_eq_int(partial, 4, "chat partial count")
-    expect_eq_int(refused, 19, "chat refused count")
+    expect_eq_int(partial, 5, "chat partial count (J-107: stream_options partial)")
+    expect_eq_int(refused, 18, "chat refused count (J-107)")
     expect_eq_int(chat_field_verdict("max_completion_tokens"), FIELD_HONOURED,
                   "max_completion_tokens closed")
     expect_eq_int(chat_field_verdict("n"), FIELD_PARTIAL, "n partial (one choice)")
@@ -106,7 +113,9 @@ def test_chat_field_table() raises:
                   "strangers refused, never ignored")
     expect_eq_str(field_verdict_name(FIELD_HONOURED), "HONOURED", "verdict name")
     expect_eq_str(field_verdict_name(99), "UNKNOWN", "verdict name fallback")
-    print("PASS: chat field table (31 fields: 8 honoured, 4 partial, 19 refused; strangers refused)")
+    expect_eq_int(chat_field_verdict("stream_options"), FIELD_PARTIAL,
+                  "stream_options partial (J-107: include_usage honoured)")
+    print("PASS: chat field table (31 fields: 8 honoured, 5 partial, 18 refused; strangers refused)")
 
 
 def test_completion_field_table() raises:
@@ -124,13 +133,15 @@ def test_completion_field_table() raises:
         elif verdict == FIELD_REFUSED:
             refused += 1
     expect_eq_int(honoured, 8, "completion honoured count")
-    expect_eq_int(partial, 1, "completion partial count")
-    expect_eq_int(refused, 10, "completion refused count")
+    expect_eq_int(partial, 2, "completion partial count (J-107: stream_options partial)")
+    expect_eq_int(refused, 9, "completion refused count (J-107)")
     expect_eq_int(completion_field_verdict("suffix"), FIELD_REFUSED,
                   "suffix refused here (FIM is J-111)")
     expect_eq_int(completion_field_verdict("echo"), FIELD_REFUSED, "echo refused")
     expect_eq_int(completion_field_verdict("best_of"), FIELD_REFUSED, "best_of refused")
-    print("PASS: completion field table (19 fields: 8 honoured, 1 partial, 10 refused)")
+    expect_eq_int(completion_field_verdict("stream_options"), FIELD_PARTIAL,
+                  "stream_options partial (J-107)")
+    print("PASS: completion field table (19 fields: 8 honoured, 2 partial, 9 refused)")
 
 
 def test_message_tables() raises:
@@ -223,13 +234,12 @@ def test_parser_closures() raises:
     except:
         refused = True
     expect_true(refused, "logprobs still refused by the parser, by name")
-    var refused_stream_options = False
-    try:
-        _ = OpenAIRequest(
-            "{\"model\":\"m\",\"prompt\":\"x\",\"stream\":true,\"stream_options\":{\"include_usage\":true}}")
-    except:
-        refused_stream_options = True
-    expect_true(refused_stream_options, "stream_options still refused by the parser")
+    # J-107 supersedes J-106's stream_options expectation: the field
+    # is now honoured for include_usage (K5 closed by J-107); the
+    # detailed grammar is graded by test_stream_progress.
+    var with_usage = OpenAIRequest(
+        "{\"model\":\"m\",\"prompt\":\"x\",\"stream\":true,\"stream_options\":{\"include_usage\":true}}")
+    expect_true(with_usage.include_usage, "stream_options.include_usage honoured (J-107)")
     print("PASS: parser closures (max_completion_tokens precedence, developer role; kept refusals hold)")
 
 

@@ -1,0 +1,51 @@
+J-107 Server streaming + progress -- test output (VM, lightest target)
+Tree: yrsa/janas-j107 from yrsa/janas-j106 tip ddec27dc29b993d3e230c62c3e996f0c466b6f9b (ls-remote verified at slice start; remote yrsa/janas-j107 absent at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (32a6d120).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-100..J-106 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the J-071 worktree's installed env invoked directly with its pixi activation variables exported by hand -- PATH, CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max per the env's own 10-activate-max.sh; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j107stage, build dir ~/workspace/.verify-tmp/j107build, TMPDIR redirected to the staging dir throughout.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~3.7 GB at dispatch and ~3.65 GB during the builds -- below the 5,500 MB inference gate throughout. Lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere, and NO live server was started (the live server leg + W1 in-read interleave are deferred-with-reason, doc sections 0.4/5). purplelongship not used at all (the 204 road's S-104 live there; yielded, and not needed by design).
+Environment incident (recorded in doc section 7): the intermittent Errno 122 write wall (Disk quota exceeded) blocked the first worktree checkout attempts; it cleared after pauses and the checkout completed via a sparse worktree (aesir_engine + hailbru) with a retry loop. No files were deleted to free disk.
+
+== test_stream_progress (J-107, new) ==
+build exit=0 run exit=0
+PASS: silence (zero frames on every kind below the discipline's bounds)
+PASS: watched sequence at the host cap (4096/256: 10 frames, filed ladder)
+PASS: watched sequences at width 1 and tile width 4 (10 frames each)
+PASS: ragged final chunk (1025/256: 5 frames, true final total)
+PASS: framing exact per kind (NDJSON line; SSE data line; extension event)
+PASS: elapsed honesty (no boundary times invented; final carries the caller's ms)
+PASS: stream_options grammar (include_usage honoured; the rest refused by name)
+PASS: usage chunks (decision rule; both forms; caller-observed counts)
+ALL PASS: stream progress (8 groups)
+
+== native serve wiring compile driver (staging driver importing cli/native_serve whole) ==
+build exit=0 run exit=0
+native serve + stream progress modules compile + import: PASS
+
+== test_openai_audit (neighbour: J-106 audit, updated only for the J-107 stream_options flip) ==
+build exit=0 run exit=0
+PASS: chat field table (31 fields: 8 honoured, 5 partial, 18 refused; strangers refused)
+PASS: completion field table (19 fields: 8 honoured, 2 partial, 9 refused)
+PASS: message tables (2/7 fields honoured; 4/6 roles honoured incl. developer)
+PASS: route table (8 served incl. retrieve, 6 refused-501, families + strangers 404)
+PASS: refusal bodies (501 + route + a real reason, per refused route)
+PASS: parser closures (max_completion_tokens precedence, developer role; kept refusals hold)
+PASS: usage accounting (prompt_tokens_details.cached_tokens on all three forms; status carries it)
+ALL PASS: openai audit (7 groups)
+
+== test_prompt_progress (neighbour: the J-059 account this slice streams) ==
+build exit=0 run exit=0
+PASS: silence bounds -- token bound and chunk bound both bind
+PASS: host 1024/256 -- four boundaries, four records, final once
+PASS: host 4096/256 -- step throttle, exactly the 10 filed boundaries
+PASS: width 1 -- 4096 boundaries, 10 records, no per-token spam
+PASS: tile width 4 -- 256 boundaries, 10 records
+PASS: ragged final chunk -- true totals, never padded, final exact
+PASS: monotonic -- done and emitted fractions rise, final once
+PASS: O2 timestamp carriage -- both render forms exact
+PASS: baseline lengths -- 0 / 4 / 10 / 10 on the road's own table
+PASS: refusals -- shapes, boundaries outside the read, timestamps
+ALL PASS: prompt progress account (10 groups)
+
+== test_local_protocol (neighbour: the parser + transport surface) ==
+build exit=0 run exit=0
+PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy
+PASS bounded JSON and HTTP rejection

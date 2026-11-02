@@ -69,12 +69,24 @@ WHAT THIS SLICE CLOSES (each wired, each tested):
 WHAT IS CONSCIOUSLY KEPT (the doc's diff tables carry the
 reason per row): general JSON-schema holding beyond the
 strict boolean form (T17), logprobs, stop sequences, the
-additive penalties, logit_bias, streaming usage chunks,
-the placement request fields (T20 -- filed why-not in the
-doc, the J-049 host contract re-cited to the J-118 gate),
-TLS (T16 -- loopback-only plain HTTP, the stated shape),
-the wider administrative families at 404, and the speech
-family refused outright under the J-014 gate (T19).
+additive penalties, logit_bias, the placement request
+fields (T20 -- filed why-not in the doc, the J-049 host
+contract re-cited to the J-118 gate), TLS (T16 --
+loopback-only plain HTTP, the stated shape), the wider
+administrative families at 404, and the speech family
+refused outright under the J-014 gate (T19).
+
+J-107 EVOLUTION (recorded, not silent): streaming usage
+chunks were KEPT refused above (K5) with the note that
+honouring stream_options.include_usage rides J-107's
+streaming leg. J-107 is that leg: stream_options is now
+PARTIAL in both field tables (include_usage honoured --
+a streamed response gains a usage chunk after its
+finish chunk when the client asked; every other
+stream_options key is refused by name), and the tallies
+move to chat 8 honoured / 5 partial / 18 refused and
+completions 8 / 2 / 9. The J-106 doc's section 2 rows
+for stream_options are superseded by the J-107 doc.
 
 HOST CONTRACT. cli/native_serve.mojo's serve loop consults
 route_verdict for the 501 class (a refused route answers
@@ -181,7 +193,7 @@ def chat_field_verdict(name: String) -> Int:
             or name == "max_completion_tokens" or name == "stream"):
         return FIELD_HONOURED
     if (name == "n" or name == "response_format" or name == "tools"
-            or name == "tool_choice"):
+            or name == "tool_choice" or name == "stream_options"):
         return FIELD_PARTIAL
     return FIELD_REFUSED
 
@@ -221,7 +233,7 @@ def completion_field_verdict(name: String) -> Int:
             or name == "top_p" or name == "seed" or name == "max_tokens"
             or name == "max_completion_tokens" or name == "stream"):
         return FIELD_HONOURED
-    if name == "n":
+    if name == "n" or name == "stream_options":
         return FIELD_PARTIAL
     return FIELD_REFUSED
 

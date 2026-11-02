@@ -28,6 +28,9 @@ from server.ollama import (OllamaRequest, OllamaShowRequest, OllamaModelInfo, ol
                            ollama_done_reason)
 from server.openai import OpenAIRequest, OpenAIGate, openai_created_unix
 from core.openai_audit import ROUTE_REFUSED_501, route_verdict, unsupported_route_body
+from core.stream_progress import (STREAM_NATIVE_NDJSON, STREAM_OLLAMA_NDJSON,
+                                  STREAM_OPENAI_SSE, progress_frames,
+                                  stream_usage_requested)
 
 
 struct GenerateRequest:
@@ -249,32 +252,49 @@ def openai_catalog_names(catalog: List[OllamaModelInfo]) -> List[String]:
     return names^
 
 
-# Long-prompt watching (Janas road J-059) -- host contract for
-# this server surface. The progress account lives in
-# core/prompt_progress.mojo: plan_prompt_progress() states a
-# prompt read's shape under the pre-registered discipline
-# (watched iff >= 1024 prompt tokens AND >= 4 chunks;
+# Long-prompt watching (Janas road J-059) + server streaming
+# (J-107) -- host contract for this server surface, as wired
+# by J-107. The progress account lives in
+# core/prompt_progress.mojo (the pre-registered discipline:
+# watched iff >= 1024 prompt tokens AND >= 4 chunks;
 # boundary-only records; a 10% step throttle, at most 10
-# records per read; the final 100% record exactly once),
-# progress_record() states one chunk boundary (the caller's
-# monotonic elapsed ms rides as the O2 timestamp), and
-# render_progress_event() renders one record as the flat JSON
-# object a streaming route sends as one NDJSON line (native /
-# Ollama routes) or one SSE data payload (OpenAI route)
-# between the stream head and the first generated chunk.
-# The wiring this contract names: the session gains a
-# progress sink that serve_loaded supplies before begin_turn;
-# the session's begin_turn loop takes one record per boundary
-# (width 1, or 4 on the admitted tile) and hands emitted
-# records to the sink; the route sends each event as it
-# arrives, BEFORE the decode loop. That wiring does NOT exist
-# yet and this slice does not fake it: today begin_turn blocks
-# for the whole read, the stream head on every route is sent
-# only after it returns, and the only prefill figure served
-# is the native route's after-the-fact timings_ms total -- a
-# streaming client sits in silence for the whole read, which
-# is exactly the gap J-059 names and J-107 builds against
-# this contract. See docs/janas/J059_LONG_PROMPT_WATCHING.md.
+# records per read; the final 100% record exactly once);
+# the stream protocol lives in core/stream_progress.mojo
+# (framing per stream kind, the read's whole framed
+# sequence, the streaming-usage decision). On every
+# streaming generation route serve_loaded now: (1) sends
+# the stream head BEFORE begin_turn (the OpenAI chat
+# route's role chunk follows the head, also before
+# begin_turn), with response_started / stream_kind set
+# first so a failed read is answered by the streamed-error
+# path; (2) after begin_turn returns, sends the read's
+# progress_frames(...) -- total from session.status(),
+# width from the serve's prefill_batch, the final frame
+# carrying the route's measured prefill ms -- BEFORE the
+# decode loop; a silent read sends zero frames; (3) on
+# the OpenAI routes, when stream_options.include_usage
+# was set, sends the Gate's usage chunk after the finish
+# chunk and before data: [DONE]. Honesty, per the J-107
+# protocol: the frames are the read's true record emitted
+# batched after the blocking read (the streaming form of
+# the native route's after-the-fact timings_ms); they do
+# NOT arrive spread across the read. Arrival during the
+# read needs J-059's W1 (a progress sink inside the CUDA
+# sessions' begin_turn loops), deferred with its recipe
+# in docs/janas/J107_SERVER_STREAMING_PROGRESS.md
+# sections 0.4/5, re-cited at the J-118 gate.
+
+
+def send_progress_frames(fd: Int32, kind: Int, prompt_tokens: Int,
+                         chunk_width: Int, final_elapsed_ms: Int,
+                         io_timeout_ms: Int, interrupt_fd: Int) raises:
+    """Send one completed read's framed progress sequence
+    (core/stream_progress), in order. A silent read's
+    sequence is empty and nothing is sent."""
+    var width = chunk_width if chunk_width >= 1 else 1
+    var frames = progress_frames(kind, prompt_tokens, width, final_elapsed_ms)
+    for i in range(len(frames)):
+        send_local(fd, frames[i], io_timeout_ms, interrupt_fd)
 
 
 def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: String,
@@ -376,15 +396,19 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             status = 422
                             generation_started = True
                             var prompt = request.prompt if head.path == "/api/generate" else request.chat_prompt
+                            if request.stream:
+                                response_started = True
+                                stream_kind = "ollama"
+                                send_stream_head(client.fd, "application/x-ndjson", io_timeout_ms, interrupt_fd)
+                            var ollama_prefill_started_ms = monotonic_milliseconds()
                             session.begin_turn(prompt, request.system, request_tokens)
+                            var ollama_prefill_elapsed_ms = monotonic_milliseconds() - ollama_prefill_started_ms
                             print("[request=" + String(sequence) + " phase=generation]")
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
                             status = 500
                             if request.stream:
-                                response_started = True
-                                stream_kind = "ollama"
-                                send_stream_head(client.fd, "application/x-ndjson", io_timeout_ms, interrupt_fd)
+                                send_progress_frames(client.fd, STREAM_OLLAMA_NDJSON, session.status().prompt_tokens, prefill_batch, ollama_prefill_elapsed_ms, io_timeout_ms, interrupt_fd)
                             while session.status().generating:
                                 var chunk = session.next_chunk()
                                 _ = admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
@@ -466,12 +490,6 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 if head.path == "/v1/chat/completions"
                                 else request.prompt
                             )
-                            session.begin_turn(prompt, request.system, request_tokens)
-                            print("[request=" + String(sequence) + " phase=generation]")
-                            _ = external_call["fflush", Int32](Int(0))
-                            var answer = String("")
-                            var tool_block_complete = False
-                            status = 500
                             var created = openai_created_unix()
                             var request_id = (
                                 "chatcmpl-aesir-" + String(sequence)
@@ -485,6 +503,16 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 if head.path == "/v1/chat/completions":
                                     send_local(client.fd, OpenAIGate.format_chat_role_chunk(
                                         request_id, created, model.name), io_timeout_ms, interrupt_fd)
+                            var openai_prefill_started_ms = monotonic_milliseconds()
+                            session.begin_turn(prompt, request.system, request_tokens)
+                            var openai_prefill_elapsed_ms = monotonic_milliseconds() - openai_prefill_started_ms
+                            print("[request=" + String(sequence) + " phase=generation]")
+                            _ = external_call["fflush", Int32](Int(0))
+                            var answer = String("")
+                            var tool_block_complete = False
+                            status = 500
+                            if request.stream:
+                                send_progress_frames(client.fd, STREAM_OPENAI_SSE, session.status().prompt_tokens, prefill_batch, openai_prefill_elapsed_ms, io_timeout_ms, interrupt_fd)
                             while session.status().generating:
                                 var chunk = session.next_chunk()
                                 _ = admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
@@ -532,6 +560,12 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                         if head.path == "/v1/chat/completions"
                                         else OpenAIGate.format_completion_chunk(request_id, created, model.name, "", finish),
                                         io_timeout_ms, interrupt_fd)
+                                    if stream_usage_requested(request.stream, request.include_usage):
+                                        send_local(client.fd,
+                                            OpenAIGate.format_chat_usage_chunk(request_id, created, model.name, state.prompt_tokens, state.generated_tokens, state.cached_tokens)
+                                            if head.path == "/v1/chat/completions"
+                                            else OpenAIGate.format_completion_usage_chunk(request_id, created, model.name, state.prompt_tokens, state.generated_tokens, state.cached_tokens),
+                                            io_timeout_ms, interrupt_fd)
                                     send_local(client.fd, "data: [DONE]\n\n", io_timeout_ms, interrupt_fd)
                                 elif head.path == "/v1/chat/completions":
                                     body = OpenAIGate.format_chat_completion(
@@ -568,6 +602,10 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         session.configure_control(request.timeout_ms, interrupt_fd)
                         status = 422
                         generation_started = True
+                        if request.stream:
+                            response_started = True
+                            stream_kind = "native"
+                            send_native_stream_head(client.fd, io_timeout_ms, interrupt_fd)
                         var prefill_started_ms = monotonic_milliseconds()
                         session.begin_turn(request.prompt, request.system, request.max_tokens)
                         var prefill_elapsed_ms = monotonic_milliseconds() - prefill_started_ms
@@ -576,9 +614,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         var answer = String("")
                         status = 500
                         if request.stream:
-                            response_started = True
-                            stream_kind = "native"
-                            send_native_stream_head(client.fd, io_timeout_ms, interrupt_fd)
+                            send_progress_frames(client.fd, STREAM_NATIVE_NDJSON, session.status().prompt_tokens, prefill_batch, prefill_elapsed_ms, io_timeout_ms, interrupt_fd)
                         var decode_started_ms = monotonic_milliseconds()
                         while session.status().generating:
                             var chunk = session.next_chunk()

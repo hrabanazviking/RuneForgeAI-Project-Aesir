@@ -1,0 +1,31 @@
+PASS: layer: three stream kinds named
+PASS: layer: framing is J-059's event verbatim, per-kind frames
+PASS: layer: sequence delegates to the J-059 account
+PASS: layer: elapsed honesty (final boundary only)
+PASS: layer: framing a non-emitted record is refused
+PASS: layer: the usage decision is stream AND asked
+PASS: account: J-059's module untouched by this slice
+PASS: parser: stream_options branch + grammar present
+PASS: gate: both usage-chunk formatters, empty choices
+PASS: audit: stream_options PARTIAL in the chat table
+PASS: audit: stream_options PARTIAL in the completions table
+PASS: audit: the J-107 evolution is recorded in the module
+PASS: serve ollama: head (and stream kind) before begin_turn, progress after it
+PASS: serve openai: head + role chunk before begin_turn, progress after it
+PASS: serve openai: usage chunk between the finish chunk and [DONE]
+PASS: serve openai: usage chunk gated on the J-107 decision
+PASS: serve native: head before begin_turn, progress after it
+PASS: serve: progress helper clamps width and uses the caller's elapsed
+PASS: serve: every route times its prefill for the final frame
+PASS: doc: tallies stated (chat 8/5/18, completions 8/2/9)
+PASS: suite: test_stream_progress has 8 groups and the ALL PASS line
+PASS: suite: audit suite carries the flipped tallies
+PASS: filed output: stream progress 8/8
+PASS: filed output: openai audit 7/7 at flipped tallies
+PASS: filed output: prompt progress neighbour 10/10
+PASS: filed output: local protocol neighbour PASS
+PASS: filed output: native serve compile driver PASS
+PASS: no README in the slice diff
+PASS: no .gguf in the slice diff
+PASS: slice diff is exactly the expected file set
+INSPECT: 30/30 PASS
