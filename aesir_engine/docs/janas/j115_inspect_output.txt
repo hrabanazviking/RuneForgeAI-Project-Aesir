@@ -1,0 +1,45 @@
+PASS: CLI entry: main.mojo dispatches through cli.commands dispatch_command
+PASS: CLI dispatch: 29 cmd== names in the store dispatch (26 expected + help/version aliases counted)
+PASS: CLI catalog group: list/ls/show/create/verify/catalog/gc/cp/rm/delete
+PASS: CLI preference group: repair-preferences/aliases/favorites/alias/unalias/favorite
+PASS: CLI refusals on their faces: daemon unsupported, push not implemented, swarm not implemented
+PASS: CLI compat names (llama/exl2/onnx) dispatch to rejecting surfaces
+PASS: server served routes (openai_audit table): exactly 9
+PASS: server 501-refused routes: exactly 6 (embeddings, 3 speech, responses, moderations)
+PASS: live serve branches carry every served route path
+PASS: live serve Ollama shape: /api/version /api/tags /api/ps /api/show /api/generate /api/chat
+PASS: placement NOT wired into the live serve: native_serve imports no server_placement and no request parser carries prompt_on
+PASS: draft config layer states its own non-wiring on its face
+PASS: native GenerateRequest: no vocab_restriction / placement / draft field
+PASS: constrained generation's server door is the OpenAI shape only: vocab_restriction parsed in server/openai.mojo and answered in the serve's OpenAI branch
+PASS: MCP tool table: exactly 7 tools
+PASS: MCP host door: CLI 'mcp' dispatches dispatch_mcp in cli/commands.mojo
+PASS: services registry: exactly 9 entries
+PASS: services states: generate/tokenize MODEL_BOUND, grade/census/bench_report AVAILABLE, bench_sweep CLI_ONLY, embed REFUSED, segment NOT_EXPOSED, mcp_client DEFERRED
+PASS: AesirEngine facade: exactly 15 public entries
+PASS: facade entries raising on their faces: exactly the 5 reserved ones (ingest, swarm join, swarm inference, speculative, grammar)
+PASS: live serve is itself a Mojo host of the facade module: native_serve imports the CUDA sessions from aesir
+PASS: module classification: 215 modules excl. tests/docs, exactly 1 executable (main.mojo), 214 importable library modules
+PASS: package shape: core 141, cli 47, loader 15, server 8, top-level 4
+PASS: no C headers, no .bi, no TypeScript/JavaScript/.node artefacts anywhere under aesir_engine
+PASS: no @export anywhere in the engine's Mojo modules (excl. docs)
+PASS: pixi.toml carries no package/build target and no shared-library product
+PASS: FFI consumption is heavy (Mojo calling libc): >50 external_call sites outside docs
+PASS: the one named C ABI in the tree is the downward Hailo device bridge: 6 aesir_hailo10h_* entries, fail-closed stub
+PASS: the other C surfaces are internal shims: libaesir_image (2 entries, dlopen'd by the loader) and the thread_par shim (2 entries)
+PASS: no Python file under aesir_engine outside docs/janas (the filed client proofs)
+PASS: no Python-interop machinery in the engine's Mojo modules: no PythonObject, no 'from python import'
+PASS: filed Python process-door proofs exist: j109/j110/j112 clients
+PASS: Yggdrasil adapter calls exactly the 4 native routes
+PASS: adapter generate-option whitelist: exactly 9 fields
+PASS: adapter whitelist == the native parser's accepted field set exactly
+PASS: adapter refuses embed and vision tasks by name on its own face
+PASS: adapter speaks no MCP and no OpenAI shape: no /v1/chat/completions, no tools/call in its source
+PASS: adapter stream rule: every streamed record must carry a text string
+PASS: J-107 native progress frame shape: an event record with no text field (the adapter friction, filed for J-116)
+PASS: doc states the audit tallies (215/214/1, 15/5, 9/6 routes, 7 tools, 9 services, 9 whitelist fields)
+PASS: hygiene: slice file set == the 3 expected artefacts
+PASS: hygiene: no README in the slice file set, no .gguf anywhere in it
+
+TOTAL: 42 PASS, 0 FAIL
+ALL PASS
