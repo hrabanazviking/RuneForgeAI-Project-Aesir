@@ -78,13 +78,16 @@ def test_dense_residency_plan() raises:
         sizes.append(100)
 
     # A chosen split, stated: 31/32 front -- the proven spill shape.
-    var chosen = describe_dense_spill(sizes, 31, 50)
+    # Front always-resident 50 rides with the device; tail-resident 20
+    # (final norm + untied head) rides with the host.
+    var chosen = describe_dense_spill(sizes, 31, 50, 20)
     expect_eq(chosen.gpu_layers, 31, "chosen split gpu layers")
     expect_eq(chosen.host_layers, 1, "chosen split host layers")
     expect_eq(chosen.gpu_layer_bytes, 3100, "chosen split gpu bytes")
     expect_eq(chosen.host_layer_bytes, 100, "chosen split host bytes")
     expect_eq(chosen.total_layer_bytes, 3200, "chosen split total bytes")
     expect_eq(chosen.device_resident_bytes(), 3150, "device resident bytes")
+    expect_eq(chosen.host_total_bytes(), 120, "host total bytes")
     if not chosen.spilled:
         raise Error("31/32 split must report spilled")
 
@@ -113,7 +116,7 @@ def test_dense_residency_plan() raises:
 
     var refused = False
     try:
-        _ = describe_dense_spill(sizes, 33, 50)
+        _ = describe_dense_spill(sizes, 33, 50, 20)
     except:
         refused = True
     if not refused:

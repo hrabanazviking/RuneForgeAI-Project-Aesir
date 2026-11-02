@@ -16,8 +16,9 @@ degenerates to all-CPU or all-GPU execution.
 from loader.gguf import GGUFSeer
 from core.dense_residency import (
     DenseResidencyPlan,
-    dense_always_resident_bytes,
+    dense_front_resident_bytes,
     dense_layer_bytes,
+    dense_tail_resident_bytes,
     describe_dense_spill,
 )
 from core.llama3_cuda import Llama3CUDASession
@@ -76,7 +77,8 @@ struct Llama3SpillSession(Movable):
         self.residency = describe_dense_spill(
             layer_sizes,
             self.exec_layers,
-            dense_always_resident_bytes(self.front.model),
+            dense_front_resident_bytes(self.front.model),
+            dense_tail_resident_bytes(self.front.model),
         )
         print("[RESIDENCY] " + self.residency.describe())
 
