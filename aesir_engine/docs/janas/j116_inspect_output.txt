@@ -1,0 +1,39 @@
+PASS: progress renderer emits the prefill_progress event record with its 8 fields
+PASS: progress record carries NO text field (the friction's Aesir half)
+PASS: native framing is the progress payload + newline (stream_progress)
+PASS: a silent (short) read emits ZERO progress frames
+PASS: the serve's native streamed branch sends progress frames (STREAM_NATIVE_NDJSON)
+PASS: adapter calls exactly the 4 native routes
+PASS: all 4 adapter routes are branched on by the live serve
+PASS: adapter generate-option whitelist: exactly 9 fields
+PASS: adapter whitelist == the native parser's accepted option field set exactly
+PASS: native parser refuses unknown fields fail-closed (why the whitelist discipline matters)
+PASS: adapter stream rule: every streamed record must carry a text string, else engine_error
+PASS: adapter enforces the resident-only rule before generation (model_not_present)
+PASS: adapter's generate claim is ledger-gated on AES-SRV-010 + live readiness
+PASS: adapter refuses embed and vision tasks by name on its own face
+PASS: adapter speaks no MCP and no OpenAI shape (no completions route, no tools/call)
+PASS: native streamed terminal record carries timings_ms, model_digest, and token counts
+PASS: adapter reads the terminal record's service timings (prefill + decode) for run_ms
+PASS: placement: the parity layer states the serve refuses its flags today (host contract)
+PASS: placement: no placement field exists in the native parser (nothing for the adapter to send)
+PASS: drafts: the draft-config layer states it wires into no live chat or server path
+PASS: constrained generation: vocab_restriction is an OpenAI-shape field only, absent from the native parser
+PASS: FIM/completion: the suffix discipline lives on the OpenAI shape only
+PASS: MCP surface stands at 7 tools behind the stdio door the adapter does not speak
+PASS: expert streaming: the native serve carries no MoE reference (Part II rides the CLI/CPU door)
+PASS: embed/vision refusals agree: the native parser takes no images field and no embed route is served natively
+PASS: Yggdrasil's campaign is actively cycling slices through its working tree (state names Y-067 next; Y-066 banked during this slice)
+PASS: this slice wrote NOTHING into Yggdrasil's tree (adapter file carries no modification from this slice)
+PASS: replica runs clean
+PASS: replica (a): short-prompt stream completes under BOTH rules
+PASS: replica (b): the real long-prompt shape RAISES engine_error under the adapter's current rule (the friction, reproduced)
+PASS: replica (b): the filed recipe consumes the same stream to the exact terminal result (text, counts, digest, service run_ms, 4 progress records skipped)
+PASS: replica (c): the recipe does NOT weaken the terminal-record rule (no terminal -> engine_error under both rules)
+PASS: replica (d): malformed lines still raise engine_error under both rules
+PASS: doc states the disposition (form C, DEFERRED-WITH-REASON, re-cited to the J-118 gate) and the recipe
+PASS: hygiene: slice file set == the 5 expected artefacts (committed so far + on disk)
+PASS: hygiene: no README in the slice file set, no .gguf anywhere in it
+
+TOTAL: 36 PASS, 0 FAIL
+ALL PASS

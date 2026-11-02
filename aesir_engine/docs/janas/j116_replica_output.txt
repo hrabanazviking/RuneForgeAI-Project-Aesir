@@ -1,0 +1,8 @@
+case-a-short recipe=False: COMPLETED text='Hello mesh' prompt_tokens=4096 generated_tokens=2 digest=sha256:replica run_ms=1240.0 progress_seen=0
+case-a-short recipe=True: COMPLETED text='Hello mesh' prompt_tokens=4096 generated_tokens=2 digest=sha256:replica run_ms=1240.0 progress_seen=0
+case-b-long recipe=False: RAISED engine_error: streamed a record without a text string
+case-b-long recipe=True: COMPLETED text='Hello mesh' prompt_tokens=4096 generated_tokens=2 digest=sha256:replica run_ms=1240.0 progress_seen=4
+case-c-no-terminal recipe=False: RAISED engine_error: stream ended without its terminal record - incomplete
+case-c-no-terminal recipe=True: RAISED engine_error: stream ended without its terminal record - incomplete
+case-d-malformed recipe=False: RAISED engine_error: streamed a malformed NDJSON line
+case-d-malformed recipe=True: RAISED engine_error: streamed a malformed NDJSON line
