@@ -66,6 +66,24 @@ converter is BF16-only. The post-conversion file
 quantization leg is NOT built; lc_refuse_quantize
 refuses any quantization request by name rather
 than emitting BF16 under a quantized label.
+
+J-121 EXTENSION (MTP preservation; the J-121 doc
+section 0 is its normative protocol): a base tensor
+whose name has no llama mapping above but classifies
+as a prediction-head tensor under J-076's
+pre-registered name rules (nextn / mtp / assistant,
+mirrored by lc_mtp_head_kind below and proven to
+agree with core/mtp_census.mojo's classifier) is
+carried VERBATIM -- GGUF name == HF name, values
+through the same storage rule -- and labelled twice:
+by its own classifying name and by aesir.mtp.*
+metadata emitted only when at least one head tensor
+is present (head-free conversions emit exactly the
+19 J-120 entries). lc_extract_mtp_block returns a
+checkpoint's head tensors alone, for block-only
+emission through the same writer. A name with no
+mapping and no head classification is still refused
+by name, exactly as J-120.
 """
 
 from std.memory import bitcast
@@ -1024,6 +1042,64 @@ def _lc_hf_name_for_gguf(name: String) -> String:
 
 
 # ---------------------------------------------------------------------------
+# MTP preservation (J-121): head identification, verbatim carry, extraction
+# ---------------------------------------------------------------------------
+
+comptime LC_HEAD_NONE = 0
+comptime LC_HEAD_NEXTN = 1
+comptime LC_HEAD_MTP = 2
+comptime LC_HEAD_ASSISTANT = 3
+
+
+def lc_mtp_head_kind(name: String) -> Int:
+    """The prediction-head kind one tensor name
+    evidences, by J-076's pre-registered rules
+    (core/mtp_census.mojo): first match in the order
+    nextn, mtp, assistant. This is the conversion-side
+    mirror of classify_tensor_name -- the layer imports
+    nothing (J-120 section 0.1), so the rule is stated
+    here and the J-121 unit suite proves the mirror and
+    the classifier agree on every probed name."""
+    if "nextn" in name:
+        return LC_HEAD_NEXTN
+    if "mtp" in name:
+        return LC_HEAD_MTP
+    if "assistant" in name:
+        return LC_HEAD_ASSISTANT
+    return LC_HEAD_NONE
+
+
+def lc_mtp_head_kind_name(kind: Int) -> String:
+    if kind == LC_HEAD_NEXTN:
+        return String("nextn")
+    if kind == LC_HEAD_MTP:
+        return String("mtp")
+    if kind == LC_HEAD_ASSISTANT:
+        return String("assistant")
+    return String("none")
+
+
+def lc_extract_mtp_block(tensors: List[LcTensor]) raises -> List[LcTensor]:
+    """J-121 section 0.6 local extraction: exactly the
+    head-classified tensors of a checkpoint, in source
+    order, values untouched -- the block a block-only
+    emission through the GGUF writer carries. A
+    checkpoint with zero head tensors is refused by
+    name: nothing to extract is not a silent empty
+    block file."""
+    var out = List[LcTensor]()
+    for t in tensors:
+        if lc_mtp_head_kind(t.name) != LC_HEAD_NONE:
+            out.append(t.copy())
+    if len(out) == 0:
+        raise Error(
+            "conversion refused: MTP extraction found no prediction-head"
+            " tensors in the checkpoint (nextn/mtp/assistant name rules)"
+        )
+    return out^
+
+
+# ---------------------------------------------------------------------------
 # Geometry, census, and the GGUF writer
 # ---------------------------------------------------------------------------
 
@@ -1122,16 +1198,32 @@ struct LcConversion(Copyable):
     var bytes: List[Byte]
     var census: List[LcCensusEntry]
     var data_offset: Int
+    # J-121: the carried prediction-head tensors of this
+    # conversion (GGUF names + J-076 kinds, census order);
+    # empty for a head-free conversion.
+    var head_names: List[String]
+    var head_kinds: List[Int]
 
-    def __init__(out self, bytes: List[Byte], census: List[LcCensusEntry], data_offset: Int):
+    def __init__(
+        out self,
+        bytes: List[Byte],
+        census: List[LcCensusEntry],
+        data_offset: Int,
+        head_names: List[String],
+        head_kinds: List[Int],
+    ):
         self.bytes = bytes.copy()
         self.census = census.copy()
         self.data_offset = data_offset
+        self.head_names = head_names.copy()
+        self.head_kinds = head_kinds.copy()
 
     def __copyinit__(out self, existing: Self):
         self.bytes = existing.bytes.copy()
         self.census = existing.census.copy()
         self.data_offset = existing.data_offset
+        self.head_names = existing.head_names.copy()
+        self.head_kinds = existing.head_kinds.copy()
 
 
 def _lc_align_up(v: Int, alignment: Int) -> Int:
@@ -1201,15 +1293,34 @@ def _lc_convert_tensors(
     var gdims = List[List[Int]]()
     var gtypes = List[Int]()
     var gsizes = List[Int]()
+    var head_names = List[String]()
+    var head_kinds = List[Int]()
     for t in tensors:
         var gname: String
         if strict_names:
-            gname = lc_gguf_name_for_hf(t.name)
+            try:
+                gname = lc_gguf_name_for_hf(t.name)
+            except:
+                # J-121 section 0.2: an unmapped name that
+                # classifies as a prediction-head tensor is
+                # carried verbatim; any other unmapped name
+                # keeps J-120's refusal, text unchanged.
+                if lc_mtp_head_kind(t.name) != LC_HEAD_NONE:
+                    gname = t.name
+                else:
+                    raise Error(
+                        "conversion refused: no GGUF name mapping for HF tensor: "
+                        + t.name
+                    )
         else:
             try:
                 gname = lc_gguf_name_for_hf(t.name)
             except:
                 gname = t.name
+        var gkind = lc_mtp_head_kind(gname)
+        if gkind != LC_HEAD_NONE:
+            head_names.append(gname)
+            head_kinds.append(gkind)
         if len(t.dims) == 1:
             var dims = List[Int]()
             dims.append(t.dims[0])
@@ -1250,6 +1361,12 @@ def _lc_convert_tensors(
     _lc_kv_u32(meta, "tokenizer.ggml.bos_token_id", geom.bos_token_id)
     _lc_kv_u32(meta, "tokenizer.ggml.eos_token_id", geom.eos_token_id)
     # 19 metadata entries were appended above (counted in the doc).
+    # J-121 section 0.3: the explicit head label, emitted only when
+    # at least one head tensor is carried (+2 entries, 21 total).
+    if len(head_names) > 0:
+        _lc_kv_u32(meta, "aesir.mtp.head_count", len(head_names))
+        _lc_kv_string_array(meta, "aesir.mtp.head_tensors", head_names)
+    var kv_count = 19 + (2 if len(head_names) > 0 else 0)
     # Tensor directory (sizes first to place data).
     var dir_bytes = List[Byte]()
     var offsets = List[Int]()
@@ -1270,7 +1387,7 @@ def _lc_convert_tensors(
     _lc_append_u32le(out, 0x46554747)
     _lc_append_u32le(out, 3)
     _lc_append_u64le(out, len(tensors))
-    _lc_append_u64le(out, 19)
+    _lc_append_u64le(out, kv_count)
     for b in meta:
         out.append(b)
     for b in dir_bytes:
@@ -1289,7 +1406,7 @@ def _lc_convert_tensors(
         census.append(
             LcCensusEntry(names[i], gdims[i], gtypes[i], offsets[i], gsizes[i])
         )
-    return LcConversion(out^, census^, data_offset)
+    return LcConversion(out^, census^, data_offset, head_names^, head_kinds^)
 
 
 def lc_convert_base(base: List[LcTensor], geom: LcGeometry) raises -> LcConversion:
