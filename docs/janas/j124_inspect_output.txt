@@ -1,0 +1,75 @@
+PASS artefact present docs/janas/j124_census.py
+PASS artefact present docs/janas/j124_fixtures.py
+PASS artefact present docs/janas/j124_reread.mojo
+PASS artefact present docs/janas/j124_refuse.mojo
+PASS artefact present docs/janas/j124_reverify.py
+PASS artefact present docs/janas/j124_reverify_output.txt
+PASS artefact present docs/janas/j124_test_output.txt
+PASS artefact present aesir_engine/core/qwen35moe_layout.mojo
+PASS artefact present aesir_engine/tests/test_qwen35moe_layout.mojo
+PASS loader gguf.mojo states _validate_qwen35moe_tensors
+PASS loader gguf.mojo states "qwen35moe"
+PASS loader gguf.mojo states qwen35moe_common_suffixes
+PASS loader gguf.mojo states qwen35moe_is_attention_layer
+PASS loader gguf.mojo states qwen35moe_ssm_suffixes
+PASS loader gguf.mojo states GGUF qwen35moe shared expert metadata is incomplete
+PASS loader gguf.mojo states GGUF qwen35moe SSM metadata is incomplete
+PASS loader gguf.mojo states GGUF qwen35moe expert routing metadata is incomplete
+PASS qwen35moe_layout.mojo states qwen35moe_is_attention_layer
+PASS qwen35moe_layout.mojo states qwen35moe_common_suffixes
+PASS qwen35moe_layout.mojo states qwen35moe_ssm_suffixes
+PASS qwen35moe_layout.mojo states qwen35moe_attention_suffixes
+PASS qwen35moe_layout.mojo states qwen35moe_total_tensor_count
+PASS qwen35moe_layout.mojo states 693
+PASS moe_session still admits only olmoe (session gate shut)
+PASS inference gate shut for qwen35moe (dense qwen35 forward only)
+PASS reverify filed output 32 checks FAIL 0 ALL PASS
+PASS test output states test_qwen35moe_layout: ALL PASS (6 groups)
+PASS test output states directory arithmetic 693 (30x18 + 10x15 + 3), fixture 72
+PASS test output states SUMMARY arch qwen35moe tensors 72
+PASS test output states SUMMARY arch qwen35moe tensors 76
+PASS test output states SUMMARY arch qwen35moe tensors 39
+PASS test output states SUMMARY arch qwen35moe tensors 73
+PASS test output states SUMMARY qwen35moe blocks 4 attention 1 ssm 3
+PASS test output states SUMMARY mtp nextn 4 mtp 0 assistant 0 verdict WITH_MTP
+PASS test output states SUMMARY mtp nextn 0 mtp 0 assistant 0 verdict NO_MTP
+PASS test output states GGUF validated: 72 tensors, 29 metadata entries, architect
+PASS test output states GGUF validated: 76 tensors, 29 metadata entries, architect
+PASS test output states REFUSAL: GGUF is missing required tensor: blk.1.ssm_out.we
+PASS test output states REFUSAL: GGUF is missing required tensor: blk.2.ffn_gate_s
+PASS test output states REFUSAL: GGUF is missing required tensor: blk.0.post_atten
+PASS test output states REFUSAL: GGUF required tensor has an invalid shape: blk.3.
+PASS test output states GGUFSeer malformed-model rejection & FAILED state transiti
+PASS test output states ALL PASS: mtp census classifier (8 groups)
+PASS test output states test_qwen3next_layout: ALL PASS (6 groups)
+PASS test output states TOTAL 32 checks, FAIL 2
+PASS test output re-read drivers ALL PASS x2 -- 2
+PASS test output refusal drivers ALL PASS x4 -- 4
+PASS doc states DEFERRED-WITH-REASON
+PASS doc states NOT PROVEN
+PASS doc states J-133
+PASS doc states J-134
+PASS doc states J-136
+PASS doc states repl.mojo
+PASS doc states G-119-1
+PASS doc states 215efa37
+PASS doc states 693
+PASS doc states blk.0.post_attention_norm.weight
+PASS doc states blk.3.attn_q.weight
+PASS doc states moe_session
+PASS doc states ABSENT-FILE
+PASS doc sections 1+ filed
+PASS campaign copy sha-identical: J124_QWEN36_VERIFICATION.md
+PASS campaign copy sha-identical: j124_census.py
+PASS campaign copy sha-identical: j124_fixtures.py
+PASS campaign copy sha-identical: j124_reread.mojo
+PASS campaign copy sha-identical: j124_refuse.mojo
+PASS campaign copy sha-identical: j124_reverify.py
+PASS campaign copy sha-identical: j124_reverify_output.txt
+PASS campaign copy sha-identical: j124_test_output.txt
+PASS campaign copy sha-identical: j124_inspect.py
+PASS campaign copy sha-identical: qwen35moe_layout.mojo
+PASS campaign copy sha-identical: test_qwen35moe_layout.mojo
+PASS no README.md touched in worktree -- M docs/janas/J124_QWEN36_VERIFICATION.md
+?? docs/janas/j124_
+TOTAL 73 PASS 73 FAIL 0
