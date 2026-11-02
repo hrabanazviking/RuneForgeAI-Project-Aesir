@@ -60,6 +60,5 @@ PASS campaign copy sha-identical: j120_fixtures.py
 PASS campaign copy sha-identical: j120_verify.py
 PASS campaign copy sha-identical: lora_convert.mojo
 PASS campaign copy sha-identical: test_lora_convert.mojo
-PASS no README.md touched in worktree -- M docs/janas/J120_LORA_MERGE_CONVERSION.md
-?? docs/janas/j12
+PASS no README.md touched in worktree -- M docs/janas/j120_test_output.txt
 TOTAL 63 PASS 63 FAIL 0
