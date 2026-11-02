@@ -55,6 +55,7 @@ from tests.test_inference import (
 )
 from tests.test_kv_cache import test_kv_cache
 from tests.test_checked_span import test_checked_span
+from tests.test_stream_reader import test_stream_reader
 from tests.test_expert_cache import test_expert_cache
 from tests.test_dense_residency import test_dense_residency
 from tests.test_rune_tensor_layout import test_rune_tensor_layout
@@ -474,6 +475,7 @@ def main() raises:
         ledger, "memory.allocation_bounds", test_mimir_well_allocation_bounds
     )
     run_case(ledger, "memory.checked_span", test_checked_span)
+    run_case(ledger, "io.stream_reader", test_stream_reader)
     run_case(ledger, "memory.expert_cache", test_expert_cache)
     run_case(ledger, "memory.dense_residency", test_dense_residency)
     run_case(ledger, "memory.rune_tensor_layout", test_rune_tensor_layout)
@@ -1063,4 +1065,5 @@ def main() raises:
     # the janas merges into 2444d610 without re-accounting this pin
     # (base control at 2444d610 counted 276/0/2/278 and failed here).
     # Union re-pin (merge-to-main sweep 2026-11-01): 278 -> 279 -- both sides' registrations counted (run_case + record_skip); the incoming branch's finish pin did not count its own added case.
-    ledger.finish(279)
+    # Union re-pin (merge-to-main sweep 2026-11-01): 279 -> 280 -- both sides' registrations counted (run_case + record_skip); the incoming branch's finish pin did not count its own added case.
+    ledger.finish(280)
