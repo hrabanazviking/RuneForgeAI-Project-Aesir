@@ -1,0 +1,39 @@
+PASS engine tree present (>400 .mojo files) -- 487
+PASS CENSUS.md J-010 names hf2gguf
+PASS CENSUS.md J-010 names hf2jns_mtp
+PASS CENSUS.md J-010 names gguf2jns
+PASS CENSUS.md J-010 names hf2jns_vision
+PASS CENSUS.md J-010 names silero2jns
+PASS CENSUS.md J-010 names wespeaker2jns
+PASS CENSUS.md J-010 names jns_check
+PASS CENSUS.md J-010 names jns_planes
+PASS DELTA row 60 graded REFUSED -- | 60 | GGUF→native converter (gguf2jns) | REFUSED | Its outp
+PASS DELTA row 61 graded WANTED -- | 61 | HF→GGUF conversion with LoRA merge at conversion | WA
+PASS DELTA row 62 graded WANTED -- | 62 | MTP-preserving conversion/extraction | WANTED | Part 
+PASS DELTA row 63 graded PARTIAL -- | 63 | Vision-encoder conversion from HF checkpoints | PARTI
+PASS DELTA row 71 graded REFUSED -- | 71 | Whisper/VAD/WeSpeaker converters | REFUSED | With row
+PASS no LoRA anywhere in .mojo (C04 ABSENT)
+PASS no GGUF writer symbol (C03/C06 ABSENT)
+PASS dispatch has pull
+PASS dispatch has get
+PASS dispatch has no convert command
+PASS dispatch has no quantize command
+PASS loader/gguf.mojo present
+PASS loader/huggingface.mojo present
+PASS loader/mmproj.mojo present
+PASS loader/quantization.mojo present
+PASS loader/exl2.mojo present
+PASS loader/onnx.mojo present
+PASS exl2 safetensors boundary is a refusal
+PASS huggingface.mojo downloads pinned GGUF (download_hf_model)
+PASS huggingface.mojo has no safetensors handling
+PASS core/mtp_census.mojo present (engine-side MTP census)
+PASS core/mtp_head_support.mojo present (engine-side MTP admission)
+PASS mmproj read path finds tower beside model
+PASS doc table has 11 converter rows -- 11
+PASS doc headline REFUSED tally matches table -- {'REFUSED': 3, 'ABSENT': 5, 'PARTIAL': 3}
+PASS doc headline ABSENT tally matches table -- {'REFUSED': 3, 'ABSENT': 5, 'PARTIAL': 3}
+PASS doc headline PARTIAL tally matches table -- {'REFUSED': 3, 'ABSENT': 5, 'PARTIAL': 3}
+PASS carried repl.mojo item re-cited in doc
+PASS J-120/J-121/J-122 handoffs named in doc
+TOTAL 38 PASS 38 FAIL 0
