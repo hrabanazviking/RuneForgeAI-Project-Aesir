@@ -1,0 +1,111 @@
+J-122 conversion verification harness -- test output (VM, lightest target: pure stdlib Python, no compiles, no inference)
+Tree: yrsa/janas-j122 from yrsa/janas-j121 tip aa30d898ec9516b5b6013fa1b311b886b0b92705 (ls-remote verified; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (3754494b0eec23203cf17ef8adac81cd6679efbb, push ls-remote verified before the build).
+Machine: VM (KVM), NO GPU device used. MemAvailable ~2.8 GB at dispatch -- below the 5,500 MB inference gate at every observation; NO inference ran anywhere (the live teacher-forcing leg is DEFERRED-WITH-REASON, protocol 0.3(b), re-cited to J-128 + the J-136 gate). purplelongship not used at all (the 204 road's live S-104 there -- yielded). Converted files regenerated with the staged J-121-tree binaries in ~/workspace/.verify-tmp/j121build/ (no new Mojo compile forced under the memory gate); every regenerated file reproduced its banked sha256 pin before the harness graded it (run_pairs output below).
+
+== j122_run_pairs.py (regeneration + pins + harness over P1-P4) ==
+== j120 fixtures (exit 0) ==
+fixtures written: /tmp/j120/work
+== j121 fixtures (exit 0) ==
+fixtures written: /tmp/j121/work (16 tensors, 4 head)
+== j120_convert (staged, J-121 tree) (exit 0) ==
+BASE TENSORS: 12  ADAPTER TENSORS: 4  RANK: 2  ALPHA: 4.0
+MERGED: model.layers.0.self_attn.q_proj.weight
+MERGED: model.layers.0.mlp.gate_proj.weight
+PASSTHROUGH: model.embed_tokens.weight
+PASSTHROUGH: model.norm.weight
+PASSTHROUGH: lm_head.weight
+PASSTHROUGH: model.layers.0.input_layernorm.weight
+PASSTHROUGH: model.layers.0.self_attn.k_proj.weight
+PASSTHROUGH: model.layers.0.self_attn.v_proj.weight
+PASSTHROUGH: model.layers.0.self_attn.o_proj.weight
+PASSTHROUGH: model.layers.0.post_attention_layernorm.weight
+PASSTHROUGH: model.layers.0.mlp.up_proj.weight
+PASSTHROUGH: model.layers.0.mlp.down_proj.weight
+GGUF BYTES: 3200  DATA OFFSET: 1696
+TENSOR token_embd.weight dims [8,8] type 30 offset 0 bytes 128
+TENSOR output_norm.weight dims [8] type 0 offset 128 bytes 32
+TENSOR output.weight dims [8,8] type 30 offset 160 bytes 128
+TENSOR blk.0.attn_norm.weight dims [8] type 0 offset 288 bytes 32
+TENSOR blk.0.attn_q.weight dims [8,8] type 30 offset 320 bytes 128
+TENSOR blk.0.attn_k.weight dims [8,4] type 30 offset 448 bytes 64
+TENSOR blk.0.attn_v.weight dims [8,4] type 30 offset 512 bytes 64
+TENSOR blk.0.attn_output.weight dims [8,8] type 30 offset 576 bytes 128
+TENSOR blk.0.ffn_norm.weight dims [8] type 0 offset 704 bytes 32
+TENSOR blk.0.ffn_gate.weight dims [8,16] type 30 offset 736 bytes 256
+TENSOR blk.0.ffn_up.weight dims [8,16] type 30 offset 992 bytes 256
+TENSOR blk.0.ffn_down.weight dims [16,8] type 30 offset 1248 bytes 256
+FROM-GGUF RE-EMISSION: BYTE-IDENTICAL ( 3200 bytes )
+QUANTIZE REQUEST REFUSED: q4_k_m (C05 BF16-only scope)
+CONVERT DRIVER: ALL PASS
+== j121_convert (staged, J-121 tree) (exit 0) ==
+SOURCE TENSORS: 16
+GGUF BYTES: 4128  DATA OFFSET: 2176
+TENSOR token_embd.weight dims [8,8] type 30 offset 0 bytes 128
+TENSOR output_norm.weight dims [8] type 0 offset 128 bytes 32
+TENSOR output.weight dims [8,8] type 30 offset 160 bytes 128
+TENSOR blk.0.attn_norm.weight dims [8] type 0 offset 288 bytes 32
+TENSOR blk.0.attn_q.weight dims [8,8] type 30 offset 320 bytes 128
+TENSOR blk.0.attn_k.weight dims [8,4] type 30 offset 448 bytes 64
+TENSOR blk.0.attn_v.weight dims [8,4] type 30 offset 512 bytes 64
+TENSOR blk.0.attn_output.weight dims [8,8] type 30 offset 576 bytes 128
+TENSOR blk.0.ffn_norm.weight dims [8] type 0 offset 704 bytes 32
+TENSOR blk.0.ffn_gate.weight dims [8,16] type 30 offset 736 bytes 256
+TENSOR blk.0.ffn_up.weight dims [8,16] type 30 offset 992 bytes 256
+TENSOR blk.0.ffn_down.weight dims [16,8] type 30 offset 1248 bytes 256
+TENSOR model.nextn.eh_proj.weight dims [16,8] type 30 offset 1504 bytes 256
+TENSOR model.nextn.shared_head_norm.weight dims [8] type 0 offset 1760 bytes 32
+TENSOR model.mtp.fc.weight dims [8,8] type 30 offset 1792 bytes 128
+TENSOR model.assistant.head_norm.weight dims [8] type 0 offset 1920 bytes 32
+HEAD TENSORS CARRIED: 4
+HEAD model.nextn.eh_proj.weight kind nextn
+HEAD model.nextn.shared_head_norm.weight kind nextn
+HEAD model.mtp.fc.weight kind mtp
+HEAD model.assistant.head_norm.weight kind assistant
+DETERMINISM: SECOND CONVERSION BYTE-IDENTICAL
+FROM-GGUF RE-EMISSION: BYTE-IDENTICAL ( 4128 bytes )
+BLOCK GGUF BYTES: 1920
+BLOCK TENSOR model.nextn.eh_proj.weight
+BLOCK TENSOR model.nextn.shared_head_norm.weight
+BLOCK TENSOR model.mtp.fc.weight
+BLOCK TENSOR model.assistant.head_norm.weight
+CONVERT DRIVER: ALL PASS
+PIN merged.gguf OK
+PIN converted.gguf OK
+PIN block.gguf OK
+== P1-j120-lora-merge (exit 0) ==
+VERDICT PASS -- classes {'pass-through': 10, 'merged': 2}, grade 728 elements / 0 differing / max_abs_diff 0.0
+== P2-j120-c10-reemission (exit 0) ==
+VERDICT PASS -- classes {'carried-verbatim': 12}, grade 728 elements / 0 differing / max_abs_diff 0.0
+== P3-j121-mtp-conversion (exit 0) ==
+VERDICT PASS -- classes {'pass-through': 12, 'labelled-head': 4}, grade 936 elements / 0 differing / max_abs_diff 0.0
+== P4-j121-block-extraction (exit 0) ==
+VERDICT PASS -- classes {'labelled-head': 4}, grade 208 elements / 0 differing / max_abs_diff 0.0
+pair records written: /home/hatch/workspace/aesir-janas-j122/docs/janas/j122_pair_records.json
+RUN PAIRS: ALL PASS (4 pairs)
+run exit=0
+
+== j122_test_harness.py (11 groups, incl. 5 negative/refusal groups) ==
+PASS: group 1: P1 verdict PASS
+PASS: group 1: P1 classes merged 2 / pass-through 10
+PASS: group 1: P1 merged names exact (attn_q, ffn_gate)
+PASS: group 1: P1 census 12
+PASS: group 2: P1 grade 728 elements / 0 differing / 0.0
+PASS: group 2: P1 merged elements 192 vs the slow way, 0 diffs
+PASS: group 3: P3 verdict PASS
+PASS: group 3: P3 classes labelled-head 4 / pass-through 12
+PASS: group 3: P3 head names exact, in census order
+PASS: group 3: P3 metadata label agrees (21 entries, head_count 4)
+PASS: group 3: P3 grade 936 elements / 0 differing
+PASS: group 4: P4 subset census 4 labelled-head / 208 elements exact
+PASS: group 5: P2 carried-verbatim 12, source sha == converted sha
+PASS: group 6: flipped element FAILs (exit 1)
+PASS: group 6: differing count exactly 1, tensor named (blk.0.ffn_down.weight)
+PASS: group 7: missing tensors FAIL, 12 missing-in-converted named
+PASS: group 8: mislabelled head FAILs as label-mismatch
+PASS: group 9: extra tensors FAIL, 12 extra-in-converted named
+PASS: group 10: silently dropped unmapped tensor REFUSED-by-name (model.vision_tower.weight)
+PASS: group 11: re-run reproduces filed record exactly (P1-j120-lora-merge)
+PASS: group 11: re-run reproduces filed record exactly (P3-j121-mtp-conversion)
+checks: 21, fails: 0
+TEST HARNESS: ALL PASS (11 groups)
+run exit=0

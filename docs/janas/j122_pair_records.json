@@ -1,0 +1,1793 @@
+[
+ {
+  "adapter": {
+   "file": "adapter_model.safetensors",
+   "lora_alpha": 4,
+   "rank": 2,
+   "sha256": "f2e508944f204d191f3e20c73287651227434b504723418ac41639da2166c475",
+   "targets": [
+    "model.layers.0.mlp.gate_proj.weight",
+    "model.layers.0.self_attn.q_proj.weight"
+   ]
+  },
+  "census_diff": [
+   {
+    "class": "pass-through",
+    "converted_name": "token_embd.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.embed_tokens.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "output_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "output.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "lm_head.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.layers.0.input_layernorm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "merged",
+    "converted_name": "blk.0.attn_q.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.layers.0.self_attn.q_proj.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_k.weight",
+    "converted_shape": [
+     8,
+     4
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 32,
+    "source_name": "model.layers.0.self_attn.k_proj.weight",
+    "source_shape": [
+     4,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_v.weight",
+    "converted_shape": [
+     8,
+     4
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 32,
+    "source_name": "model.layers.0.self_attn.v_proj.weight",
+    "source_shape": [
+     4,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_output.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.layers.0.self_attn.o_proj.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.ffn_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.layers.0.post_attention_layernorm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "merged",
+    "converted_name": "blk.0.ffn_gate.weight",
+    "converted_shape": [
+     8,
+     16
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.layers.0.mlp.gate_proj.weight",
+    "source_shape": [
+     16,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.ffn_up.weight",
+    "converted_shape": [
+     8,
+     16
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.layers.0.mlp.up_proj.weight",
+    "source_shape": [
+     16,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.ffn_down.weight",
+    "converted_shape": [
+     16,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.layers.0.mlp.down_proj.weight",
+    "source_shape": [
+     8,
+     16
+    ],
+    "source_type": "F32"
+   }
+  ],
+  "class_counts": {
+   "merged": 2,
+   "pass-through": 10
+  },
+  "converted": {
+   "bytes": 3200,
+   "census": [
+    {
+     "elements": 64,
+     "name": "token_embd.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "output_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.attn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_q.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_k.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_v.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.ffn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_gate.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_up.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_down.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "BF16"
+    }
+   ],
+   "file": "merged.gguf",
+   "head_count": null,
+   "head_label": null,
+   "metadata_count": 19,
+   "sha256": "c26af51dd9ebbea7a31635d3354ebb2dcf570dd69bd5df576ca01f1c1c7e2c6a"
+  },
+  "grade": {
+   "differing_elements": 0,
+   "kind": "element-exact (synthetic pair grade)",
+   "max_abs_diff": 0.0,
+   "total_elements": 728
+  },
+  "harness": "j122_harness.py (J-122)",
+  "live_teacher_forcing": {
+   "definition": "teacher-forcing rank + logit gap on the raw prompt, CPU engine vs CPU comparator only, near-tie band rank <=2 with sub-logit gap = faithful; never llama-cli --single-turn (J-122 protocol 0.3(b))",
+   "reason": "VM below the 5,500 MB inference gate; purplelongship yielded to the 204 road's live S-104; the only converted files in existence are the synthetic J-120/J-121 toys",
+   "recited_to": [
+    "J-128",
+    "J-136"
+   ],
+   "status": "DEFERRED-WITH-REASON"
+  },
+  "mode": "hf-gguf",
+  "pair": "P1-j120-lora-merge",
+  "reasons": [],
+  "source": {
+   "bytes": 4017,
+   "census": [
+    {
+     "elements": 64,
+     "name": "model.embed_tokens.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "lm_head.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.layers.0.input_layernorm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.layers.0.self_attn.q_proj.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 32,
+     "name": "model.layers.0.self_attn.k_proj.weight",
+     "shape": [
+      4,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 32,
+     "name": "model.layers.0.self_attn.v_proj.weight",
+     "shape": [
+      4,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.layers.0.self_attn.o_proj.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.layers.0.post_attention_layernorm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.gate_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.up_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.down_proj.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "F32"
+    }
+   ],
+   "file": "model.safetensors",
+   "sha256": "0389154fa851d52defbb9f5e3e22e20da77c4e904a3e408d7036be9948104610"
+  },
+  "verdict": "PASS"
+ },
+ {
+  "census_diff": [
+   {
+    "class": "carried-verbatim",
+    "converted_name": "token_embd.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "token_embd.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "output_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "output_norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "output.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "output.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.attn_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "blk.0.attn_norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.attn_q.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "blk.0.attn_q.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.attn_k.weight",
+    "converted_shape": [
+     8,
+     4
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 32,
+    "source_name": "blk.0.attn_k.weight",
+    "source_shape": [
+     8,
+     4
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.attn_v.weight",
+    "converted_shape": [
+     8,
+     4
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 32,
+    "source_name": "blk.0.attn_v.weight",
+    "source_shape": [
+     8,
+     4
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.attn_output.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "blk.0.attn_output.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.ffn_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "blk.0.ffn_norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.ffn_gate.weight",
+    "converted_shape": [
+     8,
+     16
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "blk.0.ffn_gate.weight",
+    "source_shape": [
+     8,
+     16
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.ffn_up.weight",
+    "converted_shape": [
+     8,
+     16
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "blk.0.ffn_up.weight",
+    "source_shape": [
+     8,
+     16
+    ],
+    "source_type": "BF16"
+   },
+   {
+    "class": "carried-verbatim",
+    "converted_name": "blk.0.ffn_down.weight",
+    "converted_shape": [
+     16,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "blk.0.ffn_down.weight",
+    "source_shape": [
+     16,
+     8
+    ],
+    "source_type": "BF16"
+   }
+  ],
+  "class_counts": {
+   "carried-verbatim": 12
+  },
+  "converted": {
+   "bytes": 3200,
+   "census": [
+    {
+     "elements": 64,
+     "name": "token_embd.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "output_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.attn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_q.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_k.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_v.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.ffn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_gate.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_up.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_down.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "BF16"
+    }
+   ],
+   "file": "remitted.gguf",
+   "head_count": null,
+   "head_label": null,
+   "metadata_count": 19,
+   "sha256": "c26af51dd9ebbea7a31635d3354ebb2dcf570dd69bd5df576ca01f1c1c7e2c6a"
+  },
+  "grade": {
+   "differing_elements": 0,
+   "kind": "element-exact (synthetic pair grade)",
+   "max_abs_diff": 0.0,
+   "total_elements": 728
+  },
+  "harness": "j122_harness.py (J-122)",
+  "live_teacher_forcing": {
+   "definition": "teacher-forcing rank + logit gap on the raw prompt, CPU engine vs CPU comparator only, near-tie band rank <=2 with sub-logit gap = faithful; never llama-cli --single-turn (J-122 protocol 0.3(b))",
+   "reason": "VM below the 5,500 MB inference gate; purplelongship yielded to the 204 road's live S-104; the only converted files in existence are the synthetic J-120/J-121 toys",
+   "recited_to": [
+    "J-128",
+    "J-136"
+   ],
+   "status": "DEFERRED-WITH-REASON"
+  },
+  "mode": "gguf-gguf",
+  "pair": "P2-j120-c10-reemission",
+  "reasons": [],
+  "source": {
+   "bytes": 3200,
+   "census": [
+    {
+     "elements": 64,
+     "name": "token_embd.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "output_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.attn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_q.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_k.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_v.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.ffn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_gate.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_up.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_down.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "BF16"
+    }
+   ],
+   "file": "merged.gguf",
+   "sha256": "c26af51dd9ebbea7a31635d3354ebb2dcf570dd69bd5df576ca01f1c1c7e2c6a"
+  },
+  "verdict": "PASS"
+ },
+ {
+  "census_diff": [
+   {
+    "class": "pass-through",
+    "converted_name": "token_embd.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.embed_tokens.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "output_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "output.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "lm_head.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.layers.0.input_layernorm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_q.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.layers.0.self_attn.q_proj.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_k.weight",
+    "converted_shape": [
+     8,
+     4
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 32,
+    "source_name": "model.layers.0.self_attn.k_proj.weight",
+    "source_shape": [
+     4,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_v.weight",
+    "converted_shape": [
+     8,
+     4
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 32,
+    "source_name": "model.layers.0.self_attn.v_proj.weight",
+    "source_shape": [
+     4,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.attn_output.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.layers.0.self_attn.o_proj.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.ffn_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.layers.0.post_attention_layernorm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.ffn_gate.weight",
+    "converted_shape": [
+     8,
+     16
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.layers.0.mlp.gate_proj.weight",
+    "source_shape": [
+     16,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.ffn_up.weight",
+    "converted_shape": [
+     8,
+     16
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.layers.0.mlp.up_proj.weight",
+    "source_shape": [
+     16,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "pass-through",
+    "converted_name": "blk.0.ffn_down.weight",
+    "converted_shape": [
+     16,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.layers.0.mlp.down_proj.weight",
+    "source_shape": [
+     8,
+     16
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "labelled-head",
+    "converted_name": "model.nextn.eh_proj.weight",
+    "converted_shape": [
+     16,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.nextn.eh_proj.weight",
+    "source_shape": [
+     8,
+     16
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "labelled-head",
+    "converted_name": "model.nextn.shared_head_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.nextn.shared_head_norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "labelled-head",
+    "converted_name": "model.mtp.fc.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.mtp.fc.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "labelled-head",
+    "converted_name": "model.assistant.head_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.assistant.head_norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   }
+  ],
+  "class_counts": {
+   "labelled-head": 4,
+   "pass-through": 12
+  },
+  "converted": {
+   "bytes": 4128,
+   "census": [
+    {
+     "elements": 64,
+     "name": "token_embd.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "output_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.attn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_q.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_k.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 32,
+     "name": "blk.0.attn_v.weight",
+     "shape": [
+      8,
+      4
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 64,
+     "name": "blk.0.attn_output.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "blk.0.ffn_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_gate.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_up.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "blk.0.ffn_down.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 128,
+     "name": "model.nextn.eh_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "model.nextn.shared_head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.mtp.fc.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "model.assistant.head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    }
+   ],
+   "file": "converted.gguf",
+   "head_count": 4,
+   "head_label": [
+    "model.nextn.eh_proj.weight",
+    "model.nextn.shared_head_norm.weight",
+    "model.mtp.fc.weight",
+    "model.assistant.head_norm.weight"
+   ],
+   "metadata_count": 21,
+   "sha256": "730dadae10b033c22b2e2345d2a478d717043a5c3f225e5977ba1b433ec77005"
+  },
+  "grade": {
+   "differing_elements": 0,
+   "kind": "element-exact (synthetic pair grade)",
+   "max_abs_diff": 0.0,
+   "total_elements": 936
+  },
+  "harness": "j122_harness.py (J-122)",
+  "live_teacher_forcing": {
+   "definition": "teacher-forcing rank + logit gap on the raw prompt, CPU engine vs CPU comparator only, near-tie band rank <=2 with sub-logit gap = faithful; never llama-cli --single-turn (J-122 protocol 0.3(b))",
+   "reason": "VM below the 5,500 MB inference gate; purplelongship yielded to the 204 road's live S-104; the only converted files in existence are the synthetic J-120/J-121 toys",
+   "recited_to": [
+    "J-128",
+    "J-136"
+   ],
+   "status": "DEFERRED-WITH-REASON"
+  },
+  "mode": "hf-gguf",
+  "pair": "P3-j121-mtp-conversion",
+  "reasons": [],
+  "source": {
+   "bytes": 5198,
+   "census": [
+    {
+     "elements": 64,
+     "name": "model.embed_tokens.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "lm_head.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.layers.0.input_layernorm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.layers.0.self_attn.q_proj.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 32,
+     "name": "model.layers.0.self_attn.k_proj.weight",
+     "shape": [
+      4,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 32,
+     "name": "model.layers.0.self_attn.v_proj.weight",
+     "shape": [
+      4,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.layers.0.self_attn.o_proj.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.layers.0.post_attention_layernorm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.gate_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.up_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.down_proj.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.nextn.eh_proj.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.nextn.shared_head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.mtp.fc.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.assistant.head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    }
+   ],
+   "file": "model.safetensors",
+   "sha256": "0a0049c82c50bd1b0afa4a6404d98a6004c59784b133006709102eb8e0994184"
+  },
+  "verdict": "PASS"
+ },
+ {
+  "census_diff": [
+   {
+    "class": "labelled-head",
+    "converted_name": "model.nextn.eh_proj.weight",
+    "converted_shape": [
+     16,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 128,
+    "source_name": "model.nextn.eh_proj.weight",
+    "source_shape": [
+     8,
+     16
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "labelled-head",
+    "converted_name": "model.nextn.shared_head_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.nextn.shared_head_norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "labelled-head",
+    "converted_name": "model.mtp.fc.weight",
+    "converted_shape": [
+     8,
+     8
+    ],
+    "converted_type": "BF16",
+    "differing_elements": 0,
+    "elements": 64,
+    "source_name": "model.mtp.fc.weight",
+    "source_shape": [
+     8,
+     8
+    ],
+    "source_type": "F32"
+   },
+   {
+    "class": "labelled-head",
+    "converted_name": "model.assistant.head_norm.weight",
+    "converted_shape": [
+     8
+    ],
+    "converted_type": "F32",
+    "differing_elements": 0,
+    "elements": 8,
+    "source_name": "model.assistant.head_norm.weight",
+    "source_shape": [
+     8
+    ],
+    "source_type": "F32"
+   }
+  ],
+  "class_counts": {
+   "labelled-head": 4
+  },
+  "converted": {
+   "bytes": 1920,
+   "census": [
+    {
+     "elements": 128,
+     "name": "model.nextn.eh_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "model.nextn.shared_head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.mtp.fc.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "BF16"
+    },
+    {
+     "elements": 8,
+     "name": "model.assistant.head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    }
+   ],
+   "file": "block.gguf",
+   "head_count": 4,
+   "head_label": [
+    "model.nextn.eh_proj.weight",
+    "model.nextn.shared_head_norm.weight",
+    "model.mtp.fc.weight",
+    "model.assistant.head_norm.weight"
+   ],
+   "metadata_count": 21,
+   "sha256": "7f8f0070aae658a4aca5f4209b9d7e70eea0a539ede251a8251328252f29008b"
+  },
+  "grade": {
+   "differing_elements": 0,
+   "kind": "element-exact (synthetic pair grade)",
+   "max_abs_diff": 0.0,
+   "total_elements": 208
+  },
+  "harness": "j122_harness.py (J-122)",
+  "live_teacher_forcing": {
+   "definition": "teacher-forcing rank + logit gap on the raw prompt, CPU engine vs CPU comparator only, near-tie band rank <=2 with sub-logit gap = faithful; never llama-cli --single-turn (J-122 protocol 0.3(b))",
+   "reason": "VM below the 5,500 MB inference gate; purplelongship yielded to the 204 road's live S-104; the only converted files in existence are the synthetic J-120/J-121 toys",
+   "recited_to": [
+    "J-128",
+    "J-136"
+   ],
+   "status": "DEFERRED-WITH-REASON"
+  },
+  "mode": "hf-gguf-subset-head",
+  "pair": "P4-j121-block-extraction",
+  "reasons": [],
+  "source": {
+   "bytes": 5198,
+   "census": [
+    {
+     "elements": 64,
+     "name": "model.embed_tokens.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "lm_head.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.layers.0.input_layernorm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.layers.0.self_attn.q_proj.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 32,
+     "name": "model.layers.0.self_attn.k_proj.weight",
+     "shape": [
+      4,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 32,
+     "name": "model.layers.0.self_attn.v_proj.weight",
+     "shape": [
+      4,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.layers.0.self_attn.o_proj.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.layers.0.post_attention_layernorm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.gate_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.up_proj.weight",
+     "shape": [
+      16,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.layers.0.mlp.down_proj.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 128,
+     "name": "model.nextn.eh_proj.weight",
+     "shape": [
+      8,
+      16
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.nextn.shared_head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 64,
+     "name": "model.mtp.fc.weight",
+     "shape": [
+      8,
+      8
+     ],
+     "type": "F32"
+    },
+    {
+     "elements": 8,
+     "name": "model.assistant.head_norm.weight",
+     "shape": [
+      8
+     ],
+     "type": "F32"
+    }
+   ],
+   "file": "model.safetensors",
+   "sha256": "0a0049c82c50bd1b0afa4a6404d98a6004c59784b133006709102eb8e0994184"
+  },
+  "verdict": "PASS"
+ }
+]
