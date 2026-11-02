@@ -1,0 +1,65 @@
+J-118 Part VII gate — filed test outputs re-read from disk (not re-run; see gate doc §2).
+J-099 filed no test output — its inspect is its suite (92/92 PASS). J-115 (audit) and J-116 (re-proof) filed no test output — their evidence is their inspect outputs (42/42 and 36/36 PASS) and, for J-116, j116_replica_output.txt.
+
+J-100: 3 ALL PASS line(s) re-read
+  ALL PASS: bench configurations (8 groups)
+  ALL PASS: placement measurement harness (10 groups)
+  ALL PASS: thread topology trials (10 groups)
+J-101: 4 ALL PASS line(s) re-read
+  ALL PASS: machine report (6 groups)
+  ALL PASS: bench configurations (8 groups)
+  ALL PASS: placement measurement harness (10 groups)
+J-102: 5 ALL PASS line(s) re-read
+  ALL PASS: chat picker (7 groups)
+  ALL PASS: machine report (6 groups)
+  ALL PASS: bench configurations (8 groups)
+J-103: 6 ALL PASS line(s) re-read
+  ALL PASS: model getting (5 groups)
+  ALL PASS: chat picker (7 groups)
+  ALL PASS: machine report (6 groups)
+J-104: 11 ALL PASS line(s) re-read
+  ALL PASS: saved configuration (8 groups)
+  ALL PASS: learned file (13 groups)
+  ALL PASS: draft configuration surface (17 groups)
+J-105: 9 ALL PASS line(s) re-read
+  ALL PASS: chat manners (7 groups)
+  ALL PASS: saved configuration (8 groups)
+  ALL PASS: learned file (13 groups)
+J-106: 2 ALL PASS line(s) re-read
+  ALL PASS: openai audit (7 groups)
+  ALL PASS: server placement parity (17 groups)
+J-107: 3 ALL PASS line(s) re-read
+  ALL PASS: stream progress (8 groups)
+  ALL PASS: openai audit (7 groups)
+  ALL PASS: prompt progress account (10 groups)
+J-108: 2 ALL PASS line(s) re-read
+  ALL PASS: browser page (8 groups)
+  ALL PASS: openai audit (7 groups)
+J-109: 2 ALL PASS line(s) re-read
+  ALL PASS: mcp tools (7 groups)
+  CLIENT PROOF: ALL PASS (27 OK lines, 0 FAIL; full transcript in j109_client_session.txt)
+J-110: 1 ALL PASS line(s) re-read
+  CONSUMER PROOF: ALL PASS (14 OK, 0 FAIL; full transcript in j110_consumer_session.txt)
+J-111: 3 ALL PASS line(s) re-read
+  ALL PASS: code completion (6 groups)
+  ALL PASS: openai audit (7 groups)
+  ALL PASS: kv window (10 groups)
+J-112: 7 ALL PASS line(s) re-read
+  ALL PASS: services surface (6 groups)
+  ALL PASS: mcp tools (8 groups)
+  ALL PASS: chat manners (7 groups)
+J-113: 3 ALL PASS line(s) re-read
+  ALL PASS: vocab restriction (6 groups)
+  build exit=0 run exit=0 (its three filed PASS lines, no ALL PASS line in this suite's own form)
+  ALL PASS: code completion (6 groups)
+J-114: 7 ALL PASS line(s) re-read
+  ALL PASS: constrained generation (7 groups)
+  ALL PASS: vocab restriction (6 groups)
+  build exit=0 run exit=0 (its three filed PASS lines, no ALL PASS line in this suite's own form)
+J-117: 3 ALL PASS line(s) re-read
+  Defects found and fixed in-slice, all in this slice's own artefacts, none in engine code (doc section 5): (1) the web check's first run died on Node's module rule (.mjs is an ES module; the harness's CommonJS requires were converted to ESM imports); (2) the example page's first draft carried the literal scanned-for strings in its own prose (the word for the forbidden insertion API inside its header comment, and a scheme-ful example address in the Origin field's placeholder) — the check's document invariants caught both; the prose was reworded and the placeholder de-schemed, and the check then passed on the page as filed; (3) the inspect's first run failed its own web-output count check (the output's ALL PASS summary line itself contains the counted substring, inflating 20 to 21) — corrected to line-initial counting and re-run clean. No filed number rested on any earlier draft.
+  run exit=0 — ALL PASS: web example client logic (20 checks). Full output filed verbatim in j117_web_check_output.txt: the page's actual <script> block, extracted from the filed HTML, ran against the filed response artefacts (j117_web_fixtures.json) and passed, in order: the document invariants (one extractable script, textContent-only, no external scheme string, size bound); the startup GET /v1/models filling the model field from the filed shape; the streamed send (request body model/stream/stream_options.include_usage exact, the typed key sent as Bearer, content-type JSON; the answer assembled "Hello, world" from the chunks; the prefill_progress event reaching the status line as "Reading the prompt: 50%"; the usage chunk rendered as "Done — prompt 12 tokens, completion 2 tokens."); the plain send (stream false, no stream_options key, the full 3-message history sent, the plain answer + its counts shown); the refused send (the server's refusal shown verbatim, the failed turn popped from history — proven by the post-Clear send carrying exactly one message); Clear (reports itself, sends nothing).
+  ALL PASS: embeddable library surface (3 groups)
+
+TOTAL: 71 ALL PASS lines re-read across the 16 filed Part VII test outputs (J-100..J-114, J-117).
+VERDICT: every filed Part VII test output carries ALL PASS.

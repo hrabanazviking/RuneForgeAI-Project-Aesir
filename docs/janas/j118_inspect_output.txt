@@ -1,0 +1,171 @@
+PASS: ls-remote yrsa/janas-j099 == keeper-recorded tip ceec2765
+PASS: ls-remote yrsa/janas-j100 == keeper-recorded tip de9213cb
+PASS: ls-remote yrsa/janas-j101 == keeper-recorded tip ba7ff3bc
+PASS: ls-remote yrsa/janas-j102 == keeper-recorded tip 7526ecd9
+PASS: ls-remote yrsa/janas-j103 == keeper-recorded tip dca5ec05
+PASS: ls-remote yrsa/janas-j104 == keeper-recorded tip 8e9da526
+PASS: ls-remote yrsa/janas-j105 == keeper-recorded tip fde78060
+PASS: ls-remote yrsa/janas-j106 == keeper-recorded tip ddec27dc
+PASS: ls-remote yrsa/janas-j107 == keeper-recorded tip 68c78d6c
+PASS: ls-remote yrsa/janas-j108 == keeper-recorded tip 5b520613
+PASS: ls-remote yrsa/janas-j109 == keeper-recorded tip 52258cd8
+PASS: ls-remote yrsa/janas-j110 == keeper-recorded tip 0d601c87
+PASS: ls-remote yrsa/janas-j111 == keeper-recorded tip cdf70d7a
+PASS: ls-remote yrsa/janas-j112 == keeper-recorded tip 0a52d915
+PASS: ls-remote yrsa/janas-j113 == keeper-recorded tip 5ddf1946
+PASS: ls-remote yrsa/janas-j114 == keeper-recorded tip e3d093b3
+PASS: ls-remote yrsa/janas-j115 == keeper-recorded tip 640d6479
+PASS: ls-remote yrsa/janas-j116 == keeper-recorded tip 982275a7
+PASS: ls-remote yrsa/janas-j117 == keeper-recorded tip 570c9f06
+PASS: ls-remote origin/main unchanged at 4ca75cc2
+PASS: ancestor chain: ceec2765 is ancestor of de9213cb
+PASS: ancestor chain: de9213cb is ancestor of ba7ff3bc
+PASS: ancestor chain: ba7ff3bc is ancestor of 7526ecd9
+PASS: ancestor chain: 7526ecd9 is ancestor of dca5ec05
+PASS: ancestor chain: dca5ec05 is ancestor of 8e9da526
+PASS: ancestor chain: 8e9da526 is ancestor of fde78060
+PASS: ancestor chain: fde78060 is ancestor of ddec27dc
+PASS: ancestor chain: ddec27dc is ancestor of 68c78d6c
+PASS: ancestor chain: 68c78d6c is ancestor of 5b520613
+PASS: ancestor chain: 5b520613 is ancestor of 52258cd8
+PASS: ancestor chain: 52258cd8 is ancestor of 0d601c87
+PASS: ancestor chain: 0d601c87 is ancestor of cdf70d7a
+PASS: ancestor chain: cdf70d7a is ancestor of 0a52d915
+PASS: ancestor chain: 0a52d915 is ancestor of 5ddf1946
+PASS: ancestor chain: 5ddf1946 is ancestor of e3d093b3
+PASS: ancestor chain: e3d093b3 is ancestor of 640d6479
+PASS: ancestor chain: 640d6479 is ancestor of 982275a7
+PASS: ancestor chain: 982275a7 is ancestor of 570c9f06
+PASS: ancestor chain: j117 tip is ancestor of gate HEAD
+PASS: J-099 filed inspect output: 92 PASS lines (expected 92), 0 FAIL
+PASS: J-099 inspect output campaign copy sha-identical
+PASS: J-099 inspect script campaign copy sha-identical
+PASS: J-099 slice doc campaign copy sha-identical (J099_TOOL_CENSUS_RECONCILIATION.md)
+PASS: J-100 filed inspect output: 42 PASS lines (expected 42), 0 FAIL
+PASS: J-100 inspect output campaign copy sha-identical
+PASS: J-100 inspect script campaign copy sha-identical
+PASS: J-100 slice doc campaign copy sha-identical (J100_BENCH_CONFIGURATIONS.md)
+PASS: J-100 test output campaign copy sha-identical
+PASS: J-100 filed test output carries ALL PASS
+PASS: J-101 filed inspect output: 63 PASS lines (expected 63), 0 FAIL
+PASS: J-101 inspect output campaign copy sha-identical
+PASS: J-101 inspect script campaign copy sha-identical
+PASS: J-101 slice doc campaign copy sha-identical (J101_MACHINE_REPORT.md)
+PASS: J-101 test output campaign copy sha-identical
+PASS: J-101 filed test output carries ALL PASS
+PASS: J-102 filed inspect output: 56 PASS lines (expected 56), 0 FAIL
+PASS: J-102 inspect output campaign copy sha-identical
+PASS: J-102 inspect script campaign copy sha-identical
+PASS: J-102 slice doc campaign copy sha-identical (J102_CHAT_PICKER.md)
+PASS: J-102 test output campaign copy sha-identical
+PASS: J-102 filed test output carries ALL PASS
+PASS: J-103 filed inspect output: 75 PASS lines (expected 75), 0 FAIL
+PASS: J-103 inspect output campaign copy sha-identical
+PASS: J-103 inspect script campaign copy sha-identical
+PASS: J-103 slice doc campaign copy sha-identical (J103_MODEL_GETTING.md)
+PASS: J-103 test output campaign copy sha-identical
+PASS: J-103 filed test output carries ALL PASS
+PASS: J-104 filed inspect output: 53 PASS lines (expected 53), 0 FAIL
+PASS: J-104 inspect output campaign copy sha-identical
+PASS: J-104 inspect script campaign copy sha-identical
+PASS: J-104 slice doc campaign copy sha-identical (J104_SAVED_CONFIGURATION.md)
+PASS: J-104 test output campaign copy sha-identical
+PASS: J-104 filed test output carries ALL PASS
+PASS: J-105 filed inspect output: 47 PASS lines (expected 47), 0 FAIL
+PASS: J-105 inspect output campaign copy sha-identical
+PASS: J-105 inspect script campaign copy sha-identical
+PASS: J-105 slice doc campaign copy sha-identical (J105_CHAT_MANNERS.md)
+PASS: J-105 test output campaign copy sha-identical
+PASS: J-105 filed test output carries ALL PASS
+PASS: J-106 filed inspect output: 38 PASS lines (expected 38), 0 FAIL
+PASS: J-106 inspect output campaign copy sha-identical
+PASS: J-106 inspect script campaign copy sha-identical
+PASS: J-106 slice doc campaign copy sha-identical (J106_OPENAI_SHAPE_AUDIT.md)
+PASS: J-106 test output campaign copy sha-identical
+PASS: J-106 filed test output carries ALL PASS
+PASS: J-107 filed inspect output: 30 PASS lines (expected 30), 0 FAIL
+PASS: J-107 inspect output campaign copy sha-identical
+PASS: J-107 inspect script campaign copy sha-identical
+PASS: J-107 slice doc campaign copy sha-identical (J107_SERVER_STREAMING_PROGRESS.md)
+PASS: J-107 test output campaign copy sha-identical
+PASS: J-107 filed test output carries ALL PASS
+PASS: J-108 filed inspect output: 39 PASS lines (expected 39), 0 FAIL
+PASS: J-108 inspect output campaign copy sha-identical
+PASS: J-108 inspect script campaign copy sha-identical
+PASS: J-108 slice doc campaign copy sha-identical (J108_SERVER_BROWSER_PAGE.md)
+PASS: J-108 test output campaign copy sha-identical
+PASS: J-108 filed test output carries ALL PASS
+PASS: J-109 filed inspect output: 65 PASS lines (expected 65), 0 FAIL
+PASS: J-109 inspect output campaign copy sha-identical
+PASS: J-109 inspect script campaign copy sha-identical
+PASS: J-109 slice doc campaign copy sha-identical (J109_MCP_MODEL_AS_TOOLS.md)
+PASS: J-109 test output campaign copy sha-identical
+PASS: J-109 filed test output carries ALL PASS
+PASS: J-110 filed inspect output: 49 PASS lines (expected 49), 0 FAIL
+PASS: J-110 inspect output campaign copy sha-identical
+PASS: J-110 inspect script campaign copy sha-identical
+PASS: J-110 slice doc campaign copy sha-identical (J110_MCP_ECOSYSTEM.md)
+PASS: J-110 test output campaign copy sha-identical
+PASS: J-110 filed test output carries ALL PASS
+PASS: J-111 filed inspect output: 61 PASS lines (expected 61), 0 FAIL
+PASS: J-111 inspect output campaign copy sha-identical
+PASS: J-111 inspect script campaign copy sha-identical
+PASS: J-111 slice doc campaign copy sha-identical (J111_CODE_COMPLETION.md)
+PASS: J-111 test output campaign copy sha-identical
+PASS: J-111 filed test output carries ALL PASS
+PASS: J-112 filed inspect output: 109 PASS lines (expected 109), 0 FAIL
+PASS: J-112 inspect output campaign copy sha-identical
+PASS: J-112 inspect script campaign copy sha-identical
+PASS: J-112 slice doc campaign copy sha-identical (J112_SERVICES_SURFACE.md)
+PASS: J-112 test output campaign copy sha-identical
+PASS: J-112 filed test output carries ALL PASS
+PASS: J-113 filed inspect output: 52 PASS lines (expected 52), 0 FAIL
+PASS: J-113 inspect output campaign copy sha-identical
+PASS: J-113 inspect script campaign copy sha-identical
+PASS: J-113 slice doc campaign copy sha-identical (J113_NSM_QUESTION.md)
+PASS: J-113 test output campaign copy sha-identical
+PASS: J-113 filed test output carries ALL PASS
+PASS: J-114 filed inspect output: 62 PASS lines (expected 62), 0 FAIL
+PASS: J-114 inspect output campaign copy sha-identical
+PASS: J-114 inspect script campaign copy sha-identical
+PASS: J-114 slice doc campaign copy sha-identical (J114_CONSTRAINED_GENERATION.md)
+PASS: J-114 test output campaign copy sha-identical
+PASS: J-114 filed test output carries ALL PASS
+PASS: J-115 filed inspect output: 42 PASS lines (expected 42), 0 FAIL
+PASS: J-115 inspect output campaign copy sha-identical
+PASS: J-115 inspect script campaign copy sha-identical
+PASS: J-115 slice doc campaign copy sha-identical (J115_LIBRARY_SURFACE_AUDIT.md)
+PASS: J-116 filed inspect output: 36 PASS lines (expected 36), 0 FAIL
+PASS: J-116 inspect output campaign copy sha-identical
+PASS: J-116 inspect script campaign copy sha-identical
+PASS: J-116 slice doc campaign copy sha-identical (J116_YGGDRASIL_BINDING.md)
+PASS: J-117 filed inspect output: 29 PASS lines (expected 29), 0 FAIL
+PASS: J-117 inspect output campaign copy sha-identical
+PASS: J-117 inspect script campaign copy sha-identical
+PASS: J-117 slice doc campaign copy sha-identical (J117_EXAMPLES_THAT_RUN.md)
+PASS: J-117 test output campaign copy sha-identical
+PASS: J-117 filed test output carries ALL PASS
+PASS: Part VII filed inspect checks total 1040 (re-counted 1040)
+PASS: gate doc: gate verdict form filed
+PASS: gate doc: open-item marker present
+PASS: gate doc: adapter fix item cites the adapter file
+PASS: gate doc: gate expressly does not claim adapter consumption over watched prompts
+PASS: gate doc: refusal list: FreeBASIC present
+PASS: gate doc: refusal list: REFUSED form present
+PASS: gate doc: refusal list: NSM dressing refused
+PASS: gate doc: refusal list: C ABI present
+PASS: gate doc: deferral form present
+PASS: gate doc: refusal list: Node/TypeScript present
+PASS: gate doc: refusal list: embed present
+PASS: gate doc: refusal list: speech present
+PASS: gate doc: refusal list: gguf2jns present
+PASS: gate doc: refusal list: domain services present
+PASS: gate doc: G-099-1 disposition present
+PASS: gate doc: G-099-2 disposition present
+PASS: gate doc: G-099-3 disposition present
+PASS: gate doc: honesty class NOT PROVEN present
+PASS: gate doc: repl defect next item present
+PASS: gate doc deferred/open list has 26 numbered items (found 26)
+PASS: hygiene: no README.md in the gate diff
+TOTAL: 169 PASS, 0 FAIL
+ALL PASS
