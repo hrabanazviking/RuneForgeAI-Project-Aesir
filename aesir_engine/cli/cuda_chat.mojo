@@ -44,6 +44,10 @@ from core.services_surface import (
     svc_is_tokenize_command,
     svc_parse_tokenize,
 )
+from core.constrained_generation import (
+    cg_constrain_response,
+    cg_is_constrain_command,
+)
 from core.device_inventory import observe_device_inventory
 from core.machine_report import filed_model_rows, model_table
 from core.chat_manners import (
@@ -1089,6 +1093,13 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
         # before the /save branch below for the same
         # prefix reason as /save-config.
         transcript.emit("\n" + _services_response(command) + "\n")
+    elif cg_is_constrain_command(command):
+        # J-114: constrained generation (validate +
+        # canonicalise a permitted word list; audit a
+        # finished text against one) -- the pure
+        # constrained-generation layer answers, with
+        # its binding honesty on its face.
+        transcript.emit("\n" + cg_constrain_response(command) + "\n")
     elif command == "/save-config" or command.startswith("/save-config "):
         # J-104: the saved-configuration family. This branch MUST stay
         # before the /save branch below: /save matches by prefix, so a
@@ -1172,6 +1183,13 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
         # before the /save branch below for the same
         # prefix reason as /save-config.
         transcript.emit("\n" + _services_response(command) + "\n")
+    elif cg_is_constrain_command(command):
+        # J-114: constrained generation (validate +
+        # canonicalise a permitted word list; audit a
+        # finished text against one) -- the pure
+        # constrained-generation layer answers, with
+        # its binding honesty on its face.
+        transcript.emit("\n" + cg_constrain_response(command) + "\n")
     elif command == "/save-config" or command.startswith("/save-config "):
         # J-104: the saved-configuration family. This branch MUST stay
         # before the /save branch below: /save matches by prefix, so a

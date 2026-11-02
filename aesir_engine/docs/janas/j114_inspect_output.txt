@@ -1,0 +1,64 @@
+PASS: sampler carries the vocab restriction mask
+PASS: sampler carries the restricted sampling entry
+PASS: the unrestricted sampler entry is still present
+PASS: sampler's restriction decision is J-113's restrictor (imported)
+PASS: the restricted entry's -1 refusal is stated in the sampler
+PASS: the sampler decides through is_token_valid (5 sites)
+PASS: cg layer imports J-113's restrictor
+PASS: cg_apply_vocab_mask delegates to the sampler mask
+PASS: cg layer contains no second prefix/membership implementation
+PASS: cg layer carries the masked-indices / greedy / scan-account forms
+PASS: cg layer carries both door answers
+PASS: the chat door's binding honesty is on the layer's face
+PASS: both chat_control bodies carry the /constrain branch exactly once
+PASS: cuda_chat imports the cg layer
+PASS: manners candidate set carries /constrain
+PASS: manners test pins the grown candidate count (18)
+PASS: chat help carries the constrain forms (wide + narrow)
+PASS: OpenAIRequest carries the extension field + flag
+PASS: the parser parses the field by name
+PASS: the parser refuses the tool and Boolean-format combinations
+PASS: the serve imports the cg validation/refusal text
+PASS: the serve's OpenAI branch answers the field exactly once
+PASS: the audit's canonical tables are unchanged (extension not filed as a public-shape field)
+PASS: suite carries group test_mask_agreement
+PASS: suite carries group test_greedy_sampler
+PASS: suite carries group test_sampled_sampler
+PASS: suite carries group test_enforcement_loop
+PASS: suite carries group test_scan_account
+PASS: suite carries group test_chat_surface
+PASS: suite carries group test_server_surface
+PASS: filed test output carries: ALL PASS: constrained generation (7 groups)
+PASS: filed test output carries: ALL PASS: vocab restriction (6 groups)
+PASS: filed test output carries: ALL PASS: code completion (6 groups)
+PASS: filed test output carries: ALL PASS: chat manners (7 groups)
+PASS: filed test output carries: ALL PASS: openai audit (7 groups)
+PASS: filed test output carries: ALL PASS: speculative sampling correctness (17 groups)
+PASS: filed test output carries: Boolean JSON token trie: PASS
+PASS: filed test output carries: cuda chat module compile + import: PASS
+PASS: filed test output carries: native serve module compile + import: PASS
+PASS: filed test output records the loop's produced text
+PASS: the unbuilt neighbour is named with its verified reason
+PASS: filed test output cites the verified protocol commit
+PASS: doc cites the verified protocol commit
+PASS: cost output files both driver runs
+PASS: cost output carries: size=256
+PASS: cost output carries: size=1024
+PASS: cost output carries: size=4096
+PASS: cost output carries: admitted_per_scan=160
+PASS: cost output carries: admitted_per_scan=640
+PASS: cost output carries: admitted_per_scan=2560
+PASS: cost output carries: MEASURED-INDICATIVE
+PASS: the cost driver times the real mask through a monotonic clock
+PASS: the cost filing claims no tok/s
+PASS: doc carries post-protocol section: ## 1. Headline
+PASS: doc carries post-protocol section: ## 5. Deferred legs
+PASS: doc carries post-protocol section: ## 9. NOT PROVEN list
+PASS: doc carries post-protocol section: ## 10. Banking
+PASS: doc defers the live legs to the J-118 gate with reasons
+PASS: doc names the enforcement entry it files
+PASS: slice file set == expected (extra=[] missing=[])
+PASS: no README in the slice file set
+PASS: no .gguf in the slice file set
+INSPECT: 62 PASS, 0 FAIL
+INSPECT VERDICT: ALL PASS

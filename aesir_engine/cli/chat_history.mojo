@@ -334,7 +334,7 @@ def chat_command_help(columns: Int) -> String:
     if columns < 50:
         return String("\n/help /show /history [P]\n/turn N [P] /compose\n/edit (TTY) /transcript\n/bye /clear /new\n"
                       + "/model NAME /save FILE\n/load FILE /export FILE\n"
-                      + "/set NAME VALUE\n/save-config [FIELD VALUE]\n/services [FORM]\nCopy: select text\n")
+                      + "/set NAME VALUE\n/save-config [FIELD VALUE]\n/services [FORM]\n/constrain [FORM]\nCopy: select text\n")
     return String("\nBrowse: /history [P], /turn N [P], /show\n"
                   + "        /transcript interactive TTY\n"
                   + "Compose: /compose lines; /edit interactive TTY\n"
@@ -350,6 +350,8 @@ def chat_command_help(columns: Int) -> String:
                   + "Services: /services (inventory), /services census,\n"
                   + "        /services grade RANK GAP [valid], /services bench,\n"
                   + "        /services mcp, /services tokenize TEXT\n"
+                  + "Constrain: /constrain (status), /constrain list WORDS,\n"
+                  + "        /constrain audit WORDS :: TEXT\n"
                   + "Names: temperature, top-k, top-p, min-p,\n"
                   + "       repeat-penalty, seed, timeout-ms.\n"
                   + "Repetition window is fixed at session creation.\n")

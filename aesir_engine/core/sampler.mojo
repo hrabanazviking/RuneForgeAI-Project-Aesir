@@ -4,6 +4,7 @@
 from std.math import exp, isinf, isnan, log, max, min
 from std.memory import Pointer
 from .mimir_well import f16, f32
+from .vocab_restriction import VocabRestrictor
 
 
 @always_inline
@@ -218,6 +219,169 @@ def apply_token_mask(
             if suppress_tokens[s_idx] == cid:
                 candidates[c_idx].logit = Float32(-1e9)
                 break
+
+
+def apply_vocab_restriction(
+    mut candidates: List[TokenCandidate],
+    candidate_texts: List[String],
+    restrictor: VocabRestrictor,
+) raises -> Int:
+    """Masks every candidate the vocabulary restrictor does
+    not admit to -1e9 (the apply_token_mask grain), leaving
+    admitted candidates untouched. The decision is exactly
+    J-113's VocabRestrictor.is_token_valid per candidate
+    text, in candidate order -- no second implementation.
+    Raises on a candidate/text count mismatch: a mask
+    applied to the wrong texts is a programming error,
+    never a silent pass. Returns the admitted count."""
+    if len(candidates) != len(candidate_texts):
+        raise Error(
+            "Vocab restriction candidate/text count mismatch: "
+            + String(len(candidates)) + " candidates, "
+            + String(len(candidate_texts)) + " texts")
+    var allowed = 0
+    for c_idx in range(len(candidates)):
+        if restrictor.is_token_valid(candidate_texts[c_idx]):
+            allowed += 1
+        else:
+            candidates[c_idx].logit = Float32(-1e9)
+    return allowed
+
+
+def _vr_is_suppressed(suppress_tokens: List[Int], token_id: Int) -> Bool:
+    for s_idx in range(len(suppress_tokens)):
+        if suppress_tokens[s_idx] == token_id:
+            return True
+    return False
+
+
+def sample_token_from_logits_restricted(
+    logits_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    vocab_size: Int,
+    token_texts: List[String],
+    restrictor: VocabRestrictor,
+    temperature: Float32,
+    top_k: Int,
+    top_p: Float32,
+    repetition_penalty: Float32,
+    context_tokens: List[Int],
+    mut rng: RuneRNG,
+    frequency_penalty: Float32 = 0.0,
+    presence_penalty: Float32 = 0.0,
+    min_p: Float32 = 0.0,
+    suppress_tokens: List[Int] = List[Int](),
+) raises -> Int:
+    """The restricted sibling of sample_token_from_logits
+    (J-114): exact permitted-vocabulary enforcement at
+    sampling time. token_texts must carry one decoded
+    text per vocabulary ID (a count mismatch raises --
+    token IDs alone contain no lexical information, the
+    grammar layer's standing rule). Only tokens whose
+    text the restrictor admits from its current state
+    can be returned; suppressed IDs are excluded in both
+    paths. Returns -1 when no candidate is admitted --
+    never a disallowed token, never the unrestricted
+    function's return-0 fallback. The restrictor is
+    taken by value and is NOT advanced: the caller
+    commits the emitted token's text through
+    VocabRestrictor.advance_state after emission
+    (validate-then-commit preserved end-to-end).
+    Path rules mirror the unrestricted function: greedy
+    (temperature <= 0 or top_k == 1) scans admitted IDs
+    with sanitised logits, lowest ID on ties; the
+    sampled path thresholds at 15.0 below the ADMITTED
+    set's maximum (the renormalised distribution's own
+    max), then runs the standing penalty / temperature /
+    top-k / top-p / min-p pipeline over the admitted
+    candidates only. The sampled path scans validity
+    twice (max scan + collect); the greedy path once."""
+    if vocab_size <= 0:
+        return -1
+    if len(token_texts) != vocab_size:
+        raise Error(
+            "Vocab restriction requires one decoded token "
+            "text per vocabulary ID: vocab_size "
+            + String(vocab_size) + ", texts "
+            + String(len(token_texts)))
+
+    if temperature <= 0.0 or top_k == 1:
+        var best_id = -1
+        var max_val = Float32(0.0)
+        for i in range(vocab_size):
+            if not restrictor.is_token_valid(token_texts[i]):
+                continue
+            if _vr_is_suppressed(suppress_tokens, i):
+                continue
+            var val = sanitize_logit(logits_ptr.unsafe_load(i).cast[f32]())
+            if best_id < 0 or val > max_val:
+                max_val = val
+                best_id = i
+        return best_id
+
+    var max_logit = Float32(0.0)
+    var found = False
+    for i in range(vocab_size):
+        if not restrictor.is_token_valid(token_texts[i]):
+            continue
+        if _vr_is_suppressed(suppress_tokens, i):
+            continue
+        var val = sanitize_logit(logits_ptr.unsafe_load(i).cast[f32]())
+        if not found or val > max_logit:
+            max_logit = val
+            found = True
+    if not found:
+        return -1
+
+    var threshold = max_logit - Float32(15.0)
+    var candidates = List[TokenCandidate]()
+    for i in range(vocab_size):
+        if not restrictor.is_token_valid(token_texts[i]):
+            continue
+        if _vr_is_suppressed(suppress_tokens, i):
+            continue
+        var val = sanitize_logit(logits_ptr.unsafe_load(i).cast[f32]())
+        if val >= threshold:
+            candidates.append(TokenCandidate(i, val))
+
+    if len(candidates) == 0:
+        return -1
+
+    apply_repetition_penalty(candidates, context_tokens, repetition_penalty)
+    apply_frequency_presence_penalty(candidates, context_tokens, frequency_penalty, presence_penalty)
+    apply_temperature(candidates, temperature)
+    if top_k > 0:
+        apply_top_k(candidates, top_k)
+    if top_p < 1.0:
+        apply_top_p(candidates, top_p)
+    if min_p > 0.0:
+        apply_min_p(candidates, min_p)
+
+    if len(candidates) == 0:
+        return -1
+
+    var max_l = candidates[0].logit
+    for i in range(1, len(candidates)):
+        if candidates[i].logit > max_l:
+            max_l = candidates[i].logit
+
+    var sum_e = Float32(0.0)
+    var exps = List[Float32]()
+    for i in range(len(candidates)):
+        var e_val = exp(candidates[i].logit - max_l)
+        exps.append(e_val)
+        sum_e += e_val
+
+    if sum_e <= 0.0:
+        return candidates[0].id
+
+    var r = rng.next_float32() * sum_e
+    var acc = Float32(0.0)
+    for i in range(len(candidates)):
+        acc += exps[i]
+        if r <= acc:
+            return candidates[i].id
+
+    return candidates[len(candidates) - 1].id
 
 
 def sample_token_from_logits(

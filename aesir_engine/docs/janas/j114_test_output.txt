@@ -1,0 +1,112 @@
+J-114 Constrained generation -- test output (VM, lightest target)
+Tree: yrsa/janas-j114 from yrsa/janas-j113 tip 5ddf19460eec88f86abd0e3f53b1f756bd5c8985 (ls-remote verified at slice start; remote yrsa/janas-j114 absent and no aesir-janas-j114 worktree at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (3a7e5a62e4381d9741b16e7b3bd16c4a49550164).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-097..J-113 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j114stage, build dir ~/workspace/.verify-tmp/j114build, TMPDIR redirected to the staging dir throughout.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~1.2-4.2 GB across the slice and loadavg ~6-18 on 4 vCPU (the VM is shared with the other keeper campaigns) -- far below the 5,500 MB inference gate at every moment: lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere and NO live session was started. purplelongship not used at all: the 204 road's S-104 was live there throughout -- yielded under the coordination law.
+Defects found and fixed in-slice (doc section 7): (1) the new suite's first draft called cg_apply_vocab_mask on a temporary candidate list (Mojo mutable-argument refusal) -- bound to a variable first. (2) The suite's raising expect-helpers cannot run while an f16 Allocation is live (Mojo ownership: an allocation must be consumed on the raise path too) -- the three logits groups were restructured so each allocation lives inside a helper that deallocates on both the success and raise paths and returns plain results through out-parameters. (3) The outcome structs first drafted for those helpers used __copyinit__ in the test's main module, which this toolchain rejects there ('None' has no attributes -- reproduced in a 14-line file; the identical pattern in imported modules, e.g. core/vocab_restriction.mojo, compiles) -- replaced by out-parameter lists; no engine code was involved. (4) test_inference could not be rebuilt in this environment: its build fails in the pass manager (GPU-target warnings) IDENTICALLY from the pristine yrsa/janas-j113 tree (verified first-hand this slice), under loadavg ~12-18 and MemAvailable ~1.2 GB -- an environment failure, not a slice regression; it is named here with its reason per the verdict rule, and the sampler's behaviour is covered by the new suite (which compiles core/sampler.mojo whole and tests both its old and new entries) plus test_speculative_sampling (17/17, imports core/sampler) and test_sampling_config below. No filed number rested on any of these. Every PASS below is from the final tree.
+
+== test_constrained_generation (J-114, new) ==
+build exit=0 run exit=0
+PASS: mask agreement (pure form == sampler mask in 3 states, edges, mismatch raises)
+PASS: greedy sampler (best admitted, tie lowest ID, suppression, -1, mismatch)
+PASS: sampled sampler (512 draws inside the admitted set, single-ID, -1 cases)
+PASS: enforcement loop (real sampler, clean audit, -1 stop, state untouched)
+PASS: scan account (full scan, exact counts at 6 and 1024 candidates)
+PASS: chat surface (status, list validate/canonicalise, audit, refusals)
+PASS: server surface (field parsed/bounded, duplicates + format refused, serve text)
+ALL PASS: constrained generation (7 groups)
+The enforcement loop's filed demonstration (a real run of the restricted sampler over synthetic logits -- it proves the sampler's enforcement, not a model's behaviour): word list "the cat sat on the mat" (5 distinct entries); at each of six steps the disallowed favourite carries the highest logit (9.0) and the sampler emits the admitted continuation (6.0) instead -- "the" / " cat" / " sat" / " on" / " the" / " mat" -- producing the text "the cat sat on the mat" (5 words completed, ends accepting, audit 6 words / 6 permitted / no offender); a seventh candidate set admitting nothing returns -1 and the restrictor's state (partial "mat", 5 completed) is exactly as before the step.
+
+== test_vocab_restriction (neighbour: J-113's layer, the decision core) ==
+build exit=0 run exit=0
+PASS: parse + render (separators, dedupe, order, round-trip)
+PASS: membership + bounds (exact/case, empty, byte + entry caps)
+PASS: restrictor (validity, spanning tokens, commit/refusal)
+PASS: selection (allowed indices exact, none-allowed is -1)
+PASS: simulated loop (greedy first-allowed, clean stop, audit)
+PASS: audit + disposition (counts, first offender, REFUSED text)
+ALL PASS: vocab restriction (6 groups)
+
+== test_gbnf_grammar (neighbour: the grammar grain) ==
+build exit=0 run exit=0 (its three filed PASS lines, no ALL PASS line in this suite's own form)
+GBNF rule construction: PASS
+bounded token-text grammar masking: PASS
+Boolean JSON token trie: PASS
+
+== test_code_completion (neighbour: the adjacent J-111 pure layer + parser group) ==
+build exit=0 run exit=0
+PASS: arch FIM honesty (5 recognised archs, none carries FIM, every mode PREFIX_SUFFIX, reasons stated, strangers refused)
+PASS: plan (generation prompt == prefix exactly, suffix separate and never inside it, cursor-at-edge plans, bounds + empty-document refusals)
+PASS: window composition (J-097 divergence account capped at the cursor: after-cursor 9, before-cursor 4, no-change 9, insert 2, empty prefix 0)
+PASS: overlap trim (suffix opening removed byte-exactly, full overlap empties, no overlap unchanged, edges held)
+PASS: latency grading (published band 1500-2200 ms pinned as published; 1499 faster, 1500/2200 within, 2201 slower, negative refused)
+PASS: parser + audit surface (suffix parsed and bounded by the standing grammar, duplicates refused, audit row PARTIAL)
+ALL PASS: code completion (6 groups)
+
+== test_chat_manners (neighbour; updated only for the /constrain candidate) ==
+build exit=0 run exit=0
+PASS: prompt-line decisions (interrupt re-prompts; eof leaves; final line submits; blank//bye kept)
+PASS: post-turn decisions (cancelled spends the interrupt; a late interrupt is noted, never a leave)
+PASS: suggestion rules (distances, threshold, tie order, exact/empty/short suggest nothing, suffix)
+PASS: candidate sets (cli 41, chat 18, options 18; their own near misses resolve)
+PASS: env audit (known never reported; near misses named with target; strangers and non-AESIR silent)
+PASS: write classifier (cache + chosen allowed; sibling/stray refused; model refused first, even in cache)
+PASS: environ surface (names parsed from /proc/self/environ; live warnings are manner lines)
+ALL PASS: chat manners (7 groups)
+
+== test_openai_audit (neighbour: the audit tables, unchanged by this slice) ==
+build exit=0 run exit=0
+PASS: chat field table (31 fields: 8 honoured, 5 partial, 18 refused; strangers refused)
+PASS: completion field table (19 fields: 8 honoured, 3 partial, 8 refused)
+PASS: message tables (2/7 fields honoured; 4/6 roles honoured incl. developer)
+PASS: route table (9 served incl. page + retrieve, 6 refused-501, families + strangers 404)
+PASS: refusal bodies (501 + route + a real reason, per refused route)
+PASS: parser closures (max_completion_tokens precedence, developer role; kept refusals hold)
+PASS: usage accounting (prompt_tokens_details.cached_tokens on all three forms; status carries it)
+ALL PASS: openai audit (7 groups)
+
+== test_local_protocol (neighbour: the parser's own suite) ==
+build exit=0 run exit=0 (the suite's own printed lines, in full)
+PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy
+PASS bounded JSON and HTTP rejection
+
+== test_speculative_sampling (neighbour: the sampler's seeded-draw consumer) ==
+build exit=0 run exit=0 (17 groups; the distribution lines are the suite's own)
+PASS: shaping plain -- case A target/draft softmax exact (1e-6)
+PASS: shaping temperature -- case B (T=0.7) exact; sharpening binds both models
+PASS: shaping greedy -- T=0 one-hot at argmax; tie goes to the lowest id
+PASS: shaping top-k -- case C supports exact (target {0,1,2}, draft {0,2,4}), renormalised
+PASS: shaping top-p + combined -- cases D and E exact (nucleus after top-k, renormalised)
+PASS: shaping refusals -- empty, non-finite logit, bad temperature, bad top-p (4/4)
+PASS: acceptance probability -- min(1, p/q) exact incl. cap and p=0; q=0 refused
+PASS: residual -- norm(max(0, p-q)) exact incl. cap and p=0; q=0 refused
+PASS: draw -- inverse-CDF boundaries exact; zero-probability tokens unreachable
+PASS: position scripted -- accept emits draft; reject emits residual; p=0 never accepts
+PASS: round full-accept -- drafts emitted, bonus drawn from the target at position k
+PASS: round rejections -- prefix kept, residual correction emitted, round ends (no bonus)
+PASS: round refusals -- k outside 1..15, flat/draw length mismatches, draw = 1 (6/6)
+PASS: chi-square helper -- exact/hand-computed statistics, zero-bin sentinel, critical table
+PASS: distribution A (T=1, no truncation) -- corrected chi2=8.5183178082463283 < crit 24.322 (df 7, N=60000, seed 20261101); naive chi2=69594.86843846613 FAILS as required
+PASS: distribution B (T=0.7) -- corrected chi2=5.676113519656582 < crit 24.322 (df 7, N=60000, seed 20261101); naive chi2=183613.43940857553 FAILS as required
+PASS: distribution C (top-k 3) -- corrected chi2=0.6410602255139279 < crit 13.816 (df 2, N=60000, seed 20251101); naive chi2=-1.0 FAILS as required
+PASS: distribution D (top-p 0.8) -- corrected chi2=1.6746789124683283 < crit 13.816 (df 2, N=60000, seed 20251101); naive chi2=-1.0 FAILS as required
+PASS: distribution E (T=1.4, top-k 4, top-p 0.9) -- corrected chi2=5.59680442984888 < crit 16.266 (df 3, N=60000, seed 20261101); naive chi2=-1.0 FAILS as required
+PASS: bonus distribution -- chi2=6.747470637230754 < crit 24.322 (df 7, 12000 bonus tokens from 34835 rounds, seed 424242)
+ALL PASS: speculative sampling correctness (17 groups)
+
+== test_sampling_config (neighbour) ==
+build exit=0 run exit=0
+PASS native sampling syntax, validation and round trips
+
+== test_inference (named, NOT rebuilt -- environment, see the header) ==
+build FAILED in the pass manager from this tree AND, verified first-hand, identically from the pristine yrsa/janas-j113 tree (same Mojo, same flags): the failure is the environment's (loadavg ~12-18 on 4 vCPU, MemAvailable ~1.2 GB at the attempt), not this slice's. The sampler functions it grades are exercised directly by test_constrained_generation above (which compiles core/sampler.mojo whole) and by test_speculative_sampling.
+
+== chat wiring compile driver (staging driver importing cli/cuda_chat whole) ==
+build exit=0 run exit=0
+cuda chat module compile + import: PASS
+
+== serve wiring compile driver (staging driver importing cli/native_serve whole) ==
+build exit=0 run exit=0
+native serve module compile + import: PASS
+
+== restriction scan cost (driver docs/janas/j114_cost.mojo; full output in j114_cost_output.txt) ==
+build exit=0, two runs filed (both kept, range stated -- no run was discarded for its numbers). Medians per scan, baseline greedy max-scan vs restricted validity scan, same candidate lists (each repetition builds an identical fresh candidate list inside both timings, so the delta is the validity scan's price): 256 candidates -- baseline 1286-1311 ns, restricted 26784-27067 ns (admitted 160/scan); 1024 -- baseline 5099-5225 ns, restricted 295392-349967 ns (admitted 640/scan); 4096 -- baseline 15853-17756 ns, restricted 1798563-1983042 ns (admitted 2560/scan). MEASURED-INDICATIVE under heavy contention (loadavg ~6-8 on 4 vCPU): the medians sit well above each run's first measured round at the larger sizes (111995-114480 ns at 1024; 495253-1637883 ns at 4096), so the spread is filed, not hidden; the scan is linear in the candidate count by construction and its exact counts are PROVEN in the suite above. No tok/s is claimed anywhere.

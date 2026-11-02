@@ -318,6 +318,7 @@ def chat_command_names() -> List[String]:
     names.append(String("/new"))
     names.append(String("/help"))
     names.append(String("/services"))
+    names.append(String("/constrain"))
     names.append(String("/save-config"))
     names.append(String("/save"))
     names.append(String("/load"))

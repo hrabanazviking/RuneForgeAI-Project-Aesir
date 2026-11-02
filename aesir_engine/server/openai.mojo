@@ -30,6 +30,8 @@ struct OpenAIRequest:
     var include_usage: Bool
     var suffix: String
     var has_suffix: Bool
+    var vocab_restriction: String
+    var has_vocab_restriction: Bool
 
     def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
@@ -51,6 +53,8 @@ struct OpenAIRequest:
         self.include_usage = False
         self.suffix = ""
         self.has_suffix = False
+        self.vocab_restriction = ""
+        self.has_vocab_restriction = False
         var seen_tool_choice = False
         var parser = FlatJSON(body)
         parser.take(123)
@@ -76,6 +80,19 @@ struct OpenAIRequest:
                     # as FIM (no arch in this tree carries FIM).
                     self.suffix = parser.string()
                     self.has_suffix = True
+                elif name == "vocab_restriction":
+                    # Constrained generation (J-114): an Aesir
+                    # extension field -- a permitted word list
+                    # in core/vocab_restriction's spec grammar.
+                    # Validated through the cg layer at the
+                    # serve, which refuses the request before
+                    # generation: the resident CUDA session
+                    # cannot enforce a token-text restriction
+                    # in this build, and no unrestricted
+                    # generation runs under a stated
+                    # restriction (J-114 doc section 0.5).
+                    self.vocab_restriction = parser.string()
+                    self.has_vocab_restriction = True
                 elif name == "messages":
                     self._parse_messages(parser)
                     self.has_messages = True
@@ -131,6 +148,7 @@ struct OpenAIRequest:
             raise Error("OpenAI request requires a bounded model name")
         if (self.prompt.byte_length() > 65536
                 or self.suffix.byte_length() > 65536
+                or self.vocab_restriction.byte_length() > 65536
                 or self.system.byte_length() > 65536
                 or self.chat_prompt.byte_length() > 65536):
             raise Error("OpenAI request text exceeds 64 KiB")
@@ -144,8 +162,10 @@ struct OpenAIRequest:
         if seen_tool_choice and self.tool_name == "":
             raise Error("tool_choice requires a declared tool")
         if self.tool_name != "" and (
-                self.stream or self.output_mode != "" or self.has_prompt or self.has_suffix or not self.has_messages):
+                self.stream or self.output_mode != "" or self.has_prompt or self.has_suffix or self.has_vocab_restriction or not self.has_messages):
             raise Error("Gemma tool calls require nonstreaming chat without response_format")
+        if self.output_mode != "" and self.has_vocab_restriction:
+            raise Error("Boolean JSON response format is its own exact constraint; it is not composed with vocab_restriction")
 
     def _parse_stream_options(mut self, mut parser: FlatJSON) raises -> Bool:
         # stream_options (J-107, closing J-106's K5 keep): the only

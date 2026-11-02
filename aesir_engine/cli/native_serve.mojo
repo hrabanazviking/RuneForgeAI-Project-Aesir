@@ -33,6 +33,7 @@ from core.stream_progress import (STREAM_NATIVE_NDJSON, STREAM_OLLAMA_NDJSON,
                                   stream_usage_requested)
 from core.browser_page import browser_page_html, browser_page_content_type
 from core.code_completion import cc_plan, cc_trim_overlap
+from core.constrained_generation import cg_serve_vocab_response
 
 
 struct GenerateRequest:
@@ -507,6 +508,17 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             status = 400
                         elif head.path == "/v1/completions" and request.prompt.byte_length() == 0:
                             status = 400
+                        elif request.has_vocab_restriction:
+                            # Constrained generation (J-114): the
+                            # list is validated through the cg layer
+                            # and the request is refused BEFORE any
+                            # generation -- the resident CUDA session
+                            # cannot enforce a token-text restriction
+                            # in this build, and no unrestricted
+                            # generation runs under a stated
+                            # restriction (J-114 doc section 0.5).
+                            status = 400
+                            body = "{\"error\":\"" + json_escape_string(cg_serve_vocab_response(request.vocab_restriction)) + "\"}"
                         else:
                             var request_tokens = resolve_request_token_limit(request.max_tokens, token_limit)
                             session.reset()

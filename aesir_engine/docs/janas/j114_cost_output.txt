@@ -1,0 +1,19 @@
+J-114 restriction scan cost -- driver output (VM, module level)
+Driver: docs/janas/j114_cost.mojo, built and run on the J-114 tree (build exit=0). Method (pre-registered in the J-114 doc section 0.3): deterministic synthetic candidate sets over the list "the cat sat on the mat" (pieces " the"," cat"," sat"," on"," mat" admitted; " dog"," bird"," xy" refused, in fixed rotation -- admitted 5/8 of every set, verified by the printed admitted_per_scan); per size, one settle round discarded, five measured rounds, the filed number is the median per-scan nanoseconds with the first measured round beside it; each repetition builds an identical fresh TokenCandidate list inside both timings, so the restricted-vs-baseline delta is the validity scan's price. Both runs below are filed; no run was discarded for its numbers.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic; loadavg ~6-8 on 4 vCPU during both runs (the VM is shared with the other keeper campaigns), MemAvailable ~1.8 GB at cost time. Class: MEASURED-INDICATIVE -- module-level scan cost on a contended shared VM, never a generation speed, never tok/s.
+
+== run 1 ==
+J-114 restriction scan cost (module level, synthetic candidates)
+size=256 reps_per_round=781 account_candidates=256 account_bytes=992 admitted_per_scan=160 baseline_ns_per_scan_median=1311 baseline_first=1293 restricted_ns_per_scan_median=26784 restricted_first=25660 delta_ns=25473 ratio_milli=20430
+size=1024 reps_per_round=195 account_candidates=1024 account_bytes=3968 admitted_per_scan=640 baseline_ns_per_scan_median=5225 baseline_first=3961 restricted_ns_per_scan_median=349967 restricted_first=111995 delta_ns=344742 ratio_milli=66979
+size=4096 reps_per_round=48 account_candidates=4096 account_bytes=15872 admitted_per_scan=2560 baseline_ns_per_scan_median=17756 baseline_first=13175 restricted_ns_per_scan_median=1798563 restricted_first=495253 delta_ns=1780807 ratio_milli=101293
+COST DRIVER DONE
+
+== run 2 ==
+J-114 restriction scan cost (module level, synthetic candidates)
+size=256 reps_per_round=781 account_candidates=256 account_bytes=992 admitted_per_scan=160 baseline_ns_per_scan_median=1286 baseline_first=1281 restricted_ns_per_scan_median=27067 restricted_first=25091 delta_ns=25781 ratio_milli=21047
+size=1024 reps_per_round=195 account_candidates=1024 account_bytes=3968 admitted_per_scan=640 baseline_ns_per_scan_median=5099 baseline_first=4276 restricted_ns_per_scan_median=295392 restricted_first=114480 delta_ns=290293 ratio_milli=57931
+size=4096 reps_per_round=48 account_candidates=4096 account_bytes=15872 baseline_ns_per_scan_median=15853 baseline_first=13410 restricted_ns_per_scan_median=1983042 restricted_first=1637883 delta_ns=1967189 ratio_milli=125089
+COST DRIVER DONE
+
+Reading: the restricted scan's median per-scan cost across both runs is 26784-27067 ns at 256 candidates (~105 ns per candidate), 295392-349967 ns at 1024 (~290-340 ns per candidate), and 1798563-1983042 ns at 4096 (~440-485 ns per candidate), against a baseline greedy max-scan of ~1.3k / ~5.1k / ~16-18k ns. The medians at the larger sizes sit well above the same runs' first measured rounds (111995-114480 ns at 1024; 495253-1637883 ns at 4096), so under this contention the honest statement is a range, and the per-candidate growth across sizes is a contention/allocation effect, not the algorithm's shape: the scan is one is_token_valid call per candidate with no early exit (its exact counts are PROVEN in j114_test_output.txt), and J-113's walk allocates per byte, which is where the per-candidate price lives. A quiet-machine re-measurement is a J-118-gate rider on the live leg's filing (J-114 doc section 5), not a number this slice invents.
