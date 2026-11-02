@@ -334,7 +334,7 @@ def chat_command_help(columns: Int) -> String:
     if columns < 50:
         return String("\n/help /show /history [P]\n/turn N [P] /compose\n/edit (TTY) /transcript\n/bye /clear /new\n"
                       + "/model NAME /save FILE\n/load FILE /export FILE\n"
-                      + "/set NAME VALUE\nCopy: select text\n")
+                      + "/set NAME VALUE\n/save-config [FIELD VALUE]\nCopy: select text\n")
     return String("\nBrowse: /history [P], /turn N [P], /show\n"
                   + "        /transcript interactive TTY\n"
                   + "Compose: /compose lines; /edit interactive TTY\n"
@@ -345,6 +345,8 @@ def chat_command_help(columns: Int) -> String:
                   + "Files: /save FILE, /load FILE, /export FILE\n"
                   + "Copy: select text; /export FILE for full text.\n"
                   + "Settings: /set NAME VALUE\n"
+                  + "Config: /save-config (show), /save-config FIELD VALUE,\n"
+                  + "        /save-config clear FIELD, /save-config erase\n"
                   + "Names: temperature, top-k, top-p, min-p,\n"
                   + "       repeat-penalty, seed, timeout-ms.\n"
                   + "Repetition window is fixed at session creation.\n")

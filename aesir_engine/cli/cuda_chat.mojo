@@ -36,6 +36,7 @@ from cli.chat_recovery import (
 )
 from loader.packed_gguf import PackedGGUF
 from core.model_registry import ModelArchitectureRegistry
+from core.saved_config import saved_config_command_response
 
 
 struct ChatTranscript:
@@ -969,6 +970,12 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
         transcript.emit(chat_command_help(terminal_columns()))
+    elif command == "/save-config" or command.startswith("/save-config "):
+        # J-104: the saved-configuration family. This branch MUST stay
+        # before the /save branch below: /save matches by prefix, so a
+        # /save-config command reaching it would be misread as a
+        # conversation save and refused with /save's usage error.
+        transcript.emit("\n" + saved_config_command_response(command) + "\n")
     elif command.startswith("/save"):
         var path = _chat_command_path(command, "/save")
         conversation.model_identity = digest_open_fd(session.model.source.fd)
@@ -1027,6 +1034,12 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
         transcript.emit(chat_command_help(terminal_columns()))
+    elif command == "/save-config" or command.startswith("/save-config "):
+        # J-104: the saved-configuration family. This branch MUST stay
+        # before the /save branch below: /save matches by prefix, so a
+        # /save-config command reaching it would be misread as a
+        # conversation save and refused with /save's usage error.
+        transcript.emit("\n" + saved_config_command_response(command) + "\n")
     elif command.startswith("/save"):
         var path = _chat_command_path(command, "/save")
         conversation.model_identity = digest_open_fd(session.model.source.fd)

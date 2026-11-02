@@ -1,0 +1,54 @@
+PASS: store header literal AESIR_SAVED_CONFIG_V1
+PASS: file name saved-config.v1
+PASS: env-first path rule names AESIR_SAVED_CONFIG_FILE
+PASS: path rule uses AESIR_CACHE_HOME
+PASS: serialise + strict parse present
+PASS: parse pins the 16-line format
+PASS: disk surface present (load/save/store/erase)
+PASS: empty configuration refused at serialise
+PASS: placement validation reuses J-036 parse_placement_value
+PASS: cap grammar reuses J-018 parse_byte_size
+PASS: draft k default reuses J-072 LOOP_K_INITIAL
+PASS: reconciliation functions present
+PASS: kind resolution layer order session>saved>preset>learned>auto
+PASS: story names the lookup outcome (never silent)
+PASS: story carries the separate-erase-paths sentence
+PASS: story carries the J-027 expert-map sentence
+PASS: saved module never erases the learned file
+PASS: show form reads the learned file read-only
+PASS: command family present (parse/apply/response)
+PASS: field set complete
+PASS: cuda_chat imports the host entry
+PASS: exactly two /save-config branches
+PASS: each config branch precedes its body's /save branch
+PASS: help names /save-config in both widths
+PASS: test suite has 8 group prints + ALL PASS line
+PASS: test takes the preset from J-047 preset_intent
+PASS: test exercises the exact-key lookup
+PASS: doc carries: session hand > saved hand > preset > learned > auto
+PASS: doc carries: DEFERRED-WITH-REASON
+PASS: doc carries: NOT PROVEN
+PASS: doc carries: 4ca75cc237de872a7e69777872ec1077f9e93e92
+PASS: doc carries: LOOP_K_INITIAL
+PASS: doc carries: J-118 Part VII gate
+PASS: doc carries: T04
+PASS: doc carries: AESIR_SAVED_CONFIG_V1
+PASS: test output carries: ALL PASS: saved configuration (8 groups)
+PASS: test output carries: ALL PASS: learned file (13 groups)
+PASS: test output carries: ALL PASS: draft configuration surface (17 groups)
+PASS: test output carries: ALL PASS: manual override supremacy (16 groups)
+PASS: test output carries: ALL PASS: placement options (10 groups)
+PASS: test output carries: ALL PASS: model getting (5 groups)
+PASS: test output carries: ALL PASS: chat picker (7 groups)
+PASS: test output carries: ALL PASS: machine report (6 groups)
+PASS: test output carries: ALL PASS: bench configurations (8 groups)
+PASS: test output carries: ALL PASS: placement measurement harness (10 groups)
+PASS: test output carries: ALL PASS: thread topology trials (10 groups)
+PASS: test output carries: cuda chat module compile + import: PASS
+PASS: test output carries: model browser unit: PASS
+PASS: test output carries: model preference codec and validation: PASS
+PASS: test output carries 9 expert-cache PASS lines
+PASS: no README in the slice diff
+PASS: no .gguf in the slice diff
+PASS: slice diff is exactly the expected file set
+j104 inspect: 53/53 PASS
