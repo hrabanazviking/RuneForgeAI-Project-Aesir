@@ -28,6 +28,8 @@ struct OpenAIRequest:
     var tool_description: String
     var completion_budget: Int
     var include_usage: Bool
+    var suffix: String
+    var has_suffix: Bool
 
     def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
@@ -47,6 +49,8 @@ struct OpenAIRequest:
         self.tool_description = ""
         self.completion_budget = 0
         self.include_usage = False
+        self.suffix = ""
+        self.has_suffix = False
         var seen_tool_choice = False
         var parser = FlatJSON(body)
         parser.take(123)
@@ -64,6 +68,14 @@ struct OpenAIRequest:
                 elif name == "prompt":
                     self.prompt = parser.string()
                     self.has_prompt = True
+                elif name == "suffix":
+                    # Code completion (J-111): the text after the
+                    # editor's cursor, on the raw-completions route.
+                    # Planned through core/code_completion at the
+                    # serve; honoured as prefix/suffix context, not
+                    # as FIM (no arch in this tree carries FIM).
+                    self.suffix = parser.string()
+                    self.has_suffix = True
                 elif name == "messages":
                     self._parse_messages(parser)
                     self.has_messages = True
@@ -118,6 +130,7 @@ struct OpenAIRequest:
         if self.model.byte_length() == 0 or self.model.byte_length() > 256:
             raise Error("OpenAI request requires a bounded model name")
         if (self.prompt.byte_length() > 65536
+                or self.suffix.byte_length() > 65536
                 or self.system.byte_length() > 65536
                 or self.chat_prompt.byte_length() > 65536):
             raise Error("OpenAI request text exceeds 64 KiB")
@@ -131,7 +144,7 @@ struct OpenAIRequest:
         if seen_tool_choice and self.tool_name == "":
             raise Error("tool_choice requires a declared tool")
         if self.tool_name != "" and (
-                self.stream or self.output_mode != "" or self.has_prompt or not self.has_messages):
+                self.stream or self.output_mode != "" or self.has_prompt or self.has_suffix or not self.has_messages):
             raise Error("Gemma tool calls require nonstreaming chat without response_format")
 
     def _parse_stream_options(mut self, mut parser: FlatJSON) raises -> Bool:

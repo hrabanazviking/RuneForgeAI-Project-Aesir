@@ -1,0 +1,63 @@
+PASS: no FIM spelling 'fim_prefix' in any .mojo source
+PASS: no FIM spelling 'fim_suffix' in any .mojo source
+PASS: no FIM spelling 'fim_middle' in any .mojo source
+PASS: no FIM spelling '<fim_prefix>' in any .mojo source
+PASS: no FIM spelling '<fim_suffix>' in any .mojo source
+PASS: no FIM spelling '<fim_middle>' in any .mojo source
+PASS: llama/qwen tokenizer validates <|begin_of_text|>
+PASS: llama/qwen tokenizer validates <|im_start|>
+PASS: llama/qwen tokenizer validates <|im_end|>
+PASS: qwen2 admitted range ends at the ordinary BPE limit (151643)
+PASS: gemma4 tokenizer carries no FIM handling
+PASS: serve dispatch names profile "llama3"
+PASS: serve dispatch names profile "qwen3"
+PASS: serve dispatch names profile "gemma4"
+PASS: registry recognises arch gemma4
+PASS: module arch table carries gemma4
+PASS: registry recognises arch llama
+PASS: module arch table carries llama
+PASS: registry recognises arch qwen2
+PASS: module arch table carries qwen2
+PASS: registry recognises arch qwen3
+PASS: module arch table carries qwen3
+PASS: registry recognises arch mistral
+PASS: module arch table carries mistral
+PASS: fim support function present
+PASS: both mode codes exist (the FIM seam is a table entry)
+PASS: published band constants pinned at 1500/2200 in the module
+PASS: module names the band as published, not measured
+PASS: plan's generation prompt is the prefix argument, exactly
+PASS: window composition delegates to J-097's kv_window functions
+PASS: window reuse is capped at the cursor under the final-token rule
+PASS: serve imports and calls the completion layer
+PASS: serve maps the resident profile to its arch for the plan
+PASS: serve refuses a chat request carrying a suffix
+PASS: serve generates from the plan's generation prompt
+PASS: serve trims only the non-streamed answer
+PASS: parser parses the suffix field
+PASS: parser sets the suffix flag
+PASS: parser bounds the suffix at the standing 64 KiB
+PASS: module's restated bound equals the parser's 65536
+PASS: audit completion verdict flips suffix
+PASS: audit header records the J-111 evolution
+PASS: audit suite asserts the flipped suffix verdict
+PASS: suite carries group test_arch_fim_honesty
+PASS: suite carries group test_plan
+PASS: suite carries group test_window_composition
+PASS: suite carries group test_overlap_trim
+PASS: suite carries group test_latency_grading
+PASS: suite carries group test_parser_and_audit_surface
+PASS: filed test output carries the suite verdict
+PASS: filed test output carries the neighbour audit verdict
+PASS: filed test output carries the neighbour window verdict
+PASS: filed test output carries the serve compile driver verdict
+PASS: doc tallies match the filed suite verdict
+PASS: doc states the flipped completion tallies
+PASS: doc defers the live legs to the J-118 gate with reason
+PASS: doc keeps its honesty ledger explicit
+PASS: doc cites the published latency class
+PASS: slice file set == expected (extra=[] missing=[])
+PASS: no README in the slice file set
+PASS: no .gguf in the slice file set
+INSPECT: 61 PASS, 0 FAIL
+INSPECT VERDICT: ALL PASS

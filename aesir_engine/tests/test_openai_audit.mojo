@@ -25,6 +25,11 @@ J-108 update: the browser page (T15) joins the served
 route set (GET /, 8 -> 9 served); the route-table group
 asserts it. The page itself is graded by
 test_browser_page.
+
+J-111 update: suffix moved REFUSED -> PARTIAL on the
+completion table (prefix/suffix completion, not FIM),
+so the completion tallies are 8/3/8. The completion
+layer itself is graded by test_code_completion.
 """
 from core.openai_audit import (
     FIELD_HONOURED,
@@ -138,15 +143,15 @@ def test_completion_field_table() raises:
         elif verdict == FIELD_REFUSED:
             refused += 1
     expect_eq_int(honoured, 8, "completion honoured count")
-    expect_eq_int(partial, 2, "completion partial count (J-107: stream_options partial)")
-    expect_eq_int(refused, 9, "completion refused count (J-107)")
-    expect_eq_int(completion_field_verdict("suffix"), FIELD_REFUSED,
-                  "suffix refused here (FIM is J-111)")
+    expect_eq_int(partial, 3, "completion partial count (J-111: suffix partial)")
+    expect_eq_int(refused, 8, "completion refused count (J-111)")
+    expect_eq_int(completion_field_verdict("suffix"), FIELD_PARTIAL,
+                  "suffix partial (J-111: prefix/suffix completion, not FIM)")
     expect_eq_int(completion_field_verdict("echo"), FIELD_REFUSED, "echo refused")
     expect_eq_int(completion_field_verdict("best_of"), FIELD_REFUSED, "best_of refused")
     expect_eq_int(completion_field_verdict("stream_options"), FIELD_PARTIAL,
                   "stream_options partial (J-107)")
-    print("PASS: completion field table (19 fields: 8 honoured, 2 partial, 9 refused)")
+    print("PASS: completion field table (19 fields: 8 honoured, 3 partial, 8 refused)")
 
 
 def test_message_tables() raises:

@@ -88,6 +88,21 @@ move to chat 8 honoured / 5 partial / 18 refused and
 completions 8 / 2 / 9. The J-106 doc's section 2 rows
 for stream_options are superseded by the J-107 doc.
 
+J-111 EVOLUTION (recorded, not silent): the completion
+table's suffix row was REFUSED at J-106 with the note
+that the FIM/infill question is J-111's. J-111 answers
+it (core/code_completion.mojo): no arch in this tree
+carries true FIM (no tokenizer validates, frames, or
+admits FIM special tokens), so suffix is PARTIAL --
+honoured as prefix/suffix completion context (the
+generation prompt is the prefix exactly; the suffix
+serves the J-097 window account and the overlap trim),
+never as FIM. The completion tallies move to 8 honoured
+/ 3 partial / 8 refused; the chat table does not move
+(a chat request carrying suffix is refused at the
+serve -- completion at a cursor is a raw-completions
+shape).
+
 J-108 EVOLUTION (recorded, not silent): the census row
 T15 (a browser chat page served by the server itself)
 was ABSENT at J-106 -- the route table's served set had
@@ -237,13 +252,13 @@ def completion_field_names() -> List[String]:
 def completion_field_verdict(name: String) -> Int:
     """One raw-completions field's verdict. The route
     shares OpenAIRequest with the chat route, so the
-    honoured set is the same core; suffix is J-111's FIM
-    question, refused here until that slice."""
+    honoured set is the same core; suffix is J-111's
+    completion field (see the header's J-111 note)."""
     if (name == "model" or name == "prompt" or name == "temperature"
             or name == "top_p" or name == "seed" or name == "max_tokens"
             or name == "max_completion_tokens" or name == "stream"):
         return FIELD_HONOURED
-    if name == "n" or name == "stream_options":
+    if name == "n" or name == "stream_options" or name == "suffix":
         return FIELD_PARTIAL
     return FIELD_REFUSED
 

@@ -1,0 +1,53 @@
+J-111 Code completion mode -- test output (VM, lightest target)
+Tree: yrsa/janas-j111 from yrsa/janas-j110 tip 0d601c87038bff6f046065fb546acf1f2ff60f29 (ls-remote verified at slice start; remote yrsa/janas-j111 absent and no aesir-janas-j111 worktree at slice start -- duplicate guard; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (49412625).
+Build: cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o <staging>/libaesir_par.so -lpthread (exit 0; thread_par.c sha256 88f19b955be000099238f50fb85938745a21b4cccfb4680e41bccb1bfe76cacd, library sha256 2082ce3fa09a5db83ce175c596d9f40d42f731c294a629b94b0b8cfd086c28a8 -- byte-identical to the J-097..J-107 staging builds, as expected from the identical source; compiled fresh for this slice), then per suite: mojo build -I aesir_engine -I . -Xlinker -L<staging> -Xlinker -laesir_par (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH; the -I . is for the hailbru package at the repo root). Runs with LD_LIBRARY_PATH=<staging>. Staging ~/workspace/.verify-tmp/j111stage, build dir ~/workspace/.verify-tmp/j111build, TMPDIR redirected to the staging dir throughout.
+Machine: VM (KVM), 4 vCPU, kernel 7.0.0-39-generic. MemAvailable ~0.39-0.90 GB across the slice -- far below the 5,500 MB inference gate at every moment: lightest compiles and pure-logic unit runs only, one at a time; NO model inference ran anywhere, NO live server was started, and NO latency was measured (the live latency leg is deferred-with-reason, doc section 5). purplelongship not used at all: the 204 road's S-104 was live there throughout (its state file's 2026-11-02 ~05:02 EST tick records the yarn leg actively running) -- yielded under the coordination law.
+Defect found and fixed in-slice (doc section 7): the first run of test_code_completion failed one assertion in the overlap group -- the test's own fixture, not the module: the fixture completion ended in "print" and the fixture suffix begins "println", so the true longest overlap is 11 bytes, not the 0 the fixture asserted. The fixture text was corrected (a genuinely non-overlapping ending); the module was not changed. Every PASS below is from the final tree.
+
+== test_code_completion (J-111, new) ==
+build exit=0 run exit=0
+PASS: arch FIM honesty (5 recognised archs, none carries FIM, every mode PREFIX_SUFFIX, reasons stated, strangers refused)
+PASS: plan (generation prompt == prefix exactly, suffix separate and never inside it, cursor-at-edge plans, bounds + empty-document refusals)
+PASS: window composition (J-097 divergence account capped at the cursor: after-cursor 9, before-cursor 4, no-change 9, insert 2, empty prefix 0)
+PASS: overlap trim (suffix opening removed byte-exactly, full overlap empties, no overlap unchanged, edges held)
+PASS: latency grading (published band 1500-2200 ms pinned as published; 1499 faster, 1500/2200 within, 2201 slower, negative refused)
+PASS: parser + audit surface (suffix parsed and bounded by the standing grammar, duplicates refused, audit row PARTIAL)
+ALL PASS: code completion (6 groups)
+
+== native serve wiring compile driver (staging driver importing cli/native_serve whole) ==
+build exit=0 run exit=0
+native serve + code completion modules compile + import: PASS
+
+== test_openai_audit (neighbour: J-106 audit, updated only for the J-111 suffix flip) ==
+build exit=0 run exit=0
+PASS: chat field table (31 fields: 8 honoured, 5 partial, 18 refused; strangers refused)
+PASS: completion field table (19 fields: 8 honoured, 3 partial, 8 refused)
+PASS: message tables (2/7 fields honoured; 4/6 roles honoured incl. developer)
+PASS: route table (9 served incl. page + retrieve, 6 refused-501, families + strangers 404)
+PASS: refusal bodies (501 + route + a real reason, per refused route)
+PASS: parser closures (max_completion_tokens precedence, developer role; kept refusals hold)
+PASS: usage accounting (prompt_tokens_details.cached_tokens on all three forms; status carries it)
+ALL PASS: openai audit (7 groups)
+
+== test_kv_window (neighbour: the J-097 layer this slice consumes) ==
+build exit=0 run exit=0
+PASS: codes + geometry -- document 128 lines x 64 tokens = 8,192 (a ladder rung); mix bar 250,000 ppm pre-registered
+PASS: validation gate -- J-094 read-work totals reproduced EXACTLY at all 5 rungs; W(0) == 0
+PASS: divergence exercise -- predicted == computed first divergence on the concretely edited sequences for all 9 shapes; prefix controls exact
+PASS: reuse cap -- reuse == min(divergence, new_len - 1, old_len) on all 9 shapes; identical length-11 sequences reuse 10 (final-token rule)
+PASS: account pins -- naive / avoided / window cost / saved ppm exact for all 9 shapes (EDIT_LATE saves 729,021 ppm; EDIT_FIRST 0; APPEND 991,381)
+PASS: conservation + shape verdicts -- avoided + cost == naive and cost <= naive on all 9 shapes; SAVES wherever reuse > 0, NO_SAVE only at C = 0
+PASS: KV rewritten -- suffix rewrite bytes exact at both precisions on all 9 shapes (EDIT_LATE 117,440,512 f16 / 60,555,264 int8; NO_CHANGE one token)
+PASS: moved-line honesty -- the moved line's tokens are verbatim at the new position yet none of its rows is reused (position + ancestry changed); reuse stops at 6,400
+PASS: mix + service verdict -- mix saves 450,780 ppm (avoided 244,430,291,861,504 of 542,238,528,634,880); KEPT; all three failure clauses and the boundary exercised
+PASS: refusals -- unknown shape, line/destination outside the document, one-line deletion, zero length, divergence outside both documents, reuse == new length, window above naive, avoided above naive (9/9)
+ALL PASS: kv window (10 groups)
+
+== test_local_protocol (neighbour: the parser + transport surface) ==
+build exit=0 run exit=0
+PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy
+PASS bounded JSON and HTTP rejection
+PASS Native, Ollama and Gemma tool protocols: schema and secrets
+
+== inspect (j111_inspect.py) ==
+See j111_inspect_output.txt.

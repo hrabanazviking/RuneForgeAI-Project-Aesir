@@ -32,6 +32,7 @@ from core.stream_progress import (STREAM_NATIVE_NDJSON, STREAM_OLLAMA_NDJSON,
                                   STREAM_OPENAI_SSE, progress_frames,
                                   stream_usage_requested)
 from core.browser_page import browser_page_html, browser_page_content_type
+from core.code_completion import cc_plan, cc_trim_overlap
 
 
 struct GenerateRequest:
@@ -495,6 +496,11 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             status = 404
                         elif head.path == "/v1/chat/completions" and request.has_prompt:
                             status = 400
+                        elif head.path == "/v1/chat/completions" and request.has_suffix:
+                            # Code completion is a raw-completions shape
+                            # (J-111): a chat body carrying a cursor
+                            # suffix is refused, never reinterpreted.
+                            status = 400
                         elif head.path == "/v1/completions" and request.has_messages:
                             status = 400
                         elif head.path == "/v1/chat/completions" and not request.has_messages:
@@ -510,10 +516,27 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             session.configure_control(timeout_ms, interrupt_fd)
                             status = 422
                             generation_started = True
+                            # Code completion (J-111): a completions
+                            # request carrying a suffix is planned
+                            # through the pure completion layer for the
+                            # resident profile's arch, and generation
+                            # runs from the plan's generation prompt
+                            # (the prefix exactly; the suffix is never
+                            # part of it -- no arch here carries FIM).
+                            var completion_prompt = request.prompt
+                            if request.has_suffix:
+                                var completion_arch = (
+                                    "llama" if profile == "llama3" else profile
+                                )
+                                var completion_plan = cc_plan(
+                                    completion_arch, request.prompt,
+                                    request.suffix)
+                                completion_prompt = (
+                                    completion_plan.generation_prompt)
                             var prompt = (
                                 request.chat_prompt
                                 if head.path == "/v1/chat/completions"
-                                else request.prompt
+                                else completion_prompt
                             )
                             var created = openai_created_unix()
                             var request_id = (
@@ -578,6 +601,16 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                     state.prompt_tokens, state.generated_tokens,
                                     state.cached_tokens)
                             else:
+                                # Code completion (J-111): the finished
+                                # non-streamed answer is overlap-trimmed
+                                # against the suffix so it does not
+                                # duplicate the code after the cursor.
+                                # Streamed chunks were sent as generated
+                                # and are not trimmed (an overlap is
+                                # knowable only at the end).
+                                if request.has_suffix and not request.stream:
+                                    answer = cc_trim_overlap(
+                                        answer, request.suffix)
                                 var finish = ollama_done_reason(state.finish_reason)
                                 if request.stream:
                                     send_local(client.fd,
