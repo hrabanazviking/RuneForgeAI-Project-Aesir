@@ -8,7 +8,7 @@ from cli.native_settings import resolve_native_settings, native_settings_json, l
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference, lease_resolved_model
-from cli.model_selector import choose_installed_model
+from cli.model_selector import choose_model
 from cli.terminal_view import terminal_columns
 from cli.chat_history import chat_command_help, render_history_command, render_turn_command
 from cli.chat_compose import read_chat_compose
@@ -490,7 +490,7 @@ def _dispatch_cuda_chat(
     var interrupt_fd = interrupts.fd
     if model_reference == "":
         try:
-            model_reference = choose_installed_model(model_store, interrupt_fd)
+            model_reference = choose_model(model_store, interrupt_fd)
         except error:
             if String(error) == "Model selection cancelled":
                 # Cancellation loads no model, so the command has not done
