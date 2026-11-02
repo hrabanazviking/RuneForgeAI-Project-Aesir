@@ -1,0 +1,13 @@
+LEG=loaded time=2026-10-31T09:09:10-04:00
+start: loadavg=2.74 2.68 3.33 tctl=+60.5°C mem_available_kb=38159640
+loaded: loadavg=2.76 2.69 3.33 tctl=+67.5°C mem_available_kb=27872244
+corunner_pid=1077147
+RUN_EXIT=0 leg=loaded
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:40.10
+	Maximum resident set size (kbytes): 1939492
+end: loadavg=4.90 3.26 3.50 tctl=+82.4°C mem_available_kb=27402716
+corunner_verified_gone
+CORUNNER workers=4 holder_bytes=10737418240 mem_available_at_start=39072579584
+CORUNNER holder filled rss_target=10737418240
+CORUNNER spinners=[1077897, 1080763, 1083725, 1087536]
+CORUNNER stopped cleanly

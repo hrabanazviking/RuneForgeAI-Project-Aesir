@@ -1,0 +1,5 @@
+idle: hit=0.258 bytes_streamed=32948699136 bytes/token=362073616.9 wall/token=0.4113s prefill=28.04s decode=9.39s evictions=1125 bypasses=7376 admissions=1265
+loaded: hit=0.258 bytes_streamed=32948699136 bytes/token=362073616.9 wall/token=0.4353s prefill=29.47s decode=10.14s evictions=1125 bypasses=7376 admissions=1265
+token_identity_loaded_vs_idle: True
+ratios: hit=1.000 bytes/token=1.000 wall/token=1.058
+VERDICT: NO THRASH -- gentle degradation

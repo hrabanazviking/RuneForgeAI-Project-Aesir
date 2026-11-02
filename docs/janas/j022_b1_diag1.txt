@@ -1,0 +1,11 @@
+TYPE token_embd.weight 12 [ 2048 50304]
+TYPE output.weight 14 [ 2048 50304]
+TYPE output_norm.weight 0 [2048]
+TYPE blk.0.attn_q.weight 12 [2048 2048]
+TYPE blk.0.attn_q_norm.weight 0 [2048]
+TYPE blk.0.ffn_gate_exps.weight 12 [2048 1024   64]
+TYPE blk.0.ffn_down_exps.weight 14 [1024 2048   64]
+TYPE blk.15.ffn_down_exps.weight 14 [1024 2048   64]
+output_norm stats 0.1337890625 2.625 2.195580005645752
+seq1 top6: [(47111, 7.685), (20291, 6.345), (16877, 5.841), (33007, 5.803), (38435, 5.214), (47034, 5.171)]
+seq2 top6: [(273, 8.496), (4825, 7.913), (310, 7.741), (272, 7.519), (432, 7.48), (439, 7.205)]
