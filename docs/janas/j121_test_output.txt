@@ -1,0 +1,146 @@
+J-121 MTP preservation -- test output (VM, lightest target)
+Tree: yrsa/janas-j121 from yrsa/janas-j120 tip b96bec6edb76fc2a9768da052711176150d1c9fc (the J-120 banked tip f67747a3 plus its verified correction, adopted by this slice's Job A; ls-remote verified; origin/main observed at 4ca75cc237de872a7e69777872ec1077f9e93e92, not rebased onto, not touched). Protocol committed first (392e433fb9de1d5dbb57aa45ab99d5e9f25cd1b1, push ls-remote verified before the build).
+Build: mojo build -I aesir_engine -I . (Mojo 1.0.0 ed45d567, the canonical tree's installed pixi env invoked directly with its activation variables exported by hand -- CONDA_PREFIX, MODULAR_HOME=$CONDA_PREFIX/share/max, PATH); -I . covers the hailbru package at the repo root, which loader/gguf.mojo imports. Staging ~/workspace/.verify-tmp/j121stage, build dir ~/workspace/.verify-tmp/j121build, TMPDIR redirected to the staging dir throughout. Builds staged one at a time.
+Machine: VM (KVM), NO GPU device used. MemAvailable ~4.4 GB at dispatch, ~3.7 GB observed late in the run -- below the 5,500 MB inference gate at every observation; NO inference ran anywhere (none is in scope). purplelongship not used at all (the 204 road's live S-104 there -- yielded). No wall/rate/latency numbers are in scope for this slice.
+Defects found and fixed in-slice (doc section 8): the new unit suite's first build carried 2 implicit-copy build errors under this toolchain (LcTensor / LcConversion values taken from containers without .copy()) -- fixed in place, no logic change; the suite then built clean and every filed run is from the fixed tree. No defect was found in any prior slice's code: J-120's suite and its full file-level chain reproduce from this tree byte-identically (below), and the loader machinery accepts the head-carrying file at all three re-read levels unchanged.
+
+== fixtures ==
+fixtures written: /tmp/j121/work (16 tensors, 4 head)
+== test_mtp_preservation (J-121, new) ==
+PASS: mirror agreement (J-076 classifier, 12 probes, first-match order)
+PASS: verbatim carry (names, census, values exact after storage rule)
+PASS: non-head refusal (unmapped name by name; 3-D head refused)
+PASS: metadata labels (21 with heads, contents exact; 19 without)
+PASS: census agreement (counts, per-kind counts, WITH_MTP both sides)
+PASS: admission agreement (J-077 admits converted + source, heads named)
+PASS: extraction (exact head set + order, zero-head refused, block census)
+PASS: from-gguf round trip (byte-identical, head census unchanged)
+PASS: head-free unchanged (census 12, no heads, 19 metadata entries)
+ALL PASS: mtp preservation (9 groups)
+run exit=0
+== j121_convert driver ==
+SOURCE TENSORS: 16
+GGUF BYTES: 4128  DATA OFFSET: 2176
+TENSOR token_embd.weight dims [8,8] type 30 offset 0 bytes 128
+TENSOR output_norm.weight dims [8] type 0 offset 128 bytes 32
+TENSOR output.weight dims [8,8] type 30 offset 160 bytes 128
+TENSOR blk.0.attn_norm.weight dims [8] type 0 offset 288 bytes 32
+TENSOR blk.0.attn_q.weight dims [8,8] type 30 offset 320 bytes 128
+TENSOR blk.0.attn_k.weight dims [8,4] type 30 offset 448 bytes 64
+TENSOR blk.0.attn_v.weight dims [8,4] type 30 offset 512 bytes 64
+TENSOR blk.0.attn_output.weight dims [8,8] type 30 offset 576 bytes 128
+TENSOR blk.0.ffn_norm.weight dims [8] type 0 offset 704 bytes 32
+TENSOR blk.0.ffn_gate.weight dims [8,16] type 30 offset 736 bytes 256
+TENSOR blk.0.ffn_up.weight dims [8,16] type 30 offset 992 bytes 256
+TENSOR blk.0.ffn_down.weight dims [16,8] type 30 offset 1248 bytes 256
+TENSOR model.nextn.eh_proj.weight dims [16,8] type 30 offset 1504 bytes 256
+TENSOR model.nextn.shared_head_norm.weight dims [8] type 0 offset 1760 bytes 32
+TENSOR model.mtp.fc.weight dims [8,8] type 30 offset 1792 bytes 128
+TENSOR model.assistant.head_norm.weight dims [8] type 0 offset 1920 bytes 32
+HEAD TENSORS CARRIED: 4
+HEAD model.nextn.eh_proj.weight kind nextn
+HEAD model.nextn.shared_head_norm.weight kind nextn
+HEAD model.mtp.fc.weight kind mtp
+HEAD model.assistant.head_norm.weight kind assistant
+DETERMINISM: SECOND CONVERSION BYTE-IDENTICAL
+FROM-GGUF RE-EMISSION: BYTE-IDENTICAL ( 4128 bytes )
+BLOCK GGUF BYTES: 1920
+BLOCK TENSOR model.nextn.eh_proj.weight
+BLOCK TENSOR model.nextn.shared_head_norm.weight
+BLOCK TENSOR model.mtp.fc.weight
+BLOCK TENSOR model.assistant.head_norm.weight
+CONVERT DRIVER: ALL PASS
+run exit=0
+== j121_verify.py (independent, pure stdlib) ==
+head elements verified: 208
+total elements verified: 936
+checks: 70 fails: 0
+VERIFY: ALL PASS (70 checks)
+run exit=0
+== j121_reread driver (loader machinery) ==
+PASS: level 1 PackedGGUF census (16 tensors, shapes/types/bytes agree)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 16 tensors, 21 metadata entries, architecture llama
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED, 16 tensors)
+REREAD DRIVER: ALL PASS
+run exit=0
+== test_lora_convert (neighbour: J-120, regression) ==
+PASS: safetensors round-trip (F32 exact, BF16/F16 exact on exact values)
+PASS: safetensors refusals (duplicate name, truncated data, empty file)
+PASS: adapter config (by-name parse, nested decoy, missing/zero refused)
+PASS: merge exact vs slow way (0 diffs, PEFT names, pass-through exact)
+PASS: merge refusals (empty, non-LoRA, incomplete, no-base, rank x2, shape, non-2-D)
+PASS: naming (llama subset exact, unknown refused)
+PASS: GGUF write + re-read (census 12, BF16/F32 split, values exact)
+PASS: from-gguf (byte-identical re-emission, merged == slow way)
+PASS: quantized refusal + C05 scope (BF16-only, refused by name)
+ALL PASS: lora convert (9 groups)
+run exit=0
+== test_mtp_census (neighbour: J-076) ==
+PASS: classifier -- nextn names
+PASS: classifier -- mtp names
+PASS: classifier -- assistant names
+PASS: classifier -- ordinary names carry no head
+PASS: classifier -- first-match order nextn before mtp
+PASS: census -- aggregation counts per kind
+PASS: census -- verdicts vocab-only / no-mtp / with-mtp
+PASS: census -- kind and verdict names
+ALL PASS: mtp census classifier (8 groups)
+run exit=0
+== test_mtp_head_support (neighbour: J-077) ==
+PASS: admission -- nextn WITH_MTP admitted, heads named
+PASS: admission -- mixed heads admitted as mtp-head
+PASS: admission -- assistant-only admitted, assistant shape
+PASS: refusal -- proven NO_MTP files refused by name
+PASS: refusal -- VOCAB_ONLY fixtures refused by name
+PASS: refusal -- uncensused file refused as NOT PROVEN
+PASS: refusal -- empty file name refused
+PASS: record -- refusal/admission lines name file+verdict+reason
+PASS: binding -- refused has no shape; admitted shape is J-072 dispatch
+PASS: binding -- k cap from J-071, reason names round-trip
+ALL PASS: mtp head support (10 groups)
+run exit=0
+== J-120 file-level chain re-run from this tree (regression) ==
+BASE TENSORS: 12  ADAPTER TENSORS: 4  RANK: 2  ALPHA: 4.0
+MERGED: model.layers.0.self_attn.q_proj.weight
+MERGED: model.layers.0.mlp.gate_proj.weight
+PASSTHROUGH: model.embed_tokens.weight
+PASSTHROUGH: model.norm.weight
+PASSTHROUGH: lm_head.weight
+PASSTHROUGH: model.layers.0.input_layernorm.weight
+PASSTHROUGH: model.layers.0.self_attn.k_proj.weight
+PASSTHROUGH: model.layers.0.self_attn.v_proj.weight
+PASSTHROUGH: model.layers.0.self_attn.o_proj.weight
+PASSTHROUGH: model.layers.0.post_attention_layernorm.weight
+PASSTHROUGH: model.layers.0.mlp.up_proj.weight
+PASSTHROUGH: model.layers.0.mlp.down_proj.weight
+GGUF BYTES: 3200  DATA OFFSET: 1696
+TENSOR token_embd.weight dims [8,8] type 30 offset 0 bytes 128
+TENSOR output_norm.weight dims [8] type 0 offset 128 bytes 32
+TENSOR output.weight dims [8,8] type 30 offset 160 bytes 128
+TENSOR blk.0.attn_norm.weight dims [8] type 0 offset 288 bytes 32
+TENSOR blk.0.attn_q.weight dims [8,8] type 30 offset 320 bytes 128
+TENSOR blk.0.attn_k.weight dims [8,4] type 30 offset 448 bytes 64
+TENSOR blk.0.attn_v.weight dims [8,4] type 30 offset 512 bytes 64
+TENSOR blk.0.attn_output.weight dims [8,8] type 30 offset 576 bytes 128
+TENSOR blk.0.ffn_norm.weight dims [8] type 0 offset 704 bytes 32
+TENSOR blk.0.ffn_gate.weight dims [8,16] type 30 offset 736 bytes 256
+TENSOR blk.0.ffn_up.weight dims [8,16] type 30 offset 992 bytes 256
+TENSOR blk.0.ffn_down.weight dims [16,8] type 30 offset 1248 bytes 256
+FROM-GGUF RE-EMISSION: BYTE-IDENTICAL ( 3200 bytes )
+QUANTIZE REQUEST REFUSED: q4_k_m (C05 BF16-only scope)
+CONVERT DRIVER: ALL PASS
+run exit=0
+merged elements verified: 192
+checks: 41 fails: 0
+VERIFY: ALL PASS (41 checks)
+run exit=0
+PASS: level 1 PackedGGUF census (12 tensors, shapes/types/bytes agree)
+PASS: level 2 GGUFSeer.inspect_metadata (header, metadata, vocab validated)
+GGUF validated: 12 tensors, 19 metadata entries, architecture llama
+PASS: level 3 GGUFSeer.mmap_and_load (state VALIDATED, 12 tensors)
+REREAD DRIVER: ALL PASS
+run exit=0
+
+converted.gguf sha256 730dadae10b033c22b2e2345d2a478d717043a5c3f225e5977ba1b433ec77005; remitted.gguf (C10 plain re-emission) sha256 identical; block.gguf sha256 7f8f0070aae658a4aca5f4209b9d7e70eea0a539ede251a8251328252f29008b.
+J-120 regression: merged.gguf re-converted from this tree sha256 c26af51dd9ebbea7a31635d3354ebb2dcf570dd69bd5df576ca01f1c1c7e2c6a -- byte-identical to J-120's banked file (c26af51dd9ebbea7a31635d3354ebb2dcf570dd69bd5df576ca01f1c1c7e2c6a).
