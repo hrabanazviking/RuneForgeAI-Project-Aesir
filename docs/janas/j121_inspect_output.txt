@@ -1,0 +1,79 @@
+PASS core defines lc_mtp_head_kind
+PASS core defines lc_mtp_head_kind_name
+PASS core defines lc_extract_mtp_block
+PASS core defines lc_convert_base
+PASS core defines lc_read_gguf
+PASS core defines lc_convert_from_gguf
+PASS core states J-076 mirror
+PASS core mirror order nextn before mtp
+PASS core emits head_count label
+PASS core emits head_tensors label
+PASS core label conditional on heads
+PASS core keeps J-120 refusal text
+PASS core extraction refusal by name
+PASS conversion records heads
+PASS J-076 classifier order nextn before mtp
+PASS test suite has 9 test groups -- 9
+PASS test suite binds J-076 classifier
+PASS test suite binds J-077 admission
+PASS test suite binds MtpCensus
+PASS artefact present docs/janas/j121_convert.mojo
+PASS artefact present docs/janas/j121_reread.mojo
+PASS artefact present docs/janas/j121_fixtures.py
+PASS artefact present docs/janas/j121_verify.py
+PASS fixtures carry head tensor model.nextn.eh_proj.weight
+PASS fixtures carry head tensor model.nextn.shared_head_norm.weight
+PASS fixtures carry head tensor model.mtp.fc.weight
+PASS fixtures carry head tensor model.assistant.head_norm.weight
+PASS fixtures carry protocol geometry hidden 8
+PASS fixtures carry eh_proj [8, 16]
+PASS convert driver geometry hidden 8 / ffn 16 / rope 4
+PASS convert driver checks determinism
+PASS convert driver extracts block
+PASS reread driver covers PackedGGUF
+PASS reread driver covers inspect_metadata
+PASS reread driver covers mmap_and_load
+PASS reread driver covers VALIDATED
+PASS reread census gate kv 21
+PASS reread census gate heads
+PASS verify implements J-076 rules itself
+PASS verify checks head label
+PASS unit suite ALL PASS (9 groups)
+PASS convert driver ALL PASS filed
+PASS convert census filed (GGUF BYTES: 4128)
+PASS determinism filed
+PASS from-gguf byte-identical filed
+PASS verify ALL PASS 70 checks filed
+PASS verify head elements 208 filed
+PASS verify total elements 936 filed
+PASS reread ALL PASS filed
+PASS reread level 3 VALIDATED filed
+PASS neighbour lora ALL PASS filed
+PASS neighbour census ALL PASS filed
+PASS neighbour support ALL PASS filed
+PASS converted.gguf sha filed
+PASS J-120 regression sha filed
+PASS doc states WITH_MTP
+PASS doc states VALIDATED
+PASS doc states NOT PROVEN
+PASS doc states DEFERRED-WITH-REASON
+PASS doc states repl.mojo
+PASS doc states G-119-1
+PASS doc states 936
+PASS doc states 208
+PASS doc states 70 checks
+PASS doc states 9 groups
+PASS doc states range-request
+PASS doc sections 1+ filed
+PASS campaign copy sha-identical: J121_MTP_PRESERVATION.md
+PASS campaign copy sha-identical: j121_test_output.txt
+PASS campaign copy sha-identical: j121_inspect.py
+PASS campaign copy sha-identical: j121_convert.mojo
+PASS campaign copy sha-identical: j121_reread.mojo
+PASS campaign copy sha-identical: j121_fixtures.py
+PASS campaign copy sha-identical: j121_verify.py
+PASS campaign copy sha-identical: lora_convert.mojo
+PASS campaign copy sha-identical: test_mtp_preservation.mojo
+PASS no README.md touched in worktree -- M docs/janas/J121_MTP_PRESERVATION.md
+?? docs/janas/j121_ins
+TOTAL 77 PASS 77 FAIL 0
