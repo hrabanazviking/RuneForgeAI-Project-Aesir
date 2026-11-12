@@ -1,0 +1,2 @@
+32a244be1954a5fbbe8812ca7eee5e1e64a9be7ad9fe4ed1e70ebb24866da4e1  hidden_files/fixtures/oversized_a049.gguf
+57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3  hidden_files/fixtures/stories260K.F16.gguf
