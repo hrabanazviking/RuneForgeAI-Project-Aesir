@@ -8,6 +8,7 @@ from cli.model_preferences import DurableModelPreferences, PreferenceFinding, st
 from cli.model_inspect import inspect_model_reference, model_inspection_json, print_model_inspection_text
 from core.model_registry import ModelCompatibility
 from core.backend_registry import observe_backend_registry
+from core.device_policy import default_placement_policy
 from server.api import json_escape_string
 from core.native_diagnostics import (
     human_bytes,
@@ -353,6 +354,18 @@ def dispatch_doctor(args: List[String]) raises:
         census_json += '}'
         output += census_json
         output += ',"backends":' + backends_json
+        var placement_policy = default_placement_policy()
+        var placement_json = String("{\"effective_order\":")
+        placement_json += _json_string(placement_policy.effective_order_line(backend_registry))
+        placement_json += ',"decisions":['
+        var placement_decisions = placement_policy.decision_lines(backend_registry)
+        for i in range(len(placement_decisions)):
+            if i > 0:
+                placement_json += ","
+            placement_json += _json_string(placement_decisions[i])
+        placement_json += "]"
+        placement_json += ',"npu_execution_proven":' + _json_bool(placement_policy.npu_execution_proven) + '}'
+        output += ',"placement":' + placement_json
         output += ',"model":' + optional_model + ',"issues":' + issues_json + '}'
         print(output)
         return
@@ -386,6 +399,12 @@ def dispatch_doctor(args: List[String]) raises:
     print("\nBackend registry\n")
     for backend_line in backend_registry.lines():
         print("  " + backend_line)
+
+    print("\nDevice placement policy (accelerator-first)\n")
+    var placement_policy = default_placement_policy()
+    print("  " + placement_policy.effective_order_line(backend_registry))
+    for placement_line in placement_policy.decision_lines(backend_registry):
+        print("  " + placement_line)
 
     print("\nHardware census (runtime-observed)\n")
     var census_rendered = census_lines(census)

@@ -317,6 +317,14 @@ from tests.test_backend_registry import (
     test_backend_registry_degraded_and_software_vulkan,
     test_backend_registry_parsers,
 )
+from tests.test_device_policy import (
+    test_device_policy_accelerator_first_all_present,
+    test_device_policy_gpu_backend_fallback,
+    test_device_policy_cpu_spillover_and_none,
+    test_device_policy_override,
+    test_device_policy_npu_proven_path,
+    test_device_policy_deterministic_log,
+)
 from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
@@ -828,6 +836,12 @@ def main() raises:
     run_case(ledger, "cli.backend_registry_absent_combinations", test_backend_registry_absent_combinations)
     run_case(ledger, "cli.backend_registry_degraded_and_software_vulkan", test_backend_registry_degraded_and_software_vulkan)
     run_case(ledger, "cli.backend_registry_parsers", test_backend_registry_parsers)
+    run_case(ledger, "cli.device_policy_accelerator_first", test_device_policy_accelerator_first_all_present)
+    run_case(ledger, "cli.device_policy_gpu_backend_fallback", test_device_policy_gpu_backend_fallback)
+    run_case(ledger, "cli.device_policy_cpu_spillover_and_none", test_device_policy_cpu_spillover_and_none)
+    run_case(ledger, "cli.device_policy_override", test_device_policy_override)
+    run_case(ledger, "cli.device_policy_npu_proven_path", test_device_policy_npu_proven_path)
+    run_case(ledger, "cli.device_policy_deterministic_log", test_device_policy_deterministic_log)
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
@@ -1207,4 +1221,9 @@ def main() raises:
     # Union re-pin (A-014 banking 2026-11-12): 306 -> 310 -- both sides' registrations counted (run_case + record_skip).
     # A-015 re-pin: 310 -> 313 -- three Vulkan dispatch cases added
     # (gpu.vulkan_dispatch_* in tests/test_vulkan_dispatch.mojo).
-    ledger.finish(313)
+    # Union re-pin (A-017 banking 2026-11-12): 313 -> 319 -- six
+    # cli.device_policy_* cases (accelerator-first, GPU backend
+    # fallback, CPU spillover/none, override, NPU proven path,
+    # deterministic log) in tests/test_device_policy.mojo, counted
+    # on top of A-015 pin at banking.
+    ledger.finish(319)
