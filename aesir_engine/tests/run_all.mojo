@@ -326,6 +326,11 @@ from tests.test_k_quants_3_5 import (
     test_fused_q5_k_s_parity,
     test_fused_q5_k_m_parity,
 )
+from tests.test_k_dequant_simd_a040 import (
+    test_k_dequant_simd_q4_k_parity,
+    test_k_dequant_simd_q5_k_parity,
+    test_k_dequant_simd_q6_k_parity,
+)
 from tests.test_k_quants_2_6 import (
     test_fused_q2_k_parity,
     test_fused_q6_k_parity,
@@ -1088,6 +1093,9 @@ def main() raises:
     )
     run_case(ledger, "quantization.fused_q2_k_parity", test_fused_q2_k_parity)
     run_case(ledger, "quantization.fused_q6_k_parity", test_fused_q6_k_parity)
+    run_case(ledger, "quantization.k_dequant_simd_q4_k_parity", test_k_dequant_simd_q4_k_parity)
+    run_case(ledger, "quantization.k_dequant_simd_q5_k_parity", test_k_dequant_simd_q5_k_parity)
+    run_case(ledger, "quantization.k_dequant_simd_q6_k_parity", test_k_dequant_simd_q6_k_parity)
     run_case(
         ledger,
         "quantization.gptq_4bit_known_value",
@@ -1471,4 +1479,9 @@ def main() raises:
     # tests/test_iq_simd_parity.mojo), one per IQ format present.
     # Union re-pin (A-039 banking 2026-11-12): 380 -> 389 -- nine
     # IQ SIMD parity cases counted on top of the A-038 seat pin.
-    ledger.finish(389)
+    # Re-pin (A-040): 377 -> 380 -- three SIMD K-dequant bit-parity
+    # cases (quantization.k_dequant_simd_* in
+    # tests/test_k_dequant_simd_a040.mojo).
+    # Union re-pin (A-040 banking 2026-11-12): 389 -> 392 -- three
+    # K-dequant SIMD cases counted on top of the A-039 seat pin.
+    ledger.finish(392)

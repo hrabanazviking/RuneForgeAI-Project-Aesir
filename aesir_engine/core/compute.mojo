@@ -168,6 +168,82 @@ struct BlockQ8_0(Copyable, ImplicitlyCopyable):
 
 
 @always_inline
+def _dequantize_ggml_k_simd(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+    ggml_type: Int,
+):
+    """Width-16 SIMD block decode for Q4_K/Q5_K/Q6_K (A-040).
+
+    Bit-identical to the scalar packed_value() path it replaces:
+    Q4_K/Q5_K keep packed_value's integer scale*q product (exact in
+    f32 for scale*q <= 1953) formed BEFORE the d multiply, and the
+    dmin*minimum term is formed once per sub-block exactly as the
+    scalar code forms it per element; Q6_K keeps the (d*scale) *
+    (q-32) evaluation order. Only the loop structure changes:
+    one header extraction per 256-value super-block and width-16
+    SIMD nibble unpack, instead of per-element header re-derivation
+    with div/mod index arithmetic in packed_value().
+    """
+    var block_bytes = 144 if ggml_type == 12 else 176 if ggml_type == 13 else 210
+    for b in range(num_blocks):
+        var p = b * block_bytes
+        var out0 = b * 256
+        if ggml_type == 14:
+            var d = data.unsafe_offset(p + 208).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+            for c in range(16):
+                var half = c // 8
+                var group = (c % 8) // 2
+                var hl = c % 2
+                var scale = data.unsafe_offset(p + 192).unsafe_bitcast[Scalar[DType.int8]]().unsafe_load(c).cast[f32]()
+                var coef = d * scale
+                var ql = data.unsafe_load[width=16](p + half * 64 + (group % 2) * 32 + hl * 16)
+                var nib = (ql & UInt8(0x0F)) if group < 2 else (ql >> 4)
+                var qh = data.unsafe_load[width=16](p + 128 + half * 32 + hl * 16)
+                var hi = (qh >> UInt8(2 * group)) & UInt8(3)
+                var q = (nib | (hi << 4)).cast[f32]()
+                out_ptr.unsafe_store[width=16](out0 + c * 16, (coef * (q - Float32(32.0))).cast[f16]())
+        else:
+            var d = data.unsafe_offset(p).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+            var dmin = data.unsafe_offset(p + 2).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
+            var svals = InlineArray[Float32, 8](uninitialized=True)
+            var mvals = InlineArray[Float32, 8](uninitialized=True)
+            for g in range(8):
+                var scale: Int
+                var minimum: Int
+                if g < 4:
+                    scale = Int(data.unsafe_load(p + 4 + g)) & 63
+                    minimum = Int(data.unsafe_load(p + 8 + g)) & 63
+                else:
+                    scale = (Int(data.unsafe_load(p + 8 + g)) & 15) | ((Int(data.unsafe_load(p + g)) >> 6) << 4)
+                    minimum = (Int(data.unsafe_load(p + 8 + g)) >> 4) | ((Int(data.unsafe_load(p + 4 + g)) >> 6) << 4)
+                svals[g] = Float32(scale)
+                mvals[g] = dmin * Float32(minimum)
+            var qs = p + (16 if ggml_type == 12 else 48)
+            var qh0 = data.unsafe_load[width=16](p + 16)
+            var qh1 = data.unsafe_load[width=16](p + 32)
+            for h in range(4):
+                var chunk0 = data.unsafe_load[width=16](qs + h * 32)
+                var chunk1 = data.unsafe_load[width=16](qs + h * 32 + 16)
+                var g_lo = 2 * h
+                var g_hi = 2 * h + 1
+                var lo0 = (chunk0 & UInt8(0x0F)).cast[f32]()
+                var lo1 = (chunk1 & UInt8(0x0F)).cast[f32]()
+                var hi0 = (chunk0 >> 4).cast[f32]()
+                var hi1 = (chunk1 >> 4).cast[f32]()
+                if ggml_type == 13:
+                    lo0 += ((qh0 >> UInt8(g_lo)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                    lo1 += ((qh1 >> UInt8(g_lo)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                    hi0 += ((qh0 >> UInt8(g_hi)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                    hi1 += ((qh1 >> UInt8(g_hi)) & UInt8(1)).cast[f32]() * Float32(16.0)
+                out_ptr.unsafe_store[width=16](out0 + g_lo * 32, (d * (svals[g_lo] * lo0) - mvals[g_lo]).cast[f16]())
+                out_ptr.unsafe_store[width=16](out0 + g_lo * 32 + 16, (d * (svals[g_lo] * lo1) - mvals[g_lo]).cast[f16]())
+                out_ptr.unsafe_store[width=16](out0 + g_hi * 32, (d * (svals[g_hi] * hi0) - mvals[g_hi]).cast[f16]())
+                out_ptr.unsafe_store[width=16](out0 + g_hi * 32 + 16, (d * (svals[g_hi] * hi1) - mvals[g_hi]).cast[f16]())
+
+
+@always_inline
 def dequantize_ggml_k(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
@@ -181,6 +257,9 @@ def dequantize_ggml_k(
         raise Error("dequantize_ggml_k: invalid input or output storage")
     if ggml_type < 10 or ggml_type > 14:
         raise Error("dequantize_ggml_k: unsupported GGML tensor type")
+    if ggml_type == 12 or ggml_type == 13 or ggml_type == 14:
+        _dequantize_ggml_k_simd(data, out_ptr, num_elements // 256, ggml_type)
+        return
     for i in range(num_elements):
         out_ptr.unsafe_store(i, packed_value(data, 0, ggml_type, i).cast[f16]())
 
