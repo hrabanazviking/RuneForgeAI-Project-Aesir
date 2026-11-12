@@ -128,12 +128,25 @@ Excluding spillover, all remaining assists are 65 ms/step
   buffer is reusable two layers later). Per-step alloc/free
   in the loop: zero. The A-066 E-MASTER cases re-prove
   token-exact generation on the changed loop.
+- Sibling churn NOT removed here (found by full read of
+  core/vulkan_layer.mojo after the bench): VulkanLayer.
+  forward_kv allocates and frees 12 scratch buffers per
+  invocation - per layer per token (alloc L293-304, free
+  L326-337 in the banked file; forward has the same 12).
+  At the measured 15 us/pair that is ~180 us per layer,
+  ~2.2 ms/step on the 12-layer A-066 fixture - larger than
+  the decode-loop churn removed above. It lives in the
+  A-065 layer gateway, not in vulkan_decode.mojo, so it is
+  roaded, not fixed, in A-070: ROAD - VulkanLayer scratch
+  reuse (caller-owned or cached scratch) for the first
+  slice that re-opens vulkan_layer.mojo. The ping-pong
+  claim above covers vulkan_decode.mojo's own loop only.
 - Everything else in the loop is device-resident by design
   (embed gather kernel, persistent device KV, device greedy;
   host reads back one uint per generated token - the loop's
   deliverable). VulkanLayer.forward_kv performs ~10 small
-  host-sequenced sync readbacks per layer (norm stats, rope
-  tables, attention statistics): those are dispatch
+  host-sequenced dispatch waits per layer (17 dispatches in
+  forward_kv, each gateway submit+wait-idle): those are dispatch
   sequencing, not CPU math assists; host-sync/timeline
   territory is A-071's road, noted here, not counted.
 

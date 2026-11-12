@@ -84,6 +84,13 @@
    follow-on, already filed at A-067.
 4. Device-greedy generation variant skipping the lm_head
    readback when only argmax is needed.
-5. VulkanLayer.forward_kv ~10 host-sequenced sync
-   readbacks per layer: dispatch sequencing, A-071
-   (async dispatch) territory - noted, not counted here.
+5. VulkanLayer.forward_kv: 17 host-sequenced dispatch
+   waits per layer (A-071 async-dispatch territory) AND
+   12 alloc/free scratch pairs per invocation (~180 us/
+   layer at the bench pair cost) - the layer gateway's own
+   churn, larger than the decode-loop churn removed in
+   this slice. ROAD: VulkanLayer scratch reuse, first
+   slice that re-opens vulkan_layer.mojo. Found by the
+   crew's full read after the bench; disclosed in the
+   inventory doc's A-066 section (docs-only correction
+   commit following acba480f; code tree unchanged).
