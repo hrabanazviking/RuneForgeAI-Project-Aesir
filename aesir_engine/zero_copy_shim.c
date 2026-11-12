@@ -80,17 +80,69 @@ static uint64_t g_live_bytes = 0;
 static uint64_t g_kernel_launches = 0;
 static uint64_t g_memcpy_calls = 0; /* no copy entry point exists here */
 
-#define AESIR_ZC_MAX_ALLOCS 4096
-static void *g_ptrs[AESIR_ZC_MAX_ALLOCS];
-static uint64_t g_sizes[AESIR_ZC_MAX_ALLOCS];
-/* A-022 ownership states parallel to the pointer registry above;
- * freed entries keep their pointer as a tombstone so a second free
- * is detectable instead of reaching hipFree again. */
-static int g_states[AESIR_ZC_MAX_ALLOCS];
+/* Allocation registry (A-019, fixed by A-026, unioned with A-022
+ * at banking 2026-11-12).
+ *
+ * A-026 bug fix: this table was a FIXED 4096-slot array. Past 4096
+ * concurrent allocations aesir_zc_hip_alloc_managed still succeeded
+ * and incremented g_live_bytes, but the size was never recorded, so
+ * the matching free never decremented it and g_live_bytes drifted
+ * upward permanently (found by team-09's A-023 audit).
+ *
+ * The registry is now GROWABLE: capacity doubles from an initial
+ * 1024 slots via realloc. Growth failure is FAIL-CLOSED, in the
+ * spirit of the A-022 buffer-ownership law (the registry, never the
+ * raw pointer, is the ownership record): the fresh HIP allocation
+ * is freed immediately, accounting is left untouched, and the call
+ * returns -4 (registry growth failure) instead of handing out an
+ * unrecorded pointer. Every successful allocation is therefore
+ * always recorded, and every free decrements exactly what its
+ * allocation added - live-bytes returns exactly to baseline.
+ * UNION (banking): A-022's parallel g_states[] ownership array
+ * grows in the same helper (zc_registry_reserve) so the three
+ * arrays never diverge; freed entries keep their pointer as a
+ * tombstone (state FREED) so a second free stays detectable, and
+ * a tombstone slot is reused when the driver hands its address
+ * back to a later allocation (the zc_find path in alloc).
+ */
+#define AESIR_ZC_INITIAL_ALLOCS 1024
+static void **g_ptrs = NULL;
+static uint64_t *g_sizes = NULL;
+static int *g_states = NULL;
+static int g_registry_cap = 0;
 static uint64_t g_violations = 0;
 
+/* Ensure one EMPTY registry slot exists, growing all three arrays
+ * together when full. Returns 0 when a slot is available, -4 when
+ * growth allocation failed (fail-closed). */
+static int zc_registry_reserve(void) {
+    for (int i = 0; i < g_registry_cap; i++) {
+        if (g_states[i] == AESIR_OWN_STATE_EMPTY) return 0;
+    }
+    int new_cap = g_registry_cap > 0 ? g_registry_cap * 2
+                                     : AESIR_ZC_INITIAL_ALLOCS;
+    void **new_ptrs = (void **)realloc(g_ptrs, (size_t)new_cap * sizeof(void *));
+    if (new_ptrs == NULL) return -4;
+    g_ptrs = new_ptrs;
+    uint64_t *new_sizes = (uint64_t *)realloc(
+        g_sizes, (size_t)new_cap * sizeof(uint64_t));
+    if (new_sizes == NULL) return -4;
+    g_sizes = new_sizes;
+    int *new_states = (int *)realloc(
+        g_states, (size_t)new_cap * sizeof(int));
+    if (new_states == NULL) return -4;
+    g_states = new_states;
+    for (int i = g_registry_cap; i < new_cap; i++) {
+        g_ptrs[i] = NULL;
+        g_sizes[i] = 0;
+        g_states[i] = AESIR_OWN_STATE_EMPTY;
+    }
+    g_registry_cap = new_cap;
+    return 0;
+}
+
 static int zc_find(const void *ptr) {
-    for (int i = 0; i < AESIR_ZC_MAX_ALLOCS; i++) {
+    for (int i = 0; i < g_registry_cap; i++) {
         if (g_states[i] != AESIR_OWN_STATE_EMPTY && g_ptrs[i] == ptr) {
             return i;
         }
@@ -214,7 +266,15 @@ int aesir_zc_hip_alloc_managed(void **out, uint64_t size_bytes) {
         return AESIR_OWN_INVALID;
     }
     if (slot < 0) {
-        for (int i = 0; i < AESIR_ZC_MAX_ALLOCS; i++) {
+        for (int i = 0; i < g_registry_cap; i++) {
+            if (g_states[i] == AESIR_OWN_STATE_EMPTY) {
+                slot = i;
+                break;
+            }
+        }
+    }
+    if (slot < 0 && zc_registry_reserve() == 0) {
+        for (int i = 0; i < g_registry_cap; i++) {
             if (g_states[i] == AESIR_OWN_STATE_EMPTY) {
                 slot = i;
                 break;
@@ -223,7 +283,7 @@ int aesir_zc_hip_alloc_managed(void **out, uint64_t size_bytes) {
     }
     if (slot < 0) {
         g_free(ptr);
-        return AESIR_OWN_INVALID;
+        return -4;
     }
     g_ptrs[slot] = ptr;
     g_sizes[slot] = size_bytes;

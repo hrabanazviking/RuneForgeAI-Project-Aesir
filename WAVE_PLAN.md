@@ -68,26 +68,30 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **23 of 216** (A-001..A-023). A-022 + A-023 banked at
-  the seat 2026-11-12 (team commits cherry-picked in roadmap
-  order, one commit per slice; run_all pin unioned to 348:
-  A-022 +4 buffer-ownership cases on top of the A-021 pin
-  338 -> 342, A-023 +6 memory.budget cases 342 -> 348). Wave 2
-  (A-010..A-018) is COMPLETE; Wave 3 (A-019..A-027) in progress.
-- Seat gate after this banking: A-023 (seat_gate_a023.log)
-  345 passed / 1 failed / 2 skipped / 348 total, exact on the
+- Banked: **26 of 216** (A-001..A-026). A-024 + A-025 + A-026
+  banked at the seat 2026-11-12 (team commits cherry-picked in
+  roadmap order, one commit per slice; run_all pin unioned to
+  359: A-024 +6 thread-placement cases 348 -> 354, A-025
+  doc-only +0 (pin stays 354), A-026 +5 arena cases 354 ->
+  359). Wave 2 (A-010..A-018) is COMPLETE; Wave 3
+  (A-019..A-027) lacks only A-027.
+- Seat gate after this banking: A-026 (seat_gate_a026.log)
+  356 passed / 1 failed / 2 skipped / 359 total, exact on the
   first run. Sole failure the pre-existing J-022 drift, skips
   the 2 pre-declared.
-- Queue: Wave 3 continues - A-024 in flight (team-01), A-025
-  in flight (team-02), A-026 in flight (team-06); teams then
-  take slices in roadmap order as theirs bank (keeper flow):
-  team-03 A-027, team-04 A-028, team-05 A-029, team-07 A-030,
-  team-08 A-031, team-09 A-032. A-026 also carries the
-  commissioned fix for the A-019 zero_copy_shim.c 4096-slot
-  table bug recorded in the A-023 memory-map row. Sole
-  failure in every suite = pre-existing
-  gguf.tensor_directory_interface J-022 drift (roads A-165
-  primary / A-121); skips = the 2 pre-declared.
+- A-026 banking union (zero_copy_shim.c): A-026's growable
+  registry (zc_registry_reserve, doubling from 1024) and
+  A-022's ownership layer (g_states[] growing in the same
+  helper, tombstones, peer cross-check exports) both survive;
+  the A-023-audit 4096-slot live-bytes drift bug is FIXED and
+  regression-proven (gpu.arena_shim_registry_over_4096).
+- Queue: Wave 3 completes with A-027 in flight (team-03);
+  A-028 in flight (team-04); teams then take slices in
+  roadmap order as theirs bank (keeper flow): team-05 A-029,
+  team-07 A-030, team-08 A-031, team-09 A-032, team-01 A-033,
+  team-02 A-034, team-06 A-035. Sole failure in every suite =
+  pre-existing gguf.tensor_directory_interface J-022 drift
+  (roads A-165 primary / A-121); skips = the 2 pre-declared.
 - A-007 caveat: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK
   (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via
   sudo until Volmarr rules on raising the user memlock limit;

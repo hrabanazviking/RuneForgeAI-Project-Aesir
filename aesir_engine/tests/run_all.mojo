@@ -206,6 +206,13 @@ from tests.test_vulkan_context import (
     test_vulkan_forced_failure_taxonomy,
     test_vulkan_context_rejection,
 )
+from tests.test_arena_allocator import (
+    test_arena_reset_semantics,
+    test_arena_rejection,
+    test_arena_fragmentation_stress,
+    test_arena_pool_device,
+    test_arena_shim_registry_over_4096,
+)
 from tests.test_weight_residency import (
     test_weight_residency_accounting_rules,
     test_weight_residency_mapping_accounting,
@@ -833,6 +840,11 @@ def main() raises:
     run_case(ledger, "gpu.zero_copy_vulkan_cpu_write_gpu_read", test_zero_copy_vulkan_cpu_write_gpu_read)
     run_case(ledger, "gpu.zero_copy_rejection", test_zero_copy_rejection)
     run_case(ledger, "gpu.zero_copy_no_leak", test_zero_copy_no_leak)
+    run_case(ledger, "gpu.arena_reset_semantics", test_arena_reset_semantics)
+    run_case(ledger, "gpu.arena_rejection", test_arena_rejection)
+    run_case(ledger, "gpu.arena_fragmentation_stress", test_arena_fragmentation_stress)
+    run_case(ledger, "gpu.arena_pool_device", test_arena_pool_device)
+    run_case(ledger, "gpu.arena_shim_registry_over_4096", test_arena_shim_registry_over_4096)
     run_case(ledger, "gpu.kv_unified_layout", test_kv_unified_layout)
     run_case(ledger, "gpu.kv_unified_bounds", test_kv_unified_bounds)
     run_case(ledger, "gpu.kv_unified_gpu_write_cpu_read", test_kv_unified_gpu_write_cpu_read)
@@ -1354,4 +1366,6 @@ def main() raises:
     # memory budget governor cases counted on top of A-022 pin.
     # Union re-pin (A-024 banking 2026-11-12): 348 -> 354 -- six
     # thread placement cases counted on top of A-023 pin.
-    ledger.finish(354)
+    # Union re-pin (A-026 banking 2026-11-12): 354 -> 359 -- five
+    # arena allocator cases counted on top of A-024 pin.
+    ledger.finish(359)
