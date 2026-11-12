@@ -68,7 +68,7 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **47 of 216** (A-001..A-047). A-047 banked at the
+- Banked: **48 of 216** (A-001..A-048). A-047 banked at the
   seat 2026-11-12 (team-05 commit cae6b507 cherry-picked as
   3f03be59; Precision paths, run_all pin unioned
   418 -> 424 at banking).
@@ -81,7 +81,7 @@ when its lead is live on its assigned slice in its own worktree.
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is OPEN.**
-- Seat gate after this banking: A-047 (seat_gate_a047.log)
+- Seat gate after this banking: A-048 (seat_gate_a048.log)
   421 passed / 1 failed / 2 skipped / 424 total, exact on
   first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
@@ -89,7 +89,8 @@ when its lead is live on its assigned slice in its own worktree.
 - Queue: teams take slices in roadmap order as theirs
   bank (keeper flow): team-07 A-048, team-08 A-049,
   team-09 A-050, team-01 A-051, team-02 A-052,
-  team-06 A-053, team-03 A-054, team-04 A-055.
+  team-06 A-053, team-03 A-054, team-04 A-055,
+  team-07 A-056.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.
