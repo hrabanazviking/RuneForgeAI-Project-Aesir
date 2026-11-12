@@ -379,6 +379,13 @@ from tests.test_prefill_batching import (
     test_prefill_batching_q8_range_parity,
     test_prefill_batching_q4_0_public_parity,
 )
+from tests.test_chat_template_goldens_a051 import (
+    test_chat_template_golden_chatml,
+    test_chat_template_golden_llama3,
+    test_chat_template_golden_llama2,
+    test_chat_template_golden_gemma,
+    test_chat_template_golden_family_routing,
+)
 from tests.test_fused_attention_a043 import (
     test_gqa_simd_reference_parity,
     test_gqa_simd_dyadic_bitwise,
@@ -1228,6 +1235,11 @@ def main() raises:
     run_case(ledger, "prefill.batching_dense_public_parity", test_prefill_batching_dense_public_parity)
     run_case(ledger, "prefill.batching_q8_range_parity", test_prefill_batching_q8_range_parity)
     run_case(ledger, "prefill.batching_q4_0_public_parity", test_prefill_batching_q4_0_public_parity)
+    run_case(ledger, "chat_template.golden_chatml", test_chat_template_golden_chatml)
+    run_case(ledger, "chat_template.golden_llama3", test_chat_template_golden_llama3)
+    run_case(ledger, "chat_template.golden_llama2", test_chat_template_golden_llama2)
+    run_case(ledger, "chat_template.golden_gemma", test_chat_template_golden_gemma)
+    run_case(ledger, "chat_template.golden_family_routing", test_chat_template_golden_family_routing)
     run_case(ledger, "attention.gqa_simd_reference_parity", test_gqa_simd_reference_parity)
     run_case(ledger, "attention.gqa_simd_dyadic_bitwise", test_gqa_simd_dyadic_bitwise)
     run_case(ledger, "attention.gqa_simd_tail_parity", test_gqa_simd_tail_parity)
@@ -1588,4 +1600,8 @@ def main() raises:
     # A-045 seat pin.
     # A-050 re-pin: 424 -> 430 -- six tokenizer edge battery cases
     # (tokenizer.edge_* in tests/test_tokenizer_edge_a050.mojo).
-    ledger.finish(430)
+    # Union re-pin (A-051 banking 2026-11-12): 430 -> 435 -- five
+    # chat-template golden cases (chat_template.golden_* in
+    # tests/test_chat_template_goldens_a051.mojo) counted on top
+    # of the A-050 seat pin.
+    ledger.finish(435)

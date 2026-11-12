@@ -1,0 +1,9 @@
+<start_of_turn>user
+You are a helpful assistant.<end_of_turn>
+<start_of_turn>user
+Hello!<end_of_turn>
+<start_of_turn>model
+Hi there.<end_of_turn>
+<start_of_turn>user
+What is 2+2?<end_of_turn>
+<start_of_turn>model

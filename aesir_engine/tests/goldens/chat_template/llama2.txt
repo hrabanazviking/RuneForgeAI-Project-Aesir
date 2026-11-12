@@ -1,0 +1,5 @@
+[INST] <<SYS>>
+You are a helpful assistant.
+<</SYS>>
+
+Hello! [/INST] Hi there. [INST] What is 2+2? [/INST]
