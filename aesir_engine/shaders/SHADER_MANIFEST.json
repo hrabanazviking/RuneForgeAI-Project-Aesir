@@ -5,7 +5,7 @@
   "glslang": "Glslang Version: 11:16.4.0",
   "spirv_val": "SPIRV-Tools v2026.3 unknown hash, 2026-10-03T10:00:00+00:00",
   "deterministic": true,
-  "kernel_count": 8,
+  "kernel_count": 12,
   "kernels": [
     {
       "name": "attention_decode",
@@ -32,6 +32,42 @@
       "spv_sha256": "658061666ecb1c85a9b8d2d5d7a4804ad0c47eb2c6648b92d251fad26c6e907b",
       "spv_bytes": 2224,
       "spv_words": 556,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q4k_gemv",
+      "source": "aesir_engine/shaders/q4k_gemv.comp",
+      "source_sha256": "2f221f3e2fbafe3d81a191a54b3db1970a48ab81e2a41583a238963bc8df7cef",
+      "spv_sha256": "8241989c5994d480bce24b3475ad888be340b937f0daa776b1bb6c002e7bfe93",
+      "spv_bytes": 6916,
+      "spv_words": 1729,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q5_k_gemv",
+      "source": "aesir_engine/shaders/q5_k_gemv.comp",
+      "source_sha256": "fcfa4ad4df123c53ac9329dc06a8ca9198e198580b9705eb153f4c5b15d6f52b",
+      "spv_sha256": "5385b81611037a52c85a62cb779744a5fdde4862ce7f0026b4420f6d8f2fff5e",
+      "spv_bytes": 9156,
+      "spv_words": 2289,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q6_k_gemv",
+      "source": "aesir_engine/shaders/q6_k_gemv.comp",
+      "source_sha256": "2a029dbf5fe6e94dc3b51bea5682e385c74ae2f53ffe20a138c2a108650a7a25",
+      "spv_sha256": "bf97687308c7e654e68e79949c28af1a7577753e89516f40443f11e6b45af15b",
+      "spv_bytes": 7928,
+      "spv_words": 1982,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q8_0_gemv",
+      "source": "aesir_engine/shaders/q8_0_gemv.comp",
+      "source_sha256": "1919c081ed0e833b92556120b814d11259a73ea25d9fbe7905fd2bc67a45b0a0",
+      "spv_sha256": "af3a2f037eff04e192cb9477debbcab14bcebb9354874dcec8e8b337b47ce302",
+      "spv_bytes": 6076,
+      "spv_words": 1519,
       "spirv_version_word": 65536
     },
     {
