@@ -1065,6 +1065,21 @@ def _embed_tokens(
         )
     return RuneTensor[f16](batch_len, hidden_dim, base, False)
 
+def replay_rng(seed: UInt64, position: Int) -> RuneRNG:
+    """A-034 deterministic replay: the seeded sampling stream for one
+    position. Conceptually one RuneRNG is seeded once per generation
+    and advanced once per sampled position, so position p draws the
+    (p+1)-th value of the stream -- exactly what a single persistent
+    RNG would draw. Stateless by construction: any run with the same
+    seed, same raw prompt and same CPU path reproduces the identical
+    token stream. (Before A-034 every pass re-seeded RuneRNG(42) and
+    GenerationConfig.seed never reached the sampler at all.)"""
+    var rng = RuneRNG(seed)
+    for _ in range(max(0, position)):
+        _ = rng.next_u64()
+    return rng.copy()
+
+
 def forward_pass(
     tokens: List[Int],
     mut seer: GGUFSeer, 
@@ -1087,6 +1102,7 @@ def forward_pass(
     is_prefill: Bool = False,
     span_start: Int = -1,
     span_rows: List[Float32] = List[Float32](),
+    seed: UInt64 = 42,
 ) raises -> Int:
 
     """
@@ -1174,7 +1190,7 @@ def forward_pass(
 
 
     # 6. Temperature & Top-K / Top-P sampling with repetition penalty
-    var rng = RuneRNG(42)
+    var rng = replay_rng(seed, start_pos)
     var suppress_list = List[Int]()
     var best_token = sample_token_from_logits(
         logits.data,
@@ -1252,6 +1268,7 @@ def forward_pass_batched(
     is_prefill: Bool = False,
     span_start: Int = -1,
     span_rows: List[Float32] = List[Float32](),
+    seed: UInt64 = 42,
 ) raises -> Int:
     """Batched twin of forward_pass for one prefill chunk: processes
     batch_len consecutive prompt tokens starting at start_pos in a
@@ -1344,7 +1361,7 @@ def forward_pass_batched(
             var v = logits.data.unsafe_load(i).cast[DType.float32]()
             logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
 
-    var rng = RuneRNG(42)
+    var rng = replay_rng(seed, start_pos + batch_len - 1)
     var suppress_list = List[Int]()
     var best_token = sample_token_from_logits(
         logits.data,
@@ -1377,6 +1394,7 @@ def forward_pass(
     top_k: Int = 40,
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
+    seed: UInt64 = 42,
 ) raises -> Int:
     """
     Overload for forward_pass without an explicit KVCache.
@@ -1416,6 +1434,7 @@ def forward_pass(
             top_k,
             top_p,
             repetition_penalty,
+            seed=seed,
         )
     except e:
         well.offset = initial_offset
@@ -1926,6 +1945,7 @@ def forward_pass_gemma4(
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
     is_prefill: Bool = False,
+    seed: UInt64 = 42,
 ) raises -> Int:
     """Full Gemma 4 forward for one position: token embedding (with
     the Gemma sqrt(hidden) scale via _embed_token), the PLE vector,
@@ -1966,7 +1986,7 @@ def forward_pass_gemma4(
             for i in range(vocab_dim):
                 var v = logits.data.unsafe_load(i).cast[DType.float32]()
                 logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
-        var rng = RuneRNG(42)
+        var rng = replay_rng(seed, start_pos)
         var suppress_list = List[Int]()
         var next_token = sample_token_from_logits(
             logits.data, vocab_dim,
@@ -1994,6 +2014,7 @@ def forward_pass_gemma4_batched(
     top_k: Int = 40,
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
+    seed: UInt64 = 42,
 ) raises -> Int:
     """Batched twin of forward_pass_gemma4 for one prefill chunk of
     batch_len tokens at start_pos (S-041), mirroring
@@ -2042,7 +2063,7 @@ def forward_pass_gemma4_batched(
             for i in range(vocab_dim):
                 var v = logits.data.unsafe_load(i).cast[DType.float32]()
                 logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
-        var rng = RuneRNG(42)
+        var rng = replay_rng(seed, start_pos + batch_len - 1)
         var suppress_list = List[Int]()
         var next_token = sample_token_from_logits(
             logits.data, vocab_dim,
@@ -2736,6 +2757,7 @@ def forward_pass_qwen35_batched(
     top_k: Int = 40,
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
+    seed: UInt64 = 42,
 ) raises -> Int:
     """Batched twin of forward_pass_qwen35 for one prefill chunk of
     batch_len tokens at start_pos. Unlike forward_pass_qwen35 this
@@ -2780,7 +2802,7 @@ def forward_pass_qwen35_batched(
         var logits = RuneTensor[f16](1, vocab_dim, logits_ptr, False)
         gemm_f16(x_last, output_weight, logits)
 
-        var rng = RuneRNG(42)
+        var rng = replay_rng(seed, start_pos + batch_len - 1)
         var suppress_list = List[Int]()
         var next_token = sample_token_from_logits(
             logits.data,
@@ -2811,6 +2833,7 @@ def forward_pass_qwen35(
     top_k: Int = 40,
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
+    seed: UInt64 = 42,
 ) raises -> Int:
     """Full forward pass for the Qwen3.5 hybrid arch. Mirrors
     forward_pass's output stage (final norm, LM head, sampling) but runs
@@ -2841,7 +2864,7 @@ def forward_pass_qwen35(
         var logits = RuneTensor[f16](1, vocab_dim, logits_ptr, False)
         gemm_f16(x, output_weight, logits)
 
-        var rng = RuneRNG(42)
+        var rng = replay_rng(seed, start_pos)
         var suppress_list = List[Int]()
         var next_token = sample_token_from_logits(
             logits.data,

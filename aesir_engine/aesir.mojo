@@ -411,6 +411,7 @@ struct AesirEngine:
                 gen_config.top_p,
                 gen_config.repetition_penalty,
                 is_prefill,
+                gen_config.seed,
             )
         if self.parser.config.architecture == "qwen35":
             return forward_pass_qwen35(
@@ -425,6 +426,7 @@ struct AesirEngine:
                 gen_config.top_k,
                 gen_config.top_p,
                 gen_config.repetition_penalty,
+                gen_config.seed,
             )
         return forward_pass(
             tokens,
@@ -448,6 +450,7 @@ struct AesirEngine:
             is_prefill,
             self.image_span_start,
             self.image_span_rows,
+            gen_config.seed,
         )
 
     # Placement options (Janas road J-036): the per-pass placement
@@ -1002,6 +1005,7 @@ struct AesirEngine:
                 gen_config.top_k,
                 gen_config.top_p,
                 gen_config.repetition_penalty,
+                gen_config.seed,
             )
         if self.parser.config.architecture == "qwen35":
             return forward_pass_qwen35_batched(
@@ -1018,6 +1022,7 @@ struct AesirEngine:
                 gen_config.top_k,
                 gen_config.top_p,
                 gen_config.repetition_penalty,
+                gen_config.seed,
             )
         return forward_pass_batched(
             tokens,
@@ -1042,6 +1047,7 @@ struct AesirEngine:
             is_prefill,
             self.image_span_start,
             self.image_span_rows,
+            gen_config.seed,
         )
 
     def extract_query_embedding(mut self, prompt: String, hidden_dim: Int) raises -> RuneTensor[f16]:
