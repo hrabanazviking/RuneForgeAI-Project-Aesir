@@ -1,0 +1,102 @@
+staging=/tmp/tmp.LCyFLmtmpp
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:17:
+/home/volmarr/aesir-team-03/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:17:
+/home/volmarr/aesir-team-03/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:23:
+Imported from /home/volmarr/aesir-team-03/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-03/aesir_engine/core/inference.mojo:2162:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:19:
+/home/volmarr/aesir-team-03/aesir_engine/core/vulkan_real_model.mojo:554:23: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var buf = alloc[Scalar[DType.float16]](self.dim)
+                      ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:19:
+/home/volmarr/aesir-team-03/aesir_engine/core/vulkan_real_model.mojo:557:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                out.append(buf[i].cast[DType.float32]())
+                           ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:19:
+/home/volmarr/aesir-team-03/aesir_engine/core/vulkan_real_model.mojo:558:16: warning: 'free' is deprecated, use 'unsafe_free' instead
+            buf.free()
+            ~~~^~~~~
+                unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:23:
+Imported from /home/volmarr/aesir-team-03/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-03/aesir_engine/core/inference.mojo:2163:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:23:
+Imported from /home/volmarr/aesir-team-03/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-03/aesir_engine/core/inference.mojo:2164:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:23:
+Imported from /home/volmarr/aesir-team-03/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-03/aesir_engine/core/inference.mojo:2165:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Included from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:19:
+/home/volmarr/aesir-team-03/aesir_engine/core/vulkan_real_model.mojo:691:13: warning: ref 'i' was never used, remove it?
+        for i in range(self.vocab):
+            ^
+Included from /home/volmarr/aesir-team-03/aesir_engine/tests/bench_cpu_assist_a070.mojo:23:
+Included from /home/volmarr/aesir-team-03/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-team-03/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+A070_DEVICE vendor= 4098 type= 1
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+A070_PROMPT_TOKENS 6
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+A070_GPU_LOAD_MS 103
+A070_MODEL layers= 32 dim= 4096 kv_dim= 1024 vocab= 128256
+A070_STEP pos= 0 ms= 757 argmax= 14924
+A070_STEP pos= 1 ms= 664 argmax= 220
+A070_STEP pos= 2 ms= 668 argmax= 315
+A070_STEP pos= 3 ms= 667 argmax= 279
+A070_STEP pos= 4 ms= 666 argmax= 11
+A070_STEP pos= 5 ms= 669 argmax= 264
+A070_STEP pos= 6 ms= 670 argmax= 3363
+A070_STEP pos= 7 ms= 671 argmax= 315
+A070_STEP pos= 8 ms= 672 argmax= 6800
+A070_STEP pos= 9 ms= 672 argmax= 12844
+A070_STEP pos= 10 ms= 675 argmax= 323
+A070_STEP pos= 11 ms= 673 argmax= 13444
+A070_STEP pos= 12 ms= 677 argmax= 11
+A070_STEP pos= 13 ms= 679 argmax= 449
+A070_STEP pos= 14 ms= 681 argmax= 264
+A070_STEP pos= 15 ms= 680 argmax= 9257
+A070_EMBED_US_PER_CALL 4 row_len= 4096
+A070_PERMUTE_Q_US_PER_CALL 3 len= 4096
+A070_PERMUTE_K_US_PER_CALL 0 len= 1024
+A070_SANITIZE_US_PER_CALL 109 replaced= 0
+A070_HOST_ARGMAX_US_PER_CALL 150 best= 9257
+A070_GPU_GREEDY_US_PER_CALL 524 best= 9257
+A070_ALLOC_FREE_US_PER_PAIR 15
+A070_KVPACK_REPLICA_US_PER_LAYER 44 pack_floats= 16384 kv_len= 16
+A070_DONE
+MOJO_EXIT=0

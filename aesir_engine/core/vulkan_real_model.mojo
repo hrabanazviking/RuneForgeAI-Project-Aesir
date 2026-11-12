@@ -59,6 +59,21 @@
 # reconciles at banking in roadmap order. Nothing here claims
 # A-066's road.
 #
+# A-070 (lawful CPU assist): every host participation in
+# this path is instrumented in CpuAssistStats (streamed
+# weight upload, norm-gain upload, embedding gather, RoPE
+# permutation round trip, KV history readback + pack
+# upload, lm_head readback + stitch, logit sanitize),
+# accumulated per decode_step and exposed via
+# assist_stats(). Verdicts + measurements:
+# docs/bench/A070_CPU_ASSIST_INVENTORY.md. Removed in
+# A-070: the lm_head zero-fill pass (the row is built by
+# appending chunk outputs directly). Roaded there with
+# evidence: total weight residency (streaming is
+# load-bearing under the 128-slot shim cap), persistent
+# device KV for this path (A-066 owns the pattern), and
+# a GPU RoPE permutation.
+#
 # Embedding lookup is a host gather + dequant of ONE row per
 # step (a memory read, not a matrix op): token_embd stays in the
 # mmap and only the selected row is dequantized. All matrix
@@ -68,6 +83,7 @@
 # raises; nothing is computed on the host instead.
 
 from std.math import isinf, isnan
+from std.time import perf_counter_ns
 from std.memory import Pointer, bitcast
 from loader.gguf import GGUFSeer
 from loader.tokenizer import RuneWeaver
@@ -175,6 +191,188 @@ def _copy_bytes(
         dst.unsafe_store(i, src.unsafe_load(i))
 
 
+struct CpuAssistStats(Copyable, ImplicitlyCopyable):
+    """Per-assist CPU accounting for the GPU decode path
+    (A-070). Times are host wall nanoseconds spent in the
+    named assist inside decode_step/_layer; bytes are the
+    bytes that assist moves. step_ns is the decode_step
+    wall the assists are part of. Zero = nothing measured."""
+
+    var steps: Int
+    var step_ns: Int
+    var stream_uploads: Int
+    var stream_bytes: Int
+    var stream_ns: Int
+    var gains_uploads: Int
+    var gains_bytes: Int
+    var gains_ns: Int
+    var embed_calls: Int
+    var embed_ns: Int
+    var permute_calls: Int
+    var permute_bytes: Int
+    var permute_ns: Int
+    var kv_readback_bytes: Int
+    var kvpack_calls: Int
+    var kvpack_bytes: Int
+    var kvpack_ns: Int
+    var logits_readback_bytes: Int
+    var logits_ns: Int
+    var sanitize_ns: Int
+
+    def __init__(out self):
+        self.steps = 0
+        self.step_ns = 0
+        self.stream_uploads = 0
+        self.stream_bytes = 0
+        self.stream_ns = 0
+        self.gains_uploads = 0
+        self.gains_bytes = 0
+        self.gains_ns = 0
+        self.embed_calls = 0
+        self.embed_ns = 0
+        self.permute_calls = 0
+        self.permute_bytes = 0
+        self.permute_ns = 0
+        self.kv_readback_bytes = 0
+        self.kvpack_calls = 0
+        self.kvpack_bytes = 0
+        self.kvpack_ns = 0
+        self.logits_readback_bytes = 0
+        self.logits_ns = 0
+        self.sanitize_ns = 0
+
+    def assist_ns(self) -> Int:
+        """Sum of the named assist times (disjoint regions)."""
+        return (
+            self.stream_ns + self.gains_ns + self.embed_ns
+            + self.permute_ns + self.kvpack_ns + self.logits_ns
+            + self.sanitize_ns
+        )
+
+
+# A-070 assist inventory + lawful-assist policy (pure).
+# Canonical inventory order; every id has exactly one
+# name and every in-path assist above has a stats field.
+comptime ASSIST_STREAM_UPLOAD = 0
+comptime ASSIST_GAINS_UPLOAD = 1
+comptime ASSIST_EMBED_GATHER = 2
+comptime ASSIST_ROPE_PERMUTE = 3
+comptime ASSIST_KV_PACK = 4
+comptime ASSIST_LM_HEAD_STITCH = 5
+comptime ASSIST_SANITIZE = 6
+comptime ASSIST_HOST_ARGMAX = 7
+comptime ASSIST_GPU_GREEDY_CHECK = 8
+comptime ASSIST_DECODE_ALLOC_CHURN = 9
+comptime ASSIST_COUNT = 10
+
+comptime VERDICT_LAWFUL_SPILLOVER = 0
+comptime VERDICT_LAWFUL_MASSIVE = 1
+comptime VERDICT_LAWFUL_TRIVIAL = 2
+comptime VERDICT_UNMEASURED = 3
+comptime VERDICT_UNMEASURED_DOMINANT = 4
+comptime VERDICT_DOES_NOT_PAY = 5
+
+comptime MASSIVE_SPEEDUP_X10 = 10
+comptime DOMINANT_SHARE_PCT = 50
+
+
+def assist_name(assist_id: Int) -> String:
+    """Canonical inventory name for an assist id."""
+    if assist_id == ASSIST_STREAM_UPLOAD:
+        return String("stream_upload")
+    if assist_id == ASSIST_GAINS_UPLOAD:
+        return String("gains_upload")
+    if assist_id == ASSIST_EMBED_GATHER:
+        return String("embed_gather")
+    if assist_id == ASSIST_ROPE_PERMUTE:
+        return String("rope_permute")
+    if assist_id == ASSIST_KV_PACK:
+        return String("kv_pack")
+    if assist_id == ASSIST_LM_HEAD_STITCH:
+        return String("lm_head_stitch")
+    if assist_id == ASSIST_SANITIZE:
+        return String("sanitize")
+    if assist_id == ASSIST_HOST_ARGMAX:
+        return String("host_argmax")
+    if assist_id == ASSIST_GPU_GREEDY_CHECK:
+        return String("gpu_greedy_check")
+    if assist_id == ASSIST_DECODE_ALLOC_CHURN:
+        return String("decode_alloc_churn")
+    return String("unknown")
+
+
+def assist_verdict(
+    measured: Bool,
+    spillover: Bool,
+    assist_ns: Int,
+    alternative_ns: Int,
+    step_ns: Int,
+) -> Int:
+    """Accelerator-First verdict for one assist. CPU work
+    is lawful only as (1) spillover for what exceeds
+    device residency, or (2) a measured assist that
+    massively helps (>= 10x the GPU alternative) or is
+    a trivial share (< 1%) of the step it serves. An
+    unmeasured assist never survives; one that is also
+    a dominant share of the step is the worst class."""
+    if not measured:
+        if step_ns > 0 and assist_ns * 100 >= step_ns * DOMINANT_SHARE_PCT:
+            return VERDICT_UNMEASURED_DOMINANT
+        return VERDICT_UNMEASURED
+    if spillover:
+        return VERDICT_LAWFUL_SPILLOVER
+    if alternative_ns >= assist_ns * MASSIVE_SPEEDUP_X10:
+        return VERDICT_LAWFUL_MASSIVE
+    if step_ns > 0 and assist_ns * 100 < step_ns:
+        return VERDICT_LAWFUL_TRIVIAL
+    return VERDICT_DOES_NOT_PAY
+
+
+def assist_is_lawful(
+    measured: Bool,
+    spillover: Bool,
+    assist_ns: Int,
+    alternative_ns: Int,
+    step_ns: Int,
+) -> Bool:
+    var v = assist_verdict(
+        measured, spillover, assist_ns, alternative_ns, step_ns
+    )
+    return (
+        v == VERDICT_LAWFUL_SPILLOVER
+        or v == VERDICT_LAWFUL_MASSIVE
+        or v == VERDICT_LAWFUL_TRIVIAL
+    )
+
+
+def stitch_chunk_append(chunks: List[List[Float32]]) -> List[Float32]:
+    """lm_head stitch, A-070 form: the logit row is built
+    by appending chunk outputs directly (no zero-fill)."""
+    var out = List[Float32]()
+    for c in range(len(chunks)):
+        var chunk = chunks[c].copy()
+        for i in range(len(chunk)):
+            out.append(chunk[i])
+    return out^
+
+
+def stitch_chunk_scatter(
+    chunks: List[List[Float32]], total: Int
+) -> List[Float32]:
+    """Pre-A-070 lm_head stitch, kept as the equivalence
+    oracle: zero-fill a total-length row, scatter chunks."""
+    var out = List[Float32]()
+    for _ in range(total):
+        out.append(Float32(0.0))
+    var done = 0
+    for c in range(len(chunks)):
+        var chunk = chunks[c].copy()
+        for i in range(len(chunk)):
+            out[done + i] = chunk[i]
+        done += len(chunk)
+    return out^
+
+
 struct VulkanRealModel:
     """One loaded llama-arch GGUF decoding on the Vulkan device.
 
@@ -195,6 +393,7 @@ struct VulkanRealModel:
     var eps: Float32
     var rope_base: Float32
     var last_nonfinite_count: Int
+    var assist: CpuAssistStats
     var _seer: GGUFSeer
     var _pool: MimirWell
     var _weaver: RuneWeaver
@@ -245,6 +444,7 @@ struct VulkanRealModel:
         self.eps = Float32(1.0e-5)
         self.rope_base = Float32(10000.0)
         self.last_nonfinite_count = 0
+        self.assist = CpuAssistStats()
         self._seer = GGUFSeer(path)
         self._pool = MimirWell(268435456)
         self._weaver = RuneWeaver()
@@ -292,7 +492,7 @@ struct VulkanRealModel:
         return self._seer.tensors[name].copy()
 
     def _upload(
-        self, alloc: VulkanAllocation, t: RuneTensor[DType.float16]
+        mut self, alloc: VulkanAllocation, t: RuneTensor[DType.float16]
     ) raises:
         var n = _tensor_bytes(t)
         if alloc.requested_size < n:
@@ -300,24 +500,32 @@ struct VulkanRealModel:
                 "VAL-003 VALUE_OUT_OF_RANGE: VulkanRealModel: weight "
                 "buffer is smaller than the tensor bytes"
             )
+        var t0 = perf_counter_ns()
         var dst = VulkanBuffers.map(alloc)
         _copy_bytes(dst, t.data.unsafe_bitcast[UInt8](), n)
         VulkanBuffers.unmap(alloc)
+        self.assist.stream_uploads += 1
+        self.assist.stream_bytes += n
+        self.assist.stream_ns += perf_counter_ns() - t0
 
     def _upload_gains(
-        self, alloc: VulkanAllocation, t: RuneTensor[DType.float16]
+        mut self, alloc: VulkanAllocation, t: RuneTensor[DType.float16]
     ) raises:
         if t.cols != self.dim or t.rows != 1:
             raise Error(
                 "VAL-003 VALUE_OUT_OF_RANGE: VulkanRealModel: norm gain "
                 "tensor is not a single row of dim Float32"
             )
+        var t0 = perf_counter_ns()
         var dst = VulkanBuffers.map(alloc).unsafe_bitcast[Float32]()
         for i in range(self.dim):
             dst.unsafe_store(
                 i, t.data.unsafe_load(i).cast[DType.float32]()
             )
         VulkanBuffers.unmap(alloc)
+        self.assist.gains_uploads += 1
+        self.assist.gains_bytes += self.dim * 4
+        self.assist.gains_ns += perf_counter_ns() - t0
 
     def _gemv(
         self,
@@ -484,7 +692,8 @@ struct VulkanRealModel:
             self._lm_chunk_rows.append(chunk)
             done += chunk
         var gout = self._tensor("output_norm.weight")
-        self._upload_gains(self._g_out, gout)
+        var bgo = self._g_out.copy()
+        self._upload_gains(bgo, gout)
         for _ in range(self.layers):
             self._k_hist.append(List[Float32]())
             self._v_hist.append(List[Float32]())
@@ -540,7 +749,8 @@ struct VulkanRealModel:
             self._k_hist[l] = List[Float32]()
             self._v_hist[l] = List[Float32]()
 
-    def _embed(self, token: Int) raises -> List[Float32]:
+    def _embed(mut self, token: Int) raises -> List[Float32]:
+        var t0 = perf_counter_ns()
         var embd = self._tensor("token_embd.weight")
         var out = List[Float32]()
         if embd.is_quantized:
@@ -563,6 +773,8 @@ struct VulkanRealModel:
                         DType.float32
                     ]()
                 )
+        self.assist.embed_calls += 1
+        self.assist.embed_ns += perf_counter_ns() - t0
         return out^
 
     def _write_f32(
@@ -598,18 +810,27 @@ struct VulkanRealModel:
         var tg = self._tensor(prefix + "ffn_gate.weight")
         var tu = self._tensor(prefix + "ffn_up.weight")
         var td = self._tensor(prefix + "ffn_down.weight")
-        self._upload(self._wq, tq)
-        self._upload(self._wk, tk)
-        self._upload(self._wv, tv)
-        self._upload(self._wo, to)
-        self._upload(self._wg, tg)
-        self._upload(self._wu, tu)
-        self._upload(self._wd, td)
+        var bwq = self._wq.copy()
+        var bwk = self._wk.copy()
+        var bwv = self._wv.copy()
+        var bwo = self._wo.copy()
+        var bwg = self._wg.copy()
+        var bwu = self._wu.copy()
+        var bwd = self._wd.copy()
+        self._upload(bwq, tq)
+        self._upload(bwk, tk)
+        self._upload(bwv, tv)
+        self._upload(bwo, to)
+        self._upload(bwg, tg)
+        self._upload(bwu, tu)
+        self._upload(bwd, td)
+        var bga = self._g_attn.copy()
+        var bgf = self._g_ffn.copy()
         self._upload_gains(
-            self._g_attn, self._tensor(prefix + "attn_norm.weight")
+            bga, self._tensor(prefix + "attn_norm.weight")
         )
         self._upload_gains(
-            self._g_ffn, self._tensor(prefix + "ffn_norm.weight")
+            bgf, self._tensor(prefix + "ffn_norm.weight")
         )
         VulkanNormRope.rmsnorm(x_in, self._g_attn, self._h, self.dim, 1, self.eps)
         self._gemv(tq.quant_format.value, self._wq, self._h, self._q, self.dim, self.dim)
@@ -617,12 +838,17 @@ struct VulkanRealModel:
         self._gemv(tv.quant_format.value, self._wv, self._h, self._v, self.kv_dim, self.dim)
         # RoPE convention bridge: permute q/k on the host, rope
         # on the device (see the file header).
+        var tp0 = perf_counter_ns()
         var q_host = permute_rope_pairs(self._read_f32(self._q, self.dim), self.head_dim)
         self._write_f32(self._q, q_host)
         var k_host = permute_rope_pairs(self._read_f32(self._k, self.kv_dim), self.head_dim)
         self._write_f32(self._k, k_host)
+        self.assist.permute_calls += 2
+        self.assist.permute_bytes += (self.dim + self.kv_dim) * 8
+        self.assist.permute_ns += perf_counter_ns() - tp0
         VulkanNormRope.rope(self._q, self.head_dim, self.heads, position, self.rope_base)
         VulkanNormRope.rope(self._k, self.head_dim, self.kv_heads, position, self.rope_base)
+        var tk0 = perf_counter_ns()
         var k_roped = self._read_f32(self._k, self.kv_dim)
         var v_host = self._read_f32(self._v, self.kv_dim)
         for i in range(self.kv_dim):
@@ -640,6 +866,10 @@ struct VulkanRealModel:
                     vpack.append(self._v_hist[layer][src_base + d])
         self._write_f32(self._kpack, kpack)
         self._write_f32(self._vpack, vpack)
+        self.assist.kv_readback_bytes += self.kv_dim * 8
+        self.assist.kvpack_calls += 1
+        self.assist.kvpack_bytes += (len(kpack) + len(vpack)) * 4
+        self.assist.kvpack_ns += perf_counter_ns() - tk0
         VulkanAttention.decode_attention(
             self._q, self._kpack, self._vpack, self._attn,
             self.head_dim, kv_len, self.heads, self.heads // self.kv_heads,
@@ -674,6 +904,7 @@ struct VulkanRealModel:
                 "VulkanRealModel: decode positions must be sequential "
                 "(reset_kv, then 0, 1, 2, ...)"
             )
+        var t_step0 = perf_counter_ns()
         var x = self._embed(token)
         var xa = self._x_a
         var xb = self._x_b
@@ -687,19 +918,27 @@ struct VulkanRealModel:
             use_a = not use_a
         var x_final = xa if use_a else xb
         VulkanNormRope.rmsnorm(x_final, self._g_out, self._h, self.dim, 1, self.eps)
-        var logits = List[Float32]()
-        for i in range(self.vocab):
-            logits.append(Float32(0.0))
-        var done = 0
+        var tl0 = perf_counter_ns()
+        var chunks = List[List[Float32]]()
         for c in range(len(self._lm_chunks)):
             var rows = self._lm_chunk_rows[c]
             self._gemv(self._lm_fmt, self._lm_chunks[c], self._h, self._chunk_y, rows, self.dim)
-            var part = self._read_f32(self._chunk_y, rows)
-            for i in range(rows):
-                logits[done + i] = part[i]
-            done += rows
+            chunks.append(self._read_f32(self._chunk_y, rows))
+        var logits = stitch_chunk_append(chunks)
+        self.assist.logits_readback_bytes += self.vocab * 4
+        self.assist.logits_ns += perf_counter_ns() - tl0
+        if len(logits) != self.vocab:
+            raise Error("VulkanRealModel: lm_head stitch length drift")
+        var ts0 = perf_counter_ns()
         self.last_nonfinite_count = sanitize_logit_row(logits)
+        self.assist.sanitize_ns += perf_counter_ns() - ts0
+        self.assist.steps += 1
+        self.assist.step_ns += perf_counter_ns() - t_step0
         return logits^
+
+    def assist_stats(self) -> CpuAssistStats:
+        """Snapshot of the A-070 per-assist accounting."""
+        return self.assist.copy()
 
     def gpu_greedy_token(mut self, logits: List[Float32]) raises -> Int:
         """Cross-check: upload a sanitized row and let the A-063

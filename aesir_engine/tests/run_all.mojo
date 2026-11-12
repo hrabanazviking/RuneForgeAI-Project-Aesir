@@ -315,6 +315,14 @@ from tests.test_vulkan_gemm_a068 import (
     test_vulkan_prefill_gemm_rejection,
     test_vulkan_prefill_gemm_dispatch_evidence,
 )
+from tests.test_cpu_assist_a070 import (
+    test_cpu_assist_stats_accounting,
+    test_cpu_assist_policy_verdicts,
+    test_cpu_assist_stitch_equivalence,
+    test_cpu_assist_sanitize_policy,
+    test_cpu_assist_inventory_completeness,
+    test_cpu_assist_stats_absent_model,
+)
 from tests.test_vulkan_q6k_q5k_gemv import (
     test_vulkan_q6k_q5k_oracle_parity,
     test_vulkan_q6k_q5k_known_value,
@@ -1126,6 +1134,12 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_prefill_gemm_known_value", test_vulkan_prefill_gemm_known_value)
     run_case(ledger, "gpu.vulkan_prefill_gemm_f32_parity", test_vulkan_prefill_gemm_f32_parity)
     run_case(ledger, "gpu.vulkan_prefill_gemm_batch_independence", test_vulkan_prefill_gemm_batch_independence)
+    run_case(ledger, "cpu_assist.stats_accounting", test_cpu_assist_stats_accounting)
+    run_case(ledger, "cpu_assist.policy_verdicts", test_cpu_assist_policy_verdicts)
+    run_case(ledger, "cpu_assist.stitch_equivalence", test_cpu_assist_stitch_equivalence)
+    run_case(ledger, "cpu_assist.sanitize_policy", test_cpu_assist_sanitize_policy)
+    run_case(ledger, "cpu_assist.inventory_completeness", test_cpu_assist_inventory_completeness)
+    run_case(ledger, "cpu_assist.stats_absent_model", test_cpu_assist_stats_absent_model)
     run_case(ledger, "gpu.vulkan_prefill_gemm_rejection", test_vulkan_prefill_gemm_rejection)
     run_case(ledger, "gpu.vulkan_prefill_gemm_dispatch_evidence", test_vulkan_prefill_gemm_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
@@ -1887,4 +1901,9 @@ def main() raises:
     # (gpu.vulkan_chunked_prefill_* in
     # tests/test_vulkan_prefill_a069.mojo) counted on top of
     # the A-068 seat pin.
-    ledger.finish(525)
+    # A-070 union re-pin (banking 2026-11-12): 525 -> 531 --
+    # six lawful CPU assist cases (cpu_assist.* in
+    # tests/test_cpu_assist_a070.mojo) counted on top of the
+    # A-069 seat pin (A-070 team pin was 518 -> 524 on its
+    # own base; the union total reconciles at banking).
+    ledger.finish(531)

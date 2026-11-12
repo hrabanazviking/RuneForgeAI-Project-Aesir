@@ -20,6 +20,17 @@
 # greedy token-exactness against the sequential Float32 CPU
 # oracle (A-004 discipline, raw prompt token ids - no chat
 # template exists anywhere in this path).
+#
+# A-070 (lawful CPU assist): the one host participation in
+# this loop was allocator churn - one scratch allocation +
+# free per layer per step (measured 15 us per alloc/free
+# pair, bench_cpu_assist_a070; 12 layers x 32 steps = 384
+# pairs per generate on the A-066 fixture). The layer
+# scratch is now ping-pong: two buffers allocated once and
+# alternated (every gateway dispatch is synchronous, so a
+# buffer is free for reuse two layers later). Per-step
+# alloc/free in the loop: zero. Inventory + verdicts:
+# docs/bench/A070_CPU_ASSIST_INVENTORY.md.
 
 from core.vulkan_buffers import VulkanBuffers, VulkanAllocation
 from core.vulkan_layer import VulkanLayer, VulkanLayerWeights
@@ -110,6 +121,8 @@ struct VulkanDecode:
         var normed = VulkanBuffers.allocate(dim * 4)
         var logits = VulkanBuffers.allocate(vocab * 4)
         var tok_out = VulkanBuffers.allocate(4)
+        var scratch_a = VulkanBuffers.allocate(dim * 4)
+        var scratch_b = VulkanBuffers.allocate(dim * 4)
 
         var tokens = prompt.copy()
         var generated = List[Int]()
@@ -118,16 +131,16 @@ struct VulkanDecode:
             var token = tokens[step]
             VulkanEmbed.gather(weights.embedding, x, dim, token, vocab)
             var cur = x
-            var owned = List[VulkanAllocation]()
+            var use_a = True
             for li in range(len(weights.layers)):
-                var nxt = VulkanBuffers.allocate(dim * 4)
+                var nxt = scratch_a if use_a else scratch_b
                 VulkanLayer.forward_kv(
                     cur, weights.layers[li], nxt,
                     k_caches[li], v_caches[li],
                     dim, num_heads, kv_per_query, head_dim, ffn_dim,
                     step, max_len, eps, rope_base,
                 )
-                owned.append(nxt)
+                use_a = not use_a
                 cur = nxt
             if step >= len(prompt) - 1:
                 VulkanNormRope.rmsnorm(cur, weights.g_final, normed, dim, 1, eps)
@@ -138,13 +151,14 @@ struct VulkanDecode:
                 VulkanBuffers.unmap(tok_out)
                 generated.append(nxt_token)
                 tokens.append(nxt_token)
-            for i in range(len(owned)):
-                VulkanBuffers.free(owned[i])
+            # A-070: ping-pong scratch - nothing freed per step.
 
         for i in range(len(k_caches)):
             VulkanBuffers.free(k_caches[i])
             VulkanBuffers.free(v_caches[i])
         VulkanBuffers.free(x)
+        VulkanBuffers.free(scratch_a)
+        VulkanBuffers.free(scratch_b)
         VulkanBuffers.free(normed)
         VulkanBuffers.free(logits)
         VulkanBuffers.free(tok_out)
