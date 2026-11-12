@@ -1,0 +1,16 @@
+# A-037 Ledger — Decode hotspot census (team-04)
+
+- Base: d98da7fb (seat main, A-033 banked, 33 of 216; ls-remote == d98da7fb at reset time). Worktree reset --hard onto that base; prior CAMPAIGN_STATE.md/hidden_files preserved (CAMPAIGN_STATE copied aside to /tmp/t04bak before reset and restored).
+- Slice adds: aesir_engine/tests/bench_decode_census_a037.mojo (standalone bench, NOT in run_all; +0 suite cases, pin unchanged 373) and docs/bench/A037_DECODE_HOTSPOT_CENSUS.md. No engine code changed.
+- Fixture: stories260K.F16.gguf sha256 57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3 (verified in-worktree before profiling).
+- Driver sha256: d2617dba684739b062b146ab07dd3edc7388f7b52e69632859276c50bc284659.
+- Method: 1200 reps x (8-token prefill + 32 greedy decode), oracle-exact every rep; KV arena recycled via MimirWell.reset_kv_cache(mark) per rep (A-030 discipline). An earlier harness variant that allocated a fresh 16 MiB MimirWell per rep polluted the profile with memset/page-fault time and was discarded — its logs were overwritten by the final run_a037.sh; the discarded variant is noted here so the final logs are the only evidence claimed.
+- Profiler: perf 7.3.0 via sudo -n (perf_event_paranoid=4 blocks unprivileged hw events). perf record -F 997 -g cpu/cycles: 4984 samples, ~24,099,455,746 events, 0 lost. perf.data sha256 3060ec2b64b09bbd46fcc1ce17dec84ca551c6036511c441547222e08a114e92.
+- Bench rates (aggregate, decode tokens counted, span includes prefill+reset): plain 8141.9, stat 8142.8, record 8135.1 tok/s vs A-030 pure decode median 8745.9 — delta explained in the census doc.
+- perf stat: 24,322,411,567 cycles / 62,741,844,297 instructions / 9,507,209 cache-misses / 4.746 s.
+- Census top-5 (perf --no-children, -n report): _gemm_f16_dense_range 22.21% (1050), flash_attention_gqa 17.93% (843), TransformerBlock::forward self 4.39% (208), kernfs_iop_permission 3.49% (164), kernfs_dop_revalidate 2.94% (139). Evidence: a037_perf_report_n.txt sha256 44437058c2d45d0737fae098f6d8765d22a91419d0c6b354896eda3cc1325cd7; a037_perf_report_nochildren.txt sha256 f21775cf135a018b0ce38a74fbbbd95e1c5c76b611a990156c97972fc65a1c23; a037_perf_stat.log sha256 73aa66e69a4a41d416279934727abb19f31634af7b54a9b5b8fa62c687312fba.
+- Discovered inefficiency (not fixed in this measurement-only slice; recorded as immediate next work in CAMPAIGN_STATE.md, natural home A-041): grouped row C-008 = 12.81% of cycles re-reading thread/env config per dispatch via aesir_par_cpu_count sysfs opens (__get_nprocs) and core::parallel::_env_int/getenv parsing.
+- E-MASTER suite (run_a037_suite.sh, gfx1151, run_all.mojo):
+  - Run 1 (a037_run_all_run1.log): 369 passed / 2 failed / 2 skipped / 373 total. Failures: tolerated gguf.tensor_directory_interface (J-022 drift) PLUS resilience.state_vault_rejects_growth.
+  - Run 2 (a037_run_all.log): 370 passed / 1 failed / 2 skipped / 373 total == baseline shape on this base. Sole failure = tolerated gguf.tensor_directory_interface; state_vault_rejects_growth PASS. Verdict: run-1 extra failure is a timing-sensitive flake in the growth-during-read test, not caused by this slice (slice touches no engine or run_all code; +0 cases). Both logs kept as evidence.
+- No README touched. No merge/push — keeper banks in roadmap order.

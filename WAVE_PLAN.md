@@ -68,12 +68,14 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **36 of 216** (A-001..A-036). A-036 banked at the
-  seat 2026-11-12 (team-03 commit eccdfbf8 cherry-picked;
-  Phase timing hooks, run_all pin unioned 373 -> 377).
+- Banked: **37 of 216** (A-001..A-037). A-037 banked at the
+  seat 2026-11-12 (team-04 commit 292aeca6 cherry-picked;
+  Decode hotspot census, doc/bench slice, +0 run_all cases,
+  pin unchanged 377).
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
-  (A-028..A-036) is COMPLETE.**
-- Seat gate after this banking: A-036 (seat_gate_a036.log)
+  (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
+  is OPEN.**
+- Seat gate after this banking: A-037 (seat_gate_a037.log)
   374 passed / 1 failed / 2 skipped / 377 total, exact on
   first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
