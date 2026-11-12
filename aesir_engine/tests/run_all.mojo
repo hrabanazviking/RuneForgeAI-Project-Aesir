@@ -194,6 +194,11 @@ from tests.test_amd_realm import (
     test_hip_malloc_managed_round_trip,
     test_hip_mem_get_info_accounting,
     test_hip_no_leak_1000,
+    test_hip_sync_oracle_round_trip,
+    test_hip_stream_async_round_trip,
+    test_hip_stream_overlap_smoke,
+    test_hip_event_timing,
+    test_hip_stream_rejection,
 )
 from tests.test_npu_realm import (
     test_npu_probe_absence,
@@ -690,6 +695,17 @@ def main() raises:
     )
     run_case(ledger, "gpu.amd_hip_no_leak_1000", test_hip_no_leak_1000)
     run_case(
+        ledger, "gpu.amd_hip_sync_oracle_round_trip", test_hip_sync_oracle_round_trip
+    )
+    run_case(
+        ledger, "gpu.amd_hip_stream_async_round_trip", test_hip_stream_async_round_trip
+    )
+    run_case(
+        ledger, "gpu.amd_hip_stream_overlap_smoke", test_hip_stream_overlap_smoke
+    )
+    run_case(ledger, "gpu.amd_hip_event_timing", test_hip_event_timing)
+    run_case(ledger, "gpu.amd_hip_stream_rejection", test_hip_stream_rejection)
+    run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
         test_non_positive_allocation_rejection,
@@ -1130,4 +1146,8 @@ def main() raises:
     # A-011 re-pin: 280 -> 285 -- five HIP memory cases added
     # (gpu.amd_hip_* in tests/test_amd_realm.mojo).
     # Union re-pin (A-011 banking 2026-11-12): 292 -> 297 -- both sides' registrations counted (run_case + record_skip); A-011's amd_gate soname hunk was already subsumed by A-010's versioned-first probe, so the seat amd_gate is kept.
-    ledger.finish(297)
+    # A-012 re-pin: 285 -> 290 -- five HIP transfer + streams cases added
+    # (gpu.amd_hip_sync_oracle_round_trip, gpu.amd_hip_stream_*,
+    # gpu.amd_hip_event_timing in tests/test_amd_realm.mojo).
+    # Union re-pin (A-012 banking 2026-11-12): 297 -> 302 -- both sides' registrations counted (run_case + record_skip); only A-012's own diff was banked (its parent fab684da is a cherry-pick twin of A-011 and was not re-banked).
+    ledger.finish(302)

@@ -68,20 +68,19 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **11 of 216** (A-001..A-011). A-011 banked at the seat
-  2026-11-12 (team-02 commit 83c9fdf9 cherry-picked; its amd_gate
-  soname hunk subsumed by A-010's versioned-first probe - see the
-  A011 ledger banking note; run_all pin unioned to 297; evidence
-  hidden_files/A011_LEDGER.md).
-- Committed, awaiting banking in roadmap order: A-012 (team-03,
-  67aca2d0), A-013 (team-04, c72705e1), A-014 (team-05, 8ec21143).
-  Sole failure in every suite = pre-existing
-  gguf.tensor_directory_interface J-022 drift (roads A-165 primary /
-  A-121); skips = the 2 pre-declared.
-- Next: banking continues A-012..A-014 in order this session (run_all
-  case-pin union + A-013/A-014 Vulkan symbol convergence reconciled
-  at merge time). A-007 caveat: unprivileged xrt-smi is blocked by
-  RLIMIT_MEMLOCK (8192 kB vs the 64 MiB locked map XRT wants) - NPU
-  tools run via sudo until Volmarr rules on raising the user memlock
-  limit; xrt-smi validate needs the Xilinx VTD archive, first step of
-  A-092.
+- Banked: **12 of 216** (A-001..A-012). A-012 banked at the seat
+  2026-11-12 (team-03 commit 67aca2d0 cherry-picked - only its own
+  diff; its parent fab684da is a cherry-pick twin of A-011 and was
+  not re-banked; run_all pin unioned to 302; evidence
+  hidden_files/A012_LEDGER.md).
+- Committed, awaiting banking in roadmap order: A-013 (team-04,
+  c72705e1), A-014 (team-05, 8ec21143). Sole failure in every suite =
+  pre-existing gguf.tensor_directory_interface J-022 drift (roads
+  A-165 primary / A-121); skips = the 2 pre-declared.
+- Next: banking finishes A-013 + A-014 this session, including the
+  Vulkan symbol convergence (see the A-014 ledger banking note),
+  then the full seat gate runs before the push. A-007 caveat:
+  unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK (8192 kB vs the
+  64 MiB locked map XRT wants) - NPU tools run via sudo until
+  Volmarr rules on raising the user memlock limit; xrt-smi validate
+  needs the Xilinx VTD archive, first step of A-092.
