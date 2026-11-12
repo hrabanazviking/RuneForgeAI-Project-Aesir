@@ -410,6 +410,12 @@ from tests.test_backend_config import (
     test_backend_config_npu_honesty_gate,
     test_backend_config_auto_order,
 )
+from tests.test_phase_timing import (
+    test_phase_timing_coverage_arithmetic,
+    test_phase_timing_disjoint_pure,
+    test_phase_timing_json_schema,
+    test_phase_timing_kvcache_sink,
+)
 from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
@@ -997,6 +1003,10 @@ def main() raises:
     run_case(ledger, "cli.backend_config_absent_fail_closed", test_backend_config_absent_fail_closed)
     run_case(ledger, "cli.backend_config_npu_honesty_gate", test_backend_config_npu_honesty_gate)
     run_case(ledger, "cli.backend_config_auto_order", test_backend_config_auto_order)
+    run_case(ledger, "timing.phase_coverage_arithmetic", test_phase_timing_coverage_arithmetic)
+    run_case(ledger, "timing.phase_disjoint_pure", test_phase_timing_disjoint_pure)
+    run_case(ledger, "timing.phase_json_schema", test_phase_timing_json_schema)
+    run_case(ledger, "timing.phase_kvcache_sink", test_phase_timing_kvcache_sink)
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
@@ -1419,4 +1429,8 @@ def main() raises:
     # (errors.structured_* in tests/test_structured_errors.mojo).
     # Union re-pin (A-033 banking 2026-11-12): 368 -> 373 -- five
     # structured-error cases counted on top of the A-032 pin.
-    ledger.finish(373)
+    # Re-pin (A-036): 362 -> 366 -- four phase timing cases
+    # (timing.phase_* in tests/test_phase_timing.mojo).
+    # Union re-pin (A-036 banking 2026-11-12): 373 -> 377 -- four
+    # phase timing cases counted on top of the A-033 seat pin.
+    ledger.finish(377)

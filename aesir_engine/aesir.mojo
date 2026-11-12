@@ -6,6 +6,7 @@ from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTo
 from core.inference import forward_pass, forward_pass_batched, TransformerBlock, Qwen35Block, Qwen35State, forward_pass_qwen35, forward_pass_qwen35_batched, Gemma4Block, forward_pass_gemma4, forward_pass_gemma4_batched
 from core.parallel import _env_int
 from core.sampler import RuneRNG, sample_token_from_logits
+from core.phase_timing import PhaseTimings, phase_now_ns, disjoint_pure_ns
 from core.session import SessionContext, SessionManager
 from core.supervisor import SelfHealingSupervisor
 from core.state_vault import StateVault, VaultCheckpoint
@@ -205,6 +206,8 @@ struct GenerationResult(Copyable):
     var text: String
     var stop_reason: String
     var prompt_token_count: Int
+    # A-036: disjoint phase timings for this run (core/phase_timing.mojo).
+    var timings: PhaseTimings
 
     def __init__(
         out self,
@@ -212,17 +215,20 @@ struct GenerationResult(Copyable):
         text: String,
         stop_reason: String,
         prompt_token_count: Int,
+        timings: PhaseTimings = PhaseTimings(),
     ):
         self.token_ids = token_ids.copy()
         self.text = text
         self.stop_reason = stop_reason
         self.prompt_token_count = prompt_token_count
+        self.timings = timings.copy()
 
     def __copyinit__(out self, existing: Self):
         self.token_ids = existing.token_ids.copy()
         self.text = existing.text
         self.stop_reason = existing.stop_reason
         self.prompt_token_count = existing.prompt_token_count
+        self.timings = existing.timings.copy()
 
     @always_inline
     def copy(self) -> Self:
@@ -231,6 +237,7 @@ struct GenerationResult(Copyable):
             self.text,
             self.stop_reason,
             self.prompt_token_count,
+            self.timings.copy(),
         )
 
     @always_inline
@@ -280,6 +287,9 @@ struct AesirEngine:
     var thread_pool: RuneThreadPool
     var swarm_cluster: SwarmCluster
     var runtime_offset: Int
+    # A-036: construction-start clock + measured load phase (ns).
+    var created_ns: Int64
+    var load_ns: Int64
     var image_span_start: Int
     var image_span_rows: List[Float32]
     var image_span_width: Int
@@ -294,6 +304,7 @@ struct AesirEngine:
         target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
         knowledge_capacity: Int = 100,
     ) raises:
+        var _construct_t0 = phase_now_ns()
         validate_runtime_backend_config(
             num_devices,
             enable_npu,
@@ -307,6 +318,8 @@ struct AesirEngine:
             probe_tokenizer.vocab_size,
             knowledge_capacity,
         )
+        self.created_ns = _construct_t0
+        self.load_ns = 0
         self.pool = MimirWell(mimir_depth_bytes)
         print("MimirWell initialized with", mimir_depth_bytes, "derived bytes.")
 
@@ -384,6 +397,7 @@ struct AesirEngine:
             3 * self.parser.config.ssm_inner_size,
             self.parser.config.ssm_conv_kernel,
         )
+        self.load_ns = phase_now_ns() - _construct_t0
 
     def _forward_position(
         mut self,
@@ -1191,6 +1205,7 @@ struct AesirEngine:
         try:
             var gen_config = config.copy()
             self.pool.offset = self.runtime_offset
+            var _prefill_t0 = phase_now_ns()
             var active_prompt = self._prepare_prompt(prompt)
 
             # Raw generation preserves caller text. Chat formatting belongs to
@@ -1237,6 +1252,9 @@ struct AesirEngine:
                     tokens, kv_cache, len(tokens) - 1, gen_config
                 )
 
+            var _prefill_span_ns = phase_now_ns() - _prefill_t0
+            var _sample_after_prefill = kv_cache.sample_ns_total
+            var _decode_t0 = phase_now_ns()
             var current_tokens = tokens.copy()
             var generated_token_ids = List[Int]()
             var response_text = String("")
@@ -1302,15 +1320,29 @@ struct AesirEngine:
                     current_tokens, kv_cache, next_position, gen_config
                 )
 
+            var _decode_span_ns = phase_now_ns() - _decode_t0
             if stop_reason == "":
                 stop_reason = "length"
 
+            var _timings = PhaseTimings(
+                load_ns=self.load_ns,
+                prefill_ns=disjoint_pure_ns(_prefill_span_ns, _sample_after_prefill),
+                decode_ns=disjoint_pure_ns(
+                    _decode_span_ns, kv_cache.sample_ns_total - _sample_after_prefill
+                ),
+                sample_ns=kv_cache.sample_ns_total,
+                wall_ns=phase_now_ns() - self.created_ns,
+                prompt_tokens=len(tokens),
+                generated_tokens=len(generated_token_ids),
+            )
             var result = GenerationResult(
                 generated_token_ids,
                 response_text,
                 stop_reason,
                 len(tokens),
+                _timings,
             )
+            print("AESIR_TIMING_JSON: " + _timings.to_json())
             print("Generated", result.generated_token_count(), "token(s); stop reason:", stop_reason)
             print("Inference complete. Fate is sealed.")
             self.pool.offset = self.runtime_offset

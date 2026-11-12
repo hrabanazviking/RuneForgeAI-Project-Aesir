@@ -14,6 +14,7 @@ from loader.gguf import GGUFSeer
 from loader.quantization import dequantize_q4_0_block, dequantize_q8_0_block
 from .packed_quantization import packed_value, ggml_kind_of_format
 from core.sampler import sample_token_from_logits, RuneRNG
+from .phase_timing import phase_now_ns
 
 
 def _required_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16]:
@@ -1192,6 +1193,7 @@ def forward_pass(
     # 6. Temperature & Top-K / Top-P sampling with repetition penalty
     var rng = replay_rng(seed, start_pos)
     var suppress_list = List[Int]()
+    var _sample_t0 = phase_now_ns()
     var best_token = sample_token_from_logits(
         logits.data,
         vocab_size,
@@ -1203,6 +1205,7 @@ def forward_pass(
         rng=rng,
         suppress_tokens=suppress_list,
     )
+    kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
     well.offset = initial_offset
     return best_token
 
@@ -1363,6 +1366,7 @@ def forward_pass_batched(
 
     var rng = replay_rng(seed, start_pos + batch_len - 1)
     var suppress_list = List[Int]()
+    var _sample_t0 = phase_now_ns()
     var best_token = sample_token_from_logits(
         logits.data,
         vocab_size,
@@ -1374,6 +1378,7 @@ def forward_pass_batched(
         rng=rng,
         suppress_tokens=suppress_list,
     )
+    kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
     well.offset = initial_offset
     return best_token
 
@@ -1988,12 +1993,14 @@ def forward_pass_gemma4(
                 logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
         var rng = replay_rng(seed, start_pos)
         var suppress_list = List[Int]()
+        var _sample_t0 = phase_now_ns()
         var next_token = sample_token_from_logits(
             logits.data, vocab_dim,
             temperature=temperature, top_k=top_k, top_p=top_p,
             repetition_penalty=repetition_penalty,
             context_tokens=tokens, rng=rng, suppress_tokens=suppress_list,
         )
+        kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
         well.offset = initial_offset
         return next_token
     except e:
@@ -2065,12 +2072,14 @@ def forward_pass_gemma4_batched(
                 logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
         var rng = replay_rng(seed, start_pos + batch_len - 1)
         var suppress_list = List[Int]()
+        var _sample_t0 = phase_now_ns()
         var next_token = sample_token_from_logits(
             logits.data, vocab_dim,
             temperature=temperature, top_k=top_k, top_p=top_p,
             repetition_penalty=repetition_penalty,
             context_tokens=tokens, rng=rng, suppress_tokens=suppress_list,
         )
+        kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
         well.offset = initial_offset
         return next_token
     except e:
@@ -2804,6 +2813,7 @@ def forward_pass_qwen35_batched(
 
         var rng = replay_rng(seed, start_pos + batch_len - 1)
         var suppress_list = List[Int]()
+        var _sample_t0 = phase_now_ns()
         var next_token = sample_token_from_logits(
             logits.data,
             vocab_dim,
@@ -2815,6 +2825,7 @@ def forward_pass_qwen35_batched(
             rng=rng,
             suppress_tokens=suppress_list,
         )
+        kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
         well.offset = initial_offset
         return next_token
     except e:
@@ -2866,6 +2877,7 @@ def forward_pass_qwen35(
 
         var rng = replay_rng(seed, start_pos)
         var suppress_list = List[Int]()
+        var _sample_t0 = phase_now_ns()
         var next_token = sample_token_from_logits(
             logits.data,
             vocab_dim,
@@ -2877,6 +2889,7 @@ def forward_pass_qwen35(
             rng=rng,
             suppress_tokens=suppress_list,
         )
+        kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
         well.offset = initial_offset
         return next_token
     except e:

@@ -68,25 +68,21 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **35 of 216** (A-001..A-035). A-035 banked at the
-  seat 2026-11-12 (team-06 commit 16d6a59c cherry-picked;
-  Two-tier test gates, run_all pin unchanged 373).
+- Banked: **36 of 216** (A-001..A-036). A-036 banked at the
+  seat 2026-11-12 (team-03 commit eccdfbf8 cherry-picked;
+  Phase timing hooks, run_all pin unioned 373 -> 377).
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
-  (A-028..A-036) is open, A-028..A-035 banked.**
-- Seat gate after this banking: A-035 (seat_gate_a035.log)
-  370 passed / 1 failed / 2 skipped / 373 total, exact on
-  re-run. Sole failure the pre-existing
+  (A-028..A-036) is COMPLETE.**
+- Seat gate after this banking: A-036 (seat_gate_a036.log)
+  374 passed / 1 failed / 2 skipped / 377 total, exact on
+  first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
-  2 pre-declared. Run 1 (preserved as
-  seat_gate_a035_run1.log) showed 369/2/2 with one extra
-  failure gguf.weight_residency_gpu_visibility (MEM-004) -
-  the flake already filed in the A-035 ledger (area of the
-  known-open A-020 HIP-interop bug), exact on re-run.
+  2 pre-declared.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-03 A-036, team-04 A-037,
-  team-05 A-038, team-07 A-039, team-08 A-040,
-  team-09 A-041, team-01 A-042, team-02 A-043,
-  team-06 A-044.
+  bank (keeper flow): team-04 A-037, team-05 A-038,
+  team-07 A-039, team-08 A-040, team-09 A-041,
+  team-01 A-042, team-02 A-043, team-06 A-044,
+  team-03 A-045.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.

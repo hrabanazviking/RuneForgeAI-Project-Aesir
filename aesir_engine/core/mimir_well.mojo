@@ -891,6 +891,11 @@ struct KVCache(Copyable):
     var max_seq_len: Int
     var hidden_dim: Int
     var num_layers: Int
+    # A-036: per-request sampler-time sink (ns, CLOCK_MONOTONIC deltas
+    # accumulated by the forward paths in core/inference.mojo at every
+    # sample_token_from_logits call site; read by AesirEngine to build
+    # the disjoint sample phase — see core/phase_timing.mojo).
+    var sample_ns_total: Int64
 
     def __init__(
         out self,
@@ -904,6 +909,7 @@ struct KVCache(Copyable):
         self.max_seq_len = max_seq_len
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
+        self.sample_ns_total = 0
 
         var cache_rows = num_layers * max_seq_len
         if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
@@ -934,6 +940,7 @@ struct KVCache(Copyable):
         self.max_seq_len = max_seq_len
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
+        self.sample_ns_total = 0
 
         var cache_rows = num_layers * max_seq_len
         if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
@@ -955,6 +962,7 @@ struct KVCache(Copyable):
         self.max_seq_len = max_seq_len
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
+        self.sample_ns_total = 0
 
     def __copyinit__(out self, existing: Self):
         self.k = existing.k
@@ -962,6 +970,7 @@ struct KVCache(Copyable):
         self.max_seq_len = existing.max_seq_len
         self.hidden_dim = existing.hidden_dim
         self.num_layers = existing.num_layers
+        self.sample_ns_total = existing.sample_ns_total
 
     @always_inline
     def append(
