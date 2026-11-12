@@ -63,6 +63,13 @@ static hip_event_record_fn g_erecord = NULL;
 static hip_event_sync_fn g_esync = NULL;
 static hip_event_elapsed_fn g_eelapsed = NULL;
 static hip_event_destroy_fn g_edestroy = NULL;
+typedef int (*hip_host_register_fn)(void *, size_t, unsigned int);
+typedef int (*hip_host_unregister_fn)(void *);
+typedef int (*hip_host_get_device_pointer_fn)(void **, void *, unsigned int);
+static hip_host_register_fn g_hreg = NULL;
+static hip_host_unregister_fn g_hunreg = NULL;
+static hip_host_get_device_pointer_fn g_hdevptr = NULL;
+static int g_reg_ok = 0;
 static int g_xfer_ok = 0;
 static int g_tried = 0;
 static int g_ok = 0;
@@ -108,6 +115,11 @@ static void aesir_hip_init(void) {
     g_eelapsed = (hip_event_elapsed_fn)dlsym(g_handle,
                                              "hipEventElapsedTime");
     g_edestroy = (hip_event_destroy_fn)dlsym(g_handle, "hipEventDestroy");
+    g_hreg = (hip_host_register_fn)dlsym(g_handle, "hipHostRegister");
+    g_hunreg = (hip_host_unregister_fn)dlsym(g_handle, "hipHostUnregister");
+    g_hdevptr = (hip_host_get_device_pointer_fn)dlsym(g_handle,
+                                                 "hipHostGetDevicePointer");
+    g_reg_ok = (g_hreg != NULL && g_hunreg != NULL && g_hdevptr != NULL);
     g_xfer_ok = (g_screate != NULL && g_sdestroy != NULL &&
                  g_ssync != NULL && g_squery != NULL &&
                  g_memcpy_async != NULL && g_host_malloc != NULL &&
@@ -308,4 +320,130 @@ int aesir_hip_event_destroy(uint64_t event) {
         return -1;
     }
     return g_edestroy((void *)(uintptr_t)event);
+}
+
+/* A-020 weight residency: HIP host registration of an existing mmap
+ * range (the GGUF loader's mapping) plus /proc residency accounting.
+ * hipHostRegister with hipHostRegisterMapped (=2) makes the SAME host
+ * pages device-visible: hipHostGetDevicePointer returns the host
+ * address itself on Strix Halo's unified-memory pool (proven in the
+ * A-020 probe), so no duplicate device copy is allocated. The /proc
+ * readers report process RSS and the smaps accounting of the single
+ * mapping containing a given address, split into resident bytes,
+ * file-backed clean bytes, and anonymous dirty bytes - the three
+ * numbers single-residency claims must distinguish. Nothing here is
+ * simulated: registration returns the real HIP error code, and the
+ * /proc readers return -1 when accounting cannot be read. */
+#include <stdio.h>
+
+int aesir_hip_host_register(void *ptr, uint64_t size_bytes) {
+    aesir_hip_init();
+    if (!g_reg_ok) {
+        return -1;
+    }
+    /* hipHostRegisterMapped = 2. */
+    return g_hreg(ptr, (size_t)size_bytes, 2u);
+}
+
+int aesir_hip_host_unregister(void *ptr) {
+    aesir_hip_init();
+    if (!g_reg_ok) {
+        return -1;
+    }
+    return g_hunreg(ptr);
+}
+
+int aesir_hip_host_device_pointer(void *host, void **out) {
+    aesir_hip_init();
+    if (!g_reg_ok) {
+        return -1;
+    }
+    return g_hdevptr(out, host, 0u);
+}
+
+int64_t aesir_residency_process_rss_bytes(void) {
+    FILE *f = fopen("/proc/self/status", "r");
+    if (f == NULL) {
+        return -1;
+    }
+    char line[256];
+    int64_t rss = -1;
+    while (fgets(line, sizeof(line), f) != NULL) {
+        unsigned long kb = 0;
+        if (sscanf(line, "VmRSS: %lu kB", &kb) == 1) {
+            rss = (int64_t)kb * 1024;
+            break;
+        }
+    }
+    fclose(f);
+    return rss;
+}
+
+int aesir_residency_mapping_bytes(uint64_t addr, uint64_t *rss_out,
+                                  uint64_t *file_clean_out,
+                                  uint64_t *anon_dirty_out) {
+    FILE *f = fopen("/proc/self/smaps", "r");
+    if (f == NULL) {
+        return -1;
+    }
+    char line[512];
+    int in_target = 0;
+    int found = 0;
+    int target_is_file = 0;
+    uint64_t rss = 0, shared_clean = 0, private_clean = 0, private_dirty = 0;
+    uint64_t shared_dirty = 0;
+    while (fgets(line, sizeof(line), f) != NULL) {
+        unsigned long start = 0, end = 0;
+        unsigned long inode = 0;
+        if (sscanf(line, "%lx-%lx", &start, &end) == 2 &&
+            line[0] >= '0' && line[0] <= '9') {
+            in_target = (addr >= (uint64_t)start && addr < (uint64_t)end);
+            if (in_target) {
+                found = 1;
+                /* Header tail: perms offset dev inode [pathname]. A
+                 * nonzero inode means file-backed: its dirty pages
+                 * are the file's own page cache (one copy), not an
+                 * anonymous duplicate. */
+                unsigned long ino = 0;
+                unsigned long dstart = 0, dend = 0, doff = 0;
+                char perms[8] = {0}, devmaj[16] = {0}, devmin[16] = {0};
+                if (sscanf(line, "%lx-%lx %7s %lx %15[^:]:%15s %lu",
+                           &dstart, &dend, perms, &doff, devmaj, devmin,
+                           &ino) >= 7) {
+                    inode = ino;
+                }
+                target_is_file = (inode != 0);
+            }
+            continue;
+        }
+        if (!in_target) {
+            continue;
+        }
+        unsigned long kb = 0;
+        if (sscanf(line, "Rss: %lu kB", &kb) == 1) {
+            rss = (uint64_t)kb * 1024;
+        } else if (sscanf(line, "Shared_Clean: %lu kB", &kb) == 1) {
+            shared_clean = (uint64_t)kb * 1024;
+        } else if (sscanf(line, "Private_Clean: %lu kB", &kb) == 1) {
+            private_clean = (uint64_t)kb * 1024;
+        } else if (sscanf(line, "Private_Dirty: %lu kB", &kb) == 1) {
+            private_dirty = (uint64_t)kb * 1024;
+        } else if (sscanf(line, "Shared_Dirty: %lu kB", &kb) == 1) {
+            shared_dirty = (uint64_t)kb * 1024;
+        }
+    }
+    fclose(f);
+    if (!found) {
+        return -1;
+    }
+    *rss_out = rss;
+    if (target_is_file) {
+        *file_clean_out = shared_clean + private_clean + shared_dirty +
+                          private_dirty;
+        *anon_dirty_out = 0;
+    } else {
+        *file_clean_out = shared_clean + private_clean;
+        *anon_dirty_out = private_dirty + shared_dirty;
+    }
+    return 0;
 }

@@ -206,6 +206,12 @@ from tests.test_vulkan_context import (
     test_vulkan_forced_failure_taxonomy,
     test_vulkan_context_rejection,
 )
+from tests.test_weight_residency import (
+    test_weight_residency_accounting_rules,
+    test_weight_residency_mapping_accounting,
+    test_weight_residency_gpu_visibility,
+    test_weight_residency_no_device_copy,
+)
 from tests.test_vulkan_buffers import (
     test_vulkan_buffer_alignment_rules,
     test_vulkan_buffer_round_trip,
@@ -769,6 +775,26 @@ def main() raises:
         test_vulkan_buffer_alloc_rejection,
     )
     run_case(ledger, "gpu.vulkan_buffer_no_leak", test_vulkan_buffer_no_leak)
+    run_case(
+        ledger,
+        "gguf.weight_residency_accounting_rules",
+        test_weight_residency_accounting_rules,
+    )
+    run_case(
+        ledger,
+        "gguf.weight_residency_mapping_accounting",
+        test_weight_residency_mapping_accounting,
+    )
+    run_case(
+        ledger,
+        "gguf.weight_residency_gpu_visibility",
+        test_weight_residency_gpu_visibility,
+    )
+    run_case(
+        ledger,
+        "gguf.weight_residency_no_device_copy",
+        test_weight_residency_no_device_copy,
+    )
     run_case(ledger, "gpu.vulkan_dispatch_vec_add_oracle", test_vulkan_dispatch_vec_add_oracle)
     run_case(ledger, "gpu.vulkan_dispatch_rejection", test_vulkan_dispatch_rejection)
     run_case(ledger, "gpu.vulkan_dispatch_no_leak", test_vulkan_dispatch_no_leak)
@@ -1255,4 +1281,10 @@ def main() raises:
     # Union re-pin (A-019 banking 2026-11-12): 323 -> 328 -- five
     # zero-copy allocator cases (gpu.zero_copy_* in
     # tests/test_zero_copy.mojo) counted on top of A-018 pin.
-    ledger.finish(328)
+    # A-020 re-pin: 319 -> 323 -- four weight residency cases added
+    # (gguf.weight_residency_* in tests/test_weight_residency.mojo),
+    # counted on this branch's da2cf9d8 base (seat pin 319); the union
+    # total reconciles at banking.
+    # Union re-pin (A-020 banking 2026-11-12): 328 -> 332 -- four
+    # weight residency cases counted on top of A-019 pin.
+    ledger.finish(332)
