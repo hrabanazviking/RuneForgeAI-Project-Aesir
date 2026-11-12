@@ -37,6 +37,7 @@ purpleraider `~/aesir-forge`.)
 | A-002 | merged at seat, push blocked | f3b1f23b pixi env + CPU build on Z13; BUILD_EXIT=0, --help smoke exit 0; ledger hidden_files/A002_LEDGER.md |
 | A-003 | committed at seat, push blocked | E-MASTER baseline 277/1/2 of 280 at ba0cf066; evidence hidden_files/a003_baseline_summary.md (canonical log stays in team-03 worktree, sha256 in summary) |
 | A-004 | banked at seat, push blocked | E-REAL exact oracle pass on Z13 CPU; fixture sha256 57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3 pinned before run; tokenizer/first-token/32 greedy IDs exact; suite 277/1/2 of 280 = baseline; team-04 branch commit b0b33927 (state-file only, not merged - banking follows the A-003 evidence pattern); evidence hidden_files/A004_LEDGER.md |
+| A-005 | banked at seat, push blocked | ROCm userland native (Ubuntu ROCm 10.0): rocminfo 10.0-0ubuntu2 + libamdhip64-dev 10.0-0ubuntu3; rocminfo Agent 2 = gfx1151 Radeon 8060S (aie2p NPU also enumerated); AMDGate probe LOADABLE, gpu.amd_gate_availability PASS (was UNAVAILABLE at base); suite 277/1/2 of 280 = baseline; evidence-only slice, evidence hidden_files/A005_LEDGER.md |
 
 ## Lessons carried in (standing law for this campaign)
 

@@ -68,5 +68,5 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **0 of 216 on remote** - A-001+A-002 merged and A-003 committed at the seat (local main ahead of remote); push blocked: no GitHub auth on purpleraider (gh not logged in, no credential helper, no SSH key). Needs Volmarr: gh auth login on purpleraider. Keeper retries the push every tick.
-- Next: team-01 on A-010 (restarted 23:0x EST 2026-11-11 after purpleraider reboot killed the lead mid-write; partial amd_gate edit being recovered), team-02 A-011 COMMITTED 83c9fdf9 awaiting banking in order, team-03 to A-012 (restarted), team-04 MUSTERED to A-004, team-05 MUSTERED to A-005 (keeper tick 2026-11-11 22:57 EST). Teams 06-09 stand by. Push retried this tick: still blocked, no GitHub auth.
+- Banked: **0 of 216 on remote**; 5 of 216 at the seat (A-001..A-005 banked locally) - push blocked: no GitHub auth on purpleraider (gh not logged in, no credential helper, no SSH key). Needs Volmarr: gh auth login on purpleraider. Keeper retries the push every tick.
+- Next: team-01 on A-010 (in flight, restarted after the 2026-11-11 reboot), team-02 A-011 committed 83c9fdf9 awaiting banking behind A-006..A-010 (then takes the next unbuilt slice in order), team-03 on A-012 (in flight), team-04 to A-013 and team-05 to A-014 (assigned at A-004/A-005 banking, keeper tick 2026-11-11 22:57 EST); muster team-06+07 on following ticks for A-006/A-007. Teams 08-09 stand by.
