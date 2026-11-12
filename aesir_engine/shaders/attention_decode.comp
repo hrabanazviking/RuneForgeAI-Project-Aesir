@@ -1,0 +1,49 @@
+#version 450
+// A-055 foundation kernel (Wave 7, for A-062): single-query decode
+// attention over a unified KV cache with grouped-query mapping.
+// One invocation per (query head, head_dim lane): the query head h
+// reads KV head h / kv_per_query. Scores are computed with the
+// numerically careful max-subtraction pattern of softmax.comp,
+// scaled by 1/sqrt(head_dim). Push constants carry every shape so
+// adversarial GQA ratios stay a caller's choice, not a recompile.
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer QBuf { float q[]; };
+layout(std430, set = 0, binding = 1) readonly buffer KBuf { float k[]; };
+layout(std430, set = 0, binding = 2) readonly buffer VBuf { float v[]; };
+layout(std430, set = 0, binding = 3) buffer OBuf { float o[]; };
+layout(push_constant) uniform Push {
+    uint head_dim;
+    uint kv_len;
+    uint num_heads;
+    uint kv_per_query;
+} pc;
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= pc.num_heads * pc.head_dim) { return; }
+    uint head = idx / pc.head_dim;
+    uint lane = idx % pc.head_dim;
+    uint kv_head = head / pc.kv_per_query;
+    float scale = 1.0 / sqrt(float(pc.head_dim));
+    float row_max = -1.0 / 0.0;
+    for (uint t = 0; t < pc.kv_len; t++) {
+        uint kbase = (kv_head * pc.kv_len + t) * pc.head_dim;
+        float score = 0.0;
+        for (uint d = 0; d < pc.head_dim; d++) {
+            score += q[head * pc.head_dim + d] * k[kbase + d];
+        }
+        row_max = max(row_max, score * scale);
+    }
+    float denom = 0.0;
+    float acc = 0.0;
+    for (uint t = 0; t < pc.kv_len; t++) {
+        uint kbase = (kv_head * pc.kv_len + t) * pc.head_dim;
+        float score = 0.0;
+        for (uint d = 0; d < pc.head_dim; d++) {
+            score += q[head * pc.head_dim + d] * k[kbase + d];
+        }
+        float w = exp(score * scale - row_max);
+        denom += w;
+        acc += w * v[kbase + lane];
+    }
+    o[idx] = acc / denom;
+}

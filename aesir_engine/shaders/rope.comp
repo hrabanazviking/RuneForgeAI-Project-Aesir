@@ -1,0 +1,31 @@
+#version 450
+// A-055 foundation kernel (Wave 7, for A-060): rotary position
+// embedding (RoPE, rotate-half pairing) applied in place over rows of
+// head_dim floats: for pair (i, i + head_dim/2) the rotation angle is
+// position * base^(-2i/head_dim). Position, head_dim and base travel
+// as push constants; one invocation handles one pair of one row.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) buffer XBuf { float x[]; };
+layout(push_constant) uniform Push {
+    uint head_dim;
+    uint rows;
+    uint position;
+    float base;
+} pc;
+void main() {
+    uint half_dim = pc.head_dim / 2;
+    uint per_row = half_dim;
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= pc.rows * per_row) { return; }
+    uint row = idx / per_row;
+    uint i = idx % per_row;
+    uint offset = row * pc.head_dim + i;
+    float theta = float(pc.position)
+        * pow(pc.base, -2.0 * float(i) / float(pc.head_dim));
+    float c = cos(theta);
+    float s = sin(theta);
+    float a = x[offset];
+    float b = x[offset + half_dim];
+    x[offset] = a * c - b * s;
+    x[offset + half_dim] = b * c + a * s;
+}

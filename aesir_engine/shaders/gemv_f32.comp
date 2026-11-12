@@ -1,0 +1,21 @@
+#version 450
+// A-055 foundation kernel (Wave 7): dense single-row GEMV, y[r] = sum_k
+// W[r * K + k] * x[k]. One invocation per output row; the row count and
+// the reduction length travel as push constants. This is the generic
+// float GEMV the quant GEMV kernels of A-056..A-059 are measured
+// against; it carries no quantisation of its own.
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer WBuf { float w[]; };
+layout(std430, set = 0, binding = 1) readonly buffer XBuf { float x[]; };
+layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
+layout(push_constant) uniform Push { uint rows; uint cols; } pc;
+void main() {
+    uint r = gl_GlobalInvocationID.x;
+    if (r >= pc.rows) { return; }
+    float acc = 0.0;
+    uint base = r * pc.cols;
+    for (uint k = 0; k < pc.cols; k++) {
+        acc += w[base + k] * x[k];
+    }
+    y[r] = acc;
+}

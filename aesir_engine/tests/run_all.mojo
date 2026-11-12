@@ -240,6 +240,13 @@ from tests.test_vulkan_dispatch import (
     test_vulkan_dispatch_rejection,
     test_vulkan_dispatch_no_leak,
 )
+from tests.test_spirv_pipeline_a055 import (
+    test_spirv_pipeline_manifest,
+    test_spirv_pipeline_hashes_recorded,
+    test_spirv_pipeline_header_embedded,
+    test_spirv_pipeline_no_runtime_fetch,
+    test_spirv_pipeline_toolchain_recorded,
+)
 from tests.test_zero_copy import (
     test_zero_copy_hip_cpu_write_gpu_read,
     test_zero_copy_hip_gpu_write_cpu_read,
@@ -963,6 +970,11 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_dispatch_vec_add_oracle", test_vulkan_dispatch_vec_add_oracle)
     run_case(ledger, "gpu.vulkan_dispatch_rejection", test_vulkan_dispatch_rejection)
     run_case(ledger, "gpu.vulkan_dispatch_no_leak", test_vulkan_dispatch_no_leak)
+    run_case(ledger, "gpu.spirv_pipeline_manifest", test_spirv_pipeline_manifest)
+    run_case(ledger, "gpu.spirv_pipeline_hashes_recorded", test_spirv_pipeline_hashes_recorded)
+    run_case(ledger, "gpu.spirv_pipeline_header_embedded", test_spirv_pipeline_header_embedded)
+    run_case(ledger, "gpu.spirv_pipeline_no_runtime_fetch", test_spirv_pipeline_no_runtime_fetch)
+    run_case(ledger, "gpu.spirv_pipeline_toolchain_recorded", test_spirv_pipeline_toolchain_recorded)
     run_case(ledger, "gpu.zero_copy_hip_cpu_write_gpu_read", test_zero_copy_hip_cpu_write_gpu_read)
     run_case(ledger, "gpu.zero_copy_hip_gpu_write_cpu_read", test_zero_copy_hip_gpu_write_cpu_read)
     run_case(ledger, "gpu.zero_copy_vulkan_cpu_write_gpu_read", test_zero_copy_vulkan_cpu_write_gpu_read)
@@ -1635,4 +1647,7 @@ def main() raises:
     # Z13 storage cases (storage.z13_* in
     # tests/test_state_storage_a053.mojo) counted on top of the
     # A-052 seat pin.
-    ledger.finish(445)
+    # A-055 re-pin: 445 -> 450 -- five SPIR-V pipeline cases added
+    # (gpu.spirv_pipeline_* in tests/test_spirv_pipeline_a055.mojo)
+    # counted on top of the A-053 union pin at the b62b1481 seat.
+    ledger.finish(450)

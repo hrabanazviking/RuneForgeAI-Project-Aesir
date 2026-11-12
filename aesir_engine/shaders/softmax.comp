@@ -1,0 +1,44 @@
+#version 450
+// A-055 foundation kernel (Wave 7, for A-061): numerically careful
+// softmax over one row, in place: the row maximum is subtracted
+// before exponentiation (the A-061 adversarial-logit requirement),
+// then the row is normalised by the exponent sum. One workgroup per
+// row; row length and row count travel as push constants; max and
+// sum are workgroup reductions over 256 invocations.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) buffer XBuf { float x[]; };
+layout(push_constant) uniform Push { uint n; uint rows; } pc;
+shared float partial[256];
+void main() {
+    uint row = gl_WorkGroupID.x;
+    if (row >= pc.rows) { return; }
+    uint tid = gl_LocalInvocationID.x;
+    uint base = row * pc.n;
+    float m = -1.0 / 0.0;
+    for (uint i = tid; i < pc.n; i += 256) {
+        m = max(m, x[base + i]);
+    }
+    partial[tid] = m;
+    barrier();
+    for (uint stride = 128; stride > 0; stride >>= 1) {
+        if (tid < stride) { partial[tid] = max(partial[tid], partial[tid + stride]); }
+        barrier();
+    }
+    float row_max = partial[0];
+    float sum = 0.0;
+    for (uint i = tid; i < pc.n; i += 256) {
+        float e = exp(x[base + i] - row_max);
+        x[base + i] = e;
+        sum += e;
+    }
+    partial[tid] = sum;
+    barrier();
+    for (uint stride = 128; stride > 0; stride >>= 1) {
+        if (tid < stride) { partial[tid] += partial[tid + stride]; }
+        barrier();
+    }
+    float inv = 1.0 / partial[0];
+    for (uint i = tid; i < pc.n; i += 256) {
+        x[base + i] *= inv;
+    }
+}

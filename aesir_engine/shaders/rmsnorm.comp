@@ -1,0 +1,32 @@
+#version 450
+// A-055 foundation kernel (Wave 7, for A-060): RMSNorm over one row,
+// y[i] = x[i] * rsqrt(mean(x^2) + eps) * g[i]. One workgroup per row;
+// the row length, row count and epsilon travel as push constants.
+// The mean is a workgroup reduction over 256 invocations.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer XBuf { float x[]; };
+layout(std430, set = 0, binding = 1) readonly buffer GBuf { float g[]; };
+layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
+layout(push_constant) uniform Push { uint n; uint rows; float eps; } pc;
+shared float partial[256];
+void main() {
+    uint row = gl_WorkGroupID.x;
+    if (row >= pc.rows) { return; }
+    uint tid = gl_LocalInvocationID.x;
+    uint base = row * pc.n;
+    float sq = 0.0;
+    for (uint i = tid; i < pc.n; i += 256) {
+        float v = x[base + i];
+        sq += v * v;
+    }
+    partial[tid] = sq;
+    barrier();
+    for (uint stride = 128; stride > 0; stride >>= 1) {
+        if (tid < stride) { partial[tid] += partial[tid + stride]; }
+        barrier();
+    }
+    float scale = 1.0 / sqrt(partial[0] / float(pc.n) + pc.eps);
+    for (uint i = tid; i < pc.n; i += 256) {
+        y[base + i] = x[base + i] * scale * g[i];
+    }
+}

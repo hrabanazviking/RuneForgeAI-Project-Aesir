@@ -42,6 +42,8 @@ LOGDIR="/tmp"
 [ -d hidden_files ] && LOGDIR="hidden_files"
 
 stage_shims() {
+  # A-055: SPIR-V kernels compiled at build time (never fetched).
+  python3 scripts/build_shaders.py > "$LOGDIR/build_shaders.log" 2>&1 || { echo "MATRIX: shader pipeline FAILED"; return 1; }
   STAGING="$(mktemp -d)"
   cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$STAGING/libaesir_hailo10h.so" || return 1
   cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$STAGING/libaesir_par.so" -lpthread || return 1

@@ -1,0 +1,42 @@
+#version 450
+// A-055 foundation kernel (Wave 7, for A-063): greedy argmax over a
+// logits row. One workgroup reduces (value, index) pairs; ties break
+// to the LOWEST index, matching the engine's CPU greedy tie policy
+// (test_greedy_tie_policy). The winning index is written as a uint.
+// Temperature / top-k sampling builds on this reduction in A-063.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer LBuf { float logits[]; };
+layout(std430, set = 0, binding = 1) buffer OBuf { uint best[]; };
+layout(push_constant) uniform Push { uint n; } pc;
+shared float vals[256];
+shared uint idxs[256];
+void main() {
+    uint tid = gl_LocalInvocationID.x;
+    float best_val = -1.0 / 0.0;
+    uint best_idx = 0xffffffffu;
+    for (uint i = tid; i < pc.n; i += 256) {
+        float v = logits[i];
+        if (v > best_val || (v == best_val && i < best_idx)) {
+            best_val = v;
+            best_idx = i;
+        }
+    }
+    vals[tid] = best_val;
+    idxs[tid] = best_idx;
+    barrier();
+    for (uint stride = 128; stride > 0; stride >>= 1) {
+        if (tid < stride) {
+            float other = vals[tid + stride];
+            uint other_idx = idxs[tid + stride];
+            if (other > vals[tid]
+                    || (other == vals[tid] && other_idx < idxs[tid])) {
+                vals[tid] = other;
+                idxs[tid] = other_idx;
+            }
+        }
+        barrier();
+    }
+    if (tid == 0) {
+        best[0] = idxs[0];
+    }
+}
