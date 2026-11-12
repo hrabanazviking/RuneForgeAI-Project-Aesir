@@ -17,8 +17,11 @@
 #   amd -- the engine binary (aesir_engine/main.mojo) built with the host's
 #          AMD ROCm compile target gfx1151 (Radeon 8060S, Strix Halo) plus a
 #          --help smoke, and the E-MASTER suite run under the same target.
-#          gfx1151 is a compile-time architecture only; the suite executes
-#          on CPU and no accelerator execution is claimed.
+#          gfx1151 is the compile-time architecture; host code executes
+#          on CPU, and since A-029 the suite's gpu.mojo_native_* cases
+#          execute Mojo-native kernels on the GPU when a HIP device is
+#          present (docs/AESIR_Z13_MOJO_GPU_DECISION.md). No other
+#          accelerator execution is claimed for this entry.
 #
 # NVIDIA hosts name their backend explicitly instead: substitute
 # --target-accelerator sm_89 (NVIDIA CUDA, Ada Lovelace) for gfx1151.

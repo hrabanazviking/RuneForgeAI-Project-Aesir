@@ -68,20 +68,23 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **28 of 216** (A-001..A-028). A-028 banked at the
-  seat 2026-11-12 (team-04 commit e4bf0f62 cherry-picked
-  as 9159ead3; target-flag audit, run_all pin stays 359).
+- Banked: **29 of 216** (A-001..A-029). A-029 banked at the
+  seat 2026-11-12 (team-05 commit dc9e6d29 cherry-picked
+  as 664acc9e; Mojo GPU target investigation, run_all pin
+  359 -> 362).
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
-  (A-028..A-036) is open, A-028 banked.**
-- Seat gate after this banking: A-028 (seat_gate_a028.log)
-  356 passed / 1 failed / 2 skipped / 359 total, exact.
-  Sole failure the pre-existing J-022 drift, skips the
-  2 pre-declared. Build matrix PASS (see A-028 ledger).
+  (A-028..A-036) is open, A-028..A-029 banked.**
+- Seat gate after this banking: A-029 (seat_gate_a029.log)
+  359 passed / 1 failed / 2 skipped / 362 total, exact on
+  first run. Sole failure the pre-existing
+  gguf.tensor_directory_interface (J-022 drift), skips the
+  2 pre-declared.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-05 A-029, team-07 A-030,
-  team-08 A-031, team-09 A-032, team-01 A-033,
-  team-02 A-034, team-06 A-035, team-03 A-036,
-  team-04 A-037. Sole failure in every suite =
+  bank (keeper flow): team-07 A-030 (restarted lead in
+  flight), team-08 A-031 (in flight), team-09 A-032,
+  team-01 A-033, team-02 A-034, team-06 A-035,
+  team-03 A-036, team-04 A-037, team-05 A-038.
+  Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.
 - A-007 caveat: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK

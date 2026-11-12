@@ -9,7 +9,10 @@
 #
 # Backend note (A-028 target-flag audit): gfx1151 is the AMD ROCm compile
 # target for the Z13 host (Radeon 8060S, Strix Halo) -- zero NVIDIA flags.
-# It is a compile-time architecture only; the suite executes on CPU. On an
+# Host code executes on CPU; since A-029 the gpu.mojo_native_* cases
+# additionally execute Mojo-native kernels on the GPU itself when a
+# HIP device is present (device-execution evidence in
+# docs/AESIR_Z13_MOJO_GPU_DECISION.md). On an
 # NVIDIA host, substitute the NVIDIA CUDA target sm_89 in the same position.
 # scripts/build_matrix.sh runs the named cpu / amd entries of this suite.
 #
@@ -242,6 +245,11 @@ from tests.test_zero_copy import (
     test_zero_copy_vulkan_cpu_write_gpu_read,
     test_zero_copy_rejection,
     test_zero_copy_no_leak,
+)
+from tests.test_mojo_gpu_target import (
+    test_mojo_native_vec_add_oracle,
+    test_mojo_native_gemm_oracle,
+    test_mojo_native_rejection,
 )
 from tests.test_kv_unified import (
     test_kv_unified_layout,
@@ -851,6 +859,9 @@ def main() raises:
     run_case(ledger, "gpu.arena_fragmentation_stress", test_arena_fragmentation_stress)
     run_case(ledger, "gpu.arena_pool_device", test_arena_pool_device)
     run_case(ledger, "gpu.arena_shim_registry_over_4096", test_arena_shim_registry_over_4096)
+    run_case(ledger, "gpu.mojo_native_vec_add_oracle", test_mojo_native_vec_add_oracle)
+    run_case(ledger, "gpu.mojo_native_gemm_oracle", test_mojo_native_gemm_oracle)
+    run_case(ledger, "gpu.mojo_native_rejection", test_mojo_native_rejection)
     run_case(ledger, "gpu.kv_unified_layout", test_kv_unified_layout)
     run_case(ledger, "gpu.kv_unified_bounds", test_kv_unified_bounds)
     run_case(ledger, "gpu.kv_unified_gpu_write_cpu_read", test_kv_unified_gpu_write_cpu_read)
@@ -1374,4 +1385,6 @@ def main() raises:
     # thread placement cases counted on top of A-023 pin.
     # Union re-pin (A-026 banking 2026-11-12): 354 -> 359 -- five
     # arena allocator cases counted on top of A-024 pin.
-    ledger.finish(359)
+    # Re-pin (A-029): 359 -> 362 -- three Mojo-native GPU target
+    # cases (gpu.mojo_native_* in tests/test_mojo_gpu_target.mojo).
+    ledger.finish(362)
