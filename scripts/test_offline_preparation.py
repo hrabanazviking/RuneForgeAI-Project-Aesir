@@ -29,7 +29,10 @@ if "--build" in sys.argv:
     shutil.copyfile(root / "fake_aesir.py", build / "aesir")
     (build / "aesir").chmod(0o755)
     digest = hashlib.sha256((build / "aesir").read_bytes()).hexdigest()
-    (build / "manifest.json").write_text(json.dumps({"schema": 1, "source": "a" * 64, "binary": digest, "target": "sm_89"}))
+    # Mirror the real launch.py: the manifest records the --target it was
+    # asked for (backend-explicit since A-028; no silent sm_89 default).
+    target = sys.argv[sys.argv.index("--target") + 1] if "--target" in sys.argv else "sm_89"
+    (build / "manifest.json").write_text(json.dumps({"schema": 1, "source": "a" * 64, "binary": digest, "target": target}))
     sys.exit(0)
 if "--check" in sys.argv and (build / "aesir").is_file():
     sys.exit(0)

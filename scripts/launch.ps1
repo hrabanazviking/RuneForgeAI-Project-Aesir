@@ -11,6 +11,7 @@ param(
     [string]$Distribution = '',
     [switch]$Build,
     [switch]$Check,
+    # Backend-explicit: sm_89 is the NVIDIA CUDA target; pass gfx1151 for the AMD ROCm target (Z13 Radeon 8060S).
     [string]$Target = 'sm_89',
     [AllowEmptyCollection()][AllowEmptyString()][string[]]$AppArgs = @()
 )

@@ -1,5 +1,13 @@
 # Native hardware and runtime controls
 
+> Backend note (A-028 target-flag audit): the build recipes in this
+> document pin `--target-accelerator sm_89`, the NVIDIA CUDA compile
+> target of the hosts they were written and exercised on. On the Z13
+> campaign host (AMD Radeon 8060S), substitute the AMD ROCm target
+> `gfx1151` in the same position, or use the named entries in
+> `scripts/build_matrix.sh`. The target is a compile-time architecture
+> only; it does not by itself establish accelerator execution.
+
 The runtime-expansion work connects the heterogeneous proposal to the existing
 native model sessions. This is a single-device implementation, not completion
 of the proposed AMD/Metal/NPU/multi-device backend matrix.

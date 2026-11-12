@@ -20,6 +20,32 @@ RUNTIME_LIBS = ("libKGENCompilerRTShared.so", "libAsyncRTMojoBindings.so",
                 "libMSupportGlobals.so", "libAsyncRTRuntimeGlobals.so")
 
 
+# Backend-explicit accelerator compile targets (A-028 target-flag audit).
+# MAX requires an explicit accelerator architecture at compile time on hosts
+# whose sources instantiate GPU gates (see A-002/A-003 ledgers); the target is
+# a compile-time arch only and never implies accelerator execution.
+#   NVIDIA CUDA targets: sm_<digits>   (e.g. sm_89 = Ada Lovelace)
+#   AMD ROCm targets:    gfx<digits>   (e.g. gfx1151 = Radeon 8060S, Strix Halo)
+NVIDIA_DEFAULT_TARGET = "sm_89"
+AMD_DEFAULT_TARGET = "gfx1151"
+
+
+def valid_target(target):
+    return (target.startswith("sm_") and target[3:].isdigit()) or (
+        target.startswith("gfx") and target[3:].isdigit())
+
+
+def default_target():
+    # Host-explicit default: an AMD ROCm compute node means the AMD target;
+    # an NVIDIA device means the NVIDIA target; otherwise keep the historical
+    # NVIDIA default rather than silently assuming AMD.
+    if Path("/dev/kfd").exists():
+        return AMD_DEFAULT_TARGET
+    if Path("/dev/nvidia0").exists() or shutil.which("nvidia-smi"):
+        return NVIDIA_DEFAULT_TARGET
+    return NVIDIA_DEFAULT_TARGET
+
+
 def digest(path):
     # Reject special files before opening; nonblocking/no-follow also closes the
     # final-component replacement window for a FIFO or symlink.
@@ -204,7 +230,7 @@ def build(target):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, epilog="Pass app options after --. Relative app paths resolve from this checkout.")
     parser.add_argument("--build", action="store_true", help="compile locally without installing or downloading")
-    parser.add_argument("--target", default="sm_89", help="explicit CUDA build target (default: sm_89)")
+    parser.add_argument("--target", default=default_target(), help="accelerator compile target: sm_<n> for NVIDIA CUDA or gfx<n> for AMD ROCm (default: host-detected, gfx1151 on AMD hosts, sm_89 on NVIDIA hosts)")
     parser.add_argument("--check", action="store_true", help="verify freshness and checksum without starting the app")
     parser.add_argument("args", nargs=argparse.REMAINDER)
     options = parser.parse_args()
@@ -213,8 +239,8 @@ def main():
         parser.error("--build cannot be combined with --check or app arguments")
     if options.check and args:
         parser.error("--check cannot be combined with app arguments")
-    if not options.target.startswith("sm_") or not options.target[3:].isdigit():
-        parser.error("--target must be an sm_ CUDA target such as sm_89")
+    if not valid_target(options.target):
+        parser.error("--target must name a backend target: sm_<n> for NVIDIA CUDA (e.g. sm_89) or gfx<n> for AMD ROCm (e.g. gfx1151)")
     try:
         if options.build:
             build(options.target)

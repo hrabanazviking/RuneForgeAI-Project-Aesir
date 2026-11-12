@@ -241,10 +241,13 @@ def _validate_manifest_shape(value: object) -> dict[str, object]:
         or any(character not in "0123456789abcdef" for character in value["source_fingerprint"])
     ):
         raise PreparationError("manifest source fingerprint is invalid")
+    # Backend-explicit targets (A-028): sm_<n> = NVIDIA CUDA, gfx<n> = AMD ROCm.
     if (
         not isinstance(value["target"], str)
-        or not value["target"].startswith("sm_")
-        or not value["target"][3:].isdigit()
+        or not (
+            (value["target"].startswith("sm_") and value["target"][3:].isdigit())
+            or (value["target"].startswith("gfx") and value["target"][3:].isdigit())
+        )
     ):
         raise PreparationError("manifest target is invalid")
     expected_paths = {path.as_posix() for path in RUNTIME_PATHS} | {".aesir/launch/aesir"}
@@ -397,7 +400,7 @@ def main() -> int:
     prepare_parser.add_argument("--model", action="append", required=True, help="catalog model name; repeat as needed")
     prepare_parser.add_argument("--model-store", default=".aesir/models")
     prepare_parser.add_argument("--output", default=DEFAULT_MANIFEST.as_posix())
-    prepare_parser.add_argument("--target", default="sm_89")
+    prepare_parser.add_argument("--target", default="gfx1151" if Path("/dev/kfd").exists() else "sm_89", help="accelerator compile target: sm_<n> for NVIDIA CUDA or gfx<n> for AMD ROCm (default: host-detected, as in scripts/launch.py)")
     prepare_parser.add_argument("--minimum-free-bytes", type=int, default=512 * 1024 * 1024)
     check_parser = subparsers.add_parser("check", help="verify every prepared artifact without network access")
     check_parser.add_argument("--manifest", default=DEFAULT_MANIFEST.as_posix())

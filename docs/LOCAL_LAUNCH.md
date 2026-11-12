@@ -14,8 +14,11 @@ python3 scripts/launch.py --build
 python3 scripts/launch.py --check
 ```
 
-The default target is `sm_89`, the exercised NVIDIA Ada target. Other targets
-can be requested with `--build --target sm_XX`; compilation alone does not
+The default target is host-detected and backend-explicit: `gfx1151` (the AMD
+ROCm target for the Radeon 8060S) on hosts with an AMD ROCm compute node
+(`/dev/kfd`), otherwise `sm_89`, the exercised NVIDIA Ada target. Targets name
+their backend: `sm_<n>` is NVIDIA CUDA, `gfx<n>` is AMD ROCm; request one
+explicitly with `--build --target <target>`; compilation alone does not
 establish physical GPU support. Build uses `pixi run --frozen --no-install
 --offline --executable`: no lock update, dependency installation or network
 fetch is requested. Missing prepared dependencies fail with guidance; preparing
@@ -113,7 +116,7 @@ Use PowerShell 5.1 or 7 in a terminal, from this checkout:
 
 `-Distribution` is optional: omitted selects your existing WSL default. Use the
 distribution where you prepared this checkout's environment. `-Build`, `-Check`
-and `-AppArgs` are mutually exclusive. `-Target sm_89` applies to building.
+and `-AppArgs` are mutually exclusive. `-Target` applies to building and names its backend explicitly (`sm_89` is the NVIDIA CUDA default; `gfx1151` is the AMD ROCm target for the Z13).
 For literal application options, use the explicit PowerShell array form above
 rather than concatenating a command string. Arguments cross the Windows/WSL
 boundary as bounded UTF-8 JSON/base64; no shell evaluates their contents.

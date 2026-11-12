@@ -27,7 +27,7 @@ function Invoke-AesirWindowsLaunch {
     if (($Build -and $Check) -or (($Build -or $Check) -and $AppArgs.Count -gt 0)) {
         throw 'Build, Check and AppArgs are mutually exclusive.'
     }
-    if ($Target -notmatch '^sm_[0-9]+$') { throw 'Target must be an sm_ CUDA target such as sm_89.' }
+    if ($Target -notmatch '^(sm_[0-9]+|gfx[0-9]+)$') { throw 'Target must name a backend target: sm_<n> for NVIDIA CUDA (e.g. sm_89) or gfx<n> for AMD ROCm (e.g. gfx1151).' }
     if (-not $Build -and $Target -ne 'sm_89') { throw 'Target is only valid with Build.' }
     if ($Distribution -match '[\x00-\x1f"]') { throw 'Distribution contains unsupported control or quote characters.' }
     $resolvedRoot = (Resolve-Path -LiteralPath $Root -ErrorAction Stop).Path
