@@ -68,21 +68,24 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **19 of 216** (A-001..A-019). A-018 + A-019 banked at
+- Banked: **21 of 216** (A-001..A-021). A-020 + A-021 banked at
   the seat 2026-11-12 (team commits cherry-picked in roadmap
-  order, one commit per slice; run_all pin unioned to 328:
-  A-018 +4 thermal cases, A-019 +5 zero-copy cases). Wave 2
-  (A-010..A-018) is COMPLETE.
-- Seat gates after this banking: A-018 (seat_gate_a018.log)
-  320 passed / 1 failed / 2 skipped / 323 total; A-019
-  (seat_gate_a019.log, stages libaesir_zc.so) 325 passed /
-  1 failed / 2 skipped / 328 total - sole failure in both the
-  pre-existing J-022 drift, skips the 2 pre-declared.
-- Queue: next unbuilt slice is A-020 (Weight residency, team-06
-  in flight at banking time); teams then take slices in roadmap
-  order as theirs bank (keeper flow): team-07 A-021, team-08
-  A-022, team-09 A-023, team-01 A-024, team-02 A-025, team-03
-  A-026, team-04 A-027, team-05 A-028, team-06 A-029. Sole
+  order, one commit per slice; run_all pin unioned to 338:
+  A-020 +4 weight-residency cases on top of the A-019 pin
+  328 -> 332, A-021 +6 kv_unified cases 332 -> 338). Wave 2
+  (A-010..A-018) is COMPLETE; Wave 3 (A-019..A-027) in progress.
+- Seat gate after this banking: A-021 (seat_gate_a021.log)
+  335 passed / 1 failed / 2 skipped / 338 total - run 1
+  (preserved as seat_gate_a021_run1.log) showed 334/2/2 with
+  one extra failure (resilience.state_vault_rejects_growth);
+  the re-run was exact, filed as a flake per the A-017/A-019
+  precedent. Sole failure the pre-existing J-022 drift, skips
+  the 2 pre-declared.
+- Queue: A-022 in flight (team-08), A-023 in flight (team-09);
+  teams then take slices in roadmap order as theirs bank
+  (keeper flow): team-01 A-024, team-02 A-025, team-03
+  A-026, team-04 A-027, team-05 A-028, team-06 A-029,
+  team-07 A-030, team-08 A-031, team-09 A-032. Sole
   failure in every suite = pre-existing
   gguf.tensor_directory_interface J-022 drift (roads A-165
   primary / A-121); skips = the 2 pre-declared.

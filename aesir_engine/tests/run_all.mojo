@@ -230,6 +230,14 @@ from tests.test_zero_copy import (
     test_zero_copy_rejection,
     test_zero_copy_no_leak,
 )
+from tests.test_kv_unified import (
+    test_kv_unified_layout,
+    test_kv_unified_bounds,
+    test_kv_unified_gpu_write_cpu_read,
+    test_kv_unified_cpu_write_gpu_read,
+    test_kv_unified_append_roundtrip,
+    test_kv_unified_vulkan_shared,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -803,6 +811,12 @@ def main() raises:
     run_case(ledger, "gpu.zero_copy_vulkan_cpu_write_gpu_read", test_zero_copy_vulkan_cpu_write_gpu_read)
     run_case(ledger, "gpu.zero_copy_rejection", test_zero_copy_rejection)
     run_case(ledger, "gpu.zero_copy_no_leak", test_zero_copy_no_leak)
+    run_case(ledger, "gpu.kv_unified_layout", test_kv_unified_layout)
+    run_case(ledger, "gpu.kv_unified_bounds", test_kv_unified_bounds)
+    run_case(ledger, "gpu.kv_unified_gpu_write_cpu_read", test_kv_unified_gpu_write_cpu_read)
+    run_case(ledger, "gpu.kv_unified_cpu_write_gpu_read", test_kv_unified_cpu_write_gpu_read)
+    run_case(ledger, "gpu.kv_unified_append_roundtrip", test_kv_unified_append_roundtrip)
+    run_case(ledger, "gpu.kv_unified_vulkan_shared", test_kv_unified_vulkan_shared)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1287,4 +1301,8 @@ def main() raises:
     # total reconciles at banking.
     # Union re-pin (A-020 banking 2026-11-12): 328 -> 332 -- four
     # weight residency cases counted on top of A-019 pin.
-    ledger.finish(332)
+    # Re-pin (A-021): 328 -> 334 -- six KV-cache-in-unified-memory
+    # cases (gpu.kv_unified_* in tests/test_kv_unified.mojo).
+    # Union re-pin (A-021 banking 2026-11-12): 332 -> 338 -- six
+    # kv_unified cases counted on top of A-020 pin.
+    ledger.finish(338)
