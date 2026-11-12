@@ -386,6 +386,14 @@ from tests.test_chat_template_goldens_a051 import (
     test_chat_template_golden_gemma,
     test_chat_template_golden_family_routing,
 )
+from tests.test_long_context_a052 import (
+    test_long_context_growth_account,
+    test_long_context_session_cap_verdict,
+    test_long_context_depths_patterns,
+    test_long_context_probe_grading,
+    test_long_context_kv_growth_execution,
+    test_long_context_needle_probes,
+)
 from tests.test_fused_attention_a043 import (
     test_gqa_simd_reference_parity,
     test_gqa_simd_dyadic_bitwise,
@@ -1240,6 +1248,12 @@ def main() raises:
     run_case(ledger, "chat_template.golden_llama2", test_chat_template_golden_llama2)
     run_case(ledger, "chat_template.golden_gemma", test_chat_template_golden_gemma)
     run_case(ledger, "chat_template.golden_family_routing", test_chat_template_golden_family_routing)
+    run_case(ledger, "long_context.growth_account", test_long_context_growth_account)
+    run_case(ledger, "long_context.session_cap_verdict", test_long_context_session_cap_verdict)
+    run_case(ledger, "long_context.depths_patterns", test_long_context_depths_patterns)
+    run_case(ledger, "long_context.probe_grading", test_long_context_probe_grading)
+    run_case(ledger, "long_context.kv_growth_execution", test_long_context_kv_growth_execution)
+    run_case(ledger, "long_context.needle_probes", test_long_context_needle_probes)
     run_case(ledger, "attention.gqa_simd_reference_parity", test_gqa_simd_reference_parity)
     run_case(ledger, "attention.gqa_simd_dyadic_bitwise", test_gqa_simd_dyadic_bitwise)
     run_case(ledger, "attention.gqa_simd_tail_parity", test_gqa_simd_tail_parity)
@@ -1604,4 +1618,7 @@ def main() raises:
     # chat-template golden cases (chat_template.golden_* in
     # tests/test_chat_template_goldens_a051.mojo) counted on top
     # of the A-050 seat pin.
-    ledger.finish(435)
+    # A-052 re-pin: 435 -> 441 -- six long-context cases
+    # (long_context.* in tests/test_long_context_a052.mojo)
+    # counted on top of the A-051 seat pin.
+    ledger.finish(441)

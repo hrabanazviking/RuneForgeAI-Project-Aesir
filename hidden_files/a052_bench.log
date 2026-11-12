@@ -1,0 +1,64 @@
+=== A-052 team-02 bench BEFORE E-MASTER run (gfx1151, 6 shims) ===
+2026-11-12T11:23:23-05:00
+purpleraider
+Linux purpleraider 7.3.0-10-generic #10-Ubuntu SMP PREEMPT_DYNAMIC Thu Oct 22 07:35:54 UTC 2026 x86_64 GNU/Linux
+9167a21fca41faf9c46dfaa97f15818585ed6ae5
+yrsa/aesir-team-02
+Mojo 1.2.0 (2016d0cd)
+staging=/tmp/tmp.dKgLYQcfIH
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+A052_BENCH long_context_cpu layers=2 tokens=32768 head_dim=64
+A052_BENCH_SESSION_CAP tokens=32768 verdict=exceeds-session-cap cap=16000
+A052_BENCH_GROWTH tokens=1024 bench_shape_bytes=524288 headline_32l_8kv_128d_bytes=134217728 growth_bp=312
+A052_BENCH_GROWTH tokens=4096 bench_shape_bytes=2097152 headline_32l_8kv_128d_bytes=536870912 growth_bp=1250
+A052_BENCH_GROWTH tokens=8192 bench_shape_bytes=4194304 headline_32l_8kv_128d_bytes=1073741824 growth_bp=2500
+A052_BENCH_GROWTH tokens=16384 bench_shape_bytes=8388608 headline_32l_8kv_128d_bytes=2147483648 growth_bp=5000
+A052_BENCH_GROWTH tokens=32768 bench_shape_bytes=16777216 headline_32l_8kv_128d_bytes=4294967296 growth_bp=10000
+A052_BENCH_FILL appends=65536 wall_ns=47654863 ns_per_append=727
+A052_BENCH_READBACK checked=3072 mismatches=0
+A052_BENCH_PROBE layer=0 needle=0 depth=0 max_abs_diff=0.0 wall_ns=446074
+A052_BENCH_PROBE layer=0 needle=1 depth=1024 max_abs_diff=0.0 wall_ns=414846
+A052_BENCH_PROBE layer=0 needle=2 depth=4096 max_abs_diff=0.0 wall_ns=410168
+A052_BENCH_PROBE layer=0 needle=3 depth=8192 max_abs_diff=0.0 wall_ns=413724
+A052_BENCH_PROBE layer=0 needle=4 depth=16384 max_abs_diff=0.0 wall_ns=409546
+A052_BENCH_PROBE layer=0 needle=5 depth=24576 max_abs_diff=0.0 wall_ns=409355
+A052_BENCH_PROBE layer=0 needle=6 depth=32767 max_abs_diff=0.0 wall_ns=415217
+A052_BENCH_PROBE layer=1 needle=0 depth=0 max_abs_diff=0.0 wall_ns=423512
+A052_BENCH_PROBE layer=1 needle=1 depth=1024 max_abs_diff=0.0 wall_ns=416108
+A052_BENCH_PROBE layer=1 needle=2 depth=4096 max_abs_diff=0.0 wall_ns=410919
+A052_BENCH_PROBE layer=1 needle=3 depth=8192 max_abs_diff=0.0 wall_ns=412732
+A052_BENCH_PROBE layer=1 needle=4 depth=16384 max_abs_diff=0.0 wall_ns=409516
+A052_BENCH_PROBE layer=1 needle=5 depth=24576 max_abs_diff=0.0 wall_ns=409065
+A052_BENCH_PROBE layer=1 needle=6 depth=32767 max_abs_diff=0.0 wall_ns=414005
+A052_BENCH_PROBES passed=14/14 rate_bp=10000 worst_max_abs_diff=0.0
+A052_BENCH_VERDICT PASS
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.dKgLYQcfIH -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/bench_long_context_a052.mojo"
+	User time (seconds): 6.47
+	System time (seconds): 0.50
+	Percent of CPU this job got: 216%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.22
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 482452
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 46
+	Minor (reclaiming a frame) page faults: 141631
+	Voluntary context switches: 51866
+	Involuntary context switches: 4968
+	Swaps: 0
+	File system inputs: 34760
+	File system outputs: 992
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+MOJO_EXIT=0
+=== end 2026-11-12T11:23:26-05:00 ===
