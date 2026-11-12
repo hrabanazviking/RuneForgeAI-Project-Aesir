@@ -261,6 +261,14 @@ from tests.test_vulkan_attention_a062 import (
     test_vulkan_attn_decode_rejection,
     test_vulkan_attn_decode_dispatch_evidence,
 )
+from tests.test_vulkan_sampling_a063 import (
+    test_vulkan_sampling_greedy_oracle_parity,
+    test_vulkan_sampling_greedy_tie_policy,
+    test_vulkan_sampling_sample_oracle_exact,
+    test_vulkan_sampling_temperature_distribution,
+    test_vulkan_sampling_rejection,
+    test_vulkan_sampling_dispatch_evidence,
+)
 from tests.test_vulkan_q6k_q5k_gemv import (
     test_vulkan_q6k_q5k_oracle_parity,
     test_vulkan_q6k_q5k_known_value,
@@ -1034,6 +1042,12 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_attn_decode_gqa_fixture", test_vulkan_attn_decode_gqa_fixture)
     run_case(ledger, "gpu.vulkan_attn_decode_rejection", test_vulkan_attn_decode_rejection)
     run_case(ledger, "gpu.vulkan_attn_decode_dispatch_evidence", test_vulkan_attn_decode_dispatch_evidence)
+    run_case(ledger, "gpu.vulkan_sampling_greedy_oracle_parity", test_vulkan_sampling_greedy_oracle_parity)
+    run_case(ledger, "gpu.vulkan_sampling_greedy_tie_policy", test_vulkan_sampling_greedy_tie_policy)
+    run_case(ledger, "gpu.vulkan_sampling_sample_oracle_exact", test_vulkan_sampling_sample_oracle_exact)
+    run_case(ledger, "gpu.vulkan_sampling_temperature_distribution", test_vulkan_sampling_temperature_distribution)
+    run_case(ledger, "gpu.vulkan_sampling_rejection", test_vulkan_sampling_rejection)
+    run_case(ledger, "gpu.vulkan_sampling_dispatch_evidence", test_vulkan_sampling_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
     run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
     run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
@@ -1769,4 +1783,8 @@ def main() raises:
     # Union re-pin (A-062 banking 2026-11-12): 480 -> 485 -- five
     # Vulkan decode attention cases counted on top of the
     # A-061 seat pin.
-    ledger.finish(485)
+    # A-063 re-pin: 485 -> 491 -- six Vulkan sampling cases
+    # (gpu.vulkan_sampling_* in
+    # tests/test_vulkan_sampling_a063.mojo) counted on top of
+    # the A-062 seat pin.
+    ledger.finish(491)

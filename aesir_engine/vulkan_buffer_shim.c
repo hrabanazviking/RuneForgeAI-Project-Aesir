@@ -1853,6 +1853,128 @@ done:
     if (shader != NULL) { d_destroy_shader_module(g_device, shader, NULL); }
     return out_rc;
 }
+/* ---- A-063: Vulkan sampling (greedy + temperature/top-k) ----
+ * Greedy kernel aesir_engine/shaders/sampling_greedy.comp (A-055
+ * foundation, SPIR-V via shaders/generated/aesir_shaders_spv.h:
+ * kSamplingGreedySpv): one workgroup reduces (value, index)
+ * argmax pairs over a Float32 logits row, ties to the lowest
+ * index, and writes the winning token id as a uint.
+ * Temperature/top-k kernel sampling_sample.comp (A-063, SPIR-V
+ * via the same generated header: kSamplingSampleSpv): draws one
+ * token from the temperature-scaled, top-k-truncated softmax
+ * for a caller-supplied uniform u in [0, 1) (see the .comp
+ * header for the exact CPU-oracle draw semantics).
+ * Same per-dispatch pipeline discipline as A-056/A-062; each
+ * counter increments only after submit + queue-wait-idle. */
+static int vk_sampling_dispatch(const uint32_t *spv, size_t spv_bytes, uint64_t id_logits, uint64_t id_out, uint32_t n, const void *push, uint32_t push_size, uint64_t *counter) {
+    int rc = aesir_vk_init();
+    if (rc != 0) { return rc; }
+    aesir_vk_load_dispatch();
+    if (!g_dispatch_ok) { return AESIR_VK_ABSENT; }
+    AesirVkBufferSlot *sl = NULL;
+    AesirVkBufferSlot *so = NULL;
+    int vrc = vk_own_validate(id_logits, 0, &sl);
+    if (vrc != 0) { return vrc; }
+    vrc = vk_own_validate(id_out, 0, &so);
+    if (vrc != 0) { return vrc; }
+    if (n == 0) { return AESIR_VK_INVALID; }
+    uint64_t need_logits = (uint64_t)n * 4u;
+    if (sl->requested_size < need_logits || so->requested_size < 4u) { return AESIR_VK_INVALID; }
+    VkShaderModule_t shader = NULL;
+    VkDescriptorSetLayout_t dsl = NULL;
+    VkPipelineLayout_t pl = NULL;
+    VkPipeline_t pipe = NULL;
+    VkDescriptorPool_t dpool = NULL;
+    VkDescriptorSet_t dset = NULL;
+    VkCommandPool_t cpool = NULL;
+    VkCommandBuffer_t cbuf = NULL;
+    int out_rc = 0;
+    AesirVkShaderModuleCreateInfo smci; memset(&smci, 0, sizeof(smci));
+    smci.sType = 16; smci.codeSize = spv_bytes; smci.pCode = spv;
+    rc = (int)d_create_shader_module(g_device, &smci, NULL, &shader);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorSetLayoutBinding binds[2]; memset(binds, 0, sizeof(binds));
+    for (int i = 0; i < 2; i++) { binds[i].binding = (uint32_t)i; binds[i].descriptorType = 6; binds[i].descriptorCount = 1; binds[i].stageFlags = 0x20u; }
+    AesirVkDescriptorSetLayoutCreateInfo dslci; memset(&dslci, 0, sizeof(dslci));
+    dslci.sType = 32; dslci.bindingCount = 2; dslci.pBindings = binds;
+    rc = (int)d_create_dsl(g_device, &dslci, NULL, &dsl);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkPushConstantRange pcr; memset(&pcr, 0, sizeof(pcr));
+    pcr.stageFlags = 0x20u; pcr.offset = 0; pcr.size = push_size;
+    AesirVkPipelineLayoutCreateInfo plci; memset(&plci, 0, sizeof(plci));
+    plci.sType = 30; plci.setLayoutCount = 1; plci.pSetLayouts = &dsl; plci.pushConstantRangeCount = 1; plci.pPushConstantRanges = &pcr;
+    rc = (int)d_create_pl(g_device, &plci, NULL, &pl);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkComputePipelineCreateInfo cpci; memset(&cpci, 0, sizeof(cpci));
+    cpci.sType = 29; cpci.stage.sType = 18; cpci.stage.stage = 0x20u; cpci.stage.module = shader; cpci.stage.pName = "main"; cpci.layout = pl; cpci.basePipelineIndex = -1;
+    rc = (int)d_create_cp(g_device, NULL, 1, &cpci, NULL, &pipe);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorPoolSize psz; memset(&psz, 0, sizeof(psz));
+    psz.type = 6; psz.descriptorCount = 2;
+    AesirVkDescriptorPoolCreateInfo dpci; memset(&dpci, 0, sizeof(dpci));
+    dpci.sType = 33; dpci.maxSets = 1; dpci.poolSizeCount = 1; dpci.pPoolSizes = &psz;
+    rc = (int)d_create_dpool(g_device, &dpci, NULL, &dpool);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorSetAllocateInfo dsai; memset(&dsai, 0, sizeof(dsai));
+    dsai.sType = 34; dsai.descriptorPool = dpool; dsai.descriptorSetCount = 1; dsai.pSetLayouts = &dsl;
+    rc = (int)d_alloc_dsets(g_device, &dsai, &dset);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorBufferInfo dbi[2]; memset(dbi, 0, sizeof(dbi));
+    dbi[0].buffer = sl->buffer; dbi[0].range = need_logits;
+    dbi[1].buffer = so->buffer; dbi[1].range = 4u;
+    AesirVkWriteDescriptorSet writes[2]; memset(writes, 0, sizeof(writes));
+    for (int i = 0; i < 2; i++) { writes[i].sType = 35; writes[i].dstSet = dset; writes[i].dstBinding = (uint32_t)i; writes[i].descriptorCount = 1; writes[i].descriptorType = 6; writes[i].pBufferInfo = &dbi[i]; }
+    d_update_dsets(g_device, 2, writes, 0, NULL);
+    AesirVkCommandPoolCreateInfo cpi; memset(&cpi, 0, sizeof(cpi));
+    cpi.sType = 39; cpi.queueFamilyIndex = g_queue_family;
+    rc = (int)d_create_cpool(g_device, &cpi, NULL, &cpool);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkCommandBufferAllocateInfo cbai; memset(&cbai, 0, sizeof(cbai));
+    cbai.sType = 40; cbai.commandPool = cpool; cbai.level = 0; cbai.commandBufferCount = 1;
+    rc = (int)d_alloc_cbufs(g_device, &cbai, &cbuf);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkCommandBufferBeginInfo cbbi; memset(&cbbi, 0, sizeof(cbbi));
+    cbbi.sType = 42;
+    rc = (int)d_begin_cbuf(cbuf, &cbbi);
+    if (rc != 0) { out_rc = rc; goto done; }
+    d_cmd_bind_pipeline(cbuf, 1, pipe);
+    d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
+    d_cmd_push(cbuf, pl, 0x20u, 0, push_size, push);
+    d_cmd_dispatch(cbuf, 1, 1, 1);
+    rc = (int)d_end_cbuf(cbuf);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
+    si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
+    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
+    if (rc != 0) { out_rc = rc; goto done; }
+    rc = (int)d_queue_wait_idle(g_queue);
+    if (rc != 0) { out_rc = rc; goto done; }
+    *counter += 1;
+    out_rc = 0;
+done:
+    if (cpool != NULL) { d_destroy_cpool(g_device, cpool, NULL); }
+    if (dpool != NULL) { d_destroy_dpool(g_device, dpool, NULL); }
+    if (pipe != NULL) { d_destroy_pipeline(g_device, pipe, NULL); }
+    if (pl != NULL) { d_destroy_pl(g_device, pl, NULL); }
+    if (dsl != NULL) { d_destroy_dsl(g_device, dsl, NULL); }
+    if (shader != NULL) { d_destroy_shader_module(g_device, shader, NULL); }
+    return out_rc;
+}
+static uint64_t g_sampling_greedy_dispatches = 0;
+uint64_t aesir_vk_sampling_greedy_dispatch_count(void) { return g_sampling_greedy_dispatches; }
+int aesir_vk_buffer_sampling_greedy(uint64_t id_logits, uint64_t id_out, uint32_t n) {
+    struct { uint32_t n; } push;
+    push.n = n;
+    return vk_sampling_dispatch(kSamplingGreedySpv, kSamplingGreedySpvBytes, id_logits, id_out, n, &push, 4u, &g_sampling_greedy_dispatches);
+}
+static uint64_t g_sampling_sample_dispatches = 0;
+uint64_t aesir_vk_sampling_sample_dispatch_count(void) { return g_sampling_sample_dispatches; }
+int aesir_vk_buffer_sampling_sample(uint64_t id_logits, uint64_t id_out, uint32_t n, uint32_t top_k, float temperature, float u) {
+    if (!(temperature > 0.0f) || u < 0.0f || u >= 1.0f) { return AESIR_VK_INVALID; }
+    struct { uint32_t n; uint32_t top_k; float temperature; float u; } push;
+    push.n = n; push.top_k = top_k; push.temperature = temperature; push.u = u;
+    return vk_sampling_dispatch(kSamplingSampleSpv, kSamplingSampleSpvBytes, id_logits, id_out, n, &push, 16u, &g_sampling_sample_dispatches);
+}
 /* ---- A-059: Vulkan IQ2XXS GEMV (dequant + single-row GEMV) ----
  * SPIR-V below is the verbatim glslangValidator output for
  * aesir_engine/shaders/iq2xxs_gemv.comp (SPIR-V 1.0, 9356 bytes),

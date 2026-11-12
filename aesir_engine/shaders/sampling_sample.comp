@@ -1,0 +1,104 @@
+#version 450
+// A-063: temperature / top-k sampling on GPU (Wave 7 closer).
+// Companion to sampling_greedy.comp (A-055 foundation): where the
+// greedy kernel reduces (value, index) argmax pairs, this kernel
+// draws one token from the temperature-scaled, top-k-truncated
+// softmax distribution over a logits row, mirroring the engine's
+// CPU sampler semantics (core/sampler.mojo sample_token_from_logits
+// stochastic path, as pinned by the sampling oracle tests):
+//   scaled_i = logit_i / temperature            (temperature > 0)
+//   kept     = the top_k tokens under the stable total order
+//              (scaled logit descending, token id ascending on
+//              ties) -- the same order apply_top_k produces
+//   p_i      proportional to exp(scaled_i - scaled_max) over kept
+//   draw     = first kept token, in that ranked order, whose
+//              cumulative exp mass reaches u * total, for a caller
+//              supplied uniform u in [0, 1) -- on the CPU path u is
+//              RuneRNG.next_float32(); supplying it keeps the draw
+//              reproducible and exactly checkable against the CPU
+//              oracle for the same u.
+// Scope (fail-closed in the gateway, VAL-003): top_k == 0 or
+// top_k >= n keeps the whole row; the effective kept count is
+// capped at 1024 and n at 16384 so the ranked draw below stays
+// bounded. Logits must be finite: the CPU path sanitizes
+// non-finite lanes to -1e9 before sampling; this kernel does not
+// (recorded as A-063 next work in the slice ledger).
+//
+// Method: phase A enumerates the ranked kept set with parallel
+// (value, index) argmax reductions -- each step selects the best
+// element ranked strictly after the previous pick, which is exact
+// (max is order-independent). Phase B (thread 0) then walks that
+// ranked list once, accumulating exp mass in ranked order in
+// Float32 and applying the CPU draw rule verbatim, so a given u
+// selects the same token the CPU oracle selects for that u.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer LBuf { float logits[]; };
+layout(std430, set = 0, binding = 1) buffer OBuf { uint best[]; };
+layout(push_constant) uniform Push { uint n; uint top_k; float temperature; float u; } pc;
+shared float vals[256];
+shared uint idxs[256];
+shared float sel_val[1024];
+shared uint sel_idx[1024];
+void main() {
+    uint tid = gl_LocalInvocationID.x;
+    uint kept = pc.top_k;
+    if (kept == 0u || kept > pc.n) {
+        kept = pc.n;
+    }
+    float prev_val = 1.0 / 0.0;
+    uint prev_idx = 0xffffffffu;
+    for (uint rank = 0u; rank < kept; rank++) {
+        float best_val = -1.0 / 0.0;
+        uint best_idx = 0xffffffffu;
+        for (uint i = tid; i < pc.n; i += 256u) {
+            float v = logits[i] / pc.temperature;
+            if (v < prev_val || (v == prev_val && i > prev_idx)) {
+                if (v > best_val || (v == best_val && i < best_idx)) {
+                    best_val = v;
+                    best_idx = i;
+                }
+            }
+        }
+        vals[tid] = best_val;
+        idxs[tid] = best_idx;
+        barrier();
+        for (uint stride = 128u; stride > 0u; stride >>= 1u) {
+            if (tid < stride) {
+                float other = vals[tid + stride];
+                uint other_idx = idxs[tid + stride];
+                if (other > vals[tid]
+                        || (other == vals[tid] && other_idx < idxs[tid])) {
+                    vals[tid] = other;
+                    idxs[tid] = other_idx;
+                }
+            }
+            barrier();
+        }
+        if (tid == 0u) {
+            sel_val[rank] = vals[0];
+            sel_idx[rank] = idxs[0];
+        }
+        barrier();
+        prev_val = vals[0];
+        prev_idx = idxs[0];
+    }
+    barrier();
+    if (tid == 0u) {
+        float smax = sel_val[0];
+        float total = 0.0;
+        for (uint rank = 0u; rank < kept; rank++) {
+            total += exp(sel_val[rank] - smax);
+        }
+        float target = pc.u * total;
+        float acc = 0.0;
+        uint pick = sel_idx[kept - 1u];
+        for (uint rank = 0u; rank < kept; rank++) {
+            acc += exp(sel_val[rank] - smax);
+            if (target <= acc) {
+                pick = sel_idx[rank];
+                break;
+            }
+        }
+        best[0] = pick;
+    }
+}

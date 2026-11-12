@@ -5,7 +5,7 @@
   "glslang": "Glslang Version: 11:16.4.0",
   "spirv_val": "SPIRV-Tools v2026.3 unknown hash, 2026-10-03T10:00:00+00:00",
   "deterministic": true,
-  "kernel_count": 12,
+  "kernel_count": 13,
   "kernels": [
     {
       "name": "attention_decode",
@@ -95,6 +95,15 @@
       "spv_sha256": "a381ed5a989591d9854a8384c7d80ce33a9c3f04a075cd5c33cf77d71f1486db",
       "spv_bytes": 3788,
       "spv_words": 947,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "sampling_sample",
+      "source": "aesir_engine/shaders/sampling_sample.comp",
+      "source_sha256": "164accb3fa879362f88d84e2c675edd4671efda5304ef8a09ed933cb8d5f4033",
+      "spv_sha256": "b979830ca31206c743a36dc9a433e81348b45140b80b7eb90b156c1c8ca44648",
+      "spv_bytes": 6996,
+      "spv_words": 1749,
       "spirv_version_word": 65536
     },
     {
