@@ -181,3 +181,165 @@ struct VulkanGemv:
     def q5_dispatch_count() -> Int:
         """Completed A-058 Q5_K GEMV dispatches on the device."""
         return Int(external_call["aesir_vk_q5_gemv_dispatch_count", UInt64]())
+    @staticmethod
+    def iq2_xxs_gemv(
+        w: VulkanAllocation,
+        x: VulkanAllocation,
+        y: VulkanAllocation,
+        g: VulkanAllocation,
+        rows: Int,
+        cols: Int,
+    ) raises:
+        """Dispatch the A-059 IQ2_XXS GEMV kernel: y[r] = sum_k
+        dequant(w[r, k]) * x[k]. w holds rows * (cols/256) * 66 raw
+        IQ2_XXS bytes, x holds cols Float32, y holds rows Float32,
+        g holds the 256-entry IQ2_XXS grid as 512 bytes of packed
+        UInt16 (the GGML format constant). cols must be a positive
+        multiple of 256; rows must be positive. Fail-closed."""
+        if rows <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq2_xxs_gemv: row count must be positive")
+        if cols <= 0 or cols % 256 != 0:
+            raise Error(
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq2_xxs_gemv: column count must be a"
+                " positive multiple of the 256-wide IQ2_XXS block"
+            )
+        var need_w = rows * (cols // 256) * 66
+        if w.requested_size < need_w:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq2_xxs_gemv: weight buffer is smaller than the IQ2_XXS operand")
+        if x.requested_size < cols * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq2_xxs_gemv: activation buffer is smaller than the column count")
+        if y.requested_size < rows * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq2_xxs_gemv: output buffer is smaller than the row count")
+        if g.requested_size < 512:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq2_xxs_gemv: grid buffer is smaller than the 256-entry IQ2_XXS grid")
+        var rc = external_call["aesir_vk_buffer_iq2xxs_gemv", Int32](
+            UInt64(w.id), UInt64(x.id), UInt64(y.id), UInt64(g.id), UInt32(rows), UInt32(cols)
+        )
+        if rc != 0:
+            Self._raise_for_rc("iq2_xxs_gemv", rc)
+
+    @staticmethod
+    def iq2xxs_dispatch_count() -> Int:
+        """Completed A-059 IQ2_XXS GEMV dispatches on the device."""
+        return Int(external_call["aesir_vk_iq2xxs_dispatch_count", UInt64]())
+
+    @staticmethod
+    def iq1_s_gemv(
+        w: VulkanAllocation,
+        x: VulkanAllocation,
+        y: VulkanAllocation,
+        g: VulkanAllocation,
+        rows: Int,
+        cols: Int,
+    ) raises:
+        """Dispatch the A-059 IQ1_S GEMV kernel. w holds rows *
+        (cols/256) * 50 raw IQ1_S bytes; g holds the 2048-entry
+        IQ1_S grid as 4096 bytes of packed UInt16. cols must be a
+        positive multiple of 256. Fail-closed."""
+        if rows <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq1_s_gemv: row count must be positive")
+        if cols <= 0 or cols % 256 != 0:
+            raise Error(
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq1_s_gemv: column count must be a"
+                " positive multiple of the 256-wide IQ1_S block"
+            )
+        var need_w = rows * (cols // 256) * 50
+        if w.requested_size < need_w:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq1_s_gemv: weight buffer is smaller than the IQ1_S operand")
+        if x.requested_size < cols * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq1_s_gemv: activation buffer is smaller than the column count")
+        if y.requested_size < rows * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq1_s_gemv: output buffer is smaller than the row count")
+        if g.requested_size < 4096:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq1_s_gemv: grid buffer is smaller than the 2048-entry IQ1_S grid")
+        var rc = external_call["aesir_vk_buffer_iq1s_gemv", Int32](
+            UInt64(w.id), UInt64(x.id), UInt64(y.id), UInt64(g.id), UInt32(rows), UInt32(cols)
+        )
+        if rc != 0:
+            Self._raise_for_rc("iq1_s_gemv", rc)
+
+    @staticmethod
+    def iq1s_dispatch_count() -> Int:
+        """Completed A-059 IQ1_S GEMV dispatches on the device."""
+        return Int(external_call["aesir_vk_iq1s_dispatch_count", UInt64]())
+
+    @staticmethod
+    def iq3_xxs_gemv(
+        w: VulkanAllocation,
+        x: VulkanAllocation,
+        y: VulkanAllocation,
+        g: VulkanAllocation,
+        rows: Int,
+        cols: Int,
+    ) raises:
+        """Dispatch the A-059 IQ3_XXS GEMV kernel. w holds rows *
+        (cols/256) * 98 raw IQ3_XXS bytes; g holds the 256-entry
+        IQ3_XXS grid as 512 bytes of packed UInt16. cols must be a
+        positive multiple of 256. Fail-closed."""
+        if rows <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq3_xxs_gemv: row count must be positive")
+        if cols <= 0 or cols % 256 != 0:
+            raise Error(
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq3_xxs_gemv: column count must be a"
+                " positive multiple of the 256-wide IQ3_XXS block"
+            )
+        var need_w = rows * (cols // 256) * 98
+        if w.requested_size < need_w:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq3_xxs_gemv: weight buffer is smaller than the IQ3_XXS operand")
+        if x.requested_size < cols * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq3_xxs_gemv: activation buffer is smaller than the column count")
+        if y.requested_size < rows * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq3_xxs_gemv: output buffer is smaller than the row count")
+        if g.requested_size < 512:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq3_xxs_gemv: grid buffer is smaller than the 256-entry IQ3_XXS grid")
+        var rc = external_call["aesir_vk_buffer_iq3xxs_gemv", Int32](
+            UInt64(w.id), UInt64(x.id), UInt64(y.id), UInt64(g.id), UInt32(rows), UInt32(cols)
+        )
+        if rc != 0:
+            Self._raise_for_rc("iq3_xxs_gemv", rc)
+
+    @staticmethod
+    def iq3xxs_dispatch_count() -> Int:
+        """Completed A-059 IQ3_XXS GEMV dispatches on the device."""
+        return Int(external_call["aesir_vk_iq3xxs_dispatch_count", UInt64]())
+
+    @staticmethod
+    def iq4_nl_gemv(
+        w: VulkanAllocation,
+        x: VulkanAllocation,
+        y: VulkanAllocation,
+        rows: Int,
+        cols: Int,
+    ) raises:
+        """Dispatch the A-059 IQ4_NL GEMV kernel. w holds rows *
+        (cols/32) * 18 raw IQ4_NL bytes (32-value blocks of one
+        fp16 scale + 16 nibble bytes). cols must be a positive
+        multiple of 32 - the format's own block size, NOT 256:
+        the GPU-side landing of Bug A-046:B1 (the CPU gemm_iq
+        wrapper still demands cols % 256 for every IQ type, so
+        K=288 IQ4_NL runs here while the CPU wrapper raises).
+        Fail-closed."""
+        if rows <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq4_nl_gemv: row count must be positive")
+        if cols <= 0 or cols % 32 != 0:
+            raise Error(
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq4_nl_gemv: column count must be a"
+                " positive multiple of the 32-wide IQ4_NL block"
+            )
+        var need_w = rows * (cols // 32) * 18
+        if w.requested_size < need_w:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq4_nl_gemv: weight buffer is smaller than the IQ4_NL operand")
+        if x.requested_size < cols * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq4_nl_gemv: activation buffer is smaller than the column count")
+        if y.requested_size < rows * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.iq4_nl_gemv: output buffer is smaller than the row count")
+        var rc = external_call["aesir_vk_buffer_iq4nl_gemv", Int32](
+            UInt64(w.id), UInt64(x.id), UInt64(y.id), UInt32(rows), UInt32(cols)
+        )
+        if rc != 0:
+            Self._raise_for_rc("iq4_nl_gemv", rc)
+
+    @staticmethod
+    def iq4nl_dispatch_count() -> Int:
+        """Completed A-059 IQ4_NL GEMV dispatches on the device."""
+        return Int(external_call["aesir_vk_iq4nl_dispatch_count", UInt64]())

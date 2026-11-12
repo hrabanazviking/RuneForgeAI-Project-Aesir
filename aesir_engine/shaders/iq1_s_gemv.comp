@@ -1,0 +1,71 @@
+#version 450
+// A-059 IQ1_S GEMV kernel: y[row] = sum_k dequant(W[row,k]) * x[k].
+// W is the raw GGUF IQ1_S byte layout: per 256-value block of 50
+// bytes, one fp16 scale d, 32 grid-index bytes (8 groups of 4),
+// then 8 u16 qh words (one per group). The grid index for a
+// subgrid is qs byte | (((qh >> 3*sub) & 7) << 8) into the
+// 2048-entry IQ1_S grid bound at binding 3 (uint words packing
+// two u16 entries; eight 2-bit digits, least-significant first).
+// Decode mirrors the CPU decoder (iq1_s_value_g): digit 1 -> 0,
+// digit 2 -> 1, else -1; local scale = d * (2*((qh >> 12) & 7)
+// + 1); delta = (qh & 0x8000) ? -0.125 : +0.125; value =
+// local_scale * (grid_value + delta). Dequant runs in-shader.
+// One workgroup of 256 per row; cols must be a multiple of 256.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer WBuf { uint w[]; };
+layout(std430, set = 0, binding = 1) readonly buffer XBuf { float x[]; };
+layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
+layout(std430, set = 0, binding = 3) readonly buffer GBuf { uint g[]; };
+layout(push_constant) uniform Push { uint cols; uint rows; } pc;
+shared float sdata[256];
+uint get_byte(uint idx) {
+    uint word = w[idx >> 2u];
+    return (word >> ((idx & 3u) * 8u)) & 0xFFu;
+}
+float half_to_float(uint h) {
+    float sign = ((h >> 15u) & 1u) == 1u ? -1.0 : 1.0;
+    uint exp = (h >> 10u) & 0x1Fu;
+    uint frac = h & 0x3FFu;
+    if (exp == 0u) { return sign * float(frac) * (1.0 / 16777216.0); }
+    if (exp == 31u) { return sign * (frac == 0u ? 3.4028235e38 : 0.0); }
+    return sign * ldexp(1.0 + float(frac) * (1.0 / 1024.0), int(exp) - 15);
+}
+uint grid_at(uint idx) {
+    uint word = g[idx >> 1u];
+    return (word >> ((idx & 1u) * 16u)) & 0xFFFFu;
+}
+void main() {
+    uint row = gl_WorkGroupID.x;
+    uint tid = gl_LocalInvocationID.x;
+    if (row >= pc.rows) { return; }
+    uint blocks_per_row = pc.cols / 256u;
+    uint row_byte0 = row * blocks_per_row * 50u;
+    float partial = 0.0;
+    for (uint k = tid; k < pc.cols; k += 256u) {
+        uint blk = k / 256u;
+        uint lane = k - blk * 256u;
+        uint base = row_byte0 + blk * 50u;
+        float d = half_to_float(get_byte(base) | (get_byte(base + 1u) << 8u));
+        uint group = lane / 32u;
+        uint gl = lane - group * 32u;
+        uint sub = gl / 8u;
+        uint glane = gl - sub * 8u;
+        uint qh = get_byte(base + 34u + group * 2u)
+            | (get_byte(base + 35u + group * 2u) << 8u);
+        uint grid_index = get_byte(base + 2u + group * 4u + sub)
+            | (((qh >> (sub * 3u)) & 7u) << 8u);
+        uint enc = grid_at(grid_index);
+        uint digit = (enc >> (glane * 2u)) & 3u;
+        float gv = digit == 1u ? 0.0 : (digit == 2u ? 1.0 : -1.0);
+        float local_scale = d * float(2u * ((qh >> 12u) & 7u) + 1u);
+        float delta = (qh & 0x8000u) != 0u ? -0.125 : 0.125;
+        partial += local_scale * (gv + delta) * x[k];
+    }
+    sdata[tid] = partial;
+    barrier();
+    for (uint stride = 128u; stride > 0u; stride >>= 1u) {
+        if (tid < stride) { sdata[tid] += sdata[tid + stride]; }
+        barrier();
+    }
+    if (tid == 0u) { y[row] = sdata[0]; }
+}

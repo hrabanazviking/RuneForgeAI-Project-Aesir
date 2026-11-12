@@ -1,0 +1,71 @@
+#version 450
+// A-059 IQ4_NL GEMV kernel: y[row] = sum_k dequant(W[row,k]) * x[k].
+// W is the raw GGUF IQ4_NL byte layout: per 32-value block of 18
+// bytes, one fp16 scale d and 16 qs bytes; lanes 0..15 take the
+// low nibbles, lanes 16..31 the high nibbles; value = d *
+// kvalues_iq4nl[nibble] with the GGML table -127,-104,-83,-65,
+// -49,-35,-22,-10,1,13,25,38,53,69,89,113. IQ4_NL is a 32-value
+// block format, so cols must be a multiple of 32 only - NOT 256:
+// this is the GPU-side landing of Bug A-046:B1 (the CPU gemm_iq
+// wrapper still demands cols % 256 for every IQ type). Dequant
+// runs in-shader. One workgroup of 256 invocations per row.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer WBuf { uint w[]; };
+layout(std430, set = 0, binding = 1) readonly buffer XBuf { float x[]; };
+layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
+layout(push_constant) uniform Push { uint cols; uint rows; } pc;
+shared float sdata[256];
+uint get_byte(uint idx) {
+    uint word = w[idx >> 2u];
+    return (word >> ((idx & 3u) * 8u)) & 0xFFu;
+}
+float half_to_float(uint h) {
+    float sign = ((h >> 15u) & 1u) == 1u ? -1.0 : 1.0;
+    uint exp = (h >> 10u) & 0x1Fu;
+    uint frac = h & 0x3FFu;
+    if (exp == 0u) { return sign * float(frac) * (1.0 / 16777216.0); }
+    if (exp == 31u) { return sign * (frac == 0u ? 3.4028235e38 : 0.0); }
+    return sign * ldexp(1.0 + float(frac) * (1.0 / 1024.0), int(exp) - 15);
+}
+float kv4(uint nib) {
+    if (nib == 0u) { return -127.0; }
+    if (nib == 1u) { return -104.0; }
+    if (nib == 2u) { return -83.0; }
+    if (nib == 3u) { return -65.0; }
+    if (nib == 4u) { return -49.0; }
+    if (nib == 5u) { return -35.0; }
+    if (nib == 6u) { return -22.0; }
+    if (nib == 7u) { return -10.0; }
+    if (nib == 8u) { return 1.0; }
+    if (nib == 9u) { return 13.0; }
+    if (nib == 10u) { return 25.0; }
+    if (nib == 11u) { return 38.0; }
+    if (nib == 12u) { return 53.0; }
+    if (nib == 13u) { return 69.0; }
+    if (nib == 14u) { return 89.0; }
+    return 113.0;
+}
+void main() {
+    uint row = gl_WorkGroupID.x;
+    uint tid = gl_LocalInvocationID.x;
+    if (row >= pc.rows) { return; }
+    uint blocks_per_row = pc.cols / 32u;
+    uint row_byte0 = row * blocks_per_row * 18u;
+    float partial = 0.0;
+    for (uint k = tid; k < pc.cols; k += 256u) {
+        uint blk = k / 32u;
+        uint lane = k - blk * 32u;
+        uint base = row_byte0 + blk * 18u;
+        float d = half_to_float(get_byte(base) | (get_byte(base + 1u) << 8u));
+        uint qs = get_byte(base + 2u + (lane % 16u));
+        uint nib = lane < 16u ? (qs & 0xFu) : ((qs >> 4u) & 0xFu);
+        partial += d * kv4(nib) * x[k];
+    }
+    sdata[tid] = partial;
+    barrier();
+    for (uint stride = 128u; stride > 0u; stride >>= 1u) {
+        if (tid < stride) { sdata[tid] += sdata[tid + stride]; }
+        barrier();
+    }
+    if (tid == 0u) { y[row] = sdata[0]; }
+}

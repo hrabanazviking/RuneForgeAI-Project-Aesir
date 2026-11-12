@@ -1,0 +1,83 @@
+#version 450
+// A-059 IQ3_XXS GEMV kernel: y[row] = sum_k dequant(W[row,k]) * x[k].
+// W is the raw GGUF IQ3_XXS byte layout: per 256-value block of 98
+// bytes, one fp16 scale d, 64 grid-index bytes (8 groups of 8:
+// per group, subgrid s uses byte 2*s for lanes 0..3 and byte
+// 2*s+1 for lanes 4..7 of its 8 values), then 8 u32 aux words at
+// byte 66 (one per group) packing 4 7-bit sign indices and a
+// 4-bit scale field. The 256-entry IQ3_XXS grid is bound at
+// binding 3 (uint words packing two u16 entries; four 3-bit
+// digits, least-significant first). Decode mirrors the CPU
+// decoder (iq3_xxs_value_g): grid value = digit == 7 ? 62 :
+// 4 + 8*digit; local scale = d * (0.5 + (aux >> 28)) * 0.5; sign
+// mask is the 7-bit index expanded with an even-parity 8th bit.
+// Dequant runs in-shader. One workgroup of 256 per row; cols
+// must be a multiple of 256 (the IQ3_XXS block size).
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer WBuf { uint w[]; };
+layout(std430, set = 0, binding = 1) readonly buffer XBuf { float x[]; };
+layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
+layout(std430, set = 0, binding = 3) readonly buffer GBuf { uint g[]; };
+layout(push_constant) uniform Push { uint cols; uint rows; } pc;
+shared float sdata[256];
+uint get_byte(uint idx) {
+    uint word = w[idx >> 2u];
+    return (word >> ((idx & 3u) * 8u)) & 0xFFu;
+}
+uint get_u32(uint byte_idx) {
+    return get_byte(byte_idx) | (get_byte(byte_idx + 1u) << 8u)
+        | (get_byte(byte_idx + 2u) << 16u) | (get_byte(byte_idx + 3u) << 24u);
+}
+float half_to_float(uint h) {
+    float sign = ((h >> 15u) & 1u) == 1u ? -1.0 : 1.0;
+    uint exp = (h >> 10u) & 0x1Fu;
+    uint frac = h & 0x3FFu;
+    if (exp == 0u) { return sign * float(frac) * (1.0 / 16777216.0); }
+    if (exp == 31u) { return sign * (frac == 0u ? 3.4028235e38 : 0.0); }
+    return sign * ldexp(1.0 + float(frac) * (1.0 / 1024.0), int(exp) - 15);
+}
+uint grid_at(uint idx) {
+    uint word = g[idx >> 1u];
+    return (word >> ((idx & 1u) * 16u)) & 0xFFFFu;
+}
+uint sign_mask8(uint index) {
+    uint parity = 0u;
+    uint v = index;
+    for (uint i = 0u; i < 7u; i++) { parity ^= (v & 1u); v >>= 1u; }
+    return index | (parity << 7u);
+}
+void main() {
+    uint row = gl_WorkGroupID.x;
+    uint tid = gl_LocalInvocationID.x;
+    if (row >= pc.rows) { return; }
+    uint blocks_per_row = pc.cols / 256u;
+    uint row_byte0 = row * blocks_per_row * 98u;
+    float partial = 0.0;
+    for (uint k = tid; k < pc.cols; k += 256u) {
+        uint blk = k / 256u;
+        uint lane = k - blk * 256u;
+        uint base = row_byte0 + blk * 98u;
+        float d = half_to_float(get_byte(base) | (get_byte(base + 1u) << 8u));
+        uint group = lane / 32u;
+        uint gl = lane - group * 32u;
+        uint sub = gl / 8u;
+        uint pos = gl - sub * 8u;
+        uint aux = get_u32(base + 66u + group * 4u);
+        float local_scale = (0.5 + float(aux >> 28u)) * 0.5;
+        uint grid_byte = base + 2u + group * 8u + 2u * sub + (pos < 4u ? 0u : 1u);
+        uint enc = grid_at(get_byte(grid_byte));
+        uint digit = (enc >> ((pos % 4u) * 3u)) & 7u;
+        float gv = digit == 7u ? 62.0 : 4.0 + 8.0 * float(digit);
+        uint sign_index = (aux >> (7u * sub)) & 0x7Fu;
+        uint mask = sign_mask8(sign_index);
+        float sign = ((mask >> pos) & 1u) != 0u ? -1.0 : 1.0;
+        partial += d * local_scale * gv * sign * x[k];
+    }
+    sdata[tid] = partial;
+    barrier();
+    for (uint stride = 128u; stride > 0u; stride >>= 1u) {
+        if (tid < stride) { sdata[tid] += sdata[tid + stride]; }
+        barrier();
+    }
+    if (tid == 0u) { y[row] = sdata[0]; }
+}
