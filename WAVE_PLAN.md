@@ -68,7 +68,13 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **60 of 216** (A-001..A-060). A-060 banked at the
+- Banked: **61 of 216** (A-001..A-061). A-061 banked at the
+  seat 2026-11-12 (team-02 commit fdbbfba4 cherry-picked
+  as 43c1e902; Vulkan elementwise + softmax, run_all pin
+  unioned 474 -> 480 and vulkan_buffer_shim.c composed at
+  banking: seat shim + A-061 elementwise/softmax block
+  appended, A-060 RMSNorm/RoPE sections intact). A-060
+  banked at the
   seat 2026-11-12 (team-05 commit 8de19201 cherry-picked
   as bb41ed4a; Vulkan RMSNorm + RoPE, run_all pin unioned
   468 -> 474 and vulkan_buffer_shim.c composed at banking:
@@ -96,9 +102,9 @@ when its lead is live on its assigned slice in its own worktree.
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
-  Wave 7 (A-055..A-063) is IN PROGRESS (6 of 9).**
-- Seat gate after this banking: A-060 (seat_gate_a060.log)
-  471 passed / 1 failed / 2 skipped / 474 total, exact on
+  Wave 7 (A-055..A-063) is IN PROGRESS (7 of 9).**
+- Seat gate after this banking: A-061 (seat_gate_a061.log)
+  477 passed / 1 failed / 2 skipped / 480 total, exact on
   the first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
@@ -108,8 +114,7 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-02 A-061 (in flight) +
-  team-06 A-062 (in flight), then
+  bank (keeper flow): team-06 A-062 (in flight), then
   team-03 A-063, team-04 A-064, team-01 A-065.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
