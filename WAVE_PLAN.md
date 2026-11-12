@@ -68,5 +68,21 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **0 of 216 on remote**; 5 of 216 at the seat (A-001..A-005 banked locally) - push blocked: no GitHub auth on purpleraider (gh not logged in, no credential helper, no SSH key). Needs Volmarr: gh auth login on purpleraider. Keeper retries the push every tick.
-- Next: team-01 on A-010 (in flight, restarted after the 2026-11-11 reboot), team-02 A-011 committed 83c9fdf9 awaiting banking behind A-006..A-010 (then takes the next unbuilt slice in order), team-03 on A-012 (in flight), team-04 to A-013 and team-05 to A-014 (assigned at A-004/A-005 banking, keeper tick 2026-11-11 22:57 EST); muster team-06+07 on following ticks for A-006/A-007. Teams 08-09 stand by.
+- Banked: **6 of 216** (A-001..A-006; A-006 banked at the seat 2026-11-12, remote main was 670d5716,
+  git ls-remote verified == local main at the seat, keeper tick
+  2026-11-11 23:55 EST). Push blocker RESOLVED: gh auth is live on
+  purpleraider (hrabanazviking) and the A-001..A-005 push landed
+  ~23:15 EST 2026-11-11.
+- Committed, awaiting banking in roadmap order (all held behind the
+  unbuilt A-006..A-009): A-010 (team-01, 7bed5e27, suite 285/1/2 of
+  288), A-011 (team-02, 83c9fdf9, 282/1/2 of 285), A-012 (team-03,
+  67aca2d0, 287/1/2 of 290), A-013 (team-04, c72705e1, 281/1/2 of
+  284), A-014 (team-05, 8ec21143, 281/1/2 of 284). Sole failure in
+  every suite = pre-existing gguf.tensor_directory_interface J-022
+  drift (roads A-165 primary / A-121); skips = the 2 pre-declared.
+- Next: team-06 MUSTERED 2026-11-11 23:55 EST for A-006 (Vulkan
+  compute readiness), team-07 MUSTERED same tick for A-007 (XRT
+  userland bring-up). Muster team-08+09 on following ticks for
+  A-008/A-009; then banking runs A-006..A-014 in order (run_all
+  case-pin union + A-013/A-014 Vulkan-context convergence reconciled
+  at merge time).
