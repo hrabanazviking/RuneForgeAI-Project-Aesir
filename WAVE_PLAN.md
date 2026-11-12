@@ -68,18 +68,19 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **13 of 216** (A-001..A-013). A-013 banked at the seat
-  2026-11-12 (team-04 commit c72705e1 cherry-picked, CAMPAIGN_STATE.md
-  excluded per banking pattern; run_all pin unioned to 306; evidence
-  hidden_files/A013_LEDGER.md).
-- Committed, awaiting banking in roadmap order: A-014 (team-05,
-  8ec21143). Sole failure in every suite = pre-existing
-  gguf.tensor_directory_interface J-022 drift (roads A-165 primary /
-  A-121); skips = the 2 pre-declared.
-- Next: A-014 banks this session with the Vulkan symbol convergence
-  (see the A-014 ledger banking note), then the full seat gate runs
-  (expected 307/1/2 of 310) before the push. A-007 caveat:
-  unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK (8192 kB vs the
-  64 MiB locked map XRT wants) - NPU tools run via sudo until
-  Volmarr rules on raising the user memlock limit; xrt-smi validate
-  needs the Xilinx VTD archive, first step of A-092.
+- Banked: **14 of 216** (A-001..A-014). A-008..A-014 banked at the
+  seat 2026-11-12 in one banking session (team commits cherry-picked
+  in roadmap order, one commit per slice; run_all pin unioned slice
+  by slice to 310; A-013/A-014 Vulkan symbol convergence applied in
+  the A-014 commit - see the A014 ledger banking note).
+- Seat gate after this banking (hidden_files/seat_gate_a014.log):
+  307 passed / 1 failed / 2 skipped / 310 total - sole failure the
+  pre-existing J-022 drift, skips the 2 pre-declared.
+- Queue: next unbuilt slice is A-015; teams take slices in roadmap
+  order as theirs bank (keeper flow). Sole failure in every suite =
+  pre-existing gguf.tensor_directory_interface J-022 drift (roads
+  A-165 primary / A-121); skips = the 2 pre-declared.
+- A-007 caveat: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK
+  (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via
+  sudo until Volmarr rules on raising the user memlock limit;
+  xrt-smi validate needs the Xilinx VTD archive, first step of A-092.

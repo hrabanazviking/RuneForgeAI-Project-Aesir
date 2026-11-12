@@ -5,7 +5,7 @@
 # Run with (from the repository root; the FFI shims must be staged and
 # linked exactly as in scripts/launch.py, and the -Xlinker flags must
 # precede the source file or the JIT cannot resolve the FFI symbols):
-#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o "$staging/libaesir_hip.so" -ldl && cc -std=c11 -O2 -fPIC -shared aesir_engine/vulkan_context_shim.c -o "$staging/libaesir_vulkan.so" -ldl && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan aesir_engine/tests/run_all.mojo
+#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o "$staging/libaesir_hip.so" -ldl && cc -std=c11 -O2 -fPIC -shared aesir_engine/vulkan_context_shim.c aesir_engine/vulkan_buffer_shim.c -o "$staging/libaesir_vulkan.so" -ldl && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan aesir_engine/tests/run_all.mojo
 #
 # Known issue (pre-existing, proven identical on the unmodified base
 # tree in both JIT and AOT modes): the run currently segfaults inside
@@ -205,6 +205,12 @@ from tests.test_vulkan_context import (
     test_vulkan_taxonomy_mapping,
     test_vulkan_forced_failure_taxonomy,
     test_vulkan_context_rejection,
+)
+from tests.test_vulkan_buffers import (
+    test_vulkan_buffer_alignment_rules,
+    test_vulkan_buffer_round_trip,
+    test_vulkan_buffer_alloc_rejection,
+    test_vulkan_buffer_no_leak,
 )
 from tests.test_npu_realm import (
     test_npu_probe_absence,
@@ -725,6 +731,20 @@ def main() raises:
     )
     run_case(
         ledger,
+        "gpu.vulkan_buffer_alignment_rules",
+        test_vulkan_buffer_alignment_rules,
+    )
+    run_case(
+        ledger, "gpu.vulkan_buffer_round_trip", test_vulkan_buffer_round_trip
+    )
+    run_case(
+        ledger,
+        "gpu.vulkan_buffer_alloc_rejection",
+        test_vulkan_buffer_alloc_rejection,
+    )
+    run_case(ledger, "gpu.vulkan_buffer_no_leak", test_vulkan_buffer_no_leak)
+    run_case(
+        ledger,
         "gpu.resilience_allocation_rejection",
         test_non_positive_allocation_rejection,
     )
@@ -1172,4 +1192,9 @@ def main() raises:
     # (context create, taxonomy mapping, forced-failure taxonomy,
     # local rejection) registered by the A-013 slice.
     # Union re-pin (A-013 banking 2026-11-12): 302 -> 306 -- both sides' registrations counted (run_case + record_skip).
-    ledger.finish(306)
+    # A-014 re-pin: 280 -> 284 -- four Vulkan buffer cases added
+    # (gpu.vulkan_buffer_* in tests/test_vulkan_buffers.mojo), counted
+    # on this branch's ba0cf066 base; the union total reconciles at
+    # banking after A-011/A-012 land ahead of this slice.
+    # Union re-pin (A-014 banking 2026-11-12): 306 -> 310 -- both sides' registrations counted (run_case + record_skip).
+    ledger.finish(310)
