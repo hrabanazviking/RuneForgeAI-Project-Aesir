@@ -68,7 +68,12 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **57 of 216** (A-001..A-057). A-057 banked at the
+- Banked: **58 of 216** (A-001..A-058). A-058 banked at the
+  seat 2026-11-12 (team-09 commit f397e1c6 cherry-picked
+  as 278199de; Vulkan Q6_K + Q5_K GEMV, run_all pin unioned
+  458 -> 463 and vulkan_buffer_shim.c composed at banking:
+  seat shim + A-058 Q6/Q5 block appended, A-057 Q4_K section
+  intact). A-057 banked at the
   seat 2026-11-12 (team-08 commit 056bf09d cherry-picked
   as 066eca4f; Vulkan Q4_K GEMV, run_all pin unioned
   455 -> 458 and vulkan_buffer_shim.c composed at banking).
@@ -81,13 +86,10 @@ when its lead is live on its assigned slice in its own worktree.
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
-  Wave 7 (A-055..A-063) is IN PROGRESS (3 of 9).**
-- Seat gate after this banking: A-057 (seat_gate_a057.log)
-  455 passed / 1 failed / 2 skipped / 458 total, exact on
-  the re-run (first run caught a seat merge-slip - a
-  missing import paren in run_all; log preserved as
-  seat_gate_a057_run1.log; fixed in the A-057 seat commit,
-  re-run exact). Sole failure the pre-existing
+  Wave 7 (A-055..A-063) is IN PROGRESS (4 of 9).**
+- Seat gate after this banking: A-058 (seat_gate_a058.log)
+  460 passed / 1 failed / 2 skipped / 463 total, exact on
+  the first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
   at base b62b1481 by the A-055 base bisect, NOT caused by
@@ -96,12 +98,12 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-09 A-058 (in flight),
-  team-01 A-059 (inherits Bug A-046:B1 AND the A-055
-  ledger bugs B1 residency USE_AFTER_FREE / B2
-  state_vault intermittence as named next work),
-  team-05 A-060, team-02 A-061, team-06 A-062,
-  team-03 A-063, team-04 A-064.
+  bank (keeper flow): team-01 A-059 (in flight; inherits
+  Bug A-046:B1 AND the A-055 ledger bugs B1 residency
+  USE_AFTER_FREE / B2 state_vault intermittence as named
+  next work) + team-05 A-060 (in flight), then
+  team-02 A-061, team-06 A-062, team-03 A-063,
+  team-04 A-064.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.
