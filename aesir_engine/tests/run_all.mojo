@@ -276,6 +276,13 @@ from tests.test_gpu_weight_residency_a064 import (
     test_gpu_weight_residency_multi_tensor,
     test_gpu_weight_residency_rejection,
 )
+from tests.test_vulkan_layer_a065 import (
+    test_vulkan_layer_oracle_parity,
+    test_vulkan_layer_known_value,
+    test_vulkan_layer_standalone_index,
+    test_vulkan_layer_rejection,
+    test_vulkan_layer_dispatch_evidence,
+)
 from tests.test_vulkan_q6k_q5k_gemv import (
     test_vulkan_q6k_q5k_oracle_parity,
     test_vulkan_q6k_q5k_known_value,
@@ -1060,6 +1067,11 @@ def main() raises:
     run_case(ledger, "gpu.gpu_weight_residency_cpu_shared", test_gpu_weight_residency_cpu_shared)
     run_case(ledger, "gpu.gpu_weight_residency_multi_tensor", test_gpu_weight_residency_multi_tensor)
     run_case(ledger, "gpu.gpu_weight_residency_rejection", test_gpu_weight_residency_rejection)
+    run_case(ledger, "gpu.vulkan_layer_oracle_parity", test_vulkan_layer_oracle_parity)
+    run_case(ledger, "gpu.vulkan_layer_known_value", test_vulkan_layer_known_value)
+    run_case(ledger, "gpu.vulkan_layer_standalone_index", test_vulkan_layer_standalone_index)
+    run_case(ledger, "gpu.vulkan_layer_rejection", test_vulkan_layer_rejection)
+    run_case(ledger, "gpu.vulkan_layer_dispatch_evidence", test_vulkan_layer_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
     run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
     run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
@@ -1805,4 +1817,8 @@ def main() raises:
     # of the A-062 seat pin on this branch base; A-063 is built
     # in parallel on the same base and the union total
     # reconciles at banking.
-    ledger.finish(496)
+    # A-065 union re-pin (banking 2026-11-12): 496 -> 501 --
+    # five Vulkan full layer cases (gpu.vulkan_layer_* in
+    # tests/test_vulkan_layer_a065.mojo) counted on top of the
+    # A-064 seat pin.
+    ledger.finish(501)

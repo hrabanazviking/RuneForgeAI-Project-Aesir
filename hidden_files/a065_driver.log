@@ -1,0 +1,37 @@
+staging=/tmp/tmp.llUhRgL5xa
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-01/aesir_engine/a065_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-01/aesir_engine/tests/test_vulkan_layer_a065.mojo:41:
+/home/volmarr/aesir-team-01/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-01/aesir_engine/a065_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-01/aesir_engine/tests/test_vulkan_layer_a065.mojo:41:
+/home/volmarr/aesir-team-01/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+--- Testing Vulkan full layer oracle parity per layer index (A-065) ---
+A065_LAYER idx=0 chained max_abs=0.0017852783
+A065_LAYER idx=1 chained max_abs=0.003753662
+A065_LAYER idx=2 chained max_abs=0.006225586
+Vulkan full layer oracle parity (layers 0,1,2 chained): PASS
+--- Testing Vulkan full layer known value (A-065) ---
+A065_KNOWN zero-weight residual identity max_abs=0.0
+Vulkan full layer known value (residual identity): PASS
+--- Testing Vulkan full layer standalone layer index (A-065) ---
+A065_LAYER idx=2 standalone max_abs=0.0014648438
+Vulkan full layer standalone layer index 2: PASS
+--- Testing Vulkan full layer rejection (A-065) ---
+Vulkan full layer rejection (6 invalid calls): PASS
+--- Testing Vulkan full layer dispatch evidence (A-065) ---
+A065_DISPATCH rmsnorm=2 rope=2 q8_gemv=7 attn=1 elementwise=3
+Vulkan full layer dispatch evidence (2/2/7/1/3, accounting exact): PASS
+A065_DRIVER_ALL_PASS
+MOJO_EXIT=0
