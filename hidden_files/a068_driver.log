@@ -1,0 +1,43 @@
+staging=/tmp/tmp.M7dCL8t8HZ
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-01/aesir_engine/a068_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-01/aesir_engine/tests/test_vulkan_gemm_a068.mojo:39:
+/home/volmarr/aesir-team-01/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-01/aesir_engine/a068_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-01/aesir_engine/tests/test_vulkan_gemm_a068.mojo:39:
+/home/volmarr/aesir-team-01/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+--- Testing Vulkan Q8_0 GEMM oracle parity (A-068) ---
+A068_Q8_SHAPE rows= 16  cols= 288  tokens= 8  cpu_oracle_max_abs= 2.670288e-05
+A068_Q8_SHAPE rows= 37  cols= 320  tokens= 13  cpu_oracle_max_abs= 2.193451e-05
+A068_Q8_SHAPE rows= 64  cols= 1024  tokens= 32  cpu_oracle_max_abs= 7.247925e-05
+A068_Q8_SHAPE rows= 13  cols= 64  tokens= 1  cpu_oracle_max_abs= 9.536743e-07
+A068_Q8_SHAPE rows= 32  cols= 256  tokens= 64  cpu_oracle_max_abs= 1.9073486e-05
+Vulkan Q8_0 GEMM oracle parity (5 batched shapes incl. tokens=1..64, K=288 stories scale and K=1024, RADV device, worst max_abs= 7.247925e-05 ): PASS
+--- Testing Vulkan Q8_0 GEMM known value (A-068) ---
+Vulkan Q8_0 GEMM known value (tokens=4, scale 0.25, q=i-16, x=t+1 -> -4*(t+1) exact): PASS
+--- Testing Vulkan F32 GEMM oracle parity (A-068) ---
+A068_F32_SHAPE rows= 32  cols= 256  tokens= 16  cpu_oracle_max_abs= 1.7166138e-05
+A068_F32_SHAPE rows= 17  cols= 288  tokens= 7  cpu_oracle_max_abs= 1.335144e-05
+A068_F32_SHAPE rows= 64  cols= 1024  tokens= 32  cpu_oracle_max_abs= 4.9591064e-05
+Vulkan F32 GEMM oracle parity (3 batched shapes, RADV device, worst max_abs= 4.9591064e-05 ): PASS
+--- Testing Vulkan GEMM batch independence (A-068) ---
+Vulkan GEMM batch independence (tokens=8 joint == 8x tokens=1 bitwise; tokens=1 == A-056 GEMV bitwise): PASS
+--- Testing Vulkan GEMM rejection (A-068) ---
+Vulkan GEMM rejection (zero tokens, zero rows, cols=48, oversize batch, bogus id, f32 zero tokens): PASS
+--- Testing Vulkan GEMM dispatch evidence (A-068) ---
+A068_Q8_SHAPE rows= 8  cols= 256  tokens= 16  cpu_oracle_max_abs= 1.9073486e-05
+A068_Q8_SHAPE rows= 8  cols= 256  tokens= 16  cpu_oracle_max_abs= 1.9073486e-05
+Vulkan GEMM dispatch evidence (q8 counter +2, f32 counter +1, accounting exact): PASS
+A068_DRIVER_ALL_PASS
+MOJO_EXIT=0

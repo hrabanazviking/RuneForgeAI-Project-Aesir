@@ -298,6 +298,14 @@ from tests.test_vulkan_real_model_a067 import (
     test_vulkan_real_model_dispatch_evidence,
     test_vulkan_real_model_rejection,
 )
+from tests.test_vulkan_gemm_a068 import (
+    test_vulkan_prefill_gemm_oracle_parity,
+    test_vulkan_prefill_gemm_known_value,
+    test_vulkan_prefill_gemm_f32_parity,
+    test_vulkan_prefill_gemm_batch_independence,
+    test_vulkan_prefill_gemm_rejection,
+    test_vulkan_prefill_gemm_dispatch_evidence,
+)
 from tests.test_vulkan_q6k_q5k_gemv import (
     test_vulkan_q6k_q5k_oracle_parity,
     test_vulkan_q6k_q5k_known_value,
@@ -1098,6 +1106,12 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_real_model_generation", test_vulkan_real_model_generation)
     run_case(ledger, "gpu.vulkan_real_model_dispatch_evidence", test_vulkan_real_model_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_real_model_rejection", test_vulkan_real_model_rejection)
+    run_case(ledger, "gpu.vulkan_prefill_gemm_oracle_parity", test_vulkan_prefill_gemm_oracle_parity)
+    run_case(ledger, "gpu.vulkan_prefill_gemm_known_value", test_vulkan_prefill_gemm_known_value)
+    run_case(ledger, "gpu.vulkan_prefill_gemm_f32_parity", test_vulkan_prefill_gemm_f32_parity)
+    run_case(ledger, "gpu.vulkan_prefill_gemm_batch_independence", test_vulkan_prefill_gemm_batch_independence)
+    run_case(ledger, "gpu.vulkan_prefill_gemm_rejection", test_vulkan_prefill_gemm_rejection)
+    run_case(ledger, "gpu.vulkan_prefill_gemm_dispatch_evidence", test_vulkan_prefill_gemm_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
     run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
     run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
@@ -1847,12 +1861,10 @@ def main() raises:
     # five Vulkan full layer cases (gpu.vulkan_layer_* in
     # tests/test_vulkan_layer_a065.mojo) counted on top of the
     # A-064 seat pin.
-    # A-067 union re-pin (banking 2026-11-12): 505 -> 512 --
-    # seven Vulkan real-model decode cases
-    # (gpu.vulkan_real_model_* in
-    # tests/test_vulkan_real_model_a067.mojo) counted on top
-    # of the A-066 seat pin (A-066: 501 -> 505, four
-    # gpu.vulkan_decode_* cases; A-067 team pin was 501 ->
-    # 508 on its own base; the union total reconciles at
-    # banking).
-    ledger.finish(512)
+    # A-068 union re-pin (banking 2026-11-12): 512 -> 518 --
+    # six Vulkan prefill GEMM cases
+    # (gpu.vulkan_prefill_gemm_* in
+    # tests/test_vulkan_gemm_a068.mojo) counted on top of the
+    # A-067 seat pin (A-068 team pin was 501 -> 507 on its
+    # own base; the union total reconciles at banking).
+    ledger.finish(518)

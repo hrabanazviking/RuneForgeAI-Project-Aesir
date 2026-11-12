@@ -5,7 +5,7 @@
   "glslang": "Glslang Version: 11:16.4.0",
   "spirv_val": "SPIRV-Tools v2026.3 unknown hash, 2026-10-03T10:00:00+00:00",
   "deterministic": true,
-  "kernel_count": 16,
+  "kernel_count": 22,
   "kernels": [
     {
       "name": "attention_decode",
@@ -149,6 +149,60 @@
       "spv_sha256": "b228710b1f464b3aa810a4d4cb73e67f2325fdf1eabaa2ceb6b2cf73309ce15b",
       "spv_bytes": 1608,
       "spv_words": 402,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "gemm_f32",
+      "source": "aesir_engine/shaders/gemm_f32.comp",
+      "source_sha256": "8c9146e2525d2b9452c7d6e5ac2729d89b177ec0f7a883b902d1d708e23d4b4f",
+      "spv_sha256": "4b219a0e3d474d98f724543c020546f2b5bae45045c1a7ecc6281108b4dc36ae",
+      "spv_bytes": 3780,
+      "spv_words": 945,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "iq1_s_gemv",
+      "source": "aesir_engine/shaders/iq1_s_gemv.comp",
+      "source_sha256": "425b409fb4019702df7563f4811710dad9fa48b7202449a221834b1bf5c805e4",
+      "spv_sha256": "9f61dde4a19aee8d3bf65896fa63ab6df2cbfc9928cfbb10dde44f746453b2ae",
+      "spv_bytes": 8216,
+      "spv_words": 2054,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "iq2_xxs_gemv",
+      "source": "aesir_engine/shaders/iq2_xxs_gemv.comp",
+      "source_sha256": "621817b180b3a8da25636dbd822018b649cbfc3792843ad0d320e28afd25125c",
+      "spv_sha256": "d283ae140a143ef8bfdec76b36f4525ee215f8e8196d43ac761f14bee2cda4b0",
+      "spv_bytes": 9356,
+      "spv_words": 2339,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "iq3_xxs_gemv",
+      "source": "aesir_engine/shaders/iq3_xxs_gemv.comp",
+      "source_sha256": "d6adfd4faf06a457c33f5fc28cef0d9197e028502593755ebde5fe5a963de5c0",
+      "spv_sha256": "f703d2ff47da795e08a8843de5ecfee0e402ec4a01a105271ad8e5a71c5690ab",
+      "spv_bytes": 9544,
+      "spv_words": 2386,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "iq4_nl_gemv",
+      "source": "aesir_engine/shaders/iq4_nl_gemv.comp",
+      "source_sha256": "32e6e2a5d084c4480dd0472a5d973fe3f1d20009266906ae21501850c29c12ef",
+      "spv_sha256": "1b8a4a45182d900456a7e2d9b830c21af97584305d258be564d335e7c6d5b0c0",
+      "spv_bytes": 7864,
+      "spv_words": 1966,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q8_0_gemm",
+      "source": "aesir_engine/shaders/q8_0_gemm.comp",
+      "source_sha256": "5bbda3a368be7e08680ed24b6b824b20eca4e779192d5e1efed76eb98cd34fc6",
+      "spv_sha256": "3c162d588a33b8e0b9f9caa59555947a6ae0e76c9d61e8b7a3e3ea39de4df210",
+      "spv_bytes": 6620,
+      "spv_words": 1655,
       "spirv_version_word": 65536
     }
   ]

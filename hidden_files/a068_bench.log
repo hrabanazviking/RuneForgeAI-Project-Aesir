@@ -1,0 +1,66 @@
+staging=/tmp/tmp.OynbeFnC6u
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-01/aesir_engine/tests/bench_prefill_gemm_a068.mojo:19:
+/home/volmarr/aesir-team-01/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-01/aesir_engine/tests/bench_prefill_gemm_a068.mojo:19:
+/home/volmarr/aesir-team-01/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+A068_BENCH_BEGIN device= 4098
+A068_CHECK rows= 1024  cols= 1024  tokens= 1  max_abs= 7.247925e-05
+A068_BENCH_GEMM rows= 1024  cols= 1024  tokens= 1  reps= 50  tokens_per_s= 3683.048350101147  gflops= 7.723912213511321
+A068_CHECK rows= 1024  cols= 1024  tokens= 8  max_abs= 0.00011444092
+A068_BENCH_GEMM rows= 1024  cols= 1024  tokens= 8  reps= 50  tokens_per_s= 24500.907329850692  gflops= 51.38212680861104
+A068_CHECK rows= 1024  cols= 1024  tokens= 32  max_abs= 0.00012207031
+A068_BENCH_GEMM rows= 1024  cols= 1024  tokens= 32  reps= 50  tokens_per_s= 59511.71456485611  gflops= 124.80511122311712
+A068_CHECK rows= 1024  cols= 1024  tokens= 64  max_abs= 0.0001449585
+A068_BENCH_GEMM rows= 1024  cols= 1024  tokens= 64  reps= 20  tokens_per_s= 73660.2382379274  gflops= 154.47671594114593
+A068_CHECK rows= 1024  cols= 1024  tokens= 128  max_abs= 0.00015258789
+A068_BENCH_GEMM rows= 1024  cols= 1024  tokens= 128  reps= 20  tokens_per_s= 88462.71667966251  gflops= 185.5197632101876
+A068_CHECK rows= 256  cols= 256  tokens= 64  max_abs= 3.4332275e-05
+A068_BENCH_GEMM rows= 256  cols= 256  tokens= 64  reps= 50  tokens_per_s= 212518.36789612527  gflops= 27.85520751688093
+A068_CHECK rows= 256  cols= 256  tokens= 8  max_abs= 3.0517578e-05
+A068_CHECK rows= 128  cols= 256  tokens= 8  max_abs= 2.2888184e-05
+A068_CHECK rows= 128  cols= 256  tokens= 8  max_abs= 1.9073486e-05
+A068_CHECK rows= 256  cols= 256  tokens= 8  max_abs= 3.8146973e-05
+A068_CHECK rows= 512  cols= 256  tokens= 8  max_abs= 3.0517578e-05
+A068_CHECK rows= 512  cols= 256  tokens= 8  max_abs= 2.4795532e-05
+A068_CHECK rows= 256  cols= 512  tokens= 8  max_abs= 4.7683716e-05
+A068_BENCH_STACK layer_projection tokens= 8  reps= 50  tokens_per_s= 4595.442093477542
+A068_CHECK rows= 256  cols= 256  tokens= 32  max_abs= 3.4332275e-05
+A068_CHECK rows= 128  cols= 256  tokens= 32  max_abs= 2.2888184e-05
+A068_CHECK rows= 128  cols= 256  tokens= 32  max_abs= 3.8146973e-05
+A068_CHECK rows= 256  cols= 256  tokens= 32  max_abs= 2.861023e-05
+A068_CHECK rows= 512  cols= 256  tokens= 32  max_abs= 2.861023e-05
+A068_CHECK rows= 512  cols= 256  tokens= 32  max_abs= 2.4795532e-05
+A068_CHECK rows= 256  cols= 512  tokens= 32  max_abs= 6.2942505e-05
+A068_BENCH_STACK layer_projection tokens= 32  reps= 50  tokens_per_s= 16778.257458837274
+A068_CHECK rows= 256  cols= 256  tokens= 64  max_abs= 3.4332275e-05
+A068_CHECK rows= 128  cols= 256  tokens= 64  max_abs= 3.0517578e-05
+A068_CHECK rows= 128  cols= 256  tokens= 64  max_abs= 2.2888184e-05
+A068_CHECK rows= 256  cols= 256  tokens= 64  max_abs= 2.861023e-05
+A068_CHECK rows= 512  cols= 256  tokens= 64  max_abs= 3.8146973e-05
+A068_CHECK rows= 512  cols= 256  tokens= 64  max_abs= 3.8146973e-05
+A068_CHECK rows= 256  cols= 512  tokens= 64  max_abs= 9.536743e-05
+A068_BENCH_STACK layer_projection tokens= 64  reps= 20  tokens_per_s= 30073.6447171038
+A068_CHECK rows= 256  cols= 256  tokens= 128  max_abs= 2.861023e-05
+A068_CHECK rows= 128  cols= 256  tokens= 128  max_abs= 3.0517578e-05
+A068_CHECK rows= 128  cols= 256  tokens= 128  max_abs= 2.670288e-05
+A068_CHECK rows= 256  cols= 256  tokens= 128  max_abs= 3.8146973e-05
+A068_CHECK rows= 512  cols= 256  tokens= 128  max_abs= 4.196167e-05
+A068_CHECK rows= 512  cols= 256  tokens= 128  max_abs= 4.5776367e-05
+A068_CHECK rows= 256  cols= 512  tokens= 128  max_abs= 5.722046e-05
+A068_BENCH_STACK layer_projection tokens= 128  reps= 20  tokens_per_s= 51155.27698754088
+A068_BENCH_CPU_STACK tokens= 32  tokens_per_s= 2080.8062916299436  sink= 94089.38
+A068_BENCH_CPU_STACK tokens= 64  tokens_per_s= 2118.0680637862815  sink= 188122.97
+A068_BENCH: PASS
+MOJO_EXIT=0
