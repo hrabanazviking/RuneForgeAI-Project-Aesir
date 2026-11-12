@@ -38,6 +38,7 @@ from core.vulkan_kv_cache import VulkanEmbed
 from core.vulkan_norm_rope import VulkanNormRope
 from core.vulkan_gemv import VulkanGemv
 from core.vulkan_sampling import VulkanSampling
+from core.vulkan_async import VulkanAsync
 
 
 struct VulkanDecodeWeights:
@@ -63,6 +64,33 @@ struct VulkanDecodeWeights:
         self.layers = layers.copy()
         self.g_final = g_final
         self.w_head = w_head
+
+
+struct VulkanAsyncTrace:
+    """Per-token timeline from generate_async_traced (A-071):
+    generated tokens plus, per generated token, the queued
+    submissions drained for it and the GPU busy / span / host
+    wait nanoseconds measured at that token's drain."""
+
+    var tokens: List[Int]
+    var submits: List[Int]
+    var busy_ns: List[Int]
+    var span_ns: List[Int]
+    var host_wait_ns: List[Int]
+
+    def __init__(
+        out self,
+        tokens: List[Int],
+        submits: List[Int],
+        busy_ns: List[Int],
+        span_ns: List[Int],
+        host_wait_ns: List[Int],
+    ):
+        self.tokens = tokens.copy()
+        self.submits = submits.copy()
+        self.busy_ns = busy_ns.copy()
+        self.span_ns = span_ns.copy()
+        self.host_wait_ns = host_wait_ns.copy()
 
 
 struct VulkanDecode:
@@ -163,3 +191,229 @@ struct VulkanDecode:
         VulkanBuffers.free(logits)
         VulkanBuffers.free(tok_out)
         return generated^
+
+    @staticmethod
+    def generate_async(
+        weights: VulkanDecodeWeights,
+        prompt: List[Int],
+        gen_steps: Int,
+        dim: Int,
+        num_heads: Int,
+        kv_per_query: Int,
+        head_dim: Int,
+        ffn_dim: Int,
+        vocab: Int,
+        max_len: Int,
+        eps: Float32,
+        rope_base: Float32,
+    ) raises -> List[Int]:
+        """A-071 async variant: identical validation, fixture and
+        step sequence as generate(), but the whole step loop runs
+        with the shim async mode ON - every dispatch is queued
+        with a fence + timeline timestamps and NO per-token host
+        sync (see core/vulkan_async.mojo); the host waits once
+        per generated token, at the tok_out read (explicit drain;
+        the shim also auto-drains on any map while async). Greedy
+        output must be token-identical to generate().
+
+        Original generate() contract: greedy-generate gen_steps tokens after the raw
+        prompt token ids, entirely on the GPU (see header).
+        Returns the generated token ids in order. Raises
+        (fail-closed) on any shape/token violation before
+        dispatch, or on any Vulkan failure."""
+        if len(prompt) <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: prompt must be non-empty")
+        if gen_steps <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: gen_steps must be positive")
+        if len(weights.layers) <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: at least one layer is required")
+        if dim <= 0 or dim % 32 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: dim must be a positive multiple of 32")
+        if vocab <= 0 or vocab % 1 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: vocab must be positive")
+        if max_len < len(prompt) + gen_steps:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: max_len must cover prompt + generated tokens")
+        for i in range(len(prompt)):
+            if prompt[i] < 0 or prompt[i] >= vocab:
+                raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: prompt token out of vocab range")
+        if weights.embedding.requested_size < vocab * dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: embedding buffer is smaller than the table")
+        if weights.g_final.requested_size < dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: g_final buffer is smaller than dim Float32")
+        if weights.w_head.requested_size < vocab * (dim // 32) * 34:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: w_head buffer is smaller than the Q8_0 operand")
+        var kv_heads = num_heads // kv_per_query
+        var cache_floats = kv_heads * max_len * head_dim
+
+        var k_caches = List[VulkanAllocation]()
+        var v_caches = List[VulkanAllocation]()
+        for _ in range(len(weights.layers)):
+            k_caches.append(VulkanBuffers.allocate(cache_floats * 4))
+            v_caches.append(VulkanBuffers.allocate(cache_floats * 4))
+        var x = VulkanBuffers.allocate(dim * 4)
+        var normed = VulkanBuffers.allocate(dim * 4)
+        var logits = VulkanBuffers.allocate(vocab * 4)
+        var tok_out = VulkanBuffers.allocate(4)
+
+        VulkanAsync.set_mode(True)
+        VulkanAsync.reset_stats()
+        var tokens = prompt.copy()
+        var generated = List[Int]()
+        var total_steps = len(prompt) + gen_steps - 1
+        for step in range(total_steps):
+            var token = tokens[step]
+            VulkanEmbed.gather(weights.embedding, x, dim, token, vocab)
+            var cur = x
+            var owned = List[VulkanAllocation]()
+            for li in range(len(weights.layers)):
+                var nxt = VulkanBuffers.allocate(dim * 4)
+                VulkanLayer.forward_kv(
+                    cur, weights.layers[li], nxt,
+                    k_caches[li], v_caches[li],
+                    dim, num_heads, kv_per_query, head_dim, ffn_dim,
+                    step, max_len, eps, rope_base,
+                )
+                owned.append(nxt)
+                cur = nxt
+            if step >= len(prompt) - 1:
+                VulkanNormRope.rmsnorm(cur, weights.g_final, normed, dim, 1, eps)
+                VulkanGemv.q8_0_gemv(weights.w_head, normed, logits, vocab, dim)
+                VulkanSampling.greedy(logits, tok_out, vocab)
+                VulkanAsync.drain()
+                var p = VulkanBuffers.map(tok_out)
+                var nxt_token = Int(p.unsafe_bitcast[UInt32]().unsafe_load(0))
+                VulkanBuffers.unmap(tok_out)
+                generated.append(nxt_token)
+                tokens.append(nxt_token)
+            for i in range(len(owned)):
+                VulkanBuffers.free(owned[i])
+
+        for i in range(len(k_caches)):
+            VulkanBuffers.free(k_caches[i])
+            VulkanBuffers.free(v_caches[i])
+        VulkanBuffers.free(x)
+        VulkanBuffers.free(normed)
+        VulkanBuffers.free(logits)
+        VulkanBuffers.free(tok_out)
+        VulkanAsync.drain()
+        VulkanAsync.set_mode(False)
+        return generated^
+
+    @staticmethod
+    def generate_async_traced(
+        weights: VulkanDecodeWeights,
+        prompt: List[Int],
+        gen_steps: Int,
+        dim: Int,
+        num_heads: Int,
+        kv_per_query: Int,
+        head_dim: Int,
+        ffn_dim: Int,
+        vocab: Int,
+        max_len: Int,
+        eps: Float32,
+        rope_base: Float32,
+    ) raises -> VulkanAsyncTrace:
+        """A-071 async variant: identical validation, fixture and
+        step sequence as generate(), but the whole step loop runs
+        with the shim async mode ON - every dispatch is queued
+        with a fence + timeline timestamps and NO per-token host
+        sync (see core/vulkan_async.mojo); the host waits once
+        per generated token, at the tok_out read (explicit drain;
+        the shim also auto-drains on any map while async). Greedy
+        output must be token-identical to generate().
+
+        Original generate() contract: greedy-generate gen_steps tokens after the raw
+        prompt token ids, entirely on the GPU (see header).
+        Returns the generated token ids in order. Raises
+        (fail-closed) on any shape/token violation before
+        dispatch, or on any Vulkan failure."""
+        if len(prompt) <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: prompt must be non-empty")
+        if gen_steps <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: gen_steps must be positive")
+        if len(weights.layers) <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: at least one layer is required")
+        if dim <= 0 or dim % 32 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: dim must be a positive multiple of 32")
+        if vocab <= 0 or vocab % 1 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: vocab must be positive")
+        if max_len < len(prompt) + gen_steps:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: max_len must cover prompt + generated tokens")
+        for i in range(len(prompt)):
+            if prompt[i] < 0 or prompt[i] >= vocab:
+                raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: prompt token out of vocab range")
+        if weights.embedding.requested_size < vocab * dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: embedding buffer is smaller than the table")
+        if weights.g_final.requested_size < dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: g_final buffer is smaller than dim Float32")
+        if weights.w_head.requested_size < vocab * (dim // 32) * 34:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanDecode.generate: w_head buffer is smaller than the Q8_0 operand")
+        var kv_heads = num_heads // kv_per_query
+        var cache_floats = kv_heads * max_len * head_dim
+
+        var k_caches = List[VulkanAllocation]()
+        var v_caches = List[VulkanAllocation]()
+        for _ in range(len(weights.layers)):
+            k_caches.append(VulkanBuffers.allocate(cache_floats * 4))
+            v_caches.append(VulkanBuffers.allocate(cache_floats * 4))
+        var x = VulkanBuffers.allocate(dim * 4)
+        var normed = VulkanBuffers.allocate(dim * 4)
+        var logits = VulkanBuffers.allocate(vocab * 4)
+        var tok_out = VulkanBuffers.allocate(4)
+
+        VulkanAsync.set_mode(True)
+        VulkanAsync.reset_stats()
+        var tr_submits = List[Int]()
+        var tr_busy = List[Int]()
+        var tr_span = List[Int]()
+        var tr_wait = List[Int]()
+        var prev = VulkanAsync.stats()
+        var tokens = prompt.copy()
+        var generated = List[Int]()
+        var total_steps = len(prompt) + gen_steps - 1
+        for step in range(total_steps):
+            var token = tokens[step]
+            VulkanEmbed.gather(weights.embedding, x, dim, token, vocab)
+            var cur = x
+            var owned = List[VulkanAllocation]()
+            for li in range(len(weights.layers)):
+                var nxt = VulkanBuffers.allocate(dim * 4)
+                VulkanLayer.forward_kv(
+                    cur, weights.layers[li], nxt,
+                    k_caches[li], v_caches[li],
+                    dim, num_heads, kv_per_query, head_dim, ffn_dim,
+                    step, max_len, eps, rope_base,
+                )
+                owned.append(nxt)
+                cur = nxt
+            if step >= len(prompt) - 1:
+                VulkanNormRope.rmsnorm(cur, weights.g_final, normed, dim, 1, eps)
+                VulkanGemv.q8_0_gemv(weights.w_head, normed, logits, vocab, dim)
+                VulkanSampling.greedy(logits, tok_out, vocab)
+                VulkanAsync.drain()
+                var now = VulkanAsync.stats()
+                tr_submits.append(now.submits - prev.submits)
+                tr_busy.append(now.gpu_busy_ns - prev.gpu_busy_ns)
+                tr_span.append(now.gpu_span_ns - prev.gpu_span_ns)
+                tr_wait.append(now.host_wait_ns - prev.host_wait_ns)
+                prev = now^
+                var p = VulkanBuffers.map(tok_out)
+                var nxt_token = Int(p.unsafe_bitcast[UInt32]().unsafe_load(0))
+                VulkanBuffers.unmap(tok_out)
+                generated.append(nxt_token)
+                tokens.append(nxt_token)
+            for i in range(len(owned)):
+                VulkanBuffers.free(owned[i])
+
+        for i in range(len(k_caches)):
+            VulkanBuffers.free(k_caches[i])
+            VulkanBuffers.free(v_caches[i])
+        VulkanBuffers.free(x)
+        VulkanBuffers.free(normed)
+        VulkanBuffers.free(logits)
+        VulkanBuffers.free(tok_out)
+        VulkanAsync.drain()
+        VulkanAsync.set_mode(False)
+        return VulkanAsyncTrace(generated, tr_submits, tr_busy, tr_span, tr_wait)
+

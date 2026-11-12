@@ -307,6 +307,14 @@ from tests.test_vulkan_prefill_a069 import (
     test_vulkan_chunked_prefill_rejection,
     test_vulkan_chunked_prefill_dispatch_and_bounds,
 )
+from tests.test_vulkan_async_a071 import (
+    test_vulkan_async_token_identity,
+    test_vulkan_async_no_wait_idle,
+    test_vulkan_async_timeline_sane,
+    test_vulkan_async_dispatch_queueing,
+    test_vulkan_async_rejection,
+    test_vulkan_async_dispatch_evidence,
+)
 from tests.test_vulkan_gemm_a068 import (
     test_vulkan_prefill_gemm_oracle_parity,
     test_vulkan_prefill_gemm_known_value,
@@ -1142,6 +1150,12 @@ def main() raises:
     run_case(ledger, "cpu_assist.stats_absent_model", test_cpu_assist_stats_absent_model)
     run_case(ledger, "gpu.vulkan_prefill_gemm_rejection", test_vulkan_prefill_gemm_rejection)
     run_case(ledger, "gpu.vulkan_prefill_gemm_dispatch_evidence", test_vulkan_prefill_gemm_dispatch_evidence)
+    run_case(ledger, "gpu.vulkan_async_token_identity", test_vulkan_async_token_identity)
+    run_case(ledger, "gpu.vulkan_async_no_wait_idle", test_vulkan_async_no_wait_idle)
+    run_case(ledger, "gpu.vulkan_async_timeline_sane", test_vulkan_async_timeline_sane)
+    run_case(ledger, "gpu.vulkan_async_dispatch_queueing", test_vulkan_async_dispatch_queueing)
+    run_case(ledger, "gpu.vulkan_async_rejection", test_vulkan_async_rejection)
+    run_case(ledger, "gpu.vulkan_async_dispatch_evidence", test_vulkan_async_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
     run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
     run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
@@ -1906,4 +1920,9 @@ def main() raises:
     # tests/test_cpu_assist_a070.mojo) counted on top of the
     # A-069 seat pin (A-070 team pin was 518 -> 524 on its
     # own base; the union total reconciles at banking).
-    ledger.finish(531)
+    # A-071 union re-pin (banking 2026-11-12): 531 -> 537 --
+    # six Vulkan async dispatch cases (gpu.vulkan_async_* in
+    # tests/test_vulkan_async_a071.mojo) counted on top of the
+    # A-070 seat pin (A-071 team pin was 518 -> 524 on its
+    # own base; the union total reconciles at banking).
+    ledger.finish(537)

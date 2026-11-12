@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 199309L
 /* vulkan_buffer_shim.c - Vulkan buffer C ABI for Project Aesir (slice A-014).
  *
  * Why a shim: the same reason as aesir_engine/hip_memory_shim.c (A-011).
@@ -39,6 +40,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 #include "buffer_ownership.h"
 
 /* Vulkan core types (subset; ABI-stable, from vulkan_core.h 1.4). */
@@ -390,6 +392,43 @@ static int g_live_count = 0;
 static uint64_t g_own_violations = 0;
 
 int aesir_vk_init(void);
+int aesir_vk_async_drain(void);
+static int g_async_mode = 0;
+
+/* A-071 deferred buffer destroy: with async mode ON, a buffer can
+ * still be referenced by queued-but-unexecuted dispatches at the
+ * moment its owner frees it, so vkDestroyBuffer / vkFreeMemory
+ * must not run until the queue drains (the same deferral the
+ * dispatch objects already get via the async ring). Frees in
+ * async mode park the handles here; aesir_vk_async_drain destroys
+ * them once every pending fence has completed. Slot accounting
+ * and tombstoning still happen at free time, and the slot may be
+ * reused immediately - the parked handles are distinct objects. */
+#define AESIR_VK_DEFERRED_CAP 512
+static VkBuffer_t g_deferred_bufs[AESIR_VK_DEFERRED_CAP];
+static VkDeviceMemory_t g_deferred_mems[AESIR_VK_DEFERRED_CAP];
+static int g_deferred_count = 0;
+static void aesir_vk_flush_deferred(void) {
+    for (int i = 0; i < g_deferred_count; i++) {
+        if (g_deferred_bufs[i] != NULL) { p_destroy_buffer(g_device, g_deferred_bufs[i], NULL); }
+        if (g_deferred_mems[i] != NULL) { p_free_mem(g_device, g_deferred_mems[i], NULL); }
+    }
+    g_deferred_count = 0;
+}
+static void aesir_vk_defer_destroy(VkBuffer_t buf, VkDeviceMemory_t mem) {
+    if (g_deferred_count >= AESIR_VK_DEFERRED_CAP) {
+        (void)aesir_vk_async_drain(); /* waits all pending + flushes */
+    }
+    if (g_deferred_count >= AESIR_VK_DEFERRED_CAP) {
+        /* Unreachable in practice (cap >> per-token frees, and a
+         * drain flushes); never grow past the array. */
+        aesir_vk_flush_deferred();
+    }
+    g_deferred_bufs[g_deferred_count] = buf;
+    g_deferred_mems[g_deferred_count] = mem;
+    g_deferred_count += 1;
+}
+
 
 static uint64_t vk_encode_id(int slot, uint32_t generation) {
     return ((uint64_t)generation << 32) | (uint64_t)(slot + 1);
@@ -1003,6 +1042,7 @@ static AesirVkBufferSlot *slot_for(uint64_t id) {
 
 int aesir_vk_buffer_map(uint64_t id, uint64_t *out_addr) {
     int rc = aesir_vk_init();
+    if (g_async_mode) { (void)aesir_vk_async_drain(); }
     if (rc != 0) {
         return rc;
     }
@@ -1061,8 +1101,12 @@ int aesir_vk_buffer_free(uint64_t id) {
         p_unmap_mem(g_device, s->memory);
         s->mapped = 0;
     }
-    p_destroy_buffer(g_device, s->buffer, NULL);
-    p_free_mem(g_device, s->memory, NULL);
+    if (g_async_mode) {
+        aesir_vk_defer_destroy(s->buffer, s->memory);
+    } else {
+        p_destroy_buffer(g_device, s->buffer, NULL);
+        p_free_mem(g_device, s->memory, NULL);
+    }
     g_live_bytes -= s->alloc_size;
     g_live_count -= 1;
     /* A-022 tombstone: keep generation + state so the second free
@@ -1155,6 +1199,19 @@ typedef void (*vk_cmd_push_constants_fn)(VkCommandBuffer_t, VkPipelineLayout_t, 
 typedef void (*vk_cmd_dispatch_fn)(VkCommandBuffer_t, uint32_t, uint32_t, uint32_t);
 typedef VkResult_t (*vk_queue_submit_fn)(VkQueue_t, uint32_t, const AesirVkSubmitInfo *, void *);
 typedef VkResult_t (*vk_queue_wait_idle_fn)(VkQueue_t);
+typedef void *VkFence_t;
+typedef void *VkQueryPool_t;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; } AesirVkFenceCreateInfo;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; uint32_t queryType; uint32_t queryCount; VkFlags_t pipelineStatistics; } AesirVkQueryPoolCreateInfo;
+typedef VkResult_t (*vk_create_fence_fn)(VkDevice_t, const AesirVkFenceCreateInfo *, const void *, VkFence_t *);
+typedef void (*vk_destroy_fence_fn)(VkDevice_t, VkFence_t, const void *);
+typedef VkResult_t (*vk_wait_for_fences_fn)(VkDevice_t, uint32_t, const VkFence_t *, uint32_t, uint64_t);
+typedef VkResult_t (*vk_get_fence_status_fn)(VkDevice_t, VkFence_t);
+typedef VkResult_t (*vk_create_query_pool_fn)(VkDevice_t, const AesirVkQueryPoolCreateInfo *, const void *, VkQueryPool_t *);
+typedef void (*vk_destroy_query_pool_fn)(VkDevice_t, VkQueryPool_t, const void *);
+typedef VkResult_t (*vk_get_query_pool_results_fn)(VkDevice_t, VkQueryPool_t, uint32_t, uint32_t, size_t, void *, uint64_t, VkFlags_t);
+typedef void (*vk_cmd_write_timestamp_fn)(VkCommandBuffer_t, uint32_t, VkQueryPool_t, uint32_t);
+typedef void (*vk_cmd_reset_query_pool_fn)(VkCommandBuffer_t, VkQueryPool_t, uint32_t, uint32_t);
 
 static vk_create_shader_module_fn d_create_shader_module = NULL;
 static vk_destroy_shader_module_fn d_destroy_shader_module = NULL;
@@ -1217,6 +1274,197 @@ int aesir_vk_dispatch_available(void) {
     aesir_vk_load_dispatch();
     return g_dispatch_ok ? 1 : 0;
 }
+
+/* ---- A-071: async dispatch - queued submissions + timeline profiling ----
+ * Opt-in mode (aesir_vk_async_set_mode). OFF: every dispatch keeps the
+ * legacy submit + vkQueueWaitIdle tail exactly. ON: each dispatch is
+ * recorded with two timestamp queries (TOP_OF_PIPE at begin,
+ * BOTTOM_OF_PIPE before end), submitted with its own fence and NO host
+ * wait; its per-dispatch Vulkan objects move into a deferred ring and
+ * are destroyed only after the fence completes (reaped opportunistically
+ * when a ring slot is reused, or at aesir_vk_async_drain). Same-queue
+ * in-order execution preserves all data dependencies between queued
+ * dispatches, so no host sync is needed inside a token; the host waits
+ * only at drain (one vkWaitForFences for the whole pending batch),
+ * which is where host-wait time is measured. GPU busy time comes from
+ * the timestamp pairs scaled by limits.timestampPeriod; a drain batch's
+ * span is (max end - min begin) over its dispatches, so busy fraction
+ * per batch = busy / span. Counters below are the filed evidence. */
+static vk_create_fence_fn a_create_fence = NULL;
+static vk_destroy_fence_fn a_destroy_fence = NULL;
+static vk_wait_for_fences_fn a_wait_fences = NULL;
+static vk_get_fence_status_fn a_fence_status = NULL;
+static vk_create_query_pool_fn a_create_qpool = NULL;
+static vk_destroy_query_pool_fn a_destroy_qpool = NULL;
+static vk_get_query_pool_results_fn a_qpool_results = NULL;
+static vk_cmd_write_timestamp_fn a_cmd_ts = NULL;
+static vk_cmd_reset_query_pool_fn a_cmd_reset_qp = NULL;
+static int g_async_ready = 0;
+static int g_async_ts_ok = 0;
+static VkQueryPool_t g_async_qpool = NULL;
+#define AESIR_VK_ASYNC_RING 256
+typedef struct { VkFence_t fence; VkShaderModule_t shader; VkDescriptorSetLayout_t dsl; VkPipelineLayout_t pl; VkPipeline_t pipe; VkDescriptorPool_t dpool; VkCommandPool_t cpool; int state; int has_ts; uint64_t t0; uint64_t t1; } AesirVkAsyncSlot;
+static AesirVkAsyncSlot g_async_ring[AESIR_VK_ASYNC_RING];
+static int g_async_cur = -1;
+static int g_async_next = 0;
+static uint64_t g_async_submits = 0;
+static uint64_t g_async_completed = 0;
+static uint64_t g_async_wait_idle = 0;
+static uint64_t g_async_fence_waits = 0;
+static uint64_t g_async_host_wait_ns = 0;
+static uint64_t g_async_gpu_busy_ns = 0;
+static uint64_t g_async_gpu_span_ns = 0;
+static uint64_t g_async_max_depth = 0;
+static uint64_t g_async_batch_min = 0;
+static uint64_t g_async_batch_max = 0;
+static int g_async_batch_open = 0;
+static uint64_t aesir_vk_async_now_ns(void) { struct timespec ts; clock_gettime(CLOCK_MONOTONIC, &ts); return (uint64_t)ts.tv_sec * 1000000000ull + (uint64_t)ts.tv_nsec; }
+static int aesir_vk_async_pending(void) { int n = 0; for (int i = 0; i < AESIR_VK_ASYNC_RING; i++) { if (g_async_ring[i].state == 2) { n++; } } return n; }
+
+static int aesir_vk_async_ensure(void) {
+    if (g_async_ready) { return 0; }
+    int rc = aesir_vk_init(); if (rc != 0) { return rc; }
+    aesir_vk_load_dispatch(); if (!g_dispatch_ok) { return AESIR_VK_ABSENT; }
+    a_create_fence = (vk_create_fence_fn)dlsym(g_lib, "vkCreateFence");
+    a_destroy_fence = (vk_destroy_fence_fn)dlsym(g_lib, "vkDestroyFence");
+    a_wait_fences = (vk_wait_for_fences_fn)dlsym(g_lib, "vkWaitForFences");
+    a_fence_status = (vk_get_fence_status_fn)dlsym(g_lib, "vkGetFenceStatus");
+    a_create_qpool = (vk_create_query_pool_fn)dlsym(g_lib, "vkCreateQueryPool");
+    a_destroy_qpool = (vk_destroy_query_pool_fn)dlsym(g_lib, "vkDestroyQueryPool");
+    a_qpool_results = (vk_get_query_pool_results_fn)dlsym(g_lib, "vkGetQueryPoolResults");
+    a_cmd_ts = (vk_cmd_write_timestamp_fn)dlsym(g_lib, "vkCmdWriteTimestamp");
+    a_cmd_reset_qp = (vk_cmd_reset_query_pool_fn)dlsym(g_lib, "vkCmdResetQueryPool");
+    if (!a_create_fence || !a_destroy_fence || !a_wait_fences || !a_fence_status) { return AESIR_VK_ABSENT; }
+    g_async_ts_ok = (a_create_qpool && a_destroy_qpool && a_qpool_results && a_cmd_ts && a_cmd_reset_qp && g_props.limits.timestampPeriod > 0.0f) ? 1 : 0;
+    if (g_async_ts_ok) {
+        AesirVkQueryPoolCreateInfo qci; memset(&qci, 0, sizeof(qci));
+        qci.sType = 11; /* VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO */ qci.queryType = 2; /* VK_QUERY_TYPE_TIMESTAMP (1 is PIPELINE_STATISTICS: timestamp writes never land, results never become available) */ qci.queryCount = AESIR_VK_ASYNC_RING * 2;
+        rc = (int)a_create_qpool(g_device, &qci, NULL, &g_async_qpool);
+        if (rc != 0) { g_async_ts_ok = 0; g_async_qpool = NULL; }
+    }
+    memset(g_async_ring, 0, sizeof(g_async_ring));
+    g_async_ready = 1;
+    return 0;
+}
+static void aesir_vk_async_destroy_slot(AesirVkAsyncSlot *sl) {
+    if (sl->cpool != NULL) { d_destroy_cpool(g_device, sl->cpool, NULL); }
+    if (sl->dpool != NULL) { d_destroy_dpool(g_device, sl->dpool, NULL); }
+    if (sl->pipe != NULL) { d_destroy_pipeline(g_device, sl->pipe, NULL); }
+    if (sl->pl != NULL) { d_destroy_pl(g_device, sl->pl, NULL); }
+    if (sl->dsl != NULL) { d_destroy_dsl(g_device, sl->dsl, NULL); }
+    if (sl->shader != NULL) { d_destroy_shader_module(g_device, sl->shader, NULL); }
+    if (sl->fence != NULL) { a_destroy_fence(g_device, sl->fence, NULL); }
+    memset(sl, 0, sizeof(*sl));
+}
+static void aesir_vk_async_harvest(AesirVkAsyncSlot *sl, int idx) {
+    if (sl->has_ts && g_async_ts_ok && g_async_qpool != NULL) {
+        uint64_t vals[2] = {0, 0};
+        /* This slot's fence already completed, so its timestamp
+         * pair is available; the WAIT_BIT read cannot block. */
+        int rc = (int)a_qpool_results(g_device, g_async_qpool, (uint32_t)(idx * 2), 2, sizeof(vals), vals, 8, 1u | 2u);
+        if (rc == 0 && vals[1] >= vals[0]) {
+            double period = (double)g_props.limits.timestampPeriod;
+            sl->t0 = vals[0]; sl->t1 = vals[1];
+            g_async_gpu_busy_ns += (uint64_t)((double)(vals[1] - vals[0]) * period);
+            if (!g_async_batch_open) { g_async_batch_open = 1; g_async_batch_min = vals[0]; g_async_batch_max = vals[1]; }
+            else { if (vals[0] < g_async_batch_min) { g_async_batch_min = vals[0]; } if (vals[1] > g_async_batch_max) { g_async_batch_max = vals[1]; } }
+        }
+    }
+    g_async_completed += 1;
+    if (aesir_vk_async_pending() == 1) {
+        if (g_async_batch_open) { g_async_gpu_span_ns += (uint64_t)((double)(g_async_batch_max - g_async_batch_min) * (double)g_props.limits.timestampPeriod); g_async_batch_open = 0; }
+    }
+}
+static int aesir_vk_async_reap_one(int idx, int wait) {
+    AesirVkAsyncSlot *sl = &g_async_ring[idx];
+    if (sl->state != 2) { return 0; }
+    if (wait) {
+        uint64_t t0 = aesir_vk_async_now_ns();
+        int rc = (int)a_wait_fences(g_device, 1, &sl->fence, 1, UINT64_MAX);
+        g_async_host_wait_ns += aesir_vk_async_now_ns() - t0;
+        g_async_fence_waits += 1;
+        if (rc != 0) { return rc; }
+    } else {
+        if ((int)a_fence_status(g_device, sl->fence) != 0) { return 1; }
+    }
+    aesir_vk_async_harvest(sl, idx);
+    aesir_vk_async_destroy_slot(sl);
+    return 0;
+}
+
+static void aesir_vk_async_ts_begin(VkCommandBuffer_t cbuf) {
+    if (!g_async_mode || !g_async_ts_ok || g_async_qpool == NULL) { return; }
+    for (int k = 0; k < AESIR_VK_ASYNC_RING; k++) {
+        int idx = (g_async_next + k) % AESIR_VK_ASYNC_RING;
+        if (g_async_ring[idx].state == 0) { g_async_cur = idx; g_async_next = (idx + 1) % AESIR_VK_ASYNC_RING; break; }
+        if (g_async_ring[idx].state == 2) { if (aesir_vk_async_reap_one(idx, 0) == 0) { g_async_cur = idx; g_async_next = (idx + 1) % AESIR_VK_ASYNC_RING; break; } }
+    }
+    if (g_async_cur < 0) { int idx = g_async_next; aesir_vk_async_reap_one(idx, 1); g_async_cur = idx; g_async_next = (idx + 1) % AESIR_VK_ASYNC_RING; }
+    g_async_ring[g_async_cur].state = 1; g_async_ring[g_async_cur].has_ts = 1;
+    a_cmd_reset_qp(cbuf, g_async_qpool, (uint32_t)(g_async_cur * 2), 2);
+    a_cmd_ts(cbuf, 0x1u, g_async_qpool, (uint32_t)(g_async_cur * 2));
+}
+static void aesir_vk_async_ts_end(VkCommandBuffer_t cbuf) {
+    if (!g_async_mode || !g_async_ts_ok || g_async_qpool == NULL || g_async_cur < 0) { return; }
+    a_cmd_ts(cbuf, 0x2000u, g_async_qpool, (uint32_t)(g_async_cur * 2 + 1));
+}
+static int aesir_vk_async_submit(VkCommandBuffer_t cbuf, VkShaderModule_t *p_shader, VkDescriptorSetLayout_t *p_dsl, VkPipelineLayout_t *p_pl, VkPipeline_t *p_pipe, VkDescriptorPool_t *p_dpool, VkCommandPool_t *p_cpool) {
+    AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
+    si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
+    if (!g_async_mode) {
+        int rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
+        if (rc != 0) { return rc; }
+        return (int)d_queue_wait_idle(g_queue);
+    }
+    if (g_async_cur < 0) {
+        for (int k = 0; k < AESIR_VK_ASYNC_RING; k++) { int idx = (g_async_next + k) % AESIR_VK_ASYNC_RING; if (g_async_ring[idx].state == 0) { g_async_cur = idx; g_async_next = (idx + 1) % AESIR_VK_ASYNC_RING; break; } if (g_async_ring[idx].state == 2 && aesir_vk_async_reap_one(idx, 0) == 0) { g_async_cur = idx; g_async_next = (idx + 1) % AESIR_VK_ASYNC_RING; break; } }
+        if (g_async_cur < 0) { int idx = g_async_next; aesir_vk_async_reap_one(idx, 1); g_async_cur = idx; g_async_next = (idx + 1) % AESIR_VK_ASYNC_RING; }
+        g_async_ring[g_async_cur].state = 1; g_async_ring[g_async_cur].has_ts = 0;
+    }
+    AesirVkAsyncSlot *sl = &g_async_ring[g_async_cur];
+    AesirVkFenceCreateInfo fci; memset(&fci, 0, sizeof(fci)); fci.sType = 8;
+    int rc = (int)a_create_fence(g_device, &fci, NULL, &sl->fence);
+    if (rc != 0) { sl->state = 0; g_async_cur = -1; return rc; }
+    rc = (int)d_queue_submit(g_queue, 1, &si, sl->fence);
+    if (rc != 0) { a_destroy_fence(g_device, sl->fence, NULL); sl->fence = NULL; sl->state = 0; g_async_cur = -1; return rc; }
+    sl->shader = *p_shader; sl->dsl = *p_dsl; sl->pl = *p_pl; sl->pipe = *p_pipe; sl->dpool = *p_dpool; sl->cpool = *p_cpool;
+    *p_shader = NULL; *p_dsl = NULL; *p_pl = NULL; *p_pipe = NULL; *p_dpool = NULL; *p_cpool = NULL;
+    sl->state = 2;
+    g_async_submits += 1;
+    { int d = aesir_vk_async_pending(); if ((uint64_t)d > g_async_max_depth) { g_async_max_depth = (uint64_t)d; } }
+    g_async_cur = -1;
+    return 0;
+}
+int aesir_vk_async_drain(void) {
+    if (!g_async_ready) { return 0; }
+    VkFence_t fences[AESIR_VK_ASYNC_RING]; int n = 0;
+    for (int i = 0; i < AESIR_VK_ASYNC_RING; i++) { if (g_async_ring[i].state == 2) { fences[n++] = g_async_ring[i].fence; } }
+    if (n == 0) { aesir_vk_flush_deferred(); return 0; }
+    uint64_t t0 = aesir_vk_async_now_ns();
+    int rc = (int)a_wait_fences(g_device, (uint32_t)n, fences, 1, UINT64_MAX);
+    g_async_host_wait_ns += aesir_vk_async_now_ns() - t0;
+    g_async_fence_waits += 1;
+    if (rc != 0) { return rc; }
+    for (int i = 0; i < AESIR_VK_ASYNC_RING; i++) { if (g_async_ring[i].state == 2) { aesir_vk_async_harvest(&g_async_ring[i], i); aesir_vk_async_destroy_slot(&g_async_ring[i]); } }
+    aesir_vk_flush_deferred();
+    return 0;
+}
+int aesir_vk_async_set_mode(int32_t on) {
+    if (on) { int rc = aesir_vk_async_ensure(); if (rc != 0) { return rc; } g_async_mode = 1; return 0; }
+    if (g_async_ready) { int rc = aesir_vk_async_drain(); if (rc != 0) { return rc; } }
+    g_async_mode = 0;
+    return 0;
+}
+int aesir_vk_async_stats(uint64_t *out, int32_t cap) {
+    if (out == NULL || cap < 12) { return AESIR_VK_INVALID; }
+    out[0] = (uint64_t)g_async_mode; out[1] = g_async_submits; out[2] = g_async_completed;
+    out[3] = (uint64_t)aesir_vk_async_pending(); out[4] = g_async_max_depth; out[5] = g_async_wait_idle;
+    out[6] = g_async_fence_waits; out[7] = g_async_host_wait_ns; out[8] = g_async_gpu_busy_ns;
+    out[9] = g_async_gpu_span_ns; out[10] = (uint64_t)g_async_ts_ok;
+    out[11] = (uint64_t)((double)g_props.limits.timestampPeriod * 1000.0);
+    return 0;
+}
+void aesir_vk_async_reset_stats(void) { g_async_submits = 0; g_async_completed = 0; g_async_wait_idle = 0; g_async_fence_waits = 0; g_async_host_wait_ns = 0; g_async_gpu_busy_ns = 0; g_async_gpu_span_ns = 0; g_async_max_depth = 0; g_async_batch_open = 0; }
 /* A-055: the SPIR-V words are no longer hand-pasted here. They are
  * generated at build time by scripts/build_shaders.py from
  * aesir_engine/shaders/vec_add.comp and embedded via the versioned
@@ -1301,17 +1549,17 @@ int aesir_vk_buffer_vec_add(uint64_t id_a, uint64_t id_b, uint64_t id_c, uint32_
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe); /* VK_PIPELINE_BIND_POINT_COMPUTE */
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL); /* COMPUTE bind point */
     d_cmd_push(cbuf, pl, 0x20u, 0, 4, &n);
     d_cmd_dispatch(cbuf, (n + 255u) / 256u, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     out_rc = 0;
 done:
@@ -1454,17 +1702,17 @@ int aesir_vk_buffer_q8_gemv(uint64_t id_w, uint64_t id_x, uint64_t id_y, uint32_
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_q8_gemv_dispatches += 1;
     out_rc = 0;
@@ -1589,18 +1837,18 @@ int aesir_vk_buffer_q4k_gemv(uint64_t id_w, uint64_t id_x, uint64_t id_y, uint32
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     struct AesirQ4kPush push; push.k_elems = k_elems; push.n_rows = n_rows;
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, n_rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_q4k_gemv_dispatches += 1;
     out_rc = 0;
@@ -1700,17 +1948,17 @@ static int vk_kquant_gemv(const uint32_t *spv, size_t spv_bytes, uint64_t id_w, 
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     *counter += 1;
     out_rc = 0;
@@ -1829,18 +2077,18 @@ int aesir_vk_buffer_attn_decode(uint64_t id_q, uint64_t id_k, uint64_t id_v, uin
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 16, &push);
     uint32_t groups = (num_heads * head_dim + 63u) / 64u;
     d_cmd_dispatch(cbuf, groups, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_attn_decode_dispatches += 1;
     out_rc = 0;
@@ -1943,18 +2191,18 @@ int aesir_vk_buffer_attn_decode_strided(uint64_t id_q, uint64_t id_k, uint64_t i
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 20, &push);
     uint32_t groups = (num_heads * head_dim + 63u) / 64u;
     d_cmd_dispatch(cbuf, groups, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_attn_decode_strided_dispatches += 1;
     out_rc = 0;
@@ -2051,17 +2299,17 @@ static int vk_sampling_dispatch(const uint32_t *spv, size_t spv_bytes, uint64_t 
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, push_size, push);
     d_cmd_dispatch(cbuf, 1, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     *counter += 1;
     out_rc = 0;
@@ -2180,17 +2428,17 @@ int aesir_vk_buffer_iq2xxs_gemv(uint64_t id_w, uint64_t id_x, uint64_t id_y, uin
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_iq2xxs_dispatches += 1;
     out_rc = 0;
@@ -2295,17 +2543,17 @@ int aesir_vk_buffer_iq1s_gemv(uint64_t id_w, uint64_t id_x, uint64_t id_y, uint6
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_iq1s_dispatches += 1;
     out_rc = 0;
@@ -2410,17 +2658,17 @@ int aesir_vk_buffer_iq3xxs_gemv(uint64_t id_w, uint64_t id_x, uint64_t id_y, uin
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_iq3xxs_dispatches += 1;
     out_rc = 0;
@@ -2521,17 +2769,17 @@ int aesir_vk_buffer_iq4nl_gemv(uint64_t id_w, uint64_t id_x, uint64_t id_y, uint
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     g_iq4nl_dispatches += 1;
     out_rc = 0;
@@ -2658,17 +2906,17 @@ int aesir_vk_buffer_rmsnorm(uint64_t id_x, uint64_t id_g, uint64_t id_y, uint32_
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done_rn; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 12, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done_rn; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done_rn; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done_rn; }
     g_rmsnorm_dispatches += 1;
     out_rc = 0;
@@ -2754,17 +3002,17 @@ int aesir_vk_buffer_rope(uint64_t id_x, uint32_t head_dim, uint32_t rows, uint32
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done_rp; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 16, &push);
     { uint32_t total = rows * (head_dim / 2u); uint32_t groups = (total + 255u) / 256u; d_cmd_dispatch(cbuf, groups, 1, 1); }
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done_rp; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done_rp; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done_rp; }
     g_rope_dispatches += 1;
     out_rc = 0;
@@ -2888,17 +3136,17 @@ int aesir_vk_buffer_elementwise(uint64_t id_a, uint64_t id_b, uint64_t id_y, uin
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done_ew; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, (n + 255u) / 256u, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done_ew; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done_ew; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done_ew; }
     g_elementwise_dispatches += 1;
     out_rc = 0;
@@ -2983,17 +3231,17 @@ int aesir_vk_buffer_softmax(uint64_t id_x, uint32_t n, uint32_t rows) {
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done_sm; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 8, &push);
     d_cmd_dispatch(cbuf, rows, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done_sm; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done_sm; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done_sm; }
     g_softmax_dispatches += 1;
     out_rc = 0;
@@ -3090,17 +3338,17 @@ static int vk_move2_dispatch(const uint32_t *spv, size_t spv_bytes, uint64_t id_
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done_mv; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, push_size, push);
     d_cmd_dispatch(cbuf, groups, 1, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done_mv; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done_mv; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done_mv; }
     *counter += 1;
     out_rc = 0;
@@ -3238,17 +3486,17 @@ static int aesir_vk_gemm_dispatch(const uint32_t *spv, size_t spv_bytes,
     cbbi.sType = 42;
     rc = (int)d_begin_cbuf(cbuf, &cbbi);
     if (rc != 0) { out_rc = rc; goto done; }
+    aesir_vk_async_ts_begin(cbuf);
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, push_size, push);
     d_cmd_dispatch(cbuf, gx, gy, 1);
+    aesir_vk_async_ts_end(cbuf);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
     si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
-    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
-    if (rc != 0) { out_rc = rc; goto done; }
-    rc = (int)d_queue_wait_idle(g_queue);
+    rc = aesir_vk_async_submit(cbuf, &shader, &dsl, &pl, &pipe, &dpool, &cpool);
     if (rc != 0) { out_rc = rc; goto done; }
     *counter += 1;
     out_rc = 0;
