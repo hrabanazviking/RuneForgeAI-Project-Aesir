@@ -273,6 +273,14 @@ from tests.test_vulkan_q4k_gemv_a057 import (
     test_vulkan_q4k_gemv_rejection,
     test_vulkan_q4k_gemv_no_leak,
 )
+from tests.test_vulkan_rmsnorm_rope_a060 import (
+    test_vulkan_rmsnorm_oracle_parity,
+    test_vulkan_rmsnorm_known_value,
+    test_vulkan_rope_oracle_parity,
+    test_vulkan_rope_known_properties,
+    test_vulkan_rmsnorm_rope_rejection,
+    test_vulkan_rmsnorm_rope_dispatch_evidence,
+)
 from tests.test_zero_copy import (
     test_zero_copy_hip_cpu_write_gpu_read,
     test_zero_copy_hip_gpu_write_cpu_read,
@@ -1019,6 +1027,12 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_q4k_gemv_oracle", test_vulkan_q4k_gemv_oracle)
     run_case(ledger, "gpu.vulkan_q4k_gemv_rejection", test_vulkan_q4k_gemv_rejection)
     run_case(ledger, "gpu.vulkan_q4k_gemv_no_leak", test_vulkan_q4k_gemv_no_leak)
+    run_case(ledger, "gpu.vulkan_rmsnorm_oracle_parity", test_vulkan_rmsnorm_oracle_parity)
+    run_case(ledger, "gpu.vulkan_rmsnorm_known_value", test_vulkan_rmsnorm_known_value)
+    run_case(ledger, "gpu.vulkan_rope_oracle_parity", test_vulkan_rope_oracle_parity)
+    run_case(ledger, "gpu.vulkan_rope_known_properties", test_vulkan_rope_known_properties)
+    run_case(ledger, "gpu.vulkan_rmsnorm_rope_rejection", test_vulkan_rmsnorm_rope_rejection)
+    run_case(ledger, "gpu.vulkan_rmsnorm_rope_dispatch_evidence", test_vulkan_rmsnorm_rope_dispatch_evidence)
     run_case(ledger, "gpu.zero_copy_hip_cpu_write_gpu_read", test_zero_copy_hip_cpu_write_gpu_read)
     run_case(ledger, "gpu.zero_copy_hip_gpu_write_cpu_read", test_zero_copy_hip_gpu_write_cpu_read)
     run_case(ledger, "gpu.zero_copy_vulkan_cpu_write_gpu_read", test_zero_copy_vulkan_cpu_write_gpu_read)
@@ -1710,4 +1724,8 @@ def main() raises:
     # Vulkan IQ GEMV cases (gpu.vulkan_iq_gemv_* in
     # tests/test_vulkan_iq_gemv.mojo) counted on top of the
     # A-058 seat pin.
-    ledger.finish(468)
+    # Union re-pin (A-060 banking 2026-11-12): 468 -> 474 -- six
+    # Vulkan RMSNorm + RoPE cases (gpu.vulkan_rmsnorm_* /
+    # gpu.vulkan_rope_* in tests/test_vulkan_rmsnorm_rope_a060.mojo)
+    # counted on top of the A-059 seat pin.
+    ledger.finish(474)
