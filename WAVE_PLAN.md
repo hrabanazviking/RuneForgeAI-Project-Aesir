@@ -68,7 +68,11 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **64 of 216** (A-001..A-064). A-064 banked at the
+- Banked: **65 of 216** (A-001..A-065). A-065 banked at the
+  seat 2026-11-12 (team-01 commit 524cf9dd cherry-picked
+  as d250ff9f; one full layer on GPU, run_all pin unioned
+  496 -> 501 at banking, no shim change, no new shader).
+  A-064 banked at the
   seat 2026-11-12 (team-04 commit 9afa3dc2 cherry-picked
   as cd6ad47b; GPU weight residency, run_all pin unioned
   491 -> 496 at banking, no shim change). A-063 banked at the
@@ -118,14 +122,9 @@ when its lead is live on its assigned slice in its own worktree.
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
-  (A-064..A-072) is IN PROGRESS (1 of 9).**
-- Seat gate after this banking: A-064 (seat_gate_a064.log)
-  493 passed / 1 failed / 2 skipped / 496 total. One
-  union merge-slip (missing closing paren on the A-063
-  sampling import) was found by the first seat gate parse
-  run - log preserved as seat_gate_a064_parsefix.log -
-  and fixed in the seat slice commit before the accepted
-  run, exact on
+  (A-064..A-072) is IN PROGRESS (2 of 9).**
+- Seat gate after this banking: A-065 (seat_gate_a065.log)
+  498 passed / 1 failed / 2 skipped / 501 total, exact on
   the first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
@@ -135,9 +134,10 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-01 A-065 (in flight, built
-  on 3d89b1e8 - banks next with pin/shim reconciliation
-  against the 496 seat pin).
+  bank (keeper flow): team-02 A-066, team-03 A-067,
+  team-01 A-068 (mustered by the keeper after the A-065
+  bank; A-066 inherits the A-065 KV-append gap as its
+  named road).
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.
