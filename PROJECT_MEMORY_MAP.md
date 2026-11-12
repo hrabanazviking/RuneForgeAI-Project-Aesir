@@ -1,0 +1,46 @@
+# Project Memory Map — Aesir Z13 (Strix Halo) Campaign
+
+Living map for the AMD/Strix Halo campaign on purpleraider. Updated in the
+same session as any work it describes. (Mirrored from the campaign seat:
+purpleraider `~/aesir-forge`.)
+
+## The map
+
+- **What:** Make Project Aesir work best / fastest / most robust / most
+  efficient / most complete on the ASUS ROG Flow Z13 (purpleraider).
+- **Roadmap:** `docs/AESIR_Z13_MASSIVE_ROADMAP.md` — 216 slices A-001…A-216,
+  24 waves of 9, 9 parts: I Ground Truth & Bring-Up · II Engine Core ·
+  III GPU via Vulkan · IV HIP & NPU · V Correctness · VI Performance ·
+  VII Robustness · VIII Completeness · IX Packaging & Final Proving.
+- **Standalone:** this is the AMD hardware roadmap only. The Hailo-10 line
+  is a separate thread and is untouched by this campaign. Text generation
+  on the Hailo chip was never achieved and is never claimed here.
+- **Hardware truth (2026-11-11):** Zen 5 16c/32t · Radeon 8060S gfx1151 ·
+  XDNA 2 NPU (`/dev/accel/accel0`, amdxdna healthy) · 128 GB unified LPDDR5X ·
+  `/dev/kfd` present · RADV Vulkan present · ROCm userland absent ·
+  XRT userland absent · Kubuntu 26.10, kernel 7.3.
+- **Repo baseline (2026-11-11):** main @ 00a66e35 (roadmap commit) on top of
+  d9f88b9a; 1,020 tracked files; engine `aesir_engine/` (Mojo + MAX, pixi);
+  E-MASTER suite 250 named cases; `core/amd_gate.mojo` is a dlopen probe
+  only — no AMD compute path exists yet.
+- **Campaign seat:** purpleraider `~/aesir-forge` (main) + `~/aesir-team-01…09`.
+- **Keeper:** `aesir-z13-forge-keeper`, 10-minute, goal
+  `aesir-z13-strix-halo-forge`. Reports only at wave-of-9 completion,
+  roadmap completion, or a genuine blocker.
+
+## Slice ledger
+
+| Slice | Status | Evidence / commit |
+|---|---|---|
+| — | Campaign stood up 2026-11-11; roadmap filed at 00a66e35 | ls-remote verified |
+
+## Lessons carried in (standing law for this campaign)
+
+- Raw-oracle discipline; near-tie band rank ≤2 + sub-logit gap = faithful;
+  IQ graded on coherence, never token-exactness (AGENTS.md Aesir Part II).
+- Comparator artifacts (template/BOS/backend/boundary) are checked before
+  the engine is suspected.
+- Scalar decode is the cost; decode is the lever.
+- Accelerator-visible ≠ accelerator-run; a run at minimal device memory is
+  a CPU run and is recorded as one.
+- Bank incrementally; verify the push moved the remote, every time.
